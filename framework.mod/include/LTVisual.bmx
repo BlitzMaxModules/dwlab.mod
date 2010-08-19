@@ -46,8 +46,8 @@ Type LTImage Extends LTVisual
 	
 	Method UseWith( Actor:LTActor )
 		Local SX:Float, SY:Float
-		L_CurrentCamera.FieldToScreen( Actor
-		DrawImage( Handle, 
+		L_CurrentCamera.FieldToScreen( Actor.Model.GetX(), Actor.Model.GetY(), SX, SY )
+		DrawImage( Handle, SX, SY )
 	End Method
 	
 	

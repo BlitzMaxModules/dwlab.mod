@@ -4,11 +4,13 @@
 ' You can read it at http://www.gnu.org/licenses/gpl.txt
 
 Include "LTModel.bmx"
+Include "LTShape.bmx"
 Include "LTBehavior.bmx"
 Include "LTVisual.bmx"
 
 Type LTActor Extends LTObject
 	Field Model:LTModel
+	Field Shape:LTShape
 	Field Visual:LTVisual
 	Field Behavior:LTBehavior
 	
