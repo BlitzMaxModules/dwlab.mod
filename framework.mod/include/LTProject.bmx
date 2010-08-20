@@ -52,18 +52,12 @@ Type LTProject Extends LTObject
 			ProjectTime :+  DeltaTime
 	      
 			Logic()
-			'For Local Actor:LTActor = Eachin L_Actors
-			'	Actor.Logic()
-			'Next
 		
 			Repeat
 				RealTime = 0.001 * ( Millisecs() - StartTime )
 				If RealTime >= ProjectTime And ( RealTime - LastRenderTime ) < MaxRenderPeriod Then Exit
 				
 				Render()
-				For Local Actor:LTActor = Eachin L_Actors
-					Actor.Render()
-				Next
 		      
 				LastRenderTime = 0.001 * ( Millisecs() - StartTime )
 				FPSCount :+ 1

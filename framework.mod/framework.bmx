@@ -26,5 +26,6 @@ Const L_Version:String = "0.1"
 
 Include "include/LTObject.bmx"
 Include "include/LTProject.bmx"
-Include "include/LTActor.bmx"
+Include "include/LTModel.bmx"
+Include "include/LTVisual.bmx"
 Include "include/LTCamera.bmx"

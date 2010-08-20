@@ -43,6 +43,12 @@ Type LTCamera Extends LTRectangle
 		ScreenXSize = FieldXSize * XK
 		ScreenYSize = FieldYSize * YK
 	End Method
+
+	
+	
+	Method DistFieldToScreen:Float( ScreenDist:Float )
+		Return ScreenDist * XK
+	End Method
 	
 	
 	
