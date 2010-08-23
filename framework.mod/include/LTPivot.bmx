@@ -47,6 +47,21 @@ Type LTPivot Extends LTModel
 	Method SetMouseCoords()
 		L_CurrentCamera.ScreenToField( MouseX(), MouseY(), X, Y )
 	End Method
+	
+	
+	
+	Method MoveTowards( Pivot:LTPivot )
+		Local Angle:Float = ATan2( Pivot.Y - Y, Pivot.X - X )
+		Local DX:Float = Cos( Angle ) * Velocity * L_DeltaTime
+		Local DY:Float = Sin( Angle ) * Velocity * L_DeltaTime
+		If Abs( DX ) > Abs( X - Pivot.X ) Or Abs( DY ) > Abs( Y - Pivot.Y ) Then
+			X = Pivot.X
+			Y = Pivot.Y
+		Else
+			X :+ DX
+			Y :+ DY
+		End If
+	End Method
 
 
 

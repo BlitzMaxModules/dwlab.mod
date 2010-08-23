@@ -15,6 +15,7 @@ Type LTModel Extends LTObject Abstract
 	Field Velocity:Float = 1.0
 	Field Mass:Float = 1.0
 	Field Visual:LTVisual = L_DefaultVisual
+	Field Frame:Int
 	
 	
 	

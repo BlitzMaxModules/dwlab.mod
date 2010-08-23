@@ -6,12 +6,12 @@
 Global L_CurrentProject:LTProject
 Global L_FPS:Int
 Global L_MemoryUsed:Int
+Global L_DeltaTime:Float
 
 Type LTProject Extends LTObject
 	Field LogicFPS:Float = 75
 	Field MinFPS:Float = 15
 	Field Pass:Int
-	Field DeltaTime:Float
 	Field ProjectTime:Float
 	
 	
@@ -36,7 +36,7 @@ Type LTProject Extends LTObject
 		FlushMouse
 	    
 		Pass = 1
-		DeltaTime = 0
+		L_DeltaTime = 0
 		
 		Init()
 		
@@ -48,10 +48,10 @@ Type LTProject Extends LTObject
 		Local LastRenderTime:Float = 0
 		Local MaxRenderPeriod:Float = 1.0 / MinFPS
 		
-		DeltaTime = 1.0 / LogicFPS
+		L_DeltaTime = 1.0 / LogicFPS
 	    
 		Repeat
-			ProjectTime :+  DeltaTime
+			ProjectTime :+  L_DeltaTime
 	      
 			Logic()
 		

@@ -33,6 +33,9 @@ Type TEditor Extends LTProject
 	Field CurrentPivot:LTPivot
 	Field MovePivot:TMovePivot = New TMovePivot
 	Field MakeLine:TMakeLine = New TMakeLine
+	Field PlayerImages:LTImage
+	Field Player:LTPivot = New LTPivot
+	Field PlayerPivot:LTPivot
 	
 	
 	
@@ -40,13 +43,23 @@ Type TEditor Extends LTProject
 	Method Init()
 		LineVisual = New LTFilledPrimitive
 		LineVisual.SetColorFromHex( "FF7FFF" )
+		
 		PivotVisual = New LTFilledPrimitive
 		PivotVisual.VisualScale = 8.0
 		PivotVisual.SetColorFromHex( "7F7F00" )
+		
 		CurrentPivotVisual = New LTFilledPrimitive
 		CurrentPivotVisual.VisualScale = 12.0
 		CurrentPivotVisual.SetColorFromHex( "FFFF00" )
 		Cursor.Diameter = 0.33
+		
+		PlayerImages = LTImage.FromFile( "media/footman.png", 5, 13 )
+		PlayerImages.SetHandle( 0.5, 0.7 )
+		PlayerImages.NoScale = 1
+		PlayerImages.NoRotate = 1
+		
+		Player.Velocity = 2.0
+		Player.Visual = PlayerImages
 	End Method
 	
 	
@@ -58,13 +71,21 @@ Type TEditor Extends LTProject
 			Graph.AddPivot( Pivot )
 		End If
 		
-		If KeyHit( Key_F2 ) Then Graph.SaveToFile( "map.gra" )
-		If KeyHit( Key_F3 ) Then Graph = LTGraph( LTObject.LoadFromFile( "map.gra" ) )
+		If KeyHit( Key_F2 ) Then Editor.SaveToFile( "map.gra" )
+		If KeyHit( Key_F3 ) Then Editor.LoadFromFile( "map.gra" )
 		
 		Cursor.SetMouseCoords()
 		MovePivot.Execute()
 		MakeLine.Execute()
 		CurrentPivot = Graph.FindPivotCollidingWith( Cursor )
+		
+		If PlayerPivot Then Player.MoveTowards( PlayerPivot )
+		If KeyHit( Key_Space ) And CurrentPivot Then
+			PlayerPivot = CurrentPivot
+		End If
+		
+		Local AngleFrame:Int = Floor( Angle / 45 ) * 45
+		AngleFrame = AngleFrame - Floor( Angle / 8 ) * 8
 		
 		If KeyHit( Key_Escape ) Then End
 	End Method
@@ -76,6 +97,15 @@ Type TEditor Extends LTProject
 		Graph.DrawPivotsUsing( PivotVisual )
 		If CurrentPivot Then CurrentPivot.DrawUsingVisual( CurrentPivotVisual )
 		If MakeLine.DraggingState Then MakeLine.Line.DrawUsingVisual( LineVisual )
+		Player.Draw()
+	End Method
+	
+	
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		Editor.Graph = LTGraph( XMLObject.ManageObjectField( "map", Editor.Graph ) )
+		Editor.PlayerPivot = LTPivot( XMLObject.ManageObjectField( "player", Editor.PlayerPivot ) )
 	End Method
 End Type
 
@@ -158,7 +188,6 @@ Type TMovePivot Extends LTDrag
 		Pivot.Y = Editor.Cursor.Y + DY
 	End Method
 End Type
-
 
 
 

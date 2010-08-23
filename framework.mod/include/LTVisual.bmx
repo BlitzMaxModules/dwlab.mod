@@ -10,7 +10,6 @@ Type LTVisual Extends LTObject Abstract
 	Field R:Float = 1.0, G:Float = 1.0, B:Float = 1.0
 	Field Alpha:Float = 1.0
 	Field VisualScale:Float = 1.0
-	Field Frame:Int = 0
 	
 	
 	
