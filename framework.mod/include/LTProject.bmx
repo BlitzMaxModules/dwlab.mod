@@ -4,6 +4,8 @@
 ' You can read it at http://www.gnu.org/licenses/gpl.txt
 
 Global L_CurrentProject:LTProject
+Global L_FPS:Int
+Global L_MemoryUsed:Int
 
 Type LTProject Extends LTObject
 	Field LogicFPS:Float = 75
@@ -57,7 +59,9 @@ Type LTProject Extends LTObject
 				RealTime = 0.001 * ( Millisecs() - StartTime )
 				If RealTime >= ProjectTime And ( RealTime - LastRenderTime ) < MaxRenderPeriod Then Exit
 				
+				Cls
 				Render()
+				Flip
 		      
 				LastRenderTime = 0.001 * ( Millisecs() - StartTime )
 				FPSCount :+ 1

@@ -9,6 +9,7 @@ Type LTCamera Extends LTRectangle
 	Field SourceRectangle:LTRectangle = New LTRectangle
 	Field XK:Float = 1.0, YK:Float = 1.0
 	Field DX:Float, DY:Float
+	Field ViewportClipping:Int = 1
 	
 	
 	

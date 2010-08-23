@@ -3,37 +3,43 @@
 ' Distrbuted under GNU General Public License version 3
 ' You can read it at http://www.gnu.org/licenses/gpl.txt
 
-Type LTRectangle Extends LTPivot Abstract
+Type LTRectangle Extends LTPivot
 	Field XSize:Float
 	Field YSize:Float
 	
 	
 	
-	Method DrawUsing( Visual:LTVisual )
+	Method Draw()
 		Visual.DrawUsingRectangle( Self )
 	End Method
-
-	' ==================== Collisions ===================
 	
-	Method Collision:Int( Models:LTObject )
-		Return Model.CollisionWithRectangle( Self )
+	
+	
+	Method DrawUsingVisual( Vis:LTVisual )
+		Vis.DrawUsingRectangle( Self )
+	End Method
+
+	' ==================== Collidess ===================
+	
+	Method Collides:Int( Model:LTModel )
+		Return Model.CollidesWithRectangle( Self )
 	End Method
 
 	
 	
-	Method CollisionWithPivot:Int( Piv:LTPivot )
+	Method CollidesWithPivot:Int( Piv:LTPivot )
 		If L_PivotWithRectangle( Piv, Self ) Then Return True
 	End Method
 
 	
 	
-	Method CollisionWithCircle:Int( Circ:LTCircle )
+	Method CollidesWithCircle:Int( Circ:LTCircle )
 		If L_CircleWithRectangle( Circ, Self ) Then Return True
 	End Method
 	
 	
 	
-	Method CollisionWithRectangle:Int( Rectangle:LTRectangle )
+	Method CollidesWithRectangle:Int( Rectangle:LTRectangle )
 		If L_RectangleWithRectangle( Rectangle, Self ) Then Return True
 	End Method
 	
@@ -71,5 +77,13 @@ Type LTRectangle Extends LTPivot Abstract
 			Rectangle.Y :+ K1 * DY * Sgn( Rectangle.Y - Y )
 			Y :- K2 * DY * Sgn( Rectangle.Y - Y )
 		End If
+	End Method
+
+
+
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		XMLObject.ManageFloatAttribute( "xsize", XSize )
+		XMLObject.ManageFloatAttribute( "ysize", YSize )
 	End Method
 End Type

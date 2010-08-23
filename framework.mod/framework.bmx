@@ -2,24 +2,6 @@
 ' Copyright (C) 2010, Matt Merkulov
 ' Distrbuted under GNU General Public License version 3
 
-SuperStrict
-
-Framework brl.d3d7max2d
-'Import brl.glmax2d
-Import brl.random
-Import brl.pngloader
-Import brl.jpgloader
-Import brl.reflection
-'Import brl.audio
-'Import brl.freeaudioaudio
-Import brl.directsoundaudio
-Import brl.wavloader
-Import brl.retro
-'Import maxgui.win32maxgui
-
-SetAudioDriver( "DirectSound" )
-'SetGraphicsDriver( GLMax2DDriver() )
-
 SeedRnd( Millisecs() )
 
 Const L_Version:String = "0.1"
@@ -29,3 +11,18 @@ Include "include/LTProject.bmx"
 Include "include/LTModel.bmx"
 Include "include/LTVisual.bmx"
 Include "include/LTCamera.bmx"
+Include "include/LTDrag.bmx"
+Include "include/LTXML.bmx"
+
+Global L_ScreenXSize:Int = 800
+Global L_ScreenYSize:Int = 600
+
+L_CurrentCamera = New LTCamera
+L_CurrentCamera.XSize = 32.0
+L_CurrentCamera.YSize = 24.0
+L_CurrentCamera.DX = 16.0
+L_CurrentCamera.DY = 12.0
+L_CurrentCamera.XK = 25.0
+L_CurrentCamera.YK = 25.0
+
+Graphics L_ScreenXSize, L_ScreenYSize

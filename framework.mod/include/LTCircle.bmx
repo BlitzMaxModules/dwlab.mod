@@ -3,36 +3,44 @@
 ' Distrbuted under GNU General Public License version 3
 ' You can read it at http://www.gnu.org/licenses/gpl.txt
 
-Type LTCircle Extends LTPivot Abstract
+Type LTCircle Extends LTPivot
 	Field Diameter:Float
 	
 	
 	
-	Method DrawUsing( Visual:LTVisual )
+	Method Draw()
+		debugstop
 		Visual.DrawUsingCircle( Self )
 	End Method
-
-	' ==================== Collisions ===================
 	
-	Method CollisionWith:Int( Model:LTModel )
-		Return Model.CollisionWithCircle( Self )
+	
+	
+	Method DrawUsingVisual( Vis:LTVisual )
+		debugstop
+		Vis.DrawUsingCircle( Self )
+	End Method
+
+	' ==================== Collidess ===================
+	
+	Method CollidesWith:Int( Model:LTModel )
+		Return Model.CollidesWithCircle( Self )
 	End Method
 
 	
 	
-	Method CollisionWithPivot:Int( Piv:LTPivot )
+	Method CollidesWithPivot:Int( Piv:LTPivot )
 		If L_PivotWithCircle( Piv, Self ) Then Return True
 	End Method
 
 	
 	
-	Method CollisionWithCircle:Int( Circ:LTCircle )
+	Method CollidesWithCircle:Int( Circ:LTCircle )
 		If L_CircleWithCircle( Circ, Self ) Then Return True
 	End Method
 	
 	
 	
-	Method CollisionWithRectangle:Int( Rectangle:LTRectangle )
+	Method CollidesWithRectangle:Int( Rectangle:LTRectangle )
 		If L_CircleWithRectangle( Self, Rectangle ) Then Return True
 	End Method
 	
@@ -101,5 +109,12 @@ Type LTCircle Extends LTPivot Abstract
 		Rectangle.Y :+ K1 * DY
 		X = X - K2 * DX
 		Y = Y - K2 * DY
+	End Method
+
+
+
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		XMLObject.ManageFloatAttribute( "diameter", Diameter )
 	End Method
 End Type

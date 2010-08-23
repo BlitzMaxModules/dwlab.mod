@@ -6,37 +6,44 @@
 Include "LTPivot.bmx"
 Include "LTCircle.bmx"
 Include "LTRectangle.bmx"
+Include "LTLine.bmx"
 Include "LTGraph.bmx"
 Include "Collisions.bmx"
 
-Type LTModel Extends LTObject
-	Field Angle:Float
-	Field Velocity:Float
+Type LTModel Extends LTObject Abstract
+	Field Angle:Float = 0.0
+	Field Velocity:Float = 1.0
 	Field Mass:Float = 1.0
+	Field Visual:LTVisual = L_DefaultVisual
 	
 	
 	
-	Method DrawUsing( Visual:LTVisual )
-	End Method
-	
-	' ==================== Collisions ===================
-	
-	Method CollisionWith:Int( Model:LTModel )
+	Method Draw()
 	End Method
 	
 	
 	
-	Method CollisionWithPivot:Int( Pivot:LTPivot )
+	Method DrawUsingVisual( Vis:LTVisual )
+	End Method
+	
+	' ==================== Collidess ===================
+	
+	Method CollidesWith:Int( Model:LTModel )
 	End Method
 	
 	
 	
-	Method CollisionWithCircle:Int( Circle:LTCircle )
+	Method CollidesWithPivot:Int( Pivot:LTPivot )
 	End Method
 	
 	
 	
-	Method CollisionWithRectangle:Int( Rectangle:LTRectangle )
+	Method CollidesWithCircle:Int( Circle:LTCircle )
+	End Method
+	
+	
+	
+	Method CollidesWithRectangle:Int( Rectangle:LTRectangle )
 	End Method
 	
 	' ==================== Pushing ====================
