@@ -20,7 +20,6 @@ Type LTGraph Extends LTModel
 	
 	Method DrawLinesUsing( Visual:LTVisual )
 		For Local Line:LTLine = Eachin Lines.Keys()
-			
 			Line.DrawUsingVisual( Visual )
 		Next
 	End Method
@@ -28,7 +27,7 @@ Type LTGraph Extends LTModel
 	
 	
 	Method AddPivot:TList( Pivot:LTPivot )
-		Local List:TList = TList( Lines.ValueForKey( Pivot ) )
+		Local List:TList = TList( Pivots.ValueForKey( Pivot ) )
 		If Not List Then
 			List = New TList
 			Pivots.Insert( Pivot, List )
@@ -68,6 +67,18 @@ Type LTGraph Extends LTModel
 		For Local Pivot:LTPivot = Eachin Pivots.Keys()
 			If Pivot.CollidesWith( Model ) Then Return Pivot
 		Next
+	End Method
+	
+	
+	
+	Method DeletePivot( Pivot:LTPivot )
+		Local List:TList = TList( Pivots.ValueForkey( Pivot ) )
+		If Not List Then Return
+		
+		For Local Line:LTLine = Eachin List
+			Lines.Remove( Line )
+		Next
+		Pivots.Remove( Pivot )
 	End Method
 
 

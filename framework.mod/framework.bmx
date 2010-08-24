@@ -10,19 +10,25 @@ Include "include/LTObject.bmx"
 Include "include/LTProject.bmx"
 Include "include/LTModel.bmx"
 Include "include/LTVisual.bmx"
+Include "include/LTPath.bmx"
 Include "include/LTCamera.bmx"
 Include "include/LTDrag.bmx"
 Include "include/LTXML.bmx"
 
-Global L_ScreenXSize:Int = 800
-Global L_ScreenYSize:Int = 600
+Global L_ScreenXSize:Int
+Global L_ScreenYSize:Int
 
-L_CurrentCamera = New LTCamera
-L_CurrentCamera.XSize = 32.0
-L_CurrentCamera.YSize = 24.0
-L_CurrentCamera.DX = 16.0
-L_CurrentCamera.DY = 12.0
-L_CurrentCamera.XK = 25.0
-L_CurrentCamera.YK = 25.0
-
-Graphics L_ScreenXSize, L_ScreenYSize
+Function Init( ScreenXSize:Int, ScreenYSize:Int )
+	L_ScreenXSize = ScreenXSize
+	L_ScreenYSize = ScreenYSize
+	
+	L_CurrentCamera = New LTCamera
+	L_CurrentCamera.XSize = 32.0
+	L_CurrentCamera.YSize = -24.0
+	L_CurrentCamera.DX = 16.0
+	L_CurrentCamera.DY = 12.0
+	L_CurrentCamera.XK = L_ScreenXSize / 32.0
+	L_CurrentCamera.YK = L_ScreenYSize / 24.0
+	
+	Graphics L_ScreenXSize, L_ScreenYSize
+End Function

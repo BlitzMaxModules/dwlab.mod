@@ -3,23 +3,10 @@
 ' Distrbuted under GNU General Public License version 3
 ' You can read it at http://www.gnu.org/licenses/gpl.txt
 
-Type LTImage Extends LTVisual
-	Field Handle:TImage
+Type LTImageVisual Extends LTVisual
+	Field Image:LTImage
 	Field NoRotate:Int
 	Field NoScale:Int
-	
-	
-	
-	Function FromFile:LTImage( Filename:String, XCells:Int = 0, YCells:Int = 0 )
-		Local Image:LTImage = New LTImage
-		If XCells Then
-			Local Pixmap:TPixmap = LoadPixmap( Filename )
-			Image.Handle = LoadAnimImage( Pixmap, Pixmap.Width / XCells, Pixmap.Height / YCells, 0, XCells * YCells )
-		Else
-			Image.Handle = LoadImage( Filename )
-		End If
-		Return Image
-	End Function
 	
 	
 	
@@ -36,7 +23,7 @@ Type LTImage Extends LTVisual
 			SetScale( VisualScale * SDist, VisualScale * SDist )
 		End If
 		
-		DrawImage( Handle, SX, SY, Pivot.Frame )
+		DrawImage( Image.Handle, SX, SY, Pivot.Frame )
 		
 		If Not NoScale Then SetScale 1.0, 1.0
 		If Not NoRotate Then SetRotation 0.0
@@ -57,10 +44,10 @@ Type LTImage Extends LTVisual
 		If Not NoRotate Then SetRotation( Circle.Angle )
 		If Not NoScale Then
 			Local SDist:Float = L_CurrentCamera.DistFieldToScreen( Circle.Diameter )
-			SetScale( VisualScale * SDist / ImageWidth( Handle ), VisualScale * SDist / ImageHeight( Handle ) )
+			SetScale( VisualScale * SDist / ImageWidth( Image.Handle ), VisualScale * SDist / ImageHeight( Image.Handle ) )
 		End If
 		
-		DrawImage( Handle, SX, SY, Circle.Frame )
+		DrawImage( Image.Handle, SX, SY, Circle.Frame )
 		
 		If Not NoScale Then	SetScale 1.0, 1.0
 		If Not NoRotate Then SetRotation 0.0
@@ -82,10 +69,10 @@ Type LTImage Extends LTVisual
 		If Not NoRotate Then SetRotation( Rectangle.Angle )
 		If Not NoScale Then
 			L_CurrentCamera.SizeFieldToScreen( Rectangle.XSize, Rectangle.YSize, SXSize, SYSize )
-			SetScale( VisualScale * SXSize / ImageWidth( Handle ), VisualScale * SYSize / ImageHeight( Handle ) )
+			SetScale( VisualScale * SXSize / ImageWidth( Image.Handle ), VisualScale * SYSize / ImageHeight( Image.Handle ) )
 		End If
 		
-		DrawImage( Handle, SX, SY, Rectangle.Frame )
+		DrawImage( Image.Handle, SX, SY, Rectangle.Frame )
 		
 		If Not NoScale Then	SetScale 1.0, 1.0
 		If Not NoRotate Then SetRotation 0.0
@@ -93,6 +80,28 @@ Type LTImage Extends LTVisual
 		SetColor 255, 255, 255
 		SetAlpha 1.0
 	End Method
+End Type
+
+
+
+
+
+Type LTImage Extends LTObject
+	Field Handle:TImage
+	
+	
+	
+	Function FromFile:LTImage( Filename:String, XCells:Int = 0, YCells:Int = 0 )
+		Local Image:LTImage = New LTImage
+		If XCells Then
+			Local Pixmap:TPixmap = LoadPixmap( Filename )
+			Image.Handle = LoadAnimImage( Pixmap, Pixmap.Width / XCells, Pixmap.Height / YCells, 0, XCells * YCells )
+		Else
+			Image.Handle = LoadImage( Filename )
+		End If
+		Image.SetHandle( 0.5, 0.5 )
+		Return Image
+	End Function
 	
 	
 	

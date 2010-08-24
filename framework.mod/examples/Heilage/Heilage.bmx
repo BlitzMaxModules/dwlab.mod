@@ -23,6 +23,10 @@ SetAudioDriver( "DirectSound" )
 'SetGraphicsDriver( GLMax2DDriver() )
 
 Include "../../framework.bmx"
+Include "Dragging.bmx"
+
+AppTitle = "Heilage: Ogres rivage v0.2"
+Init( 1024, 768 )
 
 Type TEditor Extends LTProject
 	Field Graph:LTGraph = New LTGraph
@@ -33,9 +37,12 @@ Type TEditor Extends LTProject
 	Field CurrentPivot:LTPivot
 	Field MovePivot:TMovePivot = New TMovePivot
 	Field MakeLine:TMakeLine = New TMakeLine
-	Field PlayerImages:LTImage
-	Field Player:LTPivot = New LTPivot
+	Field Player:LTRectangle = New LTRectangle
+	Field PlayerVisual:LTImageVisual = New LTImageVisual
 	Field PlayerPivot:LTPivot
+	Field Background:LTRectangle = New LTRectangle
+	Field BackgroundVisual:LTImageVisual = New LTImageVisual
+	Field Path:LTPath = New LTPath
 	
 	
 	
@@ -46,20 +53,28 @@ Type TEditor Extends LTProject
 		
 		PivotVisual = New LTFilledPrimitive
 		PivotVisual.VisualScale = 8.0
-		PivotVisual.SetColorFromHex( "7F7F00" )
+		PivotVisual.SetColorFromHex( "FF7F00" )
+		
+		Cursor.Diameter = 0.33
 		
 		CurrentPivotVisual = New LTFilledPrimitive
 		CurrentPivotVisual.VisualScale = 12.0
-		CurrentPivotVisual.SetColorFromHex( "FFFF00" )
-		Cursor.Diameter = 0.33
-		
-		PlayerImages = LTImage.FromFile( "media/footman.png", 5, 13 )
-		PlayerImages.SetHandle( 0.5, 0.7 )
-		PlayerImages.NoScale = 1
-		PlayerImages.NoRotate = 1
+		CurrentPivotVisual.SetColorFromHex( "FFBF7F" )
 		
 		Player.Velocity = 2.0
-		Player.Visual = PlayerImages
+		Player.XSize = 72 / 25
+		Player.YSize = 72 / 25
+		
+		PlayerVisual.Image = LTImage.FromFile( "media/footman.png", 5, 13 )
+		PlayerVisual.Image.SetHandle( 0.5, 0.7 )
+		'PlayerImages.NoScale = 1
+		PlayerVisual.NoRotate = 1
+		Player.Visual = PlayerVisual
+		
+		Background.XSize = 32
+		Background.YSize = 24
+		BackgroundVisual.Image = LTImage.FromFile( "media/world-map.jpg" )
+		Background.Visual = BackgroundVisual
 	End Method
 	
 	
@@ -79,13 +94,37 @@ Type TEditor Extends LTProject
 		MakeLine.Execute()
 		CurrentPivot = Graph.FindPivotCollidingWith( Cursor )
 		
-		If PlayerPivot Then Player.MoveTowards( PlayerPivot )
 		If KeyHit( Key_Space ) And CurrentPivot Then
-			PlayerPivot = CurrentPivot
+			If PlayerPivot Then
+				Path = LTPath.Find( PlayerPivot, CurrentPivot, Graph )
+			Else
+				Player.JumpTo( CurrentPivot )
+				PlayerPivot = CurrentPivot
+			End If
 		End If
 		
-		Local AngleFrame:Int = Floor( Angle / 45 ) * 45
-		AngleFrame = AngleFrame - Floor( Angle / 8 ) * 8
+		If KeyHit( Key_Delete ) And CurrentPivot Then Graph.DeletePivot( CurrentPivot )
+		
+		'Player.Turn( 45 )
+		Local AngleFrame:Int = Floor( 0.5 + ( Player.Angle - Floor( Player.Angle / 360 ) * 360 ) / 45 )
+		Player.Frame = Int( Mid$( "234321012", AngleFrame + 1, 1 ) )
+		
+		If AngleFrame >=3 And AngleFrame <= 5 Then
+			Player.XSize = -Abs( Player.XSize )
+		Else
+			Player.XSize = Abs( Player.XSize )
+		End If
+		
+		If PlayerPivot Then
+			If Player.IsAtPositionOf( PlayerPivot ) And Not Path.Pivots.IsEmpty() Then
+				PlayerPivot = LTPivot( Path.Pivots.First() )
+				Player.DirectTo( PlayerPivot )
+				Path.Pivots.RemoveFirst()
+			Else
+				Player.MoveTowards( PlayerPivot )
+			End If
+			If Not Player.IsAtPositionOf( PlayerPivot ) Then Player.Frame :+ ( Floor( Editor.ProjectTime * 5 ) Mod 5 ) * 5
+		End If
 		
 		If KeyHit( Key_Escape ) Then End
 	End Method
@@ -93,6 +132,7 @@ Type TEditor Extends LTProject
 	
 	
 	Method Render()
+		Background.Draw()
 		Graph.DrawLinesUsing( LineVisual )
 		Graph.DrawPivotsUsing( PivotVisual )
 		If CurrentPivot Then CurrentPivot.DrawUsingVisual( CurrentPivotVisual )
@@ -106,86 +146,6 @@ Type TEditor Extends LTProject
 		Super.XMLIO( XMLObject )
 		Editor.Graph = LTGraph( XMLObject.ManageObjectField( "map", Editor.Graph ) )
 		Editor.PlayerPivot = LTPivot( XMLObject.ManageObjectField( "player", Editor.PlayerPivot ) )
-	End Method
-End Type
-
-
-
-
-
-Type TMakeLine Extends LTDrag
-	Field Line:LTLine
-	
-	
-	
-	Method DragKey:Int()
-		If MouseDown( 2 ) Then Return True
-	End Method
-	
-	
-	
-	Method DraggingConditions:Int()
-		If Editor.CurrentPivot Then Return True
-	End Method
-	
-	
-	
-	Method StartDragging()
-	 	Line = New LTLine
-		Line.Pivot[ 0 ] = Editor.CurrentPivot
-		Line.Pivot[ 1 ] = Editor.Cursor
-	End Method
-	
-	
-	
-	Method Dragging()
-		'debugstop
-	End Method
-	
-	
-	
-	Method EndDragging()
-		If Editor.CurrentPivot Then
-			Line.Pivot[ 1 ] = Editor.CurrentPivot
-			If Not Editor.Graph.FindLine( Line.Pivot[ 0 ], Line.Pivot[ 1 ] ) Then Editor.Graph.AddLine( Line )
-		End If
-	End Method
-End Type
-
-
-
-
-
-Type TMovePivot Extends LTDrag
-	Field DX:Float
-	Field DY:Float
-	Field Pivot:LTPivot
-	
-	
-	
-	Method DragKey:Int()
-		If MouseDown( 1 ) Then Return True
-	End Method
-	
-	
-	
-	Method DraggingConditions:Int()
-		If Editor.CurrentPivot Then Return True
-	End Method
-	
-	
-	
-	Method StartDragging()
-		DX = Editor.CurrentPivot.X - Editor.Cursor.X
-		DY = Editor.CurrentPivot.X - Editor.Cursor.X
-		Pivot = Editor.CurrentPivot
-	End Method
-	
-	
-	
-	Method Dragging()
-		Pivot.X = Editor.Cursor.X + DX
-		Pivot.Y = Editor.Cursor.Y + DY
 	End Method
 End Type
 
