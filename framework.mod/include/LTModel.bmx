@@ -1,7 +1,12 @@
+'
 ' Digital Wizard's Lab - game development framework
 ' Copyright (C) 2010, Matt Merkulov
-' Distrbuted under GNU General Public License version 3
-' You can read it at http://www.gnu.org/licenses/gpl.txt
+'
+' All rights reserved. Use of this code is allowed under the
+' Artistic License 2.0 terms, as specified in the license.txt
+' file distributed with this code, or available from
+' http://www.opensource.org/licenses/artistic-license-2.0.php
+'
 
 Include "LTPivot.bmx"
 Include "LTCircle.bmx"
@@ -17,7 +22,7 @@ Type LTModel Extends LTObject Abstract
 	Field Visual:LTVisual = L_DefaultVisual
 	Field Frame:Int
 	
-	
+	' ==================== Drawing ===================	
 	
 	Method Draw()
 	End Method
@@ -27,7 +32,7 @@ Type LTModel Extends LTObject Abstract
 	Method DrawUsingVisual( Vis:LTVisual )
 	End Method
 	
-	' ==================== Collidess ===================
+	' ==================== Collisions ===================
 	
 	Method CollidesWith:Int( Model:LTModel )
 	End Method
@@ -45,6 +50,11 @@ Type LTModel Extends LTObject Abstract
 	
 	
 	Method CollidesWithRectangle:Int( Rectangle:LTRectangle )
+	End Method
+	
+	
+	
+	Method CollidesWithLine( Line:LTLine )
 	End Method
 	
 	' ==================== Pushing ====================

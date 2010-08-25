@@ -1,12 +1,24 @@
+'
 ' Digital Wizard's Lab - game development framework
 ' Copyright (C) 2010, Matt Merkulov
-' Distrbuted under GNU General Public License version 3
-' You can read it at http://www.gnu.org/licenses/gpl.txt
+'
+' All rights reserved. Use of this code is allowed under the
+' Artistic License 2.0 terms, as specified in the license.txt
+' file distributed with this code, or available from
+' http://www.opensource.org/licenses/artistic-license-2.0.php
+'
 
 Type LTLine Extends LTModel
 	Field Pivot:LTPivot[] = New LTPivot[ 2 ]
 	
+	Method Create:LTLine( Pivot1:LTPivot, Pivot2:LTPivot )
+		Local Line:LTLine = New LTLine
+		Line.Pivot[ 0 ] = Pivot1
+		Line.Pivot[ 1 ] = Pivot2
+		Return Line
+	End Method
 	
+	' ==================== Drawing ===================	
 	
 	Method Draw()
 		Visual.DrawUsingLine( Self )
@@ -17,8 +29,20 @@ Type LTLine Extends LTModel
 	Method DrawUsingVisual( Vis:LTVisual )
 		Vis.DrawUsingLine( Self )
 	End Method
+	
+	' ==================== Collisions ===================
+	
+	Method Collides:Int( Model:LTModel )
+		Return Model.CollidesWithLine( Self )
+	End Method
+	
+	
+	
+	Method CollidesWithCircle:Int( Circle:LTCircle )
+		Return L_CircleWithLine( Circle, Self )
+	End Method
 
-
+	' ==================== Other ====================
 
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )

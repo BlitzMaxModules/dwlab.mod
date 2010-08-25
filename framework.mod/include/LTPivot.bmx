@@ -1,12 +1,17 @@
+'
 ' Digital Wizard's Lab - game development framework
 ' Copyright (C) 2010, Matt Merkulov
-' Distrbuted under GNU General Public License version 3
-' You can read it at http://www.gnu.org/licenses/gpl.txt
+'
+' All rights reserved. Use of this code is allowed under the
+' Artistic License 2.0 terms, as specified in the license.txt
+' file distributed with this code, or available from
+' http://www.opensource.org/licenses/artistic-license-2.0.php
+'
 
 Type LTPivot Extends LTModel
 	Field X:Float, Y:Float
 	
-	
+	' ==================== Drawing ===================	
 	
 	Method Draw()
 		Visual.DrawUsingPivot( Self )
@@ -18,7 +23,7 @@ Type LTPivot Extends LTModel
 		Vis.DrawUsingPivot( Self )
 	End Method
 	
-	' ==================== Collidess ===================
+	' ==================== Collisions ===================
 	
 	Method CollidesWith:Int( Model:LTModel )
 		Return Model.CollidesWithPivot( Self )
@@ -102,5 +107,43 @@ Type LTPivot Extends LTModel
 		Super.XMLIO( XMLObject )
 		XMLObject.ManageFloatAttribute( "x", X )
 		XMLObject.ManageFloatAttribute( "y", Y )
+	End Method
+End Type
+
+
+
+
+
+Type LTMovePivot Extends LTAction
+	Field Pivot:LTPivot
+	Field OldX:Float, OldY:Float
+	Field NewX:Float, NewY:Float
+	
+	
+	
+	Function Create:LTMovePivot( Pivot:LTPivot, X:Float = 0, Y:Float = 0 )
+		Local Action:LTMovePivot = New LTMovePivot
+		Action.Pivot = Pivot
+		Action.OldX = Pivot.X
+		Action.OldY = Pivot.Y
+		Action.NewX = X
+		Action.NewY = Y
+		Return Action
+	End Function
+	
+	
+	
+	Method Do()
+		Pivot.X = NewX
+		Pivot.Y = NewY
+		L_CurrentUndoList.AddFirst( Self )
+	End Method
+	
+	
+	
+	Method Undo()
+		Pivot.X = OldX
+		Pivot.Y = OldY
+		L_CurrentRedoList.AddFirst( Self )
 	End Method
 End Type

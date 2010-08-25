@@ -1,7 +1,12 @@
+'
 ' Digital Wizard's Lab - game development framework
 ' Copyright (C) 2010, Matt Merkulov
-' Distrbuted under GNU General Public License version 3
-' You can read it at http://www.gnu.org/licenses/gpl.txt
+'
+' All rights reserved. Use of this code is allowed under the
+' Artistic License 2.0 terms, as specified in the license.txt
+' file distributed with this code, or available from
+' http://www.opensource.org/licenses/artistic-license-2.0.php
+'
 
 Global L_XMLMode:Int
 
@@ -88,7 +93,7 @@ Type LTXMLObject Extends LTObject
 			Next
 			AttrVariable = DefaultValue
 		ElseIf AttrVariable <> DefaultValue Then
-			SetAttribute( AttrName, String( TrimFloat( AttrVariable ) ) )
+			SetAttribute( AttrName, String( L_TrimFloat( AttrVariable ) ) )
 		End If
 	End Method
 	
@@ -178,20 +183,37 @@ Type LTXMLObject Extends LTObject
 	
 	
 	
-	Method ManageMapField( FieldName:String, Map:TMap Var )
+	Method ManageObjectMapField( FieldName:String, Map:TMap Var )
+		If L_XMLMode = L_XMLGet Then
+			For Local XMLObject:LTXMLObject = Eachin Children
+				Local Key:LTObject
+				XMLObject.ManageObjectAttribute( "key", Key )
+				Map.Insert( Key, XMLObject.ManageObject( Null ) )
+			Next
+		Else
+			Local XMLMap:LTXMLObject = New LTXMLObject
+			XMLMap.Name = "TMap"
+			For Local KeyValue:TKeyValue = Eachin Map
+				Local XMLValue:LTXMLObject = New LTXMLObject
+				XMLValue.ManageObject( LTObject( KeyValue.Value() ) )
+				XMLValue.ManageObjectAttribute( "key", LTObject( KeyValue.Value() ) )
+				XMLMap.Children.AddLast( XMLValue )
+			Next
+			SetField( FieldName, XMLMap )
+		End If
 	End Method
 	
 	
 	
 	Method ManageObjectArrayField( FieldName:String, FieldObjectsArray:LTObject[] Var )
 		If L_XMLMode = L_XMLGet Then
-			Local XMLArrayObject:LTXMLObject = GetField( FieldName )
-			If XMLArrayObject Then XMLArrayObject.ManageChildArray( FieldObjectsArray )
+			Local XMLArray:LTXMLObject = GetField( FieldName )
+			If XMLArray Then XMLArray.ManageChildArray( FieldObjectsArray )
 		ElseIf FieldObjectsArray Then
-			Local XMLArrayObject:LTXMLObject = New LTXMLObject
-			XMLArrayObject.Name = "Array"
-			XMLArrayObject.ManageChildArray( FieldObjectsArray )
-			SetField( FieldName, XMLArrayObject )
+			Local XMLArray:LTXMLObject = New LTXMLObject
+			XMLArray.Name = "Array"
+			XMLArray.ManageChildArray( FieldObjectsArray )
+			SetField( FieldName, XMLArray )
 		End If
 	End Method
 	
@@ -268,11 +290,6 @@ Type LTXMLObject Extends LTObject
 				Children.AddLast( XMLObject )
 			Next
 		End If
-	End Method
-	
-
-		
-	Method ManageChildMap( Map:TMap Var )
 	End Method
 	
 	
@@ -456,23 +473,6 @@ Type LTXMLObject Extends LTObject
 		Wend
 		DebugStop
 	End Method
-
-
-	
-	Function TrimFloat:String ( Val:Float )
-		Local StrVal:String = Val:Float
-		Local N:Int = StrVal.Find( "." ) + 3
-		'If N < 3 then N = Len( StrVal )
-		Repeat
-			N = N - 1
-			Select StrVal[ N ]
-				Case 46 Return StrVal[ ..N ]
-				Case 48
-				Default
-					Return StrVal[ ..N% + 1 ]
-			End Select
-		Forever
-	End Function
 	
 	
 	

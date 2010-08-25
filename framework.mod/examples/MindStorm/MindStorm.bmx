@@ -1,57 +1,53 @@
-' Digital Wizard's Lab - game development framework
+'
+' MindStorm - Digital Wizard's Lab example
 ' Copyright (C) 2010, Matt Merkulov
-' Distrbuted under GNU General Public License version 3
-' You can read it at http://www.gnu.org/licenses/gpl.txt
+'
+' All rights reserved. Use of this code is allowed under the
+' Attribution-NonCommercial-ShareAlike 3.0 License terms, as
+' specified in the license2.txt file distributed with this
+' code, or available from
+' http://creativecommons.org/licenses/by-nc-sa/3.0/
+'
 
-Include "../framework.bmx"
+SuperStrict
 
-Local World:LTWorld = LTWorld.Create( 256, 256 )
+Framework brl.d3d7max2d
+'Import brl.glmax2d
+Import brl.random
+Import brl.pngloader
+Import brl.jpgloader
+Import brl.reflection
+'Import brl.audio
+'Import brl.freeaudioaudio
+Import brl.directsoundaudio
+Import brl.wavloader
+Import brl.retro
+Import brl.map
+'Import maxgui.win32maxgui
 
+SetAudioDriver( "DirectSound" )
+'SetGraphicsDriver( GLMax2DDriver() )
 
+Include "../../framework.bmx"
 
-LTWASDControl.AddButtons()
+Include "Weapons.bmx"
 
-Player:LTGroup = LTGroup.Create()
-
-Local Player:LTActor
-Player.SetModel = New LTCircle
-LTPivot.Create().SetFor( Player )
-
-LTWASDControl.AddTo( Player )
-LTAimAtMouse.AddTo( Player )
-
-Local Brain:LTVisual = LTImage.Load( "media/brain.png" )
-LTUseColor.CreateFromHex( "AACCFF" ).AddTo( Brain )
-
-Local Visor:LTVisual = LTImage.Load( "media/visor#.png" )
-LTUseColor.CreateFromHex( "CCAAFF" ).AddTo( Visor )
-LTUseAlpha.Create().AddTo( Visor )
-
-Local Mouse:LTShape = LTPoint.Create()
-Mouse.SetModel( New LTDot )
-
-Local Tiles:LTVisual = LTImage
-
-'Logic
-
-Mouse.OperateWith( LTJumpToMouseCursor.Create() )
-
-PlayerShape.OperateWith( LTWASDControl.Create() )
-PlayerShape.OperateWith( LTAimAt.Create( Mouse ) )
-
-'Render
-
-TileMap.Draw()
-PlayerBullets.Draw()
-Player.Draw()
-Mouse.Draw()
-
-
-
-World.Execute()
-
-Type PlayerFireBullet Extends LTBehavior
-	Method Execute
-		If KeyDown( 57 ) Then
+Type LTGame Extends LTProject
+	Field Player:LTCircle = New LTCircle
+	Field Brain:LTImageVisual = New LTImageVisual
+	Field Visor:LTImageVisual = New LTImageVisual
+	
+	
+	
+	Method Init()
+		Player.Diameter = 0.9
+	End Method
+	
+	
+	
+	Method Render()
+		Player.DrawUsingVisual( Brain )
+		Player.DrawUsingVisual( Visor )
+		
 	End Method
 End Type

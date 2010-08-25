@@ -13,7 +13,11 @@ Include "include/LTVisual.bmx"
 Include "include/LTPath.bmx"
 Include "include/LTCamera.bmx"
 Include "include/LTDrag.bmx"
+Include "include/LTAction.bmx"
+Include "include/LTText.bmx"
 Include "include/LTXML.bmx"
+Include "include/Service.bmx"
+
 
 Global L_ScreenXSize:Int
 Global L_ScreenYSize:Int
