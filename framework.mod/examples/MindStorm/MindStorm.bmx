@@ -41,6 +41,12 @@ Type LTGame Extends LTProject
 	
 	Method Init()
 		Player.Diameter = 0.9
+		Brain.Image = LTImage.FromFile( "media/brain.png" )
+		Brain.SetColorFromHex( "AACCFF" )
+		Brain.AlterColor( -0.2, 0.2 )
+		Visor.Image = LTImage.FromFile( "media/visor.png" )
+		Visor.SetColorFromHex( "CCAAFF" )
+		Visor.AlterColor( -0.2, 0.2 )
 	End Method
 	
 	

@@ -36,3 +36,14 @@ Function Init( ScreenXSize:Int, ScreenYSize:Int )
 	
 	Graphics L_ScreenXSize, L_ScreenYSize
 End Function
+
+
+
+
+
+Function L_Assert( Condition:Int, Text:String )
+	If Not Condition Then
+		Notify( Text, True )
+		End
+	End If
+End Function

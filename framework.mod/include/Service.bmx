@@ -60,3 +60,20 @@ Function L_TrimFloat:String ( Val:Float )
 		End Select
 	Forever
 End Function
+
+
+
+
+
+Function L_Limit:Float( Value:Float, FromValue:Float, ToValue:Float )
+	?debug
+	L_Assert( FromValue < ToValue, "FromValue must be less tan ToValue" )
+	?
+	If Value < FromValue Then
+		Return FromValue
+	Elseif Value > ToValue
+		Return ToValue
+	Else
+		Return Value
+	End If
+End Function

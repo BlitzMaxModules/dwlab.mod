@@ -45,4 +45,26 @@ Type LTVisual Extends LTObject Abstract
 		G = 1.0 * L_HexToInt( S[ 2..4 ] ) / 255.0
 		B = 1.0 * L_HexToInt( S[ 4..6 ] ) / 255.0
 	End Method
+	
+	
+	
+	Method SetColor( NewR:Float, NewG:Float, NewB:Float )
+		?debug
+		L_Assert( NewR >= 0.0 And NewR <= 1.0, "Red component must be between 0.0 and 1.0 inclusive" )
+		L_Assert( NewG >= 0.0 And NewG <= 1.0, "Green component must be between 0.0 and 1.0 inclusive" )
+		L_Assert( NewB >= 0.0 And NewB <= 1.0, "Blue component must be between 0.0 and 1.0 inclusive" )
+		?
+		
+		R = NewR
+		G = NewG
+		B = NewB
+	End Method
+	
+	
+	
+	Method AlterColor( D1:Float, D2:Float )
+		R = L_Limit( R + Rnd( D1, D2 ), 0.0, 1.0 )
+		G = L_Limit( G + Rnd( D1, D2 ), 0.0, 1.0 )
+		B = L_Limit( B + Rnd( D1, D2 ), 0.0, 1.0 )
+	End Method
 End Type
