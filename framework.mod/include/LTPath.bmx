@@ -47,7 +47,7 @@ Type LTPath Extends LTObject
 			Local Pivot1:LTPivot = Null
 			Local CurrentPathLength:Float
 			For Local Pivot2:LTPivot = Eachin Path
-				If Pivot1 Then CurrentPathLength :+ Pivot1.DistanceTo( Pivot2 )
+				If Pivot1 Then CurrentPathLength :+ Pivot1.DistanceToPivot( Pivot2 )
 				Pivot1 = Pivot2
 			Next
 			If CurrentPathLength < PathLength Or PathLength = 0.0 Then

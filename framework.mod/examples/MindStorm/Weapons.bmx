@@ -10,6 +10,9 @@
 '
 
 Type TWeapon Extends LTObject
+	Method Draw()
+		
+	End Method
 End Type
 
 
@@ -17,4 +20,20 @@ End Type
 
 
 Type TChaingun Extends TWeapon
+	Field CannonPivot:LTPivot
+	Field BarrelPivot:LTPivot
+	Field FirePivot:LTPivot
+	
+	
+	
+	Method Create:TChaingun()
+		Local Chaingun:TChaingun = New TChaingun
+		Chaingun.CannonPivot.SetCoordsRelativeToPivot( Pivot,
+	End Method
+	
+	
+	
+	Method Draw()
+		
+	End Method
 End Type

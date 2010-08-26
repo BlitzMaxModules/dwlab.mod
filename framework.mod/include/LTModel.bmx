@@ -13,7 +13,9 @@ Include "LTCircle.bmx"
 Include "LTRectangle.bmx"
 Include "LTLine.bmx"
 Include "LTGraph.bmx"
+Include "LTTileMap.bmx"
 Include "Collisions.bmx"
+Include "Physics.bmx"
 
 Type LTModel Extends LTObject Abstract
 	Field Angle:Float = 0.0
@@ -75,5 +77,10 @@ Type LTModel Extends LTObject Abstract
 	
 	
 	Method PushRectangle( Rectangle:LTRectangle )
+	End Method
+	
+	' ==================== Other ====================
+	
+	Method Update()
 	End Method
 End Type

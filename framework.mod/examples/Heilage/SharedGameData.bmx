@@ -34,7 +34,7 @@ Type TSharedGameData Extends LTProject
 		PlayerVisual.Image = LTImage.FromFile( "media/footman.png", 5, 13 )
 		PlayerVisual.Image.SetHandle( 0.5, 0.7 )
 		'PlayerImages.NoScale = 1
-		PlayerVisual.NoRotate = 1
+		PlayerVisual.Rotating = False
 		Player.Visual = PlayerVisual
 		
 		Background.XSize = 32
@@ -52,7 +52,7 @@ Type TSharedGameData Extends LTProject
 			If PlayerPivot Then
 				Path = LTPath.Find( PlayerPivot, Editor.CurrentPivot, Graph )
 			Else
-				Player.JumpTo( Editor.CurrentPivot )
+				Player.JumpToPivot( Editor.CurrentPivot )
 				PlayerPivot = Editor.CurrentPivot
 			End If
 		End If
@@ -67,14 +67,14 @@ Type TSharedGameData Extends LTProject
 		End If
 		
 		If PlayerPivot Then
-			If Player.IsAtPositionOf( PlayerPivot ) And Not Path.Pivots.IsEmpty() Then
+			If Player.IsAtPositionOfPivot( PlayerPivot ) And Not Path.Pivots.IsEmpty() Then
 				PlayerPivot = LTPivot( Path.Pivots.First() )
-				Player.DirectTo( PlayerPivot )
+				Player.DirectToPivot( PlayerPivot )
 				Path.Pivots.RemoveFirst()
 			Else
-				Player.MoveTowards( PlayerPivot )
+				Player.MoveTowardsPivot( PlayerPivot )
 			End If
-			If Not Player.IsAtPositionOf( PlayerPivot ) Then Player.Frame :+ ( Floor( Editor.ProjectTime * 5 ) Mod 5 ) * 5
+			If Not Player.IsAtPositionOfPivot( PlayerPivot ) Then Player.Frame :+ ( Floor( Editor.ProjectTime * 5 ) Mod 5 ) * 5
 		End If
 	End Method
 	

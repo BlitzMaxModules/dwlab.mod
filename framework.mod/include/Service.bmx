@@ -67,7 +67,7 @@ End Function
 
 Function L_Limit:Float( Value:Float, FromValue:Float, ToValue:Float )
 	?debug
-	L_Assert( FromValue < ToValue, "FromValue must be less tan ToValue" )
+	L_Assert( FromValue < ToValue, "FromValue must be less than ToValue" )
 	?
 	If Value < FromValue Then
 		Return FromValue
@@ -76,4 +76,39 @@ Function L_Limit:Float( Value:Float, FromValue:Float, ToValue:Float )
 	Else
 		Return Value
 	End If
+End Function
+
+
+
+
+
+Function L_IsPowerOf2:Int( Value:Int )
+	If Value + ( Value - 1 ) = Value ~ ( Value - 1 ) Then Return True
+End Function
+
+
+
+
+
+Function L_Wrap:Int( Value:Int, Size:Int )
+	Return Value - Floor( Value / Size ) * Size
+End Function
+
+
+
+
+
+Function L_TryExtensions( Filename:String, Extensions:String[] )
+	If Len( Filename ) > 4 Then
+		If Left( Right( Filename, 4 ), 1 ) = "." Then
+			If FileType( Filename ) = 1 Then Return Filename
+		End If
+	End If
+	
+	For Extension:String = Eachin Extensions
+		Local NewFilename:String = Filename + "." + Extension
+		If FileType( NewFilename ) = 1 Then Return NewFilename
+	Next
+
+	L_Assert( 0, "There's no file named " + Filename )
 End Function

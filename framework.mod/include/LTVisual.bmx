@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTImage.bmx"
+Include "LTImageVisual.bmx"
 Include "LTFilledPrimitive.bmx"
 Include "LTEmptyPrimitive.bmx"
 
@@ -16,9 +16,9 @@ Type LTVisual Extends LTObject Abstract
 	Field R:Float = 1.0, G:Float = 1.0, B:Float = 1.0
 	Field Alpha:Float = 1.0
 	Field VisualScale:Float = 1.0
-	Field NoScale:Int
+	Field Scaling:Int = True
 	
-	
+	' ==================== Drawing ===================	
 	
 	Method DrawUsingPivot( Pivot:LTPivot )
 	End Method
@@ -40,6 +40,11 @@ Type LTVisual Extends LTObject Abstract
 	
 	
 	
+	Method DrawUsingTileMap( TileMap:LTTileMap )
+	End Method
+	
+	' ==================== Other ====================
+	
 	Method SetColorFromHex( S:String )
 		R = 1.0 * L_HexToInt( S[ 0..2 ] ) / 255.0
 		G = 1.0 * L_HexToInt( S[ 2..4 ] ) / 255.0
@@ -48,7 +53,7 @@ Type LTVisual Extends LTObject Abstract
 	
 	
 	
-	Method SetColor( NewR:Float, NewG:Float, NewB:Float )
+	Method SetColorFromRGB( NewR:Float, NewG:Float, NewB:Float )
 		?debug
 		L_Assert( NewR >= 0.0 And NewR <= 1.0, "Red component must be between 0.0 and 1.0 inclusive" )
 		L_Assert( NewG >= 0.0 And NewG <= 1.0, "Green component must be between 0.0 and 1.0 inclusive" )

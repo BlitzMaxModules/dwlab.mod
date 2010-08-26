@@ -8,13 +8,14 @@ Const L_Version:String = "0.1"
 
 Include "include/LTObject.bmx"
 Include "include/LTProject.bmx"
+Include "include/LTCamera.bmx"
 Include "include/LTModel.bmx"
 Include "include/LTVisual.bmx"
+Include "include/LTText.bmx"
+Include "include/LTHeightMap.bmx"
 Include "include/LTPath.bmx"
-Include "include/LTCamera.bmx"
 Include "include/LTDrag.bmx"
 Include "include/LTAction.bmx"
-Include "include/LTText.bmx"
 Include "include/LTXML.bmx"
 Include "include/Service.bmx"
 
@@ -28,13 +29,14 @@ Function Init( ScreenXSize:Int, ScreenYSize:Int )
 	
 	L_CurrentCamera = New LTCamera
 	L_CurrentCamera.XSize = 32.0
-	L_CurrentCamera.YSize = -24.0
-	L_CurrentCamera.DX = 16.0
-	L_CurrentCamera.DY = 12.0
-	L_CurrentCamera.XK = L_ScreenXSize / 32.0
-	L_CurrentCamera.YK = L_ScreenYSize / 24.0
+	L_CurrentCamera.YSize = 24.0
+	L_CurrentCamera.Viewport.XSize = ScreenXSize
+	L_CurrentCamera.Viewport.YSize = ScreenYSize
+	L_CurrentCamera.Viewport.X = 0.5 * ScreenXSize
+	L_CurrentCamera.Viewport.Y = 0.5 * ScreenYSize
+	L_CurrentCamera.Update()
 	
-	Graphics L_ScreenXSize, L_ScreenYSize
+	Graphics( L_ScreenXSize, L_ScreenYSize )
 End Function
 
 
@@ -44,6 +46,7 @@ End Function
 Function L_Assert( Condition:Int, Text:String )
 	If Not Condition Then
 		Notify( Text, True )
+		DebugStop
 		End
 	End If
 End Function

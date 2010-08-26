@@ -11,7 +11,7 @@
 Global L_CurrentCamera:LTCamera
 
 Type LTCamera Extends LTRectangle
-	Field SourceRectangle:LTRectangle = New LTRectangle
+	Field Viewport:LTRectangle = New LTRectangle
 	Field XK:Float = 1.0, YK:Float = 1.0
 	Field DX:Float, DY:Float
 	Field ViewportClipping:Int = 1
@@ -61,20 +61,30 @@ Type LTCamera Extends LTRectangle
 	Method SetCameraViewport()
 		If Not ViewportClipping Then Return
 	
-		SetViewport X - 0.5 * XSize, Y - 0.5 * YSize, XSize, YSize
+		SetViewport( X - 0.5 * XSize, Y - 0.5 * YSize, XSize, YSize )
 	End Method
 	
 	
 	
 	Method ResetViewport()
-		SetViewport 0, 0, L_ScreenXSize, L_ScreenYSize
+		SetViewport( 0, 0, L_ScreenXSize, L_ScreenYSize )
+	End Method
+	
+	
+	
+	Method SetMagnification( NewXK:Float, NewYK:Float )
+		XK = NewXK
+		YK = NewYK
+		Xsize = Viewport.XSize / XK
+		Ysize = Viewport.YSize / YK
 	End Method
 	
 	
 	
 	Method Update()
-		ScreenToField( X, Y, SourceRectangle.X, SourceRectangle.Y )
-		SizeScreenToField( XSize, YSize, SourceRectangle.XSize, SourceRectangle.YSize )
-		'debugstop
+		XK = Viewport.XSize / XSize
+		YK = Viewport.YSize / YSize
+		DX = Viewport.X / XK - X
+		DY = Viewport.Y/ YK - Y
 	End Method
 End Type

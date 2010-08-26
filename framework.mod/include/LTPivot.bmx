@@ -47,9 +47,9 @@ Type LTPivot Extends LTModel
 		If L_PivotWithRectangle( Self, Rectangle ) Then Return True
 	End Method
 	
-	' ==================== Other ====================
+	' ==================== Position ====================
 	
-	Method DistanceTo:Float( Pivot:LTPivot )
+	Method DistanceToPivot:Float( Pivot:LTPivot )
 		Local DX:Float = X - Pivot.X
 		Local DY:Float = Y - Pivot.Y
 		Return Sqr( DX * DX + DY * DY )
@@ -57,26 +57,46 @@ Type LTPivot Extends LTModel
 	
 	
 	
-	Method IsAtPositionOf:Int( Pivot:LTPivot )
+	Method IsAtPositionOfPivot:Int( Pivot:LTPivot )
 		If Pivot.X = X And Pivot.Y = Y Then Return True
 	End Method
 	
 	
 	
-	Method JumpTo( Pivot:LTPivot )
+	Method SetCoords( NewX:Float, NewY:Float )
+		X = NewX
+		Y = NewY
+		Update()
+	End Method
+	
+	
+	
+	Method SetRelativeCoords( Pivot:LTPivot, NewX:Float, NewY:Float )
+		Local Angle:Float = ATan2( NewY, NewX ) + Pivot.Angle
+		Local Radius:Float = Sqr( NewX * NewX + NewY * NewY )
+		X = Pivot.X + Radius * Cos( Angle )
+		Y = Pivot.Y + Radius * Sin( Angle )
+		Update()
+	End Method
+	
+	
+	
+	Method JumpToPivot( Pivot:LTPivot )
 		X = Pivot.X
 		Y = Pivot.Y
+		Update()
 	End Method
 	
 	
 	
 	Method SetMouseCoords()
 		L_CurrentCamera.ScreenToField( MouseX(), MouseY(), X, Y )
+		Update()
 	End Method
 	
 	
 	
-	Method MoveTowards( Pivot:LTPivot )
+	Method MoveTowardsPivot( Pivot:LTPivot )
 		Local Angle:Float = ATan2( Pivot.Y - Y, Pivot.X - X )
 		Local DX:Float = Cos( Angle ) * Velocity * L_DeltaTime
 		Local DY:Float = Sin( Angle ) * Velocity * L_DeltaTime
@@ -87,11 +107,26 @@ Type LTPivot Extends LTModel
 			X :+ DX
 			Y :+ DY
 		End If
+		Update()
 	End Method
 	
 	
 	
-	Method DirectTo( Pivot:LTPivot )
+	Method MoveUsingWSAD()
+		Local DX:Float = KeyDown( Key_D ) - KeyDown( Key_A )
+		Local DY:Float = KeyDown( Key_S ) - KeyDown( Key_W )
+		If DX * DY Then
+			DX :/ Sqr(2)
+			DY :/ Sqr(2)
+		End If
+		X :+ DX * Velocity * L_DeltaTime
+		Y :+ DY * Velocity * L_DeltaTime
+		Update()
+	End Method
+	
+	' ==================== Angle ====================
+	
+	Method DirectToPivot( Pivot:LTPivot )
 		Angle = ATan2( Pivot.Y - Y, Pivot.X - X )
 	End Method
 	
@@ -101,7 +136,7 @@ Type LTPivot Extends LTModel
 		Angle :+ L_DeltaTime * TurnSpeed
 	End Method
 
-
+	' ==================== Other ====================
 
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )

@@ -91,10 +91,10 @@ Type LTEmptyPrimitive Extends LTVisual
 	
 	
 	Method SetProperLineWidth()
-		If NoScale Then
-			SetLineWidth( LineWidth )
-		Else
+		If Scaling Then
 			SetLineWidth( L_CurrentCamera.DistScreenToField( LineWidth ) )
+		Else
+			SetLineWidth( LineWidth )
 		End If
 	End Method
 End Type
