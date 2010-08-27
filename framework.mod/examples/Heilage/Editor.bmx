@@ -58,7 +58,7 @@ Type TEditor Extends LTProject
 		Cursor.Diameter = 0.2
 		
 		PivotVisual = New LTFilledPrimitive
-		PivotVisual.VisualScale = 0.25
+		PivotVisual.SetVisualScale( 0.25, 0.25 )
 		PivotVisual.SetColorFromHex( "FF7F00" )
 		
 		LineVisual = New LTEmptyPrimitive
@@ -66,7 +66,7 @@ Type TEditor Extends LTProject
 		LineVisual.SetColorFromHex( "FF7F00" )
 		
 		CurrentPivotVisual = New LTFilledPrimitive
-		CurrentPivotVisual.VisualScale = 0.35
+		CurrentPivotVisual.SetVisualScale( 0.35, 0.35 )
 		CurrentPivotVisual.SetColorFromHex( "FFBF7F" )
 		
 		CurrentLineVisual = New LTEmptyPrimitive

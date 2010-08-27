@@ -17,11 +17,11 @@ Type LTEmptyPrimitive Extends LTVisual
 		SetColor 255.0 * R, 255.0 * G, 255.0 * B
 		SetAlpha Alpha
 		
-		Local SX:Float, SY:Float
+		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
 		L_CurrentCamera.FieldToScreen( Pivot.X, Pivot.Y, SX, SY )
-		Local SDiameter:Float = L_CurrentCamera.DistScreenToField( VisualScale )
+		L_CurrentCamera.SizeFieldToScreen( XScale, YScale, SXSize, SYSize ) 
 		
-		DrawOval( SX - SDiameter * 0.5, SY - SDiameter * 0.5, SDiameter, SDiameter )
+		DrawOval( SX - 0.5 * SXSize, SY - 0.5 * SYSize, SXSize, SYSize )
 		
 		SetColor 255, 255, 255
 		SetAlpha 1.0
@@ -34,16 +34,16 @@ Type LTEmptyPrimitive Extends LTVisual
 		SetAlpha Alpha
 		SetProperLineWidth()
 		
-		Local SX:Float, SY:Float
+		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
 		L_CurrentCamera.FieldToScreen( Circle.X, Circle.Y, SX, SY )
-		Local SDiameter:Float = L_CurrentCamera.DistFieldToScreen( Circle.Diameter ) * VisualScale
+		L_CurrentCamera.SizeFieldToScreen( Circle.Diameter * XScale, Circle.Diameter * YScale, SXSize, SYSize ) 
 		
-		Local Segs:Int = Max( Int( 2.0 * SDiameter ), 12 ) & ~3
+		Local Segs:Int = Max( Int( 2.0 * Sqr( SXSize * SYSize ) ), 12 ) & ~3
 		Local X1:Float, Y1:Float, X2:Float, Y2:Float
 		For Local N:Float = 0 To Segs
 			Local Angle:Float = 360.0 / Segs * N
-			X2 = SX + SDiameter * Cos( Angle )
-			Y2 = SY + SDiameter * Sin( Angle )
+			X2 = SX + SXSize * Cos( Angle )
+			Y2 = SY + SYSize * Sin( Angle )
 			If N > 0 Then DrawLine( X1, Y1, X2, Y2 )
 			X1 = X2
 			Y1 = Y2
@@ -63,7 +63,7 @@ Type LTEmptyPrimitive Extends LTVisual
 		
 		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
 		L_CurrentCamera.FieldToScreen( Rectangle.X, Rectangle.Y, SX, SY )
-		L_CurrentCamera.SizeFieldToScreen( Rectangle.XSize * VisualScale, Rectangle.YSize * VisualScale, SXSize, SYSize )
+		L_CurrentCamera.SizeFieldToScreen( Rectangle.XSize * XScale, Rectangle.YSize * YScale, SXSize, SYSize )
 		L_DrawEmptyRect( SX - 0.5 * SXSize, SY - 0.5 * SYSize, SXSize, SYSize )
 		
 		SetLineWidth( 1.0 )

@@ -42,6 +42,9 @@ Type LTGame Extends LTProject
 	Field Player:LTCircle = New LTCircle
 	Field Brain:LTImageVisual
 	Field Visor:LTImageVisual
+	Field LeftWeapon:TWeapon
+	Field RightWeapon:TWeapon
+	
 	Field TileMap:LTTileMap = New LTTileMap
 	Field TileSet:LTTileSet = New LTTileSet
 	Field HeightMap:LTHeightMap = New LTHeightMap
@@ -53,37 +56,40 @@ Type LTGame Extends LTProject
 	
 	
 	Method Init()
-		' ============================= Player =============================
-		
-		Player.Diameter = 2.0
-		Player.Velocity = 3.0
-		
-		Brain = LTImageVisual.FromFile( "media/brain.png" )
-		Brain.SetColorFromHex( "AACCFF" )
-		Brain.AlterColor( -0.2, 0.2 )
-		
-		Visor = LTImageVisual.FromFile( "media/visor.png" )
-		Visor.SetColorFromHex( "CCAAFF" )
-		Visor.AlterColor( -0.2, 0.2 )
-		Visor.VisualScale = 1.2
-		
-		Target.Visual = LTImageVisual.FromFile( "media/target.png" )
-		Target.Visual.Scaling = False
-		HideMouse()
-		
+	
 		' ============================= Weapons =============================
 		
 		ChaingunCannon = LTImageVisual.FromFile( "media/chaingun/cannon.png" )
 		ChaingunBarrel = LTImageVisual.FromFile( "media/chaingun/barrel##.png" )
 		ChaingunFire = LTImageVisual.FromFile( "media/chaingun/fire#.png" )
 		
+		' ============================= Player =============================
+		
+		Player.SetDiameter( 1.0 )
+		Player.SetVelocity( 1.5 )
+		
+		Brain = LTImageVisual.FromFile( "media/brain.png" )
+		Brain.SetColorFromHex( "AACCFF" )
+		Brain.SetVisualScale( 1.77, 1.77 )
+		Brain.AlterColor( -0.2, 0.2 )
+		
+		Visor = LTImageVisual.FromFile( "media/visor.png" )
+		Visor.SetColorFromHex( "CCAAFF" )
+		Visor.AlterColor( -0.2, 0.2 )
+		Visor.SetVisualScale( 2.0, 2.0 )
+		
+		Target.Visual = LTImageVisual.FromFile( "media/target.png" )
+		Target.Visual.Scaling = False
+		
+		LeftWeapon = TChaingun.Create( LeftSide )
+		
 		' ============================= Map =============================
 		
-		L_CurrentCamera.SetMagnification( L_ScreenXSize / 16, L_ScreenXSize / 16 )
+		L_CurrentCamera.SetMagnification( L_ScreenXSize / 8, L_ScreenXSize / 8 )
 		
 		TileMap.SetResolution( 128, 128 )
 		TileMap.Visual = LTImageVisual.FromFile( "media/tileset.png", 5, 4 )
-		TileMap.SetSile( 256.0, 256.0 )
+		TileMap.SetSize( 128.0, 128.0 )
 		
 		HeightMap.SetResolution( 128, 128 )
 		HeightMap.PerlinNoise( 16, 16, 0.25, 0.5, 4 )
@@ -92,6 +98,8 @@ Type LTGame Extends LTProject
 		TileMap.Stretch( 2, 2 )
 		TileSet = LTTileSet.FromFile( "media/simple.lts" )
 		TileMap.EnframeBy( TileSet )
+		
+		HideMouse()
 	End Method
 	
 	
@@ -102,6 +110,7 @@ Type LTGame Extends LTProject
 		Player.MoveUsingWSAD()
 		L_CurrentCamera.JumpToPivot( Player )
 		L_CurrentCamera.Update()
+		LeftWeapon.Logic()
 		
 		If KeyHit( key_Escape ) Then End
 	End Method
@@ -111,7 +120,8 @@ Type LTGame Extends LTProject
 	Method Render()
 		TileMap.Draw()
 		Player.DrawUsingVisual( Brain )
-		Player.DrawUsingVisual( Visor )
+		LeftWeapon.Render()
+		'Player.DrawUsingVisual( Visor )
 		Target.Draw()
 	End Method
 End Type

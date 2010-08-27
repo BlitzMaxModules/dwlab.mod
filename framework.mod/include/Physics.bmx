@@ -8,27 +8,14 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "LTJoint.bmx"
+
 Function L_PushCircleWithCircle( Circle1:LTCircle, Circle2:LTCircle )
 	Local DX:Float = Circle1.X - Circle2.X
 	Local DY:Float = Circle1.Y - Circle2.Y
 	Local K:Float = 0.5 * ( Circle1.Diameter + Circle2.Diameter ) / Sqr( DX * DX + DY * DY ) - 1.0
 	
-	Local MassSum:Float = Circle1.Mass + Circle2.Mass
-	Local K1:Float, K2:Float
-	If MassSum Then
-		K1 = K * ( Circle2.Mass / MassSum )
-		K2 = K * ( Circle1.Mass / MassSum )
-	Else
-		K1 = K * 0.5
-		K2 = K * 0.5
-	End If
-	
-	'debugstop
-	
-	Circle1.X :+ K1 * DX
-	Circle1.Y :+ K1 * DY
-	Circle2.X :- K2 * DX
-	Circle2.Y :- K2 * DY
+	L_Separate( Circle1, Circle2, K * DX, K * DY )
 End Function
 
 
@@ -50,23 +37,7 @@ Function L_PushCircleWithRectangle( Circle:LTCircle, Rectangle:LTRectangle )
 		DY = ( Circle.Y - PY ) * K
 	End If
 	
-	Local MassSum:Float = Rectangle.Mass + Circle.Mass
-	Local K1:Float, K2:Float
-	
-	If MassSum Then
-		K1 = Circle.Mass / MassSum
-		K2 = Rectangle.Mass / MassSum
-	Else
-		K1 = 0.5
-		K2 = 0.5
-	End If
-	
-	'debugstop
-	
-	Rectangle.X :+ K1 * DX
-	Rectangle.Y :+ K1 * DY
-	Circle.X :- K2 * DX
-	Circle.Y :- K2 * DY
+	L_Separate( Circle, Rectangle, DX, DY )
 End Function
 
 
@@ -77,20 +48,30 @@ Function L_PushRectangleWithRectangle( Rectangle1:LTRectangle, Rectangle2:LTRect
 	Local DX:Float = 0.5 * ( Rectangle1.XSize + Rectangle2.XSize ) - Abs( Rectangle1.X - Rectangle2.X )
 	Local DY:Float = 0.5 * ( Rectangle1.YSize + Rectangle2.YSize ) - Abs( Rectangle1.Y - Rectangle2.Y )
 	
-	Local MassSum:Float = Rectangle2.Mass + Rectangle1.Mass
-	Local K1:Float = 0.5
-	Local K2:Float = 0.5		
+	If DX < DY Then
+		L_Separate( Rectangle1, Rectangle2, DX * Sgn( Rectangle1.X - Rectangle2.X ), 0 )
+	Else
+		L_Separate( Rectangle1, Rectangle2, 0, DY * Sgn( Rectangle1.Y - Rectangle2.Y ) )
+	End If
+End Function
+
+
+
+
+
+Function L_Separate( Pivot1:LTPivot, Pivot2:LTPivot, DX:Float, DY:Float )
+	Local K1:Float, K2:Float
+	Local MassSum:Float = Pivot1.Model.GetMass() + Pivot2.Model.GetMass()
 	If MassSum Then
-		K1 = Rectangle2.Mass / MassSum
-		K2 = Rectangle1.Mass / MassSum
+		K1 = Pivot1.Model.GetMass() / MassSum
+		K2 = Pivot2.Model.GetMass() / MassSum
+	Else
+		K1 = 0.5
+		K2 = 0.5
 	End If
 	
-	'debugstop
-	If DX < DY Then
-		Rectangle1.X :+ K1 * DX * Sgn( Rectangle1.X - Rectangle2.X )
-		Rectangle2.X :- K2 * DX * Sgn( Rectangle1.X - Rectangle2.X )
-	Else
-		Rectangle1.Y :+ K1 * DY * Sgn( Rectangle1.Y - Rectangle2.Y )
-		Rectangle2.Y :- K2 * DY * Sgn( Rectangle1.Y - Rectangle2.Y )
-	End If
+	Pivot1.X :+ K1 * DX
+	Pivot1.Y :+ K1 * DY
+	Pivot2.X :- K2 * DX
+	Pivot2.Y :- K2 * DY
 End Function

@@ -27,9 +27,8 @@ Type TSharedGameData Extends LTProject
 	
 	
 	Method Init()
-		Player.Velocity = 2.0
-		Player.XSize = 72 / 25
-		Player.YSize = 72 / 25
+		Player.SetVelocity( 2.0 )
+		Player.SetSize( 72 / 25, 72 / 25 )
 		
 		PlayerVisual.Image = LTImage.FromFile( "media/footman.png", 5, 13 )
 		PlayerVisual.Image.SetHandle( 0.5, 0.7 )
@@ -57,7 +56,7 @@ Type TSharedGameData Extends LTProject
 			End If
 		End If
 		'Player.Turn( 45 )
-		Local AngleFrame:Int = Floor( 0.5 + ( Player.Angle - Floor( Player.Angle / 360 ) * 360 ) / 45 )
+		Local AngleFrame:Int = Floor( 0.5 + ( Player.GetAngle() - Floor( Player.GetAngle() / 360 ) * 360 ) / 45 )
 		Player.Frame = Int( Mid$( "234321012", AngleFrame + 1, 1 ) )
 		
 		If AngleFrame >=3 And AngleFrame <= 5 Then

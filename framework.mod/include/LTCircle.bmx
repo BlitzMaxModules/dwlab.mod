@@ -9,7 +9,13 @@
 '
 
 Type LTCircle Extends LTPivot
-	Field Diameter:Float
+	Field Diameter:Float = 1.0
+
+	' ==================== Parameters ====================
+	
+	Method SetDiameter( NewDiameter:Float )
+		Diameter = NewDiameter
+	End Method
 	
 	' ==================== Drawing ===================	
 	
@@ -25,8 +31,8 @@ Type LTCircle Extends LTPivot
 
 	' ==================== Collisions ===================
 	
-	Method CollidesWith:Int( Model:LTModel )
-		Return Model.CollidesWithCircle( Self )
+	Method CollidesWith:Int( Shape:LTShape )
+		Return Shape.CollidesWithCircle( Self )
 	End Method
 
 	
@@ -55,8 +61,8 @@ Type LTCircle Extends LTPivot
 	
 	' ==================== Pushing ====================
 	
-	Method Push( Model:LTModel )
-		Model.PushCircle( Self )
+	Method Push( Shape:LTShape )
+		Shape.PushCircle( Self )
 	End Method
 
 
@@ -72,7 +78,9 @@ Type LTCircle Extends LTPivot
 	End Method
 
 	' ==================== Other ====================
-
+	
+	
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		XMLObject.ManageFloatAttribute( "diameter", Diameter )

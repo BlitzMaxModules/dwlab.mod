@@ -15,11 +15,11 @@ Type LTFilledPrimitive Extends LTVisual
 		SetColor 255.0 * R, 255.0 * G, 255.0 * B
 		SetAlpha Alpha
 		
-		Local SX:Float, SY:Float
+		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
 		L_CurrentCamera.FieldToScreen( Pivot.X, Pivot.Y, SX, SY )
-		Local SDiameter:Float = L_CurrentCamera.DistFieldToScreen( VisualScale ) 
+		L_CurrentCamera.SizeFieldToScreen( XScale, YScale, SXSize, SYSize ) 
 		
-		DrawOval( SX - 0.5 * SDiameter, SY - 0.5 * SDiameter, SDiameter, SDiameter )
+		DrawOval( SX - 0.5 * SXSize, SY - 0.5 * SYSize, SXSize, SYSize )
 		
 		SetColor 255, 255, 255
 		SetAlpha 1.0
@@ -31,11 +31,11 @@ Type LTFilledPrimitive Extends LTVisual
 		SetColor 255.0 * R, 255.0 * G, 255.0 * B
 		SetAlpha Alpha
 		
-		Local SX:Float, SY:Float
+		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
 		L_CurrentCamera.FieldToScreen( Circle.X, Circle.Y, SX, SY )
-		Local SDiameter:Float = L_CurrentCamera.DistFieldToScreen( Circle.Diameter ) * VisualScale
+		L_CurrentCamera.SizeFieldToScreen( Circle.Diameter * XScale, Circle.Diameter * YScale, SXSize, SYSize ) 
 		
-		DrawOval( SX - 0.5 * SDiameter, SY - 0.5 * SDiameter, SDiameter, SDiameter )
+		DrawOval( SX - 0.5 * SXSize, SY - 0.5 * SYSize, SXSize, SYSize )
 		
 		SetColor 255, 255, 255
 		SetAlpha 1.0
@@ -49,7 +49,7 @@ Type LTFilledPrimitive Extends LTVisual
 		
 		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
 		L_CurrentCamera.FieldToScreen( Rectangle.X, Rectangle.Y, SX, SY )
-		L_CurrentCamera.SizeFieldToScreen( Rectangle.XSize * VisualScale, Rectangle.YSize * VisualScale, SXSize, SYSize )
+		L_CurrentCamera.SizeFieldToScreen( Rectangle.XSize * XScale, Rectangle.YSize * YScale, SXSize, SYSize )
 		DrawRect( SX - 0.5 * SXSize, SY - 0.5 * SYSize, SXSize, SYSize )
 		
 		SetColor 255, 255, 255

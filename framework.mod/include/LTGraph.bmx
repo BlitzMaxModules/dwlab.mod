@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTGraph Extends LTModel
+Type LTGraph Extends LTShape
 	Field Pivots:TMap = New TMap
 	Field Lines:TMap = New TMap
 	
@@ -75,17 +75,17 @@ Type LTGraph Extends LTModel
 	
 	' ==================== Collisions ===================
 	
-	Method FindPivotCollidingWith:LTPivot( Model:LTModel )
+	Method FindPivotCollidingWith:LTPivot( Shape:LTShape )
 		For Local Pivot:LTPivot = Eachin Pivots.Keys()
-			If Model.CollidesWithPivot( Pivot ) Then Return Pivot
+			If Shape.CollidesWithPivot( Pivot ) Then Return Pivot
 		Next
 	End Method
 	
 	
 
-	Method FindLineCollidingWith:LTLine( Model:LTModel )
+	Method FindLineCollidingWith:LTLine( Shape:LTShape )
 		For Local Line:LTLine = Eachin Lines.Keys()
-			If Model.CollidesWithLine( Line ) Then Return Line
+			If Shape.CollidesWithLine( Line ) Then Return Line
 		Next
 	End Method
 

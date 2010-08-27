@@ -50,11 +50,11 @@ Type LTHeightMap Extends LTObject
 	
 	Method ToNewImage:LTImage()
 		Local Image:LTImage = New LTImage
-		Image.Handle = CreateImage( GetXQuantity(), GetYQuantity() )
+		Image.BMaxImage = CreateImage( GetXQuantity(), GetYQuantity() )
 		
-		ToPixmap( LockImage( Image.Handle ) )
+		ToPixmap( LockImage( Image.BMaxImage ) )
 		
-		UnlockImage( Image.Handle )
+		UnlockImage( Image.BMaxImage )
 		Return Image
 	End Method
 	
@@ -62,11 +62,11 @@ Type LTHeightMap Extends LTObject
 	
 	Method ToImage( Image:LTImage, Frame:Int = 0 )
 		?debug
-		L_Assert( GetXQuantity() = ImageWidth( Image.Handle ) And GetYQuantity() =  ImageHeight( Image.Handle ), "Sizes of source heightmap and resulting image are different." )
+		L_Assert( GetXQuantity() = ImageWidth( Image.BMaxImage ) And GetYQuantity() =  ImageHeight( Image.BMaxImage ), "Sizes of source heightmap and resulting image are different." )
 		?
 		
-		ToPixmap( LockImage( Image.Handle, Frame ) )
-		UnlockImage( Image.Handle )
+		ToPixmap( LockImage( Image.BMaxImage, Frame ) )
+		UnlockImage( Image.BMaxImage )
 	End Method
 	
 	

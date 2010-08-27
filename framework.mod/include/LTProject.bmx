@@ -57,8 +57,12 @@ Type LTProject Extends LTObject
 	    
 		Repeat
 			ProjectTime :+  L_DeltaTime
-	      
+			
 			Logic()
+	      
+			For Local Joint:LTJoint = Eachin L_JointList
+				Joint.Operate()
+			Next
 		
 			Repeat
 				RealTime = 0.001 * ( Millisecs() - StartTime )

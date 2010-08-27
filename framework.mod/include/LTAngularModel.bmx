@@ -7,81 +7,72 @@
 ' file distributed with this code, or available from
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
-Include "LTAngularModel.bmx"
-Include "Physics.bmx"
 
-Global L_DefaultModel:LTModel = New LTNullModel
-Global L_DefaultModelTypeID:TTypeID
+LTAngularModel.SetDefault()
 
-Type LTModel Extends LTObject Abstract
+Type LTAngularModel Extends LTModel
+	Field Angle:Float = 0.0
+	Field Velocity:Float = 1.0
+	Field AngularVelocity:Float = 1.0
+	Field Mass:Float = 1.0
+	
+	
+	
 	Method GetAngle:Float()
+		Return Angle
 	End Method
 	
 	
 	
 	Method SetAngle:Float( NewAngle:Float )
+		Angle = NewAngle
 	End Method
 	
 	
 	
 	Method AlterAngle( DAngle:Float )
+		Angle :+ DAngle
 	End Method
 	
 	
 	
 	Method GetVelocity:Float()
+		Return Velocity
 	End Method
 	
 	
 	
 	Method SetVelocity:Float( NewVelocity:Float )
+		Velocity = NewVelocity
 	End Method
 	
 	
 	
 	Method GetAngularVelocity:Float()
+		Return AngularVelocity
 	End Method
 	
 	
 	
 	Method SetAngularVelocity:Float( NewAngularVelocity:Float )
+		AngularVelocity = NewAngularVelocity
 	End Method
 	
 	
 	
 	Method GetMass:Float()
+		Return Mass
 	End Method
 	
 	
 	
 	Method SetMass:Float( NewMass:Float )
-	End Method
-End Type
-
-
-
-
-
-Type LTNullModel Extends LTModel
-	Method GetVelocity:Float()
-		Return 1.0
-	End Method
-	
-	
-	
-	Method GetAngularVelocity:Float()
-		Return 180.0
-	End Method
-	
-	
-	
-	Method GetMass:Float()
-		Return 1.0
+		Mass = NewMass
 	End Method
 	
 	
 	
 	Function SetDefault()
-		L_DefaultModelTypeID = Null
+		L_DefaultModelTypeID = TTypeID.ForName( "LTAngularModel" )
 	End Function
 End Type

@@ -9,8 +9,27 @@
 '
 
 Type LTRectangle Extends LTPivot
-	Field XSize:Float
-	Field YSize:Float
+	Field XSize:Float = 1.0
+	Field YSize:Float = 1.0
+	
+	' ==================== Parameters ====================
+
+	Method SetSize( NewXSize:Float, NewYSize:Float )
+		XSize = NewXSize
+		YSize = NewYSize
+	End Method
+	
+	
+	
+	Method CorrectYSize()
+		Local ImageVisual:LTImageVisual = LTImageVisual( Visual )
+		
+		?debug
+		L_Assert( ImageVisual <> Null, "Cannot correct YSize: visual is not of LTImageVisual type" )
+		?
+		
+		YSize = XSize * ImageHeight( ImageVisual.Image.BMaxImage ) / ImageWidth( ImageVisual.Image.BMaxImage ) * Sgn( YSize )
+	End Method
 	
 	' ==================== Drawing ===================	
 	
@@ -26,8 +45,8 @@ Type LTRectangle Extends LTPivot
 
 	' ==================== Collisions ===================
 	
-	Method Collides:Int( Model:LTModel )
-		Return Model.CollidesWithRectangle( Self )
+	Method Collides:Int( Shape:LTShape )
+		Return Shape.CollidesWithRectangle( Self )
 	End Method
 
 	
@@ -50,8 +69,8 @@ Type LTRectangle Extends LTPivot
 	
 	' ==================== Pushing ====================
 	
-	Method Push( Mdl:LTModel )
-		Mdl.PushRectangle( Self )
+	Method Push( Shape:LTShape )
+		Shape.PushRectangle( Self )
 	End Method
 
 
@@ -64,13 +83,6 @@ Type LTRectangle Extends LTPivot
 	
 	Method PushRectangle( Rectangle:LTRectangle )
 		L_PushRectangleWithRectangle( Self, Rectangle )
-	End Method
-	
-	' ==================== Parameters ====================
-
-	Method SetSize( NewXSize:Float, NewYSize:Float )
-		XSize = NewXSize
-		YSize = NewYSize
 	End Method
 	
 	' ==================== Other ====================

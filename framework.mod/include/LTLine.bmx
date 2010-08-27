@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTLine Extends LTModel
+Type LTLine Extends LTShape
 	Field Pivot:LTPivot[] = New LTPivot[ 2 ]
 	
 	Method Create:LTLine( Pivot1:LTPivot, Pivot2:LTPivot )
@@ -32,8 +32,8 @@ Type LTLine Extends LTModel
 	
 	' ==================== Collisions ===================
 	
-	Method Collides:Int( Model:LTModel )
-		Return Model.CollidesWithLine( Self )
+	Method Collides:Int( Shape:LTShape )
+		Return Shape.CollidesWithLine( Self )
 	End Method
 	
 	

@@ -16,7 +16,7 @@ Type LTImageVisual Extends LTVisual
 	
 	
 	
-	Function FromFile:LTImageVisual( Filename:String, XCells:Int = 0, YCells:Int = 0 )
+	Function FromFile:LTImageVisual( Filename:String, XCells:Int = 1, YCells:Int = 1 )
 		Local ImageVisual:LTImageVisual = New LTImageVisual
 		ImageVisual.Image = LTImage.FromFile( Filename, XCells, YCells )
 		Return ImageVisual
@@ -31,13 +31,14 @@ Type LTImageVisual Extends LTVisual
 		Local SX:Float, SY:Float
 		L_CurrentCamera.FieldToScreen( Pivot.X, Pivot.Y, SX, SY )
 		
-		If Rotating Then SetRotation( Pivot.Angle )
+		If Rotating Then SetRotation( Pivot.Model.GetAngle() )
 		If Scaling Then
-			Local SDist:Float = L_CurrentCamera.DistFieldToScreen( 1.0 )
-			SetScale( VisualScale * SDist, VisualScale * SDist )
+			Local SXSize:Float, SYSize:Float
+			L_CurrentCamera.SizeFieldToScreen( XScale, YScale, SXSize, SYSize ) 
+			SetScale( SXSize, SYSize )
 		End If
 		
-		DrawImage( Image.Handle, SX, SY, Pivot.Frame )
+		DrawImage( Image.BMaxImage, SX, SY, Pivot.Frame )
 		
 		If Scaling Then SetScale 1.0, 1.0
 		If Rotating Then SetRotation 0.0
@@ -55,13 +56,13 @@ Type LTImageVisual Extends LTVisual
 		Local SX:Float, SY:Float
 		L_CurrentCamera.FieldToScreen( Circle.X, Circle.Y, SX, SY )
 		
-		If Rotating Then SetRotation( Circle.Angle )
+		If Rotating Then SetRotation( Circle.Model.GetAngle() )
 		If Scaling Then
 			Local SDist:Float = L_CurrentCamera.DistFieldToScreen( Circle.Diameter )
-			SetScale( VisualScale * SDist / ImageWidth( Image.Handle ), VisualScale * SDist / ImageHeight( Image.Handle ) )
+			SetScale( XScale * SDist / ImageWidth( Image.BMaxImage ), YScale * SDist / ImageHeight( Image.BMaxImage ) )
 		End If
 		
-		DrawImage( Image.Handle, SX, SY, Circle.Frame )
+		DrawImage( Image.BMaxImage, SX, SY, Circle.Frame )
 
 		If Scaling Then	SetScale 1.0, 1.0
 		If Rotating Then SetRotation 0.0
@@ -79,13 +80,13 @@ Type LTImageVisual Extends LTVisual
 		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
 		L_CurrentCamera.FieldToScreen( Rectangle.X, Rectangle.Y, SX, SY )
 		
-		If Rotating Then SetRotation( Rectangle.Angle )
+		If Rotating Then SetRotation( Rectangle.Model.GetAngle() )
 		If Scaling Then
 			L_CurrentCamera.SizeFieldToScreen( Rectangle.XSize, Rectangle.YSize, SXSize, SYSize )
-			SetScale( VisualScale * SXSize / ImageWidth( Image.Handle ), VisualScale * SYSize / ImageHeight( Image.Handle ) )
+			SetScale( XScale * SXSize / ImageWidth( Image.BMaxImage ), YScale * SYSize / ImageHeight( Image.BMaxImage ) )
 		End If
 		
-		DrawImage( Image.Handle, SX, SY, Rectangle.Frame )
+		DrawImage( Image.BMaxImage, SX, SY, Rectangle.Frame )
 		
 		If Scaling Then	SetScale 1.0, 1.0
 		If Rotating Then SetRotation 0.0
@@ -97,9 +98,9 @@ Type LTImageVisual Extends LTVisual
 	
 	
 	Method DrawUsingTileMap( TileMap:LTTileMap )
-		Local HX:Int = Image.Handle.Handle_x
-		Local HY:Int = Image.Handle.Handle_y
-		SetImageHandle Image.Handle, 0, 0
+		Local HX:Int = Image.BMaxImage.Handle_x
+		Local HY:Int = Image.BMaxImage.Handle_y
+		SetImageHandle Image.BMaxImage, 0, 0
 		
 		Local XQuantity:Int = TileMap.GetXQuantity()
 		Local YQuantity:Int = TileMap.GetYQuantity()
@@ -111,12 +112,12 @@ Type LTImageVisual Extends LTVisual
 		Local CellXSize:Float = TileMap.XSize / XQuantity
 		Local CellYSize:Float = TileMap.YSize / YQuantity
 		L_CurrentCamera.SizeFieldToScreen( CellXSize, CellYSize, SXSize, SYSize )
-		SetScale( SXSize / ImageWidth( Image.Handle ), SYSize / ImageHeight( Image.Handle ) )
+		SetScale( SXSize / ImageWidth( Image.BMaxImage ), SYSize / ImageHeight( Image.BMaxImage ) )
 		
-		Local X1:Float = L_CurrentCamera.ViewPort.X - 0.5 * L_CurrentCamera.ViewPort.XSize' ) * L_CurrentCamera.XK
-		Local Y1:Float = L_CurrentCamera.ViewPort.Y - 0.5 * L_CurrentCamera.ViewPort.YSize' ) * L_CurrentCamera.YK
-		Local X2:Float = X1 + L_CurrentCamera.ViewPort.XSize' * L_CurrentCamera.XK
-		Local Y2:Float = Y1 + L_CurrentCamera.ViewPort.YSize' * L_CurrentCamera.YK
+		Local X1:Float = L_CurrentCamera.ViewPort.X - 0.5 * L_CurrentCamera.ViewPort.XSize
+		Local Y1:Float = L_CurrentCamera.ViewPort.Y - 0.5 * L_CurrentCamera.ViewPort.YSize
+		Local X2:Float = X1 + L_CurrentCamera.ViewPort.XSize
+		Local Y2:Float = Y1 + L_CurrentCamera.ViewPort.YSize
 		
 		Local StartXFrame:Int = Floor( ( L_CurrentCamera.X - TileMap.X - 0.5 * ( L_CurrentCamera.XSize - TileMap.XSize ) ) / CellXSize )
 		Local StartYFrame:Int = Floor( ( L_CurrentCamera.Y - TileMap.Y - 0.5 * ( L_CurrentCamera.YSize - TileMap.YSize ) ) / CellYSize )
@@ -132,7 +133,7 @@ Type LTImageVisual Extends LTVisual
 			Local XX:Float = StartX
 			Local XFrame:Int = StartXFrame
 			While XX < X2
-				Drawimage( Image.Handle, XX, YY, TileMap.Frame[ XFrame & XMask, YFrame & YMask ] )
+				Drawimage( Image.BMaxImage, XX, YY, TileMap.Frame[ XFrame & XMask, YFrame & YMask ] )
 				XX = XX + SXSize
 				XFrame :+ 1
 			Wend
@@ -140,6 +141,6 @@ Type LTImageVisual Extends LTVisual
 			YFrame :+ 1
 		Wend
 		
-		SetImageHandle( Image.Handle, HX, HY )
+		SetImageHandle( Image.BMaxImage, HX, HY )
 	End Method
 End Type

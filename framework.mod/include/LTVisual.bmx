@@ -15,8 +15,15 @@ Include "LTEmptyPrimitive.bmx"
 Type LTVisual Extends LTObject Abstract
 	Field R:Float = 1.0, G:Float = 1.0, B:Float = 1.0
 	Field Alpha:Float = 1.0
-	Field VisualScale:Float = 1.0
+	Field XScale:Float = 1.0, YScale:Float = 1.0
 	Field Scaling:Int = True
+	
+	' ==================== Parameters ====================
+	
+	Method SetVisualScale( NewXScale:Float, NewYScale:Float )
+		XScale = NewXScale
+		YScale = NewYScale
+	End Method
 	
 	' ==================== Drawing ===================	
 	

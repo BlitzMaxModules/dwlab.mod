@@ -98,17 +98,11 @@ End Function
 
 
 
-Function L_TryExtensions( Filename:String, Extensions:String[] )
-	If Len( Filename ) > 4 Then
-		If Left( Right( Filename, 4 ), 1 ) = "." Then
-			If FileType( Filename ) = 1 Then Return Filename
-		End If
-	End If
+Function L_TryExtensions:String( Filename:String, Extensions:String[] )
+	If FileType( Filename ) = 1 Then Return Filename
 	
-	For Extension:String = Eachin Extensions
+	For Local Extension:String = Eachin Extensions
 		Local NewFilename:String = Filename + "." + Extension
 		If FileType( NewFilename ) = 1 Then Return NewFilename
 	Next
-
-	L_Assert( 0, "There's no file named " + Filename )
 End Function
