@@ -13,7 +13,6 @@ Include "LTCircle.bmx"
 Include "LTRectangle.bmx"
 Include "LTLine.bmx"
 Include "LTGraph.bmx"
-Include "LTTileMap.bmx"
 Include "Collisions.bmx"
 
 Type LTShape Extends LTObject Abstract

@@ -48,6 +48,34 @@ Type LTAngularModel Extends LTModel
 	
 	
 	
+	Method GetDX:Float()
+		Return Velocity * Cos( Angle )
+	End Method
+	
+	
+	
+	Method SetDX( NewDX:Float )
+		Local DY:Float = GetDY()
+		Velocity = Sqr( NewDX * NewDX + DY * DY )
+		Angle = ATan2( NewDX, DY )
+	End Method
+	
+	
+	
+	Method GetDY:Float()
+		Return Velocity * Sin( Angle )
+	End Method
+	
+	
+	
+	Method SetDY( NewDY:Float )
+		Local DX:Float = GetDX()
+		Velocity = Sqr( DX * DX + NewDY * NewDY )
+		Angle = ATan2( DX, NewDY )
+	End Method
+	
+	
+	
 	Method GetAngularVelocity:Float()
 		Return AngularVelocity
 	End Method

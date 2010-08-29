@@ -11,6 +11,7 @@
 Include "LTImageVisual.bmx"
 Include "LTFilledPrimitive.bmx"
 Include "LTEmptyPrimitive.bmx"
+Include "LTTileMap.bmx"
 
 Type LTVisual Extends LTObject Abstract
 	Field R:Float = 1.0, G:Float = 1.0, B:Float = 1.0

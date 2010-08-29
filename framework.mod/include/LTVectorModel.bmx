@@ -7,55 +7,73 @@
 ' file distributed with this code, or available from
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
-Include "LTAngularModel.bmx"
-Include "LTVectorModel.bmx"
-Include "Physics.bmx"
+Type LTVectorModel Extends LTObject Abstract
+	Field DX:Float
+	Field DY:Float
+	Field AngularVelocity:Float = 1.0
+	Field Mass:Float = 1.0
 
-Global L_DefaultModel:LTModel = New LTNullModel
-Global L_DefaultModelTypeID:TTypeID
-
-Type LTModel Extends LTObject Abstract
+	
+	
 	Method GetAngle:Float()
+		Return ATan2( DY, DX )
 	End Method
 	
 	
 	
 	Method SetAngle:Float( NewAngle:Float )
+		Local Velocity:Float = GetVelocity()
+		DX = Velocity * Cos( NewAngle )
+		DY = Velocity * Sin( NewAngle )
 	End Method
 	
 	
 	
 	Method AlterAngle( DAngle:Float )
+		SetAngle( GetAngle() + DAngle )
 	End Method
 	
 	
 	
 	Method GetVelocity:Float()
+		Return Sqr( DX * DX + DY * DY )
 	End Method
 	
 	
 	
 	Method SetVelocity:Float( NewVelocity:Float )
+		Local Velocity:Float = GetVelocity()
+		
+		?debug
+		L_Assert( Velocity, "Cannot change velocity of zero vector" )
+		?
+		
+		DX :* NewVelocity / Velocity
+		DY :* NewVelocity / Velocity
 	End Method
 	
 	
 	
 	Method GetDX:Float()
+		Return DX
 	End Method
 	
 	
 	
 	Method SetDX( NewDX:Float )
+		DX = NewDX
 	End Method
 	
 	
 	
 	Method GetDY:Float()
+		Return DY
 	End Method
 	
 	
 	
 	Method SetDY( NewDY:Float )
+		DY = NewDY
 	End Method
 	
 	
@@ -77,32 +95,4 @@ Type LTModel Extends LTObject Abstract
 	
 	Method SetMass:Float( NewMass:Float )
 	End Method
-End Type
-
-
-
-
-
-Type LTNullModel Extends LTModel
-	Method GetVelocity:Float()
-		Return 1.0
-	End Method
-	
-	
-	
-	Method GetAngularVelocity:Float()
-		Return 180.0
-	End Method
-	
-	
-	
-	Method GetMass:Float()
-		Return 1.0
-	End Method
-	
-	
-	
-	Function SetDefault()
-		L_DefaultModelTypeID = Null
-	End Function
 End Type

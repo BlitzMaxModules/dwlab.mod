@@ -8,15 +8,15 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTHeightMap Extends LTObject
+Type LTFloatMap Extends LTMap
 	Field Value:Float[ , ] = New Float[ 1, 1 ]
 
 	' ==================== Parameters ====================
 	
 	Method SetResolution( NewXQuantity:Int, NewYQuantity:Int )
 		?debug
-		L_Assert( NewXQuantity > 0, "HeightMap resoluton must be more than 0" )
-		L_Assert( NewYQuantity > 0, "HeightMap resoluton must be more than 0" )
+		L_Assert( NewXQuantity > 0, "Map resoluton must be more than 0" )
+		L_Assert( NewYQuantity > 0, "Map resoluton must be more than 0" )
 		?
 		
 		Value = New Float[ NewXQuantity, NewYQuantity ]
@@ -32,18 +32,6 @@ Type LTHeightMap Extends LTObject
 	
 	Method GetYQuantity:Int()
 		Return Value.Dimensions()[ 1 ]
-	End Method
-	
-	
-	
-	Method GetXMask:Int()
-		If L_IsPowerOf2( GetXQuantity() ) Then Return GetXQuantity() - 1
-	End Method
-	
-	
-	
-	Method GetYMask:Int()
-		If L_IsPowerOf2( GetYQuantity() ) Then Return GetYQuantity() - 1
 	End Method
 	
 	' ==================== Manipulations ====================	
@@ -85,7 +73,7 @@ Type LTHeightMap Extends LTObject
 	
 	
 	
-	Method ExtractTo( TileMap:LTTileMap, VFrom:Float, VTo:Float, TileNum:Int )
+	Method ExtractTo( TileMap:LTIntMap, VFrom:Float, VTo:Float, TileNum:Int )
 		Local XQuantity:Int = GetXQuantity()
 		Local YQuantity:Int = GetYQuantity()
 		
@@ -95,7 +83,7 @@ Type LTHeightMap Extends LTObject
 		
 		For Local X:Int = 0 Until XQuantity
 			For Local Y:Int = 0 Until YQuantity
-				If Value[ X, Y ] >= VFrom And Value[ X, Y ] < VTo Then TileMap.Frame[ X, Y ]  = TileNum; 
+				If Value[ X, Y ] >= VFrom And Value[ X, Y ] < VTo Then TileMap.Value[ X, Y ]  = TileNum; 
 			Next
 		Next
 	End Method
