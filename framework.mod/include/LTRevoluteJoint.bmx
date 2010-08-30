@@ -11,31 +11,25 @@
 Type LTRevoluteJoint Extends LTJoint
 	Field ParentPivot:LTPivot
 	Field Pivot:LTPivot
-	Field Angle1:Float
-	Field Distance1:Float
-	Field Angle2:Float
-	Field Distance2:Float
+	Field Angle:Float
+	Field Distance:Float
 	
 	
 	
-	Function Create:LTRevoluteJoint( ParentPivot:LTPivot, Pivot:LTPivot, X:Float, Y:Float )
+	Function Create:LTRevoluteJoint( ParentPivot:LTPivot, Pivot:LTPivot )
 		Local Joint:LTRevoluteJoint = New LTRevoluteJoint
 		Joint.ParentPivot = ParentPivot
 		Joint.Pivot = Pivot
-		Joint.Angle1 = ParentPivot.DirectionToPoint( X, Y ) - ParentPivot.Model.GetAngle()
-		Joint.Distance1 = ParentPivot.DistanceToPoint( X, Y )
-		Joint.Angle2 = Pivot.DirectionToPoint( X, Y ) - Pivot.Model.GetAngle()
-		Joint.Distance2 = Pivot.DistanceToPoint( X, Y )
-		L_AddJoint( Joint )
+		Joint.Angle = ParentPivot.DirectionToPivot( Pivot ) - ParentPivot.Model.GetAngle()
+		Joint.Distance = ParentPivot.DistanceToPivot( Pivot )
+		L_JointList.AddLast( Joint )
 		Return Joint
 	End Function
 	
 	
 	
 	Method Operate()
-		Local X:Float = ParentPivot.X + Cos( Angle1 + ParentPivot.Model.GetAngle() ) * Distance1
-		Local Y:Float = ParentPivot.Y + Sin( Angle1 + ParentPivot.Model.GetAngle() ) * Distance1
-		Pivot.X = X - Cos( Angle2 + Pivot.Model.GetAngle() ) * Distance2
-		Pivot.Y = Y - Sin( Angle2 + Pivot.Model.GetAngle() ) * Distance2
+		Pivot.X = ParentPivot.X + Cos( Angle + ParentPivot.Model.GetAngle() ) * Distance
+		Pivot.Y = ParentPivot.Y + Sin( Angle + ParentPivot.Model.GetAngle() ) * Distance
 	End Method
 End Type

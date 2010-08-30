@@ -120,6 +120,13 @@ Type LTPivot Extends LTShape
 	
 	
 	
+	Method MoveForward()
+		X :+ Model.GetDX() * L_DeltaTime
+		Y :+ Model.GetDY() * L_DeltaTime
+	End Method
+	
+	
+	
 	Method MoveUsingWSAD()
 		Local DX:Float = KeyDown( Key_D ) - KeyDown( Key_A )
 		Local DY:Float = KeyDown( Key_S ) - KeyDown( Key_W )
@@ -155,12 +162,6 @@ Type LTPivot Extends LTShape
 	
 	Method DirectToPivot( Pivot:LTPivot )
 		Model.SetAngle( ATan2( Pivot.Y - Y, Pivot.X - X ) )
-	End Method
-	
-	
-	
-	Method Turn( TurningSpeed:Float )
-		Model.AlterAngle( L_DeltaTime * TurningSpeed )
 	End Method
 
 	' ==================== Other ====================

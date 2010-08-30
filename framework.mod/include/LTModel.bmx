@@ -28,7 +28,7 @@ Type LTModel Extends LTObject Abstract
 	Method AlterAngle( DAngle:Float )
 	End Method
 	
-	
+
 	
 	Method GetVelocity:Float()
 	End Method

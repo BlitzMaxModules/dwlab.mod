@@ -91,7 +91,24 @@ End Function
 
 
 Function L_Wrap:Int( Value:Int, Size:Int )
-	Return Value - Floor( Value / Size ) * Size
+	Return Value - Size * Floor( Value / Size )
+End Function
+
+
+
+
+
+Function L_Wrap2:Int( Value:Int, FromValue:Int, ToValue:Int )
+	If Value > ToValue Then Return Floor( ( Value - FromValue ) / ( ToValue - FromValue ) ) + FromValue
+	Return Value
+End Function
+
+
+
+
+
+Function L_WrapFloat:Float( Value:Float, Size:Float )
+	Return Value - Size * Floor( Value / Size )
 End Function
 
 

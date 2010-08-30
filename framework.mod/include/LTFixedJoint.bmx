@@ -24,7 +24,7 @@ Type LTFixedJoint Extends LTJoint
 		Joint.Angle = ParentPivot.DirectionToPivot( Pivot ) - ParentPivot.Model.GetAngle()
 		Joint.Distance = ParentPivot.DistanceToPivot( Pivot )
 		Joint.DAngle = Pivot.GetAngle() - ParentPivot.GetAngle()
-		L_AddJoint( Joint )
+		L_JointList.AddLast( Joint )
 		Return Joint
 	End Function
 	

@@ -9,6 +9,8 @@
 '
 
 Global L_CurrentCamera:LTCamera
+Global L_CameraSpeed:Float = 2.0
+Global L_CameraMagnificationSpeed:Float = 2.0
 
 Type LTCamera Extends LTRectangle
 	Field Viewport:LTRectangle = New LTRectangle
@@ -77,6 +79,21 @@ Type LTCamera Extends LTRectangle
 		YK = NewYK
 		Xsize = Viewport.XSize / XK
 		Ysize = Viewport.YSize / YK
+	End Method
+	
+	
+	
+	Method ShiftCameraToPoint( NewX:Float, NewY:Float )
+		X :+ L_CameraSpeed * L_DeltaTime * ( NewX - X )
+		Y :+ L_CameraSpeed * L_DeltaTime * ( NewY - Y )
+		Update()
+	End Method
+	
+	
+	
+	Method AlterCameraMagnification( NewDX:Float, NewDY:Float )
+		SetMagnification( DX + L_CameraMagnificationSpeed * L_DeltaTime * ( NewDX - DX ), ..
+		DY + L_CameraMagnificationSpeed * L_DeltaTime * ( NewDY - DY ) )
 	End Method
 	
 	

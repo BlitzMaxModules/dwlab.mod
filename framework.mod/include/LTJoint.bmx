@@ -11,14 +11,14 @@
 Include "LTFixedJoint.bmx"
 Include "LTRevoluteJoint.bmx"
 
-Global L_JointList:TList = New TList
-Global L_JointLinksList:TList
+Global L_DefaultJointList:TList = New TList
+Global L_JointList:TList = L_DefaultJointList
 
-Function L_AddJoint( Joint:LTJoint )
-	If L_JointLinksList Then
-		L_JointLinksList.AddLast( L_JointList.AddLast( Joint ) )
+Function L_SetJointList( List:TList = Null )
+	If List = Null Then
+		L_JointList = L_DefaultJointList
 	Else
-		L_JointList.AddLast( Joint )
+		L_JointList = List
 	End If
 End Function
 
@@ -26,17 +26,9 @@ End Function
 
 
 
-Function L_SetJointLinksList( List:TList )
-	L_JointLinksList = List
-End Function
-
-
-
-
-
-Function L_DeleteJoints( Links:TList )
-	For Local Link:TLink = Eachin Links
-		Link.Remove()
+Function L_OperateJoints( List:TList )
+	For Local Joint:LTJoint = Eachin List
+		Joint.Operate()
 	Next
 End Function
 

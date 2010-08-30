@@ -37,7 +37,7 @@ Type TTileExtractor Extends LTObject
 				Y :+ TileYSize
 			End If
 		Next
-		SavePixmapPNG( Tilemap, "tilemap.png" )
+		SavePixmapPNG( Tilemap, "media\tilemap.png" )
 	End Method
 
 	

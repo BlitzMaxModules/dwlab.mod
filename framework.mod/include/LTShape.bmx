@@ -95,6 +95,18 @@ Type LTShape Extends LTObject Abstract
 	
 	
 	
+	Method DirectAs( Shape:LTShape )
+		Model.SetAngle( Shape.Model.GetAngle() )
+	End Method
+	
+	
+	
+	Method Turn( TurningSpeed:Float )
+		Model.AlterAngle( L_DeltaTime * TurningSpeed )
+	End Method
+	
+	
+	
 	Method GetVelocity:Float()
 		Return Model.GetVelocity()
 	End Method

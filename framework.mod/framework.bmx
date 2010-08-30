@@ -38,6 +38,7 @@ Function Init( ScreenXSize:Int, ScreenYSize:Int )
 	L_CurrentCamera.Update()
 	
 	Graphics( L_ScreenXSize, L_ScreenYSize )
+	SetBlend( AlphaBlend )
 End Function
 
 

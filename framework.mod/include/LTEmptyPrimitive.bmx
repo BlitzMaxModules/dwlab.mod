@@ -14,8 +14,8 @@ Type LTEmptyPrimitive Extends LTVisual
 	
 	
 	Method DrawUsingPivot( Pivot:LTPivot )
-		SetColor 255.0 * R, 255.0 * G, 255.0 * B
-		SetAlpha Alpha
+		SetColor( 255.0 * R, 255.0 * G, 255.0 * B )
+		SetAlpha( Alpha )
 		
 		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
 		L_CurrentCamera.FieldToScreen( Pivot.X, Pivot.Y, SX, SY )
@@ -23,15 +23,15 @@ Type LTEmptyPrimitive Extends LTVisual
 		
 		DrawOval( SX - 0.5 * SXSize, SY - 0.5 * SYSize, SXSize, SYSize )
 		
-		SetColor 255, 255, 255
-		SetAlpha 1.0
+		SetColor( 255, 255, 255 )
+		SetAlpha( 1.0 )
 	End Method
 	
 	
 	
 	Method DrawUsingCircle( Circle:LTCircle )
-		SetColor 255.0 * R, 255.0 * G, 255.0 * B
-		SetAlpha Alpha
+		SetColor( 255.0 * R, 255.0 * G, 255.0 * B )
+		SetAlpha( Alpha )
 		SetProperLineWidth()
 		
 		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
@@ -50,15 +50,15 @@ Type LTEmptyPrimitive Extends LTVisual
 		Next
 		
 		SetLineWidth( 1.0 )
-		SetColor 255, 255, 255
-		SetAlpha 1.0
+		SetColor( 255, 255, 255 )
+		SetAlpha( 1.0 )
 	End Method
 	
 	
 	
 	Method DrawUsingRectangle( Rectangle:LTRectangle )
-		SetColor 255.0 * R, 255.0 * G, 255.0 * B
-		SetAlpha Alpha
+		SetColor( 255.0 * R, 255.0 * G, 255.0 * B )
+		SetAlpha( Alpha )
 		SetProperLineWidth()
 		
 		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
@@ -67,15 +67,15 @@ Type LTEmptyPrimitive Extends LTVisual
 		L_DrawEmptyRect( SX - 0.5 * SXSize, SY - 0.5 * SYSize, SXSize, SYSize )
 		
 		SetLineWidth( 1.0 )
-		SetColor 255, 255, 255
-		SetAlpha 1.0
+		SetColor( 255, 255, 255 )
+		SetAlpha( 1.0 )
 	End Method
 	
 	
 	
 	Method DrawUsingLine( Line:LTLine )
-		SetColor 255.0 * R, 255.0 * G, 255.0 * B
-		SetAlpha Alpha
+		SetColor( 255.0 * R, 255.0 * G, 255.0 * B )
+		SetAlpha( Alpha )
 		SetProperLineWidth()
 		
 		Local SX1:Float, SY1:Float, SX2:Float, SY2:Float
@@ -84,8 +84,8 @@ Type LTEmptyPrimitive Extends LTVisual
 		DrawLine( SX1, SY1, SX2, SY2 )
 		
 		SetLineWidth( 1.0 )
-		SetColor 255, 255, 255
-		SetAlpha 1.0
+		SetColor( 255, 255, 255 )
+		SetAlpha( 1.0 )
 	End Method
 	
 	

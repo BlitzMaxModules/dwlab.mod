@@ -45,23 +45,31 @@ Type LTGame Extends LTProject
 	Field LeftWeapon:TWeapon
 	Field RightWeapon:TWeapon
 	
-	Field TileMap:LTTileMap = New LTTileMap
+	Field TileMap:LTIntMap = New LTIntMap
 	Field TileSet:LTTileSet = New LTTileSet
-	Field HeightMap:LTHeightMap = New LTHeightMap
+	Field HeightMap:LTFloatMap = New LTFloatMap
+	Field TileMapVisual:LTTileMap = New LTTileMap
+	Field TileMapRectangle:LTRectangle = New LTRectangle
+	Field Pri:LTFilledPrimitive = New LTFilledPrimitive
 
-	Field ChaingunCannon:LTImageVisual
-	Field ChaingunBarrel:LTImageVisual
+	Field ChaingunCannon:LTImage
+	Field ChaingunBarrel:LTImage
 	Field ChaingunFire:LTImageVisual
+	Field ChaingunBullet:LTImage
+	
+	Field Bullets:TList = New TList
 	
 	
 	
 	Method Init()
+		L_CurrentCamera.SetMagnification( L_ScreenXSize / 16, L_ScreenXSize / 16 )
 	
 		' ============================= Weapons =============================
 		
-		ChaingunCannon = LTImageVisual.FromFile( "media/chaingun/cannon.png" )
-		ChaingunBarrel = LTImageVisual.FromFile( "media/chaingun/barrel##.png" )
+		ChaingunCannon = LTImage.FromFile( "media/chaingun/cannon.png" )
+		ChaingunBarrel = LTImage.FromFile( "media/chaingun/barrel##.png" )
 		ChaingunFire = LTImageVisual.FromFile( "media/chaingun/fire#.png" )
+		ChaingunBullet = LTImage.FromFile( "media/chaingun/bullet##.png" )
 		
 		' ============================= Player =============================
 		
@@ -82,14 +90,11 @@ Type LTGame Extends LTProject
 		Target.Visual.Scaling = False
 		
 		LeftWeapon = TChaingun.Create( LeftSide )
+		RightWeapon = TChaingun.Create( RightSide )
 		
 		' ============================= Map =============================
 		
-		L_CurrentCamera.SetMagnification( L_ScreenXSize / 8, L_ScreenXSize / 8 )
-		
 		TileMap.SetResolution( 128, 128 )
-		TileMap.Visual = LTImageVisual.FromFile( "media/tileset.png", 5, 4 )
-		TileMap.SetSize( 128.0, 128.0 )
 		
 		HeightMap.SetResolution( 128, 128 )
 		HeightMap.PerlinNoise( 16, 16, 0.25, 0.5, 4 )
@@ -99,18 +104,31 @@ Type LTGame Extends LTProject
 		TileSet = LTTileSet.FromFile( "media/simple.lts" )
 		TileMap.EnframeBy( TileSet )
 		
+		TileMapVisual.Image = LTImage.FromFile( "media/tileset.png", 5, 4 )
+		TileMapVisual.TileNum = TileMap
+		TileMapRectangle.SetSize( 128.0, 128.0 )
+		TileMapRectangle.Visual = TileMapVisual
+		
+		Pri.Alpha = 0.75
+		'Pri.SetColorFromHex( "000000" )
+		
 		HideMouse()
 	End Method
 	
 	
 	
 	Method Logic()
+		L_CurrentCamera.ShiftCameraToPoint( 0.5 * ( Player.X + Target.X ), 0.5 * ( Player.Y + Target.Y ) )
+		Local NewD:Float = L_ScreenXSize / 16 * ( 1.1 ^ MouseZ() )
+		L_CurrentCamera.AlterCameraMagnification( NewD, NewD )
+		
 		Target.SetMouseCoords()
 		Player.DirectToPivot( Target )
 		Player.MoveUsingWSAD()
 		L_CurrentCamera.JumpToPivot( Player )
 		L_CurrentCamera.Update()
 		LeftWeapon.Logic()
+		RightWeapon.Logic()
 		
 		If KeyHit( key_Escape ) Then End
 	End Method
@@ -118,10 +136,18 @@ Type LTGame Extends LTProject
 	
 	
 	Method Render()
-		TileMap.Draw()
+		TileMapRectangle.Draw()
+		'debugstop
+		'TileMapRectangle.DrawUsingVisual( Pri )
+		For Local Bullet:LTShape = Eachin Bullets
+			'debugstop
+			Bullet.Draw()
+		Next
+		
 		Player.DrawUsingVisual( Brain )
 		LeftWeapon.Render()
-		'Player.DrawUsingVisual( Visor )
+		RightWeapon.Render()
+		Player.DrawUsingVisual( Visor )
 		Target.Draw()
 	End Method
 End Type

@@ -23,38 +23,38 @@ Type LTTileMap Extends LTImageVisual
 		Local XQuantity:Int = TileNum.GetXQuantity()
 		Local YQuantity:Int = TileNum.GetYQuantity()
 		
-		Local SX:Float, SY:Float
-		L_CurrentCamera.FieldToScreen( Rectangle.X - 0.5 * Rectangle.XSize, Rectangle.Y - 0.5 * Rectangle.YSize, SX, SY )
-
 		Local SXSize:Float, SYSize:Float
 		Local CellXSize:Float = Rectangle.XSize / XQuantity
 		Local CellYSize:Float = Rectangle.YSize / YQuantity
 		L_CurrentCamera.SizeFieldToScreen( CellXSize, CellYSize, SXSize, SYSize )
 		SetScale( SXSize / ImageWidth( Image.BMaxImage ), SYSize / ImageHeight( Image.BMaxImage ) )
 		
+		Local SX:Float, SY:Float
+		L_CurrentCamera.FieldToScreen( Rectangle.X - 0.5 * Rectangle.XSize, Rectangle.Y - 0.5 * Rectangle.YSize, SX, SY )
+
 		Local X1:Float = L_CurrentCamera.ViewPort.X - 0.5 * L_CurrentCamera.ViewPort.XSize
 		Local Y1:Float = L_CurrentCamera.ViewPort.Y - 0.5 * L_CurrentCamera.ViewPort.YSize
-		Local X2:Float = X1 + L_CurrentCamera.ViewPort.XSize
-		Local Y2:Float = Y1 + L_CurrentCamera.ViewPort.YSize
+		Local X2:Float = X1 + L_CurrentCamera.ViewPort.XSize + SXSize * 0.5
+		Local Y2:Float = Y1 + L_CurrentCamera.ViewPort.YSize + SYSize * 0.5
 		
 		Local StartXFrame:Int = Floor( ( L_CurrentCamera.X - Rectangle.X - 0.5 * ( L_CurrentCamera.XSize - Rectangle.XSize ) ) / CellXSize )
 		Local StartYFrame:Int = Floor( ( L_CurrentCamera.Y - Rectangle.Y - 0.5 * ( L_CurrentCamera.YSize - Rectangle.YSize ) ) / CellYSize )
-		Local StartX:Float = SX + SXSize * ( 0.5 + Floor( ( X1 - SX ) / SXSize ) )
-		Local StartY:Float = SY + SYSize * ( 0.5 + Floor( ( Y1 - SY ) / SYSize ) )
+		Local StartX:Float = SX + SXSize * ( Floor( ( X1 - SX ) / SXSize ) ) + SXSize * 0.5
+		Local StartY:Float = SY + SYSize * ( Floor( ( Y1 - SY ) / SYSize ) ) + SYSize * 0.5
 		
 		If Not Wrapped Then
 			If StartXFrame < 0 Then 
 				StartX :- StartXFrame * SXSize
 				StartXFrame = 0
 			End If
-			Local EndX:Float = StartX + SXSize * ( XQuantity - StartXFrame )
+			Local EndX:Float = StartX + SXSize * ( XQuantity - StartXFrame ) + 0.5 * SXSize
 			If  EndX < X2  Then X2 = EndX
 			
 			If StartYFrame < 0 Then 
 				StartY :- StartYFrame * SYSize
 				StartYFrame = 0
 			End If
-			Local EndY:Float = StartY + SYSize * ( YQuantity - StartYFrame )
+			Local EndY:Float = StartY + SYSize * ( YQuantity - StartYFrame ) + 0.5 * SYSize
 			If  EndY < Y2  Then Y2 = EndY
 		End If
 		
