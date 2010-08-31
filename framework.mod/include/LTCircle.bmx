@@ -59,6 +59,29 @@ Type LTCircle Extends LTPivot
 		Return L_CircleWithLine( Self, Line )
 	End Method
 	
+	' ==================== Collision map ===================
+	
+	Method InsertIntoMap( Map:LTCollisionMap )
+		Map.InsertCircle( Self )
+	End Method
+	
+	
+	
+	Method RemoveFromMap( Map:LTCollisionMap )
+		Map.RemoveCircle( Self )
+	End Method
+	
+	
+	
+	Method Collisions( Map:LTCollisionMap )
+		Map.CollisionsWithCircle( Self )
+	End Method
+	
+	
+	
+	Method HandleCollision( Shape:LTShape )
+	End Method
+	
 	' ==================== Pushing ====================
 	
 	Method Push( Shape:LTShape )

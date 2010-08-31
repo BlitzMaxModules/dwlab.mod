@@ -13,16 +13,18 @@ SuperStrict
 
 Framework brl.d3d7max2d
 'Import brl.glmax2d
+
+Import brl.directsoundaudio
+'Import brl.freeaudioaudio
+
 Import brl.random
 Import brl.pngloader
 Import brl.jpgloader
 Import brl.reflection
-'Import brl.audio
-'Import brl.freeaudioaudio
-Import brl.directsoundaudio
 Import brl.wavloader
 Import brl.retro
 Import brl.map
+
 'Import maxgui.win32maxgui
 
 SetAudioDriver( "DirectSound" )
@@ -37,6 +39,9 @@ Init( 800, 600 )
 Global Game:LTGame = New LTGame
 Game.Execute()
 
+Const MinMouseZ:Int = -8
+Const MaxMouseZ:Int = 8
+
 Type LTGame Extends LTProject
 	Field Target:LTPivot = New LTPivot
 	Field Player:LTCircle = New LTCircle
@@ -50,7 +55,6 @@ Type LTGame Extends LTProject
 	Field HeightMap:LTFloatMap = New LTFloatMap
 	Field TileMapVisual:LTTileMap = New LTTileMap
 	Field TileMapRectangle:LTRectangle = New LTRectangle
-	Field Pri:LTFilledPrimitive = New LTFilledPrimitive
 
 	Field ChaingunCannon:LTImage
 	Field ChaingunBarrel:LTImage
@@ -59,10 +63,17 @@ Type LTGame Extends LTProject
 	
 	Field Bullets:TList = New TList
 	
+	Field Scenery:TList = New TList
+	Field TreeLayer:LTCollisionMap = New LTCollisionMap
+	
+	Field DZ:Int
+	
 	
 	
 	Method Init()
+		L_CurrentCamera.SetCoords( 64.0, 64.0 )
 		L_CurrentCamera.SetMagnification( L_ScreenXSize / 16, L_ScreenXSize / 16 )
+		HideMouse()
 	
 		' ============================= Weapons =============================
 		
@@ -75,6 +86,7 @@ Type LTGame Extends LTProject
 		
 		Player.SetDiameter( 1.0 )
 		Player.SetVelocity( 1.5 )
+		Player.SetCoords( 64.0, 64.0 )
 		
 		Brain = LTImageVisual.FromFile( "media/brain.png" )
 		Brain.SetColorFromHex( "AACCFF" )
@@ -106,27 +118,37 @@ Type LTGame Extends LTProject
 		
 		TileMapVisual.Image = LTImage.FromFile( "media/tileset.png", 5, 4 )
 		TileMapVisual.TileNum = TileMap
+		TileMapRectangle.SetCoords( 64.0, 64.0 )
 		TileMapRectangle.SetSize( 128.0, 128.0 )
 		TileMapRectangle.Visual = TileMapVisual
 		
-		Pri.Alpha = 0.75
-		'Pri.SetColorFromHex( "000000" )
+		' ============================= Trees =============================
 		
-		HideMouse()
+		TreeLayer.SetResolution( 64, 64 )
+		
+		
 	End Method
 	
 	
 	
 	Method Logic()
-		L_CurrentCamera.ShiftCameraToPoint( 0.5 * ( Player.X + Target.X ), 0.5 * ( Player.Y + Target.Y ) )
-		Local NewD:Float = L_ScreenXSize / 16 * ( 1.1 ^ MouseZ() )
+		L_CurrentCamera.ShiftCameraToPoint( ( 2.0 * Player.X + Target.X ) / 3.0, ( 2.0 * Player.Y + Target.Y ) / 3.0 )
+		
+		If MouseZ() + DZ > MaxMouseZ Then DZ = MaxMouseZ - MouseZ()
+		If MouseZ() + DZ < MinMouseZ Then DZ = MinMouseZ - MouseZ()
+		Local NewD:Float = L_ScreenXSize / 16 * ( 1.1 ^ ( MouseZ() + DZ ) )
 		L_CurrentCamera.AlterCameraMagnification( NewD, NewD )
 		
 		Target.SetMouseCoords()
+		If Player.DistanceToPivot( Target ) < 1.0 Then 
+			Local Angle:Float = Player.DirectionToPivot( Target )
+			Target.X = Player.X + 1.0 * Cos( Angle )
+			Target.Y = Player.Y + 1.0 * Sin( Angle )
+		End If
+			
 		Player.DirectToPivot( Target )
+		
 		Player.MoveUsingWSAD()
-		L_CurrentCamera.JumpToPivot( Player )
-		L_CurrentCamera.Update()
 		LeftWeapon.Logic()
 		RightWeapon.Logic()
 		
@@ -137,10 +159,7 @@ Type LTGame Extends LTProject
 	
 	Method Render()
 		TileMapRectangle.Draw()
-		'debugstop
-		'TileMapRectangle.DrawUsingVisual( Pri )
 		For Local Bullet:LTShape = Eachin Bullets
-			'debugstop
 			Bullet.Draw()
 		Next
 		

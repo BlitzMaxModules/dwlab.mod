@@ -16,31 +16,13 @@ Type LTIntMap Extends LTMap
 	' ==================== Parameters ====================
 	
 	Method SetResolution( NewXQuantity:Int, NewYQuantity:Int )
-		?debug
-		L_Assert( NewXQuantity > 0, "Map resoluton must be more than 0" )
-		L_Assert( NewYQuantity > 0, "Map resoluton must be more than 0" )
-		?
-		
+		Super.SetResolution( NewXQuantity, NewYQuantity )
 		Value = New Int[ NewXQuantity, NewYQuantity ]
-	End Method
-	
-	
-	
-	Method GetXQuantity:Int()
-		Return Value.Dimensions()[ 0 ]
-	End Method
-	
-	
-	
-	Method GetYQuantity:Int()
-		Return Value.Dimensions()[ 1 ]
 	End Method
 	
 	' ==================== Manipulations ====================	
 	
 	Method Stretch:LTIntMap( XMultiplier:Int, YMultiplier:Int )
-		Local XQuantity:Int = GetXQuantity()
-		Local YQuantity:Int = GetYQuantity()
 		Local NewArray:Int[ XQuantity * XMultiplier, YQuantity * YMultiplier ]
 		For Local X:Int = 0 Until XQuantity
 			For Local Y:Int = 0 Until YQuantity
@@ -59,19 +41,13 @@ Type LTIntMap Extends LTMap
 	Method EnframeBy( Tileset:LTTileset )
 		Local TileType:Int[] = Tileset.TileType
 
-		Local XQuantity:Int = GetXQuantity()
-		Local YQuantity:Int = GetYQuantity()
-		Local XMask:Int = GetXMask() 
-		Local YMask:Int = GetYMask()
-		Local Wrapped:Int = XMask And YMask
-		
 		For Local X:Int = 0 Until XQuantity
 			For Local Y:Int = 0 Until YQuantity
 				For Local N:Int = 0 Until Tileset.TileQuantity
 					If TileType[ N ] = TileType[ Value[ X, Y ] ] And Tileset.TileRules[ N ] Then
 						Local Passed:Int = True
 						For Local Rule:LTTileRule = Eachin Tileset.TileRules[ N ]
-							If Wrapped Then
+							If XMask Then
 								If TileType[ Value[ ( X + Rule.DX ) & XMask, ( Y + Rule.DY ) & YMask ] ] <> Rule.TileType Then
 									Passed = False
 									Exit

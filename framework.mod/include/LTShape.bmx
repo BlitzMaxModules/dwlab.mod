@@ -81,6 +81,26 @@ Type LTShape Extends LTObject Abstract
 	Method PushRectangle( Rectangle:LTRectangle )
 	End Method
 	
+	' ==================== Collision map ===================
+	
+	Method InsertIntoMap( Map:LTCollisionMap )
+	End Method
+	
+	
+	
+	Method RemoveFromMap( Map:LTCollisionMap )
+	End Method
+	
+	
+	
+	Method Collisions( Map:LTCollisionMap )
+	End Method
+	
+	
+	
+	Method HandleCollision( Shape:LTShape )
+	End Method
+
 	' ==================== Model parameters ====================
 	
 	Method GetAngle:Float()

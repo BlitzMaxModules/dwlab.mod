@@ -14,31 +14,15 @@ Type LTFloatMap Extends LTMap
 	' ==================== Parameters ====================
 	
 	Method SetResolution( NewXQuantity:Int, NewYQuantity:Int )
-		?debug
-		L_Assert( NewXQuantity > 0, "Map resoluton must be more than 0" )
-		L_Assert( NewYQuantity > 0, "Map resoluton must be more than 0" )
-		?
-		
+		Super.SetResolution( NewXQuantity, NewYQuantity )
 		Value = New Float[ NewXQuantity, NewYQuantity ]
-	End Method
-	
-	
-	
-	Method GetXQuantity:Int()
-		Return Value.Dimensions()[ 0 ]
-	End Method
-	
-	
-	
-	Method GetYQuantity:Int()
-		Return Value.Dimensions()[ 1 ]
 	End Method
 	
 	' ==================== Manipulations ====================	
 	
 	Method ToNewImage:LTImage()
 		Local Image:LTImage = New LTImage
-		Image.BMaxImage = CreateImage( GetXQuantity(), GetYQuantity() )
+		Image.BMaxImage = CreateImage( XQuantity, YQuantity )
 		
 		ToPixmap( LockImage( Image.BMaxImage ) )
 		
@@ -50,7 +34,7 @@ Type LTFloatMap Extends LTMap
 	
 	Method ToImage( Image:LTImage, Frame:Int = 0 )
 		?debug
-		L_Assert( GetXQuantity() = ImageWidth( Image.BMaxImage ) And GetYQuantity() =  ImageHeight( Image.BMaxImage ), "Sizes of source heightmap and resulting image are different." )
+		L_Assert( XQuantity = ImageWidth( Image.BMaxImage ) And YQuantity =  ImageHeight( Image.BMaxImage ), "Sizes of source heightmap and resulting image are different." )
 		?
 		
 		ToPixmap( LockImage( Image.BMaxImage, Frame ) )
@@ -60,9 +44,6 @@ Type LTFloatMap Extends LTMap
 	
 	
 	Method ToPixmap( Pixmap:TPixmap )
-		Local XQuantity:Int = GetXQuantity()
-		Local YQuantity:Int = GetYQuantity()
-		
 		For Local Y:Int = 0 Until YQuantity
 			For Local X:Int = 0 Until XQuantity
 				Local Col:Int = Floor( 255.0 * Value[ X, Y ] )
@@ -74,11 +55,8 @@ Type LTFloatMap Extends LTMap
 	
 	
 	Method ExtractTo( TileMap:LTIntMap, VFrom:Float, VTo:Float, TileNum:Int )
-		Local XQuantity:Int = GetXQuantity()
-		Local YQuantity:Int = GetYQuantity()
-		
 		?debug
-		L_Assert( TileMap.GetXQuantity() = XQuantity And TileMap.GetYQuantity() = YQuantity, "Sizes of source heightmap and resulting tilemap are different." )
+		L_Assert( TileMap.XQuantity = XQuantity And TileMap.YQuantity = YQuantity, "Sizes of source heightmap and resulting tilemap are different." )
 		?
 		
 		For Local X:Int = 0 Until XQuantity
@@ -91,12 +69,6 @@ Type LTFloatMap Extends LTMap
 		
 	
 	Method Blur()
-		Local XQuantity:Int = GetXQuantity()
-		Local YQuantity:Int = GetYQuantity()
-		Local XMask:Int = GetXMask()
-		Local YMask:Int = GetYMask()
-		Local Wrapped:Int = XMask And YMask
-		
 		Local NewArray:Float[ XQuantity, YQuantity ]
 		
 		For Local X:Int = 0 Until XQuantity
@@ -104,7 +76,7 @@ Type LTFloatMap Extends LTMap
 				Local Sum:Float = 0
 				For Local XX:Int = -1 To 1
 					For Local YY:Int = -1 To 1
-						If Wrapped Then
+						If XMask Then
 							Sum :+ Value[ ( X + XX ) & XMask, ( Y + YY ) & YMask ]
 						Else
 							Sum :+ Value[ L_Wrap( X + XX, XQuantity ), L_Wrap( Y + YY, YQuantity ) ]
@@ -120,9 +92,6 @@ Type LTFloatMap Extends LTMap
 	
 	
 	Method PerlinNoise( StartingXFrequency:Int, StartingYFrequency:Float, StartingAmplitude:Float, DAmplitude:Float, LayersQuantity:Int )
-		Local XQuantity:Int = GetXQuantity()
-		Local YQuantity:Int = GetYQuantity()
-		
 		Local XFrequency:Int = StartingXFrequency
 		Local YFrequency:Int = StartingYFrequency
 		Local Amplitude:Float = StartingAmplitude
@@ -158,8 +127,6 @@ Type LTFloatMap Extends LTMap
 					XK = ( 1.0 - Cos( 180.0 * ( XK - ArrayX ) ) ) * 0.5
 					YK = ( 1.0 - Cos( 180.0 * ( YK - ArrayY ) ) ) * 0.5
 					
-					'If XK > 1.0 or YK > 1.0 Then DebugStop
-					
 					Local Z00:Float = Array[ ArrayX, ArrayY ] 
 					Local Z10:Float = Array[ ( ArrayX + 1 ) & XMask, ArrayY ] 
 					Local Z01:Float = Array[ ArrayX, ( ArrayY + 1 ) & YMask ] 
@@ -183,8 +150,8 @@ Type LTFloatMap Extends LTMap
 	
 	
 	Method Limit()
-		For Local X:Int = 0 Until GetXQuantity()
-			For Local Y:Int = 0 Until GetYQuantity()
+		For Local X:Int = 0 Until XQuantity
+			For Local Y:Int = 0 Until YQuantity
 				If Value[ X, Y ] < 0.0 Then Value[ X, Y ] = 0.0
 				If Value[ X, Y ] > 1.0 Then Value[ X, Y ] = 1.0
 			Next

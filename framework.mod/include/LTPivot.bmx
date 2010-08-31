@@ -47,6 +47,29 @@ Type LTPivot Extends LTShape
 		If L_PivotWithRectangle( Self, Rectangle ) Then Return True
 	End Method
 	
+	' ==================== Collision map ===================
+	
+	Method InsertIntoMap( Map:LTCollisionMap )
+		Map.InsertPivot( Self )
+	End Method
+	
+	
+	
+	Method RemoveFromMap( Map:LTCollisionMap )
+		Map.RemovePivot( Self )
+	End Method
+	
+	
+	
+	Method Collisions( Map:LTCollisionMap )
+		Map.CollisionsWithPivot( Self )
+	End Method
+	
+	
+	
+	Method HandleCollision( Shape:LTShape )
+	End Method
+	
 	' ==================== Position ====================
 	
 	Method DistanceToPoint:Float( PointX:Float, PointY:Float )
@@ -106,8 +129,8 @@ Type LTPivot Extends LTShape
 	
 	Method MoveTowardsPivot( Pivot:LTPivot )
 		Local Angle:Float = DirectionToPivot( Pivot )
-		Local DX:Float = Cos( GetAngle() ) * GetVelocity() * L_DeltaTime
-		Local DY:Float = Sin( GetAngle() ) * GetVelocity() * L_DeltaTime
+		Local DX:Float = Cos( Angle ) * GetVelocity() * L_DeltaTime
+		Local DY:Float = Sin( Angle ) * GetVelocity() * L_DeltaTime
 		If Abs( DX ) >= Abs( X - Pivot.X ) And Abs( DY ) >= Abs( Y - Pivot.Y ) Then
 			X = Pivot.X
 			Y = Pivot.Y

@@ -20,12 +20,9 @@ Type LTTileMap Extends LTImageVisual
 		SetColor 255.0 * R, 255.0 * G, 255.0 * B
 		SetAlpha Alpha
 	
-		Local XQuantity:Int = TileNum.GetXQuantity()
-		Local YQuantity:Int = TileNum.GetYQuantity()
-		
 		Local SXSize:Float, SYSize:Float
-		Local CellXSize:Float = Rectangle.XSize / XQuantity
-		Local CellYSize:Float = Rectangle.YSize / YQuantity
+		Local CellXSize:Float = Rectangle.XSize / TileNum.XQuantity
+		Local CellYSize:Float = Rectangle.YSize / TileNum.YQuantity
 		L_CurrentCamera.SizeFieldToScreen( CellXSize, CellYSize, SXSize, SYSize )
 		SetScale( SXSize / ImageWidth( Image.BMaxImage ), SYSize / ImageHeight( Image.BMaxImage ) )
 		
@@ -47,14 +44,14 @@ Type LTTileMap Extends LTImageVisual
 				StartX :- StartXFrame * SXSize
 				StartXFrame = 0
 			End If
-			Local EndX:Float = StartX + SXSize * ( XQuantity - StartXFrame ) + 0.5 * SXSize
+			Local EndX:Float = StartX + SXSize * ( TileNum.XQuantity - StartXFrame ) + 0.5 * SXSize
 			If  EndX < X2  Then X2 = EndX
 			
 			If StartYFrame < 0 Then 
 				StartY :- StartYFrame * SYSize
 				StartYFrame = 0
 			End If
-			Local EndY:Float = StartY + SYSize * ( YQuantity - StartYFrame ) + 0.5 * SYSize
+			Local EndY:Float = StartY + SYSize * ( TileNum.YQuantity - StartYFrame ) + 0.5 * SYSize
 			If  EndY < Y2  Then Y2 = EndY
 		End If
 		
@@ -64,7 +61,7 @@ Type LTTileMap Extends LTImageVisual
 			Local XX:Float = StartX
 			Local XFrame:Int = StartXFrame
 			While XX < X2
-				DrawTile( XX, YY, L_Wrap( XFrame, XQuantity ), L_Wrap( YFrame, YQuantity ) )
+				DrawTile( XX, YY, L_Wrap( XFrame, TileNum.XQuantity ), L_Wrap( YFrame, TileNum.YQuantity ) )
 				XX = XX + SXSize
 				XFrame :+ 1
 			Wend

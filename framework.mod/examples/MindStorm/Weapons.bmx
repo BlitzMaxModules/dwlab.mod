@@ -49,7 +49,7 @@ Type TChaingun Extends TWeapon
 		Local Chaingun:TChaingun = New TChaingun
 		Chaingun.Position = WeaponPosition
 
-		Chaingun.CannonHinge.SetCoords( 0.0, 0.42 * WeaponPosition )
+		Chaingun.CannonHinge.SetCoordsRelativeToPivot( Game.Player, 0.0, 0.42 * WeaponPosition )
 		Chaingun.CannonAimer.SetCoordsRelativeToPivot( Game.Player, -0.19, 0.65 * WeaponPosition )
 		Chaingun.Cannon.SetCoordsRelativeToPivot( Game.Player, 0.19, 0.57 * WeaponPosition )
 		Chaingun.Cannon.SetSize( 1.5, 1.5 )
@@ -170,7 +170,7 @@ Type LTChaingunBullet Extends LTCircle
 				GameBulletListLink.Remove()
 				ChaingunBulletListLink.Remove()
 			Else
-				Visual.Alpha = 1.0 * Time / FadingPeriod
+				Visual.Alpha = 1.0 - Time / FadingPeriod
 			End If
 		End If
 	End Method

@@ -10,31 +10,28 @@
 
 Include "LTFloatMap.bmx"
 Include "LTIntMap.bmx"
+Include "LTCollisionMap.bmx"
 
 Type LTMap Extends LTObject
+	Field XQuantity:Int, YQuantity:Int
+	Field XMask:Int, YMask:Int
+	
+	
+	
 	Method SetResolution( NewXQuantity:Int, NewYQuantity:Int )
-	End Method
-	
-	
-	
-	Method GetXQuantity:Int()
-	End Method
-	
-	
-	
-	Method GetYQuantity:Int()
-	End Method
-	
-	
-	
-	Method GetXMask:Int()
-		If L_IsPowerOf2( GetXQuantity() ) Then Return GetXQuantity() - 1
-	End Method
-	
-	
-	
-	Method GetYMask:Int()
-		If L_IsPowerOf2( GetYQuantity() ) Then Return GetYQuantity() - 1
+		?debug
+		L_Assert( NewXQuantity > 0 And NewYQuantity > 0, "Map resoluton must be more than 0" )
+		?
+		
+		XQuantity = NewXQuantity
+		YQuantity = NewYQuantity
+		If L_IsPowerOf2( XQuantity ) And L_IsPowerOf2( YQuantity ) Then
+			XMask = XQuantity - 1
+			YMask = YQuantity - 1
+		Else 
+			XMask = 0
+			YMask = 0
+		End If
 	End Method
 	
 	

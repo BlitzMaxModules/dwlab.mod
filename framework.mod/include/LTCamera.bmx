@@ -91,9 +91,9 @@ Type LTCamera Extends LTRectangle
 	
 	
 	
-	Method AlterCameraMagnification( NewDX:Float, NewDY:Float )
-		SetMagnification( DX + L_CameraMagnificationSpeed * L_DeltaTime * ( NewDX - DX ), ..
-		DY + L_CameraMagnificationSpeed * L_DeltaTime * ( NewDY - DY ) )
+	Method AlterCameraMagnification( NewXK:Float, NewYK:Float )
+		SetMagnification( XK + L_CameraMagnificationSpeed * L_DeltaTime * ( NewXK - XK ), ..
+		 YK + L_CameraMagnificationSpeed * L_DeltaTime * ( NewYK - YK ) )
 	End Method
 	
 	

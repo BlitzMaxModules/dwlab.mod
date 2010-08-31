@@ -67,6 +67,29 @@ Type LTRectangle Extends LTPivot
 		If L_RectangleWithRectangle( Rectangle, Self ) Then Return True
 	End Method
 	
+	' ==================== Collision map ===================
+	
+	Method InsertIntoMap( Map:LTCollisionMap )
+		Map.InsertRectangle( Self )
+	End Method
+	
+	
+	
+	Method RemoveFromMap( Map:LTCollisionMap )
+		Map.RemoveRectangle( Self )
+	End Method
+	
+	
+	
+	Method Collisions( Map:LTCollisionMap )
+		Map.CollisionsWithRectangle( Self )
+	End Method
+	
+	
+	
+	Method HandleCollision( Shape:LTShape )
+	End Method
+	
 	' ==================== Pushing ====================
 	
 	Method Push( Shape:LTShape )
