@@ -40,8 +40,8 @@ Type LTImageVisual Extends LTVisual
 		
 		DrawImage( Image.BMaxImage, SX, SY, Pivot.Frame )
 		
-		If Scaling Then SetScale 1.0, 1.0
-		If Rotating Then SetRotation 0.0
+		If Scaling Then SetScale( 1.0, 1.0 )
+		If Rotating Then SetRotation( 0.0 )
 		
 		SetColor 255, 255, 255
 		SetAlpha 1.0
@@ -64,8 +64,8 @@ Type LTImageVisual Extends LTVisual
 		
 		DrawImage( Image.BMaxImage, SX, SY, Circle.Frame )
 
-		If Scaling Then	SetScale 1.0, 1.0
-		If Rotating Then SetRotation 0.0
+		If Scaling Then	SetScale( 1.0, 1.0 )
+		If Rotating Then SetRotation( 0.0 )
 		
 		SetColor 255, 255, 255
 		SetAlpha 1.0
@@ -88,8 +88,8 @@ Type LTImageVisual Extends LTVisual
 		
 		DrawImage( Image.BMaxImage, SX, SY, Rectangle.Frame )
 		
-		If Scaling Then	SetScale 1.0, 1.0
-		If Rotating Then SetRotation 0.0
+		If Scaling Then	SetScale( 1.0, 1.0 )
+		If Rotating Then SetRotation( 0.0 )
 		
 		SetColor 255, 255, 255
 		SetAlpha 1.0

@@ -53,7 +53,7 @@ Type LTGame Extends LTProject
 	Field TileMap:LTIntMap = New LTIntMap
 	Field TileSet:LTTileSet = New LTTileSet
 	Field HeightMap:LTFloatMap = New LTFloatMap
-	Field TileMapVisual:LTTileMap = New LTTileMap
+	Field TileMapVisual:LTTileMapVisual = New LTTileMapVisual
 	Field TileMapRectangle:LTRectangle = New LTRectangle
 
 	Field ChaingunCannon:LTImage
@@ -117,7 +117,7 @@ Type LTGame Extends LTProject
 		TileMap.EnframeBy( TileSet )
 		
 		TileMapVisual.Image = LTImage.FromFile( "media/tileset.png", 5, 4 )
-		TileMapVisual.TileNum = TileMap
+		TileMapVisual.TileMap = TileMap
 		TileMapRectangle.SetCoords( 64.0, 64.0 )
 		TileMapRectangle.SetSize( 128.0, 128.0 )
 		TileMapRectangle.Visual = TileMapVisual

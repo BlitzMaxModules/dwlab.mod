@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTExtendedTileMap Extends LTTileMap
+Type LTExtendedTileMapVisual Extends LTTileMapVisual
 	Field RMap:LTFloatMap
 	Field GMap:LTFloatMap
 	Field BMap:LTFloatMap
@@ -29,6 +29,6 @@ Type LTExtendedTileMap Extends LTTileMap
 			If R Then SetColor( RMap.Value[ TileX, TileY ], GMap.Value[ TileX, TileY ], BMap.Value[ TileX, TileY ] )
 			If AlphaMap Then SetAlpha( AlphaMap.Value[ TileX, TileY ] )
 			If RotationMap Then SetRotation( RotationMap.Value[ TileX, TileY ] )
-			Drawimage( Image.BMaxImage, X, Y, TileNum.Value[ TileX, TileY ] )
+			Drawimage( Image.BMaxImage, X, Y, TileMap.Value[ TileX, TileY ] )
 	End Method
 End Type

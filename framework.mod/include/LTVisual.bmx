@@ -11,7 +11,7 @@
 Include "LTImageVisual.bmx"
 Include "LTFilledPrimitive.bmx"
 Include "LTEmptyPrimitive.bmx"
-Include "LTTileMap.bmx"
+Include "LTTileMapVisual.bmx"
 
 Type LTVisual Extends LTObject Abstract
 	Field R:Float = 1.0, G:Float = 1.0, B:Float = 1.0
@@ -48,7 +48,7 @@ Type LTVisual Extends LTObject Abstract
 	
 	
 	
-	Method DrawUsingTileMap( TileMap:LTTileMap )
+	Method DrawUsingTileMap( TileMap:LTIntMap )
 	End Method
 	
 	' ==================== Other ====================

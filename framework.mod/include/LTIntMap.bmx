@@ -20,6 +20,25 @@ Type LTIntMap Extends LTMap
 		Value = New Int[ NewXQuantity, NewYQuantity ]
 	End Method
 	
+	' ==================== Loading / saving ====================	
+	
+	Function FromFile:LTIntMap( Filename:String )
+		Local Map:LTIntMap = New LTIntMap
+		Local File:TStream = ReadFile( Filename )
+		Local XQuantity:Int = ReadInt( File )
+		Local YQuantity:Int = ReadInt( File )
+		Map.SetResolution( XQuantity, YQuantity )
+		
+		For Local Y:Int = 0 Until YQuantity
+			For Local X:Int = 0 Until XQuantity
+				Map.Value[ X, Y ] = ReadInt( File )
+			Next
+		Next
+		
+		CloseFile( File )
+		Return Map
+	End Function
+	
 	' ==================== Manipulations ====================	
 	
 	Method Stretch:LTIntMap( XMultiplier:Int, YMultiplier:Int )
