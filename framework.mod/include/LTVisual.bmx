@@ -11,7 +11,6 @@
 Include "LTImageVisual.bmx"
 Include "LTFilledPrimitive.bmx"
 Include "LTEmptyPrimitive.bmx"
-Include "LTTileMapVisual.bmx"
 
 Type LTVisual Extends LTObject Abstract
 	Field R:Float = 1.0, G:Float = 1.0, B:Float = 1.0
@@ -48,7 +47,7 @@ Type LTVisual Extends LTObject Abstract
 	
 	
 	
-	Method DrawUsingTileMap( TileMap:LTIntMap )
+	Method DrawUsingTileMap( TileMap:LTTileMap )
 	End Method
 	
 	' ==================== Other ====================
@@ -76,8 +75,8 @@ Type LTVisual Extends LTObject Abstract
 	
 	
 	Method AlterColor( D1:Float, D2:Float )
-		R = L_Limit( R + Rnd( D1, D2 ), 0.0, 1.0 )
-		G = L_Limit( G + Rnd( D1, D2 ), 0.0, 1.0 )
-		B = L_Limit( B + Rnd( D1, D2 ), 0.0, 1.0 )
+		R = L_LimitFloat( R + Rnd( D1, D2 ), 0.0, 1.0 )
+		G = L_LimitFloat( G + Rnd( D1, D2 ), 0.0, 1.0 )
+		B = L_LimitFloat( B + Rnd( D1, D2 ), 0.0, 1.0 )
 	End Method
 End Type

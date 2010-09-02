@@ -48,14 +48,16 @@ Pri.Alpha = 0.5
 'Global LevelExtractor:TLevelExtractor = New TLevelExtractor
 'LevelExtractor.Execute()
 
+LTVectorModel.SetDefault()
+
 Global Game:TGame = New TGame
 Game.Execute()
 
 Type TGame Extends LTProject
-	Field Ball:LTCircle = New LTCircle
-	Field TileMapVisual:LTTileMapVisual = New LTTileMapVisual
-	Field TileMap:LTIntMap = New LTIntMap
+	Field Ball:TBall = New TBall
+	Field TileMapVisual:LTImageVisual = New LTImageVisual
 	Field TileMapRectangle:LTRectangle = New LTRectangle
+	Field TileMap:LTTileMap = New LTTileMap
 	
 	
 	
@@ -71,32 +73,55 @@ Type TGame Extends LTProject
 		
 		' ==================== Player ====================	
 		
-		Ball.Visual = LTImageVisual.FromFile( "media\ball.png" )
-		Ball.SetCoords( 0, 0 )
+		Local BallVisual:LTImageVisual = LTImageVisual.FromFile( "media\ball.png" )
+		BallVisual.Rotating = False
+		Ball.Visual = BallVisual
+		Ball.SetCoords( -1.6, 0 )
+		Ball.Diameter = 0.9
+		Ball.Model.SetMass( 1.0 )
 		
 		' ==================== Tilemap ====================	
 	
-		TileMap = LTIntMap.FromFile( "levels\02.dat" )
-		TileMapVisual.TileMap = TileMap
+		TileMap.FrameMap = LTIntMap.FromFile( "levels\02.dat" )
 		TileMapVisual.Image = LTImage.FromFile( "media\tiles.png", 16, 4 )
-		TileMapRectangle.SetSize( 15.0, 14.0 )
-		TileMapRectangle.SetCoords( -1.5, 0.0 )
-		TileMapRectangle.Visual = TileMapVisual
+		TileMap.SetSize( 15.0, 14.0 )
+		TileMap.SetCoords( 0.0, 0.0 )
+		TileMap.Visual = TileMapVisual
+		
+		Local Rectangle:LTRectangle = New LTRectangle
+		Rectangle.SetCoords( 0.5, 0.5 )
+		Local CollisionArray:LTShape[] = New LTShape[ TilesQuantity ]
+		For Local N:Int = 1 Until TilesQuantity
+			CollisionArray[ N ] = Rectangle
+		Next
+		TileMap.FillShapeMap( CollisionArray )
 	End Method
 	
 	
 	
 	Method Logic()
+		Ball.Model.AlterDY( 5.0 * L_DeltaTime )
+		Ball.MoveForward()
+		TileMap.CollidesWithCircle( Ball )
 		If KeyHit( Key_Escape ) Then End
 	End Method
 	
 	
 	
 	Method Render()
-		TileMapRectangle.Draw()
-		Local XS:Float, YS:Float
-		GetScale( XS, YS )
-		L_CurrentCamera.DrawUsingVisual( Pri )
+		TileMap.Draw()
 		Ball.Draw()
+	End Method
+End Type
+
+
+
+
+
+Type TBall Extends LTCircle
+	Method HandleCollision( Shape:LTShape )
+		'debugstop
+		Push( Shape )
+		Model.SetDY( -Model.GetDY() * 0.5 )
 	End Method
 End Type

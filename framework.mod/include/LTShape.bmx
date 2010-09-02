@@ -13,6 +13,7 @@ Include "LTCircle.bmx"
 Include "LTRectangle.bmx"
 Include "LTLine.bmx"
 Include "LTGraph.bmx"
+Include "LTTileMap.bmx"
 Include "Collisions.bmx"
 
 Type LTShape Extends LTObject Abstract
@@ -162,6 +163,11 @@ Type LTShape Extends LTObject Abstract
 	End Method
 	
 	' ==================== Other ====================
+	
+	Method CloneShape:LTShape( DX:Float, DY:Float, XK:Float, YK:Float )
+	End Method
+	
+	
 	
 	Method Update()
 	End Method

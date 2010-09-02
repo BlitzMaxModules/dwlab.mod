@@ -188,7 +188,16 @@ Type LTPivot Extends LTShape
 	End Method
 
 	' ==================== Other ====================
+	
+	Method CloneShape:LTShape( DX:Float, DY:Float, XK:Float, YK:Float )
+		Local Pivot:LTPivot = New LTPivot
+		Pivot.X = DX + X
+		Pivot.Y = DX + Y
+		Return Pivot
+	End Method
 
+	
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		XMLObject.ManageFloatAttribute( "x", X )

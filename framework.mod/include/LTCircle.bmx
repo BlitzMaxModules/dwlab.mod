@@ -102,6 +102,14 @@ Type LTCircle Extends LTPivot
 
 	' ==================== Other ====================
 	
+	Method CloneShape:LTShape( DX:Float, DY:Float, XK:Float, YK:Float )
+		Local Circle:LTCircle = New LTCircle
+		Circle.X = DX + X * XK
+		Circle.Y = DY + Y * YK
+		Circle.Diameter = Diameter * XK
+		Return Circle
+	End Method
+	
 	
 	
 	Method XMLIO( XMLObject:LTXMLObject )

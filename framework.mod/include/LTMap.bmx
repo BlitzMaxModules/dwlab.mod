@@ -11,6 +11,7 @@
 Include "LTFloatMap.bmx"
 Include "LTIntMap.bmx"
 Include "LTCollisionMap.bmx"
+Include "LTShapeMap.bmx"
 
 Type LTMap Extends LTObject
 	Field XQuantity:Int, YQuantity:Int

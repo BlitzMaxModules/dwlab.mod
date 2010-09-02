@@ -7,7 +7,7 @@
 ' file distributed with this code, or available from
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
-Type LTVectorModel Extends LTObject Abstract
+Type LTVectorModel Extends LTModel Abstract
 	Field DX:Float
 	Field DY:Float
 	Field AngularVelocity:Float = 1.0
@@ -60,6 +60,12 @@ Type LTVectorModel Extends LTObject Abstract
 	
 	
 	
+	Method AlterDX( DDX:Float )
+		DX :+ DDX
+	End Method
+	
+	
+	
 	Method SetDX( NewDX:Float )
 		DX = NewDX
 	End Method
@@ -68,6 +74,12 @@ Type LTVectorModel Extends LTObject Abstract
 	
 	Method GetDY:Float()
 		Return DY
+	End Method
+	
+	
+	
+	Method AlterDY( DDY:Float )
+		DY :+ DDY
 	End Method
 	
 	
@@ -95,4 +107,10 @@ Type LTVectorModel Extends LTObject Abstract
 	
 	Method SetMass:Float( NewMass:Float )
 	End Method
+	
+	
+	
+	Function SetDefault()
+		L_DefaultModelTypeID = TTypeID.ForName( "LTVectorModel" )
+	End Function
 End Type

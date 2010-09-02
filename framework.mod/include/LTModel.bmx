@@ -45,12 +45,22 @@ Type LTModel Extends LTObject Abstract
 	
 	
 	
+	Method AlterDX( DDX:Float )
+	End Method
+	
+	
+	
 	Method SetDX( NewDX:Float )
 	End Method
 	
 	
 	
 	Method GetDY:Float()
+	End Method
+	
+	
+	
+	Method AlterDY( DDY:Float )
 	End Method
 	
 	

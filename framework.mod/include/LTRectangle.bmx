@@ -109,6 +109,17 @@ Type LTRectangle Extends LTPivot
 	End Method
 	
 	' ==================== Other ====================
+	
+	Method CloneShape:LTShape( DX:Float, DY:Float, XK:Float, YK:Float )
+		Local Rectangle:LTRectangle = New LTRectangle
+		Rectangle.X = DX + X * XK
+		Rectangle.Y = DY + Y * YK
+		Rectangle.XSize = XSize * XK
+		Rectangle.YSize = YSize * YK
+		Return Rectangle
+	End Method
+	
+	
 
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
