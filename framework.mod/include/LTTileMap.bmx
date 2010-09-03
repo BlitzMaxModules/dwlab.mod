@@ -54,9 +54,10 @@ Type LTTileMap Extends LTRectangle
 		Local Radius:Float = 0.5 * Circle.Diameter
 		Local X1:Int = L_LimitInt( Int( ( Circle.X - Radius - RX ) / CellXSize ), 0, FrameMap.XQuantity )
 		Local Y1:Int = L_LimitInt( Int( ( Circle.Y - Radius - RY ) / CellYSize ), 0, FrameMap.YQuantity )
-		Local X2:Int = L_LimitInt( Int( ( Circle.X - Radius - RX ) / CellXSize ), 0, FrameMap.XQuantity - 1)
-		Local Y2:Int = L_LimitInt( Int( ( Circle.Y - Radius - RY ) / CellYSize ), 0, FrameMap.YQuantity - 1)
-		
+		Local X2:Int = L_LimitInt( Int( ( Circle.X + Radius - RX ) / CellXSize ), 0, FrameMap.XQuantity - 1)
+		Local Y2:Int = L_LimitInt( Int( ( Circle.Y + Radius - RY ) / CellYSize ), 0, FrameMap.YQuantity - 1)
+		'Debuglog x1 + ", " + y1 + ", " + x2 + ", " + y2
+		'waitkey
 		Local Collided:Int = False
 		For Local Y:Int = Y1 To Y2
 			For Local X:Int = X1 To X2
@@ -80,8 +81,8 @@ Type LTTileMap Extends LTRectangle
 		Local CellYSize:Float = YSize / FrameMap.YQuantity
 		Local X1:Int = L_LimitInt( Int( ( Rectangle.X - 0.5 * Rectangle.XSize - RX ) / CellXSize ), 0, FrameMap.XQuantity )
 		Local Y1:Int = L_LimitInt( Int( ( Rectangle.Y - 0.5 * Rectangle.YSize - RY ) / CellYSize ), 0, FrameMap.YQuantity )
-		Local X2:Int = L_LimitInt( Int( ( Rectangle.X - 0.5 * Rectangle.XSize - RX ) / CellXSize ), 0, FrameMap.XQuantity - 1 )
-		Local Y2:Int = L_LimitInt( Int( ( Rectangle.Y - 0.5 * Rectangle.YSize - RY ) / CellYSize ), 0, FrameMap.YQuantity - 1 )
+		Local X2:Int = L_LimitInt( Int( ( Rectangle.X + 0.5 * Rectangle.XSize - RX ) / CellXSize ), 0, FrameMap.XQuantity - 1 )
+		Local Y2:Int = L_LimitInt( Int( ( Rectangle.Y + 0.5 * Rectangle.YSize - RY ) / CellYSize ), 0, FrameMap.YQuantity - 1 )
 		
 		Local Collided:Int = False
 		For Local Y:Int = Y1 To Y2
@@ -102,14 +103,17 @@ Type LTTileMap Extends LTRectangle
 	Method FillShapeMap( ShapeArray:LTShape[] )
 		Local CellXSize:Float = XSize / FrameMap.XQuantity
 		Local CellYSize:Float = YSize / FrameMap.YQuantity
-		Local DX:Float = X - 0.5 * XSize + 0.5 * CellXSize
-		Local DY:Float = Y - 0.5 * YSize + 0.5 * CellYSize
+		Local DX:Float = X - 0.5 * XSize' + 0.5 * CellXSize
+		Local DY:Float = Y - 0.5 * YSize' + 0.5 * CellYSize
 	
 		ShapeMap = New LTShape[ FrameMap.XQuantity, FrameMap.YQuantity ]
 		For Local Y:Int = 0 Until FrameMap.YQuantity
 			For Local X:Int = 0 Until FrameMap.XQuantity
 				Local Shape:LTShape = ShapeArray[ FrameMap.Value[ X, Y ] ]
-				If Shape Then ShapeMap[ X, Y ] = Shape.CloneShape( DX + CellXSize * X, DY + CellYSize * Y, CellXSize, CellYSize )
+				If Shape Then
+					ShapeMap[ X, Y ] = Shape.CloneShape( DX + CellXSize * X, DY + CellYSize * Y, CellXSize, CellYSize )
+					ShapeMap[ X, Y ].SetMass( -1.0 )
+				End If
 			Next
 		Next
 	End Method

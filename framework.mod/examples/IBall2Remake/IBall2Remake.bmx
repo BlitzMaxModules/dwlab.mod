@@ -24,12 +24,13 @@ Import brl.directsoundaudio
 Import brl.wavloader
 Import brl.retro
 Import brl.map
-'Import maxgui.win32maxgui
+Import maxgui.win32maxguiex
 
 SetAudioDriver( "DirectSound" )
 'SetGraphicsDriver( GLMax2DDriver() )
 
 Include "../../framework.bmx"
+Include "../../../editor.mod/editor.bmx"
 
 Include "Extractors.bmx"
 
@@ -49,6 +50,10 @@ Pri.Alpha = 0.5
 'LevelExtractor.Execute()
 
 LTVectorModel.SetDefault()
+Global Prim:LTFilledPrimitive = New LTFilledPrimitive
+Prim.SetColorFromHex( "FF0000" )
+Prim.Alpha = 0.5
+Global ShapeList:TList = New TList
 
 Global Game:TGame = New TGame
 Game.Execute()
@@ -76,13 +81,12 @@ Type TGame Extends LTProject
 		Local BallVisual:LTImageVisual = LTImageVisual.FromFile( "media\ball.png" )
 		BallVisual.Rotating = False
 		Ball.Visual = BallVisual
-		Ball.SetCoords( -1.6, 0 )
+		Ball.SetCoords( -2.45, 0 )
 		Ball.Diameter = 0.9
-		Ball.Model.SetMass( 1.0 )
 		
 		' ==================== Tilemap ====================	
 	
-		TileMap.FrameMap = LTIntMap.FromFile( "levels\02.dat" )
+		TileMap.FrameMap = LTIntMap.FromFile( "levels\03.dat" )
 		TileMapVisual.Image = LTImage.FromFile( "media\tiles.png", 16, 4 )
 		TileMap.SetSize( 15.0, 14.0 )
 		TileMap.SetCoords( 0.0, 0.0 )
@@ -100,9 +104,9 @@ Type TGame Extends LTProject
 	
 	
 	Method Logic()
-		Ball.Model.AlterDY( 5.0 * L_DeltaTime )
 		Ball.MoveForward()
 		TileMap.CollidesWithCircle( Ball )
+		Ball.Control()
 		If KeyHit( Key_Escape ) Then End
 	End Method
 	
@@ -111,6 +115,17 @@ Type TGame Extends LTProject
 	Method Render()
 		TileMap.Draw()
 		Ball.Draw()
+		'Ball.DrawUsingVisual( Prim )
+		'For Local Y:Int = 0 Until TileMap.FrameMap.YQuantity
+		'	For Local X:Int = 0 Until TileMap.FrameMap.XQuantity
+		'		Local Shape:LTShape = TileMap.ShapeMap[ X, Y ]
+				'If Shape Then 
+		'	Next
+		'Next
+		'For Local Shape:LTShape = Eachin ShapeList
+		'	Shape.DrawUsingVisual( Prim )
+		'Next
+		'ShapeList.Clear()
 	End Method
 End Type
 
@@ -119,9 +134,43 @@ End Type
 
 
 Type TBall Extends LTCircle
+	Const Acceleration:Float = 20.0
+	Const AccelerationLimit:Float = 5.0
+	Const Gravity:Float = 10.0
+	Const JumpingPower:Float = -9.2
+	Const HorizontalBounce:Float = 0.6
+	Const VerticalBounce:Float = 0.3
+	
+	
+	
 	Method HandleCollision( Shape:LTShape )
 		'debugstop
 		Push( Shape )
-		Model.SetDY( -Model.GetDY() * 0.5 )
+		
+		Local Pivot:LTPivot = LTPivot( Shape )
+		'ShapeList.AddLast( Shape )
+		Local DX:Float = Pivot.X - X
+		Local DY:Float = Pivot.Y - Y
+		If DY > Abs( DX ) Then
+			Model.SetDY( -GetDY() * VerticalBounce )
+			If KeyDown( Key_Up ) Then SetDY( JumpingPower )
+		ElseIf DY < -Abs( DX ) Then
+			Model.SetDY( -GetDY() * VerticalBounce )
+		Else
+			Model.SetDX( -GetDX() * HorizontalBounce )
+		End If
+		'debuglog GetDX()
+	End Method
+	
+	
+	
+	Method Control()
+		If KeyDown( Key_Left ) Then AlterDX( -L_DeltaTime * Acceleration ); Visual.XScale = -1.0
+		If KeyDown( Key_Right ) Then AlterDX( L_DeltaTime * Acceleration ); Visual.XScale = 1.0
+		SetDX( L_LimitFloat( GetDX(), -5.0, 5.0 ) )
+		AlterDY( L_DeltaTime * Gravity )
+		If Not KeyDown( Key_Left ) And Not KeyDown( Key_Right ) Then
+			If Abs( GetDX() ) < 0.5 Then SetDX( 0 )
+		End If
 	End Method
 End Type

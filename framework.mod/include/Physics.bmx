@@ -37,7 +37,7 @@ Function L_PushCircleWithRectangle( Circle:LTCircle, Rectangle:LTRectangle )
 		DY = ( Circle.Y - PY ) * K
 	End If
 	
-	L_Separate( Circle, Rectangle, DX, DY )
+	L_Separate( Rectangle, Circle, DX, DY )
 End Function
 
 
@@ -60,11 +60,26 @@ End Function
 
 
 Function L_Separate( Pivot1:LTPivot, Pivot2:LTPivot, DX:Float, DY:Float )
+	'debugstop
 	Local K1:Float, K2:Float
-	Local MassSum:Float = Pivot1.Model.GetMass() + Pivot2.Model.GetMass()
+	Local Mass1:Float = Pivot1.Model.GetMass()
+	Local Mass2:Float = Pivot2.Model.GetMass()
+	
+	If Mass1 < 0 then
+		If Mass2 < 0 Then
+			Return
+		End If
+		Mass1 = 1.0
+		Mass2 = 0.0
+	ElseIf Mass2 < 0 Then
+		Mass1 = 0.0
+		Mass2 = 1.0		
+	End If
+	
+	Local MassSum:Float = Mass1 + Mass2
 	If MassSum Then
-		K1 = Pivot1.Model.GetMass() / MassSum
-		K2 = Pivot2.Model.GetMass() / MassSum
+		K1 = Mass2 / MassSum
+		K2 = Mass1 / MassSum
 	Else
 		K1 = 0.5
 		K2 = 0.5

@@ -50,11 +50,11 @@ Type LTGame Extends LTProject
 	Field LeftWeapon:TWeapon
 	Field RightWeapon:TWeapon
 	
-	Field TileMap:LTIntMap = New LTIntMap
+	Field FrameMap:LTIntMap = New LTIntMap
 	Field TileSet:LTTileSet = New LTTileSet
 	Field HeightMap:LTFloatMap = New LTFloatMap
-	Field TileMapVisual:LTTileMapVisual = New LTTileMapVisual
-	Field TileMapRectangle:LTRectangle = New LTRectangle
+	Field TileMap:LTTileMap = New LTTileMap
+	Field TileMapVisual:LTImageVisual
 
 	Field ChaingunCannon:LTImage
 	Field ChaingunBarrel:LTImage
@@ -106,21 +106,21 @@ Type LTGame Extends LTProject
 		
 		' ============================= Map =============================
 		
-		TileMap.SetResolution( 128, 128 )
+		FrameMap.SetResolution( 128, 128 )
 		
 		HeightMap.SetResolution( 128, 128 )
 		HeightMap.PerlinNoise( 16, 16, 0.25, 0.5, 4 )
-		HeightMap.ExtractTo( TileMap, 0.4, 1.0, 1 )
+		HeightMap.ExtractTo( FrameMap, 0.4, 1.0, 1 )
 		
-		TileMap.Stretch( 2, 2 )
+		FrameMap.Stretch( 2, 2 )
 		TileSet = LTTileSet.FromFile( "media/simple.lts" )
-		TileMap.EnframeBy( TileSet )
+		FrameMap.EnframeBy( TileSet )
 		
-		TileMapVisual.Image = LTImage.FromFile( "media/tileset.png", 5, 4 )
-		TileMapVisual.TileMap = TileMap
-		TileMapRectangle.SetCoords( 64.0, 64.0 )
-		TileMapRectangle.SetSize( 128.0, 128.0 )
-		TileMapRectangle.Visual = TileMapVisual
+		TileMapVisual = LTImageVisual.FromFile( "media/tileset.png", 5, 4 )
+		TileMap.Visual = TileMapVisual
+		TileMap.FrameMap = FrameMap
+		TileMap.SetCoords( 64.0, 64.0 )
+		TileMap.SetSize( 128.0, 128.0 )
 		
 		' ============================= Trees =============================
 		
@@ -158,7 +158,7 @@ Type LTGame Extends LTProject
 	
 	
 	Method Render()
-		TileMapRectangle.Draw()
+		TileMap.Draw()
 		For Local Bullet:LTShape = Eachin Bullets
 			Bullet.Draw()
 		Next

@@ -91,21 +91,25 @@ Type LTVectorModel Extends LTModel Abstract
 	
 	
 	Method GetAngularVelocity:Float()
+		Return AngularVelocity
 	End Method
 	
 	
 	
 	Method SetAngularVelocity:Float( NewAngularVelocity:Float )
+		AngularVelocity = NewAngularVelocity
 	End Method
 	
 	
 	
 	Method GetMass:Float()
+		Return Mass
 	End Method
 	
 	
 	
 	Method SetMass:Float( NewMass:Float )
+		Mass = NewMass
 	End Method
 	
 	

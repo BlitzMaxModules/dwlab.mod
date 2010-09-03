@@ -140,6 +140,42 @@ Type LTShape Extends LTObject Abstract
 	
 	
 	
+	Method GetDX:Float()
+		Return Model.GetDX()
+	End Method
+	
+	
+	
+	Method AlterDX( DDX:Float )
+		Model.AlterDX( DDX )
+	End Method
+	
+	
+	
+	Method SetDX( NewDX:Float )
+		Model.SetDX( NewDX )
+	End Method
+	
+	
+	
+	Method GetDY:Float()
+		Return Model.GetDY()
+	End Method
+	
+	
+	
+	Method AlterDY( DDY:Float )
+		Model.AlterDY( DDY )
+	End Method
+	
+	
+	
+	Method SetDY( NewDY:Float )
+		Model.SetDY( NewDY )
+	End Method
+	
+	
+	
 	Method GetAngularVelocity:Float()
 		Return Model.GetAngularVelocity()
 	End Method
