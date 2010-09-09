@@ -38,118 +38,65 @@ Type LTCollisionMap Extends LTMap
 	
 	' ==================== Insert / remove objects ====================
 	
-	Method InsertPivot( Pivot:LTPivot )
-		Objects[ Int( Pivot.X / XScale ) & XMask, Int( Pivot.Y / YScale ) & YMask ].AddLast( Pivot )
+	Method InsertActor( Actor:LTActor )
+		Select Actor.Shape
+			Case L_Pivot
+				Objects[ Int( Actor.X / XScale ) & XMask, Int( Actor.Y / YScale ) & YMask ].AddLast( Actor )
+			Case L_Circle, L_Rectangle
+				Local MapX1:Int = Floor( ( Actor.X - 0.5 * Actor.XSize ) / XScale )
+				Local MapY1:Int = Floor( ( Actor.Y - 0.5 * Actor.YSize ) / YScale )
+				Local MapX2:Int = Floor( ( Actor.X + 0.5 * Actor.XSize ) / XScale )
+				Local MapY2:Int = Floor( ( Actor.Y + 0.5 * Actor.YSize ) / YScale )
+				
+				For Local Y:Int = MapY1 To MapY2
+					For Local X:Int = MapX1 To MapX2
+						Objects[ X & XMask, Y & YMask ].AddLast( Actor )
+					Next
+				Next
+		End Select
 	End Method
 	
 	
 	
-	Method InsertCircle( Circle:LTCircle )
-		Local Radius:Float = 0.5 * Circle.Diameter
-		Local MapX1:Int = Floor( ( Circle.X - Radius ) / XScale )
-		Local MapY1:Int = Floor( ( Circle.Y - Radius ) / YScale )
-		Local MapX2:Int = Floor( ( Circle.X + Radius ) / XScale )
-		Local MapY2:Int = Floor( ( Circle.Y + Radius ) / YScale )
-		
-		For Local Y:Int = MapY1 To MapY2
-			For Local X:Int = MapX1 To MapX2
-				Objects[ X & XMask, Y & YMask ].AddLast( Circle )
-			Next
-		Next
-	End Method
-	
-	
-	
-	Method InsertRectangle( Rectangle:LTRectangle )
-		Local MapX1:Int = Floor( ( Rectangle.X - 0.5 * Rectangle.XSize ) / XScale )
-		Local MapY1:Int = Floor( ( Rectangle.Y - 0.5 * Rectangle.YSize ) / YScale )
-		Local MapX2:Int = Floor( ( Rectangle.X + 0.5 * Rectangle.XSize ) / XScale )
-		Local MapY2:Int = Floor( ( Rectangle.Y + 0.5 * Rectangle.YSize ) / YScale )
-		
-		For Local Y:Int = MapY1 To MapY2
-			For Local X:Int = MapX1 To MapX2
-				Objects[ X & XMask, Y & YMask ].AddLast( Rectangle )
-			Next
-		Next
-	End Method
-	
-	
-	
-	Method RemovePivot( Pivot:LTPivot )
-		Objects[ Int( Pivot.X / XScale ) & XMask, Int( Pivot.Y / YScale ) & YMask ].Remove( Pivot )
-	End Method
-	
-	
-	
-	Method RemoveCircle( Circle:LTCircle )
-		Local Radius:Float = 0.5 * Circle.Diameter
-		Local MapX1:Int = Floor( ( Circle.X - Radius ) / XScale )
-		Local MapY1:Int = Floor( ( Circle.Y - Radius ) / YScale )
-		Local MapX2:Int = Floor( ( Circle.X + Radius ) / XScale )
-		Local MapY2:Int = Floor( ( Circle.Y + Radius ) / YScale )
-		
-		For Local Y:Int = MapY1 To MapY2
-			For Local X:Int = MapX1 To MapX2
-				Objects[ X & XMask, Y & YMask ].Remove( Circle )
-			Next
-		Next
-	End Method
-	
-	
-	
-	Method RemoveRectangle( Rectangle:LTRectangle )
-		Local MapX1:Int = Floor( ( Rectangle.X - 0.5 * Rectangle.XSize ) / XScale )
-		Local MapY1:Int = Floor( ( Rectangle.Y - 0.5 * Rectangle.YSize ) / YScale )
-		Local MapX2:Int = Floor( ( Rectangle.X + 0.5 * Rectangle.XSize ) / XScale )
-		Local MapY2:Int = Floor( ( Rectangle.Y + 0.5 * Rectangle.YSize ) / YScale )
-		
-		For Local Y:Int = MapY1 To MapY2
-			For Local X:Int = MapX1 To MapX2
-				Objects[ X & XMask, Y & YMask ].Remove( Rectangle )
-			Next
-		Next
+	Method RemoveActor( Actor:LTActor )
+		Select Actor.Shape
+			Case L_Pivot
+				Objects[ Int( Actor.X / XScale ) & XMask, Int( Actor.Y / YScale ) & YMask ].Remove( Actor )
+			Case L_Circle, L_Rectangle
+				Local MapX1:Int = Floor( ( Actor.X - 0.5 * Actor.XSize ) / XScale )
+				Local MapY1:Int = Floor( ( Actor.Y - 0.5 * Actor.YSize ) / YScale )
+				Local MapX2:Int = Floor( ( Actor.X + 0.5 * Actor.XSize ) / XScale )
+				Local MapY2:Int = Floor( ( Actor.Y + 0.5 * Actor.YSize ) / YScale )
+				
+				For Local Y:Int = MapY1 To MapY2
+					For Local X:Int = MapX1 To MapX2
+						Objects[ X & XMask, Y & YMask ].Remove( Actor )
+					Next
+				Next
+		End Select
 	End Method
 	
 	' ==================== Collisions ===================
 	
-	Method CollisionsWithPivot( Pivot:LTPivot )
-		For Local Shape:LTShape = Eachin Objects[ Int( Pivot.X / XScale ) & XMask, Int( Pivot.Y / YScale ) & YMask ]
-			If Shape.CollidesWithPivot( Pivot ) Then Pivot.HandleCollision( Shape )
-		Next
-	End Method
-	
-	
-	
-	Method CollisionsWithCircle( Circle:LTCircle )
-		Local Radius:Float = 0.5 * Circle.Diameter
-		Local MapX1:Int = Floor( ( Circle.X - Radius ) / XScale )
-		Local MapY1:Int = Floor( ( Circle.Y - Radius ) / YScale )
-		Local MapX2:Int = Floor( ( Circle.X + Radius ) / XScale )
-		Local MapY2:Int = Floor( ( Circle.Y + Radius ) / YScale )
-		
-		For Local Y:Int = MapY1 To MapY2
-			For Local X:Int = MapX1 To MapX2
-				For Local Shape:LTShape = Eachin Objects[ X & XMask, Y & YMask ]
-					If Shape.CollidesWithCircle( Circle ) Then Circle.HandleCollision( Shape )
+	Method CollisionsWithActor( Actor:LTActor )
+		Select Actor.Shape
+			Case L_Pivot
+				For Local Shape:LTShape = Eachin Objects[ Int( Actor.X / XScale ) & XMask, Int( Actor.Y / YScale ) & YMask ]
+					If Shape.CollidesWithActor( Actor ) Then Actor.HandleCollision( Shape )
 				Next
-			Next
-		Next
-	End Method
-	
-	
-	
-	Method CollisionsWithRectangle( Rectangle:LTRectangle )
-		Local MapX1:Int = Floor( ( Rectangle.X - 0.5 * Rectangle.XSize ) / XScale )
-		Local MapY1:Int = Floor( ( Rectangle.Y - 0.5 * Rectangle.YSize ) / YScale )
-		Local MapX2:Int = Floor( ( Rectangle.X + 0.5 * Rectangle.XSize ) / XScale )
-		Local MapY2:Int = Floor( ( Rectangle.Y + 0.5 * Rectangle.YSize ) / YScale )
-		
-		For Local Y:Int = MapY1 To MapY2
-			For Local X:Int = MapX1 To MapX2
-				For Local Shape:LTShape = Eachin Objects[ X & XMask, Y & YMask ]
-					If Shape.CollidesWithRectangle( Rectangle ) Then Rectangle.HandleCollision( Shape )
+			Case L_Circle, L_Rectangle
+				Local MapX1:Int = Floor( ( Actor.X - 0.5 * Actor.XSize ) / XScale )
+				Local MapY1:Int = Floor( ( Actor.Y - 0.5 * Actor.YSize ) / YScale )
+				Local MapX2:Int = Floor( ( Actor.X + 0.5 * Actor.XSize ) / XScale )
+				Local MapY2:Int = Floor( ( Actor.Y + 0.5 * Actor.YSize ) / YScale )
+				
+				For Local Y:Int = MapY1 To MapY2
+					For Local X:Int = MapX1 To MapX2
+						For Local Shape:LTShape = Eachin Objects[ X & XMask, Y & YMask ]
+							If Shape.CollidesWithActor( Actor ) Then Actor.HandleCollision( Shape )
+						Next
+					Next
 				Next
-			Next
-		Next
+		End Select
 	End Method
 End Type

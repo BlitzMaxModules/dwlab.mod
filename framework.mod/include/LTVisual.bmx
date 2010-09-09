@@ -27,17 +27,7 @@ Type LTVisual Extends LTObject Abstract
 	
 	' ==================== Drawing ===================	
 	
-	Method DrawUsingPivot( Pivot:LTPivot )
-	End Method
-	
-	
-	
-	Method DrawUsingCircle( Circle:LTCircle )
-	End Method
-	
-	
-	
-	Method DrawUsingRectangle( Rectangle:LTRectangle )
+	Method DrawUsingActor( Actor:LTActor )
 	End Method
 	
 	

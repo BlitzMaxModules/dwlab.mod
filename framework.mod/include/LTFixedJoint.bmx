@@ -9,20 +9,20 @@
 '
 
 Type LTFixedJoint Extends LTJoint
-	Field ParentPivot:LTPivot
-	Field Pivot:LTPivot
+	Field ParentPivot:LTActor
+	Field Pivot:LTActor
 	Field Angle:Float
 	Field Distance:Float
 	Field DAngle:Float
 	
 	
 	
-	Function Create:LTFixedJoint( ParentPivot:LTPivot, Pivot:LTPivot )
+	Function Create:LTFixedJoint( ParentPivot:LTActor, Pivot:LTActor )
 		Local Joint:LTFixedJoint = New LTFixedJoint
 		Joint.ParentPivot = ParentPivot
 		Joint.Pivot = Pivot
-		Joint.Angle = ParentPivot.DirectionToPivot( Pivot ) - ParentPivot.Model.GetAngle()
-		Joint.Distance = ParentPivot.DistanceToPivot( Pivot )
+		Joint.Angle = ParentPivot.DirectionToActor( Pivot ) - ParentPivot.Model.GetAngle()
+		Joint.Distance = ParentPivot.DistanceToActor( Pivot )
 		Joint.DAngle = Pivot.GetAngle() - ParentPivot.GetAngle()
 		L_JointList.AddLast( Joint )
 		Return Joint

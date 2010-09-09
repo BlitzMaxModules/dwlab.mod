@@ -25,69 +25,20 @@ Type LTImageVisual Extends LTVisual
 	
 	
 	
-	Method DrawUsingPivot( Pivot:LTPivot )
-		SetColor 255.0 * R, 255.0 * G, 255.0 * B
-		SetAlpha Alpha
-		
-		Local SX:Float, SY:Float
-		L_CurrentCamera.FieldToScreen( Pivot.X, Pivot.Y, SX, SY )
-		
-		If Rotating Then SetRotation( Pivot.Model.GetAngle() )
-		If Scaling Then
-			Local SXSize:Float, SYSize:Float
-			L_CurrentCamera.SizeFieldToScreen( XScale, YScale, SXSize, SYSize ) 
-			SetScale( SXSize, SYSize )
-		End If
-		
-		DrawImage( Image.BMaxImage, SX, SY, Pivot.Frame )
-		
-		If Scaling Then SetScale( 1.0, 1.0 )
-		If Rotating Then SetRotation( 0.0 )
-		
-		SetColor 255, 255, 255
-		SetAlpha 1.0
-	End Method
-	
-	
-	
-	Method DrawUsingCircle( Circle:LTCircle )
-		SetColor 255.0 * R, 255.0 * G, 255.0 * B
-		SetAlpha Alpha
-		
-		Local SX:Float, SY:Float
-		L_CurrentCamera.FieldToScreen( Circle.X, Circle.Y, SX, SY )
-		
-		If Rotating Then SetRotation( Circle.Model.GetAngle() )
-		If Scaling Then
-			Local SDist:Float = L_CurrentCamera.DistFieldToScreen( Circle.Diameter )
-			SetScale( XScale * SDist / ImageWidth( Image.BMaxImage ), YScale * SDist / ImageHeight( Image.BMaxImage ) )
-		End If
-		
-		DrawImage( Image.BMaxImage, SX, SY, Circle.Frame )
-
-		If Scaling Then	SetScale( 1.0, 1.0 )
-		If Rotating Then SetRotation( 0.0 )
-		
-		SetColor 255, 255, 255
-		SetAlpha 1.0
-	End Method
-	
-	
-	
-	Method DrawUsingRectangle( Rectangle:LTRectangle )
+	Method DrawUsingActor( Actor:LTActor )
 		SetColor 255.0 * R, 255.0 * G, 255.0 * B
 		SetAlpha Alpha
 	
 		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
-		L_CurrentCamera.FieldToScreen( Rectangle.X, Rectangle.Y, SX, SY )
+		L_CurrentCamera.FieldToScreen( Actor.X, Actor.Y, SX, SY )
 		
-		If Rotating Then SetRotation( Rectangle.Model.GetAngle() )
+		If Rotating Then SetRotation( Actor.Model.GetAngle() )
 		If Scaling Then
-			L_CurrentCamera.SizeFieldToScreen( Rectangle.XSize, Rectangle.YSize, SXSize, SYSize )
+			L_CurrentCamera.SizeFieldToScreen( Actor.XSize, Actor.YSize, SXSize, SYSize )
 			SetScale( XScale * SXSize / ImageWidth( Image.BMaxImage ), YScale * SYSize / ImageHeight( Image.BMaxImage ) )
 		End If
 		
-		DrawImage( Image.BMaxImage, SX, SY, Rectangle.Frame )
+		DrawImage( Image.BMaxImage, SX, SY, Actor.Frame )
 		
 		If Scaling Then	SetScale( 1.0, 1.0 )
 		If Rotating Then SetRotation( 0.0 )

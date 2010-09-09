@@ -9,7 +9,6 @@
 '
 
 Type LTPivot Extends LTShape
-	Field X:Float, Y:Float
 	
 	' ==================== Drawing ===================	
 	
@@ -70,122 +69,7 @@ Type LTPivot Extends LTShape
 	Method HandleCollision( Shape:LTShape )
 	End Method
 	
-	' ==================== Position ====================
-	
-	Method DistanceToPoint:Float( PointX:Float, PointY:Float )
-		Local DX:Float = X - PointX
-		Local DY:Float = Y - PointY
-		Return Sqr( DX * DX + DY * DY )
-	End Method
-	
-	
-	
-	Method DistanceToPivot:Float( Pivot:LTPivot )
-		Local DX:Float = X - Pivot.X
-		Local DY:Float = Y - Pivot.Y
-		Return Sqr( DX * DX + DY * DY )
-	End Method
-	
-	
-	
-	Method IsAtPositionOfPivot:Int( Pivot:LTPivot )
-		If Pivot.X = X And Pivot.Y = Y Then Return True
-	End Method
-	
-	
-	
-	Method SetCoords( NewX:Float, NewY:Float )
-		X = NewX
-		Y = NewY
-		Update()
-	End Method
-	
-	
-	
-	Method SetCoordsRelativeToPivot( Pivot:LTPivot, NewX:Float, NewY:Float )
-		Local Angle:Float = DirectionToPoint( NewX, NewY ) + Pivot.GetAngle()
-		Local Radius:Float = Sqr( NewX * NewX + NewY * NewY )
-		X = Pivot.X + Radius * Cos( Angle )
-		Y = Pivot.Y + Radius * Sin( Angle )
-		Update()
-	End Method
-	
-	
-	
-	Method JumpToPivot( Pivot:LTPivot )
-		X = Pivot.X
-		Y = Pivot.Y
-		Update()
-	End Method
-	
-	
-	
-	Method SetMouseCoords()
-		L_CurrentCamera.ScreenToField( MouseX(), MouseY(), X, Y )
-		Update()
-	End Method
-	
-	
-	
-	Method MoveTowardsPivot( Pivot:LTPivot )
-		Local Angle:Float = DirectionToPivot( Pivot )
-		Local DX:Float = Cos( Angle ) * GetVelocity() * L_DeltaTime
-		Local DY:Float = Sin( Angle ) * GetVelocity() * L_DeltaTime
-		If Abs( DX ) >= Abs( X - Pivot.X ) And Abs( DY ) >= Abs( Y - Pivot.Y ) Then
-			X = Pivot.X
-			Y = Pivot.Y
-		Else
-			X :+ DX
-			Y :+ DY
-		End If
-		Update()
-	End Method
-	
-	
-	
-	Method MoveForward()
-		X :+ Model.GetDX() * L_DeltaTime
-		Y :+ Model.GetDY() * L_DeltaTime
-	End Method
-	
-	
-	
-	Method MoveUsingWSAD()
-		Local DX:Float = KeyDown( Key_D ) - KeyDown( Key_A )
-		Local DY:Float = KeyDown( Key_S ) - KeyDown( Key_W )
-		If DX * DY Then
-			DX :/ Sqr(2)
-			DY :/ Sqr(2)
-		End If
-		X :+ DX * Model.GetVelocity() * L_DeltaTime
-		Y :+ DY * Model.GetVelocity() * L_DeltaTime
-		Update()
-	End Method
-	
-	
-	
-	Method PlaceBetweenPivots( Pivot1:LTPivot, Pivot2:LTPivot, K:Float )
-		X = Pivot1.X + ( Pivot2.X - Pivot1.X ) * K
-		Y = Pivot1.Y + ( Pivot2.Y - Pivot1.Y ) * K
-	End Method
-	
 	' ==================== Angle ====================
-	
-	Method DirectionToPoint:Float( PointX:Float, PointY:Float )
-		Return ATan2( PointY - Y, PointX - X )
-	End Method
-	
-	
-	
-	Method DirectionToPivot:Float( Pivot:LTPivot )
-		Return ATan2( Pivot.Y - Y, Pivot.X - X )
-	End Method
-	
-	
-	
-	Method DirectToPivot( Pivot:LTPivot )
-		Model.SetAngle( ATan2( Pivot.Y - Y, Pivot.X - X ) )
-	End Method
 
 	' ==================== Other ====================
 	
@@ -194,14 +78,6 @@ Type LTPivot Extends LTShape
 		Pivot.X = DX + X
 		Pivot.Y = DX + Y
 		Return Pivot
-	End Method
-
-	
-	
-	Method XMLIO( XMLObject:LTXMLObject )
-		Super.XMLIO( XMLObject )
-		XMLObject.ManageFloatAttribute( "x", X )
-		XMLObject.ManageFloatAttribute( "y", Y )
 	End Method
 End Type
 

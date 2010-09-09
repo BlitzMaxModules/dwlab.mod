@@ -7,12 +7,12 @@
 ' file distributed with this code, or available from
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
+Global L_DefaultModel:LTModel = New LTNullModel
+Global L_DefaultModelTypeID:TTypeID
+
 Include "LTAngularModel.bmx"
 Include "LTVectorModel.bmx"
 Include "Physics.bmx"
-
-Global L_DefaultModel:LTModel = New LTNullModel
-Global L_DefaultModelTypeID:TTypeID
 
 Type LTModel Extends LTObject Abstract
 	Method GetAngle:Float()

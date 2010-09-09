@@ -12,8 +12,8 @@ Global L_CurrentCamera:LTCamera
 Global L_CameraSpeed:Float = 2.0
 Global L_CameraMagnificationSpeed:Float = 2.0
 
-Type LTCamera Extends LTRectangle
-	Field Viewport:LTRectangle = New LTRectangle
+Type LTCamera Extends LTActor
+	Field Viewport:LTActor = New LTActor
 	Field XK:Float = 1.0, YK:Float = 1.0
 	Field DX:Float, DY:Float
 	Field ViewportClipping:Int = 1

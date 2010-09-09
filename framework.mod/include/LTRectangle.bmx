@@ -9,27 +9,8 @@
 '
 
 Type LTRectangle Extends LTPivot
-	Field XSize:Float = 1.0
-	Field YSize:Float = 1.0
 	
 	' ==================== Parameters ====================
-
-	Method SetSize( NewXSize:Float, NewYSize:Float )
-		XSize = NewXSize
-		YSize = NewYSize
-	End Method
-	
-	
-	
-	Method CorrectYSize()
-		Local ImageVisual:LTImageVisual = LTImageVisual( Visual )
-		
-		?debug
-		L_Assert( ImageVisual <> Null, "Cannot correct YSize: visual is not of LTImageVisual type" )
-		?
-		
-		YSize = XSize * ImageHeight( ImageVisual.Image.BMaxImage ) / ImageWidth( ImageVisual.Image.BMaxImage ) * Sgn( YSize )
-	End Method
 	
 	' ==================== Drawing ===================	
 	
@@ -111,19 +92,11 @@ Type LTRectangle Extends LTPivot
 	' ==================== Other ====================
 	
 	Method CloneShape:LTShape( DX:Float, DY:Float, XK:Float, YK:Float )
-		Local Rectangle:LTRectangle = New LTRectangle
-		Rectangle.X = DX + X * XK
-		Rectangle.Y = DY + Y * YK
-		Rectangle.XSize = XSize * XK
-		Rectangle.YSize = YSize * YK
-		Return Rectangle
 	End Method
 	
 	
 
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
-		XMLObject.ManageFloatAttribute( "xsize", XSize )
-		XMLObject.ManageFloatAttribute( "ysize", YSize )
 	End Method
 End Type

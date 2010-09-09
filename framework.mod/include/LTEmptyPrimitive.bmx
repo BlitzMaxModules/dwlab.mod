@@ -13,57 +13,14 @@ Type LTEmptyPrimitive Extends LTVisual
 	
 	
 	
-	Method DrawUsingPivot( Pivot:LTPivot )
-		SetColor( 255.0 * R, 255.0 * G, 255.0 * B )
-		SetAlpha( Alpha )
-		
-		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
-		L_CurrentCamera.FieldToScreen( Pivot.X, Pivot.Y, SX, SY )
-		L_CurrentCamera.SizeFieldToScreen( XScale, YScale, SXSize, SYSize ) 
-		
-		DrawOval( SX - 0.5 * SXSize, SY - 0.5 * SYSize, SXSize, SYSize )
-		
-		SetColor( 255, 255, 255 )
-		SetAlpha( 1.0 )
-	End Method
-	
-	
-	
-	Method DrawUsingCircle( Circle:LTCircle )
+	Method DrawUsingActor( Actor:LTActor )
 		SetColor( 255.0 * R, 255.0 * G, 255.0 * B )
 		SetAlpha( Alpha )
 		SetProperLineWidth()
 		
 		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
-		L_CurrentCamera.FieldToScreen( Circle.X, Circle.Y, SX, SY )
-		L_CurrentCamera.SizeFieldToScreen( Circle.Diameter * XScale, Circle.Diameter * YScale, SXSize, SYSize ) 
-		
-		Local Segs:Int = Max( Int( 2.0 * Sqr( SXSize * SYSize ) ), 12 ) & ~3
-		Local X1:Float, Y1:Float, X2:Float, Y2:Float
-		For Local N:Float = 0 To Segs
-			Local Angle:Float = 360.0 / Segs * N
-			X2 = SX + SXSize * Cos( Angle )
-			Y2 = SY + SYSize * Sin( Angle )
-			If N > 0 Then DrawLine( X1, Y1, X2, Y2 )
-			X1 = X2
-			Y1 = Y2
-		Next
-		
-		SetLineWidth( 1.0 )
-		SetColor( 255, 255, 255 )
-		SetAlpha( 1.0 )
-	End Method
-	
-	
-	
-	Method DrawUsingRectangle( Rectangle:LTRectangle )
-		SetColor( 255.0 * R, 255.0 * G, 255.0 * B )
-		SetAlpha( Alpha )
-		SetProperLineWidth()
-		
-		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
-		L_CurrentCamera.FieldToScreen( Rectangle.X, Rectangle.Y, SX, SY )
-		L_CurrentCamera.SizeFieldToScreen( Rectangle.XSize * XScale, Rectangle.YSize * YScale, SXSize, SYSize )
+		L_CurrentCamera.FieldToScreen( Actor.X, Actor.Y, SX, SY )
+		L_CurrentCamera.SizeFieldToScreen( Actor.XSize * XScale, Actor.YSize * YScale, SXSize, SYSize )
 		L_DrawEmptyRect( SX - 0.5 * SXSize, SY - 0.5 * SYSize, SXSize, SYSize )
 		
 		SetLineWidth( 1.0 )

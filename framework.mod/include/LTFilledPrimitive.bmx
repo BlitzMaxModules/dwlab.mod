@@ -11,45 +11,13 @@
 Global L_DefaultVisual:LTFilledPrimitive = New LTFilledPrimitive
 
 Type LTFilledPrimitive Extends LTVisual
-	Method DrawUsingPivot( Pivot:LTPivot )
+	Method DrawUsingActor( Actor:LTActor )
 		SetColor( 255.0 * R, 255.0 * G, 255.0 * B )
 		SetAlpha( Alpha )
 		
 		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
-		L_CurrentCamera.FieldToScreen( Pivot.X, Pivot.Y, SX, SY )
-		L_CurrentCamera.SizeFieldToScreen( XScale, YScale, SXSize, SYSize ) 
-		
-		DrawOval( SX - 0.5 * SXSize, SY - 0.5 * SYSize, SXSize, SYSize )
-		
-		SetColor( 255, 255, 255 )
-		SetAlpha( 1.0 )
-	End Method
-	
-	
-	
-	Method DrawUsingCircle( Circle:LTCircle )
-		SetColor( 255.0 * R, 255.0 * G, 255.0 * B )
-		SetAlpha( Alpha )
-		
-		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
-		L_CurrentCamera.FieldToScreen( Circle.X, Circle.Y, SX, SY )
-		L_CurrentCamera.SizeFieldToScreen( Circle.Diameter * XScale, Circle.Diameter * YScale, SXSize, SYSize ) 
-		
-		DrawOval( SX - 0.5 * SXSize, SY - 0.5 * SYSize, SXSize, SYSize )
-		
-		SetColor( 255, 255, 255 )
-		SetAlpha( 1.0 )
-	End Method
-	
-	
-	
-	Method DrawUsingRectangle( Rectangle:LTRectangle )
-		SetColor( 255.0 * R, 255.0 * G, 255.0 * B )
-		SetAlpha( Alpha )
-		
-		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
-		L_CurrentCamera.FieldToScreen( Rectangle.X, Rectangle.Y, SX, SY )
-		L_CurrentCamera.SizeFieldToScreen( Rectangle.XSize * XScale, Rectangle.YSize * YScale, SXSize, SYSize )
+		L_CurrentCamera.FieldToScreen( Actor.X, Actor.Y, SX, SY )
+		L_CurrentCamera.SizeFieldToScreen( Actor.XSize * XScale, Actor.YSize * YScale, SXSize, SYSize )
 		DrawRect( SX - 0.5 * SXSize, SY - 0.5 * SYSize, SXSize, SYSize )
 		
 		SetColor( 255, 255, 255 )

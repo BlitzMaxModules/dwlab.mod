@@ -24,13 +24,15 @@ Import brl.directsoundaudio
 Import brl.wavloader
 Import brl.retro
 Import brl.map
+Import brl.eventqueue
 Import maxgui.win32maxguiex
 
 SetAudioDriver( "DirectSound" )
 'SetGraphicsDriver( GLMax2DDriver() )
 
 Include "../../framework.bmx"
-Include "../../../editor.mod/editor.bmx"
+Global L_EditorPath:String = "../../../editor.mod"
+'Include "../../../editor.mod/editor.bmx"
 
 Include "Extractors.bmx"
 
@@ -61,7 +63,6 @@ Game.Execute()
 Type TGame Extends LTProject
 	Field Ball:TBall = New TBall
 	Field TileMapVisual:LTImageVisual = New LTImageVisual
-	Field TileMapRectangle:LTRectangle = New LTRectangle
 	Field TileMap:LTTileMap = New LTTileMap
 	
 	
@@ -82,7 +83,7 @@ Type TGame Extends LTProject
 		BallVisual.Rotating = False
 		Ball.Visual = BallVisual
 		Ball.SetCoords( -2.45, 0 )
-		Ball.Diameter = 0.9
+		Ball.SetDiameter( 0.9 )
 		
 		' ==================== Tilemap ====================	
 	
@@ -92,9 +93,9 @@ Type TGame Extends LTProject
 		TileMap.SetCoords( 0.0, 0.0 )
 		TileMap.Visual = TileMapVisual
 		
-		Local Rectangle:LTRectangle = New LTRectangle
+		Local Rectangle:LTActor = New LTActor
 		Rectangle.SetCoords( 0.5, 0.5 )
-		Local CollisionArray:LTShape[] = New LTShape[ TilesQuantity ]
+		Local CollisionArray:LTActor[] = New LTActor[ TilesQuantity ]
 		For Local N:Int = 1 Until TilesQuantity
 			CollisionArray[ N ] = Rectangle
 		Next
@@ -105,7 +106,7 @@ Type TGame Extends LTProject
 	
 	Method Logic()
 		Ball.MoveForward()
-		TileMap.CollidesWithCircle( Ball )
+		TileMap.CollidesWithActor( Ball )
 		Ball.Control()
 		If KeyHit( Key_Escape ) Then End
 	End Method
@@ -133,7 +134,7 @@ End Type
 
 
 
-Type TBall Extends LTCircle
+Type TBall Extends LTActor
 	Const Acceleration:Float = 20.0
 	Const AccelerationLimit:Float = 5.0
 	Const Gravity:Float = 10.0
@@ -143,11 +144,17 @@ Type TBall Extends LTCircle
 	
 	
 	
+	Method New()
+		Shape = L_Circle
+	End Method
+	
+	
+	
 	Method HandleCollision( Shape:LTShape )
 		'debugstop
 		Push( Shape )
 		
-		Local Pivot:LTPivot = LTPivot( Shape )
+		Local Pivot:LTActor = LTActor( Shape )
 		'ShapeList.AddLast( Shape )
 		Local DX:Float = Pivot.X - X
 		Local DY:Float = Pivot.Y - Y
@@ -173,4 +180,30 @@ Type TBall Extends LTCircle
 			If Abs( GetDX() ) < 0.5 Then SetDX( 0 )
 		End If
 	End Method
+End Type
+
+
+
+Type TEnemy Extends LTActor
+	Field BulletProof:Int
+End Type
+
+
+
+Type TMovingBlock Extends LTActor
+End Type
+
+
+
+Type TFallingBlock Extends LTActor
+End Type
+
+
+
+Type TEnemyGenerator Extends LTActor
+End Type
+
+
+
+Type THazardousBlock Extends LTActor
 End Type

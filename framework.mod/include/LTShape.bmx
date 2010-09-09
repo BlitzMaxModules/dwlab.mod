@@ -8,24 +8,14 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTPivot.bmx"
-Include "LTCircle.bmx"
-Include "LTRectangle.bmx"
+Include "LTActor.bmx"
 Include "LTLine.bmx"
 Include "LTGraph.bmx"
-Include "LTTileMap.bmx"
-Include "Collisions.bmx"
 
 Type LTShape Extends LTObject Abstract
-	Field Model:LTModel = L_DefaultModel
+	Field Shape:Int = L_Rectangle
 	Field Visual:LTVisual = L_DefaultVisual
-	Field Frame:Int
-	
-	
-	
-	Method New()
-		If L_DefaultModelTypeID Then Model = LTModel( L_DefaultModelTypeID.NewObject() )
-	End Method
+
 	
 	' ==================== Drawing ===================	
 	
@@ -44,22 +34,12 @@ Type LTShape Extends LTObject Abstract
 	
 	
 	
-	Method CollidesWithPivot:Int( Pivot:LTPivot )
+	Method CollidesWithActor:Int( Actor:LTActor )
 	End Method
 	
 	
 	
-	Method CollidesWithCircle:Int( Circle:LTCircle )
-	End Method
-	
-	
-	
-	Method CollidesWithRectangle:Int( Rectangle:LTRectangle )
-	End Method
-	
-	
-	
-	Method CollidesWithLine( Line:LTLine )
+	Method CollidesWithLine:Int( Line:LTLine )
 	End Method
 	
 	' ==================== Pushing ====================
@@ -69,142 +49,11 @@ Type LTShape Extends LTObject Abstract
 
 
 	
-	Method PushPivot( Piv:LTPivot )
-	End Method
-
-		
-	
-	Method PushCircle( Circ:LTCircle )
-	End Method
-	
-	
-	
-	Method PushRectangle( Rectangle:LTRectangle )
+	Method PushActor( Actor:LTActor )
 	End Method
 	
 	' ==================== Collision map ===================
 	
-	Method InsertIntoMap( Map:LTCollisionMap )
-	End Method
-	
-	
-	
-	Method RemoveFromMap( Map:LTCollisionMap )
-	End Method
-	
-	
-	
-	Method Collisions( Map:LTCollisionMap )
-	End Method
-	
-	
-	
 	Method HandleCollision( Shape:LTShape )
-	End Method
-
-	' ==================== Model parameters ====================
-	
-	Method GetAngle:Float()
-		Return Model.GetAngle()
-	End Method
-	
-	
-	
-	Method SetAngle:Float( NewAngle:Float )
-		Model.SetAngle( NewAngle )
-	End Method
-	
-	
-	
-	Method DirectAs( Shape:LTShape )
-		Model.SetAngle( Shape.Model.GetAngle() )
-	End Method
-	
-	
-	
-	Method Turn( TurningSpeed:Float )
-		Model.AlterAngle( L_DeltaTime * TurningSpeed )
-	End Method
-	
-	
-	
-	Method GetVelocity:Float()
-		Return Model.GetVelocity()
-	End Method
-	
-	
-	
-	Method SetVelocity:Float( NewVelocity:Float )
-		Model.SetVelocity( NewVelocity )
-	End Method
-	
-	
-	
-	Method GetDX:Float()
-		Return Model.GetDX()
-	End Method
-	
-	
-	
-	Method AlterDX( DDX:Float )
-		Model.AlterDX( DDX )
-	End Method
-	
-	
-	
-	Method SetDX( NewDX:Float )
-		Model.SetDX( NewDX )
-	End Method
-	
-	
-	
-	Method GetDY:Float()
-		Return Model.GetDY()
-	End Method
-	
-	
-	
-	Method AlterDY( DDY:Float )
-		Model.AlterDY( DDY )
-	End Method
-	
-	
-	
-	Method SetDY( NewDY:Float )
-		Model.SetDY( NewDY )
-	End Method
-	
-	
-	
-	Method GetAngularVelocity:Float()
-		Return Model.GetAngularVelocity()
-	End Method
-	
-	
-	
-	Method SetAngularVelocity:Float( NewAngularVelocity:Float )
-		Model.SetAngularVelocity( NewAngularVelocity )
-	End Method
-	
-	
-	
-	Method GetMass:Float()
-		Return Model.GetMass()
-	End Method
-	
-	
-	
-	Method SetMass:Float( NewMass:Float )
-		Model.SetMass( NewMass )
-	End Method
-	
-	' ==================== Other ====================
-	
-	Method CloneShape:LTShape( DX:Float, DY:Float, XK:Float, YK:Float )
-	End Method
-	
-	
-	
-	Method Update()
 	End Method
 End Type
