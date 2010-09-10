@@ -11,6 +11,7 @@
 Type LTTileMap Extends LTActor
 	Field FrameMap:LTIntMap
 	Field ActorMap:LTActor[ , ]
+	Field Wrapped:Int = False
 	
 	' ==================== Drawing ===================	
 	
@@ -89,9 +90,16 @@ Type LTTileMap Extends LTActor
 				Local Actor:LTActor = ActorArray[ FrameMap.Value[ X, Y ] ]
 				If Actor Then
 					ActorMap[ X, Y ] = Actor.CloneActor( DX + CellXSize * X, DY + CellYSize * Y, CellXSize, CellYSize )
-					ActorMap[ X, Y ].SetMass( -1.0 )
 				End If
 			Next
 		Next
+	End Method
+	
+	
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		
+		FrameMap = LTIntMap( XMLObject.ManageObjectField( "framemap", FrameMap ) )
 	End Method
 End Type

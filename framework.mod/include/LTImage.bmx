@@ -10,6 +10,9 @@
 
 Type LTImage Extends LTObject
 	Field BMaxImage:TImage
+	Field Filename:String
+	Field XCells:Int
+	Field YCells:Int
 	
 	
 	
@@ -19,7 +22,42 @@ Type LTImage Extends LTObject
 		?
 		
 		Local Image:LTImage = New LTImage
-			
+		Image.Filename = Filename
+		Image.XCells = XCells
+		Image.YCells = YCells
+		Image.LoadImages()
+		
+		Return Image
+	End Function
+		
+	
+	
+	Method Split( XCells:Int, YCells:Int )
+		Local XSize:Float = ImageWidth( BMaxImage ) / XCells
+		Local YSize:Float = ImageHeight( BMaxImage ) / YCells
+		
+		?debug
+		L_Assert( Int( XSize ) = XSize And Int( YSize ) = YSize, "Incorrect cells quantity for splitting" )
+		?
+		
+		Local NewBMaxImage:TImage = CreateImage( XSize, YSize, BMaxImage.Pixmaps.Dimensions()[ 0 ] * XCells * YCells )
+		SetImageHandle( NewBMaxImage, 0.5 * ( XSize - 1 ), 0.5 * ( YSize - 1 ) )
+
+		Local Num:Int = 0
+		For Local Pixmap:TPixmap = Eachin BMaxImage.Pixmaps
+			Local IntermediateImage:TImage = LoadAnimImage( Pixmap, XSize, YSize, 0, XCells * YCells )
+			For Local IntermediatePixmap:TPixmap = Eachin IntermediateImage.Pixmaps
+				NewBMaxImage.SetPixmap( Num, IntermediatePixmap )
+				Num :+ 1
+			Next
+		Next
+		
+		BMaxImage = NewBMaxImage
+	End Method
+	
+	
+	
+	Method LoadImages()
 		Local FirstToken:Int = FileName.Find( "#" )
 		Local LastToken:Int = FileName.FindLast( "#" )
 		Local NumLen:Int = LastToken - FirstToken + 1
@@ -54,48 +92,33 @@ Type LTImage Extends LTObject
 		L_Assert( NewPixmap <> Null, "Cannot load file named " )
 		?
 		
-		Image.BMaxImage = CreateImage( NewPixmap.Width, NewPixmap.Height, PixmapList.Count() )
+		BMaxImage = CreateImage( NewPixmap.Width, NewPixmap.Height, PixmapList.Count() )
 		Num = 0
 		For Local Pixmap:TPixmap = Eachin PixmapList
-			Image.BMaxImage.SetPixmap( Num, Pixmap )
+			BMaxImage.SetPixmap( Num, Pixmap )
 			Num :+ 1
 		Next
 	
-		If XCells > 1 Or YCells > 1 Then Image.Split( XCells, YCells )
+		If XCells > 1 Or YCells > 1 Then Split( XCells, YCells )
 		
-		SetImageHandle( Image.BMaxImage, 0.5 * ( ImageWidth( Image.BMaxImage ) - 1 ), 0.5 * ( ImageHeight( Image.BMaxImage ) - 1 ) )
-		
-		Return Image
-	End Function
-		
-	
-	
-	Method Split( XCells:Int, YCells:Int )
-		Local XSize:Float = ImageWidth( BMaxImage ) / XCells
-		Local YSize:Float = ImageHeight( BMaxImage ) / YCells
-		
-		?debug
-		L_Assert( Int( XSize ) = XSize And Int( YSize ) = YSize, "Incorrect cells quantity for splitting" )
-		?
-		
-		Local NewBMaxImage:TImage = CreateImage( XSize, YSize, BMaxImage.Pixmaps.Dimensions()[ 0 ] * XCells * YCells )
-		SetImageHandle( NewBMaxImage, 0.5 * ( XSize - 1 ), 0.5 * ( YSize - 1 ) )
-
-		Local Num:Int = 0
-		For Local Pixmap:TPixmap = Eachin BMaxImage.Pixmaps
-			Local IntermediateImage:TImage = LoadAnimImage( Pixmap, XSize, YSize, 0, XCells * YCells )
-			For Local IntermediatePixmap:TPixmap = Eachin IntermediateImage.Pixmaps
-				NewBMaxImage.SetPixmap( Num, IntermediatePixmap )
-				Num :+ 1
-			Next
-		Next
-		
-		BMaxImage = NewBMaxImage
+		SetImageHandle( BMaxImage, 0.5 * ( ImageWidth( BMaxImage ) - 1 ), 0.5 * ( ImageHeight( BMaxImage ) - 1 ) )		
 	End Method
 	
 	
 	
 	Method SetHandle( X:Float, Y:Float )
 		SetImageHandle( BMaxImage, X * ImageWidth( BMaxImage ), Y * ImageHeight( BMaxImage ) )
+	End Method
+	
+	
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		
+		XMLObject.ManageStringAttribute( "filename", FileName )
+		XMLObject.ManageIntAttribute( "xcells", XCells, 1 )
+		XMLObject.ManageIntAttribute( "ycells", YCells, 1 )
+		
+		If L_XMLMode = L_XMLGet Then LoadImages()
 	End Method
 End Type

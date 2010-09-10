@@ -44,16 +44,24 @@ Type LTShape Extends LTObject Abstract
 	
 	' ==================== Pushing ====================
 	
-	Method Push( Shape:LTShape )
+	Method Push( Shape:LTShape, SelfMass:Float, ShapeMass:Float )
 	End Method
 
 
 	
-	Method PushActor( Actor:LTActor )
+	Method PushActor( Actor:LTActor, SelfMass:Float, ActorMass:Float )
 	End Method
 	
-	' ==================== Collision map ===================
+	' ==================== Collision ===================
 	
 	Method HandleCollision( Shape:LTShape )
+	End Method
+	
+	
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		XMLObject.ManageIntAttribute( "shape", Shape )
+		Visual = LTVisual( XMLObject.ManageObjectField( "visual", Visual ) )
 	End Method
 End Type

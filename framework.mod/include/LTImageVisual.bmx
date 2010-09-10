@@ -13,7 +13,6 @@ Include "LTImage.bmx"
 Type LTImageVisual Extends LTVisual
 	Field Image:LTImage
 	Field Rotating:Int = True
-	Field Wrapped:Int = False
 	
 	
 	
@@ -74,7 +73,7 @@ Type LTImageVisual Extends LTVisual
 		Local StartX:Float = SX + SXSize * ( Int( ( X1 - SX ) / SXSize ) ) + SXSize * 0.5
 		Local StartY:Float = SY + SYSize * ( Int( ( Y1 - SY ) / SYSize ) ) + SYSize * 0.5
 		
-		If Not Wrapped Then
+		If Not TileMap.Wrapped Then
 			If StartXFrame < 0 Then 
 				StartX :- StartXFrame * SXSize
 				StartXFrame = 0
@@ -113,5 +112,14 @@ Type LTImageVisual Extends LTVisual
 	
 	Method DrawTile( FrameMap:LTIntMap, X:Float, Y:Float, TileX:Int, TileY:Int )
 		Drawimage( Image.BMaxImage, X, Y, FrameMap.Value[ TileX, TileY ] )
+	End Method
+	
+	
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		
+		Image = LTImage( XMLObject.ManageObjectField( "image", Image ) )
+		XMLObject.ManageIntAttribute( "rotating", Rotating, 1 )
 	End Method
 End Type

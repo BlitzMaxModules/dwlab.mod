@@ -10,19 +10,19 @@
 
 Include "LTJoint.bmx"
 
-Function L_PushCircleWithCircle( Circle1:LTActor, Circle2:LTActor )
+Function L_PushCircleWithCircle( Circle1:LTActor, Circle2:LTActor, Mass1:Float, Mass2:Float )
 	Local DX:Float = Circle1.X - Circle2.X
 	Local DY:Float = Circle1.Y - Circle2.Y
 	Local K:Float = 0.5 * ( Circle1.XSize + Circle2.XSize ) / Sqr( DX * DX + DY * DY ) - 1.0
 	
-	L_Separate( Circle1, Circle2, K * DX, K * DY )
+	L_Separate( Circle1, Circle2, K * DX, K * DY, Mass1, Mass2 )
 End Function
 
 
 
 
 
-Function L_PushCircleWithRectangle( Circle:LTActor, Rectangle:LTActor )
+Function L_PushCircleWithRectangle( Circle:LTActor, Rectangle:LTActor, Mass1:Float, Mass2:Float )
 	Local DX:Float, DY:Float
 	
 	If Circle.X > Rectangle.X - 0.5 * Rectangle.XSize And Circle.X < Rectangle.X + 0.5 * Rectangle.XSize Then
@@ -37,21 +37,21 @@ Function L_PushCircleWithRectangle( Circle:LTActor, Rectangle:LTActor )
 		DY = ( Circle.Y - PY ) * K
 	End If
 	
-	L_Separate( Rectangle, Circle, DX, DY )
+	L_Separate( Rectangle, Circle, DX, DY, Mass2, Mass1 )
 End Function
 
 
 
 
 
-Function L_PushRectangleWithRectangle( Rectangle1:LTActor, Rectangle2:LTActor )
+Function L_PushRectangleWithRectangle( Rectangle1:LTActor, Rectangle2:LTActor, Mass1:Float, Mass2:Float )
 	Local DX:Float = 0.5 * ( Rectangle1.XSize + Rectangle2.XSize ) - Abs( Rectangle1.X - Rectangle2.X )
 	Local DY:Float = 0.5 * ( Rectangle1.YSize + Rectangle2.YSize ) - Abs( Rectangle1.Y - Rectangle2.Y )
 	
 	If DX < DY Then
-		L_Separate( Rectangle1, Rectangle2, DX * Sgn( Rectangle1.X - Rectangle2.X ), 0 )
+		L_Separate( Rectangle1, Rectangle2, DX * Sgn( Rectangle1.X - Rectangle2.X ), 0, Mass1, Mass2 )
 	Else
-		L_Separate( Rectangle1, Rectangle2, 0, DY * Sgn( Rectangle1.Y - Rectangle2.Y ) )
+		L_Separate( Rectangle1, Rectangle2, 0, DY * Sgn( Rectangle1.Y - Rectangle2.Y ), Mass1, Mass2 )
 	End If
 End Function
 
@@ -59,11 +59,9 @@ End Function
 
 
 
-Function L_Separate( Pivot1:LTActor, Pivot2:LTActor, DX:Float, DY:Float )
+Function L_Separate( Pivot1:LTActor, Pivot2:LTActor, DX:Float, DY:Float, Mass1:Float, Mass2:Float )
 	'debugstop
 	Local K1:Float, K2:Float
-	Local Mass1:Float = Pivot1.Model.GetMass()
-	Local Mass2:Float = Pivot2.Model.GetMass()
 	
 	If Mass1 < 0 then
 		If Mass2 < 0 Then

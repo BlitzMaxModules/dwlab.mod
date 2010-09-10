@@ -32,38 +32,40 @@ SetAudioDriver( "DirectSound" )
 
 Include "../../framework.bmx"
 Global L_EditorPath:String = "../../../editor.mod"
-'Include "../../../editor.mod/editor.bmx"
+Include "../../../editor.mod/editor.bmx"
 
-Include "Extractors.bmx"
+Include "Tools.bmx"
 
 Init( 800, 600 )
 
-'Global TileExtractor:TTileExtractor = New TTileExtractor
-'TileExtractor.Execute()
+'Global Editor:LTEditor = New LTEditor
+'Editor.Execute()
 
 Const TilesQuantity:Int = 64
 Const TileXSize:Int = 16
 Const TileYSize:Int = 16
 
 Global Pri:LTFilledPrimitive = New LTFilledPrimitive
+Pri.SetColorFromHex( "FF0000" )
 Pri.Alpha = 0.5
 
-'Global LevelExtractor:TLevelExtractor = New TLevelExtractor
-'LevelExtractor.Execute()
-
 LTVectorModel.SetDefault()
-Global Prim:LTFilledPrimitive = New LTFilledPrimitive
-Prim.SetColorFromHex( "FF0000" )
-Prim.Alpha = 0.5
 Global ShapeList:TList = New TList
 
 Global Game:TGame = New TGame
+
+
+Global LevelExtractor:TLevelExtractor = New TLevelExtractor
+LevelExtractor.Execute(); End
+
+
 Game.Execute()
 
 Type TGame Extends LTProject
 	Field Ball:TBall = New TBall
 	Field TileMapVisual:LTImageVisual = New LTImageVisual
-	Field TileMap:LTTileMap = New LTTileMap
+	Field FlashingVisual:LTFlashingVisual = New LTFlashingVisual
+	Field CurrentLevel:TLevel
 	
 	
 	
@@ -85,13 +87,27 @@ Type TGame Extends LTProject
 		Ball.SetCoords( -2.45, 0 )
 		Ball.SetDiameter( 0.9 )
 		
+		' ==================== Visuals ====================	
+		
+		TileMapVisual.Image = LTImage.FromFile( "media\tiles.png", 16, 4 )
+		FlashingVisual.Image = TileMapVisual.Image
+		
 		' ==================== Tilemap ====================	
 	
-		TileMap.FrameMap = LTIntMap.FromFile( "levels\03.dat" )
-		TileMapVisual.Image = LTImage.FromFile( "media\tiles.png", 16, 4 )
-		TileMap.SetSize( 15.0, 14.0 )
-		TileMap.SetCoords( 0.0, 0.0 )
-		TileMap.Visual = TileMapVisual
+		'CurrentLevel = TLevel( L_LoadFromFile( "levels\03.xml" ) )
+		CurrentLevel = New TLevel
+		
+		CurrentLevel.TileMap = New LTTileMap
+		CurrentLevel.TileMap.FrameMap = LTIntMap.FromFile( "levels\03.dat" )
+		CurrentLevel.TileMap.SetSize( 15.0, 14.0 )
+		CurrentLevel.TileMap.Visual = TileMapVisual
+		
+		CurrentLevel.TileMap.SetName( "tilemap" )
+		CurrentLevel.Objects = New LTList
+		
+		CurrentLevel.SaveToFile( "levels\03.xml" )
+		
+		'Objects = LTList( L_LoadFromFile( "levels\03.xml" ) )
 		
 		Local Rectangle:LTActor = New LTActor
 		Rectangle.SetCoords( 0.5, 0.5 )
@@ -99,14 +115,14 @@ Type TGame Extends LTProject
 		For Local N:Int = 1 Until TilesQuantity
 			CollisionArray[ N ] = Rectangle
 		Next
-		TileMap.FillShapeMap( CollisionArray )
+		CurrentLevel.TileMap.FillShapeMap( CollisionArray )
 	End Method
 	
 	
 	
 	Method Logic()
 		Ball.MoveForward()
-		TileMap.CollidesWithActor( Ball )
+		CurrentLevel.TileMap.CollidesWithActor( Ball )
 		Ball.Control()
 		If KeyHit( Key_Escape ) Then End
 	End Method
@@ -114,8 +130,12 @@ Type TGame Extends LTProject
 	
 	
 	Method Render()
-		TileMap.Draw()
+		CurrentLevel.TileMap.Draw()
+		'debugstop
+		CurrentLevel.Objects.Draw()
 		Ball.Draw()
+		DrawText( Ball.X, 0, 0 )
+		DrawText( Ball.Y, 0, 16 )
 		'Ball.DrawUsingVisual( Prim )
 		'For Local Y:Int = 0 Until TileMap.FrameMap.YQuantity
 		'	For Local X:Int = 0 Until TileMap.FrameMap.XQuantity
@@ -127,6 +147,24 @@ Type TGame Extends LTProject
 		'	Shape.DrawUsingVisual( Prim )
 		'Next
 		'ShapeList.Clear()
+	End Method
+End Type
+
+
+
+
+
+Type TLevel Extends LTObject
+	Field Objects:LTList
+	Field TileMap:LTTileMap
+	
+	
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		
+		Objects = LTList( XMLObject.ManageObjectField( "objects", Objects ) )
+		TileMap = LTTileMap( XMLObject.ManageObjectField( "tilemap", TileMap ) )
 	End Method
 End Type
 
@@ -152,7 +190,7 @@ Type TBall Extends LTActor
 	
 	Method HandleCollision( Shape:LTShape )
 		'debugstop
-		Push( Shape )
+		Push( Shape, 0.0, 1.0 )
 		
 		Local Pivot:LTActor = LTActor( Shape )
 		'ShapeList.AddLast( Shape )
@@ -184,13 +222,28 @@ End Type
 
 
 
-Type TEnemy Extends LTActor
-	Field BulletProof:Int
+Type TBulletProofEnemy Extends LTActor
+End Type
+
+
+
+Type TEnemy Extends TBulletProofEnemy
 End Type
 
 
 
 Type TMovingBlock Extends LTActor
+	Method New()
+		Visual = Game.FlashingVisual
+	End Method
+	
+	
+	
+	Function Create( X:Float, Y:Float )
+		Local MovingBlock:TMovingBlock = New TMovingBlock
+		MovingBlock.SetCoords( X, Y )
+		Game.CurrentLevel.Objects.AddLast( MovingBlock )
+	End Function
 End Type
 
 
@@ -206,4 +259,28 @@ End Type
 
 
 Type THazardousBlock Extends LTActor
+	Method New()
+		Visual = Game.FlashingVisual
+	End Method
+End Type
+
+
+
+Type LTFlashingVisual Extends LTImageVisual
+	Method Update()
+		Local Time:Float = L_WrapFloat( Game.ProjectTime, 3.0 )
+		If Time < 1.0 Then
+			R = Time
+			G = 0.0
+			B = 1.0 - Time
+		ElseIf Time >= 1.0 And Time < 2.0 Then
+			R = 2.0 - Time
+			G = Time - 1.0
+			B = 0.0
+		Else
+			R = 0.0
+			G = 3.0 - Time
+			B = Time - 2.0
+		End If
+	End Method
 End Type

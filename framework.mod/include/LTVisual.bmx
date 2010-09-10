@@ -69,4 +69,18 @@ Type LTVisual Extends LTObject Abstract
 		G = L_LimitFloat( G + Rnd( D1, D2 ), 0.0, 1.0 )
 		B = L_LimitFloat( B + Rnd( D1, D2 ), 0.0, 1.0 )
 	End Method
+	
+	
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		
+		XMLObject.ManageFloatAttribute( "r", R, 1.0 )
+		XMLObject.ManageFloatAttribute( "g", G, 1.0 )
+		XMLObject.ManageFloatAttribute( "b", B, 1.0 )
+		XMLObject.ManageFloatAttribute( "alpha", Alpha, 1.0 )
+		XMLObject.ManageFloatAttribute( "xscale", XScale, 1.0 )
+		XMLObject.ManageFloatAttribute( "yscale", YScale, 1.0 )
+		XMLObject.ManageIntAttribute( "scaling", Scaling, 1 )
+	End Method
 End Type

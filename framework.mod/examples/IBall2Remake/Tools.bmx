@@ -100,19 +100,26 @@ Type TLevelExtractor Extends LTObject
 	
 	
 	Method ExtractLevelFromImage( Filename:String )
+		Local Level:TLevel = New TLevel
+		Level.Objects = New LTList
+		Game.CurrentLevel = Level
+		
+		Level.TileMap = New LTTileMap
+		Level.TileMap.FrameMap = New LTIntMap
+		Level.TileMap.FrameMap.SetResolution( 15, 14 )
+		Level.TileMap.SetSize( 15.0, 14.0 )
+		
 		Local Screenshot:TPixmap = LoadPixmap( "screens\" + Filename )
-		Local File:TStream = WriteFile( "levels\" + Left( Filename, 2 ) + ".dat" )
-		WriteInt( File, 15 )
-		WriteInt( File, 14 )
-		'debugLog PixmapFormat( Screenshot )
-		For Local N:Int = 1 To 15
-			WriteInt( File, 49 )
+		
+		For Local Y:Int = 0 Until 14
+			For Local X:Int = 0 Until 15
+				Level.TileMap.FrameMap.Value[ X, Y ] = 49
+			Next
 		Next
 		
-		For Local Y:Int = 0 Until PixmapHeight( Screenshot ) Step TileYSize
-			WriteInt( File, 49 )
-			For Local X:Int = 0 Until PixmapWidth( Screenshot ) Step TileXSize
-				Local Pixmap1:TPixmap = Screenshot.Window( X, Y, TileXSize, TileYSize )
+		For Local Y:Int = 0 Until 12
+			For Local X:Int = 0 Until 13
+				Local Pixmap1:TPixmap = Screenshot.Window( X * TileXSize, Y * TileYSize, TileXSize, TileYSize )
 				Local TileNum:Int = 0
 				For Local N:Int = 0 Until TilesQuantity
 					Local Pixmap2:TPixmap = LockImage( Tiles, N )
@@ -124,14 +131,19 @@ Type TLevelExtractor Extends LTObject
 					UnlockImage( Tiles )
 				Next
 				
-				WriteInt( File, TileNum )
+				Level.TileMap.FrameMap.Value[ X + 1, Y + 1 ] = TileNum
 			Next
-			WriteInt( File, 49 )
 		Next
 		
-		For Local N:Int = 1 To 15
-			WriteInt( File, 49 )
-		Next
-		CloseFile( File )
+		Select Left( Filename, 2 ).ToInt()
+			Case 3
+				TMovingBlock.Create( -1.0, 3.5 )
+				TMovingBlock.Create( 1.0, 3.5 )
+				TMovingBlock.Create( -1.0, -5.5 )
+				TMovingBlock.Create( 1.0, -5.5 )
+				'debugstop
+		End Select
+		
+		Level.SaveToFile( "levels\" + Left( Filename, 2 ) + ".xml" )
 	End Method
 End Type

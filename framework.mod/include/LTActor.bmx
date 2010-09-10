@@ -96,40 +96,40 @@ Type LTActor Extends LTShape
 	
 	' ==================== Pushing ====================
 	
-	Method Push( Shape:LTShape )
-		Shape.PushActor( Self )
+	Method Push( Shape:LTShape, SelfMass:Float, ShapeMass:Float )
+		Shape.PushActor( Self, ShapeMass, SelfMass )
 	End Method
 
 
 	
-	Method PushActor( Actor:LTActor )
+	Method PushActor( Actor:LTActor, SelfMass:Float, ActorMass:Float )
 		Select Shape
 			Case L_Pivot
 				Select Actor.Shape
 					Case L_Pivot
-						'L_PushPivotWithPivot( Self, Actor )
+						'L_PushPivotWithPivot( Self, Actor, SelfMass, ActorMass )
 					Case L_Circle
-						'L_PushPivotWithCircle( Self, Actor )
+						'L_PushPivotWithCircle( Self, Actor, SelfMass, ActorMass )
 					Case L_Rectangle
-						'L_PushPivotWithRectangle( Self, Actor )
+						'L_PushPivotWithRectangle( Self, Actor, SelfMass, ActorMass )
 				End Select
 			Case L_Circle
 				Select Actor.Shape
 					Case L_Pivot
-						'L_PushPivotWithCircle( Actor, Self )
+						'L_PushPivotWithCircle( Actor, Self, Mass1, SelfMass )
 					Case L_Circle
-						L_PushCircleWithCircle( Self, Actor )
+						L_PushCircleWithCircle( Self, Actor, SelfMass, ActorMass )
 					Case L_Rectangle
-						L_PushCircleWithRectangle( Self, Actor )
+						L_PushCircleWithRectangle( Self, Actor, SelfMass, ActorMass )
 				End Select
 			Case L_Rectangle
 				Select Actor.Shape
 					Case L_Pivot
-						'L_PushPivotWithRectangle( Actor, Self )
+						'L_PushPivotWithRectangle( Actor, Self, ActorMass, SelfMass )
 					Case L_Circle
-						L_PushCircleWithRectangle( Actor, Self )
+						L_PushCircleWithRectangle( Actor, Self, ActorMass, SelfMass )
 					Case L_Rectangle
-						L_PushRectangleWithRectangle( Self, Actor )
+						L_PushRectangleWithRectangle( Self, Actor, SelfMass, ActorMass )
 				End Select
 		End Select
 	End Method
@@ -395,7 +395,8 @@ Type LTActor Extends LTShape
 		Super.XMLIO( XMLObject )
 		XMLObject.ManageFloatAttribute( "x", X )
 		XMLObject.ManageFloatAttribute( "y", Y )
-		XMLObject.ManageFloatAttribute( "xsize", XSize )
-		XMLObject.ManageFloatAttribute( "ysize", YSize )
+		XMLObject.ManageFloatAttribute( "xsize", XSize, 1.0 )
+		XMLObject.ManageFloatAttribute( "ysize", YSize, 1.0 )
+		Model = LTModel( XMLObject.ManageObjectField( "model", Model ) )
 	End Method
 End Type
