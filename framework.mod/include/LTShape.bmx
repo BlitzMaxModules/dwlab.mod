@@ -15,17 +15,6 @@ Include "LTGraph.bmx"
 Type LTShape Extends LTObject Abstract
 	Field Shape:Int = L_Rectangle
 	Field Visual:LTVisual = L_DefaultVisual
-
-	
-	' ==================== Drawing ===================	
-	
-	Method Draw()
-	End Method
-	
-	
-	
-	Method DrawUsingVisual( Vis:LTVisual )
-	End Method
 	
 	' ==================== Collisions ===================
 	

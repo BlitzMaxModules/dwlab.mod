@@ -383,11 +383,6 @@ Type LTActor Extends LTShape
 		Actor.YSize = YSize * YK
 		Return Actor
 	End Method
-	
-	
-	
-	Method Update()
-	End Method
 
 	
 	

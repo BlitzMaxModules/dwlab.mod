@@ -42,6 +42,26 @@ Type LTObject
 	End Method
 	
 	
+	
+	Method Draw()
+	End Method
+	
+	
+	
+	Method DrawUsingVisual( Vis:LTVisual )
+	End Method
+	
+	
+	
+	Method Update()
+	End Method
+	
+	
+	
+	Method Destroy()
+	End Method
+	
+	
 
 	Method XMLIO( XMLObject:LTXMLObject )
 		If L_XMLMode = L_XMLGet Then

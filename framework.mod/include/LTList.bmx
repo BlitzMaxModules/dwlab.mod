@@ -14,8 +14,16 @@ Type LTList Extends LTObject
 	
 	
 	Method Draw()
-		For Local Shape:LTShape = Eachin List
+		For Local Obj:LTObject = Eachin List
 			Shape.Draw()
+		Next
+	End Method
+	
+	
+	
+	Method Update()
+		For Local Obj:LTObject = Eachin List
+			Obj.Update()
 		Next
 	End Method
 	

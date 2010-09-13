@@ -86,7 +86,7 @@ Type TLevelExtractor Extends LTObject
 	
 	
 	Method Execute( )
-		Tiles = LoadAnimImage( "media\tiles.png", 16, 16, 0, TilesQuantity )
+		Tiles = LoadAnimImage( "media\tiles_original.png", 16, 16, 0, TilesQuantity )
 		
 		Local Dir:Int = ReadDir( "screens" )
 		Repeat
@@ -101,21 +101,14 @@ Type TLevelExtractor Extends LTObject
 	
 	Method ExtractLevelFromImage( Filename:String )
 		Local Level:TLevel = New TLevel
-		Level.Objects = New LTList
 		Game.CurrentLevel = Level
 		
-		Level.TileMap = New LTTileMap
-		Level.TileMap.FrameMap = New LTIntMap
-		Level.TileMap.FrameMap.SetResolution( 15, 14 )
-		Level.TileMap.SetSize( 15.0, 14.0 )
+		Level.FrameMap = New LTIntMap
+		Level.FrameMap.SetResolution( 13, 12 )
+		Level.ObjectMap = New LTIntMap
+		Level.ObjectMap.SetResolution( 13, 12 )
 		
 		Local Screenshot:TPixmap = LoadPixmap( "screens\" + Filename )
-		
-		For Local Y:Int = 0 Until 14
-			For Local X:Int = 0 Until 15
-				Level.TileMap.FrameMap.Value[ X, Y ] = 49
-			Next
-		Next
 		
 		For Local Y:Int = 0 Until 12
 			For Local X:Int = 0 Until 13
@@ -131,18 +124,10 @@ Type TLevelExtractor Extends LTObject
 					UnlockImage( Tiles )
 				Next
 				
-				Level.TileMap.FrameMap.Value[ X + 1, Y + 1 ] = TileNum
+				Level.FrameMap.Value[ X, Y ] = TileNum
+				Level.ObjectsMap.Value[ X, Y ] = Sgn( TileNum )
 			Next
 		Next
-		
-		Select Left( Filename, 2 ).ToInt()
-			Case 3
-				TMovingBlock.Create( -1.0, 3.5 )
-				TMovingBlock.Create( 1.0, 3.5 )
-				TMovingBlock.Create( -1.0, -5.5 )
-				TMovingBlock.Create( 1.0, -5.5 )
-				'debugstop
-		End Select
 		
 		Level.SaveToFile( "levels\" + Left( Filename, 2 ) + ".xml" )
 	End Method
