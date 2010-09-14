@@ -66,6 +66,7 @@ Type TGame Extends LTProject
 	Field TileMapVisual:LTImageVisual = New LTImageVisual
 	Field FlashingVisual:LTFlashingVisual = New LTFlashingVisual
 	Field CurrentLevel:TLevel
+	Field CollisionMap:LTCollisionMap
 	
 	
 	
@@ -91,6 +92,7 @@ Type TGame Extends LTProject
 	
 	Method Logic()
 		Objects.Update()
+		FlashingVisual.Update()
 		If KeyHit( Key_Escape ) Then End
 	End Method
 	
@@ -116,46 +118,12 @@ Type TLevel Extends LTObject
 	Function FromFile:TLevel( Filename:String )
 		Local Level:TLevel = TLevel( L_LoadFromFile( Filename ) )
 		
-		Level.CollisionMap = New LTCollisionMap
-		Level.CollisionMap.SetResolution( 8, 8 )
-		Level.CollisionMap.SetMapScale( 2.0, 2.0 )
-		Level.Objects = New LTList
+		Game.CollisionMap = New LTCollisionMap
+		Game.CollisionMap.SetResolution( 8, 8 )
+		Game.CollisionMap.SetMapScale( 2.0, 2.0 )
 		
-		For Y:Int = 0 Until 12
-			For X:Int = 0 Until 13
-					Local Num:Int = Level.FrameMap[ X, Y ]
-				Select Num
-					Case 1
-						Local Block:TBlock = New TBlock
-						Block.SetCoords( X, Y )
-						Block.Visual = BlockVisual
-						Objects.AddLast( Block )
-					Case 2, 3, 4, 5
-						Local Block:TMovingBlock = New TMovingBlock
-						Block.SetCoords( X, Y )
-						Block.Visual = BlockVisual
-						Select Num
-							Case 2
-								Block.SetDY( -2.0 )
-								Block.BlockType = Block.MovingBlock
-							Case 3
-								Block.SetDY( -4.0 )
-								Block.BlockType = Block.MovingBlock
-							Case 4
-								Block.BlockType = Block.FallingBlock
-							Case 5
-								Block.BlockType = Block.PinnedBlock
-						End Select
-						Objects.AddLast( Block )
-					Case 6, 7, 8, 9, 10
-						Local Block:TCollectableBlock = New TCollectableBlock
-						Block.SetCoords( X, Y )
-						Block.Visual = BlockVisual
-						Block.BlockType = Num
-						Objects.AddLast( Block )
-					Case
-				End Select
-			Next
+		For Local Actor:LTActor = Eachin Objects
+			Game.CollisionMap.InsertActor( Actor )
 		Next
 	End Function
 	
@@ -164,7 +132,7 @@ Type TLevel Extends LTObject
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
-		ObjectMap = LTList( XMLObject.ManageObjectField( "objectmap", ObjectMap ) )
+		Objects = LTList( XMLObject.ManageObjectField( "objects", Objects ) )
 		TileMap = LTTileMap( XMLObject.ManageObjectField( "tilemap", TileMap ) )
 	End Method
 End Type
@@ -218,12 +186,57 @@ Type TBall Extends TGameActor
 	
 	
 	Method Update()
-		If KeyDown( Key_Left ) Then AlterDX( -L_DeltaTime * Acceleration ); Visual.XScale = -1.0
-		If KeyDown( Key_Right ) Then AlterDX( L_DeltaTime * Acceleration ); Visual.XScale = 1.0
+		If KeyDown( Key_Left ) Then
+			AlterDX( -L_DeltaTime * Acceleration )
+			Visual.XScale = -1.0
+		End If
+		If KeyDown( Key_Right ) Then
+			AlterDX( L_DeltaTime * Acceleration )
+			Visual.XScale = 1.0
+		End If
 		SetDX( L_LimitFloat( GetDX(), -5.0, 5.0 ) )
 		AlterDY( L_DeltaTime * Gravity )
 		If Not KeyDown( Key_Left ) And Not KeyDown( Key_Right ) Then
 			If Abs( GetDX() ) < 0.5 Then SetDX( 0 )
+		End If
+		Game.CollisionMap.CollisionsWithActor( Self )
+	End Method
+End Type
+
+
+
+
+
+Type TEnemy Extends TGameActor
+	Field BulletProof:Int
+	
+	
+	
+	Method Update()
+		
+	End Method
+	
+	
+	
+	Method Destroy()
+	End Method
+	
+	
+	
+	Method HandleCollision( Shape:LTShape )
+		If TBall( Shape ) Then
+			Shape.Destroy()
+		ElseIf TBullet( Shape ) Then
+			Shape.Destroy()
+			Destroy()
+		Else
+			Push( Shape, 0.0, 1.0 )
+			Local Pivot:LTActor = LTActor( Shape )
+			If Abs( Pivot.Y - Y ) > Abs( Pivot.X - X ) Then
+				Model.SetDY( -GetDY() )
+			Else
+				Model.SetDX( -GetDX() )
+			End If
 		End If
 	End Method
 End Type
@@ -232,14 +245,16 @@ End Type
 
 
 
-Type TBulletProofEnemy Extends TGameActor
+Type TEnemyGenerator Extends LTActor
+	Method Update()
+	End Method
 End Type
 
 
 
 
 
-Type TEnemy Extends TBulletProofEnemy
+Type TBullet
 End Type
 
 
@@ -260,7 +275,6 @@ Type TMovingBlock Extends LTActor
 	
 	Const MovingBlock:Int = 0
 	Const FallingBlock:Int = 1
-	Const PinnedBlock:Int = 2
 	
 	
 	
@@ -268,6 +282,7 @@ Type TMovingBlock Extends LTActor
 		Select BlockType
 			Case MovingBlock, FallingBlock
 				MoveForward()
+				Game.CurrentLevel.CollisionMap.CollisionsWithActor( Self )
 		End Select
 	End Method
 	
@@ -287,9 +302,7 @@ End Type
 
 
 
-Type TEnemyGenerator Extends LTActor
-	Method Update()
-	End Method
+Type TExitBlock Extends TBlock
 End Type
 
 
@@ -317,11 +330,11 @@ Type TCollectableBlock
 	
 	
 	
-	Const Key:Int = 6
-	Const Bomb:Int = 7
-	Const Badge:Int = 8
-	Const Score:Int = 9
-	Const Nothing:Int = 10
+	Const Key:Int = 0
+	Const Bomb:Int = 1
+	Const Badge:Int = 2
+	Const Score:Int = 3
+	Const Nothing:Int = 4
 End Type
 
 
