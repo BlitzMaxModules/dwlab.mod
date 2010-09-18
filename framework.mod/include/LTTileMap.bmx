@@ -10,8 +10,41 @@
 
 Type LTTileMap Extends LTActor
 	Field FrameMap:LTIntMap
-	Field ActorMap:LTActor[ , ]
+	Field ActorArray:LTActor[]
 	Field Wrapped:Int = False
+	
+	' ==================== Parameters ===================	
+	
+	Method GetCellXSize:Float()
+			Return XSize / FrameMap.XQuantity
+	End Method
+
+	
+	
+	Method GetCellYSize:Float()
+			Return YSize / FrameMap.YQuantity
+	End Method
+	
+	
+	
+	Method GetTile:LTActor( TileX:Int, TileY:Int )
+		Local Template:LTActor = GetTileTemplate( TileX, TileY )
+		Local Actor:LTActor = New Template
+		Local CellXSize:Float = GetCellXSize()
+		Local CellYSize:Float = GetCellYSize()
+		Actor.X = ( Template.X + TileX ) * CellXSize + CornerX()
+		Actor.Y = ( Template.Y + TileY ) * CellYSize + CornerY()
+		Actor.XSize = Template.XSize * CellXSize
+		Actor.YSize = Template.YSize * CellYSize
+		Actor.Shape = Template.Shape
+		Return Actor
+	End Method
+	
+	
+	
+	Method GetTileTemplate:LTActor( TileX:Int, TileY:Int )
+		Return ActorArray[ FrameMap.Value[ TileX, TileY ] ]
+	End Method
 	
 	' ==================== Drawing ===================	
 	
@@ -27,72 +60,43 @@ Type LTTileMap Extends LTActor
 	
 	' ==================== Collisions ===================
 	
-	Method CollidesWithActor:Int( Actor:LTActor )
+	Method CollisionsWithActor( Actor:LTActor )
+		Local X0:Float = CornerX()
+		Local Y0:Float = CornerY()
+		Local CellXSize:Float = GetCellXSize()
+		Local CellYSize:Float = GetCellYSize()
+				
 		Select Actor.Shape
 			Case L_Pivot
-				Local RX:Float = X - 0.5 * XSize
-				Local RY:Float = Y - 0.5 * YSize
-				Local CellXSize:Float = XSize / FrameMap.XQuantity
-				Local CellYSize:Float = YSize / FrameMap.YQuantity
-				Local X1:Int = Int( ( Actor.X - RX ) / CellXSize )
-				Local Y1:Int = Int( ( Actor.Y - RY ) / CellYSize )
+				Local X1:Int = Floor( ( Actor.X - X0 ) / CellXSize )
+				Local Y1:Int = Floor( ( Actor.Y - Y0 ) / CellYSize )
 				
 				If X1 >= 0 And Y1 >= 0 And X1 < FrameMap.XQuantity And Y1 < FrameMap.YQuantity Then
-					Local Actor2:LTActor = ActorMap[ X1, Y1 ]
+					Local Actor2:LTActor = ActorArray[ FrameMap.Value[ X1, Y1 ] ]
 					If Actor2 Then
-						Local Collision:Int = Actor.CollidesWithActor( Actor2 )
-						If Collision Then
-							Actor.HandleCollision( Actor2 )
-							Actor2.HandleCollision( Actor )
-						End If
-						Return Collision
+						Local DX:Float = X0 + CellXSize * X1
+						Local DY:Float = Y0 + CellYSize * Y1
+						If Actor.CollidesWithTile( Actor2, DX, DY, CellXSize, CellYSize ) Then Actor.HandleCollisionWithTile( Self, X1, Y1 )
 					End If
 				End If
 			Case L_Circle, L_Rectangle
-				Local RX:Float = X - 0.5 * XSize
-				Local RY:Float = Y - 0.5 * YSize
-				Local CellXSize:Float = XSize / FrameMap.XQuantity
-				Local CellYSize:Float = YSize / FrameMap.YQuantity
-				Local X1:Int = L_LimitInt( Int( ( Actor.X - 0.5 * Actor.XSize - RX ) / CellXSize ), 0, FrameMap.XQuantity )
-				Local Y1:Int = L_LimitInt( Int( ( Actor.Y - 0.5 * Actor.YSize - RY ) / CellYSize ), 0, FrameMap.YQuantity )
-				Local X2:Int = L_LimitInt( Int( ( Actor.X + 0.5 * Actor.XSize - RX ) / CellXSize ), 0, FrameMap.XQuantity - 1 )
-				Local Y2:Int = L_LimitInt( Int( ( Actor.Y + 0.5 * Actor.YSize - RY ) / CellYSize ), 0, FrameMap.YQuantity - 1 )
+				Local X1:Int = L_LimitInt( Floor( ( Actor.X - 0.5 * Actor.XSize - X0 ) / CellXSize ), 0, FrameMap.XQuantity )
+				Local Y1:Int = L_LimitInt( Floor( ( Actor.Y - 0.5 * Actor.YSize - Y0 ) / CellYSize ), 0, FrameMap.YQuantity )
+				Local X2:Int = L_LimitInt( Floor( ( Actor.X + 0.5 * Actor.XSize - X0 - 0.000001 ) / CellXSize ), 0, FrameMap.XQuantity - 1 )
+				Local Y2:Int = L_LimitInt( Floor( ( Actor.Y + 0.5 * Actor.YSize - Y0 - 0.000001 ) / CellYSize ), 0, FrameMap.YQuantity - 1 )
 				
-				Local Collided:Int = False
 				For Local Y:Int = Y1 To Y2
 					For Local X:Int = X1 To X2
-						Local Actor2:LTActor = ActorMap[ X, Y ]
+						Local Num:Int = FrameMap.Value[ X, Y ]
+						Local Actor2:LTActor = ActorArray[ FrameMap.Value[ X, Y ] ]
 						If Actor2 Then
-							Local Collision:Int = Actor.CollidesWithActor( Actor2 )
-							If Collision Then
-								Actor.HandleCollision( Actor2 )
-								Actor2.HandleCollision( Actor )
-								Collided = True
-							End If
+							Local DX:Float = X0 + CellXSize * X
+							Local DY:Float = Y0 + CellYSize * Y
+							If Actor.CollidesWithTile( Actor2, DX, DY, CellXSize, CellYSize ) Then Actor.HandleCollisionWithTile( Self, X, Y )
 						End If
 					Next
 				Next
-				Return Collided
 		End Select
-	End Method
-	
-	
-	
-	Method FillShapeMap( ActorArray:LTActor[] )
-		Local CellXSize:Float = XSize / FrameMap.XQuantity
-		Local CellYSize:Float = YSize / FrameMap.YQuantity
-		Local DX:Float = X - 0.5 * XSize' + 0.5 * CellXSize
-		Local DY:Float = Y - 0.5 * YSize' + 0.5 * CellYSize
-	
-		ActorMap = New LTActor[ FrameMap.XQuantity, FrameMap.YQuantity ]
-		For Local Y:Int = 0 Until FrameMap.YQuantity
-			For Local X:Int = 0 Until FrameMap.XQuantity
-				Local Actor:LTActor = ActorArray[ FrameMap.Value[ X, Y ] ]
-				If Actor Then
-					ActorMap[ X, Y ] = Actor.CloneActor( DX + CellXSize * X, DY + CellYSize * Y, CellXSize, CellYSize )
-				End If
-			Next
-		Next
 	End Method
 	
 	

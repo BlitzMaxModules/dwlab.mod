@@ -83,8 +83,6 @@ Function L_Separate( Pivot1:LTActor, Pivot2:LTActor, DX:Float, DY:Float, Mass1:F
 		K2 = 0.5
 	End If
 	
-	Pivot1.X :+ K1 * DX
-	Pivot1.Y :+ K1 * DY
-	Pivot2.X :- K2 * DX
-	Pivot2.Y :- K2 * DY
+	Pivot1.AlterCoords( K1 * DX, K1 * DY )
+	Pivot2.AlterCoords( -K2 * DX, -K2 * DY )
 End Function

@@ -12,7 +12,6 @@ Include "LTImage.bmx"
 
 Type LTImageVisual Extends LTVisual
 	Field Image:LTImage
-	Field Rotating:Int = True
 	
 	
 	
@@ -31,17 +30,23 @@ Type LTImageVisual Extends LTVisual
 		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
 		L_CurrentCamera.FieldToScreen( Actor.X, Actor.Y, SX, SY )
 		
-		If Rotating Then SetRotation( Actor.Model.GetAngle() )
+		If Rotating Then
+			SetRotation( Angle + Actor.Model.GetAngle() )
+		Else
+			SetRotation( Angle )
+		End If
+		
 		If Scaling Then
 			L_CurrentCamera.SizeFieldToScreen( Actor.XSize, Actor.YSize, SXSize, SYSize )
 			SetScale( XScale * SXSize / ImageWidth( Image.BMaxImage ), YScale * SYSize / ImageHeight( Image.BMaxImage ) )
+		Else
+			SetScale XScale, YScale
 		End If
 		
 		DrawImage( Image.BMaxImage, SX, SY, Actor.Frame )
 		
-		If Scaling Then	SetScale( 1.0, 1.0 )
-		If Rotating Then SetRotation( 0.0 )
-		
+		SetScale( 1.0, 1.0 )
+		SetRotation( 0.0 )
 		SetColor 255, 255, 255
 		SetAlpha 1.0
 	End Method

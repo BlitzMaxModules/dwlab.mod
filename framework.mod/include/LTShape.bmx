@@ -48,6 +48,11 @@ Type LTShape Extends LTObject Abstract
 	
 	
 	
+	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
+	End Method
+
+	
+		
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		XMLObject.ManageIntAttribute( "shape", Shape )

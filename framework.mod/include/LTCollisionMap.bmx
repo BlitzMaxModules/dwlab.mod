@@ -54,6 +54,7 @@ Type LTCollisionMap Extends LTMap
 					Next
 				Next
 		End Select
+		Actor.CollisionMap = Self
 	End Method
 	
 	

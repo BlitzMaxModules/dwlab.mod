@@ -55,18 +55,22 @@ Global ShapeList:TList = New TList
 Global Game:TGame = New TGame
 
 
-'Global LevelExtractor:TLevelExtractor = New TLevelExtractor
-'LevelExtractor.Execute(); End
+Global LevelExtractor:TLevelExtractor = New TLevelExtractor
+LevelExtractor.Execute()'; End
 
 
 Game.Execute()
 
 Type TGame Extends LTProject
 	Field Ball:TBall = New TBall
-	Field TileMapVisual:LTImageVisual = New LTImageVisual
+	Field BlockVisual:LTImageVisual = New LTImageVisual
 	Field FlashingVisual:LTFlashingVisual = New LTFlashingVisual
 	Field CurrentLevel:TLevel
 	Field CollisionMap:LTCollisionMap
+	Field TileMap:LTTileMap = New LTTileMap
+	Field KeyCollected:Int
+	Field Score:Int
+	Field EnemyVisual:LTImageVisual[]
 	
 	
 	
@@ -82,23 +86,75 @@ Type TGame Extends LTProject
 		
 		Local BallVisual:LTImageVisual = LTImageVisual.FromFile( "media\ball.png" )
 		BallVisual.Rotating = False
+		Ball.Visual = BallVisual
+		Ball.SetCoords( 0, -3.0 )
+		
 		BlockVisual.Image = LTImage.FromFile( "media\tiles.png", 16, 4 )
-		FlashingVisual.Image = TileMapVisual.Image
-	
-		CurrentLevel = TLevel.FromFile( "levels\03.xml" )
+		FlashingVisual.Image = BlockVisual.Image
+		
+		TileMap.Visual = BlockVisual
+		TileMap.SetSize( 15.0, 14.0 )
+		TileMap.ActorArray = New LTActor[ TilesQuantity ]
+		
+		EnemyVisual = New LTImageVisual[ 9 ]
+		EnemyVisual[ Angels ] = LTImageVisual.FromFile( "angels.png", 4, 1 )
+		EnemyVisual[ BallWithSquare ] = LTImageVisual.FromFile( "ballwithsquare.png", 4, 1 )
+		EnemyVisual[ BeachBall ] = LTImageVisual.FromFile( "beachball.png", 4, 1 )
+		EnemyVisual[ Mushroom ] = LTImageVisual.FromFile( "mushroom.png", 4, 1 )
+		EnemyVisual[ Pacman ] = LTImageVisual.FromFile( "pacman.png", 4, 1 )
+		EnemyVisual[ Pad ] = LTImageVisual.FromFile( "pad.png", 4, 1 )
+		EnemyVisual[ Reel ] = LTImageVisual.FromFile( "reel.png", 4, 1 )
+		EnemyVisual[ Sandwitch ] = LTImageVisual.FromFile( "sandwitch.png", 4, 1 )
+		EnemyVisual[ Ufo ] = LTImageVisual.FromFile( "ufo.png", 4, 1 )
+
+		
+		For Local N:Int = 1 Until TilesQuantity
+			Local Actor:LTActor
+			Select N
+				Case 1
+					Actor = New TExitBlock
+					Actor.Shape = L_Rectangle
+				Case 16, 17, 32, 33, 34, 35, 36, 37, 38
+					Local Block:TCollectableBlock = New TCollectableBlock
+					Select N
+						Case 16
+							Block.BlockType = Block.Key
+						Case 17
+							Block.BlockType = Block.Diamond
+						Case 32
+							Block.BlockType = Block.Bomb
+						Case 33
+							Block.BlockType = Block.Badge
+						Default
+							Block.BlockType = Block.Score
+					End Select
+					Actor = Block
+					Actor.Shape = L_Circle
+				Default
+					Actor = New TBlock
+					Actor.Shape = L_Rectangle
+			End Select
+			Actor.SetCoords( 0.5, 0.5 )
+			TileMap.ActorArray[ N ] = Actor
+		Next
+		
+		CurrentLevel = TLevel.FromFile( "levels\01.xml" )
 	End Method
 	
 	
 	
 	Method Logic()
-		Objects.Update()
-		FlashingVisual.Update()
+		CurrentLevel.Objects.Act()
+		FlashingVisual.Act()
+		Ball.Act()
 		If KeyHit( Key_Escape ) Then End
 	End Method
 	
 	
 	
 	Method Render()
+		TileMap.Draw()
+		Ball.Draw()
 		CurrentLevel.Objects.Draw()
 	End Method
 End Type
@@ -109,8 +165,6 @@ End Type
 
 Type TLevel Extends LTObject
 	Field FrameMap:LTIntMap
-	Field ObjectMap:LTIntMap
-	Field CollisionMap:LTCollisionMap
 	Field Objects:LTList
 	
 	
@@ -121,10 +175,12 @@ Type TLevel Extends LTObject
 		Game.CollisionMap = New LTCollisionMap
 		Game.CollisionMap.SetResolution( 8, 8 )
 		Game.CollisionMap.SetMapScale( 2.0, 2.0 )
-		
-		For Local Actor:LTActor = Eachin Objects
+	
+		For Local Actor:LTActor = Eachin Level.Objects.List
 			Game.CollisionMap.InsertActor( Actor )
 		Next
+		
+		Return Level
 	End Function
 	
 	
@@ -132,8 +188,8 @@ Type TLevel Extends LTObject
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
+		FrameMap = LTIntMap( XMLObject.ManageObjectField( "framemap", FrameMap ) )
 		Objects = LTList( XMLObject.ManageObjectField( "objects", Objects ) )
-		TileMap = LTTileMap( XMLObject.ManageObjectField( "tilemap", TileMap ) )
 	End Method
 End Type
 
@@ -164,14 +220,7 @@ Type TBall Extends TGameActor
 	
 	
 	
-	Method HandleCollision( Shape:LTShape )
-		'debugstop
-		Push( Shape, 0.0, 1.0 )
-		
-		Local Pivot:LTActor = LTActor( Shape )
-		'ShapeList.AddLast( Shape )
-		Local DX:Float = Pivot.X - X
-		Local DY:Float = Pivot.Y - Y
+	Method Bounce( DX:Float, DY:Float )
 		If DY > Abs( DX ) Then
 			Model.SetDY( -GetDY() * VerticalBounce )
 			If KeyDown( Key_Up ) Then SetDY( JumpingPower )
@@ -180,12 +229,49 @@ Type TBall Extends TGameActor
 		Else
 			Model.SetDX( -GetDX() * HorizontalBounce )
 		End If
-		'debuglog GetDX()
 	End Method
 	
 	
 	
-	Method Update()
+	Method HandleCollision( Shape:LTShape )
+		'debugstop
+		Push( Shape, 0.0, 1.0 )
+		
+		Local Actor:LTActor = LTActor( Shape )
+		Bounce( Actor.X - X, Actor.Y - Y )
+	End Method
+	
+	
+	
+	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
+		Local Template:LTActor = TileMap.GetTileTemplate( TileX, TileY )
+		Local Block:TCollectableBlock = TCollectableBlock( Template )
+		If Block Then
+			Select Block.BlockType
+				Case TCollectableBlock.Key
+					Game.Score :+ 250
+					Game.KeyCollected = True
+				Case TCollectableBlock.Bomb
+					Game.Score :+ 100
+				Case TCollectableBlock.Badge
+					Game.Score :+ 50
+				Case TCollectableBlock.Diamond
+					Game.Score :+ 100
+				Case TCollectableBlock.Score
+					Game.Score :+ 500
+			End Select
+			TileMap.FrameMap.Value[ TileX, TileY ] = 0
+		Else
+			If TExitBlock( Template ) And Game.KeyCollected Then End
+			Local Actor:LTActor = TileMap.GetTile( TileX, TileY )
+			Push( Actor, 0.0, 1.0 )
+			Bounce( Actor.X - X, Actor.Y - Y )
+		End If
+	End Method
+	
+	
+	
+	Method Act()
 		If KeyDown( Key_Left ) Then
 			AlterDX( -L_DeltaTime * Acceleration )
 			Visual.XScale = -1.0
@@ -199,7 +285,16 @@ Type TBall Extends TGameActor
 		If Not KeyDown( Key_Left ) And Not KeyDown( Key_Right ) Then
 			If Abs( GetDX() ) < 0.5 Then SetDX( 0 )
 		End If
+		
+		MoveForward()
 		Game.CollisionMap.CollisionsWithActor( Self )
+		'debugstop
+		Game.TileMap.CollisionsWithActor( Self )
+	End Method
+	
+	
+	
+	Method Destroy()
 	End Method
 End Type
 
@@ -212,13 +307,30 @@ Type TEnemy Extends TGameActor
 	
 	
 	
-	Method Update()
-		
+	Const Angels:Int = 0
+	Const BallWithSquare:Int = 1
+	Const BeachBall:Int = 2
+	Const Mushroom:Int = 3
+	Const Pacman:Int = 4
+	Const Pad:Int = 5
+	Const Reel:Int = 6
+	Const Sandwitch:Int = 7
+	Const Ufo:Int = 8
+	
+	
+	
+	Method Create:TEnemy( X:Float, Y:Float, VisualNum:Int )
+		Game.Objects.Add
 	End Method
 	
 	
 	
-	Method Destroy()
+	Method Bounce( DX:Float, DY:Float )
+			If Abs( DY ) > Abs( DX ) Then
+				Model.SetDY( -Model.GetDY() )
+			Else
+				Model.SetDX( -Model.GetDX() )
+			End If
 	End Method
 	
 	
@@ -228,16 +340,34 @@ Type TEnemy Extends TGameActor
 			Shape.Destroy()
 		ElseIf TBullet( Shape ) Then
 			Shape.Destroy()
-			Destroy()
+			If Not BulletProof Then Destroy()
 		Else
 			Push( Shape, 0.0, 1.0 )
 			Local Pivot:LTActor = LTActor( Shape )
-			If Abs( Pivot.Y - Y ) > Abs( Pivot.X - X ) Then
-				Model.SetDY( -GetDY() )
-			Else
-				Model.SetDX( -GetDX() )
-			End If
+			Bounce( Pivot.X - X, Pivot.Y - Y )
 		End If
+	End Method
+	
+	
+	
+	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
+		Local Actor:LTActor = LTActor( TileMap.GetTile( TIleX, TileY ) )
+		Push( Actor, 0.0, 1.0 )
+		Bounce( Actor.X - X, Actor.Y - Y )
+	End Method
+	
+	
+	
+	Method Act()
+		Game.CollisionMap.RemoveActor( Self )
+		MoveForward()
+		Game.CollisionMap.InsertActor( Self )
+		Game.CollisionMap.CollisionsWithActor( Self )
+	End Method
+	
+	
+	
+	Method Destroy()
 	End Method
 End Type
 
@@ -254,7 +384,7 @@ End Type
 
 
 
-Type TBullet
+Type TBullet Extends LTActor
 End Type
 
 
@@ -275,21 +405,22 @@ Type TMovingBlock Extends LTActor
 	
 	Const MovingBlock:Int = 0
 	Const FallingBlock:Int = 1
+	Const PinnedBlock:Int = 2
 	
 	
 	
-	Method Update()
+	Method Act()
 		Select BlockType
 			Case MovingBlock, FallingBlock
 				MoveForward()
-				Game.CurrentLevel.CollisionMap.CollisionsWithActor( Self )
+				Game.CollisionMap.CollisionsWithActor( Self )
 		End Select
 	End Method
 	
 	
 	
 	Method HandleCollision( Shape:LTShape )
-		If TMovingActor( Shape ) Then
+		If TGameActor( Shape ) Then
 			Shape.Destroy()
 		Else
 			Push( Shape, 0.0, 1.0 )
@@ -309,7 +440,7 @@ End Type
 
 
 
-Type THazardousBlock Extends LTBlock
+Type THazardousBlock Extends TBlock
 	Method New()
 		Visual = Game.FlashingVisual
 	End Method
@@ -317,7 +448,7 @@ Type THazardousBlock Extends LTBlock
 	
 	
 	Method HandleCollision( Shape:LTShape )
-		If TMovingActor( Shape ) Then Shape.Destroy()
+		If TGameActor( Shape ) Then Shape.Destroy()
 	End Method
 End Type
 
@@ -325,16 +456,17 @@ End Type
 
 
 
-Type TCollectableBlock
+Type TCollectableBlock Extends TBlock
 	Field BlockType:Int
 	
 	
 	
-	Const Key:Int = 0
-	Const Bomb:Int = 1
-	Const Badge:Int = 2
-	Const Score:Int = 3
-	Const Nothing:Int = 4
+	Const Key:Int = 0 ' 250pts
+	Const Bomb:Int = 1 ' 100pts
+	Const Badge:Int = 2 ' 50pts
+	Const Diamond:Int = 3 ' 100pts
+	Const Score:Int = 4 ' 500pts
+	Const Nothing:Int = 5
 End Type
 
 
@@ -342,7 +474,7 @@ End Type
 
 
 Type LTFlashingVisual Extends LTImageVisual
-	Method Update()
+	Method Act()
 		Local Time:Float = L_WrapFloat( Game.ProjectTime, 3.0 )
 		If Time < 1.0 Then
 			R = Time

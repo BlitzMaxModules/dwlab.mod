@@ -15,7 +15,7 @@ Type LTList Extends LTObject
 	
 	Method Draw()
 		For Local Obj:LTObject = Eachin List
-			Shape.Draw()
+			Obj.Draw()
 		Next
 	End Method
 	

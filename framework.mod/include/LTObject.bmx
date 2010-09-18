@@ -53,6 +53,11 @@ Type LTObject
 	
 	
 	
+	Method Act()
+	End Method
+	
+	
+	
 	Method Update()
 	End Method
 	

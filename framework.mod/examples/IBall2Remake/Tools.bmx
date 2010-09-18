@@ -104,9 +104,16 @@ Type TLevelExtractor Extends LTObject
 		Game.CurrentLevel = Level
 		
 		Level.FrameMap = New LTIntMap
-		Level.FrameMap.SetResolution( 13, 12 )
+		Level.FrameMap.SetResolution( 15, 14 )
+		Level.Objects = New LTList
 		
 		Local Screenshot:TPixmap = LoadPixmap( "screens\" + Filename )
+		
+		For Local Y:Int = 0 Until 14
+			For Local X:Int = 0 Until 15
+				Level.FrameMap.Value[ X, Y ] = 49
+			Next
+		Next
 		
 		For Local Y:Int = 0 Until 12
 			For Local X:Int = 0 Until 13
@@ -122,11 +129,9 @@ Type TLevelExtractor Extends LTObject
 					UnlockImage( Tiles )
 				Next
 				
-				Level.FrameMap.Value[ X, Y ] = TileNum
+				Level.FrameMap.Value[ X + 1, Y + 1 ] = TileNum
 			Next
 		Next
-		
-		Select Left( Filename, 2 )
 		
 		Level.SaveToFile( "levels\" + Left( Filename, 2 ) + ".xml" )
 	End Method
