@@ -57,7 +57,7 @@ Type LTAngularModel Extends LTModel
 	Method SetDX( NewDX:Float )
 		Local DY:Float = GetDY()
 		Velocity = Sqr( NewDX * NewDX + DY * DY )
-		Angle = ATan2( NewDX, DY )
+		Angle = ATan2( DY, NewDX )
 	End Method
 	
 	
@@ -71,7 +71,21 @@ Type LTAngularModel Extends LTModel
 	Method SetDY( NewDY:Float )
 		Local DX:Float = GetDX()
 		Velocity = Sqr( DX * DX + NewDY * NewDY )
-		Angle = ATan2( DX, NewDY )
+		Angle = ATan2( NewDY, DX )
+	End Method
+	
+	
+	
+	Method AlterDXDY( DDX:Float, DDY:Float )
+		SetDX( GetDX() + DDX )
+		SetDY( GetDY() + DDY )
+	End Method
+	
+	
+	
+	Method SetDXDY( NewDX:Float, NewDY:Float )
+		Velocity = Sqr( NewDX * NewDX + NewDY * NewDY )
+		Angle = ATan2( NewDY, NewDX )
 	End Method
 	
 	

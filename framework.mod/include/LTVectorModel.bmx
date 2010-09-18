@@ -90,6 +90,20 @@ Type LTVectorModel Extends LTModel Abstract
 	
 	
 	
+	Method AlterDXDY( DDX:Float, DDY:Float )
+		DX :+ DDX
+		DY :+ DDY
+	End Method
+	
+	
+	
+	Method SetDXDY( NewDX:Float, NewDY:Float )
+		DX = NewDX
+		DY = NewDY
+	End Method
+	
+	
+	
 	Method GetAngularVelocity:Float()
 		Return AngularVelocity
 	End Method

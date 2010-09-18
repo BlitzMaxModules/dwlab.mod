@@ -456,6 +456,18 @@ Type LTActor Extends LTShape
 		Model.SetDY( NewDY )
 	End Method
 	
+	
+	
+	Method AlterDXDY( DDX:Float, DDY:Float )
+		Model.SetDXDY( DDX, DDY )
+	End Method
+	
+	
+	
+	Method SetDXDY( NewDX:Float, NewDY:Float )
+		Model.SetDXDY( NewDX, NewDY )
+	End Method
+	
 	' ==================== Velocity ====================
 	
 	Method GetVelocity:Float()

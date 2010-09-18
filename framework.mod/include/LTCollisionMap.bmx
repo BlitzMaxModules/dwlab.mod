@@ -83,6 +83,7 @@ Type LTCollisionMap Extends LTMap
 		Select Actor.Shape
 			Case L_Pivot
 				For Local Shape:LTShape = Eachin Objects[ Int( Actor.X / XScale ) & XMask, Int( Actor.Y / YScale ) & YMask ]
+					If Shape = Actor Then Continue
 					If Shape.CollidesWithActor( Actor ) Then Actor.HandleCollision( Shape )
 				Next
 			Default
@@ -93,7 +94,9 @@ Type LTCollisionMap Extends LTMap
 				
 				For Local Y:Int = MapY1 To MapY2
 					For Local X:Int = MapX1 To MapX2
+						Local ObjList:TList = Objects[ X & XMask, Y & YMask ]
 						For Local Shape:LTShape = Eachin Objects[ X & XMask, Y & YMask ]
+							If Shape = Actor Then Continue
 							If Shape.CollidesWithActor( Actor ) Then Actor.HandleCollision( Shape )
 						Next
 					Next

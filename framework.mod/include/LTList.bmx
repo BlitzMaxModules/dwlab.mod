@@ -21,9 +21,9 @@ Type LTList Extends LTObject
 	
 	
 	
-	Method Update()
+	Method Act()
 		For Local Obj:LTObject = Eachin List
-			Obj.Update()
+			Obj.Act()
 		Next
 	End Method
 	

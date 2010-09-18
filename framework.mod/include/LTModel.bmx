@@ -70,6 +70,16 @@ Type LTModel Extends LTObject Abstract
 	
 	
 	
+	Method AlterDXDY( DDX:Float, DDY:Float )
+	End Method
+	
+	
+	
+	Method SetDXDY( NewDX:Float, NewDY:Float )
+	End Method
+	
+	
+	
 	Method GetAngularVelocity:Float()
 	End Method
 	

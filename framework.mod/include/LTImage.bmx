@@ -89,7 +89,7 @@ Type LTImage Extends LTObject
 		Forever
 		
 		?debug
-		L_Assert( NewPixmap <> Null, "Cannot load file named " )
+		L_Assert( NewPixmap <> Null, "Cannot load file named " + FileName )
 		?
 		
 		BMaxImage = CreateImage( NewPixmap.Width, NewPixmap.Height, PixmapList.Count() )

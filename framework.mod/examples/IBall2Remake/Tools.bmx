@@ -1,5 +1,5 @@
 '
-' MindStorm - Digital Wizard's Lab example
+' I, Ball 2 Remake - Digital Wizard's Lab example
 ' Copyright (C) 2010, Matt Merkulov
 '
 ' All rights reserved. Use of this code is allowed under the
@@ -81,7 +81,6 @@ End Function
 
 Type TLevelExtractor Extends LTObject
 	Field Tiles:TImage
-	Field TilesQuantity:Int = 56
 	
 	
 	
