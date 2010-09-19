@@ -35,6 +35,12 @@ Type LTList Extends LTObject
 	
 	
 	
+	Method Remove( Obj:LTObject )
+		List.Remove( Obj )
+	End Method
+	
+	
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		XMLObject.ManageChildList( List )

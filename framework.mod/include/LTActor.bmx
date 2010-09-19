@@ -128,6 +128,40 @@ Type LTActor Extends LTShape
 		End Select
 	End Method
 	
+	
+	
+	Method CollidesWithSimpleTile:Int( Actor:LTActor, DX:Float, DY:Float )
+		Select Shape
+			Case L_Pivot
+				Select Actor.Shape
+					Case L_Pivot
+						Return L_PivotWithPivot( X, Y, Actor.X + DX, Actor.Y + DY )
+					Case L_Circle
+						Return L_PivotWithCircle( X, Y, Actor.X + DX, Actor.Y + DY, Actor.XSize )
+					Case L_Rectangle
+						Return L_PivotWithRectangle( X, Y, Actor.X + DX, Actor.Y + DY, Actor.XSize, Actor.YSize )
+				End Select
+			Case L_Circle
+				Select Actor.Shape
+					Case L_Pivot
+						Return L_PivotWithCircle( Actor.X + DX, Actor.Y + DY, X, Y, XSize )
+					Case L_Circle
+						Return L_CircleWithCircle( X, Y, XSize, Actor.X + DX, Actor.Y + DY, Actor.XSize )
+					Case L_Rectangle
+						Return L_CircleWithRectangle( X, Y, XSize, Actor.X + DX, Actor.Y + DY, Actor.XSize, Actor.YSize )
+				End Select
+			Case L_Rectangle
+				Select Actor.Shape
+					Case L_Pivot
+						Return L_PivotWithRectangle( Actor.X + DX, Actor.Y + DY, X, Y, XSize, YSize )
+					Case L_Circle
+						Return L_CircleWithRectangle( Actor.X + DX, Actor.Y + DY, Actor.XSize, X, Y, XSize, YSize )
+					Case L_Rectangle
+						Return L_RectangleWithRectangle( X, Y, XSize, YSize, Actor.X + DX, Actor.Y + DY, Actor.XSize, Actor.YSize )
+				End Select
+		End Select
+	End Method
+	
 	' ==================== Pushing ====================
 	
 	Method Push( Shape:LTShape, SelfMass:Float, ShapeMass:Float )

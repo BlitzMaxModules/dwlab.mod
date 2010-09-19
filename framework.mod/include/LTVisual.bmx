@@ -42,6 +42,11 @@ Type LTVisual Extends LTObject Abstract
 	Method DrawUsingTileMap( TileMap:LTTileMap )
 	End Method
 	
+	
+	
+	Method DrawUsingSimpleTileMap( TileMap:LTSimpleTileMap )
+	End Method
+
 	' ==================== Other ====================
 	
 	Method SetColorFromHex( S:String )
@@ -84,5 +89,7 @@ Type LTVisual Extends LTObject Abstract
 		XMLObject.ManageFloatAttribute( "xscale", XScale, 1.0 )
 		XMLObject.ManageFloatAttribute( "yscale", YScale, 1.0 )
 		XMLObject.ManageIntAttribute( "scaling", Scaling, 1 )
+		XMLObject.ManageFloatAttribute( "angle", Angle )
+		XMLObject.ManageIntAttribute( "rotating", Rotating, 1 )
 	End Method
 End Type

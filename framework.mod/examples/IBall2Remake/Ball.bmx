@@ -9,13 +9,47 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
+Type TGameActor Extends LTActor
+	Field FadingStartTime:Float
+	
+	
+	
+	Method Destroy()
+		FadingStartTime = Game.ProjectTime
+		Game.Objects.Remove( Self )
+		Game.CollisionMap.RemoveActor( Self )
+		Game.DestructingObjects.AddLast( Self )
+	End Method
+	
+	
+	
+	Method Fading()
+		Local FadingTime:Float = 1.0 + FadingStartTime - Game.ProjectTime
+		If FadingTime >= 0.0 Then
+			Visual.Alpha = FadingTime
+		Else
+			Game.DestructingObjects.Remove( Self )
+		End If
+	End Method
+End Type
+
+
+
+
+
 Type TBall Extends TGameActor
+	Field LastShotTime:Float
+	Field ShotRate:Float = 0.5
+	
+	
+	
 	Const Acceleration:Float = 20.0
-	Const AccelerationLimit:Float = 5.0
+	Const AccelerationLimit:Float = 4.0
 	Const Gravity:Float = 10.0
 	Const JumpingPower:Float = -9.2
 	Const HorizontalBounce:Float = 0.6
 	Const VerticalBounce:Float = 0.3
+	Const BulletSpeed:Float = 8.0
 	
 	
 	
@@ -34,6 +68,47 @@ Type TBall Extends TGameActor
 		Else
 			Model.SetDX( -GetDX() * HorizontalBounce )
 		End If
+	End Method
+	
+	
+	
+	Method Act()
+		If KeyDown( Key_Left ) Then
+			AlterDX( -L_DeltaTime * Acceleration )
+			Visual.XScale = -1.0
+		ElseIf KeyDown( Key_Right ) Then
+			AlterDX( L_DeltaTime * Acceleration )
+			Visual.XScale = 1.0
+		Else
+			If Abs( GetDX() ) < 0.5 Then SetDX( 0 )
+		End If
+		
+		If KeyDown( Key_Space ) And LastShotTime + ShotRate < Game.ProjectTime Then
+			Local Direction:Float = Visual.XScale
+			
+			LastShotTime = Game.ProjectTime
+			Local Bullet:TBullet = New TBullet
+			Bullet.SetDiameter( 0.5 )
+			Bullet.SetCoords( X + 0.5 * Direction, Y )
+			Bullet.SetDX( BulletSpeed * Direction )
+			Bullet.Shape = L_Circle
+			
+			Local BulletVisual:LTImageVisual = New LTImageVisual
+			BulletVisual.SetVisualScale( 3.0 * Direction, 3.0 )
+			BulletVisual.Image = Game.BulletImage
+			BulletVisual.Rotating = False
+			Bullet.Visual = BulletVisual
+			
+			Game.Bullets.AddLast( Bullet )
+		End If
+		
+		SetDX( L_LimitFloat( GetDX(), -5.0, 5.0 ) )
+		AlterDY( L_DeltaTime * Gravity )
+		
+		'debugstop
+		MoveForward()
+		'Game.CollisionMap.CollisionsWithActor( Self )
+		Game.TileMap.CollisionsWithActor( Self )
 	End Method
 	
 	
@@ -73,34 +148,6 @@ Type TBall Extends TGameActor
 			Bounce( Actor.X - X, Actor.Y - Y )
 		End If
 	End Method
-	
-	
-	
-	Method Act()
-		If KeyDown( Key_Left ) Then
-			AlterDX( -L_DeltaTime * Acceleration )
-			Visual.XScale = -1.0
-		End If
-		If KeyDown( Key_Right ) Then
-			AlterDX( L_DeltaTime * Acceleration )
-			Visual.XScale = 1.0
-		End If
-		SetDX( L_LimitFloat( GetDX(), -5.0, 5.0 ) )
-		AlterDY( L_DeltaTime * Gravity )
-		If Not KeyDown( Key_Left ) And Not KeyDown( Key_Right ) Then
-			If Abs( GetDX() ) < 0.5 Then SetDX( 0 )
-		End If
-		
-		'debugstop
-		MoveForward()
-		'Game.CollisionMap.CollisionsWithActor( Self )
-		Game.TileMap.CollisionsWithActor( Self )
-	End Method
-	
-	
-	
-	Method Destroy()
-	End Method
 End Type
 
 
@@ -108,4 +155,32 @@ End Type
 
 
 Type TBullet Extends LTActor
+	Method Act()
+		MoveForward()
+		Game.CollisionMap.CollisionsWithActor( Self )
+		Game.TileMap.CollisionsWithActor( Self )
+	End Method
+	
+	
+	
+	Method HandleCollision( Shape:LTShape )
+		If TBlock( Shape ) Then
+			Destroy()
+		ElseIf TEnemy( Shape ) Then
+			Destroy()
+			If Not TEnemy( Shape ).BulletProof Then Shape.Destroy()
+		End If
+	End Method
+	
+	
+	
+	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
+		Destroy()
+	End Method
+	
+	
+	
+	Method Destroy()
+		Game.Bullets.Remove( Self )
+	End Method
 End Type

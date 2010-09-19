@@ -10,11 +10,12 @@
 '
 
 Type TEnemy Extends TGameActor
+	Field ChangeFacing:Int
 	Field BulletProof:Int
 	
 	
 	
-	Const Angels:Int = 0
+	Const Angel:Int = 0
 	Const BallWithSquare:Int = 1
 	Const BeachBall:Int = 2
 	Const Mushroom:Int = 3
@@ -26,18 +27,28 @@ Type TEnemy Extends TGameActor
 	
 	
 	
-	Function Create:TEnemy( X:Float, Y:Float, VisualNum:Int, DX:Float, DY:Float )
+	Function Create:TEnemy( X:Float, Y:Float, VisualNum:Int, DX:Float, DY:Float, HexColor:String )
 		Local Enemy:TEnemy = New TEnemy
 		Enemy.SetCoords( X, Y )
-		Enemy.Visual = Game.EnemyVisual[ VisualNum ]
-		Enemy.SetDX( DX )
-		Enemy.SetDY( DX )
+		Enemy.SetDXDY( DX, DY )
+		Enemy.SetDiameter( 0.95 )
+		
+		Local ImageVisual:LTImageVisual = New LTImageVisual
+		ImageVisual.Image = Game.EnemyImage[ VisualNum ]
+		ImageVisual.Rotating = False
+		ImageVisual.SetColorFromHex( HexColor )
+		Enemy.Visual = ImageVisual
 		
 		Select VisualNum
 			Case Sandwitch, Pad
 				Enemy.Shape = L_Rectangle
 			Default
 				Enemy.Shape = L_Circle
+		End Select
+		
+		Select VisualNum
+			Case Angel, Mushroom, Sandwitch
+				Enemy.ChangeFacing = True
 		End Select
 		
 		Game.CollisionMap.InsertActor( Enemy )
@@ -60,9 +71,6 @@ Type TEnemy Extends TGameActor
 	Method HandleCollision( Shape:LTShape )
 		If TBall( Shape ) Then
 			Shape.Destroy()
-		ElseIf TBullet( Shape ) Then
-			Shape.Destroy()
-			If Not BulletProof Then Destroy()
 		Else
 			Push( Shape, 0.0, 1.0 )
 			Local Pivot:LTActor = LTActor( Shape )
@@ -83,12 +91,18 @@ Type TEnemy Extends TGameActor
 	Method Act()
 		'debugstop
 		MoveForward()
-		'Game.CollisionMap.CollisionsWithActor( Self )
-		'Game.TileMap.CollisionsWithActor( Self )
+		If ChangeFacing Then Visual.XScale = Sgn( GetDX() )
+		Frame = L_Wrap( Floor( X * 8.0 ), 4 )
+		Game.CollisionMap.CollisionsWithActor( Self )
+		Game.TileMap.CollisionsWithActor( Self )
 	End Method
-	
-	
-	
-	Method Destroy()
+End Type
+
+
+
+
+
+Type TEnemyGenerator Extends LTActor
+	Method Update()
 	End Method
-End Type'
+End Type

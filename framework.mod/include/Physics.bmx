@@ -58,7 +58,7 @@ End Function
 
 
 
-
+Const PushConst:Float = 1.00025
 Function L_Separate( Pivot1:LTActor, Pivot2:LTActor, DX:Float, DY:Float, Mass1:Float, Mass2:Float )
 	'debugstop
 	Local K1:Float, K2:Float
@@ -76,13 +76,15 @@ Function L_Separate( Pivot1:LTActor, Pivot2:LTActor, DX:Float, DY:Float, Mass1:F
 	
 	Local MassSum:Float = Mass1 + Mass2
 	If MassSum Then
-		K1 = Mass2 / MassSum
-		K2 = Mass1 / MassSum
+		K1 = Mass2 / MassSum * PushConst
+		K2 = Mass1 / MassSum * PushConst
 	Else
-		K1 = 0.5
-		K2 = 0.5
+		K1 = 0.5 * PushConst
+		K2 = 0.5 * PushConst
 	End If
 	
 	Pivot1.AlterCoords( K1 * DX, K1 * DY )
 	Pivot2.AlterCoords( -K2 * DX, -K2 * DY )
+	
+	'If Pivot1.CollidesWith( Pivot2 ) Then debugstop
 End Function

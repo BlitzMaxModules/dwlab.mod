@@ -16,34 +16,52 @@ End Type
 
 
 
-Type TMovingBlock Extends LTActor
+Type TMovingBlock Extends TBlock
 	Field BlockType:Int
 	
 	
 	
 	Const MovingBlock:Int = 0
 	Const FallingBlock:Int = 1
-	Const PinnedBlock:Int = 2
+	
+	
+	
+	Function Create:TMovingBlock( X:Float, Y:Float, FrameNum:Int, DY:Float )
+		Local Block:TMovingBlock = New TMovingBlock
+		Block.SetCoords( X, Y )
+		Block.SetDY( DY )
+		Block.Frame = FrameNum
+		Block.Visual = Game.FlashingVisual
+		Game.CollisionMap.InsertActor( Block )
+		Game.Objects.AddLast( Block )
+	End Function
 	
 	
 	
 	Method Act()
-		Select BlockType
-			Case MovingBlock, FallingBlock
-				MoveForward()
-				Game.CollisionMap.CollisionsWithActor( Self )
-		End Select
+		MoveForward()
+		Game.CollisionMap.CollisionsWithActor( Self )
+		Game.TileMap.CollisionsWithActor( Self )
 	End Method
 	
 	
 	
 	Method HandleCollision( Shape:LTShape )
 		If TGameActor( Shape ) Then
+			'debugstop
 			Shape.Destroy()
 		Else
 			Push( Shape, 0.0, 1.0 )
 			If BlockType = MovingBlock Then SetDY( -GetDY() )
 		End If
+	End Method
+	
+	
+	
+	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
+		Local Actor:LTActor = LTActor( TileMap.GetTile( TIleX, TileY ) )
+		Push( Actor, 0.0, 1.0 )
+		If BlockType = MovingBlock Then SetDY( -GetDY() )
 	End Method
 End Type
 

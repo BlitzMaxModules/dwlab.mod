@@ -25,6 +25,22 @@ Include "include/Service.bmx"
 Global L_ScreenXSize:Int
 Global L_ScreenYSize:Int
 
+
+Rem
+Local Actor1:LTActor = New LTActor
+Local Actor2:LTActor = New LTActor
+Actor1.Shape = L_Rectangle
+Actor2.Shape = L_Circle
+
+Repeat
+	Actor1.SetCoords( Rnd( -1.0, 1.0 ), Rnd( -1.0, 1.0 ) )
+	Actor2.SetCoords( 0.0, 0.0 )
+	If Actor1.CollidesWith( Actor2 ) Then Actor1.Push( Actor2, 1.0, 1.0 )
+Until KeyHit( Key_Escape )
+End
+EndRem
+
+
 Function Init( ScreenXSize:Int, ScreenYSize:Int )
 	L_ScreenXSize = ScreenXSize
 	L_ScreenYSize = ScreenYSize

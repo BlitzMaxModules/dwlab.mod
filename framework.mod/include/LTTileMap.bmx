@@ -8,6 +8,8 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "LTSimpleTileMap.bmx"
+
 Type LTTileMap Extends LTActor
 	Field FrameMap:LTIntMap
 	Field ActorArray:LTActor[]
@@ -87,7 +89,6 @@ Type LTTileMap Extends LTActor
 				
 				For Local Y:Int = Y1 To Y2
 					For Local X:Int = X1 To X2
-						Local Num:Int = FrameMap.Value[ X, Y ]
 						Local Actor2:LTActor = ActorArray[ FrameMap.Value[ X, Y ] ]
 						If Actor2 Then
 							Local DX:Float = X0 + CellXSize * X

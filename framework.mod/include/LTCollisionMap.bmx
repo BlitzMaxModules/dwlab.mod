@@ -50,7 +50,7 @@ Type LTCollisionMap Extends LTMap
 				
 				For Local Y:Int = MapY1 To MapY2
 					For Local X:Int = MapX1 To MapX2
-						Objects[ X & XMask, Y & YMask ].AddLast( Actor )
+						Objects[ X & XMask, Y & YMask ].AddFirst( Actor )
 					Next
 				Next
 		End Select
@@ -94,7 +94,6 @@ Type LTCollisionMap Extends LTMap
 				
 				For Local Y:Int = MapY1 To MapY2
 					For Local X:Int = MapX1 To MapX2
-						Local ObjList:TList = Objects[ X & XMask, Y & YMask ]
 						For Local Shape:LTShape = Eachin Objects[ X & XMask, Y & YMask ]
 							If Shape = Actor Then Continue
 							If Shape.CollidesWithActor( Actor ) Then Actor.HandleCollision( Shape )

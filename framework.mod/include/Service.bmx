@@ -108,7 +108,7 @@ End Function
 
 
 Function L_Wrap:Int( Value:Int, Size:Int )
-	Return Value - Size * Floor( Value / Size )
+	Return Value - Size * Floor( 1.0 * Value / Size )
 End Function
 
 

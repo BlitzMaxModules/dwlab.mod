@@ -56,10 +56,6 @@ Pri.SetColorFromHex( "FF0000" )
 Pri.Alpha = 0.5
 
 LTVectorModel.SetDefault()
-Global ShapeList:TList = New TList
-
-Global Game:TGame = New TGame
-
 
 'Global TileExtractor:TTileExtractor = New TTileExtractor
 'TileExtractor.Execute(); End
@@ -67,17 +63,8 @@ Global Game:TGame = New TGame
 'Global LevelExtractor:TLevelExtractor = New TLevelExtractor
 'LevelExtractor.Execute()'; End
 
-
+Global Game:TGame = New TGame
 Game.Execute()
-
-
-
-
-
-Type TEnemyGenerator Extends LTActor
-	Method Update()
-	End Method
-End Type
 
 
 
@@ -90,7 +77,7 @@ Type LTFlashingVisual Extends LTImageVisual
 			R = Time
 			G = 0.0
 			B = 1.0 - Time
-		ElseIf Time >= 1.0 And Time < 2.0 Then
+		ElseIf Time < 2.0 Then
 			R = 2.0 - Time
 			G = Time - 1.0
 			B = 0.0
