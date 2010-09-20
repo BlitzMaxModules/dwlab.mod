@@ -13,12 +13,23 @@ Const L_AlignToCenter:Int = 1
 Const L_AlignToLeft:Int = 2, L_AlignToBottom:Int = 0
 
 Type LTFont Extends LTObject
-	Field LetterLength:Int[ 224 ]
-	Field ImagePointer:TImage
+	Field LetterLength:Int[]
+	Field FromNum:Int
+	Field ToNum:Int
+	Field BMaxImage:TImage
+	Field XScale:Float = 1.0
+	Field YScale:Float = 1.0
 	
 	
 	
-	Method Print( Text:String, X:Float, Y:Float, HorizontalAlignment:Int, VerticalAlignment:Int  )
+	Method SetFontScale( NewXScale:Float, NewYScale:Float )
+		XScale = NewXScale
+		YScale = NewYScale
+	End Method
+	
+	
+	
+	Method Print( Text:String, X:Float, Y:Float, HorizontalAlignment:Int = L_AlignToRight, VerticalAlignment:Int = L_AlignToTop )
 		Select HorizontalAlignment
 			Case L_AlignToCenter
 				X :- 0.5 * XSize( Text )
@@ -33,10 +44,16 @@ Type LTFont Extends LTObject
 				Y :- YSize()
 		End Select
 		
+		SetScale XScale, YScale
 		For Local N:Int = 0 Until Len( Text )
-			DrawImage( ImagePointer, X, Y, Text[ N ] - 32 )
-			X :+ LetterLength[ Text[ N ] - 32 ]
+			?debug
+			L_Assert( Text[ N ] >= FromNum And Text[ N ] <= ToNum, "String contains letter that is out of font range" )
+			?
+			
+			DrawImage( BMaxImage, X, Y, Text[ N ] - FromNum )
+			X :+  XScale * LetterLength[ Text[ N ] - FromNum ]
 		Next
+		SetScale 1.0, 1.0
 	End Method
 	
 
@@ -44,7 +61,11 @@ Type LTFont Extends LTObject
 	Method XSize:Int( Text:String )
 		Local X:Int = 0
 		For Local N:Int = 0 Until Len( Text )
-			X :+ LetterLength[ Text[ N ] - 32 ]
+			?debug
+			L_Assert( Text[ N ] >= FromNum And Text[ N ] <= ToNum, "String contains letter that is out of font range" )
+			?
+		
+			X :+ XScale * LetterLength[ Text[ N ] - FromNum ]
 		Next
 		If X Mod 2 Then X :+ 1
 		Return X
@@ -53,23 +74,36 @@ Type LTFont Extends LTObject
 
 	
 	Method YSize:Int()
-		Return ImageHeight( ImagePointer )
+		Return  YScale * ImageHeight( BMaxImage )
 	End Method
 
 
 	
-	Function FromFile:LTFont( FileName:String )
+	Function FromFile:LTFont( FileName:String, FromChar:String, ToChar:String, SymbolsPerRow:Int = 16, VariableLength:Int = False )
 		Local Font:LTFont = New LTFont
+		Font.FromNum = Asc( FromChar )
+		Font.ToNum = Asc( ToChar )
 		
-		Local Image:TImage = LoadImage( Filename )
-		Font.ImagePointer = LoadAnimImage( Image, ImageWidth( Image ) / 16, ImageHeight( Image ) / 14, 0, 224 )
-	
-		Font.LetterLength = New Int[ 224 ]
-		Local File:TStream = ReadFile( StripExt( FileName ) + ".lfn" )
-		For Local N:Int = 0 To 223
-			If Eof( File ) Then Exit
-			Font.LetterLength[ N ] = Mid$( ReadLine( File ), 3 ).ToInt()
-		Next
+		Local Pixmap:TPixmap = LoadPixmap( Filename )
+		Local SymbolsQuantity:Int = Font.ToNum - Font.FromNum + 1
+		Local SymbolWidth:Int = PixmapWidth( Pixmap ) / SymbolsPerRow
+		'debugstop
+		Font.BMaxImage = LoadAnimImage( Pixmap, SymbolWidth, PixmapHeight( Pixmap ) * SymbolsPerRow / SymbolsQuantity, 0, SymbolsQuantity )
+		
+		Font.LetterLength = New Int[ SymbolsQuantity ]
+		If VariableLength Then
+			Local File:TStream = ReadFile( StripExt( FileName ) + ".lfn" )
+			For Local N:Int = 0 Until SymbolsQuantity
+				?debug
+				L_Assert( Not Eof( File ), "Not enough symbol length lines in file for font " + FileName )
+				?
+				Font.LetterLength[ N ] = ReadLine( File )[ 2.. ].ToInt()
+			Next
+		Else
+			For Local N:Int = 0 Until SymbolsQuantity
+				Font.LetterLength[ N ] = SymbolWidth
+			Next
+		End If
 		
 		Return Font
 	End Function

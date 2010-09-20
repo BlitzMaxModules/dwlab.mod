@@ -65,6 +65,32 @@ End Function
 
 
 
+Function L_FirstZeroes:String( Value:Int, TotalSymbols:Int )
+	Local StringValue:String = Value
+	Local Length:Int = Len( StringValue )
+	If Length < TotalSymbols Then
+		Return L_Symbols( "0", TotalSymbols - Length ) + StringValue
+	Else
+		Return StringValue
+	End If
+End Function
+
+
+
+
+
+Function L_Symbols:String( Symbol:String, Times:Int )
+	Local Symbols:String = ""
+	For Local N:Int = 1 To Times
+		Symbols :+ Symbol
+	Next
+	Return Symbols
+End Function
+
+
+
+
+
 Function L_LimitFloat:Float( Value:Float, FromValue:Float, ToValue:Float )
 	?debug
 	L_Assert( FromValue < ToValue, "FromValue must be less than ToValue" )

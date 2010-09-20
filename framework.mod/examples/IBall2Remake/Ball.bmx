@@ -168,7 +168,10 @@ Type TBullet Extends LTActor
 			Destroy()
 		ElseIf TEnemy( Shape ) Then
 			Destroy()
-			If Not TEnemy( Shape ).BulletProof Then Shape.Destroy()
+			If Not TEnemy( Shape ).BulletProof Then
+				Shape.Destroy()
+				Game.Score :+ 10
+			End If
 		End If
 	End Method
 	
