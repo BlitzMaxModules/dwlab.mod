@@ -79,10 +79,10 @@ Type LTFont Extends LTObject
 
 
 	
-	Function FromFile:LTFont( FileName:String, FromChar:String, ToChar:String, SymbolsPerRow:Int = 16, VariableLength:Int = False )
+	Function FromFile:LTFont( FileName:String, FromNum:Int = 32, ToNum:Int = 255, SymbolsPerRow:Int = 16, VariableLength:Int = False )
 		Local Font:LTFont = New LTFont
-		Font.FromNum = Asc( FromChar )
-		Font.ToNum = Asc( ToChar )
+		Font.FromNum = FromNum
+		Font.ToNum = ToNum
 		
 		Local Pixmap:TPixmap = LoadPixmap( Filename )
 		Local SymbolsQuantity:Int = Font.ToNum - Font.FromNum + 1

@@ -15,10 +15,10 @@ Global Shared:TSharedGameData = New TSharedGameData
 
 Type TSharedGameData Extends LTProject
 	Field Graph:LTGraph = New LTGraph
-	Field Player:LTRectangle = New LTRectangle
+	Field Player:LTActor = New LTActor
 	Field PlayerVisual:LTImageVisual = New LTImageVisual
-	Field PlayerPivot:LTPivot
-	Field Background:LTRectangle = New LTRectangle
+	Field PlayerPivot:LTActor
+	Field Background:LTActor = New LTActor
 	Field BackgroundVisual:LTImageVisual = New LTImageVisual
 	Field Path:LTPath = New LTPath
 	Field Events:TMap = New TMap
@@ -29,6 +29,7 @@ Type TSharedGameData Extends LTProject
 	Method Init()
 		Player.SetVelocity( 2.0 )
 		Player.SetSize( 72 / 25, 72 / 25 )
+		Player.Shape = L_Rectangle
 		
 		PlayerVisual.Image = LTImage.FromFile( "media/footman.png", 5, 13 )
 		PlayerVisual.Image.SetHandle( 0.5, 0.7 )
@@ -51,7 +52,7 @@ Type TSharedGameData Extends LTProject
 			If PlayerPivot Then
 				Path = LTPath.Find( PlayerPivot, Editor.CurrentPivot, Graph )
 			Else
-				Player.JumpToPivot( Editor.CurrentPivot )
+				Player.JumpToActor( Editor.CurrentPivot )
 				PlayerPivot = Editor.CurrentPivot
 			End If
 		End If
@@ -66,14 +67,14 @@ Type TSharedGameData Extends LTProject
 		End If
 		
 		If PlayerPivot Then
-			If Player.IsAtPositionOfPivot( PlayerPivot ) And Not Path.Pivots.IsEmpty() Then
-				PlayerPivot = LTPivot( Path.Pivots.First() )
-				Player.DirectToPivot( PlayerPivot )
+			If Player.IsAtPositionOfActor( PlayerPivot ) And Not Path.Pivots.IsEmpty() Then
+				PlayerPivot = LTActor( Path.Pivots.First() )
+				Player.DirectToActor( PlayerPivot )
 				Path.Pivots.RemoveFirst()
 			Else
-				Player.MoveTowardsPivot( PlayerPivot )
+				Player.MoveTowardsActor( PlayerPivot )
 			End If
-			If Not Player.IsAtPositionOfPivot( PlayerPivot ) Then Player.Frame :+ ( Floor( Editor.ProjectTime * 5 ) Mod 5 ) * 5
+			If Not Player.IsAtPositionOfActor( PlayerPivot ) Then Player.Frame :+ ( Floor( Editor.ProjectTime * 5 ) Mod 5 ) * 5
 		End If
 	End Method
 	
@@ -89,13 +90,13 @@ End Type
 
 
 
-Type TGlobalMapEvent Extends LTPivot
+Type TGlobalMapEvent Extends LTActor
 	Field Probability:Float
 	Field Caption:String
 	
 	
 	
-	Method DrawInfo( Pivot:LTPivot )
+	Method DrawInfo( Pivot:LTActor )
 		Shared.Font.Print( Caption + " ( " + L_TrimFloat( Probability * 100.0 ) + "% )", Pivot.X + 5, Pivot.Y, L_AlignToRight, L_AlignToCenter )
 	End Method
 	

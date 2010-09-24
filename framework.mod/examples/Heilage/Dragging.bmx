@@ -12,8 +12,8 @@
 Type TMovePivot Extends LTDrag
 	Field DX:Float
 	Field DY:Float
-	Field Pivot:LTPivot
-	Field MovePivot:LTMovePivot
+	Field Pivot:LTActor
+	Field MoveActor:LTMoveActor
 	
 	
 	Method DragKey:Int()
@@ -32,7 +32,7 @@ Type TMovePivot Extends LTDrag
 		DX = Editor.CurrentPivot.X - Editor.Cursor.X
 		DY = Editor.CurrentPivot.Y - Editor.Cursor.Y
 		Pivot = Editor.CurrentPivot
-		MovePivot = LTMovePivot.Create( Pivot )
+		MoveActor = LTMoveActor.Create( Pivot )
 	End Method
 	
 	
@@ -45,9 +45,9 @@ Type TMovePivot Extends LTDrag
 	
 	
 	Method EndDragging()
-		MovePivot.NewX = Pivot.X
-		MovePivot.NewY = Pivot.Y
-		MovePivot.Do()
+		MoveActor.NewX = Pivot.X
+		MoveActor.NewY = Pivot.Y
+		MoveActor.Do()
 	End Method
 End Type
 

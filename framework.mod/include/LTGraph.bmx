@@ -138,6 +138,7 @@ End Type
 
 
 
+
 Type LTAddPivotToGraph Extends LTAction
 	Field Graph:LTGraph
 	Field Pivot:LTActor
@@ -165,6 +166,7 @@ Type LTAddPivotToGraph Extends LTAction
 		L_CurrentRedoList.AddFirst( Self )
 	End Method
 End Type
+
 
 
 

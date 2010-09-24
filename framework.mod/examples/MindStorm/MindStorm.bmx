@@ -43,8 +43,8 @@ Const MinMouseZ:Int = -8
 Const MaxMouseZ:Int = 8
 
 Type LTGame Extends LTProject
-	Field Target:LTPivot = New LTPivot
-	Field Player:LTCircle = New LTCircle
+	Field Target:LTActor = New LTActor
+	Field Player:LTActor = New LTActor
 	Field Brain:LTImageVisual
 	Field Visor:LTImageVisual
 	Field LeftWeapon:TWeapon
@@ -84,6 +84,7 @@ Type LTGame Extends LTProject
 		
 		' ============================= Player =============================
 		
+		Player.Shape = L_Circle
 		Player.SetDiameter( 1.0 )
 		Player.SetVelocity( 1.5 )
 		Player.SetCoords( 64.0, 64.0 )
@@ -140,13 +141,13 @@ Type LTGame Extends LTProject
 		L_CurrentCamera.AlterCameraMagnification( NewD, NewD )
 		
 		Target.SetMouseCoords()
-		If Player.DistanceToPivot( Target ) < 1.0 Then 
-			Local Angle:Float = Player.DirectionToPivot( Target )
+		If Player.DistanceToActor( Target ) < 1.0 Then 
+			Local Angle:Float = Player.DirectionToActor( Target )
 			Target.X = Player.X + 1.0 * Cos( Angle )
 			Target.Y = Player.Y + 1.0 * Sin( Angle )
 		End If
 			
-		Player.DirectToPivot( Target )
+		Player.DirectToActor( Target )
 		
 		Player.MoveUsingWSAD()
 		LeftWeapon.Logic()

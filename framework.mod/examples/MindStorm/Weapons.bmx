@@ -28,15 +28,15 @@ End Type
 
 Type TChaingun Extends TWeapon
 	Field Position:Int
-	Field CannonHinge:LTPivot = New LTPivot
-	Field CannonAimer:LTPivot = New LTPivot
-	Field Cannon:LTRectangle = New LTRectangle
+	Field CannonHinge:LTActor = New LTActor
+	Field CannonAimer:LTActor = New LTActor
+	Field Cannon:LTActor = New LTActor
 	Field CannonVisual:LTImageVisual = New LTImageVisual
-	Field Barrel:LTRectangle = New LTRectangle
+	Field Barrel:LTActor = New LTActor
 	Field BarrelVisual:LTImageVisual = New LTImageVisual
-	Field FireMin:LTPivot = New LTPivot
-	Field FireMax:LTPivot = New LTPivot
-	Field Fire:LTRectangle = New LTRectangle
+	Field FireMin:LTActor = New LTActor
+	Field FireMax:LTActor = New LTActor
+	Field Fire:LTActor = New LTActor
 	Field BarrelAnim:Float
 	Field BarrelAnimAcc:Float
 	Field JointList:TList = New TList
@@ -49,16 +49,16 @@ Type TChaingun Extends TWeapon
 		Local Chaingun:TChaingun = New TChaingun
 		Chaingun.Position = WeaponPosition
 
-		Chaingun.CannonHinge.SetCoordsRelativeToPivot( Game.Player, 0.0, 0.42 * WeaponPosition )
-		Chaingun.CannonAimer.SetCoordsRelativeToPivot( Game.Player, -0.19, 0.65 * WeaponPosition )
-		Chaingun.Cannon.SetCoordsRelativeToPivot( Game.Player, 0.19, 0.57 * WeaponPosition )
+		Chaingun.CannonHinge.SetCoordsRelativeToActor( Game.Player, 0.0, 0.42 * WeaponPosition )
+		Chaingun.CannonAimer.SetCoordsRelativeToActor( Game.Player, -0.19, 0.65 * WeaponPosition )
+		Chaingun.Cannon.SetCoordsRelativeToActor( Game.Player, 0.19, 0.57 * WeaponPosition )
 		Chaingun.Cannon.SetSize( 1.5, 1.5 )
 		Chaingun.CannonVisual.Image = Game.ChaingunCannon
 		Chaingun.CannonVisual.SetVisualScale( 1.0, -WeaponPosition )
 		Chaingun.Cannon.Visual = Chaingun.CannonVisual
 		Chaingun.Cannon.CorrectYSize()
 		
-		Chaingun.Barrel.SetCoordsRelativeToPivot( Game.Player, 0.88, 0.65 * WeaponPosition )
+		Chaingun.Barrel.SetCoordsRelativeToActor( Game.Player, 0.88, 0.65 * WeaponPosition )
 		Chaingun.Barrel.SetSize( 0.75, 0.75 )
 		Chaingun.BarrelVisual.Image = Game.ChaingunBarrel
 		Chaingun.BarrelVisual.SetVisualScale( 1.0, -WeaponPosition )
@@ -68,8 +68,8 @@ Type TChaingun Extends TWeapon
 		Chaingun.Fire.SetSize( 1.5, 1.5 )
 		Chaingun.Fire.Visual = Game.ChaingunFire
 		
-		Chaingun.FireMin.SetCoordsRelativeToPivot( Game.Player, 1.0, 0.59 * WeaponPosition )
-		Chaingun.FireMax.SetCoordsRelativeToPivot( Game.Player, 1.0, 0.69 * WeaponPosition )
+		Chaingun.FireMin.SetCoordsRelativeToActor( Game.Player, 1.0, 0.59 * WeaponPosition )
+		Chaingun.FireMax.SetCoordsRelativeToActor( Game.Player, 1.0, 0.69 * WeaponPosition )
 		
 		
 		L_SetJointList( Chaingun.JointList )
@@ -87,9 +87,9 @@ Type TChaingun Extends TWeapon
 	
 	Method Logic()
 		L_OperateJoints( JointList )
-		CannonAimer.DirectToPivot( Game.Target )
-		CannonHinge.DirectAs( CannonAimer )
-		Fire.DirectAs( CannonAimer )
+		CannonAimer.DirectToActor( Game.Target )
+		CannonHinge.DirectAsActor( CannonAimer )
+		Fire.DirectAsActor( CannonAimer )
 		
 		If Position = LeftSide Then
 			If MouseDown( 1 ) Then
@@ -121,19 +121,20 @@ Type TChaingun Extends TWeapon
 				Bullet.FadingPeriod = Rnd( 1.0, 1.5 )
 				Bullet.GameBulletListLink = Game.Bullets.AddLast( Bullet )
 				Bullet.ChaingunBulletListLink = Bullets.AddLast( Bullet )
-				Bullet.JumpToPivot( Fire )
-				Bullet.DirectAs( Fire )
+				Bullet.JumpToActor( Fire )
+				Bullet.DirectAsActor( Fire )
+				Bullet.Shape = L_Circle
 				LastShotTime = Millisecs()
 			End If
 		End If
 		
 		For Local Bullet:LTChaingunBullet = Eachin Bullets
-			Bullet.Update()
+			Bullet.Act()
 		Next
 		
 		BarrelAnim = L_WrapFloat( BarrelAnim + L_DeltaTime * BarrelAnimAcc, 16 )
 		Barrel.Frame = Floor( BarrelAnim )
-		Fire.PlaceBetweenPivots( FireMin, FireMax, ( Sin( BarrelAnim * 22.5 + 90 ) + 1.0 ) * 0.5 )
+		Fire.PlaceBetweenActors( FireMin, FireMax, ( Sin( BarrelAnim * 22.5 + 90 ) + 1.0 ) * 0.5 )
 	End Method
 	
 	
@@ -151,7 +152,7 @@ End Type
 
 
 
-Type LTChaingunBullet Extends LTCircle
+Type LTChaingunBullet Extends LTActor
 	Field CreatingTime:Int
 	Field FadingPeriod:Float
 	Field FlyingPeriod:Float
@@ -160,10 +161,10 @@ Type LTChaingunBullet Extends LTCircle
 	
 	
 	
-	Method Update()
+	Method Act()
 		MoveForward()
 		Local Time:Float = 0.001 * ( MilliSecs() - CreatingTime )
-		Frame = L_Wrap2( Floor( 10.0 + 50.0 * Time ), 27, 87 )
+		Frame = L_WrapInt2( Floor( 10.0 + 50.0 * Time ), 27, 87 )
 		If Time > FlyingPeriod Then
 			Time = Time - FlyingPeriod
 			If Time > FadingPeriod Then

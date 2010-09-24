@@ -38,10 +38,10 @@ Global Editor:TEditor = New TEditor
 Editor.Execute()
 
 Type TEditor Extends LTProject
-	Field Cursor:LTCircle = New LTCircle
+	Field Cursor:LTActor = New LTActor
 	Field LineVisual:LTEmptyPrimitive
 	Field PivotVisual:LTFilledPrimitive
-	Field CurrentPivot:LTPivot
+	Field CurrentPivot:LTActor
 	Field CurrentLine:LTLine
 	Field CurrentLineVisual:LTEmptyPrimitive
 	Field CurrentPivotVisual:LTFilledPrimitive
@@ -55,7 +55,8 @@ Type TEditor Extends LTProject
 		'Assert 0, "koo!"
 		Shared.Init()
 		
-		Cursor.Diameter = 0.2
+		Cursor.Shape = L_Circle
+		Cursor.SetDiameter( 0.2 )
 		
 		PivotVisual = New LTFilledPrimitive
 		PivotVisual.SetVisualScale( 0.25, 0.25 )
@@ -85,13 +86,13 @@ Type TEditor Extends LTProject
 		Shared.Logic()
 		
 		If MouseHit( 1 ) And Not CurrentPivot Then
-			Local Pivot:LTPivot = New LTPivot
+			Local Pivot:LTActor = New LTActor
 			LTAddPivotToGraph.Create( Shared.Graph, Pivot ).Do()
 			Pivot.SetMouseCoords()
 		End If
 		
 		If KeyHit( Key_F2 ) Then Editor.SaveToFile( "map.gra" )
-		If KeyHit( Key_F3 ) Then Editor.LoadFromFile( "map.gra" )
+		If KeyHit( Key_F3 ) Then L_LoadFromFile( "map.gra" )
 		
 		Cursor.SetMouseCoords()
 		MovePivot.Execute()
@@ -125,7 +126,7 @@ Type TEditor Extends LTProject
 		
 		For Local KeyValue:TKeyValue = Eachin Shared.Events
 			SetColor( 0, 255, 0 )
-			TGlobalMapEvent( KeyValue.Key() ).DrawInfo( LTPivot( KeyValue.Value() ) )
+			TGlobalMapEvent( KeyValue.Key() ).DrawInfo( LTActor( KeyValue.Value() ) )
 			SetColor( 255, 255, 255 )
 		Next
 		
@@ -137,7 +138,7 @@ Type TEditor Extends LTProject
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		Shared.Graph = LTGraph( XMLObject.ManageObjectField( "map", Shared.Graph ) )
-		Shared.PlayerPivot = LTPivot( XMLObject.ManageObjectField( "player", Shared.PlayerPivot ) )
+		Shared.PlayerPivot = LTActor( XMLObject.ManageObjectField( "player", Shared.PlayerPivot ) )
 		XMLObject.ManageObjectMapField( "events", Shared.Events )
 	End Method
 End Type

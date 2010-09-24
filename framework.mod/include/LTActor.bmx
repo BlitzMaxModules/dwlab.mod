@@ -561,3 +561,39 @@ Type LTActor Extends LTShape
 		XMLObject.ManageIntAttribute( "frame", Frame )
 	End Method
 End Type
+
+
+
+
+
+Type LTMoveActor Extends LTAction
+	Field Actor:LTActor
+	Field OldX:Float, OldY:Float
+	Field NewX:Float, NewY:Float
+	
+	
+	
+	Function Create:LTMoveActor( Actor:LTActor, X:Float = 0, Y:Float = 0 )
+		Local Action:LTMoveActor = New LTMoveActor
+		Action.Actor = Actor
+		Action.OldX = Actor.X
+		Action.OldY = Actor.Y
+		Action.NewX = X
+		Action.NewY = Y
+		Return Action
+	End Function
+	
+	
+	
+	Method Do()
+		Actor.SetCoords( NewX, NewY )
+		L_CurrentUndoList.AddFirst( Self )
+	End Method
+	
+	
+	
+	Method Undo()
+		Actor.SetCoords( OldX, OldY )
+		L_CurrentRedoList.AddFirst( Self )
+	End Method
+End Type
