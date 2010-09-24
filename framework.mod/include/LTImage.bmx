@@ -112,6 +112,14 @@ Type LTImage Extends LTObject
 	
 	
 	
+	Function Create:LTImage( XSize:Int, YSize:Int, Frames:Int = 1 )
+		Local Image:LTImage = New LTImage
+		Image.BMaxImage = CreateImage( XSize, YSize, Frames )
+		Return Image
+	End Function
+	
+	
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		

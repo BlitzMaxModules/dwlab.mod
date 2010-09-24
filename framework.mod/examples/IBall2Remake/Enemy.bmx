@@ -27,26 +27,26 @@ Type TEnemy Extends TGameActor
 	
 	
 	
-	Function Create:TEnemy( X:Float, Y:Float, VisualNum:Int, DX:Float, DY:Float, HexColor:String )
+	Function Create:TEnemy( X:Float, Y:Float, EnemyType:Int, DX:Float, DY:Float, HexColor:String )
 		Local Enemy:TEnemy = New TEnemy
 		Enemy.SetCoords( X, Y )
 		Enemy.SetDXDY( DX, DY )
 		Enemy.SetDiameter( 0.95 )
 		
 		Local ImageVisual:LTImageVisual = New LTImageVisual
-		ImageVisual.Image = Game.EnemyImage[ VisualNum ]
+		ImageVisual.Image = Game.EnemyImage[ EnemyType ]
 		ImageVisual.Rotating = False
 		ImageVisual.SetColorFromHex( HexColor )
 		Enemy.Visual = ImageVisual
 		
-		Select VisualNum
+		Select EnemyType
 			Case Sandwitch, Pad
 				Enemy.Shape = L_Rectangle
 			Default
 				Enemy.Shape = L_Circle
 		End Select
 		
-		Select VisualNum
+		Select EnemyType
 			Case Angel, Mushroom, Sandwitch
 				Enemy.ChangeFacing = True
 		End Select
@@ -92,7 +92,7 @@ Type TEnemy Extends TGameActor
 		'debugstop
 		MoveForward()
 		If ChangeFacing Then Visual.XScale = Sgn( GetDX() )
-		Frame = L_Wrap( Floor( X * 8.0 ), 4 )
+		Frame = L_WrapInt( Floor( X * 8.0 ), 4 )
 		Game.CollisionMap.CollisionsWithActor( Self )
 		Game.TileMap.CollisionsWithActor( Self )
 	End Method
@@ -103,6 +103,70 @@ End Type
 
 
 Type TEnemyGenerator Extends LTActor
-	Method Update()
+	Field GenerationStartTime:Float
+	Field NextEnemy:Float
+	Field EnemyType:Int
+	Field EnemyColor:String
+	Field EnemyTemplate:LTActor
+	
+	Const GenerationTime:Float = 1.5
+	Const GenerationSpeed:Float = 72.0
+	Const FromPeriod:Float = 1.0
+	Const ToPeriod:Float = 20.0
+	
+	
+	
+	Function Create:TEnemyGenerator( X:Float, Y:Float, DX:Float, DY:Float, EnemyType:Int, EnemyColor:String )
+		Local Generator:TEnemyGenerator = New TEnemyGenerator
+		Generator.SetCoords( X, Y )
+		Generator.SetDXDY( DX, DY )
+		Generator.EnemyType = EnemyType
+		Generator.EnemyColor = EnemyColor
+		Generator.Visual = LTImageVisual.FromImage( Game.GeneratorImage )
+		Game.Objects.AddLast( Generator )
+		Return Generator
+	End Function
+	
+	
+	
+	Method Act()
+		If GenerationStartTime Then
+			Frame = L_WrapInt2( Floor( ( Game.ProjectTime - GenerationStartTime ) * GenerationSpeed ), 18, 36 )
+			If Game.ProjectTime > GenerationStartTime + GenerationTime Then
+				Local Collision:Int = False
+				For Local Actor:LTActor = Eachin Game.Objects.List
+					If EnemyTemplate.CollidesWith( Actor ) And Actor <> Self Then
+						Collision = True
+						Exit
+					End If
+				Next
+				
+				If Not Collision Then
+					TEnemy.Create( X, Y, EnemyType, GetDX(), GetDY(), EnemyColor )
+					NextEnemy = Game.ProjectTime + Rnd( FromPeriod, ToPeriod )
+					GenerationStartTime = 0
+					Frame = 0
+					EnemyTemplate.Visual.Alpha = 0.0
+				End If
+			Else
+				EnemyTemplate.Visual.Alpha = 1.0 * ( Game.ProjectTime - GenerationStartTime ) / GenerationTime
+			End If
+		ElseIf NextEnemy < Game.ProjectTime Then
+			GenerationStartTime = Game.ProjectTime
+			EnemyTemplate = New LTActor
+			EnemyTemplate.Visual = LTImageVisual.FromImage( Game.EnemyImage[ EnemyType ] )
+			EnemyTemplate.SetCoords( X, Y )
+			EnemyTemplate.SetSize( 1.0, 1.0 )
+			EnemyTemplate.Shape = L_Rectangle
+			EnemyTemplate.Visual.SetColorFromHex( EnemyColor )
+			EnemyTemplate.Visual.Alpha = 0.0
+		End If
+	End Method
+	
+	
+	
+	Method Draw()
+		If Game.ProjectTime <= GenerationStartTime + GenerationTime Then EnemyTemplate.Draw()
+		Super.Draw()
 	End Method
 End Type

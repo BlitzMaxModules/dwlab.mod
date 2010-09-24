@@ -14,7 +14,7 @@ Include "LTCollisionMap.bmx"
 
 Type LTMap Extends LTObject
 	Field XQuantity:Int, YQuantity:Int
-	Field XMask:Int, YMask:Int
+	Field XMask:Int, YMask:Int, Masked:Int
 	
 	
 	
@@ -28,14 +28,39 @@ Type LTMap Extends LTObject
 		If L_IsPowerOf2( XQuantity ) And L_IsPowerOf2( YQuantity ) Then
 			XMask = XQuantity - 1
 			YMask = YQuantity - 1
+			Masked = 1
 		Else 
 			XMask = 0
 			YMask = 0
+			Masked = 0
 		End If
 	End Method
 	
 	
 	
+	Method WrapX:Int( Value:Int )
+		Return Value - XQuantity * Floor( 1.0 * Value / XQuantity )
+	End Method
+	
+	
+	
+	Method WrapY:Int( Value:Int )
+		Return Value - YQuantity * Floor( 1.0 * Value / YQuantity )
+	End Method
+	
+	
+	
 	Method Stretch:LTMap( XMultiplier:Int, YMultiplier:Int )
+	End Method
+	
+	
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+
+		XMLObject.ManageIntAttribute( "xquantity", XQuantity )
+		XMLObject.ManageIntAttribute( "yquantity", YQuantity )
+		
+		If L_XMLMode = L_XMLGet Then SetResolution( XQuantity, YQuantity )
 	End Method
 End Type

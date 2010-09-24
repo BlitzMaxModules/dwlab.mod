@@ -23,6 +23,14 @@ Type LTImageVisual Extends LTVisual
 	
 	
 	
+	Function FromImage:LTImageVisual( Image:LTImage )
+		Local ImageVisual:LTImageVisual = New LTImageVisual
+		ImageVisual.Image = Image
+		Return ImageVisual
+	End Function
+	
+	
+	
 	Method DrawUsingActor( Actor:LTActor )
 		SetColor 255.0 * R, 255.0 * G, 255.0 * B
 		SetAlpha Alpha
@@ -100,7 +108,11 @@ Type LTImageVisual Extends LTVisual
 			Local XX:Float = StartX
 			Local XFrame:Int = StartXFrame
 			While XX < X2
-				DrawTile( FrameMap, XX, YY, L_Wrap( XFrame, FrameMap.XQuantity ), L_Wrap( YFrame, FrameMap.YQuantity ) )
+				If FrameMap.Masked Then
+					DrawTile( FrameMap, XX, YY, XFrame & FrameMap.XMask, YFrame & FrameMap.YMask )
+				Else
+					DrawTile( FrameMap, XX, YY, FrameMap.WrapX( XFrame ), FrameMap.WrapY( YFrame ) )
+				End If
 				XX = XX + SXSize
 				XFrame :+ 1
 			Wend
@@ -160,7 +172,11 @@ Type LTImageVisual Extends LTVisual
 			Local XX:Float = StartX
 			Local XFrame:Int = StartXFrame
 			While XX < X2
-				DrawTile( FrameMap, XX, YY, L_Wrap( XFrame, FrameMap.XQuantity ), L_Wrap( YFrame, FrameMap.YQuantity ) )
+				If FrameMap.Masked Then
+					DrawTile( FrameMap, XX, YY, XFrame & FrameMap.XMask, YFrame & FrameMap.YMask )
+				Else
+					DrawTile( FrameMap, XX, YY, FrameMap.WrapX( XFrame ), FrameMap.WrapY( YFrame ) )
+				End If
 				XX = XX + SXSize
 				XFrame :+ 1
 			Wend

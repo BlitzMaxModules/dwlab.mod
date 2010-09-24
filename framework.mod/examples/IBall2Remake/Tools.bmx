@@ -135,3 +135,33 @@ Type TLevelExtractor Extends LTObject
 		Level.SaveToFile( "levels\" + Left( Filename, 2 ) + ".xml" )
 	End Method
 End Type
+
+
+
+
+Function CreateEnemyGeneratorImage()
+	Local Circle:LTFloatMap[] = New LTFloatMap[ 18 ]
+	For Local N:Int = 0 Until 18
+		Circle[ N ] = New LTFloatMap
+		Circle[ N ].SetResolution( 16, 16 )
+		Circle[ N ].DrawCircle( 8.0, 8.0, 7.5, 1.0 * N / 17.0 )
+	Next
+
+	Local Map:LTFloatMap = New LTFloatMap
+	Map.SetResolution( 64 * 8, 64 * 8 )
+	For Local Angle:Float = 0.0 Until 180.0 Step 5.0
+		Cls
+		For Local Angle2:Float = 0.0 To L_LimitFloat( Angle, 0.0, 90.0 )
+			For Local DAngle:Float = 0.0  To 270.0 Step 90.0
+				Local Frame:Int = Int( Angle / 5.0 )
+				Local X:Float = 24.0 - 24.0 * Cos( Angle + DAngle + Angle2 - L_LimitFloat( Angle, 0.0, 90.0 ) ) + 64 * ( Frame Mod 8 )
+				Local Y:Float = 24.0 - 24.0 * Sin( Angle + DAngle + Angle2 - L_LimitFloat( Angle, 0.0, 90.0 ) ) + 64 * Int( Frame / 8 )
+				Map.Paste( Circle[ Int( 17.0 * Angle2 / 90.0 ) ], X, Y, L_Max )
+			Next
+		Next
+	Next
+	
+	Local Pixmap:TPixmap = Map.ToNewPixmap( L_Alpha )
+	SavePixmapPNG( Pixmap, "media/generator.png" )
+	End
+End Function

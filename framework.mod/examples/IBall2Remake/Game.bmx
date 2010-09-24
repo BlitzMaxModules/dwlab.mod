@@ -31,6 +31,8 @@ Type TGame Extends LTProject
 	Field LevelStartTime:Float
 	Field LevelTime:Float
 	Field LevelNum:Int
+	Field GeneratorImage:LTImage
+	
 	
 	
 	Method Init()
@@ -57,6 +59,7 @@ Type TGame Extends LTProject
 		BlockVisual.Rotating = False
 		FlashingVisual.Image = BlockVisual.Image
 		FlashingVisual.Rotating = False
+		GeneratorImage = LTImage.FromFile( "media\generator.png", 8, 5 )
 		
 		TileMap.Visual = BlockVisual
 		TileMap.SetSize( 15.0, 14.0 )
@@ -74,7 +77,7 @@ Type TGame Extends LTProject
 		EnemyImage[ TEnemy.Sandwitch ] = LTImage.FromFile( "media\sandwitch.png", 4, 1 )
 		EnemyImage[ TEnemy.Ufo ] = LTImage.FromFile( "media\ufo.png", 4, 1 )
 		BulletImage = LTImage.FromFile( "media\bullet.png" )
-		
+				
 		Local Scale:Float = 1.0 * L_ScreenXSize / 256.0
 		ScoreFont = LTFont.FromFile( "media\score.png", "0", "9", 10 )
 		ScoreFont.SetFontScale( Scale, Scale )
@@ -186,6 +189,7 @@ Type TLevel Extends LTObject
 				TEnemy.Create( 9.0, 6.0, TEnemy.Ufo, -2.0, 1.0, "00FF00" )
 				TEnemy.Create( 9.0, 9.0, TEnemy.Ufo, -2.0, -1.0, "00FF00" )
 				TMovingBlock.Create( 7.0, 4.0, 48, -1.0 )
+				TEnemyGenerator.Create( 6.0, 0.0, -1, 1, TEnemy.Reel, "FFFF00" )
 				
 				Game.Ball.SetCoords( 0, 4.0 )
 				Game.LevelTime = 90

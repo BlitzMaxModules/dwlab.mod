@@ -133,7 +133,7 @@ End Function
 
 
 
-Function L_Wrap:Int( Value:Int, Size:Int )
+Function L_WrapInt:Int( Value:Int, Size:Int )
 	Return Value - Size * Floor( 1.0 * Value / Size )
 End Function
 
@@ -141,8 +141,9 @@ End Function
 
 
 
-Function L_Wrap2:Int( Value:Int, FromValue:Int, ToValue:Int )
-	If Value > ToValue Then Return Floor( ( Value - FromValue ) / ( ToValue - FromValue ) ) + FromValue
+Function L_WrapInt2:Int( Value:Int, FromValue:Int, ToValue:Int )
+	Local Size:Int = ToValue - FromValue
+	If Value >= ToValue Then Return Value - Floor( 1.0 * ( Value - FromValue ) / Size ) * Size
 	Return Value
 End Function
 
@@ -165,4 +166,13 @@ Function L_TryExtensions:String( Filename:String, Extensions:String[] )
 		Local NewFilename:String = Filename + "." + Extension
 		If FileType( NewFilename ) = 1 Then Return NewFilename
 	Next
+End Function
+	
+	
+	
+
+
+Function L_ClearPixmap( Pixmap:TPixmap, Red:Float = 0.0, Green:Float = 0.0, Blue:Float = 0.0, Alpha:Float = 1.0 )
+	Local Col:Int = Int( 255.0 * Red ) + Int( 255.0 * Green ) Shl 8 + Int( 255.0 * Blue ) Shl 16 + Int( 255.0 * Alpha ) Shl 16
+	Pixmap.ClearPixels( Col )
 End Function

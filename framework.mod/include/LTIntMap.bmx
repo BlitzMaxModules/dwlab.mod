@@ -66,13 +66,13 @@ Type LTIntMap Extends LTMap
 					If TileType[ N ] = TileType[ Value[ X, Y ] ] And Tileset.TileRules[ N ] Then
 						Local Passed:Int = True
 						For Local Rule:LTTileRule = Eachin Tileset.TileRules[ N ]
-							If XMask Then
+							If Masked Then
 								If TileType[ Value[ ( X + Rule.DX ) & XMask, ( Y + Rule.DY ) & YMask ] ] <> Rule.TileType Then
 									Passed = False
 									Exit
 								End If
 							Else
-								If TileType[ Value[ L_Wrap( X + Rule.DX, XQuantity ), L_Wrap( Y + Rule.DY, YQuantity ) ] ] <> Rule.TileType Then
+								If TileType[ Value[ WrapX( X + Rule.DX ), WrapY( Y + Rule.DY ) ] ] <> Rule.TileType Then
 									Passed = False
 									Exit
 								End If
@@ -93,9 +93,6 @@ Type LTIntMap Extends LTMap
 	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
-	
-		XMLObject.ManageIntAttribute( "xquantity", XQuantity )
-		XMLObject.ManageIntAttribute( "yquantity", YQuantity )
 		
 		If L_XMLMode = L_XMLGet Then
 			Value = New Int[ XQuantity, YQuantity ]

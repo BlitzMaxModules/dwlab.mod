@@ -15,11 +15,11 @@ Type LTCollisionMap Extends LTMap
 	' ==================== Parameters ====================
 	
 	Method SetResolution( NewXQuantity:Int, NewYQuantity:Int )
-		?debug
-		L_Assert( L_IsPowerOf2( NewXQuantity ) And L_IsPowerOf2( NewYQuantity ) , "Map resoluton must be power of 2" )
-		?
-		
 		Super.SetResolution( NewXQuantity, NewYQuantity )
+		
+		?debug
+		L_Assert( Masked, "Map resoluton must be power of 2" )
+		?
 		
 		Objects = New TList[ NewXQuantity, NewYQuantity ]
 		For Local Y:Int = 0 Until NewYQuantity

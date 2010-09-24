@@ -63,6 +63,10 @@ LTVectorModel.SetDefault()
 'Global LevelExtractor:TLevelExtractor = New TLevelExtractor
 'LevelExtractor.Execute()'; End
 
+'include "../../tests.bmx"
+'CreateEnemyGeneratorImage
+'DebugLog Min( 0.5, 0.6 )
+
 Global Game:TGame = New TGame
 Game.Execute()
 
