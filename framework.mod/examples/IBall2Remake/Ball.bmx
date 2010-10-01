@@ -115,7 +115,7 @@ Type TBall Extends TGameActor
 	
 	Method HandleCollision( Shape:LTShape )
 		'debugstop
-		Push( Shape, 0.0, 1.0 )
+		WedgeOffWith( Shape, 0.0, 1.0 )
 		
 		Local Actor:LTActor = LTActor( Shape )
 		Bounce( Actor.X - X, Actor.Y - Y )
@@ -143,8 +143,10 @@ Type TBall Extends TGameActor
 			TileMap.FrameMap.Value[ TileX, TileY ] = 0
 		Else
 			If TExitBlock( Template ) And Game.KeyCollected Then End
+			'debugstop
+			PushFromTile( TileMap, TileX, TileY )
+
 			Local Actor:LTActor = TileMap.GetTile( TileX, TileY )
-			Push( Actor, 0.0, 1.0 )
 			Bounce( Actor.X - X, Actor.Y - Y )
 		End If
 	End Method

@@ -1,0 +1,76 @@
+<TLevel dwlab_version="0.10">
+	<LTIntMap field="framemap" xquantity="15" yquantity="14">
+		<Row data="49,49,49,49,49,49,49,49,49,49,49,49,49,49,49"/>
+		<Row data="49,0,0,0,12,0,0,0,0,0,112,113,1,0,49"/>
+		<Row data="49,0,0,0,0,0,0,0,0,0,128,129,0,0,49"/>
+		<Row data="49,0,0,0,0,0,0,0,0,0,112,129,0,0,49"/>
+		<Row data="49,0,0,0,0,0,0,0,0,0,128,113,0,0,49"/>
+		<Row data="49,0,0,0,0,0,0,0,0,0,0,0,0,0,49"/>
+		<Row data="49,0,0,0,0,0,112,113,0,0,0,0,0,0,49"/>
+		<Row data="49,0,0,0,0,0,128,113,0,0,0,0,0,114,49"/>
+		<Row data="49,0,0,0,128,113,112,129,0,0,0,0,0,130,49"/>
+		<Row data="49,0,0,0,112,129,128,113,0,0,0,0,0,0,49"/>
+		<Row data="49,0,0,0,112,113,128,129,14,0,0,0,0,15,49"/>
+		<Row data="49,0,114,115,128,113,112,129,114,115,0,0,0,114,49"/>
+		<Row data="49,0,130,131,112,129,128,113,130,131,0,0,0,130,49"/>
+		<Row data="49,49,49,49,49,49,49,49,49,49,49,49,49,49,49"/>
+	</LTIntMap>
+	<TBall field="ball" id="15" shape="1" y="4">
+		<LTImageVisual field="visual" rotating="0">
+			<LTImage field="image" filename="media\ball.png"/>
+		</LTImageVisual>
+		<LTVectorModel field="model" dy="0"/>
+	</TBall>
+	<LTList field="objects">
+		<TEnemy shape="1" x="3" y="2" xsize="0.94" ysize="0.94">
+			<LTImageVisual field="visual" r="0" b="0" rotating="0">
+				<Object field="image" id="11"/>
+			</LTImageVisual>
+			<LTVectorModel field="model" dx="-2"/>
+		</TEnemy>
+		<TEnemy shape="1" x="3" y="5" xsize="0.94" ysize="0.94">
+			<LTImageVisual field="visual" r="0" b="0" rotating="0">
+				<Object field="image" id="11"/>
+			</LTImageVisual>
+			<LTVectorModel field="model" dx="-2"/>
+		</TEnemy>
+		<TEnemy shape="1" x="9" y="6" xsize="0.94" ysize="0.94">
+			<LTImageVisual field="visual" r="0" b="0" rotating="0">
+				<Object field="image" id="11"/>
+			</LTImageVisual>
+			<LTVectorModel field="model" dx="-2"/>
+		</TEnemy>
+		<TEnemy shape="1" x="9" y="9" xsize="0.94" ysize="0.94">
+			<LTImageVisual field="visual" r="0" b="0" rotating="0">
+				<Object field="image" id="11"/>
+			</LTImageVisual>
+			<LTVectorModel field="model" dx="-2" dy="-1"/>
+		</TEnemy>
+		<TMovingBlock shape="2" x="7" y="4" frame="48">
+			<Object field="visual" id="12"/>
+			<LTVectorModel field="model" dy="-1"/>
+		</TMovingBlock>
+		<TEnemyGenerator shape="2" x="6" enemy-type="6" enemy-color="FFFF00">
+			<LTImageVisual field="visual">
+				<Object field="image" id="13"/>
+			</LTImageVisual>
+			<LTVectorModel field="model" dx="-1"/>
+		</TEnemyGenerator>
+		<Object id="15"/>
+	</LTList>
+	<TList field="definitions">
+		<Include id="1" name="BlockImage"/>
+		<Include id="2" name="BulletImage"/>
+		<Include id="3" name="EnemyImage0"/>
+		<Include id="4" name="EnemyImage1"/>
+		<Include id="5" name="EnemyImage2"/>
+		<Include id="6" name="EnemyImage3"/>
+		<Include id="7" name="EnemyImage4"/>
+		<Include id="8" name="EnemyImage5"/>
+		<Include id="9" name="EnemyImage6"/>
+		<Include id="10" name="EnemyImage7"/>
+		<Include id="11" name="EnemyImage8"/>
+		<Include id="12" name="FlashingVisual"/>
+		<Include id="13" name="GeneratorImage"/>
+	</TList>
+</TLevel>

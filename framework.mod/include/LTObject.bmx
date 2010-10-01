@@ -16,6 +16,7 @@ Global L_IDNum:Int
 Global L_IDArray:LTObject[]
 Global L_NameForObjectMap:TMap = New TMap
 Global L_ObjectForNameMap:TMap = New TMap
+Global L_IncludedObjects:TMap = New TMap
 
 Type LTObject
 	Method GetName:String()
@@ -89,6 +90,16 @@ Type LTObject
 		
 		L_Definitions = New LTXMLObject
 		L_Definitions.Name = "TList"
+		
+		For Local KeyValue:TKeyValue = Eachin L_IncludedObjects
+			Local XMLObject:LTXMLObject = New LTXMLObject
+			XMLObject.Name = "Include"
+			XMLObject.SetAttribute( "id", L_IDNum )
+			XMLObject.SetAttribute( "name", String( KeyValue.Key() ) )
+			L_Definitions.Children.AddLast( XMLObject )
+			L_IDMap.Insert( KeyValue.Value(), String( L_IDNum ) )
+			L_IDNum :+ 1
+		Next
 		
 		L_XMLMode = L_XMLSet
 		Local XMLObject:LTXMLObject = New LTXMLObject

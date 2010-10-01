@@ -8,8 +8,6 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTSimpleTileMap.bmx"
-
 Type LTTileMap Extends LTActor
 	Field FrameMap:LTIntMap
 	Field ActorArray:LTActor[]
@@ -89,11 +87,9 @@ Type LTTileMap Extends LTActor
 				
 				For Local Y:Int = Y1 To Y2
 					For Local X:Int = X1 To X2
-						Local Actor2:LTActor = ActorArray[ FrameMap.Value[ X, Y ] ]
-						If Actor2 Then
-							Local DX:Float = X0 + CellXSize * X
-							Local DY:Float = Y0 + CellYSize * Y
-							If Actor.CollidesWithTile( Actor2, DX, DY, CellXSize, CellYSize ) Then Actor.HandleCollisionWithTile( Self, X, Y )
+						Local TileActor:LTActor = ActorArray[ FrameMap.Value[ X, Y ] ]
+						If TileActor Then
+							If Actor.CollidesWithTile( TileActor, X0 + CellXSize * X, Y0 + CellYSize * Y, CellXSize, CellYSize ) Then Actor.HandleCollisionWithTile( Self, X, Y )
 						End If
 					Next
 				Next

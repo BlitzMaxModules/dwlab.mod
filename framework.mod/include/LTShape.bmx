@@ -13,7 +13,6 @@ Include "LTLine.bmx"
 Include "LTGraph.bmx"
 
 Type LTShape Extends LTObject Abstract
-	Field Shape:Int = L_Rectangle
 	Field Visual:LTVisual = L_DefaultVisual
 	
 	' ==================== Collisions ===================
@@ -33,12 +32,12 @@ Type LTShape Extends LTObject Abstract
 	
 	' ==================== Pushing ====================
 	
-	Method Push( Shape:LTShape, SelfMass:Float, ShapeMass:Float )
+	Method WedgeOffWith( Shape:LTShape, SelfMass:Float, ShapeMass:Float )
 	End Method
 
 
 	
-	Method PushActor( Actor:LTActor, SelfMass:Float, ActorMass:Float )
+	Method WedgeOffWithActor( Actor:LTActor, SelfMass:Float, ActorMass:Float )
 	End Method
 	
 	' ==================== Collision ===================
@@ -55,7 +54,6 @@ Type LTShape Extends LTObject Abstract
 		
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
-		XMLObject.ManageIntAttribute( "shape", Shape )
 		Visual = LTVisual( XMLObject.ManageObjectField( "visual", Visual ) )
 	End Method
 End Type

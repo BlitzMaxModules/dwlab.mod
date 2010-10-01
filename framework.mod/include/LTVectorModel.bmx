@@ -131,4 +131,15 @@ Type LTVectorModel Extends LTModel Abstract
 	Function SetDefault()
 		L_DefaultModelTypeID = TTypeID.ForName( "LTVectorModel" )
 	End Function
+	
+	
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		
+		XMLObject.ManageFloatAttribute( "dx", DX )
+		XMLObject.ManageFloatAttribute( "dy", DY, 1.0 )
+		XMLObject.ManageFloatAttribute( "angular-velocity", AngularVelocity, 1.0 )
+		XMLObject.ManageFloatAttribute( "mass", Mass, 1.0 )
+	End Method
 End Type

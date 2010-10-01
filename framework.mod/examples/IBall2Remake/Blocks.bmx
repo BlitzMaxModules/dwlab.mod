@@ -51,7 +51,7 @@ Type TMovingBlock Extends TBlock
 			'debugstop
 			Shape.Destroy()
 		Else
-			Push( Shape, 0.0, 1.0 )
+			PushFromActor( LTActor( Shape ) )
 			If BlockType = MovingBlock Then SetDY( -GetDY() )
 		End If
 	End Method
@@ -59,8 +59,7 @@ Type TMovingBlock Extends TBlock
 	
 	
 	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
-		Local Actor:LTActor = LTActor( TileMap.GetTile( TIleX, TileY ) )
-		Push( Actor, 0.0, 1.0 )
+		PushFromTile( TileMap, TileX, TileY )
 		If BlockType = MovingBlock Then SetDY( -GetDY() )
 	End Method
 End Type

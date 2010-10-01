@@ -10,50 +10,52 @@
 
 Include "LTJoint.bmx"
 
-Function L_PushCircleWithCircle( Circle1:LTActor, Circle2:LTActor, Mass1:Float, Mass2:Float )
-	Local DX:Float = Circle1.X - Circle2.X
-	Local DY:Float = Circle1.Y - Circle2.Y
-	Local K:Float = 0.5 * ( Circle1.XSize + Circle2.XSize ) / Sqr( DX * DX + DY * DY ) - 1.0
-	
-	L_Separate( Circle1, Circle2, K * DX, K * DY, Mass1, Mass2 )
+Function L_WedgingValuesOfCircleAndCircle( Circle1X:Float, Circle1Y:Float, Circle1Diameter:Float, ..
+Circle2X:Float, Circle2Y:Float, Circle2Diameter:Float, DX:Float Var, DY:Float Var )
+	DX = Circle1X - Circle2X
+	DY = Circle1Y - Circle2Y
+	Local K:Float = 0.5 * ( Circle1Diameter + Circle2Diameter ) / Sqr( DX * DX + DY * DY ) - 1.0
+	DX :* K
+	DY :* K
 End Function
 
 
 
 
 
-Function L_PushCircleWithRectangle( Circle:LTActor, Rectangle:LTActor, Mass1:Float, Mass2:Float )
-	Local DX:Float, DY:Float
-	
-	If Circle.X > Rectangle.X - 0.5 * Rectangle.XSize And Circle.X < Rectangle.X + 0.5 * Rectangle.XSize Then
-		DY = ( 0.5 * ( Rectangle.YSize + Circle.XSize ) - Abs( Rectangle.Y - Circle.Y ) ) * Sgn( Rectangle.Y - Circle.Y )
-	ElseIf Circle.Y > Rectangle.Y - 0.5 * Rectangle.YSize And Circle.Y < Rectangle.Y + 0.5 * Rectangle.YSize Then
-		DX = ( 0.5 * ( Rectangle.XSize + Circle.XSize ) - Abs( Rectangle.X - Circle.X ) ) * Sgn( Rectangle.X - Circle.X )
+Function L_WedgingValuesOfCircleAndRectangle( CircleX:Float, CircleY:Float, CircleDiameter:Float, ..
+RectangleX:Float, RectangleY:Float, RectangleXSize:Float, RectangleYSize:Float, DX:Float Var, DY:Float Var )
+	If CircleX > RectangleX - 0.5 * RectangleXSize And CircleX < RectangleX + 0.5 * RectangleXSize Then
+		DY = ( 0.5 * ( RectangleYSize + CircleDiameter ) - Abs( RectangleY - CircleY ) ) * Sgn( CircleY - RectangleY )
+	ElseIf CircleY > RectangleY - 0.5 * RectangleYSize And CircleY < RectangleY + 0.5 * RectangleYSize Then
+		DX = ( 0.5 * ( RectangleXSize + CircleDiameter ) - Abs( RectangleX - CircleX ) ) * Sgn( CircleX - RectangleX )
 	Else
-		Local PX:Float = Rectangle.X + 0.5 * Rectangle.XSize * Sgn( Circle.X - Rectangle.X )
-		Local PY:Float = Rectangle.Y + 0.5 * Rectangle.YSize * Sgn( Circle.Y - Rectangle.Y )
-		Local K:Float = 1.0 - 0.5 * Circle.XSize / Sqr( ( Circle.X - PX ) * ( Circle.X - PX ) + ( Circle.Y - PY ) * ( Circle.Y - PY ) )
-		DX = ( Circle.X - PX ) * K
-		DY = ( Circle.Y - PY ) * K
+		Local PX:Float = RectangleX + 0.5 * RectangleXSize * Sgn( CircleX - RectangleX )
+		Local PY:Float = RectangleY + 0.5 * RectangleYSize * Sgn( CircleY - RectangleY )
+		Local K:Float = 1.0 - 0.5 * CircleDiameter / Sqr( ( CircleX - PX ) * ( CircleX - PX ) + ( CircleY - PY ) * ( CircleY - PY ) )
+		DX = ( PX - CircleX ) * K
+		DY = ( PY - CircleY ) * K
 	End If
-	
-	L_Separate( Rectangle, Circle, DX, DY, Mass2, Mass1 )
 End Function
 
 
 
 
 
-Function L_PushRectangleWithRectangle( Rectangle1:LTActor, Rectangle2:LTActor, Mass1:Float, Mass2:Float )
-	Local DX:Float = 0.5 * ( Rectangle1.XSize + Rectangle2.XSize ) - Abs( Rectangle1.X - Rectangle2.X )
-	Local DY:Float = 0.5 * ( Rectangle1.YSize + Rectangle2.YSize ) - Abs( Rectangle1.Y - Rectangle2.Y )
+Function L_WedgingValuesOfRectangleAndRectangle( Rectangle1X:Float, Rectangle1Y:Float, Rectangle1XSize:Float, Rectangle1YSize:Float, ..
+Rectangle2X:Float, Rectangle2Y:Float, Rectangle2XSize:Float, Rectangle2YSize:Float, DX:Float Var, DY:Float Var )
+	DX = 0.5 * ( Rectangle1XSize + Rectangle2XSize ) - Abs( Rectangle1X - Rectangle2X )
+	DY = 0.5 * ( Rectangle1YSize + Rectangle2YSize ) - Abs( Rectangle1Y - Rectangle2Y )
 	
 	If DX < DY Then
-		L_Separate( Rectangle1, Rectangle2, DX * Sgn( Rectangle1.X - Rectangle2.X ), 0, Mass1, Mass2 )
+		DX :* Sgn( Rectangle1X - Rectangle2X )
+		DY = 0
 	Else
-		L_Separate( Rectangle1, Rectangle2, 0, DY * Sgn( Rectangle1.Y - Rectangle2.Y ), Mass1, Mass2 )
+		DX = 0
+		DY :* Sgn( Rectangle1Y - Rectangle2Y )
 	End If
 End Function
+
 
 
 

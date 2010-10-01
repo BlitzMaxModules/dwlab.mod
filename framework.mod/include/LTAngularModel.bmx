@@ -117,4 +117,15 @@ Type LTAngularModel Extends LTModel
 	Function SetDefault()
 		L_DefaultModelTypeID = TTypeID.ForName( "LTAngularModel" )
 	End Function
+	
+	
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		
+		XMLObject.ManageFloatAttribute( "angle", Angle )
+		XMLObject.ManageFloatAttribute( "velocity", Velocity, 1.0 )
+		XMLObject.ManageFloatAttribute( "angular-velocity", AngularVelocity, 1.0 )
+		XMLObject.ManageFloatAttribute( "mass", Mass, 1.0 )
+	End Method
 End Type

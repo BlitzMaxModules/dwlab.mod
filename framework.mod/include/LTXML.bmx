@@ -121,7 +121,10 @@ Type LTXMLObject Extends LTObject
 			If Not ID Then Return Obj
 			
 			Obj = L_IDArray[ ID ]
-			If Not Obj Then Assert False, "Object with id " + ID + " not found"
+			
+			?debug
+			L_Assert( Not Obj, "Object with id " + ID + " not found" )
+			?
 		ElseIf Obj Then
 			If Obj Then
 				Local ID:String = String( L_IDMap.ValueForKey( Obj ) )
@@ -227,6 +230,14 @@ Type LTXMLObject Extends LTObject
 				'if GetAttribute( "object" ) = "SystemMethodTemplate" THen debugstop
 				Obj = LTObject( TTypeId.ForName( GetAttribute( "object" ) ).NewObject() )
 				L_IDArray[ ID ] = Obj
+			ElseIf Name = "include" Then
+				Obj = LTObject( L_IncludedObjects.ValueForKey( GetAttribute( "name" ) ) )
+				
+				?debug
+				L_Assert( Obj <> Null, "There is no object named ~q" + GetAttribute( "name" ) + "~q in the included objects list" )
+				?
+				
+				L_IDArray[ ID ] = Obj
 			ElseIf Name = "object" Then
 				Obj = L_IDArray[ ID ]
 			Else
@@ -235,7 +246,11 @@ Type LTXMLObject Extends LTObject
 					'debugstop
 				Else
 					Local TypeID:TTypeId = TTypeId.ForName( Name )
-					Assert TypeID <> Null, "Object ~qLT" + Name + "~q not found."
+					
+					?debug
+					L_Assert( TypeID <> Null, "Object ~qLT" + Name + "~q not found" )
+					?
+					
 					Obj = LTObject( TypeID.NewObject() )
 					
 					L_IDArray[ ID ] = Obj
@@ -243,7 +258,10 @@ Type LTXMLObject Extends LTObject
 				Obj.XMLIO( Self )
 			End If
 			
-			Assert Obj <> Null, "Object with ID " + ID + " not found."
+			?debug
+			L_Assert( Obj <> Null, "Object with ID " + ID + " not found." )
+			?
+			
 			Return Obj
 		ElseIf Obj Then
 			Local ID:String = String( L_IDMap.ValueForKey( Obj ) )
@@ -351,7 +369,10 @@ Type LTXMLObject Extends LTObject
 				Local Child:LTXMLObject = Obj.ReadObject( Txt, N, ChildFieldName )
 				If Child.Closing = 2 Then
 					If Child.Name = Obj.Name Then Return Obj
-					Assert False, "Error in XML file - wrong closing tag ~q" + Child.Name + "~q, expected ~q" + Obj.Name + "~q"
+					
+					?debug
+					L_Assert( False, "Error in XML file - wrong closing tag ~q" + Child.Name + "~q, expected ~q" + Obj.Name + "~q" )
+					?
 				ElseIf ChildFieldName Then
 					Local ObjectField:LTXMLObjectField = New LTXMLObjectField
 					ObjectField.Name = ChildFieldName
@@ -421,17 +442,28 @@ Type LTXMLObject Extends LTObject
 				End If
 			Else
 				If Txt[ N ] = Asc( "'" ) Or Txt[ N ] = Asc( "~q" ) Then
-					If Not ReadingValue Then Assert False, "Error in XML file - unexpected quotes: " + Txt[ ..N ]
+					?debug
+					L_Assert( ReadingValue, "Error in XML file - unexpected quotes: " + Txt[ ..N ] )
+					?
+					
 					ChunkBegin = N + 1
 					Quotes = Txt[ N ]
 				ElseIf Txt[ N ] = Asc( "<" ) Then
-					If ReadingContents Or ReadingValue Then Assert False, "Error in XML file - unexpected beginning of tag" + Txt[ ..N ]
+					?debug
+					If ReadingContents Or ReadingValue Then L_Assert( False, "Error in XML file - unexpected beginning of tag" + Txt[ ..N ] )
+					?
+					
 					ReadingContents = True
 				ElseIf IDSym( Txt[ N ] ) Then
 					If ChunkBegin < 0 Then ChunkBegin = N
-					If Closing And Not ReadingName Then Assert False, "Error in XML file - invalid closing tag: " + Txt[ ..N ]
+					
+					?debug
+					If Closing And Not ReadingName Then L_Assert( False, "Error in XML file - invalid closing tag: " + Txt[ ..N ] )
+					?
 				Else
-					If Txt[ N ] = Asc( "=" ) And ReadingName Or ReadingValue Then Assert False, "Error in XML file - unexpected ~q=~q: " + Txt[ ..N ]
+					?debug
+					If Txt[ N ] = Asc( "=" ) And ReadingName Or ReadingValue Then L_Assert( False, "Error in XML file - unexpected ~q=~q: " + Txt[ ..N ] )
+					?
 					
 					If ChunkBegin >= 0 Then
 						If ReadingName Then
@@ -457,12 +489,18 @@ Type LTXMLObject Extends LTObject
 					End If
 					
 					If Txt[ N ] = Asc( "/" ) Then
-						If ReadingValue Or Closing Then Assert False, "Error in XML file - unexpected slash: " + Txt[ ..N ]
+						?debug
+						If ReadingValue Or Closing Then L_Assert( False, "Error in XML file - unexpected slash: " + Txt[ ..N ] )
+						?
+						
 						If ReadingName Then Closing = 2 Else Closing = 1
 					End If
 					
 					If Txt[ N ] = Asc( ">" ) Then
-						If Not ReadingContents Or ReadingValue Or ReadingName Then Assert False, "Error in XML file - unexpected end of tag: " + Txt[ ..N ]
+						?debug
+						If Not ReadingContents Or ReadingValue Or ReadingName Then L_Assert( False, "Error in XML file - unexpected end of tag: " + Txt[ ..N ] )
+						?
+						
 						N :+ 1
 						Return
 					End If

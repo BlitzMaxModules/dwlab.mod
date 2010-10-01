@@ -41,11 +41,6 @@ Type LTVisual Extends LTObject Abstract
 	
 	Method DrawUsingTileMap( TileMap:LTTileMap )
 	End Method
-	
-	
-	
-	Method DrawUsingSimpleTileMap( TileMap:LTSimpleTileMap )
-	End Method
 
 	' ==================== Other ====================
 	

@@ -36,6 +36,8 @@ Type TGame Extends LTProject
 	
 	
 	Method Init()
+		L_IncludedObjects.Insert( "FlashingVisual", FlashingVisual )
+		
 		Local TileSize:Float = L_ScreenXSize / 16
 		
 		GameCamera.SetCoords( 6.0, 5.5 )
@@ -55,11 +57,14 @@ Type TGame Extends LTProject
 		BallVisual.Rotating = False
 		Ball.Visual = BallVisual
 		
-		BlockVisual.Image = LTImage.FromFile( "media\tiles.png", 16, 11 )
+		Local BlockImage:LTImage = LTImage.FromFile( "media\tiles.png", 16, 11 )
+		L_IncludedObjects.Insert( "BlockImage", BlockImage )
+		BlockVisual.Image = BlockImage
 		BlockVisual.Rotating = False
 		FlashingVisual.Image = BlockVisual.Image
 		FlashingVisual.Rotating = False
 		GeneratorImage = LTImage.FromFile( "media\generator.png", 8, 5 )
+		L_IncludedObjects.Insert( "GeneratorImage", GeneratorImage )
 		
 		TileMap.Visual = BlockVisual
 		TileMap.SetSize( 15.0, 14.0 )
@@ -76,12 +81,17 @@ Type TGame Extends LTProject
 		EnemyImage[ TEnemy.Reel ] = LTImage.FromFile( "media\reel.png", 4, 1 )
 		EnemyImage[ TEnemy.Sandwitch ] = LTImage.FromFile( "media\sandwitch.png", 4, 1 )
 		EnemyImage[ TEnemy.Ufo ] = LTImage.FromFile( "media\ufo.png", 4, 1 )
+		For Local N:Int = 0 Until EnemiesQuantity
+			L_IncludedObjects.Insert( "EnemyImage" + N, EnemyImage[ N ] )
+		Next
+		
 		BulletImage = LTImage.FromFile( "media\bullet.png" )
+		L_IncludedObjects.Insert( "BulletImage", BulletImage )
 				
 		Local Scale:Float = 1.0 * L_ScreenXSize / 256.0
-		ScoreFont = LTFont.FromFile( "media\score.png", "0", "9", 10 )
+		ScoreFont = LTFont.FromFile( "media\score.png", Asc( "0" ), Asc( "9" ), 10 )
 		ScoreFont.SetFontScale( Scale, Scale )
-		NumbersFont = LTFont.FromFile( "media\numbers.png", "0", "9", 10 )
+		NumbersFont = LTFont.FromFile( "media\numbers.png", Asc( "0" ), Asc( "9" ), 10 )
 		NumbersFont.SetFontScale( Scale, Scale )
 		
 		For Local N:Int = 1 Until TilesQuantity
@@ -166,22 +176,24 @@ Type TLevel Extends LTObject
 	
 	
 	Function Set( Num:Int )
-		Local Level:TLevel = TLevel( L_LoadFromFile( "levels\" + L_FirstZeroes( Num, 2 ) + ".xml" ) )
-		
 		Game.CollisionMap = New LTCollisionMap
 		Game.CollisionMap.SetResolution( 8, 8 )
 		Game.CollisionMap.SetMapScale( 2.0, 2.0 )
-		Game.TileMap.FrameMap = Level.FrameMap
-		Game.Objects = Level.Objects
+		
+		'Local Level:TLevel = TLevel( L_LoadFromFile( "levels\" + L_FirstZeroes( Num, 2 ) + ".xml" ) )
+		'Game.TileMap.FrameMap = Level.FrameMap
+		'Game.Objects = Level.Objects
+		L_LoadFromFile( "temp.xml" )
 	
 		For Local Actor:LTActor = Eachin Game.Objects.List
-			Game.CollisionMap.InsertActor( Actor )
+			If Not TEnemyGenerator( Actor ) Then Game.CollisionMap.InsertActor( Actor )
 		Next
 		Game.CollisionMap.InsertActor( Game.Ball )
-		Game.Objects.AddLast( Game.Ball )
+		
 		Game.LevelNum = Num
 		Game.LevelStartTime = Game.ProjectTime
 		
+		Rem
 		Select Num
 			Case 1
 				TEnemy.Create( 3.0, 2.0, TEnemy.Ufo, -2.0, 1.0, "00FF00" )
@@ -194,6 +206,10 @@ Type TLevel Extends LTObject
 				Game.Ball.SetCoords( 0, 4.0 )
 				Game.LevelTime = 90
 		End Select
+		Game.Objects.AddLast( Game.Ball )
+		EndRem
+		
+		'Level.SaveToFile( "temp.xml" )
 	End Function
 	
 	
@@ -201,7 +217,8 @@ Type TLevel Extends LTObject
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
-		FrameMap = LTIntMap( XMLObject.ManageObjectField( "framemap", FrameMap ) )
-		Objects = LTList( XMLObject.ManageObjectField( "objects", Objects ) )
+		Game.TileMap.FrameMap = LTIntMap( XMLObject.ManageObjectField( "framemap", Game.TileMap.FrameMap ) )
+		Game.Ball = TBall( XMLObject.ManageObjectField( "ball", Game.Ball ) )
+		Game.Objects = LTList( XMLObject.ManageObjectField( "objects", Game.Objects ) )
 	End Method
 End Type

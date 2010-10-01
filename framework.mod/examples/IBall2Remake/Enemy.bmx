@@ -11,7 +11,7 @@
 
 Type TEnemy Extends TGameActor
 	Field ChangeFacing:Int
-	Field BulletProof:Int
+	Field Bulletproof:Int
 	
 	
 	
@@ -59,11 +59,11 @@ Type TEnemy Extends TGameActor
 	
 	
 	Method Bounce( DX:Float, DY:Float )
-			If Abs( DY ) > Abs( DX ) Then
-				Model.SetDY( -Model.GetDY() )
-			Else
-				Model.SetDX( -Model.GetDX() )
-			End If
+		If Abs( DY ) > Abs( DX ) Then
+			SetDY( -GetDY() )
+		Else
+			SetDX( -GetDX() )
+		End If
 	End Method
 	
 	
@@ -72,18 +72,18 @@ Type TEnemy Extends TGameActor
 		If TBall( Shape ) Then
 			Shape.Destroy()
 		Else
-			Push( Shape, 0.0, 1.0 )
-			Local Pivot:LTActor = LTActor( Shape )
-			Bounce( Pivot.X - X, Pivot.Y - Y )
+			WedgeOffWith( Shape, 0.0, 1.0 )
+			Local Actor:LTActor = LTActor( Shape )
+			Bounce( X - Actor.X, Y - Actor.Y )
 		End If
 	End Method
 	
 	
 	
 	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
-		Local Actor:LTActor = LTActor( TileMap.GetTile( TIleX, TileY ) )
-		Push( Actor, 0.0, 1.0 )
-		Bounce( Actor.X - X, Actor.Y - Y )
+		PushFromTile( TileMap, TileX, TileY )
+		Local Actor:LTActor = TileMap.GetTile( TIleX, TileY )
+		Bounce( X - Actor.X, Y - Actor.Y )
 	End Method
 	
 	
@@ -95,6 +95,15 @@ Type TEnemy Extends TGameActor
 		Frame = L_WrapInt( Floor( X * 8.0 ), 4 )
 		Game.CollisionMap.CollisionsWithActor( Self )
 		Game.TileMap.CollisionsWithActor( Self )
+	End Method
+	
+	
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		
+		XMLObject.ManageIntAttribute( "changefacing", ChangeFacing )
+		XMLObject.ManageIntAttribute( "bulletproof", Bulletproof )
 	End Method
 End Type
 
@@ -147,6 +156,8 @@ Type TEnemyGenerator Extends LTActor
 					GenerationStartTime = 0
 					Frame = 0
 					EnemyTemplate.Visual.Alpha = 0.0
+				Else
+					EnemyTemplate.Visual.Alpha = 1.0
 				End If
 			Else
 				EnemyTemplate.Visual.Alpha = 1.0 * ( Game.ProjectTime - GenerationStartTime ) / GenerationTime
@@ -166,7 +177,16 @@ Type TEnemyGenerator Extends LTActor
 	
 	
 	Method Draw()
-		If Game.ProjectTime <= GenerationStartTime + GenerationTime Then EnemyTemplate.Draw()
+		EnemyTemplate.Draw()
 		Super.Draw()
+	End Method
+	
+	
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		
+		XMLObject.ManageIntAttribute( "enemy-type", EnemyType )
+		XMLObject.ManageStringAttribute( "enemy-color", EnemyColor )
 	End Method
 End Type
