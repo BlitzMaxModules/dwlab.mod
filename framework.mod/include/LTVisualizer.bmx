@@ -8,11 +8,11 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTImageVisual.bmx"
+Include "LTImageVisualizer.bmx"
 Include "LTFilledPrimitive.bmx"
 Include "LTEmptyPrimitive.bmx"
 
-Type LTVisual Extends LTObject Abstract
+Type LTVisualizer Extends LTObject Abstract
 	Field R:Float = 1.0, G:Float = 1.0, B:Float = 1.0
 	Field Alpha:Float = 1.0
 	Field XScale:Float = 1.0, YScale:Float = 1.0
@@ -22,7 +22,7 @@ Type LTVisual Extends LTObject Abstract
 
 	' ==================== Parameters ====================
 	
-	Method SetVisualScale( NewXScale:Float, NewYScale:Float )
+	Method SetVisualizerScale( NewXScale:Float, NewYScale:Float )
 		XScale = NewXScale
 		YScale = NewYScale
 	End Method

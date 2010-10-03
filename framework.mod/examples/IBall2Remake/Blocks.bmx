@@ -31,7 +31,7 @@ Type TMovingBlock Extends TBlock
 		Block.SetCoords( X, Y )
 		Block.SetDY( DY )
 		Block.Frame = FrameNum
-		Block.Visual = Game.FlashingVisual
+		Block.Visualizer = Game.FlashingVisualizer
 		Game.CollisionMap.InsertActor( Block )
 		Game.Objects.AddLast( Block )
 	End Function
@@ -77,7 +77,7 @@ End Type
 
 Type THazardousBlock Extends TBlock
 	Method New()
-		Visual = Game.FlashingVisual
+		Visualizer = Game.FlashingVisualizer
 	End Method
 	
 	

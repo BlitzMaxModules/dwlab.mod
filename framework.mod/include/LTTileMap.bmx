@@ -49,13 +49,13 @@ Type LTTileMap Extends LTActor
 	' ==================== Drawing ===================	
 	
 	Method Draw()
-		Visual.DrawUsingTileMap( Self )
+		Visualizer.DrawUsingTileMap( Self )
 	End Method
 	
 	
 	
-	Method DrawUsingVisual( Vis:LTVisual )
-		Vis.DrawUsingTileMap( Self )
+	Method DrawUsingVisualizer( Visizer:LTVisualizer )
+		Visizer.DrawUsingTileMap( Self )
 	End Method
 	
 	' ==================== Collisions ===================

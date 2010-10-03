@@ -14,18 +14,18 @@ Type LTGraph Extends LTShape
 	
 	' ==================== Drawing ===================	
 	
-	Method	DrawPivotsUsing( Visual:LTVisual )
+	Method	DrawPivotsUsing( Visualizer:LTVisualizer )
 		For Local Pivot:LTActor = Eachin Pivots.Keys()
 			'debugstop
-			Pivot.DrawUsingVisual( Visual )
+			Pivot.DrawUsingVisualizer( Visualizer )
 		Next
 	End Method
 	
 	
 	
-	Method DrawLinesUsing( Visual:LTVisual )
+	Method DrawLinesUsing( Visualizer:LTVisualizer )
 		For Local Line:LTLine = Eachin Lines.Keys()
-			Line.DrawUsingVisual( Visual )
+			Line.DrawUsingVisualizer( Visualizer )
 		Next
 	End Method
 	

@@ -33,11 +33,11 @@ Type TEnemy Extends TGameActor
 		Enemy.SetDXDY( DX, DY )
 		Enemy.SetDiameter( 0.95 )
 		
-		Local ImageVisual:LTImageVisual = New LTImageVisual
-		ImageVisual.Image = Game.EnemyImage[ EnemyType ]
-		ImageVisual.Rotating = False
-		ImageVisual.SetColorFromHex( HexColor )
-		Enemy.Visual = ImageVisual
+		Local ImageVisualizer:LTImageVisualizer = New LTImageVisualizer
+		ImageVisualizer.Image = Game.EnemyImage[ EnemyType ]
+		ImageVisualizer.Rotating = False
+		ImageVisualizer.SetColorFromHex( HexColor )
+		Enemy.Visualizer = ImageVisualizer
 		
 		Select EnemyType
 			Case Sandwitch, Pad
@@ -91,7 +91,7 @@ Type TEnemy Extends TGameActor
 	Method Act()
 		'debugstop
 		MoveForward()
-		If ChangeFacing Then Visual.XScale = Sgn( GetDX() )
+		If ChangeFacing Then Visualizer.XScale = Sgn( GetDX() )
 		Frame = L_WrapInt( Floor( X * 8.0 ), 4 )
 		Game.CollisionMap.CollisionsWithActor( Self )
 		Game.TileMap.CollisionsWithActor( Self )
@@ -131,7 +131,7 @@ Type TEnemyGenerator Extends LTActor
 		Generator.SetDXDY( DX, DY )
 		Generator.EnemyType = EnemyType
 		Generator.EnemyColor = EnemyColor
-		Generator.Visual = LTImageVisual.FromImage( Game.GeneratorImage )
+		Generator.Visualizer = LTImageVisualizer.FromImage( Game.GeneratorImage )
 		Game.Objects.AddLast( Generator )
 		Return Generator
 	End Function
@@ -155,22 +155,22 @@ Type TEnemyGenerator Extends LTActor
 					NextEnemy = Game.ProjectTime + Rnd( FromPeriod, ToPeriod )
 					GenerationStartTime = 0
 					Frame = 0
-					EnemyTemplate.Visual.Alpha = 0.0
+					EnemyTemplate.Visualizer.Alpha = 0.0
 				Else
-					EnemyTemplate.Visual.Alpha = 1.0
+					EnemyTemplate.Visualizer.Alpha = 1.0
 				End If
 			Else
-				EnemyTemplate.Visual.Alpha = 1.0 * ( Game.ProjectTime - GenerationStartTime ) / GenerationTime
+				EnemyTemplate.Visualizer.Alpha = 1.0 * ( Game.ProjectTime - GenerationStartTime ) / GenerationTime
 			End If
 		ElseIf NextEnemy < Game.ProjectTime Then
 			GenerationStartTime = Game.ProjectTime
 			EnemyTemplate = New LTActor
-			EnemyTemplate.Visual = LTImageVisual.FromImage( Game.EnemyImage[ EnemyType ] )
+			EnemyTemplate.Visualizer = LTImageVisualizer.FromImage( Game.EnemyImage[ EnemyType ] )
 			EnemyTemplate.SetCoords( X, Y )
 			EnemyTemplate.SetSize( 1.0, 1.0 )
 			EnemyTemplate.Shape = L_Rectangle
-			EnemyTemplate.Visual.SetColorFromHex( EnemyColor )
-			EnemyTemplate.Visual.Alpha = 0.0
+			EnemyTemplate.Visualizer.SetColorFromHex( EnemyColor )
+			EnemyTemplate.Visualizer.Alpha = 0.0
 		End If
 	End Method
 	
@@ -188,5 +188,28 @@ Type TEnemyGenerator Extends LTActor
 		
 		XMLObject.ManageIntAttribute( "enemy-type", EnemyType )
 		XMLObject.ManageStringAttribute( "enemy-color", EnemyColor )
+	End Method
+End Type
+
+
+
+
+
+Type LTFlashingVisualizer Extends LTImageVisualizer
+	Method Act()
+		Local Time:Float = L_WrapFloat( Game.ProjectTime, 3.0 )
+		If Time < 1.0 Then
+			R = Time
+			G = 0.0
+			B = 1.0 - Time
+		ElseIf Time < 2.0 Then
+			R = 2.0 - Time
+			G = Time - 1.0
+			B = 0.0
+		Else
+			R = 0.0
+			G = 3.0 - Time
+			B = Time - 2.0
+		End If
 	End Method
 End Type

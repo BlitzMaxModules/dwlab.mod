@@ -34,12 +34,12 @@ Type LTActor Extends LTShape
 	' ==================== Drawing ===================	
 	
 	Method Draw()
-		Visual.DrawUsingActor( Self )
+		Visualizer.DrawUsingActor( Self )
 	End Method
 	
 	
 	
-	Method DrawUsingVisual( Vis:LTVisual )
+	Method DrawUsingVisualizer( Vis:LTVisualizer )
 		Vis.DrawUsingActor( Self )
 	End Method
 	
@@ -421,15 +421,15 @@ Type LTActor Extends LTShape
 	
 	
 	Method CorrectYSize()
-		Local ImageVisual:LTImageVisual = LTImageVisual( Visual )
+		Local ImageVisualizer:LTImageVisualizer = LTImageVisualizer( Visualizer )
 		
 		?debug
-		L_Assert( ImageVisual <> Null, "Cannot correct YSize: visual is not of LTImageVisual type" )
+		L_Assert( ImageVisualizer <> Null, "Cannot correct YSize: visual is not of LTImageVisual type" )
 		?
 		
 		If CollisionMap Then CollisionMap.RemoveActor( Self )
 		
-		YSize = XSize * ImageHeight( ImageVisual.Image.BMaxImage ) / ImageWidth( ImageVisual.Image.BMaxImage )
+		YSize = XSize * ImageHeight( ImageVisualizer.Image.BMaxImage ) / ImageWidth( ImageVisualizer.Image.BMaxImage )
 
 		Update()
 		If CollisionMap Then CollisionMap.InsertActor( Self )

@@ -35,6 +35,7 @@ Global L_EditorPath:String = "../../../editor.mod"
 Include "../../../editor.mod/editor.bmx"
 
 Include "Tools.bmx"
+Include "Levels.bmx"
 
 Include "Game.bmx"
 Include "Ball.bmx"
@@ -60,35 +61,15 @@ LTVectorModel.SetDefault()
 'Global TileExtractor:TTileExtractor = New TTileExtractor
 'TileExtractor.Execute(); End
 
+Global Game:TGame = New TGame
+
 'Global LevelExtractor:TLevelExtractor = New TLevelExtractor
-'LevelExtractor.Execute()'; End
+'LevelExtractor.Execute(); End
 
 'include "../../tests.bmx"
 'CreateEnemyGeneratorImage
 'DebugLog Min( 0.5, 0.6 )
 
-Global Game:TGame = New TGame
+'GenerateLevels()
+
 Game.Execute()
-
-
-
-
-
-Type LTFlashingVisual Extends LTImageVisual
-	Method Act()
-		Local Time:Float = L_WrapFloat( Game.ProjectTime, 3.0 )
-		If Time < 1.0 Then
-			R = Time
-			G = 0.0
-			B = 1.0 - Time
-		ElseIf Time < 2.0 Then
-			R = 2.0 - Time
-			G = Time - 1.0
-			B = 0.0
-		Else
-			R = 0.0
-			G = 3.0 - Time
-			B = Time - 2.0
-		End If
-	End Method
-End Type

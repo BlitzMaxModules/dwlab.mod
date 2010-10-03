@@ -49,7 +49,7 @@ Type LTObject
 	
 	
 	
-	Method DrawUsingVisual( Vis:LTVisual )
+	Method DrawUsingVisualizer( Vis:LTVisualizer )
 	End Method
 	
 	

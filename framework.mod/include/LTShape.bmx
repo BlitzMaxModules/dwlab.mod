@@ -13,7 +13,7 @@ Include "LTLine.bmx"
 Include "LTGraph.bmx"
 
 Type LTShape Extends LTObject Abstract
-	Field Visual:LTVisual = L_DefaultVisual
+	Field Visualizer:LTVisualizer = L_DefaultVisualizer
 	
 	' ==================== Collisions ===================
 	
@@ -54,6 +54,6 @@ Type LTShape Extends LTObject Abstract
 		
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
-		Visual = LTVisual( XMLObject.ManageObjectField( "visual", Visual ) )
+		Visualizer = LTVisualizer( XMLObject.ManageObjectField( "visualizer", Visualizer ) )
 	End Method
 End Type

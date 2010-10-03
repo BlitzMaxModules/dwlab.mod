@@ -8,9 +8,9 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Global L_DefaultVisual:LTFilledPrimitive = New LTFilledPrimitive
+Global L_DefaultVisualizer:LTFilledPrimitive = New LTFilledPrimitive
 
-Type LTFilledPrimitive Extends LTVisual
+Type LTFilledPrimitive Extends LTVisualizer
 	Method DrawUsingActor( Actor:LTActor )
 		SetColor( 255.0 * R, 255.0 * G, 255.0 * B )
 		SetAlpha( Alpha )

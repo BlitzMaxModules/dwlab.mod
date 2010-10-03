@@ -10,23 +10,23 @@
 
 Include "LTImage.bmx"
 
-Type LTImageVisual Extends LTVisual
+Type LTImageVisualizer Extends LTVisualizer
 	Field Image:LTImage
 	
 	
 	
-	Function FromFile:LTImageVisual( Filename:String, XCells:Int = 1, YCells:Int = 1 )
-		Local ImageVisual:LTImageVisual = New LTImageVisual
-		ImageVisual.Image = LTImage.FromFile( Filename, XCells, YCells )
-		Return ImageVisual
+	Function FromFile:LTImageVisualizer( Filename:String, XCells:Int = 1, YCells:Int = 1 )
+		Local ImageVisualizer:LTImageVisualizer = New LTImageVisualizer
+		ImageVisualizer.Image = LTImage.FromFile( Filename, XCells, YCells )
+		Return ImageVisualizer
 	End Function
 	
 	
 	
-	Function FromImage:LTImageVisual( Image:LTImage )
-		Local ImageVisual:LTImageVisual = New LTImageVisual
-		ImageVisual.Image = Image
-		Return ImageVisual
+	Function FromImage:LTImageVisualizer( Image:LTImage )
+		Local ImageVisualizer:LTImageVisualizer = New LTImageVisualizer
+		ImageVisualizer.Image = Image
+		Return ImageVisualizer
 	End Function
 	
 	

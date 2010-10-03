@@ -31,9 +31,9 @@ Type TChaingun Extends TWeapon
 	Field CannonHinge:LTActor = New LTActor
 	Field CannonAimer:LTActor = New LTActor
 	Field Cannon:LTActor = New LTActor
-	Field CannonVisual:LTImageVisual = New LTImageVisual
+	Field CannonVisualizer:LTImageVisualizer = New LTImageVisualizer
 	Field Barrel:LTActor = New LTActor
-	Field BarrelVisual:LTImageVisual = New LTImageVisual
+	Field BarrelVisualizer:LTImageVisualizer = New LTImageVisualizer
 	Field FireMin:LTActor = New LTActor
 	Field FireMax:LTActor = New LTActor
 	Field Fire:LTActor = New LTActor
@@ -53,20 +53,20 @@ Type TChaingun Extends TWeapon
 		Chaingun.CannonAimer.SetCoordsRelativeToActor( Game.Player, -0.19, 0.65 * WeaponPosition )
 		Chaingun.Cannon.SetCoordsRelativeToActor( Game.Player, 0.19, 0.57 * WeaponPosition )
 		Chaingun.Cannon.SetSize( 1.5, 1.5 )
-		Chaingun.CannonVisual.Image = Game.ChaingunCannon
-		Chaingun.CannonVisual.SetVisualScale( 1.0, -WeaponPosition )
-		Chaingun.Cannon.Visual = Chaingun.CannonVisual
+		Chaingun.CannonVisualizer.Image = Game.ChaingunCannon
+		Chaingun.CannonVisualizer.SetVisualizerScale( 1.0, -WeaponPosition )
+		Chaingun.Cannon.Visualizer = Chaingun.CannonVisualizer
 		Chaingun.Cannon.CorrectYSize()
 		
 		Chaingun.Barrel.SetCoordsRelativeToActor( Game.Player, 0.88, 0.65 * WeaponPosition )
 		Chaingun.Barrel.SetSize( 0.75, 0.75 )
-		Chaingun.BarrelVisual.Image = Game.ChaingunBarrel
-		Chaingun.BarrelVisual.SetVisualScale( 1.0, -WeaponPosition )
-		Chaingun.Barrel.Visual = Chaingun.BarrelVisual
+		Chaingun.BarrelVisualizer.Image = Game.ChaingunBarrel
+		Chaingun.BarrelVisualizer.SetVisualizerScale( 1.0, -WeaponPosition )
+		Chaingun.Barrel.Visualizer = Chaingun.BarrelVisualizer
 		Chaingun.Barrel.CorrectYSize()
 		
 		Chaingun.Fire.SetSize( 1.5, 1.5 )
-		Chaingun.Fire.Visual = Game.ChaingunFire
+		Chaingun.Fire.Visualizer = Game.ChaingunFire
 		
 		Chaingun.FireMin.SetCoordsRelativeToActor( Game.Player, 1.0, 0.59 * WeaponPosition )
 		Chaingun.FireMax.SetCoordsRelativeToActor( Game.Player, 1.0, 0.69 * WeaponPosition )
@@ -110,11 +110,11 @@ Type TChaingun Extends TWeapon
 			BarrelAnimAcc = 60.0
 			If Millisecs() - LastShotTime >= 50 Then
 				Local Bullet:LTChaingunBullet = New LTChaingunBullet
-				Local BulletVisual:LTImageVisual = New LTImageVisual
-				Bullet.Visual = BulletVisual
+				Local BulletVisualizer:LTImageVisualizer = New LTImageVisualizer
+				Bullet.Visualizer = BulletVisualizer
 				Bullet.SetDiameter( Rnd( 0.1, 0.25 ) )
-				BulletVisual.Image = Game.ChaingunBullet
-				BulletVisual.SetVisualScale( 5.0, 5.0 )
+				BulletVisualizer.Image = Game.ChaingunBullet
+				BulletVisualizer.SetVisualizerScale( 5.0, 5.0 )
 				Bullet.SetVelocity( 7.0 )
 				Bullet.CreatingTime = Millisecs()
 				Bullet.FlyingPeriod = Rnd( 1.0, 2.0 )
@@ -171,7 +171,7 @@ Type LTChaingunBullet Extends LTActor
 				GameBulletListLink.Remove()
 				ChaingunBulletListLink.Remove()
 			Else
-				Visual.Alpha = 1.0 - Time / FadingPeriod
+				Visualizer.Alpha = 1.0 - Time / FadingPeriod
 			End If
 		End If
 	End Method

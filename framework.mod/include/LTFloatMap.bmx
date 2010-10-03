@@ -222,6 +222,7 @@ Type LTFloatMap Extends LTMap
 	
 	
 	Const CircleBound:Float = 0.707107
+	
 	Method DrawCircle( XCenter:Float, YCenter:Float, Radius:Float, Color:Float = 1.0 )
 		For Local Y:Int = Floor( YCenter - Radius ) To Ceil( YCenter + Radius )
 			For Local X:Int = Floor( XCenter - Radius ) To Ceil( XCenter + Radius )
@@ -244,7 +245,7 @@ Type LTFloatMap Extends LTMap
 					Local Dist01:Float = Radius - Sqr( ( X - 0.5 - XCenter ) * ( X - 0.5 - XCenter ) + ( Y + 0.5 - YCenter ) * ( Y + 0.5 - YCenter ) )
 					Local Dist10:Float = Radius - Sqr( ( X + 0.5 - XCenter ) * ( X + 0.5 - XCenter ) + ( Y - 0.5 - YCenter ) * ( Y - 0.5 - YCenter ) )
 					Local Dist11:Float = Radius - Sqr( ( X + 0.5 - XCenter ) * ( X + 0.5 - XCenter ) + ( Y + 0.5 - YCenter ) * ( Y + 0.5 - YCenter ) )
-					Local K:Float = 0.125 / CircleBound * ( Dist00 + Dist01 + Dist10 + Dist11 ) + 0.5
+					Local K:Float = L_LimitFloat( 0.125 / CircleBound * ( Dist00 + Dist01 + Dist10 + Dist11 ) + 0.5, 0.0, 1.0 )
 					Value[ XX, YY ] = Value[ XX, YY ] * ( 1 - K ) + K * Color
 				End If
 			Next

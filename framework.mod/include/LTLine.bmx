@@ -23,12 +23,12 @@ Type LTLine Extends LTShape
 	' ==================== Drawing ===================	
 	
 	Method Draw()
-		Visual.DrawUsingLine( Self )
+		Visualizer.DrawUsingLine( Self )
 	End Method
 	
 	
 	
-	Method DrawUsingVisual( Vis:LTVisual )
+	Method DrawUsingVisualizer( Vis:LTVisualizer )
 		Vis.DrawUsingLine( Self )
 	End Method
 	

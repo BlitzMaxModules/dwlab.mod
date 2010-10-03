@@ -45,8 +45,8 @@ Const MaxMouseZ:Int = 8
 Type LTGame Extends LTProject
 	Field Target:LTActor = New LTActor
 	Field Player:LTActor = New LTActor
-	Field Brain:LTImageVisual
-	Field Visor:LTImageVisual
+	Field Brain:LTImageVisualizer
+	Field Visor:LTImageVisualizer
 	Field LeftWeapon:TWeapon
 	Field RightWeapon:TWeapon
 	
@@ -54,11 +54,11 @@ Type LTGame Extends LTProject
 	Field TileSet:LTTileSet = New LTTileSet
 	Field HeightMap:LTFloatMap = New LTFloatMap
 	Field TileMap:LTTileMap = New LTTileMap
-	Field TileMapVisual:LTImageVisual
+	Field TileMapVisualizer:LTImageVisualizer
 
 	Field ChaingunCannon:LTImage
 	Field ChaingunBarrel:LTImage
-	Field ChaingunFire:LTImageVisual
+	Field ChaingunFire:LTImageVisualizer
 	Field ChaingunBullet:LTImage
 	
 	Field Bullets:TList = New TList
@@ -79,7 +79,7 @@ Type LTGame Extends LTProject
 		
 		ChaingunCannon = LTImage.FromFile( "media/chaingun/cannon.png" )
 		ChaingunBarrel = LTImage.FromFile( "media/chaingun/barrel##.png" )
-		ChaingunFire = LTImageVisual.FromFile( "media/chaingun/fire#.png" )
+		ChaingunFire = LTImageVisualizer.FromFile( "media/chaingun/fire#.png" )
 		ChaingunBullet = LTImage.FromFile( "media/chaingun/bullet##.png" )
 		
 		' ============================= Player =============================
@@ -89,18 +89,18 @@ Type LTGame Extends LTProject
 		Player.SetVelocity( 1.5 )
 		Player.SetCoords( 64.0, 64.0 )
 		
-		Brain = LTImageVisual.FromFile( "media/brain.png" )
+		Brain = LTImageVisualizer.FromFile( "media/brain.png" )
 		Brain.SetColorFromHex( "AACCFF" )
-		Brain.SetVisualScale( 1.77, 1.77 )
+		Brain.SetVisualizerScale( 1.77, 1.77 )
 		Brain.AlterColor( -0.2, 0.2 )
 		
-		Visor = LTImageVisual.FromFile( "media/visor.png" )
+		Visor = LTImageVisualizer.FromFile( "media/visor.png" )
 		Visor.SetColorFromHex( "CCAAFF" )
 		Visor.AlterColor( -0.2, 0.2 )
-		Visor.SetVisualScale( 2.0, 2.0 )
+		Visor.SetVisualizerScale( 2.0, 2.0 )
 		
-		Target.Visual = LTImageVisual.FromFile( "media/target.png" )
-		Target.Visual.Scaling = False
+		Target.Visualizer = LTImageVisualizer.FromFile( "media/target.png" )
+		Target.Visualizer.Scaling = False
 		
 		LeftWeapon = TChaingun.Create( LeftSide )
 		RightWeapon = TChaingun.Create( RightSide )
@@ -117,8 +117,8 @@ Type LTGame Extends LTProject
 		TileSet = LTTileSet.FromFile( "media/simple.lts" )
 		FrameMap.EnframeBy( TileSet )
 		
-		TileMapVisual = LTImageVisual.FromFile( "media/tileset.png", 5, 4 )
-		TileMap.Visual = TileMapVisual
+		TileMapVisualizer = LTImageVisualizer.FromFile( "media/tileset.png", 5, 4 )
+		TileMap.Visualizer = TileMapVisualizer
 		TileMap.FrameMap = FrameMap
 		TileMap.SetCoords( 64.0, 64.0 )
 		TileMap.SetSize( 128.0, 128.0 )
@@ -164,10 +164,10 @@ Type LTGame Extends LTProject
 			Bullet.Draw()
 		Next
 		
-		Player.DrawUsingVisual( Brain )
+		Player.DrawUsingVisualizer( Brain )
 		LeftWeapon.Render()
 		RightWeapon.Render()
-		Player.DrawUsingVisual( Visor )
+		Player.DrawUsingVisualizer( Visor )
 		Target.Draw()
 	End Method
 End Type

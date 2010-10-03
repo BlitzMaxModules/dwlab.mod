@@ -10,16 +10,16 @@
 '
 
 Type LTEditor Extends LTProject
-	Field TileMapVisual:LTImageVisual = New LTImageVisual
+	Field TileMapVisualizer:LTImageVisualizer = New LTImageVisualizer
 	Field TileMap:LTTileMap = New LTTileMap
-	Field FlashingVisual:LTFlashingVisual = New LTFlashingVisual
+	Field FlashingVisualizer:LTFlashingVisualizer = New LTFlashingVisualizer
 	Field Objects:LTList = New LTList
 	
 	
 	
 	Method Init()
 		TileMap.FrameMap = LTIntMap.FromFile( "levels\03.dat" )
-		TileMapVisual.Image = LTImage.FromFile( "media\tiles.png", 16, 4 )
+		TileMapVisualizer.Image = LTImage.FromFile( "media\tiles.png", 16, 4 )
 		
 	End Method
 	

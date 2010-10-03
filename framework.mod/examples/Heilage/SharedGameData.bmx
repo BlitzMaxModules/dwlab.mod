@@ -16,10 +16,10 @@ Global Shared:TSharedGameData = New TSharedGameData
 Type TSharedGameData Extends LTProject
 	Field Graph:LTGraph = New LTGraph
 	Field Player:LTActor = New LTActor
-	Field PlayerVisual:LTImageVisual = New LTImageVisual
+	Field PlayerVisualizer:LTImageVisualizer = New LTImageVisualizer
 	Field PlayerPivot:LTActor
 	Field Background:LTActor = New LTActor
-	Field BackgroundVisual:LTImageVisual = New LTImageVisual
+	Field BackgroundVisualizer:LTImageVisualizer = New LTImageVisualizer
 	Field Path:LTPath = New LTPath
 	Field Events:TMap = New TMap
 	Field Font:LTFont
@@ -31,16 +31,16 @@ Type TSharedGameData Extends LTProject
 		Player.SetSize( 72 / 25, 72 / 25 )
 		Player.Shape = L_Rectangle
 		
-		PlayerVisual.Image = LTImage.FromFile( "media/footman.png", 5, 13 )
-		PlayerVisual.Image.SetHandle( 0.5, 0.7 )
+		PlayerVisualizer.Image = LTImage.FromFile( "media/footman.png", 5, 13 )
+		PlayerVisualizer.Image.SetHandle( 0.5, 0.7 )
 		'PlayerImages.NoScale = 1
-		PlayerVisual.Rotating = False
-		Player.Visual = PlayerVisual
+		PlayerVisualizer.Rotating = False
+		Player.Visualizer = PlayerVisualizer
 		
 		Background.XSize = 32
 		Background.YSize = 24
-		BackgroundVisual.Image = LTImage.FromFile( "media/world-map.jpg" )
-		Background.Visual = BackgroundVisual
+		BackgroundVisualizer.Image = LTImage.FromFile( "media/world-map.jpg" )
+		Background.Visualizer = BackgroundVisualizer
 		
 		Font = LTFont.FromFile( "media/font.png" )
 	End Method

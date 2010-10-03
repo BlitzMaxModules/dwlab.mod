@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTEmptyPrimitive Extends LTVisual
+Type LTEmptyPrimitive Extends LTVisualizer
 	Field LineWidth:Float = 1.0
 	
 	

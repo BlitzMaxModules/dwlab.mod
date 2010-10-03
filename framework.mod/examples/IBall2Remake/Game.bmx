@@ -11,9 +11,8 @@
 
 Type TGame Extends LTProject
 	Field Ball:TBall = New TBall
-	Field BlockVisual:LTImageVisual = New LTImageVisual
-	Field FlashingVisual:LTFlashingVisual = New LTFlashingVisual
-	Field CurrentLevel:TLevel
+	Field BlockVisualizer:LTImageVisualizer = New LTImageVisualizer
+	Field FlashingVisualizer:LTFlashingVisualizer = New LTFlashingVisualizer
 	Field CollisionMap:LTCollisionMap
 	Field TileMap:LTTileMap = New LTTileMap
 	Field KeyCollected:Int
@@ -36,7 +35,7 @@ Type TGame Extends LTProject
 	
 	
 	Method Init()
-		L_IncludedObjects.Insert( "FlashingVisual", FlashingVisual )
+		L_IncludedObjects.Insert( "FlashingVisualizer", FlashingVisualizer )
 		
 		Local TileSize:Float = L_ScreenXSize / 16
 		
@@ -50,23 +49,23 @@ Type TGame Extends LTProject
 		SidebarCamera.Viewport.SetSize( TileSize * 3.0, TileSize * 12.0 )
 		SidebarCamera.Update()
 		
-		Sidebar.Visual = LTImageVisual.FromFile( "media\sidebar.png" )
+		Sidebar.Visualizer = LTImageVisualizer.FromFile( "media\sidebar.png" )
 		Sidebar.Shape = L_Rectangle
 		
-		Local BallVisual:LTImageVisual = LTImageVisual.FromFile( "media\ball.png" )
-		BallVisual.Rotating = False
-		Ball.Visual = BallVisual
+		Local BallVisualizer:LTImageVisualizer = LTImageVisualizer.FromFile( "media\ball.png" )
+		BallVisualizer.Rotating = False
+		Ball.Visualizer = BallVisualizer
 		
 		Local BlockImage:LTImage = LTImage.FromFile( "media\tiles.png", 16, 11 )
 		L_IncludedObjects.Insert( "BlockImage", BlockImage )
-		BlockVisual.Image = BlockImage
-		BlockVisual.Rotating = False
-		FlashingVisual.Image = BlockVisual.Image
-		FlashingVisual.Rotating = False
+		BlockVisualizer.Image = BlockImage
+		BlockVisualizer.Rotating = False
+		FlashingVisualizer.Image = BlockVisualizer.Image
+		FlashingVisualizer.Rotating = False
 		GeneratorImage = LTImage.FromFile( "media\generator.png", 8, 5 )
 		L_IncludedObjects.Insert( "GeneratorImage", GeneratorImage )
 		
-		TileMap.Visual = BlockVisual
+		TileMap.Visualizer = BlockVisualizer
 		TileMap.SetSize( 15.0, 14.0 )
 		TileMap.SetCoords( 6.0, 5.5 )
 		TileMap.ActorArray = New LTActor[ TilesQuantity ]
@@ -110,8 +109,6 @@ Type TGame Extends LTProject
 								Block.BlockType = TCollectableBlock.Bomb
 							Case 15
 								Block.BlockType = TCollectableBlock.Badge
-							Default
-								Block.BlockType = TCollectableBlock.Score
 						End Select
 						Actor = Block
 						Actor.Shape = L_Circle
@@ -133,7 +130,7 @@ Type TGame Extends LTProject
 			TileMap.ActorArray[ N ] = Actor
 		Next
 		
-		TLevel.Set( 1 )
+		LoadLevel( 1 )
 	End Method
 	
 	
@@ -144,7 +141,7 @@ Type TGame Extends LTProject
 		For Local Actor:TGameActor = Eachin DestructingObjects.List
 			Actor.Fading()
 		Next
-		FlashingVisual.Act()
+		FlashingVisualizer.Act()
 		If KeyHit( Key_Escape ) Then End
 	End Method
 	
@@ -163,27 +160,15 @@ Type TGame Extends LTProject
 		NumbersFont.Print( L_FirstZeroes( L_LimitInt( Floor( LevelStartTime - ProjectTime + LevelTime ), 0, 99 ), 2 ), L_ScreenXSize * 13.5 / 16, L_ScreenXSize * 8.5 / 16 )
 		NumbersFont.Print( L_FirstZeroes( LevelNum, 2 ), L_ScreenXSize * 13.5 / 16, L_ScreenXSize * 10.5 / 16 )
 	End Method
-End Type
-
-
-
-
-
-Type TLevel Extends LTObject
-	Field FrameMap:LTIntMap
-	Field Objects:LTList
 	
 	
 	
-	Function Set( Num:Int )
+	Method LoadLevel( Num:Int )
 		Game.CollisionMap = New LTCollisionMap
 		Game.CollisionMap.SetResolution( 8, 8 )
 		Game.CollisionMap.SetMapScale( 2.0, 2.0 )
 		
-		'Local Level:TLevel = TLevel( L_LoadFromFile( "levels\" + L_FirstZeroes( Num, 2 ) + ".xml" ) )
-		'Game.TileMap.FrameMap = Level.FrameMap
-		'Game.Objects = Level.Objects
-		L_LoadFromFile( "temp.xml" )
+		L_LoadFromFile( "levels\" + L_FirstZeroes( Num, 2 ) + ".xml" )
 	
 		For Local Actor:LTActor = Eachin Game.Objects.List
 			If Not TEnemyGenerator( Actor ) Then Game.CollisionMap.InsertActor( Actor )
@@ -192,25 +177,7 @@ Type TLevel Extends LTObject
 		
 		Game.LevelNum = Num
 		Game.LevelStartTime = Game.ProjectTime
-		
-		Rem
-		Select Num
-			Case 1
-				TEnemy.Create( 3.0, 2.0, TEnemy.Ufo, -2.0, 1.0, "00FF00" )
-				TEnemy.Create( 3.0, 5.0, TEnemy.Ufo, -2.0, 1.0, "00FF00" )
-				TEnemy.Create( 9.0, 6.0, TEnemy.Ufo, -2.0, 1.0, "00FF00" )
-				TEnemy.Create( 9.0, 9.0, TEnemy.Ufo, -2.0, -1.0, "00FF00" )
-				TMovingBlock.Create( 7.0, 4.0, 48, -1.0 )
-				TEnemyGenerator.Create( 6.0, 0.0, -1, 1, TEnemy.Reel, "FFFF00" )
-				
-				Game.Ball.SetCoords( 0, 4.0 )
-				Game.LevelTime = 90
-		End Select
-		Game.Objects.AddLast( Game.Ball )
-		EndRem
-		
-		'Level.SaveToFile( "temp.xml" )
-	End Function
+	End Method
 	
 	
 	

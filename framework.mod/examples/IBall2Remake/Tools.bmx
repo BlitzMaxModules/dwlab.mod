@@ -85,6 +85,7 @@ Type TLevelExtractor Extends LTObject
 	
 	
 	Method Execute( )
+		Game.Init()
 		Tiles = LoadAnimImage( "media\tiles_original.png", 16, 16, 0, TilesQuantity )
 		
 		Local Dir:Int = ReadDir( "screens" )
@@ -99,18 +100,15 @@ Type TLevelExtractor Extends LTObject
 	
 	
 	Method ExtractLevelFromImage( Filename:String )
-		Local Level:TLevel = New TLevel
-		Game.CurrentLevel = Level
-		
-		Level.FrameMap = New LTIntMap
-		Level.FrameMap.SetResolution( 15, 14 )
-		Level.Objects = New LTList
+		Game.TileMap.FrameMap = New LTIntMap
+		Game.TileMap.FrameMap.SetResolution( 15, 14 )
+		Game.Objects = New LTList
 		
 		Local Screenshot:TPixmap = LoadPixmap( "screens\" + Filename )
 		
 		For Local Y:Int = 0 Until 14
 			For Local X:Int = 0 Until 15
-				Level.FrameMap.Value[ X, Y ] = 49
+				Game.TileMap.FrameMap.Value[ X, Y ] = 49
 			Next
 		Next
 		
@@ -128,11 +126,11 @@ Type TLevelExtractor Extends LTObject
 					UnlockImage( Tiles )
 				Next
 				
-				Level.FrameMap.Value[ X + 1, Y + 1 ] = TileNum
+				Game.TileMap.FrameMap.Value[ X + 1, Y + 1 ] = TileNum
 			Next
 		Next
 		
-		Level.SaveToFile( "levels\" + Left( Filename, 2 ) + ".xml" )
+		Game.SaveToFile( "levels\" + Left( Filename, 2 ) + ".xml" )
 	End Method
 End Type
 

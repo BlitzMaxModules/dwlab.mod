@@ -26,7 +26,7 @@ Type TGameActor Extends LTActor
 	Method Fading()
 		Local FadingTime:Float = 1.0 + FadingStartTime - Game.ProjectTime
 		If FadingTime >= 0.0 Then
-			Visual.Alpha = FadingTime
+			Visualizer.Alpha = FadingTime
 		Else
 			Game.DestructingObjects.Remove( Self )
 		End If
@@ -75,16 +75,16 @@ Type TBall Extends TGameActor
 	Method Act()
 		If KeyDown( Key_Left ) Then
 			AlterDX( -L_DeltaTime * Acceleration )
-			Visual.XScale = -1.0
+			Visualizer.XScale = -1.0
 		ElseIf KeyDown( Key_Right ) Then
 			AlterDX( L_DeltaTime * Acceleration )
-			Visual.XScale = 1.0
+			Visualizer.XScale = 1.0
 		Else
 			If Abs( GetDX() ) < 0.5 Then SetDX( 0 )
 		End If
 		
 		If KeyDown( Key_Space ) And LastShotTime + ShotRate < Game.ProjectTime Then
-			Local Direction:Float = Visual.XScale
+			Local Direction:Float = Visualizer.XScale
 			
 			LastShotTime = Game.ProjectTime
 			Local Bullet:TBullet = New TBullet
@@ -93,11 +93,11 @@ Type TBall Extends TGameActor
 			Bullet.SetDX( BulletSpeed * Direction )
 			Bullet.Shape = L_Circle
 			
-			Local BulletVisual:LTImageVisual = New LTImageVisual
-			BulletVisual.SetVisualScale( 3.0 * Direction, 3.0 )
-			BulletVisual.Image = Game.BulletImage
-			BulletVisual.Rotating = False
-			Bullet.Visual = BulletVisual
+			Local BulletVisualizer:LTImageVisualizer = New LTImageVisualizer
+			BulletVisualizer.SetVisualizerScale( 3.0 * Direction, 3.0 )
+			BulletVisualizer.Image = Game.BulletImage
+			BulletVisualizer.Rotating = False
+			Bullet.Visualizer = BulletVisualizer
 			
 			Game.Bullets.AddLast( Bullet )
 		End If

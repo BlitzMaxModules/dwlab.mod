@@ -39,12 +39,12 @@ Editor.Execute()
 
 Type TEditor Extends LTProject
 	Field Cursor:LTActor = New LTActor
-	Field LineVisual:LTEmptyPrimitive
-	Field PivotVisual:LTFilledPrimitive
+	Field LineVisualizer:LTEmptyPrimitive
+	Field PivotVisualizer:LTFilledPrimitive
 	Field CurrentPivot:LTActor
 	Field CurrentLine:LTLine
-	Field CurrentLineVisual:LTEmptyPrimitive
-	Field CurrentPivotVisual:LTFilledPrimitive
+	Field CurrentLineVisualizer:LTEmptyPrimitive
+	Field CurrentPivotVisualizer:LTFilledPrimitive
 	Field MovePivot:TMovePivot = New TMovePivot
 	Field MakeLine:TMakeLine = New TMakeLine
 	
@@ -58,22 +58,22 @@ Type TEditor Extends LTProject
 		Cursor.Shape = L_Circle
 		Cursor.SetDiameter( 0.2 )
 		
-		PivotVisual = New LTFilledPrimitive
-		PivotVisual.SetVisualScale( 0.25, 0.25 )
-		PivotVisual.SetColorFromHex( "FF7F00" )
+		PivotVisualizer = New LTFilledPrimitive
+		PivotVisualizer.SetVisualizerScale( 0.25, 0.25 )
+		PivotVisualizer.SetColorFromHex( "FF7F00" )
 		
-		LineVisual = New LTEmptyPrimitive
-		LineVisual.Scaling = False
-		LineVisual.SetColorFromHex( "FF7F00" )
+		LineVisualizer = New LTEmptyPrimitive
+		LineVisualizer.Scaling = False
+		LineVisualizer.SetColorFromHex( "FF7F00" )
 		
-		CurrentPivotVisual = New LTFilledPrimitive
-		CurrentPivotVisual.SetVisualScale( 0.35, 0.35 )
-		CurrentPivotVisual.SetColorFromHex( "FFBF7F" )
+		CurrentPivotVisualizer = New LTFilledPrimitive
+		CurrentPivotVisualizer.SetVisualizerScale( 0.35, 0.35 )
+		CurrentPivotVisualizer.SetColorFromHex( "FFBF7F" )
 		
-		CurrentLineVisual = New LTEmptyPrimitive
-		CurrentLineVisual.LineWidth = 3.0
-		CurrentLineVisual.Scaling = False
-		CurrentLineVisual.SetColorFromHex( "FFBF7F" )
+		CurrentLineVisualizer = New LTEmptyPrimitive
+		CurrentLineVisualizer.LineWidth = 3.0
+		CurrentLineVisualizer.Scaling = False
+		CurrentLineVisualizer.SetColorFromHex( "FFBF7F" )
 	End Method
 	
 	
@@ -118,11 +118,11 @@ Type TEditor Extends LTProject
 	
 	Method Render()
 		Shared.Background.Draw()
-		Shared.Graph.DrawLinesUsing( LineVisual )
-		If CurrentLine Then CurrentLine.DrawUsingVisual( CurrentLineVisual )
-		Shared.Graph.DrawPivotsUsing( PivotVisual )
-		If CurrentPivot Then CurrentPivot.DrawUsingVisual( CurrentPivotVisual )
-		If MakeLine.DraggingState Then MakeLine.Line.DrawUsingVisual( LineVisual )
+		Shared.Graph.DrawLinesUsing( LineVisualizer )
+		If CurrentLine Then CurrentLine.DrawUsingVisualizer( CurrentLineVisualizer )
+		Shared.Graph.DrawPivotsUsing( PivotVisualizer )
+		If CurrentPivot Then CurrentPivot.DrawUsingVisualizer( CurrentPivotVisualizer )
+		If MakeLine.DraggingState Then MakeLine.Line.DrawUsingVisualizer( LineVisualizer )
 		
 		For Local KeyValue:TKeyValue = Eachin Shared.Events
 			SetColor( 0, 255, 0 )
