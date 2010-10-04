@@ -10,26 +10,26 @@
 
 Include "LTTileMap.bmx"
 Include "Collisions.bmx"
+Include "Physics.bmx"
 
 Const L_Pivot:Int = 0
 Const L_Circle:Int = 1
 Const L_Rectangle:Int = 2
 
+Rem
+bbdoc:Main shape for moving objects
+about:
+EndRem
 Type LTActor Extends LTShape
 	Field Shape:Int = L_Rectangle
 	Field X:Float
 	Field Y:Float
 	Field XSize:Float = 1.0
 	Field YSize:Float = 1.0
-	Field Model:LTModel = L_DefaultModel
+	Field Angle:Float = 0.0
+	Field Velocity:Float = 0.0
 	Field Frame:Int
 	Field CollisionMap:LTCollisionMap
-	
-	
-	
-	Method New()
-		If L_DefaultModelTypeID Then Model = LTModel( L_DefaultModelTypeID.NewObject() )
-	End Method
 	
 	' ==================== Drawing ===================	
 	
@@ -45,8 +45,8 @@ Type LTActor Extends LTShape
 	
 	' ==================== Collisions ===================
 	
-	Method CollidesWith:Int( Shape:LTShape )
-		Return Shape.CollidesWithActor( Self )
+	Method CollidesWith:Int( Obj:LTObject )
+		Return Obj.CollidesWithActor( Self )
 	End Method
 	
 	
@@ -130,10 +130,22 @@ Type LTActor Extends LTShape
 		End Select
 	End Method
 	
+	
+	
+	Method CollisionsWith( Obj:LTObject )
+		Obj.CollisionsWithActor( Self )
+	End Method
+	
+	
+	
+	Method CollisionsWithActor( Actor:LTActor )
+		If CollidesWithActor( Actor ) Then Actor.HandleCollisionWith( Self )
+	End Method
+	
 	' ==================== Wedging off ====================
 	
-	Method WedgeOffWith( Shape:LTShape, SelfMass:Float, ShapeMass:Float )
-		Shape.WedgeOffWithActor( Self, ShapeMass, SelfMass )
+	Method WedgeOffWith( Obj:LTObject, SelfMass:Float, ShapeMass:Float )
+		Obj.WedgeOffWithActor( Self, ShapeMass, SelfMass )
 	End Method
 
 
@@ -168,12 +180,6 @@ Type LTActor Extends LTShape
 						L_Separate( Self, Actor, DX, DY, SelfMass, ActorMass )
 				End Select
 		End Select
-	End Method
-	
-	
-	
-	Method PushFromActor( Actor:LTActor )
-		WedgeOffWithActor( Actor, 0.0, 1.0 )
 	End Method
 	
 	
@@ -227,18 +233,30 @@ Type LTActor Extends LTShape
 
 	' ==================== Position ====================
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method CornerX:Float()
  		Return X - 0.5 * XSize
  	End Method
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method CornerY:Float()
  		Return Y - 0.5 * YSize
  	End Method
 
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method DistanceToPoint:Float( PointX:Float, PointY:Float )
 		Local DX:Float = X - PointX
 		Local DY:Float = Y - PointY
@@ -247,6 +265,10 @@ Type LTActor Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method DistanceToActor:Float( Actor:LTActor )
 		Local DX:Float = X - Actor.X
 		Local DY:Float = Y - Actor.Y
@@ -255,12 +277,20 @@ Type LTActor Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method IsAtPositionOfActor:Int( Actor:LTActor )
 		If Actor.X = X And Actor.Y = Y Then Return True
 	End Method
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method SetCoords( NewX:Float, NewY:Float )
 		If CollisionMap Then CollisionMap.RemoveActor( Self )
 		
@@ -273,6 +303,10 @@ Type LTActor Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method AlterCoords( DX:Float, DY:Float )
 		If CollisionMap Then CollisionMap.RemoveActor( Self )
 		
@@ -285,6 +319,10 @@ Type LTActor Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method SetCornerCoords( NewX:Float, NewY:Float )
 		If CollisionMap Then CollisionMap.RemoveActor( Self )
 		
@@ -297,6 +335,10 @@ Type LTActor Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method SetCoordsRelativeToActor( Actor:LTActor, NewX:Float, NewY:Float )
 		If CollisionMap Then CollisionMap.RemoveActor( Self )
 		
@@ -311,6 +353,10 @@ Type LTActor Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method JumpToActor( Actor:LTActor )
 		If CollisionMap Then CollisionMap.RemoveActor( Self )
 		
@@ -323,6 +369,10 @@ Type LTActor Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method SetMouseCoords()
 		If CollisionMap Then CollisionMap.RemoveActor( Self )
 		
@@ -334,12 +384,16 @@ Type LTActor Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method MoveTowardsActor( Actor:LTActor )
 		If CollisionMap Then CollisionMap.RemoveActor( Self )
 		
 		Local Angle:Float = DirectionToActor( Actor )
-		Local DX:Float = Cos( Angle ) * GetVelocity() * L_DeltaTime
-		Local DY:Float = Sin( Angle ) * GetVelocity() * L_DeltaTime
+		Local DX:Float = Cos( Angle ) * Velocity * L_DeltaTime
+		Local DY:Float = Sin( Angle ) * Velocity * L_DeltaTime
 		If Abs( DX ) >= Abs( X - Actor.X ) And Abs( DY ) >= Abs( Y - Actor.Y ) Then
 			X = Actor.X
 			Y = Actor.Y
@@ -354,11 +408,15 @@ Type LTActor Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method MoveForward()
 		If CollisionMap Then CollisionMap.RemoveActor( Self )
 		
-		X :+ Model.GetDX() * L_DeltaTime
-		Y :+ Model.GetDY() * L_DeltaTime
+		X :+ GetDX() * L_DeltaTime
+		Y :+ GetDY() * L_DeltaTime
 		
 		Update()
 		If CollisionMap Then CollisionMap.InsertActor( Self )
@@ -366,6 +424,10 @@ Type LTActor Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method MoveUsingWSAD()
 		If CollisionMap Then CollisionMap.RemoveActor( Self )
 		
@@ -375,8 +437,8 @@ Type LTActor Extends LTShape
 			DX :/ Sqr( 2 )
 			DY :/ Sqr( 2 )
 		End If
-		X :+ DX * Model.GetVelocity() * L_DeltaTime
-		Y :+ DY * Model.GetVelocity() * L_DeltaTime
+		X :+ DX * Velocity * L_DeltaTime
+		Y :+ DY * Velocity * L_DeltaTime
 		
 		Update()
 		If CollisionMap Then CollisionMap.InsertActor( Self )
@@ -384,6 +446,10 @@ Type LTActor Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method PlaceBetweenActors( Actor1:LTActor, Actor2:LTActor, K:Float )
 		If CollisionMap Then CollisionMap.RemoveActor( Self )
 		
@@ -396,6 +462,10 @@ Type LTActor Extends LTShape
 	
 	' ==================== Size ====================
 
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method SetSize( NewXSize:Float, NewYSize:Float )
 		If CollisionMap Then CollisionMap.RemoveActor( Self )
 		
@@ -408,6 +478,10 @@ Type LTActor Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method SetDiameter( NewDiameter:Float )
 		If CollisionMap Then CollisionMap.RemoveActor( Self )
 		
@@ -420,6 +494,10 @@ Type LTActor Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method CorrectYSize()
 		Local ImageVisualizer:LTImageVisualizer = LTImageVisualizer( Visualizer )
 		
@@ -437,142 +515,183 @@ Type LTActor Extends LTShape
 	
 	' ==================== Angle ====================
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method GetAngle:Float()
-		Return Model.GetAngle()
+		Return Angle
 	End Method
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method SetAngle:Float( NewAngle:Float )
-		Model.SetAngle( NewAngle )
+		Angle = NewAngle
 	End Method
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method DirectAsActor( Actor:LTActor )
-		Model.SetAngle( Actor.Model.GetAngle() )
+		Angle = Actor.Angle
 	End Method
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method Turn( TurningSpeed:Float )
-		Model.AlterAngle( L_DeltaTime * TurningSpeed )
+		Angle :+ L_DeltaTime * TurningSpeed
 	End Method
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method DirectionToPoint:Float( PointX:Float, PointY:Float )
 		Return ATan2( PointY - Y, PointX - X )
 	End Method
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method DirectionToActor:Float( Actor:LTActor )
 		Return ATan2( Actor.Y - Y, Actor.X - X )
 	End Method
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method DirectToActor( Actor:LTActor )
-		Model.SetAngle( ATan2( Actor.Y - Y, Actor.X - X ) )
+		Angle = ATan2( Actor.Y - Y, Actor.X - X )
 	End Method
 	
 	' ==================== Moving vector ====================
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method GetDX:Float()
-		Return Model.GetDX()
+		Return Velocity * Cos( Angle )
 	End Method
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method AlterDX( DDX:Float )
-		Model.AlterDX( DDX )
+		SetDX( GetDX() + DDX )
 	End Method
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method SetDX( NewDX:Float )
-		Model.SetDX( NewDX )
+		Local DY:Float = GetDY()
+		Angle = ATan2( DY, NewDX )
+		Velocity = Sqr( NewDX * NewDX + DY * DY )
 	End Method
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method GetDY:Float()
-		Return Model.GetDY()
+		Return Velocity * Sin( Angle )
 	End Method
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method AlterDY( DDY:Float )
-		Model.AlterDY( DDY )
+		SetDY( GetDY() + DDY )
 	End Method
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method SetDY( NewDY:Float )
-		Model.SetDY( NewDY )
+		Local DX:Float = GetDX()
+		Angle = ATan2( NewDY, DX )
+		Velocity = Sqr( DX * DX + NewDY * NewDY )
 	End Method
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method AlterDXDY( DDX:Float, DDY:Float )
-		Model.SetDXDY( DDX, DDY )
+		Local DX:Float = GetDX() + DDX
+		Local DY:Float = GetDY() + DDY
+		Angle = ATan2( DY, DX )
+		Velocity = Sqr( DX * DX + DY * DY )
 	End Method
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method SetDXDY( NewDX:Float, NewDY:Float )
-		Model.SetDXDY( NewDX, NewDY )
+		Angle = ATan2( NewDY, NewDX )
+		Velocity = Sqr( NewDX * NewDX + NewDY * NewDY )
 	End Method
 	
 	' ==================== Velocity ====================
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method GetVelocity:Float()
-		Return Model.GetVelocity()
+		Return Velocity
 	End Method
 	
 	
 	
+	Rem
+	bbdoc:
+	about:
+	EndRem
 	Method SetVelocity:Float( NewVelocity:Float )
-		Model.SetVelocity( NewVelocity )
+		Velocity = NewVelocity
 	End Method
 	
-	
-	
-	Method GetAngularVelocity:Float()
-		Return Model.GetAngularVelocity()
-	End Method
-	
-	
-	
-	Method SetAngularVelocity:Float( NewAngularVelocity:Float )
-		Model.SetAngularVelocity( NewAngularVelocity )
-	End Method
-	
-	' ==================== Mass ====================
-	
-	Method GetMass:Float()
-		Return Model.GetMass()
-	End Method
-	
-	
-	
-	Method SetMass:Float( NewMass:Float )
-		Model.SetMass( NewMass )
-	End Method
-	
-	' ==================== Other ====================
-	
-	Method CloneActor:LTActor( DX:Float, DY:Float, XK:Float, YK:Float )
-		Local Actor:LTActor = New LTActor
-		Actor.X = DX + X * XK
-		Actor.Y = DY + Y * YK
-		Actor.XSize = XSize * XK
-		Actor.YSize = YSize * YK
-		Return Actor
-	End Method
-
-	
+	' ==================== Other ====================	
 	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
@@ -582,7 +701,8 @@ Type LTActor Extends LTShape
 		XMLObject.ManageFloatAttribute( "y", Y )
 		XMLObject.ManageFloatAttribute( "xsize", XSize, 1.0 )
 		XMLObject.ManageFloatAttribute( "ysize", YSize, 1.0 )
-		Model = LTModel( XMLObject.ManageObjectField( "model", Model ) )
+		XMLObject.ManageFloatAttribute( "angle", Angle )
+		XMLObject.ManageFloatAttribute( "velocity", Velocity )
 		XMLObject.ManageIntAttribute( "frame", Frame )
 	End Method
 End Type
@@ -591,6 +711,10 @@ End Type
 
 
 
+Rem
+bbdoc:
+about:
+EndRem
 Type LTMoveActor Extends LTAction
 	Field Actor:LTActor
 	Field OldX:Float, OldY:Float

@@ -16,6 +16,7 @@ Type TGameActor Extends LTActor
 	
 	Method Destroy()
 		FadingStartTime = Game.ProjectTime
+		'debugstop
 		Game.Objects.Remove( Self )
 		Game.CollisionMap.RemoveActor( Self )
 		Game.DestructingObjects.AddLast( Self )
@@ -61,12 +62,12 @@ Type TBall Extends TGameActor
 	
 	Method Bounce( DX:Float, DY:Float )
 		If DY > Abs( DX ) Then
-			Model.SetDY( -GetDY() * VerticalBounce )
+			SetDY( -GetDY() * VerticalBounce )
 			If KeyDown( Key_Up ) Then SetDY( JumpingPower )
 		ElseIf DY < -Abs( DX ) Then
-			Model.SetDY( -GetDY() * VerticalBounce )
+			SetDY( -GetDY() * VerticalBounce )
 		Else
-			Model.SetDX( -GetDX() * HorizontalBounce )
+			SetDX( -GetDX() * HorizontalBounce )
 		End If
 	End Method
 	
@@ -108,16 +109,16 @@ Type TBall Extends TGameActor
 		'debugstop
 		MoveForward()
 		'Game.CollisionMap.CollisionsWithActor( Self )
-		Game.TileMap.CollisionsWithActor( Self )
+		CollisionsWith( Game.TileMap )
 	End Method
 	
 	
 	
-	Method HandleCollision( Shape:LTShape )
+	Method HandleCollisionWith( Obj:LTObject )
 		'debugstop
-		WedgeOffWith( Shape, 0.0, 1.0 )
+		WedgeOffWith( Obj, 0.0, 1.0 )
 		
-		Local Actor:LTActor = LTActor( Shape )
+		Local Actor:LTActor = LTActor( Obj )
 		Bounce( Actor.X - X, Actor.Y - Y )
 	End Method
 	
@@ -165,13 +166,13 @@ Type TBullet Extends LTActor
 	
 	
 	
-	Method HandleCollision( Shape:LTShape )
-		If TBlock( Shape ) Then
+	Method HandleCollisionWith( Obj:LTObject )
+		If TBlock( Obj ) Then
 			Destroy()
-		ElseIf TEnemy( Shape ) Then
+		ElseIf TEnemy( Obj ) Then
 			Destroy()
-			If Not TEnemy( Shape ).BulletProof Then
-				Shape.Destroy()
+			If Not TEnemy( Obj ).BulletProof Then
+				Obj.Destroy()
 				Game.Score :+ 10
 			End If
 		End If

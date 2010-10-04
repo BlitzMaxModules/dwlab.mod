@@ -56,20 +56,17 @@ Global Pri:LTFilledPrimitive = New LTFilledPrimitive
 Pri.SetColorFromHex( "FF0000" )
 Pri.Alpha = 0.5
 
-LTVectorModel.SetDefault()
-
 'Global TileExtractor:TTileExtractor = New TTileExtractor
 'TileExtractor.Execute(); End
 
 Global Game:TGame = New TGame
 
 'Global LevelExtractor:TLevelExtractor = New TLevelExtractor
-'LevelExtractor.Execute(); End
+'LevelExtractor.Execute()'; End
+'GenerateLevels()
 
 'include "../../tests.bmx"
 'CreateEnemyGeneratorImage
 'DebugLog Min( 0.5, 0.6 )
-
-'GenerateLevels()
 
 Game.Execute()

@@ -9,12 +9,57 @@
 '
 
 Type LTList Extends LTObject
-	Field List:TList = New TList
+	Field Children:TList = New TList
+	
+	' ==================== Collisions ===================
+	
+	Method CollidesWith:Int( Obj:LTObject )
+		For Local Obj2:LTObject = Eachin Children
+			Local Collision:Int = Obj2.CollidesWith( Obj )
+			If Collision Then Return True
+		Next
+	End Method
 	
 	
+	
+	Method CollidesWithActor:Int( Actor:LTActor )
+		Return CollidesWith( Actor )
+	End Method
+	
+	
+	
+	Method CollidesWithLine:Int( Line:LTLine )
+		Return CollidesWith( Line )
+	End Method
+	
+
+	
+	Method CollisionsWith( Obj1:LTObject )
+		For Local Obj2:LTObject = Eachin Children
+			Obj2.CollisionsWith( Obj1 )
+		Next
+	End Method
+	
+	
+	
+	Method CollisionsWithActor( Actor:LTActor )
+		For Local Obj:LTObject = Eachin Children
+			Actor.CollisionsWith( Obj )
+		Next
+	End Method
+	
+	
+	
+	Method CollisionsWithLine( Line:LTLine )
+		For Local Obj:LTObject = Eachin Children
+			Line.CollisionsWith( Obj )
+		Next
+	End Method
+		
+	' ==================== Pushing ====================
 	
 	Method Draw()
-		For Local Obj:LTObject = Eachin List
+		For Local Obj:LTObject = Eachin Children
 			Obj.Draw()
 		Next
 	End Method
@@ -22,27 +67,33 @@ Type LTList Extends LTObject
 	
 	
 	Method Act()
-		For Local Obj:LTObject = Eachin List
+		For Local Obj:LTObject = Eachin Children
 			Obj.Act()
 		Next
 	End Method
 	
-	
+	' ==================== List methods ====================
 	
 	Method AddLast:TLink( Obj:LTObject )
-		Return List.AddLast( Obj )
+		Return Children.AddLast( Obj )
 	End Method
 	
 	
 	
 	Method Remove( Obj:LTObject )
-		List.Remove( Obj )
+		Children.Remove( Obj )
 	End Method
 	
 	
 	
+	Method ObjectEnumerator:TListEnum()
+		Return Children.ObjectEnumerator()
+	End Method
+	
+	' ==================== Saving / loading ====================
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
-		XMLObject.ManageChildList( List )
+		XMLObject.ManageChildList( Children )
 	End Method
 End Type

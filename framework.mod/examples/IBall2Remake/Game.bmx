@@ -138,7 +138,7 @@ Type TGame Extends LTProject
 	Method Logic()
 		Objects.Act()
 		Bullets.Act()
-		For Local Actor:TGameActor = Eachin DestructingObjects.List
+		For Local Actor:TGameActor = Eachin DestructingObjects
 			Actor.Fading()
 		Next
 		FlashingVisualizer.Act()
@@ -154,6 +154,12 @@ Type TGame Extends LTProject
 		Bullets.Draw()
 		Objects.Draw()
 
+		'For Local Y:Int = 0 Until CollisionMap.YQuantity
+		'	For Local X:Int = 0 Until CollisionMap.XQuantity
+		'		ScoreFont.Print( CollisionMap.Objects[ X, Y ].Count(), X * 75 + 37, Y * 75 + 37, L_AlignToCenter, L_AlignToCenter ) 
+		'	Next
+		'Next
+		
 		L_CurrentCamera = SidebarCamera
 		Sidebar.Draw()
 		ScoreFont.Print( L_FirstZeroes( Score, 6 ), L_ScreenXSize * 13 / 16, L_ScreenXSize * 6.5 / 16 )
@@ -170,10 +176,9 @@ Type TGame Extends LTProject
 		
 		L_LoadFromFile( "levels\" + L_FirstZeroes( Num, 2 ) + ".xml" )
 	
-		For Local Actor:LTActor = Eachin Game.Objects.List
+		For Local Actor:LTActor = Eachin Game.Objects
 			If Not TEnemyGenerator( Actor ) Then Game.CollisionMap.InsertActor( Actor )
 		Next
-		Game.CollisionMap.InsertActor( Game.Ball )
 		
 		Game.LevelNum = Num
 		Game.LevelStartTime = Game.ProjectTime

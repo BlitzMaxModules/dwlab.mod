@@ -39,7 +39,7 @@ Type LTImageVisualizer Extends LTVisualizer
 		L_CurrentCamera.FieldToScreen( Actor.X, Actor.Y, SX, SY )
 		
 		If Rotating Then
-			SetRotation( Angle + Actor.Model.GetAngle() )
+			SetRotation( Angle + Actor.Angle )
 		Else
 			SetRotation( Angle )
 		End If

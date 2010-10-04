@@ -4,7 +4,7 @@
 
 SeedRnd( Millisecs() )
 
-Const L_Version:String = "0.10"
+Const L_Version:String = "0.10.1"
 
 Include "include/LTObject.bmx"
 Include "include/LTList.bmx"
@@ -12,7 +12,6 @@ Include "include/LTProject.bmx"
 Include "include/LTCamera.bmx"
 Include "include/LTMap.bmx"
 Include "include/LTShape.bmx"
-Include "include/LTModel.bmx"
 Include "include/LTVisualizer.bmx"
 Include "include/LTText.bmx"
 Include "include/LTPath.bmx"
@@ -43,6 +42,7 @@ Function Init( ScreenXSize:Int, ScreenYSize:Int )
 	L_CurrentCamera.Update()
 	
 	Graphics( L_ScreenXSize, L_ScreenYSize )
+	AutoImageFlags( FILTEREDIMAGE | DYNAMICIMAGE )
 	SetBlend( AlphaBlend )
 End Function
 

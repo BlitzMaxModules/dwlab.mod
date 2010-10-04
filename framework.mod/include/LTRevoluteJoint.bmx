@@ -20,7 +20,7 @@ Type LTRevoluteJoint Extends LTJoint
 		Local Joint:LTRevoluteJoint = New LTRevoluteJoint
 		Joint.ParentPivot = ParentPivot
 		Joint.Pivot = Pivot
-		Joint.Angle = ParentPivot.DirectionToActor( Pivot ) - ParentPivot.Model.GetAngle()
+		Joint.Angle = ParentPivot.DirectionToActor( Pivot ) - ParentPivot.Angle
 		Joint.Distance = ParentPivot.DistanceToActor( Pivot )
 		L_JointList.AddLast( Joint )
 		Return Joint
@@ -29,7 +29,7 @@ Type LTRevoluteJoint Extends LTJoint
 	
 	
 	Method Operate()
-		Pivot.X = ParentPivot.X + Cos( Angle + ParentPivot.Model.GetAngle() ) * Distance
-		Pivot.Y = ParentPivot.Y + Sin( Angle + ParentPivot.Model.GetAngle() ) * Distance
+		Pivot.X = ParentPivot.X + Cos( Angle + ParentPivot.Angle ) * Distance
+		Pivot.Y = ParentPivot.Y + Sin( Angle + ParentPivot.Angle ) * Distance
 	End Method
 End Type

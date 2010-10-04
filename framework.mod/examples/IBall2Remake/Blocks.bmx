@@ -46,12 +46,12 @@ Type TMovingBlock Extends TBlock
 	
 	
 	
-	Method HandleCollision( Shape:LTShape )
-		If TGameActor( Shape ) Then
+	Method HandleCollisionWith( Obj:LTObject )
+		If TGameActor( Obj ) Then
 			'debugstop
-			Shape.Destroy()
+			Obj.Destroy()
 		Else
-			PushFromActor( LTActor( Shape ) )
+			PushFrom( Obj )
 			If BlockType = MovingBlock Then SetDY( -GetDY() )
 		End If
 	End Method

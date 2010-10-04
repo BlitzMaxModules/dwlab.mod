@@ -62,7 +62,7 @@ Type LTImage Extends LTObject
 		Local LastToken:Int = FileName.FindLast( "#" )
 		Local NumLen:Int = LastToken - FirstToken + 1
 		
-		Local NewPixmap:TPixmap	
+		Local NewPixmap:TPixmap
 		Local PixmapList:TList = New TList
 		Local Num:Int = 0
 		

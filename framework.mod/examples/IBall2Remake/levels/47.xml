@@ -1,4 +1,4 @@
-<TGame dwlab_version="0.10">
+<TGame dwlab_version="0.10.0.1">
 	<LTIntMap field="framemap" xquantity="15" yquantity="14">
 		<Row data="49,49,49,49,49,49,49,49,49,49,49,49,49,49,49"/>
 		<Row data="49,0,0,0,158,159,0,0,0,158,159,0,0,1,49"/>
@@ -15,11 +15,10 @@
 		<Row data="49,158,159,12,158,159,0,0,0,158,159,0,158,159,49"/>
 		<Row data="49,49,49,49,49,49,49,49,49,49,49,49,49,49,49"/>
 	</LTIntMap>
-	<TBall field="ball" shape="1">
+	<TBall field="ball" shape="1" y="4">
 		<LTImageVisualizer field="visualizer" rotating="0">
 			<LTImage field="image" filename="media\ball.png"/>
 		</LTImageVisualizer>
-		<LTVectorModel field="model" dy="0"/>
 	</TBall>
 	<LTList field="objects"/>
 	<TList field="definitions">

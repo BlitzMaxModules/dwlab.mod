@@ -68,12 +68,12 @@ Type TEnemy Extends TGameActor
 	
 	
 	
-	Method HandleCollision( Shape:LTShape )
-		If TBall( Shape ) Then
-			Shape.Destroy()
+	Method HandleCollisionWith( Obj:LTObject )
+		If TBall( Obj ) Then
+			Obj.Destroy()
 		Else
-			WedgeOffWith( Shape, 0.0, 1.0 )
-			Local Actor:LTActor = LTActor( Shape )
+			WedgeOffWith( Obj, 0.0, 1.0 )
+			Local Actor:LTActor = LTActor( Obj )
 			Bounce( X - Actor.X, Y - Actor.Y )
 		End If
 	End Method
@@ -93,8 +93,9 @@ Type TEnemy Extends TGameActor
 		MoveForward()
 		If ChangeFacing Then Visualizer.XScale = Sgn( GetDX() )
 		Frame = L_WrapInt( Floor( X * 8.0 ), 4 )
-		Game.CollisionMap.CollisionsWithActor( Self )
-		Game.TileMap.CollisionsWithActor( Self )
+		
+		CollisionsWith( Game.CollisionMap )
+		CollisionsWith( Game.TileMap )
 	End Method
 	
 	
@@ -143,7 +144,7 @@ Type TEnemyGenerator Extends LTActor
 			Frame = L_WrapInt2( Floor( ( Game.ProjectTime - GenerationStartTime ) * GenerationSpeed ), 18, 36 )
 			If Game.ProjectTime > GenerationStartTime + GenerationTime Then
 				Local Collision:Int = False
-				For Local Actor:LTActor = Eachin Game.Objects.List
+				For Local Actor:LTActor = Eachin Game.Objects
 					If EnemyTemplate.CollidesWith( Actor ) And Actor <> Self Then
 						Collision = True
 						Exit
