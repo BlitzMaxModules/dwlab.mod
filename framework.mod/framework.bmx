@@ -14,6 +14,7 @@ Include "include/LTMap.bmx"
 Include "include/LTShape.bmx"
 Include "include/LTVisualizer.bmx"
 Include "include/LTText.bmx"
+Include "include/LTSound.bmx"
 Include "include/LTPath.bmx"
 Include "include/LTDrag.bmx"
 Include "include/LTAction.bmx"
@@ -28,7 +29,7 @@ Global L_ScreenYSize:Int
 
 
 
-Function Init( ScreenXSize:Int, ScreenYSize:Int )
+Function InitGraphics( ScreenXSize:Int, ScreenYSize:Int )
 	L_ScreenXSize = ScreenXSize
 	L_ScreenYSize = ScreenYSize
 	

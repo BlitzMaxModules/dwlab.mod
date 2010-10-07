@@ -25,7 +25,7 @@ Type LTImage Extends LTObject
 		Image.Filename = Filename
 		Image.XCells = XCells
 		Image.YCells = YCells
-		Image.LoadImages()
+		Image.Init()
 		
 		Return Image
 	End Function
@@ -57,7 +57,7 @@ Type LTImage Extends LTObject
 	
 	
 	
-	Method LoadImages()
+	Method Init()
 		Local FirstToken:Int = FileName.Find( "#" )
 		Local LastToken:Int = FileName.FindLast( "#" )
 		Local NumLen:Int = LastToken - FirstToken + 1
@@ -120,13 +120,21 @@ Type LTImage Extends LTObject
 	
 	
 	
+	Method CopyFrame( Frame:Int, FromImage:LTImage, FromFrame:Int )
+		Local Pixmap:TPixmap = LockImage( FromImage.BMaxImage, FromFrame )
+		BMaxImage.SetPixmap( Frame, Pixmap )
+		UnlockImage( FromImage.BMaxImage )
+	End Method
+	
+	
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
-		XMLObject.ManageStringAttribute( "filename", FileName )
+		XMLObject.ManageStringAttribute( "filename", Filename )
 		XMLObject.ManageIntAttribute( "xcells", XCells, 1 )
 		XMLObject.ManageIntAttribute( "ycells", YCells, 1 )
 		
-		If L_XMLMode = L_XMLGet Then LoadImages()
+		If L_XMLMode = L_XMLGet Then Init()
 	End Method
 End Type

@@ -10,7 +10,8 @@
 
 Type LTTileMap Extends LTActor
 	Field FrameMap:LTIntMap
-	Field ActorArray:LTActor[]
+	Field TileActor:LTActor[]
+	Field TilesQuantity:Int
 	Field Wrapped:Int = False
 	
 	' ==================== Parameters ===================	
@@ -43,7 +44,7 @@ Type LTTileMap Extends LTActor
 	
 	
 	Method GetTileTemplate:LTActor( TileX:Int, TileY:Int )
-		Return ActorArray[ FrameMap.Value[ TileX, TileY ] ]
+		Return TileActor[ FrameMap.Value[ TileX, TileY ] ]
 	End Method
 	
 	' ==================== Drawing ===================	
@@ -72,7 +73,7 @@ Type LTTileMap Extends LTActor
 				Local Y1:Int = Floor( ( Actor.Y - Y0 ) / CellYSize )
 				
 				If X1 >= 0 And Y1 >= 0 And X1 < FrameMap.XQuantity And Y1 < FrameMap.YQuantity Then
-					Local Actor2:LTActor = ActorArray[ FrameMap.Value[ X1, Y1 ] ]
+					Local Actor2:LTActor = TileActor[ FrameMap.Value[ X1, Y1 ] ]
 					If Actor2 Then
 						Local DX:Float = X0 + CellXSize * X1
 						Local DY:Float = Y0 + CellYSize * Y1
@@ -87,7 +88,7 @@ Type LTTileMap Extends LTActor
 				
 				For Local Y:Int = Y1 To Y2
 					For Local X:Int = X1 To X2
-						Local TileActor:LTActor = ActorArray[ FrameMap.Value[ X, Y ] ]
+						Local TileActor:LTActor = TileActor[ FrameMap.Value[ X, Y ] ]
 						If TileActor Then
 							If Actor.CollidesWithTile( TileActor, X0 + CellXSize * X, Y0 + CellYSize * Y, CellXSize, CellYSize ) Then Actor.HandleCollisionWithTile( Self, X, Y )
 						End If
@@ -96,11 +97,41 @@ Type LTTileMap Extends LTActor
 		End Select
 	End Method
 	
+	' ==================== Creating ===================
 	
+	Function Create:LTTileMap( XQuantity:Int, YQuantity:Int, TileXSize:Int, TileYSize:Int, TilesQuantity:Int )
+		Local TileMap:LTTileMap = New LTTileMap
+		TileMap.FrameMap = New LTIntMap
+		TileMap.FrameMap.SetResolution( XQuantity, YQuantity )
+		TileMap.TileActor = New LTActor[ TilesQuantity ]
+		Local Visualizer:LTImageVisualizer = New LTImageVisualizer
+		Visualizer.Image = LTImage.Create( TileXSize, TileYSize, TilesQuantity )
+		TileMap.Visualizer = New Visualizer
+		Return TileMap
+	End Function
+	
+	' ==================== Saving / loading ===================
 	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
 		FrameMap = LTIntMap( XMLObject.ManageObjectField( "framemap", FrameMap ) )
+		XMLObject.ManageIntAttribute( "tiles-quantity", TilesQuantity )
+		XMLObject.ManageIntAttribute( "wrapped", Wrapped )
+		
+		If L_XMLMode = L_XMLGet Then
+			TileActor = New LTActor[ XMLObject.Children.Count() ]
+			Local N:Int = 0
+			For Local XMLObject:LTXMLObject = EachIn XMLObject.Children
+				TileActor[ N ] = LTActor( XMLObject.ManageObject( Null ) )
+				N :+ 1
+			Next
+		Else
+			For Local Obj:LTObject = EachIn TileActor
+				Local NewXMLObject:LTXMLObject = New LTXMLObject
+				NewXMLObject.ManageObject( Obj )
+				XMLObject.Children.AddLast( NewXMLObject )
+			Next
+		End If
 	End Method
 End Type
