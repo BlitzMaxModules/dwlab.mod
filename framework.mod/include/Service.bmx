@@ -93,7 +93,7 @@ End Function
 
 Function L_LimitFloat:Float( Value:Float, FromValue:Float, ToValue:Float )
 	?debug
-	L_Assert( FromValue < ToValue, "FromValue must be less than ToValue" )
+	L_Assert( FromValue <= ToValue, "FromValue must be less than ToValue" )
 	?
 	If Value < FromValue Then
 		Return FromValue
@@ -110,7 +110,7 @@ End Function
 
 Function L_LimitInt:Int( Value:Int, FromValue:Int, ToValue:Int )
 	?debug
-	L_Assert( FromValue < ToValue, "FromValue must be less than ToValue" )
+	L_Assert( FromValue <= ToValue, "FromValue must be less than ToValue" )
 	?
 	If Value < FromValue Then
 		Return FromValue

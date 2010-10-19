@@ -14,7 +14,8 @@ Import brl.wavloader
 Import brl.retro
 Import brl.map
 
-'Import maxgui.win32maxgui
+Import brl.eventqueue
+Import maxgui.win32maxguiex
 
 SetAudioDriver( "DirectSound" )
 'SetGraphicsDriver( GLMax2DDriver() )
@@ -27,7 +28,7 @@ Include "Mario.bmx"
 Include "Enemy.bmx"
 Include "Mushrooms.bmx"
 
-InitGraphics( 800, 600 )
+InitCamera()
 
 Global Game:TGame = New TGame
 Game.Execute()

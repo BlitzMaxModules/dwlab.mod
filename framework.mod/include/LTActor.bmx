@@ -8,6 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "LTCamera.bmx"
 Include "LTTileMap.bmx"
 Include "Collisions.bmx"
 Include "Physics.bmx"
@@ -45,7 +46,7 @@ Type LTActor Extends LTShape
 	
 	' ==================== Collisions ===================
 	
-	Method CollidesWith:Int( Obj:LTObject )
+	Method CollidesWith:Int( Obj:LTActiveObject )
 		Return Obj.CollidesWithActor( Self )
 	End Method
 	
@@ -132,7 +133,7 @@ Type LTActor Extends LTShape
 	
 	
 	
-	Method CollisionsWith( Obj:LTObject )
+	Method CollisionsWith( Obj:LTActiveObject )
 		Obj.CollisionsWithActor( Self )
 	End Method
 	
@@ -144,7 +145,7 @@ Type LTActor Extends LTShape
 	
 	' ==================== Wedging off ====================
 	
-	Method WedgeOffWith( Obj:LTObject, SelfMass:Float, ShapeMass:Float )
+	Method WedgeOffWith( Obj:LTActiveObject, SelfMass:Float, ShapeMass:Float )
 		Obj.WedgeOffWithActor( Self, ShapeMass, SelfMass )
 	End Method
 

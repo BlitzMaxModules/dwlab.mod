@@ -91,14 +91,14 @@ Type LTImageVisualizer Extends LTVisualizer
 				StartX :- StartXFrame * SXSize
 				StartXFrame = 0
 			End If
-			Local EndX:Float = StartX + SXSize * ( FrameMap.XQuantity - StartXFrame )
+			Local EndX:Float = StartX + SXSize * ( FrameMap.XQuantity - StartXFrame ) - 0.001
 			If  EndX < X2  Then X2 = EndX
 			
 			If StartYFrame < 0 Then 
 				StartY :- StartYFrame * SYSize
 				StartYFrame = 0
 			End If
-			Local EndY:Float = StartY + SYSize * ( FrameMap.YQuantity - StartYFrame )
+			Local EndY:Float = StartY + SYSize * ( FrameMap.YQuantity - StartYFrame ) - 0.001
 			If  EndY < Y2  Then Y2 = EndY
 		End If
 		

@@ -68,7 +68,7 @@ Type TGame Extends LTProject
 		TileMap.Visualizer = BlockVisualizer
 		TileMap.SetSize( 15.0, 14.0 )
 		TileMap.SetCoords( 6.0, 5.5 )
-		TileMap.ActorArray = New LTActor[ TilesQuantity ]
+		TileMap.TileActor = New LTActor[ TilesQuantity ]
 		
 		EnemyImage = New LTImage[ EnemiesQuantity ]
 		EnemyImage[ TEnemy.Angel ] = LTImage.FromFile( "media\angel.png", 4, 1 )
@@ -127,7 +127,7 @@ Type TGame Extends LTProject
 			End If
 			
 			Actor.SetCoords( 0.5, 0.5 )
-			TileMap.ActorArray[ N ] = Actor
+			TileMap.TileActor[ N ] = Actor
 		Next
 		
 		LoadLevel( 1 )

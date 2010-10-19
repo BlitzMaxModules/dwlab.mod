@@ -13,8 +13,8 @@ Type LTList Extends LTObject
 	
 	' ==================== Collisions ===================
 	
-	Method CollidesWith:Int( Obj:LTObject )
-		For Local Obj2:LTObject = Eachin Children
+	Method CollidesWith:Int( Obj:LTActiveObject )
+		For Local Obj2:LTActiveObject = Eachin Children
 			Local Collision:Int = Obj2.CollidesWith( Obj )
 			If Collision Then Return True
 		Next
@@ -34,8 +34,8 @@ Type LTList Extends LTObject
 	
 
 	
-	Method CollisionsWith( Obj1:LTObject )
-		For Local Obj2:LTObject = Eachin Children
+	Method CollisionsWith( Obj1:LTActiveObject )
+		For Local Obj2:LTActiveObject = Eachin Children
 			Obj2.CollisionsWith( Obj1 )
 		Next
 	End Method
@@ -43,7 +43,7 @@ Type LTList Extends LTObject
 	
 	
 	Method CollisionsWithActor( Actor:LTActor )
-		For Local Obj:LTObject = Eachin Children
+		For Local Obj:LTActiveObject = Eachin Children
 			Actor.CollisionsWith( Obj )
 		Next
 	End Method
@@ -51,7 +51,7 @@ Type LTList Extends LTObject
 	
 	
 	Method CollisionsWithLine( Line:LTLine )
-		For Local Obj:LTObject = Eachin Children
+		For Local Obj:LTActiveObject = Eachin Children
 			Line.CollisionsWith( Obj )
 		Next
 	End Method
@@ -59,7 +59,7 @@ Type LTList Extends LTObject
 	' ==================== Pushing ====================
 	
 	Method Draw()
-		For Local Obj:LTObject = Eachin Children
+		For Local Obj:LTActiveObject = Eachin Children
 			Obj.Draw()
 		Next
 	End Method
@@ -67,20 +67,20 @@ Type LTList Extends LTObject
 	
 	
 	Method Act()
-		For Local Obj:LTObject = Eachin Children
+		For Local Obj:LTActiveObject = Eachin Children
 			Obj.Act()
 		Next
 	End Method
 	
 	' ==================== List methods ====================
 	
-	Method AddLast:TLink( Obj:LTObject )
+	Method AddLast:TLink( Obj:LTActiveObject )
 		Return Children.AddLast( Obj )
 	End Method
 	
 	
 	
-	Method Remove( Obj:LTObject )
+	Method Remove( Obj:LTActiveObject )
 		Children.Remove( Obj )
 	End Method
 	

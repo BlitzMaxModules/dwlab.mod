@@ -12,7 +12,7 @@ Include "LTActor.bmx"
 Include "LTLine.bmx"
 Include "LTGraph.bmx"
 
-Type LTShape Extends LTObject Abstract
+Type LTShape Extends LTActiveObject Abstract
 	Field Visualizer:LTVisualizer = L_DefaultVisualizer
 	
 	

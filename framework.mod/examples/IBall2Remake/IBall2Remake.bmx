@@ -31,8 +31,8 @@ SetAudioDriver( "DirectSound" )
 'SetGraphicsDriver( GLMax2DDriver() )
 
 Include "../../framework.bmx"
-Global L_EditorPath:String = "../../../editor.mod"
-Include "../../../editor.mod/editor.bmx"
+'Global L_EditorPath:String = "../../../editor.mod"
+'Include "../../../editor.mod/editor.bmx"
 
 Include "Tools.bmx"
 Include "Levels.bmx"
@@ -42,7 +42,7 @@ Include "Ball.bmx"
 Include "Enemy.bmx"
 Include "Blocks.bmx"
 
-Init( 800, 600 )
+InitGraphics( 800, 600 )
 
 'Global Editor:LTEditor = New LTEditor
 'Editor.Execute()

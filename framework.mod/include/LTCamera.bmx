@@ -12,6 +12,9 @@ Global L_CurrentCamera:LTCamera
 Global L_CameraSpeed:Float = 2.0
 Global L_CameraMagnificationSpeed:Float = 2.0
 
+Global L_ScreenXSize:Int
+Global L_ScreenYSize:Int
+
 Type LTCamera Extends LTActor
 	Field Viewport:LTActor = New LTActor
 	Field XK:Float = 1.0, YK:Float = 1.0
@@ -98,6 +101,18 @@ Type LTCamera Extends LTActor
 	
 	
 	
+	Method LimitWith( Rectangle:LTActor )
+		Local X1:Float = Min( Rectangle.X, Rectangle.CornerX() + 0.5 * XSize )
+		Local Y1:Float = Min( Rectangle.Y, Rectangle.CornerY() + 0.5 * YSize )
+		Local X2:Float = Max( Rectangle.X, Rectangle.X + 0.5 * ( Rectangle.XSize - XSize ) )
+		Local Y2:Float = Max( Rectangle.Y, Rectangle.Y + 0.5 * ( Rectangle.YSize - YSize ) )
+		X = L_LimitFloat( X, X1, X2 )
+		Y = L_LimitFloat( Y, Y1, Y2 )
+		Update()
+	End Method
+	
+	
+	
 	Method Update()
 		XK = Viewport.XSize / XSize
 		YK = Viewport.YSize / YSize
@@ -105,3 +120,24 @@ Type LTCamera Extends LTActor
 		DY = Viewport.Y/ YK - Y
 	End Method
 End Type
+
+
+
+
+
+Function InitCamera()
+	L_ScreenXSize = GraphicsWidth()
+	L_ScreenYSize = GraphicsHeight()
+	
+	L_CurrentCamera = New LTCamera
+	L_CurrentCamera.XSize = 32.0
+	L_CurrentCamera.YSize = 32.0 * L_ScreenYSize / L_ScreenXSize
+	L_CurrentCamera.Viewport.XSize = L_ScreenXSize
+	L_CurrentCamera.Viewport.YSize = L_ScreenYSize
+	L_CurrentCamera.Viewport.X = 0.5 * L_ScreenXSize
+	L_CurrentCamera.Viewport.Y = 0.5 * L_ScreenYSize
+	L_CurrentCamera.Update()
+	
+	AutoImageFlags( FILTEREDIMAGE | DYNAMICIMAGE )
+	SetBlend( AlphaBlend )
+End Function
