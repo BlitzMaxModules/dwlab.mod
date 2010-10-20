@@ -18,6 +18,9 @@ Type LTEditor Extends LTProject
 	
 	Field SnapToGrid:TGadget
 	Field ShowGrid:TGadget
+	Field EditTiles:TGadget
+	Field EditObjects:TGadget
+	Field Grid:LTGrid = New LTGrid
 	
 	Field World:LTWorld = New LTWorld
 	Field WorldFilename:String
@@ -40,6 +43,8 @@ Type LTEditor Extends LTProject
 	Const MenuShowGrid:Int = 10
 	Const MenuGridSettings:Int = 11
 	Const MenuTilemapSettings:Int = 12
+	Const MenuEditTiles:Int = 13
+	Const MenuEditObjects:Int = 13
 	
 	
 	Method Init()
@@ -69,6 +74,10 @@ Type LTEditor Extends LTProject
 		CreateMenu( "", 0, EditMenu )
 		CreateMenu( "Grid settings", MenuGridSettings, EditMenu )
 		CreateMenu( "Tilemap settings", MenuTilemapSettings, EditMenu )
+		CreateMenu( "", 0, EditMenu )
+		EditTiles = CreateMenu( "Edit tiles", MenuEditTiles, EditMenu )
+		EditObjects = CreateMenu( "Edit objects", MenuEditObjects, EditMenu )
+		CheckMenu( EditObjects )
 		
 		UpdateWindowMenu( Window )
 		SetClsColor( 255, 255, 255 )
@@ -120,6 +129,12 @@ Type LTEditor Extends LTProject
 						ToggleMenu( SnapToGrid )
 					Case MenuShowGrid
 						ToggleMenu( ShowGrid )
+					Case MenuEditTiles
+						CheckMenu( EditTiles )
+						UnCheckMenu( EditObjects )
+					Case MenuEditObjects
+						UnCheckMenu( EditTiles )
+						CheckMenu( EditObjects )
 					Case MenuExit
 						ExitEditor()
 				End Select
@@ -127,8 +142,8 @@ Type LTEditor Extends LTProject
 		
 		Cursor.SetMouseCoords()
 		Pan.Execute()
-		Local NewD:Float = 1.0 * L_ScreenXSize / 32 * ( 1.1 ^ MouseZ() )
-		L_CurrentCamera.AlterCameraMagnification( NewD, NewD )
+		Local NewD:Float = 1.0 * GraphicsWidth() / 32.0 * ( 1.1 ^ MouseZ() )
+		L_CurrentCamera.SetMagnification( NewD, NewD )
 		
 		If World.Tilemap Then L_CurrentCamera.LimitWith( World.Tilemap )
 	End Method
@@ -138,9 +153,8 @@ Type LTEditor Extends LTProject
 	Method Render()
 		Cls
 		If World.Tilemap Then World.Tilemap.Draw()
-		SetColor( 0, 0, 0 )
-		DrawText( MouseZ() , 0, 0 )
-		SetColor( 255, 255, 255 )
+		if MenuChecked( ShowGrid ) Then Grid.Draw()
+		
 	End Method
 	
 	
@@ -289,5 +303,39 @@ Type TPan Extends LTDrag
 		L_CurrentCamera.X = CursorX - ( MouseX() - L_CurrentCamera.Viewport.X ) / L_CurrentCamera.XK
 		L_CurrentCamera.Y = CursorY - ( MouseY() - L_CurrentCamera.Viewport.Y ) / L_CurrentCamera.YK
 		L_CurrentCamera.Update()
+	End Method
+End Type
+
+
+
+
+
+Type LTGrid Extends LTActiveObject
+	Field XSize:Float = 1.0
+	Field YSize:Float = 1.0
+	
+	
+	
+	Method Draw()
+		Local SX:Float, SY:Float
+		SetColor( 0, 0, 0 )
+		
+		Local X:Float = Floor( L_CurrentCamera.CornerX() / XSize ) * XSize
+		Local EndX:Float = L_CurrentCamera.CornerX() + L_CurrentCamera.XSize
+		While X < EndX
+			L_CurrentCamera.FieldToScreen( X, 0, SX, SY )
+			DrawLine( SX, 0, SX, GraphicsHeight() )
+			X :+ XSize
+		WEnd
+		
+		Local Y:Float = Floor( L_CurrentCamera.CornerY() / YSize ) * YSize
+		Local EndY:Float = L_CurrentCamera.CornerY() + L_CurrentCamera.YSize
+		While Y < EndY
+			L_CurrentCamera.FieldToScreen( 0, Y, SX, SY )
+			DrawLine( 0, SY, GraphicsWidth(), SY )
+			Y :+ YSize
+		WEnd
+		
+		SetColor( 255, 255, 255 )
 	End Method
 End Type

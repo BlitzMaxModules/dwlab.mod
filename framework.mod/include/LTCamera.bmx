@@ -12,9 +12,6 @@ Global L_CurrentCamera:LTCamera
 Global L_CameraSpeed:Float = 2.0
 Global L_CameraMagnificationSpeed:Float = 2.0
 
-Global L_ScreenXSize:Int
-Global L_ScreenYSize:Int
-
 Type LTCamera Extends LTActor
 	Field Viewport:LTActor = New LTActor
 	Field XK:Float = 1.0, YK:Float = 1.0
@@ -72,7 +69,7 @@ Type LTCamera Extends LTActor
 	
 	
 	Method ResetViewport()
-		SetViewport( 0, 0, L_ScreenXSize, L_ScreenYSize )
+		SetViewport( 0, 0, GraphicsWidth(), GraphicsHeight() )
 	End Method
 	
 	
@@ -126,16 +123,13 @@ End Type
 
 
 Function InitCamera()
-	L_ScreenXSize = GraphicsWidth()
-	L_ScreenYSize = GraphicsHeight()
-	
 	L_CurrentCamera = New LTCamera
 	L_CurrentCamera.XSize = 32.0
-	L_CurrentCamera.YSize = 32.0 * L_ScreenYSize / L_ScreenXSize
-	L_CurrentCamera.Viewport.XSize = L_ScreenXSize
-	L_CurrentCamera.Viewport.YSize = L_ScreenYSize
-	L_CurrentCamera.Viewport.X = 0.5 * L_ScreenXSize
-	L_CurrentCamera.Viewport.Y = 0.5 * L_ScreenYSize
+	L_CurrentCamera.YSize = 32.0 * GraphicsHeight() / GraphicsWidth()
+	L_CurrentCamera.Viewport.XSize = GraphicsWidth()
+	L_CurrentCamera.Viewport.YSize = GraphicsHeight()
+	L_CurrentCamera.Viewport.X = 0.5 * GraphicsWidth()
+	L_CurrentCamera.Viewport.Y = 0.5 * GraphicsHeight()
 	L_CurrentCamera.Update()
 	
 	AutoImageFlags( FILTEREDIMAGE | DYNAMICIMAGE )
