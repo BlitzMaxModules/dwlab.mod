@@ -11,6 +11,7 @@
 Const L_AlignToRight:Int = 0, L_AlignToTop:Int = 0
 Const L_AlignToCenter:Int = 1
 Const L_AlignToLeft:Int = 2, L_AlignToBottom:Int = 0
+Const L_Stretch:Int = 3
 
 Type LTFont Extends LTObject
 	Field LetterLength:Int[]
