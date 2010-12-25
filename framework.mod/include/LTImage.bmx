@@ -8,11 +8,13 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Global L_LoadImages:Int = 1
+
 Type LTImage Extends LTObject
 	Field BMaxImage:TImage
 	Field Filename:String
-	Field XCells:Int
-	Field YCells:Int
+	Field XCells:Int = 1
+	Field YCells:Int = 1
 	
 	
 	
@@ -135,6 +137,6 @@ Type LTImage Extends LTObject
 		XMLObject.ManageIntAttribute( "xcells", XCells, 1 )
 		XMLObject.ManageIntAttribute( "ycells", YCells, 1 )
 		
-		If L_XMLMode = L_XMLGet Then Init()
+		If L_XMLMode = L_XMLGet And L_LoadImages Then Init()
 	End Method
 End Type

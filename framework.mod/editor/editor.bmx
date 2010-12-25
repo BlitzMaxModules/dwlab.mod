@@ -1,5 +1,5 @@
 '
-' MindStorm - Digital Wizard's Lab example
+' Digital Wizard's Lab world editor
 ' Copyright (C) 2010, Matt Merkulov
 '
 ' All rights reserved. Use of this code is allowed under the
@@ -9,24 +9,33 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
+SuperStrict
+
+import maxgui.win32maxguiex
+
+include "../framework.bmx"
+include "LTPan.bmx"
+include "LTGrid.bmx"
+
 Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
 	Field Window:TGadget
 	Field Canvas:TGadget
+	Field SpritesListBox:TGadget
 	
 	Field SnapToGrid:TGadget
 	Field ShowGrid:TGadget
 	Field EditTiles:TGadget
-	Field EditObjects:TGadget
+	Field EditSprites:TGadget
 	Field Grid:LTGrid = New LTGrid
 	
 	Field World:LTWorld = New LTWorld
 	Field WorldFilename:String
 	
 	Field Cursor:LTActor = New LTActor
-	Field Pan:TPan = New TPan
+	Field Pan:LTPan = New LTPan
 	Field Z:Int
 	
 	
@@ -44,17 +53,21 @@ Type LTEditor Extends LTProject
 	Const MenuGridSettings:Int = 11
 	Const MenuTilemapSettings:Int = 12
 	Const MenuEditTiles:Int = 13
-	Const MenuEditObjects:Int = 13
+	Const MenuEditSprites:Int = 14
+	Const MenuAddSpriteType:Int = 15
+	
 	
 	
 	Method Init()
-		Window  = CreateWindow( "", 0, 0, 100, 100 )
+		Window  = CreateWindow( "", 0, 0, 640, 480 )
 		MaximizeWindow( Window )
-		Canvas = CreateCanvas( 0, 0, ClientWidth( Window ), ClientHeight( Window ), Window )
+		Canvas = CreateCanvas( 0, 0, ClientWidth( Window ) - 200, ClientHeight( Window ), Window )
+		SetGadgetLayout( Canvas, Edge_Aligned, Edge_Aligned, Edge_Aligned, Edge_Aligned )
+		SpritesListBox = CreateListBox( ClientWidth( Window ) - 200, 0, 200, ClientHeight( Window ), Window )
+		SetGadgetLayout( SpritesListBox, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Aligned )
 		Enablepolledinput( Canvas )
 		SetGraphics( CanvasGraphics( Canvas ) )
 		InitCamera()
-		
 		
 		Local FileMenu:TGadget = CreateMenu( "File", 0, WindowMenu( Window ) )
 		CreateMenu( "New", MenuNew, FileMenu )
@@ -76,8 +89,10 @@ Type LTEditor Extends LTProject
 		CreateMenu( "Tilemap settings", MenuTilemapSettings, EditMenu )
 		CreateMenu( "", 0, EditMenu )
 		EditTiles = CreateMenu( "Edit tiles", MenuEditTiles, EditMenu )
-		EditObjects = CreateMenu( "Edit objects", MenuEditObjects, EditMenu )
-		CheckMenu( EditObjects )
+		EditSprites = CreateMenu( "Edit sprites", MenuEditSprites, EditMenu )
+		CreateMenu( "", 0, EditMenu )
+		CreateMenu( "Add sprite type", MenuAddSpriteType, EditMenu )
+		CheckMenu( EditSprites )
 		
 		UpdateWindowMenu( Window )
 		SetClsColor( 255, 255, 255 )
@@ -131,10 +146,16 @@ Type LTEditor Extends LTProject
 						ToggleMenu( ShowGrid )
 					Case MenuEditTiles
 						CheckMenu( EditTiles )
-						UnCheckMenu( EditObjects )
-					Case MenuEditObjects
+						UnCheckMenu( EditSprites )
+					Case MenuEditSprites
 						UnCheckMenu( EditTiles )
-						CheckMenu( EditObjects )
+						CheckMenu( EditSprites )
+					Case MenuAddSpriteType
+						Local SpriteType:LTSpriteType = New LTSpriteType
+						If SpriteTypeProperties( SpriteType ) Then
+							World.SpriteTypes.AddLast( SpriteType )
+							RefreshSpriteTypeList()
+						End If
 					Case MenuExit
 						ExitEditor()
 				End Select
@@ -152,9 +173,12 @@ Type LTEditor Extends LTProject
 	
 	Method Render()
 		Cls
-		If World.Tilemap Then World.Tilemap.Draw()
+		L_CurrentCamera.Viewport.X = 0.5 * Canvas.GetWidth()
+		L_CurrentCamera.Viewport.Y = 0.5 * Canvas.GetHeight()
+		L_CurrentCamera.Viewport.XSize = Canvas.GetWidth()
+		L_CurrentCamera.Viewport.YSize = Canvas.GetHeight()
+		World.Draw()
 		if MenuChecked( ShowGrid ) Then Grid.Draw()
-		
 	End Method
 	
 	
@@ -261,6 +285,113 @@ Type LTEditor Extends LTProject
 	Method ExitEditor()
 		End
 	End Method
+	
+	
+	
+	Method SpriteTypeProperties:Int( SpriteType:LTSpriteType )
+		Local EditWindow:TGadget = CreateWindow( "Sprite type properties", 0, 00, 161, 339, Desktop(), WINDOW_TITLEBAR|WINDOW_RESIZABLE )
+		CreateLabel( "Name:", 8, 8, 40, 16, EditWindow, 0 )
+		Local NameTextField:TGadget = CreateTextField( 48, 5, 96, 20, EditWindow )
+		CreateLabel( "Horizontal cells:", 8, 32, 75, 16, EditWindow, 0 )
+		Local XCellsTextField:TGadget = CreateTextField( 88, 29, 56, 20, EditWindow )
+		CreateLabel( "Vertical cells:", 8, 56, 62, 16, EditWindow, 0 )
+		Local YCellsTextField:TGadget = CreateTextField( 88, 53, 56, 20, EditWindow )
+		CreateLabel( "Shape:", 8, 80, 40, 16, EditWindow, 0 )
+		Local ShapeBox:TGadget = CreateComboBox( 50, 77, 94, 20, EditWindow )
+		Local ImageCanvas:TGadget = CreateCanvas( 8, 104, 136, 136, EditWindow )
+		Local LoadImageButton:TGadget = CreateButton( "Load image", 8, 248, 136, 24, EditWindow, BUTTON_PUSH )
+		Local OkButton:TGadget = CreateButton( "OK", 8, 280, 64, 24, EditWindow, BUTTON_PUSH )
+		Local CancelButton:TGadget = CreateButton( "Cancel", 80, 280, 64, 24, EditWindow, BUTTON_PUSH )
+
+		AddGadgetItem( ShapeBox, "Pivot" )
+		AddGadgetItem( ShapeBox, "Circle" )
+		AddGadgetItem( ShapeBox, "Rectangle" )
+		SelectGadgetItem( ShapeBox, L_Rectangle )
+		
+		SetGadgetText( NameTextField, SpriteType.TypeName )
+		SetGadgetText( XCellsTextField, SpriteType.XCells )
+		SetGadgetText( YCellsTextField, SpriteType.YCells )
+	
+		Local Image:TImage = SpriteType.BMaxImage
+		Local Filename:String = ""
+		
+		Repeat
+			Local XCells:Int = TextFieldText( XCellsTextField ).ToInt()
+			Local YCells:Int = TextFieldText( YCellsTextField ).ToInt()
+			
+			If Image Then
+				SetGraphics( CanvasGraphics( ImageCanvas ) )
+				SetScale( 1.0 * GraphicsWidth() / Image.Width, 1.0 * GraphicsWidth() / Image.Height )
+				DrawImage( Image, 0, 0 )
+				SetScale( 1.0, 1.0 )
+				
+				if XCells > 0 And YCells > 0 Then
+					If Image.Width Mod XCells = 0 And Image.Height Mod YCells = 0 Then
+						SetColor( 255, 0, 255 )
+						For Local X:Int = 0 Until XCells
+							Local XX:Int = 136.0 * X / XCells
+							DrawLine( XX, 0, XX, 136 )
+						Next
+						For Local Y:Int = 0 Until YCells
+							Local YY:Int = 136.0 * Y / YCells
+							DrawLine( 0, YY, 136, YY )
+						Next
+						SetColor( 255, 255, 255 )
+					End If
+				End If
+				
+				Flip
+				SetGraphics( CanvasGraphics( Canvas ) )
+			End If
+			
+			PollEvent()
+			Select EventID()
+				Case Event_GadgetAction
+					Select EventSource()
+						Case LoadImageButton
+							Filename = RequestFile( "Select image..., ". "Image files:png,jpg,bmp" )
+							If Filename Then Image = LoadImage( Filename ) Else Image = Null
+						Case OKButton
+							If Image And Filename Then
+								Local TypeName:String = TextFieldText( NameTextField )
+								Local Shape:Int = SelectedGadgetItem( ShapeBox )
+								
+								If XCells > 0 And YCells > 0 Then
+									If Image.Width Mod XCells = 0 And Image.Height Mod YCells = 0 Then
+										SpriteType.TypeName = TypeName
+										SpriteType.XCells = XCells
+										SpriteType.YCells = YCells
+										SpriteType.Shape = Shape
+										SpriteType.Filename = Filename
+										SpriteType.Init()
+										FreeGadget( EditWindow )
+										Return True
+									Else
+										Notify( "Image sizes must be divideable by tile cells quantity", True )
+									End If
+								Else
+									Notify( "Tile cells quantity must be more than 0", True )
+								End If
+							Else
+								Notify( "Image required", True )
+							End If
+						Case CancelButton
+							FreeGadget( EditWindow )
+							Return False
+					End Select
+			End Select
+		Forever
+		
+	End Method
+	
+	
+	
+	Method RefreshSpriteTypeList()
+		ClearGadgetItems( SpritesListBox )
+		For Local SpriteType:LTSpriteType = Eachin World.SpriteTypes
+			AddGadgetItem( SpritesListBox, SpriteType.TypeName )
+		Next
+	End Method
 End Type
 
 
@@ -275,67 +406,3 @@ Function ComparePixmaps:Int( Pixmap1:TPixmap, Pixmap2:TPixmap )
 	Next
 	Return True
 End Function
-
-
-
-
-
-Type TPan Extends LTDrag
-	Field CursorX:Float
-	Field CursorY:Float
-	
-	
-	
-	Method DragKey:Int()
-		If MouseDown( 3 ) Then Return True
-	End Method
-	
-	
-	
-	Method StartDragging()
-		CursorX = Editor.Cursor.X
-		CursorY = Editor.Cursor.Y
-	End Method
-	
-	
-	
-	Method Dragging()
-		L_CurrentCamera.X = CursorX - ( MouseX() - L_CurrentCamera.Viewport.X ) / L_CurrentCamera.XK
-		L_CurrentCamera.Y = CursorY - ( MouseY() - L_CurrentCamera.Viewport.Y ) / L_CurrentCamera.YK
-		L_CurrentCamera.Update()
-	End Method
-End Type
-
-
-
-
-
-Type LTGrid Extends LTActiveObject
-	Field XSize:Float = 1.0
-	Field YSize:Float = 1.0
-	
-	
-	
-	Method Draw()
-		Local SX:Float, SY:Float
-		SetColor( 0, 0, 0 )
-		
-		Local X:Float = Floor( L_CurrentCamera.CornerX() / XSize ) * XSize
-		Local EndX:Float = L_CurrentCamera.CornerX() + L_CurrentCamera.XSize
-		While X < EndX
-			L_CurrentCamera.FieldToScreen( X, 0, SX, SY )
-			DrawLine( SX, 0, SX, GraphicsHeight() )
-			X :+ XSize
-		WEnd
-		
-		Local Y:Float = Floor( L_CurrentCamera.CornerY() / YSize ) * YSize
-		Local EndY:Float = L_CurrentCamera.CornerY() + L_CurrentCamera.YSize
-		While Y < EndY
-			L_CurrentCamera.FieldToScreen( 0, Y, SX, SY )
-			DrawLine( 0, SY, GraphicsWidth(), SY )
-			Y :+ YSize
-		WEnd
-		
-		SetColor( 255, 255, 255 )
-	End Method
-End Type

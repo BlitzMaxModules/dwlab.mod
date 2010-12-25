@@ -694,6 +694,20 @@ Type LTActor Extends LTShape
 	
 	' ==================== Other ====================	
 	
+	Method CopyFrom( Actor:LTActor )
+		Shape = Actor.Shape
+		X = Actor.X
+		Y = Actor.Y
+		XSize = Actor.XSize
+		YSize = Actor.YSize
+		Angle = Actor.Angle
+		Velocity = Actor.Velocity
+		Frame = Actor.Frame
+		CollisionMap = Actor.CollisionMap
+	End Method
+	
+	
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
