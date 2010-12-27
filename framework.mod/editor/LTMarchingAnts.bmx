@@ -18,7 +18,7 @@ Type LTMarchingAnts Extends LTVisualizer
 		L_CurrentCamera.FieldToScreen( Actor.X, Actor.Y, SX, SY )
 		L_CurrentCamera.SizeFieldToScreen( Actor.XSize * XScale, Actor.YSize * YScale, SXSize, SYSize )
 		
-		Local Pos:Int = Int( Millisecs() / 250 ) Mod 8
+		Local Pos:Int = Int( Millisecs() / 100 ) Mod 8
 		
 		Local LinePixmap:TPixmap = CreatePixmap( SXSize, 1, PF_RGBA8888 )
 		For Local XX:Int = 0 Until SXSize

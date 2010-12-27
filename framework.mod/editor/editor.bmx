@@ -34,13 +34,13 @@ Type LTEditor Extends LTProject
 	Field EditTilemap:TGadget
 	Field EditSprites:TGadget
 	Field Grid:LTGrid = New LTGrid
-	Field Dragging:Int
 	
 	Field World:LTWorld = New LTWorld
 	Field CurrentPage:LTPage
 	Field CurrentSpriteType:LTSpriteType
 	Field SelectedSprites:TList = New TList
 	Field WorldFilename:String
+	Field EditorPath:String
 	Field ModifiersImage:TImage
 	Field Modifiers:TList = New TList
 	Field MarchingAnts:LTMarchingAnts = New LTMarchingAnts
@@ -133,6 +133,8 @@ Type LTEditor Extends LTProject
 		
 		AddPage( "Page 1" )
 		
+		EditorPath = CurrentDir()
+		
 		If FileType( "editor.ini" ) = 1 Then
 			Local IniFile:TStream = ReadFile( "editor.ini" )
 			
@@ -162,6 +164,7 @@ Type LTEditor Extends LTProject
 		If Filename Then 
 			If FileType( Filename ) = 0 Then Return
 			WorldFilename = Filename
+			ChangeDir( ExtractDir( Filename ) )
 			World = LTWorld( L_LoadFromFile( Filename ) )
 			CurrentPage = LTPage( World.Pages.First() )
 			RefreshPagesList()
@@ -176,7 +179,10 @@ Type LTEditor Extends LTProject
 		Select EventID()
 			Case Event_MouseWheel
 				Z :+ EventData()
-				'debugstop
+				If Not Modifiers.IsEmpty() Then
+					Local Sprite:LTSprite = LTSprite( SelectedSprites.First() )
+					SetSpriteModifiers( Sprite )
+				End If
 			Case Event_WindowClose
 				ExitEditor()
 			Case Event_MenuAction
@@ -254,6 +260,8 @@ Type LTEditor Extends LTProject
 						RefreshSpriteTypesList()
 					Case PagesListBox
 						CurrentPage = LTPage( World.Pages.ValueAtIndex( EventData() ) )
+						Modifiers.Clear()
+						SelectedSprites.Clear()
 						RefreshPagesList()
 				End Select
 		End Select
@@ -263,6 +271,12 @@ Type LTEditor Extends LTProject
 		Pan.Execute()
 		CreateSprite.Execute()
 		ModifySprite.Execute()
+		
+		If Not ModifySprite.DraggingState And MouseHit( 1 ) And MenuChecked( Editor.EditSprites ) Then
+			For Local Sprite:LTSprite = Eachin Editor.CurrentPage.Sprites
+				If Editor.Cursor.CollidesWith( Sprite ) Then Editor.SelectSprite( Sprite )
+			Next
+		End If
 		
 		Local NewD:Float = 1.0 * GraphicsWidth() / 32.0 * ( 1.1 ^ MouseZ() )
 		L_CurrentCamera.SetMagnification( NewD, NewD )
@@ -311,7 +325,7 @@ Type LTEditor Extends LTProject
 			Sprite.DrawUsingVisualizer( MarchingAnts )
 		Next
 		
-		If Not Dragging Then
+		If Not ModifySprite.DraggingState And Not CreateSprite.DraggingState Then
 			SetAlpha( 0.75 )
 			For Local Modifier:LTActor = Eachin Modifiers
 				Local X:Float, Y:Float
@@ -327,6 +341,7 @@ Type LTEditor Extends LTProject
 	Method SelectSprite( Sprite:LTSprite )
 		SelectedSprites.Clear()
 		SelectedSprites.AddLast( Sprite )
+		SetSpriteModifiers( Sprite )
 	End Method
 	
 	
@@ -449,6 +464,7 @@ Type LTEditor Extends LTProject
 				Return Filename
 			End If
 		Next
+		Return Filename[ Len( Dir ).. ]
 	End Method
 	
 	
@@ -512,7 +528,7 @@ Type LTEditor Extends LTProject
 	
 	
 	Method ExitEditor()
-		Local IniFile:TStream = WriteFile( "editor.ini" )
+		Local IniFile:TStream = WriteFile( EditorPath + "/editor.ini" )
 		
 		WriteLine( IniFile, WorldFilename )
 		If MenuChecked( ShowGrid ) Then WriteLine( IniFile, "ShowGrid" ) Else WriteLine( IniFile, "DoNotShowGrid" )
@@ -595,6 +611,8 @@ Type LTEditor Extends LTProject
 					Select EventSource()
 						Case LoadImageButton
 							Filename = RequestFile( "Select image..., ". "Image files:png,jpg,bmp" )
+							debugstop
+							Filename = ChopFilename( Filename )
 							If Filename Then Image = LoadImage( Filename ) Else Image = Null
 						Case OKButton
 							If Image And Filename Then
@@ -626,7 +644,6 @@ Type LTEditor Extends LTProject
 					End Select
 			End Select
 		Forever
-		
 	End Method
 	
 	

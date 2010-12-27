@@ -15,13 +15,20 @@ Type LTSprite Extends LTActor
 	
 	
 	Method XMLIO( XMLObject:LTXMLObject )
+		Visualizer = Null
 		Super.XMLIO( XMLObject )
-	
-		SpriteType = LTSpriteType( XMLObject.ManageObjectAttribute( "type", SpriteType ) )
 		
-		If L_XMLMode = L_XMLGet Then
-			Shape = SpriteType.Shape
-			Visualizer = SpriteType.ImageVisualizer
-		End If
+		SpriteType = LTSpriteType( XMLObject.ManageObjectAttribute( "type", SpriteType ) )
+		Visualizer = SpriteType.ImageVisualizer
+		Shape = SpriteType.Shape
+	
+		XMLObject.ManageFloatAttribute( "x", X )
+		XMLObject.ManageFloatAttribute( "y", Y )
+		XMLObject.ManageFloatAttribute( "xsize", XSize, 1.0 )
+		XMLObject.ManageFloatAttribute( "ysize", YSize, 1.0 )
+		XMLObject.ManageFloatAttribute( "angle", Angle )
+		XMLObject.ManageFloatAttribute( "velocity", Velocity )
+		XMLObject.ManageIntAttribute( "frame", Frame )
+	
 	End Method
 End Type

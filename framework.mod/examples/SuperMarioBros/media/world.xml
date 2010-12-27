@@ -1,9 +1,9 @@
-<LTWorld dwlab_version="0.10.1">
+<LTWorld dwlab_version="0.11">
 	<TList field="pages">
 		<LTPage pagename="Land">
 			<LTTileMap field="tilemap" shape="2" x="112" y="7.5" xsize="224" ysize="15">
 				<LTImageVisualizer field="visualizer">
-					<LTImage field="image" id="4" filename="..\examples\SuperMarioBros\media\tiles.png" xcells="16" ycells="4"/>
+					<LTImage field="image" id="4" filename="tiles.png" xcells="16" ycells="4"/>
 				</LTImageVisualizer>
 				<LTIntMap field="framemap" xquantity="224" yquantity="15">
 					<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
@@ -51,10 +51,13 @@
 	</TList>
 	<TList field="sprite-types">
 		<LTSpriteType shape="2" typename="Start">
-			<LTImage field="image" filename="C:\Program Files\BlitzMax\mod\dwlab.mod\framework.mod\examples\SuperMarioBros\media\SmallMario.png" xcells="6"/>
+			<LTImage field="image" filename="SmallMario.png" xcells="6"/>
 		</LTSpriteType>
 		<LTSpriteType shape="2" typename="Goomba">
-			<LTImage field="image" filename="C:\Program Files\BlitzMax\mod\dwlab.mod\framework.mod\examples\SuperMarioBros\media\LittleGoomba.png" xcells="3"/>
+			<LTImage field="image" filename="LittleGoomba.png" xcells="3"/>
+		</LTSpriteType>
+		<LTSpriteType shape="2" typename="KoopaTroopa">
+			<LTImage field="image" filename="KoopaTroopa.png" xcells="2"/>
 		</LTSpriteType>
 	</TList>
 	<TList field="definitions"/>

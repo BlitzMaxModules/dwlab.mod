@@ -29,7 +29,7 @@ Type LTWorld Extends LTObject
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
-		XMLObject.ManageListField( "pages", Pages )
 		XMLObject.ManageListField( "sprite-types", SpriteTypes )
+		XMLObject.ManageListField( "pages", Pages )
 	End Method
 End Type

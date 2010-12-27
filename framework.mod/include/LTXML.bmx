@@ -123,7 +123,7 @@ Type LTXMLObject Extends LTObject
 			Obj = L_IDArray[ ID ]
 			
 			?debug
-			L_Assert( Not Obj, "Object with id " + ID + " not found" )
+			L_Assert( Obj <> Null, "Object with id " + ID + " not found" )
 			?
 		ElseIf Obj Then
 			If Obj Then

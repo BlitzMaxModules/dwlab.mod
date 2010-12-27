@@ -30,7 +30,6 @@ Type LTCreateSprite Extends LTDrag
 		Sprite.SpriteType = Editor.CurrentSpriteType
 		Sprite.Visualizer = Editor.CurrentSpriteType.ImageVisualizer
 		Editor.CurrentPage.Sprites.AddLast( Sprite )
-		Editor.Dragging = True
 		Editor.SelectSprite( Sprite )
 	End Method
 	
@@ -52,7 +51,6 @@ Type LTCreateSprite Extends LTDrag
 		If Not Sprite.XSize Or Not Sprite.YSize Then
 			Editor.CurrentPage.Sprites.Remove( Sprite )
 		End If
-		Editor.Dragging = False
 		Editor.SetSpriteModifiers( Sprite )
 	End Method
 End Type

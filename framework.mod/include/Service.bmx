@@ -184,3 +184,10 @@ End Function
 Function Round:Float( Value:Float )
 	Return Int( Value + 0.5 * Sgn( Value ) )
 End Function
+
+
+
+
+Function L_Distance:Float( DX:Float, DY:Float )
+	Return Sqr( DX * DX + DY * DY )
+End Function
