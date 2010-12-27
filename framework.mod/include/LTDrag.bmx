@@ -41,9 +41,11 @@ Type LTDrag Extends LTObject
 	
 	Method Execute()
 		If DraggingState = False Then
-			If DragKey() And DraggingConditions() Then
-				StartDragging()
-				DraggingState = True
+			If DragKey() Then
+				If DraggingConditions() Then
+					StartDragging()
+					DraggingState = True
+				End If
 			End If
 		Else
 			If DragKey() Then

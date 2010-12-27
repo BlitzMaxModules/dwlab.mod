@@ -37,4 +37,13 @@ Type LTGrid Extends LTActiveObject
 		
 		SetColor( 255, 255, 255 )
 	End Method
+	
+	
+	
+	Method Snap( X:Float Var, Y:Float Var )
+		If MenuChecked( Editor.SnapToGrid ) Then
+			X = Round( X / XSize ) * XSize
+			Y = Round( Y / YSize ) * YSize
+		End If
+	End method
 End Type

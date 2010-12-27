@@ -8,9 +8,11 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTSpriteType Extends LTImage
+Type LTSpriteType Extends LTObject
 	Field Shape:Int
-	Field TypeName:String
+	Field Name:String
+	Field Image:LTImage
+	Field ImageVisualizer:LTImageVisualizer
 	
 	
 	
@@ -18,6 +20,12 @@ Type LTSpriteType Extends LTImage
 		Super.XMLIO( XMLObject )
 	
 		XMLObject.ManageIntAttribute( "shape", Shape )
-		XMLObject.ManageStringAttribute( "typename", TypeName )
+		XMLObject.ManageStringAttribute( "typename", Name )
+		Image = LTImage( XMLObject.ManageObjectField( "image", Image ) )
+		
+		If L_XMLMode = L_XMLGet Then
+			ImageVisualizer = New LTImageVisualizer
+			ImageVisualizer.Image = Image
+		End If
 	End Method
 End Type

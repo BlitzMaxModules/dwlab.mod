@@ -21,12 +21,7 @@ Type LTSprite Extends LTActor
 		
 		If L_XMLMode = L_XMLGet Then
 			Shape = SpriteType.Shape
-			
-			If L_LoadImages Then
-				Local NewVisualizer:LTImageVisualizer = New LTImageVisualizer
-				NewVisualizer.Image = SpriteType
-				Visualizer = NewVisualizer
-			End If
+			Visualizer = SpriteType.ImageVisualizer
 		End If
 	End Method
 End Type

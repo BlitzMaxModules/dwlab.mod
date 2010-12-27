@@ -8,19 +8,20 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+include "LTPage.bmx"
 include "LTSprite.bmx"
 include "LTSpriteType.bmx"
 
 Type LTWorld Extends LTObject
-	Field Tilemap:LTTileMap
+	Field Pages:TList = New TList
 	Field SpriteTypes:TList = New TList
-	Field Sprites:LTList = New LTList
 	
 	
 	
-	Method Draw()
-		If Tilemap Then Tilemap.Draw()
-		Sprites.Draw()
+	Method FindPage:LTPage( PageName:String )
+		For Local Page:LTPage = Eachin Pages
+			If Page.Name = PageName Then Return Page
+		Next
 	End Method
 	
 	' ==================== Saving / loading ====================
@@ -28,8 +29,7 @@ Type LTWorld Extends LTObject
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
-		Tilemap = LTTileMap( XMLObject.ManageObjectField( "tilemap", Tilemap ) )
+		XMLObject.ManageListField( "pages", Pages )
 		XMLObject.ManageListField( "sprite-types", SpriteTypes )
-		Sprites = LTList( XMLObject.ManageObjectField( "sprites", Sprites ) )
 	End Method
 End Type

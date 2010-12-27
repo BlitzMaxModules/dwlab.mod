@@ -176,3 +176,11 @@ Function L_ClearPixmap( Pixmap:TPixmap, Red:Float = 0.0, Green:Float = 0.0, Blue
 	Local Col:Int = Int( 255.0 * Red ) + Int( 255.0 * Green ) Shl 8 + Int( 255.0 * Blue ) Shl 16 + Int( 255.0 * Alpha ) Shl 16
 	Pixmap.ClearPixels( Col )
 End Function
+
+
+
+
+
+Function Round:Float( Value:Float )
+	Return Int( Value + 0.5 * Sgn( Value ) )
+End Function
