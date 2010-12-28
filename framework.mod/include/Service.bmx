@@ -191,3 +191,55 @@ End Function
 Function L_Distance:Float( DX:Float, DY:Float )
 	Return Sqr( DX * DX + DY * DY )
 End Function
+
+
+
+
+
+Function L_GetPrefix:String( Name:String )
+	For Local N:Int = Len( Name ) - 1 To 0 Step - 1
+		If Name[ N ] < Asc( "0" ) Or Name[ N ] > Asc( "9" ) Then Return Name[ ..N + 1 ]
+	Next
+	Return ""
+End Function
+
+
+
+
+
+Function L_GetNumber:Int( Name:String )
+	For Local N:Int = Len( Name ) - 1 To 0 Step - 1
+		If Name[ N ] < Asc( "0" ) Or Name[ N ] > Asc( "9" ) Then Return Name[ N + 1.. ].ToInt()
+	Next
+	Return Name.ToInt()
+End Function
+	
+	
+	
+Function ChopFilename:String( Filename:String )
+	Local Dir:String = CurrentDir()
+	?Win32
+	Local Slash:String = "\"
+	Dir = Dir.Replace( "/", "\" ) + Slash
+	Filename = Filename.Replace( "/", "\" )
+	?Linux
+	Local Slash:String = "/"
+	Dir = Dir + Slash
+	?
+	'debugstop
+	For Local N:Int = 0 Until Len( Dir )
+		If N => Len( Filename ) Then Return Filename
+		If Dir[ N ] <> Filename[ N ] Then
+			If N = 0 Then Return Filename
+			Local SlashPos:Int = N - 1
+			Filename = Filename[ N.. ]
+			Repeat
+				SlashPos = Dir.Find( Slash, SlashPos + 1 )
+				If SlashPos = -1 Then Exit
+				Filename = ".." + Slash + Filename
+			Forever
+			Return Filename
+		End If
+	Next
+	Return Filename[ Len( Dir ).. ]
+End Function

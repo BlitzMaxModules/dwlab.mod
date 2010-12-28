@@ -92,6 +92,12 @@ Type LTList Extends LTObject
 	
 	
 	
+	Method ValueAtIndex:Object( Index:Int )
+		Return Children.ValueAtIndex( Index )
+	End Method
+	
+	
+	
 	Method ObjectEnumerator:TListEnum()
 		Return Children.ObjectEnumerator()
 	End Method

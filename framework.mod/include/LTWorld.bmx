@@ -9,8 +9,6 @@
 '
 
 include "LTPage.bmx"
-include "LTSprite.bmx"
-include "LTSpriteType.bmx"
 
 Type LTWorld Extends LTObject
 	Field Pages:TList = New TList
@@ -29,7 +27,6 @@ Type LTWorld Extends LTObject
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
-		XMLObject.ManageListField( "sprite-types", SpriteTypes )
-		XMLObject.ManageListField( "pages", Pages )
+		XMLObject.ManageChildList( Pages )
 	End Method
 End Type

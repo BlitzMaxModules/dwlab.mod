@@ -12,12 +12,18 @@
 Type LTCreateSprite Extends LTDrag
 	Field StartX:Float
 	Field StartY:Float
-	Field Sprite:LTSprite
+	Field Sprite:LTActor
 	
 	
 	
 	Method DragKey:Int()
-		If MouseDown( 2 ) And MenuChecked( Editor.EditSprites ) And Editor.CurrentSpriteType Then Return True
+		If MouseDown( 2 ) Then Return True
+	End Method
+	
+	
+	
+	Method DraggingConditions:Int()
+		If MenuChecked( Editor.EditSprites ) Then Return True
 	End Method
 	
 	
@@ -26,11 +32,42 @@ Type LTCreateSprite Extends LTDrag
 		L_CurrentCamera.ScreenToField( MouseX(), MouseY(), StartX, StartY )
 		Editor.Grid.Snap( StartX, StartY )
 		
-		Sprite = New LTSprite
-		Sprite.SpriteType = Editor.CurrentSpriteType
-		Sprite.Visualizer = Editor.CurrentSpriteType.ImageVisualizer
+		Local CurrentSprite:LTActor = Editor.CurrentSprite
+		If CurrentSprite Then
+			Sprite = New LTActor
+			Sprite.Shape = CurrentSprite.Shape
+			Sprite.Angle = CurrentSprite.Angle
+			Sprite.Velocity = CurrentSprite.Velocity
+			Sprite.Frame = CurrentSprite.Frame
+		
+			Local CurrentSpriteVisualizer:LTImageVisualizer = LTImageVisualizer( CurrentSprite.Visualizer )
+			Local Visualizer:LTImageVisualizer = New LTImageVisualizer
+			Visualizer.R = CurrentSpriteVisualizer.R
+			Visualizer.G = CurrentSpriteVisualizer.G
+			Visualizer.B = CurrentSpriteVisualizer.B
+			Visualizer.Alpha = CurrentSpriteVisualizer.Alpha
+			Visualizer.XScale = CurrentSpriteVisualizer.XScale
+			Visualizer.Image = CurrentSpriteVisualizer.Image
+			Sprite.Visualizer = Visualizer
+			
+			Local NamePrefix:String = L_GetPrefix( CurrentSprite.GetName() )
+			Local NameNumber:Int = L_GetNumber( CurrentSprite.GetName() )
+			Local SpriteName:String
+			Repeat
+				NameNumber :+ 1
+				SpriteName = NamePrefix + NameNumber
+				If Not FindByName( SpriteName ) Then Exit
+			Forever
+			Sprite.SetName( SpriteName )
+		Else
+			Sprite = New LTActor
+			Sprite.Visualizer = New LTImageVisualizer
+			Sprite.SetName( "Sprite1" )
+		End If
+		
 		Editor.CurrentPage.Sprites.AddLast( Sprite )
 		Editor.SelectSprite( Sprite )
+		Editor.RefreshSpritesList()
 	End Method
 	
 	
@@ -50,6 +87,10 @@ Type LTCreateSprite Extends LTDrag
 	Method EndDragging()
 		If Not Sprite.XSize Or Not Sprite.YSize Then
 			Editor.CurrentPage.Sprites.Remove( Sprite )
+		Else
+			While Not LTImageVisualizer( Sprite.Visualizer ).Image
+				Editor.SpriteImageProperties( Sprite )
+			WEnd
 		End If
 		Editor.SetSpriteModifiers( Sprite )
 	End Method

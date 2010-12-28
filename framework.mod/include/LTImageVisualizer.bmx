@@ -44,14 +44,19 @@ Type LTImageVisualizer Extends LTVisualizer
 			SetRotation( Angle )
 		End If
 		
-		If Scaling Then
-			L_CurrentCamera.SizeFieldToScreen( Actor.XSize, Actor.YSize, SXSize, SYSize )
-			SetScale( XScale * SXSize / ImageWidth( Image.BMaxImage ), YScale * SYSize / ImageHeight( Image.BMaxImage ) )
+		If Image Then
+			If Scaling Then
+				L_CurrentCamera.SizeFieldToScreen( Actor.XSize, Actor.YSize, SXSize, SYSize )
+				SetScale( XScale * SXSize / ImageWidth( Image.BMaxImage ), YScale * SYSize / ImageHeight( Image.BMaxImage ) )
+			Else
+				SetScale XScale, YScale
+			End If
+			
+			DrawImage( Image.BMaxImage, SX, SY, Actor.Frame )
 		Else
-			SetScale XScale, YScale
+			L_CurrentCamera.SizeFieldToScreen( Actor.XSize, Actor.YSize, SXSize, SYSize )
+			DrawRect( SX - 0.5 * SXSize, SY - 0.5 * SYSize, SXSize, SYSize )
 		End If
-		
-		DrawImage( Image.BMaxImage, SX, SY, Actor.Frame )
 		
 		SetScale( 1.0, 1.0 )
 		SetRotation( 0.0 )

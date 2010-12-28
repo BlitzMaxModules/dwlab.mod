@@ -44,6 +44,12 @@ Type LTObject
 		L_ObjectForNameMap.Remove( GetName() )
 		L_NameForObjectMap.Remove( Self )
 	End Method
+	
+	
+	
+	Function FindByName:LTObject( Name:String )
+		Return LTObject( L_ObjectForNameMap.ValueForKey( Name ) )
+	End Function
 
 	' ==================== loading / saving ===================
 

@@ -31,8 +31,8 @@ Type LTImage Extends LTObject
 		Image.Filename = Filename
 		Image.XCells = XCells
 		Image.YCells = YCells
-		Image.Init()
 		L_ImagesList.AddLast( Image )
+		Image.Init()
 		
 		Return Image
 	End Function
@@ -151,6 +151,9 @@ Type LTImage Extends LTObject
 		XMLObject.ManageIntAttribute( "xcells", XCells, 1 )
 		XMLObject.ManageIntAttribute( "ycells", YCells, 1 )
 		
-		If L_XMLMode = L_XMLGet And L_LoadImages Then Init()
+		If L_XMLMode = L_XMLGet Then
+			L_ImagesList.AddLast( Self )
+			If L_LoadImages Then Init()
+		End If
 	End Method
 End Type

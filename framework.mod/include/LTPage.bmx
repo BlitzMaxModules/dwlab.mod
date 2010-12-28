@@ -17,6 +17,6 @@ Type LTPage Extends LTObject
 		
 		XMLObject.ManageStringAttribute( "pagename", Name )
 		TileMap = LTTileMap( XMLObject.ManageObjectField( "tilemap", TileMap ) )
-		Sprites = LTList( XMLObject.ManageObjectField( "sprites", Sprites ) )
+		XMLObject.ManageChildList( Sprites.Children )
 	End Method
 End Type

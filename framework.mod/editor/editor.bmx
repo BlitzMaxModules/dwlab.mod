@@ -26,30 +26,53 @@ Editor.Execute()
 Type LTEditor Extends LTProject
 	Field Window:TGadget
 	Field Canvas:TGadget
-	Field SpriteTypesListBox:TGadget
+	Field SpritesListBox:TGadget
 	Field PagesListBox:TGadget
+	Field Panel:TGadget
+	Field RedField:TGadget
+	Field RedSlider:TGadget
+	Field ShapeBox:TGadget
+	Field XField:TGadget
+	Field YField:TGadget
+	Field WidthField:TGadget
+	Field HeightField:TGadget
+	Field AngleField:TGadget
+	Field VelocityField:TGadget
+	Field GreenSlider:TGadget
+	Field GreenField:TGadget
+	Field BlueSlider:TGadget
+	Field BlueField:TGadget
+	Field AlphaSlider:TGadget
+	Field AlphaField:TGadget
+	Field XScaleField:TGadget
+	Field YScaleField:TGadget
+	Field FrameField:TGadget
+	Field SelectImageButton:TGadget
+	Field SelectColorButton:TGadget
 	
 	Field SnapToGrid:TGadget
 	Field ShowGrid:TGadget
 	Field EditTilemap:TGadget
 	Field EditSprites:TGadget
-	Field Grid:LTGrid = New LTGrid
 	
 	Field World:LTWorld = New LTWorld
 	Field CurrentPage:LTPage
-	Field CurrentSpriteType:LTSpriteType
+	Field CurrentSprite:LTActor
 	Field SelectedSprites:TList = New TList
-	Field WorldFilename:String
-	Field EditorPath:String
+	Field SelectedModifier:LTActor
 	Field ModifiersImage:TImage
 	Field Modifiers:TList = New TList
-	Field MarchingAnts:LTMarchingAnts = New LTMarchingAnts
+	
+	Field WorldFilename:String
+	Field EditorPath:String
+	Field RealPathsForImages:TMap = New TMap
 	
 	Field Cursor:LTActor = New LTActor
 	Field Pan:LTPan = New LTPan
 	Field CreateSprite:LTCreateSprite = New LTCreateSprite
 	Field ModifySprite:LTModifySprite = New LTModifySprite
-	Field Z:Int
+	Field Grid:LTGrid = New LTGrid
+	Field MarchingAnts:LTMarchingAnts = New LTMarchingAnts
 	
 	
 	
@@ -67,8 +90,7 @@ Type LTEditor Extends LTProject
 	Const MenuTilemapSettings:Int = 12
 	Const MenuEditTilemap:Int = 13
 	Const MenuEditSprites:Int = 14
-	Const MenuAddSpriteType:Int = 15
-	Const MenuAddPage:Int = 16
+	Const MenuAddPage:Int = 15
 	
 	
 	
@@ -88,12 +110,60 @@ Type LTEditor Extends LTProject
 	Method Init()
 		Window  = CreateWindow( "", 0, 0, 640, 480 )
 		MaximizeWindow( Window )
-		Canvas = CreateCanvas( 0, 0, ClientWidth( Window ) - 200, ClientHeight( Window ), Window )
+		Local BarSize:Float = ClientHeight( Window ) - 246
+		Canvas = CreateCanvas( 0, 0, ClientWidth( Window ) - 207, ClientHeight( Window ), Window )
 		SetGadgetLayout( Canvas, Edge_Aligned, Edge_Aligned, Edge_Aligned, Edge_Aligned )
-		SpriteTypesListBox = CreateListBox( ClientWidth( Window ) - 200, 0, 200, 0.5 * ClientHeight( Window ), Window )
-		SetGadgetLayout( SpriteTypesListBox, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Relative )
-		PagesListBox = CreateListBox( ClientWidth( Window ) - 200, 0.5 * ClientHeight( Window ), 200, 0.5 * ClientHeight( Window ), Window )
+		SpritesListBox = CreateListBox( ClientWidth( Window ) - 207, 248, 207, 0.7 * BarSize, Window )
+		SetGadgetLayout( SpritesListBox, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Relative )
+		PagesListBox = CreateListBox( ClientWidth( Window ) - 207, 248 + 0.7 * BarSize, 207, 0.3 * BarSize, Window )
 		SetGadgetLayout( PagesListBox, Edge_Centered, Edge_Aligned, Edge_Relative, Edge_Aligned )
+		
+		Panel = CreatePanel( ClientWidth( Window ) - 207, 0, 207, 246, Window, PANEL_RAISED )
+		SetGadgetLayout( Panel, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Centered )
+
+		CreateLabel( "X:", 27, 27, 12, 16, Panel, 0 )
+		CreateLabel( "Y:", 131, 27, 13, 16, Panel, 0 )
+		CreateLabel( "Width:", 6, 51, 33, 16, Panel, 0 )
+		CreateLabel( "Height:", 106, 51, 37, 16, Panel, 0 )
+		CreateLabel( "Shape:", 4, 6, 36, 16, Panel, 0 )
+		ShapeBox = CreateComboBox( 40, 0, 160, 20, Panel )
+		XField = CreateTextField( 40, 24, 56, 20, Panel )
+		YField = CreateTextField( 144, 24, 56, 20, Panel )
+		WidthField = CreateTextField( 40, 48, 56, 20, Panel )
+		HeightField = CreateTextField( 144, 48, 56, 20, Panel )
+		CreateLabel( "Angle:", 6, 75, 34, 16, Panel, 0 )
+		AngleField = CreateTextField( 40, 72, 56, 20, Panel )
+		CreateLabel( "Velocity:", 100, 75, 44, 16, Panel, 0 )
+		VelocityField = CreateTextField( 144, 72, 56, 20, Panel )
+		CreateLabel( "Alpha:", 6, 171, 33, 16, Panel, 0 )
+		CreateLabel( "Red:", 14, 101, 25, 16, Panel, 0 )
+		CreateLabel( "Green:", 4, 123, 35, 16, Panel, 0 )
+		RedField = CreateTextField( 168, 96, 32, 20, Panel )
+		RedSlider = CreateSlider( 40, 100, 120, 20, Panel, SLIDER_TRACKBAR | SLIDER_HORIZONTAL )
+		SetSliderRange( RedSlider, 0, 100 )
+		GreenSlider = CreateSlider( 40, 122, 120, 20, Panel, SLIDER_TRACKBAR | SLIDER_HORIZONTAL )
+		GreenField = CreateTextField( 168, 120, 32, 20, Panel )
+		SetSliderRange( GreenSlider, 0, 100 )
+		CreateLabel( "Blue:", 13, 147, 26, 16, Panel, 0 )
+		BlueSlider = CreateSlider( 40, 146, 120, 20, Panel, SLIDER_TRACKBAR | SLIDER_HORIZONTAL )
+		BlueField = CreateTextField( 168, 144, 32, 20, Panel )
+		SetSliderRange( BlueSlider, 0, 100 )
+		AlphaSlider = CreateSlider( 40, 170, 120, 20, Panel, SLIDER_TRACKBAR | SLIDER_HORIZONTAL )
+		AlphaField = CreateTextField( 168, 168, 32, 20, Panel )
+		SetSliderRange( AlphaSlider, 0, 100 )
+		XScaleField = CreateTextField( 40, 192, 56, 20, Panel )
+		CreateLabel( "XScale:", 2, 196, 37, 16, Panel, 0 )
+		CreateLabel( "YScale:", 106, 195, 37, 16, Panel, 0 )
+		YScaleField = CreateTextField( 144, 192, 56, 20, Panel )
+		CreateLabel( "Frame:", 3, 220, 37, 16, Panel, 0 )
+		FrameField = CreateTextField( 40, 216, 56, 20, Panel )
+		SelectImageButton = CreateButton( "Select image", 104, 216, 96, 24, Panel, BUTTON_PUSH )
+		'SelectColorButton = CreateButton( "Select Color", 104, 246, 96, 24, Panel, BUTTON_PUSH )
+				
+		AddGadgetItem( ShapeBox, "Pivot" )
+		AddGadgetItem( ShapeBox, "Circle" )
+		AddGadgetItem( ShapeBox, "Rectangle" )
+		SelectGadgetItem( ShapeBox, L_Rectangle )
 		
 		Enablepolledinput( Canvas )
 		SetGraphics( CanvasGraphics( Canvas ) )
@@ -122,7 +192,6 @@ Type LTEditor Extends LTProject
 		EditSprites = CreateMenu( "Edit sprites", MenuEditSprites, EditMenu )
 		CreateMenu( "", 0, EditMenu )
 		CreateMenu( "Add page", MenuAddPage, EditMenu )
-		CreateMenu( "Add sprite type", MenuAddSpriteType, EditMenu )
 		CheckMenu( EditSprites )
 		
 		UpdateWindowMenu( Window )
@@ -131,7 +200,7 @@ Type LTEditor Extends LTProject
 		ModifiersImage = LoadAnimImage( "modifiers.png", 16, 16, 0, 10 )
 		MidHandleImage( ModifiersImage )
 		
-		AddPage( "Page 1" )
+		AddPage( "Page1" )
 		
 		EditorPath = CurrentDir()
 		
@@ -150,6 +219,23 @@ Type LTEditor Extends LTProject
 	
 	
 	
+	Method FillSpriteFields()
+		SetGadgetText( XField, CurrentSprite.X )
+		SetGadgetText( YField ,CurrentSprite.Y )
+		SetGadgetText( WidthField, CurrentSprite.XSize )
+		SetGadgetText( HeightField, CurrentSprite.YSize )
+		SetGadgetText( AngleField, CurrentSprite.Angle )
+		SetGadgetText( VelocityField, CurrentSprite.Velocity )
+		SetGadgetText( RedField, CurrentSprite.Visualizer.R )
+		SetGadgetText( GreenField, CurrentSprite.Visualizer.G )
+		SetGadgetText( BlueField, CurrentSprite.Visualizer.B )
+		SetGadgetText( AlphaField, CurrentSprite.Visualizer.Alpha )
+		SetGadgetText( XScaleField, CurrentSprite.Visualizer.XScale )
+		SetGadgetText( YScaleField, CurrentSprite.Visualizer.YScale )
+	End Method
+	
+	
+	
 	Method AddPage( PageName:String )
 		Local Page:LTPage = New LTPage
 		Page.Name = PageName
@@ -163,12 +249,47 @@ Type LTEditor Extends LTProject
 	Method OpenWorld( Filename:String )
 		If Filename Then 
 			If FileType( Filename ) = 0 Then Return
+			
+			L_ImagesList.Clear()
+			
 			WorldFilename = Filename
 			ChangeDir( ExtractDir( Filename ) )
+			
 			World = LTWorld( L_LoadFromFile( Filename ) )
+			
 			CurrentPage = LTPage( World.Pages.First() )
+			CurrentSprite = Null
+			For Local Page:LTPage = Eachin World.Pages
+				For Local Sprite:LTActor = Eachin Page.Sprites
+					CurrentSprite = Sprite
+					Exit
+				Next
+				If CurrentSprite Then Exit
+			Next
+			
+			For Local Image:LTImage = Eachin L_ImagesList
+				RealPathsForImages.Insert( Image, RealPath( Image.Filename ) )
+			Next
+			
+			SelectedSprites.Clear()
 			RefreshPagesList()
-			RefreshSpriteTypesList()
+			RefreshSpritesList()
+		End If
+	End Method
+	
+	
+	
+	Method SaveWorld( Filename:String )
+		If Filename Then 
+			WorldFilename = Filename
+			ChangeDir( ExtractDir( Filename ) )
+			For Local Image:LTImage = Eachin L_ImagesList
+				Debuglog Image.Filename
+				Image.Filename = ChopFilename( String( RealPathsForImages.ValueForKey( Image ) ) )
+				Debuglog Image.Filename
+			Next
+			
+			World.SaveToFile( Filename )
 		End If
 	End Method
 	
@@ -178,9 +299,8 @@ Type LTEditor Extends LTProject
 		PollEvent()
 		Select EventID()
 			Case Event_MouseWheel
-				Z :+ EventData()
 				If Not Modifiers.IsEmpty() Then
-					Local Sprite:LTSprite = LTSprite( SelectedSprites.First() )
+					Local Sprite:LTActor = LTActor( SelectedSprites.First() )
 					SetSpriteModifiers( Sprite )
 				End If
 			Case Event_WindowClose
@@ -190,11 +310,13 @@ Type LTEditor Extends LTProject
 					Case MenuOpen
 						OpenWorld( RequestFile( "Select world file to open...", "DWLab world XML file:xml" ) )
 					Case MenuSave
-						If Not WorldFilename Then WorldFilename = RequestFile( "Select world file name to save...", "DWLab world XML file:xml", True )
-						If WorldFilename Then World.SaveToFile( WorldFilename )
+						If WorldFilename Then
+							SaveWorld( WorldFilename )
+						Else
+							SaveWorld( RequestFile( "Select world file name to save...", "DWLab world XML file:xml", True ) )
+						End If
 					Case MenuSaveAs
-						WorldFilename = RequestFile( "Select world file name to save...", "DWLab world XML file:xml", True )
-						If WorldFilename Then World.SaveToFile( WorldFilename )
+						SaveWorld( RequestFile( "Select world file name to save...", "DWLab world XML file:xml", True ) )
 					Case MenuImportTilemap
 						Local TileXSize:Int, TileYSize:Int
 						ChooseTileSize( TileXSize, TileYSize )
@@ -225,27 +347,19 @@ Type LTEditor Extends LTProject
 						CheckMenu( EditSprites )
 					Case MenuAddPage
 						Local Page:LTPage = New LTPage
-						Page.Name = EnterName()
+						Page.Name = EnterName( "Enter page name:" )
 						If Page.Name Then
 							World.Pages.AddLast( Page )
 							CurrentPage = Page
 							RefreshPagesList()
-						End If
-					Case MenuAddSpriteType
-						Local SpriteType:LTSpriteType = New LTSpriteType
-						SpriteType.ImageVisualizer = New LTImageVisualizer
-						If SpriteTypeProperties( SpriteType ) Then
-							World.SpriteTypes.AddLast( SpriteType )
-							CurrentSpriteType = SpriteType
-							RefreshSpriteTypesList()
 						End If
 					Case MenuExit
 						ExitEditor()
 				End Select
 			Case Event_GadgetAction
 				Select EventSource()
-					Case SpriteTypesListBox
-						SpriteTypeProperties( CurrentSpriteType )
+					Case SpritesListBox
+						SpriteImageProperties( CurrentSprite )
 					Case PagesListBox
 						Local Name:String = EnterName( CurrentPage.Name )
 						If Name Then
@@ -255,9 +369,9 @@ Type LTEditor Extends LTProject
 				End Select
 			Case Event_GadgetSelect
 				Select EventSource()
-					Case SpriteTypesListBox
-						CurrentSpriteType = LTSpriteType( World.SpriteTypes.ValueAtIndex( EventData() ) )
-						RefreshSpriteTypesList()
+					Case SpritesListBox
+						CurrentSprite = LTActor( CurrentPage.Sprites.ValueAtIndex( EventData() ) )
+						RefreshSpritesList()
 					Case PagesListBox
 						CurrentPage = LTPage( World.Pages.ValueAtIndex( EventData() ) )
 						Modifiers.Clear()
@@ -268,12 +382,22 @@ Type LTEditor Extends LTProject
 		
 		Cursor.SetMouseCoords()
 		
+		SelectedModifier = Null
+		For Local Modifier:LTActor = Eachin Modifiers
+			Local MX:Float, MY:Float
+			L_CurrentCamera.FieldToScreen( Modifier.X, Modifier.Y, MX, MY )
+			If MouseX() >= MX - 8 And MouseX() <= MX + 8 And MouseY() >= MY - 8 And MouseY() <= MY + 8 Then
+				SelectedModifier = Modifier
+			End If
+		Next
+
+		
 		Pan.Execute()
 		CreateSprite.Execute()
 		ModifySprite.Execute()
 		
 		If Not ModifySprite.DraggingState And MouseHit( 1 ) And MenuChecked( Editor.EditSprites ) Then
-			For Local Sprite:LTSprite = Eachin Editor.CurrentPage.Sprites
+			For Local Sprite:LTActor = Eachin Editor.CurrentPage.Sprites
 				If Editor.Cursor.CollidesWith( Sprite ) Then Editor.SelectSprite( Sprite )
 			Next
 		End If
@@ -287,8 +411,8 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method EnterName:String( Name:String = "" )
-		Local InputWindow:TGadget = CreateWindow( "Enter page name:", 0.5 * ClientWidth( Window ) - 100, 0.5 * ClientHeight( Window ) - 40, 200, 100, Desktop(), WINDOW_TITLEBAR )
+	Method EnterName:String( Message:String, Name:String = "" )
+		Local InputWindow:TGadget = CreateWindow( Message, 0.5 * ClientWidth( Window ) - 100, 0.5 * ClientHeight( Window ) - 40, 200, 100, Desktop(), WINDOW_TITLEBAR )
 		Local NameField:TGadget = CreateTextField( 8, 8, 180, 20, InputWindow )
 		SetGadgetText( NameField, Name )
 		Local OKButton:TGadget = CreateButton( "OK", 24, 36, 72, 24, InputWindow )
@@ -321,7 +445,7 @@ Type LTEditor Extends LTProject
 		CurrentPage.Draw()
 		if MenuChecked( ShowGrid ) Then Grid.Draw()
 		
-		For Local Sprite:LTSprite = Eachin SelectedSprites
+		For Local Sprite:LTActor = Eachin SelectedSprites
 			Sprite.DrawUsingVisualizer( MarchingAnts )
 		Next
 		
@@ -338,15 +462,17 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method SelectSprite( Sprite:LTSprite )
+	Method SelectSprite( Sprite:LTActor )
 		SelectedSprites.Clear()
 		SelectedSprites.AddLast( Sprite )
 		SetSpriteModifiers( Sprite )
+		CurrentSprite = Sprite
+		FillSpriteFields()
 	End Method
 	
 	
 	
-	Method SetSpriteModifiers( Sprite:LTSprite )
+	Method SetSpriteModifiers( Sprite:LTActor )
 		Modifiers.Clear()
 	
 		Local SXSize:Float, SYSize:Float
@@ -376,7 +502,7 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method AddModifier( Sprite:LTSprite, ModType:Int, DX:Int, DY:Int )
+	Method AddModifier( Sprite:LTActor, ModType:Int, DX:Int, DY:Int )
 		Local Modifier:LTActor = New LTActor
 		Local FDX:Float, FDY:Float
 		L_CurrentCamera.SizeScreenToField( DX, DY, FDX, FDY )
@@ -436,35 +562,6 @@ Type LTEditor Extends LTProject
 		Forever
 		
 		FreeGadget( Settings )
-	End Method
-	
-	
-	
-	Method ChopFilename:String( Filename:String )
-		Local Dir:String = CurrentDir()
-		?Win32
-		Local Slash:String = "\"
-		Dir = Dir.Replace( "/", "\" ) + Slash
-		?Linux
-		Local Slash:String = "/"
-		Dir = Dir + Slash
-		?
-		'debugstop
-		For Local N:Int = 0 Until Len( Dir )
-			If N => Len( Filename ) Then Return Filename
-			If Dir[ N ] <> Filename[ N ] Then
-				If N = 0 Then Return Filename
-				Local SlashPos:Int = N - 1
-				Filename = Filename[ N - 1.. ]
-				Repeat
-					SlashPos = Dir.Find( Slash, SlashPos + 1 )
-					If SlashPos = -1 Then Exit
-					Filename = ".." + Slash + Filename
-				Forever
-				Return Filename
-			End If
-		Next
-		Return Filename[ Len( Dir ).. ]
 	End Method
 	
 	
@@ -542,34 +639,23 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method SpriteTypeProperties:Int( SpriteType:LTSpriteType )
+	Method SpriteImageProperties:Int( Sprite:LTActor )
 		Local EditWindow:TGadget = CreateWindow( "Sprite type properties", 0.5 * ClientWidth( Window ) - 80, 0.5 * ClientHeight( Window ) - 170, 161, 339, Desktop(), WINDOW_TITLEBAR|WINDOW_RESIZABLE )
-		CreateLabel( "Name:", 8, 8, 40, 16, EditWindow, 0 )
-		Local NameTextField:TGadget = CreateTextField( 48, 5, 96, 20, EditWindow )
 		CreateLabel( "Horizontal cells:", 8, 32, 75, 16, EditWindow, 0 )
 		Local XCellsTextField:TGadget = CreateTextField( 88, 29, 56, 20, EditWindow )
 		CreateLabel( "Vertical cells:", 8, 56, 62, 16, EditWindow, 0 )
 		Local YCellsTextField:TGadget = CreateTextField( 88, 53, 56, 20, EditWindow )
-		CreateLabel( "Shape:", 8, 80, 40, 16, EditWindow, 0 )
-		Local ShapeBox:TGadget = CreateComboBox( 50, 77, 94, 20, EditWindow )
 		Local ImageCanvas:TGadget = CreateCanvas( 8, 104, 136, 136, EditWindow )
 		Local LoadImageButton:TGadget = CreateButton( "Load image", 8, 248, 136, 24, EditWindow, BUTTON_PUSH )
 		Local OkButton:TGadget = CreateButton( "OK", 8, 280, 64, 24, EditWindow, BUTTON_PUSH )
 		Local CancelButton:TGadget = CreateButton( "Cancel", 80, 280, 64, 24, EditWindow, BUTTON_PUSH )
 
-		AddGadgetItem( ShapeBox, "Pivot" )
-		AddGadgetItem( ShapeBox, "Circle" )
-		AddGadgetItem( ShapeBox, "Rectangle" )
-		SelectGadgetItem( ShapeBox, L_Rectangle )
-		
-		SetGadgetText( NameTextField, SpriteType.Name )
-	
-		
 		Local Image:TImage
-		If SpriteType.Image Then
-			Image = LoadImage( SpriteType.Image.Filename )
-			SetGadgetText( XCellsTextField, SpriteType.Image.XCells )
-			SetGadgetText( YCellsTextField, SpriteType.Image.YCells )
+		Local SpriteImage:LTImage = LTImageVisualizer( Sprite.Visualizer ).Image
+		If SpriteImage Then
+			Image = LoadImage( SpriteImage.Filename )
+			SetGadgetText( XCellsTextField, SpriteImage.XCells )
+			SetGadgetText( YCellsTextField, SpriteImage.YCells )
 		Else
 			SetGadgetText( XCellsTextField, 1 )
 			SetGadgetText( YCellsTextField, 1 )
@@ -611,22 +697,15 @@ Type LTEditor Extends LTProject
 					Select EventSource()
 						Case LoadImageButton
 							Filename = RequestFile( "Select image..., ". "Image files:png,jpg,bmp" )
-							debugstop
 							Filename = ChopFilename( Filename )
 							If Filename Then Image = LoadImage( Filename ) Else Image = Null
 						Case OKButton
 							If Image And Filename Then
-								Local TypeName:String = TextFieldText( NameTextField )
-								Local Shape:Int = SelectedGadgetItem( ShapeBox )
-								
 								If XCells > 0 And YCells > 0 Then
 									If Image.Width Mod XCells = 0 And Image.Height Mod YCells = 0 Then
-										SpriteType.Name = TypeName
-										SpriteType.Shape = Shape
-										
-										SpriteType.Image = LTImage.FromFile( Filename, XCells, YCells )
-										SpriteType.ImageVisualizer.Image = SpriteType.Image
-										
+										Local NewImage:LTImage = LTImage.FromFile( Filename, XCells, YCells )
+										LTImageVisualizer( Sprite.Visualizer ).Image = NewImage
+										RealPathsForImages.Insert( NewImage, RealPath( Filename ) )
 										FreeGadget( EditWindow )
 										Return True
 									Else
@@ -648,12 +727,12 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method RefreshSpriteTypesList()
-		ClearGadgetItems( SpriteTypesListBox )
-		For Local SpriteType:LTSpriteType = Eachin World.SpriteTypes
-			Local SpriteTypeName:String = SpriteType.Name
-			If SpriteType = CurrentSpriteType Then SpriteTypeName :+ " (current)"
-			AddGadgetItem( SpriteTypesListBox, SpriteTypeName )
+	Method RefreshSpritesList()
+		ClearGadgetItems( SpritesListBox )
+		For Local Sprite:LTActor = Eachin CurrentPage.Sprites
+			Local SpriteName:String = Sprite.GetName()
+			If Sprite = CurrentSprite Then SpriteName :+ " (current)"
+			AddGadgetItem( SpritesListBox, SpriteName )
 		Next
 	End Method
 	

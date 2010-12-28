@@ -12,7 +12,7 @@
 Type LTModifySprite Extends LTDrag
 	Field StartX:Float
 	Field StartY:Float
-	Field Sprite:LTSprite
+	Field Sprite:LTActor
 	Field ModifierType:Int
 	Field MDX:Int, MDY:Int
 	Field LeftSide:Float, RightSide:Float
@@ -23,25 +23,7 @@ Type LTModifySprite Extends LTDrag
 	
 	
 	Method DraggingConditions:Int()
-		If MenuChecked( Editor.EditSprites ) Then
-			If Not Editor.Modifiers.IsEmpty() Then
-				For Local Modifier:LTActor = Eachin Editor.Modifiers
-					Local MX:Float, MY:Float
-					L_CurrentCamera.FieldToScreen( Modifier.X, Modifier.Y, MX, MY )
-					If MouseX() >= MX - 8 And MouseX() <= MX + 8 And MouseY() >= MY - 8 And MouseY() <= MY + 8 Then
-						ModifierType = Modifier.Frame
-						
-						Local SX:Float, SY:Float
-						Sprite = LTSprite( Editor.SelectedSprites.First() )
-						L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX, SY )
-						MDX = Sgn( MX - SX )
-						MDY = Sgn( MY - SY )
-						
-						Return True
-					End If
-				Next
-			End If
-		End If
+		If Editor.SelectedModifier Then Return True
 	End Method
 	
 	
@@ -53,6 +35,11 @@ Type LTModifySprite Extends LTDrag
 	
 	
 	Method StartDragging()
+		ModifierType = Editor.SelectedModifier.Frame
+		Sprite = LTActor( Editor.SelectedSprites.First() )
+		MDX = Sgn( Editor.SelectedModifier.X - Sprite.X )
+		MDY = Sgn( Editor.SelectedModifier.Y - Sprite.Y )
+		
 		L_CurrentCamera.ScreenToField( MouseX(), MouseY(), StartX, StartY )
 		LeftSide = Sprite.X - 0.5 * Sprite.XSize
 		RightSide = Sprite.X + 0.5 * Sprite.XSize
