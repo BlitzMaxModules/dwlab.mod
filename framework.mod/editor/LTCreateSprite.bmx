@@ -42,9 +42,9 @@ Type LTCreateSprite Extends LTDrag
 		
 			Local CurrentSpriteVisualizer:LTImageVisualizer = LTImageVisualizer( CurrentSprite.Visualizer )
 			Local Visualizer:LTImageVisualizer = New LTImageVisualizer
-			Visualizer.R = CurrentSpriteVisualizer.R
-			Visualizer.G = CurrentSpriteVisualizer.G
-			Visualizer.B = CurrentSpriteVisualizer.B
+			Visualizer.Red = CurrentSpriteVisualizer.Red
+			Visualizer.Green = CurrentSpriteVisualizer.Green
+			Visualizer.Blue = CurrentSpriteVisualizer.Blue
 			Visualizer.Alpha = CurrentSpriteVisualizer.Alpha
 			Visualizer.XScale = CurrentSpriteVisualizer.XScale
 			Visualizer.Image = CurrentSpriteVisualizer.Image

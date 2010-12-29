@@ -48,7 +48,7 @@ Type LTEditor Extends LTProject
 	Field YScaleField:TGadget
 	Field FrameField:TGadget
 	Field SelectImageButton:TGadget
-	Field SelectColorButton:TGadget
+	Field HiddenOKButton:TGadget
 	
 	Field SnapToGrid:TGadget
 	Field ShowGrid:TGadget
@@ -62,6 +62,7 @@ Type LTEditor Extends LTProject
 	Field SelectedModifier:LTActor
 	Field ModifiersImage:TImage
 	Field Modifiers:TList = New TList
+	Field ShapeVisualizer:LTFilledPrimitive = New LTFilledPrimitive
 	
 	Field WorldFilename:String
 	Field EditorPath:String
@@ -113,6 +114,7 @@ Type LTEditor Extends LTProject
 		Local BarSize:Float = ClientHeight( Window ) - 246
 		Canvas = CreateCanvas( 0, 0, ClientWidth( Window ) - 207, ClientHeight( Window ), Window )
 		SetGadgetLayout( Canvas, Edge_Aligned, Edge_Aligned, Edge_Aligned, Edge_Aligned )
+		ActivateGadget( Canvas )
 		SpritesListBox = CreateListBox( ClientWidth( Window ) - 207, 248, 207, 0.7 * BarSize, Window )
 		SetGadgetLayout( SpritesListBox, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Relative )
 		PagesListBox = CreateListBox( ClientWidth( Window ) - 207, 248 + 0.7 * BarSize, 207, 0.3 * BarSize, Window )
@@ -159,12 +161,9 @@ Type LTEditor Extends LTProject
 		FrameField = CreateTextField( 40, 216, 56, 20, Panel )
 		SelectImageButton = CreateButton( "Select image", 104, 216, 96, 24, Panel, BUTTON_PUSH )
 		'SelectColorButton = CreateButton( "Select Color", 104, 246, 96, 24, Panel, BUTTON_PUSH )
+		HiddenOKButton = CreateButton( "", 0, 0, 0, 0, Panel, Button_OK )
+		HideGadget( HiddenOKButton )
 				
-		AddGadgetItem( ShapeBox, "Pivot" )
-		AddGadgetItem( ShapeBox, "Circle" )
-		AddGadgetItem( ShapeBox, "Rectangle" )
-		SelectGadgetItem( ShapeBox, L_Rectangle )
-		
 		Enablepolledinput( Canvas )
 		SetGraphics( CanvasGraphics( Canvas ) )
 		InitCamera()
@@ -200,6 +199,10 @@ Type LTEditor Extends LTProject
 		ModifiersImage = LoadAnimImage( "modifiers.png", 16, 16, 0, 10 )
 		MidHandleImage( ModifiersImage )
 		
+		ShapeVisualizer.Green = 0.5
+		ShapeVisualizer.Blue = 0.5
+		ShapeVisualizer.Alpha = 0.4
+		
 		AddPage( "Page1" )
 		
 		EditorPath = CurrentDir()
@@ -220,18 +223,30 @@ Type LTEditor Extends LTProject
 	
 	
 	Method FillSpriteFields()
-		SetGadgetText( XField, CurrentSprite.X )
-		SetGadgetText( YField ,CurrentSprite.Y )
-		SetGadgetText( WidthField, CurrentSprite.XSize )
-		SetGadgetText( HeightField, CurrentSprite.YSize )
-		SetGadgetText( AngleField, CurrentSprite.Angle )
-		SetGadgetText( VelocityField, CurrentSprite.Velocity )
-		SetGadgetText( RedField, CurrentSprite.Visualizer.R )
-		SetGadgetText( GreenField, CurrentSprite.Visualizer.G )
-		SetGadgetText( BlueField, CurrentSprite.Visualizer.B )
-		SetGadgetText( AlphaField, CurrentSprite.Visualizer.Alpha )
-		SetGadgetText( XScaleField, CurrentSprite.Visualizer.XScale )
-		SetGadgetText( YScaleField, CurrentSprite.Visualizer.YScale )
+		SetGadgetText( XField, L_TrimFloat( CurrentSprite.X ) )
+		SetGadgetText( YField ,L_TrimFloat( CurrentSprite.Y ) )
+		SetGadgetText( WidthField, L_TrimFloat( CurrentSprite.XSize ) )
+		SetGadgetText( HeightField, L_TrimFloat( CurrentSprite.YSize ) )
+		SetGadgetText( AngleField, L_TrimFloat( CurrentSprite.Angle ) )
+		SetGadgetText( VelocityField, L_TrimFloat( CurrentSprite.Velocity ) )
+		SetGadgetText( FrameField, CurrentSprite.Frame )
+		SetGadgetText( RedField, L_TrimFloat( CurrentSprite.Visualizer.Red ) )
+		SetGadgetText( GreenField, L_TrimFloat( CurrentSprite.Visualizer.Green ) )
+		SetGadgetText( BlueField, L_TrimFloat( CurrentSprite.Visualizer.Blue ) )
+		SetGadgetText( AlphaField, L_TrimFloat( CurrentSprite.Visualizer.Alpha ) )
+		SetGadgetText( XScaleField, L_TrimFloat( CurrentSprite.Visualizer.XScale ) )
+		SetGadgetText( YScaleField, L_TrimFloat( CurrentSprite.Visualizer.YScale ) )
+		
+		SetSliderValue( RedSlider, 100.0 * CurrentSprite.Visualizer.Red )
+		SetSliderValue( GreenSlider, 100.0 * CurrentSprite.Visualizer.Green )
+		SetSliderValue( BlueSlider, 100.0 * CurrentSprite.Visualizer.Blue )
+		SetSliderValue( AlphaSlider, 100.0 * CurrentSprite.Visualizer.Alpha )
+		
+		ClearGadgetItems( ShapeBox )
+		AddGadgetItem( ShapeBox, "Pivot" )
+		AddGadgetItem( ShapeBox, "Circle" )
+		AddGadgetItem( ShapeBox, "Rectangle" )
+		SelectGadgetItem( ShapeBox, CurrentSprite.Shape )
 	End Method
 	
 	
@@ -298,6 +313,15 @@ Type LTEditor Extends LTProject
 	Method Logic()
 		PollEvent()
 		Select EventID()
+			Case Event_KeyDown
+				If EventData() = Key_Delete Then
+					For Local Sprite:LTActor = Eachin SelectedSprites
+						CurrentPage.Sprites.Remove( Sprite )
+					Next
+					RefreshSpritesList()
+					SelectedSprites.Clear()
+					Modifiers.Clear()
+				End If
 			Case Event_MouseWheel
 				If Not Modifiers.IsEmpty() Then
 					Local Sprite:LTActor = LTActor( SelectedSprites.First() )
@@ -359,14 +383,86 @@ Type LTEditor Extends LTProject
 			Case Event_GadgetAction
 				Select EventSource()
 					Case SpritesListBox
-						SpriteImageProperties( CurrentSprite )
+						Local Name:String = EnterName( "Enter name of sprite", CurrentSprite.GetName() )
+						If Name Then
+							CurrentSprite.SetName( Name )
+							RefreshSpritesList()
+						End If
 					Case PagesListBox
-						Local Name:String = EnterName( CurrentPage.Name )
+						Local Name:String = EnterName( "Enter name of page", CurrentPage.Name )
 						If Name Then
 							CurrentPage.Name = Name
 							RefreshPagesList()
 						End If
+					Case SelectImageButton
+						If Not SelectedSprites.IsEmpty() Then
+							Local FirstSprite:LTActor = LTActor( SelectedSprites.First() )
+							SpriteImageProperties( FirstSprite )
+							For Local Sprite:LTActor = Eachin SelectedSprites
+								LTImageVisualizer( Sprite.Visualizer ).Image = LTImageVisualizer( FirstSprite.Visualizer ).Image
+							Next
+						End If
 				End Select
+				
+				For Local Sprite:LTActor = Eachin SelectedSprites
+					Select EventSource()
+						Case HiddenOKButton
+							Select ActiveGadget()
+								Case XField
+									Sprite.X = TextFieldText( XField ).ToFloat()
+									SetSpriteModifiers( Sprite )
+								Case YField
+									Sprite.Y = TextFieldText( YField ).ToFloat()
+									SetSpriteModifiers( Sprite )
+								Case WidthField
+									Sprite.XSize = TextFieldText( WidthField ).ToFloat()
+									SetSpriteModifiers( Sprite )
+								Case HeightField
+									Sprite.YSize = TextFieldText( HeightField ).ToFloat()
+									SetSpriteModifiers( Sprite )
+								Case AngleField
+									Sprite.Angle = TextFieldText( AngleField ).ToFloat()
+								Case VelocityField
+									Sprite.Velocity = TextFieldText( VelocityField ).ToFloat()
+								Case RedField
+									Sprite.Visualizer.Red = TextFieldText( RedField ).ToFloat()
+									SetSliderValue( RedSlider, 0.01 * Sprite.Visualizer.Red )
+								Case GreenField
+									Sprite.Visualizer.Green = TextFieldText( GreenField ).ToFloat()
+									SetSliderValue( GreenSlider, 0.01 * Sprite.Visualizer.Green )
+								Case BlueField
+									Sprite.Visualizer.Blue = TextFieldText( BlueField ).ToFloat()
+									SetSliderValue( BlueSlider, 0.01 * Sprite.Visualizer.Blue )
+								Case AlphaField
+									Sprite.Visualizer.Alpha = TextFieldText( AlphaField ).ToFloat()
+									SetSliderValue( AlphaSlider, 0.01 * Sprite.Visualizer.Alpha )
+								Case XScaleField
+									Sprite.Visualizer.XScale = TextFieldText( XScaleField ).ToFloat()
+								Case YScaleField
+									Sprite.Visualizer.YScale = TextFieldText( YScaleField ).ToFloat()
+								Case FrameField
+									Local Image:LTImage = LTImageVisualizer( Sprite.Visualizer ).Image
+									If Image Then
+										Sprite.Frame = L_LimitInt( TextFieldText( FrameField ).ToInt(), 0, Image.BMaxImage.frames.Dimensions()[ 0 ] - 1 )
+										SetGadgetText( FrameField, Sprite.Frame )
+									End If
+							End Select
+						Case RedSlider
+							Sprite.Visualizer.Red = 0.01 * SliderValue( RedSlider )
+							SetGadgetText( RedField, Sprite.Visualizer.Red )
+						Case GreenSlider
+							Sprite.Visualizer.Green = 0.01 * SliderValue( GreenSlider )
+							SetGadgetText( GreenField, Sprite.Visualizer.Green )
+						Case BlueSlider
+							Sprite.Visualizer.Blue = 0.01 * SliderValue( BlueSlider )
+							SetGadgetText( BlueField, Sprite.Visualizer.Blue )
+						Case AlphaSlider
+							Sprite.Visualizer.Alpha = 0.01 * SliderValue( AlphaSlider )
+							SetGadgetText( AlphaField, Sprite.Visualizer.Alpha )
+						Case ShapeBox
+							Sprite.Shape = SelectedGadgetItem( ShapeBox )
+					End Select
+				Next
 			Case Event_GadgetSelect
 				Select EventSource()
 					Case SpritesListBox
@@ -391,7 +487,6 @@ Type LTEditor Extends LTProject
 			End If
 		Next
 
-		
 		Pan.Execute()
 		CreateSprite.Execute()
 		ModifySprite.Execute()
@@ -415,8 +510,9 @@ Type LTEditor Extends LTProject
 		Local InputWindow:TGadget = CreateWindow( Message, 0.5 * ClientWidth( Window ) - 100, 0.5 * ClientHeight( Window ) - 40, 200, 100, Desktop(), WINDOW_TITLEBAR )
 		Local NameField:TGadget = CreateTextField( 8, 8, 180, 20, InputWindow )
 		SetGadgetText( NameField, Name )
-		Local OKButton:TGadget = CreateButton( "OK", 24, 36, 72, 24, InputWindow )
-		Local CancelButton:TGadget = CreateButton( "Cancel", 104, 36, 72, 24, InputWindow )
+		ActivateGadget( NameField )
+		Local OKButton:TGadget = CreateButton( "OK", 24, 36, 72, 24, InputWindow, Button_OK )
+		Local CancelButton:TGadget = CreateButton( "Cancel", 104, 36, 72, 24, InputWindow, Button_Cancel )
 		Repeat
 			WaitEvent()
 			Select EventID()
@@ -442,7 +538,13 @@ Type LTEditor Extends LTProject
 		L_CurrentCamera.Viewport.Y = 0.5 * Canvas.GetHeight()
 		L_CurrentCamera.Viewport.XSize = Canvas.GetWidth()
 		L_CurrentCamera.Viewport.YSize = Canvas.GetHeight()
-		CurrentPage.Draw()
+		
+		CurrentPage.TileMap.Draw()
+		For Local Sprite:LTActor = Eachin CurrentPage.Sprites
+			Sprite.Draw()
+			Sprite.DrawUsingVisualizer( ShapeVisualizer )
+		Next
+		
 		if MenuChecked( ShowGrid ) Then Grid.Draw()
 		
 		For Local Sprite:LTActor = Eachin SelectedSprites

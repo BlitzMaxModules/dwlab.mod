@@ -11,7 +11,7 @@
 
 Type LTMarchingAnts Extends LTVisualizer
 	Method DrawUsingActor( Actor:LTActor )
-		SetColor( 255.0 * R, 255.0 * G, 255.0 * B )
+		SetColor( 255.0 * Red, 255.0 * Green, 255.0 * Blue )
 		SetAlpha( Alpha )
 		
 		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float

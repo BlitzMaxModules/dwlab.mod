@@ -55,12 +55,12 @@ Type LTObject
 
 	Method XMLIO( XMLObject:LTXMLObject )
 		If L_XMLMode = L_XMLGet Then
-			Local Name:String = GetName()
-			If Name Then XMLObject.SetAttribute( "name", Name )
-		Else
-			XMLObject.Name = TTypeId.ForObject( Self ).Name()
 			Local Name:String = XMLObject.GetAttribute( "name" )
 			If Name Then SetName( Name )
+		Else
+			XMLObject.Name = TTypeId.ForObject( Self ).Name()
+			Local Name:String = GetName()
+			If Name Then XMLObject.SetAttribute( "name", Name )
 		End If
 	End Method
 

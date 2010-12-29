@@ -12,13 +12,21 @@ Global L_DefaultVisualizer:LTFilledPrimitive = New LTFilledPrimitive
 
 Type LTFilledPrimitive Extends LTVisualizer
 	Method DrawUsingActor( Actor:LTActor )
-		SetColor( 255.0 * R, 255.0 * G, 255.0 * B )
+		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
 		SetAlpha( Alpha )
 		
 		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
 		L_CurrentCamera.FieldToScreen( Actor.X, Actor.Y, SX, SY )
 		L_CurrentCamera.SizeFieldToScreen( Actor.XSize * XScale, Actor.YSize * YScale, SXSize, SYSize )
-		DrawRect( SX - 0.5 * SXSize, SY - 0.5 * SYSize, SXSize, SYSize )
+		
+		Select Actor.Shape
+			Case L_Pivot
+				DrawOval( SX - 2, SY - 2, 5, 5 )
+			Case L_Circle
+				DrawOval( SX - 0.5 * SXSize, SY - 0.5 * SYSize, SXSize, SYSize )
+			Case L_Rectangle
+				DrawRect( SX - 0.5 * SXSize, SY - 0.5 * SYSize, SXSize, SYSize )
+		End Select
 		
 		SetColor( 255, 255, 255 )
 		SetAlpha( 1.0 )
@@ -27,7 +35,7 @@ Type LTFilledPrimitive Extends LTVisualizer
 	
 	
 	Method DrawUsingLine( Line:LTLine )
-		SetColor( 255.0 * R, 255.0 * G, 255.0 * B )
+		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
 		SetAlpha( Alpha )
 		
 		Local SX1:Float, SY1:Float, SX2:Float, SY2:Float

@@ -14,7 +14,7 @@ Type LTEmptyPrimitive Extends LTVisualizer
 	
 	
 	Method DrawUsingActor( Actor:LTActor )
-		SetColor( 255.0 * R, 255.0 * G, 255.0 * B )
+		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
 		SetAlpha( Alpha )
 		SetProperLineWidth()
 		
@@ -31,7 +31,7 @@ Type LTEmptyPrimitive Extends LTVisualizer
 	
 	
 	Method DrawUsingLine( Line:LTLine )
-		SetColor( 255.0 * R, 255.0 * G, 255.0 * B )
+		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
 		SetAlpha( Alpha )
 		SetProperLineWidth()
 		
