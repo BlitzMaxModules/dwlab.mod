@@ -41,13 +41,13 @@ Type LTGrid Extends LTActiveObject
 	
 	
 	Method SnapX:Float( X:Float )
-		If MenuChecked( Editor.SnapToGrid ) Then Return Round( X / XSize ) * XSize Else Return X
+		If MenuChecked( Editor.SnapToGrid ) Then Return L_Round( X / XSize ) * XSize Else Return X
 	End Method
 	
 	
 	
 	Method SnapY:Float( Y:Float )
-		If MenuChecked( Editor.SnapToGrid ) Then Return Round( Y / YSize ) * YSize Else Return Y
+		If MenuChecked( Editor.SnapToGrid ) Then Return L_Round( Y / YSize ) * YSize Else Return Y
 	End method
 	
 	
@@ -107,12 +107,12 @@ Type LTGrid Extends LTActiveObject
 	
 	
 	Method DXSnap:Float( Coord:Float )
-		Return XSize * Round( Coord / XSize ) - Coord
+		Return XSize * L_Round( Coord / XSize ) - Coord
 	End Method
 	
 	
 	
 	Method DYSnap:Float( Coord:Float )
-		Return YSize * Round( Coord / YSize ) - Coord
+		Return YSize * L_Round( Coord / YSize ) - Coord
 	End Method
 End Type

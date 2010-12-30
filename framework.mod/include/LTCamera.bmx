@@ -116,22 +116,34 @@ Type LTCamera Extends LTActor
 		DX = Viewport.X / XK - X
 		DY = Viewport.Y/ YK - Y
 	End Method
+	
+	
+	
+	Function Create:LTCamera( Width:Float, Height:Float, WidthInUnits:Float = 8 )
+		Local Camera:LTCamera = New LTCamera
+		Camera.XSize = 32.0
+		Camera.YSize = 32.0 * Height / Width
+		Camera.Viewport.XSize = Width
+		Camera.Viewport.YSize = Height
+		Camera.Viewport.X = 0.5 * Width
+		Camera.Viewport.Y = 0.5 * Height
+		Camera.Update()
+		
+		Return Camera
+	End Function
 End Type
 
 
 
+Function InitGraphics( Width:Int = 800, Height:Int = 600 )
+	Graphics( Width, Height )
+	L_CurrentCamera = LTCamera.Create( Width, Height, 32.0 )
+	SetGraphicsParameters()
+End Function
 
 
-Function InitCamera()
-	L_CurrentCamera = New LTCamera
-	L_CurrentCamera.XSize = 32.0
-	L_CurrentCamera.YSize = 32.0 * GraphicsHeight() / GraphicsWidth()
-	L_CurrentCamera.Viewport.XSize = GraphicsWidth()
-	L_CurrentCamera.Viewport.YSize = GraphicsHeight()
-	L_CurrentCamera.Viewport.X = 0.5 * GraphicsWidth()
-	L_CurrentCamera.Viewport.Y = 0.5 * GraphicsHeight()
-	L_CurrentCamera.Update()
-	
+
+Function SetGraphicsParameters()
 	AutoImageFlags( FILTEREDIMAGE | DYNAMICIMAGE )
 	SetBlend( AlphaBlend )
 End Function

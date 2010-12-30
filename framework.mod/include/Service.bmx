@@ -181,7 +181,7 @@ End Function
 
 
 
-Function Round:Float( Value:Float )
+Function L_Round:Float( Value:Float )
 	Return Int( Value + 0.5 * Sgn( Value ) )
 End Function
 
@@ -213,6 +213,8 @@ Function L_GetNumber:Int( Name:String )
 	Next
 	Return Name.ToInt()
 End Function
+
+
 	
 	
 	

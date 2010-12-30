@@ -144,6 +144,12 @@ Type LTImage Extends LTObject
 	
 	
 	
+	Method FramesQuantity:Int()
+		Return BMaxImage.frames.Dimensions()[ 0 ]
+	End Method
+	
+	
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		

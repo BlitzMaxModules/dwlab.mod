@@ -19,13 +19,24 @@ include "LTCreateSprite.bmx"
 include "LTModifySprite.bmx"
 include "LTGrid.bmx"
 include "LTMarchingAnts.bmx"
+include "LTSetTile.bmx"
 
 Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
 	Field Window:TGadget
-	Field Canvas:TGadget
+	
+	Field MainCanvas:TGadget
+	Field MainCamera:LTCamera = New LTCamera
+	Field MainCanvasZ:Int
+	
+	Field TilesetCanvas:TGadget
+	Field TilesetCamera:LTCamera = New LTCamera
+	Field TilesetCanvasZ:Int
+	
+	Field MouseIsOver:TGadget
+	
 	Field SpritesListBox:TGadget
 	Field PagesListBox:TGadget
 	Field Panel:TGadget
@@ -64,6 +75,10 @@ Type LTEditor Extends LTProject
 	Field Modifiers:TList = New TList
 	Field ShapeVisualizer:LTFilledPrimitive = New LTFilledPrimitive
 	
+	Field SelectedTile:LTActor = New LTActor
+	Field TileX:Int, TileY:Int, TileNum:Int[] = New Int[ 2 ]
+	Field TilesInRow:Int
+	
 	Field WorldFilename:String
 	Field EditorPath:String
 	Field RealPathsForImages:TMap = New TMap
@@ -72,6 +87,7 @@ Type LTEditor Extends LTProject
 	Field Pan:LTPan = New LTPan
 	Field CreateSprite:LTCreateSprite = New LTCreateSprite
 	Field ModifySprite:LTModifySprite = New LTModifySprite
+	Field SetTile:LTSetTile = New LTSetTile
 	Field Grid:LTGrid = New LTGrid
 	Field MarchingAnts:LTMarchingAnts = New LTMarchingAnts
 	
@@ -109,17 +125,17 @@ Type LTEditor Extends LTProject
 	
 	
 	Method Init()
-		Window  = CreateWindow( "", 0, 0, 640, 480 )
+		Window  = CreateWindow( "Digital Wizard's Lab world editor", 0, 0, 640, 480 )
 		MaximizeWindow( Window )
 		Local BarSize:Float = ClientHeight( Window ) - 246
-		Canvas = CreateCanvas( 0, 0, ClientWidth( Window ) - 207, ClientHeight( Window ), Window )
-		SetGadgetLayout( Canvas, Edge_Aligned, Edge_Aligned, Edge_Aligned, Edge_Aligned )
-		ActivateGadget( Canvas )
+		MainCanvas = CreateCanvas( 0, 0, ClientWidth( Window ) - 207, ClientHeight( Window ), Window )
+		SetGadgetLayout( MainCanvas, Edge_Aligned, Edge_Aligned, Edge_Aligned, Edge_Aligned )
+		TilesetCanvas = CreateCanvas( ClientWidth( Window ) - 207, 0, 207, 246 + 0.7 * BarSize, Window )
+		SetGadgetLayout( TilesetCanvas, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Relative )
 		SpritesListBox = CreateListBox( ClientWidth( Window ) - 207, 248, 207, 0.7 * BarSize, Window )
 		SetGadgetLayout( SpritesListBox, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Relative )
 		PagesListBox = CreateListBox( ClientWidth( Window ) - 207, 248 + 0.7 * BarSize, 207, 0.3 * BarSize, Window )
 		SetGadgetLayout( PagesListBox, Edge_Centered, Edge_Aligned, Edge_Relative, Edge_Aligned )
-		
 		Panel = CreatePanel( ClientWidth( Window ) - 207, 0, 207, 246, Window, PANEL_RAISED )
 		SetGadgetLayout( Panel, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Centered )
 
@@ -164,9 +180,12 @@ Type LTEditor Extends LTProject
 		HiddenOKButton = CreateButton( "", 0, 0, 0, 0, Panel, Button_OK )
 		HideGadget( HiddenOKButton )
 				
-		Enablepolledinput( Canvas )
-		SetGraphics( CanvasGraphics( Canvas ) )
-		InitCamera()
+		MainCamera = LTCamera.Create( GadgetWidth( MainCanvas ), GadgetHeight( MainCanvas ), 32.0 )
+		TilesetCamera = LTCamera.Create( GadgetWidth( TilesetCanvas ), GadgetHeight( TilesetCanvas ), 8.0 )
+		L_CurrentCamera = MainCamera
+		
+		SetGraphics( CanvasGraphics( MainCanvas ) )
+		SetGraphicsParameters()
 		
 		Local FileMenu:TGadget = CreateMenu( "File", 0, WindowMenu( Window ) )
 		CreateMenu( "New", MenuNew, FileMenu )
@@ -203,6 +222,8 @@ Type LTEditor Extends LTProject
 		ShapeVisualizer.Blue = 0.5
 		ShapeVisualizer.Alpha = 0.4
 		
+		SelectedTile.Visualizer = New LTMarchingAnts
+		
 		AddPage( "Page1" )
 		
 		EditorPath = CurrentDir()
@@ -214,7 +235,14 @@ Type LTEditor Extends LTProject
 			
 			If ReadLine( IniFile ) = "ShowGrid" Then CheckMenu( ShowGrid )
 			If ReadLine( IniFile ) = "SnapToGrid" Then CheckMenu( SnapToGrid )
-			If ReadLine( IniFile ) = "EditSprites" Then CheckMenu( EditSprites ) Else CheckMenu( EditTilemap )
+			
+			If ReadLine( IniFile ) = "EditSprites" Then
+				CheckMenu( EditSprites )
+				UncheckMenu( EditTilemap )
+			Else
+				CheckMenu( EditTilemap )
+				UncheckMenu( EditSprites )
+			End If
 			
 			CloseFile( IniFile )
 		End If
@@ -327,8 +355,26 @@ Type LTEditor Extends LTProject
 					Local Sprite:LTActor = LTActor( SelectedSprites.First() )
 					SetSpriteModifiers( Sprite )
 				End If
+				If MouseIsOver = MainCanvas Then
+					MainCanvasZ :+ EventData()
+				Else
+					TilesetCanvasZ :+ EventData()
+				End If
 			Case Event_WindowClose
 				ExitEditor()
+			Case Event_MouseEnter
+				Select EventSource()
+					Case MainCanvas
+						ActivateGadget( MainCanvas )
+						DisablePolledInput()
+						EnablePolledInput( MainCanvas )
+						MouseIsOver = MainCanvas
+					Case TilesetCanvas
+						ActivateGadget( TilesetCanvas )
+						DisablePolledInput()
+						EnablePolledInput( TilesetCanvas )
+						MouseIsOver = TilesetCanvas
+				End Select
 			Case Event_MenuAction
 				Select EventData()
 					Case MenuOpen
@@ -476,6 +522,22 @@ Type LTEditor Extends LTProject
 				End Select
 		End Select
 		
+		If MenuChecked( EditTilemap ) Then
+			EnableGadget( TilesetCanvas )
+			ShowGadget( TilesetCanvas )
+			DisableGadget( Panel )
+			HideGadget( Panel )
+			DisableGadget( SpritesListBox )
+			HideGadget( SpritesListBox )
+		Else
+			DisableGadget( TilesetCanvas )
+			HideGadget( TilesetCanvas )
+			EnableGadget( Panel )
+			ShowGadget( Panel )
+			EnableGadget( SpritesListBox )
+			ShowGadget( SpritesListBox )
+		End If
+		
 		Cursor.SetMouseCoords()
 		
 		SelectedModifier = Null
@@ -486,23 +548,55 @@ Type LTEditor Extends LTProject
 				SelectedModifier = Modifier
 			End If
 		Next
-
-		Pan.Execute()
-		CreateSprite.Execute()
-		ModifySprite.Execute()
 		
-		If Not ModifySprite.DraggingState And MouseHit( 1 ) And MenuChecked( Editor.EditSprites ) Then
-			For Local Sprite:LTActor = Eachin Editor.CurrentPage.Sprites
-				If Editor.Cursor.CollidesWith( Sprite ) Then Editor.SelectSprite( Sprite )
-			Next
+		If MenuChecked( EditTilemap ) Then
+			If CurrentPage.TileMap Then
+				Local MX:Float, MY:Float
+				L_CurrentCamera.ScreenToField( MouseX(), MouseY(), MX, MY )
+				TileX = L_LimitInt( Floor( MX ), 0, CurrentPage.Tilemap.FrameMap.XQuantity )
+				TileY = L_LimitInt( Floor( MY ), 0, CurrentPage.Tilemap.FrameMap.YQuantity )
+				Local Image:LTImage = LTImageVisualizer( CurrentPage.Tilemap.Visualizer ).Image
+				If Image then
+					Local FXSize:Float, FYSize:Float
+					TilesetCamera.SizeScreenToField( GadgetWidth( TilesetCanvas ), 0, FXSize, FYSize )
+					TilesInRow = Max( 1, Min( Image.FramesQuantity(), Floor( FXSize ) ) )
+					
+					If MouseIsOver = TilesetCanvas Then
+						Local FX:Float, FY:Float
+						TilesetCamera.ScreenToField( MouseX(), MouseY(), FX, FY )
+						Local TileNumUnderCursor:Int = Floor( FX ) + TilesInRow * Floor( FY )
+						If MouseDown( 1 ) Then TileNum[ 0 ] = TileNumUnderCursor
+						If MouseDown( 2 ) Then TileNum[ 1 ] = TileNumUnderCursor
+					End If
+				End If
+			End If
+			
+			SetTile.Execute()
+		Else
+			If Not ModifySprite.DraggingState And MouseHit( 1 ) Then
+				For Local Sprite:LTActor = Eachin Editor.CurrentPage.Sprites
+					If Editor.Cursor.CollidesWith( Sprite ) Then Editor.SelectSprite( Sprite )
+				Next
+			End If
+			
+			CreateSprite.Execute()
+			ModifySprite.Execute()
 		End If
 		
-		Local NewD:Float = 1.0 * GraphicsWidth() / 32.0 * ( 1.1 ^ MouseZ() )
-		L_CurrentCamera.SetMagnification( NewD, NewD )
+		Pan.Execute()
+		
+		SetCameraMagnification( MainCamera, MainCanvas, MainCanvasZ, 32.0 )
+		SetCameraMagnification( TilesetCamera, TilesetCanvas, TilesetCanvasZ, 8.0 )
 		
 		If CurrentPage.Tilemap Then L_CurrentCamera.LimitWith( CurrentPage.Tilemap )
 	End Method
 	
+	
+	
+	Method SetCameraMagnification( Camera:LTCamera, Canvas:TGadget, Z:Int, Width:Int )
+		Local NewD:Float = 1.0 * GadgetWidth( Canvas ) / Width * ( 1.1 ^ Z )
+		Camera.SetMagnification( NewD, NewD )
+	End Method
 	
 	
 	
@@ -533,13 +627,61 @@ Type LTEditor Extends LTProject
 	
 	
 	Method Render()
-		Cls
-		L_CurrentCamera.Viewport.X = 0.5 * Canvas.GetWidth()
-		L_CurrentCamera.Viewport.Y = 0.5 * Canvas.GetHeight()
-		L_CurrentCamera.Viewport.XSize = Canvas.GetWidth()
-		L_CurrentCamera.Viewport.YSize = Canvas.GetHeight()
+		If MenuChecked( EditTilemap ) And CurrentPage.TileMap Then
+			SelectedTile.X = 0.5 + TileX
+			SelectedTile.Y = 0.5 + TileY
+			SelectedTile.Draw()
+			
+			TilesetCamera.Viewport.X = 0.5 * TilesetCanvas.GetWidth()
+			TilesetCamera.Viewport.Y = 0.5 * TilesetCanvas.GetHeight()
+			TilesetCamera.Viewport.XSize = TilesetCanvas.GetWidth()
+			TilesetCamera.Viewport.YSize = TilesetCanvas.GetHeight()
+			
+			SetGraphics( CanvasGraphics( TilesetCanvas ) )
+			Cls
+			
+			Local Image:LTImage = LTImageVisualizer( CurrentPage.Tilemap.Visualizer ).Image
+			If Image Then
+				TilesetCamera.X = 0.5 * TilesInRow
+				TilesetCamera.Y = 0.5 * Ceil( Image.FramesQuantity() / TilesInRow )
+				TilesetCamera.Update()
+			
+				Local TileXSize:Float, TileYSize:Float
+				TilesetCamera.SizeFieldToScreen( 1.0, 1.0, TileXSize, TileYSize )
+				SetScale( TileXSize / Image.BMaxImage.Width, TileYSize / Image.BMaxImage.Height )
+				'debugstop
+				For Local Frame:Int = 0 Until Image.FramesQuantity()
+					Local SX:Float, SY:Float
+					TilesetCamera.FieldToScreen( 0.5 + Frame Mod TilesInRow, 0.5 + Floor( Frame / TilesInRow ), SX, SY )
+					DrawImage( Image.BMaxImage, SX, SY, Frame )
+				Next
+				
+				SetScale( 1.0, 1.0 )
+				
+				L_CurrentCamera = TilesetCamera
+				
+				For Local N:Int = 0 To 1
+					SelectedTile.X = 0.5 + TileNum[ N ] Mod TilesInRow
+					SelectedTile.Y = 0.5 + Floor( TileNum[ N ] / TilesInRow )
+					SelectedTile.Draw()
+				Next
+				
+				L_CurrentCamera = MainCamera
+			End If
+			
+			Flip
+			
+			SetGraphics( CanvasGraphics( MainCanvas ) )
+		End If
 		
-		CurrentPage.TileMap.Draw()
+		Cls
+		MainCamera.Viewport.X = 0.5 * MainCanvas.GetWidth()
+		MainCamera.Viewport.Y = 0.5 * MainCanvas.GetHeight()
+		MainCamera.Viewport.XSize = MainCanvas.GetWidth()
+		MainCamera.Viewport.YSize = MainCanvas.GetHeight()
+		
+		If CurrentPage.TileMap Then CurrentPage.TileMap.Draw()
+		
 		For Local Sprite:LTActor = Eachin CurrentPage.Sprites
 			Sprite.Draw()
 			Sprite.DrawUsingVisualizer( ShapeVisualizer )
@@ -547,19 +689,31 @@ Type LTEditor Extends LTProject
 		
 		if MenuChecked( ShowGrid ) Then Grid.Draw()
 		
-		For Local Sprite:LTActor = Eachin SelectedSprites
-			Sprite.DrawUsingVisualizer( MarchingAnts )
-		Next
-		
-		If Not ModifySprite.DraggingState And Not CreateSprite.DraggingState Then
-			SetAlpha( 0.75 )
-			For Local Modifier:LTActor = Eachin Modifiers
-				Local X:Float, Y:Float
-				L_CurrentCamera.FieldToScreen( Modifier.X, Modifier.Y, X, Y )
-				DrawImage( ModifiersImage, X, Y, Modifier.Frame )
+		If MenuChecked( EditTilemap ) Then
+			If CurrentPage.TileMap Then
+				If MouseIsOver = MainCanvas Then
+					SelectedTile.X = 0.5 + TileX
+					SelectedTile.Y = 0.5 + TileY
+					SelectedTile.Draw()
+				End If
+			End If
+		Else
+			For Local Sprite:LTActor = Eachin SelectedSprites
+				Sprite.DrawUsingVisualizer( MarchingAnts )
 			Next
-			SetAlpha( 1.0 )
+			
+			If Not ModifySprite.DraggingState And Not CreateSprite.DraggingState Then
+				SetAlpha( 0.75 )
+				For Local Modifier:LTActor = Eachin Modifiers
+					Local X:Float, Y:Float
+					L_CurrentCamera.FieldToScreen( Modifier.X, Modifier.Y, X, Y )
+					DrawImage( ModifiersImage, X, Y, Modifier.Frame )
+				Next
+				SetAlpha( 1.0 )
+			End If
 		End If
+		
+		DrawText( MouseX() + ", " + MouseY(), 0, 0 )
 	End Method
 	
 	
@@ -790,7 +944,7 @@ Type LTEditor Extends LTProject
 				End If
 				
 				Flip
-				SetGraphics( CanvasGraphics( Canvas ) )
+				SetGraphics( CanvasGraphics( MainCanvas ) )
 			End If
 			
 			PollEvent()
