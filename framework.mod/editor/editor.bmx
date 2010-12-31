@@ -97,14 +97,13 @@ Type LTEditor Extends LTProject
 	Const MenuOpen:Int = 2
 	Const MenuSave:Int = 3
 	Const MenuSaveAs:Int = 4
-	Const MenuImportTiles:Int = 5
 	Const MenuImportTilemap:Int = 6
-	Const MenuImportObject:Int = 7
 	Const MenuExit:Int = 8
 	Const MenuSnapToGrid:Int = 9
 	Const MenuShowGrid:Int = 10
 	Const MenuGridSettings:Int = 11
 	Const MenuTilemapSettings:Int = 12
+	Const MenuTilesetSettings:Int = 5
 	Const MenuEditTilemap:Int = 13
 	Const MenuEditSprites:Int = 14
 	Const MenuAddPage:Int = 15
@@ -193,9 +192,7 @@ Type LTEditor Extends LTProject
 		CreateMenu( "Save...", MenuSave, FileMenu )
 		CreateMenu( "Save as...", MenuSaveAs, FileMenu )
 		CreateMenu( "", 0, FileMenu )
-		CreateMenu( "Import tiles", MenuImportTiles, FileMenu )
 		CreateMenu( "Import tilemap", MenuImportTilemap, FileMenu )
-		CreateMenu( "Import object", MenuImportObject, FileMenu )
 		CreateMenu( "", 0, FileMenu )
 		CreateMenu( "Exit", MenuExit, FileMenu )
 		
@@ -205,6 +202,7 @@ Type LTEditor Extends LTProject
 		CreateMenu( "", 0, EditMenu )
 		CreateMenu( "Grid settings", MenuGridSettings, EditMenu )
 		CreateMenu( "Tilemap settings", MenuTilemapSettings, EditMenu )
+		CreateMenu( "Tileset settings", MenuTilesetSettings, EditMenu )
 		CreateMenu( "", 0, EditMenu )
 		EditTilemap = CreateMenu( "Edit tilemap", MenuEditTilemap, EditMenu )
 		EditSprites = CreateMenu( "Edit sprites", MenuEditSprites, EditMenu )
@@ -389,7 +387,7 @@ Type LTEditor Extends LTProject
 						SaveWorld( RequestFile( "Select world file name to save...", "DWLab world XML file:xml", True ) )
 					Case MenuImportTilemap
 						Local TileXSize:Int, TileYSize:Int
-						ChooseTileSize( TileXSize, TileYSize )
+						ChooseParameter( TileXSize, TileYSize, "tile size", "pixels" )
 						
 						Local Filename:String = RequestFile( "Select tilemap file to process...", "Image files:png,jpg,bmp" )
 						Local Tilemap:TPixmap = LoadPixmap( Filename )
@@ -409,6 +407,18 @@ Type LTEditor Extends LTProject
 						ToggleMenu( SnapToGrid )
 					Case MenuShowGrid
 						ToggleMenu( ShowGrid )
+					Case MenuTilemapSettings
+						If Not CurrentPage.Tilemap Then CurrentPage.Tilemap = LTTilemap.Create( 16, 16, 16, 16, 1 )
+						Local XQuantity:Int = CurrentPage.TileMap.FrameMap.XQuantity
+						Local YQuantity:Int = CurrentPage.TileMap.FrameMap.YQuantity
+						ChooseParameter( XQuantity, YQuantity, "tiles quantity", "tiles" )
+						CurrentPage.TileMap.FrameMap.SetResolution( XQuantity, YQuantity )
+						CurrentPage.TileMap.X = 0.5 * XQuantity
+						CurrentPage.TileMap.Y = 0.5 * YQuantity
+						CurrentPage.TileMap.XSize = XQuantity
+						CurrentPage.TileMap.YSize = YQuantity
+					Case MenuTilesetSettings
+						If CurrentPage.Tilemap Then SpriteImageProperties( CurrentPage.TileMap )
 					Case MenuEditTilemap
 						CheckMenu( EditTilemap )
 						UnCheckMenu( EditSprites )
@@ -553,8 +563,8 @@ Type LTEditor Extends LTProject
 			If CurrentPage.TileMap Then
 				Local MX:Float, MY:Float
 				L_CurrentCamera.ScreenToField( MouseX(), MouseY(), MX, MY )
-				TileX = L_LimitInt( Floor( MX ), 0, CurrentPage.Tilemap.FrameMap.XQuantity )
-				TileY = L_LimitInt( Floor( MY ), 0, CurrentPage.Tilemap.FrameMap.YQuantity )
+				TileX = L_LimitInt( Floor( MX ), 0, CurrentPage.Tilemap.FrameMap.XQuantity - 1 )
+				TileY = L_LimitInt( Floor( MY ), 0, CurrentPage.Tilemap.FrameMap.YQuantity - 1 )
 				Local Image:LTImage = LTImageVisualizer( CurrentPage.Tilemap.Visualizer ).Image
 				If Image then
 					Local FXSize:Float, FYSize:Float
@@ -782,16 +792,16 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method ChooseTileSize( XSize:Int Var, YSize:Int Var )
-		Local Settings:TGadget =CreateWindow( "Choose tile size:", 0.5 * ClientWidth( Window ) - 72, 0.5 * ClientHeight( Window ) - 78, 144, 157, Desktop(), WINDOW_TITLEBAR )
+	Method ChooseParameter( XSize:Int Var, YSize:Int Var, Parameter:String, Units:String )
+		Local Settings:TGadget =CreateWindow( "Choose " + Parameter + ":", 0.5 * ClientWidth( Window ) - 72, 0.5 * ClientHeight( Window ) - 78, 144, 157, Desktop(), WINDOW_TITLEBAR )
 		CreateLabel( "Height:", 7, 10, 40, 16, Settings, 0 )
 		Local XSizeField:TGadget = CreateTextField( 48, 8, 40, 20, Settings )
-		SetGadgetText( XSizeField, "16" )
+		SetGadgetText( XSizeField, XSize )
 		CreateLabel( "Width:", 8, 35, 40, 16, Settings, 0 )
 		Local YSizeField:TGadget = CreateTextField( 48, 32, 40, 20, Settings )
-		SetGadgetText( YSizeField, "16" )
-		CreateLabel( "pixels", 93, 10, 31, 16, Settings, 0 )
-		CreateLabel( "pixels", 93, 34, 31, 16, Settings, 0 )
+		SetGadgetText( YSizeField, YSize )
+		CreateLabel( Units, 93, 10, 31, 16, Settings, 0 )
+		CreateLabel( Units, 93, 34, 31, 16, Settings, 0 )
 		Local OKButton:TGadget = CreateButton( "OK", 32, 64, 72, 24, Settings )
 		Local CancelButton:TGadget = CreateButton( "Cancel", 32, 96, 72, 24, Settings )
 		
@@ -805,7 +815,7 @@ Type LTEditor Extends LTProject
 							YSize = TextFieldText( YSizeField ).ToInt()
 							
 							If XSize < 0 And YSize < 0 Then
-								Notify( "Tile size must be more than 0", True )
+								Notify( Parameter + " must be more than 0", True )
 							Else
 								Exit
 							End If

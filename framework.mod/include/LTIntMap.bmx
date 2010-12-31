@@ -16,8 +16,10 @@ Type LTIntMap Extends LTMap
 	' ==================== Parameters ====================
 	
 	Method SetResolution( NewXQuantity:Int, NewYQuantity:Int )
-		Super.SetResolution( NewXQuantity, NewYQuantity )
-		Value = New Int[ NewXQuantity, NewYQuantity ]
+		XQuantity = NewXQuantity
+		YQuantity = NewYQuantity
+		Super.SetResolution( XQuantity, YQuantity )
+		Value = New Int[ XQuantity, YQuantity ]
 	End Method
 	
 	' ==================== Loading / saving ====================	

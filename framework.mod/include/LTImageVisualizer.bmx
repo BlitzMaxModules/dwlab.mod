@@ -67,6 +67,8 @@ Type LTImageVisualizer Extends LTVisualizer
 	
 	
 	Method DrawUsingTileMap( TileMap:LTTileMap )
+		If Not Image Then Return
+	
 		Local FrameMap:LTIntMap = TileMap.FrameMap
 	
 		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
