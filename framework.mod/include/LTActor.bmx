@@ -25,8 +25,8 @@ Type LTActor Extends LTShape
 	Field Shape:Int = L_Rectangle
 	Field X:Float
 	Field Y:Float
-	Field XSize:Float = 1.0
-	Field YSize:Float = 1.0
+	Field Width:Float = 1.0
+	Field Height:Float = 1.0
 	Field Angle:Float = 0.0
 	Field Velocity:Float = 0.0
 	Field Frame:Int
@@ -59,27 +59,27 @@ Type LTActor Extends LTShape
 					Case L_Pivot
 						Return L_PivotWithPivot( X, Y, Actor.X, Actor.Y )
 					Case L_Circle
-						Return L_PivotWithCircle( X, Y, Actor.X, Actor.Y, Actor.XSize )
+						Return L_PivotWithCircle( X, Y, Actor.X, Actor.Y, Actor.Width )
 					Case L_Rectangle
-						Return L_PivotWithRectangle( X, Y, Actor.X, Actor.Y, Actor.XSize, Actor.YSize )
+						Return L_PivotWithRectangle( X, Y, Actor.X, Actor.Y, Actor.Width, Actor.Height )
 				End Select
 			Case L_Circle
 				Select Actor.Shape
 					Case L_Pivot
-						Return L_PivotWithCircle( Actor.X, Actor.Y, X, Y, XSize )
+						Return L_PivotWithCircle( Actor.X, Actor.Y, X, Y, Width )
 					Case L_Circle
-						Return L_CircleWithCircle( X, Y, XSize, Actor.X, Actor.Y, Actor.XSize )
+						Return L_CircleWithCircle( X, Y, Width, Actor.X, Actor.Y, Actor.Width )
 					Case L_Rectangle
-						Return L_CircleWithRectangle( X, Y, XSize, Actor.X, Actor.Y, Actor.XSize, Actor.YSize )
+						Return L_CircleWithRectangle( X, Y, Width, Actor.X, Actor.Y, Actor.Width, Actor.Height )
 				End Select
 			Case L_Rectangle
 				Select Actor.Shape
 					Case L_Pivot
-						Return L_PivotWithRectangle( Actor.X, Actor.Y, X, Y, XSize, YSize )
+						Return L_PivotWithRectangle( Actor.X, Actor.Y, X, Y, Width, Height )
 					Case L_Circle
-						Return L_CircleWithRectangle( Actor.X, Actor.Y, Actor.XSize, X, Y, XSize, YSize )
+						Return L_CircleWithRectangle( Actor.X, Actor.Y, Actor.Width, X, Y, Width, Height )
 					Case L_Rectangle
-						Return L_RectangleWithRectangle( X, Y, XSize, YSize, Actor.X, Actor.Y, Actor.XSize, Actor.YSize )
+						Return L_RectangleWithRectangle( X, Y, Width, Height, Actor.X, Actor.Y, Actor.Width, Actor.Height )
 				End Select
 		End Select
 	End Method
@@ -91,7 +91,7 @@ Type LTActor Extends LTShape
 			Case L_Pivot
 				'Return L_PivotWithLine( Self, Line )
 			Case L_Circle
-				Return L_CircleWithLine( X, Y, XSize, Line.Pivot[ 0 ].X, Line.Pivot[ 0 ].Y, Line.Pivot[ 1 ].X, Line.Pivot[ 1 ].Y )
+				Return L_CircleWithLine( X, Y, Width, Line.Pivot[ 0 ].X, Line.Pivot[ 0 ].Y, Line.Pivot[ 1 ].X, Line.Pivot[ 1 ].Y )
 			Case L_Rectangle
 				'Return L_RectangleWithLine( Self, Line )
 		End Select
@@ -106,29 +106,57 @@ Type LTActor Extends LTShape
 					Case L_Pivot
 						Return L_PivotWithPivot( X, Y, Actor.X * XScale + DX, Actor.Y * YScale + DY )
 					Case L_Circle
-						Return L_PivotWithCircle( X, Y, Actor.X * XScale + DX, Actor.Y * YScale + DY, Actor.XSize * XScale )
+						Return L_PivotWithCircle( X, Y, Actor.X * XScale + DX, Actor.Y * YScale + DY, Actor.Width * XScale )
 					Case L_Rectangle
-						Return L_PivotWithRectangle( X, Y, Actor.X * XScale + DX, Actor.Y * YScale + DY, Actor.XSize * XScale, Actor.YSize * YScale )
+						Return L_PivotWithRectangle( X, Y, Actor.X * XScale + DX, Actor.Y * YScale + DY, Actor.Width * XScale, Actor.Height * YScale )
 				End Select
 			Case L_Circle
 				Select Actor.Shape
 					Case L_Pivot
-						Return L_PivotWithCircle( Actor.X * XScale + DX, Actor.Y * YScale + DY, X, Y, XSize )
+						Return L_PivotWithCircle( Actor.X * XScale + DX, Actor.Y * YScale + DY, X, Y, Width )
 					Case L_Circle
-						Return L_CircleWithCircle( X, Y, XSize, Actor.X * XScale + DX, Actor.Y * YScale + DY, Actor.XSize * XScale )
+						Return L_CircleWithCircle( X, Y, Width, Actor.X * XScale + DX, Actor.Y * YScale + DY, Actor.Width * XScale )
 					Case L_Rectangle
-						Return L_CircleWithRectangle( X, Y, XSize, Actor.X * XScale + DX, Actor.Y * YScale + DY, Actor.XSize * XScale, Actor.YSize * YScale )
+						Return L_CircleWithRectangle( X, Y, Width, Actor.X * XScale + DX, Actor.Y * YScale + DY, Actor.Width * XScale, Actor.Height * YScale )
 				End Select
 			Case L_Rectangle
 				Select Actor.Shape
 					Case L_Pivot
-						Return L_PivotWithRectangle( Actor.X * XScale + DX, Actor.Y * YScale + DY, X, Y, XSize, YSize )
+						Return L_PivotWithRectangle( Actor.X * XScale + DX, Actor.Y * YScale + DY, X, Y, Width, Height )
 					Case L_Circle
-						Return L_CircleWithRectangle( Actor.X * XScale + DX, Actor.Y * YScale + DY, Actor.XSize * XScale, X, Y, XSize, YSize )
+						Return L_CircleWithRectangle( Actor.X * XScale + DX, Actor.Y * YScale + DY, Actor.Width * XScale, X, Y, Width, Height )
 					Case L_Rectangle
-						Return L_RectangleWithRectangle( X, Y, XSize, YSize, Actor.X * XScale + DX, Actor.Y * YScale + DY, Actor.XSize * XScale, Actor.YSize * YScale )
+						Return L_RectangleWithRectangle( X, Y, Width, Height, Actor.X * XScale + DX, Actor.Y * YScale + DY, Actor.Width * XScale, Actor.Height * YScale )
 				End Select
 		End Select
+	End Method
+	
+	
+	
+	Method OverlapsActor:Int( Actor:LTActor )
+		Select Shape
+			Case L_Pivot
+				L_Assert( false, " Pivot overlapping is not supported" )
+			Case L_Circle
+				Select Actor.Shape
+					Case L_Pivot
+						Return L_CircleOverlapsPivot( X, Y, Width, Actor.X, Actor.Y )
+					Case L_Circle
+						Return L_CircleOverlapsCircle( X, Y, Width, Actor.X, Actor.Y, Actor.Width )
+					Case L_Rectangle
+						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Actor.X, Actor.Y, Actor.Width, Actor.Height )
+				End Select
+			Case L_Rectangle
+				Select Actor.Shape
+					Case L_Pivot
+						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Actor.X, Actor.Y, 0, 0 )
+					Case L_Circle
+						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Actor.X, Actor.Y, Actor.Width, Actor.Width )
+					Case L_Rectangle
+						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Actor.X, Actor.Y, Actor.Width, Actor.Height )
+				End Select
+		End Select
+		
 	End Method
 	
 	
@@ -164,20 +192,20 @@ Type LTActor Extends LTShape
 				Select Actor.Shape
 					Case L_Pivot
 					Case L_Circle
-						L_WedgingValuesOfCircleAndCircle( X, Y, XSize, Actor.X, Actor.Y, Actor.XSize, DX, DY )
+						L_WedgingValuesOfCircleAndCircle( X, Y, Width, Actor.X, Actor.Y, Actor.Width, DX, DY )
 						L_Separate( Self, Actor, DX, DY, SelfMass, ActorMass )
 					Case L_Rectangle
-						L_WedgingValuesOfCircleAndRectangle( X, Y, XSize, Actor.X, Actor.Y, Actor.XSize, Actor.YSize, DX, DY )
+						L_WedgingValuesOfCircleAndRectangle( X, Y, Width, Actor.X, Actor.Y, Actor.Width, Actor.Height, DX, DY )
 						L_Separate( Self, Actor, DX, DY, SelfMass, ActorMass )
 				End Select
 			Case L_Rectangle
 				Select Actor.Shape
 					Case L_Pivot
 					Case L_Circle
-						L_WedgingValuesOfCircleAndRectangle( Actor.X, Actor.Y, Actor.XSize, X, Y, XSize, YSize, DX, DY )
+						L_WedgingValuesOfCircleAndRectangle( Actor.X, Actor.Y, Actor.Width, X, Y, Width, Height, DX, DY )
 						L_Separate( Actor, Self, DX, DY, ActorMass, SelfMass )
 					Case L_Rectangle
-						L_WedgingValuesOfRectangleAndRectangle( X, Y, XSize, YSize, Actor.X, Actor.Y, Actor.XSize, Actor.YSize, DX, DY )
+						L_WedgingValuesOfRectangleAndRectangle( X, Y, Width, Height, Actor.X, Actor.Y, Actor.Width, Actor.Height, DX, DY )
 						L_Separate( Self, Actor, DX, DY, SelfMass, ActorMass )
 				End Select
 		End Select
@@ -192,9 +220,9 @@ Type LTActor Extends LTShape
 		L_Assert( TileActor <> Null, "Tile has no colliding shapes" )
 		?
 		
-		Local CellXSize:Float = TileMap.GetCellXSize()
-		Local CellYSize:Float = TileMap.GetCellYSize()
-		PushFromTileActor( TileActor, TileMap.CornerX() + CellXSize * TileX, TileMap.CornerY() + CellYSize * TileY, CellXSize, CellYSize )
+		Local CellWidth:Float = TileMap.GetCellWidth()
+		Local CellHeight:Float = TileMap.GetCellHeight()
+		PushFromTileActor( TileActor, TileMap.CornerX() + CellWidth * TileX, TileMap.CornerY() + CellHeight * TileY, CellWidth, CellHeight )
 	End Method
 
 
@@ -212,20 +240,20 @@ Type LTActor Extends LTShape
 				Select TileActor.Shape
 					Case L_Pivot
 					Case L_Circle
-						L_WedgingValuesOfCircleAndCircle( X, Y, XSize, TileActor.X * XScale + DX, TileActor.Y * YScale + DY, TileActor.XSize * XScale, PushingDX, PushingDY )
+						L_WedgingValuesOfCircleAndCircle( X, Y, Width, TileActor.X * XScale + DX, TileActor.Y * YScale + DY, TileActor.Width * XScale, PushingDX, PushingDY )
 						L_Separate( Self, TileActor, PushingDX, PushingDY, 0.0, 1.0 )
 					Case L_Rectangle
-						L_WedgingValuesOfCircleAndRectangle( X, Y, XSize, TileActor.X * XScale + DX, TileActor.Y * YScale + DY, TileActor.XSize * XScale, TileActor.YSize * YScale, PushingDX, PushingDY )
+						L_WedgingValuesOfCircleAndRectangle( X, Y, Width, TileActor.X * XScale + DX, TileActor.Y * YScale + DY, TileActor.Width * XScale, TileActor.Height * YScale, PushingDX, PushingDY )
 						L_Separate( Self, TileActor, PushingDX, PushingDY, 0.0, 1.0 )
 				End Select
 			Case L_Rectangle
 				Select TileActor.Shape
 					Case L_Pivot
 					Case L_Circle
-						L_WedgingValuesOfCircleAndRectangle( TileActor.X * XScale + DX, TileActor.Y * YScale + DY, TileActor.XSize * XScale, X, Y, XSize, YSize, PushingDX, PushingDY )
+						L_WedgingValuesOfCircleAndRectangle( TileActor.X * XScale + DX, TileActor.Y * YScale + DY, TileActor.Width * XScale, X, Y, Width, Height, PushingDX, PushingDY )
 						L_Separate( TileActor, Self, PushingDX, PushingDY, 1.0, 0.0 )
 					Case L_Rectangle
-						L_WedgingValuesOfRectangleAndRectangle( X, Y, XSize, YSize, TileActor.X * XScale + DX, TileActor.Y * YScale + DY, TileActor.XSize * XScale, TileActor.YSize * YScale, PushingDX, PushingDY )
+						L_WedgingValuesOfRectangleAndRectangle( X, Y, Width, Height, TileActor.X * XScale + DX, TileActor.Y * YScale + DY, TileActor.Width * XScale, TileActor.Height * YScale, PushingDX, PushingDY )
 						L_Separate( Self, TileActor, PushingDX, PushingDY, 0.0, 1.0 )
 				End Select
 		End Select
@@ -239,7 +267,7 @@ Type LTActor Extends LTShape
 	about:
 	EndRem
 	Method CornerX:Float()
- 		Return X - 0.5 * XSize
+ 		Return X - 0.5 * Width
  	End Method
 	
 	
@@ -249,7 +277,7 @@ Type LTActor Extends LTShape
 	about:
 	EndRem
 	Method CornerY:Float()
- 		Return Y - 0.5 * YSize
+ 		Return Y - 0.5 * Height
  	End Method
 
 	
@@ -327,8 +355,8 @@ Type LTActor Extends LTShape
 	Method SetCornerCoords( NewX:Float, NewY:Float )
 		If CollisionMap Then CollisionMap.RemoveActor( Self )
 		
-		X = NewX + XSize * 0.5
-		Y = NewY + YSize * 0.5
+		X = NewX + Width * 0.5
+		Y = NewY + Height * 0.5
 		
 		Update()
 		If CollisionMap Then CollisionMap.InsertActor( Self )
@@ -467,11 +495,11 @@ Type LTActor Extends LTShape
 	bbdoc:
 	about:
 	EndRem
-	Method SetSize( NewXSize:Float, NewYSize:Float )
+	Method SetSize( NewWidth:Float, NewHeight:Float )
 		If CollisionMap Then CollisionMap.RemoveActor( Self )
 		
-		XSize = NewXSize
-		YSize = NewYSize
+		Width = NewWidth
+		Height = NewHeight
 
 		Update()
 		If CollisionMap Then CollisionMap.InsertActor( Self )
@@ -486,8 +514,8 @@ Type LTActor Extends LTShape
 	Method SetDiameter( NewDiameter:Float )
 		If CollisionMap Then CollisionMap.RemoveActor( Self )
 		
-		XSize = NewDiameter
-		YSize = NewDiameter
+		Width = NewDiameter
+		Height = NewDiameter
 		
 		Update()
 		If CollisionMap Then CollisionMap.InsertActor( Self )
@@ -499,16 +527,16 @@ Type LTActor Extends LTShape
 	bbdoc:
 	about:
 	EndRem
-	Method CorrectYSize()
+	Method CorrectHeight()
 		Local ImageVisualizer:LTImageVisualizer = LTImageVisualizer( Visualizer )
 		
 		?debug
-		L_Assert( ImageVisualizer <> Null, "Cannot correct YSize: visual is not of LTImageVisual type" )
+		L_Assert( ImageVisualizer <> Null, "Cannot correct Height: visual is not of LTImageVisual type" )
 		?
 		
 		If CollisionMap Then CollisionMap.RemoveActor( Self )
 		
-		YSize = XSize * ImageHeight( ImageVisualizer.Image.BMaxImage ) / ImageWidth( ImageVisualizer.Image.BMaxImage )
+		Height = Width * ImageHeight( ImageVisualizer.Image.BMaxImage ) / ImageWidth( ImageVisualizer.Image.BMaxImage )
 
 		Update()
 		If CollisionMap Then CollisionMap.InsertActor( Self )
@@ -700,8 +728,8 @@ Type LTActor Extends LTShape
 		XMLObject.ManageIntAttribute( "shape", Shape )
 		XMLObject.ManageFloatAttribute( "x", X )
 		XMLObject.ManageFloatAttribute( "y", Y )
-		XMLObject.ManageFloatAttribute( "xsize", XSize, 1.0 )
-		XMLObject.ManageFloatAttribute( "ysize", YSize, 1.0 )
+		XMLObject.ManageFloatAttribute( "Width", Width, 1.0 )
+		XMLObject.ManageFloatAttribute( "Height", Height, 1.0 )
 		XMLObject.ManageFloatAttribute( "angle", Angle )
 		XMLObject.ManageFloatAttribute( "velocity", Velocity )
 		XMLObject.ManageIntAttribute( "frame", Frame )

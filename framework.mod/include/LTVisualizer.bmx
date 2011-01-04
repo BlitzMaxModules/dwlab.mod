@@ -17,8 +17,6 @@ Type LTVisualizer Extends LTObject Abstract
 	Field Alpha:Float = 1.0
 	Field XScale:Float = 1.0, YScale:Float = 1.0
 	Field Scaling:Int = True
-	Field Angle:Float
-	Field Rotating:Int = True
 
 	' ==================== Parameters ====================
 	
@@ -84,7 +82,5 @@ Type LTVisualizer Extends LTObject Abstract
 		XMLObject.ManageFloatAttribute( "xscale", XScale, 1.0 )
 		XMLObject.ManageFloatAttribute( "yscale", YScale, 1.0 )
 		XMLObject.ManageIntAttribute( "scaling", Scaling, 1 )
-		XMLObject.ManageFloatAttribute( "angle", Angle )
-		XMLObject.ManageIntAttribute( "rotating", Rotating, 1 )
 	End Method
 End Type

@@ -45,7 +45,7 @@ Type LTLine Extends LTShape
 			Case L_Pivot
 				'Return L_PivotWithLine( Actor, Self )
 			Case L_Circle
-				Return L_CircleWithLine( Actor.X, Actor.Y, Actor.XSize, Pivot[ 0 ].X, Pivot[ 0 ].Y, Pivot[ 1 ].X, Pivot[ 1 ].Y )
+				Return L_CircleWithLine( Actor.X, Actor.Y, Actor.Width, Pivot[ 0 ].X, Pivot[ 0 ].Y, Pivot[ 1 ].X, Pivot[ 1 ].Y )
 			Case L_Rectangle
 				'Return L_RectangleWithLine( Actor, Self )
 		End Select

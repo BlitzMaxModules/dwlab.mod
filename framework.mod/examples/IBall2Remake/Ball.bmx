@@ -114,11 +114,10 @@ Type TBall Extends TGameActor
 	
 	
 	
-	Method HandleCollisionWith( Obj:LTObject )
+	Method HandleCollisionWithActor( Actor:LTActor )
 		'debugstop
-		WedgeOffWith( Obj, 0.0, 1.0 )
+		WedgeOffWith( Actor, 0.0, 1.0 )
 		
-		Local Actor:LTActor = LTActor( Obj )
 		Bounce( Actor.X - X, Actor.Y - Y )
 	End Method
 	
@@ -166,13 +165,13 @@ Type TBullet Extends LTActor
 	
 	
 	
-	Method HandleCollisionWith( Obj:LTObject )
-		If TBlock( Obj ) Then
+	Method HandleCollisionWithActor( Actor:LTActor )
+		If TBlock( Actor ) Then
 			Destroy()
-		ElseIf TEnemy( Obj ) Then
+		ElseIf TEnemy( Actor ) Then
 			Destroy()
-			If Not TEnemy( Obj ).BulletProof Then
-				Obj.Destroy()
+			If Not TEnemy( Actor ).BulletProof Then
+				Actor.Destroy()
 				Game.Score :+ 10
 			End If
 		End If

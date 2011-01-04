@@ -16,14 +16,14 @@ Type LTTileMap Extends LTActor
 	
 	' ==================== Parameters ===================	
 	
-	Method GetCellXSize:Float()
-			Return XSize / FrameMap.XQuantity
+	Method GetCellWidth:Float()
+			Return Width / FrameMap.XQuantity
 	End Method
 
 	
 	
-	Method GetCellYSize:Float()
-			Return YSize / FrameMap.YQuantity
+	Method GetCellHeight:Float()
+			Return Height / FrameMap.YQuantity
 	End Method
 	
 	
@@ -31,12 +31,12 @@ Type LTTileMap Extends LTActor
 	Method GetTile:LTActor( TileX:Int, TileY:Int )
 		Local Template:LTActor = GetTileTemplate( TileX, TileY )
 		Local Actor:LTActor = New Template
-		Local CellXSize:Float = GetCellXSize()
-		Local CellYSize:Float = GetCellYSize()
-		Actor.X = ( Template.X + TileX ) * CellXSize + CornerX()
-		Actor.Y = ( Template.Y + TileY ) * CellYSize + CornerY()
-		Actor.XSize = Template.XSize * CellXSize
-		Actor.YSize = Template.YSize * CellYSize
+		Local CellWidth:Float = GetCellWidth()
+		Local CellHeight:Float = GetCellHeight()
+		Actor.X = ( Template.X + TileX ) * CellWidth + CornerX()
+		Actor.Y = ( Template.Y + TileY ) * CellHeight + CornerY()
+		Actor.Width = Template.Width * CellWidth
+		Actor.Height = Template.Height * CellHeight
 		Actor.Shape = Template.Shape
 		Return Actor
 	End Method
@@ -64,33 +64,33 @@ Type LTTileMap Extends LTActor
 	Method CollisionsWithActor( Actor:LTActor )
 		Local X0:Float = CornerX()
 		Local Y0:Float = CornerY()
-		Local CellXSize:Float = GetCellXSize()
-		Local CellYSize:Float = GetCellYSize()
+		Local CellWidth:Float = GetCellWidth()
+		Local CellHeight:Float = GetCellHeight()
 				
 		Select Actor.Shape
 			Case L_Pivot
-				Local X1:Int = Floor( ( Actor.X - X0 ) / CellXSize )
-				Local Y1:Int = Floor( ( Actor.Y - Y0 ) / CellYSize )
+				Local X1:Int = Floor( ( Actor.X - X0 ) / CellWidth )
+				Local Y1:Int = Floor( ( Actor.Y - Y0 ) / CellHeight )
 				
 				If X1 >= 0 And Y1 >= 0 And X1 < FrameMap.XQuantity And Y1 < FrameMap.YQuantity Then
 					Local Actor2:LTActor = TileActor[ FrameMap.Value[ X1, Y1 ] ]
 					If Actor2 Then
-						Local DX:Float = X0 + CellXSize * X1
-						Local DY:Float = Y0 + CellYSize * Y1
-						If Actor.CollidesWithTile( Actor2, DX, DY, CellXSize, CellYSize ) Then Actor.HandleCollisionWithTile( Self, X1, Y1 )
+						Local DX:Float = X0 + CellWidth * X1
+						Local DY:Float = Y0 + CellHeight * Y1
+						If Actor.CollidesWithTile( Actor2, DX, DY, CellWidth, CellHeight ) Then Actor.HandleCollisionWithTile( Self, X1, Y1 )
 					End If
 				End If
 			Case L_Circle, L_Rectangle
-				Local X1:Int = L_LimitInt( Floor( ( Actor.X - 0.5 * Actor.XSize - X0 ) / CellXSize ), 0, FrameMap.XQuantity )
-				Local Y1:Int = L_LimitInt( Floor( ( Actor.Y - 0.5 * Actor.YSize - Y0 ) / CellYSize ), 0, FrameMap.YQuantity )
-				Local X2:Int = L_LimitInt( Floor( ( Actor.X + 0.5 * Actor.XSize - X0 - 0.000001 ) / CellXSize ), 0, FrameMap.XQuantity - 1 )
-				Local Y2:Int = L_LimitInt( Floor( ( Actor.Y + 0.5 * Actor.YSize - Y0 - 0.000001 ) / CellYSize ), 0, FrameMap.YQuantity - 1 )
+				Local X1:Int = L_LimitInt( Floor( ( Actor.X - 0.5 * Actor.Width - X0 ) / CellWidth ), 0, FrameMap.XQuantity )
+				Local Y1:Int = L_LimitInt( Floor( ( Actor.Y - 0.5 * Actor.Height - Y0 ) / CellHeight ), 0, FrameMap.YQuantity )
+				Local X2:Int = L_LimitInt( Floor( ( Actor.X + 0.5 * Actor.Width - X0 - 0.000001 ) / CellWidth ), 0, FrameMap.XQuantity - 1 )
+				Local Y2:Int = L_LimitInt( Floor( ( Actor.Y + 0.5 * Actor.Height - Y0 - 0.000001 ) / CellHeight ), 0, FrameMap.YQuantity - 1 )
 				
 				For Local Y:Int = Y1 To Y2
 					For Local X:Int = X1 To X2
 						Local TileActor:LTActor = TileActor[ FrameMap.Value[ X, Y ] ]
 						If TileActor Then
-							If Actor.CollidesWithTile( TileActor, X0 + CellXSize * X, Y0 + CellYSize * Y, CellXSize, CellYSize ) Then Actor.HandleCollisionWithTile( Self, X, Y )
+							If Actor.CollidesWithTile( TileActor, X0 + CellWidth * X, Y0 + CellHeight * Y, CellWidth, CellHeight ) Then Actor.HandleCollisionWithTile( Self, X, Y )
 						End If
 					Next
 				Next
@@ -99,13 +99,13 @@ Type LTTileMap Extends LTActor
 	
 	' ==================== Creating ===================
 	
-	Function Create:LTTileMap( XQuantity:Int, YQuantity:Int, TileXSize:Int, TileYSize:Int, TilesQuantity:Int )
+	Function Create:LTTileMap( XQuantity:Int, YQuantity:Int, TileWidth:Int, TileHeight:Int, TilesQuantity:Int )
 		Local TileMap:LTTileMap = New LTTileMap
 		TileMap.FrameMap = New LTIntMap
 		TileMap.FrameMap.SetResolution( XQuantity, YQuantity )
 		TileMap.TileActor = New LTActor[ TilesQuantity ]
 		Local Visualizer:LTImageVisualizer = New LTImageVisualizer
-		Visualizer.Image = LTImage.Create( TileXSize, TileYSize, TilesQuantity )
+		Visualizer.Image = LTImage.Create( TileWidth, TileHeight, TilesQuantity )
 		TileMap.Visualizer = New Visualizer
 		Return TileMap
 	End Function

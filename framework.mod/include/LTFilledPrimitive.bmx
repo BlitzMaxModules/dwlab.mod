@@ -15,17 +15,17 @@ Type LTFilledPrimitive Extends LTVisualizer
 		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
 		SetAlpha( Alpha )
 		
-		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
+		Local SX:Float, SY:Float, SWidth:Float, SHeight:Float
 		L_CurrentCamera.FieldToScreen( Actor.X, Actor.Y, SX, SY )
-		L_CurrentCamera.SizeFieldToScreen( Actor.XSize * XScale, Actor.YSize * YScale, SXSize, SYSize )
+		L_CurrentCamera.SizeFieldToScreen( Actor.Width * XScale, Actor.Height * YScale, SWidth, SHeight )
 		
 		Select Actor.Shape
 			Case L_Pivot
 				DrawOval( SX - 2, SY - 2, 5, 5 )
 			Case L_Circle
-				DrawOval( SX - 0.5 * SXSize, SY - 0.5 * SYSize, SXSize, SYSize )
+				DrawOval( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
 			Case L_Rectangle
-				DrawRect( SX - 0.5 * SXSize, SY - 0.5 * SYSize, SXSize, SYSize )
+				DrawRect( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
 		End Select
 		
 		SetColor( 255, 255, 255 )

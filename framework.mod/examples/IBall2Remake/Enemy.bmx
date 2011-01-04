@@ -68,12 +68,11 @@ Type TEnemy Extends TGameActor
 	
 	
 	
-	Method HandleCollisionWith( Obj:LTObject )
-		If TBall( Obj ) Then
-			Obj.Destroy()
+	Method HandleCollisionWithActor( Actor:LTActor )
+		If TBall( Actor ) Then
+			Actor.Destroy()
 		Else
-			WedgeOffWith( Obj, 0.0, 1.0 )
-			Local Actor:LTActor = LTActor( Obj )
+			WedgeOffWith( Actor, 0.0, 1.0 )
 			Bounce( X - Actor.X, Y - Actor.Y )
 		End If
 	End Method
@@ -94,7 +93,7 @@ Type TEnemy Extends TGameActor
 		If ChangeFacing Then Visualizer.XScale = Sgn( GetDX() )
 		Frame = L_WrapInt( Floor( X * 8.0 ), 4 )
 		
-		CollisionsWith( Game.CollisionMap )
+		'CollisionsWith( Game.CollisionMap )
 		CollisionsWith( Game.TileMap )
 	End Method
 	
@@ -200,17 +199,17 @@ Type LTFlashingVisualizer Extends LTImageVisualizer
 	Method Act()
 		Local Time:Float = L_WrapFloat( Game.ProjectTime, 3.0 )
 		If Time < 1.0 Then
-			R = Time
-			G = 0.0
-			B = 1.0 - Time
+			Red = Time
+			Green = 0.0
+			Blue = 1.0 - Time
 		ElseIf Time < 2.0 Then
-			R = 2.0 - Time
-			G = Time - 1.0
-			B = 0.0
+			Red = 2.0 - Time
+			Green = Time - 1.0
+			Blue = 0.0
 		Else
-			R = 0.0
-			G = 3.0 - Time
-			B = Time - 2.0
+			Red = 0.0
+			Green = 3.0 - Time
+			Blue = Time - 2.0
 		End If
 	End Method
 End Type

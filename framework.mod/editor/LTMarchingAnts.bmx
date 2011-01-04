@@ -14,27 +14,33 @@ Type LTMarchingAnts Extends LTVisualizer
 		SetColor( 255.0 * Red, 255.0 * Green, 255.0 * Blue )
 		SetAlpha( Alpha )
 		
-		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
+		Local SX:Float, SY:Float, SWidth:Float, SHeight:Float
 		L_CurrentCamera.FieldToScreen( Actor.X, Actor.Y, SX, SY )
-		L_CurrentCamera.SizeFieldToScreen( Actor.XSize * XScale, Actor.YSize * YScale, SXSize, SYSize )
+		L_CurrentCamera.SizeFieldToScreen( Actor.Width * XScale, Actor.Height * YScale, SWidth, SHeight )
 		
+		SWidth = L_Round( SWidth )
+		SHeight = L_Round( SHeight )
 		Local Pos:Int = Int( Millisecs() / 100 ) Mod 8
 		
-		Local LinePixmap:TPixmap = CreatePixmap( SXSize, 1, PF_RGBA8888 )
-		For Local XX:Int = 0 Until SXSize
-			LinePixmap.WritePixel( XX, 0, $FF000000 + $FFFFFF * ( Pos >= 4 ) )
-			Pos = ( Pos + 1 ) Mod 8
-		Next
-		DrawPixmap( LinePixmap, SX - 0.5 * SXSize, SY - 0.5 * SYSize )
-		DrawPixmap( LinePixmap, SX - 0.5 * SXSize, SY + 0.5 * SYSize )
+		If SWidth Then
+			Local LinePixmap:TPixmap = CreatePixmap( SWidth, 1, PF_RGBA8888 )
+			For Local XX:Int = 0 Until SWidth
+				LinePixmap.WritePixel( XX, 0, $FF000000 + $FFFFFF * ( Pos >= 4 ) )
+				Pos = ( Pos + 1 ) Mod 8
+			Next
+			DrawPixmap( LinePixmap, SX - 0.5 * SWidth, SY - 0.5 * SHeight )
+			DrawPixmap( LinePixmap, SX - 0.5 * SWidth, SY + 0.5 * SHeight )
+		End If
 
-		LinePixmap = CreatePixmap( 1, SYSize, PF_RGBA8888 )
-		For Local YY:Int = 0 Until SYSize
-			LinePixmap.WritePixel( 0, YY, $FF000000 + $FFFFFF * ( Pos >= 4 ) )
-			Pos = ( Pos + 1 ) Mod 8
-		Next
-		DrawPixmap( LinePixmap, SX - 0.5 * SXSize, SY - 0.5 * SYSize )
-		DrawPixmap( LinePixmap, SX + 0.5 * SXSize, SY - 0.5 * SYSize )
+		If SHeight Then
+			Local LinePixmap:TPixmap = CreatePixmap( 1, SHeight, PF_RGBA8888 )
+			For Local YY:Int = 0 Until SHeight
+				LinePixmap.WritePixel( 0, YY, $FF000000 + $FFFFFF * ( Pos >= 4 ) )
+				Pos = ( Pos + 1 ) Mod 8
+			Next
+			DrawPixmap( LinePixmap, SX - 0.5 * SWidth, SY - 0.5 * SHeight )
+			DrawPixmap( LinePixmap, SX + 0.5 * SWidth, SY - 0.5 * SHeight )
+		End If
 		
 		SetColor( 255, 255, 255 )
 		SetAlpha( 1.0 )

@@ -24,8 +24,8 @@ End Function
 
 
 
-Function L_PivotWithRectangle:Int( PivotX:Float, PivotY:Float, RectangleX:Float, RectangleY:Float, RectangleXSize:Float, RectangleYSize:Float )
-	If 2.0 * Abs( PivotX - RectangleX ) < RectangleXSize - Inaccuracy And 2.0 * Abs( PivotY - RectangleY ) < RectangleYSize - Inaccuracy Then Return True
+Function L_PivotWithRectangle:Int( PivotX:Float, PivotY:Float, RectangleX:Float, RectangleY:Float, RectangleWidth:Float, RectangleHeight:Float )
+	If 2.0 * Abs( PivotX - RectangleX ) < RectangleWidth - Inaccuracy And 2.0 * Abs( PivotY - RectangleY ) < RectangleHeight - Inaccuracy Then Return True
 End Function
 
 
@@ -36,20 +36,20 @@ End Function
 
 
 
-Function L_CircleWithRectangle:Int( CircleX:Float, CircleY:Float, CircleDiameter:Float, RectangleX:Float, RectangleY:Float, RectangleXSize:Float, RectangleYSize:Float )
-	If ( RectangleX - RectangleXSize * 0.5 <= CircleX And CircleX <= RectangleX + RectangleXSize * 0.5 ) Or ( RectangleY - RectangleYSize * 0.5 <= CircleY And CircleY <= RectangleY + RectangleYSize * 0.5 ) Then
-		If 2.0 * Abs( CircleX - RectangleX ) < CircleDiameter + RectangleXSize - Inaccuracy And 2.0 * Abs( CircleY - RectangleY ) < CircleDiameter + RectangleYSize - Inaccuracy Then Return True
+Function L_CircleWithRectangle:Int( CircleX:Float, CircleY:Float, CircleDiameter:Float, RectangleX:Float, RectangleY:Float, RectangleWidth:Float, RectangleHeight:Float )
+	If ( RectangleX - RectangleWidth * 0.5 <= CircleX And CircleX <= RectangleX + RectangleWidth * 0.5 ) Or ( RectangleY - RectangleHeight * 0.5 <= CircleY And CircleY <= RectangleY + RectangleHeight * 0.5 ) Then
+		If 2.0 * Abs( CircleX - RectangleX ) < CircleDiameter + RectangleWidth - Inaccuracy And 2.0 * Abs( CircleY - RectangleY ) < CircleDiameter + RectangleHeight - Inaccuracy Then Return True
 	Else
-		Local DX:Float = Abs( RectangleX - CircleX ) - 0.5 * RectangleXSize
-		Local DY:Float = Abs( RectangleY - CircleY ) - 0.5 * RectangleYSize
+		Local DX:Float = Abs( RectangleX - CircleX ) - 0.5 * RectangleWidth
+		Local DY:Float = Abs( RectangleY - CircleY ) - 0.5 * RectangleHeight
 		If 4.0 * ( DX * DX + DY * DY ) < CircleDiameter * CircleDiameter - Inaccuracy Then Return True
 	End If
 End Function
 
 
 
-Function L_RectangleWithRectangle:Int( Rectangle1X:Float, Rectangle1Y:Float, Rectangle1XSize:Float, Rectangle1YSize:Float, Rectangle2X:Float, Rectangle2Y:Float, Rectangle2XSize:Float, Rectangle2YSize:Float )
-	If 2.0 * Abs( Rectangle1X - Rectangle2X ) < Rectangle1XSize + Rectangle2XSize - Inaccuracy And 2.0 * Abs( Rectangle1Y - Rectangle2Y ) < Rectangle1YSize + Rectangle2YSize - Inaccuracy Then Return True
+Function L_RectangleWithRectangle:Int( Rectangle1X:Float, Rectangle1Y:Float, Rectangle1Width:Float, Rectangle1Height:Float, Rectangle2X:Float, Rectangle2Y:Float, Rectangle2Width:Float, Rectangle2Height:Float )
+	If 2.0 * Abs( Rectangle1X - Rectangle2X ) < Rectangle1Width + Rectangle2Width - Inaccuracy And 2.0 * Abs( Rectangle1Y - Rectangle2Y ) < Rectangle1Height + Rectangle2Height - Inaccuracy Then Return True
 End Function
 
 
@@ -72,4 +72,23 @@ Function L_CircleWithLine:Int( CircleX:Float, CircleY:Float, CircleDiameter:Floa
 			If Min( LineY1, LineY2 ) <= Y0 And Y0 <= Max( LineY1, LineY2 ) Then Return True
 		End If
 	End If
+End Function
+
+
+
+Function L_CircleOverlapsPivot:Int( CircleX:Float, CircleY:Float, CircleDiameter:Float, PivotX:Float, PivotY:Float )
+	If ( CircleX - PivotX ) * ( CircleX - PivotX ) + ( CircleY - PivotY ) * ( CircleY - PivotY ) <= CircleDiameter * CircleDiameter Then Return True
+End Function
+
+
+
+Function L_CircleOverlapsCircle:Int( Circle1X:Float, Circle1Y:Float, Circle1Diameter:Float, Circle2X:Float, Circle2Y:Float, Circle2Diameter:Float )
+	If 4.0 * ( ( Circle1X - Circle2X ) * ( Circle1X - Circle2X ) + ( Circle1X - Circle2X ) * ( Circle1X - Circle2X ) ) <= ( Circle1Diameter - Circle2Diameter ) * ( Circle1Diameter - Circle2Diameter ) Then Return True
+End Function
+
+
+
+Function L_RectangleOverlapsRectangle:Int( Rectangle1X:Float, Rectangle1Y:Float, Rectangle1Width:Float, Rectangle1Height:Float, Rectangle2X:Float, Rectangle2Y:Float, Rectangle2Width:Float, Rectangle2Height:Float )
+	If ( Rectangle1X - Rectangle1Width <= Rectangle2X - Rectangle2Width ) And ( Rectangle1Y - Rectangle1Height <= Rectangle2Y - Rectangle2Height ) And ..
+		( Rectangle1X + Rectangle1Width >= Rectangle2X + Rectangle2Width ) And ( Rectangle1Y + Rectangle1Height >= Rectangle2Y + Rectangle2Height ) Then Return True
 End Function

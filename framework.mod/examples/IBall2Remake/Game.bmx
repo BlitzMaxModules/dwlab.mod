@@ -37,7 +37,7 @@ Type TGame Extends LTProject
 	Method Init()
 		L_IncludedObjects.Insert( "FlashingVisualizer", FlashingVisualizer )
 		
-		Local TileSize:Float = L_ScreenXSize / 16
+		Local TileSize:Float = GraphicsWidth() / 16
 		
 		GameCamera.SetCoords( 6.0, 5.5 )
 		GameCamera.SetSize( 13.0, 12.0 )
@@ -87,7 +87,7 @@ Type TGame Extends LTProject
 		BulletImage = LTImage.FromFile( "media\bullet.png" )
 		L_IncludedObjects.Insert( "BulletImage", BulletImage )
 				
-		Local Scale:Float = 1.0 * L_ScreenXSize / 256.0
+		Local Scale:Float = 1.0 * GraphicsWidth() / 256.0
 		ScoreFont = LTFont.FromFile( "media\score.png", Asc( "0" ), Asc( "9" ), 10 )
 		ScoreFont.SetFontScale( Scale, Scale )
 		NumbersFont = LTFont.FromFile( "media\numbers.png", Asc( "0" ), Asc( "9" ), 10 )
@@ -162,9 +162,9 @@ Type TGame Extends LTProject
 		
 		L_CurrentCamera = SidebarCamera
 		Sidebar.Draw()
-		ScoreFont.Print( L_FirstZeroes( Score, 6 ), L_ScreenXSize * 13 / 16, L_ScreenXSize * 6.5 / 16 )
-		NumbersFont.Print( L_FirstZeroes( L_LimitInt( Floor( LevelStartTime - ProjectTime + LevelTime ), 0, 99 ), 2 ), L_ScreenXSize * 13.5 / 16, L_ScreenXSize * 8.5 / 16 )
-		NumbersFont.Print( L_FirstZeroes( LevelNum, 2 ), L_ScreenXSize * 13.5 / 16, L_ScreenXSize * 10.5 / 16 )
+		ScoreFont.Print( L_FirstZeroes( Score, 6 ), GraphicsWidth() * 13 / 16, GraphicsWidth() * 6.5 / 16 )
+		NumbersFont.Print( L_FirstZeroes( L_LimitInt( Floor( LevelStartTime - ProjectTime + LevelTime ), 0, 99 ), 2 ), GraphicsWidth() * 13.5 / 16, GraphicsWidth() * 8.5 / 16 )
+		NumbersFont.Print( L_FirstZeroes( LevelNum, 2 ), GraphicsWidth() * 13.5 / 16, GraphicsWidth() * 10.5 / 16 )
 	End Method
 	
 	

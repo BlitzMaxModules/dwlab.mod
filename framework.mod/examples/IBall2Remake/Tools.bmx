@@ -24,14 +24,14 @@ Type TTileExtractor Extends LTObject
 		Forever
 		
 		Local Quantity:Int = Tiles.Count()
-		Local Tilemap:TPixmap = CreatePixmap( 16 * TileXSize, Ceil( 1.0 * Quantity / 16 ) * TileYSize, PF_RGB888 )
+		Local Tilemap:TPixmap = CreatePixmap( 16 * TileWidth, Ceil( 1.0 * Quantity / 16 ) * TileHeight, PF_RGB888 )
 		Local X:Int = 0, Y:Int = 0
 		For Local Tile:TPixmap = Eachin Tiles
 			Tilemap.Paste( Tile, X, Y )
-			X :+ TileXSize
-			If X = TileXSize * 16 Then
+			X :+ TileWidth
+			If X = TileWidth * 16 Then
 				X = 0
-				Y :+ TileYSize
+				Y :+ TileHeight
 			End If
 		Next
 		SavePixmapPNG( Tilemap, "media\tilemap.png" )
@@ -42,9 +42,9 @@ Type TTileExtractor Extends LTObject
 	Method ExtractTileFromImage( Filename:String )
 		Local Screenshot:TPixmap = LoadPixmap( Filename )
 		'debugLog PixmapFormat( Screenshot )
-		For Local Y:Int = 0 Until PixmapHeight( Screenshot ) Step TileYSize
-			For Local X:Int = 0 Until PixmapWidth( Screenshot ) Step TileXSize
-				Local Pixmap:TPixmap = Screenshot.Window( X, Y, TileXSize, TileYSize )
+		For Local Y:Int = 0 Until PixmapHeight( Screenshot ) Step TileHeight
+			For Local X:Int = 0 Until PixmapWidth( Screenshot ) Step TileWidth
+				Local Pixmap:TPixmap = Screenshot.Window( X, Y, TileWidth, TileHeight )
 				
 				Local ImageFound:Int = False
 				For Local Tile:TPixmap = Eachin Tiles
@@ -114,7 +114,7 @@ Type TLevelExtractor Extends LTObject
 		
 		For Local Y:Int = 0 Until 12
 			For Local X:Int = 0 Until 13
-				Local Pixmap1:TPixmap = Screenshot.Window( X * TileXSize, Y * TileYSize, TileXSize, TileYSize )
+				Local Pixmap1:TPixmap = Screenshot.Window( X * TileWidth, Y * TileHeight, TileWidth, TileHeight )
 				Local TileNum:Int = 0
 				For Local N:Int = 0 Until TilesQuantity
 					Local Pixmap2:TPixmap = LockImage( Tiles, N )
@@ -162,4 +162,35 @@ Function CreateEnemyGeneratorImage()
 	Local Pixmap:TPixmap = Map.ToNewPixmap( L_Alpha )
 	SavePixmapPNG( Pixmap, "media/generator.png" )
 	End
+End Function
+
+
+
+Function ConvertLevels()
+	Game.Init()
+
+	Local World:LTWorld = New LTWorld
+	Local BlockImage:LTImage = LTImage.FromFile( "media\tiles.png", 16, 11 )
+	Local BlockVisualizer:LTImageVisualizer = New LTImageVisualizer
+	BlockVisualizer.Image = BlockImage
+	BlockVisualizer.Rotating = False
+	For Local Num:Int = 1 To 50
+		Local Page:LTPage = New LTPage
+		Page.SetName( "Level " + Num )
+		
+		L_LoadFromFile( "levels\" + L_FirstZeroes( Num, 2 ) + ".xml" )
+
+		Page.TileMap = New LTTileMap 
+		Page.TileMap.FrameMap = Game.TileMap.FrameMap
+		Page.TileMap.Visualizer = BlockVisualizer
+		Page.TileMap.X = 0.5 * Game.TileMap.FrameMap.XQuantity
+		Page.TileMap.Y = 0.5 * Game.TileMap.FrameMap.YQuantity
+		Page.TileMap.Width = Game.TileMap.FrameMap.XQuantity
+		Page.TileMap.Height = Game.TileMap.FrameMap.YQuantity
+		
+		World.Pages.AddLast( Page )
+	Next
+	
+	L_IncludedObjects.Clear()
+	World.SaveToFile( "world.xml" )
 End Function

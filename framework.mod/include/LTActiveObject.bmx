@@ -43,7 +43,6 @@ Type LTActiveObject Extends LTObject
 	End Method
 	
 	
-	
 	Rem
 	bbdoc:Checks collisions of objects and executes @HandleCollision for each collision.
 	EndRem

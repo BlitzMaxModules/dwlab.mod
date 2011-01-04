@@ -72,7 +72,7 @@ Type LTGame Extends LTProject
 	
 	Method Init()
 		L_CurrentCamera.SetCoords( 64.0, 64.0 )
-		L_CurrentCamera.SetMagnification( L_ScreenXSize / 16, L_ScreenXSize / 16 )
+		L_CurrentCamera.SetMagnification( L_ScreenWidth / 16, L_ScreenWidth / 16 )
 		HideMouse()
 	
 		' ============================= Weapons =============================
@@ -137,7 +137,7 @@ Type LTGame Extends LTProject
 		
 		If MouseZ() + DZ > MaxMouseZ Then DZ = MaxMouseZ - MouseZ()
 		If MouseZ() + DZ < MinMouseZ Then DZ = MinMouseZ - MouseZ()
-		Local NewD:Float = L_ScreenXSize / 16 * ( 1.1 ^ ( MouseZ() + DZ ) )
+		Local NewD:Float = L_ScreenWidth / 16 * ( 1.1 ^ ( MouseZ() + DZ ) )
 		L_CurrentCamera.AlterCameraMagnification( NewD, NewD )
 		
 		Target.SetMouseCoords()

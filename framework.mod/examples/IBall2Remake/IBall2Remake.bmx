@@ -49,8 +49,8 @@ InitGraphics( 800, 600 )
 
 Const TilesQuantity:Int = 176
 Const EnemiesQuantity:Int = 9
-Const TileXSize:Int = 16
-Const TileYSize:Int = 16
+Const TileWidth:Int = 16
+Const TileHeight:Int = 16
 
 Global Pri:LTFilledPrimitive = New LTFilledPrimitive
 Pri.SetColorFromHex( "FF0000" )
@@ -68,5 +68,5 @@ Global Game:TGame = New TGame
 'include "../../tests.bmx"
 'CreateEnemyGeneratorImage
 'DebugLog Min( 0.5, 0.6 )
-
-Game.Execute()
+ConvertLevels()
+'Game.Execute()

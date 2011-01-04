@@ -12,13 +12,12 @@ include "LTPage.bmx"
 
 Type LTWorld Extends LTObject
 	Field Pages:TList = New TList
-	Field SpriteTypes:TList = New TList
 	
 	
 	
 	Method FindPage:LTPage( PageName:String )
 		For Local Page:LTPage = Eachin Pages
-			If Page.Name = PageName Then Return Page
+			If Page.GetName() = PageName Then Return Page
 		Next
 	End Method
 	

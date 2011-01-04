@@ -37,8 +37,8 @@ Type TSharedGameData Extends LTProject
 		PlayerVisualizer.Rotating = False
 		Player.Visualizer = PlayerVisualizer
 		
-		Background.XSize = 32
-		Background.YSize = 24
+		Background.Width = 32
+		Background.Height = 24
 		BackgroundVisualizer.Image = LTImage.FromFile( "media/world-map.jpg" )
 		Background.Visualizer = BackgroundVisualizer
 		
@@ -61,9 +61,9 @@ Type TSharedGameData Extends LTProject
 		Player.Frame = Int( Mid$( "234321012", AngleFrame + 1, 1 ) )
 		
 		If AngleFrame >=3 And AngleFrame <= 5 Then
-			Player.XSize = -Abs( Player.XSize )
+			Player.Width = -Abs( Player.Width )
 		Else
-			Player.XSize = Abs( Player.XSize )
+			Player.Width = Abs( Player.Width )
 		End If
 		
 		If PlayerPivot Then

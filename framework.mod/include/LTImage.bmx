@@ -49,19 +49,19 @@ Type LTImage Extends LTObject
 	
 	
 	Method Split( XCells:Int, YCells:Int )
-		Local XSize:Float = ImageWidth( BMaxImage ) / XCells
-		Local YSize:Float = ImageHeight( BMaxImage ) / YCells
+		Local Width:Float = ImageWidth( BMaxImage ) / XCells
+		Local Height:Float = ImageHeight( BMaxImage ) / YCells
 		
 		?debug
-		L_Assert( Int( XSize ) = XSize And Int( YSize ) = YSize, "Incorrect cells quantity for splitting" )
+		L_Assert( Int( Width ) = Width And Int( Height ) = Height, "Incorrect cells quantity for splitting" )
 		?
 		
-		Local NewBMaxImage:TImage = CreateImage( XSize, YSize, BMaxImage.Pixmaps.Dimensions()[ 0 ] * XCells * YCells )
-		SetImageHandle( NewBMaxImage, 0.5 * ( XSize - 1 ), 0.5 * ( YSize - 1 ) )
+		Local NewBMaxImage:TImage = CreateImage( Width, Height, BMaxImage.Pixmaps.Dimensions()[ 0 ] * XCells * YCells )
+		SetImageHandle( NewBMaxImage, 0.5 * ( Width - 1 ), 0.5 * ( Height - 1 ) )
 
 		Local Num:Int = 0
 		For Local Pixmap:TPixmap = Eachin BMaxImage.Pixmaps
-			Local IntermediateImage:TImage = LoadAnimImage( Pixmap, XSize, YSize, 0, XCells * YCells )
+			Local IntermediateImage:TImage = LoadAnimImage( Pixmap, Width, Height, 0, XCells * YCells )
 			For Local IntermediatePixmap:TPixmap = Eachin IntermediateImage.Pixmaps
 				NewBMaxImage.SetPixmap( Num, IntermediatePixmap )
 				Num :+ 1
@@ -128,9 +128,9 @@ Type LTImage Extends LTObject
 	
 	
 	
-	Function Create:LTImage( XSize:Int, YSize:Int, Frames:Int = 1 )
+	Function Create:LTImage( Width:Int, Height:Int, Frames:Int = 1 )
 		Local Image:LTImage = New LTImage
-		Image.BMaxImage = CreateImage( XSize, YSize, Frames )
+		Image.BMaxImage = CreateImage( Width, Height, Frames )
 		Return Image
 	End Function
 	

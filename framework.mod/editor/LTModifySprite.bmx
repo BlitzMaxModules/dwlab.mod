@@ -22,6 +22,19 @@ Type LTModifySprite Extends LTDrag
 	
 	
 	
+	Const Move:Int = 0
+	Const ResizeHorizontally:Int = 1
+	Const ResizeVertically:Int = 2
+	Const Resize:Int = 3
+	Const ResizeDiagonally1:Int = 4
+	Const ResizeDiagonally2:Int = 5
+	Const MirrorHorizontally:Int = 6
+	Const MirrorVertically:Int = 7
+	Const RotateBackward:Int = 8
+	Const RotateForward:Int = 9
+	
+	
+	
 	Method DraggingConditions:Int()
 		If Editor.SelectedModifier Then Return True
 	End Method
@@ -41,10 +54,10 @@ Type LTModifySprite Extends LTDrag
 		MDY = Sgn( Editor.SelectedModifier.Y - Sprite.Y )
 		
 		L_CurrentCamera.ScreenToField( MouseX(), MouseY(), StartX, StartY )
-		LeftSide = Sprite.X - 0.5 * Sprite.XSize
-		RightSide = Sprite.X + 0.5 * Sprite.XSize
-		TopSide = Sprite.Y - 0.5 * Sprite.YSize
-		BottomSide = Sprite.Y + 0.5 * Sprite.YSize
+		LeftSide = Sprite.X - 0.5 * Sprite.Width
+		RightSide = Sprite.X + 0.5 * Sprite.Width
+		TopSide = Sprite.Y - 0.5 * Sprite.Height
+		BottomSide = Sprite.Y + 0.5 * Sprite.Height
 	End Method
 	
 	
@@ -62,27 +75,27 @@ Type LTModifySprite Extends LTDrag
 		NewBottomSide = BottomSide
 		
 		Select ModifierType
-			Case Editor.Move
+			Case Move
 				NewLeftSide = LeftSide + DX
 				NewRightSide = RightSide + DX
 				NewTopSide = TopSide + DY
 				NewBottomSide = BottomSide + DY
 				Editor.Grid.SetSnaps( NewLeftSide, NewRightSide, 0 )
 				Editor.Grid.SetSnaps( NewTopSide, NewBottomSide, 1 )
-			Case Editor.ResizeHorizontally
+			Case ResizeHorizontally
 				HorizontalResize( DX )
-			Case Editor.ResizeVertically
+			Case ResizeVertically
 				VerticalResize( DY )
-			Case Editor.Resize
+			Case Resize
 				HorizontalResize( DX )
 				VerticalResize( DY )
-			Case Editor.ResizeDiagonally1
+			Case ResizeDiagonally1
 				If MDX < 0 Then
 					Editor.Grid.SetCornerSnaps( NewLeftSide, NewTopSide, LeftSide, TopSide, RightSide, BottomSide, X, Y )
 				Else
 					Editor.Grid.SetCornerSnaps( NewRightSide, NewBottomSide, RightSide, BottomSide, LeftSide, TopSide, X, Y )
 				End If
-			Case Editor.ResizeDiagonally2
+			Case ResizeDiagonally2
 				If MDX < 0 Then
 					Editor.Grid.SetCornerSnaps( NewLeftSide, NewBottomSide, LeftSide, BottomSide, RightSide, TopSide, X, Y )
 				Else
@@ -92,8 +105,8 @@ Type LTModifySprite Extends LTDrag
 				
 		Sprite.X = 0.5 * ( NewLeftSide + NewRightSide )
 		Sprite.Y = 0.5 * ( NewTopSide + NewBottomSide )
-		Sprite.XSize = NewRightSide - NewLeftSide
-		Sprite.YSize = NewBottomSide - NewTopSide
+		Sprite.Width = NewRightSide - NewLeftSide
+		Sprite.Height = NewBottomSide - NewTopSide
 	End Method
 	
 	
@@ -124,18 +137,23 @@ Type LTModifySprite Extends LTDrag
 	
 	Method EndDragging()
 		Select ModifierType
-			Case 8
+			Case MirrorHorizontally
+				Sprite.Visualizer.XScale = -Sprite.Visualizer.XScale
+			Case MirrorVertically
+				Sprite.Visualizer.YScale = -Sprite.Visualizer.YScale
+			Case RotateBackward
 				Sprite.Angle :- 45
-			Case 9
+			Case RotateForward
 				Sprite.Angle :+ 45
 		End Select
 		
-		If Not Sprite.XSize Or Not Sprite.YSize Then
+		If Not Sprite.Width Or Not Sprite.Height Then
 			Sprite.X = 0.5 * ( LeftSide + RightSide )
 			Sprite.Y = 0.5 * ( TopSide + BottomSide )
-			Sprite.XSize = RightSide - LeftSide
-			Sprite.YSize = BottomSide - TopSide
+			Sprite.Width = RightSide - LeftSide
+			Sprite.Height = BottomSide - TopSide
 		End If
+		
 		Editor.SetSpriteModifiers( Sprite )
 	End Method
 End Type

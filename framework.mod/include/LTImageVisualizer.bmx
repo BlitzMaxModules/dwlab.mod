@@ -12,6 +12,8 @@ Include "LTImage.bmx"
 
 Type LTImageVisualizer Extends LTVisualizer
 	Field Image:LTImage
+	Field Angle:Float
+	Field Rotating:Int = True
 	
 	
 	
@@ -35,7 +37,7 @@ Type LTImageVisualizer Extends LTVisualizer
 		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
 		SetAlpha Alpha
 	
-		Local SX:Float, SY:Float, SXSize:Float, SYSize:Float
+		Local SX:Float, SY:Float, SWidth:Float, SHeight:Float
 		L_CurrentCamera.FieldToScreen( Actor.X, Actor.Y, SX, SY )
 		
 		If Rotating Then
@@ -46,16 +48,16 @@ Type LTImageVisualizer Extends LTVisualizer
 		
 		If Image Then
 			If Scaling Then
-				L_CurrentCamera.SizeFieldToScreen( Actor.XSize, Actor.YSize, SXSize, SYSize )
-				SetScale( XScale * SXSize / ImageWidth( Image.BMaxImage ), YScale * SYSize / ImageHeight( Image.BMaxImage ) )
+				L_CurrentCamera.SizeFieldToScreen( Actor.Width, Actor.Height, SWidth, SHeight )
+				SetScale( XScale * SWidth / ImageWidth( Image.BMaxImage ), YScale * SHeight / ImageHeight( Image.BMaxImage ) )
 			Else
 				SetScale XScale, YScale
 			End If
 			
 			DrawImage( Image.BMaxImage, SX, SY, Actor.Frame )
 		Else
-			L_CurrentCamera.SizeFieldToScreen( Actor.XSize, Actor.YSize, SXSize, SYSize )
-			DrawRect( SX - 0.5 * SXSize, SY - 0.5 * SYSize, SXSize, SYSize )
+			L_CurrentCamera.SizeFieldToScreen( Actor.Width, Actor.Height, SWidth, SHeight )
+			DrawRect( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
 		End If
 		
 		SetScale( 1.0, 1.0 )
@@ -74,38 +76,38 @@ Type LTImageVisualizer Extends LTVisualizer
 		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
 		SetAlpha Alpha
 	
-		Local SXSize:Float, SYSize:Float
-		Local CellXSize:Float = TileMap.XSize / FrameMap.XQuantity
-		Local CellYSize:Float = TileMap.YSize / FrameMap.YQuantity
-		L_CurrentCamera.SizeFieldToScreen( CellXSize, CellYSize, SXSize, SYSize )
-		SetScale( SXSize / ImageWidth( Image.BMaxImage ), SYSize / ImageHeight( Image.BMaxImage ) )
+		Local SWidth:Float, SHeight:Float
+		Local CellWidth:Float = TileMap.Width / FrameMap.XQuantity
+		Local CellHeight:Float = TileMap.Height / FrameMap.YQuantity
+		L_CurrentCamera.SizeFieldToScreen( CellWidth, CellHeight, SWidth, SHeight )
+		SetScale( SWidth / ImageWidth( Image.BMaxImage ), SHeight / ImageHeight( Image.BMaxImage ) )
 		
 		Local SX:Float, SY:Float
-		L_CurrentCamera.FieldToScreen( TileMap.X - 0.5 * TileMap.XSize, TileMap.Y - 0.5 * TileMap.YSize, SX, SY )
+		L_CurrentCamera.FieldToScreen( TileMap.X - 0.5 * TileMap.Width, TileMap.Y - 0.5 * TileMap.Height, SX, SY )
 
-		Local X1:Float = L_CurrentCamera.ViewPort.X - 0.5 * L_CurrentCamera.ViewPort.XSize
-		Local Y1:Float = L_CurrentCamera.ViewPort.Y - 0.5 * L_CurrentCamera.ViewPort.YSize
-		Local X2:Float = X1 + L_CurrentCamera.ViewPort.XSize + SXSize * 0.5
-		Local Y2:Float = Y1 + L_CurrentCamera.ViewPort.YSize + SYSize * 0.5
+		Local X1:Float = L_CurrentCamera.ViewPort.X - 0.5 * L_CurrentCamera.ViewPort.Width
+		Local Y1:Float = L_CurrentCamera.ViewPort.Y - 0.5 * L_CurrentCamera.ViewPort.Height
+		Local X2:Float = X1 + L_CurrentCamera.ViewPort.Width + SWidth * 0.5
+		Local Y2:Float = Y1 + L_CurrentCamera.ViewPort.Height + SHeight * 0.5
 		
-		Local StartXFrame:Int = Int( ( L_CurrentCamera.X - TileMap.X - 0.5 * ( L_CurrentCamera.XSize - TileMap.XSize ) ) / CellXSize )
-		Local StartYFrame:Int = Int( ( L_CurrentCamera.Y - TileMap.Y - 0.5 * ( L_CurrentCamera.YSize - TileMap.YSize ) ) / CellYSize )
-		Local StartX:Float = SX + SXSize * ( Int( ( X1 - SX ) / SXSize ) ) + SXSize * 0.5
-		Local StartY:Float = SY + SYSize * ( Int( ( Y1 - SY ) / SYSize ) ) + SYSize * 0.5
+		Local StartXFrame:Int = Int( ( L_CurrentCamera.X - TileMap.X - 0.5 * ( L_CurrentCamera.Width - TileMap.Width ) ) / CellWidth )
+		Local StartYFrame:Int = Int( ( L_CurrentCamera.Y - TileMap.Y - 0.5 * ( L_CurrentCamera.Height - TileMap.Height ) ) / CellHeight )
+		Local StartX:Float = SX + SWidth * ( Int( ( X1 - SX ) / SWidth ) ) + SWidth * 0.5
+		Local StartY:Float = SY + SHeight * ( Int( ( Y1 - SY ) / SHeight ) ) + SHeight * 0.5
 		
 		If Not TileMap.Wrapped Then
 			If StartXFrame < 0 Then 
-				StartX :- StartXFrame * SXSize
+				StartX :- StartXFrame * SWidth
 				StartXFrame = 0
 			End If
-			Local EndX:Float = StartX + SXSize * ( FrameMap.XQuantity - StartXFrame ) - 0.001
+			Local EndX:Float = StartX + SWidth * ( FrameMap.XQuantity - StartXFrame ) - 0.001
 			If  EndX < X2  Then X2 = EndX
 			
 			If StartYFrame < 0 Then 
-				StartY :- StartYFrame * SYSize
+				StartY :- StartYFrame * SHeight
 				StartYFrame = 0
 			End If
-			Local EndY:Float = StartY + SYSize * ( FrameMap.YQuantity - StartYFrame ) - 0.001
+			Local EndY:Float = StartY + SHeight * ( FrameMap.YQuantity - StartYFrame ) - 0.001
 			If  EndY < Y2  Then Y2 = EndY
 		End If
 		
@@ -120,10 +122,10 @@ Type LTImageVisualizer Extends LTVisualizer
 				Else
 					DrawTile( FrameMap, XX, YY, FrameMap.WrapX( XFrame ), FrameMap.WrapY( YFrame ) )
 				End If
-				XX = XX + SXSize
+				XX = XX + SWidth
 				XFrame :+ 1
 			Wend
-			YY = YY + SYSize
+			YY = YY + SHeight
 			YFrame :+ 1
 		Wend
 		
@@ -144,5 +146,7 @@ Type LTImageVisualizer Extends LTVisualizer
 		Super.XMLIO( XMLObject )
 		
 		Image = LTImage( XMLObject.ManageObjectField( "image", Image ) )
+		XMLObject.ManageFloatAttribute( "angle", Angle )
+		XMLObject.ManageIntAttribute( "rotating", Rotating, 1 )
 	End Method
 End Type

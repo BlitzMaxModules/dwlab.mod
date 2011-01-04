@@ -24,14 +24,14 @@ End Function
 
 
 Function L_WedgingValuesOfCircleAndRectangle( CircleX:Float, CircleY:Float, CircleDiameter:Float, ..
-RectangleX:Float, RectangleY:Float, RectangleXSize:Float, RectangleYSize:Float, DX:Float Var, DY:Float Var )
-	If CircleX > RectangleX - 0.5 * RectangleXSize And CircleX < RectangleX + 0.5 * RectangleXSize Then
-		DY = ( 0.5 * ( RectangleYSize + CircleDiameter ) - Abs( RectangleY - CircleY ) ) * Sgn( CircleY - RectangleY )
-	ElseIf CircleY > RectangleY - 0.5 * RectangleYSize And CircleY < RectangleY + 0.5 * RectangleYSize Then
-		DX = ( 0.5 * ( RectangleXSize + CircleDiameter ) - Abs( RectangleX - CircleX ) ) * Sgn( CircleX - RectangleX )
+RectangleX:Float, RectangleY:Float, RectangleWidth:Float, RectangleHeight:Float, DX:Float Var, DY:Float Var )
+	If CircleX > RectangleX - 0.5 * RectangleWidth And CircleX < RectangleX + 0.5 * RectangleWidth Then
+		DY = ( 0.5 * ( RectangleHeight + CircleDiameter ) - Abs( RectangleY - CircleY ) ) * Sgn( CircleY - RectangleY )
+	ElseIf CircleY > RectangleY - 0.5 * RectangleHeight And CircleY < RectangleY + 0.5 * RectangleHeight Then
+		DX = ( 0.5 * ( RectangleWidth + CircleDiameter ) - Abs( RectangleX - CircleX ) ) * Sgn( CircleX - RectangleX )
 	Else
-		Local PX:Float = RectangleX + 0.5 * RectangleXSize * Sgn( CircleX - RectangleX )
-		Local PY:Float = RectangleY + 0.5 * RectangleYSize * Sgn( CircleY - RectangleY )
+		Local PX:Float = RectangleX + 0.5 * RectangleWidth * Sgn( CircleX - RectangleX )
+		Local PY:Float = RectangleY + 0.5 * RectangleHeight * Sgn( CircleY - RectangleY )
 		Local K:Float = 1.0 - 0.5 * CircleDiameter / Sqr( ( CircleX - PX ) * ( CircleX - PX ) + ( CircleY - PY ) * ( CircleY - PY ) )
 		DX = ( PX - CircleX ) * K
 		DY = ( PY - CircleY ) * K
@@ -42,10 +42,10 @@ End Function
 
 
 
-Function L_WedgingValuesOfRectangleAndRectangle( Rectangle1X:Float, Rectangle1Y:Float, Rectangle1XSize:Float, Rectangle1YSize:Float, ..
-Rectangle2X:Float, Rectangle2Y:Float, Rectangle2XSize:Float, Rectangle2YSize:Float, DX:Float Var, DY:Float Var )
-	DX = 0.5 * ( Rectangle1XSize + Rectangle2XSize ) - Abs( Rectangle1X - Rectangle2X )
-	DY = 0.5 * ( Rectangle1YSize + Rectangle2YSize ) - Abs( Rectangle1Y - Rectangle2Y )
+Function L_WedgingValuesOfRectangleAndRectangle( Rectangle1X:Float, Rectangle1Y:Float, Rectangle1Width:Float, Rectangle1Height:Float, ..
+Rectangle2X:Float, Rectangle2Y:Float, Rectangle2Width:Float, Rectangle2Height:Float, DX:Float Var, DY:Float Var )
+	DX = 0.5 * ( Rectangle1Width + Rectangle2Width ) - Abs( Rectangle1X - Rectangle2X )
+	DY = 0.5 * ( Rectangle1Height + Rectangle2Height ) - Abs( Rectangle1Y - Rectangle2Y )
 	
 	If DX < DY Then
 		DX :* Sgn( Rectangle1X - Rectangle2X )

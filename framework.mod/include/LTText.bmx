@@ -33,16 +33,16 @@ Type LTFont Extends LTObject
 	Method Print( Text:String, X:Float, Y:Float, HorizontalAlignment:Int = L_AlignToRight, VerticalAlignment:Int = L_AlignToTop )
 		Select HorizontalAlignment
 			Case L_AlignToCenter
-				X :- 0.5 * XSize( Text )
+				X :- 0.5 * Width( Text )
 			Case L_AlignToLeft
-				X :- XSize( Text )
+				X :- Width( Text )
 		End Select
 		
 		Select HorizontalAlignment
 			Case L_AlignToCenter
-				Y :- 0.5 * YSize()
+				Y :- 0.5 * Height()
 			Case L_AlignToLeft
-				Y :- YSize()
+				Y :- Height()
 		End Select
 		
 		SetScale XScale, YScale
@@ -59,7 +59,7 @@ Type LTFont Extends LTObject
 	
 
 		
-	Method XSize:Int( Text:String )
+	Method Width:Int( Text:String )
 		Local X:Int = 0
 		For Local N:Int = 0 Until Len( Text )
 			?debug
@@ -74,7 +74,7 @@ Type LTFont Extends LTObject
 
 
 	
-	Method YSize:Int()
+	Method Height:Int()
 		Return  YScale * ImageHeight( BMaxImage )
 	End Method
 

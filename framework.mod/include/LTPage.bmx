@@ -1,5 +1,4 @@
 Type LTPage Extends LTObject
-	Field Name:String
 	Field TileMap:LTTileMap
 	Field Sprites:LTList = New LTList
 	
@@ -15,7 +14,6 @@ Type LTPage Extends LTObject
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
-		XMLObject.ManageStringAttribute( "pagename", Name )
 		TileMap = LTTileMap( XMLObject.ManageObjectField( "tilemap", TileMap ) )
 		XMLObject.ManageChildList( Sprites.Children )
 	End Method

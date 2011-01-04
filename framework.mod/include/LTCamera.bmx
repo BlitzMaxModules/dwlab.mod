@@ -27,9 +27,9 @@ Type LTCamera Extends LTActor
 
 	
 	
-	Method SizeScreenToField( ScreenXSize:Float, ScreenYSize:Float, FieldXSize:Float Var, FieldYSize:Float Var )
-		FieldXSize = ScreenXSize / XK
-		FieldYSize = ScreenYSize / YK
+	Method SizeScreenToField( ScreenWidth:Float, ScreenHeight:Float, FieldWidth:Float Var, FieldHeight:Float Var )
+		FieldWidth = ScreenWidth / XK
+		FieldHeight = ScreenHeight / YK
 	End Method
 
 	
@@ -47,9 +47,9 @@ Type LTCamera Extends LTActor
 
 	
 	
-	Method SizeFieldToScreen( FieldXSize:Float, FieldYSize:Float, ScreenXSize:Float Var, ScreenYSize:Float Var )
-		ScreenXSize = FieldXSize * XK
-		ScreenYSize = FieldYSize * YK
+	Method SizeFieldToScreen( FieldWidth:Float, FieldHeight:Float, ScreenWidth:Float Var, ScreenHeight:Float Var )
+		ScreenWidth = FieldWidth * XK
+		ScreenHeight = FieldHeight * YK
 	End Method
 
 	
@@ -63,7 +63,7 @@ Type LTCamera Extends LTActor
 	Method SetCameraViewport()
 		If Not ViewportClipping Then Return
 	
-		SetViewport( X - 0.5 * XSize, Y - 0.5 * YSize, XSize, YSize )
+		SetViewport( X - 0.5 * Width, Y - 0.5 * Height, Width, Height )
 	End Method
 	
 	
@@ -77,8 +77,8 @@ Type LTCamera Extends LTActor
 	Method SetMagnification( NewXK:Float, NewYK:Float )
 		XK = NewXK
 		YK = NewYK
-		Xsize = Viewport.XSize / XK
-		Ysize = Viewport.YSize / YK
+		Width = Viewport.Width / XK
+		Height = Viewport.Height / YK
 	End Method
 	
 	
@@ -99,10 +99,10 @@ Type LTCamera Extends LTActor
 	
 	
 	Method LimitWith( Rectangle:LTActor )
-		Local X1:Float = Min( Rectangle.X, Rectangle.CornerX() + 0.5 * XSize )
-		Local Y1:Float = Min( Rectangle.Y, Rectangle.CornerY() + 0.5 * YSize )
-		Local X2:Float = Max( Rectangle.X, Rectangle.X + 0.5 * ( Rectangle.XSize - XSize ) )
-		Local Y2:Float = Max( Rectangle.Y, Rectangle.Y + 0.5 * ( Rectangle.YSize - YSize ) )
+		Local X1:Float = Min( Rectangle.X, Rectangle.CornerX() + 0.5 * Width )
+		Local Y1:Float = Min( Rectangle.Y, Rectangle.CornerY() + 0.5 * Height )
+		Local X2:Float = Max( Rectangle.X, Rectangle.X + 0.5 * ( Rectangle.Width - Width ) )
+		Local Y2:Float = Max( Rectangle.Y, Rectangle.Y + 0.5 * ( Rectangle.Height - Height ) )
 		X = L_LimitFloat( X, X1, X2 )
 		Y = L_LimitFloat( Y, Y1, Y2 )
 		Update()
@@ -111,8 +111,8 @@ Type LTCamera Extends LTActor
 	
 	
 	Method Update()
-		XK = Viewport.XSize / XSize
-		YK = Viewport.YSize / YSize
+		XK = Viewport.Width / Width
+		YK = Viewport.Height / Height
 		DX = Viewport.X / XK - X
 		DY = Viewport.Y/ YK - Y
 	End Method
@@ -121,10 +121,10 @@ Type LTCamera Extends LTActor
 	
 	Function Create:LTCamera( Width:Float, Height:Float, WidthInUnits:Float = 8 )
 		Local Camera:LTCamera = New LTCamera
-		Camera.XSize = 32.0
-		Camera.YSize = 32.0 * Height / Width
-		Camera.Viewport.XSize = Width
-		Camera.Viewport.YSize = Height
+		Camera.Width = 32.0
+		Camera.Height = 32.0 * Height / Width
+		Camera.Viewport.Width = Width
+		Camera.Viewport.Height = Height
 		Camera.Viewport.X = 0.5 * Width
 		Camera.Viewport.Y = 0.5 * Height
 		Camera.Update()

@@ -56,14 +56,14 @@ Type TChaingun Extends TWeapon
 		Chaingun.CannonVisualizer.Image = Game.ChaingunCannon
 		Chaingun.CannonVisualizer.SetVisualizerScale( 1.0, -WeaponPosition )
 		Chaingun.Cannon.Visualizer = Chaingun.CannonVisualizer
-		Chaingun.Cannon.CorrectYSize()
+		Chaingun.Cannon.CorrectHeight()
 		
 		Chaingun.Barrel.SetCoordsRelativeToActor( Game.Player, 0.88, 0.65 * WeaponPosition )
 		Chaingun.Barrel.SetSize( 0.75, 0.75 )
 		Chaingun.BarrelVisualizer.Image = Game.ChaingunBarrel
 		Chaingun.BarrelVisualizer.SetVisualizerScale( 1.0, -WeaponPosition )
 		Chaingun.Barrel.Visualizer = Chaingun.BarrelVisualizer
-		Chaingun.Barrel.CorrectYSize()
+		Chaingun.Barrel.CorrectHeight()
 		
 		Chaingun.Fire.SetSize( 1.5, 1.5 )
 		Chaingun.Fire.Visualizer = Game.ChaingunFire

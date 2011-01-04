@@ -29,7 +29,8 @@ Type LTCreateSprite Extends LTDrag
 	
 	
 	Method StartDragging()
-		L_CurrentCamera.ScreenToField( MouseX(), MouseY(), StartX, StartY )
+		StartX = Editor.Cursor.X
+		StartY = Editor.Cursor.Y
 		Editor.Grid.Snap( StartX, StartY )
 		
 		Local CurrentSprite:LTActor = Editor.CurrentSprite
@@ -73,19 +74,19 @@ Type LTCreateSprite Extends LTDrag
 	
 	
 	Method Dragging()
-		Local X:Float, Y:Float
-		L_CurrentCamera.ScreenToField( MouseX(), MouseY(), X, Y )
+		Local X:Float = Editor.Cursor.X
+		Local Y:Float = Editor.Cursor.Y
 		Editor.Grid.Snap( X, Y )
 		Sprite.X = 0.5 * ( X + StartX )
 		Sprite.Y = 0.5 * ( Y + StartY )
-		Sprite.XSize = Abs( X - StartX )
-		Sprite.YSize = Abs( Y - StartY )
+		Sprite.Width = Abs( X - StartX )
+		Sprite.Height = Abs( Y - StartY )
 	End Method
 	
 	
 	
 	Method EndDragging()
-		If Not Sprite.XSize Or Not Sprite.YSize Then
+		If Not Sprite.Width Or Not Sprite.Height Then
 			Editor.CurrentPage.Sprites.Remove( Sprite )
 		Else
 			While Not LTImageVisualizer( Sprite.Visualizer ).Image
