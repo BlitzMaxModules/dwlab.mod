@@ -442,57 +442,69 @@ Type LTEditor Extends LTProject
 					Case MenuSaveAs
 						SaveWorld( RequestFile( "Select world file name to save...", "DWLab world XML file:xml", True ) )
 					Case MenuImportTilemap
-						Local TileWidth:Int, TileHeight:Int
-						ChooseParameter( TileWidth, TileHeight, "tile size", "pixels" )
-						
-						Local Filename:String = RequestFile( "Select tilemap file to process...", "Image files:png,jpg,bmp" )
-						Local Tilemap:TPixmap = LoadPixmap( Filename )
-						If Not Tilemap Then
-							Notify( "Cannot load tilemap." )
-						Else
-							Local TilemapWidth:Int = PixmapWidth( Tilemap )
-							Local TilemapHeight:Int = PixmapHeight( Tilemap )
-							
-							If TilemapWidth Mod TileWidth = 0 And TilemapHeight Mod TileHeight = 0 Then
-								Local TilesetFilename:String = ChopFilename( RequestFile( "Select file to save tiles image to...", "png", True ) )
-								If TilesetFilename Then ImportTilemap( TileWidth, TileHeight, Tilemap, TilesetFilename )
+						Local TileWidth:Int = 16
+						Local TileHeight:Int = 16
+						If ChooseParameter( TileWidth, TileHeight, "tile size", "pixels" ) Then
+							Local Filename:String = RequestFile( "Select tilemap file to process...", "Image files:png,jpg,bmp" )
+							Local Tilemap:TPixmap = LoadPixmap( Filename )
+							If Not Tilemap Then
+								Notify( "Cannot load tilemap." )
 							Else
-								Notify( "Tilemap size must be divideable by tile size." )
+								Local TilemapWidth:Int = PixmapWidth( Tilemap )
+								Local TilemapHeight:Int = PixmapHeight( Tilemap )
+								
+								If TilemapWidth Mod TileWidth = 0 And TilemapHeight Mod TileHeight = 0 Then
+									Local TilesetFilename:String = ChopFilename( RequestFile( "Select file to save tiles image to...", "png", True ) )
+									If TilesetFilename Then
+										ImportTilemap( TileWidth, TileHeight, Tilemap, TilesetFilename )
+										Local Tileset:TImage = LoadImage( TilesetFilename )
+										Local Visualizer:LTImageVisualizer = New LTImageVisualizer
+										Visualizer.Image = LoadImageFromFile( TilesetFilename, Tileset.Width / TileWidth, Tileset.height / TileHeight )
+										CurrentPage.Tilemap.Visualizer = Visualizer
+									End If
+								Else
+									Notify( "Tilemap size must be divideable by tile size." )
+								End If
 							End If
 						End If
 					Case MenuImportTilemaps
-						Local TileWidth:Int, TileHeight:Int
-						ChooseParameter( TileWidth, TileHeight, "tile size", "pixels" )
-						
-						Local Path:String = RequestDir( "Select directory with tilemap files to process...", CurrentDir() )
-						If Path Then 
-							Local TilesetFilename:String = ChopFilename( RequestFile( "Select file to save tiles image to...", "png", True ) )
-							If TilesetFilename Then 
-								Local Dir:Int = ReadDir( Path )
-								Local Num:Int = 1
-								Repeat
-									Local Filename:String = NextFile( Dir )
-									If Not Filename Then Exit
-									If Lower( Right( Filename, 4 ) ) <> ".png" Then Continue
-									
-									Filename = Path + "\" + Filename
-									DebugLog Filename
-									
-									Local Tilemap:TPixmap = LoadPixmap( Filename )
-									If Tilemap Then
-										Local TilemapWidth:Int = PixmapWidth( Tilemap )
-										Local TilemapHeight:Int = PixmapHeight( Tilemap )
+						Local TileWidth:Int = 16
+						Local TileHeight:Int = 16
+						If ChooseParameter( TileWidth, TileHeight, "tile size", "pixels" ) Then
+							Local Path:String = RequestDir( "Select directory with tilemap files to process...", CurrentDir() )
+							If Path Then 
+								Local TilesetFilename:String = ChopFilename( RequestFile( "Select file to save tiles image to...", "png", True ) )
+								If TilesetFilename Then 
+									Local Dir:Int = ReadDir( Path )
+									Local Num:Int = 1
+									Local Visualizer:LTImageVisualizer = New LTImageVisualizer
+									Repeat
+										Local Filename:String = NextFile( Dir )
+										If Not Filename Then Exit
+										If Lower( Right( Filename, 4 ) ) <> ".png" Then Continue
 										
-										If TilemapWidth Mod TileWidth = 0 And TilemapHeight Mod TileHeight = 0 Then
-											CurrentPage = New LTPage
-											CurrentPage.SetName( "Level " + Num )
-											Editor.World.Pages.AddLast( CurrentPage )
-											ImportTilemap( TileWidth, TileHeight, Tilemap, TilesetFilename )
+										Filename = Path + "\" + Filename
+										
+										Local Tilemap:TPixmap = LoadPixmap( Filename )
+										If Tilemap Then
+											Local TilemapWidth:Int = PixmapWidth( Tilemap )
+											Local TilemapHeight:Int = PixmapHeight( Tilemap )
+											
+											If TilemapWidth Mod TileWidth = 0 And TilemapHeight Mod TileHeight = 0 Then
+												CurrentPage = New LTPage
+												CurrentPage.SetName( "Level " + Num )
+												Editor.World.Pages.AddLast( CurrentPage )
+												ImportTilemap( TileWidth, TileHeight, Tilemap, TilesetFilename )
+												CurrentPage.Tilemap.Visualizer = Visualizer
+											End If
 										End If
-									End If
-									
-									Num :+ 1
-								Forever
+										
+										Num :+ 1
+									Forever
+									Local Tileset:TImage = LoadImage( TilesetFilename )
+									Visualizer.Image = LoadImageFromFile( TilesetFilename, Tileset.Width / TileWidth, Tileset.Height / TileHeight )
+									RefreshPagesList()
+								End If
 							End If
 						End If
 					Case MenuSnapToGrid
@@ -898,7 +910,7 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method ChooseParameter( Width:Int Var, Height:Int Var, Parameter:String, Units:String )
+	Method ChooseParameter:Int( Width:Int Var, Height:Int Var, Parameter:String, Units:String )
 		Local Settings:TGadget =CreateWindow( "Choose " + Parameter + ":", 0.5 * ClientWidth( Window ) - 72, 0.5 * ClientHeight( Window ) - 78, 144, 157, Desktop(), WINDOW_TITLEBAR )
 		CreateLabel( "Height:", 7, 10, 40, 16, Settings, 0 )
 		Local WidthField:TGadget = CreateTextField( 48, 8, 40, 20, Settings )
@@ -925,7 +937,8 @@ Type LTEditor Extends LTProject
 							Else
 								Width = NewWidth
 								Height = NewHeight
-								Exit
+								FreeGadget( Settings )
+								Return True
 							End If
 						Case CancelButton
 							Exit
@@ -936,6 +949,7 @@ Type LTEditor Extends LTProject
 		Forever
 		
 		FreeGadget( Settings )
+		Return False
 	End Method
 	
 	
@@ -961,7 +975,9 @@ Type LTEditor Extends LTProject
 			Local TilesQuantity:Int = ImageWidth( Image ) * ImageHeight( Image ) / TileWidth / TileHeight
 			Image = LoadAnimImage( LockImage( Image ), TileWidth, TileHeight, 0, TilesQuantity )
 			For Local N:Int = 0 Until TilesQuantity
-				Tiles.AddLast( LockImage( Image, N ) )
+				Local Pixmap:TPixmap = LockImage( Image, N )
+				If PixmapIsEmpty( Pixmap ) Then Exit
+				Tiles.AddLast( Pixmap )
 			Next
 			UnLockImage( Image )
 		End If
@@ -982,7 +998,9 @@ Type LTEditor Extends LTProject
 		Next
 		
 		Local TilesQuantity:Int = Tiles.Count()
+		Debuglog PixmapFormat( Tilemap )
 		Local TilesPixmap:TPixmap = CreatePixmap( TileWidth * 16, TileHeight * Ceil( 1.0 * TilesQuantity / 16 ), PixmapFormat( Tilemap ) )
+		TilesPixmap.ClearPixels( $FFFF00FF )
 		Local N:Int = 0
 		For Local Tile:TPixmap = Eachin Tiles
 			TilesPixmap.Paste( Tile, ( N Mod 16 ) * TileWidth, Floor( 1.0 * N / 16.0 ) * TileHeight )
@@ -990,7 +1008,17 @@ Type LTEditor Extends LTProject
 		Next
 		
 		SavePixmapPNG( TilesPixmap, TilesetFilename )
-		CurrentPage.Tilemap.Visualizer = LTImageVisualizer.FromFile( TilesetFilename, 16, Ceil( 1.0 * TilesQuantity / 16 ) )
+	End Method
+	
+	
+	
+	Method PixmapIsEmpty:Int( Pixmap:TPixmap )
+		For Local Y:Int = 0 Until Pixmap.Height
+			For Local X:Int = 0 Until Pixmap.Width
+				If Pixmap.ReadPixel( X, Y ) <> $FFFF00FF Then Return False
+			Next
+		Next
+		Return True
 	End Method
 	
 	
@@ -1059,9 +1087,7 @@ Type LTEditor Extends LTProject
 							If Image And Filename Then
 								If XCells > 0 And YCells > 0 Then
 									If Image.Width Mod XCells = 0 And Image.Height Mod YCells = 0 Then
-										Local NewImage:LTImage = LTImage.FromFile( Filename, XCells, YCells )
-										LTImageVisualizer( Sprite.Visualizer ).Image = NewImage
-										RealPathsForImages.Insert( NewImage, RealPath( Filename ) )
+										LTImageVisualizer( Sprite.Visualizer ).Image = LoadImageFromFile( Filename, XCells, YCells )
 										FreeGadget( EditWindow )
 										Return True
 									Else
@@ -1082,6 +1108,14 @@ Type LTEditor Extends LTProject
 					Return False
 			End Select
 		Forever
+	End Method
+	
+	
+	
+	Method LoadImageFromFile:LTImage( Filename:String, XCells:Int, YCells:Int )
+			Local Image:LTImage = LTImage.FromFile( Filename, XCells, YCells )
+			RealPathsForImages.Insert( Image, RealPath( Filename ) )
+			Return Image
 	End Method
 	
 	
