@@ -140,7 +140,7 @@ Type LTActor Extends LTShape
 			Case L_Circle
 				Select Actor.Shape
 					Case L_Pivot
-						Return L_CircleOverlapsPivot( X, Y, Width, Actor.X, Actor.Y )
+						Return L_CircleOverlapsCircle( X, Y, Width, Actor.X, Actor.Y, 0 )
 					Case L_Circle
 						Return L_CircleOverlapsCircle( X, Y, Width, Actor.X, Actor.Y, Actor.Width )
 					Case L_Rectangle

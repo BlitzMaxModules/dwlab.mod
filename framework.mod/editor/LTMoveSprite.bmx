@@ -58,5 +58,6 @@ Type LTMoveSprite Extends LTDrag
 	
 	Method EndDragging()
 		If Editor.SelectedSprites.Count() = 1 Then Editor.SelectSprite( LTActor( Editor.SelectedSprites.First() ) )
+		Editor.SetChanged()
 	End Method
 End Type

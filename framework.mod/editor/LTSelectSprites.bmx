@@ -50,7 +50,7 @@ Type LTSelectSprites Extends LTDrag
 		For Local Sprite:LTActor = Eachin Editor.CurrentPage.Sprites
 			If Frame.OverlapsActor( Sprite ) Then Editor.SelectedSprites.AddLast( Sprite )
 		Next
-			
+		Editor.FillSpriteFields()
 		Frame = Null
 	End Method
 End Type

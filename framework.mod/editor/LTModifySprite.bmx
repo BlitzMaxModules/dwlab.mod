@@ -152,8 +152,11 @@ Type LTModifySprite Extends LTDrag
 			Sprite.Y = 0.5 * ( TopSide + BottomSide )
 			Sprite.Width = RightSide - LeftSide
 			Sprite.Height = BottomSide - TopSide
+		Else
+			Editor.SetChanged()
 		End If
 		
 		Editor.SetSpriteModifiers( Sprite )
+		Editor.FillSpriteFields()
 	End Method
 End Type

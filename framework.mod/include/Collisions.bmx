@@ -76,19 +76,13 @@ End Function
 
 
 
-Function L_CircleOverlapsPivot:Int( CircleX:Float, CircleY:Float, CircleDiameter:Float, PivotX:Float, PivotY:Float )
-	If ( CircleX - PivotX ) * ( CircleX - PivotX ) + ( CircleY - PivotY ) * ( CircleY - PivotY ) <= CircleDiameter * CircleDiameter Then Return True
-End Function
-
-
-
 Function L_CircleOverlapsCircle:Int( Circle1X:Float, Circle1Y:Float, Circle1Diameter:Float, Circle2X:Float, Circle2Y:Float, Circle2Diameter:Float )
-	If 4.0 * ( ( Circle1X - Circle2X ) * ( Circle1X - Circle2X ) + ( Circle1X - Circle2X ) * ( Circle1X - Circle2X ) ) <= ( Circle1Diameter - Circle2Diameter ) * ( Circle1Diameter - Circle2Diameter ) Then Return True
+	If 4.0 * ( ( Circle1X - Circle2X ) * ( Circle1X - Circle2X ) + ( Circle1Y - Circle2Y ) * ( Circle1Y - Circle2Y ) ) <= ( Circle1Diameter - Circle2Diameter ) * ( Circle1Diameter - Circle2Diameter ) Then Return True
 End Function
 
 
 
 Function L_RectangleOverlapsRectangle:Int( Rectangle1X:Float, Rectangle1Y:Float, Rectangle1Width:Float, Rectangle1Height:Float, Rectangle2X:Float, Rectangle2Y:Float, Rectangle2Width:Float, Rectangle2Height:Float )
-	If ( Rectangle1X - Rectangle1Width <= Rectangle2X - Rectangle2Width ) And ( Rectangle1Y - Rectangle1Height <= Rectangle2Y - Rectangle2Height ) And ..
-		( Rectangle1X + Rectangle1Width >= Rectangle2X + Rectangle2Width ) And ( Rectangle1Y + Rectangle1Height >= Rectangle2Y + Rectangle2Height ) Then Return True
+	If ( Rectangle1X - 0.5 * Rectangle1Width <= Rectangle2X - 0.5 * Rectangle2Width ) And ( Rectangle1Y - 0.5 * Rectangle1Height <= Rectangle2Y - 0.5 * Rectangle2Height ) And ..
+		( Rectangle1X + 0.5 * Rectangle1Width >= Rectangle2X + 0.5 * Rectangle2Width ) And ( Rectangle1Y + 0.5 * Rectangle1Height >= Rectangle2Y + 0.5 * Rectangle2Height ) Then Return True
 End Function

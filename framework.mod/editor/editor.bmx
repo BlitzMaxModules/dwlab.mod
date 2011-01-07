@@ -41,8 +41,8 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.0.1"
-	Const Title:String = "Digital Wizard's Lab World Editor v." + Version
+	Const Version:String = "1.0.1.1"
+	Const Title:String = "Digital Wizard's Lab World Editor v" + Version
 	
 	Field Window:TGadget
 	
@@ -57,6 +57,7 @@ Type LTEditor Extends LTProject
 	Field Toolbar:TGadget
 	
 	Field MouseIsOver:TGadget
+	Field Changed:Int
 	
 	Field SpritesListBox:TGadget
 	Field PagesListBox:TGadget
@@ -285,11 +286,10 @@ Type LTEditor Extends LTProject
 	
 	
 	Method SetTitle()
-		If WorldFilename Then
-			SetGadgetText( Window, StripDir( WorldFilename ) + " - " + Title )
-		Else
-			SetGadgetText( Window, Title )
-		End If
+		Local Line:String = Title
+		If WorldFilename Then Line = StripDir( WorldFilename ) + " - " + Line
+		If Changed Then Line = "* " + Line
+		SetGadgetText( Window, Line )
 	End Method
 	
 	
@@ -330,6 +330,8 @@ Type LTEditor Extends LTProject
 	
 	
 	Method ExitEditor()
+		If Not AskForSaving() Then Return
+	
 		Local IniFile:TStream = WriteFile( EditorPath + "/editor.ini" )
 		
 		WriteLine( IniFile, WorldFilename )
@@ -348,6 +350,24 @@ Type LTEditor Extends LTProject
 		CloseFile( IniFile )
 		
 		End
+	End Method
+	
+	
+	
+	Method SetChanged( State:Int = True )
+		If State <> Changed Then SetTitle()
+		Changed = State
+	End Method
+	
+	
+	
+	Method AskForSaving:Int()
+		If Changed Then
+			Local Choice:Int = Proceed( "Your world is not saved, would you like to save it now?" )
+			If Choice = -1 Then Return False
+			If Choice = 1 Then Return SaveWorld()
+		End If
+		Return True
 	End Method
 	
 	
@@ -396,6 +416,8 @@ Type LTEditor Extends LTProject
 	
 	
 	Method NewWorld()
+		If Not AskForSaving() Then Return
+		
 		World.Pages.Clear()
 		AddPage( "Page1" )
 		RefreshPagesList()
@@ -405,6 +427,8 @@ Type LTEditor Extends LTProject
 	
 	
 	Method OpenWorld( Filename:String )
+		If Not AskForSaving() Then Return
+		
 		If Filename Then 
 			If FileType( Filename ) = 0 Then Return
 			
@@ -430,8 +454,11 @@ Type LTEditor Extends LTProject
 			Next
 			
 			SelectedSprites.Clear()
+			Modifiers.Clear()
 			RefreshPagesList()
 			RefreshSpritesList()
+			
+			Changed = False
 			
 			SetTitle()
 		End If
@@ -439,7 +466,9 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method SaveWorld( Filename:String )
+	Method SaveWorld:Int( SaveAs:Int = False )
+		Local Filename:String = WorldFilename
+		If SaveAs Or Not Filename Then Filename = RequestFile( "Select world file name to save...", "DWLab world XML file:xml", True )
 		If Filename Then 
 			WorldFilename = Filename
 			ChangeDir( ExtractDir( Filename ) )
@@ -450,7 +479,9 @@ Type LTEditor Extends LTProject
 			Next
 			
 			World.SaveToFile( Filename )
+			Changed = False
 			SetTitle()
+			Return True
 		End If
 	End Method
 	
@@ -469,6 +500,7 @@ Type LTEditor Extends LTProject
 				If EventData() = Key_Delete Then
 					For Local Sprite:LTActor = Eachin SelectedSprites
 						CurrentPage.Sprites.Remove( Sprite )
+						SetChanged()
 					Next
 					RefreshSpritesList()
 					SelectedSprites.Clear()
@@ -506,13 +538,9 @@ Type LTEditor Extends LTProject
 					Case MenuOpen
 						OpenWorld( RequestFile( "Select world file to open...", "DWLab world XML file:xml" ) )
 					Case MenuSave
-						If WorldFilename Then
-							SaveWorld( WorldFilename )
-						Else
-							SaveWorld( RequestFile( "Select world file name to save...", "DWLab world XML file:xml", True ) )
-						End If
+						SaveWorld()
 					Case MenuSaveAs
-						SaveWorld( RequestFile( "Select world file name to save...", "DWLab world XML file:xml", True ) )
+						SaveWorld( True )
 					Case MenuImportTilemap
 						Local TileWidth:Int = 16
 						Local TileHeight:Int = 16
@@ -533,6 +561,7 @@ Type LTEditor Extends LTProject
 										Local Visualizer:LTImageVisualizer = New LTImageVisualizer
 										Visualizer.Image = LoadImageFromFile( TilesetFilename, Tileset.Width / TileWidth, Tileset.height / TileHeight )
 										CurrentPage.Tilemap.Visualizer = Visualizer
+										SetChanged()
 									End If
 								Else
 									Notify( "Tilemap size must be divideable by tile size." )
@@ -568,6 +597,7 @@ Type LTEditor Extends LTProject
 												Editor.World.Pages.AddLast( CurrentPage )
 												ImportTilemap( TileWidth, TileHeight, Tilemap, TilesetFilename )
 												CurrentPage.Tilemap.Visualizer = Visualizer
+												SetChanged()
 											End If
 										End If
 										
@@ -628,12 +658,14 @@ Type LTEditor Extends LTProject
 						If Name Then
 							SetObjectName( CurrentSprite, Name )
 							RefreshSpritesList()
+							SetChanged()
 						End If
 					Case PagesListBox
 						Local Name:String = EnterName( "Enter name of page", CurrentPage.GetName() )
 						If Name Then
 							SetObjectName( CurrentPage, Name )
 							RefreshPagesList()
+							SetChanged()
 						End If
 					Case SelectImageButton
 						If Not SelectedSprites.IsEmpty() Then
@@ -691,24 +723,32 @@ Type LTEditor Extends LTProject
 								Case ImgAngleField
 									LTImageVisualizer( Sprite.Visualizer ).Angle = TextFieldText( ImgAngleField ).ToFloat()
 							End Select
-						Case ScalingCheckbox
+							SetChanged()
+					Case ScalingCheckbox
 							Sprite.Visualizer.Scaling = ButtonState( ScalingCheckbox )
+							SetChanged()
 						Case RotatingCheckbox
 							LTImageVisualizer( Sprite.Visualizer ).Rotating = ButtonState( RotatingCheckbox )
+							SetChanged()
 						Case RedSlider
 							Sprite.Visualizer.Red = 0.01 * SliderValue( RedSlider )
 							SetGadgetText( RedField, Sprite.Visualizer.Red )
+							SetChanged()
 						Case GreenSlider
 							Sprite.Visualizer.Green = 0.01 * SliderValue( GreenSlider )
 							SetGadgetText( GreenField, Sprite.Visualizer.Green )
+							SetChanged()
 						Case BlueSlider
 							Sprite.Visualizer.Blue = 0.01 * SliderValue( BlueSlider )
 							SetGadgetText( BlueField, Sprite.Visualizer.Blue )
+							SetChanged()
 						Case AlphaSlider
 							Sprite.Visualizer.Alpha = 0.01 * SliderValue( AlphaSlider )
 							SetGadgetText( AlphaField, Sprite.Visualizer.Alpha )
+							SetChanged()
 						Case ShapeBox
 							Sprite.Shape = SelectedGadgetItem( ShapeBox )
+							SetChanged()
 					End Select
 				Next
 			Case Event_GadgetSelect
@@ -717,11 +757,13 @@ Type LTEditor Extends LTProject
 						SelectSprite( LTActor( CurrentPage.Sprites.ValueAtIndex( EventData() ) ) )
 						RefreshSpritesList()
 					Case PagesListBox
-						CurrentPage = LTPage( World.Pages.ValueAtIndex( EventData() ) )
-						Modifiers.Clear()
-						SelectedSprites.Clear()
-						RefreshSpritesList()
-						RefreshPagesList()
+						If EventData() > 0 Then
+							CurrentPage = LTPage( World.Pages.ValueAtIndex( EventData() ) )
+							Modifiers.Clear()
+							SelectedSprites.Clear()
+							RefreshSpritesList()
+							RefreshPagesList()
+						End If
 				End Select
 		End Select
 		
@@ -877,11 +919,11 @@ Type LTEditor Extends LTProject
 			End If
 			
 			Flip
-			
-			SetGraphics( CanvasGraphics( MainCanvas ) )
 		End If
 		
+		SetGraphics( CanvasGraphics( MainCanvas ) )
 		Cls
+		
 		MainCamera.Viewport.X = 0.5 * MainCanvas.GetWidth()
 		MainCamera.Viewport.Y = 0.5 * MainCanvas.GetHeight()
 		MainCamera.Viewport.Width = MainCanvas.GetWidth()
@@ -981,17 +1023,6 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method ToggleMenu( Menu:TGadget )
-		If MenuChecked( Menu ) Then
-			UnCheckMenu( Menu )
-		Else
-			CheckMenu( Menu )
-		End If
-		UpdateWindowMenu( Window )
-	End Method
-	
-	
-	
 	Method ChooseParameter:Int( Width:Int Var, Height:Int Var, Parameter:String, Units:String )
 		Local Settings:TGadget =CreateWindow( "Choose " + Parameter + ":", 0.5 * ClientWidth( Window ) - 72, 0.5 * ClientHeight( Window ) - 78, 144, 157, Desktop(), WINDOW_TITLEBAR )
 		CreateLabel( "Height:", 7, 10, 40, 16, Settings, 0 )
@@ -1019,6 +1050,7 @@ Type LTEditor Extends LTProject
 							Else
 								Width = NewWidth
 								Height = NewHeight
+								SetChanged()
 								FreeGadget( Settings )
 								Return True
 							End If
@@ -1194,6 +1226,7 @@ Type LTEditor Extends LTProject
 									If Image.Width Mod XCells = 0 And Image.Height Mod YCells = 0 Then
 										LTImageVisualizer( Sprite.Visualizer ).Image = LoadImageFromFile( Filename, XCells, YCells )
 										Sprite.Frame = Frame
+										SetChanged()
 										FreeGadget( EditWindow )
 										Return True
 									Else
@@ -1238,12 +1271,21 @@ Type LTEditor Extends LTProject
 	
 	
 	Method RefreshPagesList()
-		ClearGadgetItems( PagesListBox )
+		Local N:Int = 0
 		For Local Page:LTPage = Eachin World.Pages
 			Local PageName:String = Page.GetName()
 			If Page = CurrentPage Then PageName :+ " (current)"
-			AddGadgetItem( PagesListBox, PageName )
+			If N < CountGadgetItems( PagesListBox ) Then
+				If GadgetItemText( PagesListBox, N ) <> PageName Then ModifyGadgetItem( PagesListBox, N, PageName )
+			Else
+				AddGadgetItem( PagesListBox, PageName )
+			End If
+			N :+ 1
 		Next
+		
+		While N < CountGadgetItems( PagesListBox )
+			RemoveGadgetItem( PagesListBox, N )
+		Wend
 	End Method
 	
 	

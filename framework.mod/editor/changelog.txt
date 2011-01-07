@@ -1,3 +1,6 @@
+1.0.2
++ Possibility to save changed world before exiting / opening / creating new
+
 1.0.1
 + Toolbar
 + Page deleting

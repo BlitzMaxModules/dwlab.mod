@@ -24,5 +24,6 @@ Type LTSetTile Extends LTDrag
 	
 	Method Dragging()
 		Editor.CurrentPage.Tilemap.FrameMap.Value[ Editor.TileX, Editor.TileY ] = Editor.TileNum[ MouseDown( 2 ) ]
+		Editor.SetChanged()
 	End Method
 End Type
