@@ -47,28 +47,23 @@ Type LTCreateSprite Extends LTDrag
 			Visualizer.Green = CurrentSpriteVisualizer.Green
 			Visualizer.Blue = CurrentSpriteVisualizer.Blue
 			Visualizer.Alpha = CurrentSpriteVisualizer.Alpha
+			Visualizer.Angle = CurrentSpriteVisualizer.Angle
+			Visualizer.Rotating = CurrentSpriteVisualizer.Rotating
 			Visualizer.XScale = CurrentSpriteVisualizer.XScale
+			Visualizer.YScale = CurrentSpriteVisualizer.YScale
+			Visualizer.Scaling = CurrentSpriteVisualizer.Scaling
 			Visualizer.Image = CurrentSpriteVisualizer.Image
 			Sprite.Visualizer = Visualizer
 			
-			Local NamePrefix:String = L_GetPrefix( CurrentSprite.GetName() )
-			Local NameNumber:Int = L_GetNumber( CurrentSprite.GetName() )
-			Local SpriteName:String
-			Repeat
-				NameNumber :+ 1
-				SpriteName = NamePrefix + NameNumber
-				If Not FindByName( SpriteName ) Then Exit
-			Forever
-			Sprite.SetName( SpriteName )
+			Editor.SetObjectName( Sprite, CurrentSprite.GetName() )
 		Else
 			Sprite = New LTActor
 			Sprite.Visualizer = New LTImageVisualizer
-			Sprite.SetName( "Sprite1" )
+			Editor.SetObjectName( Sprite, "Sprite" )
 		End If
 		
 		Editor.CurrentPage.Sprites.AddLast( Sprite )
 		Editor.SelectSprite( Sprite )
-		Editor.RefreshSpritesList()
 	End Method
 	
 	
@@ -89,9 +84,7 @@ Type LTCreateSprite Extends LTDrag
 		If Not Sprite.Width Or Not Sprite.Height Then
 			Editor.CurrentPage.Sprites.Remove( Sprite )
 		Else
-			While Not LTImageVisualizer( Sprite.Visualizer ).Image
-				Editor.SpriteImageProperties( Sprite )
-			WEnd
+			If Not LTImageVisualizer( Sprite.Visualizer ).Image Then Editor.SpriteImageProperties( Sprite )
 		End If
 		Editor.SetSpriteModifiers( Sprite )
 	End Method

@@ -3,7 +3,7 @@
 	<LTPage name="Land">
 		<LTTileMap field="tilemap" shape="2" x="112" y="7.5" width="224" height="15">
 			<LTImageVisualizer field="visualizer">
-				<LTImage field="image" id="4" filename="tiles.png" xcells="16" ycells="4"/>
+				<LTImage field="image" id="4" filename="media\tiles.png" xcells="16" ycells="3"/>
 			</LTImageVisualizer>
 			<LTIntMap field="framemap" xquantity="224" yquantity="15">
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
@@ -25,7 +25,7 @@
 		</LTTileMap>
 		<LTActor name="Goomba1" shape="1" x="22.5" y="12.5" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<LTImage field="image" id="8" filename="LittleGoomba.png" xcells="3"/>
+				<LTImage field="image" id="8" filename="media\LittleGoomba.png" xcells="3"/>
 			</LTImageVisualizer>
 		</LTActor>
 		<LTActor name="Goomba2" shape="1" x="40.5" y="12.5" angle="180">
@@ -65,7 +65,7 @@
 		</LTActor>
 		<LTActor name="KoopaTroopa1" shape="1" x="107.5" y="12.5" angle="180">
 			<LTImageVisualizer field="visualizer" xscale="-1" yscale="2" rotating="0">
-				<LTImage field="image" filename="KoopaTroopa.png" xcells="2"/>
+				<LTImage field="image" filename="media\KoopaTroopa.png" xcells="2"/>
 			</LTImageVisualizer>
 		</LTActor>
 		<LTActor name="Goomba11" shape="1" x="114.5" y="12.5" angle="180">
@@ -110,7 +110,7 @@
 		</LTActor>
 		<LTActor name="Flag" shape="2" x="198" y="3.5" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<LTImage field="image" filename="FlagFromPole.png"/>
+				<LTImage field="image" filename="media\FlagFromPole.png"/>
 			</LTImageVisualizer>
 		</LTActor>
 	</LTPage>
@@ -120,19 +120,19 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 			<LTIntMap field="framemap" xquantity="17" yquantity="13">
-				<Row data="48,35,35,35,48,48,48,48,48,48,48,35,35,35,35,49,50"/>
-				<Row data="48,35,35,35,35,35,35,35,35,35,35,35,35,35,35,49,50"/>
-				<Row data="48,35,35,35,35,35,35,35,35,35,35,35,35,35,35,49,50"/>
-				<Row data="48,35,35,35,35,51,51,51,51,51,35,35,35,35,35,49,50"/>
-				<Row data="48,35,35,35,35,35,35,35,35,35,35,35,35,35,35,49,50"/>
-				<Row data="48,35,35,35,51,51,51,51,51,51,51,35,35,35,35,49,50"/>
-				<Row data="48,35,35,35,35,35,35,35,35,35,35,35,35,35,35,49,50"/>
-				<Row data="48,35,35,35,51,51,51,51,51,51,51,35,35,35,35,49,50"/>
-				<Row data="48,35,35,35,48,48,48,48,48,48,48,35,35,35,35,49,50"/>
-				<Row data="48,35,35,35,48,48,48,48,48,48,48,35,35,52,53,54,50"/>
-				<Row data="48,35,35,35,48,48,48,48,48,48,48,35,35,55,56,57,50"/>
-				<Row data="58,58,58,58,58,58,58,58,58,58,58,58,58,58,58,58,58"/>
-				<Row data="58,58,58,58,58,58,58,58,58,58,58,58,58,58,58,58,58"/>
+				<Row data="37,35,35,35,37,37,37,37,37,37,37,35,35,35,35,38,39"/>
+				<Row data="37,35,35,35,35,35,35,35,35,35,35,35,35,35,35,38,39"/>
+				<Row data="37,35,35,35,35,35,35,35,35,35,35,35,35,35,35,38,39"/>
+				<Row data="37,35,35,35,35,40,40,40,40,40,35,35,35,35,35,38,39"/>
+				<Row data="37,35,35,35,35,35,35,35,35,35,35,35,35,35,35,38,39"/>
+				<Row data="37,35,35,35,40,40,40,40,40,40,40,35,35,35,35,38,39"/>
+				<Row data="37,35,35,35,35,35,35,35,35,35,35,35,35,35,35,38,39"/>
+				<Row data="37,35,35,35,40,40,40,40,40,40,40,35,35,35,35,38,39"/>
+				<Row data="37,35,35,35,37,37,37,37,37,37,37,35,35,35,35,38,39"/>
+				<Row data="37,35,35,35,37,37,37,37,37,37,37,35,35,41,42,43,39"/>
+				<Row data="37,35,35,35,37,37,37,37,37,37,37,35,35,44,45,46,39"/>
+				<Row data="47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47"/>
+				<Row data="47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47"/>
 			</LTIntMap>
 		</LTTileMap>
 	</LTPage>

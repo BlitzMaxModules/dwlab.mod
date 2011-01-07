@@ -1,0 +1,9 @@
+1.0.1
++ Toolbar
++ Page deleting
++ Window's title with loaded world filename
++ Frame selecting in image selecting window
+* Fixed crash after cancelling image selecting for sprite without image
+* Arranged GUI elements of image selection page
+* Object renaming if another object with same name exists
+* Grid color saving to ini-file

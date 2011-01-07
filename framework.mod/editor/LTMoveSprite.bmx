@@ -33,10 +33,7 @@ Type LTMoveSprite Extends LTDrag
 		LastDX = 0
 		LastDY = 0
 		
-		If Not Editor.SelectedSprites.Contains( Editor.SpriteUnderCursor ) Then
-			Editor.SelectedSprites.Clear()
-			Editor.SelectedSprites.AddLast( Editor.SpriteUnderCursor )
-		End If
+		If Not Editor.SelectedSprites.Contains( Editor.SpriteUnderCursor ) Then Editor.SelectSprite( Editor.SpriteUnderCursor )
 		
 		Editor.Modifiers.Clear()
 	End Method
