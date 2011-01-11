@@ -30,23 +30,31 @@ Type LTMarchingAnts Extends LTVisualizer
 		Local Pos:Int = Int( Millisecs() / 100 ) Mod 8
 		
 		If Width Then
-			Local LinePixmap:TPixmap = CreatePixmap( Width, 1, PF_RGBA8888 )
+			Local LineImage:TImage = CreateImage( Width, 1 )
+			Local LinePixmap:TPixmap = LockImage( LineImage )
 			For Local XX:Int = 0 Until Width
 				LinePixmap.WritePixel( XX, 0, $FF000000 + $FFFFFF * ( Pos >= 4 ) )
 				Pos = ( Pos + 1 ) Mod 8
 			Next
-			DrawPixmap( LinePixmap, X, Y )
-			DrawPixmap( LinePixmap, X, Y + Height - 1 )
+			UnlockImage( LineImage )
+			SetScale( -1.0, 1.0 )
+			DrawImage( LineImage, X + Width, Y )
+			SetScale( 1.0, 1.0 )
+			DrawImage( LineImage, X, Y + Height - 1 )
 		End If
 
 		If Height Then
-			Local LinePixmap:TPixmap = CreatePixmap( 1, Height, PF_RGBA8888 )
+			Local LineImage:TImage = CreateImage( 1, Height )
+			Local LinePixmap:TPixmap = LockImage( LineImage )
 			For Local YY:Int = 0 Until Height
 				LinePixmap.WritePixel( 0, YY, $FF000000 + $FFFFFF * ( Pos >= 4 ) )
 				Pos = ( Pos + 1 ) Mod 8
 			Next
-			DrawPixmap( LinePixmap, X, Y )
-			DrawPixmap( LinePixmap, X + Width - 1, Y )
+			UnlockImage( LineImage )
+			DrawImage( LineImage, X, Y )
+			SetScale( 1.0, -1.0 )
+			DrawImage( LineImage, X + Width - 1, Y + Height )
+			SetScale( 1.0, 1.0 )
 		End If
 	End Function
 End Type

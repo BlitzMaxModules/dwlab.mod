@@ -41,7 +41,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.0.1.1"
+	Const Version:String = "1.0.2.1"
 	Const Title:String = "Digital Wizard's Lab World Editor v" + Version
 	
 	Field Window:TGadget
@@ -755,14 +755,12 @@ Type LTEditor Extends LTProject
 				Select EventSource()
 					Case SpritesListBox
 						SelectSprite( LTActor( CurrentPage.Sprites.ValueAtIndex( EventData() ) ) )
-						RefreshSpritesList()
 					Case PagesListBox
-						If EventData() > 0 Then
+						If EventData() >= 0 Then
 							CurrentPage = LTPage( World.Pages.ValueAtIndex( EventData() ) )
 							Modifiers.Clear()
 							SelectedSprites.Clear()
 							RefreshSpritesList()
-							RefreshPagesList()
 						End If
 				End Select
 		End Select
@@ -975,7 +973,6 @@ Type LTEditor Extends LTProject
 		SetSpriteModifiers( Sprite )
 		CurrentSprite = Sprite
 		FillSpriteFields()
-		RefreshSpritesList()
 	End Method
 	
 	
@@ -1261,31 +1258,24 @@ Type LTEditor Extends LTProject
 	
 	Method RefreshSpritesList()
 		ClearGadgetItems( SpritesListBox )
+		Local N:Int = 0
 		For Local Sprite:LTActor = Eachin CurrentPage.Sprites
-			Local SpriteName:String = Sprite.GetName()
-			If Sprite = CurrentSprite Then SpriteName :+ " (current)"
-			AddGadgetItem( SpritesListBox, SpriteName )
+			AddGadgetItem( SpritesListBox, Sprite.GetName() )
+			If Sprite = CurrentSprite Then SelectGadgetItem( SpritesListBox, N )
+			N :+ 1
 		Next
 	End Method
 	
 	
 	
 	Method RefreshPagesList()
+		ClearGadgetItems( PagesListBox )
 		Local N:Int = 0
 		For Local Page:LTPage = Eachin World.Pages
-			Local PageName:String = Page.GetName()
-			If Page = CurrentPage Then PageName :+ " (current)"
-			If N < CountGadgetItems( PagesListBox ) Then
-				If GadgetItemText( PagesListBox, N ) <> PageName Then ModifyGadgetItem( PagesListBox, N, PageName )
-			Else
-				AddGadgetItem( PagesListBox, PageName )
-			End If
+			AddGadgetItem( PagesListBox, Page.GetName() )
+			If Page = CurrentPage Then SelectGadgetItem( PagesListBox, N )
 			N :+ 1
 		Next
-		
-		While N < CountGadgetItems( PagesListBox )
-			RemoveGadgetItem( PagesListBox, N )
-		Wend
 	End Method
 	
 	
