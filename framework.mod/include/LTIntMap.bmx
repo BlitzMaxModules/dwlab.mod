@@ -59,36 +59,7 @@ Type LTIntMap Extends LTMap
 
 		
 	
-	Method EnframeBy( Tileset:LTTileset )
-		Local TileType:Int[] = Tileset.TileType
-
-		For Local X:Int = 0 Until XQuantity
-			For Local Y:Int = 0 Until YQuantity
-				For Local N:Int = 0 Until Tileset.TileQuantity
-					If TileType[ N ] = TileType[ Value[ X, Y ] ] And Tileset.TileRules[ N ] Then
-						Local Passed:Int = True
-						For Local Rule:LTTileRule = Eachin Tileset.TileRules[ N ]
-							If Masked Then
-								If TileType[ Value[ ( X + Rule.DX ) & XMask, ( Y + Rule.DY ) & YMask ] ] <> Rule.TileType Then
-									Passed = False
-									Exit
-								End If
-							Else
-								If TileType[ Value[ WrapX( X + Rule.DX ), WrapY( Y + Rule.DY ) ] ] <> Rule.TileType Then
-									Passed = False
-									Exit
-								End If
-							End If
-						Next
-						
-						If Passed Then
-							Value[ X, Y ] = N
-							Exit
-						End If
-					End If
-				Next
-			Next
-		Next
+	Method EnframeBy( Tileset:LTTileset)
 	End Method
 	
 	

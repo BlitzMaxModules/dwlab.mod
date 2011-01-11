@@ -90,10 +90,12 @@ Type LTEditor Extends LTProject
 	Field ShowGrid:TGadget
 	Field EditTilemap:TGadget
 	Field EditSprites:TGadget
+	Field EditTileset:TGadget
 	
 	Field World:LTWorld = New LTWorld
 	Field CurrentPage:LTPage
 	Field CurrentSprite:LTActor
+	Field CurrentCategory:LTTileCategory
 	Field Cursor:LTActor = New LTActor
 	Field SpriteUnderCursor:LTActor
 	Field SelectedSprites:TList = New TList
@@ -126,18 +128,19 @@ Type LTEditor Extends LTProject
 	Const MenuOpen:Int = 1
 	Const MenuSave:Int = 2
 	Const MenuSaveAs:Int = 3
-	Const MenuImportTilemap:Int = 14
-	Const MenuImportTilemaps:Int = 15
-	Const MenuExit:Int = 16
+	Const MenuImportTilemap:Int = 15
+	Const MenuImportTilemaps:Int = 16
+	Const MenuExit:Int = 17
 	Const MenuShowGrid:Int = 5
 	Const MenuSnapToGrid:Int = 6
 	Const MenuGridSettings:Int = 7
-	Const MenuTilemapSettings:Int = 17
-	Const MenuTilesetSettings:Int = 18
+	Const MenuTilemapSettings:Int = 18
+	Const MenuTilesetSettings:Int = 19
 	Const MenuEditTilemap:Int = 9
 	Const MenuEditSprites:Int = 10
-	Const MenuAddPage:Int = 12
-	Const MenuRemovePage:Int = 13
+	Const MenuEditTileset = 11
+	Const MenuAddPage:Int = 13
+	Const MenuRemovePage:Int = 14
 	
 	
 	
@@ -227,6 +230,7 @@ Type LTEditor Extends LTProject
 		CreateMenu( "", 0, EditMenu )
 		EditTilemap = CreateMenu( "Edit tilemap", MenuEditTilemap, EditMenu )
 		EditSprites = CreateMenu( "Edit sprites", MenuEditSprites, EditMenu )
+		EditTileset = CreateMenu( "Edit tileset", MenuEditTileset, EditMenu )
 		CreateMenu( "", 0, EditMenu )
 		CreateMenu( "Add page", MenuAddPage, EditMenu )
 		CreateMenu( "Remove current page", MenuRemovePage, EditMenu )
@@ -235,7 +239,7 @@ Type LTEditor Extends LTProject
 		UpdateWindowMenu( Window )
 		
 		Toolbar = CreateToolBar( "incbin::toolbar.png", 0, 0, 0, 0, Window )
-		SetToolbarTips( Toolbar, [ "New", "Open", "Save", "Save as", "", "Show grid", "Snap to grid", "Grid settings", "", "Edit tilemap", "Edit sprites", "", "Add page", "Delete current page" ] )
+		SetToolbarTips( Toolbar, [ "New", "Open", "Save", "Save as", "", "Show grid", "Snap to grid", "Grid settings", "", "Edit tilemap", "Edit sprites", "Edit tileset", "", "Add page", "Delete current page" ] )
 		
 		SetGraphics( CanvasGraphics( MainCanvas ) )
 		SetGraphicsParameters()
@@ -263,11 +267,11 @@ Type LTEditor Extends LTProject
 			If ReadLine( IniFile ) = "1" Then SelectMenuItem( ShowGrid )
 			If ReadLine( IniFile ) = "1" Then SelectMenuItem( SnapToGrid )
 			
-			If ReadLine( IniFile ) = "1" Then
-				SelectMenuItem( EditSprites )
-			Else
-				SelectMenuItem( EditTilemap )
-			End If
+			Select ReadLine( IniFile )
+				Case "0": SelectMenuItem( EditTilemap )
+				Case "1": SelectMenuItem( EditSprites )
+				Case "2": SelectMenuItem( EditTileset )
+			End Select
 			
 			Grid.CellWidth = ReadLine( IniFile ).ToFloat()
 			Grid.CellHeight = ReadLine( IniFile ).ToFloat()
@@ -278,6 +282,8 @@ Type LTEditor Extends LTProject
 			Grid.Blue = ReadLine( IniFile ).ToInt()
 			
 			CloseFile( IniFile )
+		Else
+			SelectMenuItem( EditTilemap )
 		End If
 		
 		SetTitle()
@@ -315,15 +321,26 @@ Type LTEditor Extends LTProject
 					DeselectGadgetItem( Toolbar, MenuSnapToGrid )
 				End If
 			Case EditTilemap
-				UncheckMenu( EditSprites )
 				CheckMenu( EditTilemap )
-				DeselectGadgetItem( Toolbar, MenuEditSprites )
+				UncheckMenu( EditSprites )
+				UncheckMenu( EditTileset )
 				SelectGadgetItem( Toolbar, MenuEditTilemap )
+				DeselectGadgetItem( Toolbar, MenuEditSprites )
+				DeselectGadgetItem( Toolbar, MenuEditTileset )
 			Case EditSprites
 				CheckMenu( EditSprites )
 				UncheckMenu( EditTilemap )
-				SelectGadgetItem( Toolbar, MenuEditSprites )
+				UncheckMenu( EditTileset )
 				DeselectGadgetItem( Toolbar, MenuEditTilemap )
+				SelectGadgetItem( Toolbar, MenuEditSprites )
+				DeselectGadgetItem( Toolbar, MenuEditTileset )
+			Case EditTilemap
+				UncheckMenu( EditSprites )
+				UncheckMenu( EditTilemap )
+				CheckMenu( EditTileset )
+				DeselectGadgetItem( Toolbar, MenuEditSprites )
+				DeselectGadgetItem( Toolbar, MenuEditTilemap )
+				SelectGadgetItem( Toolbar, MenuEditTileset )
 		End Select
 	End Method
 	
@@ -922,21 +939,23 @@ Type LTEditor Extends LTProject
 		SetGraphics( CanvasGraphics( MainCanvas ) )
 		Cls
 		
-		MainCamera.Viewport.X = 0.5 * MainCanvas.GetWidth()
-		MainCamera.Viewport.Y = 0.5 * MainCanvas.GetHeight()
-		MainCamera.Viewport.Width = MainCanvas.GetWidth()
-		MainCamera.Viewport.Height = MainCanvas.GetHeight()
-		MainCamera.Update()
+		If MenuChecked( EditTilemap ) Or MenuChecked( EditSprites ) Then
+			MainCamera.Viewport.X = 0.5 * MainCanvas.GetWidth()
+			MainCamera.Viewport.Y = 0.5 * MainCanvas.GetHeight()
+			MainCamera.Viewport.Width = MainCanvas.GetWidth()
+			MainCamera.Viewport.Height = MainCanvas.GetHeight()
+			MainCamera.Update()
+			
+			If CurrentPage.TileMap Then CurrentPage.TileMap.Draw()
+			
+			For Local Sprite:LTActor = Eachin CurrentPage.Sprites
+				Sprite.Draw()
+				Sprite.DrawUsingVisualizer( ShapeVisualizer )
+				Sprite.DrawUsingVisualizer( AngleArrow )
+			Next
 		
-		If CurrentPage.TileMap Then CurrentPage.TileMap.Draw()
-		
-		For Local Sprite:LTActor = Eachin CurrentPage.Sprites
-			Sprite.Draw()
-			Sprite.DrawUsingVisualizer( ShapeVisualizer )
-			Sprite.DrawUsingVisualizer( AngleArrow )
-		Next
-		
-		if MenuChecked( ShowGrid ) Then Grid.Draw()
+			if MenuChecked( ShowGrid ) Then Grid.Draw()
+		End If
 		
 		If MenuChecked( EditTilemap ) Then
 			If CurrentPage.TileMap Then
@@ -946,7 +965,7 @@ Type LTEditor Extends LTProject
 					SelectedTile.Draw()
 				End If
 			End If
-		Else
+		Elseif MenuChecked( EditSprites )
 			For Local Sprite:LTActor = Eachin SelectedSprites
 				Sprite.DrawUsingVisualizer( MarchingAnts )
 			Next
@@ -962,6 +981,27 @@ Type LTEditor Extends LTProject
 				Next
 				SetAlpha( 1.0 )
 			End If
+		Else
+			Local Image:LTImage = null
+			If Tileset Then Image = LTImageVisualizer( Tileset.Visualizer ).Image
+			If Image And CurrentCategory Then
+				SetColor( Grid.Red, Grid.Green, Grid.Blue )
+				
+				Local Multiplier:Float = Min( Floor( GadgetWidth( MainCanvas ) / Image.Width() / Image.XCells, Floor( GadgetHeight( MainCanvas ) / Image.Height() / Image.YCells )
+				Local TileHeight:Int = 
+				
+				For Local TileRule:LTTileRule = Eachin CurrentCategory.TileRules
+					Local X
+				
+					SetAlpha( 0.5 )
+					
+					
+					SetAlpha( 1.0 )
+				Next
+				
+				SetColor( 255, 255, 255 )
+			End If
+			
 		End If
 	End Method
 	
@@ -1168,39 +1208,7 @@ Type LTEditor Extends LTProject
 			Local XCells:Int = TextFieldText( XCellsTextField ).ToInt()
 			Local YCells:Int = TextFieldText( YCellsTextField ).ToInt()
 			
-			SetGraphics( CanvasGraphics( ImageCanvas ) )
-			Cls
-			
-			If Image Then
-				SetScale( 1.0 * GraphicsWidth() / Image.Width, 1.0 * GraphicsWidth() / Image.Height )
-				DrawImage( Image, 0, 0 )
-				SetScale( 1.0, 1.0 )
-				
-				if XCells > 0 And YCells > 0 Then
-					If Frame >= XCells * YCells Then Frame = XCells * YCells - 1
-					
-					SetColor( 255, 0, 255 )
-					For Local X:Int = 0 Until XCells
-						Local XX:Int = 480.0 * X / XCells
-						DrawLine( XX, 0, XX, 480 )
-					Next
-					For Local Y:Int = 0 Until YCells
-						Local YY:Int = 480.0 * Y / YCells
-						DrawLine( 0, YY, 480, YY )
-					Next
-					
-					Local Col:Int = ( Int( Millisecs() / 100 ) Mod 2 ) * 255
-					SetColor( Col, Col, Col )
-					Local X:Int = 480.0 * ( Frame Mod XCells ) / XCells
-					Local Y:Int = 480.0 * Floor( Frame / XCells ) / YCells
-					LTMarchingAnts.DrawMARect( X, Y, 480.0 / XCells + 1, 480.0 / YCells + 1 )
-					
-					SetColor( 255, 255, 255 )
-				End If
-			End If
-			
-			Flip
-			SetGraphics( CanvasGraphics( MainCanvas ) )
+			DrawImageOnCanvas( ImageCanvas, Image )
 			
 			PollEvent()
 			
@@ -1248,10 +1256,48 @@ Type LTEditor Extends LTProject
 	
 	
 	
+	Method DrawImageOnCanvas( ImageCanvas:TGadget, Image:TImage, Tileset:LTTileset = null )
+		SetGraphics( CanvasGraphics( ImageCanvas ) )
+		Cls
+		
+		If Image Then
+			SetScale( 1.0 * GraphicsWidth() / Image.Width, 1.0 * GraphicsWidth() / Image.Height )
+			DrawImage( Image, 0, 0 )
+			SetScale( 1.0, 1.0 )
+			
+			if XCells > 0 And YCells > 0 Then
+				If Frame >= XCells * YCells Then Frame = XCells * YCells - 1
+				
+				SetColor( Grid.Red, Grid.Green, Grid.Blue )
+				For Local X:Int = 0 Until XCells
+					Local XX:Int = 480.0 * X / XCells
+					DrawLine( XX, 0, XX, 480 )
+				Next
+				For Local Y:Int = 0 Until YCells
+					Local YY:Int = 480.0 * Y / YCells
+					DrawLine( 0, YY, 480, YY )
+				Next
+				
+				Local Col:Int = ( Int( Millisecs() / 100 ) Mod 2 ) * 255
+				SetColor( Col, Col, Col )
+				Local X:Int = 480.0 * ( Frame Mod XCells ) / XCells
+				Local Y:Int = 480.0 * Floor( Frame / XCells ) / YCells
+				LTMarchingAnts.DrawMARect( X, Y, 480.0 / XCells + 1, 480.0 / YCells + 1 )
+				
+				SetColor( 255, 255, 255 )
+			End If
+		End If
+		
+		Flip
+		SetGraphics( CanvasGraphics( MainCanvas ) )
+	End Method	
+	
+	
+	
 	Method LoadImageFromFile:LTImage( Filename:String, XCells:Int, YCells:Int )
-			Local Image:LTImage = LTImage.FromFile( Filename, XCells, YCells )
-			RealPathsForImages.Insert( Image, RealPath( Filename ) )
-			Return Image
+		Local Image:LTImage = LTImage.FromFile( Filename, XCells, YCells )
+		RealPathsForImages.Insert( Image, RealPath( Filename ) )
+		Return Image
 	End Method
 	
 	

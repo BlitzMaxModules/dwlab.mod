@@ -150,6 +150,18 @@ Type LTImage Extends LTObject
 	
 	
 	
+	Method Width:Floor()
+		Return BMaxImage.width
+	End Method
+	
+	
+	
+	Method Height:Floor()
+		Return BMaxImage.height
+	End Method
+	
+	
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
