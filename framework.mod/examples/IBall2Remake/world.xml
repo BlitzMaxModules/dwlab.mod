@@ -120,7 +120,7 @@
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="2,0,0,0,0,0,0,0,0,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="FadingBlock4" shape="2" x="1" y="6" width="2" height="2" angle="270">
@@ -314,7 +314,7 @@
 				<Row data="0,0,279,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,279,0,0,0,0,0,0,0,0,132,133"/>
 				<Row data="68,0,279,0,0,0,0,0,0,0,0,132,149"/>
-				<Row data="132,133,279,0,0,0,0,0,0,1,0,148,133"/>
+				<Row data="132,133,279,0,0,0,0,0,0,0,0,148,133"/>
 				<Row data="148,133,279,0,0,0,0,148,133,0,0,132,149"/>
 				<Row data="148,149,148,133,0,0,0,132,149,0,0,148,133"/>
 				<Row data="132,133,132,133,0,0,0,148,133,0,0,148,133"/>
@@ -350,7 +350,7 @@
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
-				<Row data="168,169,1,0,0,0,0,0,0,0,0,0,57"/>
+				<Row data="168,169,0,0,0,0,0,0,0,0,0,0,57"/>
 				<Row data="168,169,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="168,169,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="269,269,269,269,269,269,387,387,168,169,0,0,0"/>
@@ -374,18 +374,18 @@
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
-				<Row data="69,0,0,0,0,0,200,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,200,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,200,0,0,331,0,0,0"/>
-				<Row data="25,0,0,0,0,0,200,0,0,0,0,313,313"/>
-				<Row data="160,161,0,0,0,0,200,160,161,0,0,0,0"/>
-				<Row data="160,161,0,0,0,0,200,160,161,0,0,0,0"/>
-				<Row data="160,161,0,0,0,0,200,160,161,0,0,0,0"/>
-				<Row data="160,161,0,0,0,0,200,313,313,0,0,0,0"/>
-				<Row data="313,313,313,0,0,89,200,0,0,0,0,160,161"/>
-				<Row data="44,0,0,331,89,89,200,0,0,0,0,160,161"/>
-				<Row data="0,0,0,0,89,89,200,0,0,0,0,160,161"/>
-				<Row data="0,0,0,0,160,161,200,2,0,0,0,160,161"/>
+				<Row data="69,0,0,0,0,0,359,0,0,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,359,0,0,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,359,0,0,0,0,0,0"/>
+				<Row data="25,0,0,0,0,0,359,0,0,0,0,313,313"/>
+				<Row data="160,161,0,0,0,0,359,160,161,0,0,0,0"/>
+				<Row data="160,161,0,0,0,0,359,160,161,0,0,0,0"/>
+				<Row data="160,161,0,0,0,0,359,160,161,0,0,0,0"/>
+				<Row data="160,161,0,0,0,0,359,313,313,0,0,0,0"/>
+				<Row data="313,313,313,0,0,89,359,0,0,0,0,160,161"/>
+				<Row data="44,0,0,0,89,89,359,0,0,0,0,160,161"/>
+				<Row data="0,0,0,0,89,89,359,0,0,0,0,160,161"/>
+				<Row data="0,0,0,0,160,161,386,0,0,0,0,160,161"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="HazardousBlock10" shape="2" x="3.5" y="9.5" angle="270" velocity="2" frame="331">
@@ -408,22 +408,27 @@
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
-				<Row data="243,243,243,243,0,0,0,0,69,0,0,0,22"/>
+				<Row data="243,243,243,243,0,0,0,0,85,0,0,0,22"/>
 				<Row data="243,243,243,66,0,0,0,0,243,0,0,0,0"/>
-				<Row data="243,243,48,260,0,0,0,0,243,69,0,0,0"/>
-				<Row data="243,45,260,0,0,0,243,243,243,243,243,0,0"/>
-				<Row data="69,260,0,0,0,0,0,0,243,0,0,0,0"/>
-				<Row data="260,0,0,0,0,0,0,0,243,0,0,0,0"/>
-				<Row data="0,0,0,0,243,0,0,261,0,0,0,0,0"/>
-				<Row data="0,0,69,69,243,0,0,0,0,0,0,0,69"/>
-				<Row data="0,0,243,243,243,243,243,0,0,0,0,69,243"/>
-				<Row data="0,0,0,0,243,0,0,0,0,0,69,243,243"/>
-				<Row data="0,0,0,0,243,0,0,0,0,69,243,243,243"/>
-				<Row data="0,0,0,0,1,0,0,0,69,243,243,243,243"/>
+				<Row data="243,243,48,337,0,0,0,0,243,85,0,0,0"/>
+				<Row data="243,45,337,0,0,0,243,243,243,243,243,0,0"/>
+				<Row data="85,337,0,0,0,0,0,0,243,0,0,0,0"/>
+				<Row data="337,0,0,0,0,0,0,0,243,0,0,0,0"/>
+				<Row data="0,0,0,0,243,0,0,0,0,0,0,0,0"/>
+				<Row data="0,0,85,85,243,0,0,0,0,0,0,0,85"/>
+				<Row data="0,0,243,243,243,243,243,0,0,0,0,85,243"/>
+				<Row data="0,0,0,0,243,0,0,0,0,0,85,243,243"/>
+				<Row data="0,0,0,0,243,0,0,0,0,85,243,243,243"/>
+				<Row data="0,0,0,0,0,0,0,0,85,243,243,243,243"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start9" shape="1" x="4.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock12" shape="2" x="7.5" y="6.5" angle="270" velocity="2" frame="261">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -432,9 +437,9 @@
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
-				<Row data="1,0,0,0,0,0,0,0,0,0,0,0,44"/>
+				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,44"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="256,0,0,0,0,0,0,0,0,0,141,0,0"/>
+				<Row data="13,0,0,0,0,0,0,0,0,0,141,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,157,0,0"/>
 				<Row data="0,0,0,0,65,0,0,141,0,0,304,0,0"/>
 				<Row data="0,0,0,0,141,0,0,157,0,0,0,0,0"/>
@@ -443,11 +448,31 @@
 				<Row data="0,141,0,0,304,0,0,0,0,0,0,0,0"/>
 				<Row data="0,157,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,304,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,313,0,0,313,0,0,313,0,0,313,0"/>
+				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start10" shape="1" x="0.5" y="0.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock13" shape="2" x="2.5" y="11.5" angle="270" velocity="2" frame="313">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock14" shape="2" x="5.5" y="11.5" angle="270" velocity="2" frame="313">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock15" shape="2" x="8.5" y="11.5" angle="270" velocity="2" frame="313">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock16" shape="2" x="11.5" y="11.5" angle="270" velocity="2" frame="313">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -456,9 +481,9 @@
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
-				<Row data="288,0,0,0,0,307,0,0,0,0,0,0,288"/>
-				<Row data="305,0,0,0,0,0,0,0,0,0,0,0,305"/>
-				<Row data="305,0,0,0,0,0,0,0,0,0,0,0,305"/>
+				<Row data="14,0,0,0,0,0,0,0,0,0,0,0,14"/>
+				<Row data="354,0,0,0,0,0,0,0,0,0,0,0,354"/>
+				<Row data="354,0,0,0,0,0,0,0,0,0,0,0,354"/>
 				<Row data="88,0,0,0,0,0,291,0,0,0,0,0,88"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,291,0,42,0,292,0,0,0,0"/>
@@ -466,12 +491,22 @@
 				<Row data="0,0,0,0,0,0,292,0,0,0,0,0,0"/>
 				<Row data="291,0,0,0,0,0,0,0,0,0,0,0,291"/>
 				<Row data="291,0,0,0,0,0,0,0,0,0,0,0,291"/>
-				<Row data="292,292,0,0,0,0,0,0,2,0,0,291,291"/>
-				<Row data="292,291,292,0,0,0,0,307,0,0,291,292,291"/>
+				<Row data="292,292,0,0,0,0,0,0,0,0,0,291,291"/>
+				<Row data="292,291,292,0,0,0,0,0,0,0,291,292,291"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start11" shape="1" x="8.5" y="10.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock17" shape="2" x="7.5" y="11.5" angle="270" velocity="2" frame="307">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock18" shape="2" x="5.5" y="0.5" angle="450" velocity="2" frame="307">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -491,7 +526,7 @@
 				<Row data="0,0,229,0,0,0,0,0,0,0,229,0,0"/>
 				<Row data="0,0,227,212,0,0,0,0,0,212,228,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="2,0,0,0,0,0,0,0,0,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start12" shape="1" x="0.5" y="11.5" frame="2">
@@ -499,27 +534,37 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
+		<LTActor name="FadingBlock11" shape="2" x="6.5" y="4.5" angle="450" velocity="2" frame="1">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="37"/>
+			</LTImageVisualizer>
+		</LTActor>
 	</LTPage>
 	<LTPage name="Level 13">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
-				<Row data="0,0,2,0,0,0,0,0,0,0,0,0,24"/>
+				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,24"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="273,273,106,107,0,0,0,0,0,0,0,0,284"/>
+				<Row data="385,385,106,107,0,0,0,0,0,0,0,0,284"/>
 				<Row data="0,0,122,107,0,0,0,106,123,0,0,0,0"/>
-				<Row data="0,0,106,123,0,274,0,122,123,0,0,0,0"/>
+				<Row data="0,0,106,123,0,0,0,122,123,0,0,0,0"/>
 				<Row data="59,0,106,123,0,0,0,106,107,0,0,0,0"/>
 				<Row data="287,284,287,287,284,0,0,122,107,0,0,0,0"/>
-				<Row data="0,0,0,0,273,0,0,106,123,273,273,122,123"/>
-				<Row data="0,106,107,0,273,0,0,122,123,0,0,122,107"/>
-				<Row data="0,122,107,0,273,0,0,122,107,0,69,106,107"/>
-				<Row data="42,106,123,0,273,0,287,287,284,287,284,284,287"/>
+				<Row data="0,0,0,0,385,0,0,106,123,385,385,122,123"/>
+				<Row data="0,106,107,0,385,0,0,122,123,0,0,122,107"/>
+				<Row data="0,122,107,0,385,0,0,122,107,0,69,106,107"/>
+				<Row data="42,106,123,0,385,0,287,287,284,287,284,284,287"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start13" shape="1" x="2.5" y="0.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock19" shape="2" x="5.5" y="5.5" angle="270" velocity="2" frame="274">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -528,22 +573,42 @@
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
-				<Row data="0,0,0,272,0,0,272,0,262,272,0,0,259"/>
-				<Row data="0,0,0,305,0,0,305,0,262,305,0,0,0"/>
-				<Row data="0,0,0,305,0,0,305,0,262,305,0,0,0"/>
-				<Row data="0,0,0,305,0,0,305,0,262,305,0,0,0"/>
-				<Row data="305,0,0,57,0,0,65,0,262,43,0,0,65"/>
-				<Row data="305,0,0,0,0,0,0,0,262,0,0,0,289"/>
-				<Row data="305,0,0,0,0,0,0,0,262,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,0,0,262,0,0,0,15"/>
+				<Row data="0,0,0,354,0,0,354,0,262,354,0,0,0"/>
+				<Row data="0,0,0,354,0,0,354,0,262,354,0,0,0"/>
+				<Row data="0,0,0,354,0,0,354,0,262,354,0,0,0"/>
+				<Row data="354,0,0,57,0,0,65,0,262,43,0,0,65"/>
+				<Row data="354,0,0,0,0,0,0,0,262,0,0,0,289"/>
+				<Row data="354,0,0,0,0,0,0,0,262,0,0,0,0"/>
 				<Row data="92,0,0,0,0,0,0,0,262,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,262,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,262,0,0,0,0"/>
-				<Row data="3,0,0,0,0,0,0,0,262,0,0,0,0"/>
-				<Row data="4,0,0,0,0,0,0,0,262,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,0,0,262,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,0,0,262,0,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start14" shape="1" x="0.5" y="11" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="FadingBlock12" shape="2" x="8.5" y="6" height="12" angle="270">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="37"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock20" shape="2" x="3.5" y="0.5" angle="450" velocity="2" frame="274">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock21" shape="2" x="6.5" y="0.5" angle="450" velocity="2" frame="274">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock22" shape="2" x="9.5" y="0.5" angle="450" velocity="2" frame="274">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -556,7 +621,7 @@
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="51,0,0,0,244,87,61,87,244,0,0,0,51"/>
 				<Row data="244,0,0,0,0,244,244,244,0,0,0,0,244"/>
-				<Row data="0,0,0,0,0,0,2,0,0,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,217,329,219,0,0,0,217,329,219,0,0"/>
 				<Row data="0,0,329,41,329,0,0,0,329,18,329,0,0"/>
@@ -571,6 +636,46 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
+		<LTActor name="FadingBlock13" shape="2" x="3.5" y="6.5" angle="270">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="37"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="FadingBlock14" shape="2" x="4.5" y="7.5" angle="270">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="37"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="FadingBlock15" shape="2" x="2.5" y="7.5" angle="270">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="37"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="FadingBlock16" shape="2" x="3.5" y="8.5" angle="270">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="37"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="FadingBlock17" shape="2" x="8.5" y="7.5" angle="270" frame="1">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="37"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="FadingBlock18" shape="2" x="9.5" y="6.5" angle="270" frame="1">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="37"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="FadingBlock19" shape="2" x="10.5" y="7.5" angle="270" frame="1">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="37"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="FadingBlock20" shape="2" x="9.5" y="8.5" angle="270" frame="1">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="37"/>
+			</LTImageVisualizer>
+		</LTActor>
 	</LTPage>
 	<LTPage name="Level 16">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -583,15 +688,25 @@
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="90,0,0,0,0,0,162,163,0,0,0,0,0"/>
 				<Row data="269,0,0,0,0,0,162,163,0,0,0,0,0"/>
-				<Row data="0,269,243,0,0,0,162,163,0,243,0,0,90"/>
-				<Row data="0,269,0,0,0,90,162,163,0,0,0,162,163"/>
-				<Row data="0,269,0,0,162,163,162,163,0,0,0,162,163"/>
-				<Row data="0,269,0,0,162,163,162,163,0,0,0,162,163"/>
-				<Row data="41,269,0,0,162,163,162,163,90,0,2,162,163"/>
+				<Row data="0,355,0,0,0,0,162,163,0,0,0,0,90"/>
+				<Row data="0,355,0,0,0,90,162,163,0,0,0,162,163"/>
+				<Row data="0,355,0,0,162,163,162,163,0,0,0,162,163"/>
+				<Row data="0,355,0,0,162,163,162,163,0,0,0,162,163"/>
+				<Row data="41,388,0,0,162,163,162,163,90,0,0,162,163"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start16" shape="1" x="10.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock23" shape="2" x="2.5" y="7.5" angle="450" velocity="2" frame="243">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock24" shape="2" x="9.5" y="7.5" angle="450" velocity="2" frame="243">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -600,22 +715,27 @@
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
-				<Row data="58,0,0,0,0,0,0,0,0,0,0,0,242"/>
+				<Row data="58,0,0,0,0,0,0,0,0,0,0,0,12"/>
 				<Row data="186,186,186,186,186,186,186,186,186,186,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,185,187"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,203,203"/>
 				<Row data="68,0,0,0,0,0,0,203,0,0,0,203,203"/>
 				<Row data="186,186,186,186,186,186,186,202,0,0,0,203,203"/>
 				<Row data="0,0,0,0,0,0,0,0,0,185,187,203,203"/>
-				<Row data="0,0,0,0,0,0,0,0,242,203,203,203,203"/>
+				<Row data="0,0,0,0,0,0,0,0,0,203,203,203,203"/>
 				<Row data="42,0,0,0,0,203,0,0,0,203,203,203,203"/>
 				<Row data="186,186,186,186,186,202,0,0,0,203,203,203,203"/>
 				<Row data="0,0,0,0,0,0,0,185,187,203,203,203,203"/>
-				<Row data="0,0,2,0,0,0,0,203,203,203,203,203,203"/>
+				<Row data="0,0,0,0,0,0,0,203,203,203,203,203,203"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start17" shape="1" x="2.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock25" shape="2" x="8.5" y="7.5" angle="450" velocity="2" frame="243">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -635,7 +755,7 @@
 				<Row data="258,258,258,258,258,258,0,108,125,0,0,108,125"/>
 				<Row data="0,0,0,0,0,0,0,108,109,0,0,124,125"/>
 				<Row data="0,0,0,0,0,0,0,124,125,0,0,108,109"/>
-				<Row data="2,0,0,0,0,0,0,124,109,0,0,108,125"/>
+				<Row data="0,0,0,0,0,0,0,124,109,0,0,108,125"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start18" shape="1" x="0.5" y="11.5" frame="2">
@@ -653,17 +773,27 @@
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="91,0,0,0,0,130,131,0,0,0,0,0,0"/>
-				<Row data="91,0,0,324,0,146,131,0,324,0,0,146,131"/>
+				<Row data="91,0,0,0,0,146,131,0,0,0,0,146,131"/>
 				<Row data="130,131,0,0,0,146,147,0,0,0,0,130,131"/>
 				<Row data="146,131,0,0,0,130,147,0,0,0,0,146,147"/>
-				<Row data="322,322,322,322,322,322,322,322,322,322,322,322,322"/>
+				<Row data="322,322,395,322,322,322,322,322,322,322,395,322,322"/>
 				<Row data="146,147,0,0,0,130,131,0,0,0,0,130,147"/>
 				<Row data="146,131,0,0,0,146,131,0,0,0,0,130,147"/>
-				<Row data="130,147,2,0,30,146,147,30,0,0,0,146,131"/>
+				<Row data="130,147,0,0,30,146,147,30,0,0,0,146,131"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start19" shape="1" x="2.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock26" shape="2" x="3.5" y="5.5" angle="450" velocity="2" frame="303">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock27" shape="2" x="8.5" y="5.5" angle="450" velocity="2" frame="303">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -672,22 +802,32 @@
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
-				<Row data="0,0,258,0,0,0,16,16,0,0,0,258,0"/>
+				<Row data="0,0,0,0,0,0,16,16,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,164,165,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,164,165,0,0,0,0,0"/>
-				<Row data="0,0,0,0,164,165,164,165,164,165,0,0,0"/>
-				<Row data="0,0,164,165,164,165,164,165,164,165,164,165,0"/>
-				<Row data="0,0,164,165,164,165,41,88,164,165,164,165,0"/>
-				<Row data="0,0,0,0,164,165,164,165,164,165,0,0,0"/>
+				<Row data="0,0,0,0,356,357,164,165,164,165,0,0,0"/>
+				<Row data="0,0,164,165,356,357,164,165,164,165,164,165,0"/>
+				<Row data="0,0,164,165,356,357,41,88,164,165,164,165,0"/>
+				<Row data="0,0,0,0,390,391,164,165,164,165,0,0,0"/>
 				<Row data="0,0,0,0,0,0,164,165,0,0,0,0,0"/>
 				<Row data="164,165,0,0,0,0,164,165,0,0,0,164,165"/>
 				<Row data="164,165,0,0,0,0,0,0,0,0,0,164,165"/>
-				<Row data="164,165,2,0,0,0,0,0,0,0,0,164,165"/>
+				<Row data="164,165,0,0,0,0,0,0,0,0,0,164,165"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start20" shape="1" x="2.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock28" shape="2" x="2.5" y="0.5" angle="450" velocity="2" frame="258">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock29" shape="2" x="11.5" y="0.5" angle="450" velocity="2" frame="258">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -702,8 +842,8 @@
 				<Row data="327,0,0,0,0,0,327,0,327,0,0,0,327"/>
 				<Row data="327,0,0,0,0,0,0,0,327,0,0,0,327"/>
 				<Row data="0,327,327,0,327,0,0,0,327,0,327,327,0"/>
-				<Row data="0,327,327,242,327,0,0,0,327,242,327,327,0"/>
-				<Row data="327,0,0,0,327,0,2,0,0,0,0,0,327"/>
+				<Row data="0,327,327,0,327,0,0,0,327,0,327,327,0"/>
+				<Row data="327,0,0,0,327,0,0,0,0,0,0,0,327"/>
 				<Row data="327,0,0,0,327,0,327,0,0,0,0,0,327"/>
 				<Row data="327,0,0,0,327,0,0,0,327,0,0,0,327"/>
 				<Row data="327,42,0,0,327,0,0,0,327,0,0,59,327"/>
@@ -712,6 +852,16 @@
 		</LTTileMap>
 		<LTActor name="Start21" shape="1" x="6.5" y="7.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock30" shape="2" x="3.5" y="6.5" angle="450" velocity="2" frame="243">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock31" shape="2" x="9.5" y="6.5" angle="450" velocity="2" frame="243">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -724,18 +874,38 @@
 				<Row data="0,0,0,0,0,0,166,167,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,166,167,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,166,167,0,0,0,0,0"/>
-				<Row data="2,0,0,166,167,0,166,167,0,0,0,0,166"/>
-				<Row data="0,0,247,166,167,0,166,167,0,0,0,0,166"/>
-				<Row data="0,0,0,166,167,247,166,167,247,0,0,0,0"/>
+				<Row data="0,0,0,166,167,0,166,167,0,0,0,0,166"/>
+				<Row data="0,0,0,166,167,0,166,167,0,0,0,0,166"/>
+				<Row data="0,0,0,166,167,0,166,167,0,0,0,0,0"/>
 				<Row data="0,0,0,166,167,0,166,167,0,166,167,0,0"/>
 				<Row data="0,166,167,166,167,0,166,167,0,166,167,0,0"/>
 				<Row data="0,166,167,166,167,0,0,0,0,166,167,0,0"/>
 				<Row data="0,166,167,166,167,0,0,0,0,166,167,0,0"/>
-				<Row data="0,166,167,166,167,0,0,166,167,166,167,0,247"/>
+				<Row data="0,166,167,166,167,0,0,166,167,166,167,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start22" shape="1" x="0.5" y="4.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock32" shape="2" x="2.5" y="5.5" angle="450" velocity="2" frame="247">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock33" shape="2" x="5.5" y="6.5" angle="450" velocity="2" frame="247">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock34" shape="2" x="8.5" y="6.5" angle="450" velocity="2" frame="247">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock35" shape="2" x="12.5" y="11.5" angle="450" velocity="2" frame="247">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -746,16 +916,16 @@
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,0,0,0,232,42,0,0,232,0,0,0,30"/>
 				<Row data="0,0,0,0,232,0,0,0,232,0,0,0,0"/>
-				<Row data="0,0,0,0,230,264,264,264,231,0,0,0,0"/>
+				<Row data="0,0,0,0,230,394,394,394,231,0,0,0,0"/>
 				<Row data="215,215,216,0,0,0,0,0,0,0,214,215,215"/>
-				<Row data="0,0,264,0,0,0,0,0,0,0,264,0,0"/>
-				<Row data="49,0,264,0,0,264,0,0,0,0,264,0,69"/>
+				<Row data="0,0,394,0,0,0,0,0,0,0,394,0,0"/>
+				<Row data="49,0,394,0,0,264,0,0,0,0,394,0,69"/>
 				<Row data="215,215,231,0,0,0,264,0,0,0,230,215,215"/>
 				<Row data="0,0,0,0,0,0,0,264,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,264,0,0,0,0"/>
 				<Row data="0,0,0,0,170,171,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,170,171,170,171,0,0,0,0,0"/>
-				<Row data="2,0,0,0,170,171,170,171,0,0,0,0,0"/>
+				<Row data="0,0,0,0,170,171,170,171,0,0,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start23" shape="1" x="0.5" y="11.5" frame="2">
@@ -771,14 +941,14 @@
 				<Row data="279,24,0,281,0,0,281,0,0,279,0,45,281"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="94,0,0,94,0,0,94,0,0,94,0,0,94"/>
-				<Row data="281,0,0,281,0,0,280,0,0,279,0,0,281"/>
+				<Row data="281,0,0,281,0,0,368,0,0,279,0,0,281"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,274,0,274,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="280,0,0,281,0,0,280,0,0,281,0,0,280"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,2,0,0,0,0,0,64"/>
+				<Row data="368,0,0,281,0,0,368,0,0,281,0,0,368"/>
+				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,64"/>
 				<Row data="281,94,0,281,94,0,279,0,94,279,0,94,279"/>
 			</LTIntMap>
 		</LTTileMap>
@@ -787,27 +957,42 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
+		<LTActor name="HazardousBlock36" shape="2" x="5.5" y="6.5" angle="450" velocity="2" frame="274">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock37" shape="2" x="7.5" y="6.5" angle="450" velocity="2" frame="274">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
 	</LTPage>
 	<LTPage name="Level 25">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
-				<Row data="46,0,294,0,0,0,0,0,0,0,294,0,61"/>
-				<Row data="0,0,294,0,0,0,0,0,0,0,294,0,0"/>
-				<Row data="0,0,294,0,0,0,0,0,0,0,294,0,0"/>
-				<Row data="294,294,274,0,128,129,0,128,129,0,274,294,294"/>
-				<Row data="0,0,294,0,144,145,0,144,145,0,294,0,0"/>
-				<Row data="0,0,294,0,0,0,273,0,0,0,294,0,0"/>
-				<Row data="88,0,294,0,0,0,0,0,0,0,294,0,88"/>
-				<Row data="294,294,274,0,128,129,0,128,129,0,274,294,294"/>
-				<Row data="0,0,274,0,144,145,0,144,145,0,274,0,0"/>
-				<Row data="0,0,274,0,0,0,0,0,0,0,274,0,0"/>
-				<Row data="0,0,274,0,0,0,0,0,0,0,274,0,0"/>
-				<Row data="53,0,274,1,0,0,0,0,0,0,274,0,18"/>
+				<Row data="46,0,360,0,0,0,0,0,0,0,360,0,61"/>
+				<Row data="0,0,360,0,0,0,0,0,0,0,360,0,0"/>
+				<Row data="0,0,360,0,0,0,0,0,0,0,360,0,0"/>
+				<Row data="294,294,392,0,128,129,0,128,129,0,392,294,294"/>
+				<Row data="0,0,360,0,144,145,0,144,145,0,360,0,0"/>
+				<Row data="0,0,360,0,0,0,0,0,0,0,360,0,0"/>
+				<Row data="88,0,360,0,0,0,0,0,0,0,360,0,88"/>
+				<Row data="294,294,392,0,128,129,0,128,129,0,392,294,294"/>
+				<Row data="0,0,392,0,144,145,0,144,145,0,392,0,0"/>
+				<Row data="0,0,392,0,0,0,0,0,0,0,392,0,0"/>
+				<Row data="0,0,392,0,0,0,0,0,0,0,392,0,0"/>
+				<Row data="53,0,392,0,0,0,0,0,0,0,392,0,18"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start25" shape="1" x="3.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock38" shape="2" x="6.5" y="5.5" angle="450" velocity="2" frame="274">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -816,15 +1001,15 @@
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
-				<Row data="0,0,0,0,249,0,2,0,249,0,0,0,0"/>
+				<Row data="0,0,0,0,249,0,0,0,249,0,0,0,0"/>
 				<Row data="0,0,0,0,249,0,0,0,249,0,0,0,0"/>
 				<Row data="0,0,0,57,249,0,0,0,249,42,0,0,0"/>
 				<Row data="212,212,212,212,212,212,212,212,212,212,212,212,212"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="298,298,298,298,212,212,212,212,212,298,298,298,298"/>
+				<Row data="369,369,369,369,212,212,212,212,212,369,369,369,369"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,298,0,0,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,369,0,0,0,0,0,0"/>
 				<Row data="0,0,0,170,171,0,0,0,170,171,0,0,0"/>
 				<Row data="0,0,0,170,171,0,0,0,170,171,0,0,0"/>
 				<Row data="53,0,0,170,171,0,0,0,170,171,0,0,26"/>
@@ -833,6 +1018,16 @@
 		<LTActor name="Start26" shape="1" x="6.5" y="0.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="FadingBlock21" shape="2" x="6.5" y="3.5" width="13" angle="270">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="37"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="FadingBlock22" shape="2" x="6.5" y="6.5" width="5" angle="270" frame="1">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="37"/>
 			</LTImageVisualizer>
 		</LTActor>
 	</LTPage>
@@ -844,7 +1039,7 @@
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,328,0"/>
 				<Row data="328,0,0,0,0,0,0,0,0,0,328,0,0"/>
 				<Row data="0,328,0,0,0,0,0,0,0,328,0,0,0"/>
-				<Row data="0,0,328,0,0,0,2,0,328,0,0,0,0"/>
+				<Row data="0,0,328,0,0,0,0,0,328,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,328,328,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,328,328,0,0,0,328,0,0"/>
 				<Row data="0,0,0,0,328,0,0,0,0,0,0,328,43"/>
@@ -870,16 +1065,31 @@
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,140,0,0,0,140,0,0,0,0"/>
 				<Row data="0,0,242,242,156,0,0,0,156,242,242,0,0"/>
-				<Row data="0,0,0,0,156,306,306,306,156,0,0,0,0"/>
+				<Row data="0,0,0,0,156,0,0,0,156,0,0,0,0"/>
 				<Row data="0,0,0,0,156,0,0,0,156,0,0,0,0"/>
 				<Row data="242,242,0,0,156,0,0,0,156,0,0,242,242"/>
 				<Row data="0,0,0,0,156,0,0,0,156,0,0,0,0"/>
 				<Row data="0,0,0,0,156,0,0,0,156,0,0,0,0"/>
-				<Row data="1,0,0,0,156,0,0,0,156,0,0,0,18"/>
+				<Row data="0,0,0,0,156,0,0,0,156,0,0,0,18"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start28" shape="1" x="0.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock39" shape="2" x="5.5" y="6.5" angle="450" velocity="2" frame="307">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock40" shape="2" x="6.5" y="6.5" angle="450" velocity="2" frame="307">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock41" shape="2" x="7.5" y="6.5" angle="450" velocity="2" frame="307">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -890,20 +1100,35 @@
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="41,0,0,0,0,0,110,111,88,0,0,0,28"/>
 				<Row data="0,0,0,0,0,0,126,127,0,0,0,0,0"/>
-				<Row data="0,0,0,0,5,0,126,111,0,0,0,0,0"/>
-				<Row data="0,312,0,0,6,0,110,127,0,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,126,111,0,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,110,127,0,0,0,0,0"/>
 				<Row data="282,0,0,0,0,0,96,97,0,0,0,0,282"/>
 				<Row data="0,0,0,0,0,0,112,113,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,110,111,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,283,126,111,283,282,0,0,0"/>
-				<Row data="0,0,282,0,0,0,110,127,0,0,283,0,0"/>
-				<Row data="0,312,0,0,0,0,110,111,0,0,0,282,0"/>
+				<Row data="0,0,0,0,0,370,126,111,370,282,0,0,0"/>
+				<Row data="0,0,282,0,0,0,110,127,0,0,370,0,0"/>
+				<Row data="0,0,0,0,0,0,110,111,0,0,0,282,0"/>
 				<Row data="0,0,0,0,0,0,126,127,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,110,127,88,0,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start29" shape="1" x="4.5" y="3" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="FadingBlock23" shape="2" x="7" y="5" width="2" height="2" angle="270">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="37"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock42" shape="2" x="1.5" y="3.5" angle="450" velocity="2" frame="313">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock43" shape="2" x="1.5" y="9.5" angle="450" velocity="2" frame="313">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -920,14 +1145,29 @@
 				<Row data="0,0,53,197,0,0,0,0,0,197,53,0,0"/>
 				<Row data="179,180,180,196,0,0,295,0,0,195,180,180,181"/>
 				<Row data="197,95,0,0,0,0,0,0,0,0,0,95,197"/>
-				<Row data="197,0,0,0,0,0,2,0,0,0,0,0,197"/>
-				<Row data="197,246,0,0,0,0,0,0,0,0,0,246,197"/>
+				<Row data="197,0,0,0,0,0,0,0,0,0,0,0,197"/>
+				<Row data="197,0,0,0,0,0,0,0,0,0,0,0,197"/>
 				<Row data="197,0,0,0,0,295,0,295,0,0,0,0,197"/>
 				<Row data="197,31,0,0,0,0,0,0,0,0,0,31,197"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start30" shape="1" x="6.5" y="8.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="FadingBlock25" shape="2" x="6.5" y="2.5" angle="270">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="37"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock44" shape="2" x="1.5" y="9.5" angle="450" velocity="2" frame="247">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock45" shape="2" x="11.5" y="9.5" angle="450" velocity="2" frame="247">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -938,13 +1178,13 @@
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="88,0,0,0,0,0,0,0,0,0,0,0,42"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,250,0,141,0,250,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,141,0,0,0,0,0,0"/>
 				<Row data="0,0,0,248,0,0,157,0,0,248,0,0,0"/>
 				<Row data="0,0,248,0,0,0,157,0,0,0,248,0,0"/>
 				<Row data="0,248,0,0,0,0,157,0,0,0,0,248,0"/>
 				<Row data="275,275,275,275,0,275,275,275,0,275,275,275,275"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="2,0,0,0,0,140,0,140,0,0,0,0,0"/>
+				<Row data="0,0,0,0,0,140,0,140,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,156,0,156,140,0,0,0,0"/>
 				<Row data="0,0,0,0,140,156,0,156,156,0,0,0,0"/>
 				<Row data="29,0,0,0,156,156,140,156,156,0,0,0,52"/>
@@ -955,27 +1195,57 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
+		<LTActor name="HazardousBlock46" shape="2" x="4.5" y="2.5" angle="450" velocity="2" frame="247">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock47" shape="2" x="8.5" y="2.5" angle="450" velocity="2" frame="247">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
 	</LTPage>
 	<LTPage name="Level 32">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
-				<Row data="60,0,1,0,0,0,0,0,0,0,0,0,44"/>
-				<Row data="0,0,0,0,0,0,258,0,0,0,0,0,0"/>
+				<Row data="60,0,0,0,0,0,0,0,0,0,0,0,44"/>
+				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,271,0,0,0,0,0,0,0,271,0,0"/>
 				<Row data="0,0,271,0,0,0,0,0,0,0,271,0,0"/>
 				<Row data="0,0,271,0,0,0,0,0,0,0,271,0,0"/>
-				<Row data="0,258,271,0,0,0,0,0,0,0,271,258,0"/>
+				<Row data="0,0,271,0,0,0,0,0,0,0,271,0,0"/>
 				<Row data="271,0,0,271,0,0,0,0,0,271,0,0,271"/>
 				<Row data="271,0,0,271,0,0,0,0,0,271,0,0,271"/>
 				<Row data="271,0,0,0,271,0,0,0,271,0,0,0,271"/>
 				<Row data="271,0,0,0,0,271,271,271,0,0,0,0,271"/>
 				<Row data="0,271,0,0,0,0,0,0,0,0,0,271,0"/>
-				<Row data="0,0,271,271,23,0,258,0,64,271,271,0,0"/>
+				<Row data="0,0,271,271,23,0,0,0,64,271,271,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start32" shape="1" x="2.5" y="0.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock48" shape="2" x="1.5" y="5.5" angle="450" velocity="2" frame="258">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock49" shape="2" x="6.5" y="1.5" angle="450" velocity="2" frame="258">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock50" shape="2" x="11.5" y="5.5" angle="450" velocity="2" frame="258">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock51" shape="2" x="6.5" y="11.5" angle="450" velocity="2" frame="258">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -984,18 +1254,18 @@
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
-				<Row data="0,0,0,0,0,0,256,0,0,0,0,0,265"/>
-				<Row data="0,0,0,0,0,0,256,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,256,0,43,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,256,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,256,0,0,0,0,0,263"/>
-				<Row data="0,0,243,0,243,0,243,0,243,0,243,0,0"/>
+				<Row data="0,0,0,0,0,0,362,0,0,0,0,0,11"/>
+				<Row data="0,0,0,0,0,0,362,0,0,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,362,0,43,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,362,0,0,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,362,0,0,0,0,0,263"/>
+				<Row data="0,0,341,0,341,0,341,0,341,0,341,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,263"/>
-				<Row data="2,0,0,0,0,0,0,0,0,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="263,0,0,68,0,0,0,0,0,0,0,0,263"/>
-				<Row data="130,131,130,131,130,130,131,130,131,131,130,131,131"/>
+				<Row data="371,372,371,372,371,372,371,372,371,372,371,372,371"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start33" shape="1" x="0.5" y="8.5" frame="2">
@@ -1008,18 +1278,18 @@
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
-				<Row data="35,280,0,0,0,0,0,0,0,0,0,0,44"/>
-				<Row data="0,280,0,0,0,0,0,0,0,0,0,0,0"/>
+				<Row data="35,368,0,0,0,0,0,0,0,0,0,0,44"/>
+				<Row data="0,368,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="285,285,286,285,280,285,286,286,280,285,0,0,0"/>
-				<Row data="0,0,0,0,0,0,280,0,0,0,0,0,0"/>
+				<Row data="285,285,286,285,368,285,286,286,368,285,0,0,0"/>
+				<Row data="0,0,0,0,0,0,368,0,0,0,0,0,0"/>
 				<Row data="52,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,286,285,285,286,285,286,285,285,286,280"/>
-				<Row data="0,0,0,0,0,0,0,0,280,0,0,0,0"/>
+				<Row data="0,0,0,286,285,285,286,285,286,285,285,286,368"/>
+				<Row data="0,0,0,0,0,0,0,0,368,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="280,286,285,286,285,286,286,286,285,286,0,0,0"/>
+				<Row data="368,286,285,286,285,286,286,286,285,286,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="2,0,0,0,0,0,0,0,0,0,0,0,58"/>
+				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,58"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start34" shape="1" x="0.5" y="11.5" frame="2">
@@ -1036,18 +1306,28 @@
 				<Row data="0,0,0,0,0,0,0,78,0,78,78,0,0"/>
 				<Row data="0,0,0,0,0,323,323,323,323,323,323,323,323"/>
 				<Row data="78,0,142,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="323,250,323,0,0,0,307,0,307,0,0,0,0"/>
+				<Row data="323,376,323,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,142,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,158,0,0,0"/>
 				<Row data="0,0,0,142,0,0,0,0,0,158,78,0,78"/>
-				<Row data="41,0,0,158,0,0,0,142,0,323,323,250,323"/>
-				<Row data="323,323,323,323,250,323,0,158,0,0,0,0,0"/>
+				<Row data="41,0,0,158,0,0,0,142,0,323,323,376,323"/>
+				<Row data="323,323,323,323,376,323,0,158,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,158,0,0,0,0,0"/>
-				<Row data="1,0,0,0,0,0,0,158,0,0,0,0,53"/>
+				<Row data="0,0,0,0,0,0,0,158,0,0,0,0,53"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start35" shape="1" x="0.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock55" shape="2" x="6.5" y="4.5" angle="450" velocity="2" frame="307">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock56" shape="2" x="8.5" y="4.5" angle="450" velocity="2" frame="307">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -1061,17 +1341,37 @@
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,77,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,257,0,0,0,0,0,0"/>
-				<Row data="77,0,274,0,77,0,0,0,77,0,274,0,77"/>
+				<Row data="77,0,0,0,77,0,0,0,77,0,0,0,77"/>
 				<Row data="257,0,0,0,257,0,0,0,257,0,0,0,257"/>
-				<Row data="0,0,0,0,0,273,0,273,0,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,257,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="77,1,0,0,0,0,257,0,0,0,0,0,77"/>
+				<Row data="77,0,0,0,0,0,257,0,0,0,0,0,77"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start36" shape="1" x="1.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock57" shape="2" x="2.5" y="5.5" angle="450" velocity="2" frame="274">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock58" shape="2" x="5.5" y="7.5" angle="450" velocity="2" frame="274">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock59" shape="2" x="7.5" y="7.5" angle="450" velocity="2" frame="274">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock60" shape="2" x="10.5" y="5.5" angle="450" velocity="2" frame="274">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -1085,17 +1385,42 @@
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,290"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,316,316,316,316,0,0,0,134,135,0,0"/>
-				<Row data="0,0,0,0,0,305,0,290,0,134,151,290,0"/>
-				<Row data="0,316,305,0,0,0,0,0,0,150,151,0,0"/>
+				<Row data="0,0,339,339,339,339,0,0,0,134,135,0,0"/>
+				<Row data="0,0,0,0,0,0,0,290,0,134,151,290,0"/>
+				<Row data="0,339,0,0,0,0,0,0,0,150,151,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,134,135,0,0"/>
-				<Row data="0,305,0,305,0,0,0,0,0,150,151,0,290"/>
-				<Row data="0,0,0,0,305,0,0,0,0,150,135,0,0"/>
+				<Row data="0,0,0,0,0,0,0,0,0,150,151,0,290"/>
+				<Row data="0,0,0,0,0,0,0,0,0,150,135,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,70,134,135,57,0"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start37" shape="1" x="0.5" y="0.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock61" shape="2" x="1.5" y="9.5" angle="450" velocity="2" frame="307">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock62" shape="2" x="2.5" y="7.5" angle="450" velocity="2" frame="307">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock63" shape="2" x="3.5" y="9.5" angle="450" velocity="2" frame="307">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock64" shape="2" x="4.5" y="10.5" angle="450" velocity="2" frame="307">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock65" shape="2" x="5.5" y="6.5" angle="450" velocity="2" frame="307">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -1110,16 +1435,31 @@
 				<Row data="0,200,0,0,0,198,183,199,0,0,0,200,0"/>
 				<Row data="79,200,0,0,0,0,0,0,0,0,0,200,45"/>
 				<Row data="183,199,0,0,183,184,0,182,183,0,0,198,183"/>
-				<Row data="0,0,243,0,0,200,0,200,0,0,243,0,0"/>
+				<Row data="0,0,0,0,0,200,0,200,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,200,79,200,0,0,0,0,0"/>
 				<Row data="79,0,200,0,0,198,183,199,0,0,200,0,79"/>
 				<Row data="183,183,199,0,0,0,0,0,0,0,198,183,183"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="23,2,0,0,0,0,243,0,0,0,0,0,79"/>
+				<Row data="23,0,0,0,0,0,0,0,0,0,0,0,79"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start38" shape="1" x="1.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock66" shape="2" x="6.5" y="11.5" angle="450" velocity="2" frame="243">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock67" shape="2" x="2.5" y="6.5" angle="450" velocity="2" frame="243">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock68" shape="2" x="10.5" y="6.5" angle="450" velocity="2" frame="243">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -1129,13 +1469,13 @@
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,0,270,0,0,0,0,0,0,0,270,0,0"/>
-				<Row data="42,0,270,313,0,0,0,0,0,313,270,0,48"/>
+				<Row data="42,0,270,0,0,0,0,0,0,0,270,0,48"/>
 				<Row data="0,0,270,0,0,0,0,0,0,0,270,0,0"/>
 				<Row data="0,0,270,0,0,0,0,0,0,0,270,0,0"/>
 				<Row data="0,0,332,0,0,0,0,0,0,0,332,0,0"/>
 				<Row data="0,0,332,0,0,0,0,0,0,0,332,0,0"/>
 				<Row data="270,270,270,0,0,0,0,0,0,0,270,270,270"/>
-				<Row data="0,0,332,0,0,162,163,1,0,0,332,0,0"/>
+				<Row data="0,0,332,0,0,162,163,0,0,0,332,0,0"/>
 				<Row data="0,0,332,0,0,162,163,0,0,0,332,0,0"/>
 				<Row data="0,0,270,0,0,162,163,0,0,0,270,0,0"/>
 				<Row data="0,0,270,0,0,162,163,162,163,0,270,0,0"/>
@@ -1147,17 +1487,27 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
+		<LTActor name="HazardousBlock69" shape="2" x="3.5" y="1.5" angle="450" velocity="2" frame="313">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock70" shape="2" x="9.5" y="1.5" angle="450" velocity="2" frame="313">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
 	</LTPage>
 	<LTPage name="Level 40">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
-				<Row data="47,47,41,47,0,0,0,0,0,47,47,47,41"/>
-				<Row data="47,47,47,47,0,0,0,0,0,41,47,47,47"/>
-				<Row data="47,41,47,47,0,0,0,0,0,47,47,47,47"/>
-				<Row data="47,47,47,47,0,0,0,0,0,47,47,47,47"/>
+				<Row data="384,384,373,384,0,0,0,0,0,384,384,384,373"/>
+				<Row data="384,384,384,384,0,0,0,0,0,373,384,384,384"/>
+				<Row data="384,373,384,384,0,0,0,0,0,384,384,384,384"/>
+				<Row data="384,384,384,384,0,0,0,0,0,384,384,384,384"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="2,168,169,0,0,0,0,0,0,0,168,169,0"/>
+				<Row data="0,168,169,0,0,0,0,0,0,0,168,169,0"/>
 				<Row data="0,168,169,0,0,0,0,0,0,0,168,169,0"/>
 				<Row data="0,168,169,0,0,0,0,0,0,0,168,169,0"/>
 				<Row data="168,169,168,169,0,0,0,0,0,168,169,168,169"/>
@@ -1180,18 +1530,33 @@
 				<Row data="0,0,0,317,0,0,0,0,0,317,0,0,0"/>
 				<Row data="0,0,0,317,0,0,0,0,0,317,0,0,0"/>
 				<Row data="0,0,0,317,68,0,0,0,51,317,0,0,0"/>
-				<Row data="0,0,313,313,0,242,0,0,0,313,313,0,0"/>
+				<Row data="0,0,313,313,0,0,0,0,0,313,313,0,0"/>
 				<Row data="0,0,0,317,0,0,0,0,0,317,0,0,0"/>
-				<Row data="0,0,0,240,0,0,0,242,0,240,0,0,0"/>
-				<Row data="0,0,0,79,0,0,0,0,0,79,0,0,0"/>
-				<Row data="313,0,0,79,0,0,242,0,0,79,0,0,313"/>
-				<Row data="0,0,0,79,0,0,0,0,0,79,0,0,0"/>
-				<Row data="0,0,0,79,0,0,0,0,0,79,0,0,0"/>
-				<Row data="1,0,0,240,0,0,0,0,0,240,0,0,0"/>
+				<Row data="0,0,0,393,0,0,0,0,0,393,0,0,0"/>
+				<Row data="0,0,0,361,0,0,0,0,0,361,0,0,0"/>
+				<Row data="313,0,0,361,0,0,0,0,0,361,0,0,313"/>
+				<Row data="0,0,0,361,0,0,0,0,0,361,0,0,0"/>
+				<Row data="0,0,0,361,0,0,0,0,0,361,0,0,0"/>
+				<Row data="0,0,0,393,0,0,0,0,0,393,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start41" shape="1" x="0.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock71" shape="2" x="5.5" y="4.5" angle="450" velocity="2" frame="243">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock72" shape="2" x="6.5" y="8.5" angle="450" velocity="2" frame="243">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock73" shape="2" x="7.5" y="6.5" angle="450" velocity="2" frame="243">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -1205,17 +1570,22 @@
 				<Row data="290,297,290,290,0,0,0,0,0,290,290,297,297"/>
 				<Row data="69,0,0,0,0,0,0,0,0,0,0,0,53"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,314"/>
+				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,297,290,290,297,297,0,0,0,0"/>
 				<Row data="0,297,0,0,78,78,78,78,78,0,0,290,0"/>
-				<Row data="0,0,0,0,273,273,273,273,273,0,0,0,0"/>
+				<Row data="0,0,0,0,358,358,358,358,358,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,297,0,0,1,0,0,290,0,0,0"/>
+				<Row data="0,0,0,297,0,0,0,0,0,290,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start42" shape="1" x="6.5" y="10.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock74" shape="2" x="12.5" y="5.5" angle="450" velocity="2" frame="313">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -1226,16 +1596,16 @@
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="91,0,0,0,0,0,0,0,0,0,0,0,42"/>
 				<Row data="293,0,0,0,0,0,0,0,0,0,0,0,293"/>
-				<Row data="0,0,0,318,2,0,293,0,0,318,0,0,0"/>
-				<Row data="318,0,0,57,0,0,320,0,0,57,0,0,318"/>
-				<Row data="51,0,0,299,0,0,320,0,0,293,0,0,57"/>
+				<Row data="0,0,0,318,0,0,293,0,0,318,0,0,0"/>
+				<Row data="318,0,0,57,0,0,374,0,0,57,0,0,318"/>
+				<Row data="51,0,0,299,0,0,374,0,0,293,0,0,57"/>
 				<Row data="293,0,0,0,0,0,299,0,0,0,0,0,299"/>
 				<Row data="0,0,0,0,0,0,0,0,0,65,0,0,0"/>
 				<Row data="318,0,0,299,0,0,0,0,0,299,0,0,318"/>
-				<Row data="65,0,0,320,0,0,293,0,0,320,0,0,51"/>
-				<Row data="299,0,0,320,0,0,0,0,0,320,0,0,299"/>
-				<Row data="0,0,0,320,0,0,0,0,0,320,0,0,0"/>
-				<Row data="22,0,0,320,0,0,0,0,0,320,0,0,0"/>
+				<Row data="65,0,0,374,0,0,293,0,0,374,0,0,51"/>
+				<Row data="299,0,0,374,0,0,0,0,0,374,0,0,299"/>
+				<Row data="0,0,0,374,0,0,0,0,0,374,0,0,0"/>
+				<Row data="22,0,0,374,0,0,0,0,0,374,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start43" shape="1" x="4.5" y="2.5" frame="2">
@@ -1250,9 +1620,9 @@
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,41"/>
 				<Row data="0,247,0,247,0,247,0,247,0,0,0,0,0"/>
-				<Row data="0,0,0,325,0,325,0,0,0,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,266,0"/>
-				<Row data="267,325,0,62,0,62,0,325,0,0,0,0,0"/>
+				<Row data="10,0,0,62,0,62,0,0,0,0,0,0,0"/>
 				<Row data="214,215,215,215,215,215,215,215,215,215,0,0,0"/>
 				<Row data="232,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="232,0,215,215,215,215,215,215,215,215,215,215,216"/>
@@ -1267,15 +1637,35 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
+		<LTActor name="HazardousBlock75" shape="2" x="7.5" y="4.5" angle="450" velocity="2" frame="303">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock76" shape="2" x="5.5" y="2.5" angle="450" velocity="2" frame="303">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock77" shape="2" x="3.5" y="2.5" angle="450" velocity="2" frame="303">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock78" shape="2" x="1.5" y="4.5" angle="450" velocity="2" frame="303">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
 	</LTPage>
 	<LTPage name="Level 45">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
-				<Row data="308,296,308,0,44,0,308,298,308,0,308,0,308"/>
+				<Row data="0,296,0,0,44,0,0,298,0,0,0,0,0"/>
 				<Row data="0,298,0,0,0,0,0,298,0,0,0,0,0"/>
 				<Row data="0,298,0,0,0,0,0,296,0,0,0,0,0"/>
-				<Row data="2,298,0,0,0,0,0,298,0,0,0,0,0"/>
+				<Row data="0,298,0,0,0,0,0,298,0,0,0,0,0"/>
 				<Row data="0,296,51,0,0,0,0,296,0,0,0,0,0"/>
 				<Row data="0,298,140,0,0,0,0,296,0,0,0,0,0"/>
 				<Row data="0,298,156,0,0,0,0,296,0,0,51,143,0"/>
@@ -1291,13 +1681,43 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
+		<LTActor name="HazardousBlock79" shape="2" x="0.5" y="0.5" angle="450" velocity="2" frame="307">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock80" shape="2" x="2.5" y="0.5" angle="450" velocity="2" frame="307">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock81" shape="2" x="6.5" y="0.5" angle="450" velocity="2" frame="307">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock82" shape="2" x="8.5" y="0.5" angle="450" velocity="2" frame="307">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock83" shape="2" x="10.5" y="0.5" angle="450" velocity="2" frame="307">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock84" shape="2" x="12.5" y="0.5" angle="450" velocity="2" frame="307">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
 	</LTPage>
 	<LTPage name="Level 46">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="34,0,0,0,0,0,0,0,0,0,0,0,41"/>
-				<Row data="0,0,0,0,0,0,258,0,0,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="300,301,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="60,0,301,0,0,0,0,0,0,0,300,301,300"/>
 				<Row data="0,0,0,257,0,0,0,301,301,301,0,0,0"/>
@@ -1307,11 +1727,16 @@
 				<Row data="0,0,0,301,301,300,0,0,0,0,0,0,0"/>
 				<Row data="300,301,300,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,300,301,301,0"/>
-				<Row data="2,0,0,0,0,0,300,301,301,53,0,0,0"/>
+				<Row data="0,0,0,0,0,0,300,301,301,53,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start46" shape="1" x="0.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock85" shape="2" x="6.5" y="1.5" angle="450" velocity="2" frame="258">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
@@ -1320,7 +1745,7 @@
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
-				<Row data="65,0,0,160,161,0,280,0,160,161,0,0,37"/>
+				<Row data="65,0,0,160,161,0,0,0,160,161,0,0,37"/>
 				<Row data="0,0,0,160,161,0,0,0,160,161,0,0,0"/>
 				<Row data="0,0,0,160,161,0,0,0,160,161,0,0,0"/>
 				<Row data="104,105,0,160,161,0,0,0,160,161,0,104,105"/>
@@ -1331,12 +1756,37 @@
 				<Row data="170,171,0,160,161,0,0,0,160,161,0,170,171"/>
 				<Row data="170,171,0,160,161,0,0,0,160,161,0,170,171"/>
 				<Row data="170,171,0,160,161,0,0,0,160,161,0,170,171"/>
-				<Row data="170,171,45,160,161,0,2,0,160,161,0,170,171"/>
+				<Row data="170,171,45,160,161,0,0,0,160,161,0,170,171"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start47" shape="1" x="6.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock86" shape="2" x="6.5" y="0.5" angle="450" velocity="2" frame="280">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="FadingBlock24" shape="2" x="1" y="4" width="2" height="2" angle="270" frame="1">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="37"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="FadingBlock26" shape="2" x="12" y="4" width="2" height="2" angle="270" frame="1">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="37"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="FadingBlock27" shape="2" x="4" y="7" width="2" height="2" angle="270">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="37"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="FadingBlock28" shape="2" x="9" y="7" width="2" height="2" angle="270">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="37"/>
 			</LTImageVisualizer>
 		</LTActor>
 	</LTPage>
@@ -1345,10 +1795,10 @@
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="69,0,0,0,0,0,0,0,0,0,0,0,69"/>
-				<Row data="1,0,0,0,0,0,0,0,0,0,0,0,0"/>
+				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,136,137"/>
 				<Row data="0,0,0,0,0,136,137,0,0,0,0,152,153"/>
-				<Row data="0,0,0,0,246,152,153,246,0,0,246,138,139"/>
+				<Row data="0,0,0,0,0,152,153,0,0,0,0,138,139"/>
 				<Row data="136,137,0,0,0,154,139,0,0,0,0,138,155"/>
 				<Row data="152,153,0,0,0,138,139,0,136,137,0,154,155"/>
 				<Row data="154,155,0,0,0,154,155,0,152,153,0,154,155"/>
@@ -1363,23 +1813,38 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>
+		<LTActor name="HazardousBlock87" shape="2" x="4.5" y="4.5" angle="450" velocity="2" frame="247">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock88" shape="2" x="7.5" y="4.5" angle="450" velocity="2" frame="247">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock89" shape="2" x="10.5" y="4.5" angle="450" velocity="2" frame="247">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
 	</LTPage>
 	<LTPage name="Level 49">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,0,0,0,91,0,47,0,50,0,0,0,18"/>
-				<Row data="0,0,0,0,276,0,276,0,276,0,0,0,0"/>
-				<Row data="0,0,0,0,276,0,276,0,276,0,0,0,0"/>
+				<Row data="0,0,0,0,358,0,358,0,358,0,0,0,0"/>
+				<Row data="0,0,0,0,358,0,358,0,358,0,0,0,0"/>
 				<Row data="0,0,0,0,63,0,91,0,47,0,0,0,0"/>
-				<Row data="0,0,0,142,276,0,276,0,276,142,0,0,0"/>
-				<Row data="0,0,0,277,276,0,276,0,276,277,0,0,0"/>
-				<Row data="1,0,0,0,50,0,91,0,91,0,0,0,0"/>
-				<Row data="142,0,0,0,276,0,276,0,276,0,0,0,142"/>
-				<Row data="158,0,0,0,276,0,276,0,276,0,0,0,158"/>
+				<Row data="0,0,0,142,358,0,358,0,358,142,0,0,0"/>
+				<Row data="0,0,0,277,358,0,358,0,358,277,0,0,0"/>
+				<Row data="0,0,0,0,50,0,91,0,91,0,0,0,0"/>
+				<Row data="142,0,0,0,358,0,358,0,358,0,0,0,142"/>
+				<Row data="158,0,0,0,358,0,358,0,358,0,0,0,158"/>
 				<Row data="277,0,0,0,91,0,65,0,91,0,0,0,277"/>
 				<Row data="0,0,0,142,0,142,0,142,0,142,0,0,0"/>
-				<Row data="140,140,140,158,140,158,140,158,140,158,140,140,140"/>
+				<Row data="375,375,375,158,375,158,375,158,375,158,375,375,375"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start49" shape="1" x="0.5" y="6.5" frame="2">
@@ -1392,8 +1857,8 @@
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
-				<Row data="68,0,0,0,0,0,68,0,0,2,0,0,68"/>
-				<Row data="0,0,0,0,247,0,0,0,247,0,0,0,0"/>
+				<Row data="68,0,0,0,0,0,68,0,0,0,0,0,68"/>
+				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,0,309,0,0,0,0,0,310,0,0,0"/>
 				<Row data="0,0,0,309,0,0,0,0,0,310,0,0,0"/>
 				<Row data="0,335,0,309,0,335,335,335,0,310,0,335,0"/>
@@ -1403,11 +1868,31 @@
 				<Row data="0,0,0,309,0,0,0,0,0,310,0,0,0"/>
 				<Row data="0,0,0,309,0,0,0,0,0,310,0,0,0"/>
 				<Row data="0,335,0,309,0,335,335,335,0,310,0,335,0"/>
-				<Row data="247,53,26,309,0,0,26,0,0,310,26,53,247"/>
+				<Row data="0,53,26,309,0,0,26,0,0,310,26,53,0"/>
 			</LTIntMap>
 		</LTTileMap>
 		<LTActor name="Start50" shape="1" x="9.5" y="0.5" frame="2">
 			<LTImageVisualizer field="visualizer">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock90" shape="2" x="12.5" y="11.5" angle="450" velocity="2" frame="247">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock91" shape="2" x="0.5" y="11.5" angle="450" velocity="2" frame="247">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock92" shape="2" x="4.5" y="1.5" angle="450" velocity="2" frame="247">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<Object field="image" id="4"/>
+			</LTImageVisualizer>
+		</LTActor>
+		<LTActor name="HazardousBlock93" shape="2" x="8.5" y="1.5" angle="450" velocity="2" frame="247">
+			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTActor>

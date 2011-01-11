@@ -85,7 +85,7 @@ Type LTCreateSprite Extends LTDrag
 			Editor.CurrentPage.Sprites.Remove( Sprite )
 		Else
 			Editor.SetChanged()
-			If Not LTImageVisualizer( Sprite.Visualizer ).Image Then Editor.SpriteImageProperties( Sprite )
+			If Not LTImageVisualizer( Sprite.Visualizer ).Image Then SpriteImageProperties( Sprite )
 		End If
 		Editor.FillSpriteFields()
 		Editor.SetSpriteModifiers( Sprite )

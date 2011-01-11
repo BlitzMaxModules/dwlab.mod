@@ -150,13 +150,13 @@ Type LTImage Extends LTObject
 	
 	
 	
-	Method Width:Floor()
+	Method Width:Float()
 		Return BMaxImage.width
 	End Method
 	
 	
 	
-	Method Height:Floor()
+	Method Height:Float()
 		Return BMaxImage.height
 	End Method
 	

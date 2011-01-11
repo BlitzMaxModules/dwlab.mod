@@ -99,7 +99,7 @@ Type LTXMLObject Extends LTObject
 	
 	
 	
-	Method ManageStringAttribute( AttrName:String, AttrVariable:String Var)
+	Method ManageStringAttribute( AttrName:String, AttrVariable:String Var )
 		If L_XMLMode = L_XMLGet Then
 			For Local Attr:LTXMLAttribute = EachIn Attributes
 				If Attr.Name = AttrName Then
@@ -147,6 +147,26 @@ Type LTXMLObject Extends LTObject
 			End If
 		End If
 		Return Obj
+	End Method
+	
+	
+	
+	Method ManageIntArrayAttribute( AttrName:String, IntArray:Int[] Var )
+		If L_XMLMode = L_XMLGet Then
+			Local Values:String[] = GetAttribute( AttrName ).Split( "," )
+			Local Quantity:Int = Values.Dimensions()[ 0 ]
+			IntArray = New Int[ Quantity ]
+			For Local N:Int = 0 Until Quantity
+				IntArray[ N ] = Values[ N ].ToInt()
+			Next
+		Else
+			Local Values:String = ""
+			For Local N:Int = 0 Until IntArray.Dimensions()[ 0 ]
+				If Values Then Values = "," + Values
+				Values :+ IntArray[ N ]
+			Next
+			SetAttribute( AttrName, Values )
+		End If
 	End Method
 	
 	

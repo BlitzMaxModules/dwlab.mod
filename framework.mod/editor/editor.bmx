@@ -33,6 +33,11 @@ include "LTGrid.bmx"
 include "LTMarchingAnts.bmx"
 include "LTAngleArrow.bmx"
 include "LTSetTile.bmx"
+include "ChooseParameter.bmx"
+include "ImportTilemap.bmx"
+include "EnterString.bmx"
+include "SpriteImageProperties.bmx"
+include "TilesetProperties.bmx"
 
 Incbin "toolbar.png"
 Incbin "modifiers.png"
@@ -41,7 +46,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.0.2.1"
+	Const Version:String = "1.1"
 	Const Title:String = "Digital Wizard's Lab World Editor v" + Version
 	
 	Field Window:TGadget
@@ -90,12 +95,10 @@ Type LTEditor Extends LTProject
 	Field ShowGrid:TGadget
 	Field EditTilemap:TGadget
 	Field EditSprites:TGadget
-	Field EditTileset:TGadget
 	
 	Field World:LTWorld = New LTWorld
 	Field CurrentPage:LTPage
 	Field CurrentSprite:LTActor
-	Field CurrentCategory:LTTileCategory
 	Field Cursor:LTActor = New LTActor
 	Field SpriteUnderCursor:LTActor
 	Field SelectedSprites:TList = New TList
@@ -111,7 +114,6 @@ Type LTEditor Extends LTProject
 	
 	Field WorldFilename:String
 	Field EditorPath:String
-	Field RealPathsForImages:TMap = New TMap
 	
 	Field Pan:LTPan = New LTPan
 	Field SelectSprites:LTSelectSprites = New LTSelectSprites
@@ -128,19 +130,19 @@ Type LTEditor Extends LTProject
 	Const MenuOpen:Int = 1
 	Const MenuSave:Int = 2
 	Const MenuSaveAs:Int = 3
-	Const MenuImportTilemap:Int = 15
-	Const MenuImportTilemaps:Int = 16
-	Const MenuExit:Int = 17
+	Const MenuImportTilemap:Int = 16
+	Const MenuImportTilemaps:Int = 17
+	Const MenuExit:Int = 18
 	Const MenuShowGrid:Int = 5
 	Const MenuSnapToGrid:Int = 6
 	Const MenuGridSettings:Int = 7
-	Const MenuTilemapSettings:Int = 18
-	Const MenuTilesetSettings:Int = 19
+	Const MenuTilemapSettings:Int = 19
+	Const MenuTilesetSettings:Int = 20
 	Const MenuEditTilemap:Int = 9
 	Const MenuEditSprites:Int = 10
-	Const MenuEditTileset = 11
-	Const MenuAddPage:Int = 13
-	Const MenuRemovePage:Int = 14
+	Const MenuAddPage:Int = 12
+	Const MenuRemovePage:Int = 13
+	Const MenuEditTileset:Int = 15
 	
 	
 	
@@ -230,16 +232,17 @@ Type LTEditor Extends LTProject
 		CreateMenu( "", 0, EditMenu )
 		EditTilemap = CreateMenu( "Edit tilemap", MenuEditTilemap, EditMenu )
 		EditSprites = CreateMenu( "Edit sprites", MenuEditSprites, EditMenu )
-		EditTileset = CreateMenu( "Edit tileset", MenuEditTileset, EditMenu )
 		CreateMenu( "", 0, EditMenu )
 		CreateMenu( "Add page", MenuAddPage, EditMenu )
 		CreateMenu( "Remove current page", MenuRemovePage, EditMenu )
+		CreateMenu( "", 0, EditMenu )
+		CreateMenu( "Edit tileset", MenuEditTileset, EditMenu )
 		CheckMenu( EditSprites )
 		
 		UpdateWindowMenu( Window )
 		
 		Toolbar = CreateToolBar( "incbin::toolbar.png", 0, 0, 0, 0, Window )
-		SetToolbarTips( Toolbar, [ "New", "Open", "Save", "Save as", "", "Show grid", "Snap to grid", "Grid settings", "", "Edit tilemap", "Edit sprites", "Edit tileset", "", "Add page", "Delete current page" ] )
+		SetToolbarTips( Toolbar, [ "New", "Open", "Save", "Save as", "", "Show grid", "Snap to grid", "Grid settings", "", "Edit tilemap", "Edit sprites", "", "Add page", "Delete current page", "", "Edit tileset" ] )
 		
 		SetGraphics( CanvasGraphics( MainCanvas ) )
 		SetGraphicsParameters()
@@ -267,11 +270,11 @@ Type LTEditor Extends LTProject
 			If ReadLine( IniFile ) = "1" Then SelectMenuItem( ShowGrid )
 			If ReadLine( IniFile ) = "1" Then SelectMenuItem( SnapToGrid )
 			
-			Select ReadLine( IniFile )
-				Case "0": SelectMenuItem( EditTilemap )
-				Case "1": SelectMenuItem( EditSprites )
-				Case "2": SelectMenuItem( EditTileset )
-			End Select
+			If ReadLine( IniFile ) = "1" Then
+				SelectMenuItem( EditSprites )
+			Else
+				SelectMenuItem( EditTilemap )
+			End If
 			
 			Grid.CellWidth = ReadLine( IniFile ).ToFloat()
 			Grid.CellHeight = ReadLine( IniFile ).ToFloat()
@@ -282,8 +285,6 @@ Type LTEditor Extends LTProject
 			Grid.Blue = ReadLine( IniFile ).ToInt()
 			
 			CloseFile( IniFile )
-		Else
-			SelectMenuItem( EditTilemap )
 		End If
 		
 		SetTitle()
@@ -296,77 +297,6 @@ Type LTEditor Extends LTProject
 		If WorldFilename Then Line = StripDir( WorldFilename ) + " - " + Line
 		If Changed Then Line = "* " + Line
 		SetGadgetText( Window, Line )
-	End Method
-	
-	
-	
-	Method SelectMenuItem( MenuItem:TGadget, State:Int = 1 )
-		If State = 2 Then State = 1 - MenuChecked( MenuItem )
-	
-		Select Menuitem
-			Case ShowGrid
-				If State Then
-					CheckMenu( ShowGrid )
-					SelectGadgetItem( Toolbar, MenuShowGrid )
-				Else
-					UncheckMenu( ShowGrid )
-					DeselectGadgetItem( Toolbar, MenuShowGrid )
-				End If
-			Case SnapToGrid
-				If State Then
-					CheckMenu( SnapToGrid )
-					SelectGadgetItem( Toolbar, MenuSnapToGrid )
-				Else
-					UncheckMenu( SnapToGrid )
-					DeselectGadgetItem( Toolbar, MenuSnapToGrid )
-				End If
-			Case EditTilemap
-				CheckMenu( EditTilemap )
-				UncheckMenu( EditSprites )
-				UncheckMenu( EditTileset )
-				SelectGadgetItem( Toolbar, MenuEditTilemap )
-				DeselectGadgetItem( Toolbar, MenuEditSprites )
-				DeselectGadgetItem( Toolbar, MenuEditTileset )
-			Case EditSprites
-				CheckMenu( EditSprites )
-				UncheckMenu( EditTilemap )
-				UncheckMenu( EditTileset )
-				DeselectGadgetItem( Toolbar, MenuEditTilemap )
-				SelectGadgetItem( Toolbar, MenuEditSprites )
-				DeselectGadgetItem( Toolbar, MenuEditTileset )
-			Case EditTilemap
-				UncheckMenu( EditSprites )
-				UncheckMenu( EditTilemap )
-				CheckMenu( EditTileset )
-				DeselectGadgetItem( Toolbar, MenuEditSprites )
-				DeselectGadgetItem( Toolbar, MenuEditTilemap )
-				SelectGadgetItem( Toolbar, MenuEditTileset )
-		End Select
-	End Method
-	
-	
-	
-	Method ExitEditor()
-		If Not AskForSaving() Then Return
-	
-		Local IniFile:TStream = WriteFile( EditorPath + "/editor.ini" )
-		
-		WriteLine( IniFile, WorldFilename )
-		WriteLine( IniFile, MenuChecked( ShowGrid ) )
-		WriteLine( IniFile, MenuChecked( SnapToGrid ) )
-		WriteLine( IniFile, MenuChecked( EditSprites ) )
-		
-		WriteLine( IniFile, Grid.CellWidth )
-		WriteLine( IniFile, Grid.CellHeight )
-		WriteLine( IniFile, Grid.CellXDiv )
-		WriteLine( IniFile, Grid.CellYDiv )
-		WriteLine( IniFile, Grid.Red )
-		WriteLine( IniFile, Grid.Green )
-		WriteLine( IniFile, Grid.Blue )
-		
-		CloseFile( IniFile )
-		
-		End
 	End Method
 	
 	
@@ -385,49 +315,6 @@ Type LTEditor Extends LTProject
 			If Choice = 1 Then Return SaveWorld()
 		End If
 		Return True
-	End Method
-	
-	
-	
-	Method FillSpriteFields()
-		SetGadgetText( XField, L_TrimFloat( CurrentSprite.X ) )
-		SetGadgetText( YField ,L_TrimFloat( CurrentSprite.Y ) )
-		SetGadgetText( WidthField, L_TrimFloat( CurrentSprite.Width ) )
-		SetGadgetText( HeightField, L_TrimFloat( CurrentSprite.Height ) )
-		SetGadgetText( AngleField, L_TrimFloat( CurrentSprite.Angle ) )
-		SetGadgetText( VelocityField, L_TrimFloat( CurrentSprite.Velocity ) )
-		SetGadgetText( FrameField, CurrentSprite.Frame )
-		SetGadgetText( RedField, L_TrimFloat( CurrentSprite.Visualizer.Red ) )
-		SetGadgetText( GreenField, L_TrimFloat( CurrentSprite.Visualizer.Green ) )
-		SetGadgetText( BlueField, L_TrimFloat( CurrentSprite.Visualizer.Blue ) )
-		SetGadgetText( AlphaField, L_TrimFloat( CurrentSprite.Visualizer.Alpha ) )
-		SetGadgetText( XScaleField, L_TrimFloat( CurrentSprite.Visualizer.XScale ) )
-		SetGadgetText( YScaleField, L_TrimFloat( CurrentSprite.Visualizer.YScale ) )
-		SetGadgetText( ImgAngleField, L_TrimFloat( LTImageVisualizer( CurrentSprite.Visualizer ).Angle ) )
-		
-		SetButtonState( RotatingCheckbox, LTImageVisualizer( CurrentSprite.Visualizer ).Rotating )
-		SetButtonState( ScalingCheckbox, CurrentSprite.Visualizer.Scaling )
-		
-		SetSliderValue( RedSlider, 100.0 * CurrentSprite.Visualizer.Red )
-		SetSliderValue( GreenSlider, 100.0 * CurrentSprite.Visualizer.Green )
-		SetSliderValue( BlueSlider, 100.0 * CurrentSprite.Visualizer.Blue )
-		SetSliderValue( AlphaSlider, 100.0 * CurrentSprite.Visualizer.Alpha )
-		
-		ClearGadgetItems( ShapeBox )
-		AddGadgetItem( ShapeBox, "Pivot" )
-		AddGadgetItem( ShapeBox, "Circle" )
-		AddGadgetItem( ShapeBox, "Rectangle" )
-		SelectGadgetItem( ShapeBox, CurrentSprite.Shape )
-	End Method
-	
-	
-	
-	Method AddPage( PageName:String )
-		Local Page:LTPage = New LTPage
-		Page.SetName( PageName )
-		CurrentPage = Page
-		World.Pages.AddLast( Page )
-		RefreshPagesList()
 	End Method
 	
 	
@@ -500,6 +387,31 @@ Type LTEditor Extends LTProject
 			SetTitle()
 			Return True
 		End If
+	End Method
+	
+	
+	
+	Method ExitEditor()
+		If Not AskForSaving() Then Return
+	
+		Local IniFile:TStream = WriteFile( EditorPath + "/editor.ini" )
+		
+		WriteLine( IniFile, WorldFilename )
+		WriteLine( IniFile, MenuChecked( ShowGrid ) )
+		WriteLine( IniFile, MenuChecked( SnapToGrid ) )
+		WriteLine( IniFile, MenuChecked( EditSprites ) )
+		
+		WriteLine( IniFile, Grid.CellWidth )
+		WriteLine( IniFile, Grid.CellHeight )
+		WriteLine( IniFile, Grid.CellXDiv )
+		WriteLine( IniFile, Grid.CellYDiv )
+		WriteLine( IniFile, Grid.Red )
+		WriteLine( IniFile, Grid.Green )
+		WriteLine( IniFile, Grid.Blue )
+		
+		CloseFile( IniFile )
+		
+		End
 	End Method
 	
 	
@@ -649,7 +561,7 @@ Type LTEditor Extends LTProject
 					Case MenuEditSprites
 						SelectMenuItem( EditSprites )
 					Case MenuAddPage
-						Local PageName:String = EnterName( "Enter page name:" )
+						Local PageName:String = EnterString( "Enter page name:" )
 						If PageName Then
 							Local Page:LTPage = New LTPage
 							Page.SetName( PageName )
@@ -665,20 +577,22 @@ Type LTEditor Extends LTProject
 						Else
 							Notify( "Cannot delete only page" )
 						End If
+					Case MenuEditTileset
+						TilesetProperties( CurrentPage.TileMap )
 					Case MenuExit
 						ExitEditor()
 				End Select
 			Case Event_GadgetAction
 				Select EventSource()
 					Case SpritesListBox
-						Local Name:String = EnterName( "Enter name of sprite", CurrentSprite.GetName() )
+						Local Name:String = EnterString( "Enter name of sprite", CurrentSprite.GetName() )
 						If Name Then
 							SetObjectName( CurrentSprite, Name )
 							RefreshSpritesList()
 							SetChanged()
 						End If
 					Case PagesListBox
-						Local Name:String = EnterName( "Enter name of page", CurrentPage.GetName() )
+						Local Name:String = EnterString( "Enter name of page", CurrentPage.GetName() )
 						If Name Then
 							SetObjectName( CurrentPage, Name )
 							RefreshPagesList()
@@ -864,32 +778,6 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method EnterName:String( Message:String, Name:String = "" )
-		Local InputWindow:TGadget = CreateWindow( Message, 0.5 * ClientWidth( Window ) - 100, 0.5 * ClientHeight( Window ) - 40, 200, 100, Desktop(), WINDOW_TITLEBAR )
-		Local NameField:TGadget = CreateTextField( 8, 8, 180, 20, InputWindow )
-		SetGadgetText( NameField, Name )
-		ActivateGadget( NameField )
-		Local OKButton:TGadget = CreateButton( "OK", 24, 36, 72, 24, InputWindow, Button_OK )
-		Local CancelButton:TGadget = CreateButton( "Cancel", 104, 36, 72, 24, InputWindow, Button_Cancel )
-		Repeat
-			WaitEvent()
-			Select EventID()
-				Case Event_GadgetAction
-					Select EventSource()
-						Case OKButton
-							Name = TextFieldText( NameField )
-							FreeGadget( InputWindow )
-							Return Name
-						Case CancelButton
-							FreeGadget( InputWindow )
-							Return "" 
-					End Select
-			End Select
-		Forever
-	End Method
-	
-	
-	
 	Method Render()
 		If MenuChecked( EditTilemap ) And CurrentPage.TileMap Then
 			SelectedTile.X = 0.5 + TileX
@@ -939,23 +827,21 @@ Type LTEditor Extends LTProject
 		SetGraphics( CanvasGraphics( MainCanvas ) )
 		Cls
 		
-		If MenuChecked( EditTilemap ) Or MenuChecked( EditSprites ) Then
-			MainCamera.Viewport.X = 0.5 * MainCanvas.GetWidth()
-			MainCamera.Viewport.Y = 0.5 * MainCanvas.GetHeight()
-			MainCamera.Viewport.Width = MainCanvas.GetWidth()
-			MainCamera.Viewport.Height = MainCanvas.GetHeight()
-			MainCamera.Update()
-			
-			If CurrentPage.TileMap Then CurrentPage.TileMap.Draw()
-			
-			For Local Sprite:LTActor = Eachin CurrentPage.Sprites
-				Sprite.Draw()
-				Sprite.DrawUsingVisualizer( ShapeVisualizer )
-				Sprite.DrawUsingVisualizer( AngleArrow )
-			Next
+		MainCamera.Viewport.X = 0.5 * MainCanvas.GetWidth()
+		MainCamera.Viewport.Y = 0.5 * MainCanvas.GetHeight()
+		MainCamera.Viewport.Width = MainCanvas.GetWidth()
+		MainCamera.Viewport.Height = MainCanvas.GetHeight()
+		MainCamera.Update()
 		
-			if MenuChecked( ShowGrid ) Then Grid.Draw()
-		End If
+		If CurrentPage.TileMap Then CurrentPage.TileMap.Draw()
+		
+		For Local Sprite:LTActor = Eachin CurrentPage.Sprites
+			Sprite.Draw()
+			Sprite.DrawUsingVisualizer( ShapeVisualizer )
+			Sprite.DrawUsingVisualizer( AngleArrow )
+		Next
+		
+		if MenuChecked( ShowGrid ) Then Grid.Draw()
 		
 		If MenuChecked( EditTilemap ) Then
 			If CurrentPage.TileMap Then
@@ -965,7 +851,7 @@ Type LTEditor Extends LTProject
 					SelectedTile.Draw()
 				End If
 			End If
-		Elseif MenuChecked( EditSprites )
+		Else
 			For Local Sprite:LTActor = Eachin SelectedSprites
 				Sprite.DrawUsingVisualizer( MarchingAnts )
 			Next
@@ -981,28 +867,75 @@ Type LTEditor Extends LTProject
 				Next
 				SetAlpha( 1.0 )
 			End If
-		Else
-			Local Image:LTImage = null
-			If Tileset Then Image = LTImageVisualizer( Tileset.Visualizer ).Image
-			If Image And CurrentCategory Then
-				SetColor( Grid.Red, Grid.Green, Grid.Blue )
-				
-				Local Multiplier:Float = Min( Floor( GadgetWidth( MainCanvas ) / Image.Width() / Image.XCells, Floor( GadgetHeight( MainCanvas ) / Image.Height() / Image.YCells )
-				Local TileHeight:Int = 
-				
-				For Local TileRule:LTTileRule = Eachin CurrentCategory.TileRules
-					Local X
-				
-					SetAlpha( 0.5 )
-					
-					
-					SetAlpha( 1.0 )
-				Next
-				
-				SetColor( 255, 255, 255 )
-			End If
-			
 		End If
+	End Method
+	
+	
+	
+	Method SelectMenuItem( MenuItem:TGadget, State:Int = 1 )
+		If State = 2 Then State = 1 - MenuChecked( MenuItem )
+	
+		Select Menuitem
+			Case ShowGrid
+				If State Then
+					CheckMenu( ShowGrid )
+					SelectGadgetItem( Toolbar, MenuShowGrid )
+				Else
+					UncheckMenu( ShowGrid )
+					DeselectGadgetItem( Toolbar, MenuShowGrid )
+				End If
+			Case SnapToGrid
+				If State Then
+					CheckMenu( SnapToGrid )
+					SelectGadgetItem( Toolbar, MenuSnapToGrid )
+				Else
+					UncheckMenu( SnapToGrid )
+					DeselectGadgetItem( Toolbar, MenuSnapToGrid )
+				End If
+			Case EditTilemap
+				UncheckMenu( EditSprites )
+				CheckMenu( EditTilemap )
+				DeselectGadgetItem( Toolbar, MenuEditSprites )
+				SelectGadgetItem( Toolbar, MenuEditTilemap )
+			Case EditSprites
+				CheckMenu( EditSprites )
+				UncheckMenu( EditTilemap )
+				SelectGadgetItem( Toolbar, MenuEditSprites )
+				DeselectGadgetItem( Toolbar, MenuEditTilemap )
+		End Select
+	End Method
+	
+	
+	
+	Method FillSpriteFields()
+		SetGadgetText( XField, L_TrimFloat( CurrentSprite.X ) )
+		SetGadgetText( YField ,L_TrimFloat( CurrentSprite.Y ) )
+		SetGadgetText( WidthField, L_TrimFloat( CurrentSprite.Width ) )
+		SetGadgetText( HeightField, L_TrimFloat( CurrentSprite.Height ) )
+		SetGadgetText( AngleField, L_TrimFloat( CurrentSprite.Angle ) )
+		SetGadgetText( VelocityField, L_TrimFloat( CurrentSprite.Velocity ) )
+		SetGadgetText( FrameField, CurrentSprite.Frame )
+		SetGadgetText( RedField, L_TrimFloat( CurrentSprite.Visualizer.Red ) )
+		SetGadgetText( GreenField, L_TrimFloat( CurrentSprite.Visualizer.Green ) )
+		SetGadgetText( BlueField, L_TrimFloat( CurrentSprite.Visualizer.Blue ) )
+		SetGadgetText( AlphaField, L_TrimFloat( CurrentSprite.Visualizer.Alpha ) )
+		SetGadgetText( XScaleField, L_TrimFloat( CurrentSprite.Visualizer.XScale ) )
+		SetGadgetText( YScaleField, L_TrimFloat( CurrentSprite.Visualizer.YScale ) )
+		SetGadgetText( ImgAngleField, L_TrimFloat( LTImageVisualizer( CurrentSprite.Visualizer ).Angle ) )
+		
+		SetButtonState( RotatingCheckbox, LTImageVisualizer( CurrentSprite.Visualizer ).Rotating )
+		SetButtonState( ScalingCheckbox, CurrentSprite.Visualizer.Scaling )
+		
+		SetSliderValue( RedSlider, 100.0 * CurrentSprite.Visualizer.Red )
+		SetSliderValue( GreenSlider, 100.0 * CurrentSprite.Visualizer.Green )
+		SetSliderValue( BlueSlider, 100.0 * CurrentSprite.Visualizer.Blue )
+		SetSliderValue( AlphaSlider, 100.0 * CurrentSprite.Visualizer.Alpha )
+		
+		ClearGadgetItems( ShapeBox )
+		AddGadgetItem( ShapeBox, "Pivot" )
+		AddGadgetItem( ShapeBox, "Circle" )
+		AddGadgetItem( ShapeBox, "Rectangle" )
+		SelectGadgetItem( ShapeBox, CurrentSprite.Shape )
 	End Method
 	
 	
@@ -1060,248 +993,6 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method ChooseParameter:Int( Width:Int Var, Height:Int Var, Parameter:String, Units:String )
-		Local Settings:TGadget =CreateWindow( "Choose " + Parameter + ":", 0.5 * ClientWidth( Window ) - 72, 0.5 * ClientHeight( Window ) - 78, 144, 157, Desktop(), WINDOW_TITLEBAR )
-		CreateLabel( "Height:", 7, 10, 40, 16, Settings, 0 )
-		Local WidthField:TGadget = CreateTextField( 48, 8, 40, 20, Settings )
-		SetGadgetText( WidthField, Width )
-		CreateLabel( "Width:", 8, 35, 40, 16, Settings, 0 )
-		Local HeightField:TGadget = CreateTextField( 48, 32, 40, 20, Settings )
-		SetGadgetText( HeightField, Height )
-		CreateLabel( Units, 93, 10, 31, 16, Settings, 0 )
-		CreateLabel( Units, 93, 34, 31, 16, Settings, 0 )
-		Local OKButton:TGadget = CreateButton( "OK", 32, 64, 72, 24, Settings )
-		Local CancelButton:TGadget = CreateButton( "Cancel", 32, 96, 72, 24, Settings )
-		
-		Repeat
-			WaitEvent()
-			Select EventID()
-				Case Event_GadgetAction
-					Select EventSource()
-						Case OKButton
-							Local NewWidth:Int = TextFieldText( WidthField ).ToInt()
-							Local NewHeight:Int = TextFieldText( HeightField ).ToInt()
-							
-							If NewWidth < 0 And NewHeight < 0 Then
-								Notify( Parameter + " must be more than 0", True )
-							Else
-								Width = NewWidth
-								Height = NewHeight
-								SetChanged()
-								FreeGadget( Settings )
-								Return True
-							End If
-						Case CancelButton
-							Exit
-					End Select
-				Case Event_WindowClose
-					Exit
-			End Select
-		Forever
-		
-		FreeGadget( Settings )
-		Return False
-	End Method
-	
-	
-	
-	Method ImportTilemap( TileWidth:Int, TileHeight:Int, Tilemap:TPixmap, TilesetFilename:String )
-		Local TilemapWidth:Int = PixmapWidth( Tilemap )
-		Local TilemapHeight:Int = PixmapHeight( Tilemap )
-		
-		Local TileXQuantity:Int = TilemapWidth / TileWidth
-		Local TileYQuantity:Int = TilemapHeight / TileHeight
-		
-		CurrentPage.TileMap = New LTTileMap
-		CurrentPage.TileMap.FrameMap = New LTIntMap
-		CurrentPage.TileMap.FrameMap.SetResolution( TileXQuantity, TileYQuantity )
-		CurrentPage.TileMap.X = 0.5 * TileXQuantity
-		CurrentPage.TileMap.Y = 0.5 * TileYQuantity
-		CurrentPage.TileMap.Width = TileXQuantity
-		CurrentPage.TileMap.Height = TileYQuantity
-		
-		Local Tiles:TList = New TList
-		If FileType( TilesetFilename ) = 1 Then
-			Local Image:TImage = LoadImage( TilesetFilename )
-			Local TilesQuantity:Int = ImageWidth( Image ) * ImageHeight( Image ) / TileWidth / TileHeight
-			Image = LoadAnimImage( LockImage( Image ), TileWidth, TileHeight, 0, TilesQuantity )
-			For Local N:Int = 0 Until TilesQuantity
-				Local Pixmap:TPixmap = LockImage( Image, N )
-				If PixmapIsEmpty( Pixmap ) Then Exit
-				Tiles.AddLast( Pixmap )
-			Next
-			UnLockImage( Image )
-		End If
-		
-		For Local Y:Int = 0 Until TileYQuantity
-			For Local X:Int = 0 Until TileXQuantity
-				Local Pixmap:TPixmap = Tilemap.Window( X * TileWidth, Y * TileHeight, TileWidth, TileHeight )
-				
-				Local N:Int = 0
-				For Local Tile:TPixmap = Eachin Tiles
-					If ComparePixmaps( Pixmap, Tile ) Then Exit
-					N :+ 1
-				Next
-				If N = Tiles.Count() Then Tiles.AddLast( Pixmap )
-				
-				CurrentPage.TileMap.FrameMap.Value[ X, Y ] = N
-			Next
-		Next
-		
-		Local TilesQuantity:Int = Tiles.Count()
-		Debuglog PixmapFormat( Tilemap )
-		Local TilesPixmap:TPixmap = CreatePixmap( TileWidth * 16, TileHeight * Ceil( 1.0 * TilesQuantity / 16 ), PixmapFormat( Tilemap ) )
-		TilesPixmap.ClearPixels( $FFFF00FF )
-		Local N:Int = 0
-		For Local Tile:TPixmap = Eachin Tiles
-			TilesPixmap.Paste( Tile, ( N Mod 16 ) * TileWidth, Floor( 1.0 * N / 16.0 ) * TileHeight )
-			N :+ 1
-		Next
-		
-		SavePixmapPNG( TilesPixmap, TilesetFilename )
-	End Method
-	
-	
-	
-	Method PixmapIsEmpty:Int( Pixmap:TPixmap )
-		For Local Y:Int = 0 Until Pixmap.Height
-			For Local X:Int = 0 Until Pixmap.Width
-				If Pixmap.ReadPixel( X, Y ) <> $FFFF00FF Then Return False
-			Next
-		Next
-		Return True
-	End Method
-	
-	
-	
-	Method SpriteImageProperties:Int( Sprite:LTActor )
-		Local EditWindow:TGadget = CreateWindow( "Sprite type properties", 0.5 * ClientWidth( Window ) - 252, 0.5 * ClientHeight( Window ) - 320, 505, 639, Desktop(), WINDOW_TITLEBAR|WINDOW_RESIZABLE )
-		CreateLabel( "Horizontal cells:", 180, 8, 75, 16, EditWindow, 0 )
-		Local XCellsTextField:TGadget = CreateTextField( 260, 5, 56, 20, EditWindow )
-		CreateLabel( "Vertical cells:", 180, 32, 62, 16, EditWindow, 0 )
-		Local YCellsTextField:TGadget = CreateTextField( 260, 29, 56, 20, EditWindow )
-		Local ImageCanvas:TGadget = CreateCanvas( 8, 56, 480, 480, EditWindow )
-		Local LoadImageButton:TGadget = CreateButton( "Load image", 180, 544, 136, 24, EditWindow, BUTTON_PUSH )
-		Local OkButton:TGadget = CreateButton( "OK", 180, 576, 64, 24, EditWindow, BUTTON_PUSH )
-		Local CancelButton:TGadget = CreateButton( "Cancel", 252, 576, 64, 24, EditWindow, BUTTON_PUSH )
-
-		Local Image:TImage
-		Local Filename:String = ""
-		Local Frame:Int = Sprite.Frame
-		Local SpriteImage:LTImage = LTImageVisualizer( Sprite.Visualizer ).Image
-		
-		If SpriteImage Then
-			Image = LoadImage( SpriteImage.Filename )
-			Filename = SpriteImage.Filename
-			SetGadgetText( XCellsTextField, SpriteImage.XCells )
-			SetGadgetText( YCellsTextField, SpriteImage.YCells )
-		Else
-			SetGadgetText( XCellsTextField, 1 )
-			SetGadgetText( YCellsTextField, 1 )
-		End If
-		
-		ActivateGadget( ImageCanvas )
-		DisablePolledInput()
-		EnablePolledInput( ImageCanvas )
-		
-		Repeat
-			Local XCells:Int = TextFieldText( XCellsTextField ).ToInt()
-			Local YCells:Int = TextFieldText( YCellsTextField ).ToInt()
-			
-			DrawImageOnCanvas( ImageCanvas, Image )
-			
-			PollEvent()
-			
-			If MouseDown( 1 ) Then
-				If MouseX() >= 0 And MouseX() < 480 And MouseY() >= 0 And MouseY() < 480 Then
-					Frame = Floor( MouseX() * XCells / 480.0 ) + Floor( MouseY() * YCells / 480.0 ) * XCells
-				End If
-			End If
-			
-			Select EventID()
-				Case Event_GadgetAction
-					Select EventSource()
-						Case LoadImageButton
-							Filename = RequestFile( "Select image..., ". "Image files:png,jpg,bmp" )
-							Filename = ChopFilename( Filename )
-							If Filename Then Image = LoadImage( Filename ) Else Image = Null
-						Case OKButton
-							If Image Then
-								If XCells > 0 And YCells > 0 Then
-									If Image.Width Mod XCells = 0 And Image.Height Mod YCells = 0 Then
-										LTImageVisualizer( Sprite.Visualizer ).Image = LoadImageFromFile( Filename, XCells, YCells )
-										Sprite.Frame = Frame
-										SetChanged()
-										FreeGadget( EditWindow )
-										Return True
-									Else
-										Notify( "Image sizes must be divideable by tile cells quantity", True )
-									End If
-								Else
-									Notify( "Tile cells quantity must be more than 0", True )
-								End If
-							Else
-								Notify( "Image required", True )
-							End If
-						Case CancelButton
-							Exit
-					End Select
-				Case Event_WindowClose
-					Exit
-			End Select
-		Forever
-		FreeGadget( EditWindow )
-		Return False
-	End Method
-	
-	
-	
-	Method DrawImageOnCanvas( ImageCanvas:TGadget, Image:TImage, Tileset:LTTileset = null )
-		SetGraphics( CanvasGraphics( ImageCanvas ) )
-		Cls
-		
-		If Image Then
-			SetScale( 1.0 * GraphicsWidth() / Image.Width, 1.0 * GraphicsWidth() / Image.Height )
-			DrawImage( Image, 0, 0 )
-			SetScale( 1.0, 1.0 )
-			
-			if XCells > 0 And YCells > 0 Then
-				If Frame >= XCells * YCells Then Frame = XCells * YCells - 1
-				
-				SetColor( Grid.Red, Grid.Green, Grid.Blue )
-				For Local X:Int = 0 Until XCells
-					Local XX:Int = 480.0 * X / XCells
-					DrawLine( XX, 0, XX, 480 )
-				Next
-				For Local Y:Int = 0 Until YCells
-					Local YY:Int = 480.0 * Y / YCells
-					DrawLine( 0, YY, 480, YY )
-				Next
-				
-				Local Col:Int = ( Int( Millisecs() / 100 ) Mod 2 ) * 255
-				SetColor( Col, Col, Col )
-				Local X:Int = 480.0 * ( Frame Mod XCells ) / XCells
-				Local Y:Int = 480.0 * Floor( Frame / XCells ) / YCells
-				LTMarchingAnts.DrawMARect( X, Y, 480.0 / XCells + 1, 480.0 / YCells + 1 )
-				
-				SetColor( 255, 255, 255 )
-			End If
-		End If
-		
-		Flip
-		SetGraphics( CanvasGraphics( MainCanvas ) )
-	End Method	
-	
-	
-	
-	Method LoadImageFromFile:LTImage( Filename:String, XCells:Int, YCells:Int )
-		Local Image:LTImage = LTImage.FromFile( Filename, XCells, YCells )
-		RealPathsForImages.Insert( Image, RealPath( Filename ) )
-		Return Image
-	End Method
-	
-	
-	
 	Method RefreshSpritesList()
 		ClearGadgetItems( SpritesListBox )
 		Local N:Int = 0
@@ -1310,6 +1001,16 @@ Type LTEditor Extends LTProject
 			If Sprite = CurrentSprite Then SelectGadgetItem( SpritesListBox, N )
 			N :+ 1
 		Next
+	End Method
+	
+	
+	
+	Method AddPage( PageName:String )
+		Local Page:LTPage = New LTPage
+		Page.SetName( PageName )
+		CurrentPage = Page
+		World.Pages.AddLast( Page )
+		RefreshPagesList()
 	End Method
 	
 	

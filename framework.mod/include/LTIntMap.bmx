@@ -11,15 +11,25 @@
 Include "LTTileSet.bmx"
 
 Type LTIntMap Extends LTMap
-	Field Value:Int[ , ] = New Int[ 1, 1 ]
+	Field Value:Int[ , ]
 	
 	' ==================== Parameters ====================
 	
 	Method SetResolution( NewXQuantity:Int, NewYQuantity:Int )
-		XQuantity = NewXQuantity
-		YQuantity = NewYQuantity
-		Super.SetResolution( XQuantity, YQuantity )
-		Value = New Int[ XQuantity, YQuantity ]
+		?debug
+		L_Assert( NewXQuantity > 0 And NewYQuantity > 0, "Map resoluton must be more than 0" )
+		?
+		
+		Local NewValue:Int[ , ] = New Int[ NewXQuantity, NewYQuantity ]
+		If Value Then
+			For Local Y:Int = 0 Until Min( YQuantity, NewYQuantity )
+				For Local X:Int = 0 Until Min( XQuantity, NewXQuantity )
+					NewValue[ X, Y ] = Value[ X, Y ]
+				Next
+			Next
+		End If
+		Value = NewValue
+		Super.SetResolution( NewXQuantity, NewYQuantity )
 	End Method
 	
 	' ==================== Loading / saving ====================	
