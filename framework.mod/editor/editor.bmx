@@ -46,7 +46,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.1"
+	Const Version:String = "1.1.1"
 	Const Title:String = "Digital Wizard's Lab World Editor v" + Version
 	
 	Field Window:TGadget
@@ -99,6 +99,8 @@ Type LTEditor Extends LTProject
 	Field World:LTWorld = New LTWorld
 	Field CurrentPage:LTPage
 	Field CurrentSprite:LTActor
+	Field CurrentTIleset:LTTileset
+	Field TilesQueue:TMap = New TMap
 	Field Cursor:LTActor = New LTActor
 	Field SpriteUnderCursor:LTActor
 	Field SelectedSprites:TList = New TList
@@ -322,7 +324,9 @@ Type LTEditor Extends LTProject
 	Method NewWorld()
 		If Not AskForSaving() Then Return
 		
+		WorldFilename = ""
 		World.Pages.Clear()
+		CurrentTileset = Null
 		AddPage( "Page1" )
 		RefreshPagesList()
 		RefreshSpritesList()
@@ -343,7 +347,6 @@ Type LTEditor Extends LTProject
 			
 			World = LTWorld( L_LoadFromFile( Filename ) )
 			
-			CurrentPage = LTPage( World.Pages.First() )
 			CurrentSprite = Null
 			For Local Page:LTPage = Eachin World.Pages
 				For Local Sprite:LTActor = Eachin Page.Sprites
@@ -354,13 +357,10 @@ Type LTEditor Extends LTProject
 			Next
 			
 			For Local Image:LTImage = Eachin L_ImagesList
-				RealPathsForImages.Insert( Image, RealPath( Image.Filename ) )
+				InitImage( Image )
 			Next
 			
-			SelectedSprites.Clear()
-			Modifiers.Clear()
-			RefreshPagesList()
-			RefreshSpritesList()
+			SelectPage( LTPage( World.Pages.First() ) )
 			
 			Changed = False
 			
@@ -490,6 +490,7 @@ Type LTEditor Extends LTProject
 										Local Visualizer:LTImageVisualizer = New LTImageVisualizer
 										Visualizer.Image = LoadImageFromFile( TilesetFilename, Tileset.Width / TileWidth, Tileset.height / TileHeight )
 										CurrentPage.Tilemap.Visualizer = Visualizer
+										SelectPage( CurrentPage )
 										SetChanged()
 									End If
 								Else
@@ -521,11 +522,12 @@ Type LTEditor Extends LTProject
 											Local TilemapHeight:Int = PixmapHeight( Tilemap )
 											
 											If TilemapWidth Mod TileWidth = 0 And TilemapHeight Mod TileHeight = 0 Then
-												CurrentPage = New LTPage
-												CurrentPage.SetName( "Level " + Num )
-												Editor.World.Pages.AddLast( CurrentPage )
+												Local Page:LTPage = New LTPage
+												Page.SetName( "Level " + Num )
+												Editor.World.Pages.AddLast( Page )
 												ImportTilemap( TileWidth, TileHeight, Tilemap, TilesetFilename )
-												CurrentPage.Tilemap.Visualizer = Visualizer
+												Page.Tilemap.Visualizer = Visualizer
+												SelectPage( Page )
 												SetChanged()
 											End If
 										End If
@@ -534,7 +536,6 @@ Type LTEditor Extends LTProject
 									Forever
 									Local Tileset:TImage = LoadImage( TilesetFilename )
 									Visualizer.Image = LoadImageFromFile( TilesetFilename, Tileset.Width / TileWidth, Tileset.Height / TileHeight )
-									RefreshPagesList()
 								End If
 							End If
 						End If
@@ -552,10 +553,14 @@ Type LTEditor Extends LTProject
 						CurrentPage.TileMap.Y = 0.5 * YQuantity
 						CurrentPage.TileMap.Width = XQuantity
 						CurrentPage.TileMap.Height = YQuantity
+						SelectPage( CurrentPage )
 					Case MenuGridSettings
 						Grid.Settings()
 					Case MenuTilesetSettings
-						If CurrentPage.Tilemap Then SpriteImageProperties( CurrentPage.TileMap )
+						If CurrentPage.Tilemap Then
+							SpriteImageProperties( CurrentPage.TileMap )
+							SelectPage( CurrentPage )
+						End If
 					Case MenuEditTilemap
 						SelectMenuItem( EditTilemap )
 					Case MenuEditSprites
@@ -566,14 +571,12 @@ Type LTEditor Extends LTProject
 							Local Page:LTPage = New LTPage
 							Page.SetName( PageName )
 							World.Pages.AddLast( Page )
-							CurrentPage = Page
-							RefreshPagesList()
+							SelectPage( Page )
 						End If
 					Case MenuRemovePage
 						If World.Pages.Count() > 1 Then
 							World.Pages.Remove( CurrentPage )
-							CurrentPage = LTPage( World.Pages.First() )
-							RefreshPagesList()
+							SelectPage( LTPage( World.Pages.First() ) )
 						Else
 							Notify( "Cannot delete only page" )
 						End If
@@ -687,12 +690,7 @@ Type LTEditor Extends LTProject
 					Case SpritesListBox
 						SelectSprite( LTActor( CurrentPage.Sprites.ValueAtIndex( EventData() ) ) )
 					Case PagesListBox
-						If EventData() >= 0 Then
-							CurrentPage = LTPage( World.Pages.ValueAtIndex( EventData() ) )
-							Modifiers.Clear()
-							SelectedSprites.Clear()
-							RefreshSpritesList()
-						End If
+						If EventData() >= 0 Then SelectPage( LTPage( World.Pages.ValueAtIndex( EventData() ) ) )
 				End Select
 		End Select
 		
@@ -743,6 +741,18 @@ Type LTEditor Extends LTProject
 						If MouseDown( 2 ) Then TileNum[ 1 ] = TileNumUnderCursor
 					End If
 				End If
+			End If
+			
+			If CurrentTileset Then
+				Local N:Int = 0
+				Local FrameMap:LTIntMap = CurrentPage.TileMap.FrameMap
+				For Local StringPos:String = Eachin TilesQueue.Keys()
+					Local Pos:Int = StringPos.ToInt()
+					CurrentTileset.Enframe( CurrentPage.TileMap, Pos Mod FrameMap.XQuantity, Floor( Pos / FrameMap.XQuantity ) )
+					TilesQueue.Remove( StringPos )
+					N :+ 1
+					If N = 16 Then  Exit
+				Next
 			End If
 			
 			SetTile.Execute()
@@ -946,6 +956,7 @@ Type LTEditor Extends LTProject
 		SetSpriteModifiers( Sprite )
 		CurrentSprite = Sprite
 		FillSpriteFields()
+		RefreshSpritesList()
 	End Method
 	
 	
@@ -994,13 +1005,21 @@ Type LTEditor Extends LTProject
 	
 	
 	Method RefreshSpritesList()
-		ClearGadgetItems( SpritesListBox )
-		Local N:Int = 0
-		For Local Sprite:LTActor = Eachin CurrentPage.Sprites
-			AddGadgetItem( SpritesListBox, Sprite.GetName() )
-			If Sprite = CurrentSprite Then SelectGadgetItem( SpritesListBox, N )
-			N :+ 1
-		Next
+		RefreshListBox( SpritesListBox, CurrentPage.Sprites.Children, CurrentSprite )
+	End Method
+	
+	
+	
+	Method SelectPage( Page:LTPage )
+		CurrentPage = Page
+		RefreshPagesList()
+		SelectedSprites.Clear()
+		RefreshSpritesList()
+		If CurrentPage.TileMap Then
+			Local Image:LTImage = LTImageVisualizer( CurrentPage.TileMap.Visualizer ).Image
+			If Image Then CurrentTileset = LTTileset( TilesetMap.ValueForKey( Image ) )
+		End If
+		Modifiers.Clear()
 	End Method
 	
 	
@@ -1008,36 +1027,14 @@ Type LTEditor Extends LTProject
 	Method AddPage( PageName:String )
 		Local Page:LTPage = New LTPage
 		Page.SetName( PageName )
-		CurrentPage = Page
 		World.Pages.AddLast( Page )
-		RefreshPagesList()
-	End Method
+		SelectPage( Page )
+	End Method	
 	
 	
 	
 	Method RefreshPagesList()
-		ClearGadgetItems( PagesListBox )
-		Local N:Int = 0
-		For Local Page:LTPage = Eachin World.Pages
-			AddGadgetItem( PagesListBox, Page.GetName() )
-			If Page = CurrentPage Then SelectGadgetItem( PagesListBox, N )
-			N :+ 1
-		Next
-	End Method
-	
-	
-	
-	Method SetObjectName( Obj:LTObject, Name:String )
-		Local NamePrefix:String = L_GetPrefix( Name )
-		Local NameNumber:Int = L_GetNumber( Name )
-		Local SpriteName:String
-		Obj.ClearName()
-		Repeat
-			NameNumber :+ 1
-			SpriteName = NamePrefix + NameNumber
-			If Not FindByName( SpriteName ) Then Exit
-		Forever
-		Obj.SetName( SpriteName )
+		RefreshListBox( PagesListBox, World.Pages, CurrentPage )
 	End Method
 End Type
 
@@ -1052,4 +1049,43 @@ Function ComparePixmaps:Int( Pixmap1:TPixmap, Pixmap2:TPixmap )
 		Next
 	Next
 	Return True
+End Function
+
+
+
+
+
+Function RefreshListBox( ListBox:TGadget, ObjectsList:TList, CurrentObject:LTObject )
+	Local N:Int = 0
+	For Local Obj:LTObject = Eachin ObjectsList
+		Local ObjectName:String = Obj.GetName()
+		If Obj = CurrentObject Then ObjectName = "* " + ObjectName + " *"
+		If N < CountGadgetItems( ListBox ) Then
+			If GadgetItemText( ListBox, N ) <> ObjectName Then ModifyGadgetItem( ListBox, N, ObjectName )
+		Else
+			AddGadgetItem( ListBox, ObjectName )
+		End If
+		N :+ 1
+	Next
+	
+	While N < CountGadgetItems( ListBox )
+		RemoveGadgetItem( ListBox, N )
+	Wend
+End Function
+
+
+
+
+	
+Function SetObjectName( Obj:LTObject, Name:String )
+	Local NamePrefix:String = L_GetPrefix( Name )
+	Local NameNumber:Int = L_GetNumber( Name )
+	Local SpriteName:String = Name
+	Obj.ClearName()
+	Repeat
+		If Not LTObject.FindByName( SpriteName ) Then Exit
+		NameNumber :+ 1
+		SpriteName = NamePrefix + NameNumber
+	Forever
+	Obj.SetName( SpriteName )
 End Function

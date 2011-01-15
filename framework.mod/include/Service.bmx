@@ -245,3 +245,38 @@ Function ChopFilename:String( Filename:String )
 	Next
 	Return Filename[ Len( Dir ).. ]
 End Function
+
+
+
+
+
+Function L_AddItemToIntArray( Array:Int[] Var, Item:Int )
+	Local Quantity:Int = Array.Dimensions()[ 0 ]
+	Local NewArray:Int[] = New Int[ Quantity + 1 ]
+	For Local N:Int = 0 Until Quantity
+		NewArray[ N ] = Array[ N ]
+	Next
+	NewArray[ Quantity ] = Item
+	Array = NewArray
+End Function
+
+
+
+
+
+Function L_RemoveItemFromIntArray( Array:Int[] Var, Index:Int )
+	Local Quantity:Int = Array.Dimensions()[ 0 ]
+	If Quantity = 1 Then
+		Array = Null
+	Else
+		Local NewArray:Int[] = New Int[ Quantity - 1 ]
+		For Local N:Int = 0 Until Quantity
+			If N < Index Then
+				NewArray[ N ] = Array[ N ]
+			ElseIf N > Index Then
+				NewArray[ N - 1 ] = Array[ N ]
+			End If
+		Next
+		Array = NewArray
+	End If
+End Function

@@ -11,7 +11,98 @@
 Type LTTileset Extends LTObject
 	Field Categories:TList = New TList
 	Field TilesQuantity:Int
-	Field TileTypes:Int[]
+	Field TileCategory:Int[]
+	
+	
+	
+	Method Init()
+		TileCategory = New Int[ TilesQuantity ]
+		For Local N:Int = 0 Until TilesQuantity
+			TileCategory[ N ] = -1
+		Next
+		
+		Local CatNum:Int = 0
+		For Local Category:LTTileCategory = Eachin Categories
+			Category.Num = CatNum
+			For Local Rule:LTTileRule = Eachin Category.TileRules
+				For Local N:Int = 0 Until Rule.TileNums.Dimensions()[ 0 ]
+					TileCategory[ Rule.TileNums[ N ] ] = Category.Num
+				Next
+			Next
+			CatNum :+ 1
+		Next
+		
+		For Local Category:LTTileCategory = Eachin Categories
+			For Local Rule:LTTileRule = Eachin Category.TileRules
+				For Local Pos:LTTilePos = Eachin Rule.TilePositions
+					Pos.Category = TileCategory[ Pos.TileNum ]
+				Next
+			Next
+		Next
+	End Method
+	
+	
+	
+	Method Enframe( TileMap:LTTileMap, X:Int, Y:Int )
+		Local CatNum:Int = TileCategory[ TileMap.FrameMap.Value[ X, Y ] ]
+		If CatNum < 0 Then Return
+		Local Category:LTTileCategory = LTTileCategory( Categories.ValueAtIndex( CatNum ) )
+		For Local Rule:LTTileRule = Eachin Category.TileRules
+			Local Passed:Int = True
+			For Local Pos:LTTilePos = Eachin Rule.TilePositions
+				Local TileCategory:Int = GetTileCategory( TileMap, X + Pos.DX, Y + Pos.DY )
+				If Pos.Category = CatNum Then
+					If TileCategory <> CatNum Then
+						Passed = False
+						Exit
+					End If
+				Elseif Pos.Category = -1 Then
+					If TileCategory = CatNum Then
+						Passed = False
+						Exit
+					End If				
+				Else
+					If TileCategory <> Pos.Category Then
+						Passed = False
+						Exit
+					End If				
+				End If
+			Next
+			
+			If Passed Then
+				TileMap.FrameMap.Value[ X, Y ] = Rule.TileNums[ Rand( 0, Rule.TileNums.Dimensions()[ 0 ] - 1 ) ]
+				Return
+			End If
+		Next
+	End Method
+	
+	
+	
+	Method GetTileCategory:Int( TileMap:LTTileMap, X:Int, Y:Int )
+		Local FrameMap:LTIntMap = TileMap.FrameMap
+		If TileMap.Wrapped Then
+			If FrameMap.Masked Then
+				X = X & FrameMap.XMask
+				Y = Y & FrameMap.YMask
+			Else
+				X = FrameMap.WrapX( X )
+				Y = FrameMap.WrapY( Y )
+			End If
+		Else
+			If X < 0 Then
+				X = 0
+			ElseIf X >= FrameMap.XQuantity
+				X = FrameMap.XQuantity - 1
+			End If
+			
+			If Y < 0 Then
+				Y = 0
+			ElseIf Y >= FrameMap.YQuantity
+				Y = FrameMap.YQuantity - 1
+			End If
+		End If
+		Return TileCategory[ FrameMap.Value[ X, Y ] ]
+	End Method
 	
 	
 	
@@ -34,7 +125,6 @@ Type LTTileCategory Extends LTObject
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
-		XMLObject.ManageIntAttribute( "num", Num )
 		XMLObject.ManageChildList( TileRules )
 	End Method
 End Type
@@ -44,6 +134,12 @@ End Type
 Type LTTileRule Extends LTObject
 	Field TileNums:Int[]
 	Field TilePositions:TList = New TList
+	
+	
+	
+	Method TilesQuantity:Int()
+		Return TileNums.Dimensions()[ 0 ]
+	End Method
 	
 	
 	
@@ -60,6 +156,7 @@ End Type
 Type LTTilePos Extends LTObject
 	Field DX:Int, DY:Int
 	Field TileNum:Int
+	Field Category:Int
 	
 	
 	

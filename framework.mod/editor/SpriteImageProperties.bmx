@@ -127,6 +127,19 @@ End Function
 	
 Function LoadImageFromFile:LTImage( Filename:String, XCells:Int, YCells:Int )
 	Local Image:LTImage = LTImage.FromFile( Filename, XCells, YCells )
-	RealPathsForImages.Insert( Image, RealPath( Filename ) )
+	InitImage( Image )
 	Return Image
+End Function
+
+
+
+Function InitImage( Image:LTImage )
+	Local Filename:String = Image.Filename 
+	RealPathsForImages.Insert( Image, RealPath( Filename ) )
+	Local TilesetFilename:String = Filename[ ..Len( Filename ) - 3 ] + "xml"
+	If FileType( TilesetFilename ) = 1 Then 
+		Local Tileset:LTTileset = LTTileset( L_LoadFromFile( TilesetFilename ) )
+		TilesetMap.Insert( Image, Tileset )
+		Tileset.Init()
+	End If
 End Function

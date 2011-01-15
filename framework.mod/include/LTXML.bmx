@@ -162,7 +162,7 @@ Type LTXMLObject Extends LTObject
 		Else
 			Local Values:String = ""
 			For Local N:Int = 0 Until IntArray.Dimensions()[ 0 ]
-				If Values Then Values = "," + Values
+				If Values Then Values :+ ","
 				Values :+ IntArray[ N ]
 			Next
 			SetAttribute( AttrName, Values )

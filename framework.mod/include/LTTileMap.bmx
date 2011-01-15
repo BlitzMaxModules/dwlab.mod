@@ -97,6 +97,16 @@ Type LTTileMap Extends LTActor
 		End Select
 	End Method
 	
+	
+	
+	Method EnframeBy( Tileset:LTTileset )
+		For Local Y:Int = 0 Until FrameMap.YQuantity
+			For Local X:Int = 0 Until FrameMap.XQuantity
+				Tileset.Enframe( Self, X, Y )
+			Next
+		Next
+	End Method
+	
 	' ==================== Creating ===================
 	
 	Function Create:LTTileMap( XQuantity:Int, YQuantity:Int, TileWidth:Int, TileHeight:Int, TilesQuantity:Int )

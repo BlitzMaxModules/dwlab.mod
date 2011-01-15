@@ -55,11 +55,11 @@ Type LTCreateSprite Extends LTDrag
 			Visualizer.Image = CurrentSpriteVisualizer.Image
 			Sprite.Visualizer = Visualizer
 			
-			Editor.SetObjectName( Sprite, CurrentSprite.GetName() )
+			SetObjectName( Sprite, CurrentSprite.GetName() )
 		Else
 			Sprite = New LTActor
 			Sprite.Visualizer = New LTImageVisualizer
-			Editor.SetObjectName( Sprite, "Sprite" )
+			SetObjectName( Sprite, "Sprite" )
 		End If
 		
 		Editor.CurrentPage.Sprites.AddLast( Sprite )

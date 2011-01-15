@@ -117,7 +117,8 @@ Type LTImage Extends LTObject
 	
 		If XCells > 1 Or YCells > 1 Then Split( XCells, YCells )
 		
-		SetImageHandle( BMaxImage, 0.5 * ( ImageWidth( BMaxImage ) - 1.0 ), 0.5 * ( ImageHeight( BMaxImage ) - 1.0 ) )
+		'SetImageHandle( BMaxImage, 0.5 * ( ImageWidth( BMaxImage ) - 1.0 ), 0.5 * ( ImageHeight( BMaxImage ) - 1.0 ) )
+		MidHandleImage( BMaxImage )
 	End Method
 	
 	

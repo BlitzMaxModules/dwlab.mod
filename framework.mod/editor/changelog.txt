@@ -1,3 +1,11 @@
+1.1.1
++ Multiple tiles selecting for the rule
+* Rules' conditions changed to "tile of certain category" and "tile of other category"
+
+1.1
++ Tile auto-selecting system and editor for it
+* Current object's name in list now marked by asterisks
+
 1.0.2
 + Possibility to save changed world before exiting / opening / creating new
 
