@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTActor.bmx"
+Include "LTSprite.bmx"
 Include "LTLine.bmx"
 Include "LTGraph.bmx"
 

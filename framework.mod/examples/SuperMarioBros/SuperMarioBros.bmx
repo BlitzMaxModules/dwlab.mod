@@ -21,7 +21,6 @@ SetAudioDriver( "DirectSound" )
 'SetGraphicsDriver( GLMax2DDriver() )
 
 Include "../../framework.bmx"
-Include "../../editor/editor.bmx"
 
 Include "Game.bmx"
 Include "Mario.bmx"

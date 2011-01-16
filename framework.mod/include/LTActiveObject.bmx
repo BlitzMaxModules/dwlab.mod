@@ -34,7 +34,7 @@ Type LTActiveObject Extends LTObject
 	
 	
 	
-	Method CollidesWithActor:Int( Actor:LTActor )
+	Method CollidesWithSprite:Int( Sprite:LTSprite )
 	End Method
 	
 	
@@ -51,7 +51,7 @@ Type LTActiveObject Extends LTObject
 	
 	
 	
-	Method CollisionsWithActor( Actor:LTActor )
+	Method CollisionsWithSprite( Sprite:LTSprite )
 	End Method
 	
 	
@@ -94,7 +94,7 @@ Type LTActiveObject Extends LTObject
 
 
 	
-	Method WedgeOffWithActor( Actor:LTActor, SelfMass:Float, ActorMass:Float )
+	Method WedgeOffWithSprite( Sprite:LTSprite, SelfMass:Float, SpriteMass:Float )
 	End Method
 	
 	

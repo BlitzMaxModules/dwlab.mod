@@ -8,6 +8,8 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Global L_ProlongTiles:Int = True
+
 Type LTTileset Extends LTObject
 	Field Categories:TList = New TList
 	Field TilesQuantity:Int
@@ -89,16 +91,20 @@ Type LTTileset Extends LTObject
 				Y = FrameMap.WrapY( Y )
 			End If
 		Else
-			If X < 0 Then
-				X = 0
-			ElseIf X >= FrameMap.XQuantity
-				X = FrameMap.XQuantity - 1
-			End If
-			
-			If Y < 0 Then
-				Y = 0
-			ElseIf Y >= FrameMap.YQuantity
-				Y = FrameMap.YQuantity - 1
+			If L_ProlongTiles Then
+				If X < 0 Then
+					X = 0
+				ElseIf X >= FrameMap.XQuantity
+					X = FrameMap.XQuantity - 1
+				End If
+				
+				If Y < 0 Then
+					Y = 0
+				ElseIf Y >= FrameMap.YQuantity
+					Y = FrameMap.YQuantity - 1
+				End If
+			Else
+				If X < 0 Or X >= FrameMap.XQuantity Or Y < 0 Or Y >= FrameMap.YQuantity Then Return -1
 			End If
 		End If
 		Return TileCategory[ FrameMap.Value[ X, Y ] ]

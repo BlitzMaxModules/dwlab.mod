@@ -1,2 +1,2 @@
-Type TMario Extends LTActor
+Type TMario Extends LTSprite
 End Type

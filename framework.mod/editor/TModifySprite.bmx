@@ -9,10 +9,10 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Type LTModifySprite Extends LTDrag
+Type TModifySprite Extends LTDrag
 	Field StartX:Float
 	Field StartY:Float
-	Field Sprite:LTActor
+	Field Sprite:LTSprite
 	Field ModifierType:Int
 	Field MDX:Int, MDY:Int
 	Field LeftSide:Float, RightSide:Float
@@ -49,7 +49,7 @@ Type LTModifySprite Extends LTDrag
 	
 	Method StartDragging()
 		ModifierType = Editor.SelectedModifier.Frame
-		Sprite = LTActor( Editor.SelectedSprites.First() )
+		Sprite = LTSprite( Editor.SelectedSprites.First() )
 		MDX = Sgn( Editor.SelectedModifier.X - Sprite.X )
 		MDY = Sgn( Editor.SelectedModifier.Y - Sprite.Y )
 		

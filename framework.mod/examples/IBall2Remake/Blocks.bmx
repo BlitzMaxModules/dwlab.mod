@@ -9,7 +9,7 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Type TBlock Extends LTActor
+Type TBlock Extends LTSprite
 End Type
 
 
@@ -32,7 +32,7 @@ Type TMovingBlock Extends TBlock
 		Block.SetDY( DY )
 		Block.Frame = FrameNum
 		Block.Visualizer = Game.FlashingVisualizer
-		Game.CollisionMap.InsertActor( Block )
+		Game.CollisionMap.InsertSprite( Block )
 		Game.Objects.AddLast( Block )
 	End Function
 	
@@ -40,18 +40,18 @@ Type TMovingBlock Extends TBlock
 	
 	Method Act()
 		MoveForward()
-		Game.CollisionMap.CollisionsWithActor( Self )
-		Game.TileMap.CollisionsWithActor( Self )
+		Game.CollisionMap.CollisionsWithSprite( Self )
+		Game.TileMap.CollisionsWithSprite( Self )
 	End Method
 	
 	
 	
-	Method HandleCollisionWithActor( Actor:LTActor )
-		If TGameActor( Actor ) Then
+	Method HandleCollisionWithSprite( Sprite:LTSprite )
+		If TGameSprite( Sprite ) Then
 			'debugstop
-			Actor.Destroy()
+			Sprite.Destroy()
 		Else
-			PushFrom( Actor )
+			PushFrom( Sprite )
 			If BlockType = MovingBlock Then SetDY( -GetDY() )
 		End If
 	End Method
@@ -83,7 +83,7 @@ Type THazardousBlock Extends TBlock
 	
 	
 	Method HandleCollision( Shape:LTShape )
-		If TGameActor( Shape ) Then Shape.Destroy()
+		If TGameSprite( Shape ) Then Shape.Destroy()
 	End Method
 End Type
 

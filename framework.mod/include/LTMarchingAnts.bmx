@@ -10,13 +10,13 @@
 '
 
 Type LTMarchingAnts Extends LTVisualizer
-	Method DrawUsingActor( Actor:LTActor )
+	Method DrawUsingSprite( Sprite:LTSprite )
 		SetColor( 255.0 * Red, 255.0 * Green, 255.0 * Blue )
 		SetAlpha( Alpha )
 		
 		Local SX:Float, SY:Float, SWidth:Float, SHeight:Float
-		L_CurrentCamera.FieldToScreen( Actor.X, Actor.Y, SX, SY )
-		L_CurrentCamera.SizeFieldToScreen( Actor.Width * XScale, Actor.Height * YScale, SWidth, SHeight )
+		L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX, SY )
+		L_CurrentCamera.SizeFieldToScreen( Sprite.Width * XScale, Sprite.Height * YScale, SWidth, SHeight )
 		
 		DrawMARect( SX - 0.5 * SWidth, SY - 0.5 * SHeight, L_Round( SWidth ), L_Round( SHeight ) )
 		

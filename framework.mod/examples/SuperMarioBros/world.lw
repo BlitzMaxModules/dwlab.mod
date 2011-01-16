@@ -23,96 +23,101 @@
 				<Row data="36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Goomba1" shape="1" x="22.5" y="12.5" angle="180">
+		<LTSprite name="Goomba1" shape="1" x="22.5" y="12.5" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<LTImage field="image" id="8" filename="media\LittleGoomba.png" xcells="3"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Goomba2" shape="1" x="40.5" y="12.5" angle="180">
+		</LTSprite>
+		<LTSprite name="Goomba2" shape="1" x="40.5" y="12.5" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="8"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Goomba4" shape="1" x="51.5" y="12.5" angle="180">
+		</LTSprite>
+		<LTSprite name="Goomba4" shape="1" x="51.5" y="12.5" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="8"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Goomba5" shape="1" x="53" y="12.5" angle="180">
+		</LTSprite>
+		<LTSprite name="Goomba5" shape="1" x="53" y="12.5" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="8"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Goomba6" shape="1" x="80.5" y="4.5" angle="180">
+		</LTSprite>
+		<LTSprite name="Goomba6" shape="1" x="80.5" y="4.5" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="8"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Goomba7" shape="1" x="82" y="4.5" angle="180">
+		</LTSprite>
+		<LTSprite name="Goomba7" shape="1" x="82" y="4.5" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="8"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Goomba8" shape="1" x="97.5" y="12.5" angle="180">
+		</LTSprite>
+		<LTSprite name="Goomba8" shape="1" x="97.5" y="12.5" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="8"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Goomba9" shape="1" x="99" y="12.5" angle="180">
+		</LTSprite>
+		<LTSprite name="Goomba9" shape="1" x="99" y="12.5" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="8"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="KoopaTroopa1" shape="1" x="107.5" y="12.5" angle="180">
+		</LTSprite>
+		<LTSprite name="KoopaTroopa1" shape="1" x="107.5" y="12.5" angle="180">
 			<LTImageVisualizer field="visualizer" xscale="-1" yscale="2" rotating="0">
 				<LTImage field="image" filename="media\KoopaTroopa.png" xcells="2"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Goomba11" shape="1" x="114.5" y="12.5" angle="180">
+		</LTSprite>
+		<LTSprite name="Goomba11" shape="1" x="114.5" y="12.5" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="8"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Goomba12" shape="1" x="116" y="12.5" angle="180">
+		</LTSprite>
+		<LTSprite name="Goomba12" shape="1" x="116" y="12.5" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="8"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Goomba13" shape="1" x="124.5" y="12.5" angle="180">
+		</LTSprite>
+		<LTSprite name="Goomba13" shape="1" x="124.5" y="12.5" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="8"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Goomba14" shape="1" x="126" y="12.5" angle="180">
+		</LTSprite>
+		<LTSprite name="Goomba14" shape="1" x="126" y="12.5" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="8"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Goomba15" shape="1" x="128.5" y="12.5" angle="180">
+		</LTSprite>
+		<LTSprite name="Goomba15" shape="1" x="128.5" y="12.5" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="8"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Goomba16" shape="1" x="130" y="12.5" angle="180">
+		</LTSprite>
+		<LTSprite name="Goomba16" shape="1" x="130" y="12.5" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="8"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Goomba17" shape="1" x="174.5" y="12.5" angle="180">
+		</LTSprite>
+		<LTSprite name="Goomba17" shape="1" x="174.5" y="12.5" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="8"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Goomba18" shape="1" x="176" y="12.5" angle="180">
+		</LTSprite>
+		<LTSprite name="Goomba18" shape="1" x="176" y="12.5" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="8"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Flag" shape="2" x="198" y="3.5" angle="180">
+		</LTSprite>
+		<LTSprite name="Flag" shape="2" x="198" y="3.5" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<LTImage field="image" filename="media\FlagFromPole.png"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
+		<LTSprite name="Start" shape="1" x="2.5" y="12.5">
+			<LTImageVisualizer field="visualizer" rotating="0">
+				<LTImage field="image" filename="media\SmallMario.png" xcells="6"/>
+			</LTImageVisualizer>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Sewer">
 		<LTTileMap field="tilemap" shape="2" x="8.5" y="6.5" width="17" height="13">

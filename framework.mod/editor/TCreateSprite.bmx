@@ -9,10 +9,10 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Type LTCreateSprite Extends LTDrag
+Type TCreateSprite Extends LTDrag
 	Field StartX:Float
 	Field StartY:Float
-	Field Sprite:LTActor
+	Field Sprite:LTSprite
 	
 	
 	
@@ -33,9 +33,9 @@ Type LTCreateSprite Extends LTDrag
 		StartY = Editor.Cursor.Y
 		Editor.Grid.Snap( StartX, StartY )
 		
-		Local CurrentSprite:LTActor = Editor.CurrentSprite
+		Local CurrentSprite:LTSprite = Editor.CurrentSprite
 		If CurrentSprite Then
-			Sprite = New LTActor
+			Sprite = New LTSprite
 			Sprite.Shape = CurrentSprite.Shape
 			Sprite.Angle = CurrentSprite.Angle
 			Sprite.Velocity = CurrentSprite.Velocity
@@ -57,7 +57,7 @@ Type LTCreateSprite Extends LTDrag
 			
 			SetObjectName( Sprite, CurrentSprite.GetName() )
 		Else
-			Sprite = New LTActor
+			Sprite = New LTSprite
 			Sprite.Visualizer = New LTImageVisualizer
 			SetObjectName( Sprite, "Sprite" )
 		End If

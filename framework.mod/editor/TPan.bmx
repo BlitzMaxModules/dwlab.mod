@@ -9,7 +9,7 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Type LTPan Extends LTDrag
+Type TPan Extends LTDrag
 	Field CursorX:Float
 	Field CursorY:Float
 	

@@ -22,8 +22,8 @@ Type LTList Extends LTObject
 	
 	
 	
-	Method CollidesWithActor:Int( Actor:LTActor )
-		Return CollidesWith( Actor )
+	Method CollidesWithSprite:Int( Sprite:LTSprite )
+		Return CollidesWith( Sprite )
 	End Method
 	
 	
@@ -42,9 +42,9 @@ Type LTList Extends LTObject
 	
 	
 	
-	Method CollisionsWithActor( Actor:LTActor )
+	Method CollisionsWithSprite( Sprite:LTSprite )
 		For Local Obj:LTActiveObject = Eachin Children
-			Actor.CollisionsWith( Obj )
+			Sprite.CollisionsWith( Obj )
 		Next
 	End Method
 	

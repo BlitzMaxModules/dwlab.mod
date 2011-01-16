@@ -11,6 +11,7 @@
 Include "LTImageVisualizer.bmx"
 Include "LTFilledPrimitive.bmx"
 Include "LTEmptyPrimitive.bmx"
+Include "LTMarchingAnts.bmx"
 
 Type LTVisualizer Extends LTObject Abstract
 	Field Red:Float = 1.0, Green:Float = 1.0, Blue:Float = 1.0
@@ -27,7 +28,7 @@ Type LTVisualizer Extends LTObject Abstract
 	
 	' ==================== Drawing ===================	
 	
-	Method DrawUsingActor( Actor:LTActor )
+	Method DrawUsingSprite( Sprite:LTSprite )
 	End Method
 	
 	

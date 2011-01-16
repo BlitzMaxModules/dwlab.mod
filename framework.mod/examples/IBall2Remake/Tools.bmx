@@ -9,7 +9,7 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Type TTileExtractor Extends LTObject
+Type TTileExtrSprite Extends LTObject
 	Field Tiles:TList = New TList
 	
 	
@@ -79,7 +79,7 @@ End Function
 	
 	
 
-Type TLevelExtractor Extends LTObject
+Type TLevelExtrSprite Extends LTObject
 	Field Tiles:TImage
 	
 	

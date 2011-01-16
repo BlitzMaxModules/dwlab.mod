@@ -36,6 +36,21 @@ Type LTProject Extends LTObject
 	
 	
 	
+	Method LoadPage( World:LTWorld, PageName:String )
+		Local Page:LTPage = World.FindPage( PageName )
+		L_Assert( Page <> Null, "Page " + PageName + " not found" )
+		For Local Sprite:LTSprite = Eachin Page.Sprites
+			LoadSprite( Sprite, L_GetPrefix( Sprite.GetName() ) )
+		Next
+	End Method
+	
+	
+	
+	Method LoadSprite( Sprite:LTSprite, Name:String )
+	End Method
+	
+	
+	
 	Method Execute()
 		FlushKeys
 		FlushMouse

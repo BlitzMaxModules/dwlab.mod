@@ -9,7 +9,7 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Type TEnemy Extends TGameActor
+Type TEnemy Extends TGameSprite
 	Field ChangeFacing:Int
 	Field Bulletproof:Int
 	
@@ -51,7 +51,7 @@ Type TEnemy Extends TGameActor
 				Enemy.ChangeFacing = True
 		End Select
 		
-		Game.CollisionMap.InsertActor( Enemy )
+		Game.CollisionMap.InsertSprite( Enemy )
 		Game.Objects.AddLast( Enemy )
 		Return Enemy
 	End Function
@@ -68,12 +68,12 @@ Type TEnemy Extends TGameActor
 	
 	
 	
-	Method HandleCollisionWithActor( Actor:LTActor )
-		If TBall( Actor ) Then
-			Actor.Destroy()
+	Method HandleCollisionWithSprite( Sprite:LTSprite )
+		If TBall( Sprite ) Then
+			Sprite.Destroy()
 		Else
-			WedgeOffWith( Actor, 0.0, 1.0 )
-			Bounce( X - Actor.X, Y - Actor.Y )
+			WedgeOffWith( Sprite, 0.0, 1.0 )
+			Bounce( X - Sprite.X, Y - Sprite.Y )
 		End If
 	End Method
 	
@@ -81,8 +81,8 @@ Type TEnemy Extends TGameActor
 	
 	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
 		PushFromTile( TileMap, TileX, TileY )
-		Local Actor:LTActor = TileMap.GetTile( TIleX, TileY )
-		Bounce( X - Actor.X, Y - Actor.Y )
+		Local Sprite:LTSprite = TileMap.GetTile( TIleX, TileY )
+		Bounce( X - Sprite.X, Y - Sprite.Y )
 	End Method
 	
 	
@@ -111,12 +111,12 @@ End Type
 
 
 
-Type TEnemyGenerator Extends LTActor
+Type TEnemyGenerator Extends LTSprite
 	Field GenerationStartTime:Float
 	Field NextEnemy:Float
 	Field EnemyType:Int
 	Field EnemyColor:String
-	Field EnemyTemplate:LTActor
+	Field EnemyTemplate:LTSprite
 	
 	Const GenerationTime:Float = 1.5
 	Const GenerationSpeed:Float = 72.0
@@ -143,8 +143,8 @@ Type TEnemyGenerator Extends LTActor
 			Frame = L_WrapInt2( Floor( ( Game.ProjectTime - GenerationStartTime ) * GenerationSpeed ), 18, 36 )
 			If Game.ProjectTime > GenerationStartTime + GenerationTime Then
 				Local Collision:Int = False
-				For Local Actor:LTActor = Eachin Game.Objects
-					If EnemyTemplate.CollidesWith( Actor ) And Actor <> Self Then
+				For Local Sprite:LTSprite = Eachin Game.Objects
+					If EnemyTemplate.CollidesWith( Sprite ) And Sprite <> Self Then
 						Collision = True
 						Exit
 					End If
@@ -164,7 +164,7 @@ Type TEnemyGenerator Extends LTActor
 			End If
 		ElseIf NextEnemy < Game.ProjectTime Then
 			GenerationStartTime = Game.ProjectTime
-			EnemyTemplate = New LTActor
+			EnemyTemplate = New LTSprite
 			EnemyTemplate.Visualizer = LTImageVisualizer.FromImage( Game.EnemyImage[ EnemyType ] )
 			EnemyTemplate.SetCoords( X, Y )
 			EnemyTemplate.SetSize( 1.0, 1.0 )

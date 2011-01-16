@@ -9,19 +9,19 @@
 '
 
 Type LTRevoluteJoint Extends LTJoint
-	Field ParentPivot:LTActor
-	Field Pivot:LTActor
+	Field ParentPivot:LTSprite
+	Field Pivot:LTSprite
 	Field Angle:Float
 	Field Distance:Float
 	
 	
 	
-	Function Create:LTRevoluteJoint( ParentPivot:LTActor, Pivot:LTActor )
+	Function Create:LTRevoluteJoint( ParentPivot:LTSprite, Pivot:LTSprite )
 		Local Joint:LTRevoluteJoint = New LTRevoluteJoint
 		Joint.ParentPivot = ParentPivot
 		Joint.Pivot = Pivot
-		Joint.Angle = ParentPivot.DirectionToActor( Pivot ) - ParentPivot.Angle
-		Joint.Distance = ParentPivot.DistanceToActor( Pivot )
+		Joint.Angle = ParentPivot.DirectionToSprite( Pivot ) - ParentPivot.Angle
+		Joint.Distance = ParentPivot.DistanceToSprite( Pivot )
 		L_JointList.AddLast( Joint )
 		Return Joint
 	End Function

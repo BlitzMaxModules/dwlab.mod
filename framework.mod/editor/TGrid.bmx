@@ -9,7 +9,7 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Type LTGrid Extends LTActiveObject
+Type TGrid Extends LTActiveObject
 	Field CellWidth:Float = 1.0
 	Field CellHeight:Float = 1.0
 	Field CellXDiv:Int = 1

@@ -1,4 +1,4 @@
-Type TMushroom Extends LTActor
+Type TMushroom Extends LTSprite
 End Type
 
 

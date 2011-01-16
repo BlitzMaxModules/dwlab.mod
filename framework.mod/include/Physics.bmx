@@ -60,7 +60,7 @@ End Function
 
 
 
-Function L_Separate( Pivot1:LTActor, Pivot2:LTActor, DX:Float, DY:Float, Mass1:Float, Mass2:Float )
+Function L_Separate( Pivot1:LTSprite, Pivot2:LTSprite, DX:Float, DY:Float, Mass1:Float, Mass2:Float )
 	'debugstop
 	Local K1:Float, K2:Float
 	

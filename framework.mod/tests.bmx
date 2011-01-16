@@ -9,17 +9,17 @@
 '
 
 Function PushingStressTest()
-	Local Actor1:LTActor = New LTActor
-	Local Actor2:LTActor = New LTActor
-	Actor1.Shape = L_Rectangle
-	Actor2.Shape = L_Rectangle
+	Local Sprite1:LTSprite = New LTSprite
+	Local Sprite2:LTSprite = New LTSprite
+	Sprite1.Shape = L_Rectangle
+	Sprite2.Shape = L_Rectangle
 	
 	Local Count:Int = 0
 	
 	Repeat
-		Actor1.SetCoords( Rnd( -1.0, 1.0 ), Rnd( -1.0, 1.0 ) )
-		Actor2.SetCoords( 0.0, 0.0 )
-		If Actor1.CollidesWith( Actor2 ) Then Actor1.Push( Actor2, 1.0, 1.0 )
+		Sprite1.SetCoords( Rnd( -1.0, 1.0 ), Rnd( -1.0, 1.0 ) )
+		Sprite2.SetCoords( 0.0, 0.0 )
+		If Sprite1.CollidesWith( Sprite2 ) Then Sprite1.Push( Sprite2, 1.0, 1.0 )
 		Count :+ 1
 		If Count Mod 10000 = 0 Then DebugLog Count
 	Until KeyHit( Key_Escape )

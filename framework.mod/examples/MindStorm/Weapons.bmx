@@ -28,15 +28,15 @@ End Type
 
 Type TChaingun Extends TWeapon
 	Field Position:Int
-	Field CannonHinge:LTActor = New LTActor
-	Field CannonAimer:LTActor = New LTActor
-	Field Cannon:LTActor = New LTActor
+	Field CannonHinge:LTSprite = New LTSprite
+	Field CannonAimer:LTSprite = New LTSprite
+	Field Cannon:LTSprite = New LTSprite
 	Field CannonVisualizer:LTImageVisualizer = New LTImageVisualizer
-	Field Barrel:LTActor = New LTActor
+	Field Barrel:LTSprite = New LTSprite
 	Field BarrelVisualizer:LTImageVisualizer = New LTImageVisualizer
-	Field FireMin:LTActor = New LTActor
-	Field FireMax:LTActor = New LTActor
-	Field Fire:LTActor = New LTActor
+	Field FireMin:LTSprite = New LTSprite
+	Field FireMax:LTSprite = New LTSprite
+	Field Fire:LTSprite = New LTSprite
 	Field BarrelAnim:Float
 	Field BarrelAnimAcc:Float
 	Field JointList:TList = New TList
@@ -49,16 +49,16 @@ Type TChaingun Extends TWeapon
 		Local Chaingun:TChaingun = New TChaingun
 		Chaingun.Position = WeaponPosition
 
-		Chaingun.CannonHinge.SetCoordsRelativeToActor( Game.Player, 0.0, 0.42 * WeaponPosition )
-		Chaingun.CannonAimer.SetCoordsRelativeToActor( Game.Player, -0.19, 0.65 * WeaponPosition )
-		Chaingun.Cannon.SetCoordsRelativeToActor( Game.Player, 0.19, 0.57 * WeaponPosition )
+		Chaingun.CannonHinge.SetCoordsRelativeToSprite( Game.Player, 0.0, 0.42 * WeaponPosition )
+		Chaingun.CannonAimer.SetCoordsRelativeToSprite( Game.Player, -0.19, 0.65 * WeaponPosition )
+		Chaingun.Cannon.SetCoordsRelativeToSprite( Game.Player, 0.19, 0.57 * WeaponPosition )
 		Chaingun.Cannon.SetSize( 1.5, 1.5 )
 		Chaingun.CannonVisualizer.Image = Game.ChaingunCannon
 		Chaingun.CannonVisualizer.SetVisualizerScale( 1.0, -WeaponPosition )
 		Chaingun.Cannon.Visualizer = Chaingun.CannonVisualizer
 		Chaingun.Cannon.CorrectHeight()
 		
-		Chaingun.Barrel.SetCoordsRelativeToActor( Game.Player, 0.88, 0.65 * WeaponPosition )
+		Chaingun.Barrel.SetCoordsRelativeToSprite( Game.Player, 0.88, 0.65 * WeaponPosition )
 		Chaingun.Barrel.SetSize( 0.75, 0.75 )
 		Chaingun.BarrelVisualizer.Image = Game.ChaingunBarrel
 		Chaingun.BarrelVisualizer.SetVisualizerScale( 1.0, -WeaponPosition )
@@ -68,8 +68,8 @@ Type TChaingun Extends TWeapon
 		Chaingun.Fire.SetSize( 1.5, 1.5 )
 		Chaingun.Fire.Visualizer = Game.ChaingunFire
 		
-		Chaingun.FireMin.SetCoordsRelativeToActor( Game.Player, 1.0, 0.59 * WeaponPosition )
-		Chaingun.FireMax.SetCoordsRelativeToActor( Game.Player, 1.0, 0.69 * WeaponPosition )
+		Chaingun.FireMin.SetCoordsRelativeToSprite( Game.Player, 1.0, 0.59 * WeaponPosition )
+		Chaingun.FireMax.SetCoordsRelativeToSprite( Game.Player, 1.0, 0.69 * WeaponPosition )
 		
 		
 		L_SetJointList( Chaingun.JointList )
@@ -87,9 +87,9 @@ Type TChaingun Extends TWeapon
 	
 	Method Logic()
 		L_OperateJoints( JointList )
-		CannonAimer.DirectToActor( Game.Target )
-		CannonHinge.DirectAsActor( CannonAimer )
-		Fire.DirectAsActor( CannonAimer )
+		CannonAimer.DirectToSprite( Game.Target )
+		CannonHinge.DirectAsSprite( CannonAimer )
+		Fire.DirectAsSprite( CannonAimer )
 		
 		If Position = LeftSide Then
 			If MouseDown( 1 ) Then
@@ -121,8 +121,8 @@ Type TChaingun Extends TWeapon
 				Bullet.FadingPeriod = Rnd( 1.0, 1.5 )
 				Bullet.GameBulletListLink = Game.Bullets.AddLast( Bullet )
 				Bullet.ChaingunBulletListLink = Bullets.AddLast( Bullet )
-				Bullet.JumpToActor( Fire )
-				Bullet.DirectAsActor( Fire )
+				Bullet.JumpToSprite( Fire )
+				Bullet.DirectAsSprite( Fire )
 				Bullet.Shape = L_Circle
 				LastShotTime = Millisecs()
 			End If
@@ -134,7 +134,7 @@ Type TChaingun Extends TWeapon
 		
 		BarrelAnim = L_WrapFloat( BarrelAnim + L_DeltaTime * BarrelAnimAcc, 16 )
 		Barrel.Frame = Floor( BarrelAnim )
-		Fire.PlaceBetweenActors( FireMin, FireMax, ( Sin( BarrelAnim * 22.5 + 90 ) + 1.0 ) * 0.5 )
+		Fire.PlaceBetweenSprites( FireMin, FireMax, ( Sin( BarrelAnim * 22.5 + 90 ) + 1.0 ) * 0.5 )
 	End Method
 	
 	
@@ -152,7 +152,7 @@ End Type
 
 
 
-Type LTChaingunBullet Extends LTActor
+Type LTChaingunBullet Extends LTSprite
 	Field CreatingTime:Int
 	Field FadingPeriod:Float
 	Field FlyingPeriod:Float

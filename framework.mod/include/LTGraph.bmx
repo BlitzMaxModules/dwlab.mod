@@ -15,7 +15,7 @@ Type LTGraph Extends LTShape
 	' ==================== Drawing ===================	
 	
 	Method	DrawPivotsUsing( Visualizer:LTVisualizer )
-		For Local Pivot:LTActor = Eachin Pivots.Keys()
+		For Local Pivot:LTSprite = Eachin Pivots.Keys()
 			'debugstop
 			Pivot.DrawUsingVisualizer( Visualizer )
 		Next
@@ -31,7 +31,7 @@ Type LTGraph Extends LTShape
 	
 	' ==================== Add / Remove items ===================	
 	
-	Method AddPivot:TList( Pivot:LTActor )
+	Method AddPivot:TList( Pivot:LTSprite )
 		Local List:TList = TList( Pivots.ValueForKey( Pivot ) )
 		If Not List Then
 			List = New TList
@@ -54,7 +54,7 @@ Type LTGraph Extends LTShape
 	
 	
 	
-	Method RemovePivot( Pivot:LTActor )
+	Method RemovePivot( Pivot:LTSprite )
 		Local List:TList = TList( Pivots.ValueForkey( Pivot ) )
 		Assert List, "The deleting pivot doesn't belongs to the graph"
 		
@@ -75,9 +75,9 @@ Type LTGraph Extends LTShape
 	
 	' ==================== Collisions ===================
 	
-	Method FindPivotCollidingWith:LTActor( Shape:LTShape )
-		For Local Pivot:LTActor = Eachin Pivots.Keys()
-			If Shape.CollidesWithActor( Pivot ) Then Return Pivot
+	Method FindPivotCollidingWith:LTSprite( Shape:LTShape )
+		For Local Pivot:LTSprite = Eachin Pivots.Keys()
+			If Shape.CollidesWithSprite( Pivot ) Then Return Pivot
 		Next
 	End Method
 	
@@ -91,7 +91,7 @@ Type LTGraph Extends LTShape
 
 	' ==================== Contents ====================
 	
-	Method ContainsPivot:Int( Pivot:LTActor )
+	Method ContainsPivot:Int( Pivot:LTSprite )
 		If Pivots.ValueForKey( Pivot ) Then Return True
 	End Method
 	
@@ -103,7 +103,7 @@ Type LTGraph Extends LTShape
 	
 	
 	
-	Method FindLine:LTLine( Pivot1:LTActor, Pivot2:LTActor )
+	Method FindLine:LTLine( Pivot1:LTSprite, Pivot2:LTSprite )
 		If Pivot1 = Pivot2 Then Return Null
 		
 		For Local KeyValue:TKeyValue = Eachin Pivots
@@ -141,11 +141,11 @@ End Type
 
 Type LTAddPivotToGraph Extends LTAction
 	Field Graph:LTGraph
-	Field Pivot:LTActor
+	Field Pivot:LTSprite
 	
 	
 	
-	Function Create:LTAddPivotToGraph( Graph:LTGraph, Pivot:LTActor )
+	Function Create:LTAddPivotToGraph( Graph:LTGraph, Pivot:LTSprite )
 		Local Action:LTAddPivotToGraph = New LTAddPivotToGraph
 		Action.Graph = Graph
 		Action.Pivot = Pivot
@@ -205,12 +205,12 @@ End Type
 
 Type LTRemovePivotFromGraph Extends LTAction
 	Field Graph:LTGraph
-	Field Pivot:LTActor
+	Field Pivot:LTSprite
 	Field Lines:TList
 	
 	
 	
-	Function Create:LTRemovePivotFromGraph( Graph:LTGraph, Pivot:LTActor )
+	Function Create:LTRemovePivotFromGraph( Graph:LTGraph, Pivot:LTSprite )
 		Assert Graph.ContainsPivot( Pivot ), "Cannot find pivot in the graph"
 		Local Action:LTRemovePivotFromGraph = New LTRemovePivotFromGraph
 		Action.Graph = Graph

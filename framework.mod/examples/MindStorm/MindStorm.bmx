@@ -43,8 +43,8 @@ Const MinMouseZ:Int = -8
 Const MaxMouseZ:Int = 8
 
 Type LTGame Extends LTProject
-	Field Target:LTActor = New LTActor
-	Field Player:LTActor = New LTActor
+	Field Target:LTSprite = New LTSprite
+	Field Player:LTSprite = New LTSprite
 	Field Brain:LTImageVisualizer
 	Field Visor:LTImageVisualizer
 	Field LeftWeapon:TWeapon
@@ -141,13 +141,13 @@ Type LTGame Extends LTProject
 		L_CurrentCamera.AlterCameraMagnification( NewD, NewD )
 		
 		Target.SetMouseCoords()
-		If Player.DistanceToActor( Target ) < 1.0 Then 
-			Local Angle:Float = Player.DirectionToActor( Target )
+		If Player.DistanceToSprite( Target ) < 1.0 Then 
+			Local Angle:Float = Player.DirectionToSprite( Target )
 			Target.X = Player.X + 1.0 * Cos( Angle )
 			Target.Y = Player.Y + 1.0 * Sin( Angle )
 		End If
 			
-		Player.DirectToActor( Target )
+		Player.DirectToSprite( Target )
 		
 		Player.MoveUsingWSAD()
 		LeftWeapon.Logic()

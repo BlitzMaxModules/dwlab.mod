@@ -16,6 +16,7 @@ Framework brl.d3d7max2d
 Import brl.random
 Import brl.pngloader
 Import brl.jpgloader
+Import brl.bmploader
 Import brl.reflection
 Import brl.retro
 Import brl.map
@@ -24,15 +25,14 @@ Import brl.audio
 import maxgui.win32maxguiex
 
 include "../framework.bmx"
-include "LTPan.bmx"
-include "LTSelectSprites.bmx"
-include "LTMoveSprite.bmx"
-include "LTCreateSprite.bmx"
-include "LTModifySprite.bmx"
-include "LTGrid.bmx"
-include "LTMarchingAnts.bmx"
-include "LTAngleArrow.bmx"
-include "LTSetTile.bmx"
+include "TPan.bmx"
+include "TSelectSprites.bmx"
+include "TMoveSprite.bmx"
+include "TCreateSprite.bmx"
+include "TModifySprite.bmx"
+include "TGrid.bmx"
+include "TAngleArrow.bmx"
+include "TSetTile.bmx"
 include "ChooseParameter.bmx"
 include "ImportTilemap.bmx"
 include "EnterString.bmx"
@@ -46,7 +46,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.1.1"
+	Const Version:String = "1.1.2"
 	Const Title:String = "Digital Wizard's Lab World Editor v" + Version
 	
 	Field Window:TGadget
@@ -95,35 +95,37 @@ Type LTEditor Extends LTProject
 	Field ShowGrid:TGadget
 	Field EditTilemap:TGadget
 	Field EditSprites:TGadget
+	Field ReplacementOfTiles:TGadget
+	Field ProlongTiles:TGadget
 	
 	Field World:LTWorld = New LTWorld
 	Field CurrentPage:LTPage
-	Field CurrentSprite:LTActor
+	Field CurrentSprite:LTSprite
 	Field CurrentTIleset:LTTileset
 	Field TilesQueue:TMap = New TMap
-	Field Cursor:LTActor = New LTActor
-	Field SpriteUnderCursor:LTActor
+	Field Cursor:LTSprite = New LTSprite
+	Field SpriteUnderCursor:LTSprite
 	Field SelectedSprites:TList = New TList
-	Field SelectedModifier:LTActor
+	Field SelectedModifier:LTSprite
 	Field ModifiersImage:TImage
 	Field Modifiers:TList = New TList
 	Field ShapeVisualizer:LTFilledPrimitive = New LTFilledPrimitive
-	Field AngleArrow:LTAngleArrow = New LTAngleArrow
+	Field AngleArrow:TAngleArrow = New TAngleArrow
 	
-	Field SelectedTile:LTActor = New LTActor
+	Field SelectedTile:LTSprite = New LTSprite
 	Field TileX:Int, TileY:Int, TileNum:Int[] = New Int[ 2 ]
 	Field TilesInRow:Int
 	
 	Field WorldFilename:String
 	Field EditorPath:String
 	
-	Field Pan:LTPan = New LTPan
-	Field SelectSprites:LTSelectSprites = New LTSelectSprites
-	Field MoveSprite:LTMoveSprite = New LTMoveSprite
-	Field CreateSprite:LTCreateSprite = New LTCreateSprite
-	Field ModifySprite:LTModifySprite = New LTModifySprite
-	Field SetTile:LTSetTile = New LTSetTile
-	Field Grid:LTGrid = New LTGrid
+	Field Pan:TPan = New TPan
+	Field SelectSprites:TSelectSprites = New TSelectSprites
+	Field MoveSprite:TMoveSprite = New TMoveSprite
+	Field CreateSprite:TCreateSprite = New TCreateSprite
+	Field ModifySprite:TModifySprite = New TModifySprite
+	Field SetTile:TSetTile = New TSetTile
+	Field Grid:TGrid = New TGrid
 	Field MarchingAnts:LTMarchingAnts = New LTMarchingAnts
 	
 	
@@ -132,19 +134,21 @@ Type LTEditor Extends LTProject
 	Const MenuOpen:Int = 1
 	Const MenuSave:Int = 2
 	Const MenuSaveAs:Int = 3
-	Const MenuImportTilemap:Int = 16
-	Const MenuImportTilemaps:Int = 17
-	Const MenuExit:Int = 18
+	Const MenuImportTilemap:Int = 18
+	Const MenuImportTilemaps:Int = 19
+	Const MenuExit:Int = 20
 	Const MenuShowGrid:Int = 5
 	Const MenuSnapToGrid:Int = 6
 	Const MenuGridSettings:Int = 7
-	Const MenuTilemapSettings:Int = 19
-	Const MenuTilesetSettings:Int = 20
+	Const MenuTilemapSettings:Int = 21
+	Const MenuTilesetSettings:Int = 22
 	Const MenuEditTilemap:Int = 9
 	Const MenuEditSprites:Int = 10
 	Const MenuAddPage:Int = 12
 	Const MenuRemovePage:Int = 13
-	Const MenuEditTileset:Int = 15
+	Const MenuReplacementOfTiles:Int = 15
+	Const MenuProlongTiles:Int = 16
+	Const MenuEditReplacementRules:Int = 17
 	
 	
 	
@@ -238,13 +242,15 @@ Type LTEditor Extends LTProject
 		CreateMenu( "Add page", MenuAddPage, EditMenu )
 		CreateMenu( "Remove current page", MenuRemovePage, EditMenu )
 		CreateMenu( "", 0, EditMenu )
-		CreateMenu( "Edit tileset", MenuEditTileset, EditMenu )
+		ReplacementOfTiles = CreateMenu( "Replacement of tiles", MenuReplacementOfTiles, EditMenu )
+		ProlongTiles = CreateMenu( "Prolong tiles", MenuProlongTiles, EditMenu )
+		CreateMenu( "Edit replacement rules", MenuEditReplacementRules, EditMenu )
 		CheckMenu( EditSprites )
 		
 		UpdateWindowMenu( Window )
 		
 		Toolbar = CreateToolBar( "incbin::toolbar.png", 0, 0, 0, 0, Window )
-		SetToolbarTips( Toolbar, [ "New", "Open", "Save", "Save as", "", "Show grid", "Snap to grid", "Grid settings", "", "Edit tilemap", "Edit sprites", "", "Add page", "Delete current page", "", "Edit tileset" ] )
+		SetToolbarTips( Toolbar, [ "New", "Open", "Save", "Save as", "", "Show grid", "Snap to grid", "Grid settings", "", "Edit tilemap", "Edit sprites", "", "Add page", "Delete current page", "", "Auto-changement of tiles", "Prolong tiles", "Edit auto-changement rules" ] )
 		
 		SetGraphics( CanvasGraphics( MainCanvas ) )
 		SetGraphicsParameters()
@@ -278,6 +284,9 @@ Type LTEditor Extends LTProject
 				SelectMenuItem( EditTilemap )
 			End If
 			
+			If ReadLine( IniFile ) = "1" Then SelectMenuItem( ReplacementOfTiles )
+			If ReadLine( IniFile ) = "1" Then SelectMenuItem( ProlongTiles )
+			
 			Grid.CellWidth = ReadLine( IniFile ).ToFloat()
 			Grid.CellHeight = ReadLine( IniFile ).ToFloat()
 			Grid.CellXDiv = ReadLine( IniFile ).ToInt()
@@ -287,6 +296,9 @@ Type LTEditor Extends LTProject
 			Grid.Blue = ReadLine( IniFile ).ToInt()
 			
 			CloseFile( IniFile )
+		Else
+			SelectMenuItem( EditTilemap )
+			SelectMenuItem( ReplacementOfTiles )
 		End If
 		
 		SetTitle()
@@ -349,7 +361,7 @@ Type LTEditor Extends LTProject
 			
 			CurrentSprite = Null
 			For Local Page:LTPage = Eachin World.Pages
-				For Local Sprite:LTActor = Eachin Page.Sprites
+				For Local Sprite:LTSprite = Eachin Page.Sprites
 					CurrentSprite = Sprite
 					Exit
 				Next
@@ -372,7 +384,7 @@ Type LTEditor Extends LTProject
 	
 	Method SaveWorld:Int( SaveAs:Int = False )
 		Local Filename:String = WorldFilename
-		If SaveAs Or Not Filename Then Filename = RequestFile( "Select world file name to save...", "DWLab world XML file:xml", True )
+		If SaveAs Or Not Filename Then Filename = RequestFile( "Select world file name to save...", "DWLab world file:lw", True )
 		If Filename Then 
 			WorldFilename = Filename
 			ChangeDir( ExtractDir( Filename ) )
@@ -400,6 +412,8 @@ Type LTEditor Extends LTProject
 		WriteLine( IniFile, MenuChecked( ShowGrid ) )
 		WriteLine( IniFile, MenuChecked( SnapToGrid ) )
 		WriteLine( IniFile, MenuChecked( EditSprites ) )
+		WriteLine( IniFile, MenuChecked( ReplacementOfTiles ) )
+		WriteLine( IniFile, MenuChecked( ProlongTiles ) )
 		
 		WriteLine( IniFile, Grid.CellWidth )
 		WriteLine( IniFile, Grid.CellHeight )
@@ -427,7 +441,7 @@ Type LTEditor Extends LTProject
 		Select EvID
 			Case Event_KeyDown
 				If EventData() = Key_Delete Then
-					For Local Sprite:LTActor = Eachin SelectedSprites
+					For Local Sprite:LTSprite = Eachin SelectedSprites
 						CurrentPage.Sprites.Remove( Sprite )
 						SetChanged()
 					Next
@@ -437,7 +451,7 @@ Type LTEditor Extends LTProject
 				End If
 			Case Event_MouseWheel
 				If Not Modifiers.IsEmpty() Then
-					Local Sprite:LTActor = LTActor( SelectedSprites.First() )
+					Local Sprite:LTSprite = LTSprite( SelectedSprites.First() )
 					SetSpriteModifiers( Sprite )
 				End If
 				If MouseIsOver = MainCanvas Then
@@ -465,7 +479,7 @@ Type LTEditor Extends LTProject
 					Case MenuNew
 						NewWorld()
 					Case MenuOpen
-						OpenWorld( RequestFile( "Select world file to open...", "DWLab world XML file:xml" ) )
+						OpenWorld( RequestFile( "Select world file to open...", "DWLab world file:lw" ) )
 					Case MenuSave
 						SaveWorld()
 					Case MenuSaveAs
@@ -544,22 +558,33 @@ Type LTEditor Extends LTProject
 					Case MenuShowGrid
 						SelectMenuItem( ShowGrid, 2 )
 					Case MenuTilemapSettings
-						If Not CurrentPage.Tilemap Then CurrentPage.Tilemap = LTTilemap.Create( 16, 16, 16, 16, 1 )
-						Local XQuantity:Int = CurrentPage.TileMap.FrameMap.XQuantity
-						Local YQuantity:Int = CurrentPage.TileMap.FrameMap.YQuantity
-						ChooseParameter( XQuantity, YQuantity, "tiles quantity", "tiles" )
-						CurrentPage.TileMap.FrameMap.SetResolution( XQuantity, YQuantity )
-						CurrentPage.TileMap.X = 0.5 * XQuantity
-						CurrentPage.TileMap.Y = 0.5 * YQuantity
-						CurrentPage.TileMap.Width = XQuantity
-						CurrentPage.TileMap.Height = YQuantity
-						SelectPage( CurrentPage )
+						Local XQuantity:Int = 16
+						Local YQuantity:Int = 16
+						If CurrentPage.Tilemap Then
+							XQuantity = CurrentPage.TileMap.FrameMap.XQuantity
+							YQuantity = CurrentPage.TileMap.FrameMap.YQuantity
+						End If
+						
+						If ChooseParameter( XQuantity, YQuantity, "tiles quantity", "tiles" ) Then
+							If CurrentPage.Tilemap Then 
+								CurrentPage.TileMap.FrameMap.SetResolution( XQuantity, YQuantity )
+							Else
+								CurrentPage.Tilemap = LTTilemap.Create( XQuantity, YQuantity, 16, 16, 16 )
+							End If
+							CurrentPage.TileMap.X = 0.5 * XQuantity
+							CurrentPage.TileMap.Y = 0.5 * YQuantity
+							CurrentPage.TileMap.Width = XQuantity
+							CurrentPage.TileMap.Height = YQuantity
+							SelectPage( CurrentPage )
+						End If
 					Case MenuGridSettings
 						Grid.Settings()
 					Case MenuTilesetSettings
 						If CurrentPage.Tilemap Then
 							SpriteImageProperties( CurrentPage.TileMap )
 							SelectPage( CurrentPage )
+						Else
+							Notify( "Create tilemap first by visiting ''Edit/Tilemap settings'' first" )
 						End If
 					Case MenuEditTilemap
 						SelectMenuItem( EditTilemap )
@@ -580,7 +605,11 @@ Type LTEditor Extends LTProject
 						Else
 							Notify( "Cannot delete only page" )
 						End If
-					Case MenuEditTileset
+					Case MenuReplacementOfTiles
+						SelectMenuItem( ReplacementOfTiles, 2 )
+					Case MenuProlongTiles
+						SelectMenuItem( ProlongTiles, 2 )
+					Case MenuEditReplacementRules
 						TilesetProperties( CurrentPage.TileMap )
 					Case MenuExit
 						ExitEditor()
@@ -603,16 +632,16 @@ Type LTEditor Extends LTProject
 						End If
 					Case SelectImageButton
 						If Not SelectedSprites.IsEmpty() Then
-							Local FirstSprite:LTActor = LTActor( SelectedSprites.First() )
+							Local FirstSprite:LTSprite = LTSprite( SelectedSprites.First() )
 							If SpriteImageProperties( FirstSprite ) Then
-								For Local Sprite:LTActor = Eachin SelectedSprites
+								For Local Sprite:LTSprite = Eachin SelectedSprites
 									LTImageVisualizer( Sprite.Visualizer ).Image = LTImageVisualizer( FirstSprite.Visualizer ).Image
 								Next
 							End If
 						End If
 				End Select
 				
-				For Local Sprite:LTActor = Eachin SelectedSprites
+				For Local Sprite:LTSprite = Eachin SelectedSprites
 					Select EventSource()
 						Case HiddenOKButton
 							Select ActiveGadget()
@@ -688,7 +717,7 @@ Type LTEditor Extends LTProject
 			Case Event_GadgetSelect
 				Select EventSource()
 					Case SpritesListBox
-						SelectSprite( LTActor( CurrentPage.Sprites.ValueAtIndex( EventData() ) ) )
+						SelectSprite( LTSprite( CurrentPage.Sprites.ValueAtIndex( EventData() ) ) )
 					Case PagesListBox
 						If EventData() >= 0 Then SelectPage( LTPage( World.Pages.ValueAtIndex( EventData() ) ) )
 				End Select
@@ -713,7 +742,7 @@ Type LTEditor Extends LTProject
 		Cursor.SetMouseCoords()
 		
 		SelectedModifier = Null
-		For Local Modifier:LTActor = Eachin Modifiers
+		For Local Modifier:LTSprite = Eachin Modifiers
 			Local MX:Float, MY:Float
 			MainCamera.FieldToScreen( Modifier.X, Modifier.Y, MX, MY )
 			If MouseX() >= MX - 8 And MouseX() <= MX + 8 And MouseY() >= MY - 8 And MouseY() <= MY + 8 Then
@@ -758,7 +787,7 @@ Type LTEditor Extends LTProject
 			SetTile.Execute()
 		Else
 			SpriteUnderCursor = Null
-			For Local Sprite:LTActor = Eachin Editor.CurrentPage.Sprites
+			For Local Sprite:LTSprite = Eachin Editor.CurrentPage.Sprites
 				If Editor.Cursor.CollidesWith( Sprite ) Then
 					SpriteUnderCursor = Sprite
 					Exit
@@ -823,6 +852,7 @@ Type LTEditor Extends LTProject
 				L_CurrentCamera = TilesetCamera
 				
 				For Local N:Int = 0 To 1
+					TileNum[ N ] = L_LimitInt( TileNum[ N ], 0, Image.FramesQuantity() - 1 )
 					SelectedTile.X = 0.5 + TileNum[ N ] Mod TilesInRow
 					SelectedTile.Y = 0.5 + Floor( TileNum[ N ] / TilesInRow )
 					SelectedTile.Draw()
@@ -845,7 +875,7 @@ Type LTEditor Extends LTProject
 		
 		If CurrentPage.TileMap Then CurrentPage.TileMap.Draw()
 		
-		For Local Sprite:LTActor = Eachin CurrentPage.Sprites
+		For Local Sprite:LTSprite = Eachin CurrentPage.Sprites
 			Sprite.Draw()
 			Sprite.DrawUsingVisualizer( ShapeVisualizer )
 			Sprite.DrawUsingVisualizer( AngleArrow )
@@ -862,7 +892,7 @@ Type LTEditor Extends LTProject
 				End If
 			End If
 		Else
-			For Local Sprite:LTActor = Eachin SelectedSprites
+			For Local Sprite:LTSprite = Eachin SelectedSprites
 				Sprite.DrawUsingVisualizer( MarchingAnts )
 			Next
 			
@@ -870,7 +900,7 @@ Type LTEditor Extends LTProject
 			
 			If Not ModifySprite.DraggingState And Not CreateSprite.DraggingState Then
 				SetAlpha( 0.75 )
-				For Local Modifier:LTActor = Eachin Modifiers
+				For Local Modifier:LTSprite = Eachin Modifiers
 					Local X:Float, Y:Float
 					L_CurrentCamera.FieldToScreen( Modifier.X, Modifier.Y, X, Y )
 					DrawImage( ModifiersImage, X, Y, Modifier.Frame )
@@ -912,12 +942,32 @@ Type LTEditor Extends LTProject
 				UncheckMenu( EditTilemap )
 				SelectGadgetItem( Toolbar, MenuEditSprites )
 				DeselectGadgetItem( Toolbar, MenuEditTilemap )
+			Case ReplacementOfTiles
+				If State Then
+					CheckMenu( ReplacementOfTiles )
+					SelectGadgetItem( Toolbar, MenuReplacementOfTiles )
+				Else
+					UncheckMenu( ReplacementOfTiles )
+					DeselectGadgetItem( Toolbar, MenuReplacementOfTiles )
+				End If
+			Case ProlongTiles
+				If State Then
+					CheckMenu( ProlongTiles )
+					SelectGadgetItem( Toolbar, MenuProlongTiles )
+					L_ProlongTiles = True
+				Else
+					UncheckMenu( ProlongTiles )
+					DeselectGadgetItem( Toolbar, MenuProlongTiles )
+					L_ProlongTiles = False
+				End If
 		End Select
 	End Method
 	
 	
 	
 	Method FillSpriteFields()
+		If Not CurrentSprite Then Return
+	
 		SetGadgetText( XField, L_TrimFloat( CurrentSprite.X ) )
 		SetGadgetText( YField ,L_TrimFloat( CurrentSprite.Y ) )
 		SetGadgetText( WidthField, L_TrimFloat( CurrentSprite.Width ) )
@@ -950,7 +1000,7 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method SelectSprite( Sprite:LTActor )
+	Method SelectSprite( Sprite:LTSprite )
 		SelectedSprites.Clear()
 		SelectedSprites.AddLast( Sprite )
 		SetSpriteModifiers( Sprite )
@@ -961,7 +1011,7 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method SetSpriteModifiers( Sprite:LTActor )
+	Method SetSpriteModifiers( Sprite:LTSprite )
 		Modifiers.Clear()
 	
 		Local SWidth:Float, SHeight:Float
@@ -970,29 +1020,29 @@ Type LTEditor Extends LTProject
 		If SWidth < 25 Then SWidth = 25
 		If SHeight < 25 Then SHeight = 25
 		
-		AddModifier( Sprite, LTModifySprite.Move, 0, 0 )
-		AddModifier( Sprite, LTModifySprite.ResizeHorizontally, -SWidth - 9, 0 )
-		AddModifier( Sprite, LTModifySprite.ResizeHorizontally, SWidth + 9, 0 )
-		AddModifier( Sprite, LTModifySprite.ResizeVertically, 0, -SHeight - 9 )
-		AddModifier( Sprite, LTModifySprite.ResizeVertically, 0, +SHeight + 9 )
-		AddModifier( Sprite, LTModifySprite.Resize, -SWidth + 8, -SHeight + 8 )
-		AddModifier( Sprite, LTModifySprite.Resize, SWidth - 8, -SHeight + 8 )
-		AddModifier( Sprite, LTModifySprite.Resize, -SWidth + 8, SHeight - 8 )
-		AddModifier( Sprite, LTModifySprite.Resize, SWidth - 8, SHeight - 8 )
-		AddModifier( Sprite, LTModifySprite.ResizeDiagonally1, SWidth + 9, SHeight + 9 )
-		AddModifier( Sprite, LTModifySprite.ResizeDiagonally1, -SWidth - 9, -SHeight - 9 )
-		AddModifier( Sprite, LTModifySprite.ResizeDiagonally2, -SWidth - 9, SHeight + 9 )
-		AddModifier( Sprite, LTModifySprite.ResizeDiagonally2, SWidth + 9, -SHeight - 9 )
-		AddModifier( Sprite, LTModifySprite.MirrorHorizontally, 0, -17 )
-		AddModifier( Sprite, LTModifySprite.MirrorVertically, 0, 17 )
-		AddModifier( Sprite, LTModifySprite.RotateBackward, -17, 0 )
-		AddModifier( Sprite, LTModifySprite.RotateForward, 17, 0 )		
+		AddModifier( Sprite, TModifySprite.Move, 0, 0 )
+		AddModifier( Sprite, TModifySprite.ResizeHorizontally, -SWidth - 9, 0 )
+		AddModifier( Sprite, TModifySprite.ResizeHorizontally, SWidth + 9, 0 )
+		AddModifier( Sprite, TModifySprite.ResizeVertically, 0, -SHeight - 9 )
+		AddModifier( Sprite, TModifySprite.ResizeVertically, 0, +SHeight + 9 )
+		AddModifier( Sprite, TModifySprite.Resize, -SWidth + 8, -SHeight + 8 )
+		AddModifier( Sprite, TModifySprite.Resize, SWidth - 8, -SHeight + 8 )
+		AddModifier( Sprite, TModifySprite.Resize, -SWidth + 8, SHeight - 8 )
+		AddModifier( Sprite, TModifySprite.Resize, SWidth - 8, SHeight - 8 )
+		AddModifier( Sprite, TModifySprite.ResizeDiagonally1, SWidth + 9, SHeight + 9 )
+		AddModifier( Sprite, TModifySprite.ResizeDiagonally1, -SWidth - 9, -SHeight - 9 )
+		AddModifier( Sprite, TModifySprite.ResizeDiagonally2, -SWidth - 9, SHeight + 9 )
+		AddModifier( Sprite, TModifySprite.ResizeDiagonally2, SWidth + 9, -SHeight - 9 )
+		AddModifier( Sprite, TModifySprite.MirrorHorizontally, 0, -17 )
+		AddModifier( Sprite, TModifySprite.MirrorVertically, 0, 17 )
+		AddModifier( Sprite, TModifySprite.RotateBackward, -17, 0 )
+		AddModifier( Sprite, TModifySprite.RotateForward, 17, 0 )		
 	End Method
 	
 	
 	
-	Method AddModifier( Sprite:LTActor, ModType:Int, DX:Int, DY:Int )
-		Local Modifier:LTActor = New LTActor
+	Method AddModifier( Sprite:LTSprite, ModType:Int, DX:Int, DY:Int )
+		Local Modifier:LTSprite = New LTSprite
 		Local FDX:Float, FDY:Float
 		L_CurrentCamera.SizeScreenToField( DX, DY, FDX, FDY )
 		Modifier.X = Sprite.X + FDX

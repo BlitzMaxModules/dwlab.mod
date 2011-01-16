@@ -1,2 +1,2 @@
-Type TKoopaTroopa Extends LTActor
+Type TKoopaTroopa Extends LTSprite
 End Type

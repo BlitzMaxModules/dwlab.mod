@@ -21,7 +21,7 @@ Rem
 bbdoc:Main shape for moving objects
 about:
 EndRem
-Type LTActor Extends LTShape
+Type LTSprite Extends LTShape
 	Field Shape:Int = L_Rectangle
 	Field X:Float
 	Field Y:Float
@@ -35,51 +35,51 @@ Type LTActor Extends LTShape
 	' ==================== Drawing ===================	
 	
 	Method Draw()
-		Visualizer.DrawUsingActor( Self )
+		Visualizer.DrawUsingSprite( Self )
 	End Method
 	
 	
 	
 	Method DrawUsingVisualizer( Vis:LTVisualizer )
-		Vis.DrawUsingActor( Self )
+		Vis.DrawUsingSprite( Self )
 	End Method
 	
 	' ==================== Collisions ===================
 	
 	Method CollidesWith:Int( Obj:LTActiveObject )
-		Return Obj.CollidesWithActor( Self )
+		Return Obj.CollidesWithSprite( Self )
 	End Method
 	
 	
 	
-	Method CollidesWithActor:Int( Actor:LTActor )
+	Method CollidesWithSprite:Int( Sprite:LTSprite )
 		Select Shape
 			Case L_Pivot
-				Select Actor.Shape
+				Select Sprite.Shape
 					Case L_Pivot
-						Return L_PivotWithPivot( X, Y, Actor.X, Actor.Y )
+						Return L_PivotWithPivot( X, Y, Sprite.X, Sprite.Y )
 					Case L_Circle
-						Return L_PivotWithCircle( X, Y, Actor.X, Actor.Y, Actor.Width )
+						Return L_PivotWithCircle( X, Y, Sprite.X, Sprite.Y, Sprite.Width )
 					Case L_Rectangle
-						Return L_PivotWithRectangle( X, Y, Actor.X, Actor.Y, Actor.Width, Actor.Height )
+						Return L_PivotWithRectangle( X, Y, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 				End Select
 			Case L_Circle
-				Select Actor.Shape
+				Select Sprite.Shape
 					Case L_Pivot
-						Return L_PivotWithCircle( Actor.X, Actor.Y, X, Y, Width )
+						Return L_PivotWithCircle( Sprite.X, Sprite.Y, X, Y, Width )
 					Case L_Circle
-						Return L_CircleWithCircle( X, Y, Width, Actor.X, Actor.Y, Actor.Width )
+						Return L_CircleWithCircle( X, Y, Width, Sprite.X, Sprite.Y, Sprite.Width )
 					Case L_Rectangle
-						Return L_CircleWithRectangle( X, Y, Width, Actor.X, Actor.Y, Actor.Width, Actor.Height )
+						Return L_CircleWithRectangle( X, Y, Width, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 				End Select
 			Case L_Rectangle
-				Select Actor.Shape
+				Select Sprite.Shape
 					Case L_Pivot
-						Return L_PivotWithRectangle( Actor.X, Actor.Y, X, Y, Width, Height )
+						Return L_PivotWithRectangle( Sprite.X, Sprite.Y, X, Y, Width, Height )
 					Case L_Circle
-						Return L_CircleWithRectangle( Actor.X, Actor.Y, Actor.Width, X, Y, Width, Height )
+						Return L_CircleWithRectangle( Sprite.X, Sprite.Y, Sprite.Width, X, Y, Width, Height )
 					Case L_Rectangle
-						Return L_RectangleWithRectangle( X, Y, Width, Height, Actor.X, Actor.Y, Actor.Width, Actor.Height )
+						Return L_RectangleWithRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 				End Select
 		End Select
 	End Method
@@ -99,61 +99,61 @@ Type LTActor Extends LTShape
 	
 	
 	
-	Method CollidesWithTile:Int( Actor:LTActor, DX:Float, DY:Float, XScale:Float, YScale:Float )
+	Method CollidesWithTile:Int( Sprite:LTSprite, DX:Float, DY:Float, XScale:Float, YScale:Float )
 		Select Shape
 			Case L_Pivot
-				Select Actor.Shape
+				Select Sprite.Shape
 					Case L_Pivot
-						Return L_PivotWithPivot( X, Y, Actor.X * XScale + DX, Actor.Y * YScale + DY )
+						Return L_PivotWithPivot( X, Y, Sprite.X * XScale + DX, Sprite.Y * YScale + DY )
 					Case L_Circle
-						Return L_PivotWithCircle( X, Y, Actor.X * XScale + DX, Actor.Y * YScale + DY, Actor.Width * XScale )
+						Return L_PivotWithCircle( X, Y, Sprite.X * XScale + DX, Sprite.Y * YScale + DY, Sprite.Width * XScale )
 					Case L_Rectangle
-						Return L_PivotWithRectangle( X, Y, Actor.X * XScale + DX, Actor.Y * YScale + DY, Actor.Width * XScale, Actor.Height * YScale )
+						Return L_PivotWithRectangle( X, Y, Sprite.X * XScale + DX, Sprite.Y * YScale + DY, Sprite.Width * XScale, Sprite.Height * YScale )
 				End Select
 			Case L_Circle
-				Select Actor.Shape
+				Select Sprite.Shape
 					Case L_Pivot
-						Return L_PivotWithCircle( Actor.X * XScale + DX, Actor.Y * YScale + DY, X, Y, Width )
+						Return L_PivotWithCircle( Sprite.X * XScale + DX, Sprite.Y * YScale + DY, X, Y, Width )
 					Case L_Circle
-						Return L_CircleWithCircle( X, Y, Width, Actor.X * XScale + DX, Actor.Y * YScale + DY, Actor.Width * XScale )
+						Return L_CircleWithCircle( X, Y, Width, Sprite.X * XScale + DX, Sprite.Y * YScale + DY, Sprite.Width * XScale )
 					Case L_Rectangle
-						Return L_CircleWithRectangle( X, Y, Width, Actor.X * XScale + DX, Actor.Y * YScale + DY, Actor.Width * XScale, Actor.Height * YScale )
+						Return L_CircleWithRectangle( X, Y, Width, Sprite.X * XScale + DX, Sprite.Y * YScale + DY, Sprite.Width * XScale, Sprite.Height * YScale )
 				End Select
 			Case L_Rectangle
-				Select Actor.Shape
+				Select Sprite.Shape
 					Case L_Pivot
-						Return L_PivotWithRectangle( Actor.X * XScale + DX, Actor.Y * YScale + DY, X, Y, Width, Height )
+						Return L_PivotWithRectangle( Sprite.X * XScale + DX, Sprite.Y * YScale + DY, X, Y, Width, Height )
 					Case L_Circle
-						Return L_CircleWithRectangle( Actor.X * XScale + DX, Actor.Y * YScale + DY, Actor.Width * XScale, X, Y, Width, Height )
+						Return L_CircleWithRectangle( Sprite.X * XScale + DX, Sprite.Y * YScale + DY, Sprite.Width * XScale, X, Y, Width, Height )
 					Case L_Rectangle
-						Return L_RectangleWithRectangle( X, Y, Width, Height, Actor.X * XScale + DX, Actor.Y * YScale + DY, Actor.Width * XScale, Actor.Height * YScale )
+						Return L_RectangleWithRectangle( X, Y, Width, Height, Sprite.X * XScale + DX, Sprite.Y * YScale + DY, Sprite.Width * XScale, Sprite.Height * YScale )
 				End Select
 		End Select
 	End Method
 	
 	
 	
-	Method OverlapsActor:Int( Actor:LTActor )
+	Method OverlapsSprite:Int( Sprite:LTSprite )
 		Select Shape
 			Case L_Pivot
 				L_Assert( false, " Pivot overlapping is not supported" )
 			Case L_Circle
-				Select Actor.Shape
+				Select Sprite.Shape
 					Case L_Pivot
-						Return L_CircleOverlapsCircle( X, Y, Width, Actor.X, Actor.Y, 0 )
+						Return L_CircleOverlapsCircle( X, Y, Width, Sprite.X, Sprite.Y, 0 )
 					Case L_Circle
-						Return L_CircleOverlapsCircle( X, Y, Width, Actor.X, Actor.Y, Actor.Width )
+						Return L_CircleOverlapsCircle( X, Y, Width, Sprite.X, Sprite.Y, Sprite.Width )
 					Case L_Rectangle
-						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Actor.X, Actor.Y, Actor.Width, Actor.Height )
+						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 				End Select
 			Case L_Rectangle
-				Select Actor.Shape
+				Select Sprite.Shape
 					Case L_Pivot
-						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Actor.X, Actor.Y, 0, 0 )
+						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, 0, 0 )
 					Case L_Circle
-						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Actor.X, Actor.Y, Actor.Width, Actor.Width )
+						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Width )
 					Case L_Rectangle
-						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Actor.X, Actor.Y, Actor.Width, Actor.Height )
+						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 				End Select
 		End Select
 		
@@ -162,51 +162,51 @@ Type LTActor Extends LTShape
 	
 	
 	Method CollisionsWith( Obj:LTActiveObject )
-		Obj.CollisionsWithActor( Self )
+		Obj.CollisionsWithSprite( Self )
 	End Method
 	
 	
 	
-	Method CollisionsWithActor( Actor:LTActor )
-		If CollidesWithActor( Actor ) Then Actor.HandleCollisionWith( Self )
+	Method CollisionsWithSprite( Sprite:LTSprite )
+		If CollidesWithSprite( Sprite ) Then Sprite.HandleCollisionWith( Self )
 	End Method
 	
 	' ==================== Wedging off ====================
 	
 	Method WedgeOffWith( Obj:LTActiveObject, SelfMass:Float, ShapeMass:Float )
-		Obj.WedgeOffWithActor( Self, ShapeMass, SelfMass )
+		Obj.WedgeOffWithSprite( Self, ShapeMass, SelfMass )
 	End Method
 
 
 	
-	Method WedgeOffWithActor( Actor:LTActor, SelfMass:Float, ActorMass:Float )
+	Method WedgeOffWithSprite( Sprite:LTSprite, SelfMass:Float, SpriteMass:Float )
 		Local DX:Float, DY:Float
 		Select Shape
 			Case L_Pivot
-				Select Actor.Shape
+				Select Sprite.Shape
 					Case L_Pivot
 					Case L_Circle
 					Case L_Rectangle
 				End Select
 			Case L_Circle
-				Select Actor.Shape
+				Select Sprite.Shape
 					Case L_Pivot
 					Case L_Circle
-						L_WedgingValuesOfCircleAndCircle( X, Y, Width, Actor.X, Actor.Y, Actor.Width, DX, DY )
-						L_Separate( Self, Actor, DX, DY, SelfMass, ActorMass )
+						L_WedgingValuesOfCircleAndCircle( X, Y, Width, Sprite.X, Sprite.Y, Sprite.Width, DX, DY )
+						L_Separate( Self, Sprite, DX, DY, SelfMass, SpriteMass )
 					Case L_Rectangle
-						L_WedgingValuesOfCircleAndRectangle( X, Y, Width, Actor.X, Actor.Y, Actor.Width, Actor.Height, DX, DY )
-						L_Separate( Self, Actor, DX, DY, SelfMass, ActorMass )
+						L_WedgingValuesOfCircleAndRectangle( X, Y, Width, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, DX, DY )
+						L_Separate( Self, Sprite, DX, DY, SelfMass, SpriteMass )
 				End Select
 			Case L_Rectangle
-				Select Actor.Shape
+				Select Sprite.Shape
 					Case L_Pivot
 					Case L_Circle
-						L_WedgingValuesOfCircleAndRectangle( Actor.X, Actor.Y, Actor.Width, X, Y, Width, Height, DX, DY )
-						L_Separate( Actor, Self, DX, DY, ActorMass, SelfMass )
+						L_WedgingValuesOfCircleAndRectangle( Sprite.X, Sprite.Y, Sprite.Width, X, Y, Width, Height, DX, DY )
+						L_Separate( Sprite, Self, DX, DY, SpriteMass, SelfMass )
 					Case L_Rectangle
-						L_WedgingValuesOfRectangleAndRectangle( X, Y, Width, Height, Actor.X, Actor.Y, Actor.Width, Actor.Height, DX, DY )
-						L_Separate( Self, Actor, DX, DY, SelfMass, ActorMass )
+						L_WedgingValuesOfRectangleAndRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, DX, DY )
+						L_Separate( Self, Sprite, DX, DY, SelfMass, SpriteMass )
 				End Select
 		End Select
 	End Method
@@ -214,47 +214,47 @@ Type LTActor Extends LTShape
 	
 	
 	Method PushFromTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
-		Local TileActor:LTActor = TileMap.GetTileTemplate( TileX, TileY )
+		Local TileSprite:LTSprite = TileMap.GetTileTemplate( TileX, TileY )
 		
 		?debug
-		L_Assert( TileActor <> Null, "Tile has no colliding shapes" )
+		L_Assert( TileSprite <> Null, "Tile has no colliding shapes" )
 		?
 		
 		Local CellWidth:Float = TileMap.GetCellWidth()
 		Local CellHeight:Float = TileMap.GetCellHeight()
-		PushFromTileActor( TileActor, TileMap.CornerX() + CellWidth * TileX, TileMap.CornerY() + CellHeight * TileY, CellWidth, CellHeight )
+		PushFromTileSprite( TileSprite, TileMap.CornerX() + CellWidth * TileX, TileMap.CornerY() + CellHeight * TileY, CellWidth, CellHeight )
 	End Method
 
 
 	
-	Method PushFromTileActor( TileActor:LTActor, DX:Float, DY:Float, XScale:Float, YScale:Float )
+	Method PushFromTileSprite( TileSprite:LTSprite, DX:Float, DY:Float, XScale:Float, YScale:Float )
 		Local PushingDX:Float, PushingDY:Float
 		Select Shape
 			Case L_Pivot
-				Select TileActor.Shape
+				Select TileSprite.Shape
 					Case L_Pivot
 					Case L_Circle
 					Case L_Rectangle
 				End Select
 			Case L_Circle
-				Select TileActor.Shape
+				Select TileSprite.Shape
 					Case L_Pivot
 					Case L_Circle
-						L_WedgingValuesOfCircleAndCircle( X, Y, Width, TileActor.X * XScale + DX, TileActor.Y * YScale + DY, TileActor.Width * XScale, PushingDX, PushingDY )
-						L_Separate( Self, TileActor, PushingDX, PushingDY, 0.0, 1.0 )
+						L_WedgingValuesOfCircleAndCircle( X, Y, Width, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, PushingDX, PushingDY )
+						L_Separate( Self, TileSprite, PushingDX, PushingDY, 0.0, 1.0 )
 					Case L_Rectangle
-						L_WedgingValuesOfCircleAndRectangle( X, Y, Width, TileActor.X * XScale + DX, TileActor.Y * YScale + DY, TileActor.Width * XScale, TileActor.Height * YScale, PushingDX, PushingDY )
-						L_Separate( Self, TileActor, PushingDX, PushingDY, 0.0, 1.0 )
+						L_WedgingValuesOfCircleAndRectangle( X, Y, Width, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, TileSprite.Height * YScale, PushingDX, PushingDY )
+						L_Separate( Self, TileSprite, PushingDX, PushingDY, 0.0, 1.0 )
 				End Select
 			Case L_Rectangle
-				Select TileActor.Shape
+				Select TileSprite.Shape
 					Case L_Pivot
 					Case L_Circle
-						L_WedgingValuesOfCircleAndRectangle( TileActor.X * XScale + DX, TileActor.Y * YScale + DY, TileActor.Width * XScale, X, Y, Width, Height, PushingDX, PushingDY )
-						L_Separate( TileActor, Self, PushingDX, PushingDY, 1.0, 0.0 )
+						L_WedgingValuesOfCircleAndRectangle( TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, X, Y, Width, Height, PushingDX, PushingDY )
+						L_Separate( TileSprite, Self, PushingDX, PushingDY, 1.0, 0.0 )
 					Case L_Rectangle
-						L_WedgingValuesOfRectangleAndRectangle( X, Y, Width, Height, TileActor.X * XScale + DX, TileActor.Y * YScale + DY, TileActor.Width * XScale, TileActor.Height * YScale, PushingDX, PushingDY )
-						L_Separate( Self, TileActor, PushingDX, PushingDY, 0.0, 1.0 )
+						L_WedgingValuesOfRectangleAndRectangle( X, Y, Width, Height, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, TileSprite.Height * YScale, PushingDX, PushingDY )
+						L_Separate( Self, TileSprite, PushingDX, PushingDY, 0.0, 1.0 )
 				End Select
 		End Select
 	End Method
@@ -298,9 +298,9 @@ Type LTActor Extends LTShape
 	bbdoc:
 	about:
 	EndRem
-	Method DistanceToActor:Float( Actor:LTActor )
-		Local DX:Float = X - Actor.X
-		Local DY:Float = Y - Actor.Y
+	Method DistanceToSprite:Float( Sprite:LTSprite )
+		Local DX:Float = X - Sprite.X
+		Local DY:Float = Y - Sprite.Y
 		Return Sqr( DX * DX + DY * DY )
 	End Method
 	
@@ -310,8 +310,8 @@ Type LTActor Extends LTShape
 	bbdoc:
 	about:
 	EndRem
-	Method IsAtPositionOfActor:Int( Actor:LTActor )
-		If Actor.X = X And Actor.Y = Y Then Return True
+	Method IsAtPositionOfSprite:Int( Sprite:LTSprite )
+		If Sprite.X = X And Sprite.Y = Y Then Return True
 	End Method
 	
 	
@@ -321,13 +321,13 @@ Type LTActor Extends LTShape
 	about:
 	EndRem
 	Method SetCoords( NewX:Float, NewY:Float )
-		If CollisionMap Then CollisionMap.RemoveActor( Self )
+		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
 		X = NewX
 		Y = NewY
 		
 		Update()
-		If CollisionMap Then CollisionMap.InsertActor( Self )
+		If CollisionMap Then CollisionMap.InsertSprite( Self )
 	End Method
 	
 	
@@ -337,13 +337,13 @@ Type LTActor Extends LTShape
 	about:
 	EndRem
 	Method AlterCoords( DX:Float, DY:Float )
-		If CollisionMap Then CollisionMap.RemoveActor( Self )
+		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
 		X :+ DX
 		Y :+ DY
 		
 		Update()
-		If CollisionMap Then CollisionMap.InsertActor( Self )
+		If CollisionMap Then CollisionMap.InsertSprite( Self )
 	End Method
 	
 	
@@ -353,13 +353,13 @@ Type LTActor Extends LTShape
 	about:
 	EndRem
 	Method SetCornerCoords( NewX:Float, NewY:Float )
-		If CollisionMap Then CollisionMap.RemoveActor( Self )
+		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
 		X = NewX + Width * 0.5
 		Y = NewY + Height * 0.5
 		
 		Update()
-		If CollisionMap Then CollisionMap.InsertActor( Self )
+		If CollisionMap Then CollisionMap.InsertSprite( Self )
 	End Method
 	
 	
@@ -368,16 +368,16 @@ Type LTActor Extends LTShape
 	bbdoc:
 	about:
 	EndRem
-	Method SetCoordsRelativeToActor( Actor:LTActor, NewX:Float, NewY:Float )
-		If CollisionMap Then CollisionMap.RemoveActor( Self )
+	Method SetCoordsRelativeToSprite( Sprite:LTSprite, NewX:Float, NewY:Float )
+		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
-		Local Angle:Float = DirectionToPoint( NewX, NewY ) + Actor.GetAngle()
+		Local Angle:Float = DirectionToPoint( NewX, NewY ) + Sprite.GetAngle()
 		Local Radius:Float = Sqr( NewX * NewX + NewY * NewY )
-		X = Actor.X + Radius * Cos( Angle )
-		Y = Actor.Y + Radius * Sin( Angle )
+		X = Sprite.X + Radius * Cos( Angle )
+		Y = Sprite.Y + Radius * Sin( Angle )
 		
 		Update()
-		If CollisionMap Then CollisionMap.InsertActor( Self )
+		If CollisionMap Then CollisionMap.InsertSprite( Self )
 	End Method
 	
 	
@@ -386,14 +386,14 @@ Type LTActor Extends LTShape
 	bbdoc:
 	about:
 	EndRem
-	Method JumpToActor( Actor:LTActor )
-		If CollisionMap Then CollisionMap.RemoveActor( Self )
+	Method JumpToSprite( Sprite:LTSprite )
+		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
-		X = Actor.X
-		Y = Actor.Y
+		X = Sprite.X
+		Y = Sprite.Y
 		
 		Update()
-		If CollisionMap Then CollisionMap.InsertActor( Self )
+		If CollisionMap Then CollisionMap.InsertSprite( Self )
 	End Method
 	
 	
@@ -403,12 +403,12 @@ Type LTActor Extends LTShape
 	about:
 	EndRem
 	Method SetMouseCoords()
-		If CollisionMap Then CollisionMap.RemoveActor( Self )
+		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
 		L_CurrentCamera.ScreenToField( MouseX(), MouseY(), X, Y )
 		
 		Update()
-		If CollisionMap Then CollisionMap.InsertActor( Self )
+		If CollisionMap Then CollisionMap.InsertSprite( Self )
 	End Method
 	
 	
@@ -417,22 +417,22 @@ Type LTActor Extends LTShape
 	bbdoc:
 	about:
 	EndRem
-	Method MoveTowardsActor( Actor:LTActor )
-		If CollisionMap Then CollisionMap.RemoveActor( Self )
+	Method MoveTowardsSprite( Sprite:LTSprite )
+		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
-		Local Angle:Float = DirectionToActor( Actor )
+		Local Angle:Float = DirectionToSprite( Sprite )
 		Local DX:Float = Cos( Angle ) * Velocity * L_DeltaTime
 		Local DY:Float = Sin( Angle ) * Velocity * L_DeltaTime
-		If Abs( DX ) >= Abs( X - Actor.X ) And Abs( DY ) >= Abs( Y - Actor.Y ) Then
-			X = Actor.X
-			Y = Actor.Y
+		If Abs( DX ) >= Abs( X - Sprite.X ) And Abs( DY ) >= Abs( Y - Sprite.Y ) Then
+			X = Sprite.X
+			Y = Sprite.Y
 		Else
 			X :+ DX
 			Y :+ DY
 		End If
 		
 		Update()
-		If CollisionMap Then CollisionMap.InsertActor( Self )
+		If CollisionMap Then CollisionMap.InsertSprite( Self )
 	End Method
 	
 	
@@ -442,13 +442,13 @@ Type LTActor Extends LTShape
 	about:
 	EndRem
 	Method MoveForward()
-		If CollisionMap Then CollisionMap.RemoveActor( Self )
+		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
 		X :+ GetDX() * L_DeltaTime
 		Y :+ GetDY() * L_DeltaTime
 		
 		Update()
-		If CollisionMap Then CollisionMap.InsertActor( Self )
+		If CollisionMap Then CollisionMap.InsertSprite( Self )
 	End Method
 	
 	
@@ -458,7 +458,7 @@ Type LTActor Extends LTShape
 	about:
 	EndRem
 	Method MoveUsingWSAD()
-		If CollisionMap Then CollisionMap.RemoveActor( Self )
+		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
 		Local DX:Float = KeyDown( Key_D ) - KeyDown( Key_A )
 		Local DY:Float = KeyDown( Key_S ) - KeyDown( Key_W )
@@ -470,7 +470,7 @@ Type LTActor Extends LTShape
 		Y :+ DY * Velocity * L_DeltaTime
 		
 		Update()
-		If CollisionMap Then CollisionMap.InsertActor( Self )
+		If CollisionMap Then CollisionMap.InsertSprite( Self )
 	End Method
 	
 	
@@ -479,14 +479,14 @@ Type LTActor Extends LTShape
 	bbdoc:
 	about:
 	EndRem
-	Method PlaceBetweenActors( Actor1:LTActor, Actor2:LTActor, K:Float )
-		If CollisionMap Then CollisionMap.RemoveActor( Self )
+	Method PlaceBetweenSprites( Sprite1:LTSprite, Sprite2:LTSprite, K:Float )
+		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
-		X = Actor1.X + ( Actor2.X - Actor1.X ) * K
-		Y = Actor1.Y + ( Actor2.Y - Actor1.Y ) * K
+		X = Sprite1.X + ( Sprite2.X - Sprite1.X ) * K
+		Y = Sprite1.Y + ( Sprite2.Y - Sprite1.Y ) * K
 		
 		Update()
-		If CollisionMap Then CollisionMap.InsertActor( Self )
+		If CollisionMap Then CollisionMap.InsertSprite( Self )
 	End Method
 	
 	' ==================== Size ====================
@@ -496,13 +496,13 @@ Type LTActor Extends LTShape
 	about:
 	EndRem
 	Method SetSize( NewWidth:Float, NewHeight:Float )
-		If CollisionMap Then CollisionMap.RemoveActor( Self )
+		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
 		Width = NewWidth
 		Height = NewHeight
 
 		Update()
-		If CollisionMap Then CollisionMap.InsertActor( Self )
+		If CollisionMap Then CollisionMap.InsertSprite( Self )
 	End Method
 	
 	
@@ -512,13 +512,13 @@ Type LTActor Extends LTShape
 	about:
 	EndRem
 	Method SetDiameter( NewDiameter:Float )
-		If CollisionMap Then CollisionMap.RemoveActor( Self )
+		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
 		Width = NewDiameter
 		Height = NewDiameter
 		
 		Update()
-		If CollisionMap Then CollisionMap.InsertActor( Self )
+		If CollisionMap Then CollisionMap.InsertSprite( Self )
 	End Method
 	
 	
@@ -534,12 +534,12 @@ Type LTActor Extends LTShape
 		L_Assert( ImageVisualizer <> Null, "Cannot correct Height: visual is not of LTImageVisual type" )
 		?
 		
-		If CollisionMap Then CollisionMap.RemoveActor( Self )
+		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
 		Height = Width * ImageHeight( ImageVisualizer.Image.BMaxImage ) / ImageWidth( ImageVisualizer.Image.BMaxImage )
 
 		Update()
-		If CollisionMap Then CollisionMap.InsertActor( Self )
+		If CollisionMap Then CollisionMap.InsertSprite( Self )
 	End Method
 	
 	' ==================== Angle ====================
@@ -568,8 +568,8 @@ Type LTActor Extends LTShape
 	bbdoc:
 	about:
 	EndRem
-	Method DirectAsActor( Actor:LTActor )
-		Angle = Actor.Angle
+	Method DirectAsSprite( Sprite:LTSprite )
+		Angle = Sprite.Angle
 	End Method
 	
 	
@@ -598,8 +598,8 @@ Type LTActor Extends LTShape
 	bbdoc:
 	about:
 	EndRem
-	Method DirectionToActor:Float( Actor:LTActor )
-		Return ATan2( Actor.Y - Y, Actor.X - X )
+	Method DirectionToSprite:Float( Sprite:LTSprite )
+		Return ATan2( Sprite.Y - Y, Sprite.X - X )
 	End Method
 	
 	
@@ -608,8 +608,8 @@ Type LTActor Extends LTShape
 	bbdoc:
 	about:
 	EndRem
-	Method DirectToActor( Actor:LTActor )
-		Angle = ATan2( Actor.Y - Y, Actor.X - X )
+	Method DirectToSprite( Sprite:LTSprite )
+		Angle = ATan2( Sprite.Y - Y, Sprite.X - X )
 	End Method
 	
 	' ==================== Moving vector ====================
@@ -744,18 +744,18 @@ Rem
 bbdoc:
 about:
 EndRem
-Type LTMoveActor Extends LTAction
-	Field Actor:LTActor
+Type LTMoveSprite Extends LTAction
+	Field Sprite:LTSprite
 	Field OldX:Float, OldY:Float
 	Field NewX:Float, NewY:Float
 	
 	
 	
-	Function Create:LTMoveActor( Actor:LTActor, X:Float = 0, Y:Float = 0 )
-		Local Action:LTMoveActor = New LTMoveActor
-		Action.Actor = Actor
-		Action.OldX = Actor.X
-		Action.OldY = Actor.Y
+	Function Create:LTMoveSprite( Sprite:LTSprite, X:Float = 0, Y:Float = 0 )
+		Local Action:LTMoveSprite = New LTMoveSprite
+		Action.Sprite = Sprite
+		Action.OldX = Sprite.X
+		Action.OldY = Sprite.Y
 		Action.NewX = X
 		Action.NewY = Y
 		Return Action
@@ -764,14 +764,14 @@ Type LTMoveActor Extends LTAction
 	
 	
 	Method Do()
-		Actor.SetCoords( NewX, NewY )
+		Sprite.SetCoords( NewX, NewY )
 		L_CurrentUndoList.AddFirst( Self )
 	End Method
 	
 	
 	
 	Method Undo()
-		Actor.SetCoords( OldX, OldY )
+		Sprite.SetCoords( OldX, OldY )
 		L_CurrentRedoList.AddFirst( Self )
 	End Method
 End Type

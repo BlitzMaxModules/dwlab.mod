@@ -268,7 +268,7 @@ Type LTXMLObject Extends LTObject
 					Local TypeID:TTypeId = TTypeId.ForName( Name )
 					
 					?debug
-					L_Assert( TypeID <> Null, "Object ~qLT" + Name + "~q not found" )
+					L_Assert( TypeID <> Null, "Object ~q" + Name + "~q not found" )
 					?
 					
 					Obj = LTObject( TypeID.NewObject() )

@@ -26,7 +26,7 @@ Type TGame Extends LTProject
 	Field NumbersFont:LTFont
 	Field GameCamera:LTCamera = New LTCamera
 	Field SidebarCamera:LTCamera = New LTCamera
-	Field Sidebar:LTActor = New LTActor
+	Field Sidebar:LTSprite = New LTSprite
 	Field LevelStartTime:Float
 	Field LevelTime:Float
 	Field LevelNum:Int
@@ -68,7 +68,7 @@ Type TGame Extends LTProject
 		TileMap.Visualizer = BlockVisualizer
 		TileMap.SetSize( 15.0, 14.0 )
 		TileMap.SetCoords( 6.0, 5.5 )
-		TileMap.TileActor = New LTActor[ TilesQuantity ]
+		TileMap.TileSprite = New LTSprite[ TilesQuantity ]
 		
 		EnemyImage = New LTImage[ EnemiesQuantity ]
 		EnemyImage[ TEnemy.Angel ] = LTImage.FromFile( "media\angel.png", 4, 1 )
@@ -94,7 +94,7 @@ Type TGame Extends LTProject
 		NumbersFont.SetFontScale( Scale, Scale )
 		
 		For Local N:Int = 1 Until TilesQuantity
-			Local Actor:LTActor
+			Local Sprite:LTSprite
 			If N < 32 Then
 				Select N
 					Case 0
@@ -110,24 +110,24 @@ Type TGame Extends LTProject
 							Case 15
 								Block.BlockType = TCollectableBlock.Badge
 						End Select
-						Actor = Block
-						Actor.Shape = L_Circle
+						Sprite = Block
+						Sprite.Shape = L_Circle
 					Default
-						Actor = New TExitBlock
-						Actor.Shape = L_Rectangle
+						Sprite = New TExitBlock
+						Sprite.Shape = L_Rectangle
 				End Select
 			ElseIf N < 32 Then
 				Local Block:TCollectableBlock = New TCollectableBlock
 				Block.BlockType = TCollectableBlock.Score
 				Block.Shape = L_Circle
-				Actor = Block
+				Sprite = Block
 			Else
-				Actor = New TBlock
-				Actor.Shape = L_Rectangle
+				Sprite = New TBlock
+				Sprite.Shape = L_Rectangle
 			End If
 			
-			Actor.SetCoords( 0.5, 0.5 )
-			TileMap.TileActor[ N ] = Actor
+			Sprite.SetCoords( 0.5, 0.5 )
+			TileMap.TileSprite[ N ] = Sprite
 		Next
 		
 		LoadLevel( 1 )
@@ -138,8 +138,8 @@ Type TGame Extends LTProject
 	Method Logic()
 		Objects.Act()
 		Bullets.Act()
-		For Local Actor:TGameActor = Eachin DestructingObjects
-			Actor.Fading()
+		For Local Sprite:TGameSprite = Eachin DestructingObjects
+			Sprite.Fading()
 		Next
 		FlashingVisualizer.Act()
 		If KeyHit( Key_Escape ) Then End
@@ -176,8 +176,8 @@ Type TGame Extends LTProject
 		
 		L_LoadFromFile( "levels\" + L_FirstZeroes( Num, 2 ) + ".xml" )
 	
-		For Local Actor:LTActor = Eachin Game.Objects
-			If Not TEnemyGenerator( Actor ) Then Game.CollisionMap.InsertActor( Actor )
+		For Local Sprite:LTSprite = Eachin Game.Objects
+			If Not TEnemyGenerator( Sprite ) Then Game.CollisionMap.InsertSprite( Sprite )
 		Next
 		
 		Game.LevelNum = Num

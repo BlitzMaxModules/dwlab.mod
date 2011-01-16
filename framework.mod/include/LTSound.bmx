@@ -9,7 +9,6 @@
 '
 
 Include "LTChannelPack.bmx"
-Include "LTMusic.bmx"
 
 Type LTSound Extends LTObject
 	Field BMaxSound:TSound

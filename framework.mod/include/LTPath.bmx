@@ -13,7 +13,7 @@ Type LTPath Extends LTObject
 	
 	
 	
-	Function Find:LTPath( FromPivot:LTActor, ToPivot:LTActor, Graph:LTGraph )
+	Function Find:LTPath( FromPivot:LTSprite, ToPivot:LTSprite, Graph:LTGraph )
 		Local ShortestPath:LTPath= New LTPath	
 	
 		Local Paths:TList = New TList
@@ -24,13 +24,13 @@ Type LTPath Extends LTObject
 		While Not Paths.IsEmpty()
 			Local NewPaths:TList = New TList
 			For Path = Eachin Paths
-				Local EndingPivot:LTActor = LTActor( Path.Last() )
+				Local EndingPivot:LTSprite = LTSprite( Path.Last() )
 				For Local Line:LTLine = Eachin TList( Graph.Pivots.ValueForKey( EndingPivot ) )
-					Local NextPivot:LTActor
+					Local NextPivot:LTSprite
 					If Line.Pivot[ 0 ] = EndingPivot Then NextPivot = Line.Pivot[ 1 ] Else NextPivot = Line.Pivot[ 0 ]
 					If Not Path.Contains( NextPivot ) Then
 						Local NewPath:TList = New TList
-						For Local Pivot:LTActor = Eachin Path
+						For Local Pivot:LTSprite = Eachin Path
 							NewPath.AddLast( Pivot )
 						Next
 						NewPath.AddLast( NextPivot )
@@ -44,10 +44,10 @@ Type LTPath Extends LTObject
 		
 		Local PathLength:Float = 0.0
 		For Path = Eachin RightPaths
-			Local Pivot1:LTActor = Null
+			Local Pivot1:LTSprite = Null
 			Local CurrentPathLength:Float
-			For Local Pivot2:LTActor = Eachin Path
-				If Pivot1 Then CurrentPathLength :+ Pivot1.DistanceToActor( Pivot2 )
+			For Local Pivot2:LTSprite = Eachin Path
+				If Pivot1 Then CurrentPathLength :+ Pivot1.DistanceToSprite( Pivot2 )
 				Pivot1 = Pivot2
 			Next
 			If CurrentPathLength < PathLength Or PathLength = 0.0 Then

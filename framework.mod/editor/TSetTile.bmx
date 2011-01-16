@@ -8,7 +8,7 @@
 ' code, or available from
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
-Type LTSetTile Extends LTDrag
+Type TSetTile Extends LTDrag
 	Method DraggingConditions:Int()
 		If MenuChecked( Editor.EditTilemap ) And Editor.MouseIsOver = Editor.MainCanvas Then Return True
 	End Method
@@ -22,12 +22,13 @@ Type LTSetTile Extends LTDrag
 	
 	
 	Method Dragging()
-		Editor.SetChanged()
 		Local Tilemap:LTTileMap = Editor.CurrentPage.Tilemap
+		If Not Tilemap Then Return
 		Local FrameMap:LTIntMap = TileMap.FrameMap
 		FrameMap.Value[ Editor.TileX, Editor.TileY ] = Editor.TileNum[ MouseDown( 2 ) ]
-		
-		If Editor.CurrentTileset Then
+		Editor.SetChanged()
+
+		If Editor.CurrentTileset And MenuChecked( Editor.ReplacementOfTiles ) Then
 			For Local DY:Int = -3 To 3
 				If Not Tilemap.Wrapped And ( Editor.TileY + DY < 0 Or Editor.TileY + DY >= FrameMap.YQuantity ) Then Continue
 				For Local DX:Int = -3 To 3

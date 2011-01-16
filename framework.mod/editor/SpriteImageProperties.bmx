@@ -11,7 +11,7 @@
 
 Global RealPathsForImages:TMap = New TMap
 	
-Function SpriteImageProperties:Int( Sprite:LTActor )
+Function SpriteImageProperties:Int( Sprite:LTSprite )
 	Local EditWindow:TGadget = CreateWindow( "Sprite type properties", 0.5 * ClientWidth( Desktop() ) - 252, 0.5 * ClientHeight( Desktop() ) - 320, 505, 639, Editor.Window, WINDOW_TITLEBAR|WINDOW_RESIZABLE )
 	CreateLabel( "Horizontal cells:", 180, 8, 75, 16, EditWindow, 0 )
 	Local XCellsTextField:TGadget = CreateTextField( 260, 5, 56, 20, EditWindow )
@@ -49,30 +49,40 @@ Function SpriteImageProperties:Int( Sprite:LTActor )
 		Cls
 		
 		If Image Then
-			SetScale( 1.0 * GraphicsWidth() / Image.Width, 1.0 * GraphicsWidth() / Image.Height )
-			DrawImage( Image, 0, 0 )
+			Local Modifier:Float = Min( 1.0 * GraphicsWidth() / Image.Width, 1.0 * GraphicsWidth() / Image.Height )
+			Local Width:Float = Modifier * Image.Width
+			Local Height:Float = Modifier * Image.Height
+			Local DX:Int = 0.5 * ( GraphicsWidth() - Width )
+			Local DY:Int = 0.5 * ( GraphicsHeight() - Height )
+			
+			SetScale( Modifier, Modifier )
+			DrawImage( Image, DX, DY )
 			SetScale( 1.0, 1.0 )
 			
 			if XCells > 0 And YCells > 0 Then
 				If Frame >= XCells * YCells Then Frame = XCells * YCells - 1
 				
 				SetColor( 255, 0, 255 )
-				For Local X:Int = 0 Until XCells
-					Local XX:Int = 480.0 * X / XCells
-					DrawLine( XX, 0, XX, 480 )
+				For Local X:Int = 0 To XCells
+					Local XX:Int = Width * X / XCells
+					DrawLine( DX + XX, DY, DX + XX, DY + Height )
 				Next
-				For Local Y:Int = 0 Until YCells
-					Local YY:Int = 480.0 * Y / YCells
-					DrawLine( 0, YY, 480, YY )
+				For Local Y:Int = 0 To YCells
+					Local YY:Int = Height * Y / YCells
+					DrawLine( DX, DY + YY, DX + Width, DY + YY )
 				Next
-				
-				Local Col:Int = ( Int( Millisecs() / 100 ) Mod 2 ) * 255
-				SetColor( Col, Col, Col )
-				Local X:Int = 480.0 * ( Frame Mod XCells ) / XCells
-				Local Y:Int = 480.0 * Floor( Frame / XCells ) / YCells
-				LTMarchingAnts.DrawMARect( X, Y, 480.0 / XCells + 1, 480.0 / YCells + 1 )
 				
 				SetColor( 255, 255, 255 )
+				
+				Local X:Int = Width * ( Frame Mod XCells ) / XCells
+				Local Y:Int = Height * Floor( Frame / XCells ) / YCells
+				LTMarchingAnts.DrawMARect( DX + X, DY + Y, Width / XCells + 1, Height / YCells + 1 )
+			End If
+			
+			If MouseDown( 1 ) Then
+				If MouseX() >= DX And MouseX() < DX + Width And MouseY() >= Dy And MouseY() < DY + Width Then
+					Frame = Floor( ( MouseX() - DX ) * XCells / Width ) + Floor( ( MouseY() - DY ) * YCells / Height ) * XCells
+				End If
 			End If
 		End If
 		
@@ -81,17 +91,11 @@ Function SpriteImageProperties:Int( Sprite:LTActor )
 		
 		PollEvent()
 		
-		If MouseDown( 1 ) Then
-			If MouseX() >= 0 And MouseX() < 480 And MouseY() >= 0 And MouseY() < 480 Then
-				Frame = Floor( MouseX() * XCells / 480.0 ) + Floor( MouseY() * YCells / 480.0 ) * XCells
-			End If
-		End If
-		
 		Select EventID()
 			Case Event_GadgetAction
 				Select EventSource()
 					Case LoadImageButton
-						Filename = RequestFile( "Select image..., ". "Image files:png,jpg,bmp" )
+						Filename = RequestFile( "Select image... ", "Image files:png,jpg,bmp" )
 						Filename = ChopFilename( Filename )
 						If Filename Then Image = LoadImage( Filename ) Else Image = Null
 					Case OKButton
@@ -136,7 +140,7 @@ End Function
 Function InitImage( Image:LTImage )
 	Local Filename:String = Image.Filename 
 	RealPathsForImages.Insert( Image, RealPath( Filename ) )
-	Local TilesetFilename:String = Filename[ ..Len( Filename ) - 3 ] + "xml"
+	Local TilesetFilename:String = Filename[ ..Len( Filename ) - 3 ] + "lts"
 	If FileType( TilesetFilename ) = 1 Then 
 		Local Tileset:LTTileset = LTTileset( L_LoadFromFile( TilesetFilename ) )
 		TilesetMap.Insert( Image, Tileset )

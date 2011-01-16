@@ -9,11 +9,11 @@
 '
 
 Type LTLine Extends LTShape
-	Field Pivot:LTActor[] = New LTActor[ 2 ]
+	Field Pivot:LTSprite[] = New LTSprite[ 2 ]
 	
 	
 	
-	Method Create:LTLine( Pivot1:LTActor, Pivot2:LTActor )
+	Method Create:LTLine( Pivot1:LTSprite, Pivot2:LTSprite )
 		Local Line:LTLine = New LTLine
 		Line.Pivot[ 0 ] = Pivot1
 		Line.Pivot[ 1 ] = Pivot2
@@ -40,14 +40,14 @@ Type LTLine Extends LTShape
 	
 	
 	
-	Method CollidesWithActor:Int( Actor:LTActor )
-		Select Actor.Shape
+	Method CollidesWithSprite:Int( Sprite:LTSprite )
+		Select Sprite.Shape
 			Case L_Pivot
-				'Return L_PivotWithLine( Actor, Self )
+				'Return L_PivotWithLine( Sprite, Self )
 			Case L_Circle
-				Return L_CircleWithLine( Actor.X, Actor.Y, Actor.Width, Pivot[ 0 ].X, Pivot[ 0 ].Y, Pivot[ 1 ].X, Pivot[ 1 ].Y )
+				Return L_CircleWithLine( Sprite.X, Sprite.Y, Sprite.Width, Pivot[ 0 ].X, Pivot[ 0 ].Y, Pivot[ 1 ].X, Pivot[ 1 ].Y )
 			Case L_Rectangle
-				'Return L_RectangleWithLine( Actor, Self )
+				'Return L_RectangleWithLine( Sprite, Self )
 		End Select
 	End Method
 
@@ -55,7 +55,7 @@ Type LTLine Extends LTShape
 
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
-		Pivot[ 0 ] = LTActor( XMLObject.ManageObjectField( "piv0", Pivot[ 0 ] ) )
-		Pivot[ 1 ] = LTActor( XMLObject.ManageObjectField( "piv1", Pivot[ 1 ] ) )
+		Pivot[ 0 ] = LTSprite( XMLObject.ManageObjectField( "piv0", Pivot[ 0 ] ) )
+		Pivot[ 1 ] = LTSprite( XMLObject.ManageObjectField( "piv1", Pivot[ 1 ] ) )
 	End Method
 End Type

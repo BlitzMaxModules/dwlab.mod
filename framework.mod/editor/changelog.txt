@@ -1,3 +1,17 @@
+1.1.2
++ Added tile replacement on/off button
++ Added tile prolonging (while replacing) on/off button
+
+1.1.1.1
++ Added some message windows
+* Changed extension of world files to "lw" and tile rules files to "lts"
+* Image in image selection dialog is now properly scaled instead of stretching over image canvas
+* Included skipped BMP loader, fixed image loading dialog
+* Fixed error with selected tile out of range while changing tileset
+* Fixed no selection of sprite or tilemap editing mode at first launch
+* Fixed crash while trying to select sprites with frame at first launch with no created sprites
+* Fixed crash while trying painting tiles on non-exisent tilemap
+
 1.1.1
 + Multiple tiles selecting for the rule
 * Rules' conditions changed to "tile of certain category" and "tile of other category"

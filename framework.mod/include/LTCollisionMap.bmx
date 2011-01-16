@@ -38,40 +38,40 @@ Type LTCollisionMap Extends LTMap
 	
 	' ==================== Insert / remove objects ====================
 	
-	Method InsertActor( Actor:LTActor )
-		Select Actor.Shape
+	Method InsertSprite( Sprite:LTSprite )
+		Select Sprite.Shape
 			Case L_Pivot
-				Objects[ Int( Actor.X / XScale ) & XMask, Int( Actor.Y / YScale ) & YMask ].AddLast( Actor )
+				Objects[ Int( Sprite.X / XScale ) & XMask, Int( Sprite.Y / YScale ) & YMask ].AddLast( Sprite )
 			Default
-				Local MapX1:Int = Floor( ( Actor.X - 0.5 * Actor.Width ) / XScale )
-				Local MapY1:Int = Floor( ( Actor.Y - 0.5 * Actor.Height ) / YScale )
-				Local MapX2:Int = Floor( ( Actor.X + 0.5 * Actor.Width - 0.000001 ) / XScale )
-				Local MapY2:Int = Floor( ( Actor.Y + 0.5 * Actor.Height - 0.000001 ) / YScale )
+				Local MapX1:Int = Floor( ( Sprite.X - 0.5 * Sprite.Width ) / XScale )
+				Local MapY1:Int = Floor( ( Sprite.Y - 0.5 * Sprite.Height ) / YScale )
+				Local MapX2:Int = Floor( ( Sprite.X + 0.5 * Sprite.Width - 0.000001 ) / XScale )
+				Local MapY2:Int = Floor( ( Sprite.Y + 0.5 * Sprite.Height - 0.000001 ) / YScale )
 				
 				For Local Y:Int = MapY1 To MapY2
 					For Local X:Int = MapX1 To MapX2
-						Objects[ X & XMask, Y & YMask ].AddFirst( Actor )
+						Objects[ X & XMask, Y & YMask ].AddFirst( Sprite )
 					Next
 				Next
 		End Select
-		Actor.CollisionMap = Self
+		Sprite.CollisionMap = Self
 	End Method
 	
 	
 	
-	Method RemoveActor( Actor:LTActor )
-		Select Actor.Shape
+	Method RemoveSprite( Sprite:LTSprite )
+		Select Sprite.Shape
 			Case L_Pivot
-				Objects[ Int( Actor.X / XScale ) & XMask, Int( Actor.Y / YScale ) & YMask ].Remove( Actor )
+				Objects[ Int( Sprite.X / XScale ) & XMask, Int( Sprite.Y / YScale ) & YMask ].Remove( Sprite )
 			Default
-				Local MapX1:Int = Floor( ( Actor.X - 0.5 * Actor.Width ) / XScale )
-				Local MapY1:Int = Floor( ( Actor.Y - 0.5 * Actor.Height ) / YScale )
-				Local MapX2:Int = Floor( ( Actor.X + 0.5 * Actor.Width - 0.000001 ) / XScale )
-				Local MapY2:Int = Floor( ( Actor.Y + 0.5 * Actor.Height - 0.000001 ) / YScale )
+				Local MapX1:Int = Floor( ( Sprite.X - 0.5 * Sprite.Width ) / XScale )
+				Local MapY1:Int = Floor( ( Sprite.Y - 0.5 * Sprite.Height ) / YScale )
+				Local MapX2:Int = Floor( ( Sprite.X + 0.5 * Sprite.Width - 0.000001 ) / XScale )
+				Local MapY2:Int = Floor( ( Sprite.Y + 0.5 * Sprite.Height - 0.000001 ) / YScale )
 				
 				For Local Y:Int = MapY1 To MapY2
 					For Local X:Int = MapX1 To MapX2
-						Objects[ X & XMask, Y & YMask ].Remove( Actor )
+						Objects[ X & XMask, Y & YMask ].Remove( Sprite )
 					Next
 				Next
 		End Select
@@ -79,24 +79,24 @@ Type LTCollisionMap Extends LTMap
 	
 	' ==================== Collisions ===================
 	
-	Method CollisionsWithActor( Actor:LTActor )
-		Select Actor.Shape
+	Method CollisionsWithSprite( Sprite:LTSprite )
+		Select Sprite.Shape
 			Case L_Pivot
-				For Local Obj:LTActiveObject = Eachin Objects[ Int( Actor.X / XScale ) & XMask, Int( Actor.Y / YScale ) & YMask ]
-					If Obj = Actor Then Continue
-					If Obj.CollidesWithActor( Actor ) Then Actor.HandleCollisionWith( Obj )
+				For Local Obj:LTActiveObject = Eachin Objects[ Int( Sprite.X / XScale ) & XMask, Int( Sprite.Y / YScale ) & YMask ]
+					If Obj = Sprite Then Continue
+					If Obj.CollidesWithSprite( Sprite ) Then Sprite.HandleCollisionWith( Obj )
 				Next
 			Default
-				Local MapX1:Int = Floor( ( Actor.X - 0.5 * Actor.Width ) / XScale )
-				Local MapY1:Int = Floor( ( Actor.Y - 0.5 * Actor.Height ) / YScale )
-				Local MapX2:Int = Floor( ( Actor.X + 0.5 * Actor.Width - 0.000001 ) / XScale )
-				Local MapY2:Int = Floor( ( Actor.Y + 0.5 * Actor.Height - 0.000001 ) / YScale )
+				Local MapX1:Int = Floor( ( Sprite.X - 0.5 * Sprite.Width ) / XScale )
+				Local MapY1:Int = Floor( ( Sprite.Y - 0.5 * Sprite.Height ) / YScale )
+				Local MapX2:Int = Floor( ( Sprite.X + 0.5 * Sprite.Width - 0.000001 ) / XScale )
+				Local MapY2:Int = Floor( ( Sprite.Y + 0.5 * Sprite.Height - 0.000001 ) / YScale )
 				
 				For Local Y:Int = MapY1 To MapY2
 					For Local X:Int = MapX1 To MapX2
 						For Local Obj:LTActiveObject = Eachin Objects[ X & XMask, Y & YMask ]
-							If Obj = Actor Then Continue
-							If Obj.CollidesWithActor( Actor ) Then Actor.HandleCollisionWith( Obj )
+							If Obj = Sprite Then Continue
+							If Obj.CollidesWithSprite( Sprite ) Then Sprite.HandleCollisionWith( Obj )
 						Next
 					Next
 				Next

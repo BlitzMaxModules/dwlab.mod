@@ -1,2 +1,2 @@
-Type TGoomba Extends LTActor
+Type TGoomba Extends LTSprite
 End Type

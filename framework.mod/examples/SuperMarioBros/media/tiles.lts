@@ -15,7 +15,6 @@
 		</LTTileRule>
 		<LTTileRule tilenums="3">
 			<LTTilePos dx="-1" tilenum="2"/>
-			<LTTilePos dx="-1" dy="-1"/>
 			<LTTilePos dy="-1"/>
 			<LTTilePos dx="1"/>
 			<LTTilePos dy="1" tilenum="7"/>

@@ -9,9 +9,9 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Type LTSelectSprites Extends LTDrag
+Type TSelectSprites Extends LTDrag
 	Field StartX:Float, StartY:Float
-	Field Frame:LTActor
+	Field Frame:LTSprite
 
 
 	Method DraggingConditions:Int()
@@ -29,7 +29,7 @@ Type LTSelectSprites Extends LTDrag
 	Method StartDragging()
 		StartX = Editor.Cursor.X
 		StartY = Editor.Cursor.Y
-		Frame = New LTActor
+		Frame = New LTSprite
 		Frame.Shape = L_Rectangle
 		Editor.SelectedSprites.Clear()
 		Editor.Modifiers.Clear()
@@ -47,8 +47,8 @@ Type LTSelectSprites Extends LTDrag
 	
 	
 	Method EndDragging()
-		For Local Sprite:LTActor = Eachin Editor.CurrentPage.Sprites
-			If Frame.OverlapsActor( Sprite ) Then Editor.SelectedSprites.AddLast( Sprite )
+		For Local Sprite:LTSprite = Eachin Editor.CurrentPage.Sprites
+			If Frame.OverlapsSprite( Sprite ) Then Editor.SelectedSprites.AddLast( Sprite )
 		Next
 		Editor.FillSpriteFields()
 		Frame = Null

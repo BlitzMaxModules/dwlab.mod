@@ -20,41 +20,41 @@
 				<Row data="0,116,117,98,115,114,99,116,117,0,0,0,116"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="HazardousBlock" shape="2" x="7.5" y="4.5" angle="270" velocity="2" frame="243">
+		<LTSprite name="HazardousBlock" shape="2" x="7.5" y="4.5" angle="270" velocity="2" frame="243">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Start" shape="1" x="0.5" y="4.5" frame="2">
+		</LTSprite>
+		<LTSprite name="Start" shape="1" x="0.5" y="4.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Generator" shape="1" x="6.5" y="0.5" angle="150" velocity="1" frame="2">
+		</LTSprite>
+		<LTSprite name="Generator" shape="1" x="6.5" y="0.5" angle="150" velocity="1" frame="2">
 			<LTImageVisualizer field="visualizer" blue="0" rotating="0">
 				<LTImage field="image" id="12" filename="media\reel.png" xcells="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Enemy1" shape="1" x="9" y="9.5" angle="210" velocity="1" frame="2">
+		</LTSprite>
+		<LTSprite name="Enemy1" shape="1" x="9" y="9.5" angle="210" velocity="1" frame="2">
 			<LTImageVisualizer field="visualizer" red="0" blue="0" rotating="0">
 				<LTImage field="image" id="15" filename="media\ufo.png" xcells="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Enemy2" shape="1" x="9" y="7" angle="150" velocity="1" frame="2">
+		</LTSprite>
+		<LTSprite name="Enemy2" shape="1" x="9" y="7" angle="150" velocity="1" frame="2">
 			<LTImageVisualizer field="visualizer" red="0" blue="0" rotating="0">
 				<Object field="image" id="15"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Enemy3" shape="1" x="3" y="6" angle="150" velocity="1" frame="2">
+		</LTSprite>
+		<LTSprite name="Enemy3" shape="1" x="3" y="6" angle="150" velocity="1" frame="2">
 			<LTImageVisualizer field="visualizer" red="0" blue="0" rotating="0">
 				<Object field="image" id="15"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Enemy4" shape="1" x="3" y="3" angle="150" velocity="1" frame="2">
+		</LTSprite>
+		<LTSprite name="Enemy4" shape="1" x="3" y="3" angle="150" velocity="1" frame="2">
 			<LTImageVisualizer field="visualizer" red="0" blue="0" rotating="0">
 				<Object field="image" id="15"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 2">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -74,36 +74,36 @@
 				<Row data="17,0,0,0,0,0,0,0,0,0,0,0,17"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start2" shape="1" x="1.5" y="5" frame="2">
+		<LTSprite name="Start2" shape="1" x="1.5" y="5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Enemy5" shape="1" x="8" y="2" angle="150" velocity="1">
+		</LTSprite>
+		<LTSprite name="Enemy5" shape="1" x="8" y="2" angle="150" velocity="1">
 			<LTImageVisualizer field="visualizer" blue="0" rotating="0">
 				<LTImage field="image" id="29" filename="media\ballwithsquare.png" xcells="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Enemy6" shape="1" x="4" y="1.5" angle="210" velocity="1">
+		</LTSprite>
+		<LTSprite name="Enemy6" shape="1" x="4" y="1.5" angle="210" velocity="1">
 			<LTImageVisualizer field="visualizer" blue="0" rotating="0">
 				<Object field="image" id="29"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Generator2" shape="1" x="10.5" y="5.5" angle="150" velocity="1">
+		</LTSprite>
+		<LTSprite name="Generator2" shape="1" x="10.5" y="5.5" angle="150" velocity="1">
 			<LTImageVisualizer field="visualizer" green="0" blue="0" xscale="-1" rotating="0">
 				<LTImage field="image" filename="media\sandwitch.png" xcells="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock2" shape="2" x="2" y="1" width="2" height="2" angle="270" velocity="2">
+		</LTSprite>
+		<LTSprite name="FadingBlock2" shape="2" x="2" y="1" width="2" height="2" angle="270" velocity="2">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<LTImage field="image" id="37" filename="media\fadingblocks.png" xcells="2"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock3" shape="2" x="11" y="1" width="2" height="2" angle="270" velocity="2">
+		</LTSprite>
+		<LTSprite name="FadingBlock3" shape="2" x="11" y="1" width="2" height="2" angle="270" velocity="2">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 3">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -123,66 +123,66 @@
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="FadingBlock4" shape="2" x="1" y="6" width="2" height="2" angle="270">
+		<LTSprite name="FadingBlock4" shape="2" x="1" y="6" width="2" height="2" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock5" shape="2" x="12" y="6" width="2" height="2" angle="270">
+		</LTSprite>
+		<LTSprite name="FadingBlock5" shape="2" x="12" y="6" width="2" height="2" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock6" shape="2" x="5" y="6" width="2" height="2" angle="270" frame="1">
+		</LTSprite>
+		<LTSprite name="FadingBlock6" shape="2" x="5" y="6" width="2" height="2" angle="270" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock7" shape="2" x="8" y="6" width="2" height="2" angle="270" frame="1">
+		</LTSprite>
+		<LTSprite name="FadingBlock7" shape="2" x="8" y="6" width="2" height="2" angle="270" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock1" shape="2" x="5.5" y="9.5" angle="450" velocity="2" frame="274">
+		</LTSprite>
+		<LTSprite name="HazardousBlock1" shape="2" x="5.5" y="9.5" angle="450" velocity="2" frame="274">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock2" shape="2" x="7.5" y="9.5" angle="450" velocity="2" frame="274">
+		</LTSprite>
+		<LTSprite name="HazardousBlock2" shape="2" x="7.5" y="9.5" angle="450" velocity="2" frame="274">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock3" shape="2" x="5.5" y="0.5" angle="450" velocity="2" frame="274">
+		</LTSprite>
+		<LTSprite name="HazardousBlock3" shape="2" x="5.5" y="0.5" angle="450" velocity="2" frame="274">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock4" shape="2" x="7.5" y="0.5" angle="450" velocity="2" frame="274">
+		</LTSprite>
+		<LTSprite name="HazardousBlock4" shape="2" x="7.5" y="0.5" angle="450" velocity="2" frame="274">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Start3" shape="1" x="0.5" y="11.5" frame="2">
+		</LTSprite>
+		<LTSprite name="Start3" shape="1" x="0.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Enemy7" shape="1" x="3" y="8" angle="150" velocity="1" frame="2">
+		</LTSprite>
+		<LTSprite name="Enemy7" shape="1" x="3" y="8" angle="150" velocity="1" frame="2">
 			<LTImageVisualizer field="visualizer" red="0" rotating="0">
 				<Object field="image" id="12"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Enemy8" shape="1" x="9" y="8" angle="30" velocity="1" frame="2">
+		</LTSprite>
+		<LTSprite name="Enemy8" shape="1" x="9" y="8" angle="30" velocity="1" frame="2">
 			<LTImageVisualizer field="visualizer" red="0" rotating="0">
 				<Object field="image" id="12"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Generator3" shape="1" x="6.5" y="11.5" angle="150" velocity="1">
+		</LTSprite>
+		<LTSprite name="Generator3" shape="1" x="6.5" y="11.5" angle="150" velocity="1">
 			<LTImageVisualizer field="visualizer" red="0" blue="0" xscale="-1" rotating="0">
 				<Object field="image" id="15"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 4">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -202,51 +202,51 @@
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="FadingBlock8" shape="2" x="6.5" y="8.5" width="3" angle="450" velocity="2">
+		<LTSprite name="FadingBlock8" shape="2" x="6.5" y="8.5" width="3" angle="450" velocity="2">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock9" shape="2" x="6.5" y="4.5" angle="450" velocity="2" frame="1">
+		</LTSprite>
+		<LTSprite name="FadingBlock9" shape="2" x="6.5" y="4.5" angle="450" velocity="2" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Start4" shape="1" x="2.5" y="10.5" frame="2">
+		</LTSprite>
+		<LTSprite name="Start4" shape="1" x="2.5" y="10.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Enemy9" shape="1" x="6.5" y="10.5" angle="150" velocity="1" frame="2">
+		</LTSprite>
+		<LTSprite name="Enemy9" shape="1" x="6.5" y="10.5" angle="150" velocity="1" frame="2">
 			<LTImageVisualizer field="visualizer" xscale="-1" rotating="0">
 				<LTImage field="image" id="78" filename="media\angel.png" xcells="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Enemy10" shape="1" x="4.5" y="0.5" angle="150" velocity="1" frame="2">
+		</LTSprite>
+		<LTSprite name="Enemy10" shape="1" x="4.5" y="0.5" angle="150" velocity="1" frame="2">
 			<LTImageVisualizer field="visualizer" xscale="-1" rotating="0">
 				<Object field="image" id="78"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Enemy11" shape="1" x="8.5" y="0.5" angle="150" velocity="1" frame="2">
+		</LTSprite>
+		<LTSprite name="Enemy11" shape="1" x="8.5" y="0.5" angle="150" velocity="1" frame="2">
 			<LTImageVisualizer field="visualizer" xscale="-1" rotating="0">
 				<Object field="image" id="78"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Enemy12" shape="1" x="3.5" y="6.5" angle="-30" velocity="1" frame="2">
+		</LTSprite>
+		<LTSprite name="Enemy12" shape="1" x="3.5" y="6.5" angle="-30" velocity="1" frame="2">
 			<LTImageVisualizer field="visualizer" blue="0" rotating="0">
 				<LTImage field="image" id="85" filename="media\pacman.png" xcells="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Enemy13" shape="1" x="9.5" y="6.5" angle="210" velocity="1" frame="2">
+		</LTSprite>
+		<LTSprite name="Enemy13" shape="1" x="9.5" y="6.5" angle="210" velocity="1" frame="2">
 			<LTImageVisualizer field="visualizer" blue="0" xscale="-1" rotating="0">
 				<Object field="image" id="85"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Generator4" shape="1" x="12.5" y="11.5" angle="210" velocity="1">
+		</LTSprite>
+		<LTSprite name="Generator4" shape="1" x="12.5" y="11.5" angle="210" velocity="1">
 			<LTImageVisualizer field="visualizer" xscale="-1" rotating="0">
 				<Object field="image" id="78"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 5">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -266,41 +266,41 @@
 				<Row data="0,0,0,0,0,194,194,192,193,42,0,194,194"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="HazardousBlock5" shape="2" x="10.5" y="5.5" angle="270" velocity="2" frame="243">
+		<LTSprite name="HazardousBlock5" shape="2" x="10.5" y="5.5" angle="270" velocity="2" frame="243">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock6" shape="2" x="0.5" y="5.5" angle="270" velocity="2" frame="243">
+		</LTSprite>
+		<LTSprite name="HazardousBlock6" shape="2" x="0.5" y="5.5" angle="270" velocity="2" frame="243">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Start5" shape="1" x="0.5" y="11.5" frame="2">
+		</LTSprite>
+		<LTSprite name="Start5" shape="1" x="0.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Generator5" shape="2" x="2" y="7" angle="150" velocity="1">
+		</LTSprite>
+		<LTSprite name="Generator5" shape="2" x="2" y="7" angle="150" velocity="1">
 			<LTImageVisualizer field="visualizer" xscale="-1" rotating="0">
 				<LTImage field="image" id="101" filename="media\pad.png" xcells="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Generator6" shape="2" x="3" y="4" angle="150" velocity="1">
+		</LTSprite>
+		<LTSprite name="Generator6" shape="2" x="3" y="4" angle="150" velocity="1">
 			<LTImageVisualizer field="visualizer" xscale="-1" rotating="0">
 				<Object field="image" id="101"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Generator7" shape="2" x="5" y="1" angle="150" velocity="1">
+		</LTSprite>
+		<LTSprite name="Generator7" shape="2" x="5" y="1" angle="150" velocity="1">
 			<LTImageVisualizer field="visualizer" xscale="-1" rotating="0">
 				<Object field="image" id="101"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Generator8" shape="2" x="9" y="2" angle="150" velocity="1">
+		</LTSprite>
+		<LTSprite name="Generator8" shape="2" x="9" y="2" angle="150" velocity="1">
 			<LTImageVisualizer field="visualizer" xscale="-1" rotating="0">
 				<Object field="image" id="101"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 6">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -320,31 +320,31 @@
 				<Row data="132,133,132,133,0,0,0,148,133,0,0,148,133"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="HazardousBlock7" shape="2" x="5.5" y="8.5" angle="270" velocity="2" frame="307">
+		<LTSprite name="HazardousBlock7" shape="2" x="5.5" y="8.5" angle="270" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock8" shape="2" x="10.5" y="6.5" angle="270" velocity="2" frame="307">
+		</LTSprite>
+		<LTSprite name="HazardousBlock8" shape="2" x="10.5" y="6.5" angle="270" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock9" shape="2" x="6.5" y="3.5" angle="270" velocity="2" frame="307">
+		</LTSprite>
+		<LTSprite name="HazardousBlock9" shape="2" x="6.5" y="3.5" angle="270" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock10" shape="2" x="2.5" y="5" height="10" angle="450" velocity="2">
+		</LTSprite>
+		<LTSprite name="FadingBlock10" shape="2" x="2.5" y="5" height="10" angle="450" velocity="2">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Start6" shape="1" x="9.5" y="8.5" frame="2">
+		</LTSprite>
+		<LTSprite name="Start6" shape="1" x="9.5" y="8.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 7">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -364,11 +364,11 @@
 				<Row data="0,0,0,0,0,0,0,0,0,0,49,168,169"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start7" shape="1" x="2.5" y="0.5" frame="2">
+		<LTSprite name="Start7" shape="1" x="2.5" y="0.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 8">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -388,21 +388,21 @@
 				<Row data="0,0,0,0,160,161,386,0,0,0,0,160,161"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="HazardousBlock10" shape="2" x="3.5" y="9.5" angle="270" velocity="2" frame="331">
+		<LTSprite name="HazardousBlock10" shape="2" x="3.5" y="9.5" angle="270" velocity="2" frame="331">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock11" shape="2" x="9.5" y="2.5" angle="270" velocity="2" frame="331">
+		</LTSprite>
+		<LTSprite name="HazardousBlock11" shape="2" x="9.5" y="2.5" angle="270" velocity="2" frame="331">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="Start8" shape="1" x="7.5" y="11.5" frame="2">
+		</LTSprite>
+		<LTSprite name="Start8" shape="1" x="7.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 9">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -422,16 +422,16 @@
 				<Row data="0,0,0,0,0,0,0,0,85,243,243,243,243"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start9" shape="1" x="4.5" y="11.5" frame="2">
+		<LTSprite name="Start9" shape="1" x="4.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock12" shape="2" x="7.5" y="6.5" angle="270" velocity="2" frame="261">
+		</LTSprite>
+		<LTSprite name="HazardousBlock12" shape="2" x="7.5" y="6.5" angle="270" velocity="2" frame="261">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 10">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -451,31 +451,31 @@
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start10" shape="1" x="0.5" y="0.5" frame="2">
+		<LTSprite name="Start10" shape="1" x="0.5" y="0.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock13" shape="2" x="2.5" y="11.5" angle="270" velocity="2" frame="313">
+		</LTSprite>
+		<LTSprite name="HazardousBlock13" shape="2" x="2.5" y="11.5" angle="270" velocity="2" frame="313">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock14" shape="2" x="5.5" y="11.5" angle="270" velocity="2" frame="313">
+		</LTSprite>
+		<LTSprite name="HazardousBlock14" shape="2" x="5.5" y="11.5" angle="270" velocity="2" frame="313">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock15" shape="2" x="8.5" y="11.5" angle="270" velocity="2" frame="313">
+		</LTSprite>
+		<LTSprite name="HazardousBlock15" shape="2" x="8.5" y="11.5" angle="270" velocity="2" frame="313">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock16" shape="2" x="11.5" y="11.5" angle="270" velocity="2" frame="313">
+		</LTSprite>
+		<LTSprite name="HazardousBlock16" shape="2" x="11.5" y="11.5" angle="270" velocity="2" frame="313">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 11">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -495,21 +495,21 @@
 				<Row data="292,291,292,0,0,0,0,0,0,0,291,292,291"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start11" shape="1" x="8.5" y="10.5" frame="2">
+		<LTSprite name="Start11" shape="1" x="8.5" y="10.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock17" shape="2" x="7.5" y="11.5" angle="270" velocity="2" frame="307">
+		</LTSprite>
+		<LTSprite name="HazardousBlock17" shape="2" x="7.5" y="11.5" angle="270" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock18" shape="2" x="5.5" y="0.5" angle="450" velocity="2" frame="307">
+		</LTSprite>
+		<LTSprite name="HazardousBlock18" shape="2" x="5.5" y="0.5" angle="450" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 12">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -529,16 +529,16 @@
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start12" shape="1" x="0.5" y="11.5" frame="2">
+		<LTSprite name="Start12" shape="1" x="0.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock11" shape="2" x="6.5" y="4.5" angle="450" velocity="2" frame="1">
+		</LTSprite>
+		<LTSprite name="FadingBlock11" shape="2" x="6.5" y="4.5" angle="450" velocity="2" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 13">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -558,16 +558,16 @@
 				<Row data="42,106,123,0,385,0,287,287,284,287,284,284,287"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start13" shape="1" x="2.5" y="0.5" frame="2">
+		<LTSprite name="Start13" shape="1" x="2.5" y="0.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock19" shape="2" x="5.5" y="5.5" angle="270" velocity="2" frame="274">
+		</LTSprite>
+		<LTSprite name="HazardousBlock19" shape="2" x="5.5" y="5.5" angle="270" velocity="2" frame="274">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 14">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -587,31 +587,31 @@
 				<Row data="0,0,0,0,0,0,0,0,262,0,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start14" shape="1" x="0.5" y="11" frame="2">
+		<LTSprite name="Start14" shape="1" x="0.5" y="11" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock12" shape="2" x="8.5" y="6" height="12" angle="270">
+		</LTSprite>
+		<LTSprite name="FadingBlock12" shape="2" x="8.5" y="6" height="12" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock20" shape="2" x="3.5" y="0.5" angle="450" velocity="2" frame="274">
+		</LTSprite>
+		<LTSprite name="HazardousBlock20" shape="2" x="3.5" y="0.5" angle="450" velocity="2" frame="274">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock21" shape="2" x="6.5" y="0.5" angle="450" velocity="2" frame="274">
+		</LTSprite>
+		<LTSprite name="HazardousBlock21" shape="2" x="6.5" y="0.5" angle="450" velocity="2" frame="274">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock22" shape="2" x="9.5" y="0.5" angle="450" velocity="2" frame="274">
+		</LTSprite>
+		<LTSprite name="HazardousBlock22" shape="2" x="9.5" y="0.5" angle="450" velocity="2" frame="274">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 15">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -631,51 +631,51 @@
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start15" shape="1" x="6.5" y="4.5" frame="2">
+		<LTSprite name="Start15" shape="1" x="6.5" y="4.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock13" shape="2" x="3.5" y="6.5" angle="270">
+		</LTSprite>
+		<LTSprite name="FadingBlock13" shape="2" x="3.5" y="6.5" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock14" shape="2" x="4.5" y="7.5" angle="270">
+		</LTSprite>
+		<LTSprite name="FadingBlock14" shape="2" x="4.5" y="7.5" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock15" shape="2" x="2.5" y="7.5" angle="270">
+		</LTSprite>
+		<LTSprite name="FadingBlock15" shape="2" x="2.5" y="7.5" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock16" shape="2" x="3.5" y="8.5" angle="270">
+		</LTSprite>
+		<LTSprite name="FadingBlock16" shape="2" x="3.5" y="8.5" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock17" shape="2" x="8.5" y="7.5" angle="270" frame="1">
+		</LTSprite>
+		<LTSprite name="FadingBlock17" shape="2" x="8.5" y="7.5" angle="270" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock18" shape="2" x="9.5" y="6.5" angle="270" frame="1">
+		</LTSprite>
+		<LTSprite name="FadingBlock18" shape="2" x="9.5" y="6.5" angle="270" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock19" shape="2" x="10.5" y="7.5" angle="270" frame="1">
+		</LTSprite>
+		<LTSprite name="FadingBlock19" shape="2" x="10.5" y="7.5" angle="270" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock20" shape="2" x="9.5" y="8.5" angle="270" frame="1">
+		</LTSprite>
+		<LTSprite name="FadingBlock20" shape="2" x="9.5" y="8.5" angle="270" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 16">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -695,21 +695,21 @@
 				<Row data="41,388,0,0,162,163,162,163,90,0,0,162,163"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start16" shape="1" x="10.5" y="11.5" frame="2">
+		<LTSprite name="Start16" shape="1" x="10.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock23" shape="2" x="2.5" y="7.5" angle="450" velocity="2" frame="243">
+		</LTSprite>
+		<LTSprite name="HazardousBlock23" shape="2" x="2.5" y="7.5" angle="450" velocity="2" frame="243">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock24" shape="2" x="9.5" y="7.5" angle="450" velocity="2" frame="243">
+		</LTSprite>
+		<LTSprite name="HazardousBlock24" shape="2" x="9.5" y="7.5" angle="450" velocity="2" frame="243">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 17">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -729,16 +729,16 @@
 				<Row data="0,0,0,0,0,0,0,203,203,203,203,203,203"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start17" shape="1" x="2.5" y="11.5" frame="2">
+		<LTSprite name="Start17" shape="1" x="2.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock25" shape="2" x="8.5" y="7.5" angle="450" velocity="2" frame="243">
+		</LTSprite>
+		<LTSprite name="HazardousBlock25" shape="2" x="8.5" y="7.5" angle="450" velocity="2" frame="243">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 18">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -758,11 +758,11 @@
 				<Row data="0,0,0,0,0,0,0,124,109,0,0,108,125"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start18" shape="1" x="0.5" y="11.5" frame="2">
+		<LTSprite name="Start18" shape="1" x="0.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 19">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -782,21 +782,21 @@
 				<Row data="130,147,0,0,30,146,147,30,0,0,0,146,131"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start19" shape="1" x="2.5" y="11.5" frame="2">
+		<LTSprite name="Start19" shape="1" x="2.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock26" shape="2" x="3.5" y="5.5" angle="450" velocity="2" frame="303">
+		</LTSprite>
+		<LTSprite name="HazardousBlock26" shape="2" x="3.5" y="5.5" angle="450" velocity="2" frame="303">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock27" shape="2" x="8.5" y="5.5" angle="450" velocity="2" frame="303">
+		</LTSprite>
+		<LTSprite name="HazardousBlock27" shape="2" x="8.5" y="5.5" angle="450" velocity="2" frame="303">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 20">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -816,21 +816,21 @@
 				<Row data="164,165,0,0,0,0,0,0,0,0,0,164,165"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start20" shape="1" x="2.5" y="11.5" frame="2">
+		<LTSprite name="Start20" shape="1" x="2.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock28" shape="2" x="2.5" y="0.5" angle="450" velocity="2" frame="258">
+		</LTSprite>
+		<LTSprite name="HazardousBlock28" shape="2" x="2.5" y="0.5" angle="450" velocity="2" frame="258">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock29" shape="2" x="11.5" y="0.5" angle="450" velocity="2" frame="258">
+		</LTSprite>
+		<LTSprite name="HazardousBlock29" shape="2" x="11.5" y="0.5" angle="450" velocity="2" frame="258">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 21">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -850,21 +850,21 @@
 				<Row data="0,327,327,327,0,0,0,0,0,327,327,327,0"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start21" shape="1" x="6.5" y="7.5" frame="2">
+		<LTSprite name="Start21" shape="1" x="6.5" y="7.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock30" shape="2" x="3.5" y="6.5" angle="450" velocity="2" frame="243">
+		</LTSprite>
+		<LTSprite name="HazardousBlock30" shape="2" x="3.5" y="6.5" angle="450" velocity="2" frame="243">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock31" shape="2" x="9.5" y="6.5" angle="450" velocity="2" frame="243">
+		</LTSprite>
+		<LTSprite name="HazardousBlock31" shape="2" x="9.5" y="6.5" angle="450" velocity="2" frame="243">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 22">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -884,31 +884,31 @@
 				<Row data="0,166,167,166,167,0,0,166,167,166,167,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start22" shape="1" x="0.5" y="4.5" frame="2">
+		<LTSprite name="Start22" shape="1" x="0.5" y="4.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock32" shape="2" x="2.5" y="5.5" angle="450" velocity="2" frame="247">
+		</LTSprite>
+		<LTSprite name="HazardousBlock32" shape="2" x="2.5" y="5.5" angle="450" velocity="2" frame="247">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock33" shape="2" x="5.5" y="6.5" angle="450" velocity="2" frame="247">
+		</LTSprite>
+		<LTSprite name="HazardousBlock33" shape="2" x="5.5" y="6.5" angle="450" velocity="2" frame="247">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock34" shape="2" x="8.5" y="6.5" angle="450" velocity="2" frame="247">
+		</LTSprite>
+		<LTSprite name="HazardousBlock34" shape="2" x="8.5" y="6.5" angle="450" velocity="2" frame="247">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock35" shape="2" x="12.5" y="11.5" angle="450" velocity="2" frame="247">
+		</LTSprite>
+		<LTSprite name="HazardousBlock35" shape="2" x="12.5" y="11.5" angle="450" velocity="2" frame="247">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 23">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -928,11 +928,11 @@
 				<Row data="0,0,0,0,170,171,170,171,0,0,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start23" shape="1" x="0.5" y="11.5" frame="2">
+		<LTSprite name="Start23" shape="1" x="0.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 24">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -952,21 +952,21 @@
 				<Row data="281,94,0,281,94,0,279,0,94,279,0,94,279"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start24" shape="1" x="6.5" y="10.5" frame="2">
+		<LTSprite name="Start24" shape="1" x="6.5" y="10.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock36" shape="2" x="5.5" y="6.5" angle="450" velocity="2" frame="274">
+		</LTSprite>
+		<LTSprite name="HazardousBlock36" shape="2" x="5.5" y="6.5" angle="450" velocity="2" frame="274">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock37" shape="2" x="7.5" y="6.5" angle="450" velocity="2" frame="274">
+		</LTSprite>
+		<LTSprite name="HazardousBlock37" shape="2" x="7.5" y="6.5" angle="450" velocity="2" frame="274">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 25">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -986,16 +986,16 @@
 				<Row data="53,0,392,0,0,0,0,0,0,0,392,0,18"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start25" shape="1" x="3.5" y="11.5" frame="2">
+		<LTSprite name="Start25" shape="1" x="3.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock38" shape="2" x="6.5" y="5.5" angle="450" velocity="2" frame="274">
+		</LTSprite>
+		<LTSprite name="HazardousBlock38" shape="2" x="6.5" y="5.5" angle="450" velocity="2" frame="274">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 26">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1015,21 +1015,21 @@
 				<Row data="53,0,0,170,171,0,0,0,170,171,0,0,26"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start26" shape="1" x="6.5" y="0.5" frame="2">
+		<LTSprite name="Start26" shape="1" x="6.5" y="0.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock21" shape="2" x="6.5" y="3.5" width="13" angle="270">
+		</LTSprite>
+		<LTSprite name="FadingBlock21" shape="2" x="6.5" y="3.5" width="13" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock22" shape="2" x="6.5" y="6.5" width="5" angle="270" frame="1">
+		</LTSprite>
+		<LTSprite name="FadingBlock22" shape="2" x="6.5" y="6.5" width="5" angle="270" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 27">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1049,11 +1049,11 @@
 				<Row data="328,0,0,0,0,0,328,0,0,0,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start27" shape="1" x="6.5" y="4.5" frame="2">
+		<LTSprite name="Start27" shape="1" x="6.5" y="4.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 28">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1073,26 +1073,26 @@
 				<Row data="0,0,0,0,156,0,0,0,156,0,0,0,18"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start28" shape="1" x="0.5" y="11.5" frame="2">
+		<LTSprite name="Start28" shape="1" x="0.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock39" shape="2" x="5.5" y="6.5" angle="450" velocity="2" frame="307">
+		</LTSprite>
+		<LTSprite name="HazardousBlock39" shape="2" x="5.5" y="6.5" angle="450" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock40" shape="2" x="6.5" y="6.5" angle="450" velocity="2" frame="307">
+		</LTSprite>
+		<LTSprite name="HazardousBlock40" shape="2" x="6.5" y="6.5" angle="450" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock41" shape="2" x="7.5" y="6.5" angle="450" velocity="2" frame="307">
+		</LTSprite>
+		<LTSprite name="HazardousBlock41" shape="2" x="7.5" y="6.5" angle="450" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 29">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1112,26 +1112,26 @@
 				<Row data="0,0,0,0,0,0,110,127,88,0,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start29" shape="1" x="4.5" y="3" frame="2">
+		<LTSprite name="Start29" shape="1" x="4.5" y="3" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock23" shape="2" x="7" y="5" width="2" height="2" angle="270">
+		</LTSprite>
+		<LTSprite name="FadingBlock23" shape="2" x="7" y="5" width="2" height="2" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock42" shape="2" x="1.5" y="3.5" angle="450" velocity="2" frame="313">
+		</LTSprite>
+		<LTSprite name="HazardousBlock42" shape="2" x="1.5" y="3.5" angle="450" velocity="2" frame="313">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock43" shape="2" x="1.5" y="9.5" angle="450" velocity="2" frame="313">
+		</LTSprite>
+		<LTSprite name="HazardousBlock43" shape="2" x="1.5" y="9.5" angle="450" velocity="2" frame="313">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 30">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1151,26 +1151,26 @@
 				<Row data="197,31,0,0,0,0,0,0,0,0,0,31,197"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start30" shape="1" x="6.5" y="8.5" frame="2">
+		<LTSprite name="Start30" shape="1" x="6.5" y="8.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock25" shape="2" x="6.5" y="2.5" angle="270">
+		</LTSprite>
+		<LTSprite name="FadingBlock25" shape="2" x="6.5" y="2.5" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock44" shape="2" x="1.5" y="9.5" angle="450" velocity="2" frame="247">
+		</LTSprite>
+		<LTSprite name="HazardousBlock44" shape="2" x="1.5" y="9.5" angle="450" velocity="2" frame="247">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock45" shape="2" x="11.5" y="9.5" angle="450" velocity="2" frame="247">
+		</LTSprite>
+		<LTSprite name="HazardousBlock45" shape="2" x="11.5" y="9.5" angle="450" velocity="2" frame="247">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 31">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1190,21 +1190,21 @@
 				<Row data="29,0,0,0,156,156,140,156,156,0,0,0,52"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start31" shape="1" x="0.5" y="8.5" frame="2">
+		<LTSprite name="Start31" shape="1" x="0.5" y="8.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock46" shape="2" x="4.5" y="2.5" angle="450" velocity="2" frame="247">
+		</LTSprite>
+		<LTSprite name="HazardousBlock46" shape="2" x="4.5" y="2.5" angle="450" velocity="2" frame="247">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock47" shape="2" x="8.5" y="2.5" angle="450" velocity="2" frame="247">
+		</LTSprite>
+		<LTSprite name="HazardousBlock47" shape="2" x="8.5" y="2.5" angle="450" velocity="2" frame="247">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 32">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1224,31 +1224,31 @@
 				<Row data="0,0,271,271,23,0,0,0,64,271,271,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start32" shape="1" x="2.5" y="0.5" frame="2">
+		<LTSprite name="Start32" shape="1" x="2.5" y="0.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock48" shape="2" x="1.5" y="5.5" angle="450" velocity="2" frame="258">
+		</LTSprite>
+		<LTSprite name="HazardousBlock48" shape="2" x="1.5" y="5.5" angle="450" velocity="2" frame="258">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock49" shape="2" x="6.5" y="1.5" angle="450" velocity="2" frame="258">
+		</LTSprite>
+		<LTSprite name="HazardousBlock49" shape="2" x="6.5" y="1.5" angle="450" velocity="2" frame="258">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock50" shape="2" x="11.5" y="5.5" angle="450" velocity="2" frame="258">
+		</LTSprite>
+		<LTSprite name="HazardousBlock50" shape="2" x="11.5" y="5.5" angle="450" velocity="2" frame="258">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock51" shape="2" x="6.5" y="11.5" angle="450" velocity="2" frame="258">
+		</LTSprite>
+		<LTSprite name="HazardousBlock51" shape="2" x="6.5" y="11.5" angle="450" velocity="2" frame="258">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 33">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1268,11 +1268,11 @@
 				<Row data="371,372,371,372,371,372,371,372,371,372,371,372,371"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start33" shape="1" x="0.5" y="8.5" frame="2">
+		<LTSprite name="Start33" shape="1" x="0.5" y="8.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 34">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1292,11 +1292,11 @@
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,58"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start34" shape="1" x="0.5" y="11.5" frame="2">
+		<LTSprite name="Start34" shape="1" x="0.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 35">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1316,21 +1316,21 @@
 				<Row data="0,0,0,0,0,0,0,158,0,0,0,0,53"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start35" shape="1" x="0.5" y="11.5" frame="2">
+		<LTSprite name="Start35" shape="1" x="0.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock55" shape="2" x="6.5" y="4.5" angle="450" velocity="2" frame="307">
+		</LTSprite>
+		<LTSprite name="HazardousBlock55" shape="2" x="6.5" y="4.5" angle="450" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock56" shape="2" x="8.5" y="4.5" angle="450" velocity="2" frame="307">
+		</LTSprite>
+		<LTSprite name="HazardousBlock56" shape="2" x="8.5" y="4.5" angle="450" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 36">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1350,31 +1350,31 @@
 				<Row data="77,0,0,0,0,0,257,0,0,0,0,0,77"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start36" shape="1" x="1.5" y="11.5" frame="2">
+		<LTSprite name="Start36" shape="1" x="1.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock57" shape="2" x="2.5" y="5.5" angle="450" velocity="2" frame="274">
+		</LTSprite>
+		<LTSprite name="HazardousBlock57" shape="2" x="2.5" y="5.5" angle="450" velocity="2" frame="274">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock58" shape="2" x="5.5" y="7.5" angle="450" velocity="2" frame="274">
+		</LTSprite>
+		<LTSprite name="HazardousBlock58" shape="2" x="5.5" y="7.5" angle="450" velocity="2" frame="274">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock59" shape="2" x="7.5" y="7.5" angle="450" velocity="2" frame="274">
+		</LTSprite>
+		<LTSprite name="HazardousBlock59" shape="2" x="7.5" y="7.5" angle="450" velocity="2" frame="274">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock60" shape="2" x="10.5" y="5.5" angle="450" velocity="2" frame="274">
+		</LTSprite>
+		<LTSprite name="HazardousBlock60" shape="2" x="10.5" y="5.5" angle="450" velocity="2" frame="274">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 37">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1394,36 +1394,36 @@
 				<Row data="0,0,0,0,0,0,0,0,70,134,135,57,0"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start37" shape="1" x="0.5" y="0.5" frame="2">
+		<LTSprite name="Start37" shape="1" x="0.5" y="0.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock61" shape="2" x="1.5" y="9.5" angle="450" velocity="2" frame="307">
+		</LTSprite>
+		<LTSprite name="HazardousBlock61" shape="2" x="1.5" y="9.5" angle="450" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock62" shape="2" x="2.5" y="7.5" angle="450" velocity="2" frame="307">
+		</LTSprite>
+		<LTSprite name="HazardousBlock62" shape="2" x="2.5" y="7.5" angle="450" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock63" shape="2" x="3.5" y="9.5" angle="450" velocity="2" frame="307">
+		</LTSprite>
+		<LTSprite name="HazardousBlock63" shape="2" x="3.5" y="9.5" angle="450" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock64" shape="2" x="4.5" y="10.5" angle="450" velocity="2" frame="307">
+		</LTSprite>
+		<LTSprite name="HazardousBlock64" shape="2" x="4.5" y="10.5" angle="450" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock65" shape="2" x="5.5" y="6.5" angle="450" velocity="2" frame="307">
+		</LTSprite>
+		<LTSprite name="HazardousBlock65" shape="2" x="5.5" y="6.5" angle="450" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 38">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1443,26 +1443,26 @@
 				<Row data="23,0,0,0,0,0,0,0,0,0,0,0,79"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start38" shape="1" x="1.5" y="11.5" frame="2">
+		<LTSprite name="Start38" shape="1" x="1.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock66" shape="2" x="6.5" y="11.5" angle="450" velocity="2" frame="243">
+		</LTSprite>
+		<LTSprite name="HazardousBlock66" shape="2" x="6.5" y="11.5" angle="450" velocity="2" frame="243">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock67" shape="2" x="2.5" y="6.5" angle="450" velocity="2" frame="243">
+		</LTSprite>
+		<LTSprite name="HazardousBlock67" shape="2" x="2.5" y="6.5" angle="450" velocity="2" frame="243">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock68" shape="2" x="10.5" y="6.5" angle="450" velocity="2" frame="243">
+		</LTSprite>
+		<LTSprite name="HazardousBlock68" shape="2" x="10.5" y="6.5" angle="450" velocity="2" frame="243">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 39">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1482,21 +1482,21 @@
 				<Row data="32,0,270,0,0,162,163,162,163,0,270,0,32"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start39" shape="1" x="7.5" y="7.5" frame="2">
+		<LTSprite name="Start39" shape="1" x="7.5" y="7.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock69" shape="2" x="3.5" y="1.5" angle="450" velocity="2" frame="313">
+		</LTSprite>
+		<LTSprite name="HazardousBlock69" shape="2" x="3.5" y="1.5" angle="450" velocity="2" frame="313">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock70" shape="2" x="9.5" y="1.5" angle="450" velocity="2" frame="313">
+		</LTSprite>
+		<LTSprite name="HazardousBlock70" shape="2" x="9.5" y="1.5" angle="450" velocity="2" frame="313">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 40">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1516,11 +1516,11 @@
 				<Row data="168,169,168,169,0,0,33,0,0,168,169,168,169"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start40" shape="1" x="0.5" y="5.5" frame="2">
+		<LTSprite name="Start40" shape="1" x="0.5" y="5.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 41">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1540,26 +1540,26 @@
 				<Row data="0,0,0,393,0,0,0,0,0,393,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start41" shape="1" x="0.5" y="11.5" frame="2">
+		<LTSprite name="Start41" shape="1" x="0.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock71" shape="2" x="5.5" y="4.5" angle="450" velocity="2" frame="243">
+		</LTSprite>
+		<LTSprite name="HazardousBlock71" shape="2" x="5.5" y="4.5" angle="450" velocity="2" frame="243">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock72" shape="2" x="6.5" y="8.5" angle="450" velocity="2" frame="243">
+		</LTSprite>
+		<LTSprite name="HazardousBlock72" shape="2" x="6.5" y="8.5" angle="450" velocity="2" frame="243">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock73" shape="2" x="7.5" y="6.5" angle="450" velocity="2" frame="243">
+		</LTSprite>
+		<LTSprite name="HazardousBlock73" shape="2" x="7.5" y="6.5" angle="450" velocity="2" frame="243">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 42">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1579,16 +1579,16 @@
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start42" shape="1" x="6.5" y="10.5" frame="2">
+		<LTSprite name="Start42" shape="1" x="6.5" y="10.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock74" shape="2" x="12.5" y="5.5" angle="450" velocity="2" frame="313">
+		</LTSprite>
+		<LTSprite name="HazardousBlock74" shape="2" x="12.5" y="5.5" angle="450" velocity="2" frame="313">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 43">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1608,11 +1608,11 @@
 				<Row data="22,0,0,374,0,0,0,0,0,374,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start43" shape="1" x="4.5" y="2.5" frame="2">
+		<LTSprite name="Start43" shape="1" x="4.5" y="2.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 44">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1632,31 +1632,31 @@
 				<Row data="215,215,215,215,215,215,215,215,215,215,215,215,231"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start44" shape="1" x="6.5" y="10.5" frame="2">
+		<LTSprite name="Start44" shape="1" x="6.5" y="10.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock75" shape="2" x="7.5" y="4.5" angle="450" velocity="2" frame="303">
+		</LTSprite>
+		<LTSprite name="HazardousBlock75" shape="2" x="7.5" y="4.5" angle="450" velocity="2" frame="303">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock76" shape="2" x="5.5" y="2.5" angle="450" velocity="2" frame="303">
+		</LTSprite>
+		<LTSprite name="HazardousBlock76" shape="2" x="5.5" y="2.5" angle="450" velocity="2" frame="303">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock77" shape="2" x="3.5" y="2.5" angle="450" velocity="2" frame="303">
+		</LTSprite>
+		<LTSprite name="HazardousBlock77" shape="2" x="3.5" y="2.5" angle="450" velocity="2" frame="303">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock78" shape="2" x="1.5" y="4.5" angle="450" velocity="2" frame="303">
+		</LTSprite>
+		<LTSprite name="HazardousBlock78" shape="2" x="1.5" y="4.5" angle="450" velocity="2" frame="303">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 45">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1676,41 +1676,41 @@
 				<Row data="159,296,156,0,0,156,159,296,143,0,156,159,23"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start45" shape="1" x="0.5" y="3.5" frame="2">
+		<LTSprite name="Start45" shape="1" x="0.5" y="3.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock79" shape="2" x="0.5" y="0.5" angle="450" velocity="2" frame="307">
+		</LTSprite>
+		<LTSprite name="HazardousBlock79" shape="2" x="0.5" y="0.5" angle="450" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock80" shape="2" x="2.5" y="0.5" angle="450" velocity="2" frame="307">
+		</LTSprite>
+		<LTSprite name="HazardousBlock80" shape="2" x="2.5" y="0.5" angle="450" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock81" shape="2" x="6.5" y="0.5" angle="450" velocity="2" frame="307">
+		</LTSprite>
+		<LTSprite name="HazardousBlock81" shape="2" x="6.5" y="0.5" angle="450" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock82" shape="2" x="8.5" y="0.5" angle="450" velocity="2" frame="307">
+		</LTSprite>
+		<LTSprite name="HazardousBlock82" shape="2" x="8.5" y="0.5" angle="450" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock83" shape="2" x="10.5" y="0.5" angle="450" velocity="2" frame="307">
+		</LTSprite>
+		<LTSprite name="HazardousBlock83" shape="2" x="10.5" y="0.5" angle="450" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock84" shape="2" x="12.5" y="0.5" angle="450" velocity="2" frame="307">
+		</LTSprite>
+		<LTSprite name="HazardousBlock84" shape="2" x="12.5" y="0.5" angle="450" velocity="2" frame="307">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 46">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1730,16 +1730,16 @@
 				<Row data="0,0,0,0,0,0,300,301,301,53,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start46" shape="1" x="0.5" y="11.5" frame="2">
+		<LTSprite name="Start46" shape="1" x="0.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock85" shape="2" x="6.5" y="1.5" angle="450" velocity="2" frame="258">
+		</LTSprite>
+		<LTSprite name="HazardousBlock85" shape="2" x="6.5" y="1.5" angle="450" velocity="2" frame="258">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 47">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1759,36 +1759,36 @@
 				<Row data="170,171,45,160,161,0,0,0,160,161,0,170,171"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start47" shape="1" x="6.5" y="11.5" frame="2">
+		<LTSprite name="Start47" shape="1" x="6.5" y="11.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock86" shape="2" x="6.5" y="0.5" angle="450" velocity="2" frame="280">
+		</LTSprite>
+		<LTSprite name="HazardousBlock86" shape="2" x="6.5" y="0.5" angle="450" velocity="2" frame="280">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock24" shape="2" x="1" y="4" width="2" height="2" angle="270" frame="1">
+		</LTSprite>
+		<LTSprite name="FadingBlock24" shape="2" x="1" y="4" width="2" height="2" angle="270" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock26" shape="2" x="12" y="4" width="2" height="2" angle="270" frame="1">
+		</LTSprite>
+		<LTSprite name="FadingBlock26" shape="2" x="12" y="4" width="2" height="2" angle="270" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock27" shape="2" x="4" y="7" width="2" height="2" angle="270">
+		</LTSprite>
+		<LTSprite name="FadingBlock27" shape="2" x="4" y="7" width="2" height="2" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="FadingBlock28" shape="2" x="9" y="7" width="2" height="2" angle="270">
+		</LTSprite>
+		<LTSprite name="FadingBlock28" shape="2" x="9" y="7" width="2" height="2" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 48">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1808,26 +1808,26 @@
 				<Row data="138,155,154,155,0,0,0,41,154,155,23,138,139"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start48" shape="1" x="0.5" y="1.5" frame="2">
+		<LTSprite name="Start48" shape="1" x="0.5" y="1.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock87" shape="2" x="4.5" y="4.5" angle="450" velocity="2" frame="247">
+		</LTSprite>
+		<LTSprite name="HazardousBlock87" shape="2" x="4.5" y="4.5" angle="450" velocity="2" frame="247">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock88" shape="2" x="7.5" y="4.5" angle="450" velocity="2" frame="247">
+		</LTSprite>
+		<LTSprite name="HazardousBlock88" shape="2" x="7.5" y="4.5" angle="450" velocity="2" frame="247">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock89" shape="2" x="10.5" y="4.5" angle="450" velocity="2" frame="247">
+		</LTSprite>
+		<LTSprite name="HazardousBlock89" shape="2" x="10.5" y="4.5" angle="450" velocity="2" frame="247">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 49">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1847,11 +1847,11 @@
 				<Row data="375,375,375,158,375,158,375,158,375,158,375,375,375"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start49" shape="1" x="0.5" y="6.5" frame="2">
+		<LTSprite name="Start49" shape="1" x="0.5" y="6.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 	<LTPage name="Level 50">
 		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
@@ -1871,30 +1871,30 @@
 				<Row data="0,53,26,309,0,0,26,0,0,310,26,53,0"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTActor name="Start50" shape="1" x="9.5" y="0.5" frame="2">
+		<LTSprite name="Start50" shape="1" x="9.5" y="0.5" frame="2">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock90" shape="2" x="12.5" y="11.5" angle="450" velocity="2" frame="247">
+		</LTSprite>
+		<LTSprite name="HazardousBlock90" shape="2" x="12.5" y="11.5" angle="450" velocity="2" frame="247">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock91" shape="2" x="0.5" y="11.5" angle="450" velocity="2" frame="247">
+		</LTSprite>
+		<LTSprite name="HazardousBlock91" shape="2" x="0.5" y="11.5" angle="450" velocity="2" frame="247">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock92" shape="2" x="4.5" y="1.5" angle="450" velocity="2" frame="247">
+		</LTSprite>
+		<LTSprite name="HazardousBlock92" shape="2" x="4.5" y="1.5" angle="450" velocity="2" frame="247">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
-		<LTActor name="HazardousBlock93" shape="2" x="8.5" y="1.5" angle="450" velocity="2" frame="247">
+		</LTSprite>
+		<LTSprite name="HazardousBlock93" shape="2" x="8.5" y="1.5" angle="450" velocity="2" frame="247">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
-		</LTActor>
+		</LTSprite>
 	</LTPage>
 </LTWorld>

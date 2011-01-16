@@ -9,7 +9,7 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Type LTMoveSprite Extends LTDrag
+Type TMoveSprite Extends LTDrag
 	Field StartX:Float, StartY:Float
 	Field LastDX:Float, LastDY:Float
 	
@@ -45,7 +45,7 @@ Type LTMoveSprite Extends LTDrag
 		Local DY:Float = Editor.Cursor.Y - StartY
 		Editor.Grid.Snap( DX, DY )
 		
-		For Local Sprite:LTActor = Eachin Editor.SelectedSprites
+		For Local Sprite:LTSprite = Eachin Editor.SelectedSprites
 			Sprite.X :+ DX - LastDX
 			Sprite.Y :+ DY - LastDY
 		Next
@@ -57,7 +57,7 @@ Type LTMoveSprite Extends LTDrag
 	
 	
 	Method EndDragging()
-		If Editor.SelectedSprites.Count() = 1 Then Editor.SelectSprite( LTActor( Editor.SelectedSprites.First() ) )
+		If Editor.SelectedSprites.Count() = 1 Then Editor.SelectSprite( LTSprite( Editor.SelectedSprites.First() ) )
 		Editor.SetChanged()
 	End Method
 End Type

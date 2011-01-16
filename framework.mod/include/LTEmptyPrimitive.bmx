@@ -13,14 +13,14 @@ Type LTEmptyPrimitive Extends LTVisualizer
 	
 	
 	
-	Method DrawUsingActor( Actor:LTActor )
+	Method DrawUsingSprite( Sprite:LTSprite )
 		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
 		SetAlpha( Alpha )
 		SetProperLineWidth()
 		
 		Local SX:Float, SY:Float, SWidth:Float, SHeight:Float
-		L_CurrentCamera.FieldToScreen( Actor.X, Actor.Y, SX, SY )
-		L_CurrentCamera.SizeFieldToScreen( Actor.Width * XScale, Actor.Height * YScale, SWidth, SHeight )
+		L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX, SY )
+		L_CurrentCamera.SizeFieldToScreen( Sprite.Width * XScale, Sprite.Height * YScale, SWidth, SHeight )
 		L_DrawEmptyRect( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
 		
 		SetLineWidth( 1.0 )

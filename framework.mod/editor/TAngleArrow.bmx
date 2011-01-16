@@ -9,19 +9,19 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Type LTAngleArrow Extends LTVisualizer
-	Method DrawUsingActor( Actor:LTActor )
+Type TAngleArrow Extends LTVisualizer
+	Method DrawUsingSprite( Sprite:LTSprite )
 		SetColor( Editor.Grid.Red, Editor.Grid.Green, Editor.Grid.Blue )
 
 		Local SX1:Float, SY1:Float, SWidth:Float, SHeight:Float
-		L_CurrentCamera.FieldToScreen( Actor.X, Actor.Y, SX1, SY1 )
-		L_CurrentCamera.SizeFieldToScreen( Actor.Width, Actor.Height, SWidth, SHeight )
+		L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX1, SY1 )
+		L_CurrentCamera.SizeFieldToScreen( Sprite.Width, Sprite.Height, SWidth, SHeight )
 		Local Size:Float = Max( SWidth, SHeight )
-		Local SX2:Float = SX1 + Cos( Actor.Angle ) * Size
-		Local SY2:Float = SY1 + Sin( Actor.Angle ) * Size
+		Local SX2:Float = SX1 + Cos( Sprite.Angle ) * Size
+		Local SY2:Float = SY1 + Sin( Sprite.Angle ) * Size
 		DrawLine( SX1, SY1, SX2, SY2 )
 		For Local D:Float = -135 To 135 Step 270
-			DrawLine( SX2, SY2, SX2 + 5.0 * Cos( Actor.Angle + D ), SY2 + 5.0 * Sin( Actor.Angle + D ) )
+			DrawLine( SX2, SY2, SX2 + 5.0 * Cos( Sprite.Angle + D ), SY2 + 5.0 * Sin( Sprite.Angle + D ) )
 		Next
 		
 		SetColor( 255, 255, 255 )

@@ -12,8 +12,8 @@ Global L_CurrentCamera:LTCamera
 Global L_CameraSpeed:Float = 2.0
 Global L_CameraMagnificationSpeed:Float = 2.0
 
-Type LTCamera Extends LTActor
-	Field Viewport:LTActor = New LTActor
+Type LTCamera Extends LTSprite
+	Field Viewport:LTSprite = New LTSprite
 	Field XK:Float = 1.0, YK:Float = 1.0
 	Field DX:Float, DY:Float
 	Field ViewportClipping:Int = 1
@@ -98,7 +98,7 @@ Type LTCamera Extends LTActor
 	
 	
 	
-	Method LimitWith( Rectangle:LTActor )
+	Method LimitWith( Rectangle:LTSprite )
 		Local X1:Float = Min( Rectangle.X, Rectangle.CornerX() + 0.5 * Width )
 		Local Y1:Float = Min( Rectangle.Y, Rectangle.CornerY() + 0.5 * Height )
 		Local X2:Float = Max( Rectangle.X, Rectangle.X + 0.5 * ( Rectangle.Width - Width ) )

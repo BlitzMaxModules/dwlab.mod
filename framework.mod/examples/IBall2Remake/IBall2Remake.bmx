@@ -56,13 +56,13 @@ Global Pri:LTFilledPrimitive = New LTFilledPrimitive
 Pri.SetColorFromHex( "FF0000" )
 Pri.Alpha = 0.5
 
-'Global TileExtractor:TTileExtractor = New TTileExtractor
-'TileExtractor.Execute(); End
+'Global TileExtrSprite:TTileExtrSprite = New TTileExtrSprite
+'TileExtrSprite.Execute(); End
 
 Global Game:TGame = New TGame
 
-'Global LevelExtractor:TLevelExtractor = New TLevelExtractor
-'LevelExtractor.Execute()'; End
+'Global LevelExtrSprite:TLevelExtrSprite = New TLevelExtrSprite
+'LevelExtrSprite.Execute()'; End
 'GenerateLevels()
 
 'include "../../tests.bmx"

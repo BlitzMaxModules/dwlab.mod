@@ -21,6 +21,12 @@ Type LTWorld Extends LTObject
 		Next
 	End Method
 	
+	
+	
+	Method FromFile:LTWorld( Filename:String )
+		Return LTWorld( L_LoadFromFile( Filename ) )
+	End Method
+	
 	' ==================== Saving / loading ====================
 	
 	Method XMLIO( XMLObject:LTXMLObject )

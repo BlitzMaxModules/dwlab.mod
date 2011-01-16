@@ -15,10 +15,10 @@ Global Shared:TSharedGameData = New TSharedGameData
 
 Type TSharedGameData Extends LTProject
 	Field Graph:LTGraph = New LTGraph
-	Field Player:LTActor = New LTActor
+	Field Player:LTSprite = New LTSprite
 	Field PlayerVisualizer:LTImageVisualizer = New LTImageVisualizer
-	Field PlayerPivot:LTActor
-	Field Background:LTActor = New LTActor
+	Field PlayerPivot:LTSprite
+	Field Background:LTSprite = New LTSprite
 	Field BackgroundVisualizer:LTImageVisualizer = New LTImageVisualizer
 	Field Path:LTPath = New LTPath
 	Field Events:TMap = New TMap
@@ -52,7 +52,7 @@ Type TSharedGameData Extends LTProject
 			If PlayerPivot Then
 				Path = LTPath.Find( PlayerPivot, Editor.CurrentPivot, Graph )
 			Else
-				Player.JumpToActor( Editor.CurrentPivot )
+				Player.JumpToSprite( Editor.CurrentPivot )
 				PlayerPivot = Editor.CurrentPivot
 			End If
 		End If
@@ -67,14 +67,14 @@ Type TSharedGameData Extends LTProject
 		End If
 		
 		If PlayerPivot Then
-			If Player.IsAtPositionOfActor( PlayerPivot ) And Not Path.Pivots.IsEmpty() Then
-				PlayerPivot = LTActor( Path.Pivots.First() )
-				Player.DirectToActor( PlayerPivot )
+			If Player.IsAtPositionOfSprite( PlayerPivot ) And Not Path.Pivots.IsEmpty() Then
+				PlayerPivot = LTSprite( Path.Pivots.First() )
+				Player.DirectToSprite( PlayerPivot )
 				Path.Pivots.RemoveFirst()
 			Else
-				Player.MoveTowardsActor( PlayerPivot )
+				Player.MoveTowardsSprite( PlayerPivot )
 			End If
-			If Not Player.IsAtPositionOfActor( PlayerPivot ) Then Player.Frame :+ ( Floor( Editor.ProjectTime * 5 ) Mod 5 ) * 5
+			If Not Player.IsAtPositionOfSprite( PlayerPivot ) Then Player.Frame :+ ( Floor( Editor.ProjectTime * 5 ) Mod 5 ) * 5
 		End If
 	End Method
 	
@@ -90,13 +90,13 @@ End Type
 
 
 
-Type TGlobalMapEvent Extends LTActor
+Type TGlobalMapEvent Extends LTSprite
 	Field Probability:Float
 	Field Caption:String
 	
 	
 	
-	Method DrawInfo( Pivot:LTActor )
+	Method DrawInfo( Pivot:LTSprite )
 		Shared.Font.Print( Caption + " ( " + L_TrimFloat( Probability * 100.0 ) + "% )", Pivot.X + 5, Pivot.Y, L_AlignToRight, L_AlignToCenter )
 	End Method
 	

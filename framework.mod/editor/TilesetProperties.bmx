@@ -12,9 +12,16 @@
 Global TilesetMap:TMap = New TMap
 
 Function TilesetProperties( Tilemap:LTTilemap )
-	If Not Tilemap Then Return
+	If Not Tilemap Then
+		Notify( "Create tilemap by visiting ''Edit/Tilemap settings'' first" )
+		Return
+	End if
+	
 	Local Image:LTImage = LTImageVisualizer( Tilemap.Visualizer ).Image
-	If Not Image Then Return
+	If Not Image Then
+		Notify( "Load tileset for tilemap by visiting ''Edit/Tileset Settings'' first" )
+		Return
+	End If
 	
 	Local Window:TGadget = CreateWindow( "Tileset editor", 0.5 * ClientWidth( Desktop() ) - 365, 0.5 * ClientHeight( Desktop() ) - 250, 760, 500, Editor.Window, Window_titlebar | Window_resizable )
 	MaximizeWindow( Window )
@@ -346,7 +353,7 @@ Function TilesetProperties( Tilemap:LTTilemap )
 	Forever
 	
 	FreeGadget( Window )
-	TIleset.SaveToFile( Image.Filename[ ..Len( Image.Filename ) - 3 ] + "xml" )
+	TIleset.SaveToFile( Image.Filename[ ..Len( Image.Filename ) - 3 ] + "lts" )
 	Tileset.Init()
 	Editor.SelectPage( Editor.CurrentPage )
 End Function

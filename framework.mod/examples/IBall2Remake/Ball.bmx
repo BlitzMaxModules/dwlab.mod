@@ -9,7 +9,7 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Type TGameActor Extends LTActor
+Type TGameSprite Extends LTSprite
 	Field FadingStartTime:Float
 	
 	
@@ -18,7 +18,7 @@ Type TGameActor Extends LTActor
 		FadingStartTime = Game.ProjectTime
 		'debugstop
 		Game.Objects.Remove( Self )
-		Game.CollisionMap.RemoveActor( Self )
+		Game.CollisionMap.RemoveSprite( Self )
 		Game.DestructingObjects.AddLast( Self )
 	End Method
 	
@@ -38,7 +38,7 @@ End Type
 
 
 
-Type TBall Extends TGameActor
+Type TBall Extends TGameSprite
 	Field LastShotTime:Float
 	Field ShotRate:Float = 0.5
 	
@@ -108,23 +108,23 @@ Type TBall Extends TGameActor
 		
 		'debugstop
 		MoveForward()
-		'Game.CollisionMap.CollisionsWithActor( Self )
+		'Game.CollisionMap.CollisionsWithSprite( Self )
 		CollisionsWith( Game.TileMap )
 	End Method
 	
 	
 	
-	Method HandleCollisionWithActor( Actor:LTActor )
+	Method HandleCollisionWithSprite( Sprite:LTSprite )
 		'debugstop
-		WedgeOffWith( Actor, 0.0, 1.0 )
+		WedgeOffWith( Sprite, 0.0, 1.0 )
 		
-		Bounce( Actor.X - X, Actor.Y - Y )
+		Bounce( Sprite.X - X, Sprite.Y - Y )
 	End Method
 	
 	
 	
 	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
-		Local Template:LTActor = TileMap.GetTileTemplate( TileX, TileY )
+		Local Template:LTSprite = TileMap.GetTileTemplate( TileX, TileY )
 		Local Block:TCollectableBlock = TCollectableBlock( Template )
 		If Block Then
 			Select Block.BlockType
@@ -146,8 +146,8 @@ Type TBall Extends TGameActor
 			'debugstop
 			PushFromTile( TileMap, TileX, TileY )
 
-			Local Actor:LTActor = TileMap.GetTile( TileX, TileY )
-			Bounce( Actor.X - X, Actor.Y - Y )
+			Local Sprite:LTSprite = TileMap.GetTile( TileX, TileY )
+			Bounce( Sprite.X - X, Sprite.Y - Y )
 		End If
 	End Method
 End Type
@@ -156,22 +156,22 @@ End Type
 
 
 
-Type TBullet Extends LTActor
+Type TBullet Extends LTSprite
 	Method Act()
 		MoveForward()
-		Game.CollisionMap.CollisionsWithActor( Self )
-		Game.TileMap.CollisionsWithActor( Self )
+		Game.CollisionMap.CollisionsWithSprite( Self )
+		Game.TileMap.CollisionsWithSprite( Self )
 	End Method
 	
 	
 	
-	Method HandleCollisionWithActor( Actor:LTActor )
-		If TBlock( Actor ) Then
+	Method HandleCollisionWithSprite( Sprite:LTSprite )
+		If TBlock( Sprite ) Then
 			Destroy()
-		ElseIf TEnemy( Actor ) Then
+		ElseIf TEnemy( Sprite ) Then
 			Destroy()
-			If Not TEnemy( Actor ).BulletProof Then
-				Actor.Destroy()
+			If Not TEnemy( Sprite ).BulletProof Then
+				Sprite.Destroy()
 				Game.Score :+ 10
 			End If
 		End If

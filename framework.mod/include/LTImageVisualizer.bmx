@@ -33,30 +33,30 @@ Type LTImageVisualizer Extends LTVisualizer
 	
 	
 	
-	Method DrawUsingActor( Actor:LTActor )
+	Method DrawUsingSprite( Sprite:LTSprite )
 		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
 		SetAlpha Alpha
 	
 		Local SX:Float, SY:Float, SWidth:Float, SHeight:Float
-		L_CurrentCamera.FieldToScreen( Actor.X, Actor.Y, SX, SY )
+		L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX, SY )
 		
 		If Rotating Then
-			SetRotation( Angle + Actor.Angle )
+			SetRotation( Angle + Sprite.Angle )
 		Else
 			SetRotation( Angle )
 		End If
 		
 		If Image Then
 			If Scaling Then
-				L_CurrentCamera.SizeFieldToScreen( Actor.Width, Actor.Height, SWidth, SHeight )
+				L_CurrentCamera.SizeFieldToScreen( Sprite.Width, Sprite.Height, SWidth, SHeight )
 				SetScale( XScale * SWidth / ImageWidth( Image.BMaxImage ), YScale * SHeight / ImageHeight( Image.BMaxImage ) )
 			Else
 				SetScale XScale, YScale
 			End If
 			
-			DrawImage( Image.BMaxImage, SX, SY, Actor.Frame )
+			DrawImage( Image.BMaxImage, SX, SY, Sprite.Frame )
 		Else
-			L_CurrentCamera.SizeFieldToScreen( Actor.Width, Actor.Height, SWidth, SHeight )
+			L_CurrentCamera.SizeFieldToScreen( Sprite.Width, Sprite.Height, SWidth, SHeight )
 			DrawRect( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
 		End If
 		
