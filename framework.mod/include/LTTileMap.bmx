@@ -47,6 +47,12 @@ Type LTTileMap Extends LTSprite
 		Return TileSprite[ FrameMap.Value[ TileX, TileY ] ]
 	End Method
 	
+	
+	
+	Method SetResolution( NewXQuantity:Int, NewYQuantity:Int )
+		FrameMap.SetResolution( NewXQuantity, NewYQuantity )
+	End Method
+	
 	' ==================== Drawing ===================	
 	
 	Method Draw()
@@ -61,7 +67,27 @@ Type LTTileMap Extends LTSprite
 	
 	' ==================== Collisions ===================
 	
-	Method CollisionsWithSprite( Sprite:LTSprite )
+	Method GetTileCollisionType( Sprite:LTSprite, TileX:Float, TileY:Float )
+		Local DX:Float = Sprite.X - TileX
+		Local DY:Float = Sprite.Y - TileY
+		If Abs( DX ) > Abs( DY ) Then
+			If DX < 0 Then Return L_Left Else Return L_Right
+		Else	
+			If DY < 0 Then Return L_Up Else Return L_Down
+		End If
+	End Method
+	
+	
+	
+	Method TileCollisionsWithList( List:LTList )
+		For Local Sprite:LTSprite = Eachin List
+			TileCollisionsWithSprite( Sprite )
+		Next
+	End Method
+	
+	
+	
+	Method TileCollisionsWithSprite( Sprite:LTSprite )
 		Local X0:Float = CornerX()
 		Local Y0:Float = CornerY()
 		Local CellWidth:Float = GetCellWidth()
@@ -90,14 +116,18 @@ Type LTTileMap Extends LTSprite
 					For Local X:Int = X1 To X2
 						Local TileSprite:LTSprite = TileSprite[ FrameMap.Value[ X, Y ] ]
 						If TileSprite Then
-							If Sprite.CollidesWithTile( TileSprite, X0 + CellWidth * X, Y0 + CellHeight * Y, CellWidth, CellHeight ) Then Sprite.HandleCollisionWithTile( Self, X, Y )
+							Local TileX:Float = X0 + CellWidth * X
+							Local TileY:Float =Y0 + CellHeight * Y
+							If Sprite.CollidesWithTile( TileSprite, TileX, TileY, CellWidth, CellHeight ) Then
+								Sprite.HandleCollisionWithTile( Self, X, Y, GetTileCollisionType( Sprite, TileSprite.X * CellWidth + TileX, TileSprite.Y * YScale + CellHeight ) )
+							End If
 						End If
 					Next
 				Next
 		End Select
 	End Method
 	
-	
+	' ==================== Enframing ===================	
 	
 	Method EnframeBy( Tileset:LTTileset )
 		For Local Y:Int = 0 Until FrameMap.YQuantity
@@ -121,6 +151,22 @@ Type LTTileMap Extends LTSprite
 	End Function
 	
 	' ==================== Saving / loading ===================
+	
+	Method CloneTileMap:LTTileMap()
+		Local TileMap:LTTileMap = New LTTileMap
+		CopySpriteTo( TileMap )
+		TileMap.TileSprite = TileSprite
+		TileMap.TilesQuantity = TilesQuantity
+		TileMap.Wrapped = Wrapped
+		TileMap.SetResolution( FrameMap.XQuantity, FrameMap.YQuantity )
+		For Local Y:Int = 0 Until YQuantity
+			For Local X:Int = 0 Until XQuantity
+				TileMap.FrameMap[ X, Y ] = FrameMap[ X, Y ]
+			Next
+		Next
+	End Method
+	
+	
 	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )

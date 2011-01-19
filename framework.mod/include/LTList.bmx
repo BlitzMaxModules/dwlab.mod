@@ -55,6 +55,27 @@ Type LTList Extends LTObject
 			Line.CollisionsWith( Obj )
 		Next
 	End Method
+	
+	
+	
+	Method CollisionsWithSelf()
+		Local Link1:TLink = Children.FirstLink()
+		Local Obj1:LTActiveObject = LTActiveObject( Link1.Value() )
+		Repeat
+			Local Link2:TLink = Link1
+			If Not Link2 Then Exit
+			Repeat
+				Local Obj2:LTActiveObject = LTActiveObject( Link2.Value() )
+				If Obj1.CollidesWith( Obj2 ) Then
+					Obj1.HandleCollisionWith( Obj2, Obj1.GetCollisionType( Obj2 ) )
+					Obj2.HandleCollisionWith( Obj1 )
+				End If
+				Link2 = Link2.NextLink()
+			Until Not Link2
+		
+			Link1 = Link1.NextLink()
+		Forever
+	End Method
 		
 	' ==================== Pushing ====================
 	

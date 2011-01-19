@@ -17,6 +17,11 @@ Const L_Pivot:Int = 0
 Const L_Circle:Int = 1
 Const L_Rectangle:Int = 2
 
+Const L_Left:Int = 0
+Const L_Right:Int = 1
+Const L_Up:Int = 2
+Const L_Down:Int = 3
+
 Rem
 bbdoc:Main shape for moving objects
 about:
@@ -45,6 +50,18 @@ Type LTSprite Extends LTShape
 	End Method
 	
 	' ==================== Collisions ===================
+	
+	Method GetCollisionType:Int( Sprite:LTSprite )
+		Local DX:Float = Sprite.X - X
+		Local DY:Float = Sprite.Y - Y
+		If Abs( DX ) > Abs( DY ) Then
+			If DX < 0 Then Return L_Left Else Return L_Right
+		Else	
+			If DY < 0 Then Return L_Up Else Return L_Down
+		End If
+	End Method
+	
+	
 	
 	Method CollidesWith:Int( Obj:LTActiveObject )
 		Return Obj.CollidesWithSprite( Self )
@@ -168,7 +185,7 @@ Type LTSprite Extends LTShape
 	
 	
 	Method CollisionsWithSprite( Sprite:LTSprite )
-		If CollidesWithSprite( Sprite ) Then Sprite.HandleCollisionWith( Self )
+		If CollidesWithSprite( Sprite ) Then Sprite.HandleCollisionWith( Self, GetCollisionType( Sprite ) )
 	End Method
 	
 	' ==================== Wedging off ====================
@@ -185,40 +202,41 @@ Type LTSprite Extends LTShape
 			Case L_Pivot
 				Select Sprite.Shape
 					Case L_Pivot
+						Return
 					Case L_Circle
+						L_WedgingValuesOfCircleAndCircle( X, Y, 0, Sprite.X, Sprite.Y, Sprite.Width, DX, DY )
 					Case L_Rectangle
+						L_WedgingValuesOfRectangleAndRectangle( X, Y, 0, 0, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, DX, DY )
 				End Select
 			Case L_Circle
 				Select Sprite.Shape
 					Case L_Pivot
+						L_WedgingValuesOfCircleAndCircle( X, Y, Width, Sprite.X, Sprite.Y, 0, DX, DY )
 					Case L_Circle
 						L_WedgingValuesOfCircleAndCircle( X, Y, Width, Sprite.X, Sprite.Y, Sprite.Width, DX, DY )
-						L_Separate( Self, Sprite, DX, DY, SelfMass, SpriteMass )
 					Case L_Rectangle
 						L_WedgingValuesOfCircleAndRectangle( X, Y, Width, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, DX, DY )
-						L_Separate( Self, Sprite, DX, DY, SelfMass, SpriteMass )
 				End Select
 			Case L_Rectangle
 				Select Sprite.Shape
 					Case L_Pivot
+						L_WedgingValuesOfRectangleAndRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, 0, 0, DX, DY )
 					Case L_Circle
 						L_WedgingValuesOfCircleAndRectangle( Sprite.X, Sprite.Y, Sprite.Width, X, Y, Width, Height, DX, DY )
 						L_Separate( Sprite, Self, DX, DY, SpriteMass, SelfMass )
+						Return
 					Case L_Rectangle
 						L_WedgingValuesOfRectangleAndRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, DX, DY )
-						L_Separate( Self, Sprite, DX, DY, SelfMass, SpriteMass )
 				End Select
 		End Select
+		L_Separate( Self, Sprite, DX, DY, SelfMass, SpriteMass )
 	End Method
 	
 	
 	
 	Method PushFromTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
 		Local TileSprite:LTSprite = TileMap.GetTileTemplate( TileX, TileY )
-		
-		?debug
-		L_Assert( TileSprite <> Null, "Tile has no colliding shapes" )
-		?
+		If Not TileSprite Then Return
 		
 		Local CellWidth:Float = TileMap.GetCellWidth()
 		Local CellHeight:Float = TileMap.GetCellHeight()
@@ -233,30 +251,34 @@ Type LTSprite Extends LTShape
 			Case L_Pivot
 				Select TileSprite.Shape
 					Case L_Pivot
+						Return
 					Case L_Circle
+						L_WedgingValuesOfCircleAndCircle( X, Y, 0, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, PushingDX, PushingDY )
 					Case L_Rectangle
+						L_WedgingValuesOfRectangleAndRectangle( X, Y, 0, 0, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, TileSprite.Height * YScale, PushingDX, PushingDY )
 				End Select
 			Case L_Circle
 				Select TileSprite.Shape
 					Case L_Pivot
+						L_WedgingValuesOfCircleAndCircle( X, Y, Width, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, 0, PushingDX, PushingDY )
 					Case L_Circle
 						L_WedgingValuesOfCircleAndCircle( X, Y, Width, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, PushingDX, PushingDY )
-						L_Separate( Self, TileSprite, PushingDX, PushingDY, 0.0, 1.0 )
 					Case L_Rectangle
 						L_WedgingValuesOfCircleAndRectangle( X, Y, Width, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, TileSprite.Height * YScale, PushingDX, PushingDY )
-						L_Separate( Self, TileSprite, PushingDX, PushingDY, 0.0, 1.0 )
 				End Select
 			Case L_Rectangle
 				Select TileSprite.Shape
 					Case L_Pivot
+						L_WedgingValuesOfRectangleAndRectangle( X, Y, Width, Height, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, 0, 0, PushingDX, PushingDY )
 					Case L_Circle
 						L_WedgingValuesOfCircleAndRectangle( TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, X, Y, Width, Height, PushingDX, PushingDY )
 						L_Separate( TileSprite, Self, PushingDX, PushingDY, 1.0, 0.0 )
+						Return
 					Case L_Rectangle
 						L_WedgingValuesOfRectangleAndRectangle( X, Y, Width, Height, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, TileSprite.Height * YScale, PushingDX, PushingDY )
-						L_Separate( Self, TileSprite, PushingDX, PushingDY, 0.0, 1.0 )
 				End Select
 		End Select
+		L_Separate( Self, TileSprite, PushingDX, PushingDY, 0.0, 1.0 )
 	End Method
 
 
@@ -721,6 +743,20 @@ Type LTSprite Extends LTShape
 	End Method
 	
 	' ==================== Other ====================
+	
+	Method CopySpriteTo( Sprite:LTSprite )
+		Sprite.Shape = Shape
+		Sprite.X = X
+		Sprite.Y = Y
+		Sprite.Width = Width
+		Sprite.Height = Height
+		Sprite.Angle = Angle
+		Sprite.Velocity = Velocity
+		Sprite.Frame = Frame
+		Sprite.Visualizer = Visualizer
+	End Method
+	
+	
 	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )

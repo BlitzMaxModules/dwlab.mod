@@ -25,6 +25,10 @@ Type LTActiveObject Extends LTObject
 	
 	' ==================== Collisions ===================
 	
+	Method GetCollisionType:Int( Sprite:LTSprite )
+	End Method
+	
+	
 	Rem
 	bbdoc:Checks if objects collide.
 	returns:True if objects collide.
@@ -65,7 +69,7 @@ Type LTActiveObject Extends LTObject
 	bbdoc:
 	about:
 	EndRem
-	Method HandleCollisionWith( Obj:LTObject )
+	Method HandleCollisionWith( Obj:LTActiveObject, CollisionType:Int )
 	End Method
 	
 	
@@ -74,7 +78,7 @@ Type LTActiveObject Extends LTObject
 	bbdoc:
 	about:
 	EndRem
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
+	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
 	End Method
 	
 	' ==================== Pushing ====================

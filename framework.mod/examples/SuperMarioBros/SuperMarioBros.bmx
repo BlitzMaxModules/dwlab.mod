@@ -22,12 +22,10 @@ SetAudioDriver( "DirectSound" )
 
 Include "../../framework.bmx"
 
-Include "Game.bmx"
-Include "Mario.bmx"
-Include "Enemy.bmx"
-Include "Mushrooms.bmx"
-
-InitCamera()
+Include "TGame.bmx"
+Include "TMario.bmx"
+Include "TMovingObject.bmx"
+Include "TMushroom.bmx"
 
 Global Game:TGame = New TGame
 Game.Execute()

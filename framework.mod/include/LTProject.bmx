@@ -19,7 +19,12 @@ Type LTProject Extends LTObject
 	Field Pass:Int
 	Field ProjectTime:Float
 	
+	Field World:LTWorld
+	Field Tilemap:LTTileMap
+	Field Sprites:LTList = New LTList
+	Field CollisionMap:LTCollisionMap
 	
+
 	
 	Method Init()
 	End Method
@@ -27,26 +32,55 @@ Type LTProject Extends LTObject
   
   
 	Method Render()
-	End Method
-	
-	
-	
-	Method Logic()
-	End Method
-	
-	
-	
-	Method LoadPage( World:LTWorld, PageName:String )
-		Local Page:LTPage = World.FindPage( PageName )
-		L_Assert( Page <> Null, "Page " + PageName + " not found" )
-		For Local Sprite:LTSprite = Eachin Page.Sprites
-			LoadSprite( Sprite, L_GetPrefix( Sprite.GetName() ) )
+		If Tilemap Then Tilemap.Draw()
+		For Local Sprite:LTSprite = Eachin Sprites
+			Sprite.Draw()
 		Next
 	End Method
 	
 	
 	
+	Method Logic()
+		For Local Sprite:LTSprite = Eachin Sprites
+			Sprite.Act()
+		Next
+		HandleCollisions()
+	End Method
+	
+	
+	
+	Method HandleCollisions()
+		CollisionMap.CollisionsWithList( Sprites )
+		Tilemap.TileCollisionsWithList( Sprites )
+	End Method
+	
+	
+	
+	Method LoadPage( World:LTWorld, PageName:String, CloneTileMap:Int = True )
+		Sprites.Clear()
+		Local Page:LTPage = World.FindPage( PageName )
+		L_Assert( Page <> Null, "Page " + PageName + " not found" )
+		For Local Sprite:LTSprite = Eachin Page.Sprites
+			LoadSprite( Sprite, L_GetPrefix( Sprite.GetName() ) )
+		Next
+		If CloneTileMap Then TileMap = Page.TileMap.CloneTileMap()
+	End Method
+	
+	
+	
 	Method LoadSprite( Sprite:LTSprite, Name:String )
+		Local NewSprite:LTSprite = New LTSprite
+		Sprite.CopySpriteTo( NewSprite )
+		CollisionMap.InsertSprite( NewSprite )
+		Sprites.AddLast( NewSprite )
+	End Method
+	
+	
+	
+	Method DestroySprite( Sprite:LTSprite )
+		Sprites.Remove( Sprite )
+		CollisionMap.RemoveSprite( Sprite )
+		Sprite.Destroy()
 	End Method
 	
 	
