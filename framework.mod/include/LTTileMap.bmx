@@ -67,7 +67,7 @@ Type LTTileMap Extends LTSprite
 	
 	' ==================== Collisions ===================
 	
-	Method GetTileCollisionType( Sprite:LTSprite, TileX:Float, TileY:Float )
+	Method GetTileCollisionType:Int( Sprite:LTSprite, TileX:Float, TileY:Float )
 		Local DX:Float = Sprite.X - TileX
 		Local DY:Float = Sprite.Y - TileY
 		If Abs( DX ) > Abs( DY ) Then
@@ -103,7 +103,7 @@ Type LTTileMap Extends LTSprite
 					If Sprite2 Then
 						Local DX:Float = X0 + CellWidth * X1
 						Local DY:Float = Y0 + CellHeight * Y1
-						If Sprite.CollidesWithTile( Sprite2, DX, DY, CellWidth, CellHeight ) Then Sprite.HandleCollisionWithTile( Self, X1, Y1 )
+						If Sprite.CollidesWithTile( Sprite2, DX, DY, CellWidth, CellHeight ) Then Sprite.HandleCollisionWithTile( Self, X1, Y1, GetTileCollisionType( Sprite, X1, Y1 ) )
 					End If
 				End If
 			Case L_Circle, L_Rectangle
@@ -119,7 +119,7 @@ Type LTTileMap Extends LTSprite
 							Local TileX:Float = X0 + CellWidth * X
 							Local TileY:Float =Y0 + CellHeight * Y
 							If Sprite.CollidesWithTile( TileSprite, TileX, TileY, CellWidth, CellHeight ) Then
-								Sprite.HandleCollisionWithTile( Self, X, Y, GetTileCollisionType( Sprite, TileSprite.X * CellWidth + TileX, TileSprite.Y * YScale + CellHeight ) )
+								Sprite.HandleCollisionWithTile( Self, X, Y, GetTileCollisionType( Sprite, TileSprite.X * CellWidth + TileX, TileSprite.Y * CellHeight + TileY ) )
 							End If
 						End If
 					Next
@@ -159,9 +159,9 @@ Type LTTileMap Extends LTSprite
 		TileMap.TilesQuantity = TilesQuantity
 		TileMap.Wrapped = Wrapped
 		TileMap.SetResolution( FrameMap.XQuantity, FrameMap.YQuantity )
-		For Local Y:Int = 0 Until YQuantity
-			For Local X:Int = 0 Until XQuantity
-				TileMap.FrameMap[ X, Y ] = FrameMap[ X, Y ]
+		For Local Y:Int = 0 Until FrameMap.YQuantity
+			For Local X:Int = 0 Until FrameMap.XQuantity
+				TileMap.FrameMap.Value[ X, Y ] = FrameMap.Value[ X, Y ]
 			Next
 		Next
 	End Method

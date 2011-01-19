@@ -51,13 +51,16 @@ Type LTSprite Extends LTShape
 	
 	' ==================== Collisions ===================
 	
-	Method GetCollisionType:Int( Sprite:LTSprite )
-		Local DX:Float = Sprite.X - X
-		Local DY:Float = Sprite.Y - Y
-		If Abs( DX ) > Abs( DY ) Then
-			If DX < 0 Then Return L_Left Else Return L_Right
-		Else	
-			If DY < 0 Then Return L_Up Else Return L_Down
+	Method GetCollisionType:Int( Obj:LTActiveObject )
+		Local Sprite:LTSprite = LTSprite( Obj )
+		If Sprite Then
+			Local DX:Float = Sprite.X - X
+			Local DY:Float = Sprite.Y - Y
+			If Abs( DX ) > Abs( DY ) Then
+				If DX < 0 Then Return L_Left Else Return L_Right
+			Else	
+				If DY < 0 Then Return L_Up Else Return L_Down
+			End If
 		End If
 	End Method
 	

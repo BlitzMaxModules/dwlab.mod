@@ -25,7 +25,7 @@ Type LTActiveObject Extends LTObject
 	
 	' ==================== Collisions ===================
 	
-	Method GetCollisionType:Int( Sprite:LTSprite )
+	Method GetCollisionType:Int( Obj:LTActiveObject )
 	End Method
 	
 	
