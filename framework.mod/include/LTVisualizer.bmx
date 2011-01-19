@@ -73,6 +73,12 @@ Type LTVisualizer Extends LTObject Abstract
 	
 	
 	
+	Method ApplyColor()
+		SetColor( 255.0 * Red, 255.0 * Green, 255.0 * Blue )
+	End Method
+	
+	
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		

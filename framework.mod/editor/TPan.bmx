@@ -16,7 +16,7 @@ Type TPan Extends LTDrag
 	
 	
 	Method DragKey:Int()
-		If MouseDown( 3 ) Then Return True
+		If MouseDown( 3 ) Or KeyDown( Key_LControl ) Or KeyDown( Key_RControl ) Then Return True
 	End Method
 	
 	

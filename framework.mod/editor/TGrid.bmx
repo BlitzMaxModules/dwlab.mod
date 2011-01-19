@@ -14,15 +14,12 @@ Type TGrid Extends LTActiveObject
 	Field CellHeight:Float = 1.0
 	Field CellXDiv:Int = 1
 	Field CellYDiv:Int = 1
-	Field Red:Int = 0
-	Field Green:Int = 0
-	Field Blue:Int = 0
 	
 	
 	
 	Method Draw()
 		Local SX:Float, SY:Float
-		SetColor( Red, Green, Blue )
+		Editor.ShapeVisualizer.ApplyColor()
 		
 		Local X:Float = Floor( L_CurrentCamera.CornerX() / CellWidth ) * CellWidth
 		Local EndX:Float = L_CurrentCamera.CornerX() + L_CurrentCamera.Width
@@ -147,10 +144,10 @@ Type TGrid Extends LTActiveObject
 				Case Event_GadgetAction
 					Select EventSource()
 						Case SelectColorButton
-							RequestColor( Red, Green, Blue )
-							Red = RequestedRed()
-							Green = RequestedGreen()
-							Blue = RequestedBlue()
+							RequestColor( 255.0 * Editor.ShapeVisualizer.Red, 255.0 * Editor.ShapeVisualizer.Green, 255.0 * Editor.ShapeVisualizer.Blue )
+							Editor.ShapeVisualizer.Red = RequestedRed() / 255.0
+							Editor.ShapeVisualizer.Green = RequestedGreen() / 255.0
+							Editor.ShapeVisualizer.Blue = RequestedBlue() / 255.0
 						Case OKButton
 							Local NewCellWidth:Float = TextFieldText( CellWidthField ).ToFloat()
 							Local NewCellHeight:Float = TextFieldText( CellHeightField ).ToFloat()

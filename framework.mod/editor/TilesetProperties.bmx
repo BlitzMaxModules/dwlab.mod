@@ -43,7 +43,21 @@ Function TilesetProperties( Tilemap:LTTilemap )
 	SetGadgetLayout( DeleteTileRuleButton, Edge_Centered, Edge_Aligned, Edge_Centered, Edge_Aligned )
 	Local TileRuleCanvas:TGadget = CreateCanvas( Width - 225, 0, 225, 225, Window )
 	SetGadgetLayout( TileRuleCanvas, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Centered )
-	Local CategoriesListBox:TGadget = CreateListBox( Width - 225, 225, 225, Height - 249, Window )
+
+	Local PosPanel:TGadget = CreatePanel( Width - 225, 225, 225, 50, Window )
+	SetGadgetLayout( PosPanel, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Centered )
+	CreateLabel( "X:", 4, 6, 15, 16, PosPanel, 0 )
+	Local XField:TGadget = CreateTextField( 19, 3, 72, 20, PosPanel )
+	Local XDividerField:TGadget = CreateTextField( 147, 3, 72, 20, PosPanel )
+	CreateLabel( "XDivider:", 99, 5, 45, 16, PosPanel, 0 )
+	CreateLabel( "Y:", 4, 29, 15, 16, PosPanel, 0 )
+	Local YField:TGadget = CreateTextField( 19, 27, 72, 20, PosPanel )
+	CreateLabel( "YDivider:", 99, 29, 48, 16, PosPanel, 0 )
+	Local YDividerField:TGadget = CreateTextField( 147, 27, 72, 20, PosPanel )
+	Local HiddenOKButton:TGadget = CreateButton( "", 0, 0, 0, 0, PosPanel, Button_OK )
+	DisableGadget( PosPanel )
+	
+	Local CategoriesListBox:TGadget = CreateListBox( Width - 225, 275, 225, Height - 299, Window )
 	SetGadgetLayout( CategoriesListBox, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Aligned )
 	Local AddCategoryButton:TGadget = CreateButton( "Add ctg", Width - 225, Height - 24, 75, 24, Window )
 	SetGadgetLayout( AddCategoryButton, Edge_Centered, Edge_Aligned, Edge_Centered, Edge_Aligned )
@@ -51,7 +65,7 @@ Function TilesetProperties( Tilemap:LTTilemap )
 	SetGadgetLayout( DeleteCategoryButton, Edge_Centered, Edge_Aligned, Edge_Centered, Edge_Aligned )
 	Local CopyCategoryButton:TGadget = CreateButton( "Copy ctg", Width - 75, Height - 24, 75, 24, Window )
 	SetGadgetLayout( CopyCategoryButton, Edge_Centered, Edge_Aligned, Edge_Centered, Edge_Aligned )
-	
+
 	
 	Local MouseIsOver:TGadget
 	Local Tileset:LTTileset = LTTileset( TilesetMap.ValueForKey( Image ) )
@@ -70,8 +84,8 @@ Function TilesetProperties( Tilemap:LTTilemap )
 	
 	Repeat
 		Local Magnifier:Float = Min( 1.0 * GadgetWidth( TilesetCanvas ) / Image.XCells / Image.Width(), 1.0 * GadgetHeight( TilesetCanvas ) / Image.YCells / Image.Height() )
-		Local TileWidth:Float = Magnifier * Image.Width()
-		Local TileHeight:Float = Magnifier * Image.Height()
+		Local TileWidth:Float = Floor( Magnifier * Image.Width() )
+		Local TileHeight:Float = Floor( Magnifier * Image.Height() )
 		Local DX:Float = 0.5 * ( GadgetWidth( TilesetCanvas ) - TileWidth * Image.XCells )
 		Local DY:Float = 0.5 * ( GadgetHeight( TilesetCanvas ) - TileHeight * Image.YCells )
 		
@@ -87,7 +101,7 @@ Function TilesetProperties( Tilemap:LTTilemap )
 		Next
 		SetScale( 1.0, 1.0 )
 		
-		SetColor( Editor.Grid.Red, Editor.Grid.Green, Editor.Grid.Blue )
+		Editor.ShapeVisualizer.ApplyColor()
 		
 		If CurrentCategory Then
 			SetAlpha( 0.5 )
@@ -103,7 +117,7 @@ Function TilesetProperties( Tilemap:LTTilemap )
 				Local Num:Int = NumString.ToInt()
 				Local SX:Int = ( Num Mod Image.XCells ) * TileWidth + DX
 				Local SY:Int = Floor( Num / Image.XCells ) * TileHeight + DY
-				DrawRect( SX, SY, TileWidth - 1, TileHeight - 1 )
+				DrawRect( SX, SY, TileWidth, TileHeight )
 			Next
 			SetAlpha( 1.0 )
 		End If
@@ -151,7 +165,7 @@ Function TilesetProperties( Tilemap:LTTilemap )
 			SetScale( 1.0, 1.0 )
 		End If
 		
-		SetColor( Editor.Grid.Red, Editor.Grid.Green, Editor.Grid.Blue )
+		Editor.ShapeVisualizer.ApplyColor()
 
 		For Local Coord:Int = 0 To 224 Step 32
 			DrawLine( Coord, 0, Coord, 224 )
@@ -203,6 +217,11 @@ Function TilesetProperties( Tilemap:LTTilemap )
 						Local Quantity:Int = CurrentCategory.TileRules.Count()
 						If Quantity > 0 Then
 							CurrentTileRule = LTTileRule( CurrentCategory.TileRules.ValueAtIndex( L_LimitInt( Floor( ( MouseY() - 4.0 + TileRulesListDY ) / 32.0 ), 0, Quantity - 1 ) ) )
+							EnableGadget( PosPanel )
+							SetGadgetText( XField, CurrentTileRule.X )
+							SetGadgetText( XDividerField, CurrentTileRule.XDivider )
+							SetGadgetText( YField, CurrentTileRule.Y )
+							SetGadgetText( YDividerField, CurrentTileRule.YDivider )
 							PosDX = 0
 							PosDY = 0
 						End If
@@ -300,6 +319,7 @@ Function TilesetProperties( Tilemap:LTTilemap )
 								Tileset.Categories.Remove( CurrentCategory )
 								CurrentCategory = Null
 								CurrentTileRule = Null
+								DisableGadget( PosPanel )
 								RefreshListBox( CategoriesListBox, Tileset.Categories, CurrentCategory )
 							End If
 						Case AddTileRuleButton
@@ -312,6 +332,7 @@ Function TilesetProperties( Tilemap:LTTilemap )
 							If CurrentTileRule Then
 								CurrentCategory.TileRules.Remove( CurrentTileRule )
 								CurrentTileRule = Null
+								DisableGadget( PosPanel )
 							End If
 						Case CategoriesListBox
 							Local Name:String = EnterString( "Enter name of category", CurrentCategory.GetName() )
@@ -335,6 +356,19 @@ Function TilesetProperties( Tilemap:LTTilemap )
 									Link.Remove()
 								End If
 							End If
+						Case HiddenOKButton
+							If CurrentTileRule Then
+								Select ActiveGadget()
+									Case XField
+										CurrentTileRule.X = TextFieldText( XField ).ToInt()
+									Case XDividerField
+										CurrentTileRule.XDivider = TextFieldText( XDividerField ).ToInt()
+									Case YField
+										CurrentTileRule.Y = TextFieldText( YField ).ToInt()
+									Case YDividerField
+										CurrentTileRule.YDivider = TextFieldText( YDividerField ).ToInt()
+								End Select
+							End If
 					End Select
 				Case Event_GadgetSelect
 					If EventSource() = CategoriesListBox Then
@@ -343,6 +377,8 @@ Function TilesetProperties( Tilemap:LTTilemap )
 						PosDX = 0
 						PosDY = 0
 						TIleRulesListDY = 0
+						CurrentTileRule = Null
+						DisableGadget( PosPanel )
 					End If
 				Case 0
 					Exit

@@ -121,8 +121,8 @@ Type LTCamera Extends LTSprite
 	
 	Function Create:LTCamera( Width:Float, Height:Float, WidthInUnits:Float = 8 )
 		Local Camera:LTCamera = New LTCamera
-		Camera.Width = 32.0
-		Camera.Height = 32.0 * Height / Width
+		Camera.Width = WidthInUnits
+		Camera.Height = WidthInUnits * Height / Width
 		Camera.Viewport.Width = Width
 		Camera.Viewport.Height = Height
 		Camera.Viewport.X = 0.5 * Width

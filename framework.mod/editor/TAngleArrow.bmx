@@ -11,7 +11,7 @@
 
 Type TAngleArrow Extends LTVisualizer
 	Method DrawUsingSprite( Sprite:LTSprite )
-		SetColor( Editor.Grid.Red, Editor.Grid.Green, Editor.Grid.Blue )
+		Editor.ShapeVisualizer.ApplyColor()
 
 		Local SX1:Float, SY1:Float, SWidth:Float, SHeight:Float
 		L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX1, SY1 )

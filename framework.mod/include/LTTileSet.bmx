@@ -50,6 +50,8 @@ Type LTTileset Extends LTObject
 		If CatNum < 0 Then Return
 		Local Category:LTTileCategory = LTTileCategory( Categories.ValueAtIndex( CatNum ) )
 		For Local Rule:LTTileRule = Eachin Category.TileRules
+			If X Mod Rule.XDivider <> Rule.X Or Y Mod Rule.YDivider <> Rule.Y Then Continue
+			
 			Local Passed:Int = True
 			For Local Pos:LTTilePos = Eachin Rule.TilePositions
 				Local TileCategory:Int = GetTileCategory( TileMap, X + Pos.DX, Y + Pos.DY )
@@ -140,6 +142,8 @@ End Type
 Type LTTileRule Extends LTObject
 	Field TileNums:Int[]
 	Field TilePositions:TList = New TList
+	Field X:Int, Y:Int
+	Field XDivider:Int = 1, YDivider:Int = 1
 	
 	
 	
@@ -153,6 +157,10 @@ Type LTTileRule Extends LTObject
 		Super.XMLIO( XMLObject )
 		
 		XMLObject.ManageIntArrayAttribute( "tilenums", TileNums )
+		XMLObject.ManageIntAttribute( "x", X )
+		XMLObject.ManageIntAttribute( "y", X )
+		XMLObject.ManageIntAttribute( "xdiv", XDivider, 1 )
+		XMLObject.ManageIntAttribute( "ydiv", YDivider, 1 )
 		XMLObject.ManageChildList( TilePositions )
 	End Method
 End Type

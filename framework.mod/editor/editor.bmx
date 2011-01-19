@@ -46,7 +46,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.1.2"
+	Const Version:String = "1.1.3"
 	Const Title:String = "Digital Wizard's Lab World Editor v" + Version
 	
 	Field Window:TGadget
@@ -57,6 +57,7 @@ Type LTEditor Extends LTProject
 	
 	Field TilesetCanvas:TGadget
 	Field TilesetCamera:LTCamera = New LTCamera
+	Field TilesetCameraWidth:Int
 	Field TilesetCanvasZ:Int
 	
 	Field Toolbar:TGadget
@@ -260,9 +261,8 @@ Type LTEditor Extends LTProject
 		ModifiersImage = LoadAnimImage( "incbin::modifiers.png", 16, 16, 0, 10 )
 		MidHandleImage( ModifiersImage )
 		
-		ShapeVisualizer.Green = 0.5
-		ShapeVisualizer.Blue = 0.5
-		ShapeVisualizer.Alpha = 0.4
+		ShapeVisualizer.SetColorFromHex( "FF00FF" )
+		ShapeVisualizer.Alpha = 0.5
 		
 		SelectedTile.Visualizer = New LTMarchingAnts
 		
@@ -291,9 +291,9 @@ Type LTEditor Extends LTProject
 			Grid.CellHeight = ReadLine( IniFile ).ToFloat()
 			Grid.CellXDiv = ReadLine( IniFile ).ToInt()
 			Grid.CellYDiv = ReadLine( IniFile ).ToInt()
-			Grid.Red = ReadLine( IniFile ).ToInt()
-			Grid.Green = ReadLine( IniFile ).ToInt()
-			Grid.Blue = ReadLine( IniFile ).ToInt()
+			Editor.ShapeVisualizer.Red = ReadLine( IniFile ).ToInt()
+			Editor.ShapeVisualizer.Green = ReadLine( IniFile ).ToInt()
+			Editor.ShapeVisualizer.Blue = ReadLine( IniFile ).ToInt()
 			
 			CloseFile( IniFile )
 		Else
@@ -419,9 +419,9 @@ Type LTEditor Extends LTProject
 		WriteLine( IniFile, Grid.CellHeight )
 		WriteLine( IniFile, Grid.CellXDiv )
 		WriteLine( IniFile, Grid.CellYDiv )
-		WriteLine( IniFile, Grid.Red )
-		WriteLine( IniFile, Grid.Green )
-		WriteLine( IniFile, Grid.Blue )
+		WriteLine( IniFile, Editor.ShapeVisualizer.Red )
+		WriteLine( IniFile, Editor.ShapeVisualizer.Green )
+		WriteLine( IniFile, Editor.ShapeVisualizer.Blue )
 		
 		CloseFile( IniFile )
 		
@@ -448,6 +448,12 @@ Type LTEditor Extends LTProject
 					RefreshSpritesList()
 					SelectedSprites.Clear()
 					Modifiers.Clear()
+				Else If EventData() = Key_Space Then
+					If MenuChecked( EditSprites ) Then
+						SelectMenuItem( EditTilemap )
+					Else
+						SelectMenuItem( EditSprites )
+					End If
 				End If
 			Case Event_MouseWheel
 				If Not Modifiers.IsEmpty() Then
@@ -803,7 +809,7 @@ Type LTEditor Extends LTProject
 		Pan.Execute()
 		
 		SetCameraMagnification( MainCamera, MainCanvas, MainCanvasZ, 32.0 )
-		SetCameraMagnification( TilesetCamera, TilesetCanvas, TilesetCanvasZ, 16.0 )
+		SetCameraMagnification( TilesetCamera, TilesetCanvas, TilesetCanvasZ, TilesetCameraWidth )
 		
 		If CurrentPage.Tilemap Then MainCamera.LimitWith( CurrentPage.Tilemap )
 	End Method
@@ -1067,7 +1073,11 @@ Type LTEditor Extends LTProject
 		RefreshSpritesList()
 		If CurrentPage.TileMap Then
 			Local Image:LTImage = LTImageVisualizer( CurrentPage.TileMap.Visualizer ).Image
-			If Image Then CurrentTileset = LTTileset( TilesetMap.ValueForKey( Image ) )
+			If Image Then
+				CurrentTileset = LTTileset( TilesetMap.ValueForKey( Image ) )
+				TilesetCameraWidth = Image.XCells
+				TilesetCanvasZ = 0.0
+			End If
 		End If
 		Modifiers.Clear()
 	End Method

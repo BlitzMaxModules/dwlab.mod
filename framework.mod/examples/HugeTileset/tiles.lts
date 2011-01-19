@@ -163,15 +163,15 @@
 			<LTTilePos dy="1" tilenum="1"/>
 			<LTTilePos dy="-1" tilenum="115"/>
 		</LTTileRule>
-		<LTTileRule tilenums="21,34">
+		<LTTileRule tilenums="21" xdiv="2">
 			<LTTilePos dy="-1" tilenum="1"/>
-			<LTTilePos dx="-1" tilenum="21"/>
+			<LTTilePos dx="-1" tilenum="34"/>
 			<LTTilePos dx="-2" tilenum="21"/>
-			<LTTilePos dx="1" tilenum="21"/>
+			<LTTilePos dx="1" tilenum="34"/>
 			<LTTilePos dx="2" tilenum="21"/>
 			<LTTilePos dy="1" tilenum="40"/>
 		</LTTileRule>
-		<LTTileRule tilenums="40,53">
+		<LTTileRule tilenums="40" xdiv="2">
 			<LTTilePos dy="-1" tilenum="21"/>
 			<LTTilePos dy="-2" tilenum="1"/>
 			<LTTilePos dx="-1" tilenum="39"/>
@@ -180,7 +180,7 @@
 			<LTTilePos dx="2" tilenum="55"/>
 			<LTTilePos dy="1" tilenum="59"/>
 		</LTTileRule>
-		<LTTileRule tilenums="97,110">
+		<LTTileRule tilenums="97" xdiv="2">
 			<LTTilePos dx="-1" tilenum="96"/>
 			<LTTilePos dx="-2" tilenum="95"/>
 			<LTTilePos dy="1" tilenum="116"/>
@@ -190,7 +190,7 @@
 			<LTTilePos dx="2" tilenum="112"/>
 			<LTTilePos dy="-1" tilenum="78"/>
 		</LTTileRule>
-		<LTTileRule tilenums="116,129">
+		<LTTileRule tilenums="116" xdiv="2">
 			<LTTilePos dx="1" tilenum="130"/>
 			<LTTilePos dx="2" tilenum="131"/>
 			<LTTilePos dx="-1" tilenum="115"/>
@@ -199,12 +199,56 @@
 			<LTTilePos dy="2" tilenum="1"/>
 			<LTTilePos dy="-1" tilenum="110"/>
 		</LTTileRule>
-		<LTTileRule tilenums="135,148">
+		<LTTileRule tilenums="135" xdiv="2">
 			<LTTilePos dx="1" tilenum="149"/>
 			<LTTilePos dx="2" tilenum="150"/>
 			<LTTilePos dx="-1" tilenum="134"/>
 			<LTTilePos dx="-2" tilenum="133"/>
 			<LTTilePos dy="1" tilenum="1"/>
+			<LTTilePos dy="-1" tilenum="129"/>
+		</LTTileRule>
+		<LTTileRule tilenums="34" x="1" y="1" xdiv="2">
+			<LTTilePos dx="-1" tilenum="21"/>
+			<LTTilePos dx="-2" tilenum="34"/>
+			<LTTilePos dx="1" tilenum="21"/>
+			<LTTilePos dx="2" tilenum="34"/>
+			<LTTilePos dy="1" tilenum="53"/>
+			<LTTilePos dy="-1" tilenum="1"/>
+		</LTTileRule>
+		<LTTileRule tilenums="53" x="1" y="1" xdiv="2">
+			<LTTilePos dx="1" tilenum="54"/>
+			<LTTilePos dx="2" tilenum="55"/>
+			<LTTilePos dx="-1" tilenum="39"/>
+			<LTTilePos dx="-2" tilenum="38"/>
+			<LTTilePos dy="-1" tilenum="34"/>
+			<LTTilePos dy="1" tilenum="72"/>
+			<LTTilePos dy="-2" tilenum="1"/>
+		</LTTileRule>
+		<LTTileRule tilenums="110" x="1" y="1" xdiv="2">
+			<LTTilePos dx="1" tilenum="111"/>
+			<LTTilePos dx="2" tilenum="112"/>
+			<LTTilePos dx="-1" tilenum="96"/>
+			<LTTilePos dx="-2" tilenum="95"/>
+			<LTTilePos dy="1" tilenum="129"/>
+			<LTTilePos dy="-1" tilenum="91"/>
+			<LTTilePos dy="2" tilenum="148"/>
+			<LTTilePos dy="3" tilenum="167"/>
+		</LTTileRule>
+		<LTTileRule tilenums="129" x="1" y="1" xdiv="2">
+			<LTTilePos dx="1" tilenum="130"/>
+			<LTTilePos dx="2" tilenum="131"/>
+			<LTTilePos dx="-1" tilenum="115"/>
+			<LTTilePos dx="-2" tilenum="114"/>
+			<LTTilePos dy="1" tilenum="148"/>
+			<LTTilePos dy="2" tilenum="167"/>
+			<LTTilePos dy="-1" tilenum="110"/>
+		</LTTileRule>
+		<LTTileRule tilenums="148" x="1" y="1" xdiv="2">
+			<LTTilePos dy="1" tilenum="167"/>
+			<LTTilePos dx="1" tilenum="149"/>
+			<LTTilePos dx="2" tilenum="149"/>
+			<LTTilePos dx="-1" tilenum="134"/>
+			<LTTilePos dx="-2" tilenum="133"/>
 			<LTTilePos dy="-1" tilenum="129"/>
 		</LTTileRule>
 		<LTTileRule tilenums="35">
@@ -255,6 +299,7 @@
 			<LTTilePos dx="2" tilenum="1"/>
 			<LTTilePos dy="-1" tilenum="130"/>
 			<LTTilePos dx="-1" tilenum="148"/>
+			<LTTilePos dx="-2" tilenum="133"/>
 		</LTTileRule>
 		<LTTileRule tilenums="36">
 			<LTTilePos dy="-1" tilenum="1"/>
