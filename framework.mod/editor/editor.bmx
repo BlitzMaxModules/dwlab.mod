@@ -179,7 +179,7 @@ Type LTEditor Extends LTProject
 		VScroller = CreateSlider( ClientWidth( Window ) - BarWidth - 16, 0, 16, ClientHeight( Window ) - 16, Window, Slider_Scrollbar | Slider_Vertical )
 		SetGadgetLayout( VScroller, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Aligned )
 		
-		Panel = CreatePanel( ClientWidth( Window ) - BarWidth, 0, BarWidth, PanelHeight - 2, Window, PANEL_RAISED )
+		Panel = CreatePanel( ClientWidth( Window ) - BarWidth, 0, BarWidth, PanelHeight - 2, Window, Panel_Raised )
 		SetGadgetLayout( Panel, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Centered )
 		CreateLabel( "X:", 27, 27, 12, 16, Panel, 0 )
 		CreateLabel( "Y:", 131, 27, 13, 16, Panel, 0 )
@@ -199,16 +199,16 @@ Type LTEditor Extends LTProject
 		CreateLabel( "Red:", 14, 101, 25, 16, Panel, 0 )
 		CreateLabel( "Green:", 4, 123, 35, 16, Panel, 0 )
 		RedField = CreateTextField( 168, 96, 32, 20, Panel )
-		RedSlider = CreateSlider( 40, 100, 120, 20, Panel, SLIDER_TRACKBAR | SLIDER_HORIZONTAL )
+		RedSlider = CreateSlider( 40, 100, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
 		SetSliderRange( RedSlider, 0, 100 )
-		GreenSlider = CreateSlider( 40, 122, 120, 20, Panel, SLIDER_TRACKBAR | SLIDER_HORIZONTAL )
+		GreenSlider = CreateSlider( 40, 122, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
 		GreenField = CreateTextField( 168, 120, 32, 20, Panel )
 		SetSliderRange( GreenSlider, 0, 100 )
 		CreateLabel( "Blue:", 13, 147, 26, 16, Panel, 0 )
-		BlueSlider = CreateSlider( 40, 146, 120, 20, Panel, SLIDER_TRACKBAR | SLIDER_HORIZONTAL )
+		BlueSlider = CreateSlider( 40, 146, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
 		BlueField = CreateTextField( 168, 144, 32, 20, Panel )
 		SetSliderRange( BlueSlider, 0, 100 )
-		AlphaSlider = CreateSlider( 40, 170, 120, 20, Panel, SLIDER_TRACKBAR | SLIDER_HORIZONTAL )
+		AlphaSlider = CreateSlider( 40, 170, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
 		AlphaField = CreateTextField( 168, 168, 32, 20, Panel )
 		SetSliderRange( AlphaSlider, 0, 100 )
 		XScaleField = CreateTextField( 40, 192, 56, 20, Panel )
@@ -217,9 +217,9 @@ Type LTEditor Extends LTProject
 		YScaleField = CreateTextField( 144, 192, 56, 20, Panel )
 		CreateLabel( "Frame:", 3, 220, 37, 16, Panel, 0 )
 		FrameField = CreateTextField( 40, 216, 56, 20, Panel )
-		SelectImageButton  =  CreateButton(  "Select image",  104,  214,  96,  24,  Panel,  BUTTON_PUSH  )
-		RotatingCheckbox = CreateButton( "Rot.", 40, 242, 40, 16, Panel, BUTTON_CHECKBOX )
-		ScalingCheckbox = CreateButton( "Sc.", 2, 242, 40, 16, Panel, BUTTON_CHECKBOX )
+		SelectImageButton  =  CreateButton(  "Select image",  104,  214,  96,  24,  Panel,  Button_Push  )
+		RotatingCheckbox = CreateButton( "Rot.", 40, 242, 40, 16, Panel, Button_Checkbox )
+		ScalingCheckbox = CreateButton( "Sc.", 2, 242, 40, 16, Panel, Button_Checkbox )
 		CreateLabel( "ImgAngle:", 90, 243, 50, 16, Panel, 0 )
 		ImgAngleField = CreateTextField( 144, 240, 56, 20, Panel )
 		HiddenOKButton = CreateButton( "", 0, 0, 0, 0, Panel, Button_OK )
@@ -450,21 +450,26 @@ Type LTEditor Extends LTProject
 		
 		Select EvID
 			Case Event_KeyDown
-				If EventData() = Key_Delete Then
-					For Local Sprite:LTSprite = Eachin SelectedSprites
-						CurrentPage.Sprites.Remove( Sprite )
-						SetChanged()
-					Next
-					RefreshSpritesList()
-					SelectedSprites.Clear()
-					Modifiers.Clear()
-				Else If EventData() = Key_Space Then
-					If MenuChecked( EditSprites ) Then
-						SelectMenuItem( EditTilemap )
-					Else
-						SelectMenuItem( EditSprites )
-					End If
-				End If
+				Select	EventData()
+					Case Key_Delete
+						For Local Sprite:LTSprite = Eachin SelectedSprites
+							CurrentPage.Sprites.Remove( Sprite )
+							SetChanged()
+						Next
+						RefreshSpritesList()
+						SelectedSprites.Clear()
+						Modifiers.Clear()
+					Case Key_Space
+						If MenuChecked( EditSprites ) Then
+							SelectMenuItem( EditTilemap )
+						Else
+							SelectMenuItem( EditSprites )
+						End If
+					Case Key_NumAdd
+						MainCanvasZ :+ 1
+					Case Key_NumSubtract
+						MainCanvasZ :- 1
+				End Select
 			Case Event_MouseWheel
 				If Not Modifiers.IsEmpty() Then
 					Local Sprite:LTSprite = LTSprite( SelectedSprites.First() )
