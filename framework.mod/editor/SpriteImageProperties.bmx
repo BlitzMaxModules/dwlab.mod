@@ -140,7 +140,7 @@ End Function
 Function InitImage( Image:LTImage )
 	Local Filename:String = Image.Filename 
 	RealPathsForImages.Insert( Image, RealPath( Filename ) )
-	Local TilesetFilename:String = Filename[ ..Len( Filename ) - 3 ] + "lts"
+	Local TilesetFilename:String = Filename + ".lts"
 	If FileType( TilesetFilename ) = 1 Then 
 		Local Tileset:LTTileset = LTTileset( L_LoadFromFile( TilesetFilename ) )
 		TilesetMap.Insert( Image, Tileset )

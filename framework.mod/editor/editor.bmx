@@ -46,7 +46,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.1.4"
+	Const Version:String = "1.1.6"
 	Const Title:String = "Digital Wizard's Lab World Editor v" + Version
 	
 	Field Window:TGadget
@@ -104,7 +104,7 @@ Type LTEditor Extends LTProject
 	Field World:LTWorld = New LTWorld
 	Field CurrentPage:LTPage
 	Field CurrentSprite:LTSprite
-	Field CurrentTIleset:LTTileset
+	Field CurrentTileset:LTTileset
 	Field TilesQueue:TMap = New TMap
 	Field Cursor:LTSprite = New LTSprite
 	Field SpriteUnderCursor:LTSprite
@@ -179,7 +179,7 @@ Type LTEditor Extends LTProject
 		VScroller = CreateSlider( ClientWidth( Window ) - BarWidth - 16, 0, 16, ClientHeight( Window ) - 16, Window, Slider_Scrollbar | Slider_Vertical )
 		SetGadgetLayout( VScroller, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Aligned )
 		
-		Panel = CreatePanel( ClientWidth( Window ) - BarWidth, 0, BarWidth, PanelHeight - 2, Window, Panel_Raised )
+		Panel = CreatePanel( ClientWidth( Window ) - BarWidth, 0, BarWidth, PanelHeight - 2, Window, PANEL_RAISED )
 		SetGadgetLayout( Panel, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Centered )
 		CreateLabel( "X:", 27, 27, 12, 16, Panel, 0 )
 		CreateLabel( "Y:", 131, 27, 13, 16, Panel, 0 )
@@ -199,16 +199,16 @@ Type LTEditor Extends LTProject
 		CreateLabel( "Red:", 14, 101, 25, 16, Panel, 0 )
 		CreateLabel( "Green:", 4, 123, 35, 16, Panel, 0 )
 		RedField = CreateTextField( 168, 96, 32, 20, Panel )
-		RedSlider = CreateSlider( 40, 100, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
+		RedSlider = CreateSlider( 40, 100, 120, 20, Panel, SLIDER_TRACKBAR | SLIDER_HORIZONTAL )
 		SetSliderRange( RedSlider, 0, 100 )
-		GreenSlider = CreateSlider( 40, 122, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
+		GreenSlider = CreateSlider( 40, 122, 120, 20, Panel, SLIDER_TRACKBAR | SLIDER_HORIZONTAL )
 		GreenField = CreateTextField( 168, 120, 32, 20, Panel )
 		SetSliderRange( GreenSlider, 0, 100 )
 		CreateLabel( "Blue:", 13, 147, 26, 16, Panel, 0 )
-		BlueSlider = CreateSlider( 40, 146, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
+		BlueSlider = CreateSlider( 40, 146, 120, 20, Panel, SLIDER_TRACKBAR | SLIDER_HORIZONTAL )
 		BlueField = CreateTextField( 168, 144, 32, 20, Panel )
 		SetSliderRange( BlueSlider, 0, 100 )
-		AlphaSlider = CreateSlider( 40, 170, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
+		AlphaSlider = CreateSlider( 40, 170, 120, 20, Panel, SLIDER_TRACKBAR | SLIDER_HORIZONTAL )
 		AlphaField = CreateTextField( 168, 168, 32, 20, Panel )
 		SetSliderRange( AlphaSlider, 0, 100 )
 		XScaleField = CreateTextField( 40, 192, 56, 20, Panel )
@@ -217,9 +217,9 @@ Type LTEditor Extends LTProject
 		YScaleField = CreateTextField( 144, 192, 56, 20, Panel )
 		CreateLabel( "Frame:", 3, 220, 37, 16, Panel, 0 )
 		FrameField = CreateTextField( 40, 216, 56, 20, Panel )
-		SelectImageButton  =  CreateButton(  "Select image",  104,  214,  96,  24,  Panel,  Button_Push  )
-		RotatingCheckbox = CreateButton( "Rot.", 40, 242, 40, 16, Panel, Button_Checkbox )
-		ScalingCheckbox = CreateButton( "Sc.", 2, 242, 40, 16, Panel, Button_Checkbox )
+		SelectImageButton  =  CreateButton(  "Select image",  104,  214,  96,  24,  Panel,  BUTTON_PUSH  )
+		RotatingCheckbox = CreateButton( "Rot.", 40, 242, 40, 16, Panel, BUTTON_CHECKBOX )
+		ScalingCheckbox = CreateButton( "Sc.", 2, 242, 40, 16, Panel, BUTTON_CHECKBOX )
 		CreateLabel( "ImgAngle:", 90, 243, 50, 16, Panel, 0 )
 		ImgAngleField = CreateTextField( 144, 240, 56, 20, Panel )
 		HiddenOKButton = CreateButton( "", 0, 0, 0, 0, Panel, Button_OK )
@@ -368,13 +368,6 @@ Type LTEditor Extends LTProject
 			World = LTWorld( L_LoadFromFile( Filename ) )
 			
 			CurrentSprite = Null
-			For Local Page:LTPage = Eachin World.Pages
-				For Local Sprite:LTSprite = Eachin Page.Sprites
-					CurrentSprite = Sprite
-					Exit
-				Next
-				If CurrentSprite Then Exit
-			Next
 			
 			For Local Image:LTImage = Eachin L_ImagesList
 				InitImage( Image )
@@ -397,9 +390,9 @@ Type LTEditor Extends LTProject
 			WorldFilename = Filename
 			ChangeDir( ExtractDir( Filename ) )
 			For Local Image:LTImage = Eachin L_ImagesList
-				Debuglog Image.Filename
 				Image.Filename = ChopFilename( String( RealPathsForImages.ValueForKey( Image ) ) )
-				Debuglog Image.Filename
+				Local Tileset:LTTileset = LTTileset( TilesetMap.ValueForKey( Image ) )
+				if Tileset Then Tileset.SaveToFile( Image.Filename + ".lts" )
 			Next
 			
 			World.SaveToFile( Filename )
@@ -444,13 +437,11 @@ Type LTEditor Extends LTProject
 		PollEvent()
 	
 		Local EvID:Int = EventID()
-		If EvID = Event_GadgetAction And EventSource() = Toolbar Then
-			EvID = Event_MenuAction
-		End If
+		If EvID = Event_GadgetAction And EventSource() = Toolbar Then EvID = Event_MenuAction
 		
 		Select EvID
 			Case Event_KeyDown
-				Select	EventData()
+				Select EventData()
 					Case Key_Delete
 						For Local Sprite:LTSprite = Eachin SelectedSprites
 							CurrentPage.Sprites.Remove( Sprite )
@@ -465,10 +456,42 @@ Type LTEditor Extends LTProject
 						Else
 							SelectMenuItem( EditSprites )
 						End If
-					Case Key_NumAdd
-						MainCanvasZ :+ 1
-					Case Key_NumSubtract
-						MainCanvasZ :- 1
+					Case Key_PageUp, Key_End
+						Local SelectedLink:TLink = SelectedSprites.FirstLink()
+						Local SpriteLink:TLink = CurrentPage.Sprites.Children.FirstLink()
+						Local SpritesList:TList = CurrentPage.Sprites.Children
+						While SpriteLink And SelectedLink
+							If SpriteLink.Value() = SelectedLink.Value() And ( SpriteLink.PrevLink() Or EventData() = Key_End ) Then
+								if EventData() = Key_PageUp Then
+									SpritesList.InsertBeforeLink( SpriteLink.Value(), SpriteLink.PrevLink() )
+								Else
+									SpritesList.InsertAfterLink( SpriteLink.Value(), SpritesList.LastLink() )
+								End If
+								SpriteLink.Remove()
+								SelectedLink = SelectedLink.NextLink()
+							End If
+							SpriteLink = SpriteLink.NextLink()
+						Wend
+						Changed = True
+						RefreshSpritesList()
+					Case Key_PageDown, Key_Home
+						Local SelectedLink:TLink = SelectedSprites.LastLink()
+						Local SpriteLink:TLink = CurrentPage.Sprites.Children.LastLink()
+						Local SpritesList:TList = CurrentPage.Sprites.Children
+						While SpriteLink And SelectedLink
+							If SpriteLink.Value() = SelectedLink.Value() And ( SpriteLink.NextLink() Or EventData() = Key_Home ) Then
+								if EventData() = Key_PageDown Then
+									SpritesList.InsertAfterLink( SpriteLink.Value(), SpriteLink.NextLink() )
+								Else
+									SpritesList.InsertBeforeLink( SpriteLink.Value(), SpritesList.FirstLink() )
+								End If
+								SpriteLink.Remove()
+								SelectedLink = SelectedLink.PrevLink()
+							End If
+							SpriteLink = SpriteLink.PrevLink()
+						Wend
+						Changed = True
+						RefreshSpritesList()
 				End Select
 			Case Event_MouseWheel
 				If Not Modifiers.IsEmpty() Then
@@ -591,6 +614,7 @@ Type LTEditor Extends LTProject
 								CurrentTilemap.FrameMap.SetResolution( XQuantity, YQuantity )
 							Else
 								CurrentTilemap = LTTilemap.Create( XQuantity, YQuantity, 16, 16, 16 )
+								CurrentPage.TileMap = CurrentTilemap
 							End If
 							CurrentTilemap.X = 0.5 * XQuantity
 							CurrentTilemap.Y = 0.5 * YQuantity
@@ -748,6 +772,8 @@ Type LTEditor Extends LTProject
 				End Select
 		End Select
 		
+		CurrentTilemap = CurrentPage.TileMap		
+
 		If CurrentTilemap Then
 			SetSliderRange( HScroller, Min( 10000.0, 10000.0 * MainCamera.Width / CurrentTilemap.Width ), 10000.0 )
 			SetSliderRange( VScroller, Min( 10000.0, 10000.0 * MainCamera.Height / CurrentTilemap.Height ), 10000.0 )
@@ -789,20 +815,41 @@ Type LTEditor Extends LTProject
 			If CurrentTilemap Then
 				Local MX:Float, MY:Float
 				MainCamera.ScreenToField( MouseX(), MouseY(), MX, MY )
-				TileX = L_LimitInt( Floor( MX ), 0, CurrentTilemap.FrameMap.XQuantity - 1 )
-				TileY = L_LimitInt( Floor( MY ), 0, CurrentTilemap.FrameMap.YQuantity - 1 )
+				Local MinX:Int = 0
+				Local MinY:Int = 0
+				Local TileNum0:Int = TileNum[ 0 ]
+				If CurrentTileset Then
+					MinX = -CurrentTileset.BlockWidth[ TileNum0 ]
+					MinY = -CurrentTileset.BlockHeight[ TileNum0 ]
+					debuglog MinY
+				EndIf
+				TileX = L_LimitInt( Floor( MX ), MinX, CurrentTilemap.FrameMap.XQuantity - 1 )
+				TileY = L_LimitInt( Floor( MY ), MinY, CurrentTilemap.FrameMap.YQuantity - 1 )
 				Local Image:LTImage = LTImageVisualizer( CurrentTilemap.Visualizer ).Image
 				If Image then
 					Local FWidth:Float, FHeight:Float
 					TilesetCamera.SizeScreenToField( GadgetWidth( TilesetCanvas ), 0, FWidth, FHeight )
-					TilesInRow = Max( 1, Min( Image.FramesQuantity(), Floor( FWidth ) ) )
+					TilesInRow = Image.XCells
 					
 					If MouseIsOver = TilesetCanvas Then
 						Local FX:Float, FY:Float
 						TilesetCamera.ScreenToField( MouseX(), MouseY(), FX, FY )
-						Local TileNumUnderCursor:Int = Floor( FX ) + TilesInRow * Floor( FY )
-						If MouseDown( 1 ) Then TileNum[ 0 ] = TileNumUnderCursor
-						If MouseDown( 2 ) Then TileNum[ 1 ] = TileNumUnderCursor
+						Local IFX:Int = Floor( FX )
+						Local IFY:Int = Floor( FY )
+						If IFX >= 0 And IFY >= 0 And IFX < TilesInRow And IFY < Image.YCells Then
+							Local TileNumUnderCursor:Int = IFX + TilesInRow * IFY
+							If MouseDown( 1 ) Then TileNum[ 0 ] = TileNumUnderCursor
+							If MouseDown( 2 ) Then TileNum[ 1 ] = TileNumUnderCursor
+							If CurrentTileset And KeyHit( Key_0 )  Then
+								Local NewWidth:Int = IFX - ( TileNum0 Mod TilesInRow )
+								Local NewHeight:Int = IFY - Floor( TileNum0 / TilesInRow )
+								'debugstop
+								if NewHeight >= 0 And NewWidth >= 0 Then
+									CurrentTileset.BlockWidth[ TileNum0 ] = NewWidth
+									CurrentTileset.BlockHeight[ TileNum0 ] = NewHeight
+								End If							
+							End If
+						End If
 					End If
 				End If
 			End If
@@ -886,10 +933,18 @@ Type LTEditor Extends LTProject
 				
 				L_CurrentCamera = TilesetCamera
 				
-				For Local N:Int = 0 To 1
+				For Local N:Int = 1 To 0 Step -1
 					TileNum[ N ] = L_LimitInt( TileNum[ N ], 0, Image.FramesQuantity() - 1 )
-					SelectedTile.X = 0.5 + TileNum[ N ] Mod TilesInRow
-					SelectedTile.Y = 0.5 + Floor( TileNum[ N ] / TilesInRow )
+					Local TileNumN:Int = TileNum[ N ]
+					If CurrentTileset Then
+						SelectedTile.Width = 1.0 + CurrentTileset.BlockWidth[ TileNumN ]
+						SelectedTile.Height = 1.0 + CurrentTileset.BlockHeight[ TileNumN ]
+					Else
+						SelectedTile.Width = 1.0
+						SelectedTile.Height = 1.0
+					EndIf
+					SelectedTile.X = 0.5 * SelectedTile.Width + TileNumN Mod TilesInRow
+					SelectedTile.Y = 0.5 * SelectedTile.Height + Floor( TileNumN / TilesInRow )
 					SelectedTile.Draw()
 				Next
 				
@@ -921,8 +976,8 @@ Type LTEditor Extends LTProject
 		If MenuChecked( EditTilemap ) Then
 			If CurrentPage.TileMap Then
 				If MouseIsOver = MainCanvas Then
-					SelectedTile.X = 0.5 + TileX
-					SelectedTile.Y = 0.5 + TileY
+					SelectedTile.X = 0.5 * SelectedTile.Width + TileX
+					SelectedTile.Y = 0.5 * SelectedTile.Height + TileY
 					SelectedTile.Draw()
 				End If
 			End If

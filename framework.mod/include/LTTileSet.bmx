@@ -14,6 +14,8 @@ Type LTTileset Extends LTObject
 	Field Categories:TList = New TList
 	Field TilesQuantity:Int
 	Field TileCategory:Int[]
+	Field BlockWidth:Int[]
+	Field BlockHeight:Int[]
 	
 	
 	
@@ -23,11 +25,24 @@ Type LTTileset Extends LTObject
 			TileCategory[ N ] = -1
 		Next
 		
+		Local OldDimension:Int = BlockWidth.Dimensions()[ 0 ]
+		If OldDimension <> TilesQuantity Then
+			Local NewWidth:Int[] = New Int[ TilesQuantity ]
+			Local NewHeight:Int[] = New Int[ TilesQuantity ]
+			For Local N:Int = 0 Until Min( OldDimension, TilesQuantity )
+				NewWidth[ N ] = BlockWidth[ N ]
+				NewHeight[ N ] = BlockHeight[ N ]
+			Next
+			BlockWidth = NewWidth
+			BlockHeight = NewHeight
+		End If
+		
 		Local CatNum:Int = 0
 		For Local Category:LTTileCategory = Eachin Categories
 			Category.Num = CatNum
 			For Local Rule:LTTileRule = Eachin Category.TileRules
 				For Local N:Int = 0 Until Rule.TileNums.Dimensions()[ 0 ]
+					If Rule.TileNums[ N ] >= TilesQuantity Then Rule.TileNums[ N ] = TilesQuantity - 1
 					TileCategory[ Rule.TileNums[ N ] ] = Category.Num
 				Next
 			Next
@@ -36,7 +51,10 @@ Type LTTileset Extends LTObject
 		
 		For Local Category:LTTileCategory = Eachin Categories
 			For Local Rule:LTTileRule = Eachin Category.TileRules
+				If Rule.X >= Rule.XDivider Then Rule.X = Rule.XDivider - 1
+				If Rule.Y >= Rule.YDivider Then Rule.Y = Rule.YDivider - 1
 				For Local Pos:LTTilePos = Eachin Rule.TilePositions
+					If Pos.TileNum >= TilesQuantity Then Pos.TileNum = TilesQuantity - 1
 					Pos.Category = TileCategory[ Pos.TileNum ]
 				Next
 			Next
@@ -118,7 +136,10 @@ Type LTTileset Extends LTObject
 		Super.XMLIO( XMLObject )
 		
 		XMLObject.ManageIntAttribute( "tiles-quantity", TilesQuantity )
+		XMLObject.ManageIntArrayAttribute( "block-width", BlockWidth )
+		XMLObject.ManageIntArrayAttribute( "block-height", BlockHeight )
 		XMLObject.ManageChildList( Categories )
+		if L_XMLMode = L_XMLGet Then Init()
 	End Method
 End Type
 
@@ -158,7 +179,7 @@ Type LTTileRule Extends LTObject
 		
 		XMLObject.ManageIntArrayAttribute( "tilenums", TileNums )
 		XMLObject.ManageIntAttribute( "x", X )
-		XMLObject.ManageIntAttribute( "y", X )
+		XMLObject.ManageIntAttribute( "y", Y )
 		XMLObject.ManageIntAttribute( "xdiv", XDivider, 1 )
 		XMLObject.ManageIntAttribute( "ydiv", YDivider, 1 )
 		XMLObject.ManageChildList( TilePositions )

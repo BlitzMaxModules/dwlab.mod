@@ -73,7 +73,7 @@ Function TilesetProperties( Tilemap:LTTilemap )
 	If Not Tileset Then
 		Tileset = New LTTileset
 		Tileset.TilesQuantity = Image.FramesQuantity()
-		TilesetMap.Insert( Image, TIleset )
+		TilesetMap.Insert( Image, Tileset )
 	Else
 		RefreshListBox( CategoriesListBox, Tileset.Categories, null )
 	End If
@@ -335,10 +335,12 @@ Function TilesetProperties( Tilemap:LTTilemap )
 								DisableGadget( PosPanel )
 							End If
 						Case CategoriesListBox
-							Local Name:String = EnterString( "Enter name of category", CurrentCategory.GetName() )
-							If Name Then
-								SetObjectName( CurrentCategory, Name )
-								RefreshListBox( CategoriesListBox, Tileset.Categories, CurrentCategory )
+							If CurrentCategory Then
+								Local Name:String = EnterString( "Enter name of category", CurrentCategory.GetName() )
+								If Name Then
+									SetObjectName( CurrentCategory, Name )
+									RefreshListBox( CategoriesListBox, Tileset.Categories, CurrentCategory )
+								End If
 							End If
 						Case TileRuleUpButton
 							If CurrentCategory Then
@@ -371,7 +373,7 @@ Function TilesetProperties( Tilemap:LTTilemap )
 							End If
 					End Select
 				Case Event_GadgetSelect
-					If EventSource() = CategoriesListBox Then
+					If EventSource() = CategoriesListBox And EventData() >= 0 Then
 						CurrentCategory = LTTileCategory( Tileset.Categories.ValueAtIndex( EventData() ) )
 						RefreshListBox( CategoriesListBox, Tileset.Categories, CurrentCategory )
 						PosDX = 0
@@ -389,7 +391,6 @@ Function TilesetProperties( Tilemap:LTTilemap )
 	Forever
 	
 	FreeGadget( Window )
-	TIleset.SaveToFile( Image.Filename[ ..Len( Image.Filename ) - 3 ] + "lts" )
 	Tileset.Init()
 	Editor.SelectPage( Editor.CurrentPage )
 End Function

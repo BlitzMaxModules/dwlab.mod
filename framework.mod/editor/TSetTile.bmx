@@ -25,15 +25,28 @@ Type TSetTile Extends LTDrag
 		Local Tilemap:LTTileMap = Editor.CurrentPage.Tilemap
 		If Not Tilemap Then Return
 		Local FrameMap:LTIntMap = TileMap.FrameMap
-		FrameMap.Value[ Editor.TileX, Editor.TileY ] = Editor.TileNum[ MouseDown( 2 ) ]
+		Local TileNum:Int = Editor.TileNum[ MouseDown( 2 ) ]
+		Local TileX:Int = Editor.TileX
+		Local TileY:Int = Editor.TileY
+		Local BlockWidth:Int = Editor.CurrentTileset.BlockWidth[ TileNum ]
+		Local BlockHeight:Int = Editor.CurrentTileset.BlockHeight[ TileNum ]
+		For Local DY:Int = 0 To BlockHeight
+			Local Y:Int = TileY + DY
+			If Y < 0 Or Y >= FrameMap.YQuantity Then Continue
+			For Local DX:Int = 0 To BlockWidth
+				Local X:Int = TileX + DX
+				If X < 0 Or X >= FrameMap.XQuantity Then Continue
+				FrameMap.Value[ X, Y ] = TileNum + DX + DY * Editor.TilesInRow
+			Next
+		Next
 		Editor.SetChanged()
 
 		If Editor.CurrentTileset And MenuChecked( Editor.ReplacementOfTiles ) Then
-			For Local DY:Int = -3 To 3
-				If Not Tilemap.Wrapped And ( Editor.TileY + DY < 0 Or Editor.TileY + DY >= FrameMap.YQuantity ) Then Continue
-				For Local DX:Int = -3 To 3
-					Local X:Int = Editor.TileX + DX
-					Local Y:Int = Editor.TileY + DY
+			For Local DY:Int = -3 To 3 + BlockHeight
+				Local Y:Int = TileY + DY
+				If Not Tilemap.Wrapped And ( Y < 0 Or Y >= FrameMap.YQuantity ) Then Continue
+				For Local DX:Int = -3 To 3 + BlockWidth
+					Local X:Int = TileX + DX
 					If Tilemap.Wrapped Then
 						If FrameMap.Masked Then
 							X = X & FrameMap.XMask
