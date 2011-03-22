@@ -15,7 +15,7 @@ Type TSelectSprites Extends LTDrag
 
 
 	Method DraggingConditions:Int()
-		If MenuChecked( Editor.EditSprites ) And Not Editor.SpriteUnderCursor And Not Editor.MoveSprite.DraggingState Then Return True
+		If Not Editor.CurrentTilemap And Not Editor.SpriteUnderCursor And Not Editor.MoveSprite.DraggingState Then Return True
 	End Method
 	
 	
@@ -31,7 +31,7 @@ Type TSelectSprites Extends LTDrag
 		StartY = Editor.Cursor.Y
 		Frame = New LTSprite
 		Frame.Shape = L_Rectangle
-		Editor.SelectedSprites.Clear()
+		Editor.SelectedObjects.Clear()
 		Editor.Modifiers.Clear()
 	End Method
 	
@@ -47,10 +47,21 @@ Type TSelectSprites Extends LTDrag
 	
 	
 	Method EndDragging()
-		For Local Sprite:LTSprite = Eachin Editor.CurrentPage.Sprites
-			If Frame.OverlapsSprite( Sprite ) Then Editor.SelectedSprites.AddLast( Sprite )
-		Next
+		ProcessList( Editor.CurrentLayer )
 		Editor.FillSpriteFields()
 		Frame = Null
+	End Method
+	
+	
+	
+	Method ProcessList( List:LTList )
+		For Local Obj:LTActiveObject = Eachin List.Children
+			Local IncludedList:LTList = LTList( Obj )
+			If IncludedList Then
+				ProcessList( IncludedList )
+			Elseif Not LTTileMap( Obj )
+				If Frame.OverlapsSprite( Sprite ) Then Editor.SelectedSprites.AddLast( Sprite )
+			End If
+		Next
 	End Method
 End Type

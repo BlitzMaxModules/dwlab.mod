@@ -108,6 +108,7 @@ Type LTEditor Extends LTProject
 	Field CurrentTilemap:LTSprite
 	Field CurrentSprite:LTSprite
 	Field CurrentTileset:LTTileset
+	Field SelectedObject:Object
 	Field TilesQueue:TMap = New TMap
 	Field Cursor:LTSprite = New LTSprite
 	Field SpriteUnderCursor:LTSprite
@@ -165,6 +166,9 @@ Type LTEditor Extends LTProject
 	Const MenuProperties:Int = 25
 	Const MenuTilesetProperties:Int = 26
 	
+	Const PanelHeight:Int = 268
+	Const BarWidth:Int = 207
+	
 	
 	
 	Method Init()
@@ -174,8 +178,6 @@ Type LTEditor Extends LTProject
 		Toolbar = CreateToolBar( "incbin::toolbar.png", 0, 0, 0, 0, Window )
 		SetToolbarTips( Toolbar, [ "New", "Open", "Save", "Save as", "", "Show grid", "Snap to grid", "Grid settings", "", "Auto-changement of tiles", "Prolong tiles" ] )
 		
-		Const PanelHeight:Int = 268
-		Const BarWidth:Int = 207
 		Local BarHeight:Int = ClientHeight( Window ) - PanelHeight
 		MainCanvas = CreateCanvas( 0, 0, ClientWidth( Window ) - BarWidth - 16, ClientHeight( Window ) - 16, Window )
 		SetGadgetLayout( MainCanvas, Edge_Aligned, Edge_Aligned, Edge_Aligned, Edge_Aligned )
@@ -521,10 +523,7 @@ Type LTEditor Extends LTProject
 						RefreshSpritesList()
 				End Select
 			Case Event_MouseWheel
-				If Not Modifiers.IsEmpty() Then
-					Local Sprite:LTSprite = LTSprite( SelectedObjects.First() )
-					SetSpriteModifiers( Sprite )
-				End If
+				If Not Modifiers.IsEmpty() Then SetSpriteModifiers( LTSprite( SelectedObjects.First() ) )
 				If MouseIsOver = MainCanvas Then
 					MainCanvasZ :+ EventData()
 				Else
@@ -572,13 +571,20 @@ Type LTEditor Extends LTProject
 					' ============================= Layer menu ==================================
 					
 					Case MenuAddLayer
-						Local PageName:String = EnterString( "Enter page name:" )
-						If PageName Then
-							Local Page:LTPage = New LTPage
-							Page.SetName( PageName )
-							World.Pages.AddLast( Page )
-							SelectPage( Page )
+						Local LayerName:String = EnterString( "Enter page name:" )
+						If LayerName Then
+							Local Layer:LTLayer = New LTLayer
+							Layer.SetName( LayerName )
+							LTLayer( SelectedObject ).AddLast( Layer )
+							SelectLayer( Layer )
 						End If
+					Case MenuAddTilemap
+						Local XQuantity:Int = 16
+						Local YQuantity:Int = 16
+						CurrentTilemap = LTTilemap.Create( XQuantity, YQuantity, 16, 16, 16 )
+						LTLayer( SelectedObject ).AddLast( CurrentTilemap )
+						SelectedObject = CurrentTilemap
+						TilemapSettings()
 					Case MenuImportTilemap
 						Local TileWidth:Int = 16
 						Local TileHeight:Int = 16
@@ -599,7 +605,7 @@ Type LTEditor Extends LTProject
 										Local Visualizer:LTImageVisualizer = New LTImageVisualizer
 										Visualizer.Image = LoadImageFromFile( TilesetFilename, Tileset.Width / TileWidth, Tileset.height / TileHeight )
 										CurrentTilemap.Visualizer = Visualizer
-										SelectPage( CurrentPage )
+										SelectLayer( CurrentLayer )
 										SetChanged()
 									End If
 								Else
@@ -652,32 +658,14 @@ Type LTEditor Extends LTProject
 					' ============================= Tilemap menu ==================================
 					
 					Case MenuEditTilemap
-						
+						CurrentTileMap = LTTileMap( SelectedObject )
+						RefreshTilemap()
 					Case MenuTilemapSettings
-						Local XQuantity:Int = 16
-						Local YQuantity:Int = 16
-						If CurrentTilemap Then
-							XQuantity = CurrentTilemap.FrameMap.XQuantity
-							YQuantity = CurrentTilemap.FrameMap.YQuantity
-						End If
-						
-						If ChooseParameter( XQuantity, YQuantity, "tiles quantity", "tiles" ) Then
-							If CurrentTilemap Then 
-								CurrentTilemap.FrameMap.SetResolution( XQuantity, YQuantity )
-							Else
-								CurrentTilemap = LTTilemap.Create( XQuantity, YQuantity, 16, 16, 16 )
-								CurrentPage.TileMap = CurrentTilemap
-							End If
-							CurrentTilemap.X = 0.5 * XQuantity
-							CurrentTilemap.Y = 0.5 * YQuantity
-							CurrentTilemap.Width = XQuantity
-							CurrentTilemap.Height = YQuantity
-							SelectPage( CurrentPage )
-						End If
+						TilemapSettings()
 					Case MenuTilesetSettings
 						If CurrentTilemap Then
 							SpriteImageProperties( CurrentTilemap )
-							SelectPage( CurrentPage )
+							RefreshTilemap()
 						Else
 							Notify( "Create tilemap first by visiting ''Edit/Tilemap settings'' first" )
 						End If
@@ -811,20 +799,18 @@ Type LTEditor Extends LTProject
 			SetSliderRange( VScroller, 1, 1 )
 		End If
 		
-		If MenuChecked( EditTilemap ) Then
+		If CurrentTilemap Then
 			EnableGadget( TilesetCanvas )
 			ShowGadget( TilesetCanvas )
 			DisableGadget( Panel )
 			HideGadget( Panel )
-			DisableGadget( SpritesListBox )
-			HideGadget( SpritesListBox )
+			SetGadgetShape( ProjectManager, ClientWidth( Window ) - BarWidth, 0, BarWidth, 0.5 * ClientHeight( Window ) )
 		Else
 			DisableGadget( TilesetCanvas )
 			HideGadget( TilesetCanvas )
 			EnableGadget( Panel )
 			ShowGadget( Panel )
-			EnableGadget( SpritesListBox )
-			ShowGadget( SpritesListBox )
+			SetGadgetShape( ProjectManager, ClientWidth( Window ) - BarWidth, PanelHeight, BarWidth, ClientHeight( Window ) - PanelHeight )
 		End If
 		
 		Cursor.SetMouseCoords()
@@ -835,47 +821,46 @@ Type LTEditor Extends LTProject
 			MainCamera.FieldToScreen( Modifier.X, Modifier.Y, MX, MY )
 			If MouseX() >= MX - 8 And MouseX() <= MX + 8 And MouseY() >= MY - 8 And MouseY() <= MY + 8 Then
 				SelectedModifier = Modifier
+				Exit
 			End If
 		Next
 		
-		If MenuChecked( EditTilemap ) Then
-			If CurrentTilemap Then
-				Local MX:Float, MY:Float
-				MainCamera.ScreenToField( MouseX(), MouseY(), MX, MY )
-				Local MinX:Int = 0
-				Local MinY:Int = 0
-				Local TileNum0:Int = TileNum[ 0 ]
-				If CurrentTileset Then
-					MinX = -CurrentTileset.BlockWidth[ TileNum0 ]
-					MinY = -CurrentTileset.BlockHeight[ TileNum0 ]
-					debuglog MinY
-				EndIf
-				TileX = L_LimitInt( Floor( MX ), MinX, CurrentTilemap.FrameMap.XQuantity - 1 )
-				TileY = L_LimitInt( Floor( MY ), MinY, CurrentTilemap.FrameMap.YQuantity - 1 )
-				Local Image:LTImage = LTImageVisualizer( CurrentTilemap.Visualizer ).Image
-				If Image then
-					Local FWidth:Float, FHeight:Float
-					TilesetCamera.SizeScreenToField( GadgetWidth( TilesetCanvas ), 0, FWidth, FHeight )
-					TilesInRow = Image.XCells
-					
-					If MouseIsOver = TilesetCanvas Then
-						Local FX:Float, FY:Float
-						TilesetCamera.ScreenToField( MouseX(), MouseY(), FX, FY )
-						Local IFX:Int = Floor( FX )
-						Local IFY:Int = Floor( FY )
-						If IFX >= 0 And IFY >= 0 And IFX < TilesInRow And IFY < Image.YCells Then
-							Local TileNumUnderCursor:Int = IFX + TilesInRow * IFY
-							If MouseDown( 1 ) Then TileNum[ 0 ] = TileNumUnderCursor
-							If MouseDown( 2 ) Then TileNum[ 1 ] = TileNumUnderCursor
-							If CurrentTileset And KeyHit( Key_0 )  Then
-								Local NewWidth:Int = IFX - ( TileNum0 Mod TilesInRow )
-								Local NewHeight:Int = IFY - Floor( TileNum0 / TilesInRow )
-								'debugstop
-								if NewHeight >= 0 And NewWidth >= 0 Then
-									CurrentTileset.BlockWidth[ TileNum0 ] = NewWidth
-									CurrentTileset.BlockHeight[ TileNum0 ] = NewHeight
-								End If							
-							End If
+		If CurrentTilemap Then
+			Local MX:Float, MY:Float
+			MainCamera.ScreenToField( MouseX(), MouseY(), MX, MY )
+			Local MinX:Int = 0
+			Local MinY:Int = 0
+			Local TileNum0:Int = TileNum[ 0 ]
+			If CurrentTileset Then
+				MinX = -CurrentTileset.BlockWidth[ TileNum0 ]
+				MinY = -CurrentTileset.BlockHeight[ TileNum0 ]
+				debuglog MinY
+			EndIf
+			TileX = L_LimitInt( Floor( MX ), MinX, CurrentTilemap.FrameMap.XQuantity - 1 )
+			TileY = L_LimitInt( Floor( MY ), MinY, CurrentTilemap.FrameMap.YQuantity - 1 )
+			Local Image:LTImage = LTImageVisualizer( CurrentTilemap.Visualizer ).Image
+			If Image then
+				Local FWidth:Float, FHeight:Float
+				TilesetCamera.SizeScreenToField( GadgetWidth( TilesetCanvas ), 0, FWidth, FHeight )
+				TilesInRow = Image.XCells
+				
+				If MouseIsOver = TilesetCanvas Then
+					Local FX:Float, FY:Float
+					TilesetCamera.ScreenToField( MouseX(), MouseY(), FX, FY )
+					Local IFX:Int = Floor( FX )
+					Local IFY:Int = Floor( FY )
+					If IFX >= 0 And IFY >= 0 And IFX < TilesInRow And IFY < Image.YCells Then
+						Local TileNumUnderCursor:Int = IFX + TilesInRow * IFY
+						If MouseDown( 1 ) Then TileNum[ 0 ] = TileNumUnderCursor
+						If MouseDown( 2 ) Then TileNum[ 1 ] = TileNumUnderCursor
+						If CurrentTileset And KeyHit( Key_0 )  Then
+							Local NewWidth:Int = IFX - ( TileNum0 Mod TilesInRow )
+							Local NewHeight:Int = IFY - Floor( TileNum0 / TilesInRow )
+							'debugstop
+							if NewHeight >= 0 And NewWidth >= 0 Then
+								CurrentTileset.BlockWidth[ TileNum0 ] = NewWidth
+								CurrentTileset.BlockHeight[ TileNum0 ] = NewHeight
+							End If							
 						End If
 					End If
 				End If
@@ -1028,7 +1013,7 @@ Type LTEditor Extends LTProject
 		
 		DrawText( SliderValue( VScroller ), 0, 0 )
 	End Method
-	
+		
 	
 	
 	Method SelectMenuItem( MenuItem:TGadget, State:Int = 1 )
@@ -1051,16 +1036,6 @@ Type LTEditor Extends LTProject
 					UncheckMenu( SnapToGrid )
 					DeselectGadgetItem( Toolbar, MenuSnapToGrid )
 				End If
-			Case EditTilemap
-				UncheckMenu( EditSprites )
-				CheckMenu( EditTilemap )
-				DeselectGadgetItem( Toolbar, MenuEditSprites )
-				SelectGadgetItem( Toolbar, MenuEditTilemap )
-			Case EditSprites
-				CheckMenu( EditSprites )
-				UncheckMenu( EditTilemap )
-				SelectGadgetItem( Toolbar, MenuEditSprites )
-				DeselectGadgetItem( Toolbar, MenuEditTilemap )
 			Case ReplacementOfTiles
 				If State Then
 					CheckMenu( ReplacementOfTiles )
@@ -1125,7 +1100,6 @@ Type LTEditor Extends LTProject
 		SetSpriteModifiers( Sprite )
 		CurrentSprite = Sprite
 		FillSpriteFields()
-		RefreshSpritesList()
 	End Method
 	
 	
@@ -1173,41 +1147,41 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method RefreshSpritesList()
-		RefreshListBox( SpritesListBox, CurrentPage.Sprites.Children, CurrentSprite )
-	End Method
-	
-	
-	
-	Method SelectPage( Page:LTPage )
-		CurrentPage = Page
-		RefreshPagesList()
+	Method SelectLayer( Layer:LTLayer )
+		CurrentLayer = Layer
 		SelectedObjects.Clear()
-		RefreshSpritesList()
-		If CurrentPage.TileMap Then
-			Local Image:LTImage = LTImageVisualizer( CurrentPage.TileMap.Visualizer ).Image
-			If Image Then
-				CurrentTileset = LTTileset( TilesetMap.ValueForKey( Image ) )
-				TilesetCameraWidth = Image.XCells
-				TilesetCanvasZ = 0.0
-			End If
-		End If
 		Modifiers.Clear()
 	End Method
 	
 	
 	
-	Method AddPage( PageName:String )
-		Local Page:LTPage = New LTPage
-		Page.SetName( PageName )
-		World.Pages.AddLast( Page )
-		SelectPage( Page )
-	End Method	
+	Method TilemapSettings()
+		Local Tilemap:LTTileMap = LTTilemap( SelectedObject )
+		If ChooseParameter( Tilemap.FrameMap.XQuantity, Tilemap.FrameMap.YQuantity, "tiles quantity", "tiles" ) Then
+			CurrentTilemap.FrameMap.SetResolution( XQuantity, YQuantity )
+			CurrentTilemap.X = 0.5 * XQuantity
+			CurrentTilemap.Y = 0.5 * YQuantity
+			CurrentTilemap.Width = XQuantity
+			CurrentTilemap.Height = YQuantity
+			SelectLayer( CurrentLayer )
+		End If
+	End Method
 	
 	
 	
-	Method RefreshPagesList()
-		RefreshListBox( PagesListBox, World.Pages, CurrentPage )
+	Method RefreshTilemap()
+		Local Image:LTImage = LTImageVisualizer( CurrentTileMap.Visualizer ).Image
+		If Image Then
+			CurrentTileset = LTTileset( TilesetMap.ValueForKey( Image ) )
+			TilesetCameraWidth = Image.XCells
+			TilesetCanvasZ = 0.0
+		End If
+	End Method
+	
+	
+	
+	Method RefreshProjectManager()
+		
 	End Method
 End Type
 
@@ -1222,28 +1196,6 @@ Function ComparePixmaps:Int( Pixmap1:TPixmap, Pixmap2:TPixmap )
 		Next
 	Next
 	Return True
-End Function
-
-
-
-
-
-Function RefreshListBox( ListBox:TGadget, ObjectsList:TList, CurrentObject:LTObject )
-	Local N:Int = 0
-	For Local Obj:LTObject = Eachin ObjectsList
-		Local ObjectName:String = Obj.GetName()
-		If Obj = CurrentObject Then ObjectName = "* " + ObjectName + " *"
-		If N < CountGadgetItems( ListBox ) Then
-			If GadgetItemText( ListBox, N ) <> ObjectName Then ModifyGadgetItem( ListBox, N, ObjectName )
-		Else
-			AddGadgetItem( ListBox, ObjectName )
-		End If
-		N :+ 1
-	Next
-	
-	While N < CountGadgetItems( ListBox )
-		RemoveGadgetItem( ListBox, N )
-	Wend
 End Function
 
 
