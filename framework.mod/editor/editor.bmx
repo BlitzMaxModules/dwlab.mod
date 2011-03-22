@@ -46,7 +46,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.1.6"
+	Const Version:String = "1.2"
 	Const Title:String = "Digital Wizard's Lab World Editor v" + Version
 	
 	Field Window:TGadget
@@ -65,8 +65,7 @@ Type LTEditor Extends LTProject
 	Field MouseIsOver:TGadget
 	Field Changed:Int
 	
-	Field SpritesListBox:TGadget
-	Field PagesListBox:TGadget
+	Field ProjectManager:TGadget
 	Field Panel:TGadget
 	Field RedField:TGadget
 	Field RedSlider:TGadget
@@ -96,19 +95,23 @@ Type LTEditor Extends LTProject
 	
 	Field SnapToGrid:TGadget
 	Field ShowGrid:TGadget
-	Field EditTilemap:TGadget
-	Field EditSprites:TGadget
 	Field ReplacementOfTiles:TGadget
 	Field ProlongTiles:TGadget
 	
+	Field WorldMenu:TGadget
+	Field LayerMenu:TGadget
+	Field TilemapMenu:TGadget
+	Field SpriteMenu:TGadget
+	
 	Field World:LTWorld = New LTWorld
-	Field CurrentPage:LTPage
+	Field CurrentLayer:LTLayer
+	Field CurrentTilemap:LTSprite
 	Field CurrentSprite:LTSprite
 	Field CurrentTileset:LTTileset
 	Field TilesQueue:TMap = New TMap
 	Field Cursor:LTSprite = New LTSprite
 	Field SpriteUnderCursor:LTSprite
-	Field SelectedSprites:TList = New TList
+	Field SelectedObjects:TList = New TList
 	Field SelectedModifier:LTSprite
 	Field ModifiersImage:TImage
 	Field Modifiers:TList = New TList
@@ -137,21 +140,30 @@ Type LTEditor Extends LTProject
 	Const MenuOpen:Int = 1
 	Const MenuSave:Int = 2
 	Const MenuSaveAs:Int = 3
-	Const MenuImportTilemap:Int = 18
-	Const MenuImportTilemaps:Int = 19
-	Const MenuExit:Int = 20
 	Const MenuShowGrid:Int = 5
 	Const MenuSnapToGrid:Int = 6
 	Const MenuGridSettings:Int = 7
-	Const MenuTilemapSettings:Int = 21
-	Const MenuTilesetSettings:Int = 22
-	Const MenuEditTilemap:Int = 9
-	Const MenuEditSprites:Int = 10
-	Const MenuAddPage:Int = 12
-	Const MenuRemovePage:Int = 13
-	Const MenuReplacementOfTiles:Int = 15
-	Const MenuProlongTiles:Int = 16
-	Const MenuEditReplacementRules:Int = 17
+	Const MenuReplacementOfTiles:Int = 9
+	Const MenuProlongTiles:Int = 10
+	Const MenuExit:Int = 11
+	
+	Const MenuRename:Int = 12
+	Const MenuShiftToTheTop:Int = 13
+	Const MenuShiftUp:Int = 14
+	Const MenuShiftDown:Int = 15
+	Const MenuShiftToTheBottom:Int = 16
+	Const MenuRemove:Int = 17
+
+	Const MenuSelect:Int = 18
+	Const MenuAddLayer:Int = 19
+	Const MenuAddTilemap:Int = 20
+	Const MenuImportTilemap:Int = 21
+	Const MenuImportTilemaps:Int = 22
+
+	Const MenuEdit:Int = 23
+	Const MenuEditTileset:Int = 24
+	Const MenuProperties:Int = 25
+	Const MenuTilesetProperties:Int = 26
 	
 	
 	
@@ -160,19 +172,17 @@ Type LTEditor Extends LTProject
 		MaximizeWindow( Window )
 		
 		Toolbar = CreateToolBar( "incbin::toolbar.png", 0, 0, 0, 0, Window )
-		SetToolbarTips( Toolbar, [ "New", "Open", "Save", "Save as", "", "Show grid", "Snap to grid", "Grid settings", "", "Edit tilemap", "Edit sprites", "", "Add page", "Delete current page", "", "Auto-changement of tiles", "Prolong tiles", "Edit auto-changement rules" ] )
+		SetToolbarTips( Toolbar, [ "New", "Open", "Save", "Save as", "", "Show grid", "Snap to grid", "Grid settings", "", "Auto-changement of tiles", "Prolong tiles" ] )
 		
 		Const PanelHeight:Int = 268
 		Const BarWidth:Int = 207
 		Local BarHeight:Int = ClientHeight( Window ) - PanelHeight
 		MainCanvas = CreateCanvas( 0, 0, ClientWidth( Window ) - BarWidth - 16, ClientHeight( Window ) - 16, Window )
 		SetGadgetLayout( MainCanvas, Edge_Aligned, Edge_Aligned, Edge_Aligned, Edge_Aligned )
-		TilesetCanvas = CreateCanvas( ClientWidth( Window ) - BarWidth, 0, BarWidth, PanelHeight + 0.7 * BarHeight, Window )
+		TilesetCanvas = CreateCanvas( ClientWidth( Window ) - BarWidth, 0, BarWidth, 0.5 * BarHeight, Window )
 		SetGadgetLayout( TilesetCanvas, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Relative )
-		SpritesListBox = CreateListBox( ClientWidth( Window ) - BarWidth, PanelHeight, BarWidth, 0.7 * BarHeight, Window )
+		ProjectManager = CreateTreeView( ClientWidth( Window ) - BarWidth, PanelHeight, BarWidth, BarHeight, Window )
 		SetGadgetLayout( SpritesListBox, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Relative )
-		PagesListBox = CreateListBox( ClientWidth( Window ) - BarWidth, PanelHeight + 0.7 * BarHeight, BarWidth, 0.3 * BarHeight, Window )
-		SetGadgetLayout( PagesListBox, Edge_Centered, Edge_Aligned, Edge_Relative, Edge_Aligned )
 		
 		HScroller = CreateSlider( 0, ClientHeight( Window ) - 16, ClientWidth( Window ) - BarWidth - 16, 16, Window, Slider_Scrollbar | Slider_Horizontal )
 		SetGadgetLayout( HScroller, Edge_Aligned, Edge_Aligned, Edge_Centered, Edge_Aligned )
@@ -230,37 +240,41 @@ Type LTEditor Extends LTProject
 		L_CurrentCamera = MainCamera
 		
 		Local FileMenu:TGadget = CreateMenu( "File", 0, WindowMenu( Window ) )
-		CreateMenu( "New", MenuNew, FileMenu )
-		CreateMenu( "Open...", MenuOpen, FileMenu )
-		CreateMenu( "Save...", MenuSave, FileMenu )
-		CreateMenu( "Save as...", MenuSaveAs, FileMenu )
-		CreateMenu( "", 0, FileMenu )
-		CreateMenu( "Import tilemap...", MenuImportTilemap, FileMenu )
-		CreateMenu( "Import tilemaps...", MenuImportTilemaps, FileMenu )
+		CreateMenu( "New project", MenuNew, FileMenu )
+		CreateMenu( "Open project...", MenuOpen, FileMenu )
+		CreateMenu( "Save project...", MenuSave, FileMenu )
+		CreateMenu( "Save project as...", MenuSaveAs, FileMenu )
 		CreateMenu( "", 0, FileMenu )
 		CreateMenu( "Exit", MenuExit, FileMenu )
 		
 		Local EditMenu:TGadget = CreateMenu( "Edit", 0, WindowMenu( Window ) )
 		ShowGrid = CreateMenu( "Show grid", MenuShowGrid, EditMenu )
 		SnapToGrid = CreateMenu( "Snap to grid", MenuSnapToGrid, EditMenu )
-		CreateMenu( "", 0, EditMenu )
 		CreateMenu( "Grid settings", MenuGridSettings, EditMenu )
-		CreateMenu( "Tilemap settings", MenuTilemapSettings, EditMenu )
-		CreateMenu( "Tileset settings", MenuTilesetSettings, EditMenu )
-		CreateMenu( "", 0, EditMenu )
-		EditTilemap = CreateMenu( "Edit tilemap", MenuEditTilemap, EditMenu )
-		EditSprites = CreateMenu( "Edit sprites", MenuEditSprites, EditMenu )
-		CreateMenu( "", 0, EditMenu )
-		CreateMenu( "Add page", MenuAddPage, EditMenu )
-		CreateMenu( "Remove current page", MenuRemovePage, EditMenu )
 		CreateMenu( "", 0, EditMenu )
 		ReplacementOfTiles = CreateMenu( "Replacement of tiles", MenuReplacementOfTiles, EditMenu )
 		ProlongTiles = CreateMenu( "Prolong tiles", MenuProlongTiles, EditMenu )
-		CreateMenu( "Edit replacement rules", MenuEditReplacementRules, EditMenu )
-		CheckMenu( EditSprites )
 		
 		UpdateWindowMenu( Window )
 		
+		LayerMenu = CreateMenu( "Layer menu", 0, null )
+		CreateMenu( "Select", MenuSelect, LayerMenu )
+		CreateMenu( "Add new layer", MenuAddLayer, LayerMenu )
+		CreateMenu( "Add new tilemap", MenuAddTilemap, LayerMenu )
+		CreateMenu( "Import tilemap", MenuImportTilemap, LayerMenu )
+		CreateMenu( "Import tilemaps", MenuImportTilemaps, LayerMenu )
+		AddCommonMenuItems( LayerMenu )
+		
+		TilemapMenu = CreateMenu( "Tilemap menu", 0, null )
+		CreateMenu( "Edit", MenuEdit, TilemapMenu )
+		CreateMenu( "Properties", MenuProperties, TilemapMenu )
+		CreateMenu( "Edit tileset image", MenuEditTileset, TilemapMenu )
+		CreateMenu( "Edit tile replacement rules", MenuTilesetProperties, TilemapMenu )
+		AddCommonMenuItems( TilemapMenu )
+		
+		SpriteMenu = CreateMenu( "Sprite menu", 0, null )
+		AddCommonMenuItems( SpriteMenu )
+	
 		SetGraphics( CanvasGraphics( MainCanvas ) )
 		SetGraphicsParameters()
 		
@@ -274,8 +288,6 @@ Type LTEditor Extends LTProject
 		
 		SelectedTile.Visualizer = New LTMarchingAnts
 		
-		AddPage( "Page1" )
-		
 		EditorPath = CurrentDir()
 		
 		If FileType( "editor.ini" ) = 1 Then
@@ -285,12 +297,6 @@ Type LTEditor Extends LTProject
 			
 			If ReadLine( IniFile ) = "1" Then SelectMenuItem( ShowGrid )
 			If ReadLine( IniFile ) = "1" Then SelectMenuItem( SnapToGrid )
-			
-			If ReadLine( IniFile ) = "1" Then
-				SelectMenuItem( EditSprites )
-			Else
-				SelectMenuItem( EditTilemap )
-			End If
 			
 			If ReadLine( IniFile ) = "1" Then SelectMenuItem( ReplacementOfTiles )
 			If ReadLine( IniFile ) = "1" Then SelectMenuItem( ProlongTiles )
@@ -305,11 +311,23 @@ Type LTEditor Extends LTProject
 			
 			CloseFile( IniFile )
 		Else
-			SelectMenuItem( EditTilemap )
 			SelectMenuItem( ReplacementOfTiles )
 		End If
 		
+		AddLayer( "Layer 1" )
+		
 		SetTitle()
+	End Method
+	
+	
+	
+	Method AddCommonMenuItems( Menu:TGadget )
+		CreateMenu( "Rename", MenuRename, Menu )
+		CreateMenu( "Shift to the top (Home)", MenuShiftToTheTop, Menu )
+		CreateMenu( "Shift up (PgUp)", MenuShiftUp, Menu )
+		CreateMenu( "Shift down (PgDn)", MenuShiftDown, Menu )
+		CreateMenu( "Shift to the bottom (End)", MenuShiftToTheBottom, Menu )
+		CreateMenu( "Remove (Del)", MenuRemove, Menu )
 	End Method
 	
 	
@@ -345,11 +363,10 @@ Type LTEditor Extends LTProject
 		If Not AskForSaving() Then Return
 		
 		WorldFilename = ""
-		World.Pages.Clear()
+		World.Clear()
 		CurrentTileset = Null
-		AddPage( "Page1" )
-		RefreshPagesList()
-		RefreshSpritesList()
+		AddLayer( "Layer 1" )
+		RefreshProjectManager()
 	End Method
 	
 	
@@ -372,8 +389,6 @@ Type LTEditor Extends LTProject
 			For Local Image:LTImage = Eachin L_ImagesList
 				InitImage( Image )
 			Next
-			
-			SelectPage( LTPage( World.Pages.First() ) )
 			
 			Changed = False
 			
@@ -412,7 +427,6 @@ Type LTEditor Extends LTProject
 		WriteLine( IniFile, WorldFilename )
 		WriteLine( IniFile, MenuChecked( ShowGrid ) )
 		WriteLine( IniFile, MenuChecked( SnapToGrid ) )
-		WriteLine( IniFile, MenuChecked( EditSprites ) )
 		WriteLine( IniFile, MenuChecked( ReplacementOfTiles ) )
 		WriteLine( IniFile, MenuChecked( ProlongTiles ) )
 		
@@ -432,36 +446,49 @@ Type LTEditor Extends LTProject
 	
 	
 	Method Logic()
-		Local CurrentTilemap:LTTileMap = CurrentPage.TileMap
-		
 		PollEvent()
 	
 		Local EvID:Int = EventID()
+		Local EvData:Int = EventData()
+		
 		If EvID = Event_GadgetAction And EventSource() = Toolbar Then EvID = Event_MenuAction
+		If EvID = Event_MenuAction Then
+			Select EventData()
+				Case MenuShiftToTheTop
+					EvID = Event_KeyDown
+					EvData = Key_Home
+				Case MenuShiftUp
+					EvID = Event_KeyDown
+					EvData = Key_PageUp
+				Case MenuShiftDown
+					EvID = Event_KeyDown
+					EvData = Key_PageDown
+				Case MenuShiftToTheBottom
+					EvID = Event_KeyDown
+					EvData = Key_End
+				Case MenuRemove
+					EvID = Event_KeyDown
+					EvData = Key_Delete
+			End Select
+		End If
 		
 		Select EvID
 			Case Event_KeyDown
-				Select EventData()
+				Select EvData
 					Case Key_Delete
-						For Local Sprite:LTSprite = Eachin SelectedSprites
-							CurrentPage.Sprites.Remove( Sprite )
+						For Local Obj:LTActiveObject = Eachin SelectedObjects
+							CurrentLayer.Remove( Obj )
 							SetChanged()
 						Next
 						RefreshSpritesList()
-						SelectedSprites.Clear()
+						SelectedObjects.Clear()
 						Modifiers.Clear()
-					Case Key_Space
-						If MenuChecked( EditSprites ) Then
-							SelectMenuItem( EditTilemap )
-						Else
-							SelectMenuItem( EditSprites )
-						End If
-					Case Key_PageUp, Key_End
-						Local SelectedLink:TLink = SelectedSprites.FirstLink()
-						Local SpriteLink:TLink = CurrentPage.Sprites.Children.FirstLink()
-						Local SpritesList:TList = CurrentPage.Sprites.Children
+					Case Key_PageUp, Key_Home
+						Local SelectedLink:TLink = SelectedObjects.FirstLink()
+						Local SpriteLink:TLink = CurrentLayer.Children.FirstLink()
+						Local SpritesList:TList = CurrentLayer.Children
 						While SpriteLink And SelectedLink
-							If SpriteLink.Value() = SelectedLink.Value() And ( SpriteLink.PrevLink() Or EventData() = Key_End ) Then
+							If SpriteLink.Value() = SelectedLink.Value() And ( SpriteLink.PrevLink() Or EvData = Key_Home ) Then
 								if EventData() = Key_PageUp Then
 									SpritesList.InsertBeforeLink( SpriteLink.Value(), SpriteLink.PrevLink() )
 								Else
@@ -474,12 +501,12 @@ Type LTEditor Extends LTProject
 						Wend
 						Changed = True
 						RefreshSpritesList()
-					Case Key_PageDown, Key_Home
-						Local SelectedLink:TLink = SelectedSprites.LastLink()
-						Local SpriteLink:TLink = CurrentPage.Sprites.Children.LastLink()
-						Local SpritesList:TList = CurrentPage.Sprites.Children
+					Case Key_PageDown, Key_End
+						Local SelectedLink:TLink = SelectedObjects.LastLink()
+						Local SpriteLink:TLink = CurrentLayer.Children.LastLink()
+						Local SpritesList:TList = CurrentLayer.Children
 						While SpriteLink And SelectedLink
-							If SpriteLink.Value() = SelectedLink.Value() And ( SpriteLink.NextLink() Or EventData() = Key_Home ) Then
+							If SpriteLink.Value() = SelectedLink.Value() And ( SpriteLink.NextLink() Or EvData = Key_End ) Then
 								if EventData() = Key_PageDown Then
 									SpritesList.InsertAfterLink( SpriteLink.Value(), SpriteLink.NextLink() )
 								Else
@@ -495,7 +522,7 @@ Type LTEditor Extends LTProject
 				End Select
 			Case Event_MouseWheel
 				If Not Modifiers.IsEmpty() Then
-					Local Sprite:LTSprite = LTSprite( SelectedSprites.First() )
+					Local Sprite:LTSprite = LTSprite( SelectedObjects.First() )
 					SetSpriteModifiers( Sprite )
 				End If
 				If MouseIsOver = MainCanvas Then
@@ -519,7 +546,10 @@ Type LTEditor Extends LTProject
 						MouseIsOver = TilesetCanvas
 				End Select
 			Case Event_MenuAction
-				Select EventData()
+				Select EvData
+					
+					' ============================= Main menu ==================================
+					
 					Case MenuNew
 						NewWorld()
 					Case MenuOpen
@@ -528,6 +558,27 @@ Type LTEditor Extends LTProject
 						SaveWorld()
 					Case MenuSaveAs
 						SaveWorld( True )
+					Case MenuSnapToGrid
+						SelectMenuItem( SnapToGrid, 2 )
+					Case MenuShowGrid
+						SelectMenuItem( ShowGrid, 2 )
+					Case MenuGridSettings
+						Grid.Settings()
+					Case MenuReplacementOfTiles
+						SelectMenuItem( ReplacementOfTiles, 2 )
+					Case MenuProlongTiles
+						SelectMenuItem( ProlongTiles, 2 )
+						
+					' ============================= Layer menu ==================================
+					
+					Case MenuAddLayer
+						Local PageName:String = EnterString( "Enter page name:" )
+						If PageName Then
+							Local Page:LTPage = New LTPage
+							Page.SetName( PageName )
+							World.Pages.AddLast( Page )
+							SelectPage( Page )
+						End If
 					Case MenuImportTilemap
 						Local TileWidth:Int = 16
 						Local TileHeight:Int = 16
@@ -597,10 +648,11 @@ Type LTEditor Extends LTProject
 								End If
 							End If
 						End If
-					Case MenuSnapToGrid
-						SelectMenuItem( SnapToGrid, 2 )
-					Case MenuShowGrid
-						SelectMenuItem( ShowGrid, 2 )
+					
+					' ============================= Tilemap menu ==================================
+					
+					Case MenuEditTilemap
+						
 					Case MenuTilemapSettings
 						Local XQuantity:Int = 16
 						Local YQuantity:Int = 16
@@ -622,8 +674,6 @@ Type LTEditor Extends LTProject
 							CurrentTilemap.Height = YQuantity
 							SelectPage( CurrentPage )
 						End If
-					Case MenuGridSettings
-						Grid.Settings()
 					Case MenuTilesetSettings
 						If CurrentTilemap Then
 							SpriteImageProperties( CurrentTilemap )
@@ -631,29 +681,6 @@ Type LTEditor Extends LTProject
 						Else
 							Notify( "Create tilemap first by visiting ''Edit/Tilemap settings'' first" )
 						End If
-					Case MenuEditTilemap
-						SelectMenuItem( EditTilemap )
-					Case MenuEditSprites
-						SelectMenuItem( EditSprites )
-					Case MenuAddPage
-						Local PageName:String = EnterString( "Enter page name:" )
-						If PageName Then
-							Local Page:LTPage = New LTPage
-							Page.SetName( PageName )
-							World.Pages.AddLast( Page )
-							SelectPage( Page )
-						End If
-					Case MenuRemovePage
-						If World.Pages.Count() > 1 Then
-							World.Pages.Remove( CurrentPage )
-							SelectPage( LTPage( World.Pages.First() ) )
-						Else
-							Notify( "Cannot delete only page" )
-						End If
-					Case MenuReplacementOfTiles
-						SelectMenuItem( ReplacementOfTiles, 2 )
-					Case MenuProlongTiles
-						SelectMenuItem( ProlongTiles, 2 )
 					Case MenuEditReplacementRules
 						TilesetProperties( CurrentTilemap )
 					Case MenuExit
@@ -676,10 +703,10 @@ Type LTEditor Extends LTProject
 							SetChanged()
 						End If
 					Case SelectImageButton
-						If Not SelectedSprites.IsEmpty() Then
-							Local FirstSprite:LTSprite = LTSprite( SelectedSprites.First() )
+						If Not SelectedObjects.IsEmpty() Then
+							Local FirstSprite:LTSprite = LTSprite( SelectedObjects.First() )
 							If SpriteImageProperties( FirstSprite ) Then
-								For Local Sprite:LTSprite = Eachin SelectedSprites
+								For Local Sprite:LTSprite = Eachin SelectedObjects
 									LTImageVisualizer( Sprite.Visualizer ).Image = LTImageVisualizer( FirstSprite.Visualizer ).Image
 								Next
 							End If
@@ -690,7 +717,7 @@ Type LTEditor Extends LTProject
 						MainCamera.Y = SliderValue( VScroller ) * CurrentTilemap.Height / 10000.0 + 0.5 * MainCamera.Height
 				End Select
 				
-				For Local Sprite:LTSprite = Eachin SelectedSprites
+				For Local Sprite:LTSprite = Eachin SelectedObjects
 					Select EventSource()
 						Case HiddenOKButton
 							Select ActiveGadget()
@@ -982,7 +1009,7 @@ Type LTEditor Extends LTProject
 				End If
 			End If
 		Else
-			For Local Sprite:LTSprite = Eachin SelectedSprites
+			For Local Sprite:LTSprite = Eachin SelectedObjects
 				Sprite.DrawUsingVisualizer( MarchingAnts )
 			Next
 			
@@ -1093,8 +1120,8 @@ Type LTEditor Extends LTProject
 	
 	
 	Method SelectSprite( Sprite:LTSprite )
-		SelectedSprites.Clear()
-		SelectedSprites.AddLast( Sprite )
+		SelectedObjects.Clear()
+		SelectedObjects.AddLast( Sprite )
 		SetSpriteModifiers( Sprite )
 		CurrentSprite = Sprite
 		FillSpriteFields()
@@ -1155,7 +1182,7 @@ Type LTEditor Extends LTProject
 	Method SelectPage( Page:LTPage )
 		CurrentPage = Page
 		RefreshPagesList()
-		SelectedSprites.Clear()
+		SelectedObjects.Clear()
 		RefreshSpritesList()
 		If CurrentPage.TileMap Then
 			Local Image:LTImage = LTImageVisualizer( CurrentPage.TileMap.Visualizer ).Image

@@ -8,8 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTWorld Extends LTLayer
-	Method FromFile:LTWorld( Filename:String )
-		Return LTWorld( L_LoadFromFile( Filename ) )
-	End Method
+Include "LTWorld.bmx"
+
+Type LTLayer Extends LTList
 End Type
