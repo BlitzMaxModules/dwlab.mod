@@ -40,6 +40,7 @@ include "SpriteImageProperties.bmx"
 include "TilesetProperties.bmx"
 
 Incbin "toolbar.png"
+Incbin "treeview.png"
 Incbin "modifiers.png"
 
 Global Editor:LTEditor = New LTEditor
@@ -61,6 +62,7 @@ Type LTEditor Extends LTProject
 	Field TilesetCanvasZ:Int
 	
 	Field Toolbar:TGadget
+	Field TreeViewIcons:TIconStrip
 	
 	Field MouseIsOver:TGadget
 	Field Changed:Int
@@ -161,10 +163,10 @@ Type LTEditor Extends LTProject
 	Const MenuImportTilemap:Int = 21
 	Const MenuImportTilemaps:Int = 22
 
-	Const MenuEdit:Int = 23
+	Const MenuEditTilemap:Int = 23
 	Const MenuEditTileset:Int = 24
-	Const MenuProperties:Int = 25
-	Const MenuTilesetProperties:Int = 26
+	Const MenuTilemapSettings:Int = 25
+	Const MenuEditReplacementRules:Int = 26
 	
 	Const PanelHeight:Int = 268
 	Const BarWidth:Int = 207
@@ -178,6 +180,8 @@ Type LTEditor Extends LTProject
 		Toolbar = CreateToolBar( "incbin::toolbar.png", 0, 0, 0, 0, Window )
 		SetToolbarTips( Toolbar, [ "New", "Open", "Save", "Save as", "", "Show grid", "Snap to grid", "Grid settings", "", "Auto-changement of tiles", "Prolong tiles" ] )
 		
+		
+		
 		Local BarHeight:Int = ClientHeight( Window ) - PanelHeight
 		MainCanvas = CreateCanvas( 0, 0, ClientWidth( Window ) - BarWidth - 16, ClientHeight( Window ) - 16, Window )
 		SetGadgetLayout( MainCanvas, Edge_Aligned, Edge_Aligned, Edge_Aligned, Edge_Aligned )
@@ -185,6 +189,8 @@ Type LTEditor Extends LTProject
 		SetGadgetLayout( TilesetCanvas, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Relative )
 		ProjectManager = CreateTreeView( ClientWidth( Window ) - BarWidth, PanelHeight, BarWidth, BarHeight, Window )
 		SetGadgetLayout( SpritesListBox, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Relative )
+		TreeViewIcons = LoadIconStrip( "incbin::treeview.png" )
+		SetGadgetIconStrip( ProjectManager, TreeViewIcons )
 		
 		HScroller = CreateSlider( 0, ClientHeight( Window ) - 16, ClientWidth( Window ) - BarWidth - 16, 16, Window, Slider_Scrollbar | Slider_Horizontal )
 		SetGadgetLayout( HScroller, Edge_Aligned, Edge_Aligned, Edge_Centered, Edge_Aligned )
@@ -268,10 +274,10 @@ Type LTEditor Extends LTProject
 		AddCommonMenuItems( LayerMenu )
 		
 		TilemapMenu = CreateMenu( "Tilemap menu", 0, null )
-		CreateMenu( "Edit", MenuEdit, TilemapMenu )
-		CreateMenu( "Properties", MenuProperties, TilemapMenu )
+		CreateMenu( "Edit", MenuEditTilemap, TilemapMenu )
+		CreateMenu( "Properties", MenuTilemapSettings, TilemapMenu )
 		CreateMenu( "Edit tileset image", MenuEditTileset, TilemapMenu )
-		CreateMenu( "Edit tile replacement rules", MenuTilesetProperties, TilemapMenu )
+		CreateMenu( "Edit tile replacement rules", MenuEditReplacementRules, TilemapMenu )
 		AddCommonMenuItems( TilemapMenu )
 		
 		SpriteMenu = CreateMenu( "Sprite menu", 0, null )
@@ -453,26 +459,44 @@ Type LTEditor Extends LTProject
 		Local EvID:Int = EventID()
 		Local EvData:Int = EventData()
 		
-		If EvID = Event_GadgetAction And EventSource() = Toolbar Then EvID = Event_MenuAction
-		If EvID = Event_MenuAction Then
-			Select EventData()
-				Case MenuShiftToTheTop
-					EvID = Event_KeyDown
-					EvData = Key_Home
-				Case MenuShiftUp
-					EvID = Event_KeyDown
-					EvData = Key_PageUp
-				Case MenuShiftDown
-					EvID = Event_KeyDown
-					EvData = Key_PageDown
-				Case MenuShiftToTheBottom
-					EvID = Event_KeyDown
-					EvData = Key_End
-				Case MenuRemove
-					EvID = Event_KeyDown
-					EvData = Key_Delete
-			End Select
-		End If
+		Select EvID
+			Case Event_GadgetAction 
+				If EventSource() = Toolbar Then EvID = Event_MenuAction
+			Case Event_MenuAction
+				Select EventData()
+					Case MenuShiftToTheTop
+						EvID = Event_KeyDown
+						EvData = Key_Home
+					Case MenuShiftUp
+						EvID = Event_KeyDown
+						EvData = Key_PageUp
+					Case MenuShiftDown
+						EvID = Event_KeyDown
+						EvData = Key_PageDown
+					Case MenuShiftToTheBottom
+						EvID = Event_KeyDown
+						EvData = Key_End
+					Case MenuRemove
+						EvID = Event_KeyDown
+						EvData = Key_Delete
+					Case MenuEdit
+						EvID = Event_GadgetSelect
+				End Select
+			Case Event_GadgetSelect
+				If EventSource() = ProjectManager Then
+					SelectedObject = GadgetExtra( EventExtra() )
+					If LTLayer( SelectedObject ) Then
+						EvID = Event_MenuAction
+						EvData = MenuSelect
+					ElseIf LTTileMap( SelectedObject ) Then
+						EvID = Event_MenuAction
+						EvData = MenuEdit
+					Else
+						CurrentTilemap = Null
+						SelectSprite( LTSprite( SelectedObject ) )
+					End If
+				End If
+		End Select
 		
 		Select EvID
 			Case Event_KeyDown
@@ -546,7 +570,14 @@ Type LTEditor Extends LTProject
 				End Select
 			Case Event_MenuAction
 				Select EvData
-					
+					Case MenuRename
+						Local Name:String = EnterString( "Enter name of the object", CurrentSprite.GetName() )
+						If Name Then
+							SetObjectName( SelectedObject, Name )
+							RefreshProjectManager()
+							SetChanged()
+						End If
+				
 					' ============================= Main menu ==================================
 					
 					Case MenuNew
@@ -557,6 +588,8 @@ Type LTEditor Extends LTProject
 						SaveWorld()
 					Case MenuSaveAs
 						SaveWorld( True )
+					Case MenuExit
+						ExitEditor()
 					Case MenuSnapToGrid
 						SelectMenuItem( SnapToGrid, 2 )
 					Case MenuShowGrid
@@ -570,6 +603,8 @@ Type LTEditor Extends LTProject
 						
 					' ============================= Layer menu ==================================
 					
+					Case MenuSelect
+						SelectLayer( LTLayer( SelectedObject ) )
 					Case MenuAddLayer
 						Local LayerName:String = EnterString( "Enter page name:" )
 						If LayerName Then
@@ -660,49 +695,20 @@ Type LTEditor Extends LTProject
 					Case MenuEditTilemap
 						CurrentTileMap = LTTileMap( SelectedObject )
 						RefreshTilemap()
+					Case MenuEditTileset
+						SpriteImageProperties( CurrentTilemap )
+						RefreshTilemap()
 					Case MenuTilemapSettings
 						TilemapSettings()
-					Case MenuTilesetSettings
-						If CurrentTilemap Then
-							SpriteImageProperties( CurrentTilemap )
-							RefreshTilemap()
-						Else
-							Notify( "Create tilemap first by visiting ''Edit/Tilemap settings'' first" )
-						End If
 					Case MenuEditReplacementRules
 						TilesetProperties( CurrentTilemap )
-					Case MenuExit
-						ExitEditor()
 				End Select
 			Case Event_GadgetAction
 				Select EventSource()
-					Case SpritesListBox
-						Local Name:String = EnterString( "Enter name of sprite", CurrentSprite.GetName() )
-						If Name Then
-							SetObjectName( CurrentSprite, Name )
-							RefreshSpritesList()
-							SetChanged()
-						End If
-					Case PagesListBox
-						Local Name:String = EnterString( "Enter name of page", CurrentPage.GetName() )
-						If Name Then
-							SetObjectName( CurrentPage, Name )
-							RefreshPagesList()
-							SetChanged()
-						End If
-					Case SelectImageButton
-						If Not SelectedObjects.IsEmpty() Then
-							Local FirstSprite:LTSprite = LTSprite( SelectedObjects.First() )
-							If SpriteImageProperties( FirstSprite ) Then
-								For Local Sprite:LTSprite = Eachin SelectedObjects
-									LTImageVisualizer( Sprite.Visualizer ).Image = LTImageVisualizer( FirstSprite.Visualizer ).Image
-								Next
-							End If
-						End If
 					Case HScroller
-						MainCamera.X = SliderValue( HScroller ) * CurrentTilemap.Width / 10000.0 + 0.5 * MainCamera.Width
+						'MainCamera.X = SliderValue( HScroller ) * CurrentTilemap.Width / 10000.0 + 0.5 * MainCamera.Width
 					Case VScroller
-						MainCamera.Y = SliderValue( VScroller ) * CurrentTilemap.Height / 10000.0 + 0.5 * MainCamera.Height
+						'MainCamera.Y = SliderValue( VScroller ) * CurrentTilemap.Height / 10000.0 + 0.5 * MainCamera.Height
 				End Select
 				
 				For Local Sprite:LTSprite = Eachin SelectedObjects
@@ -778,25 +784,27 @@ Type LTEditor Extends LTProject
 							SetChanged()
 					End Select
 				Next
-			Case Event_GadgetSelect
-				Select EventSource()
-					Case SpritesListBox
-						SelectSprite( LTSprite( CurrentPage.Sprites.ValueAtIndex( EventData() ) ) )
-					Case PagesListBox
-						If EventData() >= 0 Then SelectPage( LTPage( World.Pages.ValueAtIndex( EventData() ) ) )
-				End Select
+			Case Event_GadgetMenu
+				If EventSource() = ProjectManager Then
+					SelectedObject = GadgetExtra( EventExtra() )
+					If LTLayer( SelectedObject ) Then
+						PopUpWindowMenu( Window, LayerMenu )
+					ElseIf LTTileMap( SelectedObject ) Then
+						PopUpWindowMenu( Window, TileMapMenu )
+					Else
+						PopUpWindowMenu( Window, SpriteMenu )
+					End If
+				End If
 		End Select
 		
-		CurrentTilemap = CurrentPage.TileMap		
-
 		If CurrentTilemap Then
-			SetSliderRange( HScroller, Min( 10000.0, 10000.0 * MainCamera.Width / CurrentTilemap.Width ), 10000.0 )
-			SetSliderRange( VScroller, Min( 10000.0, 10000.0 * MainCamera.Height / CurrentTilemap.Height ), 10000.0 )
-			If MainCamera.Width < CurrentTilemap.Width Then SetSliderValue( HScroller, 10000.0 * MainCamera.CornerX() / CurrentTilemap.Width )
-			If MainCamera.Height < CurrentTilemap.Height Then SetSliderValue( VScroller, 10000.0 * MainCamera.CornerY() / CurrentTilemap.Height )
+			'SetSliderRange( HScroller, Min( 10000.0, 10000.0 * MainCamera.Width / CurrentTilemap.Width ), 10000.0 )
+			'SetSliderRange( VScroller, Min( 10000.0, 10000.0 * MainCamera.Height / CurrentTilemap.Height ), 10000.0 )
+			'If MainCamera.Width < CurrentTilemap.Width Then SetSliderValue( HScroller, 10000.0 * MainCamera.CornerX() / CurrentTilemap.Width )
+			'If MainCamera.Height < CurrentTilemap.Height Then SetSliderValue( VScroller, 10000.0 * MainCamera.CornerY() / CurrentTilemap.Height )
 		Else
-			SetSliderRange( HScroller, 1, 1 )
-			SetSliderRange( VScroller, 1, 1 )
+			'SetSliderRange( HScroller, 1, 1 )
+			'SetSliderRange( VScroller, 1, 1 )
 		End If
 		
 		If CurrentTilemap Then
@@ -881,13 +889,7 @@ Type LTEditor Extends LTProject
 			SetTile.Execute()
 		Else
 			SpriteUnderCursor = Null
-			For Local Sprite:LTSprite = Eachin Editor.CurrentPage.Sprites
-				If Editor.Cursor.CollidesWith( Sprite ) Then
-					SpriteUnderCursor = Sprite
-					Exit
-				End If
-			Next
-			
+			SearchForSpriteUnderCursor( CurrentLayer )
 			SelectSprites.Execute()
 			MoveSprite.Execute()
 			CreateSprite.Execute()
@@ -911,8 +913,20 @@ Type LTEditor Extends LTProject
 	
 	
 	
+	Method SearchForSpriteUnderCursor( Layer:LTLayer )
+		For Local Obj:LTActiveObject = Eachin Layer.Children
+			If LTLayer( Obj ) Then
+				SearchForSpriteUnderCursor( LTLayer( Obj ) )
+			ElseIf Not LTTileMap( Sprite ) And Editor.Cursor.CollidesWith( Sprite ) Then
+				SpriteUnderCursor = Sprite
+			End If
+		Next
+	End Method
+	
+	
+	
 	Method Render()
-		If MenuChecked( EditTilemap ) And CurrentPage.TileMap Then
+		If CurrentTileMap Then
 			SelectedTile.X = 0.5 + TileX
 			SelectedTile.Y = 0.5 + TileY
 			SelectedTile.Draw()
@@ -925,7 +939,7 @@ Type LTEditor Extends LTProject
 			SetGraphics( CanvasGraphics( TilesetCanvas ) )
 			Cls
 			
-			Local Image:LTImage = LTImageVisualizer( CurrentPage.Tilemap.Visualizer ).Image
+			Local Image:LTImage = LTImageVisualizer( CurrentTileMap.Visualizer ).Image
 			If Image Then
 				TilesetCamera.X = 0.5 * TilesInRow
 				TilesetCamera.Y = 0.5 * Ceil( Image.FramesQuantity() / TilesInRow )
@@ -975,23 +989,15 @@ Type LTEditor Extends LTProject
 		MainCamera.Viewport.Height = MainCanvas.GetHeight()
 		MainCamera.Update()
 		
-		If CurrentPage.TileMap Then CurrentPage.TileMap.Draw()
-		
-		For Local Sprite:LTSprite = Eachin CurrentPage.Sprites
-			Sprite.Draw()
-			Sprite.DrawUsingVisualizer( ShapeVisualizer )
-			Sprite.DrawUsingVisualizer( AngleArrow )
-		Next
+		DrawLayerSprites( CurrentLayer )
 		
 		if MenuChecked( ShowGrid ) Then Grid.Draw()
 		
-		If MenuChecked( EditTilemap ) Then
-			If CurrentPage.TileMap Then
-				If MouseIsOver = MainCanvas Then
-					SelectedTile.X = 0.5 * SelectedTile.Width + TileX
-					SelectedTile.Y = 0.5 * SelectedTile.Height + TileY
-					SelectedTile.Draw()
-				End If
+		If CurrentPage.TileMap Then
+			If MouseIsOver = MainCanvas Then
+				SelectedTile.X = 0.5 * SelectedTile.Width + TileX
+				SelectedTile.Y = 0.5 * SelectedTile.Height + TileY
+				SelectedTile.Draw()
 			End If
 		Else
 			For Local Sprite:LTSprite = Eachin SelectedObjects
@@ -1014,6 +1020,22 @@ Type LTEditor Extends LTProject
 		DrawText( SliderValue( VScroller ), 0, 0 )
 	End Method
 		
+	
+	
+	Method DrawLayerSprites( Layer:LTLayer )
+		For Local Obj:LTActiveObject = Eachin Layer
+			If LTLayer( Obj ) Then
+				DrawLayerSprites( LTLayer( Obj ) )
+			Else
+				Obj.Draw()
+				If Not LTTilemap( Obj )
+					Obj.DrawUsingVisualizer( ShapeVisualizer )
+					Obj.DrawUsingVisualizer( AngleArrow )
+				End If
+			End If
+		Next
+	End Method
+	
 	
 	
 	Method SelectMenuItem( MenuItem:TGadget, State:Int = 1 )
@@ -1163,7 +1185,7 @@ Type LTEditor Extends LTProject
 			CurrentTilemap.Y = 0.5 * YQuantity
 			CurrentTilemap.Width = XQuantity
 			CurrentTilemap.Height = YQuantity
-			SelectLayer( CurrentLayer )
+			RefreshTilemap()
 		End If
 	End Method
 	
@@ -1180,8 +1202,30 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method RefreshProjectManager()
-		
+	Method RefreshProjectManager( Layer:LTLayer = Null, Node:TGadget = Null )
+		If Not Layer Then Layer = CurrentLayer
+		If Not Node Then Node = TreeViewRoot( ProjectManager )
+		If LTLayer( GadgetExtra( Node ) ) = Layer Then
+			ClearGadgetItems( Node )
+			For Local Obj:LTActiveObject = Eachin Layer.Children
+				Local Icon:Int
+				If LTLayer( Obj ) Then
+					Icon = 0
+				ElseIf LTTIleMap( Obj ) Then
+					Icon = 1
+				Else
+					Icon = 2
+				End If
+				
+				Local NewNode:TGadget = AddTreeViewNode( Obj.GetName(), Node, Icon, Obj )
+				If LTLayer( Obj ) Then RefreshProjectManager( LTLayer( Obj ), NewNode )
+			Next
+		Else
+			For Local N:Int = 0 Until CountGadgetItems( Node )
+				Local Obj:Object = GadgetItemExtra( Node, N )
+				If LTLayer( Obj ) Then RefreshProjectManager( LTLayer( Obj ), Node )
+			Next
+		End If
 	End Method
 End Type
 

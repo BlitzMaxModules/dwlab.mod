@@ -22,7 +22,7 @@ Type TMoveSprite Extends LTDrag
 	
 	
 	Method DraggingConditions:Int()
-		If MenuChecked( Editor.EditSprites ) And Editor.SpriteUnderCursor And Not Editor.SelectSprites.DraggingState Then Return True
+		If Not Editor.CurrentTilemap And Editor.SpriteUnderCursor And Not Editor.SelectSprites.DraggingState Then Return True
 	End Method
 	
 	
@@ -33,7 +33,9 @@ Type TMoveSprite Extends LTDrag
 		LastDX = 0
 		LastDY = 0
 		
-		If Not Editor.SelectedSprites.Contains( Editor.SpriteUnderCursor ) Then Editor.SelectSprite( Editor.SpriteUnderCursor )
+		If Not Editor.SelectedObjects.Contains( Editor.SpriteUnderCursor ) And Editor.TilemapUnderCursor Then
+			Editor.SelectSprite( Editor.SpriteUnderCursor )
+		End If
 		
 		Editor.Modifiers.Clear()
 	End Method
@@ -45,7 +47,7 @@ Type TMoveSprite Extends LTDrag
 		Local DY:Float = Editor.Cursor.Y - StartY
 		Editor.Grid.Snap( DX, DY )
 		
-		For Local Sprite:LTSprite = Eachin Editor.SelectedSprites
+		For Local Sprite:LTSprite = Eachin Editor.SelectedObjects
 			Sprite.X :+ DX - LastDX
 			Sprite.Y :+ DY - LastDY
 		Next
@@ -57,7 +59,7 @@ Type TMoveSprite Extends LTDrag
 	
 	
 	Method EndDragging()
-		If Editor.SelectedSprites.Count() = 1 Then Editor.SelectSprite( LTSprite( Editor.SelectedSprites.First() ) )
+		If Editor.SelectedObjects.Count() = 1 Then Editor.SelectSprite( LTSprite( Editor.SelectedObjects.First() ) )
 		Editor.SetChanged()
 	End Method
 End Type

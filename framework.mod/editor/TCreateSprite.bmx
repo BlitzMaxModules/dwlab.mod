@@ -23,7 +23,7 @@ Type TCreateSprite Extends LTDrag
 	
 	
 	Method DraggingConditions:Int()
-		If MenuChecked( Editor.EditSprites ) Then Return True
+		If Not Editor.CurrentTilemap Then Return True
 	End Method
 	
 	
@@ -62,7 +62,7 @@ Type TCreateSprite Extends LTDrag
 			SetObjectName( Sprite, "Sprite" )
 		End If
 		
-		Editor.CurrentPage.Sprites.AddLast( Sprite )
+		Editor.CurrentLayer.AddLast( Sprite )
 		Editor.SelectSprite( Sprite )
 	End Method
 	
@@ -82,7 +82,7 @@ Type TCreateSprite Extends LTDrag
 	
 	Method EndDragging()
 		If Not Sprite.Width Or Not Sprite.Height Then
-			Editor.CurrentPage.Sprites.Remove( Sprite )
+			Editor.CurrentLayer.Remove( Sprite )
 		Else
 			Editor.SetChanged()
 			If Not LTImageVisualizer( Sprite.Visualizer ).Image Then SpriteImageProperties( Sprite )

@@ -49,7 +49,7 @@ Type TModifySprite Extends LTDrag
 	
 	Method StartDragging()
 		ModifierType = Editor.SelectedModifier.Frame
-		Sprite = LTSprite( Editor.SelectedSprites.First() )
+		Sprite = LTSprite( Editor.SelectedObjects.First() )
 		MDX = Sgn( Editor.SelectedModifier.X - Sprite.X )
 		MDY = Sgn( Editor.SelectedModifier.Y - Sprite.Y )
 		

@@ -47,20 +47,20 @@ Type TSelectSprites Extends LTDrag
 	
 	
 	Method EndDragging()
-		ProcessList( Editor.CurrentLayer )
+		ProcessLayer( Editor.CurrentLayer )
 		Editor.FillSpriteFields()
 		Frame = Null
 	End Method
 	
 	
 	
-	Method ProcessList( List:LTList )
-		For Local Obj:LTActiveObject = Eachin List.Children
-			Local IncludedList:LTList = LTList( Obj )
-			If IncludedList Then
-				ProcessList( IncludedList )
+	Method ProcessLayer( ParentLayer:LTLayer )
+		For Local Obj:LTActiveObject = Eachin ParentLayer.Children
+			Local Layer:LTLayer = LTLayer( Obj )
+			If Layer Then
+				ProcessLayer( Layer )
 			Elseif Not LTTileMap( Obj )
-				If Frame.OverlapsSprite( Sprite ) Then Editor.SelectedSprites.AddLast( Sprite )
+				If Frame.OverlapsSprite( LTSprite( Obj ) ) Then Editor.SelectedObjects.AddLast( Obj )
 			End If
 		Next
 	End Method
