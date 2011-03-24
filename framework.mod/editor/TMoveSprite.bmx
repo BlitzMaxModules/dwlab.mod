@@ -33,9 +33,7 @@ Type TMoveSprite Extends LTDrag
 		LastDX = 0
 		LastDY = 0
 		
-		If Not Editor.SelectedObjects.Contains( Editor.SpriteUnderCursor ) And Editor.TilemapUnderCursor Then
-			Editor.SelectSprite( Editor.SpriteUnderCursor )
-		End If
+		If Not Editor.SelectedObjects.Contains( Editor.SpriteUnderCursor ) Then Editor.SelectSprite( Editor.SpriteUnderCursor )
 		
 		Editor.Modifiers.Clear()
 	End Method

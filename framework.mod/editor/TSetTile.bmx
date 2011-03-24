@@ -10,7 +10,7 @@
 '
 Type TSetTile Extends LTDrag
 	Method DraggingConditions:Int()
-		If MenuChecked( Editor.EditTilemap ) And Editor.MouseIsOver = Editor.MainCanvas Then Return True
+		If Editor.CurrentTileMap And Editor.MouseIsOver = Editor.MainCanvas Then Return True
 	End Method
 	
 	
@@ -22,7 +22,7 @@ Type TSetTile Extends LTDrag
 	
 	
 	Method Dragging()
-		Local Tilemap:LTTileMap = Editor.CurrentPage.Tilemap
+		Local Tilemap:LTTileMap = Editor.CurrentTilemap
 		If Not Tilemap Then Return
 		Local FrameMap:LTIntMap = TileMap.FrameMap
 		Local TileNum:Int = Editor.TileNum[ MouseDown( 2 ) ]

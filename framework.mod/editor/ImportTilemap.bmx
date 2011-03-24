@@ -9,7 +9,7 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Function ImportTilemap( TileWidth:Int, TileHeight:Int, TilemapPixmap:TPixmap, TilesetFilename:String )
+Function ImportTilemap:LTTileMap( TileWidth:Int, TileHeight:Int, TilemapPixmap:TPixmap, TilesetFilename:String )
 	Local TilemapWidth:Int = PixmapWidth( TilemapPixmap )
 	Local TilemapHeight:Int = PixmapHeight( TilemapPixmap )
 	
@@ -23,7 +23,6 @@ Function ImportTilemap( TileWidth:Int, TileHeight:Int, TilemapPixmap:TPixmap, Ti
 	TileMap.Y = 0.5 * TileYQuantity
 	TileMap.Width = TileXQuantity
 	TileMap.Height = TileYQuantity
-	Editor.CurrentPage.TileMap = Tilemap
 	
 	Local Tiles:TList = New TList
 	If FileType( TilesetFilename ) = 1 Then
@@ -64,6 +63,8 @@ Function ImportTilemap( TileWidth:Int, TileHeight:Int, TilemapPixmap:TPixmap, Ti
 	Next
 	
 	SavePixmapPNG( TilesPixmap, TilesetFilename )
+	
+	Return TileMap
 End Function
 	
 	

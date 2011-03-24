@@ -392,7 +392,6 @@ Function TilesetProperties( Tilemap:LTTilemap )
 	
 	FreeGadget( Window )
 	Tileset.Init()
-	Editor.SelectPage( Editor.CurrentPage )
 End Function
 
 
@@ -403,4 +402,24 @@ Function FindTilePos:LTTilePos( TileRule:LTTileRule, PosDX:Int, PosDY:Int )
 	For Local TilePos:LTTilePos = Eachin TileRule.TilePositions
 		If TilePos.DX = PosDX And TilePos.DY = PosDY Then Return TilePos
 	Next
+End Function
+
+
+
+Function RefreshListBox( ListBox:TGadget, ObjectsList:TList, CurrentObject:LTObject )
+	Local N:Int = 0
+	For Local Obj:LTObject = Eachin ObjectsList
+		Local ObjectName:String = Obj.GetName()
+		If Obj = CurrentObject Then ObjectName = "* " + ObjectName + " *"
+		If N < CountGadgetItems( ListBox ) Then
+			If GadgetItemText( ListBox, N ) <> ObjectName Then ModifyGadgetItem( ListBox, N, ObjectName )
+		Else
+			AddGadgetItem( ListBox, ObjectName )
+		End If
+		N :+ 1
+	Next
+	
+	While N < CountGadgetItems( ListBox )
+		RemoveGadgetItem( ListBox, N )
+	Wend
 End Function

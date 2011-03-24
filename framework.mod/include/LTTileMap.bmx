@@ -152,18 +152,20 @@ Type LTTileMap Extends LTSprite
 	
 	' ==================== Saving / loading ===================
 	
-	Method CloneTileMap:LTTileMap()
-		Local TileMap:LTTileMap = New LTTileMap
-		CopySpriteTo( TileMap )
-		TileMap.TileSprite = TileSprite
-		TileMap.TilesQuantity = TilesQuantity
-		TileMap.Wrapped = Wrapped
-		TileMap.SetResolution( FrameMap.XQuantity, FrameMap.YQuantity )
+	Method Clone:LTActiveObject( Prefix:String, CollisionMap:LTCollisionMap )
+		Local NewTileMap:LTTileMap = New LTTileMap
+		CopySpriteTo( NewTileMap )
+		NewTileMap.SetName( Prefix + GetName() )
+		NewTileMap.TileSprite = TileSprite
+		NewTileMap.TilesQuantity = TilesQuantity
+		NewTileMap.Wrapped = Wrapped
+		NewTileMap.SetResolution( FrameMap.XQuantity, FrameMap.YQuantity )
 		For Local Y:Int = 0 Until FrameMap.YQuantity
 			For Local X:Int = 0 Until FrameMap.XQuantity
-				TileMap.FrameMap.Value[ X, Y ] = FrameMap.Value[ X, Y ]
+				NewTileMap.FrameMap.Value[ X, Y ] = FrameMap.Value[ X, Y ]
 			Next
 		Next
+		Return NewTileMap
 	End Method
 	
 	

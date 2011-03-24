@@ -11,4 +11,23 @@
 Include "LTWorld.bmx"
 
 Type LTLayer Extends LTList
+	Method Clone:LTActiveObject( Prefix:String, CollisionMap:LTCollisionMap )
+		Local NewLayer:LTLayer = New LTLayer
+		For Local Obj:LTActiveObject = Eachin Children
+			Local NewObj:LTActiveObject = Obj.Clone( Prefix, CollisionMap )
+			NewLayer.AddLast( NewObj )
+		Next
+		Return NewLayer
+	End Method
+	
+	
+	
+	Method FindLayer:LTLayer( LayerName:String )
+		If GetName() = LayerName Then Return Self
+		For Local ChildLayer:LTLayer = Eachin Children
+			Local Layer:LTLayer = ChildLayer.FindLayer( LayerName )
+			If Layer Then Return Layer
+		Next
+		Return Null
+	End Method
 End Type

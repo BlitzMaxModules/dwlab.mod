@@ -109,6 +109,11 @@ Type LTActiveObject Extends LTObject
 	
 	' ==================== Other ===================
 	
+	Method Clone:LTActiveObject( Prefix:String, CollisionMap:LTCollisionMap )
+	End Method
+	
+	
+	
 	Method Act()
 	End Method
 	

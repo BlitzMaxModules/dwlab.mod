@@ -747,6 +747,16 @@ Type LTSprite Extends LTShape
 	
 	' ==================== Other ====================
 	
+	Method Clone:LTActiveObject( Prefix:String, CollisionMap:LTCollisionMap )
+		Local NewSprite:LTSprite = New LTSprite
+		CopySpriteTo( NewSprite )
+		NewSprite.SetName( Prefix + GetName() )
+		If CollisionMap Then CollisionMap.InsertSprite( NewSprite )
+		Return NewSprite
+	End Method
+	
+	
+	
 	Method CopySpriteTo( Sprite:LTSprite )
 		Sprite.Shape = Shape
 		Sprite.X = X
@@ -758,7 +768,7 @@ Type LTSprite Extends LTShape
 		Sprite.Frame = Frame
 		Sprite.Visualizer = Visualizer
 	End Method
-	
+
 	
 	
 	Method XMLIO( XMLObject:LTXMLObject )

@@ -10,7 +10,7 @@
 
 Include "LTLayer.bmx"
 
-Type LTList Extends LTObject
+Type LTList Extends LTActiveObject
 	Field Children:TList = New TList
 	
 	' ==================== Collisions ===================

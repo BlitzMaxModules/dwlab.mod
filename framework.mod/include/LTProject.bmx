@@ -20,9 +20,9 @@ Type LTProject Extends LTObject
 	Field ProjectTime:Float
 	
 	Field World:LTWorld
-	Field Tilemap:LTTileMap
-	Field Sprites:LTList = New LTList
+	Field MainLayer:LTLayer
 	Field CollisionMap:LTCollisionMap
+	Field CollisionTilemap:LTTileMap
 	
 
 	
@@ -32,53 +32,41 @@ Type LTProject Extends LTObject
   
   
 	Method Render()
-		If Tilemap Then Tilemap.Draw()
-		For Local Sprite:LTSprite = Eachin Sprites
-			Sprite.Draw()
-		Next
+		MainLayer.Draw()
 	End Method
 	
 	
 	
 	Method Logic()
-		For Local Sprite:LTSprite = Eachin Sprites
-			Sprite.Act()
-		Next
+		MainLayer.Act()
 		HandleCollisions()
 	End Method
 	
 	
 	
 	Method HandleCollisions()
-		CollisionMap.CollisionsWithList( Sprites )
-		Tilemap.TileCollisionsWithList( Sprites )
+		CollisionMap.CollisionsWithList( MainLayer )
+		CollisionTilemap.TileCollisionsWithList( MainLayer )
 	End Method
 	
 	
 	
-	Method LoadPage( World:LTWorld, PageName:String, CloneTileMap:Int = True )
-		Sprites.Clear()
-		Local Page:LTPage = World.FindPage( PageName )
-		L_Assert( Page <> Null, "Page " + PageName + " not found" )
-		For Local Sprite:LTSprite = Eachin Page.Sprites
-			LoadSprite( Sprite, L_GetPrefix( Sprite.GetName() ) )
-		Next
-		If CloneTileMap Then TileMap = Page.TileMap.CloneTileMap()
+	Method LoadLayer( LayerName:String, Prefix:String )
+		Local Layer:LTLayer = World.FindLayer( LayerName )
+		L_Assert( Layer <> Null, "Layer " + LayerName + " not found" )
+		MainLayer = LTLayer( Layer.Clone( Prefix, CollisionMap ) )
 	End Method
 	
 	
 	
-	Method LoadSprite( Sprite:LTSprite, Name:String )
-		Local NewSprite:LTSprite = New LTSprite
-		Sprite.CopySpriteTo( NewSprite )
-		CollisionMap.InsertSprite( NewSprite )
-		Sprites.AddLast( NewSprite )
-	End Method
-	
-	
-	
-	Method DestroySprite( Sprite:LTSprite )
-		Sprites.Remove( Sprite )
+	Method DestroySprite( Sprite:LTSprite, Layer:LTLayer = Null )
+		If Layer = Null Then Layer = MainLayer
+		Local Link:TLink = Layer.Children.FirstLink()
+		While Link <> Null
+			If LTLayer( Link.Value() ) Then DestroySprite( Sprite, LTLayer( Link.Value() ) )
+			If Link.Value() = Sprite Then Link.Remove()
+			Link = Link.NextLink()
+		Wend
 		CollisionMap.RemoveSprite( Sprite )
 		Sprite.Destroy()
 	End Method
