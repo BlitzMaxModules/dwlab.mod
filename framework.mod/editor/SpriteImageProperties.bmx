@@ -12,15 +12,15 @@
 Global RealPathsForImages:TMap = New TMap
 	
 Function SpriteImageProperties:Int( Sprite:LTSprite )
-	Local EditWindow:TGadget = CreateWindow( "Sprite type properties", 0.5 * ClientWidth( Desktop() ) - 252, 0.5 * ClientHeight( Desktop() ) - 320, 505, 639, Editor.Window, WINDOW_TITLEBAR|WINDOW_RESIZABLE )
-	CreateLabel( "Horizontal cells:", 180, 8, 75, 16, EditWindow, 0 )
+	Local EditWindow:TGadget = CreateWindow( "{{W_SpriteTypeProperties}}", 0.5 * ClientWidth( Desktop() ) - 252, 0.5 * ClientHeight( Desktop() ) - 320, 505, 639, Editor.Window, WINDOW_TITLEBAR|WINDOW_RESIZABLE )
+	CreateLabel( "{{L_HorizontalCells}}", 105, 8, 150, 16, EditWindow, Label_Right )
 	Local XCellsTextField:TGadget = CreateTextField( 260, 5, 56, 20, EditWindow )
-	CreateLabel( "Vertical cells:", 180, 32, 62, 16, EditWindow, 0 )
+	CreateLabel( "{{L_VerticalCells}}", 105, 32, 150, 16, EditWindow, Label_Right )
 	Local YCellsTextField:TGadget = CreateTextField( 260, 29, 56, 20, EditWindow )
 	Local ImageCanvas:TGadget = CreateCanvas( 8, 56, 480, 480, EditWindow )
-	Local LoadImageButton:TGadget = CreateButton( "Load image", 180, 544, 136, 24, EditWindow, BUTTON_PUSH )
-	Local OkButton:TGadget = CreateButton( "OK", 180, 576, 64, 24, EditWindow, BUTTON_PUSH )
-	Local CancelButton:TGadget = CreateButton( "Cancel", 252, 576, 64, 24, EditWindow, BUTTON_PUSH )
+	Local LoadImageButton:TGadget = CreateButton( "{{B_LoadImage}}", 180, 544, 136, 24, EditWindow, BUTTON_PUSH )
+	Local OkButton:TGadget = CreateButton( "{{B_OK}}", 180, 576, 64, 24, EditWindow, BUTTON_PUSH )
+	Local CancelButton:TGadget = CreateButton( "{{B_Cancel}}", 252, 576, 64, 24, EditWindow, BUTTON_PUSH )
 
 	Local Image:TImage
 	Local Filename:String = ""
@@ -95,7 +95,7 @@ Function SpriteImageProperties:Int( Sprite:LTSprite )
 			Case Event_GadgetAction
 				Select EventSource()
 					Case LoadImageButton
-						Filename = RequestFile( "Select image... ", "Image files:png,jpg,bmp" )
+						Filename = RequestFile( LocalizeString( "{{D_SelectImage}}" ), "Image files:png,jpg,bmp" )
 						Filename = ChopFilename( Filename )
 						If Filename Then Image = LoadImage( Filename ) Else Image = Null
 					Case OKButton
@@ -108,13 +108,13 @@ Function SpriteImageProperties:Int( Sprite:LTSprite )
 									FreeGadget( EditWindow )
 									Return True
 								Else
-									Notify( "Image sizes must be divideable by tile cells quantity", True )
+									Notify( LocalizeString( "{{N_ImageDivideable}}" ), True )
 								End If
 							Else
-								Notify( "Tile cells quantity must be more than 0", True )
+								Notify( LocalizeString( "{{N_MoreThanZero}}" ), True )
 							End If
 						Else
-							Notify( "Image required", True )
+							Notify( LocalizeString( "{{N_ImageRequired}}" ), True )
 						End If
 					Case CancelButton
 						Exit

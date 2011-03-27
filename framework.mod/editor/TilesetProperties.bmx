@@ -10,6 +10,18 @@
 '
 
 Global TilesetMap:TMap = New TMap
+Global CurrentCategory:LTTileCategory
+Global CurrentTileRule:LTTileRule
+Global Tileset:LTTileset
+Global CategoriesListBox:TGadget
+
+Const MenuRemoveCategory:Int = 40
+Const MenuCopyCategory:Int = 41
+
+Const MenuAddTileRule:Int = 42
+Const MenuRemoveTileRule:Int = 43
+Const MenuShiftTileRuleUp:Int = 44
+Const MenuShiftTileRuleDown:Int = 45
 
 Function TilesetProperties( Tilemap:LTTilemap )
 	Local Image:LTImage = LTImageVisualizer( Tilemap.Visualizer ).Image
@@ -26,16 +38,8 @@ Function TilesetProperties( Tilemap:LTTilemap )
 	
 	Local TilesetCanvas:TGadget = CreateCanvas( 0, 0, Width - 263, Height, Window )
 	SetGadgetLayout( TilesetCanvas, Edge_Aligned, Edge_Aligned, Edge_Aligned, Edge_Aligned )
-	Local TileRuleUpButton:TGadget = CreateButton( "up", Width - 263, 0, 19, 24, Window )
-	SetGadgetLayout( TileRuleUpButton, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Centered )
-	Local TileRuleDownButton:TGadget = CreateButton( "dn", Width - 244, 0, 19, 24, Window )
-	SetGadgetLayout( TileRuleDownButton, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Centered )
-	Local TileRulesList:TGadget = CreateCanvas( Width - 263, 24, 38, Height - 48, Window )
+	Local TileRulesList:TGadget = CreateCanvas( Width - 263, 0, 38, Height, Window )
 	SetGadgetLayout( TileRulesList, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Aligned )
-	Local AddTileRuleButton:TGadget = CreateButton( "+", Width - 263, Height - 24, 19, 24, Window )
-	SetGadgetLayout( AddTileRuleButton, Edge_Centered, Edge_Aligned, Edge_Centered, Edge_Aligned )
-	Local DeleteTileRuleButton:TGadget = CreateButton( "-", Width - 244, Height - 24, 19, 24, Window )
-	SetGadgetLayout( DeleteTileRuleButton, Edge_Centered, Edge_Aligned, Edge_Centered, Edge_Aligned )
 	Local TileRuleCanvas:TGadget = CreateCanvas( Width - 225, 0, 225, 225, Window )
 	SetGadgetLayout( TileRuleCanvas, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Centered )
 
@@ -49,21 +53,30 @@ Function TilesetProperties( Tilemap:LTTilemap )
 	Local YField:TGadget = CreateTextField( 19, 27, 72, 20, PosPanel )
 	CreateLabel( "YDivider:", 99, 29, 48, 16, PosPanel, 0 )
 	Local YDividerField:TGadget = CreateTextField( 147, 27, 72, 20, PosPanel )
-	Local HiddenOKButton:TGadget = CreateButton( "", 0, 0, 0, 0, PosPanel, Button_OK )
 	DisableGadget( PosPanel )
 	
-	Local CategoriesListBox:TGadget = CreateListBox( Width - 225, 275, 225, Height - 299, Window )
+	CategoriesListBox:TGadget = CreateListBox( Width - 225, 275, 225, Height - 299, Window )
 	SetGadgetLayout( CategoriesListBox, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Aligned )
-	Local AddCategoryButton:TGadget = CreateButton( "Add ctg", Width - 225, Height - 24, 75, 24, Window )
+	Local AddCategoryButton:TGadget = CreateButton( "{{AddCategory}}", Width - 225, Height - 24, 225, 24, Window )
 	SetGadgetLayout( AddCategoryButton, Edge_Centered, Edge_Aligned, Edge_Centered, Edge_Aligned )
-	Local DeleteCategoryButton:TGadget = CreateButton( "Del ctg", Width - 150, Height - 24, 75, 24, Window )
-	SetGadgetLayout( DeleteCategoryButton, Edge_Centered, Edge_Aligned, Edge_Centered, Edge_Aligned )
-	Local CopyCategoryButton:TGadget = CreateButton( "Copy ctg", Width - 75, Height - 24, 75, 24, Window )
-	SetGadgetLayout( CopyCategoryButton, Edge_Centered, Edge_Aligned, Edge_Centered, Edge_Aligned )
-
 	
-	Local MouseIsOver:TGadget
-	Local Tileset:LTTileset = LTTileset( TilesetMap.ValueForKey( Image ) )
+	Local CategoryMenu:TGadget = CreateMenu( "", 0, Null )
+	CreateMenu( "{{M_RenameCategory}}", MenuCopyCategory, CategoryMenu )
+	CreateMenu( "{{M_CopyCategory}}", MenuCopyCategory, CategoryMenu )
+	CreateMenu( "{{M_RemoveCategory}}", MenuRemoveCategory, CategoryMenu )
+	
+	Local TileRuleMenu:TGadget = CreateMenu( "", 0, Null )
+	CreateMenu( "{{M_AddTileRule}}", MenuAddTileRule, TileRuleMenu )
+	CreateMenu( "{{M_RemoveTileRule}}", MenuRemoveTileRule, TileRuleMenu )
+	CreateMenu( "{{M_ShiftTileRuleUp}}", MenuShiftTileRuleUp, TileRuleMenu )
+	CreateMenu( "{{M_ShiftTileRuleDown}}", MenuShiftTileRuleDown, TileRuleMenu )
+	
+	Local TileRulesListMenu:TGadget = CreateMenu( "", 0, Null )
+	CreateMenu( "{{M_AddTileRule}}", MenuAddTileRule, TileRulesListMenu )
+	
+	
+	Local MouseIsOver:TGadget = Null
+	Tileset = LTTileset( TilesetMap.ValueForKey( Image ) )
 	
 	If Not Tileset Then
 		Tileset = New LTTileset
@@ -73,8 +86,8 @@ Function TilesetProperties( Tilemap:LTTilemap )
 		RefreshListBox( CategoriesListBox, Tileset.Categories, null )
 	End If
 	
-	Local CurrentCategory:LTTileCategory
-	Local CurrentTileRule:LTTileRule
+	CurrentCategory = Null
+	CurrentTileRule = Null
 	Local PosDX:Int, PosDY:Int, TIleRulesListDY:Int
 	
 	Repeat
@@ -220,6 +233,9 @@ Function TilesetProperties( Tilemap:LTTilemap )
 							SetGadgetText( YDividerField, CurrentTileRule.YDivider )
 							PosDX = 0
 							PosDY = 0
+							If RMB Then PopUpWindowMenu( Window, TileRuleMenu )
+						ElseIf RMB Then
+							PopUpWindowMenu( Window, TileRulesListMenu )
 						End If
 					End If
 				Case TileRuleCanvas
@@ -272,108 +288,63 @@ Function TilesetProperties( Tilemap:LTTilemap )
 					If EventSource() = TileRulesList Then TIleRulesListDY :- EventData() * 16
 				Case Event_GadgetAction
 					Select EventSource()
-						Case AddCategoryButton, CopyCategoryButton
-							Local ES:Object = EventSource()
-							Local Name:String = ""
-							If ES = CopyCategoryButton Then Name = CurrentCategory.GetName()
-							Name = EnterString( "Enter name of new category", Name )
-							If Name Then
-								Local NewCategory:LTTileCategory = New LTTileCategory
-								Tileset.Categories.AddLast(	NewCategory )
-								SetObjectName( NewCategory, Name )
-								CurrentTileRule = Null
-								
-								If ES = CopyCategoryButton Then
-									Tileset.Init()
-									Local Shift:Int = EnterString( "Enter tile shift" ).ToInt()
-									For Local Rule:LTTileRule = Eachin CurrentCategory.TileRules
-										Local NewRule:LTTileRule = New LTTileRule
-										Local Quantity:Int = Rule.TilesQuantity()
-										NewRule.TileNums = New Int[ Quantity ]
-										For Local N:Int = 0 Until Quantity
-											NewRule.TileNums[ N ] = Rule.TileNums[ N ] + Shift
-										Next
-										For Local Pos:LTTilePos = Eachin Rule.TilePositions
-											Local NewPos:LTTilePos = New LTTilePos
-											NewPos.DX = Pos.DX
-											NewPos.DY = Pos.DY
-											If Pos.Category = CurrentCategory.Num Then
-												NewPos.TileNum = Pos.TileNum + Shift
-											Else
-												NewPos.TileNum = Pos.TileNum
-											End If
-											NewRule.TilePositions.AddLast( NewPos )
-										Next
-										NewCategory.TileRules.AddLast( NewRule )
-									Next	
-								End If
-								
-								CurrentCategory = NewCategory
-								RefreshListBox( CategoriesListBox, Tileset.Categories, CurrentCategory )
-								Editor.SetChanged()
-							End If
-						Case DeleteCategoryButton
-							If CurrentCategory Then
-								Tileset.Categories.Remove( CurrentCategory )
-								CurrentCategory = Null
-								CurrentTileRule = Null
-								DisableGadget( PosPanel )
-								RefreshListBox( CategoriesListBox, Tileset.Categories, CurrentCategory )
-								Editor.SetChanged()
-							End If
-						Case AddTileRuleButton
-							If CurrentCategory Then
-								CurrentTIleRule = New LTTileRule
-								CurrentTIleRule.TileNums = New Int[ 1 ]
-								CurrentCategory.TileRules.AddLast( CurrentTIleRule )
-								Editor.SetChanged()
-							End If
-						Case DeleteTileRuleButton
-							If CurrentTileRule Then
-								CurrentCategory.TileRules.Remove( CurrentTileRule )
-								CurrentTileRule = Null
-								DisableGadget( PosPanel )
-								Editor.SetChanged()
-							End If
+						Case AddCategoryButton
+							AddCategory( 0 )
 						Case CategoriesListBox
 							If CurrentCategory Then
-								Local Name:String = EnterString( "Enter name of category", CurrentCategory.GetName() )
+								Local Name:String = EnterString( LocalizeString( "{{D_EnterNameOfCategory}}" ), CurrentCategory.GetName() )
 								If Name Then
 									SetObjectName( CurrentCategory, Name )
 									RefreshListBox( CategoriesListBox, Tileset.Categories, CurrentCategory )
 									Editor.SetChanged()
 								End If
 							End If
-						Case TileRuleUpButton
-							If CurrentCategory Then
-								If CurrentCategory.TileRules.First() <> CurrentTileRule Then
-									Local Link:TLink = CurrentCategory.TileRules.FindLink( CurrentTileRule )
-									CurrentCategory.TileRules.InsertBeforeLink( CurrentTileRule, Link.PrevLink() )
-									Link.Remove()
-									Editor.SetChanged()
-								End If
+						Case XField
+							CurrentTileRule.X = TextFieldText( XField ).ToInt()
+							Editor.SetChanged()
+						Case XDividerField
+							CurrentTileRule.XDivider = TextFieldText( XDividerField ).ToInt()
+							Editor.SetChanged()
+						Case YField
+							CurrentTileRule.Y = TextFieldText( YField ).ToInt()
+							Editor.SetChanged()
+						Case YDividerField
+							CurrentTileRule.YDivider = TextFieldText( YDividerField ).ToInt()
+							Editor.SetChanged()
+					End Select
+				Case Event_MenuAction
+					Select EventData()
+						Case MenuCopyCategory
+							AddCategory( 1 )
+						Case MenuRemoveCategory
+							Tileset.Categories.Remove( CurrentCategory )
+							CurrentCategory = Null
+							CurrentTileRule = Null
+							DisableGadget( PosPanel )
+							RefreshListBox( CategoriesListBox, Tileset.Categories, CurrentCategory )
+							Editor.SetChanged()
+						Case MenuAddTileRule
+							CurrentTIleRule = New LTTileRule
+							CurrentTIleRule.TileNums = New Int[ 1 ]
+							CurrentCategory.TileRules.AddLast( CurrentTileRule )
+							Editor.SetChanged()
+						Case MenuRemoveTileRule
+							CurrentCategory.TileRules.Remove( CurrentTileRule )
+							CurrentTileRule = Null
+							DisableGadget( PosPanel )
+							Editor.SetChanged()
+						Case MenuShiftTileRuleUp
+							If CurrentCategory.TileRules.First() <> CurrentTileRule Then
+								Local Link:TLink = CurrentCategory.TileRules.FindLink( CurrentTileRule )
+								CurrentCategory.TileRules.InsertBeforeLink( CurrentTileRule, Link.PrevLink() )
+								Link.Remove()
+								Editor.SetChanged()
 							End If
-						Case TileRuleDownButton
-							If CurrentCategory Then
-								If CurrentCategory.TileRules.Last() <> CurrentTileRule Then
-									Local Link:TLink = CurrentCategory.TileRules.FindLink( CurrentTileRule )
-									CurrentCategory.TileRules.InsertAfterLink( CurrentTileRule, Link.NextLink() )
-									Link.Remove()
-									Editor.SetChanged()
-								End If
-							End If
-						Case HiddenOKButton
-							If CurrentTileRule Then
-								Select ActiveGadget()
-									Case XField
-										CurrentTileRule.X = TextFieldText( XField ).ToInt()
-									Case XDividerField
-										CurrentTileRule.XDivider = TextFieldText( XDividerField ).ToInt()
-									Case YField
-										CurrentTileRule.Y = TextFieldText( YField ).ToInt()
-									Case YDividerField
-										CurrentTileRule.YDivider = TextFieldText( YDividerField ).ToInt()
-								End Select
+						Case MenuShiftTileRuleDown
+							If CurrentCategory.TileRules.Last() <> CurrentTileRule Then
+								Local Link:TLink = CurrentCategory.TileRules.FindLink( CurrentTileRule )
+								CurrentCategory.TileRules.InsertAfterLink( CurrentTileRule, Link.NextLink() )
+								Link.Remove()
 								Editor.SetChanged()
 							End If
 					End Select
@@ -389,6 +360,12 @@ Function TilesetProperties( Tilemap:LTTilemap )
 					End If
 				Case 0
 					Exit
+				Case Event_GadgetMenu
+					If EventSource() = CategoriesListBox Then
+						CurrentCategory = LTTileCategory( Tileset.Categories.ValueAtIndex( EventData() ) )
+						RefreshListBox( CategoriesListBox, Tileset.Categories, CurrentCategory )
+						PopUpWindowMenu( Window, CategoryMenu )
+					End If
 			End Select
 		Forever
 		
@@ -415,7 +392,7 @@ Function RefreshListBox( ListBox:TGadget, ObjectsList:TList, CurrentObject:LTObj
 	Local N:Int = 0
 	For Local Obj:LTObject = Eachin ObjectsList
 		Local ObjectName:String = Obj.GetName()
-		If Obj = CurrentObject Then ObjectName = "* " + ObjectName + " *"
+		If Obj = CurrentObject Then ObjectName = "< " + ObjectName + " >"
 		If N < CountGadgetItems( ListBox ) Then
 			If GadgetItemText( ListBox, N ) <> ObjectName Then ModifyGadgetItem( ListBox, N, ObjectName )
 		Else
@@ -427,4 +404,47 @@ Function RefreshListBox( ListBox:TGadget, ObjectsList:TList, CurrentObject:LTObj
 	While N < CountGadgetItems( ListBox )
 		RemoveGadgetItem( ListBox, N )
 	Wend
+End Function
+
+
+
+Function AddCategory( Copy:Int )
+	Local Name:String = ""
+	If Copy Then Name = CurrentCategory.GetName()
+	Name = EnterString( LocalizeString( "{{D_EnterNameOfNewCategory}}" ), Name )
+	If Name Then
+		Local NewCategory:LTTileCategory = New LTTileCategory
+		Tileset.Categories.AddLast(	NewCategory )
+		SetObjectName( NewCategory, Name )
+		CurrentTileRule = Null
+		
+		If Copy Then
+			Tileset.Init()
+			Local Shift:Int = EnterString( LocalizeString( "{{D_EnterTileShift}}" ) ).ToInt()
+			For Local Rule:LTTileRule = Eachin CurrentCategory.TileRules
+				Local NewRule:LTTileRule = New LTTileRule
+				Local Quantity:Int = Rule.TilesQuantity()
+				NewRule.TileNums = New Int[ Quantity ]
+				For Local N:Int = 0 Until Quantity
+					NewRule.TileNums[ N ] = Rule.TileNums[ N ] + Shift
+				Next
+				For Local Pos:LTTilePos = Eachin Rule.TilePositions
+					Local NewPos:LTTilePos = New LTTilePos
+					NewPos.DX = Pos.DX
+					NewPos.DY = Pos.DY
+					If Pos.Category = CurrentCategory.Num Then
+						NewPos.TileNum = Pos.TileNum + Shift
+					Else
+						NewPos.TileNum = Pos.TileNum
+					End If
+					NewRule.TilePositions.AddLast( NewPos )
+				Next
+				NewCategory.TileRules.AddLast( NewRule )
+			Next	
+		End If
+		
+		CurrentCategory = NewCategory
+		RefreshListBox( CategoriesListBox, Tileset.Categories, CurrentCategory )
+		Editor.SetChanged()
+	End If
 End Function

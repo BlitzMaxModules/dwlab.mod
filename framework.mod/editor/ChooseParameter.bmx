@@ -10,17 +10,17 @@
 '
 
 Function ChooseParameter:Int( Width:Int Var, Height:Int Var, Parameter:String, Units:String )
-	Local Settings:TGadget =CreateWindow( "Choose " + Parameter + ":", 0.5 * ClientWidth( Desktop() ) - 72, 0.5 * ClientHeight( Desktop() ) - 78, 144, 157, Editor.Window, WINDOW_TITLEBAR )
-	CreateLabel( "Height:", 7, 10, 40, 16, Settings, 0 )
+	Local Settings:TGadget =CreateWindow( "{{L_Choose}} " + Parameter + ":", 0.5 * ClientWidth( Desktop() ) - 72, 0.5 * ClientHeight( Desktop() ) - 78, 144, 157, Editor.Window, WINDOW_TITLEBAR )
+	CreateLabel( "{{L_Height}}", 8, 10, 38, 16, Settings, Label_Right )
 	Local WidthField:TGadget = CreateTextField( 48, 8, 40, 20, Settings )
 	SetGadgetText( WidthField, Width )
-	CreateLabel( "Width:", 8, 35, 40, 16, Settings, 0 )
+	CreateLabel( "{{L_Width}}", 8, 35, 38, 16, Settings, Label_Right )
 	Local HeightField:TGadget = CreateTextField( 48, 32, 40, 20, Settings )
 	SetGadgetText( HeightField, Height )
-	CreateLabel( Units, 93, 10, 31, 16, Settings, 0 )
-	CreateLabel( Units, 93, 34, 31, 16, Settings, 0 )
-	Local OKButton:TGadget = CreateButton( "OK", 32, 64, 72, 24, Settings )
-	Local CancelButton:TGadget = CreateButton( "Cancel", 32, 96, 72, 24, Settings )
+	CreateLabel( Units, 92, 10, 36, 16, Settings, 0 )
+	CreateLabel( Units, 92, 34, 36, 16, Settings, 0 )
+	Local OKButton:TGadget = CreateButton( "{{B_OK}}", 32, 64, 72, 24, Settings )
+	Local CancelButton:TGadget = CreateButton( "{{B_Cancel}}", 32, 96, 72, 24, Settings )
 	
 	Repeat
 		WaitEvent()
@@ -32,7 +32,7 @@ Function ChooseParameter:Int( Width:Int Var, Height:Int Var, Parameter:String, U
 						Local NewHeight:Int = TextFieldText( HeightField ).ToInt()
 						
 						If NewWidth < 0 And NewHeight < 0 Then
-							Notify( Parameter + " must be more than 0", True )
+							Notify( Parameter + LocalizeString( "{{N_MustBeMoreZero}}" ), True )
 						Else
 							Width = NewWidth
 							Height = NewHeight

@@ -1,18 +1,21 @@
-﻿1.2.1
+﻿1.2.2
++ Localization: Russian and English languages are now available
+
+1.2.1
 + Visibility / activity switches of the sprites
-+ World bounds
++ Layer bounds.
 
 1.2
-* Project structure is converted to the hierarchical system.
+* Project structure is converted to the hierarchical system
 + Hot keys for magnification
 
 1.1.5
-+ Support for pasting huge tile blocks.
++ Support for pasting huge tile blocks
 + Scrollbars.
 
 1.1.4
-+ Dividers to the tile replacement system.
-+ Now you can pan tilemap with Ctrl keys.
++ Dividers to the tile replacement system
++ Now you can pan tilemap with Ctrl keys
 
 1.1.3
 + Dividers to the tile replacement system

@@ -39,6 +39,9 @@ include "EnterString.bmx"
 include "SpriteImageProperties.bmx"
 include "TilesetProperties.bmx"
 
+Incbin "english.lng"
+Incbin "russian.lng"
+
 Incbin "toolbar.png"
 Incbin "treeview.png"
 Incbin "modifiers.png"
@@ -47,8 +50,15 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.2.1"
+	Const Version:String = "1.2.2"
 	Const Title:String = "Digital Wizard's Lab World Editor v" + Version
+	
+	Field EnglishLanguage:TMaxGuiLanguage
+	Field RussianLanguage:TMaxGuiLanguage
+	Field CurrentLanguage:TMaxGuiLanguage
+	
+	Const EnglishNum:Int = 0
+	Const RussianNum:Int = 1
 	
 	Field Window:TGadget
 	
@@ -100,6 +110,8 @@ Type LTEditor Extends LTProject
 	Field ShowGrid:TGadget
 	Field ReplacementOfTiles:TGadget
 	Field ProlongTiles:TGadget
+	Field Russian:TGadget
+	Field English:TGadget
 	
 	Field LayerMenu:TGadget
 	Field TilemapMenu:TGadget
@@ -149,6 +161,8 @@ Type LTEditor Extends LTProject
 	Const MenuReplacementOfTiles:Int = 9
 	Const MenuProlongTiles:Int = 10
 	Const MenuExit:Int = 11
+	Const MenuRussian:Int = 32
+	Const MenuEnglish:Int = 33
 	
 	Const MenuRename:Int = 12
 	Const MenuShiftToTheTop:Int = 13
@@ -180,11 +194,16 @@ Type LTEditor Extends LTProject
 	
 	
 	Method Init()
-		Window  = CreateWindow( "Digital Wizard's Lab world editor", 0, 0, 640, 480 )
+		SetLocalizationMode( Localization_On | Localization_Override )
+		EnglishLanguage = LoadLanguage( "incbin::english.lng" )
+		RussianLanguage = LoadLanguage( "incbin::russian.lng" )
+		SetLocalizationLanguage( EnglishLanguage )
+	
+		Window  = CreateWindow( "{{Title}}", 0, 0, 640, 480 )
 		MaximizeWindow( Window )
 		
 		Toolbar = CreateToolBar( "incbin::toolbar.png", 0, 0, 0, 0, Window )
-		SetToolbarTips( Toolbar, [ "New", "Open", "Save", "Save as", "", "Show grid", "Snap to grid", "Grid settings", "", "Auto-changement of tiles", "Prolong tiles" ] )
+		SetToolbarTips( Toolbar, [ "{{TB_New}}", "{{TB_Open}}", "{{TB_Save}}", "{{TB_SaveAs}}", "", "{{TB_ShowGrid}}", "{{TB_SnapToGrid}}", "{{TB_GridSettings}}", "", "{{TB_AutoChangementOfTiles}}", "{{TB_ProlongTiles}}" ] )
 		
 		Local BarHeight:Int = ClientHeight( Window ) - PanelHeight
 		MainCanvas = CreateCanvas( 0, 0, ClientWidth( Window ) - BarWidth - 16, ClientHeight( Window ) - 16, Window )
@@ -193,7 +212,7 @@ Type LTEditor Extends LTProject
 		SetGadgetLayout( TilesetCanvas, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Relative )
 		ProjectManager = CreateTreeView( ClientWidth( Window ) - BarWidth, PanelHeight, BarWidth, BarHeight - 24, Window )
 		SetGadgetLayout( ProjectManager, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Relative )
-		AddLayerButton = CreateButton( "Add layer", ClientWidth( Window ) - BarWidth, ClientHeight( Window ) - 24, BarWidth, 24, Window )
+		AddLayerButton = CreateButton( "{{B_AddLayer}}", ClientWidth( Window ) - BarWidth, ClientHeight( Window ) - 24, BarWidth, 24, Window )
 		SetGadgetLayout( ProjectManager, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Relative )
 		TreeViewIcons = LoadIconStrip( "incbin::treeview.png" )
 		SetGadgetIconStrip( ProjectManager, TreeViewIcons )
@@ -203,48 +222,48 @@ Type LTEditor Extends LTProject
 		VScroller = CreateSlider( ClientWidth( Window ) - BarWidth - 16, 0, 16, ClientHeight( Window ) - 16, Window, Slider_Scrollbar | Slider_Vertical )
 		SetGadgetLayout( VScroller, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Aligned )
 		
-		Panel = CreatePanel( ClientWidth( Window ) - BarWidth, 0, BarWidth, PanelHeight - 2, Window, PANEL_RAISED )
+		Panel = CreatePanel( ClientWidth( Window ) - BarWidth, 0, BarWidth, PanelHeight - 2, Window, Panel_Raised )
 		SetGadgetLayout( Panel, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Centered )
-		CreateLabel( "X:", 27, 27, 12, 16, Panel, 0 )
-		CreateLabel( "Y:", 131, 27, 13, 16, Panel, 0 )
-		CreateLabel( "Width:", 6, 51, 33, 16, Panel, 0 )
-		CreateLabel( "Height:", 106, 51, 37, 16, Panel, 0 )
-		CreateLabel( "Shape:", 4, 6, 36, 16, Panel, 0 )
+		CreateLabel( "{{L_X}}", 2, 27, 37, 16, Panel, Label_Right )
+		CreateLabel( "{{L_Y}}", 131, 27, 13, 16, Panel, Label_Right )
+		CreateLabel( "{{L_Width}}", 2, 51, 37, 16, Panel, Label_Right )
+		CreateLabel( "{{L_Height}}", 106, 51, 37, 16, Panel, Label_Right )
+		CreateLabel( "{{L_Shape}}", 2, 6, 37, 16, Panel, Label_Right )
 		ShapeBox = CreateComboBox( 40, 0, 160, 20, Panel )
 		XField = CreateTextField( 40, 24, 56, 20, Panel )
 		YField = CreateTextField( 144, 24, 56, 20, Panel )
 		WidthField = CreateTextField( 40, 48, 56, 20, Panel )
 		HeightField = CreateTextField( 144, 48, 56, 20, Panel )
-		CreateLabel( "Angle:", 6, 75, 34, 16, Panel, 0 )
+		CreateLabel( "{{L_Angle}}", 2, 75, 37, 16, Panel, Label_Right )
 		AngleField = CreateTextField( 40, 72, 56, 20, Panel )
-		CreateLabel( "Velocity:", 100, 75, 44, 16, Panel, 0 )
+		CreateLabel( "{{L_Velocity}}", 100, 75, 44, 16, Panel, Label_Right )
 		VelocityField = CreateTextField( 144, 72, 56, 20, Panel )
-		CreateLabel( "Alpha:", 6, 171, 33, 16, Panel, 0 )
-		CreateLabel( "Red:", 14, 101, 25, 16, Panel, 0 )
-		CreateLabel( "Green:", 4, 123, 35, 16, Panel, 0 )
+		CreateLabel( "{{L_Red}}", 2, 101, 37, 16, Panel, Label_Right )
 		RedField = CreateTextField( 168, 96, 32, 20, Panel )
-		RedSlider = CreateSlider( 40, 100, 120, 20, Panel, SLIDER_TRACKBAR | SLIDER_HORIZONTAL )
+		RedSlider = CreateSlider( 40, 100, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
 		SetSliderRange( RedSlider, 0, 100 )
-		GreenSlider = CreateSlider( 40, 122, 120, 20, Panel, SLIDER_TRACKBAR | SLIDER_HORIZONTAL )
+		CreateLabel( "{{L_Green}}", 2, 123, 37, 16, Panel, Label_Right )
+		GreenSlider = CreateSlider( 40, 122, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
 		GreenField = CreateTextField( 168, 120, 32, 20, Panel )
 		SetSliderRange( GreenSlider, 0, 100 )
-		CreateLabel( "Blue:", 13, 147, 26, 16, Panel, 0 )
-		BlueSlider = CreateSlider( 40, 146, 120, 20, Panel, SLIDER_TRACKBAR | SLIDER_HORIZONTAL )
+		CreateLabel( "{{L_Blue}}", 2, 147, 37, 16, Panel, Label_Right )
+		BlueSlider = CreateSlider( 40, 146, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
 		BlueField = CreateTextField( 168, 144, 32, 20, Panel )
 		SetSliderRange( BlueSlider, 0, 100 )
-		AlphaSlider = CreateSlider( 40, 170, 120, 20, Panel, SLIDER_TRACKBAR | SLIDER_HORIZONTAL )
+		CreateLabel( "{{L_Alpha}}", 2, 171, 37, 16, Panel, Label_Right )
+		AlphaSlider = CreateSlider( 40, 170, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
 		AlphaField = CreateTextField( 168, 168, 32, 20, Panel )
 		SetSliderRange( AlphaSlider, 0, 100 )
 		XScaleField = CreateTextField( 40, 192, 56, 20, Panel )
-		CreateLabel( "XScale:", 2, 196, 37, 16, Panel, 0 )
-		CreateLabel( "YScale:", 106, 195, 37, 16, Panel, 0 )
+		CreateLabel( "{{L_XScale}}", 2, 196, 37, 16, Panel, Label_Right )
+		CreateLabel( "{{L_YScale}}", 106, 195, 37, 16, Panel, Label_Right )
 		YScaleField = CreateTextField( 144, 192, 56, 20, Panel )
-		CreateLabel( "Frame:", 3, 220, 37, 16, Panel, 0 )
+		CreateLabel( "{{L_Frame}}", 2, 220, 37, 16, Panel, Label_Right )
 		FrameField = CreateTextField( 40, 216, 56, 20, Panel )
-		SelectImageButton  =  CreateButton(  "Select image",  104,  214,  96,  24,  Panel,  BUTTON_PUSH  )
-		RotatingCheckbox = CreateButton( "Rot.", 40, 242, 40, 16, Panel, BUTTON_CHECKBOX )
-		ScalingCheckbox = CreateButton( "Sc.", 2, 242, 40, 16, Panel, BUTTON_CHECKBOX )
-		CreateLabel( "ImgAngle:", 90, 243, 50, 16, Panel, 0 )
+		SelectImageButton  =  CreateButton(  "{{B_SelectImage}}",  104,  214,  96,  24,  Panel )
+		RotatingCheckbox = CreateButton( "{{CB_Rotation}}", 40, 242, 40, 16, Panel, Button_Checkbox )
+		ScalingCheckbox = CreateButton( "{{CB_Scaling}}", 2, 242, 40, 16, Panel, Button_Checkbox )
+		CreateLabel( "{{L_ImageAngle}}", 85, 243, 55, 16, Panel, Label_Right )
 		ImgAngleField = CreateTextField( 144, 240, 56, 20, Panel )
 		HiddenOKButton = CreateButton( "", 0, 0, 0, 0, Panel, Button_OK )
 		HideGadget( HiddenOKButton )
@@ -253,49 +272,53 @@ Type LTEditor Extends LTProject
 		TilesetCamera = LTCamera.Create( GadgetWidth( TilesetCanvas ), GadgetHeight( TilesetCanvas ), 16.0 )
 		L_CurrentCamera = MainCamera
 		
-		Local FileMenu:TGadget = CreateMenu( "File", 0, WindowMenu( Window ) )
-		CreateMenu( "New project", MenuNew, FileMenu )
-		CreateMenu( "Open project...", MenuOpen, FileMenu )
-		CreateMenu( "Save project...", MenuSave, FileMenu )
-		CreateMenu( "Save project as...", MenuSaveAs, FileMenu )
+		Local FileMenu:TGadget = CreateMenu( "{{M_File}}", 0, WindowMenu( Window ) )
+		CreateMenu( "{{M_New}}", MenuNew, FileMenu )
+		CreateMenu( "{{M_Open}}", MenuOpen, FileMenu )
+		CreateMenu( "{{M_Save}}", MenuSave, FileMenu )
+		CreateMenu( "{{M_SaveAs}}", MenuSaveAs, FileMenu )
 		CreateMenu( "", 0, FileMenu )
-		CreateMenu( "Exit", MenuExit, FileMenu )
+		CreateMenu( "{{M_Exit}}", MenuExit, FileMenu )
 		
-		Local EditMenu:TGadget = CreateMenu( "Edit", 0, WindowMenu( Window ) )
-		ShowGrid = CreateMenu( "Show grid", MenuShowGrid, EditMenu )
-		SnapToGrid = CreateMenu( "Snap to grid", MenuSnapToGrid, EditMenu )
-		CreateMenu( "Grid settings", MenuGridSettings, EditMenu )
+		Local EditMenu:TGadget = CreateMenu( "{{M_Edit}}", 0, WindowMenu( Window ) )
+		ShowGrid = CreateMenu( "{{M_ShowGrid}}", MenuShowGrid, EditMenu )
+		SnapToGrid = CreateMenu( "{{M_SnapToGrid}}", MenuSnapToGrid, EditMenu )
+		CreateMenu( "{{M_GridSettings}}", MenuGridSettings, EditMenu )
 		CreateMenu( "", 0, EditMenu )
-		ReplacementOfTiles = CreateMenu( "Replacement of tiles", MenuReplacementOfTiles, EditMenu )
-		ProlongTiles = CreateMenu( "Prolong tiles", MenuProlongTiles, EditMenu )
+		ReplacementOfTiles = CreateMenu( "{{M_ReplacementOfTiles}}", MenuReplacementOfTiles, EditMenu )
+		ProlongTiles = CreateMenu( "{{M_ProlongTiles}}", MenuProlongTiles, EditMenu )
+		
+		Local LanguageMenu:TGadget = CreateMenu( "{{M_Language}}", 0, WindowMenu( Window ) )
+		English = CreateMenu( "{{M_English}}", MenuEnglish, LanguageMenu )
+		Russian = CreateMenu( "{{M_Russian}}", MenuRussian, LanguageMenu )
 		
 		UpdateWindowMenu( Window )
 		
-		LayerMenu = CreateMenu( "Layer menu", 0, null )
-		CreateMenu( "Select", MenuSelect, LayerMenu )
-		CreateMenu( "Add new layer", MenuAddLayer, LayerMenu )
-		CreateMenu( "Add new tilemap", MenuAddTilemap, LayerMenu )
-		CreateMenu( "Import tilemap", MenuImportTilemap, LayerMenu )
-		CreateMenu( "Import tilemaps", MenuImportTilemaps, LayerMenu )
-		CreateMenu( "Remove bounds", MenuRemoveBounds, LayerMenu )
+		LayerMenu = CreateMenu( "", 0, null )
+		CreateMenu( "{{M_Select}}", MenuSelect, LayerMenu )
+		CreateMenu( "{{M_AddLayer}}", MenuAddLayer, LayerMenu )
+		CreateMenu( "{{M_AddTilemap}}", MenuAddTilemap, LayerMenu )
+		CreateMenu( "{{M_ImportTilemap}}", MenuImportTilemap, LayerMenu )
+		CreateMenu( "{{M_ImportTilemaps}}", MenuImportTilemaps, LayerMenu )
+		CreateMenu( "{{M_RemoveBounds}}", MenuRemoveBounds, LayerMenu )
 		AddCommonMenuItems( LayerMenu )
 		
-		TilemapMenu = CreateMenu( "Tilemap menu", 0, null )
-		CreateMenu( "Edit", MenuEditTilemap, TilemapMenu )
-		CreateMenu( "Select", MenuSelectTileMap, TilemapMenu )
-		CreateMenu( "Toggle visibility", MenuToggleVisibility, TilemapMenu )
-		CreateMenu( "Toggle activity", MenuToggleActivity, TilemapMenu )
-		CreateMenu( "Properties", MenuTilemapSettings, TilemapMenu )
-		CreateMenu( "Edit tileset image", MenuEditTileset, TilemapMenu )
-		CreateMenu( "Edit tile replacement rules", MenuEditReplacementRules, TilemapMenu )
-		CreateMenu( "Set as bounds of current layer", MenuSetBounds, TilemapMenu )
+		TilemapMenu = CreateMenu( "", 0, null )
+		CreateMenu( "{{M_EditTilemap}}", MenuEditTilemap, TilemapMenu )
+		CreateMenu( "{{M_Select}}", MenuSelectTileMap, TilemapMenu )
+		CreateMenu( "{{M_ToggleVisibility}}", MenuToggleVisibility, TilemapMenu )
+		CreateMenu( "{{M_ToggleActivity}}", MenuToggleActivity, TilemapMenu )
+		CreateMenu( "{{M_TileMapSettings}}", MenuTilemapSettings, TilemapMenu )
+		CreateMenu( "{{M_EditTileset}}", MenuEditTileset, TilemapMenu )
+		CreateMenu( "{{M_EditTileReplacementRules}}", MenuEditReplacementRules, TilemapMenu )
+		CreateMenu( "{{M_SetBounds}}", MenuSetBounds, TilemapMenu )
 		AddCommonMenuItems( TilemapMenu )
 		
-		SpriteMenu = CreateMenu( "Sprite menu", 0, null )
-		CreateMenu( "Toggle visibility", MenuToggleVisibility, SpriteMenu )
-		CreateMenu( "Toggle activity", MenuToggleActivity, SpriteMenu )
+		SpriteMenu = CreateMenu( "", 0, null )
+		CreateMenu( "{{M_ToggleVisibility}}", MenuToggleVisibility, SpriteMenu )
+		CreateMenu( "{{M_ToggleActivity}}", MenuToggleActivity, SpriteMenu )
 		AddCommonMenuItems( SpriteMenu )
-		CreateMenu( "Set as bounds of current layer", MenuSetBounds, SpriteMenu )
+		CreateMenu( "{{M_SetBounds}}", MenuSetBounds, SpriteMenu )
 	
 		SetGraphics( CanvasGraphics( MainCanvas ) )
 		SetGraphicsParameters()
@@ -324,6 +347,8 @@ Type LTEditor Extends LTProject
 			If ReadLine( IniFile ) = "1" Then SelectMenuItem( ReplacementOfTiles )
 			If ReadLine( IniFile ) = "1" Then SelectMenuItem( ProlongTiles )
 			
+			SetLanguage( ReadLine( IniFile ).ToInt() )
+			
 			Grid.CellWidth = ReadLine( IniFile ).ToFloat()
 			Grid.CellHeight = ReadLine( IniFile ).ToFloat()
 			Grid.CellXDiv = ReadLine( IniFile ).ToInt()
@@ -334,21 +359,38 @@ Type LTEditor Extends LTProject
 			
 			CloseFile( IniFile )
 		Else
+			SetLanguage( 0 )
 			SelectMenuItem( ReplacementOfTiles )
 		End If
-		
+	End Method
+	
+	
+	
+	Method SetLanguage( Num:Int )
+		Select Num
+			Case EnglishNum
+				CurrentLanguage = EnglishLanguage
+				CheckMenu( English )
+				UnCheckMenu( Russian )
+			Case RussianNum
+				CurrentLanguage = RussianLanguage
+				CheckMenu( Russian )
+				UnCheckMenu( English )
+		End Select
+		SetLocalizationLanguage( CurrentLanguage )
+		UpdateWindowMenu( Window )
 		SetTitle()
 	End Method
 	
 	
 	
 	Method AddCommonMenuItems( Menu:TGadget )
-		CreateMenu( "Rename", MenuRename, Menu )
-		CreateMenu( "Shift to the top (Home)", MenuShiftToTheTop, Menu )
-		CreateMenu( "Shift up (PgUp)", MenuShiftUp, Menu )
-		CreateMenu( "Shift down (PgDn)", MenuShiftDown, Menu )
-		CreateMenu( "Shift to the bottom (End)", MenuShiftToTheBottom, Menu )
-		CreateMenu( "Remove", MenuRemove, Menu )
+		CreateMenu( "{{M_Rename}}", MenuRename, Menu )
+		CreateMenu( "{{M_ShiftToTheTop}}", MenuShiftToTheTop, Menu )
+		CreateMenu( "{{M_ShiftUp}}", MenuShiftUp, Menu )
+		CreateMenu( "{{M_ShiftDown}}", MenuShiftDown, Menu )
+		CreateMenu( "{{M_ShiftToTheBottom}}", MenuShiftToTheBottom, Menu )
+		CreateMenu( "{{M_Remove}}", MenuRemove, Menu )
 	End Method
 	
 	
@@ -371,7 +413,7 @@ Type LTEditor Extends LTProject
 	
 	Method AskForSaving:Int()
 		If Changed Then
-			Local Choice:Int = Proceed( "Your world is not saved, would you like to save it now?" )
+			Local Choice:Int = Proceed( LocalizeString( "{{D_UnsavedWorld}}" ) )
 			If Choice = -1 Then Return False
 			If Choice = 1 Then Return SaveWorld()
 		End If
@@ -424,7 +466,7 @@ Type LTEditor Extends LTProject
 	
 	Method SaveWorld:Int( SaveAs:Int = False )
 		Local Filename:String = WorldFilename
-		If SaveAs Or Not Filename Then Filename = RequestFile( "Select world file name to save...", "DWLab world file:lw", True )
+		If SaveAs Or Not Filename Then Filename = RequestFile( LocalizeString( "{{D_SelectFileNameToSave}}" ), "DWLab world file:lw", True )
 		If Filename Then 
 			WorldFilename = Filename
 			ChangeDir( ExtractDir( Filename ) )
@@ -453,6 +495,13 @@ Type LTEditor Extends LTProject
 		WriteLine( IniFile, MenuChecked( SnapToGrid ) )
 		WriteLine( IniFile, MenuChecked( ReplacementOfTiles ) )
 		WriteLine( IniFile, MenuChecked( ProlongTiles ) )
+		
+		Select CurrentLanguage
+			Case EnglishLanguage
+				WriteLine( IniFile, EnglishNum )
+			Case RussianLanguage
+				WriteLine( IniFile, RussianNum )
+		End Select
 		
 		WriteLine( IniFile, Grid.CellWidth )
 		WriteLine( IniFile, Grid.CellHeight )
@@ -491,7 +540,6 @@ Type LTEditor Extends LTProject
 						Else
 							CurrentTilemap = Null
 							SelectSprite( LTSprite( SelectedObject ) )
-							RefreshProjectManager()
 						End If
 				End Select
 			Case Event_MenuAction
@@ -499,15 +547,19 @@ Type LTEditor Extends LTProject
 					Case MenuShiftToTheTop
 						EvID = Event_KeyDown
 						EvData = Key_Home
+						SelectSprite( LTSprite( SelectedObject ) )
 					Case MenuShiftUp
 						EvID = Event_KeyDown
 						EvData = Key_PageUp
+						SelectSprite( LTSprite( SelectedObject ) )
 					Case MenuShiftDown
 						EvID = Event_KeyDown
 						EvData = Key_PageDown
+						SelectSprite( LTSprite( SelectedObject ) )
 					Case MenuShiftToTheBottom
 						EvID = Event_KeyDown
 						EvData = Key_End
+						SelectSprite( LTSprite( SelectedObject ) )
 				End Select
 		End Select
 		
@@ -523,14 +575,14 @@ Type LTEditor Extends LTProject
 							SelectedObjects.Clear()
 							RefreshProjectManager()
 						End If
-					Case Key_PageUp, Key_Home
+					Case Key_PageUp, Key_End
 						If Not SelectedObjects.IsEmpty() Then
 							Local SelectedLink:TLink = SelectedObjects.FirstLink()
 							Local SpriteLink:TLink = CurrentLayer.Children.FirstLink()
 							Local SpritesList:TList = CurrentLayer.Children
 							While SpriteLink And SelectedLink
-								If SpriteLink.Value() = SelectedLink.Value() And ( SpriteLink.PrevLink() Or EvData = Key_Home ) Then
-									if EventData() = Key_PageUp Then
+								If SpriteLink.Value() = SelectedLink.Value() And ( SpriteLink.PrevLink() Or EvData = Key_End ) Then
+									if EvData = Key_PageUp Then
 										SpritesList.InsertBeforeLink( SpriteLink.Value(), SpriteLink.PrevLink() )
 									Else
 										SpritesList.InsertAfterLink( SpriteLink.Value(), SpritesList.LastLink() )
@@ -543,14 +595,14 @@ Type LTEditor Extends LTProject
 							SetChanged()
 							RefreshProjectManager()
 						End If
-					Case Key_PageDown, Key_End
+					Case Key_PageDown, Key_Home
 						If Not SelectedObjects.IsEmpty() Then
 							Local SelectedLink:TLink = SelectedObjects.LastLink()
 							Local SpriteLink:TLink = CurrentLayer.Children.LastLink()
 							Local SpritesList:TList = CurrentLayer.Children
 							While SpriteLink And SelectedLink
-								If SpriteLink.Value() = SelectedLink.Value() And ( SpriteLink.NextLink() Or EvData = Key_End ) Then
-									if EventData() = Key_PageDown Then
+								If SpriteLink.Value() = SelectedLink.Value() And ( SpriteLink.NextLink() Or EvData = Key_Home ) Then
+									if EvData = Key_PageDown Then
 										SpritesList.InsertAfterLink( SpriteLink.Value(), SpriteLink.NextLink() )
 									Else
 										SpritesList.InsertBeforeLink( SpriteLink.Value(), SpritesList.FirstLink() )
@@ -609,7 +661,7 @@ Type LTEditor Extends LTProject
 			Case Event_MenuAction
 				Select EvData
 					Case MenuRename
-						Local Name:String = EnterString( "Enter name of the object", LTObject( SelectedObject ).GetName() )
+						Local Name:String = EnterString( LocalizeString( "{{D_EnterNameOfObject}}" ), LTObject( SelectedObject ).GetName() )
 						If Name Then
 							SetObjectName( LTObject( SelectedObject ), Name )
 							RefreshProjectManager()
@@ -635,7 +687,7 @@ Type LTEditor Extends LTProject
 					Case MenuNew
 						NewWorld()
 					Case MenuOpen
-						OpenWorld( RequestFile( "Select world file to open...", "DWLab world file:lw" ) )
+						OpenWorld( RequestFile( LocalizeString( "{{D_SelectFileNameToOpen}}" ), "DWLab world file:lw" ) )
 					Case MenuSave
 						SaveWorld()
 					Case MenuSaveAs
@@ -652,6 +704,10 @@ Type LTEditor Extends LTProject
 						SelectMenuItem( ReplacementOfTiles, 2 )
 					Case MenuProlongTiles
 						SelectMenuItem( ProlongTiles, 2 )
+					Case MenuEnglish
+						SetLanguage( EnglishNum )
+					Case MenuRussian
+						SetLanguage( RussianNum )
 						
 					' ============================= Layer menu ==================================
 					
@@ -659,7 +715,7 @@ Type LTEditor Extends LTProject
 						SelectLayer( LTLayer( SelectedObject ) )
 						CurrentTileMap = Null
 					Case MenuAddLayer
-						Local LayerName:String = EnterString( "Enter layer name:" )
+						Local LayerName:String = EnterString( LocalizeString( "{{D_EnterNameOfLayer}}" ) )
 						If LayerName Then
 							Local Layer:LTLayer = New LTLayer
 							Layer.SetName( LayerName )
@@ -668,7 +724,7 @@ Type LTEditor Extends LTProject
 							SetChanged()
 						End If
 					Case MenuAddTilemap
-						Local Name:String = EnterString( "Enter tilemap name:" )
+						Local Name:String = EnterString( LocalizeString( "{{D_EnterNameOfTilemap}}" ) )
 						If Name Then
 							Local XQuantity:Int = 16
 							Local YQuantity:Int = 16
@@ -681,17 +737,17 @@ Type LTEditor Extends LTProject
 					Case MenuImportTilemap
 						Local TileWidth:Int = 16
 						Local TileHeight:Int = 16
-						If ChooseParameter( TileWidth, TileHeight, "tile size", "pixels" ) Then
-							Local Filename:String = RequestFile( "Select tilemap file to process...", "Image files:png,jpg,bmp" )
+						If ChooseParameter( TileWidth, TileHeight, LocalizeString( "{{L_TileSize}}" ), LocalizeString( "{{L_Pixels}}" ) ) Then
+							Local Filename:String = RequestFile( LocalizeString( "{{D_SelectTilemapFile}}" ), "Image files:png,jpg,bmp" )
 							Local TilemapPixmap:TPixmap = LoadPixmap( Filename )
 							If Not TilemapPixmap Then
-								Notify( "Cannot load tilemap." )
+								Notify( LocalizeString( "{{N_CannotLoadTilemap}}" ) )
 							Else
 								Local TilemapWidth:Int = PixmapWidth( TilemapPixmap )
 								Local TilemapHeight:Int = PixmapHeight( TilemapPixmap )
 								
 								If TilemapWidth Mod TileWidth = 0 And TilemapHeight Mod TileHeight = 0 Then
-									Local TilesetFilename:String = ChopFilename( RequestFile( "Select file to save tiles image to...", "png", True ) )
+									Local TilesetFilename:String = ChopFilename( RequestFile( LocalizeString( "{{D_SelectFileToSaveImageTo}}" ), "png", True ) )
 									If TilesetFilename Then
 										ImportTilemap( TileWidth, TileHeight, TilemapPixmap, TilesetFilename )
 										Local Tileset:TImage = LoadImage( TilesetFilename )
@@ -702,17 +758,17 @@ Type LTEditor Extends LTProject
 										SetChanged()
 									End If
 								Else
-									Notify( "Tilemap size must be divideable by tile size." )
+									Notify( LocalizeString( "{{N_TilemapSize}}" ) )
 								End If
 							End If
 						End If
 					Case MenuImportTilemaps
 						Local TileWidth:Int = 16
 						Local TileHeight:Int = 16
-						If ChooseParameter( TileWidth, TileHeight, "tile size", "pixels" ) Then
-							Local Path:String = RequestDir( "Select directory with tilemap files to process...", CurrentDir() )
+						If ChooseParameter( TileWidth, TileHeight, LocalizeString( "{{L_TileSize}}" ), LocalizeString( "{{L_Pixels}}" ) ) Then
+							Local Path:String = RequestDir( LocalizeString( "{{D_SelectTilemapsDirectory}}" ), CurrentDir() )
 							If Path Then 
-								Local TilesetFilename:String = ChopFilename( RequestFile( "Select file to save tiles image to...", "png", True ) )
+								Local TilesetFilename:String = ChopFilename( RequestFile( LocalizeString( "{{D_SelectFileToSaveImageTo}}" ), "png", True ) )
 								If TilesetFilename Then 
 									Local Dir:Int = ReadDir( Path )
 									Local Num:Int = 1
@@ -779,12 +835,25 @@ Type LTEditor Extends LTProject
 				End Select
 			Case Event_GadgetAction
 				Select EventSource()
+					Case SelectImageButton
+						If Not SelectedObjects.IsEmpty() Then
+							Local FirstSprite:LTSprite = LTSprite( SelectedObjects.First() )
+							If SpriteImageProperties( FirstSprite ) Then
+								For Local Sprite:LTSprite = Eachin SelectedObjects
+									LTImageVisualizer( Sprite.Visualizer ).Image = LTImageVisualizer( FirstSprite.Visualizer ).Image
+								Next
+							End If
+						End If
 					Case HScroller
-						'MainCamera.X = SliderValue( HScroller ) * CurrentTilemap.Width / 10000.0 + 0.5 * MainCamera.Width
+						If CurrentLayer Then 
+							If CurrentLayer.Bounds Then MainCamera.X = SliderValue( HScroller ) * CurrentLayer.Bounds.Width / 10000.0 + 0.5 * MainCamera.Width
+						End If
 					Case VScroller
-						'MainCamera.Y = SliderValue( VScroller ) * CurrentTilemap.Height / 10000.0 + 0.5 * MainCamera.Height
+						If CurrentLayer Then 
+							If CurrentLayer.Bounds Then MainCamera.Y = SliderValue( VScroller ) * CurrentLayer.Bounds.Height / 10000.0 + 0.5 * MainCamera.Height
+						End If
 					Case AddLayerButton
-						Local Name:String = EnterString( "Enter name of the new layer" )
+						Local Name:String = EnterString( LocalizeString( "{{D_EnterNameOfLayer}}" ) )
 						If Name Then
 							AddLayer( Name )
 							RefreshProjectManager( World )
@@ -877,17 +946,18 @@ Type LTEditor Extends LTProject
 				End If
 		End Select
 		
-		If CurrentTilemap Then
-			'SetSliderRange( HScroller, Min( 10000.0, 10000.0 * MainCamera.Width / CurrentTilemap.Width ), 10000.0 )
-			'SetSliderRange( VScroller, Min( 10000.0, 10000.0 * MainCamera.Height / CurrentTilemap.Height ), 10000.0 )
-			'If MainCamera.Width < CurrentTilemap.Width Then SetSliderValue( HScroller, 10000.0 * MainCamera.CornerX() / CurrentTilemap.Width )
-			'If MainCamera.Height < CurrentTilemap.Height Then SetSliderValue( VScroller, 10000.0 * MainCamera.CornerY() / CurrentTilemap.Height )
-		Else
-			'SetSliderRange( HScroller, 1, 1 )
-			'SetSliderRange( VScroller, 1, 1 )
-		End If
-		
 		If Not CurrentLayer Then Return
+		
+		Local Bounds:LTSprite = CurrentLayer.Bounds
+		If Bounds Then
+			SetSliderRange( HScroller, Min( 10000.0, 10000.0 * MainCamera.Width / Bounds.Width ), 10000.0 )
+			SetSliderRange( VScroller, Min( 10000.0, 10000.0 * MainCamera.Height / Bounds.Height ), 10000.0 )
+			If MainCamera.Width < Bounds.Width Then SetSliderValue( HScroller, 10000.0 * MainCamera.CornerX() / Bounds.Width )
+			If MainCamera.Height < Bounds.Height Then SetSliderValue( VScroller, 10000.0 * MainCamera.CornerY() / Bounds.Height )
+		Else
+			SetSliderRange( HScroller, 1, 1 )
+			SetSliderRange( VScroller, 1, 1 )
+		End If
 		
 		If CurrentTilemap Then
 			EnableGadget( TilesetCanvas )
@@ -1182,9 +1252,9 @@ Type LTEditor Extends LTProject
 		SetSliderValue( AlphaSlider, 100.0 * CurrentSprite.Visualizer.Alpha )
 		
 		ClearGadgetItems( ShapeBox )
-		AddGadgetItem( ShapeBox, "Pivot" )
-		AddGadgetItem( ShapeBox, "Circle" )
-		AddGadgetItem( ShapeBox, "Rectangle" )
+		AddGadgetItem( ShapeBox, LocalizeString( "{{I_Pivot}}" ) )
+		AddGadgetItem( ShapeBox, LocalizeString( "{{I_Circle}}" ) )
+		AddGadgetItem( ShapeBox, LocalizeString( "{{I_Rectangle}}" ) )
 		SelectGadgetItem( ShapeBox, CurrentSprite.Shape )
 	End Method
 	
@@ -1196,6 +1266,7 @@ Type LTEditor Extends LTProject
 		SetSpriteModifiers( Sprite )
 		CurrentSprite = Sprite
 		FillSpriteFields()
+		RefreshProjectManager()
 	End Method
 	
 	
@@ -1247,7 +1318,7 @@ Type LTEditor Extends LTProject
 		Local Tilemap:LTTileMap = LTTilemap( SelectedObject )
 		Local XQuantity:Int = Tilemap.FrameMap.XQuantity
 		Local YQuantity:Int = Tilemap.FrameMap.YQuantity
-		If ChooseParameter( XQuantity, YQuantity, "tiles quantity", "tiles" ) Then
+		If ChooseParameter( XQuantity, YQuantity, LocalizeString( "{{L_TilesQuantity}}" ), LocalizeString( "{{L_Tiles}}" ) ) Then
 			Tilemap.FrameMap.SetResolution( XQuantity, YQuantity )
 			Tilemap.X = 0.5 * XQuantity
 			Tilemap.Y = 0.5 * YQuantity
