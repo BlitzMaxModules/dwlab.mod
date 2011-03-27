@@ -11,6 +11,10 @@
 Include "LTWorld.bmx"
 
 Type LTLayer Extends LTList
+	Field Bounds:LTSprite
+	
+	
+
 	Method Clone:LTActiveObject( Prefix:String, CollisionMap:LTCollisionMap )
 		Local NewLayer:LTLayer = New LTLayer
 		For Local Obj:LTActiveObject = Eachin Children
@@ -29,5 +33,13 @@ Type LTLayer Extends LTList
 			If Layer Then Return Layer
 		Next
 		Return Null
+	End Method
+	
+	
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		
+		Bounds = LTSprite( XMLObject.ManageObjectField( "bounds", Bounds ) )
 	End Method
 End Type

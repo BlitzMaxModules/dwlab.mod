@@ -22,10 +22,6 @@ Const L_Right:Int = 1
 Const L_Up:Int = 2
 Const L_Down:Int = 3
 
-Rem
-bbdoc:Main shape for moving objects
-about:
-EndRem
 Type LTSprite Extends LTShape
 	Field Shape:Int = L_Rectangle
 	Field X:Float
@@ -40,13 +36,13 @@ Type LTSprite Extends LTShape
 	' ==================== Drawing ===================	
 	
 	Method Draw()
-		Visualizer.DrawUsingSprite( Self )
+		If Visible Then Visualizer.DrawUsingSprite( Self )
 	End Method
 	
 	
 	
 	Method DrawUsingVisualizer( Vis:LTVisualizer )
-		Vis.DrawUsingSprite( Self )
+		If Visible Then Vis.DrawUsingSprite( Self )
 	End Method
 	
 	' ==================== Collisions ===================
@@ -176,7 +172,6 @@ Type LTSprite Extends LTShape
 						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 				End Select
 		End Select
-		
 	End Method
 	
 	
@@ -287,30 +282,18 @@ Type LTSprite Extends LTShape
 
 	' ==================== Position ====================
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method CornerX:Float()
  		Return X - 0.5 * Width
  	End Method
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method CornerY:Float()
  		Return Y - 0.5 * Height
  	End Method
 
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method DistanceToPoint:Float( PointX:Float, PointY:Float )
 		Local DX:Float = X - PointX
 		Local DY:Float = Y - PointY
@@ -319,10 +302,6 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method DistanceToSprite:Float( Sprite:LTSprite )
 		Local DX:Float = X - Sprite.X
 		Local DY:Float = Y - Sprite.Y
@@ -331,20 +310,12 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method IsAtPositionOfSprite:Int( Sprite:LTSprite )
 		If Sprite.X = X And Sprite.Y = Y Then Return True
 	End Method
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method SetCoords( NewX:Float, NewY:Float )
 		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
@@ -357,10 +328,6 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method AlterCoords( DX:Float, DY:Float )
 		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
@@ -373,10 +340,6 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method SetCornerCoords( NewX:Float, NewY:Float )
 		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
@@ -389,10 +352,6 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method SetCoordsRelativeToSprite( Sprite:LTSprite, NewX:Float, NewY:Float )
 		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
@@ -407,10 +366,6 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method JumpToSprite( Sprite:LTSprite )
 		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
@@ -423,10 +378,6 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method SetMouseCoords()
 		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
@@ -438,10 +389,6 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method MoveTowardsSprite( Sprite:LTSprite )
 		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
@@ -462,10 +409,6 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method MoveForward()
 		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
@@ -478,10 +421,6 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method MoveUsingWSAD()
 		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
@@ -500,10 +439,6 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method PlaceBetweenSprites( Sprite1:LTSprite, Sprite2:LTSprite, K:Float )
 		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
@@ -516,10 +451,6 @@ Type LTSprite Extends LTShape
 	
 	' ==================== Size ====================
 
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method SetSize( NewWidth:Float, NewHeight:Float )
 		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
@@ -532,10 +463,6 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method SetDiameter( NewDiameter:Float )
 		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
@@ -548,10 +475,6 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method CorrectHeight()
 		Local ImageVisualizer:LTImageVisualizer = LTImageVisualizer( Visualizer )
 		
@@ -569,100 +492,60 @@ Type LTSprite Extends LTShape
 	
 	' ==================== Angle ====================
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method GetAngle:Float()
 		Return Angle
 	End Method
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method SetAngle:Float( NewAngle:Float )
 		Angle = NewAngle
 	End Method
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method DirectAsSprite( Sprite:LTSprite )
 		Angle = Sprite.Angle
 	End Method
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method Turn( TurningSpeed:Float )
 		Angle :+ L_DeltaTime * TurningSpeed
 	End Method
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method DirectionToPoint:Float( PointX:Float, PointY:Float )
 		Return ATan2( PointY - Y, PointX - X )
 	End Method
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method DirectionToSprite:Float( Sprite:LTSprite )
 		Return ATan2( Sprite.Y - Y, Sprite.X - X )
 	End Method
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method DirectToSprite( Sprite:LTSprite )
 		Angle = ATan2( Sprite.Y - Y, Sprite.X - X )
 	End Method
 	
 	' ==================== Moving vector ====================
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method GetDX:Float()
 		Return Velocity * Cos( Angle )
 	End Method
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method AlterDX( DDX:Float )
 		SetDX( GetDX() + DDX )
 	End Method
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method SetDX( NewDX:Float )
 		Local DY:Float = GetDY()
 		Angle = ATan2( DY, NewDX )
@@ -671,30 +554,18 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method GetDY:Float()
 		Return Velocity * Sin( Angle )
 	End Method
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method AlterDY( DDY:Float )
 		SetDY( GetDY() + DDY )
 	End Method
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method SetDY( NewDY:Float )
 		Local DX:Float = GetDX()
 		Angle = ATan2( NewDY, DX )
@@ -703,10 +574,6 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method AlterDXDY( DDX:Float, DDY:Float )
 		Local DX:Float = GetDX() + DDX
 		Local DY:Float = GetDY() + DDY
@@ -716,10 +583,6 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method SetDXDY( NewDX:Float, NewDY:Float )
 		Angle = ATan2( NewDY, NewDX )
 		Velocity = Sqr( NewDX * NewDX + NewDY * NewDY )
@@ -727,20 +590,12 @@ Type LTSprite Extends LTShape
 	
 	' ==================== Velocity ====================
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method GetVelocity:Float()
 		Return Velocity
 	End Method
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method SetVelocity:Float( NewVelocity:Float )
 		Velocity = NewVelocity
 	End Method
@@ -789,10 +644,6 @@ End Type
 
 
 
-Rem
-bbdoc:
-about:
-EndRem
 Type LTMoveSprite Extends LTAction
 	Field Sprite:LTSprite
 	Field OldX:Float, OldY:Float

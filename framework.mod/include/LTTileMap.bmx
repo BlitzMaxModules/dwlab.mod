@@ -56,13 +56,13 @@ Type LTTileMap Extends LTSprite
 	' ==================== Drawing ===================	
 	
 	Method Draw()
-		Visualizer.DrawUsingTileMap( Self )
+		If Visible Then Visualizer.DrawUsingTileMap( Self )
 	End Method
 	
 	
 	
 	Method DrawUsingVisualizer( Visizer:LTVisualizer )
-		Visizer.DrawUsingTileMap( Self )
+		If Visible Then Visizer.DrawUsingTileMap( Self )
 	End Method
 	
 	' ==================== Collisions ===================

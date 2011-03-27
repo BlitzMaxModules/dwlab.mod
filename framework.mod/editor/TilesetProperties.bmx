@@ -206,6 +206,7 @@ Function TilesetProperties( Tilemap:LTTilemap )
 								L_AddItemToIntArray( CurrentTileRule.TileNums, TileNum )
 							End If
 						End If
+						Editor.SetChanged()
 					End If
 				Case TileRulesList
 					If CurrentCategory Then
@@ -227,6 +228,7 @@ Function TilesetProperties( Tilemap:LTTilemap )
 					If RMB Then
 						Local TilePos:LTTilePos = FindTilePos( CurrentTileRule, PosDX, PosDY )
 						If TilePos Then CurrentTileRule.TilePositions.Remove( TilePos )
+						Editor.SetChanged()
 					End If
 			End Select
 		End If
@@ -308,6 +310,7 @@ Function TilesetProperties( Tilemap:LTTilemap )
 								
 								CurrentCategory = NewCategory
 								RefreshListBox( CategoriesListBox, Tileset.Categories, CurrentCategory )
+								Editor.SetChanged()
 							End If
 						Case DeleteCategoryButton
 							If CurrentCategory Then
@@ -316,18 +319,21 @@ Function TilesetProperties( Tilemap:LTTilemap )
 								CurrentTileRule = Null
 								DisableGadget( PosPanel )
 								RefreshListBox( CategoriesListBox, Tileset.Categories, CurrentCategory )
+								Editor.SetChanged()
 							End If
 						Case AddTileRuleButton
 							If CurrentCategory Then
 								CurrentTIleRule = New LTTileRule
 								CurrentTIleRule.TileNums = New Int[ 1 ]
 								CurrentCategory.TileRules.AddLast( CurrentTIleRule )
+								Editor.SetChanged()
 							End If
 						Case DeleteTileRuleButton
 							If CurrentTileRule Then
 								CurrentCategory.TileRules.Remove( CurrentTileRule )
 								CurrentTileRule = Null
 								DisableGadget( PosPanel )
+								Editor.SetChanged()
 							End If
 						Case CategoriesListBox
 							If CurrentCategory Then
@@ -335,6 +341,7 @@ Function TilesetProperties( Tilemap:LTTilemap )
 								If Name Then
 									SetObjectName( CurrentCategory, Name )
 									RefreshListBox( CategoriesListBox, Tileset.Categories, CurrentCategory )
+									Editor.SetChanged()
 								End If
 							End If
 						Case TileRuleUpButton
@@ -343,6 +350,7 @@ Function TilesetProperties( Tilemap:LTTilemap )
 									Local Link:TLink = CurrentCategory.TileRules.FindLink( CurrentTileRule )
 									CurrentCategory.TileRules.InsertBeforeLink( CurrentTileRule, Link.PrevLink() )
 									Link.Remove()
+									Editor.SetChanged()
 								End If
 							End If
 						Case TileRuleDownButton
@@ -351,6 +359,7 @@ Function TilesetProperties( Tilemap:LTTilemap )
 									Local Link:TLink = CurrentCategory.TileRules.FindLink( CurrentTileRule )
 									CurrentCategory.TileRules.InsertAfterLink( CurrentTileRule, Link.NextLink() )
 									Link.Remove()
+									Editor.SetChanged()
 								End If
 							End If
 						Case HiddenOKButton
@@ -365,6 +374,7 @@ Function TilesetProperties( Tilemap:LTTilemap )
 									Case YDividerField
 										CurrentTileRule.YDivider = TextFieldText( YDividerField ).ToInt()
 								End Select
+								Editor.SetChanged()
 							End If
 					End Select
 				Case Event_GadgetSelect

@@ -11,7 +11,8 @@ Include "LTList.bmx"
 Include "LTShape.bmx"
 
 Type LTActiveObject Extends LTObject
-
+	Field Visible:Int = True
+	Field Active:Int = True
 	
 	' ==================== Drawing ===================
 	
@@ -65,19 +66,11 @@ Type LTActiveObject Extends LTObject
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method HandleCollisionWith( Obj:LTActiveObject, CollisionType:Int )
 	End Method
 	
 	
 	
-	Rem
-	bbdoc:
-	about:
-	EndRem
 	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
 	End Method
 	
@@ -125,5 +118,14 @@ Type LTActiveObject Extends LTObject
 	
 	
 	Method Destroy()
+	End Method
+	
+	' ==================== Saving / loading ====================
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		
+		XMLObject.ManageIntAttribute( "visible", Visible, 1 )
+		XMLObject.ManageIntAttribute( "active", Active, 1 )
 	End Method
 End Type

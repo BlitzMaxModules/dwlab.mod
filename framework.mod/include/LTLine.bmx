@@ -23,13 +23,13 @@ Type LTLine Extends LTShape
 	' ==================== Drawing ===================	
 	
 	Method Draw()
-		Visualizer.DrawUsingLine( Self )
+		If Visible Then Visualizer.DrawUsingLine( Self )
 	End Method
 	
 	
 	
 	Method DrawUsingVisualizer( Vis:LTVisualizer )
-		Vis.DrawUsingLine( Self )
+		If Visible Then Vis.DrawUsingLine( Self )
 	End Method
 	
 	' ==================== Collisions ===================

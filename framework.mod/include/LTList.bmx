@@ -13,6 +13,36 @@ Include "LTLayer.bmx"
 Type LTList Extends LTActiveObject
 	Field Children:TList = New TList
 	
+	' ==================== Drawing ===================
+	
+	Method Draw()
+		If Visible Then
+			For Local Obj:LTActiveObject = Eachin Children
+				Obj.Draw()
+			Next
+		End If
+	End Method
+	
+	
+	
+	Method DrawUsingVisualizer( Vis:LTVisualizer )
+		If Visible Then
+			For Local Obj:LTActiveObject = Eachin Children
+				Obj.DrawUsingVisualizer( Vis )
+			Next
+		End If
+	End Method
+	
+	
+	
+	Method Act()
+		If Active Then
+			For Local Obj:LTActiveObject = Eachin Children
+				Obj.Act()
+			Next
+		End If
+	End Method
+	
 	' ==================== Collisions ===================
 	
 	Method CollidesWith:Int( Obj:LTActiveObject )
@@ -79,22 +109,6 @@ Type LTList Extends LTActiveObject
 		Forever
 	End Method
 		
-	' ==================== Pushing ====================
-	
-	Method Draw()
-		For Local Obj:LTActiveObject = Eachin Children
-			Obj.Draw()
-		Next
-	End Method
-	
-	
-	
-	Method Act()
-		For Local Obj:LTActiveObject = Eachin Children
-			Obj.Act()
-		Next
-	End Method
-	
 	' ==================== List methods ====================
 	
 	Method AddLast:TLink( Obj:LTActiveObject )

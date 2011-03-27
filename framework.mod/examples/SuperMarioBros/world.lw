@@ -1,6 +1,9 @@
 <LTWorld dwlab_version="0.11">
 	<TList field="definitions"/>
 	<LTLayer name="Land">
+		<LTSprite field="bounds" shape="2" x="112" y="7.5" width="224" height="15">
+			<LTFilledPrimitive field="visualizer" id="49"/>
+		</LTSprite>
 		<LTTileMap shape="2" x="112" y="7.5" width="224" height="15">
 			<LTImageVisualizer field="visualizer">
 				<LTImage field="image" id="4" filename="media\tiles.png" xcells="16" ycells="4"/>
@@ -120,6 +123,9 @@
 		</LTSprite>
 	</LTLayer>
 	<LTLayer name="Sewer">
+		<LTSprite field="bounds" shape="2" x="8.5" y="6.5" width="17" height="13">
+			<Object field="visualizer" id="49"/>
+		</LTSprite>
 		<LTTileMap shape="2" x="8.5" y="6.5" width="17" height="13">
 			<LTImageVisualizer field="visualizer">
 				<Object field="image" id="4"/>

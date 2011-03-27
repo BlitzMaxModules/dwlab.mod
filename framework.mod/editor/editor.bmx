@@ -47,7 +47,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.2"
+	Const Version:String = "1.2.1"
 	Const Title:String = "Digital Wizard's Lab World Editor v" + Version
 	
 	Field Window:TGadget
@@ -156,19 +156,24 @@ Type LTEditor Extends LTProject
 	Const MenuShiftDown:Int = 15
 	Const MenuShiftToTheBottom:Int = 16
 	Const MenuRemove:Int = 17
+	Const MenuSetBounds:Int = 28
 
 	Const MenuSelect:Int = 18
 	Const MenuAddLayer:Int = 19
 	Const MenuAddTilemap:Int = 20
 	Const MenuImportTilemap:Int = 21
 	Const MenuImportTilemaps:Int = 22
+	Const MenuRemoveBounds:Int = 29
 
+	Const MenuToggleVisibility:Int =  30
+	Const MenuToggleActivity:Int =  31
+		
 	Const MenuEditTilemap:Int = 23
 	Const MenuSelectTileMap:Int = 27
 	Const MenuEditTileset:Int = 24
 	Const MenuTilemapSettings:Int = 25
 	Const MenuEditReplacementRules:Int = 26
-	
+
 	Const PanelHeight:Int = 268
 	Const BarWidth:Int = 207
 	
@@ -272,18 +277,25 @@ Type LTEditor Extends LTProject
 		CreateMenu( "Add new tilemap", MenuAddTilemap, LayerMenu )
 		CreateMenu( "Import tilemap", MenuImportTilemap, LayerMenu )
 		CreateMenu( "Import tilemaps", MenuImportTilemaps, LayerMenu )
+		CreateMenu( "Remove bounds", MenuRemoveBounds, LayerMenu )
 		AddCommonMenuItems( LayerMenu )
 		
 		TilemapMenu = CreateMenu( "Tilemap menu", 0, null )
 		CreateMenu( "Edit", MenuEditTilemap, TilemapMenu )
 		CreateMenu( "Select", MenuSelectTileMap, TilemapMenu )
+		CreateMenu( "Toggle visibility", MenuToggleVisibility, TilemapMenu )
+		CreateMenu( "Toggle activity", MenuToggleActivity, TilemapMenu )
 		CreateMenu( "Properties", MenuTilemapSettings, TilemapMenu )
 		CreateMenu( "Edit tileset image", MenuEditTileset, TilemapMenu )
 		CreateMenu( "Edit tile replacement rules", MenuEditReplacementRules, TilemapMenu )
+		CreateMenu( "Set as bounds of current layer", MenuSetBounds, TilemapMenu )
 		AddCommonMenuItems( TilemapMenu )
 		
 		SpriteMenu = CreateMenu( "Sprite menu", 0, null )
+		CreateMenu( "Toggle visibility", MenuToggleVisibility, SpriteMenu )
+		CreateMenu( "Toggle activity", MenuToggleActivity, SpriteMenu )
 		AddCommonMenuItems( SpriteMenu )
+		CreateMenu( "Set as bounds of current layer", MenuSetBounds, SpriteMenu )
 	
 		SetGraphics( CanvasGraphics( MainCanvas ) )
 		SetGraphicsParameters()
@@ -503,52 +515,74 @@ Type LTEditor Extends LTProject
 			Case Event_KeyDown
 				Select EvData
 					Case Key_Delete
-						For Local Obj:LTActiveObject = Eachin SelectedObjects
-							CurrentLayer.Remove( Obj )
+						If Not SelectedObjects.IsEmpty() Then
+							For Local Obj:LTActiveObject = Eachin SelectedObjects
+								CurrentLayer.Remove( Obj )
+							Next
 							SetChanged()
-						Next
-						SelectedObjects.Clear()
-						RefreshProjectManager()
+							SelectedObjects.Clear()
+							RefreshProjectManager()
+						End If
 					Case Key_PageUp, Key_Home
-						Local SelectedLink:TLink = SelectedObjects.FirstLink()
-						Local SpriteLink:TLink = CurrentLayer.Children.FirstLink()
-						Local SpritesList:TList = CurrentLayer.Children
-						While SpriteLink And SelectedLink
-							If SpriteLink.Value() = SelectedLink.Value() And ( SpriteLink.PrevLink() Or EvData = Key_Home ) Then
-								if EventData() = Key_PageUp Then
-									SpritesList.InsertBeforeLink( SpriteLink.Value(), SpriteLink.PrevLink() )
-								Else
-									SpritesList.InsertAfterLink( SpriteLink.Value(), SpritesList.LastLink() )
+						If Not SelectedObjects.IsEmpty() Then
+							Local SelectedLink:TLink = SelectedObjects.FirstLink()
+							Local SpriteLink:TLink = CurrentLayer.Children.FirstLink()
+							Local SpritesList:TList = CurrentLayer.Children
+							While SpriteLink And SelectedLink
+								If SpriteLink.Value() = SelectedLink.Value() And ( SpriteLink.PrevLink() Or EvData = Key_Home ) Then
+									if EventData() = Key_PageUp Then
+										SpritesList.InsertBeforeLink( SpriteLink.Value(), SpriteLink.PrevLink() )
+									Else
+										SpritesList.InsertAfterLink( SpriteLink.Value(), SpritesList.LastLink() )
+									End If
+									SpriteLink.Remove()
+									SelectedLink = SelectedLink.NextLink()
 								End If
-								SpriteLink.Remove()
-								SelectedLink = SelectedLink.NextLink()
-							End If
-							SpriteLink = SpriteLink.NextLink()
-						Wend
-						Changed = True
-						RefreshProjectManager()
+								SpriteLink = SpriteLink.NextLink()
+							Wend
+							SetChanged()
+							RefreshProjectManager()
+						End If
 					Case Key_PageDown, Key_End
-						Local SelectedLink:TLink = SelectedObjects.LastLink()
-						Local SpriteLink:TLink = CurrentLayer.Children.LastLink()
-						Local SpritesList:TList = CurrentLayer.Children
-						While SpriteLink And SelectedLink
-							If SpriteLink.Value() = SelectedLink.Value() And ( SpriteLink.NextLink() Or EvData = Key_End ) Then
-								if EventData() = Key_PageDown Then
-									SpritesList.InsertAfterLink( SpriteLink.Value(), SpriteLink.NextLink() )
-								Else
-									SpritesList.InsertBeforeLink( SpriteLink.Value(), SpritesList.FirstLink() )
+						If Not SelectedObjects.IsEmpty() Then
+							Local SelectedLink:TLink = SelectedObjects.LastLink()
+							Local SpriteLink:TLink = CurrentLayer.Children.LastLink()
+							Local SpritesList:TList = CurrentLayer.Children
+							While SpriteLink And SelectedLink
+								If SpriteLink.Value() = SelectedLink.Value() And ( SpriteLink.NextLink() Or EvData = Key_End ) Then
+									if EventData() = Key_PageDown Then
+										SpritesList.InsertAfterLink( SpriteLink.Value(), SpriteLink.NextLink() )
+									Else
+										SpritesList.InsertBeforeLink( SpriteLink.Value(), SpritesList.FirstLink() )
+									End If
+									SpriteLink.Remove()
+									SelectedLink = SelectedLink.PrevLink()
 								End If
-								SpriteLink.Remove()
-								SelectedLink = SelectedLink.PrevLink()
-							End If
-							SpriteLink = SpriteLink.PrevLink()
-						Wend
-						Changed = True
-						RefreshProjectManager()
+								SpriteLink = SpriteLink.PrevLink()
+							Wend
+							SetChanged()
+							RefreshProjectManager()
+						End If
 					Case Key_NumAdd
 						MainCanvasZ :+ 1
 					Case Key_NumSubtract
 						MainCanvasZ :- 1
+					Case Key_V
+						If Not SelectedObjects.IsEmpty() Then
+							For Local Obj:LTActiveObject = Eachin SelectedObjects
+								Obj.Visible = Not Obj.Visible
+							Next
+							SetChanged()
+							RefreshProjectManager()
+						End If
+					Case Key_A
+						If Not SelectedObjects.IsEmpty() Then
+							For Local Obj:LTActiveObject = Eachin SelectedObjects
+								Obj.Active = Not Obj.Active
+							Next
+							SetChanged()
+							RefreshProjectManager()
+						End If
 				End Select
 			Case Event_MouseWheel
 				If Not Modifiers.IsEmpty() Then SetSpriteModifiers( LTSprite( SelectedObjects.First() ) )
@@ -586,6 +620,15 @@ Type LTEditor Extends LTProject
 						If SelectedObject = CurrentLayer Then CurrentLayer = Null
 						If SelectedObject = CurrentTilemap Then CurrentTilemap = Null
 						RefreshProjectManager( World )
+						SetChanged()
+					Case MenuToggleVisibility
+						LTSprite( SelectedObject ).Visible = Not LTSprite( SelectedObject ).Visible
+						SetChanged()
+						RefreshProjectManager()
+					Case MenuToggleActivity
+						LTSprite( SelectedObject ).Active = Not LTSprite( SelectedObject ).Active
+						SetChanged()
+						RefreshProjectManager()
 				
 					' ============================= Main menu ==================================
 					
@@ -616,20 +659,25 @@ Type LTEditor Extends LTProject
 						SelectLayer( LTLayer( SelectedObject ) )
 						CurrentTileMap = Null
 					Case MenuAddLayer
-						Local LayerName:String = EnterString( "Enter page name:" )
+						Local LayerName:String = EnterString( "Enter layer name:" )
 						If LayerName Then
 							Local Layer:LTLayer = New LTLayer
 							Layer.SetName( LayerName )
 							LTLayer( SelectedObject ).AddLast( Layer )
 							SelectLayer( Layer )
+							SetChanged()
 						End If
 					Case MenuAddTilemap
-						Local XQuantity:Int = 16
-						Local YQuantity:Int = 16
-						CurrentTilemap = LTTilemap.Create( XQuantity, YQuantity, 16, 16, 16 )
-						LTLayer( SelectedObject ).AddLast( CurrentTilemap )
-						SelectedObject = CurrentTilemap
-						TilemapSettings()
+						Local Name:String = EnterString( "Enter tilemap name:" )
+						If Name Then
+							Local XQuantity:Int = 16
+							Local YQuantity:Int = 16
+							CurrentTilemap = LTTilemap.Create( XQuantity, YQuantity, 16, 16, 16 )
+							LTLayer( SelectedObject ).AddLast( CurrentTilemap )
+							SelectedObject = CurrentTilemap
+							TilemapSettings()
+							SetChanged()
+						End If
 					Case MenuImportTilemap
 						Local TileWidth:Int = 16
 						Local TileHeight:Int = 16
@@ -700,7 +748,10 @@ Type LTEditor Extends LTProject
 								End If
 							End If
 						End If
-					
+					Case MenuRemoveBounds
+						LTLayer( SelectedObject ).Bounds = Null
+						SetChanged()
+
 					' ============================= Tilemap menu ==================================
 					
 					Case MenuEditTilemap
@@ -716,6 +767,15 @@ Type LTEditor Extends LTProject
 						TilemapSettings()
 					Case MenuEditReplacementRules
 						TilesetProperties( LTTileMap( SelectedObject ) )
+					Case MenuSetBounds
+						Local Bounds:LTSprite = New LTSprite
+						Local Sprite:LTSprite = LTSprite( SelectedObject )
+						Bounds.X = Sprite.X
+						Bounds.Y = Sprite.Y
+						Bounds.Width = Sprite.Width
+						Bounds.Height = Sprite.Height
+						Bounds.Visualizer = Null
+						CurrentLayer.Bounds = Bounds
 				End Select
 			Case Event_GadgetAction
 				Select EventSource()
@@ -925,7 +985,7 @@ Type LTEditor Extends LTProject
 		SetCameraMagnification( MainCamera, MainCanvas, MainCanvasZ, 32.0 )
 		SetCameraMagnification( TilesetCamera, TilesetCanvas, TilesetCanvasZ, TilesetCameraWidth )
 		
-		'If CurrentTilemap Then MainCamera.LimitWith( CurrentTilemap )
+		If CurrentLayer.Bounds Then MainCamera.LimitWith( CurrentLayer.Bounds )
 	End Method
 	
 	
@@ -1235,6 +1295,11 @@ Type LTEditor Extends LTProject
 				End If
 				
 				Local Name:String = Obj.GetName()
+				Local Sprite:LTSprite = LTSprite( Obj )
+				If Sprite Then
+					If Not Sprite.Visible Then Name = "(x) " + Name
+					If Not Sprite.Active Then Name = "(-) " + Name
+				End If
 				If Obj = CurrentTilemap Then Name = "< " + Name + " >"
 				If SelectedObjectsLink Then
 					If SelectedObjectsLink.Value() = Obj Then
