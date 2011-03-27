@@ -1,4 +1,4 @@
-<LTWorld dwlab_version="0.11">
+<LTWorld dwlab_version="0.11.2">
 	<TList field="definitions"/>
 	<LTLayer name="Land">
 		<LTSprite field="bounds" shape="2" x="112" y="7.5" width="224" height="15">

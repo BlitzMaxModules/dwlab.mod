@@ -573,6 +573,7 @@ Type LTEditor Extends LTProject
 							Next
 							SetChanged()
 							SelectedObjects.Clear()
+							Modifiers.Clear()
 							RefreshProjectManager()
 						End If
 					Case Key_PageUp, Key_End
