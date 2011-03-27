@@ -1,7 +1,7 @@
 <LTWorld dwlab_version="0.11">
 	<TList field="definitions"/>
-	<LTPage name="Level 1">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	<LTLayer name="Level 1">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<LTImageVisualizer field="visualizer" id="3">
 				<LTImage field="image" id="4" filename="media\tiles.png" xcells="16" ycells="25"/>
 			</LTImageVisualizer>
@@ -55,9 +55,9 @@
 				<Object field="image" id="15"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 2">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 2">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,96,97,0,0,0,0,0,0,0,96,97,0"/>
@@ -104,9 +104,9 @@
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 3">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 3">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="352,0,0,0,0,0,0,0,0,0,0,0,352"/>
@@ -183,9 +183,9 @@
 				<Object field="image" id="15"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 4">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 4">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="41,0,0,0,0,0,0,0,0,0,0,0,59"/>
@@ -247,9 +247,9 @@
 				<Object field="image" id="78"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 5">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 5">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="57,0,0,0,0,0,0,0,0,0,0,0,19"/>
@@ -301,9 +301,9 @@
 				<Object field="image" id="101"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 6">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 6">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="43,0,279,0,0,0,0,0,0,0,0,0,13"/>
@@ -345,9 +345,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 7">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 7">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="168,169,0,0,0,0,0,0,0,0,0,0,57"/>
@@ -369,9 +369,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 8">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 8">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="69,0,0,0,0,0,359,0,0,0,0,0,0"/>
@@ -403,9 +403,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 9">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 9">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="243,243,243,243,0,0,0,0,85,0,0,0,22"/>
@@ -432,9 +432,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 10">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 10">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,44"/>
@@ -476,9 +476,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 11">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 11">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="14,0,0,0,0,0,0,0,0,0,0,0,14"/>
@@ -510,9 +510,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 12">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 12">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="52,0,0,0,0,0,0,0,0,0,0,0,43"/>
@@ -539,9 +539,9 @@
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 13">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 13">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,24"/>
@@ -568,9 +568,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 14">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 14">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,0,0,0,0,0,0,0,262,0,0,0,15"/>
@@ -612,9 +612,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 15">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 15">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="65,0,0,0,0,244,244,244,0,0,0,0,65"/>
@@ -676,9 +676,9 @@
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 16">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 16">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,18"/>
@@ -710,9 +710,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 17">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 17">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="58,0,0,0,0,0,0,0,0,0,0,0,12"/>
@@ -739,9 +739,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 18">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 18">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="54,0,0,0,0,0,0,0,0,0,0,0,22"/>
@@ -763,9 +763,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 19">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 19">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,0,338,43,338,0,0,338,64,338,0,0,91"/>
@@ -797,9 +797,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 20">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 20">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,0,0,0,0,0,16,16,0,0,0,0,0"/>
@@ -831,9 +831,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 21">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 21">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,327,327,327,93,0,0,0,93,327,327,327,0"/>
@@ -865,9 +865,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 22">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 22">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,0,0,0,0,0,166,167,0,0,0,0,43"/>
@@ -909,9 +909,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 23">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 23">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,0,0,0,232,42,0,0,232,0,0,0,30"/>
@@ -933,9 +933,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 24">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 24">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="279,24,0,281,0,0,281,0,0,279,0,45,281"/>
@@ -967,9 +967,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 25">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 25">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="46,0,360,0,0,0,0,0,0,0,360,0,61"/>
@@ -996,9 +996,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 26">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 26">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,0,0,0,249,0,0,0,249,0,0,0,0"/>
@@ -1030,9 +1030,9 @@
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 27">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 27">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="27,0,0,0,0,0,0,0,0,0,0,0,328"/>
@@ -1054,9 +1054,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 28">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 28">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="47,0,0,0,0,0,0,0,0,0,0,0,66"/>
@@ -1093,9 +1093,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 29">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 29">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="41,0,0,0,0,0,110,111,88,0,0,0,28"/>
@@ -1132,9 +1132,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 30">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 30">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,0,0,0,0,0,42,0,0,0,0,0,0"/>
@@ -1171,9 +1171,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 31">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 31">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="88,0,0,0,0,0,0,0,0,0,0,0,42"/>
@@ -1205,9 +1205,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 32">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 32">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="60,0,0,0,0,0,0,0,0,0,0,0,44"/>
@@ -1249,9 +1249,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 33">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 33">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,0,0,0,0,0,362,0,0,0,0,0,11"/>
@@ -1273,9 +1273,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 34">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 34">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="35,368,0,0,0,0,0,0,0,0,0,0,44"/>
@@ -1297,9 +1297,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 35">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 35">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,36"/>
@@ -1331,9 +1331,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 36">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 36">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="36,0,0,0,0,0,53,0,0,0,0,0,43"/>
@@ -1375,9 +1375,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 37">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 37">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="1,0,0,0,0,0,0,0,0,0,0,0,290"/>
@@ -1424,9 +1424,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 38">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 38">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="66,0,0,0,0,0,62,0,0,0,0,0,79"/>
@@ -1463,9 +1463,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 39">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 39">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,0,270,0,0,0,0,0,0,0,270,0,0"/>
@@ -1497,9 +1497,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 40">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 40">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="384,384,373,384,0,0,0,0,0,384,384,384,373"/>
@@ -1521,9 +1521,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 41">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 41">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="47,0,0,317,0,0,0,0,0,317,0,0,17"/>
@@ -1560,9 +1560,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 42">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 42">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="46,0,0,0,334,0,0,0,334,0,0,0,16"/>
@@ -1589,9 +1589,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 43">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 43">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="91,0,0,0,0,0,0,0,0,0,0,0,42"/>
@@ -1613,9 +1613,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 44">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 44">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,41"/>
@@ -1657,9 +1657,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 45">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 45">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,296,0,0,44,0,0,298,0,0,0,0,0"/>
@@ -1711,9 +1711,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 46">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 46">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="34,0,0,0,0,0,0,0,0,0,0,0,41"/>
@@ -1740,9 +1740,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 47">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 47">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="65,0,0,160,161,0,0,0,160,161,0,0,37"/>
@@ -1789,9 +1789,9 @@
 				<Object field="image" id="37"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 48">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 48">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="69,0,0,0,0,0,0,0,0,0,0,0,69"/>
@@ -1828,9 +1828,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 49">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 49">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="0,0,0,0,91,0,47,0,50,0,0,0,18"/>
@@ -1852,9 +1852,9 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Level 50">
-		<LTTileMap field="tilemap" shape="2" x="6.5" y="6" width="13" height="12">
+	</LTLayer>
+	<LTLayer name="Level 50">
+		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
 				<Row data="68,0,0,0,0,0,68,0,0,0,0,0,68"/>
@@ -1896,5 +1896,5 @@
 				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
+	</LTLayer>
 </LTWorld>

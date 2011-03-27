@@ -1,9 +1,9 @@
 <LTWorld dwlab_version="0.11">
 	<TList field="definitions"/>
-	<LTPage name="Land">
-		<LTTileMap field="tilemap" shape="2" x="112" y="7.5" width="224" height="15">
+	<LTLayer name="Land">
+		<LTTileMap shape="2" x="112" y="7.5" width="224" height="15">
 			<LTImageVisualizer field="visualizer">
-				<LTImage field="image" filename="media\tiles.png" xcells="16" ycells="4"/>
+				<LTImage field="image" id="4" filename="media\tiles.png" xcells="16" ycells="4"/>
 			</LTImageVisualizer>
 			<LTIntMap field="framemap" xquantity="224" yquantity="15">
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
@@ -118,11 +118,11 @@
 				<LTImage field="image" filename="media\SmallMario.png" xcells="6"/>
 			</LTImageVisualizer>
 		</LTSprite>
-	</LTPage>
-	<LTPage name="Sewer">
-		<LTTileMap field="tilemap" shape="2" x="8.5" y="6.5" width="17" height="13">
+	</LTLayer>
+	<LTLayer name="Sewer">
+		<LTTileMap shape="2" x="8.5" y="6.5" width="17" height="13">
 			<LTImageVisualizer field="visualizer">
-				<LTImage field="image" filename="media\tiles.png" xcells="16" ycells="3"/>
+				<Object field="image" id="4"/>
 			</LTImageVisualizer>
 			<LTIntMap field="framemap" xquantity="17" yquantity="13">
 				<Row data="37,35,35,35,37,37,37,37,37,37,37,35,35,35,35,38,39"/>
@@ -140,5 +140,5 @@
 				<Row data="47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47"/>
 			</LTIntMap>
 		</LTTileMap>
-	</LTPage>
+	</LTLayer>
 </LTWorld>

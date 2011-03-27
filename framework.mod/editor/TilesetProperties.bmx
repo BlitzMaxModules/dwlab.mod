@@ -12,14 +12,9 @@
 Global TilesetMap:TMap = New TMap
 
 Function TilesetProperties( Tilemap:LTTilemap )
-	If Not Tilemap Then
-		Notify( "Create tilemap by visiting ''Edit/Tilemap settings'' first" )
-		Return
-	End if
-	
 	Local Image:LTImage = LTImageVisualizer( Tilemap.Visualizer ).Image
 	If Not Image Then
-		Notify( "Load tileset for tilemap by visiting ''Edit/Tileset Settings'' first" )
+		Notify( "Load tileset for tilemap first" )
 		Return
 	End If
 	

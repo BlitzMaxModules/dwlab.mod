@@ -164,6 +164,7 @@ Type LTEditor Extends LTProject
 	Const MenuImportTilemaps:Int = 22
 
 	Const MenuEditTilemap:Int = 23
+	Const MenuSelectTileMap:Int = 27
 	Const MenuEditTileset:Int = 24
 	Const MenuTilemapSettings:Int = 25
 	Const MenuEditReplacementRules:Int = 26
@@ -183,7 +184,7 @@ Type LTEditor Extends LTProject
 		Local BarHeight:Int = ClientHeight( Window ) - PanelHeight
 		MainCanvas = CreateCanvas( 0, 0, ClientWidth( Window ) - BarWidth - 16, ClientHeight( Window ) - 16, Window )
 		SetGadgetLayout( MainCanvas, Edge_Aligned, Edge_Aligned, Edge_Aligned, Edge_Aligned )
-		TilesetCanvas = CreateCanvas( ClientWidth( Window ) - BarWidth, 0, BarWidth, 0.5 * BarHeight, Window )
+		TilesetCanvas = CreateCanvas( ClientWidth( Window ) - BarWidth, 0, BarWidth, 0.5 * ClientHeight( Window ), Window )
 		SetGadgetLayout( TilesetCanvas, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Relative )
 		ProjectManager = CreateTreeView( ClientWidth( Window ) - BarWidth, PanelHeight, BarWidth, BarHeight - 24, Window )
 		SetGadgetLayout( ProjectManager, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Relative )
@@ -275,6 +276,7 @@ Type LTEditor Extends LTProject
 		
 		TilemapMenu = CreateMenu( "Tilemap menu", 0, null )
 		CreateMenu( "Edit", MenuEditTilemap, TilemapMenu )
+		CreateMenu( "Select", MenuSelectTileMap, TilemapMenu )
 		CreateMenu( "Properties", MenuTilemapSettings, TilemapMenu )
 		CreateMenu( "Edit tileset image", MenuEditTileset, TilemapMenu )
 		CreateMenu( "Edit tile replacement rules", MenuEditReplacementRules, TilemapMenu )
@@ -297,7 +299,8 @@ Type LTEditor Extends LTProject
 		SelectedTile.Visualizer = New LTMarchingAnts
 		
 		EditorPath = CurrentDir()
-		
+		AddLayer( "Layer 1" )
+				
 		If FileType( "editor.ini" ) = 1 Then
 			Local IniFile:TStream = ReadFile( "editor.ini" )
 			
@@ -322,8 +325,6 @@ Type LTEditor Extends LTProject
 			SelectMenuItem( ReplacementOfTiles )
 		End If
 		
-		AddLayer( "Layer 1" )
-		
 		SetTitle()
 	End Method
 	
@@ -335,7 +336,7 @@ Type LTEditor Extends LTProject
 		CreateMenu( "Shift up (PgUp)", MenuShiftUp, Menu )
 		CreateMenu( "Shift down (PgDn)", MenuShiftDown, Menu )
 		CreateMenu( "Shift to the bottom (End)", MenuShiftToTheBottom, Menu )
-		CreateMenu( "Remove (Del)", MenuRemove, Menu )
+		CreateMenu( "Remove", MenuRemove, Menu )
 	End Method
 	
 	
@@ -393,6 +394,8 @@ Type LTEditor Extends LTProject
 			World = LTWorld( L_LoadFromFile( Filename ) )
 			
 			CurrentSprite = Null
+			CurrentLayer = Null
+			If Not World.Children.IsEmpty() Then CurrentLayer = LTLayer( World.Children.First() )
 			
 			For Local Image:LTImage = Eachin L_ImagesList
 				InitImage( Image )
@@ -401,6 +404,7 @@ Type LTEditor Extends LTProject
 			Changed = False
 			
 			SetTitle()
+			RefreshProjectManager( World )
 		End If
 	End Method
 	
@@ -460,8 +464,24 @@ Type LTEditor Extends LTProject
 		Local EvData:Int = EventData()
 		
 		Select EvID
-			Case Event_GadgetAction 
-				If EventSource() = Toolbar Then EvID = Event_MenuAction
+			Case Event_GadgetAction
+				Select EventSource()
+					Case Toolbar
+						EvID = Event_MenuAction
+					Case ProjectManager
+						SelectedObject = GadgetExtra( TGadget( EventExtra() ) )
+						If LTLayer( SelectedObject ) Then
+							EvID = Event_MenuAction
+							EvData = MenuSelect
+						ElseIf LTTileMap( SelectedObject ) Then
+							EvID = Event_MenuAction
+							EvData = MenuEditTilemap
+						Else
+							CurrentTilemap = Null
+							SelectSprite( LTSprite( SelectedObject ) )
+							RefreshProjectManager()
+						End If
+				End Select
 			Case Event_MenuAction
 				Select EventData()
 					Case MenuShiftToTheTop
@@ -476,24 +496,7 @@ Type LTEditor Extends LTProject
 					Case MenuShiftToTheBottom
 						EvID = Event_KeyDown
 						EvData = Key_End
-					Case MenuRemove
-						EvID = Event_KeyDown
-						EvData = Key_Delete
 				End Select
-			Case Event_GadgetSelect
-				If EventSource() = ProjectManager Then
-					SelectedObject = GadgetExtra( TGadget( EventExtra() ) )
-					If LTLayer( SelectedObject ) Then
-						EvID = Event_MenuAction
-						EvData = MenuSelect
-					ElseIf LTTileMap( SelectedObject ) Then
-						EvID = Event_MenuAction
-						EvData = MenuEditTilemap
-					Else
-						CurrentTilemap = Null
-						SelectSprite( LTSprite( SelectedObject ) )
-					End If
-				End If
 		End Select
 		
 		Select EvID
@@ -504,7 +507,6 @@ Type LTEditor Extends LTProject
 							CurrentLayer.Remove( Obj )
 							SetChanged()
 						Next
-						SelectedObjects.Clear()
 						SelectedObjects.Clear()
 						RefreshProjectManager()
 					Case Key_PageUp, Key_Home
@@ -543,6 +545,10 @@ Type LTEditor Extends LTProject
 						Wend
 						Changed = True
 						RefreshProjectManager()
+					Case Key_NumAdd
+						MainCanvasZ :+ 1
+					Case Key_NumSubtract
+						MainCanvasZ :- 1
 				End Select
 			Case Event_MouseWheel
 				If Not Modifiers.IsEmpty() Then SetSpriteModifiers( LTSprite( SelectedObjects.First() ) )
@@ -569,12 +575,17 @@ Type LTEditor Extends LTProject
 			Case Event_MenuAction
 				Select EvData
 					Case MenuRename
-						Local Name:String = EnterString( "Enter name of the object", CurrentSprite.GetName() )
+						Local Name:String = EnterString( "Enter name of the object", LTObject( SelectedObject ).GetName() )
 						If Name Then
 							SetObjectName( LTObject( SelectedObject ), Name )
 							RefreshProjectManager()
 							SetChanged()
 						End If
+					Case MenuRemove
+						RemoveObject( SelectedObject, World )
+						If SelectedObject = CurrentLayer Then CurrentLayer = Null
+						If SelectedObject = CurrentTilemap Then CurrentTilemap = Null
+						RefreshProjectManager( World )
 				
 					' ============================= Main menu ==================================
 					
@@ -603,6 +614,7 @@ Type LTEditor Extends LTProject
 					
 					Case MenuSelect
 						SelectLayer( LTLayer( SelectedObject ) )
+						CurrentTileMap = Null
 					Case MenuAddLayer
 						Local LayerName:String = EnterString( "Enter page name:" )
 						If LayerName Then
@@ -694,13 +706,16 @@ Type LTEditor Extends LTProject
 					Case MenuEditTilemap
 						CurrentTileMap = LTTileMap( SelectedObject )
 						RefreshTilemap()
+					Case MenuSelectTileMap
+						CurrentTileMap = Null
+						SelectSprite( LTSprite( SelectedObject ) )
 					Case MenuEditTileset
-						SpriteImageProperties( CurrentTilemap )
+						SpriteImageProperties( LTSprite( SelectedObject ) )
 						RefreshTilemap()
 					Case MenuTilemapSettings
 						TilemapSettings()
 					Case MenuEditReplacementRules
-						TilesetProperties( CurrentTilemap )
+						TilesetProperties( LTTileMap( SelectedObject ) )
 				End Select
 			Case Event_GadgetAction
 				Select EventSource()
@@ -896,7 +911,9 @@ Type LTEditor Extends LTProject
 			SetTile.Execute()
 		Else
 			SpriteUnderCursor = Null
-			SearchForSpriteUnderCursor( CurrentLayer )
+			For Local Obj:LTActiveObject = Eachin CurrentLayer.Children
+				If Not LTTileMap( Obj ) And Editor.Cursor.CollidesWith( Obj ) Then SpriteUnderCursor = LTSprite( Obj )
+			Next
 			SelectSprites.Execute()
 			MoveSprite.Execute()
 			CreateSprite.Execute()
@@ -916,18 +933,6 @@ Type LTEditor Extends LTProject
 	Method SetCameraMagnification( Camera:LTCamera, Canvas:TGadget, Z:Int, Width:Int )
 		Local NewD:Float = 1.0 * GadgetWidth( Canvas ) / Width * ( 1.1 ^ Z )
 		Camera.SetMagnification( NewD, NewD )
-	End Method
-	
-	
-	
-	Method SearchForSpriteUnderCursor( Layer:LTLayer )
-		For Local Obj:LTActiveObject = Eachin Layer.Children
-			If LTLayer( Obj ) Then
-				SearchForSpriteUnderCursor( LTLayer( Obj ) )
-			ElseIf Not LTTileMap( Obj ) And Editor.Cursor.CollidesWith( Obj ) Then
-				SpriteUnderCursor = LTSprite( Obj )
-			End If
-		Next
 	End Method
 	
 	
@@ -1025,6 +1030,8 @@ Type LTEditor Extends LTProject
 				SetAlpha( 1.0 )
 			End If
 		End If
+		
+		'DrawText( SelectedObjects.Count(), 0, 0 )
 	End Method
 		
 	
@@ -1181,18 +1188,19 @@ Type LTEditor Extends LTProject
 		Local XQuantity:Int = Tilemap.FrameMap.XQuantity
 		Local YQuantity:Int = Tilemap.FrameMap.YQuantity
 		If ChooseParameter( XQuantity, YQuantity, "tiles quantity", "tiles" ) Then
-			CurrentTilemap.FrameMap.SetResolution( XQuantity, YQuantity )
-			CurrentTilemap.X = 0.5 * XQuantity
-			CurrentTilemap.Y = 0.5 * YQuantity
-			CurrentTilemap.Width = XQuantity
-			CurrentTilemap.Height = YQuantity
-			RefreshTilemap()
+			Tilemap.FrameMap.SetResolution( XQuantity, YQuantity )
+			Tilemap.X = 0.5 * XQuantity
+			Tilemap.Y = 0.5 * YQuantity
+			Tilemap.Width = XQuantity
+			Tilemap.Height = YQuantity
+			If TileMap = CurrentTileMap Then RefreshTilemap()
 		End If
 	End Method
 	
 	
 	
 	Method RefreshTilemap()
+		If Not CurrentTileMap Then Return
 		Local Image:LTImage = LTImageVisualizer( CurrentTileMap.Visualizer ).Image
 		If Image Then
 			CurrentTileset = LTTileset( TilesetMap.ValueForKey( Image ) )
@@ -1204,19 +1212,18 @@ Type LTEditor Extends LTProject
 	
 	
 	Method RefreshProjectManager( Layer:LTLayer = Null, Node:TGadget = Null )
-		'debugstop
 		If Not Layer Then Layer = CurrentLayer
 		If Not Layer Then Layer = World
 		If Not Node Then Node = TreeViewRoot( ProjectManager )
-		If GadgetExtra( Node ) = Layer Or Node = TreeViewRoot( ProjectManager ) Then
+		If GadgetExtra( Node ) = Layer Or ( Layer = World And Node = TreeViewRoot( ProjectManager ) ) Then
 			If GadgetExtra( Node ) = CurrentLayer Then
-				SetGadgetText( Node, "< " + CurrentLayer.GetName() + " >" )
+				SetGadgetText( Node, "< " + Layer.GetName() + " >" )
 			Else
-				SetGadgetText( Node, CurrentLayer.GetName() )
+				SetGadgetText( Node, Layer.GetName() )
 			End If
-			For Node:TGadget = Eachin Node.kids
-				FreeTreeViewNode( Node )
-			Next
+			Local Link:TLink = Node.kids.FirstLink()
+			Local SelectedObjectsLink:TLink = Null
+			If Not SelectedObjects.IsEmpty() Then SelectedObjectsLink = SelectedObjects.FirstLink()
 			For Local Obj:LTActiveObject = Eachin Layer.Children
 				Local Icon:Int
 				If LTLayer( Obj ) Then
@@ -1227,13 +1234,34 @@ Type LTEditor Extends LTProject
 					Icon = 2
 				End If
 				
-				Local NewNode:TGadget = AddTreeViewNode( Obj.GetName(), Node, Icon, Obj )
-				If LTLayer( Obj ) Then RefreshProjectManager( LTLayer( Obj ), NewNode )
+				Local Name:String = Obj.GetName()
+				If Obj = CurrentTilemap Then Name = "< " + Name + " >"
+				If SelectedObjectsLink Then
+					If SelectedObjectsLink.Value() = Obj Then
+						Name = "* " + Name + " *"
+						SelectedObjectsLink = SelectedObjectsLink.NextLink()
+					End If
+				End If
+				
+				Local CurrentNode:TGadget
+				If Link <> Null Then
+					CurrentNode = TGadget( Link.Value() )
+					ModifyTreeViewNode( CurrentNode, Name, Icon )
+					SetGadgetExtra( CurrentNode, Obj )
+					Link = Link.NextLink()
+				Else
+					CurrentNode = AddTreeViewNode( Name, Node, Icon, Obj )
+				End If
+				If LTLayer( Obj ) Then RefreshProjectManager( LTLayer( Obj ), CurrentNode )
 			Next
+			While Link <> Null
+				FreeTreeViewNode( TGadget( Link.Value() ) )
+				Link = Link.NextLink()
+			WEnd
 		Else
-			For Local N:Int = 0 Until CountGadgetItems( Node )
-				Local Obj:Object = GadgetItemExtra( Node, N )
-				If LTLayer( Obj ) Then RefreshProjectManager( LTLayer( Obj ), Node )
+			For Local ChildNode:TGadget = Eachin Node.kids
+				Local Obj:Object = GadgetExtra( ChildNode )
+				If LTLayer( Obj ) Then RefreshProjectManager( LTLayer( Obj ), ChildNode )
 			Next
 		End If
 	End Method	
@@ -1254,6 +1282,15 @@ Type LTEditor Extends LTProject
 		SelectedObjects.Clear()
 		Modifiers.Clear()
 		RefreshProjectManager( World )
+	End Method
+	
+	
+	
+	Method RemoveObject( Obj:Object, Layer:LTLayer )
+		Layer.Children.Remove( Obj )
+		For Local Obj:LTActiveObject = Eachin Layer
+			If LTLayer( Obj ) Then RemoveObject( Obj, LTLayer( Obj ) )
+		Next
 	End Method
 End Type
 

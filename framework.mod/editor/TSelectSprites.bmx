@@ -15,7 +15,8 @@ Type TSelectSprites Extends LTDrag
 
 
 	Method DraggingConditions:Int()
-		If Not Editor.CurrentTilemap And Not Editor.SpriteUnderCursor And Not Editor.MoveSprite.DraggingState Then Return True
+		If Not Editor.CurrentTilemap And Not Editor.SpriteUnderCursor And Not Editor.MoveSprite.DraggingState..
+		 And Not Editor.SelectedModifier And Not Editor.ModifySprite.DraggingState Then Return True
 	End Method
 	
 	
@@ -49,6 +50,7 @@ Type TSelectSprites Extends LTDrag
 	Method EndDragging()
 		ProcessLayer( Editor.CurrentLayer )
 		Editor.FillSpriteFields()
+		Editor.RefreshProjectManager()
 		Frame = Null
 	End Method
 	

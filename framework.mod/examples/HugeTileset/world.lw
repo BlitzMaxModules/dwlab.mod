@@ -1,7 +1,7 @@
 <LTWorld dwlab_version="0.11">
 	<TList field="definitions"/>
-	<LTPage name="Map">
-		<LTTileMap field="tilemap" shape="2" x="32" y="32" width="64" height="64">
+	<LTLayer name="Map">
+		<LTTileMap shape="2" x="32" y="32" width="64" height="64">
 			<LTImageVisualizer field="visualizer">
 				<LTImage field="image" filename="tiles.png" xcells="19" ycells="14"/>
 			</LTImageVisualizer>
@@ -72,5 +72,5 @@
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 			</LTIntMap>
 		</LTTileMap>
-	</LTPage>
+	</LTLayer>
 </LTWorld>

@@ -1,4 +1,4 @@
-<LTTileset tiles-quantity="48" dwlab_version="0.11">
+<LTTileset tiles-quantity="48" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" dwlab_version="0.11">
 	<TList field="definitions"/>
 	<LTTileCategory name="Cloud">
 		<LTTileRule tilenums="1">
