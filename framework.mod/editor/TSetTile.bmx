@@ -24,6 +24,7 @@ Type TSetTile Extends LTDrag
 	Method Dragging()
 		Local Tilemap:LTTileMap = Editor.CurrentTilemap
 		If Not Tilemap Then Return
+		Local Image:LTImage = LTImageVisualizer( Tilemap.Visualizer ).Image
 		Local FrameMap:LTIntMap = TileMap.FrameMap
 		Local TileNum:Int = Editor.TileNum[ MouseDown( 2 ) ]
 		Local TileX:Int = Editor.TileX
@@ -36,7 +37,7 @@ Type TSetTile Extends LTDrag
 			For Local DX:Int = 0 To BlockWidth
 				Local X:Int = TileX + DX
 				If X < 0 Or X >= FrameMap.XQuantity Then Continue
-				FrameMap.Value[ X, Y ] = TileNum + DX + DY * Editor.TilesInRow
+				FrameMap.Value[ X, Y ] = L_LimitInt( TileNum + DX + DY * Editor.TilesInRow, 0, Image.FramesQuantity() - 1 )
 			Next
 		Next
 		Editor.SetChanged()

@@ -9,7 +9,6 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Global TilesetMap:TMap = New TMap
 Global CurrentCategory:LTTileCategory
 Global CurrentTileRule:LTTileRule
 Global Tileset:LTTileset
@@ -76,15 +75,8 @@ Function TilesetProperties( Tilemap:LTTilemap )
 	
 	
 	Local MouseIsOver:TGadget = Null
-	Tileset = LTTileset( TilesetMap.ValueForKey( Image ) )
-	
-	If Not Tileset Then
-		Tileset = New LTTileset
-		Tileset.TilesQuantity = Image.FramesQuantity()
-		TilesetMap.Insert( Image, Tileset )
-	Else
-		RefreshListBox( CategoriesListBox, Tileset.Categories, null )
-	End If
+	Tileset = LTTileset( Editor.TilesetForImage.ValueForKey( Image ) )
+	RefreshListBox( CategoriesListBox, Tileset.Categories, null )
 	
 	CurrentCategory = Null
 	CurrentTileRule = Null

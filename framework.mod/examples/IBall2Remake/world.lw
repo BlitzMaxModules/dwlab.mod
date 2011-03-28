@@ -1,6 +1,7 @@
-<LTWorld dwlab_version="0.11">
+<LTWorld dwlab_version="0.11.2">
 	<TList field="definitions"/>
 	<LTLayer name="Level 1">
+		<LTSprite field="bounds" shape="2" x="6.5" y="6" width="13" height="12"/>
 		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<LTImageVisualizer field="visualizer" id="3">
 				<LTImage field="image" id="4" filename="media\tiles.png" xcells="16" ycells="25"/>
@@ -57,6 +58,7 @@
 		</LTSprite>
 	</LTLayer>
 	<LTLayer name="Level 2">
+		<LTSprite field="bounds" shape="2" x="6.5" y="6" width="13" height="12"/>
 		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
@@ -81,12 +83,12 @@
 		</LTSprite>
 		<LTSprite name="Enemy5" shape="1" x="8" y="2" angle="150" velocity="1">
 			<LTImageVisualizer field="visualizer" blue="0" rotating="0">
-				<LTImage field="image" id="29" filename="media\ballwithsquare.png" xcells="4"/>
+				<LTImage field="image" id="30" filename="media\ballwithsquare.png" xcells="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="Enemy6" shape="1" x="4" y="1.5" angle="210" velocity="1">
 			<LTImageVisualizer field="visualizer" blue="0" rotating="0">
-				<Object field="image" id="29"/>
+				<Object field="image" id="30"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="Generator2" shape="1" x="10.5" y="5.5" angle="150" velocity="1">
@@ -96,16 +98,17 @@
 		</LTSprite>
 		<LTSprite name="FadingBlock2" shape="2" x="2" y="1" width="2" height="2" angle="270" velocity="2">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<LTImage field="image" id="37" filename="media\fadingblocks.png" xcells="2"/>
+				<LTImage field="image" id="38" filename="media\fadingblocks.png" xcells="2"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="FadingBlock3" shape="2" x="11" y="1" width="2" height="2" angle="270" velocity="2">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 	</LTLayer>
 	<LTLayer name="Level 3">
+		<LTSprite field="bounds" shape="2" x="6.5" y="6" width="13" height="12"/>
 		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
@@ -125,22 +128,22 @@
 		</LTTileMap>
 		<LTSprite name="FadingBlock4" shape="2" x="1" y="6" width="2" height="2" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="FadingBlock5" shape="2" x="12" y="6" width="2" height="2" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="FadingBlock6" shape="2" x="5" y="6" width="2" height="2" angle="270" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="FadingBlock7" shape="2" x="8" y="6" width="2" height="2" angle="270" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="HazardousBlock1" shape="2" x="5.5" y="9.5" angle="450" velocity="2" frame="274">
@@ -185,6 +188,7 @@
 		</LTSprite>
 	</LTLayer>
 	<LTLayer name="Level 4">
+		<LTSprite field="bounds" shape="2" x="6.5" y="6" width="13" height="12"/>
 		<LTTileMap shape="2" x="6.5" y="6" width="13" height="12">
 			<Object field="visualizer" id="3"/>
 			<LTIntMap field="framemap" xquantity="13" yquantity="12">
@@ -204,12 +208,12 @@
 		</LTTileMap>
 		<LTSprite name="FadingBlock8" shape="2" x="6.5" y="8.5" width="3" angle="450" velocity="2">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="FadingBlock9" shape="2" x="6.5" y="4.5" angle="450" velocity="2" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="Start4" shape="1" x="2.5" y="10.5" frame="2">
@@ -219,32 +223,32 @@
 		</LTSprite>
 		<LTSprite name="Enemy9" shape="1" x="6.5" y="10.5" angle="150" velocity="1" frame="2">
 			<LTImageVisualizer field="visualizer" xscale="-1" rotating="0">
-				<LTImage field="image" id="78" filename="media\angel.png" xcells="4"/>
+				<LTImage field="image" id="81" filename="media\angel.png" xcells="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="Enemy10" shape="1" x="4.5" y="0.5" angle="150" velocity="1" frame="2">
 			<LTImageVisualizer field="visualizer" xscale="-1" rotating="0">
-				<Object field="image" id="78"/>
+				<Object field="image" id="81"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="Enemy11" shape="1" x="8.5" y="0.5" angle="150" velocity="1" frame="2">
 			<LTImageVisualizer field="visualizer" xscale="-1" rotating="0">
-				<Object field="image" id="78"/>
+				<Object field="image" id="81"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="Enemy12" shape="1" x="3.5" y="6.5" angle="-30" velocity="1" frame="2">
 			<LTImageVisualizer field="visualizer" blue="0" rotating="0">
-				<LTImage field="image" id="85" filename="media\pacman.png" xcells="4"/>
+				<LTImage field="image" id="88" filename="media\pacman.png" xcells="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="Enemy13" shape="1" x="9.5" y="6.5" angle="210" velocity="1" frame="2">
 			<LTImageVisualizer field="visualizer" blue="0" xscale="-1" rotating="0">
-				<Object field="image" id="85"/>
+				<Object field="image" id="88"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="Generator4" shape="1" x="12.5" y="11.5" angle="210" velocity="1">
 			<LTImageVisualizer field="visualizer" xscale="-1" rotating="0">
-				<Object field="image" id="78"/>
+				<Object field="image" id="81"/>
 			</LTImageVisualizer>
 		</LTSprite>
 	</LTLayer>
@@ -283,22 +287,22 @@
 		</LTSprite>
 		<LTSprite name="Generator5" shape="2" x="2" y="7" angle="150" velocity="1">
 			<LTImageVisualizer field="visualizer" xscale="-1" rotating="0">
-				<LTImage field="image" id="101" filename="media\pad.png" xcells="4"/>
+				<LTImage field="image" id="105" filename="media\pad.png" xcells="4"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="Generator6" shape="2" x="3" y="4" angle="150" velocity="1">
 			<LTImageVisualizer field="visualizer" xscale="-1" rotating="0">
-				<Object field="image" id="101"/>
+				<Object field="image" id="105"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="Generator7" shape="2" x="5" y="1" angle="150" velocity="1">
 			<LTImageVisualizer field="visualizer" xscale="-1" rotating="0">
-				<Object field="image" id="101"/>
+				<Object field="image" id="105"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="Generator8" shape="2" x="9" y="2" angle="150" velocity="1">
 			<LTImageVisualizer field="visualizer" xscale="-1" rotating="0">
-				<Object field="image" id="101"/>
+				<Object field="image" id="105"/>
 			</LTImageVisualizer>
 		</LTSprite>
 	</LTLayer>
@@ -337,7 +341,7 @@
 		</LTSprite>
 		<LTSprite name="FadingBlock10" shape="2" x="2.5" y="5" height="10" angle="450" velocity="2">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="Start6" shape="1" x="9.5" y="8.5" frame="2">
@@ -536,7 +540,7 @@
 		</LTSprite>
 		<LTSprite name="FadingBlock11" shape="2" x="6.5" y="4.5" angle="450" velocity="2" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 	</LTLayer>
@@ -594,7 +598,7 @@
 		</LTSprite>
 		<LTSprite name="FadingBlock12" shape="2" x="8.5" y="6" height="12" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="HazardousBlock20" shape="2" x="3.5" y="0.5" angle="450" velocity="2" frame="274">
@@ -638,42 +642,42 @@
 		</LTSprite>
 		<LTSprite name="FadingBlock13" shape="2" x="3.5" y="6.5" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="FadingBlock14" shape="2" x="4.5" y="7.5" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="FadingBlock15" shape="2" x="2.5" y="7.5" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="FadingBlock16" shape="2" x="3.5" y="8.5" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="FadingBlock17" shape="2" x="8.5" y="7.5" angle="270" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="FadingBlock18" shape="2" x="9.5" y="6.5" angle="270" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="FadingBlock19" shape="2" x="10.5" y="7.5" angle="270" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="FadingBlock20" shape="2" x="9.5" y="8.5" angle="270" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 	</LTLayer>
@@ -1022,12 +1026,12 @@
 		</LTSprite>
 		<LTSprite name="FadingBlock21" shape="2" x="6.5" y="3.5" width="13" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="FadingBlock22" shape="2" x="6.5" y="6.5" width="5" angle="270" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 	</LTLayer>
@@ -1119,7 +1123,7 @@
 		</LTSprite>
 		<LTSprite name="FadingBlock23" shape="2" x="7" y="5" width="2" height="2" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="HazardousBlock42" shape="2" x="1.5" y="3.5" angle="450" velocity="2" frame="313">
@@ -1158,7 +1162,7 @@
 		</LTSprite>
 		<LTSprite name="FadingBlock25" shape="2" x="6.5" y="2.5" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="HazardousBlock44" shape="2" x="1.5" y="9.5" angle="450" velocity="2" frame="247">
@@ -1771,22 +1775,22 @@
 		</LTSprite>
 		<LTSprite name="FadingBlock24" shape="2" x="1" y="4" width="2" height="2" angle="270" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="FadingBlock26" shape="2" x="12" y="4" width="2" height="2" angle="270" frame="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="FadingBlock27" shape="2" x="4" y="7" width="2" height="2" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 		<LTSprite name="FadingBlock28" shape="2" x="9" y="7" width="2" height="2" angle="270">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="37"/>
+				<Object field="image" id="38"/>
 			</LTImageVisualizer>
 		</LTSprite>
 	</LTLayer>

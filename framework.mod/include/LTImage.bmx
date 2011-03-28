@@ -9,7 +9,6 @@
 '
 
 Global L_LoadImages:Int = 1
-Global L_ImagesList:TList = New TList
 
 Type LTImage Extends LTObject
 	Field BMaxImage:TImage
@@ -24,26 +23,13 @@ Type LTImage Extends LTObject
 		L_Assert( XCells > 0 And YCells > 0, "Cells quantity must be 1 or more" )
 		?
 		
-		Local Image:LTImage = SearchForImage( Filename, XCells, YCells )
-		If Image Then Return Image
-		
-		Image = New LTImage
+		Local Image:LTImage = New LTImage
 		Image.Filename = Filename
 		Image.XCells = XCells
 		Image.YCells = YCells
-		L_ImagesList.AddLast( Image )
 		Image.Init()
 		
 		Return Image
-	End Function
-	
-	
-	
-	Function SearchForImage:LTImage( Filename:String, XCells:Int, YCells:Int )
-		For Local Image:LTImage = Eachin L_ImagesList
-			If Image.Filename = Filename And Image.XCells = XCells And Image.YCells = YCells Then Return Image
-		Next
-		Return Null
 	End Function
 		
 	
@@ -170,9 +156,6 @@ Type LTImage Extends LTObject
 		XMLObject.ManageIntAttribute( "xcells", XCells, 1 )
 		XMLObject.ManageIntAttribute( "ycells", YCells, 1 )
 		
-		If L_XMLMode = L_XMLGet Then
-			L_ImagesList.AddLast( Self )
-			If L_LoadImages Then Init()
-		End If
+		If L_XMLMode = L_XMLGet And L_LoadImages Then Init()
 	End Method
 End Type

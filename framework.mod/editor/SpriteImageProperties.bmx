@@ -102,11 +102,30 @@ Function SpriteImageProperties:Int( Sprite:LTSprite )
 						If Image Then
 							If XCells > 0 And YCells > 0 Then
 								If Image.Width Mod XCells = 0 And Image.Height Mod YCells = 0 Then
-									LTImageVisualizer( Sprite.Visualizer ).Image = LoadImageFromFile( Filename, XCells, YCells )
-									Sprite.Frame = Frame
-									Editor.SetChanged()
-									FreeGadget( EditWindow )
-									Return True
+									Local ExitFlag:Int = 0
+									Local TileMap:LTTileMap = LTTileMap( Sprite )
+									If TileMap Then
+										Local TotalQuantity:Int = XCells* YCells
+										If LTImageVisualizer( TileMap.Visualizer ).Image.FramesQuantity() > TotalQuantity Then
+											If Not Confirm( LocalizeString( "{{D_TilemapDataLoss}}" ) ) Then
+												ExitFlag = 1
+											Else
+												For Local Y:Int = 0 Until TileMap.FrameMap.YQuantity
+													For Local X:Int = 0 Until TileMap.FrameMap.XQuantity
+														If TileMap.FrameMap.Value[ X, Y ] >= TotalQuantity Then TileMap.FrameMap.Value[ X, Y ] = TotalQuantity - 1
+													Next
+												Next
+											End If
+										End If
+									End If
+									
+									If Not ExitFlag Then
+										LTImageVisualizer( Sprite.Visualizer ).Image = Editor.LoadImageFromFile( Filename, XCells, YCells )
+										Sprite.Frame = Frame
+										Editor.SetChanged()
+										FreeGadget( EditWindow )
+										Return True
+									End If
 								Else
 									Notify( LocalizeString( "{{N_ImageDivideable}}" ), True )
 								End If
@@ -125,25 +144,4 @@ Function SpriteImageProperties:Int( Sprite:LTSprite )
 	Forever
 	FreeGadget( EditWindow )
 	Return False
-End Function
-	
-	
-	
-Function LoadImageFromFile:LTImage( Filename:String, XCells:Int, YCells:Int )
-	Local Image:LTImage = LTImage.FromFile( Filename, XCells, YCells )
-	InitImage( Image )
-	Return Image
-End Function
-
-
-
-Function InitImage( Image:LTImage )
-	Local Filename:String = Image.Filename 
-	RealPathsForImages.Insert( Image, RealPath( Filename ) )
-	Local TilesetFilename:String = Filename + ".lts"
-	If FileType( TilesetFilename ) = 1 Then 
-		Local Tileset:LTTileset = LTTileset( L_LoadFromFile( TilesetFilename ) )
-		TilesetMap.Insert( Image, Tileset )
-		Tileset.Init()
-	End If
 End Function

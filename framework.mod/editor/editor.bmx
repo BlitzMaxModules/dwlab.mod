@@ -50,8 +50,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.2.2"
-	Const Title:String = "Digital Wizard's Lab World Editor v" + Version
+	Const Version:String = "1.2.2.1"
 	
 	Field EnglishLanguage:TMaxGuiLanguage
 	Field RussianLanguage:TMaxGuiLanguage
@@ -118,6 +117,8 @@ Type LTEditor Extends LTProject
 	Field SpriteMenu:TGadget
 	
 	Field World:LTWorld = New LTWorld
+	Field ImagesMap:TMap = New TMap
+	Field TilesetForImage:TMap = New TMap
 	Field CurrentLayer:LTLayer
 	Field CurrentTilemap:LTTileMap
 	Field CurrentSprite:LTSprite
@@ -393,10 +394,10 @@ Type LTEditor Extends LTProject
 		CreateMenu( "{{M_Remove}}", MenuRemove, Menu )
 	End Method
 	
-	
+
 	
 	Method SetTitle()
-		Local Line:String = Title
+		Local Line:String = LocalizeString( "{{Title}}" ) + Version
 		If WorldFilename Then Line = StripDir( WorldFilename ) + " - " + Line
 		If Changed Then Line = "* " + Line
 		SetGadgetText( Window, Line )
@@ -440,7 +441,8 @@ Type LTEditor Extends LTProject
 		If Filename Then 
 			If FileType( Filename ) = 0 Then Return
 			
-			L_ImagesList.Clear()
+			ImagesMap.Clear()
+			TilesetForImage.Clear()
 			
 			WorldFilename = Filename
 			ChangeDir( ExtractDir( Filename ) )
@@ -450,10 +452,7 @@ Type LTEditor Extends LTProject
 			CurrentSprite = Null
 			CurrentLayer = Null
 			If Not World.Children.IsEmpty() Then CurrentLayer = LTLayer( World.Children.First() )
-			
-			For Local Image:LTImage = Eachin L_ImagesList
-				InitImage( Image )
-			Next
+			ProcessSprites( World )
 			
 			Changed = False
 			
@@ -470,10 +469,11 @@ Type LTEditor Extends LTProject
 		If Filename Then 
 			WorldFilename = Filename
 			ChangeDir( ExtractDir( Filename ) )
-			For Local Image:LTImage = Eachin L_ImagesList
+			For Local Image:LTImage = Eachin ImagesMap.Values()
 				Image.Filename = ChopFilename( String( RealPathsForImages.ValueForKey( Image ) ) )
-				Local Tileset:LTTileset = LTTileset( TilesetMap.ValueForKey( Image ) )
-				if Tileset Then Tileset.SaveToFile( Image.Filename + ".lts" )
+			Next
+			For Local KeyValue:TKeyValue = Eachin TilesetForImage
+				LTTileset( KeyValue.Value() ).SaveToFile( LTImage( KeyValue.Key() ).Filename + ".lts" )
 			Next
 			
 			World.SaveToFile( Filename )
@@ -538,7 +538,7 @@ Type LTEditor Extends LTProject
 							EvID = Event_MenuAction
 							EvData = MenuEditTilemap
 						Else
-							CurrentTilemap = Null
+							DeselectTilemap()
 							SelectSprite( LTSprite( SelectedObject ) )
 						End If
 				End Select
@@ -671,8 +671,7 @@ Type LTEditor Extends LTProject
 					Case MenuRemove
 						RemoveObject( SelectedObject, World )
 						If SelectedObject = CurrentLayer Then CurrentLayer = Null
-						If SelectedObject = CurrentTilemap Then CurrentTilemap = Null
-						RefreshProjectManager( World )
+						If SelectedObject = CurrentTilemap Then DeselectTilemap() Else RefreshProjectManager( World )
 						SetChanged()
 					Case MenuToggleVisibility
 						LTSprite( SelectedObject ).Visible = Not LTSprite( SelectedObject ).Visible
@@ -713,8 +712,8 @@ Type LTEditor Extends LTProject
 					' ============================= Layer menu ==================================
 					
 					Case MenuSelect
+						DeselectTilemap()
 						SelectLayer( LTLayer( SelectedObject ) )
-						CurrentTileMap = Null
 					Case MenuAddLayer
 						Local LayerName:String = EnterString( LocalizeString( "{{D_EnterNameOfLayer}}" ) )
 						If LayerName Then
@@ -730,9 +729,11 @@ Type LTEditor Extends LTProject
 							Local XQuantity:Int = 16
 							Local YQuantity:Int = 16
 							CurrentTilemap = LTTilemap.Create( XQuantity, YQuantity, 16, 16, 16 )
+							InitSprite( CurrentTilemap )
 							LTLayer( SelectedObject ).AddLast( CurrentTilemap )
 							SelectedObject = CurrentTilemap
 							TilemapSettings()
+							RefreshProjectManager( World )
 							SetChanged()
 						End If
 					Case MenuImportTilemap
@@ -750,11 +751,12 @@ Type LTEditor Extends LTProject
 								If TilemapWidth Mod TileWidth = 0 And TilemapHeight Mod TileHeight = 0 Then
 									Local TilesetFilename:String = ChopFilename( RequestFile( LocalizeString( "{{D_SelectFileToSaveImageTo}}" ), "png", True ) )
 									If TilesetFilename Then
-										ImportTilemap( TileWidth, TileHeight, TilemapPixmap, TilesetFilename )
+										CurrentTilemap = ImportTilemap( TileWidth, TileHeight, TilemapPixmap, TilesetFilename )
 										Local Tileset:TImage = LoadImage( TilesetFilename )
 										Local Visualizer:LTImageVisualizer = New LTImageVisualizer
 										Visualizer.Image = LoadImageFromFile( TilesetFilename, Tileset.Width / TileWidth, Tileset.height / TileHeight )
 										CurrentTilemap.Visualizer = Visualizer
+										InitSprite( CurrentTilemap )
 										SelectLayer( CurrentLayer )
 										SetChanged()
 									End If
@@ -792,6 +794,7 @@ Type LTEditor Extends LTProject
 												Editor.World.AddLast( Layer )
 												Local TileMap:LTTileMap = ImportTilemap( TileWidth, TileHeight, TilemapPixmap, TilesetFilename )
 												Tilemap.Visualizer = Visualizer
+												InitSprite( TileMap )
 												Layer.AddLast( TileMap )
 												SelectLayer( Layer )
 												SetChanged()
@@ -813,12 +816,14 @@ Type LTEditor Extends LTProject
 					
 					Case MenuEditTilemap
 						CurrentTileMap = LTTileMap( SelectedObject )
+						RefreshProjectManager( World )
 						RefreshTilemap()
 					Case MenuSelectTileMap
-						CurrentTileMap = Null
 						SelectSprite( LTSprite( SelectedObject ) )
+						DeselectTilemap()
 					Case MenuEditTileset
 						SpriteImageProperties( LTSprite( SelectedObject ) )
+						InitSprite( LTTileMap( SelectedObject ) )
 						RefreshTilemap()
 					Case MenuTilemapSettings
 						TilemapSettings()
@@ -900,7 +905,7 @@ Type LTEditor Extends LTProject
 								Case FrameField
 									Local Image:LTImage = LTImageVisualizer( Sprite.Visualizer ).Image
 									If Image Then
-										Sprite.Frame = L_LimitInt( TextFieldText( FrameField ).ToInt(), 0, Image.BMaxImage.frames.Dimensions()[ 0 ] - 1 )
+										Sprite.Frame = L_LimitInt( TextFieldText( FrameField ).ToInt(), 0, Image.FramesQuantity() - 1 )
 										SetGadgetText( FrameField, Sprite.Frame )
 									End If
 								Case ImgAngleField
@@ -995,7 +1000,6 @@ Type LTEditor Extends LTProject
 			If CurrentTileset Then
 				MinX = -CurrentTileset.BlockWidth[ TileNum0 ]
 				MinY = -CurrentTileset.BlockHeight[ TileNum0 ]
-				debuglog MinY
 			EndIf
 			TileX = L_LimitInt( Floor( MX ), MinX, CurrentTilemap.FrameMap.XQuantity - 1 )
 			TileY = L_LimitInt( Floor( MY ), MinY, CurrentTilemap.FrameMap.YQuantity - 1 )
@@ -1021,6 +1025,7 @@ Type LTEditor Extends LTProject
 							if NewHeight >= 0 And NewWidth >= 0 Then
 								CurrentTileset.BlockWidth[ TileNum0 ] = NewWidth
 								CurrentTileset.BlockHeight[ TileNum0 ] = NewHeight
+								SetChanged()
 							End If							
 						End If
 					End If
@@ -1320,6 +1325,9 @@ Type LTEditor Extends LTProject
 		Local XQuantity:Int = Tilemap.FrameMap.XQuantity
 		Local YQuantity:Int = Tilemap.FrameMap.YQuantity
 		If ChooseParameter( XQuantity, YQuantity, LocalizeString( "{{L_TilesQuantity}}" ), LocalizeString( "{{L_Tiles}}" ) ) Then
+			If XQuantity < Tilemap.FrameMap.XQuantity Or YQuantity < Tilemap.FrameMap.YQuantity Then
+				If Not Confirm( LocalizeString( "{{D_TilemapDataLoss}}" ) ) Then Return
+			End If
 			Tilemap.FrameMap.SetResolution( XQuantity, YQuantity )
 			Tilemap.X = 0.5 * XQuantity
 			Tilemap.Y = 0.5 * YQuantity
@@ -1335,7 +1343,7 @@ Type LTEditor Extends LTProject
 		If Not CurrentTileMap Then Return
 		Local Image:LTImage = LTImageVisualizer( CurrentTileMap.Visualizer ).Image
 		If Image Then
-			CurrentTileset = LTTileset( TilesetMap.ValueForKey( Image ) )
+			CurrentTileset = LTTileset( TilesetForImage.ValueForKey( Image ) )
 			TilesetCameraWidth = Image.XCells
 			TilesetCanvasZ = 0.0
 		End If
@@ -1428,6 +1436,70 @@ Type LTEditor Extends LTProject
 		For Local Obj:LTActiveObject = Eachin Layer
 			If LTLayer( Obj ) Then RemoveObject( Obj, LTLayer( Obj ) )
 		Next
+	End Method
+	
+	
+	
+	Method LoadImageFromFile:LTImage( Filename:String, XCells:Int, YCells:Int )
+		For Local Image:LTImage = Eachin ImagesMap.Values()
+			If Image.Filename = Filename And Image.XCells = XCells And Image.YCells = YCells Then Return Image
+		Next
+		Local Image:LTImage = LTImage.FromFile( Filename, XCells, YCells )
+		InitImage( Image )
+		Return Image
+	End Method
+	
+	
+	
+	Method ProcessSprites( Layer:LTLayer )
+		For Local Obj:LTActiveObject = Eachin Layer
+			If LTLayer( Obj ) Then
+				ProcessSprites( LTLayer( Obj ) )
+			Else
+				InitSprite( LTSprite( Obj ) )
+			End If
+		Next
+	End Method
+	
+	
+	
+	Method InitImage( Image:LTImage )
+		ImagesMap.Insert( Image, Null )
+		RealPathsForImages.Insert( Image, RealPath( Image.Filename ) )
+	End Method
+	
+	
+	
+	Method InitSprite( Sprite:LTSprite )
+		Local Image:LTImage = LTImageVisualizer( Sprite.Visualizer ).Image
+		InitImage( Image )
+		If LTTileMap( Sprite ) Then
+			Local Tileset:LTTileset = LTTileSet( TilesetForImage.ValueForKey( Image ) )
+			If Not Tileset Then
+				Local TilesetFilename:String = Image.Filename + ".lts"
+				If FileType( TilesetFilename ) = 1 Then
+					Tileset = LTTileset( L_LoadFromFile( TilesetFilename ) )
+				Else
+					Tileset = New LTTileset
+				End If
+				Tileset.TilesQuantity = Image.FramesQuantity()
+				TilesetForImage.Insert( Image, Tileset )
+			End If
+			Tileset.Init()
+			If Sprite = CurrentTileMap Then
+				For Local N:Int = 0 To 1
+					L_LimitInt( TileNum[ N ], 0, Image.FramesQuantity() - 1 )
+				Next
+			End If
+		End If
+	End Method
+	
+	
+	Method DeselectTilemap()
+		If CurrentTileMap Then
+			CurrentTileMap = Null
+			RefreshProjectManager( World )
+		End If
 	End Method
 End Type
 
