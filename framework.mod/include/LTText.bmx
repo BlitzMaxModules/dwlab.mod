@@ -48,7 +48,7 @@ Type LTFont Extends LTObject
 		SetScale XScale, YScale
 		For Local N:Int = 0 Until Len( Text )
 			?debug
-			L_Assert( Text[ N ] >= FromNum And Text[ N ] <= ToNum, "String contains letter that is out of font range" )
+			If Text[ N ] < FromNum Or Text[ N ] > ToNum Then L_Error( "String contains letter that is out of font range" )
 			?
 			
 			DrawImage( BMaxImage, X, Y, Text[ N ] - FromNum )
@@ -63,7 +63,7 @@ Type LTFont Extends LTObject
 		Local X:Int = 0
 		For Local N:Int = 0 Until Len( Text )
 			?debug
-			L_Assert( Text[ N ] >= FromNum And Text[ N ] <= ToNum, "String contains letter that is out of font range" )
+			If Text[ N ] < FromNum Or Text[ N ] > ToNum Then L_Error( "String contains letter that is out of font range" )
 			?
 		
 			X :+ XScale * LetterLength[ Text[ N ] - FromNum ]
@@ -96,7 +96,7 @@ Type LTFont Extends LTObject
 			Local File:TStream = ReadFile( StripExt( FileName ) + ".lfn" )
 			For Local N:Int = 0 Until SymbolsQuantity
 				?debug
-				L_Assert( Not Eof( File ), "Not enough symbol length lines in file for font " + FileName )
+				If Eof( File ) Then L_Error( "Not enough symbol length lines in file for font " + FileName )
 				?
 				Font.LetterLength[ N ] = ReadLine( File )[ 2.. ].ToInt()
 			Next

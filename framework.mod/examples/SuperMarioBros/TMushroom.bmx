@@ -1,4 +1,4 @@
-Type TMushroom Extends LTSprite
+Type TMushroom Extends LTMovingObject
 End Type
 
 

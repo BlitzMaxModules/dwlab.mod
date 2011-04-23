@@ -9,7 +9,7 @@
 '
 
 Type LTWorld Extends LTLayer
-	Method FromFile:LTWorld( Filename:String )
+	Function FromFile:LTWorld( Filename:String )
 		Return LTWorld( L_LoadFromFile( Filename ) )
-	End Method
+	End Function
 End Type

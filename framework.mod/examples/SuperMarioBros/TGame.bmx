@@ -1,4 +1,11 @@
 Type TGame Extends LTProject
+	Field CollisionMap:LTCollisionMap
+	Field Tilemap:LTTileMap
+	
+	
+	Field SmallMarioImage:LTImage = LTImage.FromFile( "media\SmallMario.png", 6 )
+
+	Rem
 	Field OneUpMushroomImage:LTImage = LTImage.FromFile( "media\1upMushroom.png" )
 	Field BlockImage:LTImage = LTImage.FromFile( "media\Block.png" )
 	Field CoinImage:LTImage = LTImage.FromFile( "media\Coin.png", 3 )
@@ -13,7 +20,6 @@ Type TGame Extends LTProject
 	Field MarioImmortalImage:LTImage = LTImage.FromFile( "media\MarioImmortal.png", 6 )
 	Field ScoreImage:LTImage = LTImage.FromFile( "media\Score.png", 11 )
 	Field SmallCoinImage:LTImage = LTImage.FromFile( "media\SmallCoin.png", 3 )
-	Field SmallMarioImage:LTImage = LTImage.FromFile( "media\SmallMario.png", 6 )
 	Field StarmanImage:LTImage = LTImage.FromFile( "media\Starman.png", 4 )
 	Field SuperMarioImage:LTImage = LTImage.FromFile( "media\SuperMario.png", 7 )
 	Field SuperMarioImmortalImage:LTImage = LTImage.FromFile( "media\SuperMarioImmortal.png", 7 )
@@ -38,6 +44,7 @@ Type TGame Extends LTProject
 	Field StageClearSound:LTSound = LTSound.FromFile( "media\StageClear.ogg" )
 	Field StompSound:LTSound = LTSound.FromFile( "media\Stomp.ogg" )
 	Field WarningSound:LTSound = LTSound.FromFile( "media\Warning.ogg" )
+	EndRem
 	
 	Field Mario:TMario
 	
@@ -45,30 +52,53 @@ Type TGame Extends LTProject
 	
 	Method Init()
 		InitGraphics()
-		World = LTWorld.LoadFromFile( "media\world.xml" )
+		World = LTWorld.FromFile( "world.lw" )
 		CollisionMap = LTCollisionMap.Create( 128, 8 )
-		LoadPage( "Land" )
+		LoadLayer( "Land" )', False )
+		Tilemap = MainLayer.FindTilemap()
+		
+		For Local N:Int = 0 Until Tilemap.TilesQuantity
+			If L_IntInLimits( N, 9, 13 ) Or L_IntInLimits( N, 15, 18 ) Or N = 23 Or N = 24 Or L_IntInLimits( N, 36, 47 ) Then
+				Local Sprite:LTSprite = New LTSprite
+				Sprite.X = 0.5
+				Sprite.Y = 0.5
+				Sprite.ShapeType = L_Rectangle
+				Tilemap.TileShape[ N ] = Sprite
+			End If
+		Next
+		
+		'L_CurrentCamera.Velocity = 10.0
 	End Method
 	
 	
 	
-	Method LoadSprite( Sprite:LTSprite, Name:String )
+	Method Logic()
+		Super.Logic()
+		'CollisionMap.CollisionsWithGroup( MainLayer )
+		Tilemap.TileCollisionsWithGroup( MainLayer )
+		If KeyHit( Key_Escape ) Then End
+		'L_CurrentCamera.MoveUsingArrows()
+	End Method
+	
+	
+	
+	Method LoadSprite:LTSprite( Sprite:LTSprite )
 		Local NewSprite:LTSprite
-		Select Name
+		Select Sprite.Name
 			Case "Start"
 				Mario = New TMario
 				NewSprite = Mario
-			Case "Goomba"
-				NewSprite = New TGoomba
-			Case "KoopaTroopa"
-				NewSprite = New TKoopaTroopa
-			Case "FlagOnPole"
-				NewSprite = New LTSprite
+			'Case "Goomba"
+			'	NewSprite = New TGoomba
+			'Case "KoopaTroopa"
+			'	NewSprite = New TKoopaTroopa
 			Default
-				L_Assert( False, "Sprite type " + Name + " not found" )
+				NewSprite = New LTSprite
+				
+			'	L_Error( "Sprite type " + Sprite.Name + " not found" )
 		End Select
-		Sprite.CopyTo( NewSprite )
-		CollisionMap.InsertSprite( NewSprite )
-		Sprites.AddLast( NewSprite )
+		Sprite.CopySpriteTo( NewSprite )
+		CollisionMap.InsertSprite( Sprite )
+		Return NewSprite
 	End Method
 End Type

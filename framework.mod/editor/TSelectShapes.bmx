@@ -9,14 +9,14 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Type TSelectSprites Extends LTDrag
+Type TSelectShapes Extends LTDrag
 	Field StartX:Float, StartY:Float
 	Field Frame:LTSprite
 
 
 	Method DraggingConditions:Int()
-		If Not Editor.CurrentTilemap And Not Editor.SpriteUnderCursor And Not Editor.MoveSprite.DraggingState..
-		 And Not Editor.SelectedModifier And Not Editor.ModifySprite.DraggingState Then Return True
+		If Not Editor.CurrentTilemap And Not Editor.ShapeUnderCursor And Not Editor.MoveShape.DraggingState..
+		 And Not Editor.SelectedModifier And Not Editor.ModifyShape.DraggingState Then Return True
 	End Method
 	
 	
@@ -32,7 +32,7 @@ Type TSelectSprites Extends LTDrag
 		StartY = Editor.Cursor.Y
 		Frame = New LTSprite
 		Frame.ShapeType = L_Rectangle
-		Editor.SelectedObjects.Clear()
+		Editor.SelectedShapes.Clear()
 		Editor.Modifiers.Clear()
 	End Method
 	
@@ -49,7 +49,7 @@ Type TSelectSprites Extends LTDrag
 	
 	Method EndDragging()
 		ProcessLayer( Editor.CurrentLayer )
-		Editor.FillSpriteFields()
+		Editor.FillShapeFields()
 		Editor.RefreshProjectManager()
 		Frame = Null
 	End Method
@@ -57,12 +57,15 @@ Type TSelectSprites Extends LTDrag
 	
 	
 	Method ProcessLayer( ParentLayer:LTLayer )
-		For Local Obj:LTShape = Eachin ParentLayer.Children
-			Local Layer:LTLayer = LTLayer( Obj )
+		For Local Shape:LTShape = Eachin ParentLayer.Children
+			Local Layer:LTLayer = LTLayer( Shape )
 			If Layer Then
 				ProcessLayer( Layer )
-			Elseif Not LTTileMap( Obj )
-				If Frame.Overlaps( LTSprite( Obj ) ) Then Editor.SelectedObjects.AddLast( Obj )
+			Else
+				Local Sprite:LTSprite = LTSprite( Shape )
+				If Sprite Then
+					If Frame.Overlaps( Sprite ) Then Editor.SelectedShapes.AddLast( Shape )
+				End If
 			End If
 		Next
 	End Method

@@ -98,18 +98,6 @@ Type LTCamera Extends LTSprite
 	
 	
 	
-	Method LimitWith( Rectangle:LTSprite )
-		Local X1:Float = Min( Rectangle.X, Rectangle.CornerX() + 0.5 * Width )
-		Local Y1:Float = Min( Rectangle.Y, Rectangle.CornerY() + 0.5 * Height )
-		Local X2:Float = Max( Rectangle.X, Rectangle.X + 0.5 * ( Rectangle.Width - Width ) )
-		Local Y2:Float = Max( Rectangle.Y, Rectangle.Y + 0.5 * ( Rectangle.Height - Height ) )
-		X = L_LimitFloat( X, X1, X2 )
-		Y = L_LimitFloat( Y, Y1, Y2 )
-		Update()
-	End Method
-	
-	
-	
 	Method Update()
 		XK = Viewport.Width / Width
 		YK = Viewport.Height / Height
@@ -119,10 +107,10 @@ Type LTCamera Extends LTSprite
 	
 	
 	
-	Function Create:LTCamera( Width:Float, Height:Float, WidthInUnits:Float = 8 )
+	Function Create:LTCamera( Width:Float, Height:Float, UnitSize:Float )
 		Local Camera:LTCamera = New LTCamera
-		Camera.Width = WidthInUnits
-		Camera.Height = WidthInUnits * Height / Width
+		Camera.Width = Width / UnitSize
+		Camera.Height = Height / UnitSize
 		Camera.Viewport.Width = Width
 		Camera.Viewport.Height = Height
 		Camera.Viewport.X = 0.5 * Width
@@ -135,9 +123,9 @@ End Type
 
 
 
-Function InitGraphics( Width:Int = 800, Height:Int = 600 )
+Function InitGraphics( Width:Int = 800, Height:Int = 600, UnitSize:Float = 32.0 )
 	Graphics( Width, Height )
-	L_CurrentCamera = LTCamera.Create( Width, Height, 32.0 )
+	L_CurrentCamera = LTCamera.Create( Width, Height, UnitSize )
 	SetGraphicsParameters()
 End Function
 

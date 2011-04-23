@@ -12,6 +12,7 @@
 Type TPan Extends LTDrag
 	Field CursorX:Float
 	Field CursorY:Float
+	Field Camera:LTCamera
 	
 	
 	
@@ -22,6 +23,10 @@ Type TPan Extends LTDrag
 	
 	
 	Method StartDragging()
+		If Editor.MouseIsOver = Editor.TilesetCanvas Then
+			L_CurrentCamera = Editor.TilesetCamera
+			Editor.Cursor.SetMouseCoords()
+		End If
 		CursorX = Editor.Cursor.X
 		CursorY = Editor.Cursor.Y
 	End Method
@@ -29,8 +34,8 @@ Type TPan Extends LTDrag
 	
 	
 	Method Dragging()
-		L_CurrentCamera.X = CursorX - ( MouseX() - L_CurrentCamera.Viewport.X ) / L_CurrentCamera.XK
-		L_CurrentCamera.Y = CursorY - ( MouseY() - L_CurrentCamera.Viewport.Y ) / L_CurrentCamera.YK
-		L_CurrentCamera.Update()
+		Camera.X = CursorX - ( MouseX() - Camera.Viewport.X ) / Camera.XK
+		Camera.Y = CursorY - ( MouseY() - Camera.Viewport.Y ) / Camera.YK
+		Camera.Update()
 	End Method
 End Type

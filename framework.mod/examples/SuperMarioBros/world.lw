@@ -1,12 +1,14 @@
-<LTWorld dwlab_version="0.11.2">
+<LTWorld dwlab_version="0.12">
+	<LTFilledPrimitive field="visualizer" id="1"/>
 	<TList field="definitions"/>
 	<LTLayer name="Land">
-		<LTSprite field="bounds" shape="2" x="112" y="7.5" width="224" height="15">
-			<LTFilledPrimitive field="visualizer" id="49"/>
+		<Object field="visualizer" id="1"/>
+		<LTSprite field="bounds" x="112" y="7.5" width="224" height="15" shape="2">
+			<LTFilledPrimitive field="visualizer" id="50"/>
 		</LTSprite>
-		<LTTileMap shape="2" x="112" y="7.5" width="224" height="15">
+		<LTTileMap name="Land map" x="112" y="7.5" width="224" height="15" tiles-quantity="64">
 			<LTImageVisualizer field="visualizer">
-				<LTImage field="image" id="4" filename="media\tiles.png" xcells="16" ycells="4"/>
+				<LTImage field="image" filename="media\tiles.png" xcells="16" ycells="4"/>
 			</LTImageVisualizer>
 			<LTIntMap field="framemap" xquantity="224" yquantity="15">
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
@@ -26,109 +28,110 @@
 				<Row data="36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTSprite name="Goomba1" shape="1" x="22.5" y="12.5" angle="180">
+		<LTSprite name="Goomba" x="22.5" y="12.5" shape="1" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<LTImage field="image" id="8" filename="media\LittleGoomba.png" xcells="3"/>
+				<LTImage field="image" id="9" filename="media\LittleGoomba.png" xcells="3"/>
 			</LTImageVisualizer>
 		</LTSprite>
-		<LTSprite name="Goomba2" shape="1" x="40.5" y="12.5" angle="180">
+		<LTSprite name="Goomba" x="40.5" y="12.5" shape="1" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="8"/>
+				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTSprite>
-		<LTSprite name="Goomba4" shape="1" x="51.5" y="12.5" angle="180">
+		<LTSprite name="Goomba" x="51.5" y="12.5" shape="1" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="8"/>
+				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTSprite>
-		<LTSprite name="Goomba5" shape="1" x="53" y="12.5" angle="180">
+		<LTSprite name="Goomba" x="53" y="12.5" shape="1" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="8"/>
+				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTSprite>
-		<LTSprite name="Goomba6" shape="1" x="80.5" y="4.5" angle="180">
+		<LTSprite name="Goomba" x="80.5" y="4.5" shape="1" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="8"/>
+				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTSprite>
-		<LTSprite name="Goomba7" shape="1" x="82" y="4.5" angle="180">
+		<LTSprite name="Goomba" x="82" y="4.5" shape="1" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="8"/>
+				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTSprite>
-		<LTSprite name="Goomba8" shape="1" x="97.5" y="12.5" angle="180">
+		<LTSprite name="Goomba" x="97.5" y="12.5" shape="1" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="8"/>
+				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTSprite>
-		<LTSprite name="Goomba9" shape="1" x="99" y="12.5" angle="180">
+		<LTSprite name="Goomba" x="99" y="12.5" shape="1" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="8"/>
+				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTSprite>
-		<LTSprite name="KoopaTroopa1" shape="1" x="107.5" y="12.5" angle="180">
+		<LTSprite name="KoopaTroopa" x="107.5" y="12.5" shape="1" angle="180">
 			<LTImageVisualizer field="visualizer" xscale="-1" yscale="2" rotating="0">
 				<LTImage field="image" filename="media\KoopaTroopa.png" xcells="2"/>
 			</LTImageVisualizer>
 		</LTSprite>
-		<LTSprite name="Goomba11" shape="1" x="114.5" y="12.5" angle="180">
+		<LTSprite name="Goomba" x="114.5" y="12.5" shape="1" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="8"/>
+				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTSprite>
-		<LTSprite name="Goomba12" shape="1" x="116" y="12.5" angle="180">
+		<LTSprite name="Goomba" x="116" y="12.5" shape="1" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="8"/>
+				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTSprite>
-		<LTSprite name="Goomba13" shape="1" x="124.5" y="12.5" angle="180">
+		<LTSprite name="Goomba" x="124.5" y="12.5" shape="1" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="8"/>
+				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTSprite>
-		<LTSprite name="Goomba14" shape="1" x="126" y="12.5" angle="180">
+		<LTSprite name="Goomba" x="126" y="12.5" shape="1" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="8"/>
+				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTSprite>
-		<LTSprite name="Goomba15" shape="1" x="128.5" y="12.5" angle="180">
+		<LTSprite name="Goomba" x="128.5" y="12.5" shape="1" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="8"/>
+				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTSprite>
-		<LTSprite name="Goomba16" shape="1" x="130" y="12.5" angle="180">
+		<LTSprite name="Goomba" x="130" y="12.5" shape="1" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="8"/>
+				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTSprite>
-		<LTSprite name="Goomba17" shape="1" x="174.5" y="12.5" angle="180">
+		<LTSprite name="Goomba" x="174.5" y="12.5" shape="1" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="8"/>
+				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTSprite>
-		<LTSprite name="Goomba18" shape="1" x="176" y="12.5" angle="180">
+		<LTSprite name="Goomba" x="176" y="12.5" shape="1" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="8"/>
+				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTSprite>
-		<LTSprite name="Flag" shape="2" x="198" y="3.5" angle="180">
+		<LTSprite name="Flag" x="198" y="3.5" shape="2" angle="180">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<LTImage field="image" filename="media\FlagFromPole.png"/>
 			</LTImageVisualizer>
 		</LTSprite>
-		<LTSprite name="Start" shape="1" x="2.5" y="12.5">
+		<LTSprite name="Start" x="2.5" y="12.5" shape="1" velocity="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<LTImage field="image" filename="media\SmallMario.png" xcells="6"/>
 			</LTImageVisualizer>
 		</LTSprite>
 	</LTLayer>
 	<LTLayer name="Sewer">
-		<LTSprite field="bounds" shape="2" x="8.5" y="6.5" width="17" height="13">
-			<Object field="visualizer" id="49"/>
+		<Object field="visualizer" id="1"/>
+		<LTSprite field="bounds" x="8.5" y="6.5" width="17" height="13" shape="2">
+			<Object field="visualizer" id="50"/>
 		</LTSprite>
-		<LTTileMap shape="2" x="8.5" y="6.5" width="17" height="13">
+		<LTTileMap name="Sewer map" x="8.5" y="6.5" width="17" height="13" tiles-quantity="64">
 			<LTImageVisualizer field="visualizer">
-				<Object field="image" id="4"/>
+				<LTImage field="image" filename="media\tiles.png" xcells="16" ycells="4"/>
 			</LTImageVisualizer>
 			<LTIntMap field="framemap" xquantity="17" yquantity="13">
 				<Row data="37,35,35,35,37,37,37,37,37,37,37,35,35,35,35,38,39"/>

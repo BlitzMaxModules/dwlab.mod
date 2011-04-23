@@ -37,7 +37,7 @@ Type TSetTile Extends LTDrag
 			For Local DX:Int = 0 To BlockWidth
 				Local X:Int = TileX + DX
 				If X < 0 Or X >= FrameMap.XQuantity Then Continue
-				FrameMap.Value[ X, Y ] = L_LimitInt( TileNum + DX + DY * Editor.TilesInRow, 0, Image.FramesQuantity() - 1 )
+				FrameMap.Value[ X, Y ] = L_LimitInt( TileNum + DX + DY * Image.XCells, 0, Image.FramesQuantity() - 1 )
 			Next
 		Next
 		Editor.SetChanged()

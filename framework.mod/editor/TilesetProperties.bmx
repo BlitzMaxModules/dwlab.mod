@@ -284,9 +284,9 @@ Function TilesetProperties( Tilemap:LTTilemap )
 							AddCategory( 0 )
 						Case CategoriesListBox
 							If CurrentCategory Then
-								Local Name:String = EnterString( LocalizeString( "{{D_EnterNameOfCategory}}" ), CurrentCategory.GetName() )
+								Local Name:String = EnterString( LocalizeString( "{{D_EnterNameOfCategory}}" ), CurrentCategory.Name )
 								If Name Then
-									SetObjectName( CurrentCategory, Name )
+									CurrentCategory.Name = Name
 									RefreshListBox( CategoriesListBox, Tileset.Categories, CurrentCategory )
 									Editor.SetChanged()
 								End If
@@ -383,7 +383,7 @@ End Function
 Function RefreshListBox( ListBox:TGadget, ObjectsList:TList, CurrentObject:LTObject )
 	Local N:Int = 0
 	For Local Obj:LTObject = Eachin ObjectsList
-		Local ObjectName:String = Obj.GetName()
+		Local ObjectName:String = Obj.Name
 		If Obj = CurrentObject Then ObjectName = "< " + ObjectName + " >"
 		If N < CountGadgetItems( ListBox ) Then
 			If GadgetItemText( ListBox, N ) <> ObjectName Then ModifyGadgetItem( ListBox, N, ObjectName )
@@ -402,12 +402,12 @@ End Function
 
 Function AddCategory( Copy:Int )
 	Local Name:String = ""
-	If Copy Then Name = CurrentCategory.GetName()
+	If Copy Then Name = CurrentCategory.Name
 	Name = EnterString( LocalizeString( "{{D_EnterNameOfNewCategory}}" ), Name )
 	If Name Then
 		Local NewCategory:LTTileCategory = New LTTileCategory
 		Tileset.Categories.AddLast(	NewCategory )
-		SetObjectName( NewCategory, Name )
+		NewCategory.Name = Name
 		CurrentTileRule = Null
 		
 		If Copy Then

@@ -17,14 +17,12 @@ Type LTProject Extends LTObject
 	Field LogicFPS:Float = 75
 	Field MinFPS:Float = 15
 	Field Pass:Int
-	Field ProjectTime:Float
+	Field Time:Float
 	
 	Field World:LTWorld
 	Field MainLayer:LTLayer
-	Field CollisionMap:LTCollisionMap
-	Field CollisionTilemap:LTTileMap
-	
 
+	
 	
 	Method Init()
 	End Method
@@ -39,22 +37,24 @@ Type LTProject Extends LTObject
 	
 	Method Logic()
 		MainLayer.Act()
-		HandleCollisions()
 	End Method
 	
 	
 	
-	Method HandleCollisions()
-		CollisionMap.CollisionsWithList( MainLayer )
-		CollisionTilemap.TileCollisionsWithList( MainLayer )
-	End Method
-	
-	
-	
-	Method LoadLayer( LayerName:String, Prefix:String )
+	Method LoadLayer( LayerName:String, SetCollisionTilemap:Int = True )
 		Local Layer:LTLayer = World.FindLayer( LayerName )
-		L_Assert( Layer <> Null, "Layer " + LayerName + " not found" )
-		MainLayer = LTLayer( Layer.Clone( Prefix, CollisionMap ) )
+		?debug
+		If Layer = Null Then L_Error( "Layer " + LayerName + " not found" )
+		?
+		MainLayer = Layer.LoadLayer( Self )
+	End Method
+	
+	
+	
+	Method LoadSprite:LTSprite( Sprite:LTSprite )
+		Local NewSprite:LTSprite = New LTSprite
+		Sprite.CopySpriteTo( NewSprite )
+		Return NewSprite
 	End Method
 	
 	
@@ -67,7 +67,6 @@ Type LTProject Extends LTObject
 			If Link.Value() = Sprite Then Link.Remove()
 			Link = Link.NextLink()
 		Wend
-		CollisionMap.RemoveSprite( Sprite )
 		Sprite.Destroy()
 	End Method
 	
@@ -93,7 +92,7 @@ Type LTProject Extends LTObject
 		L_DeltaTime = 1.0 / LogicFPS
 	    
 		Repeat
-			ProjectTime :+  L_DeltaTime
+			Time :+  L_DeltaTime
 			
 			Logic()
 	      
@@ -103,7 +102,7 @@ Type LTProject Extends LTObject
 		
 			Repeat
 				RealTime = 0.001 * ( Millisecs() - StartTime )
-				If RealTime >= ProjectTime And ( RealTime - LastRenderTime ) < MaxRenderPeriod Then Exit
+				If RealTime >= Time And ( RealTime - LastRenderTime ) < MaxRenderPeriod Then Exit
 				
 				Cls
 				Render()

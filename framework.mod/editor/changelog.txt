@@ -1,9 +1,12 @@
-﻿1.2.2
+﻿1.2.3
+* A lot of stuff has been changed to support new framework structure
+
+1.2.2
 + Localization: Russian and English languages are now available
 
 1.2.1
 + Visibility / activity switches of the sprites
-+ Layer bounds.
++ Layer bounds
 
 1.2
 * Project structure is converted to the hierarchical system
@@ -11,7 +14,7 @@
 
 1.1.5
 + Support for pasting huge tile blocks
-+ Scrollbars.
++ Scrollbars
 
 1.1.4
 + Dividers to the tile replacement system

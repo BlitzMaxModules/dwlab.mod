@@ -43,8 +43,10 @@ Type LTGraph Extends LTShape
 	
 	
 	Method AddLine( Line:LTLine )
-		Assert Line.Pivot[ 0 ] <> Line.Pivot[ 1 ], "Cannot add line with equal starting and ending points to the graph"
-		Assert Not Lines.ValueForKey( Line ), "Line already exists in the graph"
+		?debug
+		If Line.Pivot[ 0 ] = Line.Pivot[ 1 ] Then L_Error( "Cannot add line with equal starting and ending points to the graph" )
+		If Lines.ValueForKey( Line ) Then L_Error( "Line already exists in the graph" )
+		?
 		
 		For local N:Int = 0 To 1
 			AddPivot( Line.Pivot[ N ] ).AddLast( Line )
@@ -56,7 +58,9 @@ Type LTGraph Extends LTShape
 	
 	Method RemovePivot( Pivot:LTSprite )
 		Local List:TList = TList( Pivots.ValueForkey( Pivot ) )
-		Assert List, "The deleting pivot doesn't belongs to the graph"
+		?debug
+		If List = Null Then L_Error( "The deleting pivot doesn't belongs to the graph" )
+		?
 		
 		For Local Line:LTLine = Eachin List
 			RemoveLine( Line )
@@ -67,7 +71,9 @@ Type LTGraph Extends LTShape
 	
 	
 	Method RemoveLine( Line:LTLine )
-		Assert Lines.ValueForKey( Line ), "The deleting line doesn't belongs to the graph"
+		?debug
+		If Not Lines.ValueForKey( Line ) Then L_Error( "The deleting line doesn't belongs to the graph" )
+		?
 		Lines.Remove( Line )
 		TList( Pivots.ValueForKey( Line.Pivot[ 0 ] ) ).Remove( Line )
 		TList( Pivots.ValueForKey( Line.Pivot[ 1 ] ) ).Remove( Line )
@@ -211,7 +217,9 @@ Type LTRemovePivotFromGraph Extends LTAction
 	
 	
 	Function Create:LTRemovePivotFromGraph( Graph:LTGraph, Pivot:LTSprite )
-		Assert Graph.ContainsPivot( Pivot ), "Cannot find pivot in the graph"
+		?debug
+		If Not Graph.ContainsPivot( Pivot ) Then L_Error( "Cannot find pivot in the graph" )
+		?
 		Local Action:LTRemovePivotFromGraph = New LTRemovePivotFromGraph
 		Action.Graph = Graph
 		Action.Pivot = Pivot
@@ -248,7 +256,9 @@ Type LTRemoveLineFromGraph Extends LTAction
 	
 	
 	Function Create:LTRemoveLineFromGraph( Graph:LTGraph, Line:LTLine )
-		Assert Graph.ContainsLine( Line ), "Cannot find line in the graph"
+		?debug
+		If Not Graph.ContainsLine( Line ) Then L_Error( "Cannot find line in the graph" )
+		?
 		Local Action:LTRemoveLineFromGraph = New LTRemoveLineFromGraph
 		Action.Graph = Graph
 		Action.Line = Line

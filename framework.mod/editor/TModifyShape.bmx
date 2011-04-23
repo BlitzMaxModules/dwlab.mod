@@ -9,10 +9,10 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Type TModifySprite Extends LTDrag
+Type TModifyShape Extends LTDrag
 	Field StartX:Float
 	Field StartY:Float
-	Field Sprite:LTSprite
+	Field Shape:LTShape
 	Field ModifierType:Int
 	Field MDX:Int, MDY:Int
 	Field LeftSide:Float, RightSide:Float
@@ -49,15 +49,15 @@ Type TModifySprite Extends LTDrag
 	
 	Method StartDragging()
 		ModifierType = Editor.SelectedModifier.Frame
-		Sprite = LTSprite( Editor.SelectedObjects.First() )
-		MDX = Sgn( Editor.SelectedModifier.X - Sprite.X )
-		MDY = Sgn( Editor.SelectedModifier.Y - Sprite.Y )
+		Shape = LTShape( Editor.SelectedShapes.First() )
+		MDX = Sgn( Editor.SelectedModifier.X - Shape.X )
+		MDY = Sgn( Editor.SelectedModifier.Y - Shape.Y )
 		
 		L_CurrentCamera.ScreenToField( MouseX(), MouseY(), StartX, StartY )
-		LeftSide = Sprite.X - 0.5 * Sprite.Width
-		RightSide = Sprite.X + 0.5 * Sprite.Width
-		TopSide = Sprite.Y - 0.5 * Sprite.Height
-		BottomSide = Sprite.Y + 0.5 * Sprite.Height
+		LeftSide = Shape.X - 0.5 * Shape.Width
+		RightSide = Shape.X + 0.5 * Shape.Width
+		TopSide = Shape.Y - 0.5 * Shape.Height
+		BottomSide = Shape.Y + 0.5 * Shape.Height
 	End Method
 	
 	
@@ -103,10 +103,10 @@ Type TModifySprite Extends LTDrag
 				End If
 		End Select
 				
-		Sprite.X = 0.5 * ( NewLeftSide + NewRightSide )
-		Sprite.Y = 0.5 * ( NewTopSide + NewBottomSide )
-		Sprite.Width = NewRightSide - NewLeftSide
-		Sprite.Height = NewBottomSide - NewTopSide
+		Shape.X = 0.5 * ( NewLeftSide + NewRightSide )
+		Shape.Y = 0.5 * ( NewTopSide + NewBottomSide )
+		Shape.Width = NewRightSide - NewLeftSide
+		Shape.Height = NewBottomSide - NewTopSide
 	End Method
 	
 	
@@ -138,25 +138,25 @@ Type TModifySprite Extends LTDrag
 	Method EndDragging()
 		Select ModifierType
 			Case MirrorHorizontally
-				Sprite.Visualizer.XScale = -Sprite.Visualizer.XScale
+				Shape.Visualizer.XScale = -Shape.Visualizer.XScale
 			Case MirrorVertically
-				Sprite.Visualizer.YScale = -Sprite.Visualizer.YScale
+				Shape.Visualizer.YScale = -Shape.Visualizer.YScale
 			Case RotateBackward
-				Sprite.Angle :- 45
+				LTSprite( Shape ).Angle :- 45
 			Case RotateForward
-				Sprite.Angle :+ 45
+				LTSprite( Shape ).Angle :+ 45
 		End Select
 		
-		If Not Sprite.Width Or Not Sprite.Height Then
-			Sprite.X = 0.5 * ( LeftSide + RightSide )
-			Sprite.Y = 0.5 * ( TopSide + BottomSide )
-			Sprite.Width = RightSide - LeftSide
-			Sprite.Height = BottomSide - TopSide
+		If Not Shape.Width Or Not Shape.Height Then
+			Shape.X = 0.5 * ( LeftSide + RightSide )
+			Shape.Y = 0.5 * ( TopSide + BottomSide )
+			Shape.Width = RightSide - LeftSide
+			Shape.Height = BottomSide - TopSide
 		Else
 			Editor.SetChanged()
 		End If
 		
-		Editor.SetSpriteModifiers( Sprite )
-		Editor.FillSpriteFields()
+		Editor.SetShapeModifiers( Shape )
+		Editor.FillShapeFields()
 	End Method
 End Type

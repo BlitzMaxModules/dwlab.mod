@@ -1,7 +1,8 @@
-<LTWorld dwlab_version="0.11">
+<LTWorld dwlab_version="0.11.2">
 	<TList field="definitions"/>
-	<LTLayer name="Map">
-		<LTTileMap shape="2" x="32" y="32" width="64" height="64">
+	<LTLayer name="Grass">
+		<LTSprite field="bounds" shape="2" x="32" y="32" width="64" height="64"/>
+		<LTTileMap name="Grass map" shape="2" x="32" y="32" width="64" height="64">
 			<LTImageVisualizer field="visualizer">
 				<LTImage field="image" filename="tiles.png" xcells="19" ycells="14"/>
 			</LTImageVisualizer>

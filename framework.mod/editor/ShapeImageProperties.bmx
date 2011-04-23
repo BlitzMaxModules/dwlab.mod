@@ -11,7 +11,7 @@
 
 Global RealPathsForImages:TMap = New TMap
 	
-Function SpriteImageProperties:Int( Sprite:LTSprite )
+Function ShapeImageProperties:Int( Shape:LTShape )
 	Local EditWindow:TGadget = CreateWindow( "{{W_SpriteTypeProperties}}", 0.5 * ClientWidth( Desktop() ) - 252, 0.5 * ClientHeight( Desktop() ) - 320, 505, 639, Editor.Window, WINDOW_TITLEBAR|WINDOW_RESIZABLE )
 	CreateLabel( "{{L_HorizontalCells}}", 105, 8, 150, 16, EditWindow, Label_Right )
 	Local XCellsTextField:TGadget = CreateTextField( 260, 5, 56, 20, EditWindow )
@@ -24,14 +24,16 @@ Function SpriteImageProperties:Int( Sprite:LTSprite )
 
 	Local Image:TImage
 	Local Filename:String = ""
-	Local Frame:Int = Sprite.Frame
-	Local SpriteImage:LTImage = LTImageVisualizer( Sprite.Visualizer ).Image
+	Local Frame:Int = 0
+	Local Sprite:LTSprite = LTSprite( Shape )
+	If Sprite Then Frame = Sprite.Frame
+	Local ShapeImage:LTImage = LTImageVisualizer( Shape.Visualizer ).Image
 	
-	If SpriteImage Then
-		Image = LoadImage( SpriteImage.Filename )
-		Filename = SpriteImage.Filename
-		SetGadgetText( XCellsTextField, SpriteImage.XCells )
-		SetGadgetText( YCellsTextField, SpriteImage.YCells )
+	If ShapeImage Then
+		Image = LoadImage( ShapeImage.Filename )
+		Filename = ShapeImage.Filename
+		SetGadgetText( XCellsTextField, ShapeImage.XCells )
+		SetGadgetText( YCellsTextField, ShapeImage.YCells )
 	Else
 		SetGadgetText( XCellsTextField, 1 )
 		SetGadgetText( YCellsTextField, 1 )
@@ -74,9 +76,11 @@ Function SpriteImageProperties:Int( Sprite:LTSprite )
 				
 				SetColor( 255, 255, 255 )
 				
-				Local X:Int = Width * ( Frame Mod XCells ) / XCells
-				Local Y:Int = Height * Floor( Frame / XCells ) / YCells
-				LTMarchingAnts.DrawMARect( DX + X, DY + Y, Width / XCells + 1, Height / YCells + 1 )
+				If Sprite Then
+					Local X:Int = Width * ( Frame Mod XCells ) / XCells
+					Local Y:Int = Height * Floor( Frame / XCells ) / YCells
+					LTMarchingAnts.DrawMARect( DX + X, DY + Y, Width / XCells + 1, Height / YCells + 1 )
+				End If
 			End If
 			
 			If MouseDown( 1 ) Then
@@ -103,25 +107,28 @@ Function SpriteImageProperties:Int( Sprite:LTSprite )
 							If XCells > 0 And YCells > 0 Then
 								If Image.Width Mod XCells = 0 And Image.Height Mod YCells = 0 Then
 									Local ExitFlag:Int = 0
-									Local TileMap:LTTileMap = LTTileMap( Sprite )
+									Local TileMap:LTTileMap = LTTileMap( Shape )
 									If TileMap Then
 										Local TotalQuantity:Int = XCells* YCells
 										If LTImageVisualizer( TileMap.Visualizer ).Image.FramesQuantity() > TotalQuantity Then
 											If Not Confirm( LocalizeString( "{{D_TilemapDataLoss}}" ) ) Then
 												ExitFlag = 1
 											Else
+												TileMap.TilesQuantity = TotalQuantity
 												For Local Y:Int = 0 Until TileMap.FrameMap.YQuantity
 													For Local X:Int = 0 Until TileMap.FrameMap.XQuantity
 														If TileMap.FrameMap.Value[ X, Y ] >= TotalQuantity Then TileMap.FrameMap.Value[ X, Y ] = TotalQuantity - 1
 													Next
 												Next
 											End If
+										Else
+											TileMap.TilesQuantity = TotalQuantity
 										End If
 									End If
 									
 									If Not ExitFlag Then
-										LTImageVisualizer( Sprite.Visualizer ).Image = Editor.LoadImageFromFile( Filename, XCells, YCells )
-										Sprite.Frame = Frame
+										LTImageVisualizer( Shape.Visualizer ).Image = Editor.LoadImageFromFile( Filename, XCells, YCells )
+										If Sprite Then Sprite.Frame = Frame
 										Editor.SetChanged()
 										FreeGadget( EditWindow )
 										Return True

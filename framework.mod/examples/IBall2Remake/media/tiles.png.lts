@@ -1,30 +1,30 @@
 <LTTileset tiles-quantity="400" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" dwlab_version="0.11.2">
 	<TList field="definitions"/>
-	<LTTileCategory name="Pole1">
+	<LTTileCategory name="Pole">
 		<LTTileRule tilenums="140">
 			<LTTilePos dy="-1"/>
 		</LTTileRule>
 		<LTTileRule tilenums="156"/>
 	</LTTileCategory>
-	<LTTileCategory name="Pole2">
+	<LTTileCategory name="Pole">
 		<LTTileRule tilenums="141">
 			<LTTilePos dy="-1"/>
 		</LTTileRule>
 		<LTTileRule tilenums="157"/>
 	</LTTileCategory>
-	<LTTileCategory name="Pole3">
+	<LTTileCategory name="Pole">
 		<LTTileRule tilenums="142">
 			<LTTilePos dy="-1"/>
 		</LTTileRule>
 		<LTTileRule tilenums="158"/>
 	</LTTileCategory>
-	<LTTileCategory name="Pole4">
+	<LTTileCategory name="Pole">
 		<LTTileRule tilenums="143">
 			<LTTilePos dy="-1"/>
 		</LTTileRule>
 		<LTTileRule tilenums="159"/>
 	</LTTileCategory>
-	<LTTileCategory name="Pipe1">
+	<LTTileCategory name="Pipe">
 		<LTTileRule tilenums="176">
 			<LTTilePos dx="-1"/>
 			<LTTilePos dy="-1"/>
@@ -90,7 +90,7 @@
 			<LTTilePos dy="1" tilenum="194"/>
 		</LTTileRule>
 	</LTTileCategory>
-	<LTTileCategory name="Pipe2">
+	<LTTileCategory name="Pipe">
 		<LTTileRule tilenums="179">
 			<LTTilePos dx="-1"/>
 			<LTTilePos dy="-1"/>
@@ -156,7 +156,7 @@
 			<LTTilePos dy="1" tilenum="197"/>
 		</LTTileRule>
 	</LTTileCategory>
-	<LTTileCategory name="Pipe3">
+	<LTTileCategory name="Pipe">
 		<LTTileRule tilenums="182">
 			<LTTilePos dx="-1"/>
 			<LTTilePos dy="-1"/>
@@ -222,7 +222,7 @@
 			<LTTilePos dy="1" tilenum="200"/>
 		</LTTileRule>
 	</LTTileCategory>
-	<LTTileCategory name="Pipe4">
+	<LTTileCategory name="Pipe">
 		<LTTileRule tilenums="185">
 			<LTTilePos dx="-1"/>
 			<LTTilePos dy="-1"/>
@@ -288,7 +288,7 @@
 			<LTTilePos dy="1" tilenum="203"/>
 		</LTTileRule>
 	</LTTileCategory>
-	<LTTileCategory name="Pipe5">
+	<LTTileCategory name="Pipe">
 		<LTTileRule tilenums="208">
 			<LTTilePos dx="-1"/>
 			<LTTilePos dy="-1"/>
@@ -354,7 +354,7 @@
 			<LTTilePos dy="1" tilenum="226"/>
 		</LTTileRule>
 	</LTTileCategory>
-	<LTTileCategory name="Pipe6">
+	<LTTileCategory name="Pipe">
 		<LTTileRule tilenums="211">
 			<LTTilePos dx="-1"/>
 			<LTTilePos dy="-1"/>
@@ -420,7 +420,7 @@
 			<LTTilePos dy="1" tilenum="229"/>
 		</LTTileRule>
 	</LTTileCategory>
-	<LTTileCategory name="Pipe7">
+	<LTTileCategory name="Pipe">
 		<LTTileRule tilenums="214">
 			<LTTilePos dx="-1"/>
 			<LTTilePos dy="-1"/>
@@ -486,7 +486,7 @@
 			<LTTilePos dy="1" tilenum="232"/>
 		</LTTileRule>
 	</LTTileCategory>
-	<LTTileCategory name="Pipe8">
+	<LTTileCategory name="Pipe">
 		<LTTileRule tilenums="217">
 			<LTTilePos dx="-1"/>
 			<LTTilePos dy="-1"/>

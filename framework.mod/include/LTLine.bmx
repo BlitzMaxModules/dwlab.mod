@@ -41,7 +41,7 @@ Type LTLine Extends LTShape
 	
 	
 	Method CollidesWithSprite:Int( Sprite:LTSprite )
-		Select Sprite.Shape
+		Select Sprite.ShapeType
 			Case L_Pivot
 				'Return L_PivotWithLine( Sprite, Self )
 			Case L_Circle

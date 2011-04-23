@@ -10,16 +10,47 @@
 
 Include "LTWorld.bmx"
 
-Type LTLayer Extends LTList
-	Field Bounds:LTSprite
+Type LTLayer Extends LTGroup
+	Field Bounds:LTShape
 	
 	
 
-	Method Clone:LTActiveObject( Prefix:String, CollisionMap:LTCollisionMap )
+	Method LoadLayer:LTLayer( Project:LTProject )
 		Local NewLayer:LTLayer = New LTLayer
-		For Local Obj:LTActiveObject = Eachin Children
-			Local NewObj:LTActiveObject = Obj.Clone( Prefix, CollisionMap )
-			NewLayer.AddLast( NewObj )
+		For Local Shape:LTShape = Eachin Children
+			Local NewShape:LTShape
+			If LTLayer( Shape ) Then
+				NewShape = LTLayer( Shape ).LoadLayer( Project )
+			Elseif LTTileMap( Shape ) Then
+				NewShape = Shape.Clone()
+			Else
+				NewShape = Project.LoadSprite( LTSprite( Shape ) )
+			End If
+			If NewShape <> Null Then NewLayer.AddLast( NewShape )
+		Next
+		Return NewLayer
+	End Method
+	
+	
+	
+	Method FindTilemap:LTTileMap()
+		For Local Obj:LTShape = Eachin Children
+			If LTTileMap( Obj ) Then
+				Return LTTileMap( Obj )
+			ElseIf LTLayer( Obj ) Then
+				Local TileMap:LTTileMap = LTLayer( Obj ).FindTilemap()
+				If TileMap Then Return TileMap
+			End If
+		Next
+		Return Null
+	End Method
+	
+	
+	
+	Method Clone:LTShape()
+		Local NewLayer:LTLayer = New LTLayer
+		For Local Obj:LTShape = Eachin Children
+			NewLayer.AddLast( Obj.Clone() )
 		Next
 		Return NewLayer
 	End Method
@@ -27,7 +58,7 @@ Type LTLayer Extends LTList
 	
 	
 	Method FindLayer:LTLayer( LayerName:String )
-		If GetName() = LayerName Then Return Self
+		If Name = LayerName Then Return Self
 		For Local ChildLayer:LTLayer = Eachin Children
 			Local Layer:LTLayer = ChildLayer.FindLayer( LayerName )
 			If Layer Then Return Layer

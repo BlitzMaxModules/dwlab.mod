@@ -93,7 +93,7 @@ End Function
 
 Function L_LimitFloat:Float( Value:Float, FromValue:Float, ToValue:Float )
 	?debug
-	L_Assert( FromValue <= ToValue, "FromValue must be less than ToValue" )
+	 If FromValue > ToValue Then L_Error( "FromValue must be less than ToValue" )
 	?
 	If Value < FromValue Then
 		Return FromValue
@@ -110,7 +110,7 @@ End Function
 
 Function L_LimitInt:Int( Value:Int, FromValue:Int, ToValue:Int )
 	?debug
-	L_Assert( FromValue <= ToValue, "FromValue must be less than ToValue" )
+	If FromValue > ToValue Then L_Error( "FromValue must be less than ToValue" )
 	?
 	If Value < FromValue Then
 		Return FromValue
@@ -193,28 +193,6 @@ Function L_Distance:Float( DX:Float, DY:Float )
 End Function
 
 
-
-
-
-Function L_GetPrefix:String( Name:String )
-	For Local N:Int = Len( Name ) - 1 To 0 Step - 1
-		If Name[ N ] < Asc( "0" ) Or Name[ N ] > Asc( "9" ) Then Return Name[ ..N + 1 ]
-	Next
-	Return ""
-End Function
-
-
-
-
-
-Function L_GetNumber:Int( Name:String )
-	For Local N:Int = Len( Name ) - 1 To 0 Step - 1
-		If Name[ N ] < Asc( "0" ) Or Name[ N ] > Asc( "9" ) Then Return Name[ N + 1.. ].ToInt()
-	Next
-	Return Name.ToInt()
-End Function
-
-
 	
 	
 	
@@ -279,4 +257,10 @@ Function L_RemoveItemFromIntArray( Array:Int[] Var, Index:Int )
 		Next
 		Array = NewArray
 	End If
+End Function
+
+
+
+Function L_IntInLimits:Int( Value:Int, FromValue:Int, ToValue:Int )
+	If Value >= FromValue And Value <= ToValue Then Return True
 End Function

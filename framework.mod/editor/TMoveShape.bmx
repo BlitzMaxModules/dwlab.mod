@@ -9,7 +9,7 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Type TMoveSprite Extends LTDrag
+Type TMoveShape Extends LTDrag
 	Field StartX:Float, StartY:Float
 	Field LastDX:Float, LastDY:Float
 	
@@ -22,7 +22,7 @@ Type TMoveSprite Extends LTDrag
 	
 	
 	Method DraggingConditions:Int()
-		If Not Editor.CurrentTilemap And Editor.SpriteUnderCursor And Not Editor.SelectSprites.DraggingState Then Return True
+		If Not Editor.CurrentTilemap And Editor.ShapeUnderCursor And Not Editor.SelectShapes.DraggingState Then Return True
 	End Method
 	
 	
@@ -33,7 +33,7 @@ Type TMoveSprite Extends LTDrag
 		LastDX = 0
 		LastDY = 0
 		
-		If Not Editor.SelectedObjects.Contains( Editor.SpriteUnderCursor ) Then Editor.SelectSprite( Editor.SpriteUnderCursor )
+		If Not Editor.SelectedShapes.Contains( Editor.ShapeUnderCursor ) Then Editor.SelectShape( Editor.ShapeUnderCursor )
 		
 		Editor.Modifiers.Clear()
 	End Method
@@ -45,9 +45,9 @@ Type TMoveSprite Extends LTDrag
 		Local DY:Float = Editor.Cursor.Y - StartY
 		Editor.Grid.Snap( DX, DY )
 		
-		For Local Sprite:LTSprite = Eachin Editor.SelectedObjects
-			Sprite.X :+ DX - LastDX
-			Sprite.Y :+ DY - LastDY
+		For Local Shape:LTShape = Eachin Editor.SelectedShapes
+			Shape.X :+ DX - LastDX
+			Shape.Y :+ DY - LastDY
 		Next
 		
 		LastDX = DX
@@ -57,7 +57,7 @@ Type TMoveSprite Extends LTDrag
 	
 	
 	Method EndDragging()
-		If Editor.SelectedObjects.Count() = 1 Then Editor.SelectSprite( LTSprite( Editor.SelectedObjects.First() ) )
+		If Editor.SelectedShapes.Count() = 1 Then Editor.SelectShape( LTShape( Editor.SelectedShapes.First() ) )
 		Editor.SetChanged()
 	End Method
 End Type

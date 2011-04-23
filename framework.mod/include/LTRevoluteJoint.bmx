@@ -20,8 +20,8 @@ Type LTRevoluteJoint Extends LTJoint
 		Local Joint:LTRevoluteJoint = New LTRevoluteJoint
 		Joint.ParentPivot = ParentPivot
 		Joint.Pivot = Pivot
-		Joint.Angle = ParentPivot.DirectionToSprite( Pivot ) - ParentPivot.Angle
-		Joint.Distance = ParentPivot.DistanceToSprite( Pivot )
+		Joint.Angle = ParentPivot.DirectionToShape( Pivot ) - ParentPivot.Angle
+		Joint.Distance = ParentPivot.DistanceToShape( Pivot )
 		L_JointList.AddLast( Joint )
 		Return Joint
 	End Function

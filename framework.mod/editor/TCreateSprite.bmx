@@ -33,10 +33,10 @@ Type TCreateSprite Extends LTDrag
 		StartY = Editor.Cursor.Y
 		Editor.Grid.Snap( StartX, StartY )
 		
-		Local CurrentSprite:LTSprite = Editor.CurrentSprite
+		Local CurrentSprite:LTSprite = LTSprite( Editor.CurrentShape )
 		If CurrentSprite Then
 			Sprite = New LTSprite
-			Sprite.Shape = CurrentSprite.Shape
+			Sprite.ShapeType = CurrentSprite.ShapeType
 			Sprite.Angle = CurrentSprite.Angle
 			Sprite.Velocity = CurrentSprite.Velocity
 			Sprite.Frame = CurrentSprite.Frame
@@ -55,15 +55,15 @@ Type TCreateSprite Extends LTDrag
 			Visualizer.Image = CurrentSpriteVisualizer.Image
 			Sprite.Visualizer = Visualizer
 			
-			SetObjectName( Sprite, CurrentSprite.GetName() )
+			Sprite.Name = CurrentSprite.Name
 		Else
 			Sprite = New LTSprite
 			Sprite.Visualizer = New LTImageVisualizer
-			SetObjectName( Sprite, "Sprite" )
+			Sprite.Name = "Sprite"
 		End If
 		
 		Editor.CurrentLayer.AddLast( Sprite )
-		Editor.SelectSprite( Sprite )
+		Editor.SelectShape( Sprite )
 	End Method
 	
 	
@@ -85,9 +85,9 @@ Type TCreateSprite Extends LTDrag
 			Editor.CurrentLayer.Remove( Sprite )
 		Else
 			Editor.SetChanged()
-			If Not LTImageVisualizer( Sprite.Visualizer ).Image Then SpriteImageProperties( Sprite )
+			If Not LTImageVisualizer( Sprite.Visualizer ).Image Then ShapeImageProperties( Sprite )
 		End If
-		Editor.FillSpriteFields()
-		Editor.SetSpriteModifiers( Sprite )
+		Editor.FillShapeFields()
+		Editor.SetShapeModifiers( Sprite )
 	End Method
 End Type

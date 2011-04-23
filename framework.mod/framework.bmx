@@ -10,29 +10,27 @@
 
 SeedRnd( Millisecs() )
 
-Const L_Version:String = "0.11.2"
+Const L_Version:String = "0.12"
 
 Include "include/LTObject.bmx"
 Include "include/LTProject.bmx"
 Include "include/LTMap.bmx"
-Include "include/LTActiveObject.bmx"
+Include "include/LTShape.bmx"
 Include "include/LTVisualizer.bmx"
 Include "include/LTText.bmx"
 Include "include/LTSound.bmx"
 Include "include/LTPath.bmx"
 Include "include/LTDrag.bmx"
 Include "include/LTAction.bmx"
-Include "include/LTXML.bmx"
+Include "include/XML.bmx"
 Include "include/Service.bmx"
 
 
 
 
 
-Function L_Assert( Condition:Int, Text:String )
-	If Not Condition Then
-		Notify( Text, True )
-		DebugStop
-		End
-	End If
+Function L_Error( Text:String )
+	Notify( Text, True )
+	DebugStop
+	End
 End Function

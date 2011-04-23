@@ -128,7 +128,7 @@ Type LTFloatMap Extends LTMap
 	
 	Method ExtractTo( TileMap:LTIntMap, VFrom:Float, VTo:Float, TileNum:Int )
 		?debug
-		L_Assert( TileMap.XQuantity = XQuantity And TileMap.YQuantity = YQuantity, "Sizes of source heightmap and resulting tilemap are different." )
+		If TileMap.XQuantity <> XQuantity Or TileMap.YQuantity <> YQuantity Then L_Error( "Sizes of source heightmap and resulting tilemap are different." )
 		?
 		
 		For Local X:Int = 0 Until XQuantity

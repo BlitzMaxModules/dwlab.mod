@@ -21,8 +21,8 @@ Type LTFixedJoint Extends LTJoint
 		Local Joint:LTFixedJoint = New LTFixedJoint
 		Joint.ParentPivot = ParentPivot
 		Joint.Pivot = Pivot
-		Joint.Angle = ParentPivot.DirectionToSprite( Pivot ) - ParentPivot.Angle
-		Joint.Distance = ParentPivot.DistanceToSprite( Pivot )
+		Joint.Angle = ParentPivot.DirectionToShape( Pivot ) - ParentPivot.Angle
+		Joint.Distance = ParentPivot.DistanceToShape( Pivot )
 		Joint.DAngle = Pivot.Angle - ParentPivot.Angle
 		L_JointList.AddLast( Joint )
 		Return Joint

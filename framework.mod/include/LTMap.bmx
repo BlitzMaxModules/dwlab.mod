@@ -20,7 +20,7 @@ Type LTMap Extends LTObject
 	
 	Method SetResolution( NewXQuantity:Int, NewYQuantity:Int )
 		?debug
-		L_Assert( NewXQuantity > 0 And NewYQuantity > 0, "Map resoluton must be more than 0" )
+		If NewXQuantity <= 0 Or NewYQuantity <= 0 Then L_Error( "Map resoluton must be more than 0" )
 		?
 		
 		XQuantity = NewXQuantity

@@ -20,7 +20,7 @@ Type LTImage Extends LTObject
 	
 	Function FromFile:LTImage( Filename:String, XCells:Int = 1, YCells:Int = 1 )
 		?debug
-		L_Assert( XCells > 0 And YCells > 0, "Cells quantity must be 1 or more" )
+		If XCells <= 0 Or YCells <= 0 Then L_Error( "Cells quantity must be 1 or more" )
 		?
 		
 		Local Image:LTImage = New LTImage
@@ -39,7 +39,7 @@ Type LTImage Extends LTObject
 		Local Height:Float = ImageHeight( BMaxImage ) / YCells
 		
 		?debug
-		L_Assert( Int( Width ) = Width And Int( Height ) = Height, "Incorrect cells quantity for splitting" )
+		If Int( Width ) <> Width Or Int( Height ) <> Height Then L_Error( "Incorrect cells quantity for splitting" )
 		?
 		
 		Local NewBMaxImage:TImage = CreateImage( Width, Height, BMaxImage.Pixmaps.Dimensions()[ 0 ] * XCells * YCells )
@@ -91,7 +91,7 @@ Type LTImage Extends LTObject
 		Forever
 		
 		?debug
-		L_Assert( NewPixmap <> Null, "Cannot load file named " + FileName )
+		If NewPixmap = Null Then L_Error( "Cannot load file named " + FileName )
 		?
 		
 		BMaxImage = CreateImage( NewPixmap.Width, NewPixmap.Height, PixmapList.Count() )

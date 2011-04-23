@@ -53,9 +53,9 @@ Type LTVisualizer Extends LTObject Abstract
 	
 	Method SetColorFromRGB( NewRed:Float, NewGreen:Float, NewBlue:Float )
 		?debug
-		L_Assert( NewRed >= 0.0 And NewRed <= 1.0, "Red component must be between 0.0 and 1.0 inclusive" )
-		L_Assert( NewGreen >= 0.0 And NewGreen <= 1.0, "Green component must be between 0.0 and 1.0 inclusive" )
-		L_Assert( NewBlue >= 0.0 And NewBlue <= 1.0, "Blue component must be between 0.0 and 1.0 inclusive" )
+		If NewRed < 0.0 Or NewRed > 1.0 Then L_Error( "Red component must be between 0.0 and 1.0 inclusive" )
+		If NewGreen < 0.0 Or NewGreen > 1.0 Then L_Error( "Green component must be between 0.0 and 1.0 inclusive" )
+		If NewBlue < 0.0 Or NewBlue > 1.0 Then L_Error( "Blue component must be between 0.0 and 1.0 inclusive" )
 		?
 		
 		Red = NewRed
