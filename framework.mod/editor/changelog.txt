@@ -1,4 +1,7 @@
-﻿1.2.3
+﻿1.2.4
++ Sprite models
+
+1.2.3
 * A lot of stuff has been changed to support new framework structure
 
 1.2.2

@@ -3,11 +3,7 @@ Include "TGoomba.bmx"
 Include "TKoopaTroopa.bmx"
 Include "TMushroom.bmx"
 
-Type LTMovingObject Extends LTSprite
-	Field DX:Float, DY:Float
-	
-	
-	
+Type LTMovingObject Extends LTVectorSprite
 	Method HandleCollisionWith( Obj:LTShape, CollisionType:Int )
 		DX = -DX
 		Visualizer.XScale = -Visualizer.XScale
@@ -28,7 +24,7 @@ Type LTMovingObject Extends LTSprite
 	
 	
 	Method Act()
-		Move( DX, 0.0 )
+		MoveForward()
 		DY :+ L_DeltaTime * 32.0
 	End Method
 End Type

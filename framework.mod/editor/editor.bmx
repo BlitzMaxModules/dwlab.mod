@@ -50,7 +50,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.2.3"
+	Const Version:String = "1.2.4"
 	
 	Field EnglishLanguage:TMaxGuiLanguage
 	Field RussianLanguage:TMaxGuiLanguage
@@ -87,6 +87,8 @@ Type LTEditor Extends LTProject
 	Field YField:TGadget
 	Field WidthField:TGadget
 	Field HeightField:TGadget
+	Field DXField:TGadget
+	Field DYField:TGadget
 	Field AngleField:TGadget
 	Field VelocityField:TGadget
 	Field GreenSlider:TGadget
@@ -110,6 +112,9 @@ Type LTEditor Extends LTProject
 	Field ShowGrid:TGadget
 	Field ReplacementOfTiles:TGadget
 	Field ProlongTiles:TGadget
+	Field StaticModel:TGadget
+	Field VectorModel:TGadget
+	Field AngularModel:TGadget
 	Field Russian:TGadget
 	Field English:TGadget
 	
@@ -125,6 +130,7 @@ Type LTEditor Extends LTProject
 	Field CurrentShape:LTShape
 	Field CurrentTileset:LTTileset
 	Field SelectedShape:LTShape
+	Field SpriteModel:Int
 	Field TilesQueue:TMap = New TMap
 	Field Cursor:LTSprite = New LTSprite
 	Field ShapeUnderCursor:LTShape
@@ -159,15 +165,18 @@ Type LTEditor Extends LTProject
 	Const MenuShowGrid:Int = 5
 	Const MenuSnapToGrid:Int = 6
 	Const MenuGridSettings:Int = 7
-	Const MenuReplacementOfTiles:Int = 9
-	Const MenuProlongTiles:Int = 10
-	Const MenuExit:Int = 11
+	Const MenuStaticModel:Int = 9
+	Const MenuVectorModel:Int = 10
+	Const MenuAngularModel:Int = 11
+	Const MenuReplacementOfTiles:Int = 13
+	Const MenuProlongTiles:Int = 14
+	Const MenuExit:Int = 34
 	Const MenuRussian:Int = 32
 	Const MenuEnglish:Int = 33
 	
-	Const MenuRename:Int = 12
-	Const MenuShiftToTheTop:Int = 13
-	Const MenuShiftUp:Int = 14
+	Const MenuRename:Int = 35
+	Const MenuShiftToTheTop:Int = 36
+	Const MenuShiftUp:Int = 37
 	Const MenuShiftDown:Int = 15
 	Const MenuShiftToTheBottom:Int = 16
 	Const MenuRemove:Int = 17
@@ -189,7 +198,7 @@ Type LTEditor Extends LTProject
 	Const MenuTilemapSettings:Int = 25
 	Const MenuEditReplacementRules:Int = 26
 
-	Const PanelHeight:Int = 268
+	Const PanelHeight:Int = 292
 	Const BarWidth:Int = 207
 	
 	
@@ -204,7 +213,7 @@ Type LTEditor Extends LTProject
 		MaximizeWindow( Window )
 		
 		Toolbar = CreateToolBar( "incbin::toolbar.png", 0, 0, 0, 0, Window )
-		SetToolbarTips( Toolbar, [ "{{TB_New}}", "{{TB_Open}}", "{{TB_Save}}", "{{TB_SaveAs}}", "", "{{TB_ShowGrid}}", "{{TB_SnapToGrid}}", "{{TB_GridSettings}}", "", "{{TB_AutoChangementOfTiles}}", "{{TB_ProlongTiles}}" ] )
+		SetToolbarTips( Toolbar, [ "{{TB_New}}", "{{TB_Open}}", "{{TB_Save}}", "{{TB_SaveAs}}", "", "{{TB_ShowGrid}}", "{{TB_SnapToGrid}}", "{{TB_GridSettings}}", "", "{{TB_StaticModel}}", "{{TB_VectorModel}}", "{{TB_AngularModel}}", "", "{{TB_AutoChangementOfTiles}}", "{{TB_ProlongTiles}}" ] )
 		
 		Local BarHeight:Int = ClientHeight( Window ) - PanelHeight
 		MainCanvas = CreateCanvas( 0, 0, ClientWidth( Window ) - BarWidth - 16, ClientHeight( Window ) - 16, Window )
@@ -225,47 +234,51 @@ Type LTEditor Extends LTProject
 		
 		Panel = CreatePanel( ClientWidth( Window ) - BarWidth, 0, BarWidth, PanelHeight - 2, Window, Panel_Raised )
 		SetGadgetLayout( Panel, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Centered )
-		CreateLabel( "{{L_X}}", 2, 27, 37, 16, Panel, Label_Right )
-		CreateLabel( "{{L_Y}}", 131, 27, 13, 16, Panel, Label_Right )
-		CreateLabel( "{{L_Width}}", 2, 51, 37, 16, Panel, Label_Right )
-		CreateLabel( "{{L_Height}}", 106, 51, 37, 16, Panel, Label_Right )
 		CreateLabel( "{{L_Shape}}", 2, 6, 37, 16, Panel, Label_Right )
 		ShapeBox = CreateComboBox( 40, 0, 160, 20, Panel )
+		CreateLabel( "{{L_X}}", 2, 27, 37, 16, Panel, Label_Right )
 		XField = CreateTextField( 40, 24, 56, 20, Panel )
+		CreateLabel( "{{L_Y}}", 131, 27, 13, 16, Panel, Label_Right )
 		YField = CreateTextField( 144, 24, 56, 20, Panel )
+		CreateLabel( "{{L_Width}}", 2, 51, 37, 16, Panel, Label_Right )
 		WidthField = CreateTextField( 40, 48, 56, 20, Panel )
+		CreateLabel( "{{L_Height}}", 106, 51, 37, 16, Panel, Label_Right )
 		HeightField = CreateTextField( 144, 48, 56, 20, Panel )
 		CreateLabel( "{{L_Angle}}", 2, 75, 37, 16, Panel, Label_Right )
 		AngleField = CreateTextField( 40, 72, 56, 20, Panel )
 		CreateLabel( "{{L_Velocity}}", 100, 75, 44, 16, Panel, Label_Right )
 		VelocityField = CreateTextField( 144, 72, 56, 20, Panel )
-		CreateLabel( "{{L_Red}}", 2, 101, 37, 16, Panel, Label_Right )
-		RedField = CreateTextField( 168, 96, 32, 20, Panel )
-		RedSlider = CreateSlider( 40, 100, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
+		CreateLabel( "{{L_DX}}", 2, 99, 37, 16, Panel, Label_Right )
+		DXField = CreateTextField( 40, 96, 56, 20, Panel )
+		CreateLabel( "{{L_DY}}", 100, 99, 44, 16, Panel, Label_Right )
+		DYField = CreateTextField( 144, 96, 56, 20, Panel )
+		CreateLabel( "{{L_Red}}", 2, 125, 37, 16, Panel, Label_Right )
+		RedField = CreateTextField( 168, 120, 32, 20, Panel )
+		RedSlider = CreateSlider( 40, 124, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
 		SetSliderRange( RedSlider, 0, 100 )
-		CreateLabel( "{{L_Green}}", 2, 123, 37, 16, Panel, Label_Right )
-		GreenSlider = CreateSlider( 40, 122, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
-		GreenField = CreateTextField( 168, 120, 32, 20, Panel )
+		CreateLabel( "{{L_Green}}", 2, 147, 37, 16, Panel, Label_Right )
+		GreenSlider = CreateSlider( 40, 146, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
+		GreenField = CreateTextField( 168, 144, 32, 20, Panel )
 		SetSliderRange( GreenSlider, 0, 100 )
-		CreateLabel( "{{L_Blue}}", 2, 147, 37, 16, Panel, Label_Right )
-		BlueSlider = CreateSlider( 40, 146, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
-		BlueField = CreateTextField( 168, 144, 32, 20, Panel )
+		CreateLabel( "{{L_Blue}}", 2, 171, 37, 16, Panel, Label_Right )
+		BlueSlider = CreateSlider( 40, 170, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
+		BlueField = CreateTextField( 168, 168, 32, 20, Panel )
 		SetSliderRange( BlueSlider, 0, 100 )
-		CreateLabel( "{{L_Alpha}}", 2, 171, 37, 16, Panel, Label_Right )
-		AlphaSlider = CreateSlider( 40, 170, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
-		AlphaField = CreateTextField( 168, 168, 32, 20, Panel )
+		CreateLabel( "{{L_Alpha}}", 2, 195, 37, 16, Panel, Label_Right )
+		AlphaSlider = CreateSlider( 40, 194, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
+		AlphaField = CreateTextField( 168, 192, 32, 20, Panel )
 		SetSliderRange( AlphaSlider, 0, 100 )
-		XScaleField = CreateTextField( 40, 192, 56, 20, Panel )
-		CreateLabel( "{{L_XScale}}", 2, 196, 37, 16, Panel, Label_Right )
-		CreateLabel( "{{L_YScale}}", 106, 195, 37, 16, Panel, Label_Right )
-		YScaleField = CreateTextField( 144, 192, 56, 20, Panel )
-		CreateLabel( "{{L_Frame}}", 2, 220, 37, 16, Panel, Label_Right )
-		FrameField = CreateTextField( 40, 216, 56, 20, Panel )
-		SelectImageButton  =  CreateButton(  "{{B_SelectImage}}",  104,  214,  96,  24,  Panel )
-		RotatingCheckbox = CreateButton( "{{CB_Rotation}}", 40, 242, 40, 16, Panel, Button_Checkbox )
-		ScalingCheckbox = CreateButton( "{{CB_Scaling}}", 2, 242, 40, 16, Panel, Button_Checkbox )
-		CreateLabel( "{{L_ImageAngle}}", 85, 243, 55, 16, Panel, Label_Right )
-		ImgAngleField = CreateTextField( 144, 240, 56, 20, Panel )
+		CreateLabel( "{{L_XScale}}", 2, 216, 37, 16, Panel, Label_Right )
+		XScaleField = CreateTextField( 40, 216, 56, 20, Panel )
+		CreateLabel( "{{L_YScale}}", 106, 219, 37, 16, Panel, Label_Right )
+		YScaleField = CreateTextField( 144, 216, 56, 20, Panel )
+		CreateLabel( "{{L_Frame}}", 2, 244, 37, 16, Panel, Label_Right )
+		FrameField = CreateTextField( 40, 240, 56, 20, Panel )
+		SelectImageButton  =  CreateButton(  "{{B_SelectImage}}",  104,  238,  96,  24,  Panel )
+		RotatingCheckbox = CreateButton( "{{CB_Rotation}}", 40, 266, 40, 16, Panel, Button_Checkbox )
+		ScalingCheckbox = CreateButton( "{{CB_Scaling}}", 2, 266, 40, 16, Panel, Button_Checkbox )
+		CreateLabel( "{{L_ImageAngle}}", 85, 267, 55, 16, Panel, Label_Right )
+		ImgAngleField = CreateTextField( 144, 264, 56, 20, Panel )
 		HiddenOKButton = CreateButton( "", 0, 0, 0, 0, Panel, Button_OK )
 		HideGadget( HiddenOKButton )
 				
@@ -287,6 +300,10 @@ Type LTEditor Extends LTProject
 		ShowGrid = CreateMenu( "{{M_ShowGrid}}", MenuShowGrid, EditMenu )
 		SnapToGrid = CreateMenu( "{{M_SnapToGrid}}", MenuSnapToGrid, EditMenu )
 		CreateMenu( "{{M_GridSettings}}", MenuGridSettings, EditMenu )
+		CreateMenu( "", 0, EditMenu )
+		StaticModel = CreateMenu( "{{M_StaticModel}}", MenuStaticModel, EditMenu )
+		VectorModel = CreateMenu( "{{M_VectorModel}}", MenuVectorModel, EditMenu )
+		AngularModel = CreateMenu( "{{M_AngularModel}}", MenuAngularModel, EditMenu )
 		CreateMenu( "", 0, EditMenu )
 		ReplacementOfTiles = CreateMenu( "{{M_ReplacementOfTiles}}", MenuReplacementOfTiles, EditMenu )
 		ProlongTiles = CreateMenu( "{{M_ProlongTiles}}", MenuProlongTiles, EditMenu )
@@ -346,7 +363,14 @@ Type LTEditor Extends LTProject
 			
 			If ReadLine( IniFile ) = "1" Then SelectMenuItem( ShowGrid )
 			If ReadLine( IniFile ) = "1" Then SelectMenuItem( SnapToGrid )
-			
+			Select ReadLine( IniFile )
+				Case "0"
+					SelectMenuItem( StaticModel )
+				Case "1"
+					SelectMenuItem( VectorModel )
+				Case "2"
+					SelectMenuItem( AngularModel )
+			End Select
 			If ReadLine( IniFile ) = "1" Then SelectMenuItem( ReplacementOfTiles )
 			If ReadLine( IniFile ) = "1" Then SelectMenuItem( ProlongTiles )
 			
@@ -364,6 +388,7 @@ Type LTEditor Extends LTProject
 		Else
 			SetLanguage( 0 )
 			SelectMenuItem( ReplacementOfTiles )
+			SelectMenuItem( VectorModel )
 		End If
 	End Method
 	
@@ -495,6 +520,7 @@ Type LTEditor Extends LTProject
 		WriteLine( IniFile, WorldFilename )
 		WriteLine( IniFile, MenuChecked( ShowGrid ) )
 		WriteLine( IniFile, MenuChecked( SnapToGrid ) )
+		WriteLine( IniFile, SpriteModel )
 		WriteLine( IniFile, MenuChecked( ReplacementOfTiles ) )
 		WriteLine( IniFile, MenuChecked( ProlongTiles ) )
 		
@@ -704,6 +730,12 @@ Type LTEditor Extends LTProject
 						SelectMenuItem( ShowGrid, 2 )
 					Case MenuGridSettings
 						Grid.Settings()
+					Case MenuStaticModel
+						SelectMenuItem( StaticModel )
+					Case MenuVectorModel
+						SelectMenuItem( VectorModel )
+					Case MenuAngularModel
+						SelectMenuItem( AngularModel )
 					Case MenuReplacementOfTiles
 						SelectMenuItem( ReplacementOfTiles, 2 )
 					Case MenuProlongTiles
@@ -930,12 +962,30 @@ Type LTEditor Extends LTProject
 					Select EventSource()
 						Case HiddenOKButton
 							Select ActiveGadget()
+								Case DXField
+									Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite )
+									If VectorSprite Then
+										VectorSprite.DX = TextFieldText( DXField ).ToFloat()
+										SetChanged()
+									End If
+								Case DYField
+									Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite )
+									If VectorSprite Then
+										VectorSprite.DY = TextFieldText( DYField ).ToFloat()
+										SetChanged()
+									End If
 								Case AngleField
-									Sprite.Angle = TextFieldText( AngleField ).ToFloat()
-									SetChanged()
+									Local AngularSprite:LTAngularSprite = LTAngularSprite( Sprite )
+									If AngularSprite Then
+										AngularSprite.Angle = TextFieldText( AngleField ).ToFloat()
+										SetChanged()
+									End If
 								Case VelocityField
-									Sprite.Velocity = TextFieldText( VelocityField ).ToFloat()
-									SetChanged()
+									Local AngularSprite:LTAngularSprite = LTAngularSprite( Sprite )
+									If AngularSprite Then
+										AngularSprite.Velocity = TextFieldText( VelocityField ).ToFloat()
+										SetChanged()
+									End If
 								Case XScaleField
 									Sprite.Visualizer.XScale = TextFieldText( XScaleField ).ToFloat()
 									SetChanged()
@@ -1229,6 +1279,30 @@ Type LTEditor Extends LTProject
 					UncheckMenu( SnapToGrid )
 					DeselectGadgetItem( Toolbar, MenuSnapToGrid )
 				End If
+			Case StaticModel
+				CheckMenu( StaticModel )
+				UnCheckMenu( VectorModel )
+				UnCheckMenu( AngularModel )
+				SelectGadgetItem( Toolbar, MenuStaticModel )
+				DeselectGadgetItem( Toolbar, MenuVectorModel )
+				DeselectGadgetItem( Toolbar, MenuAngularModel )
+				SpriteModel = 0
+			Case VectorModel
+				UnCheckMenu( StaticModel )
+				CheckMenu( VectorModel )
+				UnCheckMenu( AngularModel )
+				DeselectGadgetItem( Toolbar, MenuStaticModel )
+				SelectGadgetItem( Toolbar, MenuVectorModel )
+				DeselectGadgetItem( Toolbar, MenuAngularModel )
+				SpriteModel = 1
+			Case AngularModel
+				UnCheckMenu( StaticModel )
+				UnCheckMenu( VectorModel )
+				CheckMenu( AngularModel )
+				DeselectGadgetItem( Toolbar, MenuStaticModel )
+				DeselectGadgetItem( Toolbar, MenuVectorModel )
+				SelectGadgetItem( Toolbar, MenuAngularModel )
+				SpriteModel = 2
 			Case ReplacementOfTiles
 				If State Then
 					CheckMenu( ReplacementOfTiles )
@@ -1274,8 +1348,6 @@ Type LTEditor Extends LTProject
 		Local CurrentSprite:LTSprite = LTSprite( CurrentShape )
 		If Not CurrentSprite Then Return
 		
-		SetGadgetText( AngleField, L_TrimFloat( CurrentSprite.Angle ) )
-		SetGadgetText( VelocityField, L_TrimFloat( CurrentSprite.Velocity ) )
 		SetGadgetText( FrameField, CurrentSprite.Frame )
 		SetGadgetText( XScaleField, L_TrimFloat( CurrentSprite.Visualizer.XScale ) )
 		SetGadgetText( YScaleField, L_TrimFloat( CurrentSprite.Visualizer.YScale ) )
@@ -1288,6 +1360,18 @@ Type LTEditor Extends LTProject
 		AddGadgetItem( ShapeBox, LocalizeString( "{{I_Circle}}" ) )
 		AddGadgetItem( ShapeBox, LocalizeString( "{{I_Rectangle}}" ) )
 		SelectGadgetItem( ShapeBox, CurrentSprite.ShapeType )
+		
+		Local CurrentAngularSprite:LTAngularSprite = LTAngularSprite( CurrentShape )
+		If CurrentAngularSprite Then
+			SetGadgetText( AngleField, L_TrimFloat( CurrentAngularSprite.Angle ) )
+			SetGadgetText( VelocityField, L_TrimFloat( CurrentAngularSprite.Velocity ) )
+		End If
+		
+		Local CurrentVectorSprite:LTVectorSprite = LTVectorSprite( CurrentShape )
+		If CurrentVectorSprite Then
+			SetGadgetText( DXField, L_TrimFloat( CurrentVectorSprite.DX ) )
+			SetGadgetText( DYField, L_TrimFloat( CurrentVectorSprite.DY ) )
+		End If
 	End Method
 	
 	
@@ -1328,7 +1412,7 @@ Type LTEditor Extends LTProject
 		AddModifier( Shape, TModifyShape.MirrorHorizontally, 0, -17 )
 		AddModifier( Shape, TModifyShape.MirrorVertically, 0, 17 )
 		
-		If Not LTSprite( Shape ) Then Return
+		If Not LTAngularSprite( Shape ) Then Return
 		
 		AddModifier( Shape, TModifyShape.RotateBackward, -17, 0 )
 		AddModifier( Shape, TModifyShape.RotateForward, 17, 0 )		

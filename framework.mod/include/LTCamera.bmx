@@ -13,7 +13,7 @@ Global L_CameraSpeed:Float = 2.0
 Global L_CameraMagnificationSpeed:Float = 2.0
 
 Type LTCamera Extends LTSprite
-	Field Viewport:LTSprite = New LTSprite
+	Field Viewport:LTShape = New LTShape
 	Field XK:Float = 1.0, YK:Float = 1.0
 	Field DX:Float, DY:Float
 	Field ViewportClipping:Int = 1

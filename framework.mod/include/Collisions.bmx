@@ -10,7 +10,7 @@
 
 ' Collision functions and detection modules
 
-Const Inaccuracy:Float = 0.000001
+Const L_Inaccuracy:Float = 0.000001
 
 Function L_PivotWithPivot:Int( Pivot1X:Float, Pivot1Y:Float, Pivot2X:Float, Pivot2Y:Float )
 	If Pivot1X = Pivot2X And Pivot1Y = Pivot2Y Then Return True
@@ -25,31 +25,31 @@ End Function
 
 
 Function L_PivotWithRectangle:Int( PivotX:Float, PivotY:Float, RectangleX:Float, RectangleY:Float, RectangleWidth:Float, RectangleHeight:Float )
-	If 2.0 * Abs( PivotX - RectangleX ) < RectangleWidth - Inaccuracy And 2.0 * Abs( PivotY - RectangleY ) < RectangleHeight - Inaccuracy Then Return True
+	If 2.0 * Abs( PivotX - RectangleX ) < RectangleWidth - L_Inaccuracy And 2.0 * Abs( PivotY - RectangleY ) < RectangleHeight - L_Inaccuracy Then Return True
 End Function
 
 
 
 Function L_CircleWithCircle:Int( Circle1X:Float, Circle1Y:Float, Circle1Diameter:Float, Circle2X:Float, Circle2Y:Float, Circle2Diameter:Float )
-	If 4.0 * ( ( Circle2X - Circle1X ) * ( Circle2X - Circle1X ) + ( Circle2Y - Circle1Y ) * ( Circle2Y - Circle1Y ) ) < ( Circle2Diameter + Circle1Diameter ) * ( Circle2Diameter + Circle1Diameter ) - Inaccuracy Then Return True
+	If 4.0 * ( ( Circle2X - Circle1X ) * ( Circle2X - Circle1X ) + ( Circle2Y - Circle1Y ) * ( Circle2Y - Circle1Y ) ) < ( Circle2Diameter + Circle1Diameter ) * ( Circle2Diameter + Circle1Diameter ) - L_Inaccuracy Then Return True
 End Function
 
 
 
 Function L_CircleWithRectangle:Int( CircleX:Float, CircleY:Float, CircleDiameter:Float, RectangleX:Float, RectangleY:Float, RectangleWidth:Float, RectangleHeight:Float )
 	If ( RectangleX - RectangleWidth * 0.5 <= CircleX And CircleX <= RectangleX + RectangleWidth * 0.5 ) Or ( RectangleY - RectangleHeight * 0.5 <= CircleY And CircleY <= RectangleY + RectangleHeight * 0.5 ) Then
-		If 2.0 * Abs( CircleX - RectangleX ) < CircleDiameter + RectangleWidth - Inaccuracy And 2.0 * Abs( CircleY - RectangleY ) < CircleDiameter + RectangleHeight - Inaccuracy Then Return True
+		If 2.0 * Abs( CircleX - RectangleX ) < CircleDiameter + RectangleWidth - L_Inaccuracy And 2.0 * Abs( CircleY - RectangleY ) < CircleDiameter + RectangleHeight - L_Inaccuracy Then Return True
 	Else
 		Local DX:Float = Abs( RectangleX - CircleX ) - 0.5 * RectangleWidth
 		Local DY:Float = Abs( RectangleY - CircleY ) - 0.5 * RectangleHeight
-		If 4.0 * ( DX * DX + DY * DY ) < CircleDiameter * CircleDiameter - Inaccuracy Then Return True
+		If 4.0 * ( DX * DX + DY * DY ) < CircleDiameter * CircleDiameter - L_Inaccuracy Then Return True
 	End If
 End Function
 
 
 
 Function L_RectangleWithRectangle:Int( Rectangle1X:Float, Rectangle1Y:Float, Rectangle1Width:Float, Rectangle1Height:Float, Rectangle2X:Float, Rectangle2Y:Float, Rectangle2Width:Float, Rectangle2Height:Float )
-	If 2.0 * Abs( Rectangle1X - Rectangle2X ) < Rectangle1Width + Rectangle2Width - Inaccuracy And 2.0 * Abs( Rectangle1Y - Rectangle2Y ) < Rectangle1Height + Rectangle2Height - Inaccuracy Then Return True
+	If 2.0 * Abs( Rectangle1X - Rectangle2X ) < Rectangle1Width + Rectangle2Width - L_Inaccuracy And 2.0 * Abs( Rectangle1Y - Rectangle2Y ) < Rectangle1Height + Rectangle2Height - L_Inaccuracy Then Return True
 End Function
 
 

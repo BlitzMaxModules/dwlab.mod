@@ -51,9 +51,25 @@ Type LTProject Extends LTObject
 	
 	
 	
-	Method LoadSprite:LTSprite( Sprite:LTSprite )
+	Method LoadStaticSprite:LTSprite( Sprite:LTSprite )
 		Local NewSprite:LTSprite = New LTSprite
 		Sprite.CopySpriteTo( NewSprite )
+		Return NewSprite
+	End Method
+	
+	
+	
+	Method LoadVectorSprite:LTVectorSprite( Sprite:LTVectorSprite )
+		Local NewSprite:LTVectorSprite = New LTVectorSprite
+		Sprite.CopyVectorSpriteTo( NewSprite )
+		Return NewSprite
+	End Method
+	
+	
+	
+	Method LoadAngularSprite:LTSprite( Sprite:LTAngularSprite )
+		Local NewSprite:LTAngularSprite = New LTAngularSprite
+		Sprite.CopyAngularSpriteTo( NewSprite )
 		Return NewSprite
 	End Method
 	

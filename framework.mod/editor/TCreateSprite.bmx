@@ -35,11 +35,7 @@ Type TCreateSprite Extends LTDrag
 		
 		Local CurrentSprite:LTSprite = LTSprite( Editor.CurrentShape )
 		If CurrentSprite Then
-			Sprite = New LTSprite
-			Sprite.ShapeType = CurrentSprite.ShapeType
-			Sprite.Angle = CurrentSprite.Angle
-			Sprite.Velocity = CurrentSprite.Velocity
-			Sprite.Frame = CurrentSprite.Frame
+			Sprite = LTSprite( CurrentSprite.Clone() )
 		
 			Local CurrentSpriteVisualizer:LTImageVisualizer = LTImageVisualizer( CurrentSprite.Visualizer )
 			Local Visualizer:LTImageVisualizer = New LTImageVisualizer
@@ -54,10 +50,15 @@ Type TCreateSprite Extends LTDrag
 			Visualizer.Scaling = CurrentSpriteVisualizer.Scaling
 			Visualizer.Image = CurrentSpriteVisualizer.Image
 			Sprite.Visualizer = Visualizer
-			
-			Sprite.Name = CurrentSprite.Name
 		Else
-			Sprite = New LTSprite
+			Select Editor.SpriteModel
+				Case 0
+					Sprite = New LTSprite
+				Case 1
+					Sprite = New LTVectorSprite
+				Case 2
+					Sprite = New LTAngularSprite
+			End Select
 			Sprite.Visualizer = New LTImageVisualizer
 			Sprite.Name = "Sprite"
 		End If

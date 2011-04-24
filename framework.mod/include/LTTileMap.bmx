@@ -98,23 +98,30 @@ Type LTTileMap Extends LTShape
 					End If
 				End If
 			Case L_Circle, L_Rectangle
-				Local X1:Int = L_LimitInt( Floor( ( Sprite.X - 0.5 * Sprite.Width - X0 ) / CellWidth ), 0, FrameMap.XQuantity )
-				Local Y1:Int = L_LimitInt( Floor( ( Sprite.Y - 0.5 * Sprite.Height - Y0 ) / CellHeight ), 0, FrameMap.YQuantity )
-				Local X2:Int = L_LimitInt( Floor( ( Sprite.X + 0.5 * Sprite.Width - X0 - 0.000001 ) / CellWidth ), 0, FrameMap.XQuantity - 1 )
-				Local Y2:Int = L_LimitInt( Floor( ( Sprite.Y + 0.5 * Sprite.Height - Y0 - 0.000001 ) / CellHeight ), 0, FrameMap.YQuantity - 1 )
+				Local X1:Int = Floor( ( Sprite.X - 0.5 * Sprite.Width - X0 ) / CellWidth )
+				Local Y1:Int = Floor( ( Sprite.Y - 0.5 * Sprite.Height - Y0 ) / CellHeight )
+				Local X2:Int = Floor( ( Sprite.X + 0.5 * Sprite.Width - X0 - L_Inaccuracy ) / CellWidth )
+				Local Y2:Int = Floor( ( Sprite.Y + 0.5 * Sprite.Height - Y0 - L_Inaccuracy ) / CellHeight )
 				
-				For Local Y:Int = Y1 To Y2
-					For Local X:Int = X1 To X2
-						Local Shape:LTShape = TileShape[ FrameMap.Value[ X, Y ] ]
-						If Shape Then
-							Local TileX:Float = X0 + CellWidth * X
-							Local TileY:Float =Y0 + CellHeight * Y
-							If Shape.TileCollidesWithSprite( Sprite, TileX, TileY, CellWidth, CellHeight ) Then
-								Sprite.HandleCollisionWithTile( Self, X, Y, GetTileCollisionType( Sprite, Shape.X * CellWidth + TileX, Shape.Y * CellHeight + TileY ) )
+				If X2 >= 0 And Y2 >= 0 And X1 < FrameMap.XQuantity And Y1 < FrameMap.YQuantity Then
+					X1 = L_LimitInt( X1, 0, FrameMap.XQuantity )
+					Y1 = L_LimitInt( Y1, 0, FrameMap.YQuantity )
+					X2 = L_LimitInt( X2, 0, FrameMap.XQuantity - 1 )
+					Y2 = L_LimitInt( Y2, 0, FrameMap.YQuantity - 1 )
+					
+					For Local Y:Int = Y1 To Y2
+						For Local X:Int = X1 To X2
+							Local Shape:LTShape = TileShape[ FrameMap.Value[ X, Y ] ]
+							If Shape Then
+								Local TileX:Float = X0 + CellWidth * X
+								Local TileY:Float =Y0 + CellHeight * Y
+								If Shape.TileCollidesWithSprite( Sprite, TileX, TileY, CellWidth, CellHeight ) Then
+									Sprite.HandleCollisionWithTile( Self, X, Y, GetTileCollisionType( Sprite, Shape.X * CellWidth + TileX, Shape.Y * CellHeight + TileY ) )
+								End If
 							End If
-						End If
+						Next
 					Next
-				Next
+				End If
 		End Select
 	End Method
 	

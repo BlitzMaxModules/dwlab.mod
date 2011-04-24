@@ -142,9 +142,11 @@ Type TModifyShape Extends LTDrag
 			Case MirrorVertically
 				Shape.Visualizer.YScale = -Shape.Visualizer.YScale
 			Case RotateBackward
-				LTSprite( Shape ).Angle :- 45
+				Local AngularSprite:LTAngularSprite = LTAngularSprite( Shape )
+				If AngularSprite Then AngularSprite.Angle :- 45
 			Case RotateForward
-				LTSprite( Shape ).Angle :+ 45
+				Local AngularSprite:LTAngularSprite = LTAngularSprite( Shape )
+				If AngularSprite Then AngularSprite.Angle :+ 45
 		End Select
 		
 		If Not Shape.Width Or Not Shape.Height Then

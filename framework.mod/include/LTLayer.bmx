@@ -23,8 +23,12 @@ Type LTLayer Extends LTGroup
 				NewShape = LTLayer( Shape ).LoadLayer( Project )
 			Elseif LTTileMap( Shape ) Then
 				NewShape = Shape.Clone()
+			ElseIf LTVectorSprite( Shape )
+				NewShape = Project.LoadVectorSprite( LTVectorSprite( Shape ) )
+			ElseIf LTAngularSprite( Shape )
+				NewShape = Project.LoadAngularSprite( LTAngularSprite( Shape ) )
 			Else
-				NewShape = Project.LoadSprite( LTSprite( Shape ) )
+				NewShape = Project.LoadStaticSprite( LTSprite( Shape ) )
 			End If
 			If NewShape <> Null Then NewLayer.AddLast( NewShape )
 		Next

@@ -8,6 +8,14 @@ Type TMario Extends LTMovingObject
 		PushFromTile( TileMap, TileX, TileY )
 		If CollisionType = L_Up Or CollisionType = L_Down Then DY = 0
 		If CollisionType = L_Up Then OnLand = True
+		If CollisionType = L_Down Then
+			Select TileMap.FrameMap.Value[ TileX, TileY ]
+				Case 10
+					TileMap.FrameMap.Value[ TileX, TileY ] = 0
+					'For Local Y:Int = 0 To 1
+					'	For Local X:Int = 0 To 1
+			End Select
+		End If
 	End Method
 	
 	
@@ -44,7 +52,7 @@ Type TMario Extends LTMovingObject
 		End If
 		
 		DY :+ L_DeltaTime * 32.0
-		Move( DX, DY )
+		MoveForward()
 		LimitWith( Game.MainLayer.FindTilemap() )
 		
 		L_CurrentCamera.JumpToShape( Self )

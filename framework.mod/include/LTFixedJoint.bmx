@@ -9,20 +9,20 @@
 '
 
 Type LTFixedJoint Extends LTJoint
-	Field ParentPivot:LTSprite
-	Field Pivot:LTSprite
+	Field ParentPivot:LTAngularSprite
+	Field Pivot:LTAngularSprite
 	Field Angle:Float
 	Field Distance:Float
 	Field DAngle:Float
 	
 	
 	
-	Function Create:LTFixedJoint( ParentPivot:LTSprite, Pivot:LTSprite )
+	Function Create:LTFixedJoint( ParentPivot:LTAngularSprite, Pivot:LTAngularSprite )
 		Local Joint:LTFixedJoint = New LTFixedJoint
 		Joint.ParentPivot = ParentPivot
 		Joint.Pivot = Pivot
-		Joint.Angle = ParentPivot.DirectionToShape( Pivot ) - ParentPivot.Angle
-		Joint.Distance = ParentPivot.DistanceToShape( Pivot )
+		Joint.Angle = ParentPivot.DirectionTo( Pivot ) - ParentPivot.Angle
+		Joint.Distance = ParentPivot.DistanceTo( Pivot )
 		Joint.DAngle = Pivot.Angle - ParentPivot.Angle
 		L_JointList.AddLast( Joint )
 		Return Joint
@@ -33,6 +33,6 @@ Type LTFixedJoint Extends LTJoint
 	Method Operate()
 		Pivot.X = ParentPivot.X + Cos( Angle + ParentPivot.Angle ) * Distance
 		Pivot.Y = ParentPivot.Y + Sin( Angle + ParentPivot.Angle ) * Distance
-		Pivot.SetAngle( ParentPivot.Angle + DAngle )
+		Pivot.Angle = ParentPivot.Angle + DAngle
 	End Method
 End Type

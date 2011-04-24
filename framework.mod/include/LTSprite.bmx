@@ -8,6 +8,8 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "LTAngularSprite.bmx"
+Include "LTVectorSprite.bmx"
 Include "LTCamera.bmx"
 Include "Collisions.bmx"
 Include "Physics.bmx"
@@ -23,8 +25,6 @@ Const L_Down:Int = 3
 
 Type LTSprite Extends LTShape
 	Field ShapeType:Int = L_Rectangle
-	Field Angle:Float = 0.0
-	Field Velocity:Float = 0.0
 	Field Frame:Int
 	Field CollisionMap:LTCollisionMap
 	
@@ -291,53 +291,15 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Method MoveTowardsShape( Shape:LTShape )
-		Local Angle:Float = DirectionToShape( Shape )
-		Local DX:Float = Cos( Angle ) * Velocity * L_DeltaTime
-		Local DY:Float = Sin( Angle ) * Velocity * L_DeltaTime
-		If Abs( DX ) >= Abs( X - Shape.X ) And Abs( DY ) >= Abs( Y - Shape.Y ) Then
-			SetCoords( Shape.X, Shape.Y )
-		Else
-			SetCoords( X + DX, Y + DY )
-		End If
-	End Method
-	
-	
-	
 	Method MoveForward()
-		SetCoords( X + GetDX(), Y + GetDY() )
 	End Method
 	
 	
 	
-	Method MoveUsingWSAD()
-		MoveUsingKeys( Key_W, Key_S, Key_A, Key_D )
-	End Method
-	
-	
-	
-	Method MoveUsingArrows()
-		MoveUsingKeys( Key_Up, Key_Down, Key_Left, Key_Right )
-	End Method
-	
-	
-	
-	Method MoveUsingKeys( KUp:Int, KDown:Int, KLeft:Int, KRight:Int )
-		Local DX:Float = KeyDown( KRight ) - KeyDown( KLeft )
-		Local DY:Float = KeyDown( KDown ) - KeyDown( KUp )
-		If DX * DY Then
-			DX :/ Sqr( 2 )
-			DY :/ Sqr( 2 )
-		End If
-		SetCoords( X + DX * Velocity * L_DeltaTime, Y + DY * Velocity * L_DeltaTime )
-	End Method
-	
-	
-	
-	Method SetCoordsRelativeToSprite( Sprite:LTSprite, NewX:Float, NewY:Float )
-		Local Angle:Float = DirectionToPoint( NewX, NewY ) + Sprite.GetAngle()
+	Method SetCoordsRelativeTo( Sprite:LTAngularSprite, NewX:Float, NewY:Float )
+		Local SpriteAngle:Float = DirectionToPoint( NewX, NewY ) + Sprite.Angle
 		Local Radius:Float = Sqr( NewX * NewX + NewY * NewY )
-		SetCoords( Sprite.X + Radius * Cos( Angle ), Sprite.Y + Radius * Sin( Angle ) )
+		SetCoords( Sprite.X + Radius * Cos( SpriteAngle ), Sprite.Y + Radius * Sin( SpriteAngle ) )
 	End Method
 	
 	
@@ -351,104 +313,6 @@ Type LTSprite Extends LTShape
 		Update()
 		If CollisionMap Then CollisionMap.InsertSprite( Self )
 	End Method
-
-	' ==================== Angle ====================
-	
-	Method GetAngle:Float()
-		Return Angle
-	End Method
-	
-	
-	
-	Method SetAngle:Float( NewAngle:Float )
-		Angle = NewAngle
-	End Method
-	
-	
-	
-	Method DirectAsSprite( Sprite:LTSprite )
-		Angle = Sprite.Angle
-	End Method
-	
-	
-	
-	Method Turn( TurningSpeed:Float )
-		Angle :+ L_DeltaTime * TurningSpeed
-	End Method
-	
-	
-	
-	Method DirectToSprite( Sprite:LTSprite )
-		Angle = ATan2( Sprite.Y - Y, Sprite.X - X )
-	End Method
-	
-	' ==================== Moving vector ====================
-	
-	Method GetDX:Float()
-		Return Velocity * Cos( Angle )
-	End Method
-	
-	
-	
-	Method AlterDX( DDX:Float )
-		SetDX( GetDX() + DDX )
-	End Method
-	
-	
-	
-	Method SetDX( NewDX:Float )
-		Local DY:Float = GetDY()
-		Angle = ATan2( DY, NewDX )
-		Velocity = Sqr( NewDX * NewDX + DY * DY )
-	End Method
-	
-	
-	
-	Method GetDY:Float()
-		Return Velocity * Sin( Angle )
-	End Method
-	
-	
-	
-	Method AlterDY( DDY:Float )
-		SetDY( GetDY() + DDY )
-	End Method
-	
-	
-	
-	Method SetDY( NewDY:Float )
-		Local DX:Float = GetDX()
-		Angle = ATan2( NewDY, DX )
-		Velocity = Sqr( DX * DX + NewDY * NewDY )
-	End Method
-	
-	
-	
-	Method AlterDXDY( DDX:Float, DDY:Float )
-		Local DX:Float = GetDX() + DDX
-		Local DY:Float = GetDY() + DDY
-		Angle = ATan2( DY, DX )
-		Velocity = Sqr( DX * DX + DY * DY )
-	End Method
-	
-	
-	
-	Method SetDXDY( NewDX:Float, NewDY:Float )
-		Angle = ATan2( NewDY, NewDX )
-		Velocity = Sqr( NewDX * NewDX + NewDY * NewDY )
-	End Method
-	
-	' ==================== Velocity ====================
-	
-	Method GetVelocity:Float()
-		Return Velocity
-	End Method
-	
-	
-	
-	Method SetVelocity:Float( NewVelocity:Float )
-		Velocity = NewVelocity
-	End Method
 	
 	' ==================== Animation ====================
 	
@@ -456,32 +320,28 @@ Type LTSprite Extends LTShape
 		Frame = ( Floor( ( Project.Time - Time ) / Speed ) Mod FramesQuantity ) + FrameStart
 	End Method
 	
-	' ==================== Other ====================
-	
+	' ==================== Other ====================	
+
 	Method Clone:LTShape()
 		Local NewSprite:LTSprite = New LTSprite
 		CopySpriteTo( NewSprite )
 		Return NewSprite
 	End Method
-	
+
 	
 	
 	Method CopySpriteTo( Sprite:LTSprite )
 		CopyShapeTo( Sprite )
 		Sprite.ShapeType = ShapeType
-		Sprite.Angle = Angle
-		Sprite.Velocity = Velocity
 		Sprite.Frame = Frame
 	End Method
-
+	
 	
 	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
 		XMLObject.ManageIntAttribute( "shape", ShapeType )
-		XMLObject.ManageFloatAttribute( "angle", Angle )
-		XMLObject.ManageFloatAttribute( "velocity", Velocity )
 		XMLObject.ManageIntAttribute( "frame", Frame )
 	End Method
 End Type

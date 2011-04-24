@@ -143,7 +143,7 @@ Type LTShape Extends LTObject
 	
 	
 	
-	Method DistanceToShape:Float( Shape:LTShape )
+	Method DistanceTo:Float( Shape:LTShape )
 		Local DX:Float = X - Shape.X
 		Local DY:Float = Y - Shape.Y
 		Return Sqr( DX * DX + DY * DY )
@@ -151,7 +151,7 @@ Type LTShape Extends LTObject
 	
 	
 	
-	Method IsAtPositionOfShape:Int( Shape:LTShape )
+	Method IsAtPositionOf:Int( Shape:LTShape )
 		If Shape.X = X And Shape.Y = Y Then Return True
 	End Method
 	
@@ -177,7 +177,7 @@ Type LTShape Extends LTObject
 	
 	
 	
-	Method JumpToShape( Shape:LTShape )
+	Method JumpTo( Shape:LTShape )
 		SetCoords( Shape.X , Shape.Y )
 	End Method
 	
@@ -197,7 +197,7 @@ Type LTShape Extends LTObject
 	
 	
 	
-	Method PlaceBetweenShapes( Shape1:LTShape, Shape2:LTShape, K:Float )
+	Method PlaceBetween( Shape1:LTShape, Shape2:LTShape, K:Float )
 		SetCoords( Shape1.X + ( Shape2.X - Shape1.X ) * K, Shape1.Y + ( Shape2.Y - Shape1.Y ) * K )
 	End Method
 	
@@ -221,7 +221,7 @@ Type LTShape Extends LTObject
 	
 	
 	
-	Method DirectionToShape:Float( Shape:LTShape )
+	Method DirectionTo:Float( Shape:LTShape )
 		Return ATan2( Shape.Y - Y, Shape.X - X )
 	End Method
 	
