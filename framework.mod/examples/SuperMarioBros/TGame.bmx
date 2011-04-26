@@ -82,8 +82,8 @@ Type TGame Extends LTProject
 	
 	
 	
-	Method LoadSprite:LTSprite( Sprite:LTSprite )
-		Local NewSprite:LTSprite
+	Method LoadVectorSprite:LTVectorSprite( Sprite:LTVectorSprite )
+		Local NewSprite:LTVectorSprite
 		Select Sprite.Name
 			Case "Start"
 				Mario = New TMario
@@ -93,11 +93,11 @@ Type TGame Extends LTProject
 			'Case "KoopaTroopa"
 			'	NewSprite = New TKoopaTroopa
 			Default
-				NewSprite = New LTSprite
+				NewSprite = New LTVectorSprite
 				
 			'	L_Error( "Sprite type " + Sprite.Name + " not found" )
 		End Select
-		Sprite.CopySpriteTo( NewSprite )
+		Sprite.CopyVectorSpriteTo( NewSprite )
 		CollisionMap.InsertSprite( Sprite )
 		Return NewSprite
 	End Method

@@ -12,8 +12,11 @@ Type TMario Extends LTMovingObject
 			Select TileMap.FrameMap.Value[ TileX, TileY ]
 				Case 10
 					TileMap.FrameMap.Value[ TileX, TileY ] = 0
-					'For Local Y:Int = 0 To 1
-					'	For Local X:Int = 0 To 1
+					For Local Y:Int = 0 To 1
+						For Local X:Int = 0 To 1
+							
+						Next
+					Next
 			End Select
 		End If
 	End Method
@@ -55,7 +58,7 @@ Type TMario Extends LTMovingObject
 		MoveForward()
 		LimitWith( Game.MainLayer.FindTilemap() )
 		
-		L_CurrentCamera.JumpToShape( Self )
+		L_CurrentCamera.JumpTo( Self )
 		L_CurrentCamera.LimitWith( Game.MainLayer.FindTilemap() )
 		
 		OnLand = False
