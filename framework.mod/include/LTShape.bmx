@@ -23,6 +23,9 @@ Type LTShape Extends LTObject
 	Field Visible:Int = True
 	Field Active:Int = True
 	
+	Const Horizontal:Int = 0
+	Const Vertical:Int = 1
+	
 	' ==================== Drawing ===================
 	
 	Method Draw()
@@ -35,64 +38,12 @@ Type LTShape Extends LTObject
 	
 	' ==================== Collisions ===================
 	
-	Method GetCollisionType:Int( Shape:LTShape )
-		Local DX:Float = Shape.X - X
-		Local DY:Float = Shape.Y - Y
-		If Abs( DX ) > Abs( DY ) Then
-			If DX < 0 Then Return L_Left Else Return L_Right
-		Else	
-			If DY < 0 Then Return L_Up Else Return L_Down
-		End If
-	End Method
-	
-	
-	Rem
-	bbdoc:Checks if objects collide.
-	returns:True if objects collide.
-	EndRem
-	Method CollidesWith:Int( Shape:LTShape )
-	End Method
-	
-	
-	
-	Method CollidesWithSprite:Int( Sprite:LTSprite )
-	End Method
-	
-	
-	
-	Method CollidesWithLine:Int( Line:LTLine )
-	End Method
-	
-	
-	Rem
-	bbdoc:Checks collisions of objects and executes @HandleCollision for each collision.
-	EndRem
-	Method CollisionsWith( Obj:LTShape )
-	End Method
-	
-	
-	
-	Method CollisionsWithSprite( Sprite:LTSprite )
-	End Method
-	
-	
-	
-	Method CollisionsWithLine( Line:LTLine )
+	Method SpriteGroupCollisions( Sprite:LTSprite, CollisionType:Int )
 	End Method
 	
 	
 	
 	Method TileCollidesWithSprite:Int( Sprite:LTSprite, DX:Float, DY:Float, XScale:Float, YScale:Float )
-	End Method
-	
-
-	
-	Method HandleCollisionWith( Obj:LTShape, CollisionType:Int )
-	End Method
-	
-	
-	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
 	End Method
 	
 	' ==================== Pushing ====================

@@ -45,63 +45,9 @@ Type LTGroup Extends LTSprite
 	
 	' ==================== Collisions ===================
 	
-	Method CollidesWith:Int( Shape:LTShape )
-		For Local Shape2:LTShape = Eachin Children
-			Local Collision:Int = Shape2.CollidesWith( Shape )
-			If Collision Then Return True
-		Next
+	Method SpriteGroupCollisions( Sprite:LTSprite, CollisionType:Int )
+		Sprite.CollisionsWithGroup( Self, CollisionType )
 	End Method
-	
-	
-	
-	Method CollidesWithSprite:Int( Sprite:LTSprite )
-		For Local Shape2:LTShape = Eachin Children
-			Local Collision:Int = Shape2.CollidesWithSprite( Sprite )
-			If Collision Then Return True
-		Next
-	End Method
-	
-	
-	
-	Method CollidesWithLine:Int( Line:LTLine )
-		For Local Shape2:LTShape = Eachin Children
-			Local Collision:Int = Shape2.CollidesWithLine( Line )
-			If Collision Then Return True
-		Next
-	End Method
-	
-
-	
-	Method CollisionsWith( Shape:LTShape )
-		For Local Shape2:LTShape = Eachin Children
-			Shape2.CollisionsWith( Shape )
-		Next
-	End Method
-	
-	
-	
-	Method CollisionsWithSprite( Sprite:LTSprite )
-		For Local Shape:LTShape = Eachin Children
-			Sprite.CollisionsWith( Shape )
-		Next
-	End Method
-	
-	
-	
-	Method CollisionsWithLine( Line:LTLine )
-		For Local Shape:LTShape = Eachin Children
-			Line.CollisionsWith( Shape )
-		Next
-	End Method
-	
-	
-	
-	Method TileCollidesWithSprite:Int( Sprite:LTSprite, DX:Float, DY:Float, XScale:Float, YScale:Float )
-		For Local Shape:LTShape = Eachin Children
-			Shape.TileCollidesWithSprite( Sprite, DX, DY, XScale, YScale )
-		Next
-	End Method
-
 		
 	' ==================== List methods ====================
 	

@@ -21,6 +21,10 @@ Type TBlock Extends LTVectorSprite
 				TCoin.FromTile( TileX, TileY )
 			Case 11
 				TMagicMushroom.FromTile( TileX, TileY )
+			Case 13
+				TOneUpMushroom.FromTile( TileX, TileY )
+			Case 18
+				TStarMan.FromTile( TileX, TileY )
 		End Select
 		
 		Local Block:TBlock = New TBlock

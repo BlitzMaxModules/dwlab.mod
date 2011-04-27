@@ -20,11 +20,11 @@ Type LTFilledPrimitive Extends LTVisualizer
 		L_CurrentCamera.SizeFieldToScreen( Sprite.Width * XScale, Sprite.Height * YScale, SWidth, SHeight )
 		
 		Select Sprite.ShapeType
-			Case L_Pivot
+			Case LTSprite.Pivot
 				DrawOval( SX - 2, SY - 2, 5, 5 )
-			Case L_Circle
+			Case LTSprite.Circle
 				DrawOval( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
-			Case L_Rectangle
+			Case LTSprite.Rectangle
 				DrawRect( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
 		End Select
 		

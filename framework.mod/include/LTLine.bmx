@@ -34,21 +34,8 @@ Type LTLine Extends LTShape
 	
 	' ==================== Collisions ===================
 	
-	Method Collides:Int( Shape:LTShape )
-		Return Shape.CollidesWithLine( Self )
-	End Method
-	
-	
-	
-	Method CollidesWithSprite:Int( Sprite:LTSprite )
-		Select Sprite.ShapeType
-			Case L_Pivot
-				'Return L_PivotWithLine( Sprite, Self )
-			Case L_Circle
-				Return L_CircleWithLine( Sprite.X, Sprite.Y, Sprite.Width, Pivot[ 0 ].X, Pivot[ 0 ].Y, Pivot[ 1 ].X, Pivot[ 1 ].Y )
-			Case L_Rectangle
-				'Return L_RectangleWithLine( Sprite, Self )
-		End Select
+	Method SpriteGroupCollisions( Sprite:LTSprite, CollisionType:Int )
+		Sprite.CollisionsWithLine( Self, CollisionType )
 	End Method
 
 	' ==================== Other ====================

@@ -10,7 +10,7 @@
 
 SeedRnd( Millisecs() )
 
-Const L_Version:String = "0.12.2"
+Const L_Version:String = "0.12.3"
 
 Include "include/LTObject.bmx"
 Include "include/LTProject.bmx"

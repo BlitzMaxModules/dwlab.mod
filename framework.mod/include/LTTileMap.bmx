@@ -52,77 +52,7 @@ Type LTTileMap Extends LTShape
 	
 	' ==================== Collisions ===================
 		
-	Method GetTileCollisionType:Int( Shape:LTShape, TileX:Float, TileY:Float )
-		Local DX:Float = TileX - Shape.X
-		Local DY:Float = TileY - Shape.Y
-		If Abs( DX ) > Abs( DY ) Then
-			If DX < 0 Then Return L_Left Else Return L_Right
-		Else
-			If DY < 0 Then Return L_Up Else Return L_Down
-		End If
-	End Method
-	
-	
-	
-	Method TileCollisionsWithGroup( Group:LTGroup )
-		For Local Shape:LTShape = Eachin Group
-			Local Sprite:LTSprite = LTSprite( Shape )
-			If Sprite Then
-				TileCollisionsWithSprite( Sprite )
-			Else
-				Local ChildGroup:LTGroup = LTGroup( Shape )
-				If ChildGroup Then TileCollisionsWithGroup( ChildGroup )
-			End If
-		Next
-	End Method
-	
-	
-	
 	Method TileCollisionsWithSprite( Sprite:LTSprite )
-		Local X0:Float = CornerX()
-		Local Y0:Float = CornerY()
-		Local CellWidth:Float = GetCellWidth()
-		Local CellHeight:Float = GetCellHeight()
-				
-		Select Sprite.ShapeType
-			Case L_Pivot
-				Local X1:Int = Floor( ( Sprite.X - X0 ) / CellWidth )
-				Local Y1:Int = Floor( ( Sprite.Y - Y0 ) / CellHeight )
-				
-				If X1 >= 0 And Y1 >= 0 And X1 < FrameMap.XQuantity And Y1 < FrameMap.YQuantity Then
-					Local Shape:LTShape = TileShape[ FrameMap.Value[ X1, Y1 ] ]
-					If Shape Then
-						Local TileX:Float = X0 + CellWidth * X1
-						Local TileY:Float = Y0 + CellHeight * Y1
-						If Shape.TileCollidesWithSprite( Sprite, TileX, TileY, CellWidth, CellHeight ) Then Sprite.HandleCollisionWithTile( Self, X1, Y1, GetTileCollisionType( Sprite, Shape.X * CellWidth + TileX, Shape.Y * CellHeight + TileY ) )
-					End If
-				End If
-			Case L_Circle, L_Rectangle
-				Local X1:Int = Floor( ( Sprite.X - 0.5 * Sprite.Width - X0 ) / CellWidth )
-				Local Y1:Int = Floor( ( Sprite.Y - 0.5 * Sprite.Height - Y0 ) / CellHeight )
-				Local X2:Int = Floor( ( Sprite.X + 0.5 * Sprite.Width - X0 - L_Inaccuracy ) / CellWidth )
-				Local Y2:Int = Floor( ( Sprite.Y + 0.5 * Sprite.Height - Y0 - L_Inaccuracy ) / CellHeight )
-				
-				If X2 >= 0 And Y2 >= 0 And X1 < FrameMap.XQuantity And Y1 < FrameMap.YQuantity Then
-					X1 = L_LimitInt( X1, 0, FrameMap.XQuantity )
-					Y1 = L_LimitInt( Y1, 0, FrameMap.YQuantity )
-					X2 = L_LimitInt( X2, 0, FrameMap.XQuantity - 1 )
-					Y2 = L_LimitInt( Y2, 0, FrameMap.YQuantity - 1 )
-					
-					For Local Y:Int = Y1 To Y2
-						For Local X:Int = X1 To X2
-							Local Shape:LTShape = TileShape[ FrameMap.Value[ X, Y ] ]
-							If Shape Then
-								Local TileX:Float = X0 + CellWidth * X
-								Local TileY:Float =Y0 + CellHeight * Y
-								If Shape.TileCollidesWithSprite( Sprite, TileX, TileY, CellWidth, CellHeight ) Then
-									Sprite.HandleCollisionWithTile( Self, X, Y, GetTileCollisionType( Sprite, Shape.X * CellWidth + TileX, Shape.Y * CellHeight + TileY ) )
-								End If
-							End If
-						Next
-					Next
-				End If
-		End Select
 	End Method
 	
 	' ==================== Other ===================	

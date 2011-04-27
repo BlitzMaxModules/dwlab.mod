@@ -81,17 +81,17 @@ Type LTGraph Extends LTShape
 	
 	' ==================== Collisions ===================
 	
-	Method FindPivotCollidingWith:LTSprite( Shape:LTShape )
+	Method FindPivotCollidingWith:LTSprite( Sprite:LTSprite )
 		For Local Pivot:LTSprite = Eachin Pivots.Keys()
-			If Shape.CollidesWithSprite( Pivot ) Then Return Pivot
+			If Sprite.CollidesWithSprite( Pivot ) Then Return Pivot
 		Next
 	End Method
 	
 	
 
-	Method FindLineCollidingWith:LTLine( Shape:LTShape )
+	Method FindLineCollidingWith:LTLine( Sprite:LTSprite )
 		For Local Line:LTLine = Eachin Lines.Keys()
-			If Shape.CollidesWithLine( Line ) Then Return Line
+			If Sprite.CollidesWithLine( Line ) Then Return Line
 		Next
 	End Method
 

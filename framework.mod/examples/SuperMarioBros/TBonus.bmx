@@ -29,6 +29,7 @@ Type TBonus Extends TMovingObject
 		DY = -1.0
 		ShapeType = L_Circle
 		Game.MainLayer.AddLast( Self )
+		Frame = 0
 	End Method
 	
 	
@@ -45,6 +46,11 @@ Type TBonus Extends TMovingObject
 			DY :+ L_DeltaTime * 32.0
 		End If
 	End Method
+	
+	
+	
+	Method Collect()
+	End Method
 End Type
 
 
@@ -59,28 +65,34 @@ Type TMagicMushroom Extends TMushroom
 		Local Bonus:TBonus = New TMushroom
 		Bonus.Init( TileX, TileY )
 		Bonus.Visualizer = Game.MagicMushroom
-		Bonus.Frame = 0
 	End Function
 End Type
 
 
 
 Type TOneUpMushroom Extends TMushroom
+	Function FromTile( TileX:Int, TileY:Int )
+		Local Bonus:TBonus = New TMushroom
+		Bonus.Init( TileX, TileY )
+		Bonus.Visualizer = Game.OneUpMushroom
+	End Function
 End Type
 
 
 
 Type TStarMan Extends TBonus
+	Function FromTile( TileX:Int, TileY:Int )
+		Local Bonus:TBonus = New TMushroom
+		Bonus.Init( TileX, TileY )
+		Bonus.Visualizer = Game.StarMan
+	End Function
+	
+	
+	
 	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
 		If Growing Then Return
 		Super.HandleCollisionWithTile( TileMap, TileX, TileY, CollisionType )
 		If CollisionType = L_Down Then DY = -10.0
 		If CollisionType = L_Up Then DY = 0.0
-	End Method
-	
-	
-	
-	Method Act()
-		
 	End Method
 End Type

@@ -9,7 +9,7 @@
 '
 
 Type LTCollisionMap Extends LTMap
-	Field Objects:TList[ , ]
+	Field Sprites:TList[ , ]
 	Field XScale:Float = 1.0, YScale:Float = 1.0
 	
 	' ==================== Parameters ====================
@@ -21,10 +21,10 @@ Type LTCollisionMap Extends LTMap
 		If Not Masked Then L_Error( "Map resoluton must be power of 2" )
 		?
 		
-		Objects = New TList[ NewXQuantity, NewYQuantity ]
+		Sprites = New TList[ NewXQuantity, NewYQuantity ]
 		For Local Y:Int = 0 Until NewYQuantity
 			For Local X:Int = 0 Until NewXQuantity
-				Objects[ X, Y ] = New TList
+				Sprites[ X, Y ] = New TList
 			Next
 		Next
 	End Method
@@ -40,8 +40,8 @@ Type LTCollisionMap Extends LTMap
 	
 	Method InsertSprite( Sprite:LTSprite )
 		Select Sprite.ShapeType
-			Case L_Pivot
-				Objects[ Int( Sprite.X / XScale ) & XMask, Int( Sprite.Y / YScale ) & YMask ].AddLast( Sprite )
+			Case LTSprite.Pivot
+				Sprites[ Int( Sprite.X / XScale ) & XMask, Int( Sprite.Y / YScale ) & YMask ].AddLast( Sprite )
 			Default
 				Local MapX1:Int = Floor( ( Sprite.X - 0.5 * Sprite.Width ) / XScale )
 				Local MapY1:Int = Floor( ( Sprite.Y - 0.5 * Sprite.Height ) / YScale )
@@ -50,7 +50,7 @@ Type LTCollisionMap Extends LTMap
 				
 				For Local Y:Int = MapY1 To MapY2
 					For Local X:Int = MapX1 To MapX2
-						Objects[ X & XMask, Y & YMask ].AddFirst( Sprite )
+						Sprites[ X & XMask, Y & YMask ].AddFirst( Sprite )
 					Next
 				Next
 		End Select
@@ -61,8 +61,8 @@ Type LTCollisionMap Extends LTMap
 	
 	Method RemoveSprite( Sprite:LTSprite )
 		Select Sprite.ShapeType
-			Case L_Pivot
-				Objects[ Int( Sprite.X / XScale ) & XMask, Int( Sprite.Y / YScale ) & YMask ].Remove( Sprite )
+			Case LTSprite.Pivot
+				Sprites[ Int( Sprite.X / XScale ) & XMask, Int( Sprite.Y / YScale ) & YMask ].Remove( Sprite )
 			Default
 				Local MapX1:Int = Floor( ( Sprite.X - 0.5 * Sprite.Width ) / XScale )
 				Local MapY1:Int = Floor( ( Sprite.Y - 0.5 * Sprite.Height ) / YScale )
@@ -71,55 +71,13 @@ Type LTCollisionMap Extends LTMap
 				
 				For Local Y:Int = MapY1 To MapY2
 					For Local X:Int = MapX1 To MapX2
-						Objects[ X & XMask, Y & YMask ].Remove( Sprite )
+						Sprites[ X & XMask, Y & YMask ].Remove( Sprite )
 					Next
 				Next
 		End Select
 	End Method
 	
 	' ==================== Collisions ===================
-	
-	Method CollisionsWithGroup( Group:LTGroup )
-		For Local Shape:LTShape = Eachin Group
-			Local Sprite:LTSprite = LTSprite( Shape )
-			If Sprite Then
-				CollisionsWithSprite( Sprite )
-			Else
-				Local ChildGroup:LTGroup = LTGroup( Shape )
-				If ChildGroup Then CollisionsWithGroup( ChildGroup )
-			End If
-		Next
-	End Method
-	
-	
-	
-	Method CollisionsWithSprite( Sprite:LTSprite )
-		Select Sprite.ShapeType
-			Case L_Pivot
-				For Local Shape:LTShape = Eachin Objects[ Int( Sprite.X / XScale ) & XMask, Int( Sprite.Y / YScale ) & YMask ]
-					If Shape = Sprite Then Continue
-					If Shape.CollidesWithSprite( Sprite ) Then Sprite.HandleCollisionWith( Shape, Shape.GetCollisionType( Sprite ) )
-				Next
-			Default
-				Local MapX1:Int = Floor( ( Sprite.X - 0.5 * Sprite.Width ) / XScale )
-				Local MapY1:Int = Floor( ( Sprite.Y - 0.5 * Sprite.Height ) / YScale )
-				Local MapX2:Int = Floor( ( Sprite.X + 0.5 * Sprite.Width - 0.000001 ) / XScale )
-				Local MapY2:Int = Floor( ( Sprite.Y + 0.5 * Sprite.Height - 0.000001 ) / YScale )
-				
-				For Local Y:Int = MapY1 To MapY2
-					For Local X:Int = MapX1 To MapX2
-						For Local Shape:LTShape = Eachin Objects[ X & XMask, Y & YMask ]
-							If Shape = Sprite Then Continue
-							If Shape.CollidesWithSprite( Sprite ) Then
-								Sprite.HandleCollisionWith( Shape, Shape.GetCollisionType( Sprite ) )
-							End If
-						Next
-					Next
-				Next
-		End Select
-	End Method
-	
-	
 	
 	Function Create:LTCollisionMap( XQuantity:Int, YQuantity:Int )
 		Local Map:LTCollisionMap = New LTCollisionMap

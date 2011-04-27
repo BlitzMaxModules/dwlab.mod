@@ -17,6 +17,8 @@ Type TGame Extends LTProject
 	Field Bricks:LTImage = LTImage.FromFile( "media\Bricks.png", 2 )
 	Field Coin:LTImageVisualizer = LTImageVisualizer.FromFile( "media\FlippingCoin.png", 4 )
 	Field MagicMushroom:LTImageVisualizer = LTImageVisualizer.FromFile( "media\MagicMushroom.png" )
+	Field OneUpMushroom:LTImageVisualizer = LTImageVisualizer.FromFile( "media\1upMushroom.png" )
+	Field StarMan:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Starman.png", 4 )
 
 	Field BreakBlockSound:TSound = TSound.Load( "media\BreakBlock.ogg", False )
 	Field BumpSound:TSound = TSound.Load( "media\Bump.ogg", False )
@@ -27,7 +29,7 @@ Type TGame Extends LTProject
 	Field Music1Sound:TSound = TSound.Load( "media\Music1.ogg", True )
 	Field MusicChannel:TChannel
 	Rem
-	Field OneUpMushroomImage:LTImage = LTImage.FromFile( "media\1upMushroom.png" )
+	
 	Field BlockImage:LTImage = LTImage.FromFile( "media\Block.png" )
 	Field FieryMarioImage:LTImage = LTImage.FromFile( "media\FieryMario.png", 7 )
 	Field FireballImage:LTImage = LTImage.FromFile( "media\Fireball.png" )
@@ -39,7 +41,6 @@ Type TGame Extends LTProject
 	Field MarioImmortalImage:LTImage = LTImage.FromFile( "media\MarioImmortal.png", 6 )
 	Field ScoreImage:LTImage = LTImage.FromFile( "media\Score.png", 11 )
 	Field SmallCoinImage:LTImage = LTImage.FromFile( "media\SmallCoin.png", 3 )
-	Field StarmanImage:LTImage = LTImage.FromFile( "media\Starman.png", 4 )
 	Field SuperMarioImage:LTImage = LTImage.FromFile( "media\SuperMario.png", 7 )
 	Field SuperMarioImmortalImage:LTImage = LTImage.FromFile( "media\SuperMarioImmortal.png", 7 )
 	
@@ -75,7 +76,7 @@ Type TGame Extends LTProject
 				Local Sprite:LTSprite = New LTSprite
 				Sprite.X = 0.5
 				Sprite.Y = 0.5
-				Sprite.ShapeType = L_Rectangle
+				Sprite.ShapeType = LTSprite.Rectangle
 				Tilemap.TileShape[ N ] = Sprite
 			End If
 		Next
@@ -88,8 +89,6 @@ Type TGame Extends LTProject
 	
 	Method Logic()
 		Super.Logic()
-		'CollisionMap.CollisionsWithGroup( MainLayer )
-		Tilemap.TileCollisionsWithGroup( MainLayer )
 		If Not MusicChannel.Playing() Then MusicChannel = PlaySound( Music1Sound )
 		If KeyHit( Key_Escape ) Then End
 		'L_CurrentCamera.MoveUsingArrows()

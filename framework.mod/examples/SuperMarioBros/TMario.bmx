@@ -24,7 +24,7 @@ Type TMario Extends TMovingObject
 				Case 10, 27
 					Game.BreakBlockSound.Play()
 					TBricks.FromTile( TileX, TileY, TileNum )
-				Case 9, 11, 13, 17, 18, 19
+				Case 9, 11, 13, 16, 17, 18
 					Game.BumpSound.Play()
 					TBlock.FromTile( TileX, TileY, TileNum )
 			End Select
@@ -66,7 +66,13 @@ Type TMario Extends TMovingObject
 		End If
 		
 		DY :+ L_DeltaTime * 32.0
-		MoveForward()
+		
+		MoveVertically()
+		CollisionsWithTilemap( Game.Tilemap )
+		CollisionsWithCollisionMap( Game.CollisionMap )
+		
+		MoveHorizontally()
+		
 		LimitWith( Game.MainLayer.FindTilemap() )
 		
 		L_CurrentCamera.JumpTo( Self )

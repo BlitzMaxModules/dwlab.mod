@@ -14,20 +14,15 @@ Include "LTCamera.bmx"
 Include "Collisions.bmx"
 Include "Physics.bmx"
 
-Const L_Pivot:Int = 0
-Const L_Circle:Int = 1
-Const L_Rectangle:Int = 2
-
-Const L_Left:Int = 0
-Const L_Right:Int = 1
-Const L_Up:Int = 2
-Const L_Down:Int = 3
-
 Type LTSprite Extends LTShape
-	Field ShapeType:Int = L_Rectangle
+	Field ShapeType:Int = Rectangle
 	Field Frame:Int
 	Field CollisionMap:LTCollisionMap
 	
+	Const Pivot:Int = 0
+	Const Circle:Int = 1
+	Const Rectangle:Int = 2
+
 	' ==================== Drawing ===================	
 	
 	Method Draw()
@@ -42,39 +37,33 @@ Type LTSprite Extends LTShape
 	
 	' ==================== Collisions ===================
 	
-	Method CollidesWith:Int( Shape:LTShape )
-		Return Shape.CollidesWithSprite( Self )
-	End Method
-	
-	
-	
 	Method CollidesWithSprite:Int( Sprite:LTSprite )
 		Select ShapeType
-			Case L_Pivot
+			Case Pivot
 				Select Sprite.ShapeType
-					Case L_Pivot
+					Case Pivot
 						Return L_PivotWithPivot( X, Y, Sprite.X, Sprite.Y )
-					Case L_Circle
+					Case Circle
 						Return L_PivotWithCircle( X, Y, Sprite.X, Sprite.Y, Sprite.Width )
-					Case L_Rectangle
+					Case Rectangle
 						Return L_PivotWithRectangle( X, Y, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 				End Select
-			Case L_Circle
+			Case Circle
 				Select Sprite.ShapeType
-					Case L_Pivot
+					Case Pivot
 						Return L_PivotWithCircle( Sprite.X, Sprite.Y, X, Y, Width )
-					Case L_Circle
+					Case Circle
 						Return L_CircleWithCircle( X, Y, Width, Sprite.X, Sprite.Y, Sprite.Width )
-					Case L_Rectangle
+					Case Rectangle
 						Return L_CircleWithRectangle( X, Y, Width, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 				End Select
-			Case L_Rectangle
+			Case Rectangle
 				Select Sprite.ShapeType
-					Case L_Pivot
+					Case Pivot
 						Return L_PivotWithRectangle( Sprite.X, Sprite.Y, X, Y, Width, Height )
-					Case L_Circle
+					Case Circle
 						Return L_CircleWithRectangle( Sprite.X, Sprite.Y, Sprite.Width, X, Y, Width, Height )
-					Case L_Rectangle
+					Case Rectangle
 						Return L_RectangleWithRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 				End Select
 		End Select
@@ -84,11 +73,13 @@ Type LTSprite Extends LTShape
 	
 	Method CollidesWithLine:Int( Line:LTLine )
 		Select ShapeType
-			Case L_Pivot
+			Case Pivot
+				L_Error( "Line with pivot collision is not yet implemented" )
 				'Return L_PivotWithLine( Self, Line )
-			Case L_Circle
+			Case Circle
 				Return L_CircleWithLine( X, Y, Width, Line.Pivot[ 0 ].X, Line.Pivot[ 0 ].Y, Line.Pivot[ 1 ].X, Line.Pivot[ 1 ].Y )
-			Case L_Rectangle
+			Case Rectangle
+				L_Error( "Line with rectangle collision is not yet implemented" )
 				'Return L_RectangleWithLine( Self, Line )
 		End Select
 	End Method
@@ -97,31 +88,31 @@ Type LTSprite Extends LTShape
 	
 	Method TileCollidesWithSprite:Int( Sprite:LTSprite, DX:Float, DY:Float, XScale:Float, YScale:Float )
 		Select Sprite.ShapeType
-			Case L_Pivot
+			Case Pivot
 				Select ShapeType
-					Case L_Pivot
+					Case Pivot
 						Return L_PivotWithPivot( Sprite.X, Sprite.Y, X * XScale + DX, Y * YScale + DY )
-					Case L_Circle
+					Case Circle
 						Return L_PivotWithCircle( Sprite.X, Sprite.Y, X * XScale + DX, Y * YScale + DY, Width * XScale )
-					Case L_Rectangle
+					Case Rectangle
 						Return L_PivotWithRectangle( Sprite.X, Sprite.Y, X * XScale + DX, Y * YScale + DY, Width * XScale, Height * YScale )
 				End Select
-			Case L_Circle
+			Case Circle
 				Select ShapeType
-					Case L_Pivot
+					Case Pivot
 						Return L_PivotWithCircle( X * XScale + DX, Y * YScale + DY, Sprite.X, Sprite.Y, Sprite.Width )
-					Case L_Circle
+					Case Circle
 						Return L_CircleWithCircle( Sprite.X, Sprite.Y, Sprite.Width, X * XScale + DX, Y * YScale + DY, Width * XScale )
-					Case L_Rectangle
+					Case Rectangle
 						Return L_CircleWithRectangle( Sprite.X, Sprite.Y, Sprite.Width, X * XScale + DX, Y * YScale + DY, Width * XScale, Height * YScale )
 				End Select
-			Case L_Rectangle
+			Case Rectangle
 				Select ShapeType
-					Case L_Pivot
+					Case Pivot
 						Return L_PivotWithRectangle( X * XScale + DX, Y * YScale + DY, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
-					Case L_Circle
+					Case Circle
 						Return L_CircleWithRectangle( X * XScale + DX, Y * YScale + DY, Width * XScale, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
-					Case L_Rectangle
+					Case Rectangle
 						Return L_RectangleWithRectangle( Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, X * XScale + DX, Y * YScale + DY, Width * XScale, Height * YScale )
 				End Select
 		End Select
@@ -131,24 +122,24 @@ Type LTSprite Extends LTShape
 	
 	Method Overlaps:Int( Sprite:LTSprite )
 		Select ShapeType
-			Case L_Pivot
+			Case Pivot
 				 L_Error( "Pivot overlapping is not supported" )
-			Case L_Circle
+			Case Circle
 				Select Sprite.ShapeType
-					Case L_Pivot
+					Case Pivot
 						Return L_CircleOverlapsCircle( X, Y, Width, Sprite.X, Sprite.Y, 0 )
-					Case L_Circle
+					Case Circle
 						Return L_CircleOverlapsCircle( X, Y, Width, Sprite.X, Sprite.Y, Sprite.Width )
-					Case L_Rectangle
+					Case Rectangle
 						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 				End Select
-			Case L_Rectangle
+			Case Rectangle
 				Select Sprite.ShapeType
-					Case L_Pivot
+					Case Pivot
 						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, 0, 0 )
-					Case L_Circle
+					Case Circle
 						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Width )
-					Case L_Rectangle
+					Case Rectangle
 						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 				End Select
 		End Select
@@ -156,14 +147,119 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Method CollisionsWith( Shape:LTShape )
-		Shape.CollisionsWithSprite( Self )
+	Method CollisionsWithGroup( Group:LTGroup, CollisionType:Int )
+		For Local Shape:LTShape = Eachin Group
+			Shape.SpriteGroupCollisions( Self, CollisionType )
+		Next
 	End Method
 	
 	
 	
-	Method CollisionsWithSprite( Sprite:LTSprite )
-		If CollidesWithSprite( Sprite ) Then Sprite.HandleCollisionWith( Self, GetCollisionType( Sprite ) )
+	Method CollisionsWithSprite( Sprite:LTSprite, CollisionType:Int )
+		If CollidesWithSprite( Sprite ) Then HandleCollisionWithSprite( Sprite, CollisionType )
+	End Method
+
+	
+	
+	
+	Method CollisionsWithTileMap( TileMap:LTTileMap, CollisionType:Int )
+		Local X0:Float = TileMap.CornerX()
+		Local Y0:Float = TileMap.CornerY()
+		Local CellWidth:Float = TileMap.GetCellWidth()
+		Local CellHeight:Float = TileMap.GetCellHeight()
+		Local XQuantity:Int = TileMap.FrameMap.XQuantity
+		Local YQuantity:Int = TileMap.FrameMap.YQuantity
+				
+		Select ShapeType
+			Case Pivot
+				Local TileX:Int = Floor( ( X - X0 ) / CellWidth )
+				Local TileY:Int = Floor( ( Y - Y0 ) / CellHeight )
+				
+				If TileX >= 0 And TileY >= 0 And TileX < XQuantity And TileY < YQuantity Then
+					Local Shape:LTShape = TileMap.TileShape[ TileMap.FrameMap.Value[ TileX, TileY ] ]
+					If Shape Then
+						If Shape.TileCollidesWithSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, CellWidth, CellHeight ) Then
+							HandleCollisionWithTile( TileMap, TileX, TileY, CollisionType )
+						End If
+					End If
+				End If
+			Case Circle, Rectangle
+				Local X1:Int = Floor( ( X - 0.5 * TileMap.Width - X0 ) / CellWidth )
+				Local Y1:Int = Floor( ( Y - 0.5 * TileMap.Height - Y0 ) / CellHeight )
+				Local X2:Int = Floor( ( X + 0.5 * TileMap.Width - X0 - L_Inaccuracy ) / CellWidth )
+				Local Y2:Int = Floor( ( Y + 0.5 * TileMap.Height - Y0 - L_Inaccuracy ) / CellHeight )
+				
+				If X2 >= 0 And Y2 >= 0 And X1 < XQuantity And Y1 < YQuantity Then
+					X1 = L_LimitInt( X1, 0, XQuantity - 1 )
+					Y1 = L_LimitInt( Y1, 0, YQuantity - 1 )
+					X2 = L_LimitInt( X2, 0, XQuantity - 1 )
+					Y2 = L_LimitInt( Y2, 0, YQuantity - 1 )
+					
+					For Local TileY:Int = Y1 To Y2
+						For Local TileX:Int = X1 To X2
+							Local Shape:LTShape = TileMap.TileShape[ TileMap.FrameMap.Value[ TileX, TileY ] ]
+							If Shape Then
+								If Shape.TileCollidesWithSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, CellWidth, CellHeight ) Then
+									HandleCollisionWithTile( TileMap, TileX, TileY, CollisionType )
+								End If
+							End If
+						Next
+					Next
+				End If
+		End Select
+	End Method
+	
+	
+	
+	Method CollisionsWithLine( Line:LTLine, CollisionType:Int )
+		If CollidesWithLine( Line ) Then HandleCollisionWithLine( Line, CollisionType )
+	End Method
+	
+	
+	
+	Method CollisionsWithCollisionMap( CollisionMap:LTCollisionMap, CollisionType:Int )
+		Select ShapeType
+			Case Pivot
+				For Local MapSprite:LTSprite = Eachin CollisionMap.Sprites[ Int( X / CollisionMap.XScale ) & CollisionMap.XMask, Int( Y / CollisionMap.YScale ) & CollisionMap.YMask ]
+					If Self = MapSprite Then Continue
+					If CollidesWithSprite( MapSprite ) Then HandleCollisionWithSprite( MapSprite, CollisionType )
+				Next
+			Default
+				Local MapX1:Int = Floor( ( X - 0.5 * Width ) / CollisionMap.XScale )
+				Local MapY1:Int = Floor( ( Y - 0.5 * Height ) / CollisionMap.YScale )
+				Local MapX2:Int = Floor( ( X + 0.5 * Width - 0.000001 ) / CollisionMap.XScale )
+				Local MapY2:Int = Floor( ( Y + 0.5 * Height - 0.000001 ) / CollisionMap.YScale )
+				
+				For Local CellY:Int = MapY1 To MapY2
+					For Local CellX:Int = MapX1 To MapX2
+						For Local MapSprite:LTSprite = Eachin CollisionMap.Sprites[ CellX & CollisionMap.XMask, CellY & CollisionMap.YMask ]
+							If Self = MapSprite Then Continue
+							If CollidesWithSprite( MapSprite ) Then HandleCollisionWithSprite( MapSprite, CollisionType )
+						Next
+					Next
+				Next
+		End Select
+	End Method
+	
+	
+	
+	Method SpriteGroupCollisions( Sprite:LTSprite, CollisionType:Int )
+		If Sprite.CollidesWithSprite( Self ) Then Sprite.HandleCollisionWithSprite( Self, CollisionType )
+	End Method
+	
+
+	
+	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
+	End Method
+	
+	
+	
+	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
+	End Method
+	
+
+	
+	Method HandleCollisionWithLine( Line:LTLine, CollisionType:Int )
 	End Method
 	
 	' ==================== Wedging off ====================
@@ -177,33 +273,33 @@ Type LTSprite Extends LTShape
 	Method WedgeOffWithSprite( Sprite:LTSprite, SelfMass:Float, SpriteMass:Float )
 		Local DX:Float, DY:Float
 		Select ShapeType
-			Case L_Pivot
+			Case Pivot
 				Select Sprite.ShapeType
-					Case L_Pivot
+					Case Pivot
 						Return
-					Case L_Circle
+					Case Circle
 						L_WedgingValuesOfCircleAndCircle( X, Y, 0, Sprite.X, Sprite.Y, Sprite.Width, DX, DY )
-					Case L_Rectangle
+					Case Rectangle
 						L_WedgingValuesOfRectangleAndRectangle( X, Y, 0, 0, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, DX, DY )
 				End Select
-			Case L_Circle
+			Case Circle
 				Select Sprite.ShapeType
-					Case L_Pivot
+					Case Pivot
 						L_WedgingValuesOfCircleAndCircle( X, Y, Width, Sprite.X, Sprite.Y, 0, DX, DY )
-					Case L_Circle
+					Case Circle
 						L_WedgingValuesOfCircleAndCircle( X, Y, Width, Sprite.X, Sprite.Y, Sprite.Width, DX, DY )
-					Case L_Rectangle
+					Case Rectangle
 						L_WedgingValuesOfCircleAndRectangle( X, Y, Width, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, DX, DY )
 				End Select
-			Case L_Rectangle
+			Case Rectangle
 				Select Sprite.ShapeType
-					Case L_Pivot
+					Case Pivot
 						L_WedgingValuesOfRectangleAndRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, 0, 0, DX, DY )
-					Case L_Circle
+					Case Circle
 						L_WedgingValuesOfCircleAndRectangle( Sprite.X, Sprite.Y, Sprite.Width, X, Y, Width, Height, DX, DY )
 						L_Separate( Sprite, Self, DX, DY, SpriteMass, SelfMass )
 						Return
-					Case L_Rectangle
+					Case Rectangle
 						L_WedgingValuesOfRectangleAndRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, DX, DY )
 				End Select
 		End Select
@@ -244,33 +340,33 @@ Type LTSprite Extends LTShape
 	Method PushFromTileSprite( TileSprite:LTSprite, DX:Float, DY:Float, XScale:Float, YScale:Float )
 		Local PushingDX:Float, PushingDY:Float
 		Select ShapeType
-			Case L_Pivot
+			Case Pivot
 				Select TileSprite.ShapeType
-					Case L_Pivot
+					Case Pivot
 						Return
-					Case L_Circle
+					Case Circle
 						L_WedgingValuesOfCircleAndCircle( X, Y, 0, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, PushingDX, PushingDY )
-					Case L_Rectangle
+					Case Rectangle
 						L_WedgingValuesOfRectangleAndRectangle( X, Y, 0, 0, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, TileSprite.Height * YScale, PushingDX, PushingDY )
 				End Select
-			Case L_Circle
+			Case Circle
 				Select TileSprite.ShapeType
-					Case L_Pivot
+					Case Pivot
 						L_WedgingValuesOfCircleAndCircle( X, Y, Width, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, 0, PushingDX, PushingDY )
-					Case L_Circle
+					Case Circle
 						L_WedgingValuesOfCircleAndCircle( X, Y, Width, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, PushingDX, PushingDY )
-					Case L_Rectangle
+					Case Rectangle
 						L_WedgingValuesOfCircleAndRectangle( X, Y, Width, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, TileSprite.Height * YScale, PushingDX, PushingDY )
 				End Select
-			Case L_Rectangle
+			Case Rectangle
 				Select TileSprite.ShapeType
-					Case L_Pivot
+					Case Pivot
 						L_WedgingValuesOfRectangleAndRectangle( X, Y, Width, Height, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, 0, 0, PushingDX, PushingDY )
-					Case L_Circle
+					Case Circle
 						L_WedgingValuesOfCircleAndRectangle( TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, X, Y, Width, Height, PushingDX, PushingDY )
 						L_Separate( TileSprite, Self, PushingDX, PushingDY, 1.0, 0.0 )
 						Return
-					Case L_Rectangle
+					Case Rectangle
 						L_WedgingValuesOfRectangleAndRectangle( X, Y, Width, Height, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, TileSprite.Height * YScale, PushingDX, PushingDY )
 				End Select
 		End Select
