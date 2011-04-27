@@ -1,4 +1,4 @@
-<LTWorld dwlab_version="0.12">
+<LTWorld dwlab_version="0.12.2">
 	<LTFilledPrimitive field="visualizer" id="1"/>
 	<TList field="definitions"/>
 	<LTLayer name="Land">
@@ -28,97 +28,97 @@
 				<Row data="36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTVectorSprite name="Goomba" x="22.5" y="12.5" shape="1" angle="180">
+		<LTVectorSprite name="Goomba" x="22.5" y="12.5" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<LTImage field="image" id="9" filename="media\LittleGoomba.png" xcells="3"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
-		<LTVectorSprite name="Goomba" x="40.5" y="12.5" shape="1" angle="180">
+		<LTVectorSprite name="Goomba" x="40.5" y="12.5" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
-		<LTVectorSprite name="Goomba" x="51.5" y="12.5" shape="1" angle="180">
+		<LTVectorSprite name="Goomba" x="51.5" y="12.5" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
-		<LTVectorSprite name="Goomba" x="53" y="12.5" shape="1" angle="180">
+		<LTVectorSprite name="Goomba" x="53" y="12.5" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
-		<LTVectorSprite name="Goomba" x="80.5" y="4.5" shape="1" angle="180">
+		<LTVectorSprite name="Goomba" x="80.5" y="4.5" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
-		<LTVectorSprite name="Goomba" x="82" y="4.5" shape="1" angle="180">
+		<LTVectorSprite name="Goomba" x="82" y="4.5" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
-		<LTVectorSprite name="Goomba" x="97.5" y="12.5" shape="1" angle="180">
+		<LTVectorSprite name="Goomba" x="97.5" y="12.5" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
-		<LTVectorSprite name="Goomba" x="99" y="12.5" shape="1" angle="180">
+		<LTVectorSprite name="Goomba" x="99" y="12.5" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
-		<LTVectorSprite name="KoopaTroopa" x="107.5" y="12.5" shape="1" angle="180">
+		<LTVectorSprite name="KoopaTroopa" x="107.5" y="12.5" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" xscale="-1" yscale="2" rotating="0">
 				<LTImage field="image" filename="media\KoopaTroopa.png" xcells="2"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
-		<LTVectorSprite name="Goomba" x="114.5" y="12.5" shape="1" angle="180">
+		<LTVectorSprite name="Goomba" x="114.5" y="12.5" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
-		<LTVectorSprite name="Goomba" x="116" y="12.5" shape="1" angle="180">
+		<LTVectorSprite name="Goomba" x="116" y="12.5" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
-		<LTVectorSprite name="Goomba" x="124.5" y="12.5" shape="1" angle="180">
+		<LTVectorSprite name="Goomba" x="124.5" y="12.5" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
-		<LTVectorSprite name="Goomba" x="126" y="12.5" shape="1" angle="180">
+		<LTVectorSprite name="Goomba" x="126" y="12.5" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
-		<LTVectorSprite name="Goomba" x="128.5" y="12.5" shape="1" angle="180">
+		<LTVectorSprite name="Goomba" x="128.5" y="12.5" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
-		<LTVectorSprite name="Goomba" x="130" y="12.5" shape="1" angle="180">
+		<LTVectorSprite name="Goomba" x="130" y="12.5" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
-		<LTVectorSprite name="Goomba" x="174.5" y="12.5" shape="1" angle="180">
+		<LTVectorSprite name="Goomba" x="174.5" y="12.5" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
-		<LTVectorSprite name="Goomba" x="176" y="12.5" shape="1" angle="180">
+		<LTVectorSprite name="Goomba" x="176" y="12.5" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<Object field="image" id="9"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
-		<LTVectorSprite name="Flag" x="198" y="3.5" shape="2" angle="180">
+		<LTVectorSprite name="Flag" x="198" y="3.5" shape="2">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<LTImage field="image" filename="media\FlagFromPole.png"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
-		<LTVectorSprite name="Start" x="2.5" y="12.5" shape="1" velocity="1">
+		<LTVectorSprite name="Start" x="2.5" y="12.5" shape="1">
 			<LTImageVisualizer field="visualizer" rotating="0">
 				<LTImage field="image" filename="media\SmallMario.png" xcells="6"/>
 			</LTImageVisualizer>

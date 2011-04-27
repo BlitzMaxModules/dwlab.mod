@@ -1,4 +1,14 @@
-Type TMario Extends LTMovingObject
+'
+' Super Mario Bros - Digital Wizard's Lab example
+' Copyright (C) 2010, Matt Merkulov
+'
+' All rights reserved. Use of this code is allowed under the
+' Artistic License 2.0 terms, as specified in the license.txt
+' file distributed with this code, or available from
+' http://www.opensource.org/licenses/artistic-license-2.0.php
+'
+
+Type TMario Extends TMovingObject
 	Field MovingStartTime:Float
 	Field OnLand:Int
 
@@ -7,16 +17,16 @@ Type TMario Extends LTMovingObject
 	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
 		PushFromTile( TileMap, TileX, TileY )
 		If CollisionType = L_Up Or CollisionType = L_Down Then DY = 0
-		If CollisionType = L_Up Then OnLand = True
-		If CollisionType = L_Down Then
-			Select TileMap.FrameMap.Value[ TileX, TileY ]
-				Case 10
-					TileMap.FrameMap.Value[ TileX, TileY ] = 0
-					For Local Y:Int = 0 To 1
-						For Local X:Int = 0 To 1
-							
-						Next
-					Next
+		If CollisionType = L_Down Then OnLand = True
+		If CollisionType = L_Up Then
+			Local TileNum:Int = TileMap.FrameMap.Value[ TileX, TileY ]
+			Select TileNum
+				Case 10, 27
+					Game.BreakBlockSound.Play()
+					TBricks.FromTile( TileX, TileY, TileNum )
+				Case 9, 11, 13, 17, 18, 19
+					Game.BumpSound.Play()
+					TBlock.FromTile( TileX, TileY, TileNum )
 			End Select
 		End If
 	End Method
@@ -29,6 +39,7 @@ Type TMario Extends LTMovingObject
 		If KeyDown( Key_Right ) Then Direction = 1.0
 		
 		If KeyDown( Key_Up ) And OnLand Then
+			Game.JumpSound.Play()
 			DY = -17.0
 			Frame = 4
 		ElseIf Direction = 0.0 Then 

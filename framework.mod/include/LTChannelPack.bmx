@@ -25,10 +25,10 @@ Type LTChannelPack Extends LTObject
 	
 	
 	
-	Method Play( Sound:LTSound )
+	Method Play( Sound:TSound )
 		For Local N:Int = 0 Until ChannelsQuantity
 			If Not Channel[ N ].Playing() Then
-				PlaySound( Sound.BMaxSound, Channel[ N ] )
+				PlaySound( Sound, Channel[ N ] )
 				Exit
 			End If
 		Next

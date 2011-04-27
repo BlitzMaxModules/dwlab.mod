@@ -53,11 +53,11 @@ Type LTTileMap Extends LTShape
 	' ==================== Collisions ===================
 		
 	Method GetTileCollisionType:Int( Shape:LTShape, TileX:Float, TileY:Float )
-		Local DX:Float = Shape.X - TileX
-		Local DY:Float = Shape.Y - TileY
+		Local DX:Float = TileX - Shape.X
+		Local DY:Float = TileY - Shape.Y
 		If Abs( DX ) > Abs( DY ) Then
 			If DX < 0 Then Return L_Left Else Return L_Right
-		Else	
+		Else
 			If DY < 0 Then Return L_Up Else Return L_Down
 		End If
 	End Method
@@ -125,7 +125,7 @@ Type LTTileMap Extends LTShape
 		End Select
 	End Method
 	
-	' ==================== Enframing ===================	
+	' ==================== Other ===================	
 	
 	Method EnframeBy( Tileset:LTTileset )
 		For Local Y:Int = 0 Until FrameMap.YQuantity
@@ -133,6 +133,27 @@ Type LTTileMap Extends LTShape
 				Tileset.Enframe( Self, X, Y )
 			Next
 		Next
+	End Method
+	
+	
+	
+	Method GetTile:Int( TileX:Int, TileY:Int )
+		?debug
+		If TileX < 0 Or TileX >= FrameMap.XQuantity Then L_Error( "Incorrect tile X position" )
+		If TileY < 0 Or TileY >= FrameMap.YQuantity Then L_Error( "Incorrect tile Y position" )
+		?
+		Return FrameMap.Value[ TileX, TileY ]
+	End Method
+	
+	
+	
+	Method SetTile( TileX:Int, TileY:Int, TileNum:Int )
+		?debug
+		If TileNum < 0 Or TileNum >= TilesQuantity Then L_Error( "Incorrect tile number" )
+		If TileX < 0 Or TileX >= FrameMap.XQuantity Then L_Error( "Incorrect tile X position" )
+		If TileY < 0 Or TileY >= FrameMap.YQuantity Then L_Error( "Incorrect tile Y position" )
+		?
+		FrameMap.Value[ TileX, TileY ] = TileNum
 	End Method
 	
 	' ==================== Creating ===================

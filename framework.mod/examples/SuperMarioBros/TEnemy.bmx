@@ -8,5 +8,8 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TKoopaTroopa Extends TEnemy
+Include "TGoomba.bmx"
+Include "TKoopaTroopa.bmx"
+
+Type TEnemy Extends TMovingObject
 End Type

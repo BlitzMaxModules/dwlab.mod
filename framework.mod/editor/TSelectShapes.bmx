@@ -48,6 +48,7 @@ Type TSelectShapes Extends LTDrag
 	
 	
 	Method EndDragging()
+		Editor.CurrentShape = Null
 		ProcessLayer( Editor.CurrentLayer )
 		Editor.FillShapeFields()
 		Editor.RefreshProjectManager()
@@ -64,7 +65,10 @@ Type TSelectShapes Extends LTDrag
 			Else
 				Local Sprite:LTSprite = LTSprite( Shape )
 				If Sprite Then
-					If Frame.Overlaps( Sprite ) Then Editor.SelectedShapes.AddLast( Shape )
+					If Frame.Overlaps( Sprite ) Then
+						Editor.SelectedShapes.AddLast( Shape )
+						If Not Editor.CurrentShape Then Editor.CurrentShape = Sprite
+					End If
 				End If
 			End If
 		Next

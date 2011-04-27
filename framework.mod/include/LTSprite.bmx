@@ -314,9 +314,21 @@ Type LTSprite Extends LTShape
 		If CollisionMap Then CollisionMap.InsertSprite( Self )
 	End Method
 	
+	
+	
+	Method SetAsTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
+		Width = TileMap.GetCellWidth()
+		Height = TileMap.GetCellHeight()
+		X = TileMap.CornerX() + Width * ( 0.5 + TileX )
+		Y = TileMap.CornerY() + Height * ( 0.5 + TileY )
+		Visualizer = Tilemap.Visualizer
+		Frame = TileMap.GetTile( TileX, TileY )
+	End Method
+	
 	' ==================== Animation ====================
 	
-	Method Animate( Project:LTProject, Speed:Float, FramesQuantity:Int, FrameStart:Int = 0, Time:Float = 0.0 )
+	Method Animate( Project:LTProject, Speed:Float, FramesQuantity:Int = 0, FrameStart:Int = 0, Time:Float = 0.0 )
+		If FramesQuantity = 0 Then FramesQuantity = LTImageVisualizer( Visualizer ).Image.FramesQuantity()
 		Frame = ( Floor( ( Project.Time - Time ) / Speed ) Mod FramesQuantity ) + FrameStart
 	End Method
 	
