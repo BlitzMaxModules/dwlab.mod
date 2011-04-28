@@ -31,7 +31,7 @@ Type TSelectShapes Extends LTDrag
 		StartX = Editor.Cursor.X
 		StartY = Editor.Cursor.Y
 		Frame = New LTSprite
-		Frame.ShapeType = L_Rectangle
+		Frame.ShapeType = LTSprite.Rectangle
 		Editor.SelectedShapes.Clear()
 		Editor.Modifiers.Clear()
 	End Method

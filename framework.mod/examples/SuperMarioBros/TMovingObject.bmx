@@ -13,18 +13,17 @@ Include "TEnemy.bmx"
 Include "TBonus.bmx"
 
 Type TMovingObject Extends LTVectorSprite
-	Method HandleCollisionWith( Obj:LTShape, CollisionType:Int )
-		DX = -DX
-		Visualizer.XScale = -Visualizer.XScale
+	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
+		PushFromSprite( Sprite )
+		Bump( CollisionType )
 	End Method
 	
 	
 	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
-		PushFromTile( TileMap, TileX, TileY )
-		If CollisionType = L_Left Or CollisionType = L_Right Then 
+	Method Bump( CollisionType:Int, Mirror:Int = False )
+		If CollisionType = Horizontal Then
 			DX = -DX
-			Visualizer.XScale = -Visualizer.XScale
+			If Mirror Then Visualizer.XScale = -Visualizer.XScale
 		Else
 			DY = 0.0
 		End If
@@ -32,8 +31,20 @@ Type TMovingObject Extends LTVectorSprite
 	
 	
 	
+	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
+		PushFromTile( TileMap, TileX, TileY )
+		Bump( CollisionType )
+	End Method
+	
+	
+	
 	Method Act()
-		MoveForward()
-		DY :+ L_DeltaTime * 32.0
+		Move( DX, 0 )
+		CollisionsWithTilemap( Game.Tilemap, Horizontal )
+		CollisionsWithCollisionMap( Game.CollisionMap, Horizontal )
+		
+		Move( 0, DY )
+		CollisionsWithTilemap( Game.Tilemap, Vertical )
+		CollisionsWithCollisionMap( Game.CollisionMap, Vertical )
 	End Method
 End Type

@@ -1121,8 +1121,8 @@ Type LTEditor Extends LTProject
 			SetTile.Execute()
 		Else
 			ShapeUnderCursor = Null
-			For Local Shape:LTShape = Eachin CurrentLayer.Children
-				If Not LTTileMap( Shape ) And Editor.Cursor.CollidesWith( Shape ) Then ShapeUnderCursor = Shape
+			For Local Sprite:LTSprite = Eachin CurrentLayer.Children
+				If Editor.Cursor.CollidesWithSprite( Sprite ) Then ShapeUnderCursor = Sprite
 			Next
 			SelectShapes.Execute()
 			MoveShape.Execute()
@@ -1427,7 +1427,7 @@ Type LTEditor Extends LTProject
 		Modifier.X = Shape.X + FDX
 		Modifier.Y = Shape.Y + FDY
 		Modifier.Frame = ModType
-		Modifier.ShapeType = L_Rectangle
+		Modifier.ShapeType = LTSprite.Rectangle
 		Modifiers.AddLast( Modifier )
 	End Method
 	

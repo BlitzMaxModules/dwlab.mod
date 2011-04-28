@@ -46,12 +46,10 @@ Type TBlock Extends LTVectorSprite
 		DY :+ 5.0 * L_DeltaTime
 		If Y >= LowestY Then
 			Y = LowestY
+			Game.Tilemap.SetTile( TileX, TileY, 48 )
 		Else
 			MoveForward()
 		End If
-		If CreatingTime + 2.0 < Game.Time Then
-			Game.Tilemap.SetTile( TileX, TileY, 48 )
-			Game.DestroySprite( Self )
-		End If
+		If CreatingTime + 2.0 < Game.Time Then Game.DestroySprite( Self )
 	End Method
 End Type

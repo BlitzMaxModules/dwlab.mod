@@ -16,9 +16,7 @@ Type TBonus Extends TMovingObject
 	
 	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
 		If Growing Then Return
-		If CollisionType = L_Left Or CollisionType = L_Right Then DX = -DX
-		If CollisionType = L_Down Then DY = 0
-		PushFromTile( TileMap, TileX, TileY )
+		Super.HandleCollisionWithTile( TileMap, TileX, TileY, CollisionType )
 	End Method
 	
 	
@@ -27,7 +25,7 @@ Type TBonus Extends TMovingObject
 		SetAsTile( Game.TileMap, TileX, TileY )
 		DestinationY = Y - Height
 		DY = -1.0
-		ShapeType = L_Circle
+		ShapeType = Circle
 		Game.MainLayer.AddLast( Self )
 		Frame = 0
 	End Method
@@ -35,7 +33,6 @@ Type TBonus Extends TMovingObject
 	
 	
 	Method Act()
-		MoveForward()
 		If Growing Then
 			If Y <= DestinationY Then
 				Growing = False
@@ -45,6 +42,8 @@ Type TBonus Extends TMovingObject
 		Else
 			DY :+ L_DeltaTime * 32.0
 		End If
+		
+		Super.Act()
 	End Method
 	
 	
@@ -92,7 +91,12 @@ Type TStarMan Extends TBonus
 	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
 		If Growing Then Return
 		Super.HandleCollisionWithTile( TileMap, TileX, TileY, CollisionType )
-		If CollisionType = L_Down Then DY = -10.0
-		If CollisionType = L_Up Then DY = 0.0
+		If CollisionType = Vertical Then
+			If DY >= 0.0 Then
+				DY = -10.0
+			Else
+				DY = 0.0
+			End If
+		End If
 	End Method
 End Type

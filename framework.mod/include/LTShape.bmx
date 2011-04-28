@@ -46,32 +46,6 @@ Type LTShape Extends LTObject
 	Method TileCollidesWithSprite:Int( Sprite:LTSprite, DX:Float, DY:Float, XScale:Float, YScale:Float )
 	End Method
 	
-	' ==================== Pushing ====================
-	
-	Rem
-	bbdoc:Wedges off shapes.
-	about:Wedging off depends on masses of shapes:
-	[ First shape | Second shape | Result 
-	* less than 0 | bigger than 0 | Second shape will move from first, first will remain unmoved
-	* more than 0 | 0 | Second shape will move from first, first will remain unmoved
-	* less than 0 | less than 0 | Shapes will be moved from each other with same coefficients.
-	* 0 | 0 | Shapes will be moved from each other with same coefficients.
-	]	 
-	EndRem
-	Method WedgeOffWith( Shape:LTShape, SelfMass:Float, ShapeMass:Float )
-	End Method
-
-
-	
-	Method WedgeOffWithSprite( Sprite:LTSprite, SelfMass:Float, SpriteMass:Float )
-	End Method
-	
-	
-	
-	Method PushFrom( Shape:LTShape )
-		WedgeOffWith( Shape, 0.0, 1.0 )
-	End Method	
-
 	' ==================== Position ====================
 	
 	Method CornerX:Float()

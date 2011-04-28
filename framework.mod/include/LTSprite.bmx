@@ -264,12 +264,6 @@ Type LTSprite Extends LTShape
 	
 	' ==================== Wedging off ====================
 	
-	Method WedgeOffWith( Shape:LTShape, SelfMass:Float, ShapeMass:Float )
-		Shape.WedgeOffWithSprite( Self, ShapeMass, SelfMass )
-	End Method
-
-
-	
 	Method WedgeOffWithSprite( Sprite:LTSprite, SelfMass:Float, SpriteMass:Float )
 		Local DX:Float, DY:Float
 		Select ShapeType
@@ -308,31 +302,27 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Method PushFromTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
-		Local TileShape:LTShape = TileMap.GetTileTemplate( TileX, TileY )
-		Local TileSprite:LTSprite = LTSprite( TileShape )
-		Local CellWidth:Float = TileMap.GetCellWidth()
-		Local CellHeight:Float = TileMap.GetCellHeight()
-		If TileSprite Then
-			PushFromTileSprite( TileSprite, TileMap.CornerX() + CellWidth * TileX, TileMap.CornerY() + CellHeight * TileY, CellWidth, CellHeight )
-		Else
-			Local TileGroup:LTGroup = LTGroup( TileShape )
-			If TileGroup Then PushFromTileGroup( TileGroup, TileMap.CornerX() + CellWidth * TileX, TileMap.CornerY() + CellHeight * TileY, CellWidth, CellHeight )
-		End If
+	Method PushFromSprite( Sprite:LTSprite )
+		WedgeOffWithSprite( Sprite, 0.0, 1.0 )
 	End Method
 	
 	
 	
-	Method PushFromTileGroup( TileGroup:LTGroup, DX:Float, DY:Float, XScale:Float, YScale:Float )
-		For Local Shape:LTShape = Eachin TileGroup
-			Local Sprite:LTSprite = LTSprite( Shape )
-			If Sprite Then
-				PushFromTileSprite( Sprite, DX, DY, XScale, YScale )
-			Else
-				Local ChildGroup:LTGroup = LTGroup( Shape )
-				If ChildGroup Then PushFromTileGroup( ChildGroup, DX, DY, XScale, YScale )
+	Method PushFromTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
+		Local CellWidth:Float = TileMap.GetCellWidth()
+		Local CellHeight:Float = TileMap.GetCellHeight()
+		Local TileShape:LTShape = TileMap.GetTileTemplate( TileX, TileY )
+		Local TileSprite:LTSprite = LTSprite( TileShape )
+		If TileSprite Then
+			PushFromTileSprite( TileSprite, TileMap.CornerX() + CellWidth * TileX, TileMap.CornerY() + CellHeight * TileY, CellWidth, CellHeight )
+		Else
+			Local TileGroup:LTGroup = LTGroup( TileShape )
+			If TileGroup Then
+				For TileSprite = Eachin TileGroup
+					PushFromTileSprite( TileSprite, TileMap.CornerX() + CellWidth * TileX, TileMap.CornerY() + CellHeight * TileY, CellWidth, CellHeight )
+				Next
 			End If
-		Next
+		End If
 	End Method
 
 

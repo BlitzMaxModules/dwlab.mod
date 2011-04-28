@@ -11,9 +11,10 @@
 Type TGame Extends LTProject
 	Field CollisionMap:LTCollisionMap
 	Field Tilemap:LTTileMap
+	Field Over:Int = False
 	
 	
-	Field SmallMarioImage:LTImage = LTImage.FromFile( "media\SmallMario.png", 6 )
+	Field SmallMarioImage:LTImage = LTImage.FromFile( "media\SmallMario.png", 7 )
 	Field Bricks:LTImage = LTImage.FromFile( "media\Bricks.png", 2 )
 	Field Coin:LTImageVisualizer = LTImageVisualizer.FromFile( "media\FlippingCoin.png", 4 )
 	Field MagicMushroom:LTImageVisualizer = LTImageVisualizer.FromFile( "media\MagicMushroom.png" )
@@ -27,6 +28,7 @@ Type TGame Extends LTProject
 	
 	Field Music1IntroSound:TSound = TSound.Load( "media\Music1intro.ogg", False )
 	Field Music1Sound:TSound = TSound.Load( "media\Music1.ogg", True )
+	Field MarioDieSound:TSound = TSound.Load( "media\MarioDie.ogg", False )
 	Field MusicChannel:TChannel
 	Rem
 	
@@ -49,7 +51,6 @@ Type TGame Extends LTProject
 	Field FlagPoleSound:LTSound = LTSound.FromFile( "media\FlagPole.ogg" )
 	Field GameOverSound:LTSound = LTSound.FromFile( "media\GameOver.ogg" )
 	Field KickSound:LTSound = LTSound.FromFile( "media\Kick.ogg" )
-	Field MarioDieSound:LTSound = LTSound.FromFile( "media\MarioDie.ogg" )
 	Field Music2Sound:LTSound = LTSound.FromFile( "media\Music2.ogg" )
 	Field OneUpSound:LTSound = LTSound.FromFile( "media\1-up.ogg" )
 	Field PipeSound:LTSound = LTSound.FromFile( "media\Pipe.ogg" )
@@ -67,6 +68,13 @@ Type TGame Extends LTProject
 	Method Init()
 		InitGraphics()
 		World = LTWorld.FromFile( "world.lw" )
+		'L_CurrentCamera.Velocity = 10.0
+		InitLevel()
+	End Method
+	
+	
+	
+	Method InitLevel()
 		CollisionMap = LTCollisionMap.Create( 128, 8 )
 		LoadLayer( "Land" )', False )
 		Tilemap = MainLayer.FindTilemap()
@@ -81,7 +89,6 @@ Type TGame Extends LTProject
 			End If
 		Next
 		
-		'L_CurrentCamera.Velocity = 10.0
 		MusicChannel = Music1IntroSound.Play()
 	End Method
 	
@@ -89,7 +96,14 @@ Type TGame Extends LTProject
 	
 	Method Logic()
 		Super.Logic()
-		If Not MusicChannel.Playing() Then MusicChannel = PlaySound( Music1Sound )
+		If Not MusicChannel.Playing() Then 
+			If Over Then
+				InitLevel()
+				Over = False
+			Else
+				MusicChannel = PlaySound( Music1Sound )
+			End If
+		End If
 		If KeyHit( Key_Escape ) Then End
 		'L_CurrentCamera.MoveUsingArrows()
 	End Method
@@ -102,17 +116,17 @@ Type TGame Extends LTProject
 			Case "Start"
 				Mario = New TMario
 				NewSprite = Mario
-			'Case "Goomba"
-			'	NewSprite = New TGoomba
-			'Case "KoopaTroopa"
-			'	NewSprite = New TKoopaTroopa
+			Case "Goomba"
+				NewSprite = New TGoomba
+			Case "KoopaTroopa"
+				NewSprite = New TKoopaTroopa
 			Default
 				NewSprite = New LTVectorSprite
 				
 			'	L_Error( "Sprite type " + Sprite.Name + " not found" )
 		End Select
 		Sprite.CopyVectorSpriteTo( NewSprite )
-		CollisionMap.InsertSprite( Sprite )
+		CollisionMap.InsertSprite( NewSprite )
 		Return NewSprite
 	End Method
 End Type
