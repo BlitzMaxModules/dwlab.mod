@@ -28,6 +28,7 @@ Type TBonus Extends TMovingObject
 		ShapeType = Circle
 		Game.MainLayer.AddLast( Self )
 		Frame = 0
+		PlaySound( Game.PowerupAppears )
 	End Method
 	
 	

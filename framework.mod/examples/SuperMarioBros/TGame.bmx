@@ -21,14 +21,15 @@ Type TGame Extends LTProject
 	Field OneUpMushroom:LTImageVisualizer = LTImageVisualizer.FromFile( "media\1upMushroom.png" )
 	Field StarMan:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Starman.png", 4 )
 
-	Field BreakBlockSound:TSound = TSound.Load( "media\BreakBlock.ogg", False )
-	Field BumpSound:TSound = TSound.Load( "media\Bump.ogg", False )
-	Field CoinSound:TSound = TSound.Load( "media\Coin.ogg", False )
-	Field JumpSound:TSound = TSound.Load( "media\Jump.ogg", False )
+	Field BreakBlock:TSound = TSound.Load( "media\BreakBlock.ogg", False )
+	Field Bump:TSound = TSound.Load( "media\Bump.ogg", False )
+	Field CoinFlip:TSound = TSound.Load( "media\Coin.ogg", False )
+	Field Jump:TSound = TSound.Load( "media\Jump.ogg", False )
+	Field PowerupAppears:TSound = TSound.Load( "media\PowerupAppears.ogg", False )
 	
-	Field Music1IntroSound:TSound = TSound.Load( "media\Music1intro.ogg", False )
-	Field Music1Sound:TSound = TSound.Load( "media\Music1.ogg", True )
-	Field MarioDieSound:TSound = TSound.Load( "media\MarioDie.ogg", False )
+	Field Music1Intro:TSound = TSound.Load( "media\Music1intro.ogg", False )
+	Field Music1:TSound = TSound.Load( "media\Music1.ogg", True )
+	Field MarioDie:TSound = TSound.Load( "media\MarioDie.ogg", False )
 	Field MusicChannel:TChannel
 	Rem
 	
@@ -55,7 +56,6 @@ Type TGame Extends LTProject
 	Field OneUpSound:LTSound = LTSound.FromFile( "media\1-up.ogg" )
 	Field PipeSound:LTSound = LTSound.FromFile( "media\Pipe.ogg" )
 	Field PowerupSound:LTSound = LTSound.FromFile( "media\Powerup.ogg" )
-	Field PowerupAppearsSound:LTSound = LTSound.FromFile( "media\PowerupAppears.ogg" )
 	Field StageClearSound:LTSound = LTSound.FromFile( "media\StageClear.ogg" )
 	Field StompSound:LTSound = LTSound.FromFile( "media\Stomp.ogg" )
 	Field WarningSound:LTSound = LTSound.FromFile( "media\Warning.ogg" )
@@ -89,7 +89,7 @@ Type TGame Extends LTProject
 			End If
 		Next
 		
-		MusicChannel = Music1IntroSound.Play()
+		MusicChannel = Music1Intro.Play()
 	End Method
 	
 	
@@ -101,7 +101,7 @@ Type TGame Extends LTProject
 				InitLevel()
 				Over = False
 			Else
-				MusicChannel = PlaySound( Music1Sound )
+				MusicChannel = PlaySound( Music1 )
 			End If
 		End If
 		If KeyHit( Key_Escape ) Then End

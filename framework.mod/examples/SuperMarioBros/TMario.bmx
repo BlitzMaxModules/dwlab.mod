@@ -28,10 +28,10 @@ Type TMario Extends TMovingObject
 				Local TileNum:Int = TileMap.FrameMap.Value[ TileX, TileY ]
 				Select TileNum
 					Case 10, 27
-						Game.BreakBlockSound.Play()
+						Game.BreakBlock.Play()
 						TBricks.FromTile( TileX, TileY, TileNum )
 					Case 9, 11, 13, 16, 17, 18
-						Game.BumpSound.Play()
+						Game.Bump.Play()
 						TBlock.FromTile( TileX, TileY, TileNum )
 				End Select
 			End If
@@ -53,7 +53,7 @@ Type TMario Extends TMovingObject
 			If KeyDown( Key_Right ) Then Direction = 1.0
 			
 			If KeyDown( Key_Up ) And OnLand Then
-				Game.JumpSound.Play()
+				Game.Jump.Play()
 				DY = -17.0
 				Frame = 4
 			ElseIf Direction = 0.0 Then 

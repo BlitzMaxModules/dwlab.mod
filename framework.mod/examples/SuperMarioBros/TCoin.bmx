@@ -14,7 +14,7 @@ Type TCoin Extends LTVectorSprite
 
 	
 	Function FromTile( TileX:Int, TileY:Int )
-		Game.CoinSound.Play()
+		Game.CoinFlip.Play()
 		Local Coin:TCoin = New TCoin
 		Coin.SetAsTile( Game.Tilemap, TileX, TileY )
 		Coin.LowestY = Coin.Y

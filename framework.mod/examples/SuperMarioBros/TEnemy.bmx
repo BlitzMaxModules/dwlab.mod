@@ -19,7 +19,7 @@ Type TEnemy Extends TMovingObject
 			Mario.Frame = 6
 			Mario.DY = -16.0
 			Game.MusicChannel.Stop()
-			Game.MusicChannel = PlaySound( Game.MarioDieSound )
+			Game.MusicChannel = Game.MarioDie.Play()
 		End If
 		
 		PushFromSprite( Sprite )
