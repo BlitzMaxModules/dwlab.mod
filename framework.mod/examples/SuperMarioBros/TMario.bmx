@@ -15,7 +15,6 @@ Type TMario Extends TMovingObject
 	
 	
 	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
-		
 	End Method
 	
 	

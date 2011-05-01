@@ -9,7 +9,7 @@
 '
 
 Type TGame Extends LTProject
-	Field CollisionMap:LTCollisionMap
+	Field MovingObjects:LTCollisionMap
 	Field Tilemap:LTTileMap
 	Field Over:Int = False
 	
@@ -75,7 +75,7 @@ Type TGame Extends LTProject
 	
 	
 	Method InitLevel()
-		CollisionMap = LTCollisionMap.Create( 128, 8 )
+		MovingObjects = LTCollisionMap.Create( 128, 8 )
 		LoadLayer( "Land" )', False )
 		Tilemap = MainLayer.FindTilemap()
 		
@@ -118,15 +118,16 @@ Type TGame Extends LTProject
 				NewSprite = Mario
 			Case "Goomba"
 				NewSprite = New TGoomba
+				MovingObjects.InsertSprite( NewSprite )
 			Case "KoopaTroopa"
 				NewSprite = New TKoopaTroopa
+				MovingObjects.InsertSprite( NewSprite )
 			Default
 				NewSprite = New LTVectorSprite
 				
 			'	L_Error( "Sprite type " + Sprite.Name + " not found" )
 		End Select
 		Sprite.CopyVectorSpriteTo( NewSprite )
-		CollisionMap.InsertSprite( NewSprite )
 		Return NewSprite
 	End Method
 End Type

@@ -163,8 +163,8 @@ Type LTSprite Extends LTShape
 	
 	
 	Method CollisionsWithTileMap( TileMap:LTTileMap, CollisionType:Int )
-		Local X0:Float = TileMap.CornerX()
-		Local Y0:Float = TileMap.CornerY()
+		Local X0:Float = TileMap.LeftX()
+		Local Y0:Float = TileMap.TopY()
 		Local CellWidth:Float = TileMap.GetCellWidth()
 		Local CellHeight:Float = TileMap.GetCellHeight()
 		Local XQuantity:Int = TileMap.FrameMap.XQuantity
@@ -178,7 +178,7 @@ Type LTSprite Extends LTShape
 				If TileX >= 0 And TileY >= 0 And TileX < XQuantity And TileY < YQuantity Then
 					Local Shape:LTShape = TileMap.TileShape[ TileMap.FrameMap.Value[ TileX, TileY ] ]
 					If Shape Then
-						If Shape.TileCollidesWithSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, CellWidth, CellHeight ) Then
+						 If Shape.TileCollidesWithSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, CellWidth, CellHeight ) Then
 							HandleCollisionWithTile( TileMap, TileX, TileY, CollisionType )
 						End If
 					End If
@@ -314,12 +314,12 @@ Type LTSprite Extends LTShape
 		Local TileShape:LTShape = TileMap.GetTileTemplate( TileX, TileY )
 		Local TileSprite:LTSprite = LTSprite( TileShape )
 		If TileSprite Then
-			PushFromTileSprite( TileSprite, TileMap.CornerX() + CellWidth * TileX, TileMap.CornerY() + CellHeight * TileY, CellWidth, CellHeight )
+			PushFromTileSprite( TileSprite, TileMap.LeftX() + CellWidth * TileX, TileMap.TopY() + CellHeight * TileY, CellWidth, CellHeight )
 		Else
 			Local TileGroup:LTGroup = LTGroup( TileShape )
 			If TileGroup Then
 				For TileSprite = Eachin TileGroup
-					PushFromTileSprite( TileSprite, TileMap.CornerX() + CellWidth * TileX, TileMap.CornerY() + CellHeight * TileY, CellWidth, CellHeight )
+					PushFromTileSprite( TileSprite, TileMap.LeftX() + CellWidth * TileX, TileMap.TopY() + CellHeight * TileY, CellWidth, CellHeight )
 				Next
 			End If
 		End If
@@ -405,8 +405,8 @@ Type LTSprite Extends LTShape
 	Method SetAsTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
 		Width = TileMap.GetCellWidth()
 		Height = TileMap.GetCellHeight()
-		X = TileMap.CornerX() + Width * ( 0.5 + TileX )
-		Y = TileMap.CornerY() + Height * ( 0.5 + TileY )
+		X = TileMap.LeftX() + Width * ( 0.5 + TileX )
+		Y = TileMap.TopY() + Height * ( 0.5 + TileY )
 		Visualizer = Tilemap.Visualizer
 		Frame = TileMap.GetTile( TileX, TileY )
 	End Method

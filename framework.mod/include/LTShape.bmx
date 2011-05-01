@@ -48,13 +48,25 @@ Type LTShape Extends LTObject
 	
 	' ==================== Position ====================
 	
-	Method CornerX:Float()
+	Method LeftX:Float()
  		Return X - 0.5 * Width
  	End Method
 	
 	
 	
-	Method CornerY:Float()
+	Method TopY:Float()
+ 		Return Y - 0.5 * Height
+ 	End Method
+	
+	
+	
+	Method RightX:Float()
+ 		Return X + 0.5 * Width
+ 	End Method
+	
+	
+	
+	Method BottomY:Float()
  		Return Y - 0.5 * Height
  	End Method
 
@@ -129,8 +141,8 @@ Type LTShape Extends LTObject
 	
 	
 	Method LimitWith( Rectangle:LTShape )
-		Local X1:Float = Min( Rectangle.X, Rectangle.CornerX() + 0.5 * Width )
-		Local Y1:Float = Min( Rectangle.Y, Rectangle.CornerY() + 0.5 * Height )
+		Local X1:Float = Min( Rectangle.X, Rectangle.LeftX() + 0.5 * Width )
+		Local Y1:Float = Min( Rectangle.Y, Rectangle.TopY() + 0.5 * Height )
 		Local X2:Float = Max( Rectangle.X, Rectangle.X + 0.5 * ( Rectangle.Width - Width ) )
 		Local Y2:Float = Max( Rectangle.Y, Rectangle.Y + 0.5 * ( Rectangle.Height - Height ) )
 		X = L_LimitFloat( X, X1, X2 )

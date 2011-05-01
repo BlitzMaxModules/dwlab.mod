@@ -41,10 +41,10 @@ Type TMovingObject Extends LTVectorSprite
 	Method Act()
 		Move( DX, 0 )
 		CollisionsWithTilemap( Game.Tilemap, Horizontal )
-		CollisionsWithCollisionMap( Game.CollisionMap, Horizontal )
-		
+		CollisionsWithCollisionMap( Game.MovingObjects, Horizontal )
+
 		Move( 0, DY )
 		CollisionsWithTilemap( Game.Tilemap, Vertical )
-		CollisionsWithCollisionMap( Game.CollisionMap, Vertical )
+		CollisionsWithCollisionMap( Game.MovingObjects, Vertical )
 	End Method
 End Type

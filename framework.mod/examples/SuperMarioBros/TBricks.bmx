@@ -34,6 +34,6 @@ Type TBricks Extends LTVectorSprite
 		LTImageVisualizer( Visualizer ).Angle :+ DX * 180.0 * L_DeltaTime
 		DY :+ 32.0 * L_DeltaTime
 		MoveForward()
-		If Not CornerY() > Game.Tilemap.Y + 0.5 * Game.Tilemap.Height Then Game.DestroySprite( Self )
+		If Not TopY() > Game.Tilemap.BottomY() Then Game.DestroySprite( Self )
 	End Method
 End Type
