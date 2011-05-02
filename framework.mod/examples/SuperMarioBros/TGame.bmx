@@ -94,6 +94,13 @@ Type TGame Extends LTProject
 	
 	
 	
+	Method Render()
+		Super.Render()
+		ShowFPS()
+	End Method
+	
+	
+	
 	Method Logic()
 		Super.Logic()
 		If Not MusicChannel.Playing() Then 
