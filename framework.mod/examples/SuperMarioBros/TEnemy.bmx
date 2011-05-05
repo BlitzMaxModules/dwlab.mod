@@ -13,15 +13,6 @@ Include "TKoopaTroopa.bmx"
 
 Type TEnemy Extends TMovingObject
 	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
-		Local Mario:TMario = TMario( Sprite )
-		If Mario Then
-			Game.Over = True
-			Mario.Frame = 6
-			Mario.DY = -16.0
-			Game.MusicChannel.Stop()
-			Game.MusicChannel = Game.MarioDie.Play()
-		End If
-		
 		PushFromSprite( Sprite )
 		Bump( CollisionType )
 	End Method

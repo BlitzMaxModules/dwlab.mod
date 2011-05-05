@@ -413,9 +413,13 @@ Type LTSprite Extends LTShape
 	
 	' ==================== Animation ====================
 	
-	Method Animate( Project:LTProject, Speed:Float, FramesQuantity:Int = 0, FrameStart:Int = 0, Time:Float = 0.0 )
+	Method Animate( Project:LTProject, Speed:Float, FramesQuantity:Int = 0, FrameStart:Int = 0, StartingTime:Float = 0.0, PingPong:Int = False )
 		If FramesQuantity = 0 Then FramesQuantity = LTImageVisualizer( Visualizer ).Image.FramesQuantity()
-		Frame = ( Floor( ( Project.Time - Time ) / Speed ) Mod FramesQuantity ) + FrameStart
+		Local ModFactor:Int = FramesQuantity
+		If PingPong Then ModFactor = FramesQuantity * 2 - 2
+		Frame = Floor( ( Project.Time - StartingTime ) / Speed ) Mod ModFactor
+		If PingPong And Frame >= FramesQuantity Then Frame = ModFactor - Frame
+		Frame :+ FrameStart
 	End Method
 	
 	' ==================== Other ====================	

@@ -67,7 +67,7 @@ Type LTShape Extends LTObject
 	
 	
 	Method BottomY:Float()
- 		Return Y - 0.5 * Height
+ 		Return Y + 0.5 * Height
  	End Method
 
 	

@@ -11,10 +11,26 @@
 Type TMario Extends TMovingObject
 	Field MovingStartTime:Float
 	Field OnLand:Int
-
+	Field Big:Int = False
+	Field Fireable:Int = False
+	Field Invulnerable:Int = False
+	Field Growing:Int = False
+	Field GrowthStartingTime:Float = -99.0
+	
 	
 	
 	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
+		If TBonus( Sprite ) Then
+			TBonus( Sprite ).Collect()
+			Game.MainLayer.Remove( Sprite )
+			Game.MovingObjects.RemoveSprite( Sprite )
+		ElseIf TEnemy( Sprite ) Then
+			Game.Over = True
+			Frame = 6
+			DY = -16.0
+			Game.MusicChannel.Stop()
+			Game.MusicChannel = Game.MarioDie.Play()
+		End If
 	End Method
 	
 	
@@ -26,11 +42,7 @@ Type TMario Extends TMovingObject
 			Else
 				Local TileNum:Int = TileMap.FrameMap.Value[ TileX, TileY ]
 				Select TileNum
-					Case 10, 27
-						Game.BreakBlock.Play()
-						TBricks.FromTile( TileX, TileY, TileNum )
-					Case 9, 11, 13, 16, 17, 18
-						Game.Bump.Play()
+					Case 9, 10, 11, 13, 16, 17, 18, 27
 						TBlock.FromTile( TileX, TileY, TileNum )
 				End Select
 			End If
@@ -87,5 +99,18 @@ Type TMario Extends TMovingObject
 		
 			Super.Act()
 		End If		
+	End Method
+	
+	
+	
+	Method SetGrowth()
+		Y :- 0.5
+		Height = 2.0
+		Visualizer = Game.Growth
+		Frame = 0
+		Big = True
+		Growing = True
+		GrowthStartingTime = Game.Time
+		PlaySound( Game.Powerup )
 	End Method
 End Type

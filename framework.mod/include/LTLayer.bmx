@@ -72,6 +72,17 @@ Type LTLayer Extends LTGroup
 	
 	
 	
+	Method Remove( Shape:LTShape )
+		Local Link:TLink = Children.FirstLink()
+		While Link <> Null
+			If LTLayer( Link.Value() ) Then LTLayer( Link.Value() ).Remove( Shape )
+			If Link.Value() = Shape Then Link.Remove()
+			Link = Link.NextLink()
+		Wend
+	End Method
+	
+	
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		

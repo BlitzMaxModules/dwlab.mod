@@ -11,13 +11,6 @@
 Type TBonus Extends TMovingObject
 	Field DestinationY:Float
 	Field Growing:Int = True
-
-	
-	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
-		If Growing Then Return
-		Super.HandleCollisionWithTile( TileMap, TileX, TileY, CollisionType )
-	End Method
 	
 	
 	
@@ -26,9 +19,18 @@ Type TBonus Extends TMovingObject
 		DestinationY = Y - Height
 		DY = -1.0
 		ShapeType = Circle
-		Game.MainLayer.AddLast( Self )
 		Frame = 0
+		
+		Game.MainLayer.AddLast( Self )
+		Game.MovingObjects.InsertSprite( Self )
 		PlaySound( Game.PowerupAppears )
+	End Method
+
+	
+	
+	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
+		If Growing Then Return
+		Super.HandleCollisionWithTile( TileMap, TileX, TileY, CollisionType )
 	End Method
 	
 	
@@ -62,10 +64,17 @@ End Type
 
 Type TMagicMushroom Extends TMushroom
 	Function FromTile( TileX:Int, TileY:Int )
-		Local Bonus:TBonus = New TMushroom
+		Local Bonus:TBonus = New TMagicMushroom
 		Bonus.Init( TileX, TileY )
 		Bonus.Visualizer = Game.MagicMushroom
 	End Function
+	
+	
+	
+	
+	Method Collect()
+		Game.Mario.SetGrowth()
+	End Method
 End Type
 
 

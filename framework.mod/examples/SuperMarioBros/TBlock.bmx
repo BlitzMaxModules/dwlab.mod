@@ -10,12 +10,23 @@
 
 Type TBlock Extends LTVectorSprite
 	Field LowestY:Float
-	Field TileX:Int, TileY:Int
-	Field CreatingTime:Float
+	Field TileX:Int, TileY:Int, TileNum:Int
+	Field RemovingTime:Float
 	
 	
 	
 	Function FromTile( TileX:Int, TileY:Int, TileNum:Int )
+		Local Block:TBlock = New TBlock
+		Block.SetAsTile( Game.TileMap, TileX, TileY )
+		Game.TileMap.SetTile( TileX, TileY, 63 )
+		Block.TileX = TileX
+		Block.TileY = TileY
+		Block.RemovingTime = Game.Time + 2.0
+		Block.LowestY = Block.Y
+		Block.Y :- 0.01
+		Block.DY = -1.0
+		Block.Frame = 48
+		
 		Select TileNum
 			Case 9
 				TCoin.FromTile( TileX, TileY )
@@ -25,19 +36,17 @@ Type TBlock Extends LTVectorSprite
 				TOneUpMushroom.FromTile( TileX, TileY )
 			Case 18
 				TStarMan.FromTile( TileX, TileY )
+			Case 10, 27
+				Block.Frame = TileNum 
 		End Select
 		
-		Local Block:TBlock = New TBlock
-		Block.SetAsTile( Game.TileMap, TileX, TileY )
-		Game.TileMap.SetTile( TileX, TileY, 63 )
-		Block.TileX = TileX
-		Block.TileY = TileY
-		Block.CreatingTime = Game.Time
-		Block.LowestY = Block.Y
-		Block.Y :- 0.01
-		Block.DY = -1.0
-		Block.Frame = 48
-		Game.MainLayer.AddLast( Block )
+		If ( TileNum = 10 Or TileNum = 27 ) And Game.Mario.Big Then
+			Game.BreakBlock.Play()
+			TBricks.FromTile( TileX, TileY, TileNum )
+		Else
+			Game.Bump.Play()
+			Game.MainLayer.AddLast( Block )
+		End If
 	End Function
 	
 	
@@ -46,10 +55,10 @@ Type TBlock Extends LTVectorSprite
 		DY :+ 5.0 * L_DeltaTime
 		If Y >= LowestY Then
 			Y = LowestY
-			Game.Tilemap.SetTile( TileX, TileY, 48 )
+			Game.Tilemap.SetTile( TileX, TileY, Frame )
+			If Frame = 10 Or Frame = 27 Or RemovingTime < Game.Time Then Game.MainLayer.Remove( Self )
 		Else
 			MoveForward()
 		End If
-		If CreatingTime + 2.0 < Game.Time Then Game.DestroySprite( Self )
 	End Method
 End Type

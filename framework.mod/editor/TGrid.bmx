@@ -21,16 +21,16 @@ Type TGrid Extends LTShape
 		Local SX:Float, SY:Float
 		Editor.ShapeVisualizer.ApplyColor()
 		
-		Local X:Float = Floor( L_CurrentCamera.CornerX() / CellWidth ) * CellWidth
-		Local EndX:Float = L_CurrentCamera.CornerX() + L_CurrentCamera.Width
+		Local X:Float = Floor( L_CurrentCamera.LeftX() / CellWidth ) * CellWidth
+		Local EndX:Float = L_CurrentCamera.RightX()
 		While X < EndX
 			L_CurrentCamera.FieldToScreen( X, 0, SX, SY )
 			DrawLine( SX, 0, SX, GraphicsHeight() )
 			X :+ CellWidth
 		WEnd
 		
-		Local Y:Float = Floor( L_CurrentCamera.CornerY() / CellHeight ) * CellHeight
-		Local EndY:Float = L_CurrentCamera.CornerY() + L_CurrentCamera.Height
+		Local Y:Float = Floor( L_CurrentCamera.TopY() / CellHeight ) * CellHeight
+		Local EndY:Float = L_CurrentCamera.BottomY()
 		While Y < EndY
 			L_CurrentCamera.FieldToScreen( 0, Y, SX, SY )
 			DrawLine( 0, SY, GraphicsWidth(), SY )

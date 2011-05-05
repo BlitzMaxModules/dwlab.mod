@@ -13,8 +13,9 @@ Type TGame Extends LTProject
 	Field Tilemap:LTTileMap
 	Field Over:Int = False
 	
-	
-	Field SmallMarioImage:LTImage = LTImage.FromFile( "media\SmallMario.png", 7 )
+	Field SmallMario:LTImageVisualizer = LTImageVisualizer.FromFile( "media\SmallMario.png", 7 )
+	Field SuperMario:LTImageVisualizer = LTImageVisualizer.FromFile( "media\SuperMario.png", 7 )
+	Field Growth:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Growth.png", 3 )
 	Field Bricks:LTImage = LTImage.FromFile( "media\Bricks.png", 2 )
 	Field Coin:LTImageVisualizer = LTImageVisualizer.FromFile( "media\FlippingCoin.png", 4 )
 	Field MagicMushroom:LTImageVisualizer = LTImageVisualizer.FromFile( "media\MagicMushroom.png" )
@@ -25,6 +26,7 @@ Type TGame Extends LTProject
 	Field Bump:TSound = TSound.Load( "media\Bump.ogg", False )
 	Field CoinFlip:TSound = TSound.Load( "media\Coin.ogg", False )
 	Field Jump:TSound = TSound.Load( "media\Jump.ogg", False )
+	Field Powerup:TSound = TSound.Load( "media\Powerup.ogg", False )
 	Field PowerupAppears:TSound = TSound.Load( "media\PowerupAppears.ogg", False )
 	
 	Field Music1Intro:TSound = TSound.Load( "media\Music1intro.ogg", False )
@@ -52,10 +54,9 @@ Type TGame Extends LTProject
 	Field FlagPoleSound:LTSound = LTSound.FromFile( "media\FlagPole.ogg" )
 	Field GameOverSound:LTSound = LTSound.FromFile( "media\GameOver.ogg" )
 	Field KickSound:LTSound = LTSound.FromFile( "media\Kick.ogg" )
-	Field Music2Sound:LTSound = LTSound.FromFile( "media\Music2.ogg" )
+	Field Music2:LTSound = LTSound.FromFile( "media\Music2.ogg" )
 	Field OneUpSound:LTSound = LTSound.FromFile( "media\1-up.ogg" )
 	Field PipeSound:LTSound = LTSound.FromFile( "media\Pipe.ogg" )
-	Field PowerupSound:LTSound = LTSound.FromFile( "media\Powerup.ogg" )
 	Field StageClearSound:LTSound = LTSound.FromFile( "media\StageClear.ogg" )
 	Field StompSound:LTSound = LTSound.FromFile( "media\Stomp.ogg" )
 	Field WarningSound:LTSound = LTSound.FromFile( "media\Warning.ogg" )
@@ -94,15 +95,18 @@ Type TGame Extends LTProject
 	
 	
 	
-	Method Render()
-		Super.Render()
-		ShowFPS()
-	End Method
-	
-	
-	
 	Method Logic()
-		Super.Logic()
+		If Mario.Growing Then
+			If Mario.GrowthStartingTime + 0.8 > Time Then
+				Mario.Animate( Game, 0.08, , , Mario.GrowthStartingTime, True )
+			Else
+				Mario.Visualizer = SuperMario
+				Mario.Growing = False
+			End If
+		Else
+			Super.Logic()
+		End If
+		
 		If Not MusicChannel.Playing() Then 
 			If Over Then
 				InitLevel()

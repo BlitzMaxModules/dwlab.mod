@@ -1033,8 +1033,8 @@ Type LTEditor Extends LTProject
 		If Bounds Then
 			SetSliderRange( HScroller, Min( 10000.0, 10000.0 * MainCamera.Width / Bounds.Width ), 10000.0 )
 			SetSliderRange( VScroller, Min( 10000.0, 10000.0 * MainCamera.Height / Bounds.Height ), 10000.0 )
-			If MainCamera.Width < Bounds.Width Then SetSliderValue( HScroller, 10000.0 * MainCamera.CornerX() / Bounds.Width )
-			If MainCamera.Height < Bounds.Height Then SetSliderValue( VScroller, 10000.0 * MainCamera.CornerY() / Bounds.Height )
+			If MainCamera.Width < Bounds.Width Then SetSliderValue( HScroller, 10000.0 * MainCamera.LeftX() / Bounds.Width )
+			If MainCamera.Height < Bounds.Height Then SetSliderValue( VScroller, 10000.0 * MainCamera.TopY() / Bounds.Height )
 		Else
 			SetSliderRange( HScroller, 1, 1 )
 			SetSliderRange( VScroller, 1, 1 )

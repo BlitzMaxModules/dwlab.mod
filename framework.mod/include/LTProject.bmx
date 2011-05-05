@@ -29,6 +29,7 @@ Type LTProject Extends LTObject
   
 	Method Render()
 		MainLayer.Draw()
+		ShowFPS()
 	End Method
 	
 	
@@ -69,19 +70,6 @@ Type LTProject Extends LTObject
 		Local NewSprite:LTAngularSprite = New LTAngularSprite
 		Sprite.CopyAngularSpriteTo( NewSprite )
 		Return NewSprite
-	End Method
-	
-	
-	
-	Method DestroySprite( Sprite:LTSprite, Layer:LTLayer = Null )
-		If Layer = Null Then Layer = MainLayer
-		Local Link:TLink = Layer.Children.FirstLink()
-		While Link <> Null
-			If LTLayer( Link.Value() ) Then DestroySprite( Sprite, LTLayer( Link.Value() ) )
-			If Link.Value() = Sprite Then Link.Remove()
-			Link = Link.NextLink()
-		Wend
-		Sprite.Destroy()
 	End Method
 	
 	
