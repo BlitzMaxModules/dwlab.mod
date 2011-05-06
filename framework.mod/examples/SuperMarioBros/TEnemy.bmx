@@ -12,6 +12,16 @@ Include "TGoomba.bmx"
 Include "TKoopaTroopa.bmx"
 
 Type TEnemy Extends TMovingObject
+	Field Mode:Int = Normal
+	
+	Const Normal:Int = 0
+	Const Falling:Int = 1
+	
+	Const FlatPeriod:Float = 1.0
+	Const KickStrength:Float = -6.0
+	
+	
+	
 	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
 		PushFromSprite( Sprite )
 		Bump( CollisionType )
@@ -20,8 +30,29 @@ Type TEnemy Extends TMovingObject
 	
 	
 	Method Act()
-		Animate( Game, 0.3, 2 )
-		DY :+ L_DeltaTime * 32.0
-		Super.Act()
+		If Mode <= Falling Then DY :+ L_DeltaTime * Game.Gravity
+		If Mode = Normal Then
+			Animate( Game, 0.3, 2 )
+			Super.Act()
+		ElseIf Mode = Falling Then
+			Move( DX, DY )
+			RemoveIfOutside()
+		End If
+	End Method
+	
+	
+	
+	Method Stomp()
+	End Method
+	
+	
+	
+	Method Kick()
+		DY = KickStrength
+		Visualizer.YScale = -1.0
+		
+		Mode = Falling
+		PlaySound( Game.Kick )
+		Game.MovingObjects.RemoveSprite( Self )
 	End Method
 End Type

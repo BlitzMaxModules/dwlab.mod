@@ -9,4 +9,25 @@
 '
 
 Type TGoomba Extends TEnemy
+	Const Stomped:Int = 2
+	
+	Field StompStartingTime:Float
+	
+	
+	
+	Method Act()
+		If Mode = Stomped And Game.Time > StompStartingTime + FlatPeriod Then Game.MainLayer.Remove( Self )
+		Super.Act()
+	End Method
+
+	
+	
+	Method Stomp()
+		Frame = 2
+		Mode = Stomped
+		StompStartingTime = Game.Time
+		Game.Mario.DY = Game.Mario.HopStrength
+		PlaySound( Game.Stomp )
+		Game.MovingObjects.RemoveSprite( Self )
+	End Method
 End Type

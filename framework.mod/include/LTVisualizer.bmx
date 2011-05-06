@@ -26,6 +26,11 @@ Type LTVisualizer Extends LTObject Abstract
 		YScale = NewYScale
 	End Method
 	
+	
+	
+	Method SetImage( NewImage:LTImage )
+	End Method
+	
 	' ==================== Drawing ===================	
 	
 	Method DrawUsingSprite( Sprite:LTSprite )

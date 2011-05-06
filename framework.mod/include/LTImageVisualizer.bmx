@@ -33,6 +33,12 @@ Type LTImageVisualizer Extends LTVisualizer
 	
 	
 	
+	Method SetImage( NewImage:LTImage )
+		Image = NewImage
+	End Method
+	
+	
+	
 	Method DrawUsingSprite( Sprite:LTSprite )
 		?debug
 		If Sprite.Frame < 0 Or Sprite.Frame >= Image.FramesQuantity() Then L_Error( "Incorrect frame number ( " + Sprite.Frame + " ) for sprite ~q" + Sprite.Name + "~q, must be less than " + Image.FramesQuantity() )

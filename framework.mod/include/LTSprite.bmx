@@ -366,13 +366,13 @@ Type LTSprite Extends LTShape
 	' ==================== Position and size ====================
 	
 	Method SetCoords( NewX:Float, NewY:Float )
-		If CollisionMap Then CollisionMap.RemoveSprite( Self )
+		If CollisionMap Then CollisionMap.RemoveSprite( Self, False )
 		
 		X = NewX
 		Y = NewY
 		
 		Update()
-		If CollisionMap Then CollisionMap.InsertSprite( Self )
+		If CollisionMap Then CollisionMap.InsertSprite( Self, False )
 	End Method
 	
 	

@@ -11,16 +11,17 @@
 Type TGame Extends LTProject
 	Field MovingObjects:LTCollisionMap
 	Field Tilemap:LTTileMap
-	Field Over:Int = False
 	
-	Field SmallMario:LTImageVisualizer = LTImageVisualizer.FromFile( "media\SmallMario.png", 7 )
-	Field SuperMario:LTImageVisualizer = LTImageVisualizer.FromFile( "media\SuperMario.png", 7 )
-	Field Growth:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Growth.png", 3 )
+	Field SmallMario:LTImage = LTImage.FromFile( "media\SmallMario.png", 7, 4 )
+	Field SuperMario:LTImage = LTImage.FromFile( "media\SuperMario.png", 7, 5 )
+	Field Growth:LTImage = LTImage.FromFile( "media\Growth.png", 3 )
+	
 	Field Bricks:LTImage = LTImage.FromFile( "media\Bricks.png", 2 )
 	Field Coin:LTImageVisualizer = LTImageVisualizer.FromFile( "media\FlippingCoin.png", 4 )
 	Field MagicMushroom:LTImageVisualizer = LTImageVisualizer.FromFile( "media\MagicMushroom.png" )
 	Field OneUpMushroom:LTImageVisualizer = LTImageVisualizer.FromFile( "media\1upMushroom.png" )
 	Field StarMan:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Starman.png", 4 )
+	Field FireFlower:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Fireflower.png", 4 )
 
 	Field BreakBlock:TSound = TSound.Load( "media\BreakBlock.ogg", False )
 	Field Bump:TSound = TSound.Load( "media\Bump.ogg", False )
@@ -28,41 +29,41 @@ Type TGame Extends LTProject
 	Field Jump:TSound = TSound.Load( "media\Jump.ogg", False )
 	Field Powerup:TSound = TSound.Load( "media\Powerup.ogg", False )
 	Field PowerupAppears:TSound = TSound.Load( "media\PowerupAppears.ogg", False )
+	Field Pipe:TSound = TSound.Load( "media\Pipe.ogg", False )
+	Field Stomp:TSound = TSound.Load( "media\Stomp.ogg", False )
+	Field OneUp:TSound = TSound.Load( "media\1-up.ogg", False )
+	Field Kick:TSound = TSound.Load( "media\Kick.ogg", False )
 	
 	Field Music1Intro:TSound = TSound.Load( "media\Music1intro.ogg", False )
 	Field Music1:TSound = TSound.Load( "media\Music1.ogg", True )
+	Field Invulnerability:TSound = TSound.Load( "media\Invulnerability.ogg", True )
 	Field MarioDie:TSound = TSound.Load( "media\MarioDie.ogg", False )
 	Field MusicChannel:TChannel
+	
+	Const Gravity:Float = 32.0
 	Rem
 	
-	Field BlockImage:LTImage = LTImage.FromFile( "media\Block.png" )
-	Field FieryMarioImage:LTImage = LTImage.FromFile( "media\FieryMario.png", 7 )
-	Field FireballImage:LTImage = LTImage.FromFile( "media\Fireball.png" )
-	Field FireballHitImage:LTImage = LTImage.FromFile( "media\FireballHit.png", 3 )
-	Field FireflowerImage:LTImage = LTImage.FromFile( "media\Fireflower.png", 4 )
-	Field FlagOnCastleImage:LTImage = LTImage.FromFile( "media\FlagOnCastle.png" )
-	Field FlippingCoinImage:LTImage = LTImage.FromFile( "media\FlippingCoin.png", 4 )
-	Field KoopaTroopaShellImage:LTImage = LTImage.FromFile( "media\KoopaTroopaShell.png" )
-	Field MarioImmortalImage:LTImage = LTImage.FromFile( "media\MarioImmortal.png", 6 )
-	Field ScoreImage:LTImage = LTImage.FromFile( "media\Score.png", 11 )
-	Field SmallCoinImage:LTImage = LTImage.FromFile( "media\SmallCoin.png", 3 )
-	Field SuperMarioImage:LTImage = LTImage.FromFile( "media\SuperMario.png", 7 )
-	Field SuperMarioImmortalImage:LTImage = LTImage.FromFile( "media\SuperMarioImmortal.png", 7 )
+	Field Block:LTImage = LTImage.FromFile( "media\Block.png" )
+	Field Fireball:LTImage = LTImage.FromFile( "media\Fireball.png" )
+	Field FireballHit:LTImage = LTImage.FromFile( "media\FireballHit.png", 3 )
+	Field FlagOnCastle:LTImage = LTImage.FromFile( "media\FlagOnCastle.png" )
+	Field FlippingCoin:LTImage = LTImage.FromFile( "media\FlippingCoin.png", 4 )
+	Field KoopaTroopaShell:LTImage = LTImage.FromFile( "media\KoopaTroopaShell.png" )
+	Field Score:LTImage = LTImage.FromFile( "media\Score.png", 11 )
+	Field SmallCoin:LTImage = LTImage.FromFile( "media\SmallCoin.png", 3 )
 	
-	Field FireballSound:LTSound = LTSound.FromFile( "media\Fireball.ogg" )
-	Field FireworksSound:LTSound = LTSound.FromFile( "media\Fireworks.ogg" )
-	Field FlagPoleSound:LTSound = LTSound.FromFile( "media\FlagPole.ogg" )
-	Field GameOverSound:LTSound = LTSound.FromFile( "media\GameOver.ogg" )
-	Field KickSound:LTSound = LTSound.FromFile( "media\Kick.ogg" )
-	Field Music2:LTSound = LTSound.FromFile( "media\Music2.ogg" )
-	Field OneUpSound:LTSound = LTSound.FromFile( "media\1-up.ogg" )
-	Field PipeSound:LTSound = LTSound.FromFile( "media\Pipe.ogg" )
-	Field StageClearSound:LTSound = LTSound.FromFile( "media\StageClear.ogg" )
-	Field StompSound:LTSound = LTSound.FromFile( "media\Stomp.ogg" )
-	Field WarningSound:LTSound = LTSound.FromFile( "media\Warning.ogg" )
+	Field Fireball:TSound = TSound.Load( "media\Fireball.ogg", False )
+	Field Fireworks:TSound = TSound.Load( "media\Fireworks.ogg", False )
+	Field FlagPole:TSound = TSound.Load( "media\FlagPole.ogg", False )
+	Field GameOver:TSound = TSound.Load( "media\GameOver.ogg", False )
+	Field Music2:TSound = TSound.Load( "media\Music2.ogg", False )
+	Field StageClear:TSound = TSound.Load( "media\StageClear.ogg", False )
+	Field Warning:TSound = TSound.Load( "media\Warning.ogg", False )
 	EndRem
 	
 	Field Mario:TMario
+	Field Lives:Int = 3
+	Field Score:Int
 	
 	
 	
@@ -90,27 +91,24 @@ Type TGame Extends LTProject
 			End If
 		Next
 		
-		MusicChannel = Music1Intro.Play()
+		MusicChannel = PlaySound( Music1Intro )
+		
+		Mario.Mode = Mario.Normal
+		Mario.Visualizer.SetImage( SmallMario )
 	End Method
 	
 	
 	
 	Method Logic()
-		If Mario.Growing Then
-			If Mario.GrowthStartingTime + 0.8 > Time Then
-				Mario.Animate( Game, 0.08, , , Mario.GrowthStartingTime, True )
-			Else
-				Mario.Visualizer = SuperMario
-				Mario.Growing = False
-			End If
+		If Mario.Mode >= Mario.Growing Then
+			Mario.PlayAnimation()
 		Else
 			Super.Logic()
 		End If
 		
 		If Not MusicChannel.Playing() Then 
-			If Over Then
+			If Mario.Mode = Mario.Dying Then
 				InitLevel()
-				Over = False
 			Else
 				MusicChannel = PlaySound( Music1 )
 			End If

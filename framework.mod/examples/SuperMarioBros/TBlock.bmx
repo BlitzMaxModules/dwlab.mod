@@ -31,7 +31,11 @@ Type TBlock Extends LTVectorSprite
 			Case 9
 				TCoin.FromTile( TileX, TileY )
 			Case 11
-				TMagicMushroom.FromTile( TileX, TileY )
+				If Game.Mario.Big Then
+					TFireFlower.FromTile( TileX, TileY )
+				Else
+					TMagicMushroom.FromTile( TileX, TileY )
+				End If
 			Case 13
 				TOneUpMushroom.FromTile( TileX, TileY )
 			Case 18

@@ -46,5 +46,16 @@ Type TMovingObject Extends LTVectorSprite
 		Move( 0, DY )
 		CollisionsWithTilemap( Game.Tilemap, Vertical )
 		CollisionsWithCollisionMap( Game.MovingObjects, Vertical )
+		
+		RemoveIfOutside()
+	End Method
+	
+	
+	
+	Method RemoveIfOutside()
+		If TopY() > Game.Tilemap.BottomY() Then
+			Game.MainLayer.Remove( Self )
+			Game.MovingObjects.RemoveSprite( Self )
+		End If
 	End Method
 End Type

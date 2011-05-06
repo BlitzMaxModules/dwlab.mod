@@ -38,7 +38,7 @@ Type LTCollisionMap Extends LTMap
 	
 	' ==================== Insert / remove objects ====================
 	
-	Method InsertSprite( Sprite:LTSprite )
+	Method InsertSprite( Sprite:LTSprite, ChangeCollisionMapField:Int = True )
 		Select Sprite.ShapeType
 			Case LTSprite.Pivot
 				Sprites[ Int( Sprite.X / XScale ) & XMask, Int( Sprite.Y / YScale ) & YMask ].AddLast( Sprite )
@@ -54,12 +54,12 @@ Type LTCollisionMap Extends LTMap
 					Next
 				Next
 		End Select
-		Sprite.CollisionMap = Self
+		If ChangeCollisionMapField Then Sprite.CollisionMap = Self
 	End Method
 	
 	
 	
-	Method RemoveSprite( Sprite:LTSprite )
+	Method RemoveSprite( Sprite:LTSprite, ChangeCollisionMapField:Int = True )
 		Select Sprite.ShapeType
 			Case LTSprite.Pivot
 				Sprites[ Int( Sprite.X / XScale ) & XMask, Int( Sprite.Y / YScale ) & YMask ].Remove( Sprite )
@@ -75,6 +75,7 @@ Type LTCollisionMap Extends LTMap
 					Next
 				Next
 		End Select
+		If ChangeCollisionMapField Then Sprite.CollisionMap = Null
 	End Method
 	
 	' ==================== Collisions ===================

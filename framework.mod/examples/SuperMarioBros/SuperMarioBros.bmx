@@ -26,9 +26,6 @@ Import brl.map
 Import brl.audio
 Import brl.oggloader
 
-Import brl.eventqueue
-Import maxgui.win32maxguiex
-
 SetAudioDriver( "DirectSound" )
 'SetGraphicsDriver( GLMax2DDriver() )
 
@@ -39,6 +36,7 @@ Include "TMovingObject.bmx"
 Include "TBricks.bmx"
 Include "TBlock.bmx"
 Include "TCoin.bmx"
+Include "TScore.bmx"
 
 Global Game:TGame = New TGame
 Game.Execute()

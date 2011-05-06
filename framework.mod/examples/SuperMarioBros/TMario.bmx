@@ -9,13 +9,39 @@
 '
 
 Type TMario Extends TMovingObject
-	Field MovingStartTime:Float
+	Field Mode:Int = Normal
+	Field FrameShift:Int
+	Field AnimationStartingTime:Float
+	Field ModeStartingTime:Float
 	Field OnLand:Int
 	Field Big:Int = False
 	Field Fireable:Int = False
 	Field Invulnerable:Int = False
-	Field Growing:Int = False
-	Field GrowthStartingTime:Float = -99.0
+	Field Invisible:Int = False
+	
+	Const Normal:Int = 0
+	Const Dying:Int = 1
+	Const Growing:Int = 2
+	Const Shrinking:Int = 3
+	Const FireGaining:Int = 4
+	
+	Const GrowingSpeed:Float = 0.08
+	Const JumpStrength:Float = -17.0
+	Const HopStrength:Float = -6.0
+	Const MovingAnimationSpeed:Float = 0.15
+	Const MovingSpeed:Float = 5.0
+	Const InvisibilityPeriod:Float = 2.0
+	Const BlinkingSpeed:Float = 0.05
+	Const InvulnerabilityPeriod:Float = 10.0
+	Const InvulnerabilityAnimationSpeed:Float = 0.05
+	Const FireGainingAnimationSpeed:Float = 0.05
+	
+	
+	
+	Method Draw()
+		If Invisible Then If Floor( Game.Time / BlinkingSpeed ) Mod 2 Then Return
+		Super.Draw()
+	End Method
 	
 	
 	
@@ -25,11 +51,15 @@ Type TMario Extends TMovingObject
 			Game.MainLayer.Remove( Sprite )
 			Game.MovingObjects.RemoveSprite( Sprite )
 		ElseIf TEnemy( Sprite ) Then
-			Game.Over = True
-			Frame = 6
-			DY = -16.0
-			Game.MusicChannel.Stop()
-			Game.MusicChannel = Game.MarioDie.Play()
+			If Invulnerable Then
+				TEnemy( Sprite ).Kick()
+			Else
+				If BottomY() < Sprite.Y Then
+					TEnemy( Sprite ).Stomp()
+				Else
+					If Not Invisible Then Damage()
+				End If
+			End If
 		End If
 	End Method
 	
@@ -56,19 +86,30 @@ Type TMario Extends TMovingObject
 	Method Act()
 		DY :+ L_DeltaTime * 32.0
 		
-		If Game.Over Then
+		If Mode = Dying Then
 			Move( 0, DY )
 		Else
+			If Invisible And Game.Time > ModeStartingTime + InvisibilityPeriod Then Invisible = False
+			If Invulnerable Then
+				FrameShift = 7 + 7 * ( Floor( Game.Time / InvulnerabilityAnimationSpeed ) Mod 3 )
+				If Game.Time > ModeStartingTime + InvulnerabilityPeriod Then
+					Invulnerable = False
+					If Fireable Then FrameShift = 7 * 4 Else FrameShift = 0
+					Game.MusicChannel.Stop()
+					Game.MusicChannel = PlaySound( Game.Music1Intro )
+				End If
+			End If
+			
 			Local Direction:Float = 0.0
 			If KeyDown( Key_Left ) Then Direction = -1.0
 			If KeyDown( Key_Right ) Then Direction = 1.0
 			
 			If KeyDown( Key_Up ) And OnLand Then
 				Game.Jump.Play()
-				DY = -17.0
+				DY = JumpStrength
 				Frame = 4
 			ElseIf Direction = 0.0 Then 
-				MovingStartTime = Game.Time
+				AnimationStartingTime = Game.Time
 				Local DDX:Float = L_DeltaTime * 32.0
 				If DDX < Abs( DX ) Then
 					DX :- Sgn( DX ) * DDX
@@ -77,23 +118,25 @@ Type TMario Extends TMovingObject
 				End If
 				If OnLand Then Frame = 0
 			Else
-				If OnLand Then Animate( Game, 0.15, 3, 1, MovingStartTime )
+				If OnLand Then Animate( Game, MovingAnimationSpeed, 3, 1 + FrameShift, AnimationStartingTime )
 				If Sgn( DX ) = Direction Then
 					Visualizer.XScale = Direction
 					'DX :+ Direction * L_DeltaTime * 8.0
 					'If Abs( DX ) > 10.0 Then DX = Sgn( DX ) * 10.0
-					DX = Direction * 5.0
+					DX = Direction * MovingSpeed
 				Else
 					If OnLand Then Frame = 5
-					DX :+ Direction * L_DeltaTime * 32.0
+					DX :+ Direction * L_DeltaTime * Game.Gravity
 				End If
 				'Move( 5.0 * Direction, 0.0 )
 			End If
+			Frame = FrameShift + ( Frame Mod 7 )
 			
-			LimitWith( Game.MainLayer.FindTilemap() )
+			LimitLeftWith( Game.Tilemap )
+			LimitRightWith( Game.Tilemap )
 			
 			L_CurrentCamera.JumpTo( Self )
-			L_CurrentCamera.LimitWith( Game.MainLayer.FindTilemap() )
+			L_CurrentCamera.LimitWith( Game.Tilemap )
 			
 			OnLand = False
 		
@@ -103,14 +146,65 @@ Type TMario Extends TMovingObject
 	
 	
 	
+	Method PlayAnimation()
+		If AnimationStartingTime + 10.0 * GrowingSpeed > Game.Time Then
+			If Mode = FireGaining Then
+				Frame = ( Frame Mod 7 ) + 14 + 7 *( Floor( Game.Time / FireGainingAnimationSpeed ) Mod 3 )
+			Else
+				Animate( Game, GrowingSpeed, , , AnimationStartingTime, True )
+			End If
+		Else
+			Select Mode
+				Case Growing
+					Visualizer.SetImage( Game.SuperMario )
+				Case Shrinking
+					Y :+ 0.5
+					Height = 1.0
+					Visualizer.SetImage( Game.SmallMario )
+					Frame = 0
+					ModeStartingTime = Game.Time
+				Case FireGaining
+					Fireable = True
+					FrameShift = 7 * 4
+			End Select
+			Mode = Normal
+		End If
+	End Method
+	
+	
+	
 	Method SetGrowth()
 		Y :- 0.5
 		Height = 2.0
-		Visualizer = Game.Growth
+		Visualizer.SetImage( Game.Growth )
 		Frame = 0
 		Big = True
-		Growing = True
-		GrowthStartingTime = Game.Time
+		Mode = Growing
+		FrameShift = 0
+		AnimationStartingTime = Game.Time
 		PlaySound( Game.Powerup )
+	End Method
+	
+	
+	
+	Method Damage()
+		If Big Then
+			Visualizer.SetImage( Game.Growth )
+			Frame = 2
+			Big = False
+			Mode = Shrinking
+			FrameShift = 0
+			Fireable = False
+			Invisible = True
+			AnimationStartingTime = Game.Time - 2.0 * GrowingSpeed
+			PlaySound( Game.Pipe )
+		Else
+			DY = JumpStrength
+			Frame = 6
+			Mode = Dying
+			FrameShift = 0
+			Game.MusicChannel.Stop()
+			Game.MusicChannel = Game.MarioDie.Play()
+		End If
 	End Method
 End Type

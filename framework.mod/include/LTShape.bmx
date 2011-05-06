@@ -138,16 +138,64 @@ Type LTShape Extends LTObject
 		SetCoords( Shape1.X + ( Shape2.X - Shape1.X ) * K, Shape1.Y + ( Shape2.Y - Shape1.Y ) * K )
 	End Method
 	
-	
+	' ==================== Limiting ====================
 	
 	Method LimitWith( Rectangle:LTShape )
-		Local X1:Float = Min( Rectangle.X, Rectangle.LeftX() + 0.5 * Width )
-		Local Y1:Float = Min( Rectangle.Y, Rectangle.TopY() + 0.5 * Height )
-		Local X2:Float = Max( Rectangle.X, Rectangle.X + 0.5 * ( Rectangle.Width - Width ) )
-		Local Y2:Float = Max( Rectangle.Y, Rectangle.Y + 0.5 * ( Rectangle.Height - Height ) )
-		X = L_LimitFloat( X, X1, X2 )
-		Y = L_LimitFloat( Y, Y1, Y2 )
+		LimitHorizontallyWith( Rectangle, False )
+		LimitVerticallyWith( Rectangle, False )
 		Update()
+	End Method
+	
+	
+	
+	Method LimitLeftWith( Rectangle:LTShape, UpdateFlag:Int = True )
+		If LeftX() < Rectangle.LeftX() Then
+			X = Game.Tilemap.LeftX() + 0.5 * Width
+			If UpdateFlag Then Update()
+		End If
+	End Method
+	
+	
+	
+	Method LimitTopWith( Rectangle:LTShape, UpdateFlag:Int = True )
+		If TopY() < Rectangle.TopY() Then
+			Y = Rectangle.TopY() + 0.5 * Width
+			If UpdateFlag Then Update()
+		End If
+	End Method
+	
+	
+	
+	Method LimitRightWith( Rectangle:LTShape, UpdateFlag:Int = True )
+		If RightX() > Rectangle.RightX() Then
+			X = Rectangle.RightX() - 0.5 * Width
+			If UpdateFlag Then Update()
+		End If
+	End Method
+	
+	
+	
+	Method LimitBottomWith( Rectangle:LTShape, UpdateFlag:Int = True )
+		If BottomY() > Rectangle.BottomY() Then
+			Y = Rectangle.BottomY() - 0.5 * Width
+			If UpdateFlag Then Update()
+		End If
+	End Method
+	
+	
+	
+	Method LimitHorizontallyWith( Rectangle:LTShape, UpdateFlag:Int = True )
+		Local X1:Float = Min( Rectangle.X, Rectangle.LeftX() + 0.5 * Width )
+		Local X2:Float = Max( Rectangle.X, Rectangle.RightX() - 0.5 * Width )
+		X = L_LimitFloat( X, X1, X2 )
+	End Method
+	
+	
+	
+	Method LimitVerticallyWith( Rectangle:LTShape, UpdateFlag:Int = True )
+		Local Y1:Float = Min( Rectangle.Y, Rectangle.TopY() + 0.5 * Height )
+		Local Y2:Float = Max( Rectangle.Y, Rectangle.BottomY() - 0.5 * Height )
+		Y = L_LimitFloat( Y, Y1, Y2 )
 	End Method
 	
 	' ==================== Angle ====================

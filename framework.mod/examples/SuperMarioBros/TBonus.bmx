@@ -8,6 +8,11 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "TMagicMushroom.bmx"
+Include "TFireFlower.bmx"
+Include "TOneUpMushroom.bmx"
+Include "TStarMan.bmx"
+
 Type TBonus Extends TMovingObject
 	Field DestinationY:Float
 	Field Growing:Int = True
@@ -39,7 +44,7 @@ Type TBonus Extends TMovingObject
 		If Growing Then
 			If Y <= DestinationY Then
 				Growing = False
-				DX = 2.0
+				If Not TFireFlower( Self ) Then DX = 2.0
 				DY = 0.0
 			End If
 		Else
@@ -52,61 +57,5 @@ Type TBonus Extends TMovingObject
 	
 	
 	Method Collect()
-	End Method
-End Type
-
-
-
-Type TMushroom Extends TBonus
-End Type
-
-
-
-Type TMagicMushroom Extends TMushroom
-	Function FromTile( TileX:Int, TileY:Int )
-		Local Bonus:TBonus = New TMagicMushroom
-		Bonus.Init( TileX, TileY )
-		Bonus.Visualizer = Game.MagicMushroom
-	End Function
-	
-	
-	
-	
-	Method Collect()
-		Game.Mario.SetGrowth()
-	End Method
-End Type
-
-
-
-Type TOneUpMushroom Extends TMushroom
-	Function FromTile( TileX:Int, TileY:Int )
-		Local Bonus:TBonus = New TMushroom
-		Bonus.Init( TileX, TileY )
-		Bonus.Visualizer = Game.OneUpMushroom
-	End Function
-End Type
-
-
-
-Type TStarMan Extends TBonus
-	Function FromTile( TileX:Int, TileY:Int )
-		Local Bonus:TBonus = New TMushroom
-		Bonus.Init( TileX, TileY )
-		Bonus.Visualizer = Game.StarMan
-	End Function
-	
-	
-	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
-		If Growing Then Return
-		Super.HandleCollisionWithTile( TileMap, TileX, TileY, CollisionType )
-		If CollisionType = Vertical Then
-			If DY >= 0.0 Then
-				DY = -10.0
-			Else
-				DY = 0.0
-			End If
-		End If
 	End Method
 End Type
