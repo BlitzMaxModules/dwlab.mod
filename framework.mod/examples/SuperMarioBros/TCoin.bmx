@@ -32,6 +32,9 @@ Type TCoin Extends LTVectorSprite
 		Animate( Game, 0.1 )
 		DY :+ 16.0 * L_DeltaTime
 		MoveForward()
-		If Y > LowestY Then Game.MainLayer.Remove( Self )
+		If Y > LowestY Then
+			Game.MainLayer.Remove( Self )
+			TScore.FromSprite( Self, TScore.s200 )
+		End If
 	End Method
 End Type

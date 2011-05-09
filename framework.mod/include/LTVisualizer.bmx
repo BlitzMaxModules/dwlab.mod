@@ -28,6 +28,11 @@ Type LTVisualizer Extends LTObject Abstract
 	
 	
 	
+	Method GetImage:LTImage()
+	End Method
+	
+	
+	
 	Method SetImage( NewImage:LTImage )
 	End Method
 	

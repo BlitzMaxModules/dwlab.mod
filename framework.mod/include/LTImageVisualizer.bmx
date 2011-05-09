@@ -9,6 +9,7 @@
 '
 
 Include "LTImage.bmx"
+Include "LTAnimatedTileMapVisualizer.bmx"
 
 Type LTImageVisualizer Extends LTVisualizer
 	Field Image:LTImage
@@ -30,6 +31,12 @@ Type LTImageVisualizer Extends LTVisualizer
 		ImageVisualizer.Image = Image
 		Return ImageVisualizer
 	End Function
+	
+	
+	
+	Method GetImage:LTImage()
+		Return Image
+	End Method
 	
 	
 	

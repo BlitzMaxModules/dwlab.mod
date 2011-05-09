@@ -150,7 +150,7 @@ Type LTShape Extends LTObject
 	
 	Method LimitLeftWith( Rectangle:LTShape, UpdateFlag:Int = True )
 		If LeftX() < Rectangle.LeftX() Then
-			X = Game.Tilemap.LeftX() + 0.5 * Width
+			X = Rectangle.LeftX() + 0.5 * Width
 			If UpdateFlag Then Update()
 		End If
 	End Method

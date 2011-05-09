@@ -8,6 +8,8 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "TFireball.bmx"
+
 Type TMario Extends TMovingObject
 	Field Mode:Int = Normal
 	Field FrameShift:Int
@@ -18,6 +20,7 @@ Type TMario Extends TMovingObject
 	Field Fireable:Int = False
 	Field Invulnerable:Int = False
 	Field Invisible:Int = False
+	Field Combo:Int = 0
 	
 	Const Normal:Int = 0
 	Const Dying:Int = 1
@@ -27,7 +30,6 @@ Type TMario Extends TMovingObject
 	
 	Const GrowingSpeed:Float = 0.08
 	Const JumpStrength:Float = -17.0
-	Const HopStrength:Float = -6.0
 	Const MovingAnimationSpeed:Float = 0.15
 	Const MovingSpeed:Float = 5.0
 	Const InvisibilityPeriod:Float = 2.0
@@ -69,6 +71,7 @@ Type TMario Extends TMovingObject
 		If CollisionType = Vertical Then
 			If DY >= 0.0 Then 
 				OnLand = True
+				Combo = 0
 			Else
 				Local TileNum:Int = TileMap.FrameMap.Value[ TileX, TileY ]
 				Select TileNum
@@ -104,7 +107,7 @@ Type TMario Extends TMovingObject
 			If KeyDown( Key_Left ) Then Direction = -1.0
 			If KeyDown( Key_Right ) Then Direction = 1.0
 			
-			If KeyDown( Key_Up ) And OnLand Then
+			If KeyDown( Key_Q ) And OnLand Then
 				Game.Jump.Play()
 				DY = JumpStrength
 				Frame = 4
@@ -131,6 +134,8 @@ Type TMario Extends TMovingObject
 				'Move( 5.0 * Direction, 0.0 )
 			End If
 			Frame = FrameShift + ( Frame Mod 7 )
+			
+			If
 			
 			LimitLeftWith( Game.Tilemap )
 			LimitRightWith( Game.Tilemap )

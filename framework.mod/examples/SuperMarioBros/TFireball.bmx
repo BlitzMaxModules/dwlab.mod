@@ -8,18 +8,5 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TMagicMushroom Extends TBonus
-	Function FromTile( TileX:Int, TileY:Int )
-		Local Bonus:TBonus = New TMagicMushroom
-		Bonus.Init( TileX, TileY )
-		Bonus.Visualizer = Game.MagicMushroom
-	End Function
-	
-	
-	
-	
-	Method Collect()
-		Game.Mario.SetGrowth()
-		TScore.FromSprite( Self, TScore.s1000 )
-	End Method
+Type TFireball Extends TMovingObject
 End Type

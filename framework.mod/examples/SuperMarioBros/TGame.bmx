@@ -11,6 +11,8 @@
 Type TGame Extends LTProject
 	Field MovingObjects:LTCollisionMap
 	Field Tilemap:LTTileMap
+	Field TileShape:LTShape[]
+	Field TileMapVisualizer:LTAnimatedTileMapVisualizer = New LTAnimatedTileMapVisualizer
 	
 	Field SmallMario:LTImage = LTImage.FromFile( "media\SmallMario.png", 7, 4 )
 	Field SuperMario:LTImage = LTImage.FromFile( "media\SuperMario.png", 7, 5 )
@@ -22,6 +24,9 @@ Type TGame Extends LTProject
 	Field OneUpMushroom:LTImageVisualizer = LTImageVisualizer.FromFile( "media\1upMushroom.png" )
 	Field StarMan:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Starman.png", 4 )
 	Field FireFlower:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Fireflower.png", 4 )
+	Field ScoreVis:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Score.png", 11 )
+	Field Fireball:LTImage = LTImage.FromFile( "media\Fireball.png" )
+	Field FireballHit:LTImage = LTImage.FromFile( "media\FireballHit.png", 3 )
 
 	Field BreakBlock:TSound = TSound.Load( "media\BreakBlock.ogg", False )
 	Field Bump:TSound = TSound.Load( "media\Bump.ogg", False )
@@ -33,6 +38,7 @@ Type TGame Extends LTProject
 	Field Stomp:TSound = TSound.Load( "media\Stomp.ogg", False )
 	Field OneUp:TSound = TSound.Load( "media\1-up.ogg", False )
 	Field Kick:TSound = TSound.Load( "media\Kick.ogg", False )
+	Field Fireball:TSound = TSound.Load( "media\Fireball.ogg", False )
 	
 	Field Music1Intro:TSound = TSound.Load( "media\Music1intro.ogg", False )
 	Field Music1:TSound = TSound.Load( "media\Music1.ogg", True )
@@ -41,18 +47,15 @@ Type TGame Extends LTProject
 	Field MusicChannel:TChannel
 	
 	Const Gravity:Float = 32.0
+	Const FadingSpeed:Float = 0.15
+	Const FadingPeriod:Int = 5
 	Rem
 	
-	Field Block:LTImage = LTImage.FromFile( "media\Block.png" )
-	Field Fireball:LTImage = LTImage.FromFile( "media\Fireball.png" )
-	Field FireballHit:LTImage = LTImage.FromFile( "media\FireballHit.png", 3 )
 	Field FlagOnCastle:LTImage = LTImage.FromFile( "media\FlagOnCastle.png" )
 	Field FlippingCoin:LTImage = LTImage.FromFile( "media\FlippingCoin.png", 4 )
 	Field KoopaTroopaShell:LTImage = LTImage.FromFile( "media\KoopaTroopaShell.png" )
-	Field Score:LTImage = LTImage.FromFile( "media\Score.png", 11 )
 	Field SmallCoin:LTImage = LTImage.FromFile( "media\SmallCoin.png", 3 )
 	
-	Field Fireball:TSound = TSound.Load( "media\Fireball.ogg", False )
 	Field Fireworks:TSound = TSound.Load( "media\Fireworks.ogg", False )
 	Field FlagPole:TSound = TSound.Load( "media\FlagPole.ogg", False )
 	Field GameOver:TSound = TSound.Load( "media\GameOver.ogg", False )
@@ -68,9 +71,35 @@ Type TGame Extends LTProject
 	
 	
 	Method Init()
-		InitGraphics()
+		InitGraphics( 800, 600, 40.0 )
 		World = LTWorld.FromFile( "world.lw" )
 		'L_CurrentCamera.Velocity = 10.0
+		
+		Tilemap = World.FindTilemap()
+		TileShape = Tilemap.TileShape
+		TileMapVisualizer.TileNum = New Int[ Tilemap.TilesQuantity ]
+		TileMapVisualizer.Image = Tilemap.Visualizer.GetImage()
+		For Local N:Int = 0 Until Tilemap.TilesQuantity
+			If L_IntInLimits( N, 9, 13 ) Or L_IntInLimits( N, 15, 18 ) Or N = 23 Or N = 24 Or N >= 36 Then
+				Local Sprite:LTSprite = New LTSprite
+				Sprite.X = 0.5
+				Sprite.Y = 0.5
+				Sprite.ShapeType = LTSprite.Rectangle
+				TileShape[ N ] = Sprite
+			End If
+			
+			Select N
+				Case 11
+					TileMapVisualizer.TileNum[ N ] = 9
+				Case 13
+					TileMapVisualizer.TileNum[ N ] = 0
+				Case 17, 18
+					TileMapVisualizer.TileNum[ N ] = 10
+				Default
+					TileMapVisualizer.TileNum[ N ] = N
+			End Select
+		Next
+		
 		InitLevel()
 	End Method
 	
@@ -80,21 +109,12 @@ Type TGame Extends LTProject
 		MovingObjects = LTCollisionMap.Create( 128, 8 )
 		LoadLayer( "Land" )', False )
 		Tilemap = MainLayer.FindTilemap()
-		
-		For Local N:Int = 0 Until Tilemap.TilesQuantity
-			If L_IntInLimits( N, 9, 13 ) Or L_IntInLimits( N, 15, 18 ) Or N = 23 Or N = 24 Or N >= 36 Then
-				Local Sprite:LTSprite = New LTSprite
-				Sprite.X = 0.5
-				Sprite.Y = 0.5
-				Sprite.ShapeType = LTSprite.Rectangle
-				Tilemap.TileShape[ N ] = Sprite
-			End If
-		Next
+		Tilemap.TileShape = TileShape
+		TileMap.Visualizer = TileMapVisualizer
 		
 		MusicChannel = PlaySound( Music1Intro )
 		
 		Mario.Mode = Mario.Normal
-		Mario.Visualizer.SetImage( SmallMario )
 	End Method
 	
 	
@@ -103,6 +123,11 @@ Type TGame Extends LTProject
 		If Mario.Mode >= Mario.Growing Then
 			Mario.PlayAnimation()
 		Else
+			Local Fading:Int = Max( ( Floor( Time / FadingSpeed ) Mod ( FadingPeriod + 4 ) ) - FadingPeriod, 0 )
+			If Fading = 3 Then Fading = 1
+			TileMapVisualizer.TileNum[ 9 ] = 9 + ( Fading > 0 ) * ( 39 + Fading )
+			TileMapVisualizer.TileNum[ 11 ] = TileMapVisualizer.TileNum[ 9 ]
+			TileMapVisualizer.TileNum[ 40 ] = 40 + ( Fading > 0 ) * ( 10 + Fading )
 			Super.Logic()
 		End If
 		

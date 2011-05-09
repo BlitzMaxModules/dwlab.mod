@@ -18,6 +18,7 @@ Type TOneUpMushroom Extends TBonus
 	
 	
 	Method Collect()
+		TScore.FromSprite( Self, TScore.s1up )
 		PlaySound( Game.OneUp )
 	End Method
 End Type

@@ -11,8 +11,8 @@
 Type TScore Extends LTSprite
 	Field StartingTime:Float
 	
-	Const MovingSpeed:Float = 10.0
-	Const 
+	Const MovingSpeed:Float = 3.0
+	Const LifeTime:Float = 1.0
 
 	Const s1up:Int = 0	
 	Const s100:Int = 1
@@ -30,6 +30,7 @@ Type TScore Extends LTSprite
 	
 	Method Act()
 		Y :- MovingSpeed * L_DeltaTime
+		If Game.Time > StartingTime + LifeTime Then Game.MainLayer.Remove( Self )
 	End Method
 	
 	
@@ -37,22 +38,35 @@ Type TScore Extends LTSprite
 	Function FromSprite( Sprite:LTSprite, Frame:Int )
 		Local Score:TScore = New TScore
 		Score.X = Sprite.X
-		Score.Y = Sprite.Y
+		Score.Y = Sprite.Y - 1.0
 		Score.Frame = Frame
 		Select Frame
-			Case s1up: Game.Lives :+ 1
-			Case s100: Game.Score :+ 100
-			Case s200: Game.Score :+ 200
-			Case s400: Game.Score :+ 400
-			Case s500: Game.Score :+ 500
-			Case s800: Game.Score :+ 800
-			Case s1000: Game.Score :+ 1000
-			Case s2000: Game.Score :+ 2000
-			Case s4000: Game.Score :+ 4000
-			Case s5000: Game.Score :+ 5000
-			Case s8000: Game.Score :+ 8000
+			Case s1up
+				Game.Lives :+ 1
+			Case s100
+				Game.Score :+ 100
+			Case s200
+				Game.Score :+ 200
+			Case s400
+				Game.Score :+ 400
+			Case s500
+				Game.Score :+ 500
+			Case s800
+				Game.Score :+ 800
+			Case s1000
+				Game.Score :+ 1000
+			Case s2000
+				Game.Score :+ 2000
+			Case s4000
+				Game.Score :+ 4000
+			Case s5000
+				Game.Score :+ 5000
+			Case s8000
+				Game.Score :+ 8000
 		End Select
-		Bonus.Visualizer = Game.FireFlower
-		Bonus.DX = 0.0
+		Score.Visualizer = Game.ScoreVis
+		Score.CorrectHeight()
+		Score.StartingTime = Game.Time
+		Game.MainLayer.AddLast( Score )
 	End Function
 End Type

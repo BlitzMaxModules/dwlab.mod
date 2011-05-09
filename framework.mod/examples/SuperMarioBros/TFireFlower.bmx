@@ -36,6 +36,7 @@ Type TFireFlower Extends TBonus
 		Else
 			Game.Mario.SetGrowth()
 		End If
+		TScore.FromSprite( Self, TScore.s1000 )
 		PlaySound( Game.Powerup )
 	End Method
 End Type

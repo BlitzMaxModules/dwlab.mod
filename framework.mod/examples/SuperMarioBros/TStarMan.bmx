@@ -9,7 +9,7 @@
 '
 
 Type TStarMan Extends TBonus
-	Const JumpStrength:Float = -16.0
+	Const JumpStrength:Float = -10.0
 	Const AnimationSpeed:Float = 0.2
 
 	
@@ -44,9 +44,11 @@ Type TStarMan Extends TBonus
 	
 	
 	Method Collect()
-		Game.MusicChannel.Stop()
-		Game.MusicChannel = PlaySound( Game.Invulnerability )
 		Game.Mario.Invulnerable = True
 		Game.Mario.ModeStartingTime = Game.Time
+		TScore.FromSprite( Self, TScore.s1000 )
+		PlaySound( Game.Powerup )
+		Game.MusicChannel.Stop()
+		Game.MusicChannel = PlaySound( Game.Invulnerability )
 	End Method
 End Type

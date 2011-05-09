@@ -120,7 +120,7 @@
 		</LTVectorSprite>
 		<LTVectorSprite name="Start" x="2.5" y="12.5" shape="2">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<LTImage field="image" filename="media\SmallMario.png" xcells="7"/>
+				<LTImage field="image" filename="media\SmallMario.png" xcells="7" ycells="4"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
 	</LTLayer>

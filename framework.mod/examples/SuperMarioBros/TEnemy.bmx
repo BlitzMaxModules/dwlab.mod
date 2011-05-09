@@ -17,15 +17,7 @@ Type TEnemy Extends TMovingObject
 	Const Normal:Int = 0
 	Const Falling:Int = 1
 	
-	Const FlatPeriod:Float = 1.0
 	Const KickStrength:Float = -6.0
-	
-	
-	
-	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
-		PushFromSprite( Sprite )
-		Bump( CollisionType )
-	End Method
 	
 	
 	
