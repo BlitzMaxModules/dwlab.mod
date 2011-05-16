@@ -10,6 +10,7 @@
 
 Global L_DeltaTime:Float
 Global L_FPS:Int
+Global L_CollisionChecks:Int
 
 Type LTProject Extends LTObject
 	Field LogicFPS:Float = 75
@@ -30,11 +31,14 @@ Type LTProject Extends LTObject
 	Method Render()
 		MainLayer.Draw()
 		ShowFPS()
+		DrawText( MainLayer.CountSprites(), 0, 16 )
+		DrawText( L_CollisionChecks, 0, 32 )
 	End Method
 	
 	
 	
 	Method Logic()
+		L_CollisionChecks = 0
 		MainLayer.Act()
 	End Method
 	

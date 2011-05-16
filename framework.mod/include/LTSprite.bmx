@@ -38,6 +38,9 @@ Type LTSprite Extends LTShape
 	' ==================== Collisions ===================
 	
 	Method CollidesWithSprite:Int( Sprite:LTSprite )
+		?debug
+		L_CollisionChecks :+ 1
+		?
 		Select ShapeType
 			Case Pivot
 				Select Sprite.ShapeType
@@ -72,6 +75,9 @@ Type LTSprite Extends LTShape
 	
 	
 	Method CollidesWithLine:Int( Line:LTLine )
+		?debug
+		L_CollisionChecks :+ 1
+		?
 		Select ShapeType
 			Case Pivot
 				L_Error( "Line with pivot collision is not yet implemented" )
@@ -87,6 +93,9 @@ Type LTSprite Extends LTShape
 	
 	
 	Method TileCollidesWithSprite:Int( Sprite:LTSprite, DX:Float, DY:Float, XScale:Float, YScale:Float )
+		?debug
+		L_CollisionChecks :+ 1
+		?
 		Select Sprite.ShapeType
 			Case Pivot
 				Select ShapeType
@@ -121,6 +130,9 @@ Type LTSprite Extends LTShape
 	
 	
 	Method Overlaps:Int( Sprite:LTSprite )
+		?debug
+		L_CollisionChecks :+ 1
+		?
 		Select ShapeType
 			Case Pivot
 				 L_Error( "Pivot overlapping is not supported" )
@@ -184,10 +196,10 @@ Type LTSprite Extends LTShape
 					End If
 				End If
 			Case Circle, Rectangle
-				Local X1:Int = Floor( ( X - 0.5 * TileMap.Width - X0 ) / CellWidth )
-				Local Y1:Int = Floor( ( Y - 0.5 * TileMap.Height - Y0 ) / CellHeight )
-				Local X2:Int = Floor( ( X + 0.5 * TileMap.Width - X0 - L_Inaccuracy ) / CellWidth )
-				Local Y2:Int = Floor( ( Y + 0.5 * TileMap.Height - Y0 - L_Inaccuracy ) / CellHeight )
+				Local X1:Int = Floor( ( X - 0.5 * Width - X0 ) / CellWidth )
+				Local Y1:Int = Floor( ( Y - 0.5 * Height - Y0 ) / CellHeight )
+				Local X2:Int = Floor( ( X + 0.5 * Width - X0 - L_Inaccuracy ) / CellWidth )
+				Local Y2:Int = Floor( ( Y + 0.5 * Height - Y0 - L_Inaccuracy ) / CellHeight )
 				
 				If X2 >= 0 And Y2 >= 0 And X1 < XQuantity And Y1 < YQuantity Then
 					X1 = L_LimitInt( X1, 0, XQuantity - 1 )

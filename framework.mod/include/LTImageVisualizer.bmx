@@ -13,8 +13,6 @@ Include "LTAnimatedTileMapVisualizer.bmx"
 
 Type LTImageVisualizer Extends LTVisualizer
 	Field Image:LTImage
-	Field Angle:Float
-	Field Rotating:Int = True
 	
 	
 	

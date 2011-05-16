@@ -14,8 +14,8 @@ Type TGame Extends LTProject
 	Field TileShape:LTShape[]
 	Field TileMapVisualizer:LTAnimatedTileMapVisualizer = New LTAnimatedTileMapVisualizer
 	
-	Field SmallMario:LTImage = LTImage.FromFile( "media\SmallMario.png", 7, 4 )
-	Field SuperMario:LTImage = LTImage.FromFile( "media\SuperMario.png", 7, 5 )
+	Field SmallMario:LTImage = LTImage.FromFile( "media\SmallMario.png", 8, 4 )
+	Field SuperMario:LTImage = LTImage.FromFile( "media\SuperMario.png", 8, 5 )
 	Field Growth:LTImage = LTImage.FromFile( "media\Growth.png", 3 )
 	
 	Field Bricks:LTImage = LTImage.FromFile( "media\Bricks.png", 2 )
@@ -26,7 +26,7 @@ Type TGame Extends LTProject
 	Field FireFlower:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Fireflower.png", 4 )
 	Field ScoreVis:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Score.png", 11 )
 	Field Fireball:LTImage = LTImage.FromFile( "media\Fireball.png" )
-	Field FireballHit:LTImage = LTImage.FromFile( "media\FireballHit.png", 3 )
+	Field Explosion:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Explosion.png", 3 )
 
 	Field BreakBlock:TSound = TSound.Load( "media\BreakBlock.ogg", False )
 	Field Bump:TSound = TSound.Load( "media\Bump.ogg", False )
@@ -38,7 +38,7 @@ Type TGame Extends LTProject
 	Field Stomp:TSound = TSound.Load( "media\Stomp.ogg", False )
 	Field OneUp:TSound = TSound.Load( "media\1-up.ogg", False )
 	Field Kick:TSound = TSound.Load( "media\Kick.ogg", False )
-	Field Fireball:TSound = TSound.Load( "media\Fireball.ogg", False )
+	Field Firing:TSound = TSound.Load( "media\Fireball.ogg", False )
 	
 	Field Music1Intro:TSound = TSound.Load( "media\Music1intro.ogg", False )
 	Field Music1:TSound = TSound.Load( "media\Music1.ogg", True )
@@ -51,8 +51,6 @@ Type TGame Extends LTProject
 	Const FadingPeriod:Int = 5
 	Rem
 	
-	Field FlagOnCastle:LTImage = LTImage.FromFile( "media\FlagOnCastle.png" )
-	Field FlippingCoin:LTImage = LTImage.FromFile( "media\FlippingCoin.png", 4 )
 	Field KoopaTroopaShell:LTImage = LTImage.FromFile( "media\KoopaTroopaShell.png" )
 	Field SmallCoin:LTImage = LTImage.FromFile( "media\SmallCoin.png", 3 )
 	

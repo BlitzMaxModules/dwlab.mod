@@ -51,6 +51,21 @@ Type LTLayer Extends LTGroup
 	
 	
 	
+	Method CountSprites:Int()
+		Local Count:Int = 0
+		For Local Shape:LTShape = Eachin Children
+			If LTSprite( Shape ) Then
+				Count :+ 1
+			ElseIf LTLayer( Shape ) Then
+				Count :+ LTLayer( Shape ).CountSprites()
+			End If
+		Next
+		Return Count
+	End Method
+	
+	
+	
+	
 	Method Clone:LTShape()
 		Local NewLayer:LTLayer = New LTLayer
 		For Local Obj:LTShape = Eachin Children

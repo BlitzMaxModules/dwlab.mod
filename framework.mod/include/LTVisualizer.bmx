@@ -18,6 +18,8 @@ Type LTVisualizer Extends LTObject Abstract
 	Field Alpha:Float = 1.0
 	Field XScale:Float = 1.0, YScale:Float = 1.0
 	Field Scaling:Int = True
+	Field Angle:Float
+	Field Rotating:Int = True
 
 	' ==================== Parameters ====================
 	

@@ -21,6 +21,8 @@ Type TMario Extends TMovingObject
 	Field Invulnerable:Int = False
 	Field Invisible:Int = False
 	Field Combo:Int = 0
+	Field OldFrame:Int
+	Field FiringStartingTime:Float
 	
 	Const Normal:Int = 0
 	Const Dying:Int = 1
@@ -28,6 +30,7 @@ Type TMario Extends TMovingObject
 	Const Shrinking:Int = 3
 	Const FireGaining:Int = 4
 	
+	Const FramesInRow:Int = 8
 	Const GrowingSpeed:Float = 0.08
 	Const JumpStrength:Float = -17.0
 	Const MovingAnimationSpeed:Float = 0.15
@@ -37,6 +40,8 @@ Type TMario Extends TMovingObject
 	Const InvulnerabilityPeriod:Float = 10.0
 	Const InvulnerabilityAnimationSpeed:Float = 0.05
 	Const FireGainingAnimationSpeed:Float = 0.05
+	Const FiringPeriod:Float = 0.2
+	Const FiringAnimationPeriod:Float = 0.1
 	
 	
 	
@@ -94,10 +99,10 @@ Type TMario Extends TMovingObject
 		Else
 			If Invisible And Game.Time > ModeStartingTime + InvisibilityPeriod Then Invisible = False
 			If Invulnerable Then
-				FrameShift = 7 + 7 * ( Floor( Game.Time / InvulnerabilityAnimationSpeed ) Mod 3 )
+				FrameShift = FramesInRow * ( 1 + ( Floor( Game.Time / InvulnerabilityAnimationSpeed ) Mod 3 ) )
 				If Game.Time > ModeStartingTime + InvulnerabilityPeriod Then
 					Invulnerable = False
-					If Fireable Then FrameShift = 7 * 4 Else FrameShift = 0
+					If Fireable Then FrameShift = FramesInRow * 4 Else FrameShift = 0
 					Game.MusicChannel.Stop()
 					Game.MusicChannel = PlaySound( Game.Music1Intro )
 				End If
@@ -107,21 +112,22 @@ Type TMario Extends TMovingObject
 			If KeyDown( Key_Left ) Then Direction = -1.0
 			If KeyDown( Key_Right ) Then Direction = 1.0
 			
-			If KeyDown( Key_Q ) And OnLand Then
+			If KeyDown( Key_A ) And OnLand Then
 				Game.Jump.Play()
 				DY = JumpStrength
 				Frame = 4
 			ElseIf Direction = 0.0 Then 
-				AnimationStartingTime = Game.Time
+				
 				Local DDX:Float = L_DeltaTime * 32.0
 				If DDX < Abs( DX ) Then
 					DX :- Sgn( DX ) * DDX
 				Else
 					DX = 0.0
 				End If
-				If OnLand Then Frame = 0
+				AnimationStartingTime = Game.Time
+				If Frame Mod FramesInRow <> 6 Then If OnLand Then Frame = 0
 			Else
-				If OnLand Then Animate( Game, MovingAnimationSpeed, 3, 1 + FrameShift, AnimationStartingTime )
+				If Frame Mod FramesInRow <> 6 Then If OnLand Then Animate( Game, MovingAnimationSpeed, 3, 1 + FrameShift, AnimationStartingTime )
 				If Sgn( DX ) = Direction Then
 					Visualizer.XScale = Direction
 					'DX :+ Direction * L_DeltaTime * 8.0
@@ -133,9 +139,18 @@ Type TMario Extends TMovingObject
 				End If
 				'Move( 5.0 * Direction, 0.0 )
 			End If
-			Frame = FrameShift + ( Frame Mod 7 )
 			
-			If
+			If Frame Mod FramesInRow = 6 Then If Game.Time > FiringStartingTime + FiringAnimationPeriod Then Frame = OldFrame
+			
+			If Fireable And KeyDown( Key_S ) And Game.Time > FiringStartingTime + FiringPeriod Then
+					If Frame Mod FramesInRow <> 6 Then OldFrame = Frame
+					Frame = 6
+					FiringStartingTime = Game.Time
+					PlaySound( Game.Firing )
+					TFireball.Launch()
+			End If
+			
+			Frame = FrameShift + ( Frame Mod FramesInRow )
 			
 			LimitLeftWith( Game.Tilemap )
 			LimitRightWith( Game.Tilemap )
@@ -154,7 +169,7 @@ Type TMario Extends TMovingObject
 	Method PlayAnimation()
 		If AnimationStartingTime + 10.0 * GrowingSpeed > Game.Time Then
 			If Mode = FireGaining Then
-				Frame = ( Frame Mod 7 ) + 14 + 7 *( Floor( Game.Time / FireGainingAnimationSpeed ) Mod 3 )
+				Frame = ( Frame Mod FramesInRow ) + FramesInRow *( 2 + ( Floor( Game.Time / FireGainingAnimationSpeed ) Mod 3 ) )
 			Else
 				Animate( Game, GrowingSpeed, , , AnimationStartingTime, True )
 			End If
@@ -170,7 +185,7 @@ Type TMario Extends TMovingObject
 					ModeStartingTime = Game.Time
 				Case FireGaining
 					Fireable = True
-					FrameShift = 7 * 4
+					FrameShift = FramesInRow * 4
 			End Select
 			Mode = Normal
 		End If
