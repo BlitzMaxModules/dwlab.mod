@@ -1591,6 +1591,7 @@ Type LTEditor Extends LTProject
 	
 	Method InitShape( Shape:LTShape )
 		Local Image:LTImage = LTImageVisualizer( Shape.Visualizer ).Image
+		If Not Image Then Return
 		InitImage( Image )
 		If LTTileMap( Shape ) Then
 			Local Tileset:LTTileset = LTTileSet( TilesetForImage.ValueForKey( Image ) )

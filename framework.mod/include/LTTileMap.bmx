@@ -103,17 +103,23 @@ Type LTTileMap Extends LTShape
 	
 	Method Clone:LTShape()
 		Local NewTileMap:LTTileMap = New LTTileMap
-		CopyShapeTo( NewTileMap )
-		NewTileMap.TileShape = TileShape
-		NewTileMap.TilesQuantity = TilesQuantity
-		NewTileMap.Wrapped = Wrapped
-		NewTileMap.SetResolution( FrameMap.XQuantity, FrameMap.YQuantity )
+		CopyTileMapTo( NewTileMap )
+		Return NewTileMap
+	End Method
+	
+	
+	
+	Method CopyTileMapTo( TileMap:LTTileMap )
+		CopyShapeTo( TileMap )
+		TileMap.TileShape = TileShape
+		TileMap.TilesQuantity = TilesQuantity
+		TileMap.Wrapped = Wrapped
+		TileMap.SetResolution( FrameMap.XQuantity, FrameMap.YQuantity )
 		For Local Y:Int = 0 Until FrameMap.YQuantity
 			For Local X:Int = 0 Until FrameMap.XQuantity
-				NewTileMap.FrameMap.Value[ X, Y ] = FrameMap.Value[ X, Y ]
+				TileMap.FrameMap.Value[ X, Y ] = FrameMap.Value[ X, Y ]
 			Next
 		Next
-		Return NewTileMap
 	End Method
 	
 	

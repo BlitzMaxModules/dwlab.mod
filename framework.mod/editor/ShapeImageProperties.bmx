@@ -140,7 +140,10 @@ Function ShapeImageProperties:Int( Shape:LTShape )
 								Notify( LocalizeString( "{{N_MoreThanZero}}" ), True )
 							End If
 						Else
-							Notify( LocalizeString( "{{N_ImageRequired}}" ), True )
+							LTImageVisualizer( Shape.Visualizer ).Image = Null
+							Editor.SetChanged()
+							FreeGadget( EditWindow )
+							Return True
 						End If
 					Case CancelButton
 						Exit

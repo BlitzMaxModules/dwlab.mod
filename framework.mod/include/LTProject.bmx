@@ -17,9 +17,6 @@ Type LTProject Extends LTObject
 	Field MinFPS:Float = 15
 	Field Pass:Int
 	Field Time:Float
-	
-	Field World:LTWorld
-	Field MainLayer:LTLayer
 
 	
 	
@@ -29,27 +26,41 @@ Type LTProject Extends LTObject
   
   
 	Method Render()
-		MainLayer.Draw()
-		ShowFPS()
-		DrawText( MainLayer.CountSprites(), 0, 16 )
-		DrawText( L_CollisionChecks, 0, 32 )
 	End Method
 	
 	
 	
 	Method Logic()
-		L_CollisionChecks = 0
-		MainLayer.Act()
 	End Method
 	
 	
 	
-	Method LoadLayer( LayerName:String, SetCollisionTilemap:Int = True )
-		Local Layer:LTLayer = World.FindLayer( LayerName )
-		?debug
-		If Layer = Null Then L_Error( "Layer " + LayerName + " not found" )
-		?
-		MainLayer = Layer.LoadLayer( Self )
+	Method LoadLayer:LTLayer( Layer:LTLayer )
+		Local NewLayer:LTLayer = New LTLayer
+		For Local Shape:LTShape = Eachin Layer.Children
+			Local NewShape:LTShape
+			If LTLayer( Shape ) Then
+				NewShape = LoadLayer( LTLayer( Shape ) )
+			Elseif LTTileMap( Shape ) Then
+				NewShape = LoadTileMap( LTTileMap( Shape ) )
+			ElseIf LTVectorSprite( Shape )
+				NewShape = LoadVectorSprite( LTVectorSprite( Shape ) )
+			ElseIf LTAngularSprite( Shape )
+				NewShape = LoadAngularSprite( LTAngularSprite( Shape ) )
+			Else
+				NewShape = LoadStaticSprite( LTSprite( Shape ) )
+			End If
+			If NewShape <> Null Then NewLayer.AddLast( NewShape )
+		Next
+		Return NewLayer
+	End Method
+	
+	
+	
+	Method LoadTilemap:LTTileMap( TileMap:LTTileMap )
+		Local NewTileMap:LTTileMap = New LTTileMap
+		TileMap.CopyTileMapTo( NewTileMap )
+		Return NewTileMap
 	End Method
 	
 	
@@ -100,6 +111,7 @@ Type LTProject Extends LTObject
 		Repeat
 			Time :+  L_DeltaTime
 			
+			L_CollisionChecks = 0
 			Logic()
 	      
 			For Local Joint:LTJoint = Eachin L_JointList

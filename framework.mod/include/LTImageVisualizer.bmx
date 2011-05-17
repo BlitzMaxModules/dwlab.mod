@@ -45,10 +45,6 @@ Type LTImageVisualizer Extends LTVisualizer
 	
 	
 	Method DrawUsingSprite( Sprite:LTSprite )
-		?debug
-		If Sprite.Frame < 0 Or Sprite.Frame >= Image.FramesQuantity() Then L_Error( "Incorrect frame number ( " + Sprite.Frame + " ) for sprite ~q" + Sprite.Name + "~q, must be less than " + Image.FramesQuantity() )
-		?
-	
 		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
 		SetAlpha Alpha
 	
@@ -69,6 +65,8 @@ Type LTImageVisualizer Extends LTVisualizer
 			Else
 				SetScale XScale, YScale
 			End If
+			
+			If Sprite.Frame < 0 Or Sprite.Frame >= Image.FramesQuantity() Then L_Error( "Incorrect frame number ( " + Sprite.Frame + " ) for sprite ~q" + Sprite.Name + "~q, must be less than " + Image.FramesQuantity() )
 			
 			DrawImage( Image.BMaxImage, SX, SY, Sprite.Frame )
 		Else

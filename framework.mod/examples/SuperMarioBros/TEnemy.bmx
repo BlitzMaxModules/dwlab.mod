@@ -22,6 +22,7 @@ Type TEnemy Extends TMovingObject
 	
 	
 	Method Act()
+		If Not Active Then Return
 		If Mode <= Falling Then DY :+ L_DeltaTime * Game.Gravity
 		If Mode = Normal Then
 			Animate( Game, 0.3, 2 )
@@ -42,9 +43,9 @@ Type TEnemy Extends TMovingObject
 	Method Kick()
 		DY = KickStrength
 		Visualizer.YScale = -1.0
-		
 		Mode = Falling
 		PlaySound( Game.Kick )
+		TScore.FromSprite( Self, TScore.s100 )
 		Game.MovingObjects.RemoveSprite( Self )
 	End Method
 End Type

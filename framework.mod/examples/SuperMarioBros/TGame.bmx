@@ -9,6 +9,8 @@
 '
 
 Type TGame Extends LTProject
+	Field World:LTWorld
+	Field MainLayer:LTLayer
 	Field MovingObjects:LTCollisionMap
 	Field Tilemap:LTTileMap
 	Field TileShape:LTShape[]
@@ -105,7 +107,7 @@ Type TGame Extends LTProject
 	
 	Method InitLevel()
 		MovingObjects = LTCollisionMap.Create( 128, 8 )
-		LoadLayer( "Land" )', False )
+		MainLayer = LoadLayer( World.FindLayer( "Land" ) )', False )
 		Tilemap = MainLayer.FindTilemap()
 		Tilemap.TileShape = TileShape
 		TileMap.Visualizer = TileMapVisualizer
@@ -126,7 +128,7 @@ Type TGame Extends LTProject
 			TileMapVisualizer.TileNum[ 9 ] = 9 + ( Fading > 0 ) * ( 39 + Fading )
 			TileMapVisualizer.TileNum[ 11 ] = TileMapVisualizer.TileNum[ 9 ]
 			TileMapVisualizer.TileNum[ 40 ] = 40 + ( Fading > 0 ) * ( 10 + Fading )
-			Super.Logic()
+			MainLayer.Act()
 		End If
 		
 		If Not MusicChannel.Playing() Then 
@@ -142,9 +144,18 @@ Type TGame Extends LTProject
 	
 	
 	
+	Method Render()
+		MainLayer.Draw()
+		ShowFPS()
+		DrawText( MainLayer.CountSprites(), 0, 16 )
+		DrawText( L_CollisionChecks, 0, 32 )
+	End Method
+	
+	
+	
 	Method LoadVectorSprite:LTVectorSprite( Sprite:LTVectorSprite )
 		Local NewSprite:LTVectorSprite
-		Select Sprite.Name
+		Select L_GetPrefix( Sprite.Name )
 			Case "Start"
 				Mario = New TMario
 				NewSprite = Mario

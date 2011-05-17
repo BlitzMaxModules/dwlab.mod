@@ -14,28 +14,6 @@ Type LTLayer Extends LTGroup
 	Field Bounds:LTShape
 	
 	
-
-	Method LoadLayer:LTLayer( Project:LTProject )
-		Local NewLayer:LTLayer = New LTLayer
-		For Local Shape:LTShape = Eachin Children
-			Local NewShape:LTShape
-			If LTLayer( Shape ) Then
-				NewShape = LTLayer( Shape ).LoadLayer( Project )
-			Elseif LTTileMap( Shape ) Then
-				NewShape = Shape.Clone()
-			ElseIf LTVectorSprite( Shape )
-				NewShape = Project.LoadVectorSprite( LTVectorSprite( Shape ) )
-			ElseIf LTAngularSprite( Shape )
-				NewShape = Project.LoadAngularSprite( LTAngularSprite( Shape ) )
-			Else
-				NewShape = Project.LoadStaticSprite( LTSprite( Shape ) )
-			End If
-			If NewShape <> Null Then NewLayer.AddLast( NewShape )
-		Next
-		Return NewLayer
-	End Method
-	
-	
 	
 	Method FindTilemap:LTTileMap()
 		For Local Obj:LTShape = Eachin Children
