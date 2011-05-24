@@ -10,11 +10,13 @@
 
 Type TGame Extends LTProject
 	Field World:LTWorld
+	Field Layer:LTLayer[]
 	Field MainLayer:LTLayer
 	Field MovingObjects:LTCollisionMap
 	Field Tilemap:LTTileMap
 	Field TileShape:LTShape[]
 	Field TileMapVisualizer:LTAnimatedTileMapVisualizer = New LTAnimatedTileMapVisualizer
+	Field ToExit:TExit
 	
 	Field SmallMario:LTImage = LTImage.FromFile( "media\SmallMario.png", 8, 4 )
 	Field SuperMario:LTImage = LTImage.FromFile( "media\SuperMario.png", 8, 5 )
@@ -44,10 +46,12 @@ Type TGame Extends LTProject
 	
 	Field Music1Intro:TSound = TSound.Load( "media\Music1intro.ogg", False )
 	Field Music1:TSound = TSound.Load( "media\Music1.ogg", True )
+	Field Music2:TSound = TSound.Load( "media\Music2.ogg", True )
 	Field Invulnerability:TSound = TSound.Load( "media\Invulnerability.ogg", True )
 	Field MarioDie:TSound = TSound.Load( "media\MarioDie.ogg", False )
 	Field MusicChannel:TChannel
 	
+	Const MaxLayers:Int = 2
 	Const Gravity:Float = 32.0
 	Const FadingSpeed:Float = 0.15
 	Const FadingPeriod:Int = 5
@@ -59,12 +63,11 @@ Type TGame Extends LTProject
 	Field Fireworks:TSound = TSound.Load( "media\Fireworks.ogg", False )
 	Field FlagPole:TSound = TSound.Load( "media\FlagPole.ogg", False )
 	Field GameOver:TSound = TSound.Load( "media\GameOver.ogg", False )
-	Field Music2:TSound = TSound.Load( "media\Music2.ogg", False )
 	Field StageClear:TSound = TSound.Load( "media\StageClear.ogg", False )
 	Field Warning:TSound = TSound.Load( "media\Warning.ogg", False )
 	EndRem
 	
-	Field Mario:TMario
+	Field Mario:TMario = New TMario
 	Field Lives:Int = 3
 	Field Score:Int
 	
@@ -72,6 +75,7 @@ Type TGame Extends LTProject
 	
 	Method Init()
 		InitGraphics( 800, 600, 40.0 )
+		SetClsColor( 92, 148, 252 )
 		World = LTWorld.FromFile( "world.lw" )
 		'L_CurrentCamera.Velocity = 10.0
 		
@@ -100,6 +104,8 @@ Type TGame Extends LTProject
 			End Select
 		Next
 		
+		Mario.Visualizer = LTImageVisualizer.FromImage( SmallMario )
+		
 		InitLevel()
 	End Method
 	
@@ -107,14 +113,34 @@ Type TGame Extends LTProject
 	
 	Method InitLevel()
 		MovingObjects = LTCollisionMap.Create( 128, 8 )
-		MainLayer = LoadLayer( World.FindLayer( "Land" ) )', False )
-		Tilemap = MainLayer.FindTilemap()
+		Layer = New LTLayer[ MaxLayers ]
+		For Local N:Int = 0 Until MaxLayers
+			MainLayer = LTLayer( World.FindShape( "Level1," + N ) )
+			If MainLayer Then Layer[ N ] = LoadLayer( MainLayer )
+			Layer[ N ].AddLast( Mario )
+		Next
+		GoToLayer( 0, 0 )
+		Mario.Mode = Mario.Normal
+	End Method
+	
+	
+	
+	Method GoToLayer( LayerNum:Int, PointNum:Int )
+		MainLayer = Layer[ LayerNum ]
+		Tilemap = Layer[ LayerNum ].FindTilemap()
 		Tilemap.TileShape = TileShape
 		TileMap.Visualizer = TileMapVisualizer
 		
-		MusicChannel = PlaySound( Music1Intro )
-		
-		Mario.Mode = Mario.Normal
+		If MusicChannel Then StopChannel( MusicChannel )
+		Select LayerNum
+			Case 0
+				MusicChannel = PlaySound( Music1Intro )
+			Case 1
+				MusicChannel = PlaySound( Music2 )
+		End Select
+	
+		Mario.JumpTo( MainLayer.FindShape( "Start," + PointNum ) )
+		If Mario.Big Then Mario.Y:- 0.5
 	End Method
 	
 	
@@ -145,26 +171,30 @@ Type TGame Extends LTProject
 	
 	
 	Method Render()
+		Cls
 		MainLayer.Draw()
-		ShowFPS()
-		DrawText( MainLayer.CountSprites(), 0, 16 )
-		DrawText( L_CollisionChecks, 0, 32 )
+		ShowDebugInfo( MainLayer )
+		DrawText( Mario.X, 0, 64 )
 	End Method
 	
 	
 	
 	Method LoadVectorSprite:LTVectorSprite( Sprite:LTVectorSprite )
 		Local NewSprite:LTVectorSprite
-		Select L_GetPrefix( Sprite.Name )
-			Case "Start"
-				Mario = New TMario
-				NewSprite = Mario
+		Select Sprite.GetNamePart()
 			Case "Goomba"
 				NewSprite = New TGoomba
 				MovingObjects.InsertSprite( NewSprite )
 			Case "KoopaTroopa"
 				NewSprite = New TKoopaTroopa
 				MovingObjects.InsertSprite( NewSprite )
+			Case "Trigger"
+				NewSprite = New TTrigger
+			Case "Exit"
+				Local NewExit:TExit = New TExit
+				NewExit.ToLayer = Sprite.GetNamePart( 2 ).ToInt()
+				NewExit.ToPoint = Sprite.GetNamePart( 3 ).ToInt()
+				NewSprite = NewExit
 			Default
 				NewSprite = New LTVectorSprite
 				

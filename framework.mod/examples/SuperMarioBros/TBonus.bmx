@@ -19,6 +19,11 @@ Type TBonus Extends TMovingObject
 	
 	
 	
+	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
+	End Method
+
+	
+	
 	Method Init( TileX:Int, TileY:Int )
 		SetAsTile( Game.TileMap, TileX, TileY )
 		DestinationY = Y - Height
@@ -27,7 +32,6 @@ Type TBonus Extends TMovingObject
 		Frame = 0
 		
 		Game.MainLayer.AddLast( Self )
-		Game.MovingObjects.InsertSprite( Self )
 		PlaySound( Game.PowerupAppears )
 	End Method
 
@@ -41,6 +45,11 @@ Type TBonus Extends TMovingObject
 	
 	
 	Method Act()
+		If CollidesWithSprite( Game.Mario ) Then
+			Collect()
+			Game.MainLayer.Remove( Self )
+		End If
+			
 		If Growing Then
 			If Y <= DestinationY Then
 				Growing = False

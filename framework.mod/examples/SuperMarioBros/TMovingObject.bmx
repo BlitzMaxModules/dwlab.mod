@@ -20,10 +20,9 @@ Type TMovingObject Extends LTVectorSprite
 	
 	
 	
-	Method Bump( CollisionType:Int, Mirror:Int = False )
+	Method Bump( CollisionType:Int )
 		If CollisionType = Horizontal Then
 			DX = -DX
-			If Mirror Then Visualizer.XScale = -Visualizer.XScale
 		Else
 			DY = 0.0
 		End If

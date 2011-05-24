@@ -12,13 +12,14 @@ Include "LTImageVisualizer.bmx"
 Include "LTFilledPrimitive.bmx"
 Include "LTEmptyPrimitive.bmx"
 Include "LTMarchingAnts.bmx"
+Include "LTWindowedVisualizer.bmx"
 
 Type LTVisualizer Extends LTObject Abstract
 	Field Red:Float = 1.0, Green:Float = 1.0, Blue:Float = 1.0
 	Field Alpha:Float = 1.0
 	Field XScale:Float = 1.0, YScale:Float = 1.0
 	Field Scaling:Int = True
-	Field Angle:Float
+	Field Angle:Float = 0.0
 	Field Rotating:Int = True
 
 	' ==================== Parameters ====================
@@ -36,6 +37,11 @@ Type LTVisualizer Extends LTObject Abstract
 	
 	
 	Method SetImage( NewImage:LTImage )
+	End Method
+	
+	
+	
+	Method SetDXDY( NewDX:Float, NewDY:Float )
 	End Method
 	
 	' ==================== Drawing ===================	

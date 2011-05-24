@@ -434,6 +434,25 @@ Type LTSprite Extends LTShape
 		Frame :+ FrameStart
 	End Method
 	
+	' ==================== Windowed Visualizer ====================
+	
+	Method LimitByWindow( X:Float, Y:Float, Width:Float, Height:Float )
+		Local NewVisualizer:LTWindowedVisualizer = New LTWindowedVisualizer
+		NewVisualizer.Viewport = New LTShape
+		NewVisualizer.Viewport.X = X
+		NewVisualizer.Viewport.Y = Y
+		NewVisualizer.Viewport.Width = Width
+		NewVisualizer.Viewport.Height = Height
+		NewVisualizer.Visualizer = Visualizer
+		Visualizer = NewVisualizer
+	End Method
+	
+	
+	
+	Method RemoveWindowLimit()
+		Visualizer = LTWindowedVisualizer( Visualizer ).Visualizer
+	End Method
+	
 	' ==================== Other ====================	
 
 	Method Clone:LTShape()

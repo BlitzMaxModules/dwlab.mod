@@ -54,11 +54,15 @@ Type LTLayer Extends LTGroup
 	
 	
 	
-	Method FindLayer:LTLayer( LayerName:String )
-		If Name = LayerName Then Return Self
-		For Local ChildLayer:LTLayer = Eachin Children
-			Local Layer:LTLayer = ChildLayer.FindLayer( LayerName )
-			If Layer Then Return Layer
+	Method FindShape:LTShape( ShapeName:String )
+		If Name = ShapeName Then Return Self
+		For Local ChildShape:LTShape = Eachin Children
+			If ChildShape.Name = ShapeName Then Return ChildShape
+			Local ChildLayer:LTLayer = LTLayer( ChildShape )
+			If ChildLayer Then
+				Local Shape:LTShape = ChildLayer.FindShape( ShapeName )
+				If Shape Then Return Shape
+			End If
 		Next
 		Return Null
 	End Method

@@ -8,6 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "TTrigger.bmx"
 Include "TGoomba.bmx"
 Include "TKoopaTroopa.bmx"
 
@@ -23,14 +24,14 @@ Type TEnemy Extends TMovingObject
 	
 	Method Act()
 		If Not Active Then Return
-		If Mode <= Falling Then DY :+ L_DeltaTime * Game.Gravity
-		If Mode = Normal Then
-			Animate( Game, 0.3, 2 )
-			Super.Act()
-		ElseIf Mode = Falling Then
+		If Mode = Falling Then
 			Move( DX, DY )
 			RemoveIfOutside()
+		Else
+			If Mode = Normal Then Animate( Game, 0.3, 2 )
+			Super.Act()
 		End If
+		DY :+ L_DeltaTime * Game.Gravity
 	End Method
 	
 	
@@ -40,9 +41,14 @@ Type TEnemy Extends TMovingObject
 	
 	
 	
+	Method Push()
+	End Method
+	
+	
+	
 	Method Kick()
 		DY = KickStrength
-		Visualizer.YScale = -1.0
+		Visualizer.YScale = -Visualizer.YScale
 		Mode = Falling
 		PlaySound( Game.Kick )
 		TScore.FromSprite( Self, TScore.s100 )

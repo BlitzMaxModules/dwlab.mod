@@ -13,7 +13,8 @@ Include "LTAnimatedTileMapVisualizer.bmx"
 
 Type LTImageVisualizer Extends LTVisualizer
 	Field Image:LTImage
-	
+	FIeld DX:Float = 0.0, DY:Float = 0.0
+
 	
 	
 	Function FromFile:LTImageVisualizer( Filename:String, XCells:Int = 1, YCells:Int = 1 )
@@ -44,12 +45,19 @@ Type LTImageVisualizer Extends LTVisualizer
 	
 	
 	
+	Method SetDXDY( NewDX:Float, NewDY:Float )
+		DX = NewDX
+		DY = NewDY
+	End Method
+	
+	
+	
 	Method DrawUsingSprite( Sprite:LTSprite )
 		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
 		SetAlpha Alpha
 	
 		Local SX:Float, SY:Float, SWidth:Float, SHeight:Float
-		L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX, SY )
+		L_CurrentCamera.FieldToScreen( Sprite.X + DX, Sprite.Y + DY, SX, SY )
 		
 		Local AngularSprite:LTAngularSprite = LTAngularSprite( Sprite )
 		If Rotating And AngularSprite Then
@@ -151,7 +159,8 @@ Type LTImageVisualizer Extends LTVisualizer
 	
 	
 	Method DrawTile( FrameMap:LTIntMap, X:Float, Y:Float, TileX:Int, TileY:Int )
-		Drawimage( Image.BMaxImage, X, Y, FrameMap.Value[ TileX, TileY ] )
+		Local Value:Int = FrameMap.Value[ TileX, TileY ]
+		If Value > 0 Then Drawimage( Image.BMaxImage, X, Y, Value )
 	End Method
 	
 	

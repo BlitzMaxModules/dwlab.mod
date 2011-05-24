@@ -18,6 +18,22 @@ Global LayerName:String
 
 Type LTObject
 	Field Name:String
+	
+
+	
+	Method GetNamePart:String( Num:Int = 1 )
+		Local PartStart:Int = 0
+		Local PartNum:Int = 1
+		For Local Sym:Int = 0 Until Len( Name )
+			if Name[ Sym ] = Asc( "," ) Then
+				If PartNum = Num Then Return Name[ PartStart..Sym ]
+				PartNum :+ 1
+				PartStart = Sym + 1
+			End If
+		Next
+		If PartNum = Num Then Return Name[ PartStart.. ]
+		Return ""
+	End Method
 
 	' ==================== loading / saving ===================
 

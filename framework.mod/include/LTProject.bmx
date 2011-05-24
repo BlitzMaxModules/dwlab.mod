@@ -143,7 +143,10 @@ Type LTProject Extends LTObject
 	
 	
 	
-	Method ShowFPS()
-		DrawText( L_FPS, 0, 0 )
+	Method ShowDebugInfo( MainLayer:LTLayer )
+		DrawText( "FPS: " + L_FPS, 0, 0 )
+		DrawText( "Memory allocated: " + Int( GCMemAlloced() / 1024 ) + "kb", 0, 16 )
+		DrawText( "Sprites: " + MainLayer.CountSprites(), 0, 32 )
+		DrawText( "Collision checks / pass: " + L_CollisionChecks, 0, 48 )
 	End Method
 End Type
