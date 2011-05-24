@@ -70,6 +70,7 @@ Type TGame Extends LTProject
 	Field Mario:TMario = New TMario
 	Field Lives:Int = 3
 	Field Score:Int
+	Field Coins:Int
 	
 	
 	
@@ -85,7 +86,14 @@ Type TGame Extends LTProject
 		TileMapVisualizer.Image = Tilemap.Visualizer.GetImage()
 		For Local N:Int = 0 Until Tilemap.TilesQuantity
 			If L_IntInLimits( N, 9, 13 ) Or L_IntInLimits( N, 15, 18 ) Or N = 23 Or N = 24 Or N >= 36 Then
-				Local Sprite:LTSprite = New LTSprite
+				Local Sprite:LTSprite
+				If N = 40 Or N = 51 Or N = 52 Then
+					Sprite = New TCoin
+					Sprite.Width = 10.0 / 16.0
+					Sprite.Height = 14.0 / 16.0
+				Else
+					Sprite = New TBlock
+				End If
 				Sprite.X = 0.5
 				Sprite.Y = 0.5
 				Sprite.ShapeType = LTSprite.Rectangle
@@ -174,7 +182,6 @@ Type TGame Extends LTProject
 		Cls
 		MainLayer.Draw()
 		ShowDebugInfo( MainLayer )
-		DrawText( Mario.X, 0, 64 )
 	End Method
 	
 	

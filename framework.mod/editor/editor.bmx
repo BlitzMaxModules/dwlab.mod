@@ -1121,8 +1121,10 @@ Type LTEditor Extends LTProject
 			SetTile.Execute()
 		Else
 			ShapeUnderCursor = Null
+			Local Size:Float = MainCamera.DistScreenToField( 8.0 )
+			Cursor.SetSize( Size, Size )
 			For Local Sprite:LTSprite = Eachin CurrentLayer.Children
-				If Editor.Cursor.CollidesWithSprite( Sprite ) Then ShapeUnderCursor = Sprite
+				If Cursor.CollidesWithSprite( Sprite ) Then ShapeUnderCursor = Sprite
 			Next
 			SelectShapes.Execute()
 			MoveShape.Execute()

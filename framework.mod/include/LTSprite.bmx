@@ -191,7 +191,7 @@ Type LTSprite Extends LTShape
 					Local Shape:LTShape = TileMap.TileShape[ TileMap.FrameMap.Value[ TileX, TileY ] ]
 					If Shape Then
 						 If Shape.TileCollidesWithSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, CellWidth, CellHeight ) Then
-							HandleCollisionWithTile( TileMap, TileX, TileY, CollisionType )
+							HandleCollisionWithTile( TileMap, Shape, TileX, TileY, CollisionType )
 						End If
 					End If
 				End If
@@ -212,7 +212,7 @@ Type LTSprite Extends LTShape
 							Local Shape:LTShape = TileMap.TileShape[ TileMap.FrameMap.Value[ TileX, TileY ] ]
 							If Shape Then
 								If Shape.TileCollidesWithSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, CellWidth, CellHeight ) Then
-									HandleCollisionWithTile( TileMap, TileX, TileY, CollisionType )
+									HandleCollisionWithTile( TileMap, Shape, TileX, TileY, CollisionType )
 								End If
 							End If
 						Next
@@ -266,7 +266,7 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
+	Method HandleCollisionWithTile( TileMap:LTTileMap, Shape:LTShape, TileX:Int, TileY:Int, CollisionType:Int )
 	End Method
 	
 

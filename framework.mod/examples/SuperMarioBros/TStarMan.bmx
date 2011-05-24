@@ -22,9 +22,10 @@ Type TStarMan Extends TBonus
 	
 	
 	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
+	Method HandleCollisionWithTile( TileMap:LTTileMap, Shape:LTShape, TileX:Int, TileY:Int, CollisionType:Int )
+		If TCoin( Shape ) Then Return
 		If Growing Then Return
-		Super.HandleCollisionWithTile( TileMap, TileX, TileY, CollisionType )
+		Super.HandleCollisionWithTile( TileMap, Shape, TileX, TileY, CollisionType )
 		If CollisionType = Vertical Then
 			If DY >= 0.0 Then
 				DY = JumpStrength

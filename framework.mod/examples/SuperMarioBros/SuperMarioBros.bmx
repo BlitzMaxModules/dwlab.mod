@@ -37,6 +37,7 @@ Include "TBricks.bmx"
 Include "TBlock.bmx"
 Include "TCoin.bmx"
 Include "TScore.bmx"
+Include "TPole.bmx"
 
 Global Game:TGame = New TGame
 Game.Execute()

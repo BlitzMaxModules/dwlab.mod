@@ -43,7 +43,8 @@ Type TFireball Extends TMovingObject
 	
 	
 	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
+	Method HandleCollisionWithTile( TileMap:LTTileMap, Shape:LTShape, TileX:Int, TileY:Int, CollisionType:Int )
+		If TCoin( Shape ) Then Return
 		If CollisionType = Vertical Then
 			PushFromTile( TileMap, TileX, TileY )
 			If DY <= 0.0 Then

@@ -30,7 +30,7 @@ Type TMovingObject Extends LTVectorSprite
 	
 	
 	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
+	Method HandleCollisionWithTile( TileMap:LTTileMap, Shape:LTShape, TileX:Int, TileY:Int, CollisionType:Int )
 		PushFromTile( TileMap, TileX, TileY )
 		Bump( CollisionType )
 	End Method

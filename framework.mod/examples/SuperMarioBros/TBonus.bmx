@@ -37,9 +37,10 @@ Type TBonus Extends TMovingObject
 
 	
 	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
+	Method HandleCollisionWithTile( TileMap:LTTileMap, Shape:LTShape, TileX:Int, TileY:Int, CollisionType:Int )
+		If TCoin( Shape ) Then Return
 		If Growing Then Return
-		Super.HandleCollisionWithTile( TileMap, TileX, TileY, CollisionType )
+		Super.HandleCollisionWithTile( TileMap, Shape, TileX, TileY, CollisionType )
 	End Method
 	
 	

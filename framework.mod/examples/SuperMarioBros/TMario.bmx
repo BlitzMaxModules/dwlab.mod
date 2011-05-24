@@ -33,7 +33,7 @@ Type TMario Extends TMovingObject
 	Const FireGaining:Int = 4
 	Const Exiting:Int = 5
 	
-	Const FramesInRow:Int = 8
+	Const FramesInRow:Int = 9
 	Const GrowingSpeed:Float = 0.08
 	Const JumpStrength:Float = -17.0
 	Const MovingAnimationSpeed:Float = 0.15
@@ -79,21 +79,28 @@ Type TMario Extends TMovingObject
 	
 	
 	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
-		If CollisionType = Vertical Then
-			If DY >= 0.0 Then 
-				OnLand = True
-				Combo = 0
-			Else
-				Local TileNum:Int = TileMap.FrameMap.Value[ TileX, TileY ]
-				Select TileNum
-					Case 9, 10, 11, 13, 16, 17, 18, 27
-						TBlock.FromTile( TileX, TileY, TileNum )
-				End Select
+	Method HandleCollisionWithTile( TileMap:LTTileMap, Shape:LTShape, TileX:Int, TileY:Int, CollisionType:Int )
+		If TCoin( Shape ) Then 
+			TileMap.SetTile( TileX, TileY, 35 )
+			PlaySound( Game.CoinFlip )
+			Game.Score :+ 200
+			Game.Coins :+ 1
+		Else
+			If CollisionType = Vertical Then
+				If DY >= 0.0 Then 
+					OnLand = True
+					Combo = 0
+				Else
+					Local TileNum:Int = TileMap.GetTile( TileX, TileY )
+					Select TileNum
+						Case 9, 10, 11, 13, 16, 17, 18, 27
+							TBlock.FromTile( TileX, TileY, TileNum )
+					End Select
+				End If
+				DY = 0
 			End If
-			DY = 0
+			PushFromTile( TileMap, TileX, TileY )
 		End If
-		PushFromTile( TileMap, TileX, TileY )
 	End Method
 	
 	

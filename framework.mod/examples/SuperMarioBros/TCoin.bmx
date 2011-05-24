@@ -35,6 +35,7 @@ Type TCoin Extends LTVectorSprite
 		If Y > LowestY Then
 			Game.MainLayer.Remove( Self )
 			TScore.FromSprite( Self, TScore.s200 )
+			Game.Coins :+ 1
 		End If
 	End Method
 End Type
