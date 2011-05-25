@@ -18,8 +18,8 @@ Type TGame Extends LTProject
 	Field TileMapVisualizer:LTAnimatedTileMapVisualizer = New LTAnimatedTileMapVisualizer
 	Field ToExit:TExit
 	
-	Field SmallMario:LTImage = LTImage.FromFile( "media\SmallMario.png", 8, 4 )
-	Field SuperMario:LTImage = LTImage.FromFile( "media\SuperMario.png", 8, 5 )
+	Field SmallMario:LTImage = LTImage.FromFile( "media\SmallMario.png", Mario.FramesInRow, 4 )
+	Field SuperMario:LTImage = LTImage.FromFile( "media\SuperMario.png", Mario.FramesInRow, 5 )
 	Field Growth:LTImage = LTImage.FromFile( "media\Growth.png", 3 )
 	
 	Field Bricks:LTImage = LTImage.FromFile( "media\Bricks.png", 2 )
@@ -81,7 +81,7 @@ Type TGame Extends LTProject
 		'L_CurrentCamera.Velocity = 10.0
 		
 		Tilemap = World.FindTilemap()
-		TileShape = Tilemap.TileShape
+		TileShape = New LTShape[ Tilemap.TilesQuantity ]
 		TileMapVisualizer.TileNum = New Int[ Tilemap.TilesQuantity ]
 		TileMapVisualizer.Image = Tilemap.Visualizer.GetImage()
 		For Local N:Int = 0 Until Tilemap.TilesQuantity

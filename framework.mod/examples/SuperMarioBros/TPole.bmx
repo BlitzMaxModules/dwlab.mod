@@ -11,7 +11,7 @@
 Type TPole Extends LTVectorSprite
 	Method Act()
 		If CollidesWithSprite( Game.Mario ) Then
-			TScore.FromSprite( Game.Mario, TScore.s100
+			TScore.FromSprite( Game.Mario, TScore.s100 )
 		End If
 	End Method
 End Type

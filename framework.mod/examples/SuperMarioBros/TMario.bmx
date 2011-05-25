@@ -32,6 +32,9 @@ Type TMario Extends TMovingObject
 	Const Shrinking:Int = 3
 	Const FireGaining:Int = 4
 	Const Exiting:Int = 5
+	Const Sliding:Int = 6
+	Const WalkingTowardsExit:Int = 7
+	Const Salute:Int = 8
 	
 	Const FramesInRow:Int = 9
 	Const GrowingSpeed:Float = 0.08
