@@ -43,17 +43,6 @@ Type LTLayer Extends LTGroup
 	
 	
 	
-	
-	Method Clone:LTShape()
-		Local NewLayer:LTLayer = New LTLayer
-		For Local Obj:LTShape = Eachin Children
-			NewLayer.AddLast( Obj.Clone() )
-		Next
-		Return NewLayer
-	End Method
-	
-	
-	
 	Method FindShape:LTShape( ShapeName:String )
 		If Name = ShapeName Then Return Self
 		For Local ChildShape:LTShape = Eachin Children

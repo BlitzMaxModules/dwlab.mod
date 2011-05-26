@@ -12,7 +12,6 @@ Type TGoomba Extends TEnemy
 	Const Stomped:Int = 2
 	Const FlatPeriod:Float = 1.0
 	
-	Field StompStartingTime:Float
 	
 	
 	
@@ -33,9 +32,29 @@ Type TGoomba Extends TEnemy
 	
 	
 	Method Stomp()
-		Frame = 2
 		Mode = Stomped
 		StompStartingTime = Game.Time
-		Game.MovingObjects.RemoveSprite( Self )
+	End Method
+End Type
+
+
+
+Type TStomped Extends LTBehavior
+	Field StartingTime:Float
+	
+	
+	
+	Function ApplyTo( Sprite:LTSprite )
+		Local Behavior:TStomped = New TStomped
+		Behavior.StartingTime = Game.Time
+		Sprite.Frame = 2
+		Game.MovingObjects.RemoveSprite( Sprite )
+	End Function
+	
+	
+	
+	
+	Method Act()
+		
 	End Method
 End Type

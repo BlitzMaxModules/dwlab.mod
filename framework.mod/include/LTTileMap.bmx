@@ -103,14 +103,20 @@ Type LTTileMap Extends LTShape
 	
 	Method Clone:LTShape()
 		Local NewTileMap:LTTileMap = New LTTileMap
-		CopyTileMapTo( NewTileMap )
+		CopyTo( NewTileMap )
 		Return NewTileMap
 	End Method
 	
 	
 	
-	Method CopyTileMapTo( TileMap:LTTileMap )
-		CopyShapeTo( TileMap )
+	Method CopyTo( Shape:LTShape )
+		Super.CopyTo( Shape )
+		Local TileMap:LTTileMap = LTTileMap( Shape )
+		
+		?debug
+		If Not TileMap Then L_Error( "Trying to copy tilemap data to non-tilemap" )
+		?
+		
 		TileMap.TileShape = TileShape
 		TileMap.TilesQuantity = TilesQuantity
 		TileMap.Wrapped = Wrapped

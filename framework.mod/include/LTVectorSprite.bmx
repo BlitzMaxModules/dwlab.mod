@@ -21,18 +21,22 @@ Type LTVectorSprite Extends LTSprite
 	
 	Method Clone:LTShape()
 		Local NewSprite:LTVectorSprite = New LTVectorSprite
-		CopyVectorSpriteTo( NewSprite )
+		CopyTo( NewSprite )
 		Return NewSprite
 	End Method
 
 	
 	
-	Method CopyVectorSpriteTo( Sprite:LTVectorSprite )
-		CopyShapeTo( Sprite )
-		Sprite.ShapeType = ShapeType
+	Method CopyTo( Shape:LTShape )
+		Super.CopyTo( Shape )
+		Local Sprite:LTVectorSprite = LTVectorSprite( Shape )
+		
+		?debug
+		If Not Sprite Then L_Error( "Trying to copy vector sprite data to non-vector sprite" )
+		?
+		
 		Sprite.DX = DX
 		Sprite.DY = DY
-		Sprite.Frame = Frame
 	End Method
 
 	

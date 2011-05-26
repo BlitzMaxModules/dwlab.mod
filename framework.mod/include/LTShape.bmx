@@ -238,12 +238,12 @@ Type LTShape Extends LTObject
 	
 	' ==================== Other ===================
 	
-	Method Clone:LTShape()
+	Method Init()
 	End Method
 	
 	
 	
-	Method CopyShapeTo( Shape:LTShape )
+	Method CopyTo( Shape:LTShape )
 		Shape.Name = Name
 		Shape.Visualizer = Visualizer
 		Shape.X = X

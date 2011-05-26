@@ -77,18 +77,22 @@ Type LTAngularSprite Extends LTSprite
 	
 	Method Clone:LTShape()
 		Local NewSprite:LTAngularSprite = New LTAngularSprite
-		CopyAngularSpriteTo( NewSprite )
+		CopyTo( NewSprite )
 		Return NewSprite
 	End Method
 	
 	
-	
-	Method CopyAngularSpriteTo( Sprite:LTAngularSprite )
-		CopyShapeTo( Sprite )
-		Sprite.ShapeType = ShapeType
+
+	Method CopyTo( Shape:LTShape )
+		Super.CopyTo( Shape )
+		Local Sprite:LTAngularSprite = LTAngularSprite( Shape )
+		
+		?debug
+		If Not Sprite Then L_Error( "Trying to copy angular sprite data to non-angular sprite" )
+		?
+		
 		Sprite.Angle = Angle
 		Sprite.Velocity = Velocity
-		Sprite.Frame = Frame
 	End Method
 
 	

@@ -12,6 +12,9 @@ Include "TFireball.bmx"
 Include "TExit.bmx"
 
 Type TMario Extends TMovingObject
+	Field Color:Int
+	Field Phase:Int
+	Field Walk:TMarioWalk = New TMarioWalk
 	Field Mode:Int = Normal
 	Field FrameShift:Int
 	Field AnimationStartingTime:Float
@@ -50,6 +53,14 @@ Type TMario Extends TMovingObject
 	Const FiringAnimationPeriod:Float = 0.1
 	Const HopStrength:Float = -4.0
 	Const ExitingSpeed:Float = 2.0
+	
+	
+	
+	Method Init()
+		Visualizer = LTImageVisualizer.FromImage( Game.SmallMario )
+		Walk.AttachTo( Game.BehaviorRoot )
+		
+	End Method
 	
 	
 	
@@ -109,8 +120,8 @@ Type TMario Extends TMovingObject
 	
 	
 	Method Act()
+		Frame = Color * FramesInRow + Phase
 		If Mode = Exiting Then Return
-		DY :+ L_DeltaTime * 32.0
 		
 		If Mode = Dying Then
 			Move( 0, DY )
@@ -291,4 +302,35 @@ Type TMario Extends TMovingObject
 		Game.MusicChannel.Stop()
 		Game.MusicChannel = Game.MarioDie.Play()
 	End Method
+End Type
+
+
+
+Type TMarioWalk Extends LTBehavior
+	Method Act()
+		
+	End Method
+End Type
+
+
+
+Type TGravity Extends LTBehavior
+	Method Act()
+		DY :+ L_DeltaTime * 32.0
+	End Method
+End Type
+
+
+
+Type TMarioStand Extends LTBehavior
+End Type
+
+
+
+Type TMarioFireable Extends LTBehavior
+End Type
+
+
+
+Type TMarioBig Extends LTBehavior
 End Type

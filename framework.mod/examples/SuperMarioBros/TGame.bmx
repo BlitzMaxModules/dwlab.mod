@@ -16,6 +16,7 @@ Type TGame Extends LTProject
 	Field Tilemap:LTTileMap
 	Field TileShape:LTShape[]
 	Field TileMapVisualizer:LTAnimatedTileMapVisualizer = New LTAnimatedTileMapVisualizer
+	Field Environment:LTBehaviorGroup = New LTBehaviorGroup
 	Field ToExit:TExit
 	
 	Field SmallMario:LTImage = LTImage.FromFile( "media\SmallMario.png", Mario.FramesInRow, 4 )
@@ -112,7 +113,8 @@ Type TGame Extends LTProject
 			End Select
 		Next
 		
-		Mario.Visualizer = LTImageVisualizer.FromImage( SmallMario )
+		Mario.Init()
+		Environment.AttachTo( BehaviorRoot )
 		
 		InitLevel()
 	End Method
@@ -182,32 +184,5 @@ Type TGame Extends LTProject
 		Cls
 		MainLayer.Draw()
 		ShowDebugInfo( MainLayer )
-	End Method
-	
-	
-	
-	Method LoadVectorSprite:LTVectorSprite( Sprite:LTVectorSprite )
-		Local NewSprite:LTVectorSprite
-		Select Sprite.GetNamePart()
-			Case "Goomba"
-				NewSprite = New TGoomba
-				MovingObjects.InsertSprite( NewSprite )
-			Case "KoopaTroopa"
-				NewSprite = New TKoopaTroopa
-				MovingObjects.InsertSprite( NewSprite )
-			Case "Trigger"
-				NewSprite = New TTrigger
-			Case "Exit"
-				Local NewExit:TExit = New TExit
-				NewExit.ToLayer = Sprite.GetNamePart( 2 ).ToInt()
-				NewExit.ToPoint = Sprite.GetNamePart( 3 ).ToInt()
-				NewSprite = NewExit
-			Default
-				NewSprite = New LTVectorSprite
-				
-			'	L_Error( "Sprite type " + Sprite.Name + " not found" )
-		End Select
-		Sprite.CopyVectorSpriteTo( NewSprite )
-		Return NewSprite
 	End Method
 End Type

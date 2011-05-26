@@ -457,14 +457,20 @@ Type LTSprite Extends LTShape
 
 	Method Clone:LTShape()
 		Local NewSprite:LTSprite = New LTSprite
-		CopySpriteTo( NewSprite )
+		CopyTo( NewSprite )
 		Return NewSprite
 	End Method
 
 	
 	
-	Method CopySpriteTo( Sprite:LTSprite )
-		CopyShapeTo( Sprite )
+	Method CopyTo( Shape:LTShape )
+		Super.CopyTo( Shape )
+		Local Sprite:LTSprite = LTSprite( Shape )
+		
+		?debug
+		If Not Sprite Then L_Error( "Trying to copy sprite data to non-sprite" )
+		?
+		
 		Sprite.ShapeType = ShapeType
 		Sprite.Frame = Frame
 	End Method

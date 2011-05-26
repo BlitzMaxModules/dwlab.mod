@@ -17,6 +17,7 @@ Type LTProject Extends LTObject
 	Field MinFPS:Float = 15
 	Field Pass:Int
 	Field Time:Float
+	Field BehaviorRoot:LTBehaviorGroup = New LTBehaviorGroup
 
 	
 	
@@ -41,50 +42,28 @@ Type LTProject Extends LTObject
 			Local NewShape:LTShape
 			If LTLayer( Shape ) Then
 				NewShape = LoadLayer( LTLayer( Shape ) )
-			Elseif LTTileMap( Shape ) Then
-				NewShape = LoadTileMap( LTTileMap( Shape ) )
-			ElseIf LTVectorSprite( Shape )
-				NewShape = LoadVectorSprite( LTVectorSprite( Shape ) )
-			ElseIf LTAngularSprite( Shape )
-				NewShape = LoadAngularSprite( LTAngularSprite( Shape ) )
 			Else
-				NewShape = LoadStaticSprite( LTSprite( Shape ) )
+				Local CommaPos:Int = Shape.Name.Find( "," )
+				Local TypeName:String = Shape.Name
+				Local RealName:String = ""
+				If CommaPos Then
+					TypeName = Shape.Name[ ..CommaPos ]
+					RealName = Shape.Name[ CommaPos + 1.. ]
+				End If
+				Local TypeID:TTypeId = TTypeID.ForName( TypeName )
+				
+				?debug
+				If Not TypeID Then L_Error( "Type ~q" + TypeName + "~q not found" )
+				?
+				
+				NewShape = LTShape( TypeID.NewObject() )
+				Shape.CopyTo( NewShape )
+				NewShape.Name = RealName
+				NewShape.Init()
 			End If
-			If NewShape <> Null Then NewLayer.AddLast( NewShape )
+			NewLayer.AddLast( NewShape )
 		Next
 		Return NewLayer
-	End Method
-	
-	
-	
-	Method LoadTilemap:LTTileMap( TileMap:LTTileMap )
-		Local NewTileMap:LTTileMap = New LTTileMap
-		TileMap.CopyTileMapTo( NewTileMap )
-		Return NewTileMap
-	End Method
-	
-	
-	
-	Method LoadStaticSprite:LTSprite( Sprite:LTSprite )
-		Local NewSprite:LTSprite = New LTSprite
-		Sprite.CopySpriteTo( NewSprite )
-		Return NewSprite
-	End Method
-	
-	
-	
-	Method LoadVectorSprite:LTVectorSprite( Sprite:LTVectorSprite )
-		Local NewSprite:LTVectorSprite = New LTVectorSprite
-		Sprite.CopyVectorSpriteTo( NewSprite )
-		Return NewSprite
-	End Method
-	
-	
-	
-	Method LoadAngularSprite:LTSprite( Sprite:LTAngularSprite )
-		Local NewSprite:LTAngularSprite = New LTAngularSprite
-		Sprite.CopyAngularSpriteTo( NewSprite )
-		Return NewSprite
 	End Method
 	
 	
@@ -113,6 +92,7 @@ Type LTProject Extends LTObject
 			
 			L_CollisionChecks = 0
 			Logic()
+			BehaviorRoot.Act()
 	      
 			For Local Joint:LTJoint = Eachin L_JointList
 				Joint.Operate()
