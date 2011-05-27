@@ -15,7 +15,7 @@ Type TFireFlower Extends TBonus
 
 	Function FromTile( TileX:Int, TileY:Int )
 		Local Bonus:TBonus = New TFireFlower
-		Bonus.Init( TileX, TileY )
+		Bonus.Initialize( TileX, TileY )
 		Bonus.Visualizer = Game.FireFlower
 		Bonus.DX = 0.0
 	End Function

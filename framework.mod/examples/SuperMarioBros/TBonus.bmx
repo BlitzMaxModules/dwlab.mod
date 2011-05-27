@@ -24,7 +24,7 @@ Type TBonus Extends TMovingObject
 
 	
 	
-	Method Init( TileX:Int, TileY:Int )
+	Method Initialize( TileX:Int, TileY:Int )
 		SetAsTile( Game.TileMap, TileX, TileY )
 		DestinationY = Y - Height
 		DY = -1.0

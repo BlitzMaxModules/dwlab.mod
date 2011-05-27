@@ -266,3 +266,16 @@ End Function
 Function L_IntInLimits:Int( Value:Int, FromValue:Int, ToValue:Int )
 	If Value >= FromValue And Value <= ToValue Then Return True
 End Function
+
+
+
+
+Function L_GetTypeID:TTypeId( TypeName:String )
+	Local TypeID:TTypeId = TTypeID.ForName( TypeName )
+	
+	?debug
+	If Not TypeID Then L_Error( "Type name ~q" + TypeName + "~q not found" )
+	?
+	
+	Return TypeID
+End Function

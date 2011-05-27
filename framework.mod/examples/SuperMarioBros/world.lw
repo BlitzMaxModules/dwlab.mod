@@ -1,4 +1,4 @@
-<LTWorld dwlab_version="0.12.3">
+<LTWorld dwlab_version="0.12.4">
 	<LTFilledPrimitive field="visualizer" id="1"/>
 	<TList field="definitions"/>
 	<LTLayer name="Level1,0">
@@ -167,7 +167,7 @@
 				<LTImage field="image" filename="media\FlagFromPole.png"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
-		<LTVectorSprite name="TStart,0" x="2.5" y="12.5">
+		<LTVectorSprite name="LTVectorSprite,Start,0" x="2.5" y="12.5">
 			<LTImageVisualizer field="visualizer" alpha="0" rotating="0"/>
 		</LTVectorSprite>
 		<LTVectorSprite name="TPole" x="198.5" y="7.25" width="0.2" height="9.5" shape="2">
@@ -176,7 +176,7 @@
 		<LTVectorSprite name="TExit,1,0" x="58" y="8" width="2" height="2" shape="2" dy="1">
 			<LTImageVisualizer field="visualizer" alpha="0"/>
 		</LTVectorSprite>
-		<LTVectorSprite name="TStart,1" x="164" y="10.5" width="2">
+		<LTVectorSprite name="LTVectorSprite,Start,1" x="164" y="10.5" width="2">
 			<LTImageVisualizer field="visualizer" alpha="0"/>
 		</LTVectorSprite>
 	</LTLayer>
@@ -205,7 +205,7 @@
 				<Row data="47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTVectorSprite name="TStart,0" x="1.5" y="1.5">
+		<LTVectorSprite name="LTVectorSprite,Start,0" x="1.5" y="1.5">
 			<LTImageVisualizer field="visualizer" alpha="0"/>
 		</LTVectorSprite>
 		<LTVectorSprite name="TExit,0,1" x="12.5" y="10" height="2" shape="2" dx="1">

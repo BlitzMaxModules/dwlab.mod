@@ -22,6 +22,12 @@ Type TEnemy Extends TMovingObject
 	
 	
 	
+	Method Init()
+		Game.MovingObjects.InsertSprite( Self )
+	End Method
+	
+	
+	
 	Method Act()
 		If Not Active Then Return
 		If Mode = Falling Then

@@ -16,7 +16,7 @@ Type TStarMan Extends TBonus
 
 	Function FromTile( TileX:Int, TileY:Int )
 		Local Bonus:TBonus = New TStarMan
-		Bonus.Init( TileX, TileY )
+		Bonus.Initialize( TileX, TileY )
 		Bonus.Visualizer = Game.StarMan
 	End Function
 	

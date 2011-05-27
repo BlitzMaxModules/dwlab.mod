@@ -9,11 +9,6 @@
 '
 
 Type TExit Extends LTVectorSprite
-	Field ToLayer:Int
-	Field ToPoint:Int
-
-	
-
 	Method Act()
 		If Overlaps( Game.Mario ) And ( DX <> 0.0 Or ( Game.Mario.OnLand And KeyDown( Key_Down ) ) ) Then
 			Game.ToExit = Self

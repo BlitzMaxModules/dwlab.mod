@@ -8,21 +8,18 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTBehaviorGroup.bmx"
-
-Type LTBehavior Extends LTObject
+Type LTBehaviorModel Extends LTObject
 	Field Active:Int = True
 	Field Link:TLink
 	
 	
 	
-	Method Act()
+	Method Init( Sprite:LTSprite )
 	End Method
+
 	
 	
-	
-	Method AttachTo( Group:LTBehaviorGroup )
-		Link = Group.Children.AddLast( Self )
+	Method ApplyTo( Sprite:LTSprite )
 	End Method
 	
 	

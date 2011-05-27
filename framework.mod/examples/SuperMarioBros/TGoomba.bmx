@@ -10,14 +10,14 @@
 
 Type TGoomba Extends TEnemy
 	Const Stomped:Int = 2
-	Const FlatPeriod:Float = 1.0
 	
+	Field StompStartingTime:Float
 	
 	
 	
 	Method Act()
 		If Mode = Stomped Then
-			If Game.Time > StompStartingTime + FlatPeriod Then Game.MainLayer.Remove( Self )
+			If Game.Time > StompStartingTime + TStomped.FlatPeriod Then Game.MainLayer.Remove( Self )
 		Else
 			Super.Act()
 		End If
@@ -32,29 +32,32 @@ Type TGoomba Extends TEnemy
 	
 	
 	Method Stomp()
+		Frame = 2
 		Mode = Stomped
 		StompStartingTime = Game.Time
+		Game.MovingObjects.RemoveSprite( Self )
 	End Method
 End Type
 
 
 
-Type TStomped Extends LTBehavior
+Type TStomped Extends LTBehaviorModel
 	Field StartingTime:Float
 	
+	Const FlatPeriod:Float = 1.0
+
 	
 	
-	Function ApplyTo( Sprite:LTSprite )
-		Local Behavior:TStomped = New TStomped
-		Behavior.StartingTime = Game.Time
+	Method Init( Sprite:LTSprite )
+		StartingTime = Game.Time
 		Sprite.Frame = 2
-		Game.MovingObjects.RemoveSprite( Sprite )
-	End Function
+		Sprite.DeactivateModel( "Gravity" )
+		Sprite.DeactivateModel( "Moving" )
+	End Method
 	
 	
 	
-	
-	Method Act()
-		
+	Method ApplyTo( Sprite:LTSprite )
+		If Game.Time > StartingTime + FlatPeriod Then Game.MainLayer.Remove( Sprite )
 	End Method
 End Type

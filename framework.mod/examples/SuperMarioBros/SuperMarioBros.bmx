@@ -32,12 +32,14 @@ SetAudioDriver( "DirectSound" )
 Include "../../framework.bmx"
 
 Include "TGame.bmx"
+Include "CommonBehaviorModels.bmx"
 Include "TMovingObject.bmx"
 Include "TBricks.bmx"
 Include "TBlock.bmx"
 Include "TCoin.bmx"
 Include "TScore.bmx"
 Include "TPole.bmx"
+Include "TFlag.bmx"
 
 Global Game:TGame = New TGame
 Game.Execute()

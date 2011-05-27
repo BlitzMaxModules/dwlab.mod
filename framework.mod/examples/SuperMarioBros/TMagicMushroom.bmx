@@ -11,7 +11,7 @@
 Type TMagicMushroom Extends TBonus
 	Function FromTile( TileX:Int, TileY:Int )
 		Local Bonus:TBonus = New TMagicMushroom
-		Bonus.Init( TileX, TileY )
+		Bonus.Initialize( TileX, TileY )
 		Bonus.Visualizer = Game.MagicMushroom
 	End Function
 	

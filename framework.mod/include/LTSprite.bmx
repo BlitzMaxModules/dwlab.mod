@@ -453,6 +453,49 @@ Type LTSprite Extends LTShape
 		Visualizer = LTWindowedVisualizer( Visualizer ).Visualizer
 	End Method
 	
+	' ==================== Behavior models ===================
+	
+	Method AttachModel( Model:LTBehaviorModel )
+		Model.Link = BehaviorModels.AddLast( Model )
+		Model.Init( Self )
+	End Method
+	
+	
+	
+	Method FindModel:LTBehaviorModel( TypeName:String )
+		Local TypeID:TTypeId = L_GetTypeID( TypeName )
+		For Local Model:LTBehaviorModel = Eachin BehaviorModels
+			If TTypeID.ForObject( Model ) = TypeID Then Return Model
+		Next
+	End Method
+	
+	
+	
+	Method ActivateModel( TypeName:String )
+		Local TypeID:TTypeId = L_GetTypeID( TypeName )
+		For Local Model:LTBehaviorModel = Eachin BehaviorModels
+			If TTypeID.ForObject( Model ) = TypeID Then Model.Active = True
+		Next
+	End Method
+	
+	
+	
+	Method DeactivateModel( TypeName:String )
+		Local TypeID:TTypeId = L_GetTypeID( TypeName )
+		For Local Model:LTBehaviorModel = Eachin BehaviorModels
+			If TTypeID.ForObject( Model ) = TypeID Then Model.Active = False
+		Next
+	End Method
+	
+	
+	
+	Method RemoveModel( TypeName:String )
+		Local TypeID:TTypeId = L_GetTypeID( TypeName )
+		For Local Model:LTBehaviorModel = Eachin BehaviorModels
+			If TTypeID.ForObject( Model ) = TypeID Then Model.Remove()
+		Next
+	End Method
+	
 	' ==================== Other ====================	
 
 	Method Clone:LTShape()
@@ -473,6 +516,14 @@ Type LTSprite Extends LTShape
 		
 		Sprite.ShapeType = ShapeType
 		Sprite.Frame = Frame
+	End Method
+	
+	
+	
+	Method Act()
+		For Local Model:LTBehaviorModel = Eachin BehaviorModels
+			If Model.Active Then Model.ApplyTo( Self )
+		Next
 	End Method
 	
 	

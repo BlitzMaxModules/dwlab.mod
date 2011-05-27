@@ -22,6 +22,7 @@ Type LTShape Extends LTObject
 	Field Visualizer:LTVisualizer = L_DefaultVisualizer
 	Field Visible:Int = True
 	Field Active:Int = True
+	Field BehaviorModels:TList = New TList
 	
 	Const Horizontal:Int = 0
 	Const Vertical:Int = 1

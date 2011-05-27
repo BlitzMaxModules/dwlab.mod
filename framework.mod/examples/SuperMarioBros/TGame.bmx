@@ -16,7 +16,6 @@ Type TGame Extends LTProject
 	Field Tilemap:LTTileMap
 	Field TileShape:LTShape[]
 	Field TileMapVisualizer:LTAnimatedTileMapVisualizer = New LTAnimatedTileMapVisualizer
-	Field Environment:LTBehaviorGroup = New LTBehaviorGroup
 	Field ToExit:TExit
 	
 	Field SmallMario:LTImage = LTImage.FromFile( "media\SmallMario.png", Mario.FramesInRow, 4 )
@@ -113,8 +112,7 @@ Type TGame Extends LTProject
 			End Select
 		Next
 		
-		Mario.Init()
-		Environment.AttachTo( BehaviorRoot )
+		Mario.Visualizer = LTImageVisualizer.FromImage( SmallMario )
 		
 		InitLevel()
 	End Method

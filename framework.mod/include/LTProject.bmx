@@ -17,7 +17,6 @@ Type LTProject Extends LTObject
 	Field MinFPS:Float = 15
 	Field Pass:Int
 	Field Time:Float
-	Field BehaviorRoot:LTBehaviorGroup = New LTBehaviorGroup
 
 	
 	
@@ -46,7 +45,7 @@ Type LTProject Extends LTObject
 				Local CommaPos:Int = Shape.Name.Find( "," )
 				Local TypeName:String = Shape.Name
 				Local RealName:String = ""
-				If CommaPos Then
+				If CommaPos >= 0 Then
 					TypeName = Shape.Name[ ..CommaPos ]
 					RealName = Shape.Name[ CommaPos + 1.. ]
 				End If
@@ -92,7 +91,6 @@ Type LTProject Extends LTObject
 			
 			L_CollisionChecks = 0
 			Logic()
-			BehaviorRoot.Act()
 	      
 			For Local Joint:LTJoint = Eachin L_JointList
 				Joint.Operate()

@@ -8,17 +8,8 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TOneUpMushroom Extends TBonus
-	Function FromTile( TileX:Int, TileY:Int )
-		Local Bonus:TBonus = New TOneUpMushroom
-		Bonus.Initialize( TileX, TileY )
-		Bonus.Visualizer = Game.OneUpMushroom
-	End Function
-	
-	
-	
-	Method Collect()
-		TScore.FromSprite( Self, TScore.s1up )
-		PlaySound( Game.OneUp )
-	End Method
+Type TFlag Extends LTVectorSprite
+End Type
+
+Type TStart Extends LTVectorSprite
 End Type
