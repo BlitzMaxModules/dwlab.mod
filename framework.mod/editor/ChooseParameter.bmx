@@ -11,10 +11,10 @@
 
 Function ChooseParameter:Int( Width:Int Var, Height:Int Var, Parameter:String, Units:String )
 	Local Settings:TGadget =CreateWindow( "{{L_Choose}} " + Parameter + ":", 0.5 * ClientWidth( Desktop() ) - 72, 0.5 * ClientHeight( Desktop() ) - 78, 144, 157, Editor.Window, WINDOW_TITLEBAR )
-	CreateLabel( "{{L_Height}}", 8, 10, 38, 16, Settings, Label_Right )
+	CreateLabel( "{{L_Width}}", 8, 10, 38, 16, Settings, Label_Right )
 	Local WidthField:TGadget = CreateTextField( 48, 8, 40, 20, Settings )
 	SetGadgetText( WidthField, Width )
-	CreateLabel( "{{L_Width}}", 8, 35, 38, 16, Settings, Label_Right )
+	CreateLabel( "{{L_Height}}", 8, 35, 38, 16, Settings, Label_Right )
 	Local HeightField:TGadget = CreateTextField( 48, 32, 40, 20, Settings )
 	SetGadgetText( HeightField, Height )
 	CreateLabel( Units, 92, 10, 36, 16, Settings, 0 )

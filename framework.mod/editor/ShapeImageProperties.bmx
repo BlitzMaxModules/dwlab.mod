@@ -110,19 +110,22 @@ Function ShapeImageProperties:Int( Shape:LTShape )
 									Local TileMap:LTTileMap = LTTileMap( Shape )
 									If TileMap Then
 										Local TotalQuantity:Int = XCells* YCells
-										If LTImageVisualizer( TileMap.Visualizer ).Image.FramesQuantity() > TotalQuantity Then
-											If Not Confirm( LocalizeString( "{{D_TilemapDataLoss}}" ) ) Then
-												ExitFlag = 1
+										Local TilemapImage:LTImage = LTImageVisualizer( TileMap.Visualizer ).Image
+										If TilemapImage Then
+											If TilemapImage.FramesQuantity() > TotalQuantity Then
+												If Not Confirm( LocalizeString( "{{D_TilemapDataLoss}}" ) ) Then
+													ExitFlag = 1
+												Else
+													TileMap.TilesQuantity = TotalQuantity
+													For Local Y:Int = 0 Until TileMap.FrameMap.YQuantity
+														For Local X:Int = 0 Until TileMap.FrameMap.XQuantity
+															If TileMap.FrameMap.Value[ X, Y ] >= TotalQuantity Then TileMap.FrameMap.Value[ X, Y ] = TotalQuantity - 1
+														Next
+													Next
+												End If
 											Else
 												TileMap.TilesQuantity = TotalQuantity
-												For Local Y:Int = 0 Until TileMap.FrameMap.YQuantity
-													For Local X:Int = 0 Until TileMap.FrameMap.XQuantity
-														If TileMap.FrameMap.Value[ X, Y ] >= TotalQuantity Then TileMap.FrameMap.Value[ X, Y ] = TotalQuantity - 1
-													Next
-												Next
 											End If
-										Else
-											TileMap.TilesQuantity = TotalQuantity
 										End If
 									End If
 									

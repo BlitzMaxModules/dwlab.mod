@@ -22,6 +22,7 @@ Type TSetTile Extends LTDrag
 	
 	
 	Method Dragging()
+		If Not Editor.CurrentTileset Then Return
 		Local Tilemap:LTTileMap = Editor.CurrentTilemap
 		If Not Tilemap Then Return
 		Local Image:LTImage = LTImageVisualizer( Tilemap.Visualizer ).Image

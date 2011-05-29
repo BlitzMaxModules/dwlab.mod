@@ -50,7 +50,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.2.4"
+	Const Version:String = "1.2.4.3"
 	
 	Field EnglishLanguage:TMaxGuiLanguage
 	Field RussianLanguage:TMaxGuiLanguage
@@ -575,19 +575,19 @@ Type LTEditor Extends LTProject
 					Case MenuShiftToTheTop
 						EvID = Event_KeyDown
 						EvData = Key_Home
-						SelectShape( SelectedShape )
+						SelectShape( SelectedShape, True )
 					Case MenuShiftUp
 						EvID = Event_KeyDown
 						EvData = Key_PageUp
-						SelectShape( SelectedShape )
+						SelectShape( SelectedShape, True )
 					Case MenuShiftDown
 						EvID = Event_KeyDown
 						EvData = Key_PageDown
-						SelectShape( SelectedShape )
+						SelectShape( SelectedShape, True )
 					Case MenuShiftToTheBottom
 						EvID = Event_KeyDown
 						EvData = Key_End
-						SelectShape( SelectedShape )
+						SelectShape( SelectedShape, True )
 				End Select
 		End Select
 		
@@ -621,6 +621,7 @@ Type LTEditor Extends LTProject
 								End If
 								ShapeLink = ShapeLink.NextLink()
 							Wend
+							If LTLayer( SelectedShapes.First() ) Then SelectedShapes.Clear()
 							SetChanged()
 							RefreshProjectManager()
 						End If
@@ -641,6 +642,7 @@ Type LTEditor Extends LTProject
 								End If
 								ShapeLink = ShapeLink.PrevLink()
 							Wend
+							If LTLayer( SelectedShapes.First() ) Then SelectedShapes.Clear()
 							SetChanged()
 							RefreshProjectManager()
 						End If
@@ -762,14 +764,17 @@ Type LTEditor Extends LTProject
 					Case MenuAddTilemap
 						Local Name:String = EnterString( LocalizeString( "{{D_EnterNameOfTilemap}}" ) )
 						If Name Then
-							Local XQuantity:Int = 16
-							Local YQuantity:Int = 16
+							Local XQuantity:Int = 1
+							Local YQuantity:Int = 1
 							CurrentTilemap = LTTilemap.Create( XQuantity, YQuantity, 16, 16, 16 )
-							InitShape( CurrentTilemap )
+							CurrentTilemap.Name = Name
 							LTLayer( SelectedShape ).AddLast( CurrentTilemap )
 							SelectedShape = CurrentTilemap
 							TilemapSettings()
+							ShapeImageProperties( SelectedShape )
+							InitShape( CurrentTilemap )
 							RefreshProjectManager( World )
+							RefreshTilemap()
 							SetChanged()
 						End If
 					Case MenuImportTilemap
@@ -1378,9 +1383,11 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method SelectShape( Shape:LTShape )
+	Method SelectShape( Shape:LTShape, ForMoving:Int = False )
+		If ForMoving Then If SelectedShapes.Contains( Shape ) Then Return
 		SelectedShapes.Clear()
 		SelectedShapes.AddLast( Shape )
+		If LTLayer( Shape ) Then Return
 		SetShapeModifiers( Shape )
 		CurrentShape = Shape
 		FillShapeFields()
@@ -1459,6 +1466,9 @@ Type LTEditor Extends LTProject
 		Local Image:LTImage = LTImageVisualizer( CurrentTileMap.Visualizer ).Image
 		If Image Then
 			CurrentTileset = LTTileset( TilesetForImage.ValueForKey( Image ) )
+			If Not CurrentTileset Then
+				
+			End If
 			TilesetCameraWidth = Image.XCells
 			TilesetCanvasZ = 0.0
 			SetCameraMagnification( TilesetCamera, TilesetCanvas, TilesetCanvasZ, TilesetCameraWidth )
@@ -1605,6 +1615,8 @@ Type LTEditor Extends LTProject
 					Tileset = New LTTileset
 				End If
 				Tileset.TilesQuantity = Image.FramesQuantity()
+				Tileset.BlockHeight = New Int[ Tileset.TilesQuantity ]
+				Tileset.BlockWidth = New Int[ Tileset.TilesQuantity ]
 				TilesetForImage.Insert( Image, Tileset )
 			End If
 			Tileset.Init()

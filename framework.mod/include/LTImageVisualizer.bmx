@@ -11,6 +11,8 @@
 Include "LTImage.bmx"
 Include "LTAnimatedTileMapVisualizer.bmx"
 
+Global L_EmptyTilemapFrame:Int = -1
+
 Type LTImageVisualizer Extends LTVisualizer
 	Field Image:LTImage
 	FIeld DX:Float = 0.0, DY:Float = 0.0
@@ -160,7 +162,7 @@ Type LTImageVisualizer Extends LTVisualizer
 	
 	Method DrawTile( FrameMap:LTIntMap, X:Float, Y:Float, TileX:Int, TileY:Int )
 		Local Value:Int = FrameMap.Value[ TileX, TileY ]
-		If Value > 0 Then Drawimage( Image.BMaxImage, X, Y, Value )
+		If Value <> L_EmptyTilemapFrame Then Drawimage( Image.BMaxImage, X, Y, Value )
 	End Method
 	
 	

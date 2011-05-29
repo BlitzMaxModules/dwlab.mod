@@ -72,6 +72,6 @@ Type LTLayer Extends LTGroup
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
-		Bounds = LTSprite( XMLObject.ManageObjectField( "bounds", Bounds ) )
+		Bounds = LTShape( XMLObject.ManageObjectField( "bounds", Bounds ) )
 	End Method
 End Type
