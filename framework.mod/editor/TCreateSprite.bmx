@@ -54,13 +54,15 @@ Type TCreateSprite Extends LTDrag
 			Select Editor.SpriteModel
 				Case 0
 					Sprite = New LTSprite
+					Sprite.Name = "LTSprite"
 				Case 1
 					Sprite = New LTVectorSprite
+					Sprite.Name = "LTVectorSprite"
 				Case 2
 					Sprite = New LTAngularSprite
+					Sprite.Name = "LTAngularSprite"
 			End Select
 			Sprite.Visualizer = New LTImageVisualizer
-			Sprite.Name = "Sprite"
 		End If
 		
 		Editor.CurrentLayer.AddLast( Sprite )

@@ -496,7 +496,7 @@ Type LTEditor Extends LTProject
 		If Filename Then 
 			WorldFilename = Filename
 			ChangeDir( ExtractDir( Filename ) )
-			For Local Image:LTImage = Eachin ImagesMap.Values()
+			For Local Image:LTImage = Eachin ImagesMap.Keys()
 				Image.Filename = ChopFilename( String( RealPathsForImages.ValueForKey( Image ) ) )
 			Next
 			For Local KeyValue:TKeyValue = Eachin TilesetForImage
@@ -796,8 +796,11 @@ Type LTEditor Extends LTProject
 										Local Tileset:TImage = LoadImage( TilesetFilename )
 										Local Visualizer:LTImageVisualizer = New LTImageVisualizer
 										Visualizer.Image = LoadImageFromFile( TilesetFilename, Tileset.Width / TileWidth, Tileset.height / TileHeight )
+										InitImage( Visualizer.Image )
 										CurrentTilemap.Visualizer = Visualizer
+										CurrentTilemap.Name = "LTTileMap"
 										InitShape( CurrentTilemap )
+										LTLayer( SelectedShape ).AddLast( CurrentTilemap )
 										SelectLayer( CurrentLayer )
 										SetChanged()
 									End If
