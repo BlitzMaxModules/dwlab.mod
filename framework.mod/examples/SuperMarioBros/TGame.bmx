@@ -112,7 +112,7 @@ Type TGame Extends LTProject
 			End Select
 		Next
 		
-		Mario.Visualizer = LTImageVisualizer.FromImage( SmallMario )
+		Mario.Init()
 		
 		InitLevel()
 	End Method

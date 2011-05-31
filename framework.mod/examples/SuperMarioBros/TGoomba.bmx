@@ -9,18 +9,12 @@
 '
 
 Type TGoomba Extends TEnemy
-	Const Stomped:Int = 2
-	
-	Field StompStartingTime:Float
-	
-	
-	
-	Method Act()
-		If Mode = Stomped Then
-			If Game.Time > StompStartingTime + TStomped.FlatPeriod Then Game.MainLayer.Remove( Self )
-		Else
-			Super.Act()
-		End If
+	Method Init()
+		AttachModel( New TCollisionsWithAll )
+		AttachModel( New TGravity )
+		AttachModel( New TMovingAnimation )
+		AttachModel( New TRemoveIfOutside )
+		Game.MovingObjects.InsertSprite( Self )
 	End Method
 
 	
@@ -32,10 +26,7 @@ Type TGoomba Extends TEnemy
 	
 	
 	Method Stomp()
-		Frame = 2
-		Mode = Stomped
-		StompStartingTime = Game.Time
-		Game.MovingObjects.RemoveSprite( Self )
+		AttachModel( New TStomped )
 	End Method
 End Type
 
@@ -51,13 +42,32 @@ Type TStomped Extends LTBehaviorModel
 	Method Init( Sprite:LTSprite )
 		StartingTime = Game.Time
 		Sprite.Frame = 2
-		Sprite.DeactivateModel( "Gravity" )
-		Sprite.DeactivateModel( "Moving" )
+		Sprite.DeactivateModel( "TGravity" )
+		Sprite.DeactivateModel( "TCollisionsWithAll" )
+		Sprite.DeactivateModel( "TMovingAnimation" )
+		Game.MovingObjects.RemoveSprite( Sprite )
 	End Method
 	
 	
 	
 	Method ApplyTo( Sprite:LTSprite )
 		If Game.Time > StartingTime + FlatPeriod Then Game.MainLayer.Remove( Sprite )
+	End Method
+End Type
+
+
+
+Type TKicked Extends LTBehaviorModel
+	Const KickStrength:Float = -6.0
+	
+	
+	
+	Method Init( Sprite:LTSprite )
+		LTVectorSprite( Sprite ).DY = KickStrength
+		Sprite.DeactivateModel( "TCollisionsWithAll" )
+		Sprite.Visualizer.YScale :* -1.0
+		PlaySound( Game.Kick )
+		TScore.FromSprite( Sprite, TScore.s100 )
+		Game.MovingObjects.RemoveSprite( Sprite )
 	End Method
 End Type

@@ -19,6 +19,16 @@ Type LTBehaviorModel Extends LTObject
 
 	
 	
+	Method Activate( Sprite:LTSprite )
+	End Method
+	
+	
+	
+	Method Deactivate( Sprite:LTSprite )
+	End Method
+	
+	
+	
 	Method ApplyTo( Sprite:LTSprite )
 	End Method
 	

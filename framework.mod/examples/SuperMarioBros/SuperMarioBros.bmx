@@ -17,19 +17,19 @@ Import brl.directsoundaudio
 'Import brl.freeaudioaudio
 
 Import brl.random
-Import brl.pngloader
-Import brl.jpgloader
 Import brl.reflection
-Import brl.wavloader
 Import brl.retro
 Import brl.map
-Import brl.audio
+
+Import brl.pngloader
+Import brl.jpgloader
+Import brl.wavloader
 Import brl.oggloader
 
-SetAudioDriver( "DirectSound" )
-'SetGraphicsDriver( GLMax2DDriver() )
-
 Include "../../framework.bmx"
+
+'SetGraphicsDriver( GLMax2DDriver() )
+'SetAudioDriver( "DirectSound" )
 
 Include "TGame.bmx"
 Include "CommonBehaviorModels.bmx"

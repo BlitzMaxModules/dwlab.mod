@@ -36,7 +36,7 @@ Type TFireball Extends TMovingObject
 	
 	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
 		If TEnemy( Sprite ) Then
-			TEnemy( Sprite ).Kick()
+			Sprite.AttachModel( New TKicked )
 			Explode()
 		End If
 	End Method

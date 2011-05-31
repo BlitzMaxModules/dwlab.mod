@@ -17,7 +17,7 @@ Type TKoopaTroopa Extends TEnemy
 	
 	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
 		If Mode = Shell Then
-			If DX <> 0.0 And TEnemy( Sprite ) Then TEnemy( Sprite ).Kick()
+			If DX <> 0.0 And TEnemy( Sprite ) Then Sprite.AttachModel( New TKicked )
 		Else
 			PushFromSprite( Sprite )
 			Bump( CollisionType )

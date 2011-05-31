@@ -53,6 +53,14 @@ Type TMario Extends TMovingObject
 	
 	
 	
+	Method Init()
+		Visualizer = LTImageVisualizer.FromImage( Game.SmallMario )
+		AttachModel( New TCollisionsWithAll )
+		AttachModel( New TGravity )
+	End Method
+	
+	
+	
 	Method Draw()
 		If Invisible Then If Floor( Game.Time / BlinkingSpeed ) Mod 2 Then Return
 		Super.Draw()
@@ -63,7 +71,7 @@ Type TMario Extends TMovingObject
 	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
 		If TEnemy( Sprite ) Then
 			If Invulnerable Then
-				TEnemy( Sprite ).Kick()
+				Sprite.AttachModel( New TKicked )
 			Else
 				If BottomY() < Sprite.Y Then
 					If DY > 0 Then
@@ -110,7 +118,6 @@ Type TMario Extends TMovingObject
 	
 	Method Act()
 		If Mode = Exiting Then Return
-		DY :+ L_DeltaTime * Game.Gravity
 		
 		If Mode = Dying Then
 			Move( 0, DY )
@@ -196,7 +203,6 @@ Type TMario Extends TMovingObject
 			L_CurrentCamera.LimitWith( Game.Tilemap )
 			
 			OnLand = False
-		
 			Super.Act()
 		End If		
 	End Method

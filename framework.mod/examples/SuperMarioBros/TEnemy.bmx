@@ -18,26 +18,9 @@ Type TEnemy Extends TMovingObject
 	Const Normal:Int = 0
 	Const Falling:Int = 1
 	
-	Const KickStrength:Float = -6.0
-	
 	
 	
 	Method Init()
-		Game.MovingObjects.InsertSprite( Self )
-	End Method
-	
-	
-	
-	Method Act()
-		If Not Active Then Return
-		If Mode = Falling Then
-			Move( DX, DY )
-			RemoveIfOutside()
-		Else
-			If Mode = Normal Then Animate( Game, 0.3, 2 )
-			Super.Act()
-		End If
-		DY :+ L_DeltaTime * Game.Gravity
 	End Method
 	
 	
@@ -48,16 +31,5 @@ Type TEnemy Extends TMovingObject
 	
 	
 	Method Push()
-	End Method
-	
-	
-	
-	Method Kick()
-		DY = KickStrength
-		Visualizer.YScale = -Visualizer.YScale
-		Mode = Falling
-		PlaySound( Game.Kick )
-		TScore.FromSprite( Self, TScore.s100 )
-		Game.MovingObjects.RemoveSprite( Self )
 	End Method
 End Type

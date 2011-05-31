@@ -37,6 +37,9 @@ Type LTProject Extends LTObject
 	
 	Method LoadLayer:LTLayer( Layer:LTLayer )
 		Local NewLayer:LTLayer = New LTLayer
+		NewLayer.Name = Layer.Name
+		NewLayer.Bounds = Layer.Bounds
+		
 		For Local Shape:LTShape = Eachin Layer.Children
 			Local NewShape:LTShape
 			If LTLayer( Shape ) Then
