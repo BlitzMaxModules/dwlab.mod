@@ -13,18 +13,14 @@ SuperStrict
 
 Framework brl.d3d7max2d
 'Import brl.glmax2d
-Import brl.random
 Import brl.pngloader
 Import brl.jpgloader
 Import brl.bmploader
-Import brl.reflection
-Import brl.retro
-Import brl.map
 Import brl.eventqueue
-Import brl.audio
 import maxgui.win32maxguiex
 
-include "../framework.bmx"
+Import dwlab.frmwork
+
 include "TPan.bmx"
 include "TSelectShapes.bmx"
 include "TMoveShape.bmx"

@@ -46,9 +46,9 @@ Type LTImage Extends LTObject
 		SetImageHandle( NewBMaxImage, 0.5 * ( Width - 1 ), 0.5 * ( Height - 1 ) )
 
 		Local Num:Int = 0
-		For Local Pixmap:TPixmap = Eachin BMaxImage.Pixmaps
+		For Local Pixmap:TPixmap = EachIn BMaxImage.Pixmaps
 			Local IntermediateImage:TImage = LoadAnimImage( Pixmap, Width, Height, 0, XCells * YCells )
-			For Local IntermediatePixmap:TPixmap = Eachin IntermediateImage.Pixmaps
+			For Local IntermediatePixmap:TPixmap = EachIn IntermediateImage.Pixmaps
 				NewBMaxImage.SetPixmap( Num, IntermediatePixmap )
 				Num :+ 1
 			Next
@@ -96,7 +96,7 @@ Type LTImage Extends LTObject
 		
 		BMaxImage = CreateImage( NewPixmap.Width, NewPixmap.Height, PixmapList.Count() )
 		Num = 0
-		For Local Pixmap:TPixmap = Eachin PixmapList
+		For Local Pixmap:TPixmap = EachIn PixmapList
 			BMaxImage.SetPixmap( Num, Pixmap )
 			Num :+ 1
 		Next

@@ -3,10 +3,12 @@
 	<TList field="definitions"/>
 	<LTLayer name="Layer 1" shape="2">
 		<Object field="visualizer" id="1"/>
-		<LTShape field="bounds" x="112" y="7.5" width="224" height="15"/>
-		<LTTileMap name="LTTileMap" x="112" y="7.5" width="224" height="15">
+		<LTShape field="bounds" x="112" y="7.5" width="224" height="15">
+			<LTFilledPrimitive field="visualizer"/>
+		</LTShape>
+		<LTTileMap name="TTiles" x="112" y="7.5" width="224" height="15" tiles-quantity="64">
 			<LTImageVisualizer field="visualizer">
-				<LTImage field="image" filename="media\tiles.png" xcells="16" ycells="3"/>
+				<LTImage field="image" filename="media\tiles.png" xcells="16" ycells="4"/>
 			</LTImageVisualizer>
 			<LTIntMap field="framemap" xquantity="224" yquantity="15">
 				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
@@ -26,7 +28,7 @@
 				<Row data="36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTVectorSprite name="Sprite" x="3.5" y="12.5" shape="2">
+		<LTVectorSprite name="TMario" x="3.5" y="12.5" shape="2">
 			<LTImageVisualizer field="visualizer">
 				<LTImage field="image" filename="media\SmallMario.png" xcells="9" ycells="4"/>
 			</LTImageVisualizer>

@@ -53,6 +53,7 @@ Function ImportTilemap:LTTileMap( TileWidth:Int, TileHeight:Int, TilemapPixmap:T
 	Next
 	
 	Local TilesQuantity:Int = Tiles.Count()
+	Tilemap.TilesQuantity = Ceil( 1.0 * TilesQuantity / 16 ) * 16
 	
 	Local TilesPixmap:TPixmap = CreatePixmap( TileWidth * 16, TileHeight * Ceil( 1.0 * TilesQuantity / 16 ), PixmapFormat( TilemapPixmap ) )
 	TilesPixmap.ClearPixels( $FFFF00FF )

@@ -8,13 +8,13 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Global L_DeltaTime:Float
-Global L_FPS:Int
 Global L_CollisionChecks:Int
+Global L_DeltaTime:Float
 
 Type LTProject Extends LTObject
 	Field LogicFPS:Float = 75
 	Field MinFPS:Float = 15
+	Field FPS:Int
 	Field Pass:Int
 	Field Time:Float
 
@@ -112,7 +112,7 @@ Type LTProject Extends LTObject
 			Forever
 	      
 			If Millisecs() >= 1000 + FPSTime Then
-				L_FPS = FPSCount
+				FPS = FPSCount
 				FPSCount = 0
 				FPSTime = Millisecs()
 			End If
@@ -124,8 +124,14 @@ Type LTProject Extends LTObject
 	
 	
 	
+	Method PerSecond:Float( Value:Float )
+		Return Value * L_DeltaTime
+	End Method
+	
+	
+	
 	Method ShowDebugInfo( MainLayer:LTLayer )
-		DrawText( "FPS: " + L_FPS, 0, 0 )
+		DrawText( "FPS: " + FPS, 0, 0 )
 		DrawText( "Memory: " + Int( GCMemAlloced() / 1024 ) + "kb", 0, 16 )
 		DrawText( "Sprites: " + MainLayer.CountSprites(), 0, 32 )
 		DrawText( "Collisions: " + L_CollisionChecks, 0, 48 )

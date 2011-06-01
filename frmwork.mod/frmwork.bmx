@@ -8,7 +8,18 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-SeedRnd( Millisecs() )
+SuperStrict
+
+Module dwlab.frmwork
+
+Import brl.random
+Import brl.reflection
+Import brl.retro
+Import brl.map
+Import brl.max2d
+Import brl.audio
+
+SeedRnd( MilliSecs() )
 
 Const L_Version:String = "0.12.4"
 
@@ -31,7 +42,7 @@ Include "include/Service.bmx"
 
 
 Function L_Error( Text:String )
-	Notify( Text, True )
-	DebugStop
-	End
+  Notify( Text, True )
+  DebugStop
+  End
 End Function
