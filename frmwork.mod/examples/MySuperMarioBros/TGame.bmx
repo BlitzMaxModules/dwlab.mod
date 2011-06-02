@@ -20,7 +20,7 @@ Type TGame Extends LTProject
 	Method Init()
 		InitGraphics( 800, 600, 40.0 ) ' initialization of graphics engine with 800x600 resolution and 40 pixels per one unit (tile will be stretched to 40x40 pixels)
 		World = LTWorld.FromFile( "world.lw" ) ' loading the world into memory
-		Layer = LoadLayer( LTLayer( World.FindShape( "Layer 1" ) ) ) ' loading layer with name "Layer 1" from the world to work wit it
+		Layer = LoadLayer( LTLayer( World.FindShape( "LTLayer" ) ) ) ' loading layer with name "Layer 1" from the world to work wit it
 	End Method
 	
 	

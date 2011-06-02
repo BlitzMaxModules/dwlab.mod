@@ -36,36 +36,34 @@ Type LTProject Extends LTObject
 	
 	
 	Method LoadLayer:LTLayer( Layer:LTLayer )
-		Local NewLayer:LTLayer = New LTLayer
-		NewLayer.Name = Layer.Name
-		NewLayer.Bounds = Layer.Bounds
-		
+		Local NewLayer:LTLayer = LTLayer( CreateShape( Layer ) )
 		For Local Shape:LTShape = Eachin Layer.Children
 			Local NewShape:LTShape
 			If LTLayer( Shape ) Then
 				NewShape = LoadLayer( LTLayer( Shape ) )
 			Else
-				Local CommaPos:Int = Shape.Name.Find( "," )
-				Local TypeName:String = Shape.Name
-				Local RealName:String = ""
-				If CommaPos >= 0 Then
-					TypeName = Shape.Name[ ..CommaPos ]
-					RealName = Shape.Name[ CommaPos + 1.. ]
-				End If
-				Local TypeID:TTypeId = TTypeID.ForName( TypeName )
-				
-				?debug
-				If Not TypeID Then L_Error( "Type ~q" + TypeName + "~q not found" )
-				?
-				
-				NewShape = LTShape( TypeID.NewObject() )
-				Shape.CopyTo( NewShape )
-				NewShape.Name = RealName
-				NewShape.Init()
+				NewShape = CreateShape( Shape )
 			End If
 			NewLayer.AddLast( NewShape )
 		Next
 		Return NewLayer
+	End Method
+	
+	
+	
+	Method CreateShape:LTShape( Shape:LTShape )
+		Local CommaPos:Int = Shape.Name.Find( "," )
+		Local TypeName:String = Shape.Name
+		Local RealName:String = ""
+		If CommaPos >= 0 Then
+			TypeName = Shape.Name[ ..CommaPos ]
+			RealName = Shape.Name[ CommaPos + 1.. ]
+		End If
+		Local NewShape:LTShape = LTShape( L_GetTypeID( TypeName ).NewObject() )
+		Shape.CopyTo( NewShape )
+		NewShape.Name = RealName
+		NewShape.Init()
+		Return NewShape
 	End Method
 	
 	

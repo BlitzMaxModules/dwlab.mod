@@ -95,6 +95,8 @@ Type LTEditor Extends LTProject
 	Field AlphaField:TGadget
 	Field XScaleField:TGadget
 	Field YScaleField:TGadget
+	Field VisDXField:TGadget
+	Field VisDYField:TGadget
 	Field FrameField:TGadget
 	Field SelectImageButton:TGadget
 	Field RotatingCheckbox:TGadget
@@ -194,7 +196,7 @@ Type LTEditor Extends LTProject
 	Const MenuTilemapSettings:Int = 25
 	Const MenuEditReplacementRules:Int = 26
 
-	Const PanelHeight:Int = 292
+	Const PanelHeight:Int = 316
 	Const BarWidth:Int = 207
 	
 	
@@ -264,17 +266,21 @@ Type LTEditor Extends LTProject
 		AlphaSlider = CreateSlider( 40, 194, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
 		AlphaField = CreateTextField( 168, 192, 32, 20, Panel )
 		SetSliderRange( AlphaSlider, 0, 100 )
-		CreateLabel( "{{L_XScale}}", 2, 219, 37, 16, Panel, Label_Right )
-		XScaleField = CreateTextField( 40, 216, 56, 20, Panel )
-		CreateLabel( "{{L_YScale}}", 106, 219, 37, 16, Panel, Label_Right )
-		YScaleField = CreateTextField( 144, 216, 56, 20, Panel )
-		CreateLabel( "{{L_Frame}}", 2, 244, 37, 16, Panel, Label_Right )
-		FrameField = CreateTextField( 40, 240, 56, 20, Panel )
-		SelectImageButton  =  CreateButton(  "{{B_SelectImage}}",  104,  238,  96,  24,  Panel )
-		RotatingCheckbox = CreateButton( "{{CB_Rotation}}", 40, 266, 40, 16, Panel, Button_Checkbox )
-		ScalingCheckbox = CreateButton( "{{CB_Scaling}}", 2, 266, 40, 16, Panel, Button_Checkbox )
-		CreateLabel( "{{L_ImageAngle}}", 85, 267, 55, 16, Panel, Label_Right )
-		ImgAngleField = CreateTextField( 144, 264, 56, 20, Panel )
+		CreateLabel( "{{L_VisDX}}", 2, 219, 37, 16, Panel, Label_Right )
+		VisDXField = CreateTextField( 40, 216, 56, 20, Panel )
+		CreateLabel( "{{L_VisDY}}", 106, 219, 37, 16, Panel, Label_Right )
+		VisDYField = CreateTextField( 144, 216, 56, 20, Panel )
+		CreateLabel( "{{L_XScale}}", 2, 243, 37, 16, Panel, Label_Right )
+		XScaleField = CreateTextField( 40, 240, 56, 20, Panel )
+		CreateLabel( "{{L_YScale}}", 106, 243, 37, 16, Panel, Label_Right )
+		YScaleField = CreateTextField( 144, 240, 56, 20, Panel )
+		CreateLabel( "{{L_Frame}}", 2, 268, 37, 16, Panel, Label_Right )
+		FrameField = CreateTextField( 40, 264, 56, 20, Panel )
+		SelectImageButton  =  CreateButton(  "{{B_SelectImage}}",  104,  262,  96,  24,  Panel )
+		RotatingCheckbox = CreateButton( "{{CB_Rotation}}", 40, 290, 40, 16, Panel, Button_Checkbox )
+		ScalingCheckbox = CreateButton( "{{CB_Scaling}}", 2, 290, 40, 16, Panel, Button_Checkbox )
+		CreateLabel( "{{L_ImageAngle}}", 85, 291, 55, 16, Panel, Label_Right )
+		ImgAngleField = CreateTextField( 144, 288, 56, 20, Panel )
 		HiddenOKButton = CreateButton( "", 0, 0, 0, 0, Panel, Button_OK )
 		HideGadget( HiddenOKButton )
 				
@@ -350,7 +356,7 @@ Type LTEditor Extends LTProject
 		SelectedTile.Visualizer = New LTMarchingAnts
 		
 		EditorPath = CurrentDir()
-		AddLayer( "Layer 1" )
+		AddLayer( "LTLayer" )
 				
 		If FileType( "editor.ini" ) = 1 Then
 			Local IniFile:TStream = ReadFile( "editor.ini" )
@@ -452,7 +458,7 @@ Type LTEditor Extends LTProject
 		WorldFilename = ""
 		World.Clear()
 		CurrentTileset = Null
-		AddLayer( "Layer 1" )
+		AddLayer( "LTLayer" )
 		RefreshProjectManager()
 	End Method
 	
@@ -749,7 +755,7 @@ Type LTEditor Extends LTProject
 						DeselectTilemap()
 						SelectLayer( LTLayer( SelectedShape ) )
 					Case MenuAddLayer
-						Local LayerName:String = EnterString( LocalizeString( "{{D_EnterNameOfLayer}}" ) )
+						Local LayerName:String = EnterString( LocalizeString( "{{D_EnterNameOfLayer}}" ), "LTLayer" )
 						If LayerName Then
 							Local Layer:LTLayer = New LTLayer
 							Layer.Name = LayerName
@@ -758,7 +764,7 @@ Type LTEditor Extends LTProject
 							SetChanged()
 						End If
 					Case MenuAddTilemap
-						Local Name:String = EnterString( LocalizeString( "{{D_EnterNameOfTilemap}}" ) )
+						Local Name:String = EnterString( LocalizeString( "{{D_EnterNameOfTilemap}}" ), "LTTileMap" )
 						If Name Then
 							Local XQuantity:Int = 1
 							Local YQuantity:Int = 1
@@ -830,7 +836,7 @@ Type LTEditor Extends LTProject
 											
 											If TilemapWidth Mod TileWidth = 0 And TilemapHeight Mod TileHeight = 0 Then
 												Local Layer:LTLayer = New LTLayer
-												Layer.Name = "Level " + Num
+												Layer.Name = "LTLayer," + Num
 												Editor.World.AddLast( Layer )
 												Local TileMap:LTTileMap = ImportTilemap( TileWidth, TileHeight, TilemapPixmap, TilesetFilename )
 												Tilemap.Visualizer = Visualizer
@@ -899,7 +905,7 @@ Type LTEditor Extends LTProject
 							If CurrentLayer.Bounds Then MainCamera.Y = SliderValue( VScroller ) * CurrentLayer.Bounds.Height / 10000.0 + 0.5 * MainCamera.Height
 						End If
 					Case AddLayerButton
-						Local Name:String = EnterString( LocalizeString( "{{D_EnterNameOfLayer}}" ) )
+						Local Name:String = EnterString( LocalizeString( "{{D_EnterNameOfLayer}}" ), "LTLayer" )
 						If Name Then
 							AddLayer( Name )
 							RefreshProjectManager( World )
@@ -990,6 +996,12 @@ Type LTEditor Extends LTProject
 										AngularSprite.Velocity = TextFieldText( VelocityField ).ToFloat()
 										SetChanged()
 									End If
+								Case VisDXField
+									Sprite.Visualizer.DX = TextFieldText( VisDXField ).ToFloat()
+									SetChanged()
+								Case VisDYField
+									Sprite.Visualizer.DY = TextFieldText( VisDYField ).ToFloat()
+									SetChanged()
 								Case XScaleField
 									Sprite.Visualizer.XScale = TextFieldText( XScaleField ).ToFloat()
 									SetChanged()
@@ -1355,6 +1367,8 @@ Type LTEditor Extends LTProject
 		If Not CurrentSprite Then Return
 		
 		SetGadgetText( FrameField, CurrentSprite.Frame )
+		SetGadgetText( VisDXField, L_TrimFloat( CurrentSprite.Visualizer.DX ) )
+		SetGadgetText( VisDYField, L_TrimFloat( CurrentSprite.Visualizer.DY ) )
 		SetGadgetText( XScaleField, L_TrimFloat( CurrentSprite.Visualizer.XScale ) )
 		SetGadgetText( YScaleField, L_TrimFloat( CurrentSprite.Visualizer.YScale ) )
 		SetGadgetText( ImgAngleField, L_TrimFloat( LTImageVisualizer( CurrentSprite.Visualizer ).Angle ) )

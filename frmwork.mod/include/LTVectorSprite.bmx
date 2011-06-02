@@ -32,7 +32,7 @@ Type LTVectorSprite Extends LTSprite
 		Local Sprite:LTVectorSprite = LTVectorSprite( Shape )
 		
 		?debug
-		If Not Sprite Then L_Error( "Trying to copy vector sprite data to non-vector sprite" )
+		If Not Sprite Then L_Error( "Trying to copy vector sprite ~q" + Shape.Name + "~q data to non-vector sprite" )
 		?
 		
 		Sprite.DX = DX

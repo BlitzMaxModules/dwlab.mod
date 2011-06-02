@@ -114,7 +114,7 @@ Type LTTileMap Extends LTShape
 		Local TileMap:LTTileMap = LTTileMap( Shape )
 		
 		?debug
-		If Not TileMap Then L_Error( "Trying to copy tilemap data to non-tilemap" )
+		If Not TileMap Then L_Error( "Trying to copy tilemap ~q" + Shape.Name + "~q data to non-tilemap" )
 		?
 		
 		TileMap.TileShape = TileShape

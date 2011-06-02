@@ -541,7 +541,7 @@ Type LTSprite Extends LTShape
 		Local Sprite:LTSprite = LTSprite( Shape )
 		
 		?debug
-		If Not Sprite Then L_Error( "Trying to copy sprite data to non-sprite" )
+		If Not Sprite Then L_Error( "Trying to copy sprite ~q" + Shape.Name + "~q data to non-sprite" )
 		?
 		
 		Sprite.ShapeType = ShapeType

@@ -17,6 +17,7 @@ Include "LTWindowedVisualizer.bmx"
 Type LTVisualizer Extends LTObject Abstract
 	Field Red:Float = 1.0, Green:Float = 1.0, Blue:Float = 1.0
 	Field Alpha:Float = 1.0
+	FIeld DX:Float = 0.0, DY:Float = 0.0
 	Field XScale:Float = 1.0, YScale:Float = 1.0
 	Field Scaling:Int = True
 	Field Angle:Float = 0.0

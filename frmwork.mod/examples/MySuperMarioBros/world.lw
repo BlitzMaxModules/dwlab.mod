@@ -1,7 +1,7 @@
 <LTWorld shape="2" dwlab_version="0.12.4">
 	<LTFilledPrimitive field="visualizer" id="1"/>
 	<TList field="definitions"/>
-	<LTLayer name="Layer 1" shape="2">
+	<LTLayer name="LTLayer" shape="2">
 		<Object field="visualizer" id="1"/>
 		<LTShape field="bounds" x="112" y="7.5" width="224" height="15">
 			<LTFilledPrimitive field="visualizer"/>
@@ -28,8 +28,8 @@
 				<Row data="36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36"/>
 			</LTIntMap>
 		</LTTileMap>
-		<LTVectorSprite name="TMario" x="3.5" y="12.5" shape="2">
-			<LTImageVisualizer field="visualizer">
+		<LTVectorSprite name="TMario" x="3.5" y="12.5" width="0.69" shape="2">
+			<LTImageVisualizer field="visualizer" xscale="1.44">
 				<LTImage field="image" filename="media\SmallMario.png" xcells="9" ycells="4"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>

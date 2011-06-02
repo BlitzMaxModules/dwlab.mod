@@ -15,7 +15,6 @@ Global L_EmptyTilemapFrame:Int = -1
 
 Type LTImageVisualizer Extends LTVisualizer
 	Field Image:LTImage
-	FIeld DX:Float = 0.0, DY:Float = 0.0
 
 	
 	

@@ -69,6 +69,22 @@ Type LTLayer Extends LTGroup
 	
 	
 	
+	Method CopyTo( Shape:LTShape )
+		Super.CopyTo( Shape )
+		Local Layer:LTLayer = LTLayer( Shape )
+		
+		?debug
+		If Not Layer Then L_Error( "Trying to copy layer ~q" + Shape.Name + "~q data to non-layer" )
+		?
+		
+		If Bounds Then
+			Layer.Bounds = New LTShape
+			Bounds.CopyTo( Layer.Bounds )
+		End If
+	End Method
+	
+	
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		

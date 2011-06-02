@@ -26,6 +26,7 @@ LTProject^LTObject{
 -Render%()="_dwlab_frmwork_LTProject_Render"
 -Logic%()="_dwlab_frmwork_LTProject_Logic"
 -LoadLayer:LTLayer(Layer:LTLayer)="_dwlab_frmwork_LTProject_LoadLayer"
+-CreateShape:LTShape(Shape:LTShape)="_dwlab_frmwork_LTProject_CreateShape"
 -Execute%()="_dwlab_frmwork_LTProject_Execute"
 -PerSecond#(Value#)="_dwlab_frmwork_LTProject_PerSecond"
 -ShowDebugInfo%(MainLayer:LTLayer)="_dwlab_frmwork_LTProject_ShowDebugInfo"
@@ -147,6 +148,7 @@ LTLayer^LTGroup{
 -CountSprites%()="_dwlab_frmwork_LTLayer_CountSprites"
 -FindShape:LTShape(ShapeName$)="_dwlab_frmwork_LTLayer_FindShape"
 -Remove%(Shape:LTShape)="_dwlab_frmwork_LTLayer_Remove"
+-CopyTo%(Shape:LTShape)="_dwlab_frmwork_LTLayer_CopyTo"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTLayer_XMLIO"
 }="dwlab_frmwork_LTLayer"
 LTGroup^LTSprite{
@@ -481,8 +483,6 @@ LTAnimatedTileMapVisualizer^LTImageVisualizer{
 }="dwlab_frmwork_LTAnimatedTileMapVisualizer"
 LTImageVisualizer^LTVisualizer{
 .Image:LTImage&
-.DX#&
-.DY#&
 -New%()="_dwlab_frmwork_LTImageVisualizer_New"
 -Delete%()="_dwlab_frmwork_LTImageVisualizer_Delete"
 +FromFile:LTImageVisualizer(Filename$,XCells%=1,YCells%=1)="_dwlab_frmwork_LTImageVisualizer_FromFile"
@@ -527,6 +527,8 @@ LTVisualizer^LTObject{
 .Green#&
 .Blue#&
 .Alpha#&
+.DX#&
+.DY#&
 .XScale#&
 .YScale#&
 .Scaling%&

@@ -88,7 +88,7 @@ Type LTAngularSprite Extends LTSprite
 		Local Sprite:LTAngularSprite = LTAngularSprite( Shape )
 		
 		?debug
-		If Not Sprite Then L_Error( "Trying to copy angular sprite data to non-angular sprite" )
+		If Not Sprite Then L_Error( "Trying to copy angular sprite ~q" + Shape.Name + "~q data to non-angular sprite" )
 		?
 		
 		Sprite.Angle = Angle
