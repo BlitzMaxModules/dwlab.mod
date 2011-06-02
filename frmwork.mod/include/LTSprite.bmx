@@ -499,6 +499,23 @@ Type LTSprite Extends LTShape
 	
 	
 	
+	Method ToggleModel( TypeName:String )
+		Local TypeID:TTypeId = L_GetTypeID( TypeName )
+		For Local Model:LTBehaviorModel = Eachin BehaviorModels
+			If TTypeID.ForObject( Model ) = TypeID Then
+				If Model.Active Then
+					Model.Deactivate( Self )
+					Model.Active = False
+				Else
+					Model.Activate( Self )
+					Model.Active = True
+				End If
+			End If
+		Next
+	End Method
+	
+	
+	
 	Method RemoveModel( TypeName:String )
 		Local TypeID:TTypeId = L_GetTypeID( TypeName )
 		For Local Model:LTBehaviorModel = Eachin BehaviorModels

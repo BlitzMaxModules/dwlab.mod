@@ -9,9 +9,12 @@
 '
 
 Type TGame Extends LTProject
+	Field Tilemap:LTTileMap
 	Field World:LTWorld ' this field will store our world created in editor
 	Field Layer:LTLayer ' this field will store layer loaded from the world
 
+	Const Gravity:Float = 32.0
+	
 	
 	
 	Method Init()
@@ -31,5 +34,6 @@ Type TGame Extends LTProject
 	
 	Method Render()
 		Layer.Draw() ' drawing loaded layer
+		ShowDebugInfo( Layer ) ' showing debug info
 	End Method
 End Type

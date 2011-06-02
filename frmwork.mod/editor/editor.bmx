@@ -264,7 +264,7 @@ Type LTEditor Extends LTProject
 		AlphaSlider = CreateSlider( 40, 194, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
 		AlphaField = CreateTextField( 168, 192, 32, 20, Panel )
 		SetSliderRange( AlphaSlider, 0, 100 )
-		CreateLabel( "{{L_XScale}}", 2, 216, 37, 16, Panel, Label_Right )
+		CreateLabel( "{{L_XScale}}", 2, 219, 37, 16, Panel, Label_Right )
 		XScaleField = CreateTextField( 40, 216, 56, 20, Panel )
 		CreateLabel( "{{L_YScale}}", 106, 219, 37, 16, Panel, Label_Right )
 		YScaleField = CreateTextField( 144, 216, 56, 20, Panel )

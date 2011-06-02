@@ -299,6 +299,7 @@ Rectangle%=2
 -FindModel:LTBehaviorModel(TypeName$)="_dwlab_frmwork_LTSprite_FindModel"
 -ActivateModel%(TypeName$)="_dwlab_frmwork_LTSprite_ActivateModel"
 -DeactivateModel%(TypeName$)="_dwlab_frmwork_LTSprite_DeactivateModel"
+-ToggleModel%(TypeName$)="_dwlab_frmwork_LTSprite_ToggleModel"
 -RemoveModel%(TypeName$)="_dwlab_frmwork_LTSprite_RemoveModel"
 -Clone:LTShape()="_dwlab_frmwork_LTSprite_Clone"
 -CopyTo%(Shape:LTShape)="_dwlab_frmwork_LTSprite_CopyTo"
