@@ -80,9 +80,11 @@ Type LTCollisionMap Extends LTMap
 	
 	' ==================== Collisions ===================
 	
-	Function Create:LTCollisionMap( XQuantity:Int, YQuantity:Int )
+	Function Create:LTCollisionMap( XQuantity:Int, YQuantity:Int, XScale:Float = 1.0, YScale:Float = 1.0 )
 		Local Map:LTCollisionMap = New LTCollisionMap
 		Map.SetResolution( XQuantity, YQuantity )
+		Map.XScale = XScale
+		Map.YScale = YScale
 		Return Map
 	End Function
 End Type

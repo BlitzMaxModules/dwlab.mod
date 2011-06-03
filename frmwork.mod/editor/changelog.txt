@@ -1,3 +1,6 @@
+1.2.5
++ Added visualizer DX and DY.
+
 1.2.4
 + Sprite models
 
@@ -20,7 +23,6 @@
 + Scrollbars
 
 1.1.4
-+ Dividers to the tile replacement system
 + Now you can pan tilemap with Ctrl keys
 
 1.1.3

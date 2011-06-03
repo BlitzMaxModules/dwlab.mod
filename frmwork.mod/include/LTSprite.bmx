@@ -551,9 +551,11 @@ Type LTSprite Extends LTShape
 	
 	
 	Method Act()
-		For Local Model:LTBehaviorModel = Eachin BehaviorModels
-			If Model.Active Then Model.ApplyTo( Self )
-		Next
+		If Active Then
+			For Local Model:LTBehaviorModel = Eachin BehaviorModels
+				If Model.Active Then Model.ApplyTo( Self )
+			Next
+		End If
 	End Method
 	
 	

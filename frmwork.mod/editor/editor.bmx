@@ -46,7 +46,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.2.4.3"
+	Const Version:String = "1.2.5"
 	
 	Field EnglishLanguage:TMaxGuiLanguage
 	Field RussianLanguage:TMaxGuiLanguage

@@ -66,11 +66,11 @@ Type TMoving Extends LTBehaviorModel
 		Mario.DX = 0
 		If KeyDown( Key_Left ) Then
 			Mario.DX = -5.0
-			Mario.Visualizer.XScale = -1.5
+			Mario.Visualizer.XScale = -1.0
 			Mario.ActivateModel( "TWalkingAnimation" )
 		ElseIf KeyDown( Key_Right ) Then
 			Mario.DX = 5.0
-			Mario.Visualizer.XScale = 1.5
+			Mario.Visualizer.XScale = 1.0
 			Mario.ActivateModel( "TWalkingAnimation" )
 		Else
 			If Mario.OnLand Then Mario.Frame = TMario.Standing

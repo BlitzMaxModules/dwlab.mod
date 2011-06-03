@@ -14,9 +14,11 @@ Type TCollisions Extends LTBehaviorModel
 	
 		VectorSprite.Move( VectorSprite.DX, 0.0 )
 		VectorSprite.CollisionsWithTilemap( Game.Tilemap, LTSprite.Horizontal )
+		VectorSprite.CollisionsWithCollisionMap( Game.MovingObjects, LTSprite.Horizontal )
 
 		VectorSprite.Move( 0.0, VectorSprite.DY )
 		VectorSprite.CollisionsWithTilemap( Game.Tilemap, LTSprite.Vertical )
+		VectorSprite.CollisionsWithCollisionMap( Game.MovingObjects, LTSprite.Vertical )
 	End Method
 End Type
 
@@ -27,5 +29,18 @@ End Type
 Type TGravity Extends LTBehaviorModel
 	Method ApplyTo( Sprite:LTSprite )
 		LTVectorSprite( Sprite ).DY :+ Game.PerSecond( Game.Gravity )
+	End Method
+End Type
+
+
+
+
+
+Type TRemoveIfOutside Extends LTBehaviorModel
+	Method ApplyTo( Sprite:LTSprite )
+		If Sprite.TopY() > Game.Tilemap.BottomY() Then
+			Game.Layer.Remove( Sprite )
+			Game.MovingObjects.RemoveSprite( Sprite )
+		End If
 	End Method
 End Type

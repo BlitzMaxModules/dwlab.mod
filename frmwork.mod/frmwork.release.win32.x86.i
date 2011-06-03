@@ -4,7 +4,7 @@ import brl.reflection
 import brl.retro
 import brl.max2d
 import brl.audio
-L_Version$=$"0.12.4"
+L_Version$=$"0.12.5"
 LTObject^brl.blitz.Object{
 .Name$&
 -New%()="_dwlab_frmwork_LTObject_New"
@@ -119,7 +119,7 @@ LTCollisionMap^LTMap{
 -SetMapScale%(NewXScale#,NewYScale#)="_dwlab_frmwork_LTCollisionMap_SetMapScale"
 -InsertSprite%(Sprite:LTSprite,ChangeCollisionMapField%=1)="_dwlab_frmwork_LTCollisionMap_InsertSprite"
 -RemoveSprite%(Sprite:LTSprite,ChangeCollisionMapField%=1)="_dwlab_frmwork_LTCollisionMap_RemoveSprite"
-+Create:LTCollisionMap(XQuantity%,YQuantity%)="_dwlab_frmwork_LTCollisionMap_Create"
++Create:LTCollisionMap(XQuantity%,YQuantity%,XScale#=1#,YScale#=1#)="_dwlab_frmwork_LTCollisionMap_Create"
 }="dwlab_frmwork_LTCollisionMap"
 LTMap^LTObject{
 .XQuantity%&
@@ -144,9 +144,8 @@ LTLayer^LTGroup{
 .Bounds:LTShape&
 -New%()="_dwlab_frmwork_LTLayer_New"
 -Delete%()="_dwlab_frmwork_LTLayer_Delete"
--FindTilemap:LTTileMap()="_dwlab_frmwork_LTLayer_FindTilemap"
 -CountSprites%()="_dwlab_frmwork_LTLayer_CountSprites"
--FindShape:LTShape(ShapeName$)="_dwlab_frmwork_LTLayer_FindShape"
+-FindShape:LTShape(ShapeName$,IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShape"
 -Remove%(Shape:LTShape)="_dwlab_frmwork_LTLayer_Remove"
 -CopyTo%(Shape:LTShape)="_dwlab_frmwork_LTLayer_CopyTo"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTLayer_XMLIO"

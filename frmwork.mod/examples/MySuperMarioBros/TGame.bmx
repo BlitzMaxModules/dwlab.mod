@@ -9,6 +9,7 @@
 '
 
 Type TGame Extends LTProject
+	Field MovingObjects:LTCollisionMap
 	Field Tilemap:LTTileMap
 	Field World:LTWorld ' this field will store our world created in editor
 	Field Layer:LTLayer ' this field will store layer loaded from the world
@@ -18,6 +19,7 @@ Type TGame Extends LTProject
 	
 	
 	Method Init()
+		MovingObjects = LTCollisionMap.Create( 128, 8, 2.0, 2.0 )
 		InitGraphics( 800, 600, 40.0 ) ' initialization of graphics engine with 800x600 resolution and 40 pixels per one unit (tile will be stretched to 40x40 pixels)
 		World = LTWorld.FromFile( "world.lw" ) ' loading the world into memory
 		Layer = LoadLayer( LTLayer( World.FindShape( "LTLayer" ) ) ) ' loading layer with name "Layer 1" from the world to work wit it

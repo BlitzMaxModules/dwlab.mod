@@ -15,20 +15,6 @@ Type LTLayer Extends LTGroup
 	
 	
 	
-	Method FindTilemap:LTTileMap()
-		For Local Obj:LTShape = Eachin Children
-			If LTTileMap( Obj ) Then
-				Return LTTileMap( Obj )
-			ElseIf LTLayer( Obj ) Then
-				Local TileMap:LTTileMap = LTLayer( Obj ).FindTilemap()
-				If TileMap Then Return TileMap
-			End If
-		Next
-		Return Null
-	End Method
-	
-	
-	
 	Method CountSprites:Int()
 		Local Count:Int = 0
 		For Local Shape:LTShape = Eachin Children
@@ -43,16 +29,17 @@ Type LTLayer Extends LTGroup
 	
 	
 	
-	Method FindShape:LTShape( ShapeName:String )
+	Method FindShape:LTShape( ShapeName:String, IgnoreError:Int = False )
 		If Name = ShapeName Then Return Self
 		For Local ChildShape:LTShape = Eachin Children
 			If ChildShape.Name = ShapeName Then Return ChildShape
 			Local ChildLayer:LTLayer = LTLayer( ChildShape )
 			If ChildLayer Then
-				Local Shape:LTShape = ChildLayer.FindShape( ShapeName )
+				Local Shape:LTShape = ChildLayer.FindShape( ShapeName, True )
 				If Shape Then Return Shape
 			End If
 		Next
+		If Not IgnoreError Then L_Error( "Shape ~q" + ShapeName + "~q not found." )
 		Return Null
 	End Method
 	
