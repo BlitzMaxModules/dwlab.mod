@@ -8,8 +8,6 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTJoint.bmx"
-
 Function L_WedgingValuesOfCircleAndCircle( Circle1X:Float, Circle1Y:Float, Circle1Diameter:Float, ..
 Circle2X:Float, Circle2Y:Float, Circle2Diameter:Float, DX:Float Var, DY:Float Var )
 	DX = Circle1X - Circle2X

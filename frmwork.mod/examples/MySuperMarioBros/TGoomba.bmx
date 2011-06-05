@@ -49,7 +49,7 @@ End Type
 
 
 Type TEnemyWalkingAnimation Extends LTBehaviorModel
-	Method ApplyTo( Sprite:LTSprite )
-		Sprite.Animate( Game, TGoomba.WalkingAnimationSpeed, 2 )
+	Method ApplyTo( Shape:LTShape )
+		LTSprite( Shape ).Animate( Game, TGoomba.WalkingAnimationSpeed, 2 )
 	End Method
 End Type

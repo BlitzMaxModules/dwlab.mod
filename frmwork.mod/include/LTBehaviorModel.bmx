@@ -14,22 +14,22 @@ Type LTBehaviorModel Extends LTObject
 	
 	
 	
-	Method Init( Sprite:LTSprite )
+	Method Init( Shape:LTShape )
 	End Method
 
 	
 	
-	Method Activate( Sprite:LTSprite )
+	Method Activate( Shape:LTShape )
 	End Method
 	
 	
 	
-	Method Deactivate( Sprite:LTSprite )
+	Method Deactivate( Shape:LTShape )
 	End Method
 	
 	
 	
-	Method ApplyTo( Sprite:LTSprite )
+	Method ApplyTo( Shape:LTShape )
 	End Method
 	
 	

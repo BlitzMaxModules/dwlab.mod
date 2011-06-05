@@ -9,8 +9,8 @@
 '
 
 Type TCollisions Extends LTBehaviorModel
-	Method ApplyTo( Sprite:LTSprite )
-		Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite )
+	Method ApplyTo( Shape:LTShape )
+		Local VectorSprite:LTVectorSprite = LTVectorSprite( Shape )
 	
 		VectorSprite.Move( VectorSprite.DX, 0.0 )
 		VectorSprite.CollisionsWithTilemap( Game.Tilemap, LTSprite.Horizontal )
@@ -27,8 +27,8 @@ End Type
 
 
 Type TGravity Extends LTBehaviorModel
-	Method ApplyTo( Sprite:LTSprite )
-		LTVectorSprite( Sprite ).DY :+ Game.PerSecond( Game.Gravity )
+	Method ApplyTo( Shape:LTShape )
+		LTVectorSprite( Shape ).DY :+ Game.PerSecond( Game.Gravity )
 	End Method
 End Type
 
@@ -37,7 +37,8 @@ End Type
 
 
 Type TRemoveIfOutside Extends LTBehaviorModel
-	Method ApplyTo( Sprite:LTSprite )
+	Method ApplyTo( Shape:LTShape )
+		Local Sprite:LTSprite = LTSprite( Shape )
 		If Sprite.TopY() > Game.Tilemap.BottomY() Then
 			Game.Layer.Remove( Sprite )
 			Game.MovingObjects.RemoveSprite( Sprite )

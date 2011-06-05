@@ -8,8 +8,6 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTTileSet.bmx"
-
 Type LTIntMap Extends LTMap
 	Field Value:Int[ , ]
 	

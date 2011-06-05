@@ -8,12 +8,6 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTGroup.bmx"
-Include "LTSprite.bmx"
-Include "LTTileMap.bmx"
-Include "LTLine.bmx"
-Include "LTGraph.bmx"
-
 Type LTShape Extends LTObject
 	Field X:Float
 	Field Y:Float
@@ -237,6 +231,79 @@ Type LTShape Extends LTObject
 		SetSize( Width, Width * ImageHeight( ImageVisualizer.Image.BMaxImage ) / ImageWidth( ImageVisualizer.Image.BMaxImage ) )
 	End Method
 	
+	' ==================== Behavior models ===================
+	
+	Method AttachModel( Model:LTBehaviorModel, Activated:Int = True )
+		Model.Link = BehaviorModels.AddLast( Model )
+		Model.Init( Self )
+		If Activated Then
+			Model.Activate( Self )
+			Model.Active = True
+		End If
+	End Method
+	
+	
+	
+	Method FindModel:LTBehaviorModel( TypeName:String )
+		Local TypeID:TTypeId = L_GetTypeID( TypeName )
+		For Local Model:LTBehaviorModel = Eachin BehaviorModels
+			If TTypeID.ForObject( Model ) = TypeID Then Return Model
+		Next
+	End Method
+	
+	
+	
+	Method ActivateModel( TypeName:String )
+		Local TypeID:TTypeId = L_GetTypeID( TypeName )
+		For Local Model:LTBehaviorModel = Eachin BehaviorModels
+			If TTypeID.ForObject( Model ) = TypeID And Model.Active = False Then
+				Model.Activate( Self )
+				Model.Active = True
+			End If
+		Next
+	End Method
+	
+	
+	
+	Method DeactivateModel( TypeName:String )
+		Local TypeID:TTypeId = L_GetTypeID( TypeName )
+		For Local Model:LTBehaviorModel = Eachin BehaviorModels
+			If TTypeID.ForObject( Model ) = TypeID And Model.Active Then
+				Model.Deactivate( Self )
+				Model.Active = False
+			End If
+		Next
+	End Method
+	
+	
+	
+	Method ToggleModel( TypeName:String )
+		Local TypeID:TTypeId = L_GetTypeID( TypeName )
+		For Local Model:LTBehaviorModel = Eachin BehaviorModels
+			If TTypeID.ForObject( Model ) = TypeID Then
+				If Model.Active Then
+					Model.Deactivate( Self )
+					Model.Active = False
+				Else
+					Model.Activate( Self )
+					Model.Active = True
+				End If
+			End If
+		Next
+	End Method
+	
+	
+	
+	Method RemoveModel( TypeName:String )
+		Local TypeID:TTypeId = L_GetTypeID( TypeName )
+		For Local Model:LTBehaviorModel = Eachin BehaviorModels
+			If TTypeID.ForObject( Model ) = TypeID Then
+				If Model.Active Then Model.Deactivate( Self )
+				Model.Remove()
+			End If
+		Next
+	End Method
+	
 	' ==================== Other ===================
 	
 	Method Init()
@@ -258,6 +325,11 @@ Type LTShape Extends LTObject
 	
 	
 	Method Act()
+		If Active Then
+			For Local Model:LTBehaviorModel = Eachin BehaviorModels
+				If Model.Active Then Model.ApplyTo( Self )
+			Next
+		End If
 	End Method
 	
 	

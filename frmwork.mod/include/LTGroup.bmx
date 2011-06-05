@@ -8,8 +8,6 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTLayer.bmx"
-
 Type LTGroup Extends LTSprite
 	Field Children:TList = New TList
 	

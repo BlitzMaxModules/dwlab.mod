@@ -8,12 +8,6 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTImageVisualizer.bmx"
-Include "LTFilledPrimitive.bmx"
-Include "LTEmptyPrimitive.bmx"
-Include "LTMarchingAnts.bmx"
-Include "LTWindowedVisualizer.bmx"
-
 Type LTVisualizer Extends LTObject Abstract
 	Field Red:Float = 1.0, Green:Float = 1.0, Blue:Float = 1.0
 	Field Alpha:Float = 1.0

@@ -61,8 +61,8 @@ End Type
 
 
 Type TMoving Extends LTBehaviorModel
-	Method ApplyTo( Sprite:LTSprite )
-		Local Mario:TMario = TMario( Sprite )
+	Method ApplyTo( Shape:LTShape )
+		Local Mario:TMario = TMario( Shape )
 		Mario.DX = 0
 		If KeyDown( Key_Left ) Then
 			Mario.DX = -5.0
@@ -84,8 +84,8 @@ End Type
 
 
 Type TJumping Extends LTBehaviorModel
-	Method ApplyTo( Sprite:LTSprite )
-		Local Mario:TMario = TMario( Sprite )
+	Method ApplyTo( Shape:LTShape )
+		Local Mario:TMario = TMario( Shape )
 		If KeyDown( Key_A ) And Mario.OnLand Then
 			Mario.DY = TMario.JumpStrength
 			Mario.Frame = TMario.Jumping
@@ -102,14 +102,22 @@ Type TWalkingAnimation Extends LTBehaviorModel
 	
 	
 	
-	Method Activate( Sprite:LTSprite )
+	Method Activate( Shape:LTShape )
 		StartingTime = Game.Time
 	End Method
 	
 
 	
-	Method ApplyTo( Sprite:LTSprite )
-		Local Mario:TMario = TMario( Sprite )
+	Method ApplyTo( Shape:LTShape )
+		Local Mario:TMario = TMario( Shape )
 		If Mario.OnLand Then Mario.Animate( Game, TMario.WalkingAnimationSpeed, 3, 1, StartingTime )
+	End Method
+End Type
+
+
+
+Type TDying Extends LTBehaviorModel
+	Method Activate( Shape:LTShape )
+		'Sprite.
 	End Method
 End Type

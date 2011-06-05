@@ -8,9 +8,6 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTFixedJoint.bmx"
-Include "LTRevoluteJoint.bmx"
-
 Global L_DefaultJointList:TList = New TList
 Global L_JointList:TList = L_DefaultJointList
 

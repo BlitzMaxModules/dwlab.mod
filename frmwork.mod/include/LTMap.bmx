@@ -8,10 +8,6 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTFloatMap.bmx"
-Include "LTIntMap.bmx"
-Include "LTCollisionMap.bmx"
-
 Type LTMap Extends LTObject
 	Field XQuantity:Int, YQuantity:Int
 	Field XMask:Int, YMask:Int, Masked:Int

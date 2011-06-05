@@ -8,9 +8,6 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTImage.bmx"
-Include "LTAnimatedTileMapVisualizer.bmx"
-
 Global L_EmptyTilemapFrame:Int = -1
 
 Type LTImageVisualizer Extends LTVisualizer

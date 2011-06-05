@@ -8,8 +8,6 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTWorld.bmx"
-
 Type LTLayer Extends LTGroup
 	Field Bounds:LTShape
 	
