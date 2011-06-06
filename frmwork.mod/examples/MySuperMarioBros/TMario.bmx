@@ -22,6 +22,7 @@ Type TMario Extends LTVectorSprite
 	Const SlidingDown:Int = 8
 	
 	Field OnLand:Int
+	Field Combo:Int = TScore.s100
 	
 
 
@@ -39,7 +40,8 @@ Type TMario Extends LTVectorSprite
 		If TGoomba( Sprite ) Then
 			If BottomY() < Sprite.Y Then
 				Sprite.AttachModel( New TStomped )
-				TScore.FromSprite( Sprite, TScore.s100 )
+				TScore.FromSprite( Sprite, Combo )
+				If Combo < TScore.s400 Then Combo :+ 1
 				DY = HopStrength
 			Else
 				AttachModel( New TDying )
@@ -54,6 +56,7 @@ Type TMario Extends LTVectorSprite
 		If CollisionType = Vertical Then
 			If DY > 0 Then
 				OnLand = True
+				Combo = TScore.s100
 			Else
 				Local TileNum:Int = TileMap.GetTile( TileX, TileY )
 				Select TileNum

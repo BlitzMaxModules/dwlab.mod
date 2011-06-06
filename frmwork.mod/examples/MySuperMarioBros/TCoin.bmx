@@ -24,13 +24,14 @@ Type TCoin Extends LTVectorSprite
 		Coin.DY = -10.0
 		Coin.Visualizer = Game.Coin
 		Coin.Frame = 0
+		Coin.LimitByWindow( Coin.X, Coin.Y - 3.5, 1.0, 6.0 )
 		Game.Level.AddLast( Coin )
 	End Function
 	
 	
 	
 	Method Act()
-		Animate( Game, 0.1 )
+		Animate( Game, 0.1, 4 )
 		DY :+ Game.PerSecond( Gravity )
 		MoveForward()
 		If Y > LowestY Then
