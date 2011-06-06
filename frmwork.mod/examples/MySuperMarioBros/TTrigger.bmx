@@ -11,7 +11,7 @@
 Type TTrigger Extends LTVectorSprite
 	Method Act()
 		If CollidesWithSprite( L_CurrentCamera ) Then
-			For Local Sprite:LTSprite = Eachin Game.Layer.Children
+			For Local Sprite:LTSprite = Eachin Game.Level.Children
 				If Sprite.Name = Name Then Sprite.Active = True
 			Next
 		End If

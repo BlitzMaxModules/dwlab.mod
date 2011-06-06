@@ -11,6 +11,8 @@
 Type TGoomba Extends LTVectorSprite
 	Const WalkingAnimationSpeed:Float = 0.3
 	
+	Const Stomped:Int = 2
+	
 	
 	
 	Method Init()
@@ -51,5 +53,34 @@ End Type
 Type TEnemyWalkingAnimation Extends LTBehaviorModel
 	Method ApplyTo( Shape:LTShape )
 		LTSprite( Shape ).Animate( Game, TGoomba.WalkingAnimationSpeed, 2 )
+	End Method
+End Type
+
+
+
+
+
+Type TStomped Extends LTBehaviorModel
+	Const FlatPeriod:Float = 1.0
+	
+	Field StartingTime:Float
+
+	
+
+	Method Activate( Shape:LTShape )
+		Local Goomba:TGoomba = TGoomba( Shape )
+		Goomba.DeactivateAllModels()
+		Goomba.Frame = TGoomba.Stomped
+		Game.MovingObjects.RemoveSprite( Goomba )
+		
+		Game.Stomp.Play()
+		
+		StartingTime = Game.Time
+	End Method
+	
+	
+	
+	Method ApplyTo( Shape:LTShape )
+		If Game.Time > StartingTime + FlatPeriod Then Game.Level.Remove( Shape )
 	End Method
 End Type

@@ -9,16 +9,28 @@
 '
 
 Type TCollisions Extends LTBehaviorModel
+	Field CheckCollisionsWithTilemap:Int = True
+	Field CheckCollisionsWithSprites:Int = True
+
+	
+	
 	Method ApplyTo( Shape:LTShape )
 		Local VectorSprite:LTVectorSprite = LTVectorSprite( Shape )
 	
 		VectorSprite.Move( VectorSprite.DX, 0.0 )
-		VectorSprite.CollisionsWithTilemap( Game.Tilemap, LTSprite.Horizontal )
-		VectorSprite.CollisionsWithCollisionMap( Game.MovingObjects, LTSprite.Horizontal )
+		If CheckCollisionsWithTilemap Then VectorSprite.CollisionsWithTilemap( Game.Tilemap, LTSprite.Horizontal )
+		If CheckCollisionsWithSprites Then VectorSprite.CollisionsWithCollisionMap( Game.MovingObjects, LTSprite.Horizontal )
 
 		VectorSprite.Move( 0.0, VectorSprite.DY )
-		VectorSprite.CollisionsWithTilemap( Game.Tilemap, LTSprite.Vertical )
-		VectorSprite.CollisionsWithCollisionMap( Game.MovingObjects, LTSprite.Vertical )
+		If CheckCollisionsWithTilemap Then VectorSprite.CollisionsWithTilemap( Game.Tilemap, LTSprite.Vertical )
+		If CheckCollisionsWithSprites Then VectorSprite.CollisionsWithCollisionMap( Game.MovingObjects, LTSprite.Vertical )
+	End Method
+	
+	
+	
+	Method SetCollisions( WithTilemap:Int, WithSprites:Int )
+		CheckCollisionsWithTilemap:Int = WithTilemap
+		CheckCollisionsWithSprites:Int = WithSprites
 	End Method
 End Type
 
@@ -40,7 +52,7 @@ Type TRemoveIfOutside Extends LTBehaviorModel
 	Method ApplyTo( Shape:LTShape )
 		Local Sprite:LTSprite = LTSprite( Shape )
 		If Sprite.TopY() > Game.Tilemap.BottomY() Then
-			Game.Layer.Remove( Sprite )
+			Game.Level.Remove( Sprite )
 			Game.MovingObjects.RemoveSprite( Sprite )
 		End If
 	End Method

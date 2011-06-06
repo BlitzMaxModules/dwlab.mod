@@ -11,6 +11,7 @@
 Type TMario Extends LTVectorSprite
 	Const JumpStrength:Float = -17.0
 	Const WalkingAnimationSpeed:Float = 0.15
+	Const HopStrength:Float = -4.0
 
 	Const Standing:Int = 0
 	Const Jumping:Int = 4
@@ -34,10 +35,32 @@ Type TMario Extends LTVectorSprite
 	
 	
 	
+	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
+		If TGoomba( Sprite ) Then
+			If BottomY() < Sprite.Y Then
+				Sprite.AttachModel( New TStomped )
+				TScore.FromSprite( Sprite, TScore.s100 )
+				DY = HopStrength
+			Else
+				AttachModel( New TDying )
+			End If
+		End If
+	End Method
+	
+	
+	
 	Method HandleCollisionWithTile( TileMap:LTTileMap, Shape:LTShape, TileX:Int, TileY:Int, CollisionType:Int )
 		PushFromTile( TileMap, TileX, TileY )
 		If CollisionType = Vertical Then
-			If DY > 0 Then OnLand = True
+			If DY > 0 Then
+				OnLand = True
+			Else
+				Local TileNum:Int = TileMap.GetTile( TileX, TileY )
+				Select TileNum
+					Case TTiles.QuestionBlock, TTiles.Bricks, TTiles.MushroomBlock, TTiles.Mushroom1UPBlock, TTiles.CoinsBlock, TTiles.StarmanBlock, TTiles.ShadyBricks
+						TBlock.FromTile( TileX, TileY, TileNum )
+				End Select
+			End If
 			DY = 0
 		End If
 	End Method
@@ -47,10 +70,10 @@ Type TMario Extends LTVectorSprite
 	Method Act()
 		Super.Act()
 		
-		LimitHorizontallyWith( Game.Layer.Bounds )
+		LimitHorizontallyWith( Game.Level.Bounds )
 		
 		L_CurrentCamera.JumpTo( Self )
-		L_CurrentCamera.LimitWith( Game.Layer.Bounds )
+		L_CurrentCamera.LimitWith( Game.Level.Bounds )
 		
 		OnLand = False
 	End Method
@@ -89,6 +112,7 @@ Type TJumping Extends LTBehaviorModel
 		If KeyDown( Key_A ) And Mario.OnLand Then
 			Mario.DY = TMario.JumpStrength
 			Mario.Frame = TMario.Jumping
+			Game.Jump.Play()
 		End If
 	End Method
 End Type
@@ -116,8 +140,26 @@ End Type
 
 
 
+
+
 Type TDying Extends LTBehaviorModel
 	Method Activate( Shape:LTShape )
-		'Sprite.
+		Local Mario:TMario = TMario( Shape )
+		TCollisions( Mario.FindModel( "TCollisions" ) ).SetCollisions( False, False )
+		Mario.DeactivateModel( "TMoving" )
+		Mario.DeactivateModel( "TWalkingAnimation" )
+		Mario.DeactivateModel( "TJumping" )
+		Mario.DX = 0.0
+		Mario.DY = TMario.JumpStrength
+		Mario.Frame = TMario.Dying
+		
+		Game.MusicChannel.Stop()
+		Game.MusicChannel = Game.MarioDie.Play()
+	End Method
+	
+	
+	
+	Method ApplyTo( Shape:LTShape )
+		If Not Game.MusicChannel.Playing() Then Game.InitLevel()
 	End Method
 End Type

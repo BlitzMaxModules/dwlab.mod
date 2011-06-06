@@ -21,6 +21,7 @@ Type TTiles Extends LTTileMap
 	Const StarmanBlock:Int = 18
 	Const ShadyBricks:Int = 37
 	Const Coin:Int = 40
+	Const SolidBlock:Int = 48
 	
 	
 	

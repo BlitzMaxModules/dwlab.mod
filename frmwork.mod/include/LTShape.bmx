@@ -253,10 +253,32 @@ Type LTShape Extends LTObject
 	
 	
 	
+	Method ActivateAllModels()
+		For Local Model:LTBehaviorModel = Eachin BehaviorModels
+			If Not Model.Active Then
+				Model.Activate( Self )
+				Model.Active = True
+			End If
+		Next
+	End Method
+	
+	
+	
+	Method DeactivateAllModels()
+		For Local Model:LTBehaviorModel = Eachin BehaviorModels
+			If Model.Active Then
+				Model.Deactivate( Self )
+				Model.Active = False
+			End If
+		Next
+	End Method
+	
+	
+	
 	Method ActivateModel( TypeName:String )
 		Local TypeID:TTypeId = L_GetTypeID( TypeName )
 		For Local Model:LTBehaviorModel = Eachin BehaviorModels
-			If TTypeID.ForObject( Model ) = TypeID And Model.Active = False Then
+			If TTypeID.ForObject( Model ) = TypeID And Not Model.Active Then
 				Model.Activate( Self )
 				Model.Active = True
 			End If

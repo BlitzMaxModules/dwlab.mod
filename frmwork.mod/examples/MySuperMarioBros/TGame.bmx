@@ -9,33 +9,68 @@
 '
 
 Type TGame Extends LTProject
+	Const Gravity:Float = 32.0
+	
+	Field Score:Int
+	Field Lives:Int = 3
+	Field Coins:Int
+	Field TimeLeft:Int
+	
 	Field MovingObjects:LTCollisionMap
 	Field Tilemap:LTTileMap
 	Field World:LTWorld ' this field will store our world created in editor
-	Field Layer:LTLayer ' this field will store layer loaded from the world
+	Field Level:LTLayer ' this field will store layer loaded from the world
+	Field HUD:LTLayer
+	Field LevelCamera:LTCamera = LTCamera.Create( 960, 720, 48.0 )
+	Field HUDCamera:LTCamera = LTCamera.Create( 960, 720, 48.0 )
+	Field Font:LTBitmapFont = LTBitmapFont.FromFile( "media/font.png", 32, 127, 16 )
+	
+	Field ScoreVisualizer:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Score.png", 11 )
+	Field Coin:LTImageVisualizer = LTImageVisualizer.FromFile( "media\FlippingCoin.png", 4 )
+	
+	Field Jump:TSound = TSound.Load( "media\Jump.ogg", False )
+	Field Stomp:TSound = TSound.Load( "media\Stomp.ogg", False )
+	Field Bump:TSound = TSound.Load( "media\Bump.ogg", False )
+	Field CoinFlip:TSound = TSound.Load( "media\Coin.ogg", False )
 
-	Const Gravity:Float = 32.0
+	Field MusicChannel:TChannel
+	Field MusicIntro:TSound = TSound.Load( "media\Music1intro.ogg", False )
+	Field Music:TSound = TSound.Load( "media\Music1.ogg", True ) ' True for looped
+	Field MarioDie:TSound = TSound.Load( "media\MarioDie.ogg", False )
 	
 	
 	
 	Method Init()
+		InitGraphics( 960, 720, 48.0 )
+		World = LTWorld.FromFile( "world.lw" )
+		HUD = LoadLayer( LTLayer( LTWorld.FromFile( "hud.lw" ).FindShape( "LTLayer" ) ) )
+		InitLevel()
+	End Method
+	
+	
+	
+	Method InitLevel()
 		MovingObjects = LTCollisionMap.Create( 128, 8, 2.0, 2.0 )
-		InitGraphics( 800, 600, 40.0 ) ' initialization of graphics engine with 800x600 resolution and 40 pixels per one unit (tile will be stretched to 40x40 pixels)
-		World = LTWorld.FromFile( "world.lw" ) ' loading the world into memory
-		Layer = LoadLayer( LTLayer( World.FindShape( "LTLayer" ) ) ) ' loading layer with name "Layer 1" from the world to work wit it
+		Level = LoadLayer( LTLayer( World.FindShape( "LTLayer" ) ) )
+		MusicChannel = MusicIntro.Play()		
 	End Method
 	
 	
 	
 	Method Logic()
-		Game.Layer.Act()
+		Game.Level.Act()
 		If KeyHit( Key_Escape ) Then End ' exit after pressing Escape
+		If Not MusicChannel.Playing() Then MusicChannel = Music.Play()
 	End Method
 	
 	
 	
 	Method Render()
-		Layer.Draw() ' drawing loaded layer
-		ShowDebugInfo( Layer ) ' showing debug info
+		L_CurrentCamera = LevelCamera
+		Level.Draw()
+		L_CurrentCamera = HUDCamera
+		HUD.Draw()
+		L_CurrentCamera = LevelCamera
+		ShowDebugInfo( Level )
 	End Method
 End Type

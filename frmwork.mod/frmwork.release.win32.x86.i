@@ -4,7 +4,7 @@ import brl.reflection
 import brl.retro
 import brl.max2d
 import brl.audio
-L_Version$=$"0.12.5"
+L_Version$=$"0.12.6"
 LTObject^brl.blitz.Object{
 .Name$&
 -New%()="_dwlab_frmwork_LTObject_New"
@@ -180,6 +180,8 @@ Vertical%=1
 -CorrectHeight%()="_dwlab_frmwork_LTShape_CorrectHeight"
 -AttachModel%(Model:LTBehaviorModel,Activated%=1)="_dwlab_frmwork_LTShape_AttachModel"
 -FindModel:LTBehaviorModel(TypeName$)="_dwlab_frmwork_LTShape_FindModel"
+-ActivateAllModels%()="_dwlab_frmwork_LTShape_ActivateAllModels"
+-DeactivateAllModels%()="_dwlab_frmwork_LTShape_DeactivateAllModels"
 -ActivateModel%(TypeName$)="_dwlab_frmwork_LTShape_ActivateModel"
 -DeactivateModel%(TypeName$)="_dwlab_frmwork_LTShape_DeactivateModel"
 -ToggleModel%(TypeName$)="_dwlab_frmwork_LTShape_ToggleModel"
@@ -558,27 +560,24 @@ LTBehaviorModel^LTObject{
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_ApplyTo"
 -Remove%()="_dwlab_frmwork_LTBehaviorModel_Remove"
 }="dwlab_frmwork_LTBehaviorModel"
-L_AlignToRight%=0
-L_AlignToTop%=0
-L_AlignToCenter%=1
-L_AlignToLeft%=2
-L_AlignToBottom%=0
-L_Stretch%=3
-LTFont^LTObject{
+LTBitmapFont^LTObject{
+AlignToRight%=0
+AlignToTop%=0
+AlignToCenter%=1
+AlignToLeft%=2
+AlignToBottom%=2
 .LetterLength%&[]&
 .FromNum%&
 .ToNum%&
 .BMaxImage:brl.max2d.TImage&
-.XScale#&
-.YScale#&
--New%()="_dwlab_frmwork_LTFont_New"
--Delete%()="_dwlab_frmwork_LTFont_Delete"
--SetFontScale%(NewXScale#,NewYScale#)="_dwlab_frmwork_LTFont_SetFontScale"
--Print%(Text$,X#,Y#,HorizontalAlignment%=0,VerticalAlignment%=0)="_dwlab_frmwork_LTFont_Print"
--Width%(Text$)="_dwlab_frmwork_LTFont_Width"
--Height%()="_dwlab_frmwork_LTFont_Height"
-+FromFile:LTFont(FileName$,FromNum%=32,ToNum%=255,SymbolsPerRow%=16,VariableLength%=0)="_dwlab_frmwork_LTFont_FromFile"
-}="dwlab_frmwork_LTFont"
+-New%()="_dwlab_frmwork_LTBitmapFont_New"
+-Delete%()="_dwlab_frmwork_LTBitmapFont_Delete"
+-Print%(Text$,X#,Y#,FontHeightInUnits#,HorizontalAlignment%=0,VerticalAlignment%=0)="_dwlab_frmwork_LTBitmapFont_Print"
+-PrintInShape%(Text$,Shape:LTShape,FontHeightInUnits#,HorizontalAlignment%=0,VerticalAlignment%=0)="_dwlab_frmwork_LTBitmapFont_PrintInShape"
+-Width%(Text$)="_dwlab_frmwork_LTBitmapFont_Width"
+-Height%()="_dwlab_frmwork_LTBitmapFont_Height"
++FromFile:LTBitmapFont(FileName$,FromNum%=32,ToNum%=255,SymbolsPerRow%=16,VariableLength%=0)="_dwlab_frmwork_LTBitmapFont_FromFile"
+}="dwlab_frmwork_LTBitmapFont"
 LTChannelPack^LTObject{
 .Channel:brl.audio.TChannel&[]&
 .ChannelsQuantity%&

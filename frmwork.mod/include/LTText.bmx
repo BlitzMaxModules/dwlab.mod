@@ -8,53 +8,77 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Const L_AlignToRight:Int = 0, L_AlignToTop:Int = 0
-Const L_AlignToCenter:Int = 1
-Const L_AlignToLeft:Int = 2, L_AlignToBottom:Int = 0
-Const L_Stretch:Int = 3
 
-Type LTFont Extends LTObject
+Type LTBitmapFont Extends LTObject
+	Const AlignToRight:Int = 0
+	Const AlignToTop:Int = 0
+	Const AlignToCenter:Int = 1
+	Const AlignToLeft:Int = 2
+	Const AlignToBottom:Int = 2
+
 	Field LetterLength:Int[]
 	Field FromNum:Int
 	Field ToNum:Int
 	Field BMaxImage:TImage
-	Field XScale:Float = 1.0
-	Field YScale:Float = 1.0
 	
 	
 	
-	Method SetFontScale( NewXScale:Float, NewYScale:Float )
-		XScale = NewXScale
-		YScale = NewYScale
-	End Method
+	Method Print( Text:String, X:Float, Y:Float, FontHeightInUnits:Float, HorizontalAlignment:Int = AlignToRight, VerticalAlignment:Int = AlignToTop )
+		Local Scale:Float = L_CurrentCamera.YK * FontHeightInUnits / Height()
 	
-	
-	
-	Method Print( Text:String, X:Float, Y:Float, HorizontalAlignment:Int = L_AlignToRight, VerticalAlignment:Int = L_AlignToTop )
 		Select HorizontalAlignment
-			Case L_AlignToCenter
-				X :- 0.5 * Width( Text )
-			Case L_AlignToLeft
-				X :- Width( Text )
+			Case AlignToCenter
+				X :- 0.5 * Width( Text ) * Scale
+			Case AlignToRight
+				X :- Width( Text ) * Scale
 		End Select
 		
-		Select HorizontalAlignment
-			Case L_AlignToCenter
-				Y :- 0.5 * Height()
-			Case L_AlignToLeft
-				Y :- Height()
+		Select VerticalAlignment
+			Case AlignToCenter
+				Y :- 0.5 * Height() * Scale
+			Case AlignToBottom
+				Y :- Height() * Scale
 		End Select
 		
-		SetScale XScale, YScale
+		SetScale Scale, Scale
 		For Local N:Int = 0 Until Len( Text )
 			?debug
 			If Text[ N ] < FromNum Or Text[ N ] > ToNum Then L_Error( "String contains letter that is out of font range" )
 			?
 			
 			DrawImage( BMaxImage, X, Y, Text[ N ] - FromNum )
-			X :+  XScale * LetterLength[ Text[ N ] - FromNum ]
+			X :+ Scale * LetterLength[ Text[ N ] - FromNum ]
 		Next
 		SetScale 1.0, 1.0
+	End Method
+	
+	
+	
+	Method PrintInShape( Text:String, Shape:LTShape, FontHeightInUnits:Float, HorizontalAlignment:Int = AlignToRight, VerticalAlignment:Int = AlignToTop )
+		Local X:Float, Y:Float
+		
+		Select HorizontalAlignment
+			Case AlignToLeft
+				X = Shape.LeftX()
+			Case AlignToCenter
+				X = Shape.X
+			Case AlignToRight
+				X = Shape.RightX()
+		End Select
+		
+		Select VerticalAlignment
+			Case AlignToTop
+				Y = Shape.TopY()
+			Case AlignToCenter
+				Y = Shape.Y
+			Case AlignToRight
+				Y = Shape.BottomY()
+		End Select
+		
+		Local SX:Float, SY:Float
+		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
+		
+		Print( Text, SX, SY, FontHeightInUnits, HorizontalAlignment, VerticalAlignment )
 	End Method
 	
 
@@ -66,7 +90,7 @@ Type LTFont Extends LTObject
 			If Text[ N ] < FromNum Or Text[ N ] > ToNum Then L_Error( "String contains letter that is out of font range" )
 			?
 		
-			X :+ XScale * LetterLength[ Text[ N ] - FromNum ]
+			X :+ LetterLength[ Text[ N ] - FromNum ]
 		Next
 		If X Mod 2 Then X :+ 1
 		Return X
@@ -75,13 +99,13 @@ Type LTFont Extends LTObject
 
 	
 	Method Height:Int()
-		Return  YScale * ImageHeight( BMaxImage )
+		Return ImageHeight( BMaxImage )
 	End Method
 
 
 	
-	Function FromFile:LTFont( FileName:String, FromNum:Int = 32, ToNum:Int = 255, SymbolsPerRow:Int = 16, VariableLength:Int = False )
-		Local Font:LTFont = New LTFont
+	Function FromFile:LTBitmapFont( FileName:String, FromNum:Int = 32, ToNum:Int = 255, SymbolsPerRow:Int = 16, VariableLength:Int = False )
+		Local Font:LTBitmapFont = New LTBitmapFont
 		Font.FromNum = FromNum
 		Font.ToNum = ToNum
 		
