@@ -48,6 +48,39 @@ End Type
 
 
 
+Type TBumpingTiles Extends LTBehaviorModel
+	Method HandleCollisionWithTile( Sprite:LTSprite, TileMap:LTTileMap, TileShape:LTShape, TileX:Int, TileY:Int, CollisionType:Int )
+		Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite )
+		VectorSprite.PushFromTile( TileMap, TileX, TileY )
+		If CollisionType = LTSprite.Vertical Then
+			VectorSprite.DY = 0
+		Else
+			VectorSprite.DX = -VectorSprite.DX
+		End If
+	End Method
+End Type
+
+
+
+
+
+Type TBumpingSprites Extends LTBehaviorModel
+	Method HandleCollisionWithSprite( Sprite1:LTSprite, Sprite2:LTSprite, CollisionType:Int )
+		Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite1 )
+		If TMushroom( Sprite2 ) Then Return
+		Sprite1.PushFromSprite( Sprite2 )
+		If CollisionType = LTSprite.Vertical Then
+			VectorSprite.DY = 0
+		Else
+			VectorSprite.DX = -VectorSprite.DX
+		End If
+	End Method
+End Type
+
+
+
+
+
 Type TRemoveIfOutside Extends LTBehaviorModel
 	Method ApplyTo( Shape:LTShape )
 		Local Sprite:LTSprite = LTSprite( Shape )

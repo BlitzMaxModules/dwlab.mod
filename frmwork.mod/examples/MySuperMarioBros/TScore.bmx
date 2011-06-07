@@ -9,7 +9,7 @@
 '
 
 Type TScore Extends LTSprite
-	Const MovingSpeed:Float = 3.0
+	Const Speed:Float = 3.0
 	Const LifeTime:Float = 1.0
 
 	Field StartingTime:Float
@@ -29,7 +29,7 @@ Type TScore Extends LTSprite
 	
 	
 	Method Act()
-		Move( 0, -MovingSpeed )
+		Move( 0, -Speed )
 		If Game.Time > StartingTime + LifeTime Then Game.Level.Remove( Self )
 	End Method
 	

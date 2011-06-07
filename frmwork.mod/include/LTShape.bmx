@@ -234,8 +234,8 @@ Type LTShape Extends LTObject
 	' ==================== Behavior models ===================
 	
 	Method AttachModel( Model:LTBehaviorModel, Activated:Int = True )
-		Model.Link = BehaviorModels.AddLast( Model )
 		Model.Init( Self )
+		Model.Link = BehaviorModels.AddLast( Model )
 		If Activated Then
 			Model.Activate( Self )
 			Model.Active = True
@@ -320,10 +320,28 @@ Type LTShape Extends LTObject
 		Local TypeID:TTypeId = L_GetTypeID( TypeName )
 		For Local Model:LTBehaviorModel = Eachin BehaviorModels
 			If TTypeID.ForObject( Model ) = TypeID Then
-				If Model.Active Then Model.Deactivate( Self )
-				Model.Remove()
+				Model.Remove( Self )
 			End If
 		Next
+	End Method
+	
+	' ==================== Windowed Visualizer ====================
+	
+	Method LimitByWindow( X:Float, Y:Float, Width:Float, Height:Float )
+		Local NewVisualizer:LTWindowedVisualizer = New LTWindowedVisualizer
+		NewVisualizer.Viewport = New LTShape
+		NewVisualizer.Viewport.X = X
+		NewVisualizer.Viewport.Y = Y
+		NewVisualizer.Viewport.Width = Width
+		NewVisualizer.Viewport.Height = Height
+		NewVisualizer.Visualizer = Visualizer
+		Visualizer = NewVisualizer
+	End Method
+	
+	
+	
+	Method RemoveWindowLimit()
+		Visualizer = LTWindowedVisualizer( Visualizer ).Visualizer
 	End Method
 	
 	' ==================== Other ===================
@@ -354,7 +372,7 @@ Type LTShape Extends LTObject
 		End If
 	End Method
 	
-	
+
 	
 	Method Update()
 	End Method

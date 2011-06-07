@@ -4,7 +4,7 @@ import brl.reflection
 import brl.retro
 import brl.max2d
 import brl.audio
-L_Version$=$"0.12.6"
+L_Version$=$"0.12.7"
 LTObject^brl.blitz.Object{
 .Name$&
 -New%()="_dwlab_frmwork_LTObject_New"
@@ -186,6 +186,8 @@ Vertical%=1
 -DeactivateModel%(TypeName$)="_dwlab_frmwork_LTShape_DeactivateModel"
 -ToggleModel%(TypeName$)="_dwlab_frmwork_LTShape_ToggleModel"
 -RemoveModel%(TypeName$)="_dwlab_frmwork_LTShape_RemoveModel"
+-LimitByWindow%(X#,Y#,Width#,Height#)="_dwlab_frmwork_LTShape_LimitByWindow"
+-RemoveWindowLimit%()="_dwlab_frmwork_LTShape_RemoveWindowLimit"
 -Init%()="_dwlab_frmwork_LTShape_Init"
 -CopyTo%(Shape:LTShape)="_dwlab_frmwork_LTShape_CopyTo"
 -Act%()="_dwlab_frmwork_LTShape_Act"
@@ -227,6 +229,8 @@ LTLayer^LTGroup{
 -Delete%()="_dwlab_frmwork_LTLayer_Delete"
 -CountSprites%()="_dwlab_frmwork_LTLayer_CountSprites"
 -FindShape:LTShape(ShapeName$,IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShape"
+-FindShapeWithType:LTShape(ShapeType$,IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShapeWithType"
+-FindShapeWithTypeID:LTShape(ShapeTypeID:brl.reflection.TTypeID,IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShapeWithTypeID"
 -Remove%(Shape:LTShape)="_dwlab_frmwork_LTLayer_Remove"
 -CopyTo%(Shape:LTShape)="_dwlab_frmwork_LTLayer_CopyTo"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTLayer_XMLIO"
@@ -258,7 +262,7 @@ Rectangle%=2
 -CollisionsWithCollisionMap%(CollisionMap:LTCollisionMap,CollisionType%)="_dwlab_frmwork_LTSprite_CollisionsWithCollisionMap"
 -SpriteGroupCollisions%(Sprite:LTSprite,CollisionType%)="_dwlab_frmwork_LTSprite_SpriteGroupCollisions"
 -HandleCollisionWithSprite%(Sprite:LTSprite,CollisionType%)="_dwlab_frmwork_LTSprite_HandleCollisionWithSprite"
--HandleCollisionWithTile%(TileMap:LTTileMap,Shape:LTShape,TileX%,TileY%,CollisionType%)="_dwlab_frmwork_LTSprite_HandleCollisionWithTile"
+-HandleCollisionWithTile%(TileMap:LTTileMap,TileShape:LTShape,TileX%,TileY%,CollisionType%)="_dwlab_frmwork_LTSprite_HandleCollisionWithTile"
 -HandleCollisionWithLine%(Line:LTLine,CollisionType%)="_dwlab_frmwork_LTSprite_HandleCollisionWithLine"
 -WedgeOffWithSprite%(Sprite:LTSprite,SelfMass#,SpriteMass#)="_dwlab_frmwork_LTSprite_WedgeOffWithSprite"
 -PushFromSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTSprite_PushFromSprite"
@@ -270,8 +274,6 @@ Rectangle%=2
 -SetSize%(NewWidth#,NewHeight#)="_dwlab_frmwork_LTSprite_SetSize"
 -SetAsTile%(TileMap:LTTileMap,TileX%,TileY%)="_dwlab_frmwork_LTSprite_SetAsTile"
 -Animate%(Project:LTProject,Speed#,FramesQuantity%=0,FrameStart%=0,StartingTime#=0#,PingPong%=0)="_dwlab_frmwork_LTSprite_Animate"
--LimitByWindow%(X#,Y#,Width#,Height#)="_dwlab_frmwork_LTSprite_LimitByWindow"
--RemoveWindowLimit%()="_dwlab_frmwork_LTSprite_RemoveWindowLimit"
 -Clone:LTShape()="_dwlab_frmwork_LTSprite_Clone"
 -CopyTo%(Shape:LTShape)="_dwlab_frmwork_LTSprite_CopyTo"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTSprite_XMLIO"
@@ -558,7 +560,9 @@ LTBehaviorModel^LTObject{
 -Activate%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_Activate"
 -Deactivate%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_Deactivate"
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_ApplyTo"
--Remove%()="_dwlab_frmwork_LTBehaviorModel_Remove"
+-HandleCollisionWithSprite%(Sprite1:LTSprite,Sprite2:LTSprite,CollisionType%)="_dwlab_frmwork_LTBehaviorModel_HandleCollisionWithSprite"
+-HandleCollisionWithTile%(Sprite:LTSprite,TileMap:LTTileMap,TileShape:LTShape,TileX%,TileY%,CollisionType%)="_dwlab_frmwork_LTBehaviorModel_HandleCollisionWithTile"
+-Remove%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_Remove"
 }="dwlab_frmwork_LTBehaviorModel"
 LTBitmapFont^LTObject{
 AlignToRight%=0

@@ -34,7 +34,18 @@ Type LTBehaviorModel Extends LTObject
 	
 	
 	
-	Method Remove()
+	Method HandleCollisionWithSprite( Sprite1:LTSprite, Sprite2:LTSprite, CollisionType:Int )
+	End Method
+
+	
+	
+	Method HandleCollisionWithTile( Sprite:LTSprite, TileMap:LTTileMap, TileShape:LTShape, TileX:Int, TileY:Int, CollisionType:Int )
+	End Method
+
+	
+	
+	Method Remove( Shape:LTShape )
+		If Active Then Deactivate( Shape )
 		Link.Remove()
 	End Method
 End Type

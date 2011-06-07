@@ -20,29 +20,9 @@ Type TGoomba Extends LTVectorSprite
 		AttachModel( New TEnemyWalkingAnimation )
 		AttachModel( New TCollisions )
 		AttachModel( New TGravity )
+		AttachModel( New TBumpingTiles )
+		AttachModel( New TBumpingSprites )
 		AttachModel( New TRemoveIfOutside )
-	End Method
-	
-	
-	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, Shape:LTShape, TileX:Int, TileY:Int, CollisionType:Int )
-		PushFromTile( TileMap, TileX, TileY )
-		If CollisionType = Vertical Then
-			DY = 0
-		Else
-			DX = -DX
-		End If
-	End Method
-	
-	
-	
-	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
-		PushFromSprite( Sprite )
-		If CollisionType = Vertical Then
-			DY = 0
-		Else
-			DX = -DX
-		End If
 	End Method
 End Type
 
@@ -55,7 +35,6 @@ Type TEnemyWalkingAnimation Extends LTBehaviorModel
 		LTSprite( Shape ).Animate( Game, TGoomba.WalkingAnimationSpeed, 2 )
 	End Method
 End Type
-
 
 
 

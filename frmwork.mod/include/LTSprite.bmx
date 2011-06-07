@@ -253,14 +253,24 @@ Type LTSprite Extends LTShape
 		If Sprite.CollidesWithSprite( Self ) Then Sprite.HandleCollisionWithSprite( Self, CollisionType )
 	End Method
 	
-
+	
 	
 	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
+		If Active Then
+			For Local Model:LTBehaviorModel = Eachin BehaviorModels
+				If Model.Active Then Model.HandleCollisionWithSprite( Self, Sprite, CollisionType )
+			Next
+		End If
 	End Method
 	
 	
 	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, Shape:LTShape, TileX:Int, TileY:Int, CollisionType:Int )
+	Method HandleCollisionWithTile( TileMap:LTTileMap, TileShape:LTShape, TileX:Int, TileY:Int, CollisionType:Int )
+		If Active Then
+			For Local Model:LTBehaviorModel = Eachin BehaviorModels
+				If Model.Active Then Model.HandleCollisionWithTile( Self, TileMap, TileShape, TileX, TileY, CollisionType:Int )
+			Next
+		End If
 	End Method
 	
 
@@ -426,25 +436,6 @@ Type LTSprite Extends LTShape
 		Frame = Floor( ( Project.Time - StartingTime ) / Speed ) Mod ModFactor
 		If PingPong And Frame >= FramesQuantity Then Frame = ModFactor - Frame
 		Frame :+ FrameStart
-	End Method
-	
-	' ==================== Windowed Visualizer ====================
-	
-	Method LimitByWindow( X:Float, Y:Float, Width:Float, Height:Float )
-		Local NewVisualizer:LTWindowedVisualizer = New LTWindowedVisualizer
-		NewVisualizer.Viewport = New LTShape
-		NewVisualizer.Viewport.X = X
-		NewVisualizer.Viewport.Y = Y
-		NewVisualizer.Viewport.Width = Width
-		NewVisualizer.Viewport.Height = Height
-		NewVisualizer.Visualizer = Visualizer
-		Visualizer = NewVisualizer
-	End Method
-	
-	
-	
-	Method RemoveWindowLimit()
-		Visualizer = LTWindowedVisualizer( Visualizer ).Visualizer
 	End Method
 	
 	' ==================== Other ====================	

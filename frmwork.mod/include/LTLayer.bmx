@@ -43,6 +43,28 @@ Type LTLayer Extends LTGroup
 	
 	
 	
+	Method FindShapeWithType:LTShape( ShapeType:String, IgnoreError:Int = False )
+		Return FindShapeWithTypeID( L_GetTypeID( ShapeType ), IgnoreError )
+	End Method
+	
+	
+	
+	Method FindShapeWithTypeID:LTShape( ShapeTypeID:TTypeID, IgnoreError:Int = False )
+		If TTypeID.ForObject( Self ) = ShapeTypeID Then Return Self
+		For Local ChildShape:LTShape = Eachin Children
+			If TTypeID.ForObject( ChildShape ) = ShapeTypeID Then Return ChildShape
+			Local ChildLayer:LTLayer = LTLayer( ChildShape )
+			If ChildLayer Then
+				Local Shape:LTShape = ChildLayer.FindShapeWithTypeID( ShapeTypeID, True )
+				If Shape Then Return Shape
+			End If
+		Next
+		If Not IgnoreError Then L_Error( "Shape width type ~q" + ShapeType + "~q not found." )
+		Return Null
+	End Method
+	
+	
+	
 	Method Remove( Shape:LTShape )
 		Local Link:TLink = Children.FirstLink()
 		While Link <> Null

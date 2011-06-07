@@ -9,7 +9,8 @@
 '
 
 Type TBlock Extends LTVectorSprite
-	Const Acceleration:Float = 5.0
+	Const Gravity:Float = 8.0
+	Const Impulse:Float = 1.5
 
 	Field LowestY:Float
 	Field TileX:Int, TileY:Int, TileNum:Int
@@ -23,12 +24,14 @@ Type TBlock Extends LTVectorSprite
 		Block.TileX = TileX
 		Block.TileY = TileY
 		Block.LowestY = Block.Y
-		Block.DY = -1.0
+		Block.DY = -Impulse
 		Block.Frame = TTiles.SolidBlock
 		Select TileNum
-			Case 9
+			Case TTiles.QuestionBlock
 				TCoin.FromTile( TileX, TileY )
-			Case 10, 27
+			Case TTiles.MushroomBlock
+				TMushroom.FromTile( TileX, TileY )
+			Case TTiles.Bricks, TTiles.ShadyBricks
 				Block.Frame = TileNum 
 		End Select
 
@@ -39,12 +42,11 @@ Type TBlock Extends LTVectorSprite
 	
 	
 	Method Act()
-		DY :+ Game.PerSecond( Acceleration )
+		DY :+ Game.PerSecond( Gravity )
+		MoveForward()
 		If Y >= LowestY And DY > 0 Then
 			Game.Tilemap.SetTile( TileX, TileY, Frame )
 			Game.Level.Remove( Self )
-		Else
-			MoveForward()
 		End If
 	End Method
 End Type
