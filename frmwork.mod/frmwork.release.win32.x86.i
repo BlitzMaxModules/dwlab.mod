@@ -555,9 +555,9 @@ LTWindowedVisualizer^LTVisualizer{
 -DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTWindowedVisualizer_DrawUsingSprite"
 }="dwlab_frmwork_LTWindowedVisualizer"
 LTDebugVisualizer^LTVisualizer{
-.ShowCollisionModel%&
-.ShowDirection%&
-.ShowName%&
+.ShowCollisionShapes%&
+.ShowVectors%&
+.ShowNames%&
 -New%()="_dwlab_frmwork_LTDebugVisualizer_New"
 -Delete%()="_dwlab_frmwork_LTDebugVisualizer_Delete"
 -DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTDebugVisualizer_DrawUsingSprite"

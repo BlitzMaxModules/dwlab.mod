@@ -53,7 +53,7 @@ Function PrintImageToCanvas:Int( Image:TImage, Canvas:TGadget, XCells:Int, YCell
 		End If
 	End If
 	
-	Flip
+	Flip( False )
 	
 	Return Frame
 End Function

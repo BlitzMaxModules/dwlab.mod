@@ -43,7 +43,7 @@ Type TSetTile Extends LTDrag
 		Next
 		Editor.SetChanged()
 
-		If Editor.CurrentTileset And MenuChecked( Editor.ReplacementOfTiles ) Then
+		If Editor.CurrentTileset And Editor.ReplacementOfTiles Then
 			For Local DY:Int = -3 To 3 + BlockHeight
 				Local Y:Int = TileY + DY
 				If Not Tilemap.Wrapped And ( Y < 0 Or Y >= FrameMap.YQuantity ) Then Continue

@@ -9,9 +9,9 @@
 '
 
 Type LTDebugVisualizer Extends LTVisualizer
-	Field ShowCollisionModel:Int = True
-	Field ShowDirection:Int = True
-	Field ShowName:Int = True
+	Field ShowCollisionShapes:Int = True
+	Field ShowVectors:Int = True
+	Field ShowNames:Int = True
 	
 	
 
@@ -24,7 +24,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 		L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX1, SY1 )
 		L_CurrentCamera.SizeFieldToScreen( Sprite.Width, Sprite.Height, SWidth, SHeight )
 		
-		If ShowCollisionModel Then
+		If ShowCollisionShapes Then
 			Select Sprite.ShapeType
 				Case LTSprite.Pivot
 					DrawOval( SX1 - 2, SY1 - 2, 5, 5 )
@@ -35,7 +35,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 			End Select
 		End If
 		
-		If ShowDirection Then
+		If ShowVectors Then
 			Local Size:Float = Max( SWidth, SHeight )
 			Local AngularSprite:LTAngularSprite = LTAngularSprite( Sprite )
 			If AngularSprite Then
@@ -61,10 +61,10 @@ Type LTDebugVisualizer Extends LTVisualizer
 		
 		ResetColor()
 		
-		If ShowName Then
+		If ShowNames Then
 			Local TextWidth2:Int = Len( Sprite.Name ) * 4
 			For Local DY:Int = -1 To 1
-				For Local DX:Int = -Abs( DY ) To Abs( DY ) Step 2
+				For Local DX:Int = -( DY = 0 ) To Abs( DY = 0 ) Step 2
 					DrawText( Sprite.Name, SX1 + DX - TextWidth2, SY1 + DY - 16 )
 				Next
 			Next

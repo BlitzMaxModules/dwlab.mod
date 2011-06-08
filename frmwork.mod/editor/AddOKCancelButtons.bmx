@@ -9,6 +9,8 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Function ChangeTilemapSize()
-	
+Function AddOKCancelButtons( Form:LTForm, OKButton:TGadget Var, CancelButton:TGadget Var )
+	OKButton = Form.AddButton( "{{B_OK}}", 64, Button_OK )
+	CancelButton = Form.AddButton( "{{B_Cancel}}", 64, Button_Cancel )
+	Form.Finalize()
 End Function

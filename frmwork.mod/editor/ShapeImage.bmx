@@ -26,9 +26,8 @@ Function ShapeImage:Int( Shape:LTShape )
 	Local ImageCanvas:TGadget = Form.AddCanvas( 480, 480 )
 	Form.NewLine()
 	Local LoadImageButton:TGadget = Form.AddButton( "{{B_LoadImage}}", 136 )
-	Local OkButton:TGadget = Form.AddButton( "{{B_OK}}", 64, Button_OK )
-	Local CancelButton:TGadget = Form.AddButton( "{{B_Cancel}}", 64, Button_Cancel )
-	Form.Finalize()
+	Local OKButton:TGadget, CancelButton:TGadget
+	AddOKCancelButtons( Form, OKButton, CancelButton )
 
 	Local Image:TImage
 	Local Filename:String = ""

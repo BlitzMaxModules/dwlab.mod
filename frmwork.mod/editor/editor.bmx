@@ -26,7 +26,6 @@ include "TMoveShape.bmx"
 include "TCreateSprite.bmx"
 include "TModifyShape.bmx"
 include "TGrid.bmx"
-include "TAngleArrow.bmx"
 include "TSetTile.bmx"
 include "ChooseParameter.bmx"
 include "ImportTilemap.bmx"
@@ -34,7 +33,10 @@ include "EnterString.bmx"
 include "ShapeImage.bmx"
 include "TilesetRules.bmx"
 include "PrintImageToCanvas.bmx"
-include "ChangeTilemapSize.bmx"
+include "ResizeTilemap.bmx"
+include "LTMenuSwitch.bmx"
+include "AddOKCancelButtons.bmx"
+include "SelectTileset.bmx"
 
 Incbin "english.lng"
 Incbin "russian.lng"
@@ -48,6 +50,7 @@ Editor.Execute()
 
 Type LTEditor Extends LTProject
 	Const Version:String = "1.3"
+	Const INIVersion:Int = 2
 	
 	Field EnglishLanguage:TMaxGuiLanguage
 	Field RussianLanguage:TMaxGuiLanguage
@@ -107,10 +110,10 @@ Type LTEditor Extends LTProject
 	Field HScroller:TGadget
 	Field VScroller:TGadget
 	
-	Field SnapToGrid:TGadget
-	Field ShowGrid:TGadget
-	Field ReplacementOfTiles:TGadget
-	Field ProlongTiles:TGadget
+	Field ShowGrid:Int
+	Field SnapToGrid:Int
+	Field ReplacementOfTiles:Int
+	
 	Field StaticModel:TGadget
 	Field VectorModel:TGadget
 	Field AngularModel:TGadget
@@ -137,8 +140,6 @@ Type LTEditor Extends LTProject
 	Field SelectedModifier:LTSprite
 	Field ModifiersImage:TImage
 	Field Modifiers:TList = New TList
-	Field ShapeVisualizer:LTFilledPrimitive = New LTFilledPrimitive
-	Field AngleArrow:TAngleArrow = New TAngleArrow
 	
 	Field SelectedTile:LTSprite = New LTSprite
 	Field TileX:Int, TileY:Int, TileNum:Int[] = New Int[ 2 ]
@@ -161,14 +162,17 @@ Type LTEditor Extends LTProject
 	Const MenuOpen:Int = 1
 	Const MenuSave:Int = 2
 	Const MenuSaveAs:Int = 3
-	Const MenuShowGrid:Int = 5
-	Const MenuSnapToGrid:Int = 6
-	Const MenuGridSettings:Int = 7
-	Const MenuStaticModel:Int = 9
-	Const MenuVectorModel:Int = 10
-	Const MenuAngularModel:Int = 11
-	Const MenuReplacementOfTiles:Int = 13
-	Const MenuProlongTiles:Int = 14
+	Const MenuShowCollisionShapes:Int = 5
+	Const MenuShowVectors:Int = 6
+	Const MenuShowNames:Int = 7
+	Const MenuShowGrid:Int = 9
+	Const MenuSnapToGrid:Int = 10
+	Const MenuGridSettings:Int = 11
+	Const MenuStaticModel:Int = 13
+	Const MenuVectorModel:Int = 14
+	Const MenuAngularModel:Int = 15
+	Const MenuReplacementOfTiles:Int = 17
+	Const MenuProlongTiles:Int = 18
 	Const MenuExit:Int = 34
 	Const MenuRussian:Int = 32
 	Const MenuEnglish:Int = 33
@@ -176,12 +180,12 @@ Type LTEditor Extends LTProject
 	Const MenuRename:Int = 35
 	Const MenuShiftToTheTop:Int = 36
 	Const MenuShiftUp:Int = 37
-	Const MenuShiftDown:Int = 15
-	Const MenuShiftToTheBottom:Int = 16
-	Const MenuRemove:Int = 17
+	Const MenuShiftDown:Int = 38
+	Const MenuShiftToTheBottom:Int = 39
+	Const MenuRemove:Int = 40
 	Const MenuSetBounds:Int = 28
 
-	Const MenuSelect:Int = 18
+	Const MenuSelect:Int = 41
 	Const MenuAddLayer:Int = 19
 	Const MenuAddTilemap:Int = 20
 	Const MenuImportTilemap:Int = 21
@@ -193,7 +197,8 @@ Type LTEditor Extends LTProject
 		
 	Const MenuEditTilemap:Int = 23
 	Const MenuSelectTileMap:Int = 27
-	Const MenuEditTileset:Int = 24
+	Const MenuSelectTileset:Int = 24
+	Const MenuResizeTilemap:Int = 42
 	Const MenuTilemapSettings:Int = 25
 	Const MenuEditReplacementRules:Int = 26
 
@@ -212,7 +217,7 @@ Type LTEditor Extends LTProject
 		MaximizeWindow( Window )
 		
 		Toolbar = CreateToolBar( "incbin::toolbar.png", 0, 0, 0, 0, Window )
-		SetToolbarTips( Toolbar, [ "{{TB_New}}", "{{TB_Open}}", "{{TB_Save}}", "{{TB_SaveAs}}", "", "{{TB_ShowGrid}}", "{{TB_SnapToGrid}}", "{{TB_GridSettings}}", "", "{{TB_StaticModel}}", "{{TB_VectorModel}}", "{{TB_AngularModel}}", "", "{{TB_AutoChangementOfTiles}}", "{{TB_ProlongTiles}}" ] )
+		SetToolbarTips( Toolbar, [ "{{M_New}}", "{{M_Open}}", "{{M_Save}}", "{{M_SaveAs}}", "", "{{M_ShowCollisions}}", "{{M_ShowVectors}}", "{{M_ShowNames}}", "", "{{M_ShowGrid}}", "{{M_SnapToGrid}}", "{{M_GridSettings}}", "", "{{M_StaticModel}}", "{{M_VectorModel}}", "{{M_AngularModel}}", "", "{{M_ReplacementOfTiles}}", "{{M_ProlongTiles}}" ] )
 		
 		Local BarHeight:Int = ClientHeight( Window ) - PanelHeight
 		MainCanvas = CreateCanvas( 0, 0, ClientWidth( Window ) - BarWidth - 16, ClientHeight( Window ) - 16, Window )
@@ -266,7 +271,7 @@ Type LTEditor Extends LTProject
 		YScaleField = PanelForm.AddTextField( "{{L_YScale}}", LabelWidth )
 		PanelForm.NewLine()
 		FrameField = PanelForm.AddTextField( "{{L_Frame}}", LabelWidth )
-		SelectImageButton  =  PanelForm.AddButton( "{{B_SelectImage}}", LabelWidth + 56 )
+		SelectImageButton = PanelForm.AddButton( "{{B_SelectImage}}", LabelWidth + 56 )
 		PanelForm.NewLine( LTAlign.Stretch )
 		RotatingCheckbox = PanelForm.AddButton( "{{CB_Rotation}}", 40, Button_Checkbox )
 		ScalingCheckbox = PanelForm.AddButton( "{{CB_Scaling}}", 40, Button_Checkbox )
@@ -291,16 +296,20 @@ Type LTEditor Extends LTProject
 		CreateMenu( "{{M_Exit}}", MenuExit, FileMenu )
 		
 		Local EditMenu:TGadget = CreateMenu( "{{M_Edit}}", 0, WindowMenu( Window ) )
-		ShowGrid = CreateMenu( "{{M_ShowGrid}}", MenuShowGrid, EditMenu )
-		SnapToGrid = CreateMenu( "{{M_SnapToGrid}}", MenuSnapToGrid, EditMenu )
+		LTMenuSwitch.Create( "{{M_ShowCollisions}}", MenuShowCollisionShapes, EditMenu )
+		LTMenuSwitch.Create( "{{M_ShowVectors}}", MenuShowVectors, EditMenu )
+		LTMenuSwitch.Create( "{{M_ShowNames}}", MenuShowNames, EditMenu )
+		CreateMenu( "", 0, EditMenu )
+		LTMenuSwitch.Create( "{{M_ShowGrid}}", MenuShowGrid, EditMenu )
+		LTMenuSwitch.Create( "{{M_SnapToGrid}}", MenuSnapToGrid, EditMenu )
 		CreateMenu( "{{M_GridSettings}}", MenuGridSettings, EditMenu )
 		CreateMenu( "", 0, EditMenu )
 		StaticModel = CreateMenu( "{{M_StaticModel}}", MenuStaticModel, EditMenu )
 		VectorModel = CreateMenu( "{{M_VectorModel}}", MenuVectorModel, EditMenu )
 		AngularModel = CreateMenu( "{{M_AngularModel}}", MenuAngularModel, EditMenu )
 		CreateMenu( "", 0, EditMenu )
-		ReplacementOfTiles = CreateMenu( "{{M_ReplacementOfTiles}}", MenuReplacementOfTiles, EditMenu )
-		ProlongTiles = CreateMenu( "{{M_ProlongTiles}}", MenuProlongTiles, EditMenu )
+		LTMenuSwitch.Create( "{{M_ReplacementOfTiles}}", MenuReplacementOfTiles, EditMenu )
+		LTMenuSwitch.Create( "{{M_ProlongTiles}}", MenuProlongTiles, EditMenu )
 		
 		Local LanguageMenu:TGadget = CreateMenu( "{{M_Language}}", 0, WindowMenu( Window ) )
 		English = CreateMenu( "{{M_English}}", MenuEnglish, LanguageMenu )
@@ -322,8 +331,8 @@ Type LTEditor Extends LTProject
 		CreateMenu( "{{M_Select}}", MenuSelectTileMap, TilemapMenu )
 		CreateMenu( "{{M_ToggleVisibility}}", MenuToggleVisibility, TilemapMenu )
 		CreateMenu( "{{M_ToggleActivity}}", MenuToggleActivity, TilemapMenu )
-		CreateMenu( "{{M_TileMapSettings}}", MenuTilemapSettings, TilemapMenu )
-		CreateMenu( "{{M_EditTileset}}", MenuEditTileset, TilemapMenu )
+		CreateMenu( "{{M_SelectTileset}}", MenuSelectTileset, TilemapMenu )
+		CreateMenu( "{{M_ResizeTilemap}}", MenuResizeTilemap, TilemapMenu )
 		CreateMenu( "{{M_EditTileReplacementRules}}", MenuEditReplacementRules, TilemapMenu )
 		CreateMenu( "{{M_SetBounds}}", MenuSetBounds, TilemapMenu )
 		AddCommonMenuItems( TilemapMenu )
@@ -342,47 +351,58 @@ Type LTEditor Extends LTProject
 		ModifiersImage = LoadAnimImage( "incbin::modifiers.png", 16, 16, 0, 10 )
 		MidHandleImage( ModifiersImage )
 		
-		ShapeVisualizer.SetColorFromHex( "FF00FF" )
-		ShapeVisualizer.Alpha = 0.5
+		L_DebugVisualizer.SetColorFromHex( "FF00FF" )
+		L_DebugVisualizer.Alpha = 0.5
 		
 		SelectedTile.Visualizer = New LTMarchingAnts
 		
 		EditorPath = CurrentDir()
 		AddLayer( "LTLayer" )
 				
+		SetLanguage( 0 )
+		LTMenuSwitch.Find( MenuShowCollisionShapes ).Toggle( L_DebugVisualizer.ShowCollisionShapes )
+		LTMenuSwitch.Find( MenuShowVectors ).Toggle( L_DebugVisualizer.ShowVectors )
+		LTMenuSwitch.Find( MenuShowNames ).Toggle( L_DebugVisualizer.ShowNames )
+		LTMenuSwitch.Find( MenuSnapToGrid ).Toggle( SnapToGrid )
+		LTMenuSwitch.Find( MenuShowGrid ).Toggle( ShowGrid )
+		LTMenuSwitch.Find( MenuReplacementOfTiles ).Toggle( ReplacementOfTiles )
+		SelectMenuItem( VectorModel )
+			
 		If FileType( "editor.ini" ) = 1 Then
 			Local IniFile:TStream = ReadFile( "editor.ini" )
-			
-			OpenWorld( ReadLine( IniFile ) )
-			
-			If ReadLine( IniFile ) = "1" Then SelectMenuItem( ShowGrid )
-			If ReadLine( IniFile ) = "1" Then SelectMenuItem( SnapToGrid )
-			Select ReadLine( IniFile )
-				Case "0"
-					SelectMenuItem( StaticModel )
-				Case "1"
-					SelectMenuItem( VectorModel )
-				Case "2"
-					SelectMenuItem( AngularModel )
-			End Select
-			If ReadLine( IniFile ) = "1" Then SelectMenuItem( ReplacementOfTiles )
-			If ReadLine( IniFile ) = "1" Then SelectMenuItem( ProlongTiles )
-			
-			SetLanguage( ReadLine( IniFile ).ToInt() )
-			
-			Grid.CellWidth = ReadLine( IniFile ).ToFloat()
-			Grid.CellHeight = ReadLine( IniFile ).ToFloat()
-			Grid.CellXDiv = ReadLine( IniFile ).ToInt()
-			Grid.CellYDiv = ReadLine( IniFile ).ToInt()
-			ShapeVisualizer.Red = ReadLine( IniFile ).ToInt()
-			ShapeVisualizer.Green = ReadLine( IniFile ).ToInt()
-			ShapeVisualizer.Blue = ReadLine( IniFile ).ToInt()
+			If ReadLine( IniFile ).ToInt() = INIVersion Then
+				OpenWorld( ReadLine( IniFile ) )
+				
+				LTMenuSwitch.ReadSwitches( IniFile )
+				L_DebugVisualizer.ShowCollisionShapes = LTMenuSwitch.Find( MenuShowCollisionShapes ).State()
+				L_DebugVisualizer.ShowVectors = LTMenuSwitch.Find( MenuShowVectors ).State()
+				L_DebugVisualizer.ShowNames = LTMenuSwitch.Find( MenuShowNames ).State()
+				SnapToGrid = LTMenuSwitch.Find( MenuSnapToGrid ).State()
+				ShowGrid = LTMenuSwitch.Find( MenuShowGrid ).State()
+				L_ProlongTiles = LTMenuSwitch.Find( MenuProlongTiles ).State()
+				ReplacementOfTiles = LTMenuSwitch.Find( MenuReplacementOfTiles ).State()
+				
+				Select ReadLine( IniFile )
+					Case "0"
+						SelectMenuItem( StaticModel )
+					Case "1"
+						SelectMenuItem( VectorModel )
+					Case "2"
+						SelectMenuItem( AngularModel )
+				End Select
+				
+				SetLanguage( ReadLine( IniFile ).ToInt() )
+				
+				Grid.CellWidth = ReadLine( IniFile ).ToFloat()
+				Grid.CellHeight = ReadLine( IniFile ).ToFloat()
+				Grid.CellXDiv = ReadLine( IniFile ).ToInt()
+				Grid.CellYDiv = ReadLine( IniFile ).ToInt()
+				L_DebugVisualizer.Red = ReadLine( IniFile ).ToInt()
+				L_DebugVisualizer.Green = ReadLine( IniFile ).ToInt()
+				L_DebugVisualizer.Blue = ReadLine( IniFile ).ToInt()
+			End If
 			
 			CloseFile( IniFile )
-		Else
-			SetLanguage( 0 )
-			SelectMenuItem( ReplacementOfTiles )
-			SelectMenuItem( VectorModel )
 		End If
 	End Method
 	
@@ -509,14 +529,12 @@ Type LTEditor Extends LTProject
 	Method ExitEditor()
 		If Not AskForSaving() Then Return
 	
-		Local IniFile:TStream = WriteFile( EditorPath + "/editor.ini" )
+		Local IniFile:TStream = WriteFile( EditorPath + "\editor.ini" )
 		
+		WriteLine( IniFile, INIVersion )
 		WriteLine( IniFile, WorldFilename )
-		WriteLine( IniFile, MenuChecked( ShowGrid ) )
-		WriteLine( IniFile, MenuChecked( SnapToGrid ) )
+		LTMenuSwitch.SaveSwicthes( IniFile )
 		WriteLine( IniFile, SpriteModel )
-		WriteLine( IniFile, MenuChecked( ReplacementOfTiles ) )
-		WriteLine( IniFile, MenuChecked( ProlongTiles ) )
 		
 		Select CurrentLanguage
 			Case EnglishLanguage
@@ -529,9 +547,9 @@ Type LTEditor Extends LTProject
 		WriteLine( IniFile, Grid.CellHeight )
 		WriteLine( IniFile, Grid.CellXDiv )
 		WriteLine( IniFile, Grid.CellYDiv )
-		WriteLine( IniFile, ShapeVisualizer.Red )
-		WriteLine( IniFile, ShapeVisualizer.Green )
-		WriteLine( IniFile, ShapeVisualizer.Blue )
+		WriteLine( IniFile, L_DebugVisualizer.Red )
+		WriteLine( IniFile, L_DebugVisualizer.Green )
+		WriteLine( IniFile, L_DebugVisualizer.Blue )
 		
 		CloseFile( IniFile )
 		
@@ -720,10 +738,16 @@ Type LTEditor Extends LTProject
 						SaveWorld( True )
 					Case MenuExit
 						ExitEditor()
+					Case MenuShowCollisionShapes
+						LTMenuSwitch.Find( MenuShowCollisionShapes ).Toggle( L_DebugVisualizer.ShowCollisionShapes )
+					Case MenuShowVectors
+						LTMenuSwitch.Find( MenuShowVectors ).Toggle( L_DebugVisualizer.ShowVectors )
+					Case MenuShowNames
+						LTMenuSwitch.Find( MenuShowNames ).Toggle( L_DebugVisualizer.ShowNames )
 					Case MenuSnapToGrid
-						SelectMenuItem( SnapToGrid, 2 )
+						LTMenuSwitch.Find( MenuSnapToGrid ).Toggle( SnapToGrid )
 					Case MenuShowGrid
-						SelectMenuItem( ShowGrid, 2 )
+						LTMenuSwitch.Find( MenuShowGrid ).Toggle( ShowGrid )
 					Case MenuGridSettings
 						Grid.Settings()
 					Case MenuStaticModel
@@ -733,9 +757,9 @@ Type LTEditor Extends LTProject
 					Case MenuAngularModel
 						SelectMenuItem( AngularModel )
 					Case MenuReplacementOfTiles
-						SelectMenuItem( ReplacementOfTiles, 2 )
+						LTMenuSwitch.Find( MenuReplacementOfTiles ).Toggle( ReplacementOfTiles )
 					Case MenuProlongTiles
-						SelectMenuItem( ProlongTiles, 2 )
+						LTMenuSwitch.Find( MenuProlongTiles ).Toggle( L_ProlongTiles )
 					Case MenuEnglish
 						SetLanguage( EnglishNum )
 					Case MenuRussian
@@ -764,7 +788,6 @@ Type LTEditor Extends LTProject
 							CurrentTilemap.Name = Name
 							LTLayer( SelectedShape ).AddLast( CurrentTilemap )
 							SelectedShape = CurrentTilemap
-							TilemapSettings()
 							ShapeImage( SelectedShape )
 							InitShape( CurrentTilemap )
 							RefreshProjectManager( World )
@@ -859,12 +882,12 @@ Type LTEditor Extends LTProject
 					Case MenuSelectTileMap
 						SelectShape( SelectedShape )
 						DeselectTilemap()
-					Case MenuEditTileset
-						ShapeImage( SelectedShape )
-						InitShape( SelectedShape )
+					Case MenuSelectTileset
+						SelectTileset( LTTileMap( SelectedShape ) )
 						RefreshTilemap()
-					Case MenuTilemapSettings
-						TilemapSettings()
+					Case MenuResizeTilemap
+						ResizeTilemap( LTTileMap( SelectedShape ) )
+						RefreshTilemap()
 					Case MenuEditReplacementRules
 						TilesetRules( LTTileMap( SelectedShape ) )
 					Case MenuSetBounds
@@ -1222,7 +1245,7 @@ Type LTEditor Extends LTProject
 		
 		CurrentLayer.DrawUsingVisualizer( L_DebugVisualizer )
 		
-		if MenuChecked( ShowGrid ) Then Grid.Draw()
+		if ShowGrid Then Grid.Draw()
 		
 		If CurrentTileMap Then
 			If MouseIsOver = MainCanvas Then
@@ -1257,22 +1280,6 @@ Type LTEditor Extends LTProject
 		If State = 2 Then State = 1 - MenuChecked( MenuItem )
 	
 		Select Menuitem
-			Case ShowGrid
-				If State Then
-					CheckMenu( ShowGrid )
-					SelectGadgetItem( Toolbar, MenuShowGrid )
-				Else
-					UncheckMenu( ShowGrid )
-					DeselectGadgetItem( Toolbar, MenuShowGrid )
-				End If
-			Case SnapToGrid
-				If State Then
-					CheckMenu( SnapToGrid )
-					SelectGadgetItem( Toolbar, MenuSnapToGrid )
-				Else
-					UncheckMenu( SnapToGrid )
-					DeselectGadgetItem( Toolbar, MenuSnapToGrid )
-				End If
 			Case StaticModel
 				CheckMenu( StaticModel )
 				UnCheckMenu( VectorModel )
@@ -1297,24 +1304,6 @@ Type LTEditor Extends LTProject
 				DeselectGadgetItem( Toolbar, MenuVectorModel )
 				SelectGadgetItem( Toolbar, MenuAngularModel )
 				SpriteModel = 2
-			Case ReplacementOfTiles
-				If State Then
-					CheckMenu( ReplacementOfTiles )
-					SelectGadgetItem( Toolbar, MenuReplacementOfTiles )
-				Else
-					UncheckMenu( ReplacementOfTiles )
-					DeselectGadgetItem( Toolbar, MenuReplacementOfTiles )
-				End If
-			Case ProlongTiles
-				If State Then
-					CheckMenu( ProlongTiles )
-					SelectGadgetItem( Toolbar, MenuProlongTiles )
-					L_ProlongTiles = True
-				Else
-					UncheckMenu( ProlongTiles )
-					DeselectGadgetItem( Toolbar, MenuProlongTiles )
-					L_ProlongTiles = False
-				End If
 		End Select
 	End Method
 	
@@ -1427,25 +1416,6 @@ Type LTEditor Extends LTProject
 		Modifier.Frame = ModType
 		Modifier.ShapeType = LTSprite.Rectangle
 		Modifiers.AddLast( Modifier )
-	End Method
-	
-	
-	
-	Method TilemapSettings()
-		Local Tilemap:LTTileMap = LTTilemap( SelectedShape )
-		Local XQuantity:Int = Tilemap.FrameMap.XQuantity
-		Local YQuantity:Int = Tilemap.FrameMap.YQuantity
-		If ChooseParameter( XQuantity, YQuantity, LocalizeString( "{{L_TilesQuantity}}" ), LocalizeString( "{{L_Tiles}}" ) ) Then
-			If XQuantity < Tilemap.FrameMap.XQuantity Or YQuantity < Tilemap.FrameMap.YQuantity Then
-				If Not Confirm( LocalizeString( "{{D_TilemapDataLoss}}" ) ) Then Return
-			End If
-			Tilemap.FrameMap.SetResolution( XQuantity, YQuantity )
-			Tilemap.X = 0.5 * XQuantity
-			Tilemap.Y = 0.5 * YQuantity
-			Tilemap.Width = XQuantity
-			Tilemap.Height = YQuantity
-			If TileMap = CurrentTileMap Then RefreshTilemap()
-		End If
 	End Method
 	
 	

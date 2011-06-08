@@ -21,9 +21,8 @@ Function ChooseParameter:Int( Width:Int Var, Height:Int Var, Parameter:String, U
 	SetGadgetText( HeightField, Height )
 	Form.AddLabel( Units, 46, Label_Left )
 	Form.NewLine()
-	Local OKButton:TGadget = Form.AddButton( "{{B_OK}}", 72 )
-	Local CancelButton:TGadget = Form.AddButton( "{{B_Cancel}}", 72 )
-	Form.Finalize()
+	Local OKButton:TGadget, CancelButton:TGadget
+	AddOKCancelButtons( Form, OKButton, CancelButton )
 	
 	Repeat
 		WaitEvent()

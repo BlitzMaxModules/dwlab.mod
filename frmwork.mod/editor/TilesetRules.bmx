@@ -29,7 +29,7 @@ Function TilesetRules( Tilemap:LTTilemap )
 		Return
 	End If
 	
-	Local Window:TGadget = CreateWindow( "Tileset editor", 0.5 * ClientWidth( Desktop() ) - 365, 0.5 * ClientHeight( Desktop() ) - 250, 760, 500, Editor.Window, Window_titlebar | Window_resizable )
+	Local Window:TGadget = CreateWindow( "{{W_TilesetRulesEditor}}", 0.5 * ClientWidth( Desktop() ) - 365, 0.5 * ClientHeight( Desktop() ) - 250, 760, 500, Editor.Window, Window_titlebar | Window_resizable )
 	MaximizeWindow( Window )
 	
 	Local Width:Int = ClientWidth( Window )
@@ -44,13 +44,13 @@ Function TilesetRules( Tilemap:LTTilemap )
 
 	Local PosPanel:TGadget = CreatePanel( Width - 225, 225, 225, 50, Window )
 	SetGadgetLayout( PosPanel, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Centered )
-	CreateLabel( "X:", 4, 6, 15, 16, PosPanel, 0 )
+	CreateLabel( "{{L_X}}", 4, 6, 15, 16, PosPanel, 0 )
 	Local XField:TGadget = CreateTextField( 19, 3, 72, 20, PosPanel )
 	Local XDividerField:TGadget = CreateTextField( 147, 3, 72, 20, PosPanel )
-	CreateLabel( "XDivider:", 99, 5, 45, 16, PosPanel, 0 )
-	CreateLabel( "Y:", 4, 29, 15, 16, PosPanel, 0 )
+	CreateLabel( "{{L_XDivider}}", 99, 5, 45, 16, PosPanel, 0 )
+	CreateLabel( "{{L_Y}}", 4, 29, 15, 16, PosPanel, 0 )
 	Local YField:TGadget = CreateTextField( 19, 27, 72, 20, PosPanel )
-	CreateLabel( "YDivider:", 99, 29, 48, 16, PosPanel, 0 )
+	CreateLabel( "{{L_YDivider}}", 99, 29, 48, 16, PosPanel, 0 )
 	Local YDividerField:TGadget = CreateTextField( 147, 27, 72, 20, PosPanel )
 	DisableGadget( PosPanel )
 	
@@ -101,7 +101,7 @@ Function TilesetRules( Tilemap:LTTilemap )
 		Next
 		SetScale( 1.0, 1.0 )
 		
-		Editor.ShapeVisualizer.ApplyColor()
+		L_DebugVisualizer.ApplyColor()
 		
 		If CurrentCategory Then
 			SetAlpha( 0.5 )
@@ -165,7 +165,7 @@ Function TilesetRules( Tilemap:LTTilemap )
 			SetScale( 1.0, 1.0 )
 		End If
 		
-		Editor.ShapeVisualizer.ApplyColor()
+		L_DebugVisualizer.ApplyColor()
 
 		For Local Coord:Int = 0 To 224 Step 32
 			DrawLine( Coord, 0, Coord, 224 )

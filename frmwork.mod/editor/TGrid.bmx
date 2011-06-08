@@ -19,7 +19,7 @@ Type TGrid Extends LTShape
 	
 	Method Draw()
 		Local SX:Float, SY:Float
-		Editor.ShapeVisualizer.ApplyColor()
+		L_DebugVisualizer.ApplyColor()
 		
 		Local X:Float = Floor( L_CurrentCamera.LeftX() / CellWidth ) * CellWidth
 		Local EndX:Float = L_CurrentCamera.RightX()
@@ -43,13 +43,13 @@ Type TGrid Extends LTShape
 	
 	
 	Method SnapX:Float( X:Float )
-		If MenuChecked( Editor.SnapToGrid ) Then Return L_Round( X / CellWidth * CellXDiv ) * CellWidth / CellXDiv Else Return X
+		If Editor.SnapToGrid Then Return L_Round( X / CellWidth * CellXDiv ) * CellWidth / CellXDiv Else Return X
 	End Method
 	
 	
 	
 	Method SnapY:Float( Y:Float )
-		If MenuChecked( Editor.SnapToGrid ) Then Return L_Round( Y / CellHeight * CellYDiv ) * CellHeight / CellYDiv Else Return Y
+		If Editor.SnapToGrid Then Return L_Round( Y / CellHeight * CellYDiv ) * CellHeight / CellYDiv Else Return Y
 	End method
 	
 	
@@ -62,7 +62,7 @@ Type TGrid Extends LTShape
 	
 	
 	Method SetSnaps( Side1:Float Var, Side2:Float Var, Vertical:Int )
-		If MenuChecked( Editor.SnapToGrid ) Then
+		If Editor.SnapToGrid Then
 			Local Snap1:Float, Snap2:Float
 			If Vertical Then
 				Snap1 = DYSnap( Side1 )
@@ -93,7 +93,7 @@ Type TGrid Extends LTShape
 		NewHorizontalSide = OppositeHorizontalSide + ( HorizontalSide - OppositeHorizontalSide ) * R / Diagonal
 		NewVerticalSide = OppositeVerticalSide + ( VerticalSide - OppositeVerticalSide ) * R / Diagonal
 		
-		If MenuChecked( Editor.SnapToGrid ) Then
+		If Editor.SnapToGrid Then
 			Local HorizontalSnap:Float = DXSnap( NewHorizontalSide )
 			Local VerticalSnap:Float = DYSnap( NewVerticalSide )
 			If Abs( HorizontalSnap ) < Abs( VerticalSnap ) Then
@@ -147,10 +147,10 @@ Type TGrid Extends LTShape
 				Case Event_GadgetAction
 					Select EventSource()
 						Case SelectColorButton
-							RequestColor( 255.0 * Editor.ShapeVisualizer.Red, 255.0 * Editor.ShapeVisualizer.Green, 255.0 * Editor.ShapeVisualizer.Blue )
-							Editor.ShapeVisualizer.Red = RequestedRed() / 255.0
-							Editor.ShapeVisualizer.Green = RequestedGreen() / 255.0
-							Editor.ShapeVisualizer.Blue = RequestedBlue() / 255.0
+							RequestColor( 255.0 * L_DebugVisualizer.Red, 255.0 * L_DebugVisualizer.Green, 255.0 * L_DebugVisualizer.Blue )
+							L_DebugVisualizer.Red = RequestedRed() / 255.0
+							L_DebugVisualizer.Green = RequestedGreen() / 255.0
+							L_DebugVisualizer.Blue = RequestedBlue() / 255.0
 						Case OKButton
 							Local NewCellWidth:Float = TextFieldText( CellWidthField ).ToFloat()
 							Local NewCellHeight:Float = TextFieldText( CellHeightField ).ToFloat()

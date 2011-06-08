@@ -17,9 +17,8 @@ Function EnterString:String( Message:String, St:String = "" )
 	SetGadgetText( StringField, St )
 	ActivateGadget( StringField )
 	Form.NewLine()
-	Local OKButton:TGadget = Form.AddButton( "{{B_OK}}", 72, Button_OK )
-	Local CancelButton:TGadget = Form.AddButton( "{{B_Cancel}}", 72, Button_Cancel )
-	Form.Finalize()
+	Local OKButton:TGadget, CancelButton:TGadget
+	AddOKCancelButtons( Form, OKButton, CancelButton )
 	
 	Repeat
 		WaitEvent()
