@@ -43,13 +43,6 @@ Type LTImageVisualizer Extends LTVisualizer
 	
 	
 	
-	Method SetDXDY( NewDX:Float, NewDY:Float )
-		DX = NewDX
-		DY = NewDY
-	End Method
-	
-	
-	
 	Method DrawUsingSprite( Sprite:LTSprite )
 		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
 		SetAlpha Alpha

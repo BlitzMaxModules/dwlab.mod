@@ -53,11 +53,13 @@ Type TMario Extends LTVectorSprite
 			Game.Level.Remove( Sprite )
 			Game.MovingObjects.RemoveSprite( Sprite )
 		Else If TGoomba( Sprite ) Then
-			If BottomY() < Sprite.Y And DY > 0.0 Then
-				Sprite.AttachModel( New TStomped )
-				TScore.FromSprite( Sprite, Combo )
-				If Combo < TScore.s400 Then Combo :+ 1
-				DY = HopStrength
+			If BottomY() < Sprite.Y Then
+				If DY > 0.0 Then
+					Sprite.AttachModel( New TStomped )
+					TScore.FromSprite( Sprite, Combo )
+					If Combo < TScore.s400 Then Combo :+ 1
+					DY = HopStrength
+				End If
 			Else
 				Damage()
 			End If

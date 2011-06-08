@@ -21,7 +21,7 @@ Import brl.audio
 
 SeedRnd( MilliSecs() )
 
-Const L_Version:String = "0.12.7"
+Const L_Version:String = "0.13"
 
 Include "include/LTObject.bmx"
 Include "include/LTProject.bmx"
@@ -54,7 +54,9 @@ Include "include/LTFilledPrimitive.bmx"
 Include "include/LTEmptyPrimitive.bmx"
 Include "include/LTMarchingAnts.bmx"
 Include "include/LTWindowedVisualizer.bmx"
+Include "include/LTDebugVisualizer.bmx"
 Include "include/LTBehaviorModel.bmx"
+Include "include/LTAlign.bmx"
 Include "include/LTText.bmx"
 Include "include/LTChannelPack.bmx"
 Include "include/LTPath.bmx"

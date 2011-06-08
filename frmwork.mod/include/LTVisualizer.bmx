@@ -19,6 +19,13 @@ Type LTVisualizer Extends LTObject Abstract
 
 	' ==================== Parameters ====================
 	
+	Method SetDXDY( NewDX:Float, NewDY:Float )
+		DX = NewDX
+		DY = NewDY
+	End Method
+	
+	
+	
 	Method SetVisualizerScale( NewXScale:Float, NewYScale:Float )
 		XScale = NewXScale
 		YScale = NewYScale
@@ -32,11 +39,6 @@ Type LTVisualizer Extends LTObject Abstract
 	
 	
 	Method SetImage( NewImage:LTImage )
-	End Method
-	
-	
-	
-	Method SetDXDY( NewDX:Float, NewDY:Float )
 	End Method
 	
 	' ==================== Drawing ===================	
@@ -88,8 +90,15 @@ Type LTVisualizer Extends LTObject Abstract
 	
 	Method ApplyColor()
 		SetColor( 255.0 * Red, 255.0 * Green, 255.0 * Blue )
+		SetAlpha( Alpha )
 	End Method
 	
+	
+	
+	Method ResetColor()
+		SetColor( 255, 255, 255 )
+		SetAlpha( 1.0 )
+	End Method
 	
 	
 	Method XMLIO( XMLObject:LTXMLObject )

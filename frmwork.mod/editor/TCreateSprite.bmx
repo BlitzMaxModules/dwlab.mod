@@ -88,7 +88,7 @@ Type TCreateSprite Extends LTDrag
 			Editor.CurrentLayer.Remove( Sprite )
 		Else
 			Editor.SetChanged()
-			If Not LTImageVisualizer( Sprite.Visualizer ).Image Then ShapeImageProperties( Sprite )
+			If Not LTImageVisualizer( Sprite.Visualizer ).Image Then ShapeImage( Sprite )
 		End If
 		Editor.FillShapeFields()
 		Editor.SetShapeModifiers( Sprite )

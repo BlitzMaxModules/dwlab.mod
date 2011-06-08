@@ -9,7 +9,21 @@
 '
 
 Type LTWorld Extends LTLayer
+	Field Images:TList = New TList
+	Field Tilesets:TList = New TList
+	
+	
+	
 	Function FromFile:LTWorld( Filename:String )
 		Return LTWorld( L_LoadFromFile( Filename ) )
 	End Function
+	
+	
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		
+		XMLObject.ManageListField( "images", Images )
+		XMLObject.ManageListField( "tilesets", Tilesets )
+	End Method
 End Type

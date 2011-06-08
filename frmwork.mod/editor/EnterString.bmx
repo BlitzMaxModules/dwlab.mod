@@ -10,12 +10,17 @@
 '
 
 Function EnterString:String( Message:String, St:String = "" )
-	Local InputWindow:TGadget = CreateWindow( Message, 0.5 * ClientWidth( Desktop() ) - 100, 0.5 * ClientHeight( Desktop() ) - 40, 200, 100, Editor.Window, WINDOW_TITLEBAR )
-	Local StringField:TGadget = CreateTextField( 8, 8, 180, 20, InputWindow )
+	Local InputWindow:TGadget = CreateWindow( Message, 0, 0, 0, 0, Editor.Window, Window_Titlebar | Window_ClientCoords )
+	Local Form:LTForm = LTForm.Create( InputWindow )
+	Form.NewLine()
+	Local StringField:TGadget = Form.AddTextField( "", 0, 200 )
 	SetGadgetText( StringField, St )
 	ActivateGadget( StringField )
-	Local OKButton:TGadget = CreateButton( "{{B_OK}}", 24, 36, 72, 24, InputWindow, Button_OK )
-	Local CancelButton:TGadget = CreateButton( "{{B_Cancel}}", 104, 36, 72, 24, InputWindow, Button_Cancel )
+	Form.NewLine()
+	Local OKButton:TGadget = Form.AddButton( "{{B_OK}}", 72, Button_OK )
+	Local CancelButton:TGadget = Form.AddButton( "{{B_Cancel}}", 72, Button_Cancel )
+	Form.Finalize()
+	
 	Repeat
 		WaitEvent()
 		Select EventID()

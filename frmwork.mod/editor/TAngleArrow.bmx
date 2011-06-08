@@ -38,6 +38,6 @@ Type TAngleArrow Extends LTVisualizer
 			Next
 		End If
 		
-		SetColor( 255, 255, 255 )
+		ResetColor()
 	End Method
 End Type

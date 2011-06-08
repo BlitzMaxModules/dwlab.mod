@@ -16,10 +16,9 @@ Framework brl.d3d7max2d
 Import brl.pngloader
 Import brl.jpgloader
 Import brl.bmploader
-Import brl.eventqueue
-import maxgui.win32maxguiex
 
 Import dwlab.frmwork
+Import dwlab.forms
 
 include "TPan.bmx"
 include "TSelectShapes.bmx"
@@ -32,8 +31,10 @@ include "TSetTile.bmx"
 include "ChooseParameter.bmx"
 include "ImportTilemap.bmx"
 include "EnterString.bmx"
-include "ShapeImageProperties.bmx"
-include "TilesetProperties.bmx"
+include "ShapeImage.bmx"
+include "TilesetRules.bmx"
+include "PrintImageToCanvas.bmx"
+include "ChangeTilemapSize.bmx"
 
 Incbin "english.lng"
 Incbin "russian.lng"
@@ -46,7 +47,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.2.5"
+	Const Version:String = "1.3"
 	
 	Field EnglishLanguage:TMaxGuiLanguage
 	Field RussianLanguage:TMaxGuiLanguage
@@ -196,9 +197,9 @@ Type LTEditor Extends LTProject
 	Const MenuTilemapSettings:Int = 25
 	Const MenuEditReplacementRules:Int = 26
 
-	Const PanelHeight:Int = 316
-	Const BarWidth:Int = 207
-	
+	Const PanelHeight:Int = 320
+	Const BarWidth:Int = 216
+	Const LabelWidth:Int = 43
 	
 	
 	Method Init()
@@ -216,6 +217,8 @@ Type LTEditor Extends LTProject
 		Local BarHeight:Int = ClientHeight( Window ) - PanelHeight
 		MainCanvas = CreateCanvas( 0, 0, ClientWidth( Window ) - BarWidth - 16, ClientHeight( Window ) - 16, Window )
 		SetGadgetLayout( MainCanvas, Edge_Aligned, Edge_Aligned, Edge_Aligned, Edge_Aligned )
+		Panel = CreatePanel( ClientWidth( Window ) - BarWidth, 0, BarWidth, PanelHeight - 2, Window, Panel_Raised )
+		SetGadgetLayout( Panel, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Centered )
 		TilesetCanvas = CreateCanvas( ClientWidth( Window ) - BarWidth, 0, BarWidth, 0.5 * ClientHeight( Window ), Window )
 		SetGadgetLayout( TilesetCanvas, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Relative )
 		ProjectManager = CreateTreeView( ClientWidth( Window ) - BarWidth, PanelHeight, BarWidth, BarHeight - 24, Window )
@@ -230,57 +233,46 @@ Type LTEditor Extends LTProject
 		VScroller = CreateSlider( ClientWidth( Window ) - BarWidth - 16, 0, 16, ClientHeight( Window ) - 16, Window, Slider_Scrollbar | Slider_Vertical )
 		SetGadgetLayout( VScroller, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Aligned )
 		
-		Panel = CreatePanel( ClientWidth( Window ) - BarWidth, 0, BarWidth, PanelHeight - 2, Window, Panel_Raised )
-		SetGadgetLayout( Panel, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Centered )
-		CreateLabel( "{{L_Shape}}", 2, 6, 37, 16, Panel, Label_Right )
-		ShapeBox = CreateComboBox( 40, 0, 160, 20, Panel )
-		CreateLabel( "{{L_X}}", 2, 27, 37, 16, Panel, Label_Right )
-		XField = CreateTextField( 40, 24, 56, 20, Panel )
-		CreateLabel( "{{L_Y}}", 131, 27, 13, 16, Panel, Label_Right )
-		YField = CreateTextField( 144, 24, 56, 20, Panel )
-		CreateLabel( "{{L_Width}}", 2, 51, 37, 16, Panel, Label_Right )
-		WidthField = CreateTextField( 40, 48, 56, 20, Panel )
-		CreateLabel( "{{L_Height}}", 106, 51, 37, 16, Panel, Label_Right )
-		HeightField = CreateTextField( 144, 48, 56, 20, Panel )
-		CreateLabel( "{{L_Angle}}", 2, 75, 37, 16, Panel, Label_Right )
-		AngleField = CreateTextField( 40, 72, 56, 20, Panel )
-		CreateLabel( "{{L_Velocity}}", 100, 75, 44, 16, Panel, Label_Right )
-		VelocityField = CreateTextField( 144, 72, 56, 20, Panel )
-		CreateLabel( "{{L_DX}}", 2, 99, 37, 16, Panel, Label_Right )
-		DXField = CreateTextField( 40, 96, 56, 20, Panel )
-		CreateLabel( "{{L_DY}}", 100, 99, 44, 16, Panel, Label_Right )
-		DYField = CreateTextField( 144, 96, 56, 20, Panel )
-		CreateLabel( "{{L_Red}}", 2, 125, 37, 16, Panel, Label_Right )
-		RedField = CreateTextField( 168, 120, 32, 20, Panel )
-		RedSlider = CreateSlider( 40, 124, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
-		SetSliderRange( RedSlider, 0, 100 )
-		CreateLabel( "{{L_Green}}", 2, 147, 37, 16, Panel, Label_Right )
-		GreenSlider = CreateSlider( 40, 146, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
-		GreenField = CreateTextField( 168, 144, 32, 20, Panel )
-		SetSliderRange( GreenSlider, 0, 100 )
-		CreateLabel( "{{L_Blue}}", 2, 171, 37, 16, Panel, Label_Right )
-		BlueSlider = CreateSlider( 40, 170, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
-		BlueField = CreateTextField( 168, 168, 32, 20, Panel )
-		SetSliderRange( BlueSlider, 0, 100 )
-		CreateLabel( "{{L_Alpha}}", 2, 195, 37, 16, Panel, Label_Right )
-		AlphaSlider = CreateSlider( 40, 194, 120, 20, Panel, Slider_Trackbar | Slider_Horizontal )
-		AlphaField = CreateTextField( 168, 192, 32, 20, Panel )
-		SetSliderRange( AlphaSlider, 0, 100 )
-		CreateLabel( "{{L_VisDX}}", 2, 219, 37, 16, Panel, Label_Right )
-		VisDXField = CreateTextField( 40, 216, 56, 20, Panel )
-		CreateLabel( "{{L_VisDY}}", 106, 219, 37, 16, Panel, Label_Right )
-		VisDYField = CreateTextField( 144, 216, 56, 20, Panel )
-		CreateLabel( "{{L_XScale}}", 2, 243, 37, 16, Panel, Label_Right )
-		XScaleField = CreateTextField( 40, 240, 56, 20, Panel )
-		CreateLabel( "{{L_YScale}}", 106, 243, 37, 16, Panel, Label_Right )
-		YScaleField = CreateTextField( 144, 240, 56, 20, Panel )
-		CreateLabel( "{{L_Frame}}", 2, 268, 37, 16, Panel, Label_Right )
-		FrameField = CreateTextField( 40, 264, 56, 20, Panel )
-		SelectImageButton  =  CreateButton(  "{{B_SelectImage}}",  104,  262,  96,  24,  Panel )
-		RotatingCheckbox = CreateButton( "{{CB_Rotation}}", 40, 290, 40, 16, Panel, Button_Checkbox )
-		ScalingCheckbox = CreateButton( "{{CB_Scaling}}", 2, 290, 40, 16, Panel, Button_Checkbox )
-		CreateLabel( "{{L_ImageAngle}}", 85, 291, 55, 16, Panel, Label_Right )
-		ImgAngleField = CreateTextField( 144, 288, 56, 20, Panel )
+		
+		
+		Local PanelForm:LTForm = LTForm.Create( Panel, 2, 2, 2 )
+		PanelForm.NewLine( LTAlign.Stretch )
+		ShapeBox = PanelForm.AddComboBox( "{{L_Shape}}", LabelWidth )
+		PanelForm.NewLine()
+		XField = PanelForm.AddTextField( "{{L_X}}", LabelWidth )
+		YField = PanelForm.AddTextField( "{{L_Y}}", LabelWidth )
+		PanelForm.NewLine()
+		WidthField = PanelForm.AddTextField( "{{L_Width}}", LabelWidth )
+		HeightField = PanelForm.AddTextField( "{{L_Height}}", LabelWidth )
+		PanelForm.NewLine()
+		AngleField = PanelForm.AddTextField( "{{L_Angle}}", LabelWidth )
+		VelocityField = PanelForm.AddTextField( "{{L_Velocity}}", LabelWidth )
+		PanelForm.NewLine()
+		DXField = PanelForm.AddTextField( "{{L_DX}}", LabelWidth )
+		DYField = PanelForm.AddTextField( "{{L_DY}}", LabelWidth )
+		PanelForm.NewLine( LTAlign.Stretch )		
+		PanelForm.AddSliderWidthTextField( RedSlider, RedField, "{{L_Red}}", LabelWidth, 50 )
+		PanelForm.NewLine( LTAlign.Stretch )		
+		PanelForm.AddSliderWidthTextField( GreenSlider, GreenField, "{{L_Green}}", LabelWidth, 50 )
+		PanelForm.NewLine( LTAlign.Stretch )		
+		PanelForm.AddSliderWidthTextField( BlueSlider, BlueField, "{{L_Blue}}", LabelWidth, 50 )
+		PanelForm.NewLine( LTAlign.Stretch )		
+		PanelForm.AddSliderWidthTextField( AlphaSlider, AlphaField, "{{L_Alpha}}", LabelWidth, 50 )
+		PanelForm.NewLine()
+		VisDXField = PanelForm.AddTextField( "{{L_VisDX}}", LabelWidth )
+		VisDYField = PanelForm.AddTextField( "{{L_VisDY}}", LabelWidth )
+		PanelForm.NewLine()
+		XScaleField = PanelForm.AddTextField( "{{L_XScale}}", LabelWidth )
+		YScaleField = PanelForm.AddTextField( "{{L_YScale}}", LabelWidth )
+		PanelForm.NewLine()
+		FrameField = PanelForm.AddTextField( "{{L_Frame}}", LabelWidth )
+		SelectImageButton  =  PanelForm.AddButton( "{{B_SelectImage}}", LabelWidth + 56 )
+		PanelForm.NewLine( LTAlign.Stretch )
+		RotatingCheckbox = PanelForm.AddButton( "{{CB_Rotation}}", 40, Button_Checkbox )
+		ScalingCheckbox = PanelForm.AddButton( "{{CB_Scaling}}", 40, Button_Checkbox )
+		ImgAngleField = PanelForm.AddTextField( "{{L_ImageAngle}}", LabelWidth + 14 )
+		PanelForm.Finalize( False, 6, 6 )
+		
 		HiddenOKButton = CreateButton( "", 0, 0, 0, 0, Panel, Button_OK )
 		HideGadget( HiddenOKButton )
 				
@@ -773,7 +765,7 @@ Type LTEditor Extends LTProject
 							LTLayer( SelectedShape ).AddLast( CurrentTilemap )
 							SelectedShape = CurrentTilemap
 							TilemapSettings()
-							ShapeImageProperties( SelectedShape )
+							ShapeImage( SelectedShape )
 							InitShape( CurrentTilemap )
 							RefreshProjectManager( World )
 							RefreshTilemap()
@@ -868,13 +860,13 @@ Type LTEditor Extends LTProject
 						SelectShape( SelectedShape )
 						DeselectTilemap()
 					Case MenuEditTileset
-						ShapeImageProperties( SelectedShape )
+						ShapeImage( SelectedShape )
 						InitShape( SelectedShape )
 						RefreshTilemap()
 					Case MenuTilemapSettings
 						TilemapSettings()
 					Case MenuEditReplacementRules
-						TilesetProperties( LTTileMap( SelectedShape ) )
+						TilesetRules( LTTileMap( SelectedShape ) )
 					Case MenuSetBounds
 						Local Bounds:LTShape = New LTShape
 						Bounds.X = SelectedShape.X
@@ -890,7 +882,7 @@ Type LTEditor Extends LTProject
 					Case SelectImageButton
 						If Not SelectedShapes.IsEmpty() Then
 							Local FirstShape:LTShape = LTShape( SelectedShapes.First() )
-							If ShapeImageProperties( FirstShape ) Then
+							If ShapeImage( FirstShape ) Then
 								For Local Shape:LTShape = Eachin SelectedShapes
 									LTImageVisualizer( Shape.Visualizer ).Image = LTImageVisualizer( FirstShape.Visualizer ).Image
 								Next
@@ -1228,7 +1220,7 @@ Type LTEditor Extends LTProject
 		MainCamera.Viewport.Height = MainCanvas.GetHeight()
 		MainCamera.Update()
 		
-		DrawLayerSprites( CurrentLayer )
+		CurrentLayer.DrawUsingVisualizer( L_DebugVisualizer )
 		
 		if MenuChecked( ShowGrid ) Then Grid.Draw()
 		
@@ -1257,22 +1249,6 @@ Type LTEditor Extends LTProject
 		End If
 		
 		'DrawText( SelectedShapes.Count(), 0, 0 )
-	End Method
-		
-	
-	
-	Method DrawLayerSprites( Layer:LTLayer )
-		For Local Shape:LTShape = Eachin Layer
-			If LTLayer( Shape ) Then
-				DrawLayerSprites( LTLayer( Shape ) )
-			Else
-				Shape.Draw()
-				If Not LTTilemap( Shape )
-					Shape.DrawUsingVisualizer( ShapeVisualizer )
-					Shape.DrawUsingVisualizer( AngleArrow )
-				End If
-			End If
-		Next
 	End Method
 	
 	

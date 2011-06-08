@@ -10,12 +10,6 @@
 
 
 Type LTBitmapFont Extends LTObject
-	Const AlignToRight:Int = 0
-	Const AlignToTop:Int = 0
-	Const AlignToCenter:Int = 1
-	Const AlignToLeft:Int = 2
-	Const AlignToBottom:Int = 2
-
 	Field LetterLength:Int[]
 	Field FromNum:Int
 	Field ToNum:Int
@@ -23,20 +17,20 @@ Type LTBitmapFont Extends LTObject
 	
 	
 	
-	Method Print( Text:String, X:Float, Y:Float, FontHeightInUnits:Float, HorizontalAlignment:Int = AlignToRight, VerticalAlignment:Int = AlignToTop )
+	Method Print( Text:String, X:Float, Y:Float, FontHeightInUnits:Float, HorizontalAlignment:Int = LTAlign.ToRight, VerticalAlignment:Int = LTAlign.ToTop )
 		Local Scale:Float = L_CurrentCamera.YK * FontHeightInUnits / Height()
 	
 		Select HorizontalAlignment
-			Case AlignToCenter
+			Case LTAlign.ToCenter
 				X :- 0.5 * Width( Text ) * Scale
-			Case AlignToRight
+			Case LTAlign.ToRight
 				X :- Width( Text ) * Scale
 		End Select
 		
 		Select VerticalAlignment
-			Case AlignToCenter
+			Case LTAlign.ToCenter
 				Y :- 0.5 * Height() * Scale
-			Case AlignToBottom
+			Case LTAlign.ToBottom
 				Y :- Height() * Scale
 		End Select
 		
@@ -54,24 +48,24 @@ Type LTBitmapFont Extends LTObject
 	
 	
 	
-	Method PrintInShape( Text:String, Shape:LTShape, FontHeightInUnits:Float, HorizontalAlignment:Int = AlignToRight, VerticalAlignment:Int = AlignToTop )
+	Method PrintInShape( Text:String, Shape:LTShape, FontHeightInUnits:Float, HorizontalAlignment:Int = LTAlign.ToRight, VerticalAlignment:Int = LTAlign.ToTop )
 		Local X:Float, Y:Float
 		
 		Select HorizontalAlignment
-			Case AlignToLeft
+			Case LTAlign.ToLeft
 				X = Shape.LeftX()
-			Case AlignToCenter
+			Case LTAlign.ToCenter
 				X = Shape.X
-			Case AlignToRight
+			Case LTAlign.ToRight
 				X = Shape.RightX()
 		End Select
 		
 		Select VerticalAlignment
-			Case AlignToTop
+			Case LTAlign.ToTop
 				Y = Shape.TopY()
-			Case AlignToCenter
+			Case LTAlign.ToCenter
 				Y = Shape.Y
-			Case AlignToRight
+			Case LTAlign.ToRight
 				Y = Shape.BottomY()
 		End Select
 		

@@ -12,8 +12,7 @@ Global L_DefaultVisualizer:LTFilledPrimitive = New LTFilledPrimitive
 
 Type LTFilledPrimitive Extends LTVisualizer
 	Method DrawUsingSprite( Sprite:LTSprite )
-		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
-		SetAlpha( Alpha )
+		ApplyColor()
 		
 		Local SX:Float, SY:Float, SWidth:Float, SHeight:Float
 		L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX, SY )
@@ -28,15 +27,13 @@ Type LTFilledPrimitive Extends LTVisualizer
 				DrawRect( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
 		End Select
 		
-		SetColor( 255, 255, 255 )
-		SetAlpha( 1.0 )
+		ResetColor()
 	End Method
 	
 	
 	
 	Method DrawUsingLine( Line:LTLine )
-		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
-		SetAlpha( Alpha )
+		ApplyColor()
 		
 		Local SX1:Float, SY1:Float, SX2:Float, SY2:Float
 		L_CurrentCamera.FieldToScreen( Line.Pivot[ 0 ].X, Line.Pivot[ 0 ].Y, SX1, SY1 )
@@ -44,7 +41,6 @@ Type LTFilledPrimitive Extends LTVisualizer
 		
 		DrawLine( SX1, SY1, SX2, SY2 )
 		
-		SetColor( 255, 255, 255 )
-		SetAlpha( 1.0 )
+		ResetColor()
 	End Method
 End Type

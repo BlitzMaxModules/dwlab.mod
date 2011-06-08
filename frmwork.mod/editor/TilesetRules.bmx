@@ -22,7 +22,7 @@ Const MenuRemoveTileRule:Int = 43
 Const MenuShiftTileRuleUp:Int = 44
 Const MenuShiftTileRuleDown:Int = 45
 
-Function TilesetProperties( Tilemap:LTTilemap )
+Function TilesetRules( Tilemap:LTTilemap )
 	Local Image:LTImage = LTImageVisualizer( Tilemap.Visualizer ).Image
 	If Not Image Then
 		Notify( "Load tileset for tilemap first" )

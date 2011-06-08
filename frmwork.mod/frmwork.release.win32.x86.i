@@ -4,7 +4,7 @@ import brl.reflection
 import brl.retro
 import brl.max2d
 import brl.audio
-L_Version$=$"0.12.7"
+L_Version$=$"0.13"
 LTObject^brl.blitz.Object{
 .Name$&
 -New%()="_dwlab_frmwork_LTObject_New"
@@ -236,9 +236,12 @@ LTLayer^LTGroup{
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTLayer_XMLIO"
 }="dwlab_frmwork_LTLayer"
 LTWorld^LTLayer{
+.Images:brl.linkedlist.TList&
+.Tilesets:brl.linkedlist.TList&
 -New%()="_dwlab_frmwork_LTWorld_New"
 -Delete%()="_dwlab_frmwork_LTWorld_Delete"
 +FromFile:LTWorld(Filename$)="_dwlab_frmwork_LTWorld_FromFile"
+-XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTWorld_XMLIO"
 }="dwlab_frmwork_LTWorld"
 LTSprite^LTShape{
 Pivot%=0
@@ -473,10 +476,10 @@ LTVisualizer^LTObject{
 .Rotating%&
 -New%()="_dwlab_frmwork_LTVisualizer_New"
 -Delete%()="_dwlab_frmwork_LTVisualizer_Delete"
+-SetDXDY%(NewDX#,NewDY#)="_dwlab_frmwork_LTVisualizer_SetDXDY"
 -SetVisualizerScale%(NewXScale#,NewYScale#)="_dwlab_frmwork_LTVisualizer_SetVisualizerScale"
 -GetImage:LTImage()="_dwlab_frmwork_LTVisualizer_GetImage"
 -SetImage%(NewImage:LTImage)="_dwlab_frmwork_LTVisualizer_SetImage"
--SetDXDY%(NewDX#,NewDY#)="_dwlab_frmwork_LTVisualizer_SetDXDY"
 -DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTVisualizer_DrawUsingSprite"
 -DrawUsingLine%(Line:LTLine)="_dwlab_frmwork_LTVisualizer_DrawUsingLine"
 -DrawUsingTileMap%(TileMap:LTTileMap)="_dwlab_frmwork_LTVisualizer_DrawUsingTileMap"
@@ -484,6 +487,7 @@ LTVisualizer^LTObject{
 -SetColorFromRGB%(NewRed#,NewGreen#,NewBlue#)="_dwlab_frmwork_LTVisualizer_SetColorFromRGB"
 -AlterColor%(D1#,D2#)="_dwlab_frmwork_LTVisualizer_AlterColor"
 -ApplyColor%()="_dwlab_frmwork_LTVisualizer_ApplyColor"
+-ResetColor%()="_dwlab_frmwork_LTVisualizer_ResetColor"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTVisualizer_XMLIO"
 }A="dwlab_frmwork_LTVisualizer"
 LTImageVisualizer^LTVisualizer{
@@ -494,7 +498,6 @@ LTImageVisualizer^LTVisualizer{
 +FromImage:LTImageVisualizer(Image:LTImage)="_dwlab_frmwork_LTImageVisualizer_FromImage"
 -GetImage:LTImage()="_dwlab_frmwork_LTImageVisualizer_GetImage"
 -SetImage%(NewImage:LTImage)="_dwlab_frmwork_LTImageVisualizer_SetImage"
--SetDXDY%(NewDX#,NewDY#)="_dwlab_frmwork_LTImageVisualizer_SetDXDY"
 -DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTImageVisualizer_DrawUsingSprite"
 -DrawUsingTileMap%(TileMap:LTTileMap)="_dwlab_frmwork_LTImageVisualizer_DrawUsingTileMap"
 -DrawTile%(FrameMap:LTIntMap,X#,Y#,TileX%,TileY%)="_dwlab_frmwork_LTImageVisualizer_DrawTile"
@@ -551,6 +554,15 @@ LTWindowedVisualizer^LTVisualizer{
 -Delete%()="_dwlab_frmwork_LTWindowedVisualizer_Delete"
 -DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTWindowedVisualizer_DrawUsingSprite"
 }="dwlab_frmwork_LTWindowedVisualizer"
+LTDebugVisualizer^LTVisualizer{
+.ShowCollisionModel%&
+.ShowDirection%&
+.ShowName%&
+-New%()="_dwlab_frmwork_LTDebugVisualizer_New"
+-Delete%()="_dwlab_frmwork_LTDebugVisualizer_Delete"
+-DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTDebugVisualizer_DrawUsingSprite"
+-DrawUsingTileMap%(TileMap:LTTileMap)="_dwlab_frmwork_LTDebugVisualizer_DrawUsingTileMap"
+}="dwlab_frmwork_LTDebugVisualizer"
 LTBehaviorModel^LTObject{
 .Active%&
 .Link:brl.linkedlist.TLink&
@@ -564,12 +576,17 @@ LTBehaviorModel^LTObject{
 -HandleCollisionWithTile%(Sprite:LTSprite,TileMap:LTTileMap,TileShape:LTShape,TileX%,TileY%,CollisionType%)="_dwlab_frmwork_LTBehaviorModel_HandleCollisionWithTile"
 -Remove%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_Remove"
 }="dwlab_frmwork_LTBehaviorModel"
+LTAlign^brl.blitz.Object{
+ToRight%=0
+ToTop%=0
+ToCenter%=1
+ToLeft%=2
+ToBottom%=2
+Stretch%=3
+-New%()="_dwlab_frmwork_LTAlign_New"
+-Delete%()="_dwlab_frmwork_LTAlign_Delete"
+}="dwlab_frmwork_LTAlign"
 LTBitmapFont^LTObject{
-AlignToRight%=0
-AlignToTop%=0
-AlignToCenter%=1
-AlignToLeft%=2
-AlignToBottom%=2
 .LetterLength%&[]&
 .FromNum%&
 .ToNum%&
@@ -700,6 +717,7 @@ L_JointList:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_JointList")
 L_EmptyTilemapFrame%&=mem("dwlab_frmwork_L_EmptyTilemapFrame")
 L_LoadImages%&=mem("dwlab_frmwork_L_LoadImages")
 L_DefaultVisualizer:LTFilledPrimitive&=mem:p("dwlab_frmwork_L_DefaultVisualizer")
+L_DebugVisualizer:LTDebugVisualizer&=mem:p("dwlab_frmwork_L_DebugVisualizer")
 L_UndoStack:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_UndoStack")
 L_CurrentUndoList:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_CurrentUndoList")
 L_RedoStack:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_RedoStack")
