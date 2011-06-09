@@ -149,6 +149,7 @@ Type LTTileMap Extends LTShape
 		Super.XMLIO( XMLObject )
 		
 		FrameMap = LTIntMap( XMLObject.ManageObjectField( "framemap", FrameMap ) )
+		TileSet = LTTileSet( XMLObject.ManageObjectField( "tileset", TileSet ) )
 		XMLObject.ManageIntAttribute( "tiles-quantity", TilesQuantity )
 		XMLObject.ManageIntAttribute( "wrapped", Wrapped )
 	End Method

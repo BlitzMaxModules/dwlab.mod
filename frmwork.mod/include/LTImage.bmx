@@ -43,7 +43,8 @@ Type LTImage Extends LTObject
 		Local Height:Int = ImageHeight( BMaxImage ) / YCells
 		
 		Local NewBMaxImage:TImage = CreateImage( Width, Height, BMaxImage.Pixmaps.Dimensions()[ 0 ] * XCells * YCells )
-		SetImageHandle( NewBMaxImage, 0.5 * ( Width - 1 ), 0.5 * ( Height - 1 ) )
+		'SetImageHandle( NewBMaxImage, 0.5 * ( Width - 1 ), 0.5 * ( Height - 1 ) )
+		MidHandleImage( NewBMaxImage )
 
 		Local Num:Int = 0
 		For Local Pixmap:TPixmap = EachIn BMaxImage.Pixmaps

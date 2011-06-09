@@ -154,6 +154,7 @@ Type LTTileSet Extends LTObject
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
+		Image = LTImage( XMLObject.ManageObjectField( "image", Image ) )
 		XMLObject.ManageIntAttribute( "tiles-quantity", TilesQuantity )
 		XMLObject.ManageIntArrayAttribute( "block-width", BlockWidth )
 		XMLObject.ManageIntArrayAttribute( "block-height", BlockHeight )
@@ -174,6 +175,7 @@ Type LTTileSet Extends LTObject
 			Init()
 		Else
 			Local ArrayXMLObject:LTXMLObject = New LTXMLObject
+			ArrayXMLObject.Name = "ShapeArray"
 			XMLObject.SetField( "collision-shapes", ArrayXMLObject )
 			For Local Obj:LTObject = EachIn CollisionShape
 				Local NewXMLObject:LTXMLObject = New LTXMLObject

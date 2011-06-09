@@ -13,12 +13,12 @@ Function ImageProperties:Int( Image:LTImage )
 	Local EditWindow:TGadget = CreateWindow( "{{W_ImageProperties}}", 0, 0, 0, 0, Editor.Window, Window_Titlebar | Window_ClientCoords )
 	Local Form:LTForm = LTForm.Create( EditWindow )
 	Form.NewLine()
-	Local XCellsTextField:TGadget = Form.AddTextField( "{{L_HorizontalCells}}", 150 )
-	Local YCellsTextField:TGadget = Form.AddTextField( "{{L_VerticalCells}}", 150 )
+	Local XCellsTextField:TGadget = Form.AddTextField( "{{L_HorizontalCells}}", 165 )
+	Local YCellsTextField:TGadget = Form.AddTextField( "{{L_VerticalCells}}", 165 )
 	Form.NewLine()
 	Local ImageCanvas:TGadget = Form.AddCanvas( 480, 480 )
 	Form.NewLine()
-	Local LoadImageButton:TGadget = Form.AddButton( "{{B_ReloadImage}}", 136 )
+	Local ReloadImageButton:TGadget = Form.AddButton( "{{B_ReloadImage}}", 200 )
 	Local OKButton:TGadget, CancelButton:TGadget
 	AddOKCancelButtons( Form, OKButton, CancelButton )
 
@@ -29,10 +29,6 @@ Function ImageProperties:Int( Image:LTImage )
 	
 	SetGadgetText( XCellsTextField, Image.XCells )
 	SetGadgetText( YCellsTextField, Image.YCells )
-	
-	ActivateGadget( ImageCanvas )
-	DisablePolledInput()
-	EnablePolledInput( ImageCanvas )
 	
 	Repeat
 		Local XCells:Int = TextFieldText( XCellsTextField ).ToInt()
@@ -45,7 +41,7 @@ Function ImageProperties:Int( Image:LTImage )
 		Select EventID()
 			Case Event_GadgetAction
 				Select EventSource()
-					Case LoadImageButton
+					Case ReloadImageButton
 						Filename = RequestFile( LocalizeString( "{{D_SelectImage}}" ), "Image files:png,jpg,bmp" )
 						Filename = ChopFilename( Filename )
 						If Filename Then
@@ -59,8 +55,12 @@ Function ImageProperties:Int( Image:LTImage )
 					Case OKButton
 						If XCells > 0 And YCells > 0 Then
 							If BMaxImage.Width Mod XCells = 0 And BMaxImage.Height Mod YCells = 0 Then
-								Image.Filename = Filename
-								Image.BMaxImage = BMaxImage
+								If Image.BMaxImage <> BMaxImage Then
+									Image.Filename = Filename
+									Image.BMaxImage = BMaxImage
+									Editor.BigImages.Insert( Image, BMaxImage )
+									Editor.RealPathsForImages.Insert( Image, RealPath( Filename ) )
+								End If
 								Image.XCells = XCells
 								Image.YCells = YCells
 								Image.Split()

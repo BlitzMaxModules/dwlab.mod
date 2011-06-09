@@ -493,7 +493,14 @@ Type LTEditor Extends LTProject
 			CurrentShape = Null
 			CurrentLayer = Null
 			If Not World.Children.IsEmpty() Then CurrentLayer = LTLayer( World.Children.First() )
-			ProcessShapes( World )
+			If World.Images.IsEmpty() Then
+				ProcessOldShapes( World )
+			Else
+				For Local Image:LTImage = Eachin World.Images
+					BigImages.Insert( Image, LoadImage( Image.Filename ) )
+					RealPathsForImages.Insert( Image, RealPath( Image.Filename ) )
+				Next
+			End If
 			
 			Changed = False
 			
@@ -1541,14 +1548,53 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method ProcessShapes( Layer:LTLayer )
+	Method ProcessOldShapes( Layer:LTLayer )
 		For Local Shape:LTShape = Eachin Layer
+			Local ChildLayer:LTLayer = LTLayer( Shape )
 			If LTLayer( Shape ) Then
-				ProcessShapes( LTLayer( Shape ) )
+				ProcessOldShapes( ChildLayer )
 			Else
-				InitShape( Shape )
+				Local Sprite:LTSprite = LTSprite( Shape )
+				If Sprite Then
+					AddImage( Sprite.Visualizer.GetImage() )
+				Else
+					Local TileMap:LTTileMap = LTTileMap( Shape )
+					If TileMap Then
+						Local Tileset:LTTileset = LTTileSet( TilesetForImage.ValueForKey( TileMap.Visualizer.GetImage() ) )
+						If Not Tileset Then
+							Local Image:LTImage = TileMap.Visualizer.GetImage()
+							AddImage( Image )
+							Local TilesetFilename:String = Image.Filename + ".lts"
+							If FileType( TilesetFilename ) = 1 Then
+								Tileset = LTTileset( L_LoadFromFile( TilesetFilename ) )
+							Else
+								Tileset = New LTTileset
+							End If
+							Tileset.Name = "Default"
+							Tileset.Image = Image
+							Tileset.TilesQuantity = Image.FramesQuantity()
+							Tileset.BlockHeight = New Int[ Tileset.TilesQuantity ]
+							Tileset.BlockWidth = New Int[ Tileset.TilesQuantity ]
+							TilesetForImage.Insert( Image, Tileset )
+							Tileset.Init()
+							TileMap.TileSet = TileSet
+							TileMap.Visualizer = New LTVisualizer
+							World.TileSets.AddLast( TileSet )
+						End If
+					End If
+				End If
 			End If
 		Next
+	End Method
+	
+	
+	
+	Method AddImage( Image:LTImage )
+		If Not Image Then Return
+		For Local WorldImage:LTImage = Eachin World.Images
+			If WorldImage = Image Then Return
+		Next
+		InitImage( Image )
 	End Method
 	
 	
@@ -1571,33 +1617,11 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method InitShape( Shape:LTShape )
-		Local Image:LTImage = LTImageVisualizer( Shape.Visualizer ).Image
-		If Not Image Then Return
-		InitImage( Image )
-		If LTTileMap( Shape ) Then
-			Local Tileset:LTTileset = LTTileSet( TilesetForImage.ValueForKey( Image ) )
-			If Not Tileset Then
-				Local TilesetFilename:String = Image.Filename + ".lts"
-				If FileType( TilesetFilename ) = 1 Then
-					Tileset = LTTileset( L_LoadFromFile( TilesetFilename ) )
-				Else
-					Tileset = New LTTileset
-				End If
-				Tileset.TilesQuantity = Image.FramesQuantity()
-				Tileset.BlockHeight = New Int[ Tileset.TilesQuantity ]
-				Tileset.BlockWidth = New Int[ Tileset.TilesQuantity ]
-				TilesetForImage.Insert( Image, Tileset )
-			End If
-			Tileset.Init()
-			World.TileSets.AddLast( TileSet )
-			If Shape = CurrentTileMap Then
+	Rem
 				For Local N:Int = 0 To 1
 					L_LimitInt( TileNum[ N ], 0, Image.FramesQuantity() - 1 )
 				Next
-			End If
-		End If
-	End Method
+	EndRem
 	
 	
 	
@@ -1606,12 +1630,6 @@ Type LTEditor Extends LTProject
 			CurrentTileMap = Null
 			RefreshProjectManager( World )
 		End If
-	End Method
-	
-	
-	
-	Method GetTilesetImage:LTImage( TileMap:LTTileMap )
-		If TileMap Then If TileMap.TileSet Then Return TileMap.TileSet.Image
 	End Method
 End Type
 

@@ -13,6 +13,7 @@ Function ChooseParameter:Int( Width:Int Var, Height:Int Var, Title:String, Width
 	Local Settings:TGadget =CreateWindow( Title, 0, 0, 0, 0, Editor.Window, Window_Titlebar | Window_ClientCoords )
 	Local Form:LTForm = LTForm.Create( Settings )
 	Form.NewLine()
+	Form.MaxWidth = 250
 	Local WidthField:TGadget = Form.AddTextField( WidthLabel, 100 )
 	SetGadgetText( WidthField, Width )
 	Form.NewLine()

@@ -50,6 +50,10 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 
 	FillComboBox( ComboBox, TileMap, SelectedObject )
 	
+	'ActivateGadget( Canvas )
+	DisablePolledInput()
+	EnablePolledInput( Canvas )
+	
 	Repeat
 		If TileMap Then
 			If SelectedObject Then Image = LTTileSet( SelectedObject ).Image Else Image = Null
@@ -101,6 +105,7 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 						If NewObject Then
 							SelectedObject = NewObject
 							FillComboBox( ComboBox, TileMap, SelectedObject )
+							Editor.SetChanged()
 						End If
 					Case ModifyButton
 						If SelectedObject Then 
@@ -109,6 +114,7 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 							Else
 								ImageProperties( LTImage( SelectedObject ) )
 							End If
+							FillComboBox( ComboBox, TileMap, SelectedObject )
 						End If
 					Case RemoveButton
 						If SelectedObject Then
@@ -120,6 +126,9 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 								If Proceed Then
 									RemoveTileset( LTTileSet( SelectedObject ), Editor.World )
 									Editor.World.TileSets.Remove( SelectedObject )
+									FillComboBox( ComboBox, TileMap, SelectedObject )
+									SelectedObject = Null
+									Editor.SetChanged()
 								End If
 							Else
 								If CheckImageUsage( LTImage( SelectedObject ) ) Then
@@ -131,6 +140,9 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 										If TileSet.Image = Image Then TileSet.Image = Null
 									Next
 									Editor.World.Images.Remove( SelectedObject )
+									FillComboBox( ComboBox, TileMap, SelectedObject )
+									SelectedObject = Null
+									Editor.SetChanged()
 								End If
 							End If
 						End If
@@ -155,6 +167,7 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 						
 						If Proceed Then
 							FreeGadget( Window )
+							Editor.SetChanged()
 							If Sprite Then
 								Sprite.Visualizer.SetImage( LTImage( SelectedObject ) )
 								Sprite.Frame = Frame
@@ -222,7 +235,7 @@ Function CheckImageUsage:Int( Image:LTImage, Layer:LTLayer = Null )
 		For Local TileSet:LTTileSet = Eachin Editor.World.TileSets
 			If TileSet.Image = Image Then Return True
 		Next
-		CheckImageUsage( Image, Editor.World )
+		Return CheckImageUsage( Image, Editor.World )
 	End If
 End Function
 
