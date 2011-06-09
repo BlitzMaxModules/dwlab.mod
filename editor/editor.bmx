@@ -782,15 +782,16 @@ Type LTEditor Extends LTProject
 						If Name Then
 							Local XQuantity:Int = 16
 							Local YQuantity:Int = 16
-							If ChooseParameter( XQuantity, YQuantity, "{{W_SelectTilemapTileset}}", "{{L_WidthInTiles}}", "{{L_HeightInTiles}}" ) Then
+							If ChooseParameter( XQuantity, YQuantity, "{{W_ChooseTilemapSize}}", "{{L_WidthInTiles}}", "{{L_HeightInTiles}}" ) Then
 								CurrentTilemap = LTTilemap.Create( Null, XQuantity, YQuantity )
 								CurrentTilemap.Name = Name
-								SelectImageOrTileset( CurrentTilemap )
-								LTLayer( SelectedShape ).AddLast( CurrentTilemap )
-								SelectedShape = CurrentTilemap
-								RefreshProjectManager( World )
-								RefreshTilemap()
-								SetChanged()
+								If SelectImageOrTileset( CurrentTilemap ) Then
+									LTLayer( SelectedShape ).AddLast( CurrentTilemap )
+									InitTileMap( CurrentTilemap )
+									RefreshProjectManager( World )
+									RefreshTilemap()
+									SetChanged()
+								End If
 							End If
 						End If
 					Case MenuImportTilemap
@@ -815,7 +816,7 @@ Type LTEditor Extends LTProject
 										InitImage( Visualizer.Image )
 										CurrentTilemap.Visualizer = Visualizer
 										CurrentTilemap.Name = "LTTileMap"
-										InitShape( CurrentTilemap )
+										InitTileMap( CurrentTilemap )
 										LTLayer( SelectedShape ).AddLast( CurrentTilemap )
 										SelectLayer( CurrentLayer )
 										SetChanged()
@@ -854,7 +855,7 @@ Type LTEditor Extends LTProject
 												Editor.World.AddLast( Layer )
 												Local TileMap:LTTileMap = ImportTilemap( TileWidth, TileHeight, TilemapPixmap, TilesetFilename )
 												Tilemap.Visualizer = Visualizer
-												InitShape( TileMap )
+												InitTileMap( TileMap )
 												Layer.AddLast( TileMap )
 												SelectLayer( Layer )
 												SetChanged()
@@ -1026,21 +1027,21 @@ Type LTEditor Extends LTProject
 									Sprite.Visualizer.YScale = TextFieldText( YScaleField ).ToFloat()
 									SetChanged()
 								Case FrameField
-									Local Image:LTImage = LTImageVisualizer( Sprite.Visualizer ).Image
+									Local Image:LTImage = Sprite.Visualizer.GetImage()
 									If Image Then
 										Sprite.Frame = L_LimitInt( TextFieldText( FrameField ).ToInt(), 0, Image.FramesQuantity() - 1 )
 										SetGadgetText( FrameField, Sprite.Frame )
 										SetChanged()
 									End If
 								Case ImgAngleField
-									LTImageVisualizer( Sprite.Visualizer ).Angle = TextFieldText( ImgAngleField ).ToFloat()
+									Sprite.Visualizer.Angle = TextFieldText( ImgAngleField ).ToFloat()
 									SetChanged()
 							End Select
 						Case ScalingCheckbox
 							Sprite.Visualizer.Scaling = ButtonState( ScalingCheckbox )
 							SetChanged()
 						Case RotatingCheckbox
-							LTImageVisualizer( Sprite.Visualizer ).Rotating = ButtonState( RotatingCheckbox )
+							Sprite.Visualizer.Rotating = ButtonState( RotatingCheckbox )
 							SetChanged()
 						Case ShapeBox
 							Sprite.ShapeType = SelectedGadgetItem( ShapeBox )
@@ -1113,9 +1114,6 @@ Type LTEditor Extends LTProject
 					
 					MinX = -TileSet.BlockWidth[ TileNum0 ]
 					MinY = -TileSet.BlockHeight[ TileNum0 ]
-					
-					TileX = L_LimitInt( Floor( MX ), MinX, CurrentTilemap.FrameMap.XQuantity - 1 )
-					TileY = L_LimitInt( Floor( MY ), MinY, CurrentTilemap.FrameMap.YQuantity - 1 )
 				
 					Local FWidth:Float, FHeight:Float
 					TilesetCamera.SizeScreenToField( GadgetWidth( TilesetCanvas ), 0, FWidth, FHeight )
@@ -1154,6 +1152,9 @@ Type LTEditor Extends LTProject
 				Next
 			End If
 			
+			TileX = L_LimitInt( Floor( MX ), MinX, CurrentTilemap.FrameMap.XQuantity - 1 )
+			TileY = L_LimitInt( Floor( MY ), MinY, CurrentTilemap.FrameMap.YQuantity - 1 )
+					
 			SetTile.Execute()
 		Else
 			ShapeUnderCursor = Null
@@ -1192,43 +1193,41 @@ Type LTEditor Extends LTProject
 		TilesetCamera.Viewport.Width = TilesetCanvas.GetWidth()
 		TilesetCamera.Viewport.Height = TilesetCanvas.GetHeight()
 		
-		Local Image:LTImage = GetTilesetImage( CurrentTileMap )
-		If Image Then
-			Local CurrentTileset:LTTileSet = CurrentTileMap.TileSet
-			
+		If CurrentTileMap Then
 			SetGraphics( CanvasGraphics( TilesetCanvas ) )
 			Cls
 			
-			Local TileWidth:Float, TileHeight:Float
-			TilesetCamera.SizeFieldToScreen( 1.0, 1.0, TileWidth, TileHeight )
-			SetScale( TileWidth / Image.BMaxImage.Width, TileHeight / Image.BMaxImage.Height )
-			'debugstop
-			For Local Frame:Int = 0 Until Image.FramesQuantity()
-				Local SX:Float, SY:Float
-				TilesetCamera.FieldToScreen( 0.5 + Frame Mod Image.XCells, 0.5 + Floor( Frame / Image.XCells ), SX, SY )
-				DrawImage( Image.BMaxImage, SX, SY, Frame )
-			Next
-			
-			SetScale( 1.0, 1.0 )
-			
-			L_CurrentCamera = TilesetCamera
-			
-			For Local N:Int = 1 To 0 Step -1
-				TileNum[ N ] = L_LimitInt( TileNum[ N ], 0, Image.FramesQuantity() - 1 )
-				Local TileNumN:Int = TileNum[ N ]
-				If CurrentTileset Then
-					SelectedTile.Width = 1.0 + CurrentTileset.BlockWidth[ TileNumN ]
-					SelectedTile.Height = 1.0 + CurrentTileset.BlockHeight[ TileNumN ]
-				Else
-					SelectedTile.Width = 1.0
-					SelectedTile.Height = 1.0
-				EndIf
-				SelectedTile.X = 0.5 * SelectedTile.Width + TileNumN Mod Image.XCells
-				SelectedTile.Y = 0.5 * SelectedTile.Height + Floor( TileNumN / Image.XCells )
-				SelectedTile.Draw()
-			Next
-			
-			L_CurrentCamera = MainCamera
+			Local TileSet:LTTileSet = CurrentTileMap.TileSet
+			If TileSet Then
+				Local Image:LTImage = TileSet.Image
+				If Image Then
+					Local TileWidth:Float, TileHeight:Float
+					TilesetCamera.SizeFieldToScreen( 1.0, 1.0, TileWidth, TileHeight )
+					SetScale( TileWidth / ImageWidth( Image.BMaxImage ), TileHeight / ImageHeight( Image.BMaxImage ) )
+					'debugstop
+					For Local Frame:Int = 0 Until Image.FramesQuantity()
+						Local SX:Float, SY:Float
+						TilesetCamera.FieldToScreen( 0.5 + Frame Mod Image.XCells, 0.5 + Floor( Frame / Image.XCells ), SX, SY )
+						DrawImage( Image.BMaxImage, SX, SY, Frame )
+					Next
+					
+					SetScale( 1.0, 1.0 )
+					
+					L_CurrentCamera = TilesetCamera
+					
+					For Local N:Int = 1 To 0 Step -1
+						TileNum[ N ] = L_LimitInt( TileNum[ N ], 0, Image.FramesQuantity() - 1 )
+						Local TileNumN:Int = TileNum[ N ]
+						SelectedTile.Width = 1.0 + Tileset.BlockWidth[ TileNumN ]
+						SelectedTile.Height = 1.0 + Tileset.BlockHeight[ TileNumN ]
+						SelectedTile.X = 0.5 * SelectedTile.Width + TileNumN Mod Image.XCells
+						SelectedTile.Y = 0.5 * SelectedTile.Height + Floor( TileNumN / Image.XCells )
+						SelectedTile.Draw()
+					Next
+					
+					L_CurrentCamera = MainCamera
+				End If
+			End If
 			
 			Flip( False )
 		End If
@@ -1559,6 +1558,15 @@ Type LTEditor Extends LTProject
 		BigImages.Insert( Image, LoadImage( Image.Filename ) )
 		World.Images.AddLast( Image )
 		RealPathsForImages.Insert( Image, RealPath( Image.Filename ) )
+	End Method
+	
+	
+	
+	Method InitTileMap( TileMap:LTTileMap )
+		TileMap.X = 0.5 * TileMap.FrameMap.XQuantity
+		TileMap.Y = 0.5 * TileMap.FrameMap.YQuantity
+		TileMap.Width = TileMap.FrameMap.XQuantity
+		TileMap.Height = TileMap.FrameMap.YQuantity
 	End Method
 	
 	

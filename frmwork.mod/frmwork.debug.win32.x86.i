@@ -515,7 +515,7 @@ LTImage^LTObject{
 -New%()="_dwlab_frmwork_LTImage_New"
 -Delete%()="_dwlab_frmwork_LTImage_Delete"
 +FromFile:LTImage(Filename$,XCells%=1,YCells%=1)="_dwlab_frmwork_LTImage_FromFile"
--Split%(XCells%,YCells%)="_dwlab_frmwork_LTImage_Split"
+-Split%()="_dwlab_frmwork_LTImage_Split"
 -Init%()="_dwlab_frmwork_LTImage_Init"
 -SetHandle%(X#,Y#)="_dwlab_frmwork_LTImage_SetHandle"
 +Create:LTImage(Width%,Height%,Frames%=1)="_dwlab_frmwork_LTImage_Create"

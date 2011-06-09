@@ -90,6 +90,7 @@ Type LTTileMap Extends LTShape
 	
 	
 	Method RefreshTilesQuantity()
+		If Not TileSet Then Return
 		If TileSet.TilesQuantity < TilesQuantity Then
 			For Local Y:Int = 0 Until FrameMap.YQuantity
 				For Local X:Int = 0 Until FrameMap.XQuantity

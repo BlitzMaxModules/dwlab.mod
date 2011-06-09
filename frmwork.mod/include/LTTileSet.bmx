@@ -54,6 +54,7 @@ Type LTTileSet Extends LTObject
 	
 	
 	Method RefreshTilesQuantity()
+		If Not Image Then Return
 		Local NewTilesQuantity:Int = Image.FramesQuantity()
 		Local NewCollisionShape:LTShape[] = New LTShape[ NewTilesQuantity ]
 		Local NewBlockWidth:Int[] = New Int[ NewTilesQuantity ]

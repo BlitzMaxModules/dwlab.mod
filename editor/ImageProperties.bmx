@@ -61,7 +61,9 @@ Function ImageProperties:Int( Image:LTImage )
 							If BMaxImage.Width Mod XCells = 0 And BMaxImage.Height Mod YCells = 0 Then
 								Image.Filename = Filename
 								Image.BMaxImage = BMaxImage
-								Image.Split( XCells, YCells )
+								Image.XCells = XCells
+								Image.YCells = YCells
+								Image.Split()
 								Editor.SetChanged()
 								FreeGadget( EditWindow )
 								Return True

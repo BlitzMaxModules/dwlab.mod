@@ -11,7 +11,7 @@
 
 Const ImageCanvasSize:Int = 480
 
-Function SelectImageOrTileset:LTObject( Obj:LTObject )
+Function SelectImageOrTileset:LTObject( Obj:Object )
 	Local Sprite:LTSprite = LTSprite( Obj )
 	Local TileMap:LTTileMap = LTTileMap( Obj )
 	Local TileSet:LTTileSet = LTTileSet( Obj )
@@ -20,22 +20,19 @@ Function SelectImageOrTileset:LTObject( Obj:LTObject )
 	Local Image:LTImage
 	Local Frame:Int = -1
 	Local ItemName:String = "{{L_Image}}"
-	Local SelectedObject:LTObject
+	Local SelectedObject:Object
 	
 	If Sprite Then
 		Title = "{{W_SelectSpriteImage}}"
-		Image = Sprite.Visualizer.GetImage()
-		SelectedObject = Image
+		SelectedObject = Sprite.Visualizer.GetImage()
 		Frame = Sprite.Frame
 	ElseIf TileMap Then
 		Title = "{{W_SelectTilemapTileset}}"
 		ItemName = "{{L_Tileset}}"
-		If TileMap.TileSet Then Image = TileMap.TileSet.Image
 		SelectedObject = TileMap.TileSet
 	Else
 		Title = "{{W_SelectTilesetImage}}"
-		Image = TileSet.Image
-		SelectedObject = Image
+		SelectedObject = TileSet.Image 
 	End If
 
 	Local Window:TGadget = CreateWindow( Title, 0, 0, 0, 0, Editor.Window, Window_Titlebar | Window_ClientCoords )
@@ -54,6 +51,12 @@ Function SelectImageOrTileset:LTObject( Obj:LTObject )
 	FillComboBox( ComboBox, TileMap, SelectedObject )
 	
 	Repeat
+		If TileMap Then
+			If SelectedObject Then Image = LTTileSet( SelectedObject ).Image Else Image = Null
+		Else
+			Image = LTImage( SelectedObject )
+		End If
+	
 		If Image Then
 			Frame = PrintImageToCanvas( TImage( Editor.BigImages.ValueForKey( Image ) ), Canvas, Image.XCells, Image.YCells, Frame )
 		Else
@@ -64,6 +67,8 @@ Function SelectImageOrTileset:LTObject( Obj:LTObject )
 		Select EventID()
 			Case Event_GadgetAction
 				Select EventSource()
+					Case ComboBox
+						SelectedObject = GadgetItemExtra( ComboBox, SelectedGadgetItem( ComboBox ) )
 					Case AddButton
 						Local NewObject:LTObject
 						If TileMap Then
@@ -71,9 +76,9 @@ Function SelectImageOrTileset:LTObject( Obj:LTObject )
 							If Name Then
 								Local NewTileSet:LTTileSet = New LTTileSet
 								NewTileSet.Name = Name
-								If SelectImageOrTileSet( TileSet ) Then
-									Editor.World.TileSets.AddLast( TileSet )
-									NewObject = TileSet
+								If SelectImageOrTileSet( NewTileSet ) Then
+									Editor.World.TileSets.AddLast( NewTileSet )
+									NewObject = NewTileSet
 								End If
 							End If
 						Else
@@ -86,7 +91,7 @@ Function SelectImageOrTileset:LTObject( Obj:LTObject )
 									NewImage.Filename = Filename
 									NewImage.BMaxImage = LoadedImage
 									If ImageProperties( NewImage ) Then
-										Editor.World.Images.AddLast( NewImage )
+										Editor.InitImage( NewImage )
 										NewObject = NewImage
 									End If
 								End If
@@ -132,28 +137,34 @@ Function SelectImageOrTileset:LTObject( Obj:LTObject )
 					Case OKButton
 						Local Proceed:Int = True
 						If TileSet Then
-							If TileSet.TilesQuantity > Image.FramesQuantity() Then
-								Proceed = Confirm( LocalizeString( "{{D_TilesetDataLoss}}" ) )
-								If Proceed And CheckTileSetUsage( TileSet, Editor.World ) Then
-									Proceed = Confirm( LocalizeString( "{{D_TilemapsDataLoss}}" ) )
+							If SelectedObject Then
+								If TileSet.TilesQuantity > LTImage( SelectedObject ).FramesQuantity() Then
+									Proceed = Confirm( LocalizeString( "{{D_TilesetDataLoss}}" ) )
+									If Proceed And CheckTileSetUsage( TileSet, Editor.World ) Then
+										Proceed = Confirm( LocalizeString( "{{D_TilemapsDataLoss}}" ) )
+									End If
 								End If
 							End If
 						ElseIf TileMap Then
-							If TileMap.TilesQuantity < TileSet.TilesQuantity Then
-								Proceed = Confirm( LocalizeString( "{{D_TilemapDataLoss}}" ) )
+							If SelectedObject Then
+								If TileMap.TilesQuantity > LTTileSet( SelectedObject ).TilesQuantity Then
+									Proceed = Confirm( LocalizeString( "{{D_TilemapDataLoss}}" ) )
+								End If
 							End If
 						End If
 						
 						If Proceed Then
 							FreeGadget( Window )
 							If Sprite Then
-								Sprite.Visualizer.SetImage( Image )
+								Sprite.Visualizer.SetImage( LTImage( SelectedObject ) )
 								Sprite.Frame = Frame
 								Return Sprite
 							ElseIf TileMap Then
+								TileMap.TileSet = LTTileSet( SelectedObject )
 								TileMap.RefreshTilesQuantity()
 								Return TileMap
 							Else
+								TileSet.Image = LTImage( SelectedObject )
 								TileSet.RefreshTilesQuantity()
 								RefreshTileSetTileMaps( TileSet, Editor.World )
 								Return TileSet
@@ -174,7 +185,7 @@ End Function
 
 
 
-Function FillComboBox( ComboBox:TGadget, TileMap:LTTileMap, SelectedObject:LTObject )
+Function FillComboBox( ComboBox:TGadget, TileMap:LTTileMap, SelectedObject:Object )
 	ClearGadgetItems( ComboBox )
 	AddGadgetItem( ComboBox, LocalizeString( "{{I_Null}}" ) )
 	SelectGadgetItem( ComboBox, 0 )
@@ -185,7 +196,7 @@ Function FillComboBox( ComboBox:TGadget, TileMap:LTTileMap, SelectedObject:LTObj
 		Next
 	Else
 		For Local Image:LTImage = Eachin Editor.World.Images
-			AddGadgetItem( ComboBox, StripDir( Image.Filename ), , , , TileSet )
+			AddGadgetItem( ComboBox, StripDir( Image.Filename ), , , , Image )
 			If Image = SelectedObject Then SelectGadgetItem( ComboBox, CountGadgetItems( ComboBox ) - 1 )
 		Next
 	End If

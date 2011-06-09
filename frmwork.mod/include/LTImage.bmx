@@ -34,13 +34,13 @@ Type LTImage Extends LTObject
 		
 	
 	
-	Method Split( XCells:Int, YCells:Int )
-		Local Width:Float = ImageWidth( BMaxImage ) / XCells
-		Local Height:Float = ImageHeight( BMaxImage ) / YCells
-		
+	Method Split()
 		?debug
-		If Int( Width ) <> Width Or Int( Height ) <> Height Then L_Error( "Incorrect cells quantity for splitting" )
+		If ImageWidth( BMaxImage ) Mod XCells <> 0 Or ImageHeight( BMaxImage ) Mod YCells <> 0 Then L_Error( "Incorrect cells quantity for splitting" )
 		?
+		
+		Local Width:Int = ImageWidth( BMaxImage ) / XCells
+		Local Height:Int = ImageHeight( BMaxImage ) / YCells
 		
 		Local NewBMaxImage:TImage = CreateImage( Width, Height, BMaxImage.Pixmaps.Dimensions()[ 0 ] * XCells * YCells )
 		SetImageHandle( NewBMaxImage, 0.5 * ( Width - 1 ), 0.5 * ( Height - 1 ) )
@@ -101,7 +101,7 @@ Type LTImage Extends LTObject
 			Num :+ 1
 		Next
 	
-		If XCells > 1 Or YCells > 1 Then Split( XCells, YCells )
+		If XCells > 1 Or YCells > 1 Then Split()
 		
 		'SetImageHandle( BMaxImage, 0.5 * ( ImageWidth( BMaxImage ) - 1.0 ), 0.5 * ( ImageHeight( BMaxImage ) - 1.0 ) )
 		MidHandleImage( BMaxImage )

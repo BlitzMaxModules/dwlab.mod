@@ -19,10 +19,7 @@ Function ImportTilemap:LTTileMap( TileWidth:Int, TileHeight:Int, TilemapPixmap:T
 	Local Tilemap:LTTileMap = New LTTileMap
 	TileMap.FrameMap = New LTIntMap
 	TileMap.FrameMap.SetResolution( TileXQuantity, TileYQuantity )
-	TileMap.X = 0.5 * TileXQuantity
-	TileMap.Y = 0.5 * TileYQuantity
-	TileMap.Width = TileXQuantity
-	TileMap.Height = TileYQuantity
+	Editor.InitTileMap( TileMap )
 	
 	Local Tiles:TList = New TList
 	If FileType( TilesetFilename ) = 1 Then
