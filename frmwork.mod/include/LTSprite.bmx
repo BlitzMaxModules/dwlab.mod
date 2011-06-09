@@ -175,6 +175,7 @@ Type LTSprite Extends LTShape
 		Local CellHeight:Float = TileMap.GetCellHeight()
 		Local XQuantity:Int = TileMap.FrameMap.XQuantity
 		Local YQuantity:Int = TileMap.FrameMap.YQuantity
+		Local Tileset:LTTileset = TileMap.Tileset
 				
 		Select ShapeType
 			Case Pivot
@@ -182,7 +183,7 @@ Type LTSprite Extends LTShape
 				Local TileY:Int = Floor( ( Y - Y0 ) / CellHeight )
 				
 				If TileX >= 0 And TileY >= 0 And TileX < XQuantity And TileY < YQuantity Then
-					Local Shape:LTShape = TileMap.TileShape[ TileMap.FrameMap.Value[ TileX, TileY ] ]
+					Local Shape:LTShape = Tileset.CollisionShape[ TileMap.FrameMap.Value[ TileX, TileY ] ]
 					If Shape Then
 						 If Shape.TileCollidesWithSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, CellWidth, CellHeight ) Then
 							HandleCollisionWithTile( TileMap, Shape, TileX, TileY, CollisionType )
@@ -203,7 +204,7 @@ Type LTSprite Extends LTShape
 					
 					For Local TileY:Int = Y1 To Y2
 						For Local TileX:Int = X1 To X2
-							Local Shape:LTShape = TileMap.TileShape[ TileMap.FrameMap.Value[ TileX, TileY ] ]
+							Local Shape:LTShape = Tileset.CollisionShape[ TileMap.FrameMap.Value[ TileX, TileY ] ]
 							If Shape Then
 								If Shape.TileCollidesWithSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, CellWidth, CellHeight ) Then
 									HandleCollisionWithTile( TileMap, Shape, TileX, TileY, CollisionType )
@@ -327,7 +328,7 @@ Type LTSprite Extends LTShape
 	Method PushFromTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
 		Local CellWidth:Float = TileMap.GetCellWidth()
 		Local CellHeight:Float = TileMap.GetCellHeight()
-		Local TileShape:LTShape = TileMap.GetTileTemplate( TileX, TileY )
+		Local TileShape:LTShape = TileMap.GetTileCollisionShape( TileX, TileY )
 		Local TileSprite:LTSprite = LTSprite( TileShape )
 		If TileSprite Then
 			PushFromTileSprite( TileSprite, TileMap.LeftX() + CellWidth * TileX, TileMap.TopY() + CellHeight * TileY, CellWidth, CellHeight )

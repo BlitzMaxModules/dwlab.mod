@@ -65,7 +65,9 @@ Type LTImageVisualizer Extends LTVisualizer
 				SetScale XScale, YScale
 			End If
 			
+			?debug
 			If Sprite.Frame < 0 Or Sprite.Frame >= Image.FramesQuantity() Then L_Error( "Incorrect frame number ( " + Sprite.Frame + " ) for sprite ~q" + Sprite.Name + "~q, must be less than " + Image.FramesQuantity() )
+			?
 			
 			DrawImage( Image.BMaxImage, SX, SY, Sprite.Frame )
 		Else
@@ -77,81 +79,6 @@ Type LTImageVisualizer Extends LTVisualizer
 		SetRotation( 0.0 )
 		SetColor 255, 255, 255
 		SetAlpha 1.0
-	End Method
-	
-	
-	
-	Method DrawUsingTileMap( TileMap:LTTileMap )
-		If Not Image Then Return
-	
-		Local FrameMap:LTIntMap = TileMap.FrameMap
-	
-		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
-		SetAlpha Alpha
-	
-		Local SWidth:Float, SHeight:Float
-		Local CellWidth:Float = TileMap.Width / FrameMap.XQuantity
-		Local CellHeight:Float = TileMap.Height / FrameMap.YQuantity
-		L_CurrentCamera.SizeFieldToScreen( CellWidth, CellHeight, SWidth, SHeight )
-		SetScale( SWidth / ImageWidth( Image.BMaxImage ), SHeight / ImageHeight( Image.BMaxImage ) )
-		
-		Local SX:Float, SY:Float
-		L_CurrentCamera.FieldToScreen( TileMap.X - 0.5 * TileMap.Width, TileMap.Y - 0.5 * TileMap.Height, SX, SY )
-
-		Local X1:Float = L_CurrentCamera.ViewPort.X - 0.5 * L_CurrentCamera.ViewPort.Width
-		Local Y1:Float = L_CurrentCamera.ViewPort.Y - 0.5 * L_CurrentCamera.ViewPort.Height
-		Local X2:Float = X1 + L_CurrentCamera.ViewPort.Width + SWidth * 0.5
-		Local Y2:Float = Y1 + L_CurrentCamera.ViewPort.Height + SHeight * 0.5
-		
-		Local StartXFrame:Int = Int( ( L_CurrentCamera.X - TileMap.X - 0.5 * ( L_CurrentCamera.Width - TileMap.Width ) ) / CellWidth )
-		Local StartYFrame:Int = Int( ( L_CurrentCamera.Y - TileMap.Y - 0.5 * ( L_CurrentCamera.Height - TileMap.Height ) ) / CellHeight )
-		Local StartX:Float = SX + SWidth * ( Int( ( X1 - SX ) / SWidth ) ) + SWidth * 0.5
-		Local StartY:Float = SY + SHeight * ( Int( ( Y1 - SY ) / SHeight ) ) + SHeight * 0.5
-		
-		If Not TileMap.Wrapped Then
-			If StartXFrame < 0 Then 
-				StartX :- StartXFrame * SWidth
-				StartXFrame = 0
-			End If
-			Local EndX:Float = StartX + SWidth * ( FrameMap.XQuantity - StartXFrame ) - 0.001
-			If  EndX < X2  Then X2 = EndX
-			
-			If StartYFrame < 0 Then 
-				StartY :- StartYFrame * SHeight
-				StartYFrame = 0
-			End If
-			Local EndY:Float = StartY + SHeight * ( FrameMap.YQuantity - StartYFrame ) - 0.001
-			If  EndY < Y2  Then Y2 = EndY
-		End If
-		
-		Local YY:Float = StartY
-		Local YFrame:Int = StartYFrame
-		While YY < Y2
-			Local XX:Float = StartX
-			Local XFrame:Int = StartXFrame
-			While XX < X2
-				If FrameMap.Masked Then
-					DrawTile( FrameMap, XX, YY, XFrame & FrameMap.XMask, YFrame & FrameMap.YMask )
-				Else
-					DrawTile( FrameMap, XX, YY, FrameMap.WrapX( XFrame ), FrameMap.WrapY( YFrame ) )
-				End If
-				XX = XX + SWidth
-				XFrame :+ 1
-			Wend
-			YY = YY + SHeight
-			YFrame :+ 1
-		Wend
-		
-		SetColor( 255, 255, 255 )
-		SetScale( 1.0, 1.0 )
-		SetAlpha( 1.0 )
-	End Method
-	
-	
-	
-	Method DrawTile( FrameMap:LTIntMap, X:Float, Y:Float, TileX:Int, TileY:Int )
-		Local Value:Int = FrameMap.Value[ TileX, TileY ]
-		If Value <> L_EmptyTilemapFrame Then Drawimage( Image.BMaxImage, X, Y, Value )
 	End Method
 	
 	

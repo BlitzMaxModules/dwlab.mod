@@ -10,12 +10,14 @@
 
 Global L_ProlongTiles:Int = True
 
-Type LTTileset Extends LTObject
+Type LTTileSet Extends LTObject
+	Field Image:LTImage
+	Field CollisionShape:LTShape[]
+	Field BlockWidth:Int[]
+	Field BlockHeight:Int[]
 	Field Categories:TList = New TList
 	Field TilesQuantity:Int
 	Field TileCategory:Int[]
-	Field BlockWidth:Int[]
-	Field BlockHeight:Int[]
 	
 	
 	
@@ -24,18 +26,6 @@ Type LTTileset Extends LTObject
 		For Local N:Int = 0 Until TilesQuantity
 			TileCategory[ N ] = -1
 		Next
-		
-		Local OldDimension:Int = BlockWidth.Dimensions()[ 0 ]
-		If OldDimension <> TilesQuantity Then
-			Local NewWidth:Int[] = New Int[ TilesQuantity ]
-			Local NewHeight:Int[] = New Int[ TilesQuantity ]
-			For Local N:Int = 0 Until Min( OldDimension, TilesQuantity )
-				NewWidth[ N ] = BlockWidth[ N ]
-				NewHeight[ N ] = BlockHeight[ N ]
-			Next
-			BlockWidth = NewWidth
-			BlockHeight = NewHeight
-		End If
 		
 		Local CatNum:Int = 0
 		For Local Category:LTTileCategory = Eachin Categories
@@ -59,6 +49,25 @@ Type LTTileset Extends LTObject
 				Next
 			Next
 		Next
+	End Method
+	
+	
+	
+	Method RefreshTilesQuantity()
+		Local NewTilesQuantity:Int = Image.FramesQuantity()
+		Local NewCollisionShape:LTShape[] = New LTShape[ NewTilesQuantity ]
+		Local NewBlockWidth:Int[] = New Int[ NewTilesQuantity ]
+		Local NewBlockHeight:Int[] = New Int[ NewTilesQuantity ]
+		For Local N:Int = 0 Until Min( TilesQuantity, NewTilesQuantity )
+			NewBlockWidth[ N ] = BlockWidth[ N ]
+			NewBlockHeight[ N ] = BlockHeight[ N ]
+			NewCollisionShape[ N ] = CollisionShape[ N ]
+		Next
+		BlockWidth = NewBlockWidth
+		BlockHeight = NewBlockHeight
+		CollisionShape = NewCollisionShape
+		TilesQuantity = NewTilesQuantity
+		Init()
 	End Method
 	
 	
@@ -132,6 +141,15 @@ Type LTTileset Extends LTObject
 	
 	
 	
+	Function Create:LTTileSet( Image:LTImage )
+		Local TileSet:LTTileSet = New LTTileSet
+		TileSet.Image = Image
+		TileSet.RefreshTilesQuantity()
+		Return TileSet
+	End Function
+	
+	
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
@@ -139,9 +157,33 @@ Type LTTileset Extends LTObject
 		XMLObject.ManageIntArrayAttribute( "block-width", BlockWidth )
 		XMLObject.ManageIntArrayAttribute( "block-height", BlockHeight )
 		XMLObject.ManageChildList( Categories )
-		if L_XMLMode = L_XMLGet Then Init()
+		
+		If L_XMLMode = L_XMLGet Then
+			CollisionShape = New LTShape[ TilesQuantity ]
+			
+			Local ArrayXMLObject:LTXMLObject = XMLObject.GetField( "collision-shapes" )
+			If ArrayXMLObject Then
+				Local N:Int = 0
+				For Local ChildXMLObject:LTXMLObject = EachIn ArrayXMLObject.Children
+					CollisionShape[ N ] = LTShape( ChildXMLObject.ManageObject( Null ) )
+					N :+ 1
+				Next
+			End If
+			
+			Init()
+		Else
+			Local ArrayXMLObject:LTXMLObject = New LTXMLObject
+			XMLObject.SetField( "collision-shapes", ArrayXMLObject )
+			For Local Obj:LTObject = EachIn CollisionShape
+				Local NewXMLObject:LTXMLObject = New LTXMLObject
+				NewXMLObject.ManageObject( Obj )
+				ArrayXMLObject.Children.AddLast( NewXMLObject )
+			Next
+		End If
 	End Method
 End Type
+
+
 
 
 
@@ -157,6 +199,8 @@ Type LTTileCategory Extends LTObject
 		XMLObject.ManageChildList( TileRules )
 	End Method
 End Type
+
+
 
 
 
@@ -185,6 +229,8 @@ Type LTTileRule Extends LTObject
 		XMLObject.ManageChildList( TilePositions )
 	End Method
 End Type
+
+
 
 
 

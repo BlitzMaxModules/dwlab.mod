@@ -8,13 +8,13 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTAnimatedTileMapVisualizer Extends LTImageVisualizer
+Type LTAnimatedTileMapVisualizer Extends LTVisualizer
 	Field TileNum:Int[]
 	
 	
 	
-	Method DrawTile( FrameMap:LTIntMap, X:Float, Y:Float, TileX:Int, TileY:Int )
-		Local Value:Int = TileNum[ FrameMap.Value[ TileX, TileY ] ]
-		If Value <> L_EmptyTilemapFrame Then Drawimage( Image.BMaxImage, X, Y, Value )
+	Method DrawTile( TileMap:LTTileMap, X:Float, Y:Float, TileX:Int, TileY:Int )
+		Local Value:Int = TileNum[ TileMap.FrameMap.Value[ TileX, TileY ] ]
+		If Value <> L_EmptyTilemapFrame Then Drawimage( TileMap.TileSet.Image.BMaxImage, X, Y, Value )
 	End Method
 End Type

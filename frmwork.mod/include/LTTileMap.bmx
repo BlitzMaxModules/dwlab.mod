@@ -9,8 +9,8 @@
 '
 
 Type LTTileMap Extends LTShape
+	Field TileSet:LTTileset
 	Field FrameMap:LTIntMap = New LTIntMap
-	Field TileShape:LTShape[]
 	Field TilesQuantity:Int
 	Field Wrapped:Int = False
 	
@@ -28,8 +28,8 @@ Type LTTileMap Extends LTShape
 	
 	
 	
-	Method GetTileTemplate:LTShape( TileX:Int, TileY:Int )
-		Return TileShape[ FrameMap.Value[ TileX, TileY ] ]
+	Method GetTileCollisionShape:LTShape( TileX:Int, TileY:Int )
+		Return Tileset.CollisionShape[ FrameMap.Value[ TileX, TileY ] ]
 	End Method
 	
 	
@@ -57,10 +57,11 @@ Type LTTileMap Extends LTShape
 	
 	' ==================== Other ===================	
 	
-	Method EnframeBy( Tileset:LTTileset )
+	Method Enframe( ByTileset:LTTileset = Null )
+		If Not ByTileset Then ByTileset = Tileset
 		For Local Y:Int = 0 Until FrameMap.YQuantity
 			For Local X:Int = 0 Until FrameMap.XQuantity
-				Tileset.Enframe( Self, X, Y )
+				ByTileset.Enframe( Self, X, Y )
 			Next
 		Next
 	End Method
@@ -86,16 +87,28 @@ Type LTTileMap Extends LTShape
 		FrameMap.Value[ TileX, TileY ] = TileNum
 	End Method
 	
+	
+	
+	Method RefreshTilesQuantity()
+		If TileSet.TilesQuantity < TilesQuantity Then
+			For Local Y:Int = 0 Until FrameMap.YQuantity
+				For Local X:Int = 0 Until FrameMap.XQuantity
+					If FrameMap.Value[ X, Y ] >= TileSet.TilesQuantity Then FrameMap.Value[ X, Y ] = TileSet.TilesQuantity - 1
+				Next
+			Next
+		End If
+		TilesQuantity = TileSet.TilesQuantity
+	End Method
+	
 	' ==================== Creating ===================
 	
-	Function Create:LTTileMap( XQuantity:Int, YQuantity:Int, TileWidth:Int, TileHeight:Int, TilesQuantity:Int )
+	Function Create:LTTileMap( TileSet:LTTileSet, XQuantity:Int, YQuantity:Int )
 		Local TileMap:LTTileMap = New LTTileMap
 		TileMap.FrameMap = New LTIntMap
 		TileMap.FrameMap.SetResolution( XQuantity, YQuantity )
-		TileMap.TileShape = New LTShape[ TilesQuantity ]
-		Local Visualizer:LTImageVisualizer = New LTImageVisualizer
-		Visualizer.Image = LTImage.Create( TileWidth, TileHeight, TilesQuantity )
-		TileMap.Visualizer = New Visualizer
+		TileMap.TileSet = TileSet
+		If TileSet Then TileMap.TilesQuantity = TileSet.TilesQuantity
+		TileMap.Visualizer = New LTVisualizer
 		Return TileMap
 	End Function
 	
@@ -117,7 +130,7 @@ Type LTTileMap Extends LTShape
 		If Not TileMap Then L_Error( "Trying to copy tilemap ~q" + Shape.Name + "~q data to non-tilemap" )
 		?
 		
-		TileMap.TileShape = TileShape
+		TileMap.TileSet = TileSet
 		TileMap.TilesQuantity = TilesQuantity
 		TileMap.Wrapped = Wrapped
 		TileMap.SetResolution( FrameMap.XQuantity, FrameMap.YQuantity )
@@ -126,6 +139,7 @@ Type LTTileMap Extends LTShape
 				TileMap.FrameMap.Value[ X, Y ] = FrameMap.Value[ X, Y ]
 			Next
 		Next
+		TileMap.Visualizer = New LTVisualizer
 	End Method
 	
 	
@@ -136,20 +150,5 @@ Type LTTileMap Extends LTShape
 		FrameMap = LTIntMap( XMLObject.ManageObjectField( "framemap", FrameMap ) )
 		XMLObject.ManageIntAttribute( "tiles-quantity", TilesQuantity )
 		XMLObject.ManageIntAttribute( "wrapped", Wrapped )
-		
-		If L_XMLMode = L_XMLGet Then
-			TileShape = New LTSprite[ TilesQuantity ]
-			Local N:Int = 0
-			For Local ChildXMLObject:LTXMLObject = EachIn XMLObject.Children
-				TileShape[ N ] = LTShape( ChildXMLObject.ManageObject( Null ) )
-				N :+ 1
-			Next
-		Else
-			For Local Obj:LTObject = EachIn TileShape
-				Local NewXMLObject:LTXMLObject = New LTXMLObject
-				NewXMLObject.ManageObject( Obj )
-				XMLObject.Children.AddLast( NewXMLObject )
-			Next
-		End If
 	End Method
 End Type

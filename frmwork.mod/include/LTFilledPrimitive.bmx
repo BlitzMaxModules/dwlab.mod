@@ -8,39 +8,5 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Global L_DefaultVisualizer:LTFilledPrimitive = New LTFilledPrimitive
-
 Type LTFilledPrimitive Extends LTVisualizer
-	Method DrawUsingSprite( Sprite:LTSprite )
-		ApplyColor()
-		
-		Local SX:Float, SY:Float, SWidth:Float, SHeight:Float
-		L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX, SY )
-		L_CurrentCamera.SizeFieldToScreen( Sprite.Width * XScale, Sprite.Height * YScale, SWidth, SHeight )
-		
-		Select Sprite.ShapeType
-			Case LTSprite.Pivot
-				DrawOval( SX - 2, SY - 2, 5, 5 )
-			Case LTSprite.Circle
-				DrawOval( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
-			Case LTSprite.Rectangle
-				DrawRect( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
-		End Select
-		
-		ResetColor()
-	End Method
-	
-	
-	
-	Method DrawUsingLine( Line:LTLine )
-		ApplyColor()
-		
-		Local SX1:Float, SY1:Float, SX2:Float, SY2:Float
-		L_CurrentCamera.FieldToScreen( Line.Pivot[ 0 ].X, Line.Pivot[ 0 ].Y, SX1, SY1 )
-		L_CurrentCamera.FieldToScreen( Line.Pivot[ 1 ].X, Line.Pivot[ 1 ].Y, SX2, SY2 )
-		
-		DrawLine( SX1, SY1, SX2, SY2 )
-		
-		ResetColor()
-	End Method
 End Type
