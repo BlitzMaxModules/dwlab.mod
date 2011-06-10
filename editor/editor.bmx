@@ -20,23 +20,24 @@ Import brl.bmploader
 Import dwlab.frmwork
 Import dwlab.forms
 
-include "TPan.bmx"
-include "TSelectShapes.bmx"
-include "TMoveShape.bmx"
-include "TCreateSprite.bmx"
-include "TModifyShape.bmx"
-include "TGrid.bmx"
-include "TSetTile.bmx"
-include "ChooseParameter.bmx"
-include "ImportTilemap.bmx"
-include "EnterString.bmx"
-include "TilesetRules.bmx"
-include "PrintImageToCanvas.bmx"
-include "ResizeTilemap.bmx"
-include "LTMenuSwitch.bmx"
-include "AddOKCancelButtons.bmx"
-include "SelectImageOrTileset.bmx"
-include "ImageProperties.bmx"
+Include "TPan.bmx"
+Include "TSelectShapes.bmx"
+Include "TMoveShape.bmx"
+Include "TCreateSprite.bmx"
+Include "TModifyShape.bmx"
+Include "TGrid.bmx"
+Include "TSetTile.bmx"
+Include "ChooseParameter.bmx"
+Include "ImportTilemap.bmx"
+Include "EnterString.bmx"
+Include "TilesetRules.bmx"
+Include "PrintImageToCanvas.bmx"
+Include "ResizeTilemap.bmx"
+Include "LTMenuSwitch.bmx"
+Include "AddOKCancelButtons.bmx"
+Include "SelectImageOrTileset.bmx"
+Include "ImageProperties.bmx"
+Include "TileCollisionShapes.bmx"
 
 Incbin "english.lng"
 Incbin "russian.lng"
@@ -49,7 +50,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.3"
+	Const Version:String = "1.3.1"
 	Const INIVersion:Int = 2
 	
 	Field EnglishLanguage:TMaxGuiLanguage
@@ -125,10 +126,8 @@ Type LTEditor Extends LTProject
 	Field SpriteMenu:TGadget
 	
 	Field World:LTWorld = New LTWorld
-	Field ImagesMap:TMap = New TMap
 	Field RealPathsForImages:TMap = New TMap
 	Field BigImages:TMap = New TMap
-	Field TilesetForImage:TMap = New TMap
 	Field CurrentLayer:LTLayer
 	Field CurrentTilemap:LTTileMap
 	Field CurrentShape:LTShape
@@ -360,7 +359,7 @@ Type LTEditor Extends LTProject
 		EditorPath = CurrentDir()
 		AddLayer( "LTLayer" )
 				
-		SetLanguage( 0 )
+		SetLanguage( EnglishNum )
 		LTMenuSwitch.Find( MenuShowCollisionShapes ).Toggle( L_DebugVisualizer.ShowCollisionShapes )
 		LTMenuSwitch.Find( MenuShowVectors ).Toggle( L_DebugVisualizer.ShowVectors )
 		LTMenuSwitch.Find( MenuShowNames ).Toggle( L_DebugVisualizer.ShowNames )
@@ -482,9 +481,6 @@ Type LTEditor Extends LTProject
 		If Filename Then 
 			If FileType( Filename ) = 0 Then Return
 			
-			ImagesMap.Clear()
-			TilesetForImage.Clear()
-			
 			WorldFilename = Filename
 			ChangeDir( ExtractDir( Filename ) )
 			
@@ -493,14 +489,10 @@ Type LTEditor Extends LTProject
 			CurrentShape = Null
 			CurrentLayer = Null
 			If Not World.Children.IsEmpty() Then CurrentLayer = LTLayer( World.Children.First() )
-			If World.Images.IsEmpty() Then
-				ProcessOldShapes( World )
-			Else
-				For Local Image:LTImage = Eachin World.Images
-					BigImages.Insert( Image, LoadImage( Image.Filename ) )
-					RealPathsForImages.Insert( Image, RealPath( Image.Filename ) )
-				Next
-			End If
+			For Local Image:LTImage = Eachin World.Images
+				BigImages.Insert( Image, LoadImage( Image.Filename ) )
+				RealPathsForImages.Insert( Image, RealPath( Image.Filename ) )
+			Next
 			
 			Changed = False
 			
@@ -793,7 +785,9 @@ Type LTEditor Extends LTProject
 								CurrentTilemap = LTTilemap.Create( Null, XQuantity, YQuantity )
 								CurrentTilemap.Name = Name
 								If SelectImageOrTileset( CurrentTilemap ) Then
-									LTLayer( SelectedShape ).AddLast( CurrentTilemap )
+									Local Layer:LTLayer = LTLayer( SelectedShape )
+									Layer.AddLast( CurrentTilemap )
+									If Layer.Children.IsEmpty() Then Layer.SetBounds( CurrentTilemap )
 									InitTileMap( CurrentTilemap )
 									RefreshProjectManager( World )
 									RefreshTilemap()
@@ -802,80 +796,14 @@ Type LTEditor Extends LTProject
 							End If
 						End If
 					Case MenuImportTilemap
-						Local TileWidth:Int = 16
-						Local TileHeight:Int = 16
-						If ChooseParameter( TileWidth, TileHeight, "{{W_SelectTileSize}}", "{{L_WidthInPixels}}", "{{L_HeightInPixels}}" ) Then
-							Local Filename:String = RequestFile( LocalizeString( "{{D_SelectTilemapFile}}" ), "Image files:png,jpg,bmp" )
-							Local TilemapPixmap:TPixmap = LoadPixmap( Filename )
-							If Not TilemapPixmap Then
-								Notify( LocalizeString( "{{N_CannotLoadTilemap}}" ) )
-							Else
-								Local TilemapWidth:Int = PixmapWidth( TilemapPixmap )
-								Local TilemapHeight:Int = PixmapHeight( TilemapPixmap )
-								
-								If TilemapWidth Mod TileWidth = 0 And TilemapHeight Mod TileHeight = 0 Then
-									Local TilesetFilename:String = ChopFilename( RequestFile( LocalizeString( "{{D_SelectFileToSaveImageTo}}" ), "png", True ) )
-									If TilesetFilename Then
-										CurrentTilemap = ImportTilemap( TileWidth, TileHeight, TilemapPixmap, TilesetFilename )
-										Local Tileset:TImage = LoadImage( TilesetFilename )
-										Local Visualizer:LTImageVisualizer = New LTImageVisualizer
-										Visualizer.Image = LoadImageFromFile( TilesetFilename, Tileset.Width / TileWidth, Tileset.height / TileHeight )
-										InitImage( Visualizer.Image )
-										CurrentTilemap.Visualizer = Visualizer
-										CurrentTilemap.Name = "LTTileMap"
-										InitTileMap( CurrentTilemap )
-										LTLayer( SelectedShape ).AddLast( CurrentTilemap )
-										SelectLayer( CurrentLayer )
-										SetChanged()
-									End If
-								Else
-									Notify( LocalizeString( "{{N_TilemapSize}}" ) )
-								End If
-							End If
+						If TileMapImportDialog() Then
+							Local Layer:LTLayer = LTLayer( SelectedShape )
+							If Layer.Children.IsEmpty() Then Layer.SetBounds( CurrentTilemap )
+							Layer.AddLast( CurrentTilemap )
+							RefreshProjectManager( World )
 						End If
 					Case MenuImportTilemaps
-						Local TileWidth:Int = 16
-						Local TileHeight:Int = 16
-						If ChooseParameter( TileWidth, TileHeight, "{{W_SelectTileSize}}", "{{L_WidthInPixels}}", "{{L_HeightInPixels}}" ) Then
-							Local Path:String = RequestDir( LocalizeString( "{{D_SelectTilemapsDirectory}}" ), CurrentDir() )
-							If Path Then 
-								Local TilesetFilename:String = ChopFilename( RequestFile( LocalizeString( "{{D_SelectFileToSaveImageTo}}" ), "png", True ) )
-								If TilesetFilename Then 
-									Local Dir:Int = ReadDir( Path )
-									Local Num:Int = 1
-									Local Visualizer:LTImageVisualizer = New LTImageVisualizer
-									Repeat
-										Local Filename:String = NextFile( Dir )
-										If Not Filename Then Exit
-										If Lower( Right( Filename, 4 ) ) <> ".png" Then Continue
-										
-										Filename = Path + "\" + Filename
-										
-										Local TilemapPixmap:TPixmap = LoadPixmap( Filename )
-										If TilemapPixmap Then
-											Local TilemapWidth:Int = PixmapWidth( TilemapPixmap )
-											Local TilemapHeight:Int = PixmapHeight( TilemapPixmap )
-											
-											If TilemapWidth Mod TileWidth = 0 And TilemapHeight Mod TileHeight = 0 Then
-												Local Layer:LTLayer = New LTLayer
-												Layer.Name = "LTLayer," + Num
-												Editor.World.AddLast( Layer )
-												Local TileMap:LTTileMap = ImportTilemap( TileWidth, TileHeight, TilemapPixmap, TilesetFilename )
-												Tilemap.Visualizer = Visualizer
-												InitTileMap( TileMap )
-												Layer.AddLast( TileMap )
-												SelectLayer( Layer )
-												SetChanged()
-											End If
-										End If
-										
-										Num :+ 1
-									Forever
-									Local Tileset:TImage = LoadImage( TilesetFilename )
-									Visualizer.Image = LoadImageFromFile( TilesetFilename, Tileset.Width / TileWidth, Tileset.Height / TileHeight )
-								End If
-							End If
-						End If
+						If TileMapImportDialog( True ) Then RefreshProjectManager( World )
 					Case MenuRemoveBounds
 						LTLayer( SelectedShape ).Bounds = Null
 						SetChanged()
@@ -898,13 +826,7 @@ Type LTEditor Extends LTProject
 					Case MenuEditReplacementRules
 						TilesetRules( LTTileMap( SelectedShape ).TileSet )
 					Case MenuSetBounds
-						Local Bounds:LTShape = New LTShape
-						Bounds.X = SelectedShape.X
-						Bounds.Y = SelectedShape.Y
-						Bounds.Width = SelectedShape.Width
-						Bounds.Height = SelectedShape.Height
-						Bounds.Visualizer = Null
-						CurrentLayer.Bounds = Bounds
+						CurrentLayer.SetBounds( SelectedShape )
 						SetChanged()
 				End Select
 			Case Event_GadgetAction
@@ -1537,70 +1459,7 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method LoadImageFromFile:LTImage( Filename:String, XCells:Int, YCells:Int )
-		For Local Image:LTImage = Eachin ImagesMap.Values()
-			If Image.Filename = Filename And Image.XCells = XCells And Image.YCells = YCells Then Return Image
-		Next
-		Local Image:LTImage = LTImage.FromFile( Filename, XCells, YCells )
-		InitImage( Image )
-		Return Image
-	End Method
-	
-	
-	
-	Method ProcessOldShapes( Layer:LTLayer )
-		For Local Shape:LTShape = Eachin Layer
-			Local ChildLayer:LTLayer = LTLayer( Shape )
-			If LTLayer( Shape ) Then
-				ProcessOldShapes( ChildLayer )
-			Else
-				Local Sprite:LTSprite = LTSprite( Shape )
-				If Sprite Then
-					AddImage( Sprite.Visualizer.GetImage() )
-				Else
-					Local TileMap:LTTileMap = LTTileMap( Shape )
-					If TileMap Then
-						Local Tileset:LTTileset = LTTileSet( TilesetForImage.ValueForKey( TileMap.Visualizer.GetImage() ) )
-						If Not Tileset Then
-							Local Image:LTImage = TileMap.Visualizer.GetImage()
-							AddImage( Image )
-							Local TilesetFilename:String = Image.Filename + ".lts"
-							If FileType( TilesetFilename ) = 1 Then
-								Tileset = LTTileset( L_LoadFromFile( TilesetFilename ) )
-							Else
-								Tileset = New LTTileset
-							End If
-							Tileset.Name = "Default"
-							Tileset.Image = Image
-							Tileset.TilesQuantity = Image.FramesQuantity()
-							Tileset.BlockHeight = New Int[ Tileset.TilesQuantity ]
-							Tileset.BlockWidth = New Int[ Tileset.TilesQuantity ]
-							TilesetForImage.Insert( Image, Tileset )
-							Tileset.Init()
-							TileMap.TileSet = TileSet
-							TileMap.Visualizer = New LTVisualizer
-							World.TileSets.AddLast( TileSet )
-						End If
-					End If
-				End If
-			End If
-		Next
-	End Method
-	
-	
-	
-	Method AddImage( Image:LTImage )
-		If Not Image Then Return
-		For Local WorldImage:LTImage = Eachin World.Images
-			If WorldImage = Image Then Return
-		Next
-		InitImage( Image )
-	End Method
-	
-	
-	
 	Method InitImage( Image:LTImage )
-		ImagesMap.Insert( Image, Null )
 		BigImages.Insert( Image, LoadImage( Image.Filename ) )
 		World.Images.AddLast( Image )
 		RealPathsForImages.Insert( Image, RealPath( Image.Filename ) )

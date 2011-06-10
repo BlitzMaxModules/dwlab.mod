@@ -191,6 +191,7 @@ LTLayer^LTGroup{
 -FindShapeWithType:LTShape(ShapeType$,IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShapeWithType"
 -FindShapeWithTypeID:LTShape(ShapeTypeID:brl.reflection.TTypeID,IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShapeWithTypeID"
 -Remove%(Shape:LTShape)="_dwlab_frmwork_LTLayer_Remove"
+-SetBounds%(Shape:LTShape)="_dwlab_frmwork_LTLayer_SetBounds"
 -CopyTo%(Shape:LTShape)="_dwlab_frmwork_LTLayer_CopyTo"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTLayer_XMLIO"
 }="dwlab_frmwork_LTLayer"

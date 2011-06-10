@@ -10,6 +10,7 @@
 '
 
 Function AddOKCancelButtons( Form:LTForm, OKButton:TGadget Var, CancelButton:TGadget Var )
+	Form.NewLine()
 	OKButton = Form.AddButton( "{{B_OK}}", 64, Button_OK )
 	CancelButton = Form.AddButton( "{{B_Cancel}}", 64, Button_Cancel )
 	Form.Finalize()

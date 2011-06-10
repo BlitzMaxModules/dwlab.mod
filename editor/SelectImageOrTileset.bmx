@@ -9,7 +9,7 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Const ImageCanvasSize:Int = 480
+Const CanvasSize:Int = 480
 
 Function SelectImageOrTileset:LTObject( Obj:Object )
 	Local Sprite:LTSprite = LTSprite( Obj )
@@ -44,13 +44,11 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 	Local RemoveButton:TGadget = Form.AddButton( "{{B_Remove}}", 64 )
 	Form.NewLine()
 	Local Canvas:TGadget = Form.AddCanvas( ImageCanvasSize, ImageCanvasSize )
-	Form.NewLine()
 	Local OKButton:TGadget, CancelButton:TGadget
 	AddOKCancelButtons( Form, OKButton, CancelButton )
 
 	FillComboBox( ComboBox, TileMap, SelectedObject )
 	
-	'ActivateGadget( Canvas )
 	DisablePolledInput()
 	EnablePolledInput( Canvas )
 	
@@ -61,11 +59,7 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 			Image = LTImage( SelectedObject )
 		End If
 	
-		If Image Then
-			Frame = PrintImageToCanvas( TImage( Editor.BigImages.ValueForKey( Image ) ), Canvas, Image.XCells, Image.YCells, Frame )
-		Else
-			RefreshCanvas( Canvas )
-		End If
+		Frame = PrintImageToCanvas( TImage( Editor.BigImages.ValueForKey( Image ) ), Canvas, Image.XCells, Image.YCells, Frame )
 	
 		WaitEvent()
 		Select EventID()
@@ -301,15 +295,4 @@ Function RemoveTileset( TileSet:LTTileSet, Layer:LTLayer )
 			If TileMap Then If TileMap.TileSet = TileSet Then TileMap.TileSet = Null
 		End If
 	Next
-End Function
-
-
-
-
-
-Function RefreshCanvas( Canvas:TGadget )
-	SetGraphics( CanvasGraphics( Canvas ) )
-	Cls
-	Flip( False )
-	SetGraphics( CanvasGraphics( Editor.MainCanvas ) )
 End Function

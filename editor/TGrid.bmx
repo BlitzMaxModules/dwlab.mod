@@ -12,8 +12,8 @@
 Type TGrid Extends LTShape
 	Field CellWidth:Float = 1.0
 	Field CellHeight:Float = 1.0
-	Field CellXDiv:Int = 1
-	Field CellYDiv:Int = 1
+	Field CellXDiv:Int = 2
+	Field CellYDiv:Int = 2
 	
 	
 	

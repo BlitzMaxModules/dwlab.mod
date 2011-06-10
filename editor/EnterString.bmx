@@ -16,7 +16,6 @@ Function EnterString:String( Message:String, St:String = "" )
 	Local StringField:TGadget = Form.AddTextField( "", 0, 300 )
 	SetGadgetText( StringField, St )
 	ActivateGadget( StringField )
-	Form.NewLine()
 	Local OKButton:TGadget, CancelButton:TGadget
 	AddOKCancelButtons( Form, OKButton, CancelButton )
 	

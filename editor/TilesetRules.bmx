@@ -80,7 +80,6 @@ Function TilesetRules( TileSet:LTTileSet )
 	
 	
 	Local MouseIsOver:TGadget = Null
-	Tileset = LTTileset( Editor.TilesetForImage.ValueForKey( Image ) )
 	RefreshListBox( CategoriesListBox, Tileset.Categories, null )
 	
 	CurrentCategory = Null

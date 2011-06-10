@@ -34,7 +34,6 @@ Function ResizeTilemap( TileMap:LTTileMap )
 	Form.AddLabel( "{{L_RedTileMap}}", 300, Label_Center )
 	Form.NewLine()
 	Local TilemapsCanvas:TGadget = Form.AddCanvas( TilemapsCanvasSize, TilemapsCanvasSize )
-	Form.NewLine()
 	Local OKButton:TGadget, CancelButton:TGadget
 	AddOKCancelButtons( Form, OKButton, CancelButton )
 

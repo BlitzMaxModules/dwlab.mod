@@ -76,6 +76,19 @@ Type LTLayer Extends LTGroup
 	
 	
 	
+	Method SetBounds( Shape:LTShape )
+		If Not Bounds Then
+			Bounds = New LTShape
+			Bounds.Visualizer = Null
+		End If
+		Bounds.X = Shape.X
+		Bounds.Y = Shape.Y
+		Bounds.Width = Shape.Width
+		Bounds.Height = Shape.Height
+	End Method
+	
+	
+	
 	Method CopyTo( Shape:LTShape )
 		Super.CopyTo( Shape )
 		Local Layer:LTLayer = LTLayer( Shape )
