@@ -167,7 +167,7 @@ Type LTTileSet Extends LTObject
 			If ArrayXMLObject Then
 				Local N:Int = 0
 				For Local ChildXMLObject:LTXMLObject = EachIn ArrayXMLObject.Children
-					CollisionShape[ N ] = LTShape( ChildXMLObject.ManageObject( Null ) )
+					If ChildXMLObject.Name <> "null" Then CollisionShape[ N ] = LTShape( ChildXMLObject.ManageObject( Null ) )
 					N :+ 1
 				Next
 			End If
@@ -177,9 +177,13 @@ Type LTTileSet Extends LTObject
 			Local ArrayXMLObject:LTXMLObject = New LTXMLObject
 			ArrayXMLObject.Name = "ShapeArray"
 			XMLObject.SetField( "collision-shapes", ArrayXMLObject )
-			For Local Obj:LTObject = EachIn CollisionShape
+			For Local N:Int = 0 Until CollisionShape.Dimensions()[ 0 ]
 				Local NewXMLObject:LTXMLObject = New LTXMLObject
-				NewXMLObject.ManageObject( Obj )
+				If CollisionShape[ N ] Then
+					NewXMLObject.ManageObject( CollisionShape[ N ] )
+				Else
+					NewXMLObject.Name = "Null"
+				End If
 				ArrayXMLObject.Children.AddLast( NewXMLObject )
 			Next
 		End If

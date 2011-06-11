@@ -16,7 +16,7 @@ Type TSetTile Extends LTDrag
 	
 	
 	Method DragKey:Int()
-		If MouseDown( 1 ) Or MouseDown( 2 ) Then Return True
+		Return MouseDown( 1 ) Or MouseDown( 2 )
 	End Method
 	
 	

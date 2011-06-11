@@ -9,7 +9,7 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Const CanvasSize:Int = 480
+Const ImageCanvasSize:Int = 480
 
 Function SelectImageOrTileset:LTObject( Obj:Object )
 	Local Sprite:LTSprite = LTSprite( Obj )
@@ -61,7 +61,7 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 	
 		Frame = PrintImageToCanvas( TImage( Editor.BigImages.ValueForKey( Image ) ), Canvas, Image.XCells, Image.YCells, Frame )
 	
-		WaitEvent()
+		PollEvent()
 		Select EventID()
 			Case Event_GadgetAction
 				Select EventSource()

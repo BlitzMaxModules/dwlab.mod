@@ -47,8 +47,8 @@ End Function
 
 	
 Function L_TrimFloat:String ( Val:Float )
-	Local StrVal:String = Val + "00"
-	Local N:Int = StrVal.Find( "." ) + 3
+	Local StrVal:String = Val + "0000"
+	Local N:Int = StrVal.Find( "." ) + 5
 	'If N < 3 then N = Len( StrVal )
 	Repeat
 		N = N - 1

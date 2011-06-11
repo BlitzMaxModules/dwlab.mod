@@ -166,7 +166,7 @@ LTMoveShape^LTAction{
 -Do%()="_dwlab_frmwork_LTMoveShape_Do"
 -Undo%()="_dwlab_frmwork_LTMoveShape_Undo"
 }="dwlab_frmwork_LTMoveShape"
-LTGroup^LTSprite{
+LTGroup^LTShape{
 .Children:brl.linkedlist.TList&
 -New%()="_dwlab_frmwork_LTGroup_New"
 -Delete%()="_dwlab_frmwork_LTGroup_Delete"

@@ -26,7 +26,7 @@ Function TilemapImportDialog:Int( Multiple:Int = False )
 		AddOKCancelButtons( Form, OKButton, CancelButton )
 		
 		Repeat
-			WaitEvent()
+			PollEvent()
 			Select EventID()
 				Case Event_GadgetAction
 					Select EventSource()

@@ -201,10 +201,11 @@ Type LTEditor Extends LTProject
 	Const MenuResizeTilemap:Int = 42
 	Const MenuTilemapSettings:Int = 25
 	Const MenuEditReplacementRules:Int = 26
+	Const MenuEditTileCollisionShapes:Int = 43
 
 	Const PanelHeight:Int = 320
-	Const BarWidth:Int = 216
-	Const LabelWidth:Int = 43
+	Const BarWidth:Int = 256
+	Const LabelWidth:Int = 63
 	
 	
 	Method Init()
@@ -273,9 +274,9 @@ Type LTEditor Extends LTProject
 		FrameField = PanelForm.AddTextField( "{{L_Frame}}", LabelWidth )
 		SelectImageButton = PanelForm.AddButton( "{{B_SelectImage}}", LabelWidth + 56 )
 		PanelForm.NewLine( LTAlign.Stretch )
-		RotatingCheckbox = PanelForm.AddButton( "{{CB_Rotation}}", 40, Button_Checkbox )
-		ScalingCheckbox = PanelForm.AddButton( "{{CB_Scaling}}", 40, Button_Checkbox )
-		ImgAngleField = PanelForm.AddTextField( "{{L_ImageAngle}}", LabelWidth + 14 )
+		RotatingCheckbox = PanelForm.AddButton( "{{CB_Rotation}}", 55, Button_Checkbox )
+		ScalingCheckbox = PanelForm.AddButton( "{{CB_Scaling}}", 55, Button_Checkbox )
+		ImgAngleField = PanelForm.AddTextField( "{{L_ImageAngle}}", LabelWidth + 4 )
 		PanelForm.Finalize( False, 6, 6 )
 		
 		HiddenOKButton = CreateButton( "", 0, 0, 0, 0, Panel, Button_OK )
@@ -333,6 +334,7 @@ Type LTEditor Extends LTProject
 		CreateMenu( "{{M_ToggleActivity}}", MenuToggleActivity, TilemapMenu )
 		CreateMenu( "{{M_SelectTileset}}", MenuSelectTileset, TilemapMenu )
 		CreateMenu( "{{M_ResizeTilemap}}", MenuResizeTilemap, TilemapMenu )
+		CreateMenu( "{{M_EditTileCollisionShapes}}", MenuEditTileCollisionShapes, TilemapMenu )
 		CreateMenu( "{{M_EditTileReplacementRules}}", MenuEditReplacementRules, TilemapMenu )
 		CreateMenu( "{{M_SetBounds}}", MenuSetBounds, TilemapMenu )
 		AddCommonMenuItems( TilemapMenu )
@@ -823,6 +825,9 @@ Type LTEditor Extends LTProject
 					Case MenuResizeTilemap
 						ResizeTilemap( LTTileMap( SelectedShape ) )
 						RefreshTilemap()
+					Case 	MenuEditTileCollisionShapes
+						TileCollisionShapes.TileSet = LTTileMap( SelectedShape ).TileSet
+						TileCollisionShapes.Edit()
 					Case MenuEditReplacementRules
 						TilesetRules( LTTileMap( SelectedShape ).TileSet )
 					Case MenuSetBounds
@@ -1153,14 +1158,13 @@ Type LTEditor Extends LTProject
 						SelectedTile.Y = 0.5 * SelectedTile.Height + Floor( TileNumN / Image.XCells )
 						SelectedTile.Draw()
 					Next
-					
-					L_CurrentCamera = MainCamera
 				End If
 			End If
 			
 			Flip( False )
 		End If
 		
+		L_CurrentCamera = MainCamera
 		If Not CurrentLayer Then Return
 		
 		SetGraphics( CanvasGraphics( MainCanvas ) )
@@ -1270,9 +1274,7 @@ Type LTEditor Extends LTProject
 		SetButtonState( RotatingCheckbox, LTImageVisualizer( CurrentSprite.Visualizer ).Rotating )
 		SetButtonState( ScalingCheckbox, CurrentSprite.Visualizer.Scaling )
 		
-		AddGadgetItem( ShapeBox, LocalizeString( "{{I_Pivot}}" ) )
-		AddGadgetItem( ShapeBox, LocalizeString( "{{I_Circle}}" ) )
-		AddGadgetItem( ShapeBox, LocalizeString( "{{I_Rectangle}}" ) )
+		FillShapeComboBox( ShapeBox )
 		SelectGadgetItem( ShapeBox, CurrentSprite.ShapeType )
 		
 		Local CurrentAngularSprite:LTAngularSprite = LTAngularSprite( CurrentShape )
@@ -1286,6 +1288,14 @@ Type LTEditor Extends LTProject
 			SetGadgetText( DXField, L_TrimFloat( CurrentVectorSprite.DX ) )
 			SetGadgetText( DYField, L_TrimFloat( CurrentVectorSprite.DY ) )
 		End If
+	End Method
+	
+	
+	
+	Method FillShapeComboBox( ComboBox:TGadget )
+		AddGadgetItem( ComboBox, LocalizeString( "{{I_Pivot}}" ) )
+		AddGadgetItem( ComboBox, LocalizeString( "{{I_Circle}}" ) )
+		AddGadgetItem( ComboBox, LocalizeString( "{{I_Rectangle}}" ) )
 	End Method
 	
 	

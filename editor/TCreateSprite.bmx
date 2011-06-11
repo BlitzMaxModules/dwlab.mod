@@ -17,7 +17,7 @@ Type TCreateSprite Extends LTDrag
 	
 	
 	Method DragKey:Int()
-		If MouseDown( 2 ) Then Return True
+		Return MouseDown( 2 )
 	End Method
 	
 	

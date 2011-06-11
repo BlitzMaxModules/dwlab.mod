@@ -22,7 +22,7 @@ Type TSelectShapes Extends LTDrag
 	
 	
 	Method DragKey:Int()
-		If MouseDown( 1 ) Then Return True
+		Return MouseDown( 1 )
 	End Method
 	
 	

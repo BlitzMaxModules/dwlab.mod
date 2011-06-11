@@ -37,7 +37,6 @@ Function ImageProperties:Int( Image:LTImage )
 		PrintImageToCanvas( BMaxImage, ImageCanvas, XCells, YCells )
 		
 		PollEvent()
-		
 		Select EventID()
 			Case Event_GadgetAction
 				Select EventSource()

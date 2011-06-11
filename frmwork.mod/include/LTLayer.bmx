@@ -59,7 +59,7 @@ Type LTLayer Extends LTGroup
 				If Shape Then Return Shape
 			End If
 		Next
-		If Not IgnoreError Then L_Error( "Shape width type ~q" + ShapeType + "~q not found." )
+		If Not IgnoreError Then L_Error( "Shape width type ~q" + ShapeTypeID.Name() + "~q not found." )
 		Return Null
 	End Method
 	

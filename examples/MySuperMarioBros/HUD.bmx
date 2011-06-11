@@ -21,7 +21,7 @@ End Type
 
 Type TScoreBar Extends LTVectorSprite
 	Method Draw()
-		Game.Font.PrintInShape( L_FirstZeroes( Game.Score, 8 ), Self, 0.5, LTBitmapFont.AlignToLeft, LTBitmapFont.AlignToCenter )
+		Game.Font.PrintInShape( L_FirstZeroes( Game.Score, 8 ), Self, 0.5, LTAlign.ToLeft, LTAlign.ToCenter )
 	End Method
 End Type
 
@@ -43,7 +43,7 @@ End Type
 
 Type TCoinsQuantity Extends LTVectorSprite
 	Method Draw()
-		Game.Font.PrintInShape( "x" + L_FirstZeroes( Game.Coins, 2 ), Self, 0.5, LTBitmapFont.AlignToLeft, LTBitmapFont.AlignToCenter )
+		Game.Font.PrintInShape( "x" + L_FirstZeroes( Game.Coins, 2 ), Self, 0.5, LTAlign.ToLeft, LTAlign.ToCenter )
 	End Method
 End Type
 
@@ -53,6 +53,6 @@ End Type
 
 Type TTimeBar Extends LTVectorSprite
 	Method Draw()
-		Game.Font.PrintInShape( "TIME:" + L_FirstZeroes( Game.TimeLeft, 3 ), Self, 0.5, LTBitmapFont.AlignToRight, LTBitmapFont.AlignToCenter )
+		Game.Font.PrintInShape( "TIME:" + L_FirstZeroes( Game.TimeLeft, 3 ), Self, 0.5, LTAlign.ToRight, LTAlign.ToCenter )
 	End Method
 End Type
