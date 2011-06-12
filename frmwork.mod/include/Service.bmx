@@ -279,3 +279,15 @@ Function L_GetTypeID:TTypeId( TypeName:String )
 	
 	Return TypeID
 End Function
+
+
+
+
+
+Function L_ToPowerOf2:Int( Value:Int )
+	Local Result:Int = 1
+	Repeat
+		If Result >= Value Then Return Result
+		Result :* 2
+	Forever
+End Function

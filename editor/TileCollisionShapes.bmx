@@ -73,6 +73,8 @@ Type TTileCollisionShapes
 		Visualizer.Alpha = 0.5
 		Visualizer.SetColorFromRGB( 1.0, 0.0, 1.0 )
 		
+		Local MouseIsOver:TGadget
+		
 		Repeat
 			SetGraphics( CanvasGraphics( TileCanvas ) )
 			SetBlend( AlphaBlend )
@@ -89,38 +91,35 @@ Type TTileCollisionShapes
 			Flip( False )
 	
 			Local OldTileNum:Int = TileNum
-			TileNum = PrintImageToCanvas( TImage( Editor.BigImages.ValueForKey( Image ) ), TilesetCanvas, Image.XCells, Image.YCells, TileNum )
-			If OldTileNum <> TileNum Then SelectedCollisionShape = Null
-	
-			Cursor.SetMouseCoords()
-			CollisionGroup = LTGroup( CollisionShape )
-			CollisionShapeUnderCursor = Null
-			Local Sprite:LTSprite = LTSprite( CollisionShape )
-			If Sprite Then
-				If Cursor.CollidesWithSprite( Sprite ) Then CollisionShapeUnderCursor = Sprite
-			ElseIf CollisionGroup Then
-				For Sprite = Eachin CollisionGroup
-					If Cursor.CollidesWithSprite( Sprite ) Then
-						CollisionShapeUnderCursor = Sprite
-						Exit
-					End If
-				Next
-			End If
-			
-			If KeyHit( Key_Delete ) And SelectedCollisionShape Then
-				If CollisionGroup Then
-					CollisionGroup.Children.Remove( SelectedCollisionShape )
-					If CollisionGroup.Children.Count() = 1 Then TileSet.CollisionShape[ TileNum ] = LTShape( CollisionGroup.Children.First() )
-				Else
-					TileSet.CollisionShape[ TileNum ] = Null
-				End If
+			TileNum = PrintImageToCanvas( TImage( Editor.BigImages.ValueForKey( Image ) ), TilesetCanvas, Image.XCells, Image.YCells, TileNum, MouseIsOver = TilesetCanvas )
+			If OldTileNum <> TileNum Then
 				SelectedCollisionShape = Null
-				Editor.SetChanged()
+				RefreshFields()
 			End If
-			
-			CreateCollisionShape.Execute()
-			MoveCollisionShape.Execute()
-			ResizeCollisionShape.Execute()
+	
+			If MouseIsOver = TileCanvas Then
+				Cursor.SetMouseCoords()
+				CollisionGroup = LTGroup( CollisionShape )
+				CollisionShapeUnderCursor = Null
+				Local Sprite:LTSprite = LTSprite( CollisionShape )
+				If Sprite Then
+					If Cursor.CollidesWithSprite( Sprite ) Then CollisionShapeUnderCursor = Sprite
+				ElseIf CollisionGroup Then
+					For Sprite = Eachin CollisionGroup
+						If Cursor.CollidesWithSprite( Sprite ) Then
+							CollisionShapeUnderCursor = Sprite
+							Exit
+						End If
+					Next
+				End If
+				
+				
+				If SelectedCollisionShape And KeyHit( Key_Delete ) Then DeleteShape()
+				
+				CreateCollisionShape.Execute()
+				MoveCollisionShape.Execute()
+				ResizeCollisionShape.Execute()
+			End If
 			
 			PollEvent()
 			Select EventID()
@@ -130,10 +129,12 @@ Type TTileCollisionShapes
 							ActivateGadget( TileCanvas )
 							DisablePolledInput()
 							EnablePolledInput( TileCanvas )
+							MouseIsOver = TileCanvas
 						Case TilesetCanvas
 							ActivateGadget( TilesetCanvas )
 							DisablePolledInput()
 							EnablePolledInput( TilesetCanvas )
+							MouseIsOver = TilesetCanvas
 					End Select
 				Case Event_GadgetAction
 					Select EventSource()
@@ -147,6 +148,9 @@ Type TTileCollisionShapes
 										Local Size:Float = Min( SelectedCollisionShape.Width, SelectedCollisionShape.Height )
 										SelectedCollisionShape.SetSize( Size, Size )
 								End Select
+								If SelectedCollisionShape.ShapeType <> LTSprite.Pivot Then
+									If SelectedCollisionShape.Width = 0.0 Or SelectedCollisionShape.Height = 0.0 Then DeleteShape()
+								End If
 							End If
 						Case XField
 							If SelectedCollisionShape Then
@@ -187,6 +191,20 @@ Type TTileCollisionShapes
 	
 	
 	
+	Method DeleteShape()
+		If CollisionGroup Then
+			CollisionGroup.Children.Remove( SelectedCollisionShape )
+			If CollisionGroup.Children.Count() = 1 Then TileSet.CollisionShape[ TileNum ] = LTShape( CollisionGroup.Children.First() )
+		Else
+			TileSet.CollisionShape[ TileNum ] = Null
+		End If
+		SelectedCollisionShape = Null
+		Editor.SetChanged()
+		RefreshFields()
+	End Method
+	
+	
+	
 	Method RefreshFields()
 		ClearGadgetItems( ShapeComboBox )
 		If SelectedCollisionShape Then
@@ -211,7 +229,7 @@ End Type
 
 
 Type TCreateCollisionShape Extends LTDrag
-	Field DX:Float, DY:Float
+	Field StartingX:Float, StartingY:Float
 	Field CollisionShape:LTSprite
 
 	
@@ -233,8 +251,9 @@ Type TCreateCollisionShape Extends LTDrag
 		CollisionShape.Visualizer = Null
 		CollisionShape.JumpTo( TileCollisionShapes.Cursor )
 		CollisionShape.SetSize( 0.0, 0.0 )
-		DX = -TileCollisionShapes.Cursor.X
-		DY = -TileCollisionShapes.Cursor.Y
+		StartingX = 1.0 * Int( TileCollisionShapes.Cursor.X * Editor.Grid.CellXDiv ) / Editor.Grid.CellXDiv
+		StartingY = 1.0 * Int( TileCollisionShapes.Cursor.Y * Editor.Grid.CellYDiv ) / Editor.Grid.CellYDiv
+		
 		If TileCollisionShapes.CollisionGroup Then
 			TileCollisionShapes.CollisionGroup.AddLast( CollisionShape )
 		ElseIf TileCollisionShapes.CollisionShape Then
@@ -246,23 +265,28 @@ Type TCreateCollisionShape Extends LTDrag
 			TileCollisionShapes.TileSet.CollisionShape[ TileCollisionShapes.TileNum ] = CollisionShape
 		End If
 		TileCollisionShapes.SelectedCollisionShape = CollisionShape
+		
 		Editor.SetChanged()
 	End Method
 	
 	
 	
 	Method Dragging()
-		Local NewWidth:Float = L_LimitFloat( DX + TileCollisionShapes.Cursor.X, 0.0, 1.0 )
-		Local NewHeight:Float = L_LimitFloat( DY + TileCollisionShapes.Cursor.Y, 0.0, 1.0 )
-		If CollisionShape.LeftX() + NewWidth > 1.0 Then NewWidth = 1.0 - CollisionShape.LeftX()
-		If CollisionShape.TopY() + NewHeight > 1.0 Then NewHeight = 1.0 - CollisionShape.TopY()
+		Local CursorX:Float = TileCollisionShapes.Cursor.X
+		Local CursorY:Float = TileCollisionShapes.Cursor.Y
 		If Editor.Grid.Active Then
-			NewWidth = 1.0 * Int( NewWidth * Editor.Grid.CellXDiv ) / Editor.Grid.CellXDiv
-			NewHeight = 1.0 * Int( NewHeight * Editor.Grid.CellYDiv ) / Editor.Grid.CellYDiv
+			CursorX = 1.0 * Int( CursorX * Editor.Grid.CellXDiv ) / Editor.Grid.CellXDiv
+			CursorY = 1.0 * Int( CursorY * Editor.Grid.CellYDiv ) / Editor.Grid.CellYDiv
 		End If
-		CollisionShape.SetCoords( CollisionShape.LeftX() + 0.5 * NewWidth, CollisionShape.TopY() + 0.5 * NewHeight )
-		CollisionShape.SetSize( NewWidth, NewHeight )
+		CollisionShape.SetSize( Abs( StartingX - CursorX ), Abs( StartingY - CursorY ) )
+		CollisionShape.SetCornerCoords( Min( StartingX, CursorX ), Min( StartingY, CursorY ) )
 		TileCollisionShapes.RefreshFields()
+	End Method
+	
+	
+	
+	Method EndDragging()
+		If CollisionShape.Width = 0.0 Or CollisionShape.Height = 0.0 Then TileCollisionShapes.DeleteShape()
 	End Method
 End Type
 
@@ -317,9 +341,16 @@ End Type
 
 
 
-Type TResizeCollisionShape Extends TCreateCollisionShape
+Type TResizeCollisionShape Extends LTDrag
+	Field DX:Float, DY:Float
+	Field CollisionShape:LTSprite
+	
+	
+	
 	Method DraggingConditions:Int()
-		If TileCollisionShapes.CollisionShapeUnderCursor And Not TileCollisionShapes.CreateCollisionShape.DraggingState Then Return True
+		If TileCollisionShapes.CollisionShapeUnderCursor And Not TileCollisionShapes.CreateCollisionShape.DraggingState Then
+			If TileCollisionShapes.CollisionShapeUnderCursor.ShapeType <> LTSprite.Pivot Then Return True
+		End If
 	End Method
 	
 	
@@ -336,5 +367,31 @@ Type TResizeCollisionShape Extends TCreateCollisionShape
 		DY = CollisionShape.Height - TileCollisionShapes.Cursor.Y
 		TileCollisionShapes.SelectedCollisionShape = CollisionShape
 		Editor.SetChanged()
+	End Method
+	
+	
+	
+	Method Dragging()
+		Local NewWidth:Float = L_LimitFloat( DX + TileCollisionShapes.Cursor.X, 0.0, 1.0 )
+		Local NewHeight:Float = L_LimitFloat( DY + TileCollisionShapes.Cursor.Y, 0.0, 1.0 )
+		If CollisionShape.LeftX() + NewWidth > 1.0 Then NewWidth = 1.0 - CollisionShape.LeftX()
+		If CollisionShape.TopY() + NewHeight > 1.0 Then NewHeight = 1.0 - CollisionShape.TopY()
+		If Editor.Grid.Active Then
+			NewWidth = 1.0 * Int( NewWidth * Editor.Grid.CellXDiv ) / Editor.Grid.CellXDiv
+			NewHeight = 1.0 * Int( NewHeight * Editor.Grid.CellYDiv ) / Editor.Grid.CellYDiv
+		End If
+		If CollisionShape.ShapeType = LTSprite.Circle Then
+			NewWidth = Min( NewWidth, NewHeight )
+			NewHeight = NewWidth
+		End If
+		CollisionShape.SetCoords( CollisionShape.LeftX() + 0.5 * NewWidth, CollisionShape.TopY() + 0.5 * NewHeight )
+		CollisionShape.SetSize( NewWidth, NewHeight )
+		TileCollisionShapes.RefreshFields()
+	End Method
+	
+	
+	
+	Method EndDragging()
+		If CollisionShape.Width = 0.0 Or CollisionShape.Height = 0.0 Then TileCollisionShapes.DeleteShape()
 	End Method
 End Type

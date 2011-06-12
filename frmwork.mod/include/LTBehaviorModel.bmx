@@ -9,7 +9,7 @@
 '
 
 Type LTBehaviorModel Extends LTObject
-	Field Active:Int = True
+	Field Active:Int
 	Field Link:TLink
 	
 	
@@ -29,6 +29,11 @@ Type LTBehaviorModel Extends LTObject
 	
 	
 	
+	Method Watch( Shape:LTShape )
+	End Method
+	
+	
+	
 	Method ApplyTo( Shape:LTShape )
 	End Method
 	
@@ -44,8 +49,22 @@ Type LTBehaviorModel Extends LTObject
 
 	
 	
+	Method ActivateModel( Shape:LTShape )
+		Activate( Shape )
+		Active = True
+	End Method
+	
+	
+	
+	Method DeactivateModel( Shape:LTShape )
+		Deactivate( Shape )
+		Active = False
+	End Method
+	
+	
+	
 	Method Remove( Shape:LTShape )
-		If Active Then Deactivate( Shape )
+		If Active Then DeactivateModel( Shape )
 		Link.Remove()
 	End Method
 End Type

@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TMushroom Extends LTVectorSprite
+Type TMushroom Extends TBonus
 	Const Speed:Float = 2.0
 	
 	
@@ -17,8 +17,15 @@ Type TMushroom Extends LTVectorSprite
 		Local Mushroom:TMushroom = New TMushroom
 		Mushroom.SetAsTile( Game.TileMap, TileX, TileY )
 		Mushroom.Visualizer = Game.Mushroom
+		Mushroom.DX = Speed
 		Mushroom.AttachModel( New TAppearing )
 	End Function
+	
+	
+	
+	Method Collect()
+		Game.Mario.AttachModel( New TGrowing )
+	End Method
 End Type
 
 
@@ -37,7 +44,6 @@ Type TAppearing Extends LTBehaviorModel
 		DestinationY = Sprite.Y - Sprite.Height
 		Sprite.ShapeType = LTSprite.Circle
 		Sprite.Frame = 0
-		Sprite.DX = TMushroom.Speed
 		Sprite.LimitByWindow( Sprite.X, Sprite.Y - 1.0, 1.0, 1.0 )
 		PlaySound( Game.PowerupAppears )
 		Game.Level.AddLast( Sprite )

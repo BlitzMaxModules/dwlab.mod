@@ -62,15 +62,15 @@ Type LTDebugVisualizer Extends LTVisualizer
 		ResetColor()
 		
 		If ShowNames Then
+			SetColor( 0, 0, 0 )
 			Local TextWidth2:Int = Len( Sprite.Name ) * 4
 			For Local DY:Int = -1 To 1
 				For Local DX:Int = -( DY = 0 ) To Abs( DY = 0 ) Step 2
 					DrawText( Sprite.Name, SX1 + DX - TextWidth2, SY1 + DY - 16 )
 				Next
 			Next
-			SetColor( 0, 0, 0 )
-			DrawText( Sprite.Name, SX1 - TextWidth2, SY1 - 16 )
 			ResetColor()
+			DrawText( Sprite.Name, SX1 - TextWidth2, SY1 - 16 )
 		End If
 	End Method
 	

@@ -30,7 +30,13 @@ Type TBlock Extends LTVectorSprite
 			Case TTiles.QuestionBlock
 				TCoin.FromTile( TileX, TileY )
 			Case TTiles.MushroomBlock
-				TMushroom.FromTile( TileX, TileY )
+				If Game.Mario.FindModel( "TBig" ) Then
+					TFireFlower.FromTile( TileX, TileY )
+				Else
+					TMushroom.FromTile( TileX, TileY )
+				End If
+			Case TTiles.Mushroom1UPBlock
+				TOneUpMushroom.FromTile( TileX, TileY )
 			Case TTiles.Bricks, TTiles.ShadyBricks
 				Block.Frame = TileNum 
 		End Select

@@ -43,16 +43,18 @@ Type LTLayer Extends LTGroup
 	
 	
 	
-	Method FindShapeWithType:LTShape( ShapeType:String, IgnoreError:Int = False )
-		Return FindShapeWithTypeID( L_GetTypeID( ShapeType ), IgnoreError )
+	Method FindShapeWithType:LTShape( ShapeType:String, Name:String = "", IgnoreError:Int = False )
+		Return FindShapeWithTypeID( L_GetTypeID( ShapeType ), Name, IgnoreError )
 	End Method
 	
 	
 	
-	Method FindShapeWithTypeID:LTShape( ShapeTypeID:TTypeID, IgnoreError:Int = False )
+	Method FindShapeWithTypeID:LTShape( ShapeTypeID:TTypeID, Name:String = "", IgnoreError:Int = False )
 		If TTypeID.ForObject( Self ) = ShapeTypeID Then Return Self
 		For Local ChildShape:LTShape = Eachin Children
-			If TTypeID.ForObject( ChildShape ) = ShapeTypeID Then Return ChildShape
+			If TTypeID.ForObject( ChildShape ) = ShapeTypeID Then
+				If Not Name Or Name = ChildShape.Name Then Return ChildShape
+			End If
 			Local ChildLayer:LTLayer = LTLayer( ChildShape )
 			If ChildLayer Then
 				Local Shape:LTShape = ChildLayer.FindShapeWithTypeID( ShapeTypeID, True )

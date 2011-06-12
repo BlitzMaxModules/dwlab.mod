@@ -10,7 +10,6 @@
 
 Type TGame Extends LTProject
 	Const Gravity:Float = 32.0
-	Const MarioFramesInRow:Int = 9
 
 	Field Score:Int
 	Field Lives:Int = 3
@@ -25,15 +24,20 @@ Type TGame Extends LTProject
 	Field LevelCamera:LTCamera = LTCamera.Create( 960, 720, 48.0 )
 	Field HUDCamera:LTCamera = LTCamera.Create( 960, 720, 48.0 )
 	Field Font:LTBitmapFont = LTBitmapFont.FromFile( "media/font.png", 32, 127, 16 )
+	Field Levels:LTLayer[]
+	Field CollisionMaps:LTCollisionMap[]
+	Field Mario:TMario
 	
-	Field SmallMario:LTImage = LTImage.FromFile( "media\SmallMario.png", MarioFramesInRow, 4 )
-	Field SuperMario:LTImage = LTImage.FromFile( "media\SuperMario.png", MarioFramesInRow, 5 )
+	Field SmallMario:LTImage = LTImage.FromFile( "media\SmallMario.png", TMario.FramesInRow, 4 )
+	Field SuperMario:LTImage = LTImage.FromFile( "media\SuperMario.png", TMario.FramesInRow, 5 )
 	Field Growth:LTImage = LTImage.FromFile( "media\Growth.png", 3 )
 	
 	Field ScoreVisualizer:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Score.png", 11 )
 	Field Coin:LTImageVisualizer = LTImageVisualizer.FromFile( "media\FlippingCoin.png", 4 )
 	Field Mushroom:LTImageVisualizer = LTImageVisualizer.FromFile( "media\MagicMushroom.png" )
 	Field Bricks:LTImage = LTImage.FromFile( "media\Bricks.png", 2 )
+	Field FireFlower:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Fireflower.png", 4 )
+	Field OneUpMushroom:LTImageVisualizer = LTImageVisualizer.FromFile( "media\1upMushroom.png" )
 
 	Field Jump:TSound = TSound.Load( "media\Jump.ogg", False )
 	Field Stomp:TSound = TSound.Load( "media\Stomp.ogg", False )
@@ -43,11 +47,13 @@ Type TGame Extends LTProject
 	Field Powerup:TSound = TSound.Load( "media\Powerup.ogg", False )
 	Field BreakBlock:TSound = TSound.Load( "media\BreakBlock.ogg", False )
 	Field Pipe:TSound = TSound.Load( "media\Pipe.ogg", False )
+	Field OneUp:TSound = TSound.Load( "media\1-up.ogg", False )
 
 	Field MusicChannel:TChannel
 	Field MusicIntro:TSound = TSound.Load( "media\Music1intro.ogg", False )
 	Field Music:TSound = TSound.Load( "media\Music1.ogg", True ) ' True for looped
 	Field MarioDie:TSound = TSound.Load( "media\MarioDie.ogg", False )
+	Field Invulnerability:TSound = TSound.Load( "media\Invulnerability.ogg", True )
 	
 	
 	
@@ -61,9 +67,34 @@ Type TGame Extends LTProject
 	
 	
 	Method InitLevel()
-		MovingObjects = LTCollisionMap.Create( 128, 8, 2.0, 2.0 )
-		Level = LoadLayer( LTLayer( World.FindShape( "LTLayer" ) ) )
-		MusicChannel = MusicIntro.Play()		
+		Local LevelsQuantity:Int = World.Children.Count()
+		Levels = New LTLayer[ LevelsQuantity ]
+		CollisionMaps = New LTCollisionMap[ LevelsQuantity ]
+		
+		Mario = New TMario
+		Mario.Visualizer = New LTImageVisualizer.FromImage( Game.SmallMario )
+		Mario.Init()
+		
+		For Local N:Int = 0 Until LevelsQuantity
+			Local Layer:LTLayer = LTLayer( World.FindShape( "LTLayer," + N ) )
+			MovingObjects = LTCollisionMap.CreateForShape( Layer.FindShape( "TTiles" ), 2.0 )
+			Levels[ N ] = LoadLayer( Layer )
+			Levels[ N ].AddLast( Mario )
+			CollisionMaps[ N ] = MovingObjects
+		Next
+		
+		SwitchToLevel( 0 )
+	End Method
+	
+	
+	
+	Method SwitchToLevel( Num:Int, PointNum:Int = 0 )
+		Level = Levels[ Num ]
+		TileMap = LTTileMap( Level.FindShapeWithType( "TTiles" ) )
+		MovingObjects = CollisionMaps[ Num ]
+		Mario.JumpTo( Level.FindShapeWithType( "TStart", String( PointNum ) ) )
+		If MusicChannel Then MusicChannel.Stop()
+		MusicChannel = MusicIntro.Play()
 	End Method
 	
 	

@@ -14,7 +14,11 @@ Type TBricks Extends LTVectorSprite
 	
 	
 	Function FromTile( TileX:Int, TileY:Int, TileNum:Int )
-		Game.TileMap.SetTile( TileX, TileY, TTiles.EmptyBlock )
+		If TileNum = TTiles.ShadyBricks Then 
+			Game.TileMap.SetTile( TileX, TileY, TTiles.DarkEmptyBlock )
+		Else
+			Game.TileMap.SetTile( TileX, TileY, TTiles.EmptyBlock )
+		End If
 		For Local Y:Int = -1 To 1 Step 2
 			For Local X:Int = -1 To 1 Step 2
 				Local Bricks:TBricks = New TBricks

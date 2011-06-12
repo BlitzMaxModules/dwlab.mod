@@ -87,4 +87,10 @@ Type LTCollisionMap Extends LTMap
 		Map.YScale = YScale
 		Return Map
 	End Function
+	
+	
+	
+	Function CreateForShape:LTCollisionMap( Shape:LTShape, Scale:Float = 1.0 )
+		Return Create( L_ToPowerOf2( Shape.Width / Scale ), L_ToPowerOf2( Shape.Height / Scale ), Scale, Scale )
+	End Function
 End Type

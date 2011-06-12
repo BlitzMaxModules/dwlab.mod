@@ -367,7 +367,11 @@ Type LTShape Extends LTObject
 	Method Act()
 		If Active Then
 			For Local Model:LTBehaviorModel = Eachin BehaviorModels
-				If Model.Active Then Model.ApplyTo( Self )
+				If Model.Active Then
+					Model.ApplyTo( Self )
+				Else
+					Model.Watch( Self )
+				End If
 			Next
 		End If
 	End Method

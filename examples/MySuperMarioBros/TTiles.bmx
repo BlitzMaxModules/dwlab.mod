@@ -19,6 +19,7 @@ Type TTiles Extends LTTileMap
 	Const Mushroom1UPBlock:Int = 13
 	Const CoinsBlock:Int = 17
 	Const StarmanBlock:Int = 18
+	Const DarkEmptyBlock:Int = 35
 	Const ShadyBricks:Int = 37
 	Const Coin:Int = 40
 	Const SolidBlock:Int = 48

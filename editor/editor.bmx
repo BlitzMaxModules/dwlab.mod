@@ -50,7 +50,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.3.1"
+	Const Version:String = "1.3.1.3"
 	Const INIVersion:Int = 2
 	
 	Field EnglishLanguage:TMaxGuiLanguage
@@ -470,7 +470,9 @@ Type LTEditor Extends LTProject
 		If Not AskForSaving() Then Return
 		
 		WorldFilename = ""
-		World.Clear()
+		World = New LTWorld
+		RealPathsForImages.Clear()
+		BigImages.Clear()
 		AddLayer( "LTLayer" )
 		RefreshProjectManager()
 	End Method
@@ -491,9 +493,12 @@ Type LTEditor Extends LTProject
 			CurrentShape = Null
 			CurrentLayer = Null
 			If Not World.Children.IsEmpty() Then CurrentLayer = LTLayer( World.Children.First() )
+			
+			RealPathsForImages.Clear()
+			BigImages.Clear()
 			For Local Image:LTImage = Eachin World.Images
-				BigImages.Insert( Image, LoadImage( Image.Filename ) )
 				RealPathsForImages.Insert( Image, RealPath( Image.Filename ) )
+				BigImages.Insert( Image, LoadImage( Image.Filename ) )
 			Next
 			
 			Changed = False
@@ -788,11 +793,11 @@ Type LTEditor Extends LTProject
 								CurrentTilemap.Name = Name
 								If SelectImageOrTileset( CurrentTilemap ) Then
 									Local Layer:LTLayer = LTLayer( SelectedShape )
-									Layer.AddLast( CurrentTilemap )
-									If Layer.Children.IsEmpty() Then Layer.SetBounds( CurrentTilemap )
 									InitTileMap( CurrentTilemap )
-									RefreshProjectManager( World )
 									RefreshTilemap()
+									If Layer.Children.IsEmpty() And Not Layer.Bounds Then Layer.SetBounds( CurrentTilemap )
+									Layer.AddLast( CurrentTilemap )
+									RefreshProjectManager( World )
 									SetChanged()
 								End If
 							End If
@@ -800,7 +805,7 @@ Type LTEditor Extends LTProject
 					Case MenuImportTilemap
 						If TileMapImportDialog() Then
 							Local Layer:LTLayer = LTLayer( SelectedShape )
-							If Layer.Children.IsEmpty() Then Layer.SetBounds( CurrentTilemap )
+							If Layer.Children.IsEmpty() And Not Layer.Bounds Then Layer.SetBounds( CurrentTilemap )
 							Layer.AddLast( CurrentTilemap )
 							RefreshProjectManager( World )
 						End If

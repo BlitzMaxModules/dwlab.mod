@@ -43,8 +43,8 @@ Type LTDrag Extends LTObject
 		If DraggingState = False Then
 			If DragKey() Then
 				If DraggingConditions() Then
-					StartDragging()
 					DraggingState = True
+					StartDragging()
 				End If
 			End If
 		Else

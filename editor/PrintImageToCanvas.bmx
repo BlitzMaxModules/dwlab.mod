@@ -9,7 +9,7 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Function PrintImageToCanvas:Int( Image:TImage, Canvas:TGadget, XCells:Int = 0, YCells:Int = 0, Frame:Int = -1 )
+Function PrintImageToCanvas:Int( Image:TImage, Canvas:TGadget, XCells:Int = 0, YCells:Int = 0, Frame:Int = -1, SelectFrame:Int = True )
 	SetGraphics( CanvasGraphics( Canvas ) )
 	Cls
 	
@@ -44,8 +44,8 @@ Function PrintImageToCanvas:Int( Image:TImage, Canvas:TGadget, XCells:Int = 0, Y
 				Local Y:Int = Height * Floor( Frame / XCells ) / YCells
 				LTMarchingAnts.DrawMARect( DX + X, DY + Y, Width / XCells + 1, Height / YCells + 1 )
 				
-				If MouseDown( 1 ) Then
-					If MouseX() >= DX And MouseX() < DX + Width And MouseY() >= DY And MouseY() < DY + Width Then
+				If MouseDown( 1 ) And SelectFrame Then
+					If MouseX() >= DX And MouseX() < DX + Width And MouseY() >= DY And MouseY() < DY + Height Then
 						Frame = Floor( ( MouseX() - DX ) * XCells / Width ) + Floor( ( MouseY() - DY ) * YCells / Height ) * XCells
 					End If
 				End If
