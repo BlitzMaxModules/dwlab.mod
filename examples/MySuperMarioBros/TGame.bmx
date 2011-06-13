@@ -38,6 +38,7 @@ Type TGame Extends LTProject
 	Field Bricks:LTImage = LTImage.FromFile( "media\Bricks.png", 2 )
 	Field FireFlower:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Fireflower.png", 4 )
 	Field OneUpMushroom:LTImageVisualizer = LTImageVisualizer.FromFile( "media\1upMushroom.png" )
+	Field StarMan:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Starman.png", 4 )
 
 	Field Jump:TSound = TSound.Load( "media\Jump.ogg", False )
 	Field Stomp:TSound = TSound.Load( "media\Stomp.ogg", False )
@@ -48,6 +49,7 @@ Type TGame Extends LTProject
 	Field BreakBlock:TSound = TSound.Load( "media\BreakBlock.ogg", False )
 	Field Pipe:TSound = TSound.Load( "media\Pipe.ogg", False )
 	Field OneUp:TSound = TSound.Load( "media\1-up.ogg", False )
+	Field Kick:TSound = TSound.Load( "media\Kick.ogg", False )
 
 	Field MusicChannel:TChannel
 	Field MusicIntro:TSound = TSound.Load( "media\Music1intro.ogg", False )

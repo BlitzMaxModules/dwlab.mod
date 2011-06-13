@@ -67,7 +67,7 @@ End Type
 Type TBumpingSprites Extends LTBehaviorModel
 	Method HandleCollisionWithSprite( Sprite1:LTSprite, Sprite2:LTSprite, CollisionType:Int )
 		Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite1 )
-		If TMushroom( Sprite2 ) Then Return
+		If TBonus( Sprite2 ) Then Return
 		Sprite1.PushFromSprite( Sprite2 )
 		If CollisionType = LTSprite.Vertical Then
 			VectorSprite.DY = 0

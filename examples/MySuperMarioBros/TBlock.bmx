@@ -8,6 +8,9 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "TCoin.bmx"
+Include "TBricks.bmx"
+
 Type TBlock Extends LTVectorSprite
 	Const Gravity:Float = 8.0
 	Const Impulse:Float = 1.5
@@ -20,7 +23,7 @@ Type TBlock Extends LTVectorSprite
 	Function FromTile( TileX:Int, TileY:Int, TileNum:Int )
 		Local Block:TBlock = New TBlock
 		Block.SetAsTile( Game.TileMap, TileX, TileY )
-		Game.TileMap.SetTile( TileX, TileY, 63 )
+		Game.TileMap.SetTile( TileX, TileY, 53 )
 		Block.TileX = TileX
 		Block.TileY = TileY
 		Block.LowestY = Block.Y
@@ -37,6 +40,8 @@ Type TBlock Extends LTVectorSprite
 				End If
 			Case TTiles.Mushroom1UPBlock
 				TOneUpMushroom.FromTile( TileX, TileY )
+			Case TTiles.StarmanBlock
+				TStarMan.FromTile( TileX, TileY )
 			Case TTiles.Bricks, TTiles.ShadyBricks
 				Block.Frame = TileNum 
 		End Select

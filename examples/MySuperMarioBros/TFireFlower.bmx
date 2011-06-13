@@ -9,6 +9,10 @@
 '
 
 Type TFireFlower Extends TBonus
+	Const AnimationSpeed:Float = 0.1
+
+	
+
 	Function FromTile( TileX:Int, TileY:Int )
 		Local FireFlower:TFireFlower = New TFireFlower
 		FireFlower.SetAsTile( Game.TileMap, TileX, TileY )
@@ -16,6 +20,13 @@ Type TFireFlower Extends TBonus
 		FireFlower.DX = 0
 		FireFlower.AttachModel( New TAppearing )
 	End Function
+	
+	
+	
+	Method Act()
+		Animate( Game, AnimationSpeed )
+		Super.Act()
+	End Method
 	
 	
 

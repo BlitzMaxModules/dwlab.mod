@@ -8,6 +8,11 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "TMushroom.bmx"
+Include "TOneUpMushroom.bmx"
+Include "TFireFlower.bmx"
+Include "TStarMan.bmx"
+
 Type TBonus Extends LTVectorSprite
 	Method Collect()
 	End Method

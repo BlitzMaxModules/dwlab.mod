@@ -553,6 +553,8 @@ LTWindowedVisualizer^LTVisualizer{
 .Visualizer:LTVisualizer&
 -New%()="_dwlab_frmwork_LTWindowedVisualizer_New"
 -Delete%()="_dwlab_frmwork_LTWindowedVisualizer_Delete"
+-GetImage:LTImage()="_dwlab_frmwork_LTWindowedVisualizer_GetImage"
+-SetImage%(NewImage:LTImage)="_dwlab_frmwork_LTWindowedVisualizer_SetImage"
 -DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTWindowedVisualizer_DrawUsingSprite"
 }="dwlab_frmwork_LTWindowedVisualizer"
 LTDebugVisualizer^LTVisualizer{

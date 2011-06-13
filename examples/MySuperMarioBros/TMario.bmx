@@ -58,7 +58,9 @@ Type TMario Extends LTVectorSprite
 			Game.MovingObjects.RemoveSprite( Sprite )
 			TBonus( Sprite ).Collect()
 		Else If TGoomba( Sprite ) Then
-			If BottomY() < Sprite.Y Then
+			If FindModel( "TInvulnerable" ) Then
+				Sprite.AttachModel( New TKicked )
+			ElseIf BottomY() < Sprite.Y Then
 				If DY > 0.0 Then
 					Sprite.AttachModel( New TStomped )
 					TScore.FromSprite( Sprite, Combo )
@@ -418,13 +420,43 @@ End Type
 
 
 Type TInvulnerable Extends LTBehaviorModel
+	Const AnimationSpeed:Float = 0.05
+	Const Period:Float = 13.0
+	Const FadingAnimationSpeed:Float = 0.1
+	Const FadingPeriod:Float = 2.0
+	
+	Field StartingTime:Float
+	Field Fading:Int
+
+	
+	
 	Method Activate( Shape:LTShape )
 		Game.MusicChannel.Stop()
 		Game.MusicChannel = Game.Invulnerability.Play()
+		StartingTime = Game.Time
 	End Method
 	
 	
 	
 	Method ApplyTo( Shape:LTShape )
+		Local Mario:TMario = TMario( Shape )
+		If Game.Time < StartingTime + Period Then
+			Mario.FrameShift = 1 + ( Floor( Game.Time / AnimationSpeed ) Mod 3 )
+		ElseIf Game.Time < StartingTime + Period + FadingPeriod Then
+			If Not Fading Then
+				Game.MusicChannel.Stop()
+				Game.MusicChannel = Game.MusicIntro.Play()
+				Fading = True
+			End If
+			Mario.FrameShift = 1 + ( Floor( Game.Time / FadingAnimationSpeed ) Mod 3 )
+		Else
+			Remove( Shape )
+		End If
+	End Method
+	
+	
+	
+	Method Deactivate( Shape:LTShape )
+		TMario( Shape ).FrameShift = TMario.Normal
 	End Method
 End Type

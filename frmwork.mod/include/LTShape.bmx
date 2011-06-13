@@ -222,13 +222,13 @@ Type LTShape Extends LTObject
 	
 	
 	Method CorrectHeight()
-		Local ImageVisualizer:LTImageVisualizer = LTImageVisualizer( Visualizer )
+		Local Image:LTImage = Visualizer.GetImage()
 		
 		?debug
-		If ImageVisualizer = Null Then L_Error( "Cannot correct Height: visual is not of LTImageVisual type" )
+		If Not Image Then L_Error( "Cannot correct Height: visual is not of LTImageVisual type" )
 		?
 		
-		SetSize( Width, Width * ImageHeight( ImageVisualizer.Image.BMaxImage ) / ImageWidth( ImageVisualizer.Image.BMaxImage ) )
+		SetSize( Width, Width * ImageHeight( Image.BMaxImage ) / ImageWidth( Image.BMaxImage ) )
 	End Method
 	
 	' ==================== Behavior models ===================

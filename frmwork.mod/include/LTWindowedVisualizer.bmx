@@ -14,6 +14,18 @@ Type LTWindowedVisualizer Extends LTVisualizer
 	
 	
 	
+	Method GetImage:LTImage()
+		Return Visualizer.GetImage()
+	End Method
+	
+	
+	
+	Method SetImage( NewImage:LTImage )
+		Visualizer.SetImage( NewImage )
+	End Method
+	
+	
+	
 	Method DrawUsingSprite( Sprite:LTSprite )
 		Local X:Int, Y:Int, Width:Int, Height:Int
 		GetViewport( X, Y, Width, Height )
