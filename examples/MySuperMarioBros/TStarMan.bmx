@@ -25,8 +25,8 @@ Type TStarMan Extends TBonus
 	
 	
 	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileShape:LTShape, TileX:Int, TileY:Int, CollisionType:Int )
-		Super.HandleCollisionWithTile( TileMap, TileShape, TileX, TileY, CollisionType )
+	Method HandleCollisionWithTile( TileMap:LTTileMap, TileSprite:LTSprite, TileX:Int, TileY:Int, CollisionType:Int )
+		Super.HandleCollisionWithTile( TileMap, TileSprite, TileX, TileY, CollisionType )
 		If CollisionType = Vertical And DY >= 0.0 Then DY = -JumpStrength
 	End Method
 	
@@ -40,6 +40,7 @@ Type TStarMan Extends TBonus
 	
 	
 	Method Collect()
+		TScore.FromSprite( Self, TScore.s1000 )
 		Game.Mario.AttachModel( New TInvulnerable )
 	End Method
 End Type

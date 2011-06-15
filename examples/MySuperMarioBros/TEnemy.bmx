@@ -8,13 +8,10 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TTrigger Extends LTVectorSprite
-	Method Act()
-		If CollidesWithSprite( L_CurrentCamera ) Then
-			For Local Sprite:LTSprite = Eachin Game.Level.Children
-				If Sprite.Name = Name Then Sprite.Active = True
-			Next
-			Game.Level.Remove( Self )
-		End If
+Include "TGoomba.bmx"
+Include "TKoopaTroopa.bmx"
+
+Type TEnemy Extends LTVectorSprite
+	Method Stomp()
 	End Method
 End Type

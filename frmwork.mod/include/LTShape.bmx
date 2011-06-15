@@ -38,7 +38,7 @@ Type LTShape Extends LTObject
 	
 	
 	
-	Method TileCollidesWithSprite:Int( Sprite:LTSprite, DX:Float, DY:Float, XScale:Float, YScale:Float )
+	Method TileCollisionsWithSprite( Sprite:LTSprite, DX:Float, DY:Float, XScale:Float, YScale:Float, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
 	End Method
 	
 	' ==================== Position ====================
@@ -87,6 +87,17 @@ Type LTShape Extends LTObject
 		If Shape.X = X And Shape.Y = Y Then Return True
 	End Method
 	
+	
+	
+	Method SetX( NewX:Float )
+		SetCoords( NewX, Y )
+	End Method
+	
+	
+	
+	Method SetY( NewY:Float )
+		SetCoords( X, NewY )
+	End Method
 	
 	
 	Method SetCoords( NewX:Float, NewY:Float )
@@ -207,6 +218,18 @@ Type LTShape Extends LTObject
 	
 	' ==================== Size ====================
 
+	Method SetWidth( NewWidth:Float )	
+		SetSize( NewWidth, Height )
+	End Method
+	
+	
+	
+	Method SetHeight( NewHeight:Float )	
+		SetSize( Width, NewHeight )
+	End Method
+	
+	
+	
 	Method SetSize( NewWidth:Float, NewHeight:Float )
 		Width = NewWidth
 		Height = NewHeight

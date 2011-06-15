@@ -39,6 +39,8 @@ Type TGame Extends LTProject
 	Field FireFlower:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Fireflower.png", 4 )
 	Field OneUpMushroom:LTImageVisualizer = LTImageVisualizer.FromFile( "media\1upMushroom.png" )
 	Field StarMan:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Starman.png", 4 )
+	Field Fireball:LTImage = LTImage.FromFile( "media\Fireball.png" )
+	Field Explosion:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Explosion.png", 3 )
 
 	Field Jump:TSound = TSound.Load( "media\Jump.ogg", False )
 	Field Stomp:TSound = TSound.Load( "media\Stomp.ogg", False )
@@ -50,6 +52,7 @@ Type TGame Extends LTProject
 	Field Pipe:TSound = TSound.Load( "media\Pipe.ogg", False )
 	Field OneUp:TSound = TSound.Load( "media\1-up.ogg", False )
 	Field Kick:TSound = TSound.Load( "media\Kick.ogg", False )
+	Field Firing:TSound = TSound.Load( "media\Fireball.ogg", False )
 
 	Field MusicChannel:TChannel
 	Field MusicIntro:TSound = TSound.Load( "media\Music1intro.ogg", False )
@@ -74,7 +77,9 @@ Type TGame Extends LTProject
 		CollisionMaps = New LTCollisionMap[ LevelsQuantity ]
 		
 		Mario = New TMario
+		Mario.SetWidth( 0.8 )
 		Mario.Visualizer = New LTImageVisualizer.FromImage( Game.SmallMario )
+		Mario.Visualizer.XScale = 1.0 / 0.8
 		Mario.Init()
 		
 		For Local N:Int = 0 Until LevelsQuantity
@@ -109,10 +114,15 @@ Type TGame Extends LTProject
 	End Method
 	
 	
-	
+	Field DebugVis:Int
 	Method Render()
 		L_CurrentCamera = LevelCamera
-		Level.Draw()
+		If DebugVis Then
+			Level.DrawUsingVisualizer( L_DebugVisualizer )
+		Else
+			Level.Draw()
+		End If
+		If KeyHit( Key_D ) Then DebugVis = Not DebugVis
 		L_CurrentCamera = HUDCamera
 		HUD.Draw()
 		L_CurrentCamera = LevelCamera

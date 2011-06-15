@@ -44,7 +44,7 @@ Type LTBehaviorModel Extends LTObject
 
 	
 	
-	Method HandleCollisionWithTile( Sprite:LTSprite, TileMap:LTTileMap, TileShape:LTShape, TileX:Int, TileY:Int, CollisionType:Int )
+	Method HandleCollisionWithTile( Sprite:LTSprite, TileMap:LTTileMap, TileSprite:LTSprite, TileX:Int, TileY:Int, CollisionType:Int )
 	End Method
 
 	

@@ -31,6 +31,12 @@ Type LTSprite Extends LTShape
 	
 	' ==================== Collisions ===================
 	
+	Method TileCollisionsWithSprite( Sprite:LTSprite, DX:Float, DY:Float, XScale:Float, YScale:Float, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
+		If TileCollidesWithSprite( Sprite, DX, DY, XScale, YScale ) Then Sprite.HandleCollisionWithTile( TileMap, Self, TileX, TileY, CollisionType )
+	End Method
+	
+	
+
 	Method CollidesWithSprite:Int( Sprite:LTSprite )
 		?debug
 		L_CollisionChecks :+ 1
@@ -184,11 +190,7 @@ Type LTSprite Extends LTShape
 				
 				If TileX >= 0 And TileY >= 0 And TileX < XQuantity And TileY < YQuantity Then
 					Local Shape:LTShape = Tileset.CollisionShape[ TileMap.FrameMap.Value[ TileX, TileY ] ]
-					If Shape Then
-						 If Shape.TileCollidesWithSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, CellWidth, CellHeight ) Then
-							HandleCollisionWithTile( TileMap, Shape, TileX, TileY, CollisionType )
-						End If
-					End If
+					If Shape Then Shape.TileCollisionsWithSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, CellWidth, CellHeight, TileMap, TileX, TileY, CollisionType )
 				End If
 			Case Circle, Rectangle
 				Local X1:Int = Floor( ( X - 0.5 * Width - X0 ) / CellWidth )
@@ -205,11 +207,7 @@ Type LTSprite Extends LTShape
 					For Local TileY:Int = Y1 To Y2
 						For Local TileX:Int = X1 To X2
 							Local Shape:LTShape = Tileset.CollisionShape[ TileMap.FrameMap.Value[ TileX, TileY ] ]
-							If Shape Then
-								If Shape.TileCollidesWithSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, CellWidth, CellHeight ) Then
-									HandleCollisionWithTile( TileMap, Shape, TileX, TileY, CollisionType )
-								End If
-							End If
+							If Shape Then Shape.TileCollisionsWithSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, CellWidth, CellHeight, TileMap, TileX, TileY, CollisionType )
 						Next
 					Next
 				End If
@@ -266,10 +264,10 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileShape:LTShape, TileX:Int, TileY:Int, CollisionType:Int )
+	Method HandleCollisionWithTile( TileMap:LTTileMap, TileSprite:LTSprite, TileX:Int, TileY:Int, CollisionType:Int )
 		If Active Then
 			For Local Model:LTBehaviorModel = Eachin BehaviorModels
-				If Model.Active Then Model.HandleCollisionWithTile( Self, TileMap, TileShape, TileX, TileY, CollisionType:Int )
+				If Model.Active Then Model.HandleCollisionWithTile( Self, TileMap, TileSprite, TileX, TileY, CollisionType )
 			Next
 		End If
 	End Method
@@ -325,21 +323,10 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Method PushFromTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
+	Method PushFromTile( TileMap:LTTileMap, Sprite:LTSprite, TileX:Int, TileY:Int )
 		Local CellWidth:Float = TileMap.GetCellWidth()
 		Local CellHeight:Float = TileMap.GetCellHeight()
-		Local TileShape:LTShape = TileMap.GetTileCollisionShape( TileX, TileY )
-		Local TileSprite:LTSprite = LTSprite( TileShape )
-		If TileSprite Then
-			PushFromTileSprite( TileSprite, TileMap.LeftX() + CellWidth * TileX, TileMap.TopY() + CellHeight * TileY, CellWidth, CellHeight )
-		Else
-			Local TileGroup:LTGroup = LTGroup( TileShape )
-			If TileGroup Then
-				For TileSprite = Eachin TileGroup
-					PushFromTileSprite( TileSprite, TileMap.LeftX() + CellWidth * TileX, TileMap.TopY() + CellHeight * TileY, CellWidth, CellHeight )
-				Next
-			End If
-		End If
+		PushFromTileSprite( Sprite, TileMap.LeftX() + CellWidth * TileX, TileMap.TopY() + CellHeight * TileY, CellWidth, CellHeight )
 	End Method
 
 
@@ -426,6 +413,18 @@ Type LTSprite Extends LTShape
 		Y = TileMap.TopY() + Height * ( 0.5 + TileY )
 		Visualizer = LTImageVisualizer.FromImage( Tilemap.TileSet.Image )
 		Frame = TileMap.GetTile( TileX, TileY )
+	End Method
+	
+	
+	
+	Method GetFacing:Float()
+		Return Sgn( Visualizer.XScale )
+	End Method
+	
+	
+	
+	Method SetFacing( NewFacing:Float )
+		Visualizer.XScale = Abs( Visualizer.XScale ) * NewFacing
 	End Method
 	
 	' ==================== Animation ====================

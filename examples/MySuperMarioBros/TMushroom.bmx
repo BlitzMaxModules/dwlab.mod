@@ -24,6 +24,7 @@ Type TMushroom Extends TBonus
 	
 	
 	Method Collect()
+		TScore.FromSprite( Self, TScore.s1000 )
 		Game.Mario.AttachModel( New TGrowing )
 	End Method
 End Type

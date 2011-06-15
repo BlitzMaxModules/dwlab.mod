@@ -49,13 +49,14 @@ End Type
 
 
 Type TBumpingTiles Extends LTBehaviorModel
-	Method HandleCollisionWithTile( Sprite:LTSprite, TileMap:LTTileMap, TileShape:LTShape, TileX:Int, TileY:Int, CollisionType:Int )
+	Method HandleCollisionWithTile( Sprite:LTSprite, TileMap:LTTileMap, TileSprite:LTSprite, TileX:Int, TileY:Int, CollisionType:Int )
 		Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite )
-		VectorSprite.PushFromTile( TileMap, TileX, TileY )
+		VectorSprite.PushFromTile( TileMap, TileSprite, TileX, TileY )
 		If CollisionType = LTSprite.Vertical Then
 			VectorSprite.DY = 0
 		Else
 			VectorSprite.DX = -VectorSprite.DX
+			If TKoopaTroopa( Sprite ) Then Game.Bump.Play()
 		End If
 	End Method
 End Type

@@ -91,8 +91,8 @@ Type LTVisualizer Extends LTObject
 		SetAlpha Alpha
 	
 		Local SWidth:Float, SHeight:Float
-		Local CellWidth:Float = TileMap.Width / FrameMap.XQuantity
-		Local CellHeight:Float = TileMap.Height / FrameMap.YQuantity
+		Local CellWidth:Float = TileMap.GetCellWidth()
+		Local CellHeight:Float = TileMap.GetCellHeight()
 		L_CurrentCamera.SizeFieldToScreen( CellWidth, CellHeight, SWidth, SHeight )
 		SetScale( SWidth / ImageWidth( Image.BMaxImage ), SHeight / ImageHeight( Image.BMaxImage ) )
 		

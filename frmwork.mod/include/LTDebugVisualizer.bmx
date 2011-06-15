@@ -78,6 +78,44 @@ Type LTDebugVisualizer Extends LTVisualizer
 	
 	Method DrawUsingTileMap( TileMap:LTTileMap )
 		TileMap.Visualizer.DrawUsingTileMap( TileMap )
+		Super.DrawUsingTileMap( TileMap )
+	End Method
+	
+	
+	
+	Method DrawTile( TileMap:LTTileMap, X:Float, Y:Float, TileX:Int, TileY:Int )
+		If Not ShowCollisionShapes Then Return
+		Local Shape:LTShape = LTShape( TileMap.GetTileCollisionShape( TileX, TileY ) )
+		If Not Shape Then Return
+		SetScale( 1.0, 1.0 )
+		Local Sprite:LTSprite = LTSprite( Shape )
+		If Sprite Then
+			DrawCollisionSprite( TileMap, X, Y, Sprite )
+		Else
+			For Sprite = Eachin LTGroup( Shape )
+				DrawCollisionSprite( TileMap, X, Y, Sprite )
+			Next
+		End If
+	End Method
+	
+	
+	
+	Method DrawCollisionSprite( TileMap:LTTileMap, X:Float, Y:Float, Sprite:LTSprite )
+		Local TileWidth:Float, TileHeight:Float
+		L_CurrentCamera.SizeFieldToScreen( TileMap.GetCellWidth(), TileMap.GetCellHeight(), TileWidth, TileHeight )
+		
+		Local ShapeX:Float = X + TileWidth * ( Sprite.X - 0.5 )
+		Local ShapeY:Float = Y + TileHeight * ( Sprite.Y - 0.5 )
+		Local ShapeWidth:Float = TileWidth * Sprite.Width
+		Local ShapeHeight:Float = TileHeight * Sprite.Height
+		Select Sprite.ShapeType
+			Case LTSprite.Pivot
+				DrawOval( ShapeX - 2, ShapeY - 2, 5, 5 )
+			Case LTSprite.Circle
+				DrawOval( ShapeX - 0.5 * ShapeWidth, ShapeY - 0.5 * ShapeHeight, ShapeWidth, ShapeHeight )
+			Case LTSprite.Rectangle
+				DrawRect( ShapeX - 0.5 * ShapeWidth, ShapeY - 0.5 * ShapeHeight, ShapeWidth, ShapeHeight )
+		End Select
 	End Method
 End Type
 

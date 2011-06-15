@@ -31,6 +31,7 @@ Type TFireFlower Extends TBonus
 	
 
 	Method Collect()
+		TScore.FromSprite( Self, TScore.s1000 )
 		If Game.Mario.FindModel( "TBig" ) Then
 			Game.Mario.AttachModel( New TFlashing )
 		Else

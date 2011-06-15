@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TGoomba Extends LTVectorSprite
+Type TGoomba Extends TEnemy
 	Const WalkingAnimationSpeed:Float = 0.3
 	
 	Const Stomped:Int = 2
@@ -23,6 +23,12 @@ Type TGoomba Extends LTVectorSprite
 		AttachModel( New TBumpingTiles )
 		AttachModel( New TBumpingSprites )
 		AttachModel( New TRemoveIfOutside )
+	End Method
+	
+	
+	
+	Method Stomp()
+		AttachModel( New TStomped )
 	End Method
 End Type
 

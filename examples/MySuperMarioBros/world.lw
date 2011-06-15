@@ -1,8 +1,9 @@
-<LTWorld dwlab_version="0.13">
+<LTWorld dwlab_version="0.13.1">
 	<LTVisualizer field="visualizer" id="1"/>
 	<TList field="images">
 		<Object id="7"/>
-		<Object id="162"/>
+		<Object id="163"/>
+		<Object id="190"/>
 	</TList>
 	<TList field="tilesets">
 		<Object id="6"/>
@@ -154,7 +155,9 @@
 					<Null/>
 					<Null/>
 					<Null/>
-					<LTSprite x="0.5" y="0.5" shape="2"/>
+					<LTSprite x="0.5" y="0.5" shape="2">
+						<LTVisualizer field="visualizer"/>
+					</LTSprite>
 					<Null/>
 					<Null/>
 					<Null/>
@@ -317,7 +320,7 @@
 		</LTTileMap>
 		<LTVectorSprite name="TGoomba" x="22.5" y="12.5" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<LTImage field="image" id="162" filename="media\LittleGoomba.png" xcells="3"/>
+				<LTImage field="image" id="163" filename="media\LittleGoomba.png" xcells="3"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
 		<LTVectorSprite name="TTrigger,1" x="40.5" y="12.5" width="5" height="5" shape="2">
@@ -325,7 +328,7 @@
 		</LTVectorSprite>
 		<LTVectorSprite name="TGoomba,1" x="40.5" y="12.5" active="0" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="162"/>
+				<Object field="image" id="163"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
 		<LTVectorSprite name="TTrigger,2" x="52.25" y="12.5" width="6.5" height="5" shape="2">
@@ -333,12 +336,12 @@
 		</LTVectorSprite>
 		<LTVectorSprite name="TGoomba,2" x="51.5" y="12.5" active="0" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="162"/>
+				<Object field="image" id="163"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
 		<LTVectorSprite name="TGoomba,2" x="53" y="12.5" active="0" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="162"/>
+				<Object field="image" id="163"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
 		<LTVectorSprite name="TTrigger,3" x="81.25" y="4.5" width="6.5" height="5" shape="2">
@@ -346,12 +349,12 @@
 		</LTVectorSprite>
 		<LTVectorSprite name="TGoomba,3" x="80.5" y="4.5" active="0" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="162"/>
+				<Object field="image" id="163"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
 		<LTVectorSprite name="TGoomba,3" x="82" y="4.5" active="0" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="162"/>
+				<Object field="image" id="163"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
 		<LTVectorSprite name="TTrigger,4" x="98.25" y="12.5" width="6.5" height="5" shape="2">
@@ -359,12 +362,20 @@
 		</LTVectorSprite>
 		<LTVectorSprite name="TGoomba,4" x="97.5" y="12.5" active="0" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="162"/>
+				<Object field="image" id="163"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
 		<LTVectorSprite name="TGoomba,4" x="99" y="12.5" active="0" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="162"/>
+				<Object field="image" id="163"/>
+			</LTImageVisualizer>
+		</LTVectorSprite>
+		<LTVectorSprite name="TTrigger,5" x="107.5" y="12.5" width="5" height="5" shape="2">
+			<LTImageVisualizer field="visualizer" alpha="0"/>
+		</LTVectorSprite>
+		<LTVectorSprite name="TKoopaTroopa,5" x="107.5" y="12.5" active="0" shape="1" dx="-1">
+			<LTImageVisualizer field="visualizer" xscale="-1" yscale="2" rotating="0">
+				<LTImage field="image" id="190" filename="media\KoopaTroopa.png" xcells="3"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
 		<LTVectorSprite name="TTrigger,6" x="115.25" y="12.5" width="6.5" height="5" shape="2">
@@ -372,12 +383,12 @@
 		</LTVectorSprite>
 		<LTVectorSprite name="TGoomba,6" x="114.5" y="12.5" active="0" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="162"/>
+				<Object field="image" id="163"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
 		<LTVectorSprite name="TGoomba,6" x="116" y="12.5" active="0" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="162"/>
+				<Object field="image" id="163"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
 		<LTVectorSprite name="TTrigger,7" x="127.25" y="12.5" width="10.5" height="5" shape="2">
@@ -385,22 +396,22 @@
 		</LTVectorSprite>
 		<LTVectorSprite name="TGoomba,7" x="124.5" y="12.5" active="0" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="162"/>
+				<Object field="image" id="163"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
 		<LTVectorSprite name="TGoomba,7" x="126" y="12.5" active="0" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="162"/>
+				<Object field="image" id="163"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
 		<LTVectorSprite name="TGoomba,7" x="128.5" y="12.5" active="0" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="162"/>
+				<Object field="image" id="163"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
 		<LTVectorSprite name="TGoomba,7" x="130" y="12.5" active="0" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="162"/>
+				<Object field="image" id="163"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
 		<LTVectorSprite name="TTrigger,8" x="175.25" y="12.5" width="6.5" height="5" shape="2">
@@ -408,12 +419,12 @@
 		</LTVectorSprite>
 		<LTVectorSprite name="TGoomba,8" x="174.5" y="12.5" active="0" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="162"/>
+				<Object field="image" id="163"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
 		<LTVectorSprite name="TGoomba,8" x="176" y="12.5" active="0" shape="1" dx="-1">
 			<LTImageVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="162"/>
+				<Object field="image" id="163"/>
 			</LTImageVisualizer>
 		</LTVectorSprite>
 		<LTVectorSprite name="TExit,1,0" x="58" y="8" width="2" height="2" shape="2" dy="1">

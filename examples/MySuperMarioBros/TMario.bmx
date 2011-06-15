@@ -8,6 +8,8 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "TFireball.bmx"
+
 Type TMario Extends LTVectorSprite
 	Const FramesInRow:Int = 9
 	Const JumpStrength:Float = -17.0
@@ -21,9 +23,6 @@ Type TMario Extends LTVectorSprite
 	Const Dying:Int = 6
 	Const Sitting:Int = 7
 	Const SlidingDown:Int = 8
-	
-	Const Normal:Int = 0
-	Const Fireable:Int = 4
 	
 	Field OnLand:Int
 	Field Combo:Int = TScore.s100
@@ -43,11 +42,11 @@ Type TMario Extends LTVectorSprite
 	
 	Method Draw()
 		Super.Draw()
-		'Local Y:Int = 100
-		'For Local Model:LTBehaviorModel = Eachin BehaviorModels
-			'DrawText( TTypeID.ForObject( Model ).Name() + ", " + Model.Active, 0, Y )
-			'Y :+ 16
-		'Next
+		Local Y:Int = 100
+		For Local Model:LTBehaviorModel = Eachin BehaviorModels
+			DrawText( TTypeID.ForObject( Model ).Name() + ", " + Model.Active, 0, Y )
+			Y :+ 16
+		Next
 	End Method
 	
 	
@@ -57,12 +56,12 @@ Type TMario Extends LTVectorSprite
 			Game.Level.Remove( Sprite )
 			Game.MovingObjects.RemoveSprite( Sprite )
 			TBonus( Sprite ).Collect()
-		Else If TGoomba( Sprite ) Then
+		Else If TEnemy( Sprite ) Then
 			If FindModel( "TInvulnerable" ) Then
 				Sprite.AttachModel( New TKicked )
 			ElseIf BottomY() < Sprite.Y Then
 				If DY > 0.0 Then
-					Sprite.AttachModel( New TStomped )
+					TEnemy( Sprite ).Stomp()
 					TScore.FromSprite( Sprite, Combo )
 					If Combo < TScore.s400 Then Combo :+ 1
 					DY = HopStrength
@@ -87,14 +86,14 @@ Type TMario Extends LTVectorSprite
 	
 	
 	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, Shape:LTShape, TileX:Int, TileY:Int, CollisionType:Int )
+	Method HandleCollisionWithTile( TileMap:LTTileMap, TileSprite:LTSprite, TileX:Int, TileY:Int, CollisionType:Int )
 		Local TileNum:Int = TileMap.GetTile( TileX, TileY )
 		If TileNum = TTIles.Coin Then
 			TileMap.SetTile( TileX, TileY, TTiles.DarkEmptyBlock )
 			Game.Coins :+ 1
 			Game.CoinFlip.Play()
 		Else
-			PushFromTile( TileMap, TileX, TileY )
+			PushFromTile( TileMap, TileSprite, TileX, TileY )
 			If CollisionType = Vertical Then
 				If DY >= 0 Then
 					OnLand = True
@@ -106,7 +105,7 @@ Type TMario Extends LTVectorSprite
 						Case TTiles.Bricks, TTiles.ShadyBricks
 							Local Model:LTBehaviorModel = FindModel( "TBig" )
 							If Model Then
-								Model.HandleCollisionWithTile( Self, TileMap, Shape, TileX, TileY, CollisionType )
+								Model.HandleCollisionWithTile( Self, TileMap, TileSprite, TileX, TileY, CollisionType )
 							Else
 								TBlock.FromTile( TileX, TileY, TileNum )
 							End If
@@ -143,11 +142,11 @@ Type TMoving Extends LTBehaviorModel
 		Mario.DX = 0
 		If KeyDown( Key_Left ) Then
 			Mario.DX = -5.0
-			Mario.Visualizer.XScale = -1.0
+			Mario.SetFacing( -1.0 )
 			Mario.ActivateModel( "TWalkingAnimation" )
 		ElseIf KeyDown( Key_Right ) Then
 			Mario.DX = 5.0
-			Mario.Visualizer.XScale = 1.0
+			Mario.SetFacing( 1.0 )
 			Mario.ActivateModel( "TWalkingAnimation" )
 		Else
 			If Mario.OnLand Then Mario.Frame = TMario.Standing
@@ -241,7 +240,7 @@ Type TGrowing Extends LTBehaviorModel
 		Game.Level.Active = False
 		Local Sprite:LTSprite = LTSprite( Shape )
 		Sprite.AlterCoords( 0.0, -0.5 )
-		Sprite.SetSize( 1.0, 2.0 )
+		Sprite.SetHeight( 2.0 )
 		Sprite.Visualizer.SetImage( Game.Growth )
 		Sprite.Frame = 0
 		PlaySound( Game.Powerup )
@@ -270,7 +269,7 @@ End Type
 
 
 Type TBig Extends LTBehaviorModel
-	Method HandleCollisionWithTile( Sprite:LTSprite, TileMap:LTTileMap, TileShape:LTShape, TileX:Int, TileY:Int, CollisionType:Int )
+	Method HandleCollisionWithTile( Sprite:LTSprite, TileMap:LTTileMap, TileSprite:LTSprite, TileX:Int, TileY:Int, CollisionType:Int )
 		Local TileNum:Int = TileMap.GetTile( TileX, TileY )
 		If TileNum = TTiles.Bricks Or TileNum = TTiles.ShadyBricks Then TBricks.FromTile( TileX, TileY, TileNum )
 	End Method
@@ -288,6 +287,7 @@ End Type
 
 Type TShrinking Extends TGrowing
 	Method Init( Shape:LTShape )
+		Shape.RemoveModel( "TFireable" )
 		Shape.DeactivateAllModels()
 		Game.Level.Active = False
 		Local Sprite:LTSprite = LTSprite( Shape )
@@ -311,7 +311,7 @@ Type TShrinking Extends TGrowing
 		Shape.RemoveModel( "TSitting" )
 		Shape.ActivateAllModels()
 		Game.Level.Active = True
-		Shape.SetSize( 1.0, 1.0 )
+		Shape.SetHeight( 1.0 )
 		Shape.AlterCoords( 0.0, 0.5 )
 		Shape.Visualizer.SetImage( Game.SmallMario )
 		Shape.RemoveModel( "TBig" )
@@ -354,10 +354,10 @@ End Type
 
 Type TSitting Extends LTBehaviorModel
 	Method Activate( Shape:LTShape )
-		Shape.SetSize( 1.0, 1.0 )
-		Shape.AlterCoords( 0, 0.5 )
-		Shape.Visualizer.DY = -0.5
-		Shape.Visualizer.YScale = 2.0
+		Shape.SetHeight( 1.4 )
+		Shape.AlterCoords( 0, 0.3 )
+		Shape.Visualizer.DY = -0.3
+		Shape.Visualizer.YScale = 2.0 / 1.4
 		Shape.DeactivateModel( "TMoving" )
 	End Method
 	
@@ -371,8 +371,8 @@ Type TSitting Extends LTBehaviorModel
 	
 	
 	Method Deactivate( Shape:LTShape )
-		Shape.AlterCoords( 0, -0.5 )
-		Shape.SetSize( 1.0, 2.0 )
+		Shape.AlterCoords( 0, -0.3 )
+		Shape.SetHeight( 2.0 )
 		Shape.Visualizer.DY = 0.0
 		Shape.Visualizer.YScale = 1.0
 		Shape.ActivateModel( "TMoving" )
@@ -411,7 +411,7 @@ Type TFlashing Extends LTBehaviorModel
 	Method Deactivate( Shape:LTShape )
 		Shape.ActivateAllModels()
 		Game.Level.Active = True
-		TMario( Shape ).FrameShift = TMario.Fireable
+		If Not Shape.FindModel( "TFireable" ) Then Shape.AttachModel( New TFireable )
 	End Method
 End Type
 
@@ -457,6 +457,45 @@ Type TInvulnerable Extends LTBehaviorModel
 	
 	
 	Method Deactivate( Shape:LTShape )
-		TMario( Shape ).FrameShift = TMario.Normal
+		TMario( Shape ).FrameShift = 0
+	End Method
+End Type
+
+
+
+
+
+Type TFireable Extends LTBehaviorModel
+	Field StartingTime:Float 
+	Field OldFrame:Int = -1
+	Field Period:Float = 0.25
+	Field AnimationPeriod:Float = 0.1
+	
+	
+	
+	Method ApplyTo( Shape:LTShape )
+		Local Mario:TMario = TMario( Shape )
+		Mario.FrameShift = 4
+		If Game.Time >= StartingTime + Period Then
+			If KeyDown( Key_S ) Then
+				StartingTime = Game.Time
+				OldFrame = Mario.Frame
+				Mario.Frame = TMario.Firing
+				TFireball.Fire()
+			End If
+		ElseIf Game.Time >= StartingTime + AnimationPeriod Then
+			If OldFrame >= 0 Then
+				Mario.Frame = OldFrame
+				OldFrame = -1
+			End If
+		Else
+			Mario.Frame = TMario.Firing
+		End If
+	End Method
+	
+	
+	
+	Method Deactivate( Shape:LTShape )
+		Game.Mario.FrameShift = 0
 	End Method
 End Type

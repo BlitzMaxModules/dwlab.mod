@@ -50,11 +50,6 @@ Type LTTileMap Extends LTShape
 		If Visible Then Visizer.DrawUsingTileMap( Self )
 	End Method
 	
-	' ==================== Collisions ===================
-		
-	Method TileCollisionsWithSprite( Sprite:LTSprite )
-	End Method
-	
 	' ==================== Other ===================	
 	
 	Method Enframe( ByTileset:LTTileset = Null )
