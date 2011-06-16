@@ -9,10 +9,10 @@
 '
 
 Type LTShape Extends LTObject
-	Field X:Float
-	Field Y:Float
-	Field Width:Float = 1.0
-	Field Height:Float = 1.0
+	Field X:Double
+	Field Y:Double
+	Field Width:Double = 1.0
+	Field Height:Double = 1.0
 	Field Visualizer:LTVisualizer = L_DefaultVisualizer
 	Field Visible:Int = True
 	Field Active:Int = True
@@ -38,46 +38,46 @@ Type LTShape Extends LTObject
 	
 	
 	
-	Method TileCollisionsWithSprite( Sprite:LTSprite, DX:Float, DY:Float, XScale:Float, YScale:Float, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
+	Method TileCollisionsWithSprite( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
 	End Method
 	
 	' ==================== Position ====================
 	
-	Method LeftX:Float()
+	Method LeftX:Double()
  		Return X - 0.5 * Width
  	End Method
 	
 	
 	
-	Method TopY:Float()
+	Method TopY:Double()
  		Return Y - 0.5 * Height
  	End Method
 	
 	
 	
-	Method RightX:Float()
+	Method RightX:Double()
  		Return X + 0.5 * Width
  	End Method
 	
 	
 	
-	Method BottomY:Float()
+	Method BottomY:Double()
  		Return Y + 0.5 * Height
  	End Method
 
 	
 	
-	Method DistanceToPoint:Float( PointX:Float, PointY:Float )
-		Local DX:Float = X - PointX
-		Local DY:Float = Y - PointY
+	Method DistanceToPoint:Double( PointX:Double, PointY:Double )
+		Local DX:Double = X - PointX
+		Local DY:Double = Y - PointY
 		Return Sqr( DX * DX + DY * DY )
 	End Method
 	
 	
 	
-	Method DistanceTo:Float( Shape:LTShape )
-		Local DX:Float = X - Shape.X
-		Local DY:Float = Y - Shape.Y
+	Method DistanceTo:Double( Shape:LTShape )
+		Local DX:Double = X - Shape.X
+		Local DY:Double = Y - Shape.Y
 		Return Sqr( DX * DX + DY * DY )
 	End Method
 	
@@ -89,18 +89,18 @@ Type LTShape Extends LTObject
 	
 	
 	
-	Method SetX( NewX:Float )
+	Method SetX( NewX:Double )
 		SetCoords( NewX, Y )
 	End Method
 	
 	
 	
-	Method SetY( NewY:Float )
+	Method SetY( NewY:Double )
 		SetCoords( X, NewY )
 	End Method
 	
 	
-	Method SetCoords( NewX:Float, NewY:Float )
+	Method SetCoords( NewX:Double, NewY:Double )
 		X = NewX
 		Y = NewY
 		Update()
@@ -108,13 +108,13 @@ Type LTShape Extends LTObject
 	
 	
 	
-	Method AlterCoords( DX:Float, DY:Float )
+	Method AlterCoords( DX:Double, DY:Double )
 		SetCoords( X + DX, Y + DY )
 	End Method
 	
 	
 	
-	Method SetCornerCoords( NewX:Float, NewY:Float )
+	Method SetCornerCoords( NewX:Double, NewY:Double )
 		SetCoords( NewX + Width * 0.5, NewY + Height * 0.5 )
 	End Method
 	
@@ -127,20 +127,20 @@ Type LTShape Extends LTObject
 	
 	
 	Method SetMouseCoords()
-		Local NewX:Float, NewY:Float
+		Local NewX:Double, NewY:Double
 		L_CurrentCamera.ScreenToField( MouseX(), MouseY(), NewX, NewY )
 		SetCoords( NewX, NewY )
 	End Method
 	
 	
 	
-	Method Move( DX:Float, DY:Float )
+	Method Move( DX:Double, DY:Double )
 		SetCoords( X + DX * L_DeltaTime, Y + DY * L_DeltaTime )
 	End Method
 	
 	
 	
-	Method PlaceBetween( Shape1:LTShape, Shape2:LTShape, K:Float )
+	Method PlaceBetween( Shape1:LTShape, Shape2:LTShape, K:Double )
 		SetCoords( Shape1.X + ( Shape2.X - Shape1.X ) * K, Shape1.Y + ( Shape2.Y - Shape1.Y ) * K )
 	End Method
 	
@@ -191,46 +191,46 @@ Type LTShape Extends LTObject
 	
 	
 	Method LimitHorizontallyWith( Rectangle:LTShape, UpdateFlag:Int = True )
-		Local X1:Float = Min( Rectangle.X, Rectangle.LeftX() + 0.5 * Width )
-		Local X2:Float = Max( Rectangle.X, Rectangle.RightX() - 0.5 * Width )
-		X = L_LimitFloat( X, X1, X2 )
+		Local X1:Double = Min( Rectangle.X, Rectangle.LeftX() + 0.5 * Width )
+		Local X2:Double = Max( Rectangle.X, Rectangle.RightX() - 0.5 * Width )
+		X = L_LimitDouble( X, X1, X2 )
 	End Method
 	
 	
 	
 	Method LimitVerticallyWith( Rectangle:LTShape, UpdateFlag:Int = True )
-		Local Y1:Float = Min( Rectangle.Y, Rectangle.TopY() + 0.5 * Height )
-		Local Y2:Float = Max( Rectangle.Y, Rectangle.BottomY() - 0.5 * Height )
-		Y = L_LimitFloat( Y, Y1, Y2 )
+		Local Y1:Double = Min( Rectangle.Y, Rectangle.TopY() + 0.5 * Height )
+		Local Y2:Double = Max( Rectangle.Y, Rectangle.BottomY() - 0.5 * Height )
+		Y = L_LimitDouble( Y, Y1, Y2 )
 	End Method
 	
 	' ==================== Angle ====================
 	
-	Method DirectionToPoint:Float( PointX:Float, PointY:Float )
+	Method DirectionToPoint:Double( PointX:Double, PointY:Double )
 		Return ATan2( PointY - Y, PointX - X )
 	End Method
 	
 	
 	
-	Method DirectionTo:Float( Shape:LTShape )
+	Method DirectionTo:Double( Shape:LTShape )
 		Return ATan2( Shape.Y - Y, Shape.X - X )
 	End Method
 	
 	' ==================== Size ====================
 
-	Method SetWidth( NewWidth:Float )	
+	Method SetWidth( NewWidth:Double )	
 		SetSize( NewWidth, Height )
 	End Method
 	
 	
 	
-	Method SetHeight( NewHeight:Float )	
+	Method SetHeight( NewHeight:Double )	
 		SetSize( Width, NewHeight )
 	End Method
 	
 	
 	
-	Method SetSize( NewWidth:Float, NewHeight:Float )
+	Method SetSize( NewWidth:Double, NewHeight:Double )
 		Width = NewWidth
 		Height = NewHeight
 		Update()
@@ -238,7 +238,7 @@ Type LTShape Extends LTObject
 	
 	
 	
-	Method SetDiameter( NewDiameter:Float )
+	Method SetDiameter( NewDiameter:Double )
 		SetSize( NewDiameter, NewDiameter )
 	End Method
 	
@@ -252,6 +252,21 @@ Type LTShape Extends LTObject
 		?
 		
 		SetSize( Width, Width * ImageHeight( Image.BMaxImage ) / ImageWidth( Image.BMaxImage ) )
+	End Method
+	
+	
+	
+	Method GetFacing:Double()
+		Return Sgn( Visualizer.XScale )
+	End Method
+	
+	
+	
+	Const LeftFacing:Double = -1.0
+	Const RightFacing:Double = 1.0
+	
+	Method SetFacing( NewFacing:Double )
+		Visualizer.XScale = Abs( Visualizer.XScale ) * NewFacing
 	End Method
 	
 	' ==================== Behavior models ===================
@@ -350,7 +365,7 @@ Type LTShape Extends LTObject
 	
 	' ==================== Windowed Visualizer ====================
 	
-	Method LimitByWindow( X:Float, Y:Float, Width:Float, Height:Float )
+	Method LimitByWindow( X:Double, Y:Double, Width:Double, Height:Double )
 		Local NewVisualizer:LTWindowedVisualizer = New LTWindowedVisualizer
 		NewVisualizer.Viewport = New LTShape
 		NewVisualizer.Viewport.X = X
@@ -359,6 +374,12 @@ Type LTShape Extends LTObject
 		NewVisualizer.Viewport.Height = Height
 		NewVisualizer.Visualizer = Visualizer
 		Visualizer = NewVisualizer
+	End Method
+	
+	
+	
+	Method LimitByWindowShape( Shape:LTShape )
+		LimitByWindow( Shape.X, Shape.Y, Shape.Width, Shape.Height )
 	End Method
 	
 	
@@ -414,10 +435,10 @@ Type LTShape Extends LTObject
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
-		XMLObject.ManageFloatAttribute( "x", X )
-		XMLObject.ManageFloatAttribute( "y", Y )
-		XMLObject.ManageFloatAttribute( "width", Width, 1.0 )
-		XMLObject.ManageFloatAttribute( "height", Height, 1.0 )
+		XMLObject.ManageDoubleAttribute( "x", X )
+		XMLObject.ManageDoubleAttribute( "y", Y )
+		XMLObject.ManageDoubleAttribute( "width", Width, 1.0 )
+		XMLObject.ManageDoubleAttribute( "height", Height, 1.0 )
 		XMLObject.ManageIntAttribute( "visible", Visible, 1 )
 		XMLObject.ManageIntAttribute( "active", Active, 1 )
 		Visualizer = LTVisualizer( XMLObject.ManageObjectField( "visualizer", Visualizer ) )
@@ -430,12 +451,12 @@ End Type
 
 Type LTMoveShape Extends LTAction
 	Field Shape:LTShape
-	Field OldX:Float, OldY:Float
-	Field NewX:Float, NewY:Float
+	Field OldX:Double, OldY:Double
+	Field NewX:Double, NewY:Double
 	
 	
 	
-	Function Create:LTMoveShape( Shape:LTShape, X:Float = 0, Y:Float = 0 )
+	Function Create:LTMoveShape( Shape:LTShape, X:Double = 0, Y:Double = 0 )
 		Local Action:LTMoveShape = New LTMoveShape
 		Action.Shape = Shape
 		Action.OldX = Shape.X

@@ -10,7 +10,7 @@
 
 Type LTCollisionMap Extends LTMap
 	Field Sprites:TList[ , ]
-	Field XScale:Float = 1.0, YScale:Float = 1.0
+	Field XScale:Double = 1.0, YScale:Double = 1.0
 	
 	' ==================== Parameters ====================
 	
@@ -31,7 +31,7 @@ Type LTCollisionMap Extends LTMap
 	
 	
 	
-	Method SetMapScale( NewXScale:Float, NewYScale:Float )
+	Method SetMapScale( NewXScale:Double, NewYScale:Double )
 		XScale = NewXScale
 		YScale = NewYScale
 	End Method
@@ -80,7 +80,7 @@ Type LTCollisionMap Extends LTMap
 	
 	' ==================== Collisions ===================
 	
-	Function Create:LTCollisionMap( XQuantity:Int, YQuantity:Int, XScale:Float = 1.0, YScale:Float = 1.0 )
+	Function Create:LTCollisionMap( XQuantity:Int, YQuantity:Int, XScale:Double = 1.0, YScale:Double = 1.0 )
 		Local Map:LTCollisionMap = New LTCollisionMap
 		Map.SetResolution( XQuantity, YQuantity )
 		Map.XScale = XScale
@@ -90,7 +90,7 @@ Type LTCollisionMap Extends LTMap
 	
 	
 	
-	Function CreateForShape:LTCollisionMap( Shape:LTShape, Scale:Float = 1.0 )
+	Function CreateForShape:LTCollisionMap( Shape:LTShape, Scale:Double = 1.0 )
 		Return Create( L_ToPowerOf2( Shape.Width / Scale ), L_ToPowerOf2( Shape.Height / Scale ), Scale, Scale )
 	End Function
 End Type

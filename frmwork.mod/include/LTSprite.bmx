@@ -31,7 +31,7 @@ Type LTSprite Extends LTShape
 	
 	' ==================== Collisions ===================
 	
-	Method TileCollisionsWithSprite( Sprite:LTSprite, DX:Float, DY:Float, XScale:Float, YScale:Float, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
+	Method TileCollisionsWithSprite( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
 		If TileCollidesWithSprite( Sprite, DX, DY, XScale, YScale ) Then Sprite.HandleCollisionWithTile( TileMap, Self, TileX, TileY, CollisionType )
 	End Method
 	
@@ -92,7 +92,7 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Method TileCollidesWithSprite:Int( Sprite:LTSprite, DX:Float, DY:Float, XScale:Float, YScale:Float )
+	Method TileCollidesWithSprite:Int( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double )
 		?debug
 		L_CollisionChecks :+ 1
 		?
@@ -175,10 +175,10 @@ Type LTSprite Extends LTShape
 	
 	
 	Method CollisionsWithTileMap( TileMap:LTTileMap, CollisionType:Int )
-		Local X0:Float = TileMap.LeftX()
-		Local Y0:Float = TileMap.TopY()
-		Local CellWidth:Float = TileMap.GetCellWidth()
-		Local CellHeight:Float = TileMap.GetCellHeight()
+		Local X0:Double = TileMap.LeftX()
+		Local Y0:Double = TileMap.TopY()
+		Local CellWidth:Double = TileMap.GetCellWidth()
+		Local CellHeight:Double = TileMap.GetCellHeight()
 		Local XQuantity:Int = TileMap.FrameMap.XQuantity
 		Local YQuantity:Int = TileMap.FrameMap.YQuantity
 		Local Tileset:LTTileset = TileMap.Tileset
@@ -279,8 +279,8 @@ Type LTSprite Extends LTShape
 	
 	' ==================== Wedging off ====================
 	
-	Method WedgeOffWithSprite( Sprite:LTSprite, SelfMass:Float, SpriteMass:Float )
-		Local DX:Float, DY:Float
+	Method WedgeOffWithSprite( Sprite:LTSprite, SelfMass:Double, SpriteMass:Double )
+		Local DX:Double, DY:Double
 		Select ShapeType
 			Case Pivot
 				Select Sprite.ShapeType
@@ -324,15 +324,15 @@ Type LTSprite Extends LTShape
 	
 	
 	Method PushFromTile( TileMap:LTTileMap, Sprite:LTSprite, TileX:Int, TileY:Int )
-		Local CellWidth:Float = TileMap.GetCellWidth()
-		Local CellHeight:Float = TileMap.GetCellHeight()
+		Local CellWidth:Double = TileMap.GetCellWidth()
+		Local CellHeight:Double = TileMap.GetCellHeight()
 		PushFromTileSprite( Sprite, TileMap.LeftX() + CellWidth * TileX, TileMap.TopY() + CellHeight * TileY, CellWidth, CellHeight )
 	End Method
 
 
 	
-	Method PushFromTileSprite( TileSprite:LTSprite, DX:Float, DY:Float, XScale:Float, YScale:Float )
-		Local PushingDX:Float, PushingDY:Float
+	Method PushFromTileSprite( TileSprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double )
+		Local PushingDX:Double, PushingDY:Double
 		Select ShapeType
 			Case Pivot
 				Select TileSprite.ShapeType
@@ -369,7 +369,7 @@ Type LTSprite Extends LTShape
 
 	' ==================== Position and size ====================
 	
-	Method SetCoords( NewX:Float, NewY:Float )
+	Method SetCoords( NewX:Double, NewY:Double )
 		If CollisionMap Then CollisionMap.RemoveSprite( Self, False )
 		
 		X = NewX
@@ -386,15 +386,15 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Method SetCoordsRelativeTo( Sprite:LTAngularSprite, NewX:Float, NewY:Float )
-		Local SpriteAngle:Float = DirectionToPoint( NewX, NewY ) + Sprite.Angle
-		Local Radius:Float = Sqr( NewX * NewX + NewY * NewY )
+	Method SetCoordsRelativeTo( Sprite:LTAngularSprite, NewX:Double, NewY:Double )
+		Local SpriteAngle:Double = DirectionToPoint( NewX, NewY ) + Sprite.Angle
+		Local Radius:Double = Sqr( NewX * NewX + NewY * NewY )
 		SetCoords( Sprite.X + Radius * Cos( SpriteAngle ), Sprite.Y + Radius * Sin( SpriteAngle ) )
 	End Method
 	
 	
 	
-	Method SetSize( NewWidth:Float, NewHeight:Float )
+	Method SetSize( NewWidth:Double, NewHeight:Double )
 		If CollisionMap Then CollisionMap.RemoveSprite( Self )
 		
 		Width = NewWidth
@@ -415,21 +415,9 @@ Type LTSprite Extends LTShape
 		Frame = TileMap.GetTile( TileX, TileY )
 	End Method
 	
-	
-	
-	Method GetFacing:Float()
-		Return Sgn( Visualizer.XScale )
-	End Method
-	
-	
-	
-	Method SetFacing( NewFacing:Float )
-		Visualizer.XScale = Abs( Visualizer.XScale ) * NewFacing
-	End Method
-	
 	' ==================== Animation ====================
 	
-	Method Animate( Project:LTProject, Speed:Float, FramesQuantity:Int = 0, FrameStart:Int = 0, StartingTime:Float = 0.0, PingPong:Int = False )
+	Method Animate( Project:LTProject, Speed:Double, FramesQuantity:Int = 0, FrameStart:Int = 0, StartingTime:Double = 0.0, PingPong:Int = False )
 		If FramesQuantity = 0 Then FramesQuantity = Visualizer.GetImage().FramesQuantity()
 		Local ModFactor:Int = FramesQuantity
 		If PingPong Then ModFactor = FramesQuantity * 2 - 2

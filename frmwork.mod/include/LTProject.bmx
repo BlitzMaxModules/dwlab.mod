@@ -9,14 +9,15 @@
 '
 
 Global L_CollisionChecks:Int
-Global L_DeltaTime:Float
+Global L_DeltaTime:Double
 
 Type LTProject Extends LTObject
-	Field LogicFPS:Float = 75
-	Field MinFPS:Float = 15
+	Field LogicFPS:Double = 75
+	Field MinFPS:Double = 15
 	Field FPS:Int
 	Field Pass:Int
-	Field Time:Float
+	Field Time:Double
+	Field CurrentPause:LTPause
 
 	
 	
@@ -79,9 +80,9 @@ Type LTProject Extends LTObject
 		
 		Local StartTime:Int = MilliSecs()
 		
-		Local RealTime:Float = 0
-		Local LastRenderTime:Float = 0
-		Local MaxRenderPeriod:Float = 1.0 / MinFPS
+		Local RealTime:Double = 0
+		Local LastRenderTime:Double = 0
+		Local MaxRenderPeriod:Double = 1.0 / MinFPS
 		Local FPSCount:Int
 		Local FPSTime:Int
 		
@@ -91,11 +92,15 @@ Type LTProject Extends LTObject
 			Time :+  L_DeltaTime
 			
 			L_CollisionChecks = 0
-			Logic()
-	      
-			For Local Joint:LTJoint = Eachin L_JointList
-				Joint.Operate()
-			Next
+			
+			If CurrentPause Then
+				CurrentPause.Update()
+			Else
+				Logic()
+				For Local Joint:LTJoint = Eachin L_JointList
+					Joint.Operate()
+				Next
+			End If
 		
 			Repeat
 				RealTime = 0.001 * ( Millisecs() - StartTime )
@@ -103,6 +108,7 @@ Type LTProject Extends LTObject
 				
 				Cls
 				Render()
+				If CurrentPause Then CurrentPause.Render()
 				Flip( False )
 		      
 				LastRenderTime = 0.001 * ( Millisecs() - StartTime )
@@ -122,7 +128,7 @@ Type LTProject Extends LTObject
 	
 	
 	
-	Method PerSecond:Float( Value:Float )
+	Method PerSecond:Double( Value:Double )
 		Return Value * L_DeltaTime
 	End Method
 	
@@ -133,5 +139,14 @@ Type LTProject Extends LTObject
 		DrawText( "Memory: " + Int( GCMemAlloced() / 1024 ) + "kb", 0, 16 )
 		DrawText( "Sprites: " + MainLayer.CountSprites(), 0, 32 )
 		DrawText( "Collisions: " + L_CollisionChecks, 0, 48 )
+	End Method
+	
+	
+	
+	Method ApplyPause( NewPause:LTPause, Key:Int )
+		NewPause.Project = Self
+		NewPause.Key = Key
+		NewPause.PreviousPause = CurrentPause
+		CurrentPause = NewPause
 	End Method
 End Type

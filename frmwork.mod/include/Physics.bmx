@@ -8,11 +8,11 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Function L_WedgingValuesOfCircleAndCircle( Circle1X:Float, Circle1Y:Float, Circle1Diameter:Float, ..
-Circle2X:Float, Circle2Y:Float, Circle2Diameter:Float, DX:Float Var, DY:Float Var )
+Function L_WedgingValuesOfCircleAndCircle( Circle1X:Double, Circle1Y:Double, Circle1Diameter:Double, ..
+Circle2X:Double, Circle2Y:Double, Circle2Diameter:Double, DX:Double Var, DY:Double Var )
 	DX = Circle1X - Circle2X
 	DY = Circle1Y - Circle2Y
-	Local K:Float = 0.5 * ( Circle1Diameter + Circle2Diameter ) / Sqr( DX * DX + DY * DY ) - 1.0
+	Local K:Double = 0.5 * ( Circle1Diameter + Circle2Diameter ) / Sqr( DX * DX + DY * DY ) - 1.0
 	DX :* K
 	DY :* K
 End Function
@@ -21,16 +21,16 @@ End Function
 
 
 
-Function L_WedgingValuesOfCircleAndRectangle( CircleX:Float, CircleY:Float, CircleDiameter:Float, ..
-RectangleX:Float, RectangleY:Float, RectangleWidth:Float, RectangleHeight:Float, DX:Float Var, DY:Float Var )
+Function L_WedgingValuesOfCircleAndRectangle( CircleX:Double, CircleY:Double, CircleDiameter:Double, ..
+RectangleX:Double, RectangleY:Double, RectangleWidth:Double, RectangleHeight:Double, DX:Double Var, DY:Double Var )
 	If CircleX > RectangleX - 0.5 * RectangleWidth And CircleX < RectangleX + 0.5 * RectangleWidth Then
 		DY = ( 0.5 * ( RectangleHeight + CircleDiameter ) - Abs( RectangleY - CircleY ) ) * Sgn( CircleY - RectangleY )
 	ElseIf CircleY > RectangleY - 0.5 * RectangleHeight And CircleY < RectangleY + 0.5 * RectangleHeight Then
 		DX = ( 0.5 * ( RectangleWidth + CircleDiameter ) - Abs( RectangleX - CircleX ) ) * Sgn( CircleX - RectangleX )
 	Else
-		Local PX:Float = RectangleX + 0.5 * RectangleWidth * Sgn( CircleX - RectangleX )
-		Local PY:Float = RectangleY + 0.5 * RectangleHeight * Sgn( CircleY - RectangleY )
-		Local K:Float = 1.0 - 0.5 * CircleDiameter / Sqr( ( CircleX - PX ) * ( CircleX - PX ) + ( CircleY - PY ) * ( CircleY - PY ) )
+		Local PX:Double = RectangleX + 0.5 * RectangleWidth * Sgn( CircleX - RectangleX )
+		Local PY:Double = RectangleY + 0.5 * RectangleHeight * Sgn( CircleY - RectangleY )
+		Local K:Double = 1.0 - 0.5 * CircleDiameter / Sqr( ( CircleX - PX ) * ( CircleX - PX ) + ( CircleY - PY ) * ( CircleY - PY ) )
 		DX = ( PX - CircleX ) * K
 		DY = ( PY - CircleY ) * K
 	End If
@@ -40,8 +40,8 @@ End Function
 
 
 
-Function L_WedgingValuesOfRectangleAndRectangle( Rectangle1X:Float, Rectangle1Y:Float, Rectangle1Width:Float, Rectangle1Height:Float, ..
-Rectangle2X:Float, Rectangle2Y:Float, Rectangle2Width:Float, Rectangle2Height:Float, DX:Float Var, DY:Float Var )
+Function L_WedgingValuesOfRectangleAndRectangle( Rectangle1X:Double, Rectangle1Y:Double, Rectangle1Width:Double, Rectangle1Height:Double, ..
+Rectangle2X:Double, Rectangle2Y:Double, Rectangle2Width:Double, Rectangle2Height:Double, DX:Double Var, DY:Double Var )
 	DX = 0.5 * ( Rectangle1Width + Rectangle2Width ) - Abs( Rectangle1X - Rectangle2X )
 	DY = 0.5 * ( Rectangle1Height + Rectangle2Height ) - Abs( Rectangle1Y - Rectangle2Y )
 	
@@ -58,9 +58,9 @@ End Function
 
 
 
-Function L_Separate( Pivot1:LTSprite, Pivot2:LTSprite, DX:Float, DY:Float, Mass1:Float, Mass2:Float )
+Function L_Separate( Pivot1:LTSprite, Pivot2:LTSprite, DX:Double, DY:Double, Mass1:Double, Mass2:Double )
 	'debugstop
-	Local K1:Float, K2:Float
+	Local K1:Double, K2:Double
 	
 	If Mass1 < 0 then
 		If Mass2 < 0 Then
@@ -73,7 +73,7 @@ Function L_Separate( Pivot1:LTSprite, Pivot2:LTSprite, DX:Float, DY:Float, Mass1
 		Mass2 = 1.0		
 	End If
 	
-	Local MassSum:Float = Mass1 + Mass2
+	Local MassSum:Double = Mass1 + Mass2
 	If MassSum Then
 		K1 = Mass2 / MassSum
 		K2 = Mass1 / MassSum

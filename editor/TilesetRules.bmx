@@ -87,11 +87,11 @@ Function TilesetRules( TileSet:LTTileSet )
 	Local PosDX:Int, PosDY:Int, TIleRulesListDY:Int
 	
 	Repeat
-		Local Magnifier:Float = Min( 1.0 * GadgetWidth( TilesetCanvas ) / Image.XCells / Image.Width(), 1.0 * GadgetHeight( TilesetCanvas ) / Image.YCells / Image.Height() )
-		Local TileWidth:Float = Floor( Magnifier * Image.Width() )
-		Local TileHeight:Float = Floor( Magnifier * Image.Height() )
-		Local DX:Float = 0.5 * ( GadgetWidth( TilesetCanvas ) - TileWidth * Image.XCells )
-		Local DY:Float = 0.5 * ( GadgetHeight( TilesetCanvas ) - TileHeight * Image.YCells )
+		Local Magnifier:Double = Min( 1.0 * GadgetWidth( TilesetCanvas ) / Image.XCells / Image.Width(), 1.0 * GadgetHeight( TilesetCanvas ) / Image.YCells / Image.Height() )
+		Local TileWidth:Double = Floor( Magnifier * Image.Width() )
+		Local TileHeight:Double = Floor( Magnifier * Image.Height() )
+		Local DX:Double = 0.5 * ( GadgetWidth( TilesetCanvas ) - TileWidth * Image.XCells )
+		Local DY:Double = 0.5 * ( GadgetHeight( TilesetCanvas ) - TileHeight * Image.YCells )
 		
 		SetGraphics( CanvasGraphics( TilesetCanvas ) )
 		SetClsColor( 255, 255, 255 )

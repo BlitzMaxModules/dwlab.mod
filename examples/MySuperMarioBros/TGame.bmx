@@ -9,7 +9,7 @@
 '
 
 Type TGame Extends LTProject
-	Const Gravity:Float = 32.0
+	Const Gravity:Double = 32.0
 
 	Field Score:Int
 	Field Lives:Int = 3
@@ -41,6 +41,7 @@ Type TGame Extends LTProject
 	Field StarMan:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Starman.png", 4 )
 	Field Fireball:LTImage = LTImage.FromFile( "media\Fireball.png" )
 	Field Explosion:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Explosion.png", 3 )
+	Field FlagOnCastle:LTImageVisualizer = LTImageVisualizer.FromFile( "media\FlagOnCastle.png" )
 
 	Field Jump:TSound = TSound.Load( "media\Jump.ogg", False )
 	Field Stomp:TSound = TSound.Load( "media\Stomp.ogg", False )
@@ -53,12 +54,15 @@ Type TGame Extends LTProject
 	Field OneUp:TSound = TSound.Load( "media\1-up.ogg", False )
 	Field Kick:TSound = TSound.Load( "media\Kick.ogg", False )
 	Field Firing:TSound = TSound.Load( "media\Fireball.ogg", False )
+	Field FlagPole:TSound = TSound.Load( "media\FlagPole.ogg", False )
+	Field Fireworks:TSound = TSound.Load( "media\Fireworks.ogg", False )
 
 	Field MusicChannel:TChannel
 	Field MusicIntro:TSound = TSound.Load( "media\Music1intro.ogg", False )
 	Field Music:TSound = TSound.Load( "media\Music1.ogg", True ) ' True for looped
 	Field MarioDie:TSound = TSound.Load( "media\MarioDie.ogg", False )
 	Field Invulnerability:TSound = TSound.Load( "media\Invulnerability.ogg", True )
+	Field StageClear:TSound = TSound.Load( "media\StageClear.ogg", False )
 	
 	
 	

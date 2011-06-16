@@ -21,14 +21,14 @@ Const L_Max:Int = 3
 Const L_Min:Int = 4
 
 
-Type LTFloatMap Extends LTMap
-	Field Value:Float[ , ] = New Float[ 1, 1 ]
+Type LTDoubleMap Extends LTMap
+	Field Value:Double[ , ] = New Double[ 1, 1 ]
 
 	' ==================== Parameters ====================
 	
 	Method SetResolution( NewXQuantity:Int, NewYQuantity:Int )
 		Super.SetResolution( NewXQuantity, NewYQuantity )
-		Value = New Float[ NewXQuantity, NewYQuantity ]
+		Value = New Double[ NewXQuantity, NewYQuantity ]
 	End Method
 	
 	' ==================== Manipulations ====================	
@@ -95,7 +95,7 @@ Type LTFloatMap Extends LTMap
 	
 	
 	
-	Method Paste( SourceMap:LTFloatMap, X:Int, Y:Int, Mode:Int = L_Overwrite )
+	Method Paste( SourceMap:LTDoubleMap, X:Int, Y:Int, Mode:Int = L_Overwrite )
 		For Local Y0:Int = 0 Until SourceMap.YQuantity
 			For Local X0:Int = 0 Until SourceMap.XQuantity
 				Local XX:Int, YY:Int
@@ -126,7 +126,7 @@ Type LTFloatMap Extends LTMap
 	
 	
 	
-	Method ExtractTo( TileMap:LTIntMap, VFrom:Float, VTo:Float, TileNum:Int )
+	Method ExtractTo( TileMap:LTIntMap, VFrom:Double, VTo:Double, TileNum:Int )
 		?debug
 		If TileMap.XQuantity <> XQuantity Or TileMap.YQuantity <> YQuantity Then L_Error( "Sizes of source heightmap and resulting tilemap are different." )
 		?
@@ -141,11 +141,11 @@ Type LTFloatMap Extends LTMap
 		
 	
 	Method Blur()
-		Local NewArray:Float[ XQuantity, YQuantity ]
+		Local NewArray:Double[ XQuantity, YQuantity ]
 		
 		For Local X:Int = 0 Until XQuantity
 			For Local Y:Int = 0 Until YQuantity
-				Local Sum:Float = 0
+				Local Sum:Double = 0
 				For Local XX:Int = -1 To 1
 					For Local YY:Int = -1 To 1
 						If Masked Then
@@ -163,19 +163,19 @@ Type LTFloatMap Extends LTMap
 
 	
 	
-	Method PerlinNoise( StartingXFrequency:Int, StartingYFrequency:Float, StartingAmplitude:Float, DAmplitude:Float, LayersQuantity:Int )
+	Method PerlinNoise( StartingXFrequency:Int, StartingYFrequency:Double, StartingAmplitude:Double, DAmplitude:Double, LayersQuantity:Int )
 		Local XFrequency:Int = StartingXFrequency
 		Local YFrequency:Int = StartingYFrequency
-		Local Amplitude:Float = StartingAmplitude
+		Local Amplitude:Double = StartingAmplitude
 		
-		For Local X:Float = 0.0 Until XQuantity
-			For Local Y:Float = 0.0 Until YQuantity
+		For Local X:Double = 0.0 Until XQuantity
+			For Local Y:Double = 0.0 Until YQuantity
 				Value[ X, Y ] = 0.5
 			Next
 		Next
 		
 		For Local N:Int = 1 To LayersQuantity
-			Local Array:Float[ , ] = New Float[ XFrequency, YFrequency ]
+			Local Array:Double[ , ] = New Double[ XFrequency, YFrequency ]
 			
 			For Local AX:Int = 0 Until XFrequency
 				For Local AY:Int = 0 Until YFrequency
@@ -186,26 +186,26 @@ Type LTFloatMap Extends LTMap
 			Local FXMask:Int = XFrequency - 1
 			Local FYMask:Int = YFrequency - 1
 			
-			Local KX:Float = 1.0 * XFrequency / XQuantity
-			Local KY:Float = 1.0 * YFrequency / YQuantity
+			Local KX:Double = 1.0 * XFrequency / XQuantity
+			Local KY:Double = 1.0 * YFrequency / YQuantity
 			
-			For Local X:Float = 0.0 Until XQuantity
-				For Local Y:Float = 0.0 Until YQuantity
-					Local XK:Float = X * KX
-					Local YK:Float = Y * KY
+			For Local X:Double = 0.0 Until XQuantity
+				For Local Y:Double = 0.0 Until YQuantity
+					Local XK:Double = X * KX
+					Local YK:Double = Y * KY
 					Local ArrayX:Int = Floor( XK )
 					Local ArrayY:Int = Floor( YK )
 					
 					XK = ( 1.0 - Cos( 180.0 * ( XK - ArrayX ) ) ) * 0.5
 					YK = ( 1.0 - Cos( 180.0 * ( YK - ArrayY ) ) ) * 0.5
 					
-					Local Z00:Float = Array[ ArrayX, ArrayY ] 
-					Local Z10:Float = Array[ ( ArrayX + 1 ) & FXMask, ArrayY ] 
-					Local Z01:Float = Array[ ArrayX, ( ArrayY + 1 ) & FYMask ] 
-					Local Z11:Float = Array[ ( ArrayX + 1 ) & FXMask, ( ArrayY + 1 ) & FYMask ] 
+					Local Z00:Double = Array[ ArrayX, ArrayY ] 
+					Local Z10:Double = Array[ ( ArrayX + 1 ) & FXMask, ArrayY ] 
+					Local Z01:Double = Array[ ArrayX, ( ArrayY + 1 ) & FYMask ] 
+					Local Z11:Double = Array[ ( ArrayX + 1 ) & FXMask, ( ArrayY + 1 ) & FYMask ] 
 					
-					Local Z0:Float = Z00 + ( Z10 - Z00 ) * XK
-					Local Z1:Float = Z01 + ( Z11 - Z01 ) * XK
+					Local Z0:Double = Z00 + ( Z10 - Z00 ) * XK
+					Local Z1:Double = Z01 + ( Z11 - Z01 ) * XK
 					
 					Value[ X, Y ] = Value[ X, Y ] + Z0 + ( Z1 - Z0 ) * YK
 				Next
@@ -221,9 +221,9 @@ Type LTFloatMap Extends LTMap
 	
 	
 	
-	Const CircleBound:Float = 0.707107
+	Const CircleBound:Double = 0.707107
 	
-	Method DrawCircle( XCenter:Float, YCenter:Float, Radius:Float, Color:Float = 1.0 )
+	Method DrawCircle( XCenter:Double, YCenter:Double, Radius:Double, Color:Double = 1.0 )
 		For Local Y:Int = Floor( YCenter - Radius ) To Ceil( YCenter + Radius )
 			For Local X:Int = Floor( XCenter - Radius ) To Ceil( XCenter + Radius )
 				Local XX:Int, YY:Int
@@ -235,17 +235,17 @@ Type LTFloatMap Extends LTMap
 					YY = WrapY( Y )
 				End If
 				
-				Local Dist:Float = Radius - Sqr( ( X - XCenter ) * ( X - XCenter ) + ( Y - YCenter ) * ( Y - YCenter ) )
+				Local Dist:Double = Radius - Sqr( ( X - XCenter ) * ( X - XCenter ) + ( Y - YCenter ) * ( Y - YCenter ) )
 				
 				If Dist > CircleBound Then
 					Value[ XX, YY ] = Color
 				ElseIf Dist < -CircleBound Then
 				Else
-					Local Dist00:Float = Radius - Sqr( ( X - 0.5 - XCenter ) * ( X - 0.5 - XCenter ) + ( Y - 0.5 - YCenter ) * ( Y - 0.5 - YCenter ) )
-					Local Dist01:Float = Radius - Sqr( ( X - 0.5 - XCenter ) * ( X - 0.5 - XCenter ) + ( Y + 0.5 - YCenter ) * ( Y + 0.5 - YCenter ) )
-					Local Dist10:Float = Radius - Sqr( ( X + 0.5 - XCenter ) * ( X + 0.5 - XCenter ) + ( Y - 0.5 - YCenter ) * ( Y - 0.5 - YCenter ) )
-					Local Dist11:Float = Radius - Sqr( ( X + 0.5 - XCenter ) * ( X + 0.5 - XCenter ) + ( Y + 0.5 - YCenter ) * ( Y + 0.5 - YCenter ) )
-					Local K:Float = L_LimitFloat( 0.125 / CircleBound * ( Dist00 + Dist01 + Dist10 + Dist11 ) + 0.5, 0.0, 1.0 )
+					Local Dist00:Double = Radius - Sqr( ( X - 0.5 - XCenter ) * ( X - 0.5 - XCenter ) + ( Y - 0.5 - YCenter ) * ( Y - 0.5 - YCenter ) )
+					Local Dist01:Double = Radius - Sqr( ( X - 0.5 - XCenter ) * ( X - 0.5 - XCenter ) + ( Y + 0.5 - YCenter ) * ( Y + 0.5 - YCenter ) )
+					Local Dist10:Double = Radius - Sqr( ( X + 0.5 - XCenter ) * ( X + 0.5 - XCenter ) + ( Y - 0.5 - YCenter ) * ( Y - 0.5 - YCenter ) )
+					Local Dist11:Double = Radius - Sqr( ( X + 0.5 - XCenter ) * ( X + 0.5 - XCenter ) + ( Y + 0.5 - YCenter ) * ( Y + 0.5 - YCenter ) )
+					Local K:Double = L_LimitDouble( 0.125 / CircleBound * ( Dist00 + Dist01 + Dist10 + Dist11 ) + 0.5, 0.0, 1.0 )
 					Value[ XX, YY ] = Value[ XX, YY ] * ( 1 - K ) + K * Color
 				End If
 			Next

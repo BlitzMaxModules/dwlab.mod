@@ -9,9 +9,9 @@
 '
 
 Type TStarMan Extends TBonus
-	Const Speed:Float = 2.0
-	Const JumpStrength:Float = 10.0
-	Const AnimationSpeed:Float = 0.2
+	Const Speed:Double = 2.0
+	Const JumpStrength:Double = 10.0
+	Const AnimationSpeed:Double = 0.2
 	
 	
 

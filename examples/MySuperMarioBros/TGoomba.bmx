@@ -9,7 +9,7 @@
 '
 
 Type TGoomba Extends TEnemy
-	Const WalkingAnimationSpeed:Float = 0.3
+	Const WalkingAnimationSpeed:Double = 0.3
 	
 	Const Stomped:Int = 2
 	
@@ -46,9 +46,9 @@ End Type
 
 
 Type TStomped Extends LTBehaviorModel
-	Const FlatPeriod:Float = 1.0
+	Const FlatPeriod:Double = 1.0
 	
-	Field StartingTime:Float
+	Field StartingTime:Double
 
 	
 
@@ -75,7 +75,7 @@ End Type
 
 
 Type TKicked Extends LTBehaviorModel
-	Const Strength:Float = -6.0
+	Const Strength:Double = -6.0
 	
 	
 	

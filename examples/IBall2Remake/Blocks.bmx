@@ -25,7 +25,7 @@ Type TMovingBlock Extends TBlock
   
   
   
-  Function Create:TMovingBlock( X:Float, Y:Float, FrameNum:Int, DY:Float )
+  Function Create:TMovingBlock( X:Double, Y:Double, FrameNum:Int, DY:Double )
     Local Block:TMovingBlock = New TMovingBlock
     Block.SetCoords( X, Y )
     Block.SetDY( DY )

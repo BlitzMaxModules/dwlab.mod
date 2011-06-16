@@ -11,8 +11,8 @@
 Type LTRevoluteJoint Extends LTJoint
 	Field ParentPivot:LTAngularSprite
 	Field Pivot:LTSprite
-	Field Angle:Float
-	Field Distance:Float
+	Field Angle:Double
+	Field Distance:Double
 	
 	
 	

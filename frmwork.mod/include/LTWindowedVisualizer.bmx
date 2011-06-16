@@ -30,7 +30,7 @@ Type LTWindowedVisualizer Extends LTVisualizer
 		Local X:Int, Y:Int, Width:Int, Height:Int
 		GetViewport( X, Y, Width, Height )
 		
-		Local VX:Float, VY:Float, VWidth:Float, VHeight:Float
+		Local VX:Double, VY:Double, VWidth:Double, VHeight:Double
 		L_CurrentCamera.FieldToScreen( Viewport.LeftX(), Viewport.TopY(), VX, VY )
 		L_CurrentCamera.SizeFieldToScreen( Viewport.Width, Viewport.Height, VWidth, VHeight )
 		SetViewport( VX, VY, VWidth, VHeight )

@@ -9,9 +9,9 @@
 '
 
 Type TCoin Extends LTVectorSprite
-	Const Gravity:Float = 16.0
+	Const Gravity:Double = 16.0
 
-	Field LowestY:Float
+	Field LowestY:Double
 
 
 	

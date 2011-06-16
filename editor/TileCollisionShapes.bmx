@@ -66,7 +66,7 @@ Type TTileCollisionShapes
 		L_CurrentCamera = LTCamera.Create( 128, 128, 128.0 )
 		L_CurrentCamera.SetCoords( 0.5, 0.5 )
 		
-		Local Size:Float = L_CurrentCamera.DistScreenToField( 8.0 )
+		Local Size:Double = L_CurrentCamera.DistScreenToField( 8.0 )
 		Cursor.ShapeType = LTSprite.Circle
 		Cursor.SetSize( Size, Size )
 	
@@ -145,7 +145,7 @@ Type TTileCollisionShapes
 									Case LTSprite.Pivot
 										SelectedCollisionShape.SetSize( 0.0, 0.0 )
 									Case LTSprite.Circle
-										Local Size:Float = Min( SelectedCollisionShape.Width, SelectedCollisionShape.Height )
+										Local Size:Double = Min( SelectedCollisionShape.Width, SelectedCollisionShape.Height )
 										SelectedCollisionShape.SetSize( Size, Size )
 								End Select
 								If SelectedCollisionShape.ShapeType <> LTSprite.Pivot Then
@@ -154,25 +154,25 @@ Type TTileCollisionShapes
 							End If
 						Case XField
 							If SelectedCollisionShape Then
-								SelectedCollisionShape.X = GadgetText( XField ).ToFloat()
+								SelectedCollisionShape.X = GadgetText( XField ).ToDouble()
 								If SelectedCollisionShape.LeftX() < 0.0 Then SelectedCollisionShape.X = 0.5 * SelectedCollisionShape.Width
 								If SelectedCollisionShape.RightX() > 1.0 Then SelectedCollisionShape.X = 1.0 - 0.5 * SelectedCollisionShape.Width
 							End If
 						Case YField
 							If SelectedCollisionShape Then
-								SelectedCollisionShape.Y = GadgetText( YField ).ToFloat()
+								SelectedCollisionShape.Y = GadgetText( YField ).ToDouble()
 								If SelectedCollisionShape.TopY() < 0.0 Then SelectedCollisionShape.Y = 0.5 * SelectedCollisionShape.Height
 								If SelectedCollisionShape.BottomY() > 1.0 Then SelectedCollisionShape.Y = 1.0 - 0.5 * SelectedCollisionShape.Height
 							End If
 						Case WidthField
 							If SelectedCollisionShape Then
-								SelectedCollisionShape.Width = GadgetText( WidthField ).ToFloat()
+								SelectedCollisionShape.Width = GadgetText( WidthField ).ToDouble()
 								If SelectedCollisionShape.LeftX() < 0.0 Then SelectedCollisionShape.Width = 2.0 * SelectedCollisionShape.X
 								If SelectedCollisionShape.RightX() > 1.0 Then SelectedCollisionShape.Width = 2.0 * ( 1.0 - SelectedCollisionShape.X )
 							End If
 						Case HeightField
 							If SelectedCollisionShape Then
-								SelectedCollisionShape.Height = GadgetText( HeightField ).ToFloat()
+								SelectedCollisionShape.Height = GadgetText( HeightField ).ToDouble()
 								If SelectedCollisionShape.TopY() < 0.0 Then SelectedCollisionShape.Height = 2.0 * SelectedCollisionShape.Y
 								If SelectedCollisionShape.BottomY() > 1.0 Then SelectedCollisionShape.Height = 2.0 * ( 1.0 - SelectedCollisionShape.Y )
 							End If
@@ -210,10 +210,10 @@ Type TTileCollisionShapes
 		If SelectedCollisionShape Then
 			Editor.FillShapeComboBox( ShapeComboBox )
 			SelectGadgetItem( ShapeComboBox, SelectedCollisionShape.ShapeType )
-			SetGadgetText( XField, L_TrimFloat( SelectedCollisionShape.X ) )
-			SetGadgetText( YField, L_TrimFloat( SelectedCollisionShape.Y ) )
-			SetGadgetText( WidthField, L_TrimFloat( SelectedCollisionShape.Width ) )
-			SetGadgetText( HeightField, L_TrimFloat( SelectedCollisionShape.Height ) )
+			SetGadgetText( XField, L_TrimDouble( SelectedCollisionShape.X ) )
+			SetGadgetText( YField, L_TrimDouble( SelectedCollisionShape.Y ) )
+			SetGadgetText( WidthField, L_TrimDouble( SelectedCollisionShape.Width ) )
+			SetGadgetText( HeightField, L_TrimDouble( SelectedCollisionShape.Height ) )
 		Else
 			SetGadgetText( XField, "" )
 			SetGadgetText( YField, "" )
@@ -229,7 +229,7 @@ End Type
 
 
 Type TCreateCollisionShape Extends LTDrag
-	Field StartingX:Float, StartingY:Float
+	Field StartingX:Double, StartingY:Double
 	Field CollisionShape:LTSprite
 
 	
@@ -272,8 +272,8 @@ Type TCreateCollisionShape Extends LTDrag
 	
 	
 	Method Dragging()
-		Local CursorX:Float = TileCollisionShapes.Cursor.X
-		Local CursorY:Float = TileCollisionShapes.Cursor.Y
+		Local CursorX:Double = TileCollisionShapes.Cursor.X
+		Local CursorY:Double = TileCollisionShapes.Cursor.Y
 		If Editor.Grid.Active Then
 			CursorX = 1.0 * Int( CursorX * Editor.Grid.CellXDiv ) / Editor.Grid.CellXDiv
 			CursorY = 1.0 * Int( CursorY * Editor.Grid.CellYDiv ) / Editor.Grid.CellYDiv
@@ -294,7 +294,7 @@ End Type
 
 
 Type TMoveCollisionShape Extends LTDrag
-	Field LeftX:Float, TopY:Float
+	Field LeftX:Double, TopY:Double
 	Field CollisionShape:LTSprite
 	
 	
@@ -322,8 +322,8 @@ Type TMoveCollisionShape Extends LTDrag
 	
 	
 	Method Dragging()
-		Local NewLeftX:Float = LeftX + TileCollisionShapes.Cursor.X
-		Local NewTopY:Float = TopY + TileCollisionShapes.Cursor.Y
+		Local NewLeftX:Double = LeftX + TileCollisionShapes.Cursor.X
+		Local NewTopY:Double = TopY + TileCollisionShapes.Cursor.Y
 		If NewLeftX < 0.0 Then NewLeftX = 0
 		If NewTopY < 0.0 Then NewTopY = 0
 		If NewLeftX + CollisionShape.Width > 1.0 Then NewLeftX = 1.0 - CollisionShape.Width
@@ -342,7 +342,7 @@ End Type
 
 
 Type TResizeCollisionShape Extends LTDrag
-	Field DX:Float, DY:Float
+	Field DX:Double, DY:Double
 	Field CollisionShape:LTSprite
 	
 	
@@ -372,8 +372,8 @@ Type TResizeCollisionShape Extends LTDrag
 	
 	
 	Method Dragging()
-		Local NewWidth:Float = L_LimitFloat( DX + TileCollisionShapes.Cursor.X, 0.0, 1.0 )
-		Local NewHeight:Float = L_LimitFloat( DY + TileCollisionShapes.Cursor.Y, 0.0, 1.0 )
+		Local NewWidth:Double = L_LimitDouble( DX + TileCollisionShapes.Cursor.X, 0.0, 1.0 )
+		Local NewHeight:Double = L_LimitDouble( DY + TileCollisionShapes.Cursor.Y, 0.0, 1.0 )
 		If CollisionShape.LeftX() + NewWidth > 1.0 Then NewWidth = 1.0 - CollisionShape.LeftX()
 		If CollisionShape.TopY() + NewHeight > 1.0 Then NewHeight = 1.0 - CollisionShape.TopY()
 		If Editor.Grid.Active Then

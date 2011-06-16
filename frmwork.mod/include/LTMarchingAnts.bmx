@@ -14,7 +14,7 @@ Type LTMarchingAnts Extends LTVisualizer
 		SetColor( 255.0 * Red, 255.0 * Green, 255.0 * Blue )
 		SetAlpha( Alpha )
 		
-		Local SX:Float, SY:Float, SWidth:Float, SHeight:Float
+		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
 		L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX, SY )
 		L_CurrentCamera.SizeFieldToScreen( Sprite.Width * XScale, Sprite.Height * YScale, SWidth, SHeight )
 		
@@ -26,7 +26,7 @@ Type LTMarchingAnts Extends LTVisualizer
 	
 	
 	
-	Function DrawMARect( X:Float, Y:Float, Width:Float, Height:Float )
+	Function DrawMARect( X:Double, Y:Double, Width:Double, Height:Double )
 		Local Pos:Int = Int( Millisecs() / 100 ) Mod 8
 		
 		If Width Then

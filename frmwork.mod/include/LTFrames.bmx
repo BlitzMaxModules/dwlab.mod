@@ -46,24 +46,24 @@ Type LTRasterFrame Extends LTRectangleVisual
 	
 	
 	
-	Method DrawToRectangle( X:Float, Y:Float, Width:Float, Height:Float )
+	Method DrawToRectangle( X:Double, Y:Double, Width:Double, Height:Double )
 		'If Width > 400 Then debugstop
 
-    Local SX:Float, SY:Float, SWidth:Float, SHeight:Float
+    Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
     L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
     L_CurrentCamera.SizeFieldToScreen( Width, Height, SWidth, SHeight )
 		L_NormalizeSize( SX, SY, SWidth, SHeight )
 		
 		Local XWidth:Int, YHeight:Int
 		
-		Local XX:Float = SX
+		Local XX:Double = SX
 		For Local XN:Int = 0 To 2
 			Select XN
 				Case 0; XWidth = ImageWidth( Images[ 0, 0 ] )
 				Case 1; XWidth = SWidth - ImageWidth( Images[ 0, 0 ] ) - ImageWidth( Images[ 2, 2 ] )
 				Case 2; XWidth = ImageWidth( Images[ 2, 2 ] )
 			End Select
-			Local YY:Float = SY
+			Local YY:Double = SY
 			For Local YN:Int = 0 To 2
 				Select YN
 					Case 0; YHeight = ImageHeight( Images[ 0, 0 ] )
@@ -86,7 +86,7 @@ End Type
 ' =========================== Functions ===============================
 
 
-Function L_NormalizeSize( X:Float, Y:Float, Width:Float, Height:Float )
+Function L_NormalizeSize( X:Double, Y:Double, Width:Double, Height:Double )
 	If Width < 0 Then
 		X = X - Width
 		Width = -Width

@@ -26,7 +26,7 @@ Type TEnemy Extends TGameSprite
   
   
   
-  Function Create:TEnemy( X:Float, Y:Float, EnemyType:Int, DX:Float, DY:Float, HexColor:String )
+  Function Create:TEnemy( X:Double, Y:Double, EnemyType:Int, DX:Double, DY:Double, HexColor:String )
     Local Enemy:TEnemy = New TEnemy
     Enemy.SetCoords( X, Y )
     Enemy.SetDXDY( DX, DY )
@@ -57,7 +57,7 @@ Type TEnemy Extends TGameSprite
   
   
   
-  Method Bounce( DX:Float, DY:Float )
+  Method Bounce( DX:Double, DY:Double )
     If Abs( DY ) > Abs( DX ) Then
       SetDY( -GetDY() )
     Else
@@ -111,20 +111,20 @@ End Type
 
 
 Type TEnemyGenerator Extends LTSprite
-  Field GenerationStartTime:Float
-  Field NextEnemy:Float
+  Field GenerationStartTime:Double
+  Field NextEnemy:Double
   Field EnemyType:Int
   Field EnemyColor:String
   Field EnemyTemplate:LTSprite
   
-  Const GenerationTime:Float = 1.5
-  Const GenerationSpeed:Float = 72.0
-  Const FromPeriod:Float = 1.0
-  Const ToPeriod:Float = 20.0
+  Const GenerationTime:Double = 1.5
+  Const GenerationSpeed:Double = 72.0
+  Const FromPeriod:Double = 1.0
+  Const ToPeriod:Double = 20.0
   
   
   
-  Function Create:TEnemyGenerator( X:Float, Y:Float, DX:Float, DY:Float, EnemyType:Int, EnemyColor:String )
+  Function Create:TEnemyGenerator( X:Double, Y:Double, DX:Double, DY:Double, EnemyType:Int, EnemyColor:String )
     Local Generator:TEnemyGenerator = New TEnemyGenerator
     Generator.SetCoords( X, Y )
     Generator.SetDXDY( DX, DY )
@@ -196,7 +196,7 @@ End Type
 
 Type LTFlashingVisualizer Extends LTImageVisualizer
   Method Act()
-    Local Time:Float = L_WrapFloat( Game.ProjectTime, 3.0 )
+    Local Time:Double = L_WrapDouble( Game.ProjectTime, 3.0 )
     If Time < 1.0 Then
       Red = Time
       Green = 0.0

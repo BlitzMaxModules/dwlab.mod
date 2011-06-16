@@ -9,10 +9,10 @@
 '
 
 Type TScore Extends LTSprite
-	Const Speed:Float = 3.0
-	Const LifeTime:Float = 1.0
+	Const Speed:Double = 3.0
+	Const LifeTime:Double = 1.0
 
-	Field StartingTime:Float
+	Field StartingTime:Double
 	
 	Const s1up:Int = 0	
 	Const s100:Int = 1

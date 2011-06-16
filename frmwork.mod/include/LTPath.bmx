@@ -42,10 +42,10 @@ Type LTPath Extends LTObject
 			Paths = NewPaths
 		WEnd
 		
-		Local PathLength:Float = 0.0
+		Local PathLength:Double = 0.0
 		For Path = Eachin RightPaths
 			Local Pivot1:LTSprite = Null
-			Local CurrentPathLength:Float
+			Local CurrentPathLength:Double
 			For Local Pivot2:LTSprite = Eachin Path
 				If Pivot1 Then CurrentPathLength :+ Pivot1.DistanceTo( Pivot2 )
 				Pivot1 = Pivot2

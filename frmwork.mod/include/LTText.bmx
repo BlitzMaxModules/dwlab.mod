@@ -17,8 +17,8 @@ Type LTBitmapFont Extends LTObject
 	
 	
 	
-	Method Print( Text:String, X:Float, Y:Float, FontHeightInUnits:Float, HorizontalAlignment:Int = LTAlign.ToRight, VerticalAlignment:Int = LTAlign.ToTop )
-		Local Scale:Float = L_CurrentCamera.YK * FontHeightInUnits / Height()
+	Method Print( Text:String, X:Double, Y:Double, FontHeightInUnits:Double, HorizontalAlignment:Int = LTAlign.ToRight, VerticalAlignment:Int = LTAlign.ToTop )
+		Local Scale:Double = L_CurrentCamera.YK * FontHeightInUnits / Height()
 	
 		Select HorizontalAlignment
 			Case LTAlign.ToCenter
@@ -48,8 +48,8 @@ Type LTBitmapFont Extends LTObject
 	
 	
 	
-	Method PrintInShape( Text:String, Shape:LTShape, FontHeightInUnits:Float, HorizontalAlignment:Int = LTAlign.ToRight, VerticalAlignment:Int = LTAlign.ToTop )
-		Local X:Float, Y:Float
+	Method PrintInShape( Text:String, Shape:LTShape, FontHeightInUnits:Double, HorizontalAlignment:Int = LTAlign.ToRight, VerticalAlignment:Int = LTAlign.ToTop )
+		Local X:Double, Y:Double
 		
 		Select HorizontalAlignment
 			Case LTAlign.ToLeft
@@ -69,7 +69,7 @@ Type LTBitmapFont Extends LTObject
 				Y = Shape.BottomY()
 		End Select
 		
-		Local SX:Float, SY:Float
+		Local SX:Double, SY:Double
 		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
 		
 		Print( Text, SX, SY, FontHeightInUnits, HorizontalAlignment, VerticalAlignment )

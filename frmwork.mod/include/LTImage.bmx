@@ -110,7 +110,7 @@ Type LTImage Extends LTObject
 	
 	
 	
-	Method SetHandle( X:Float, Y:Float )
+	Method SetHandle( X:Double, Y:Double )
 		SetImageHandle( BMaxImage, X * ImageWidth( BMaxImage ), Y * ImageHeight( BMaxImage ) )
 	End Method
 	
@@ -138,13 +138,13 @@ Type LTImage Extends LTObject
 	
 	
 	
-	Method Width:Float()
+	Method Width:Double()
 		Return BMaxImage.width
 	End Method
 	
 	
 	
-	Method Height:Float()
+	Method Height:Double()
 		Return BMaxImage.height
 	End Method
 	

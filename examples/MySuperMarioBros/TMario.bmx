@@ -12,9 +12,9 @@ Include "TFireball.bmx"
 
 Type TMario Extends LTVectorSprite
 	Const FramesInRow:Int = 9
-	Const JumpStrength:Float = -17.0
-	Const WalkingAnimationSpeed:Float = 0.15
-	Const HopStrength:Float = -4.0
+	Const JumpStrength:Double = -17.0
+	Const WalkingAnimationSpeed:Double = 0.15
+	Const HopStrength:Double = -4.0
 
 	Const Standing:Int = 0
 	Const Jumping:Int = 4
@@ -119,6 +119,7 @@ Type TMario Extends LTVectorSprite
 	
 
 	Method Act()
+		OnLand = False
 		Super.Act()
 		
 		Frame = ( Frame Mod FramesInRow ) + FrameShift * FramesInRow
@@ -127,8 +128,6 @@ Type TMario Extends LTVectorSprite
 		
 		L_CurrentCamera.JumpTo( Self )
 		L_CurrentCamera.LimitWith( Game.Level.Bounds )
-		
-		OnLand = False
 	End Method
 End Type
 
@@ -142,11 +141,11 @@ Type TMoving Extends LTBehaviorModel
 		Mario.DX = 0
 		If KeyDown( Key_Left ) Then
 			Mario.DX = -5.0
-			Mario.SetFacing( -1.0 )
+			Mario.SetFacing( LTSprite.LeftFacing )
 			Mario.ActivateModel( "TWalkingAnimation" )
 		ElseIf KeyDown( Key_Right ) Then
 			Mario.DX = 5.0
-			Mario.SetFacing( 1.0 )
+			Mario.SetFacing( LTSprite.RightFacing )
 			Mario.ActivateModel( "TWalkingAnimation" )
 		Else
 			If Mario.OnLand Then Mario.Frame = TMario.Standing
@@ -181,7 +180,7 @@ End Type
 
 
 Type TWalkingAnimation Extends LTBehaviorModel
-	Field StartingTime:Float
+	Field StartingTime:Double
 	
 	
 	
@@ -228,10 +227,10 @@ End Type
 
 
 Type TGrowing Extends LTBehaviorModel
-	Const Speed:Float = 0.08
+	Const Speed:Double = 0.08
 	Const Phases:Int = 10
 	
-	Field StartingTime:Float
+	Field StartingTime:Double
 
 	
 
@@ -323,10 +322,10 @@ End Type
 
 
 Type TInvisible Extends LTBehaviorModel
-	Const Period:Float = 2.0
-	Const BlinkingSpeed:Float = 0.05
+	Const Period:Double = 2.0
+	Const BlinkingSpeed:Double = 0.05
 
-	Field StartingTime:Float
+	Field StartingTime:Double
 	
 	
 	
@@ -384,10 +383,10 @@ End Type
 
 
 Type TFlashing Extends LTBehaviorModel
-	Const AnimationSpeed:Float = 0.05
-	Const Period:Float = 0.8
+	Const AnimationSpeed:Double = 0.05
+	Const Period:Double = 0.8
 	
-	Field StartingTime:Float
+	Field StartingTime:Double
 
 	
 	
@@ -420,12 +419,12 @@ End Type
 
 
 Type TInvulnerable Extends LTBehaviorModel
-	Const AnimationSpeed:Float = 0.05
-	Const Period:Float = 13.0
-	Const FadingAnimationSpeed:Float = 0.1
-	Const FadingPeriod:Float = 2.0
+	Const AnimationSpeed:Double = 0.05
+	Const Period:Double = 13.0
+	Const FadingAnimationSpeed:Double = 0.1
+	Const FadingPeriod:Double = 2.0
 	
-	Field StartingTime:Float
+	Field StartingTime:Double
 	Field Fading:Int
 
 	
@@ -466,10 +465,10 @@ End Type
 
 
 Type TFireable Extends LTBehaviorModel
-	Field StartingTime:Float 
+	Field StartingTime:Double 
 	Field OldFrame:Int = -1
-	Field Period:Float = 0.25
-	Field AnimationPeriod:Float = 0.1
+	Field Period:Double = 0.25
+	Field AnimationPeriod:Double = 0.1
 	
 	
 	
@@ -497,5 +496,113 @@ Type TFireable Extends LTBehaviorModel
 	
 	Method Deactivate( Shape:LTShape )
 		Game.Mario.FrameShift = 0
+	End Method
+End Type
+
+
+
+
+
+Type TFinalSequence Extends LTBehaviorModel
+	Const MarioSpeed:Double = 4.0
+	Const FlagSpeed:Double = 8.0
+	Const WalkingSpeed:Double = 5.0
+	Const CastleFlagSpeed:Double = 0.8
+	Const TotalFireworks:Int = 5
+	Const ExplodingSpeed:Double = 0.2
+	
+	Const Sliding:Int = 0
+	Const Walking:Int = 1
+	Const Exiting:Int = 2
+	Const RaisingFlag:Int = 3
+	Const Fireworks:Int = 4
+	
+	Field Phase:Int = Sliding
+	Field Pole:LTShape = Game.Level.FindShapeWithType( "TPole" )
+	Field Flag:LTShape = Game.Level.FindShape( "Flag" )
+	Field FinalExit:LTShape = Game.Level.FindShape( "FinalExit" )
+	Field CastleFlagSpace:LTShape = Game.Level.FindShape( "CastleFlagSpace" )
+	Field CastleFlag:LTSprite
+	Field Firework:LTSprite
+	Field FireworksLeft:Int = TotalFireworks
+	Field FireworkExplodingTime:Double
+	
+	
+	
+	Method Activate( Shape:LTShape )
+		Shape.DeactivateAllModels()
+		Game.Level.Active = False
+		Game.Mario.X = Pole.X - 0.3 * Game.Mario.GetFacing()
+		Game.Mario.Frame = TMario.SlidingDown
+		Game.MusicChannel.SetVolume( 0.0 )
+		Game.FlagPole.Play()
+	End Method
+	
+	
+	
+	Method ApplyTo( Shape:LTShape )
+		Select Phase
+			Case Sliding
+				If Game.Mario.BottomY() < Pole.BottomY() Then Game.Mario.Move( 0.0, MarioSpeed )
+				If Flag.BottomY() < Pole.BottomY() Then
+					Flag.Move( 0.0, FlagSpeed )
+				ElseIf Game.Mario.BottomY() >= Pole.BottomY() Then
+					NextPhase( Shape )
+				End If
+			Case Walking
+				If Game.Mario.X >= FinalExit.X Then NextPhase( Shape )
+			Case Exiting
+				If Game.Mario.LeftX() >= FinalExit.RightX() Then NextPhase( Shape )
+			Case RaisingFlag
+				CastleFlag.Move( 0, -CastleFlagSpeed )
+				If CastleFlagSpace.Y >= CastleFlag.Y Then NextPhase( Shape )
+			Case Fireworks
+				If Game.Time >= FireworkExplodingTime + ExplodingSpeed * 3 Then
+					If FireworksLeft = 0 Then
+						Game.Level.Remove( Firework )
+						NextPhase( Shape )
+					Else
+						Firework.SetCoords( CastleFlag.X + Rnd( -5.0, 5.0 ), CastleFlag.Y - Rnd( 5.0 ) )
+						Game.Fireworks.Play()
+						FireworkExplodingTime = Game.Time
+						FireworksLeft :- 1
+					End If
+				Else
+					Firework.Animate( Game, ExplodingSpeed, , , FireworkExplodingTime )
+				End If
+		End Select
+	End Method
+	
+	
+	
+	Method NextPhase( Shape:LTShape )
+		Phase :+ 1
+		Select Phase
+			Case Walking
+				Shape.ActivateModel( "TCollisions" )
+				Shape.ActivateModel( "TWalkingAnimation" )
+				Shape.ActivateModel( "TGravity" )
+				Game.Mario.DX = WalkingSpeed
+				Game.Mario.SetFacing( LTSprite.RightFacing )
+				Game.Mario.Frame = TMario.Jumping
+			Case Exiting
+				Game.StageClear.Play()
+				Game.Mario.LimitByWindowShape( FinalExit )
+			Case RaisingFlag
+				Game.Mario.Visible = False
+				Game.Mario.DX = 0.0
+				CastleFlag = New LTSprite
+				Game.Level.AddLast( CastleFlag )
+				CastleFlag.SetCoords( CastleFlagSpace.X, CastleFlagSpace.Y + 1.0 )
+				CastleFlag.SetSize( 1.0, 1.0 )
+				CastleFlag.Visualizer = Game.FlagOnCastle
+				CastleFlag.LimitByWindowShape( CastleFlagSpace )
+				Game.Level.AddLast( CastleFlag )
+			Case Fireworks
+				Firework = New LTSprite
+				Firework.SetSize( 1.0, 1.0 )
+				Firework.Visualizer = Game.Explosion
+				Game.Level.AddLast( Firework )
+		End Select
 	End Method
 End Type

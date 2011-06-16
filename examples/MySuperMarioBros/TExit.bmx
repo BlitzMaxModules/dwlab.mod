@@ -10,7 +10,7 @@
 
 Type TExit Extends LTVectorSprite
 	Method Act()
-		If Overlaps( Game.Mario ) Then 
+		If Overlaps( Game.Mario ) And Game.Mario.OnLand Then 
 			If DY > 0.0 Then
 				If KeyDown( Key_Down ) Then Game.Mario.AttachModel( TEnteringVerticalPipe.Create( Self ) )
 			Else
@@ -25,7 +25,7 @@ End Type
 
 
 Type TEnteringVerticalPipe Extends LTBehaviorModel
-	Const Speed:Float = 2.0
+	Const Speed:Double = 2.0
 	
 	Field ExitSprite:TExit
 	
@@ -42,7 +42,7 @@ Type TEnteringVerticalPipe Extends LTBehaviorModel
 	Method Init( Shape:LTShape )
 		Shape.DeactivateAllModels()
 		Game.Level.Active = False
-		Shape.LimitByWindow( ExitSprite.X, ExitSprite.Y, ExitSprite.Width, ExitSprite.Height )
+		Shape.LimitByWindowShape( ExitSprite )
 		Game.Pipe.Play()
 		If Game.Mario.FindModel( "TBig" ) Then Game.Mario.Frame = TMario.Sitting
 	End Method
@@ -70,7 +70,7 @@ End Type
 
 
 Type TEnteringHorizontalPipe Extends LTBehaviorModel
-	Const Speed:Float = 1.0
+	Const Speed:Double = 1.0
 	
 	Field ExitSprite:TExit
 	

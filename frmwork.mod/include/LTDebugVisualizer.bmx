@@ -20,7 +20,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 		
 		ApplyColor()
 
-		Local SX1:Float, SY1:Float, SWidth:Float, SHeight:Float, Angle:Float
+		Local SX1:Double, SY1:Double, SWidth:Double, SHeight:Double, Angle:Double
 		L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX1, SY1 )
 		L_CurrentCamera.SizeFieldToScreen( Sprite.Width, Sprite.Height, SWidth, SHeight )
 		
@@ -36,7 +36,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 		End If
 		
 		If ShowVectors Then
-			Local Size:Float = Max( SWidth, SHeight )
+			Local Size:Double = Max( SWidth, SHeight )
 			Local AngularSprite:LTAngularSprite = LTAngularSprite( Sprite )
 			If AngularSprite Then
 				Angle = AngularSprite.Angle
@@ -50,10 +50,10 @@ Type LTDebugVisualizer Extends LTVisualizer
 			End If
 			
 			If Size Then
-				Local SX2:Float = SX1 + Cos( Angle ) * Size
-				Local SY2:Float = SY1 + Sin( Angle ) * Size
+				Local SX2:Double = SX1 + Cos( Angle ) * Size
+				Local SY2:Double = SY1 + Sin( Angle ) * Size
 				DrawLine( SX1, SY1, SX2, SY2 )
-				For Local D:Float = -135 To 135 Step 270
+				For Local D:Double = -135 To 135 Step 270
 					DrawLine( SX2, SY2, SX2 + 5.0 * Cos( Angle + D ), SY2 + 5.0 * Sin( Angle + D ) )
 				Next
 			End If
@@ -83,7 +83,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 	
 	
 	
-	Method DrawTile( TileMap:LTTileMap, X:Float, Y:Float, TileX:Int, TileY:Int )
+	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, TileX:Int, TileY:Int )
 		If Not ShowCollisionShapes Then Return
 		Local Shape:LTShape = LTShape( TileMap.GetTileCollisionShape( TileX, TileY ) )
 		If Not Shape Then Return
@@ -100,14 +100,14 @@ Type LTDebugVisualizer Extends LTVisualizer
 	
 	
 	
-	Method DrawCollisionSprite( TileMap:LTTileMap, X:Float, Y:Float, Sprite:LTSprite )
-		Local TileWidth:Float, TileHeight:Float
+	Method DrawCollisionSprite( TileMap:LTTileMap, X:Double, Y:Double, Sprite:LTSprite )
+		Local TileWidth:Double, TileHeight:Double
 		L_CurrentCamera.SizeFieldToScreen( TileMap.GetCellWidth(), TileMap.GetCellHeight(), TileWidth, TileHeight )
 		
-		Local ShapeX:Float = X + TileWidth * ( Sprite.X - 0.5 )
-		Local ShapeY:Float = Y + TileHeight * ( Sprite.Y - 0.5 )
-		Local ShapeWidth:Float = TileWidth * Sprite.Width
-		Local ShapeHeight:Float = TileHeight * Sprite.Height
+		Local ShapeX:Double = X + TileWidth * ( Sprite.X - 0.5 )
+		Local ShapeY:Double = Y + TileHeight * ( Sprite.Y - 0.5 )
+		Local ShapeWidth:Double = TileWidth * Sprite.Width
+		Local ShapeHeight:Double = TileHeight * Sprite.Height
 		Select Sprite.ShapeType
 			Case LTSprite.Pivot
 				DrawOval( ShapeX - 2, ShapeY - 2, 5, 5 )

@@ -12,10 +12,10 @@ Include "TCoin.bmx"
 Include "TBricks.bmx"
 
 Type TBlock Extends LTVectorSprite
-	Const Gravity:Float = 8.0
-	Const Impulse:Float = 1.5
+	Const Gravity:Double = 8.0
+	Const Impulse:Double = 1.5
 
-	Field LowestY:Float
+	Field LowestY:Double
 	Field TileX:Int, TileY:Int, TileNum:Int
 	
 	

@@ -10,8 +10,8 @@
 '
 
 Type TCreateSprite Extends LTDrag
-	Field StartX:Float
-	Field StartY:Float
+	Field StartX:Double
+	Field StartY:Double
 	Field Sprite:LTSprite
 	
 	
@@ -72,8 +72,8 @@ Type TCreateSprite Extends LTDrag
 	
 	
 	Method Dragging()
-		Local X:Float = Editor.Cursor.X
-		Local Y:Float = Editor.Cursor.Y
+		Local X:Double = Editor.Cursor.X
+		Local Y:Double = Editor.Cursor.Y
 		Editor.Grid.Snap( X, Y )
 		Sprite.X = 0.5 * ( X + StartX )
 		Sprite.Y = 0.5 * ( Y + StartY )

@@ -8,8 +8,8 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Const LeftSide:Float = -1
-Const RightSide:Float = 1
+Const LeftSide:Double = -1
+Const RightSide:Double = 1
 
 Type TWeapon Extends LTObject
   Method Logic()
@@ -36,15 +36,15 @@ Type TChaingun Extends TWeapon
   Field FireMin:LTSprite = New LTSprite
   Field FireMax:LTSprite = New LTSprite
   Field Fire:LTSprite = New LTSprite
-  Field BarrelAnim:Float
-  Field BarrelAnimAcc:Float
+  Field BarrelAnim:Double
+  Field BarrelAnimAcc:Double
   Field JointList:TList = New TList
   Field Bullets:TList = New TList
   Field LastShotTime:Int
   
   
   
-  Function Create:TChaingun( WeaponPosition:Float )
+  Function Create:TChaingun( WeaponPosition:Double )
     Local Chaingun:TChaingun = New TChaingun
     Chaingun.Position = WeaponPosition
 
@@ -131,7 +131,7 @@ Type TChaingun Extends TWeapon
       Bullet.Act()
     Next
     
-    BarrelAnim = L_WrapFloat( BarrelAnim + L_DeltaTime * BarrelAnimAcc, 16 )
+    BarrelAnim = L_WrapDouble( BarrelAnim + L_DeltaTime * BarrelAnimAcc, 16 )
     Barrel.Frame = Floor( BarrelAnim )
     Fire.PlaceBetweenSprites( FireMin, FireMax, ( Sin( BarrelAnim * 22.5 + 90 ) + 1.0 ) * 0.5 )
   End Method
@@ -153,8 +153,8 @@ End Type
 
 Type LTChaingunBullet Extends LTSprite
   Field CreatingTime:Int
-  Field FadingPeriod:Float
-  Field FlyingPeriod:Float
+  Field FadingPeriod:Double
+  Field FlyingPeriod:Double
   Field GameBulletListLink:TLink
   Field ChaingunBulletListLink:TLink
   
@@ -162,7 +162,7 @@ Type LTChaingunBullet Extends LTSprite
   
   Method Act()
     MoveForward()
-    Local Time:Float = 0.001 * ( MilliSecs() - CreatingTime )
+    Local Time:Double = 0.001 * ( MilliSecs() - CreatingTime )
     Frame = L_WrapInt2( Floor( 10.0 + 50.0 * Time ), 27, 87 )
     If Time > FlyingPeriod Then
       Time = Time - FlyingPeriod

@@ -10,15 +10,15 @@
 '
 
 Type TModifyShape Extends LTDrag
-	Field StartX:Float
-	Field StartY:Float
+	Field StartX:Double
+	Field StartY:Double
 	Field Shape:LTShape
 	Field ModifierType:Int
 	Field MDX:Int, MDY:Int
-	Field LeftSide:Float, RightSide:Float
-	Field TopSide:Float, BottomSide:Float
-	Field NewLeftSide:Float, NewRightSide:Float
-	Field NewTopSide:Float, NewBottomSide:Float
+	Field LeftSide:Double, RightSide:Double
+	Field TopSide:Double, BottomSide:Double
+	Field NewLeftSide:Double, NewRightSide:Double
+	Field NewTopSide:Double, NewBottomSide:Double
 	
 	
 	
@@ -63,7 +63,7 @@ Type TModifyShape Extends LTDrag
 	
 	
 	Method Dragging()
-		Local X:Float, Y:Float, DX:Float, DY:Float
+		Local X:Double, Y:Double, DX:Double, DY:Double
 		L_CurrentCamera.ScreenToField( MouseX(), MouseY(), X, Y )
 		
 		DX = X - StartX
@@ -111,7 +111,7 @@ Type TModifyShape Extends LTDrag
 	
 	
 	
-	Method HorizontalResize( DX:Float )
+	Method HorizontalResize( DX:Double )
 		If MDX < 0 Then
 			NewLeftSide = Editor.Grid.SnapX( LeftSide + DX )
 			If NewLeftSide > NewRightSide Then NewLeftSide = NewRightSide
@@ -123,7 +123,7 @@ Type TModifyShape Extends LTDrag
 	
 	
 	
-	Method VerticalResize( DY:Float )
+	Method VerticalResize( DY:Double )
 		If MDY < 0 Then
 			NewTopSide = Editor.Grid.SnapY( TopSide + DY )
 			If NewTopSide > NewBottomSide Then NewTopSide = NewBottomSide

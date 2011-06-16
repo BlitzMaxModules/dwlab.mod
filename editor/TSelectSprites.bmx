@@ -10,7 +10,7 @@
 '
 
 Type TSelectSprites Extends LTDrag
-	Field StartX:Float, StartY:Float
+	Field StartX:Double, StartY:Double
 	Field Frame:LTSprite
 
 

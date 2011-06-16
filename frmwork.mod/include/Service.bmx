@@ -25,7 +25,7 @@ End Function
 
 
 
-Function L_DrawEmptyRect( X1:Float, Y1:Float, X2:Float, Y2:Float )
+Function L_DrawEmptyRect( X1:Double, Y1:Double, X2:Double, Y2:Double )
 	DrawLine( X1, Y1, X2, Y1 )
 	DrawLine( X1, Y1, X1, Y2 )
 	DrawLine( X2, Y1, X2, Y2 )
@@ -46,7 +46,7 @@ End Function
 
 
 	
-Function L_TrimFloat:String ( Val:Float )
+Function L_TrimDouble:String ( Val:Double )
 	Local StrVal:String = Val + "0000"
 	Local N:Int = StrVal.Find( "." ) + 5
 	'If N < 3 then N = Len( StrVal )
@@ -91,7 +91,7 @@ End Function
 
 
 
-Function L_LimitFloat:Float( Value:Float, FromValue:Float, ToValue:Float )
+Function L_LimitDouble:Double( Value:Double, FromValue:Double, ToValue:Double )
 	?debug
 	 If FromValue > ToValue Then L_Error( "FromValue must be less than ToValue" )
 	?
@@ -151,7 +151,7 @@ End Function
 
 
 
-Function L_WrapFloat:Float( Value:Float, Size:Float )
+Function L_WrapDouble:Double( Value:Double, Size:Double )
 	Return Value - Size * Floor( Value / Size )
 End Function
 
@@ -172,7 +172,7 @@ End Function
 	
 
 
-Function L_ClearPixmap( Pixmap:TPixmap, Red:Float = 0.0, Green:Float = 0.0, Blue:Float = 0.0, Alpha:Float = 1.0 )
+Function L_ClearPixmap( Pixmap:TPixmap, Red:Double = 0.0, Green:Double = 0.0, Blue:Double = 0.0, Alpha:Double = 1.0 )
 	Local Col:Int = Int( 255.0 * Red ) + Int( 255.0 * Green ) Shl 8 + Int( 255.0 * Blue ) Shl 16 + Int( 255.0 * Alpha ) Shl 16
 	Pixmap.ClearPixels( Col )
 End Function
@@ -181,14 +181,14 @@ End Function
 
 
 
-Function L_Round:Float( Value:Float )
+Function L_Round:Double( Value:Double )
 	Return Int( Value + 0.5 * Sgn( Value ) )
 End Function
 
 
 
 
-Function L_Distance:Float( DX:Float, DY:Float )
+Function L_Distance:Double( DX:Double, DY:Double )
 	Return Sqr( DX * DX + DY * DY )
 End Function
 

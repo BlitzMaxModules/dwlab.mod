@@ -90,13 +90,13 @@ End Type
 
 
 Type TGlobalMapEvent Extends LTSprite
-  Field Probability:Float
+  Field Probability:Double
   Field Caption:String
   
   
   
   Method DrawInfo( Pivot:LTSprite )
-    Shared.Font.Print( Caption + " ( " + L_TrimFloat( Probability * 100.0 ) + "% )", Pivot.X + 5, Pivot.Y, L_AlignToRight, L_AlignToCenter )
+    Shared.Font.Print( Caption + " ( " + L_TrimDouble( Probability * 100.0 ) + "% )", Pivot.X + 5, Pivot.Y, L_AlignToRight, L_AlignToCenter )
   End Method
   
   
@@ -108,7 +108,7 @@ Type TGlobalMapEvent Extends LTSprite
   
   Method XMLIO( XMLObject:LTXMLObject )
     Super.XMLIO( XMLObject )
-    XMLObject.ManageFloatAttribute( "probability", Probability )
+    XMLObject.ManageDoubleAttribute( "probability", Probability )
     XMLObject.ManageStringAttribute( "caption", Caption )
   End Method
 End Type

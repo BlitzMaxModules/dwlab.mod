@@ -9,15 +9,15 @@
 '
 	
 Type LTAngularSprite Extends LTSprite
-	Field Angle:Float
-	Field Velocity:Float
+	Field Angle:Double
+	Field Velocity:Double
 	
 	' ==================== Position ====================
 	
 	Method MoveTowards( Shape:LTShape )
-		Local Angle:Float = DirectionTo( Shape )
-		Local DX:Float = Cos( Angle ) * Velocity * L_DeltaTime
-		Local DY:Float = Sin( Angle ) * Velocity * L_DeltaTime
+		Local Angle:Double = DirectionTo( Shape )
+		Local DX:Double = Cos( Angle ) * Velocity * L_DeltaTime
+		Local DY:Double = Sin( Angle ) * Velocity * L_DeltaTime
 		If Abs( DX ) >= Abs( X - Shape.X ) And Abs( DY ) >= Abs( Y - Shape.Y ) Then
 			SetCoords( Shape.X, Shape.Y )
 		Else
@@ -46,8 +46,8 @@ Type LTAngularSprite Extends LTSprite
 	
 	
 	Method MoveUsingKeys( KUp:Int, KDown:Int, KLeft:Int, KRight:Int )
-		Local DX:Float = KeyDown( KRight ) - KeyDown( KLeft )
-		Local DY:Float = KeyDown( KDown ) - KeyDown( KUp )
+		Local DX:Double = KeyDown( KRight ) - KeyDown( KLeft )
+		Local DY:Double = KeyDown( KDown ) - KeyDown( KUp )
 		If DX * DY Then
 			DX :/ Sqr( 2 )
 			DY :/ Sqr( 2 )
@@ -63,7 +63,7 @@ Type LTAngularSprite Extends LTSprite
 	
 	
 	
-	Method Turn( TurningSpeed:Float )
+	Method Turn( TurningSpeed:Double )
 		Angle :+ L_DeltaTime * TurningSpeed
 	End Method
 	
@@ -100,7 +100,7 @@ Type LTAngularSprite Extends LTSprite
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
-		XMLObject.ManageFloatAttribute( "angle", Angle )
-		XMLObject.ManageFloatAttribute( "velocity", Velocity )
+		XMLObject.ManageDoubleAttribute( "angle", Angle )
+		XMLObject.ManageDoubleAttribute( "velocity", Velocity )
 	End Method
 End Type

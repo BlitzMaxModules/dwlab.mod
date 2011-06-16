@@ -82,17 +82,17 @@ Type LTXMLObject Extends LTObject
 	
 	
 	
-	Method ManageFloatAttribute( AttrName:String, AttrVariable:Float Var, DefaultValue:Float = 0 )
+	Method ManageDoubleAttribute( AttrName:String, AttrVariable:Double Var, DefaultValue:Double = 0 )
 		If L_XMLMode = L_XMLGet Then
 			For Local Attr:LTXMLAttribute = EachIn Attributes
 				If Attr.Name = AttrName Then
-					AttrVariable = Attr.Value.ToFloat()
+					AttrVariable = Attr.Value.ToDouble()
 					Return
 				End If
 			Next
 			AttrVariable = DefaultValue
 		ElseIf AttrVariable <> DefaultValue Then
-			SetAttribute( AttrName, String( L_TrimFloat( AttrVariable ) ) )
+			SetAttribute( AttrName, String( L_TrimDouble( AttrVariable ) ) )
 		End If
 	End Method
 	

@@ -14,9 +14,9 @@ Function PrintImageToCanvas:Int( Image:TImage, Canvas:TGadget, XCells:Int = 0, Y
 	Cls
 	
 	If Image Then
-		Local Modifier:Float = Min( 1.0 * GraphicsWidth() / ImageWidth( Image ), 1.0 * GraphicsWidth() / ImageHeight( Image ) )
-		Local Width:Float = Modifier * ImageWidth( Image )
-		Local Height:Float = Modifier * ImageHeight( Image )
+		Local Modifier:Double = Min( 1.0 * GraphicsWidth() / ImageWidth( Image ), 1.0 * GraphicsWidth() / ImageHeight( Image ) )
+		Local Width:Double = Modifier * ImageWidth( Image )
+		Local Height:Double = Modifier * ImageHeight( Image )
 		Local DX:Int = 0.5 * ( GraphicsWidth() - Width )
 		Local DY:Int = 0.5 * ( GraphicsHeight() - Height )
 		

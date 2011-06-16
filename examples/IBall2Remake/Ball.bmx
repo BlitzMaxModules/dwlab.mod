@@ -9,7 +9,7 @@
 '
 
 Type TGameSprite Extends LTSprite
-  Field FadingStartTime:Float
+  Field FadingStartTime:Double
   
   
   
@@ -24,7 +24,7 @@ Type TGameSprite Extends LTSprite
   
   
   Method Fading()
-    Local FadingTime:Float = 1.0 + FadingStartTime - Game.ProjectTime
+    Local FadingTime:Double = 1.0 + FadingStartTime - Game.ProjectTime
     If FadingTime >= 0.0 Then
       Visualizer.Alpha = FadingTime
     Else
@@ -38,18 +38,18 @@ End Type
 
 
 Type TBall Extends TGameSprite
-  Field LastShotTime:Float
-  Field ShotRate:Float = 0.5
+  Field LastShotTime:Double
+  Field ShotRate:Double = 0.5
   
   
   
-  Const Acceleration:Float = 20.0
-  Const AccelerationLimit:Float = 4.0
-  Const Gravity:Float = 10.0
-  Const JumpingPower:Float = -9.2
-  Const HorizontalBounce:Float = 0.6
-  Const VerticalBounce:Float = 0.3
-  Const BulletSpeed:Float = 8.0
+  Const Acceleration:Double = 20.0
+  Const AccelerationLimit:Double = 4.0
+  Const Gravity:Double = 10.0
+  Const JumpingPower:Double = -9.2
+  Const HorizontalBounce:Double = 0.6
+  Const VerticalBounce:Double = 0.3
+  Const BulletSpeed:Double = 8.0
   
   
   
@@ -59,7 +59,7 @@ Type TBall Extends TGameSprite
   
   
   
-  Method Bounce( DX:Float, DY:Float )
+  Method Bounce( DX:Double, DY:Double )
     If DY > Abs( DX ) Then
       SetDY( -GetDY() * VerticalBounce )
       If KeyDown( Key_Up ) Then SetDY( JumpingPower )
@@ -84,7 +84,7 @@ Type TBall Extends TGameSprite
     End If
     
     If KeyDown( Key_Space ) And LastShotTime + ShotRate < Game.ProjectTime Then
-      Local Direction:Float = Visualizer.XScale
+      Local Direction:Double = Visualizer.XScale
       
       LastShotTime = Game.ProjectTime
       Local Bullet:TBullet = New TBullet
@@ -102,7 +102,7 @@ Type TBall Extends TGameSprite
       Game.Bullets.AddLast( Bullet )
     End If
     
-    SetDX( L_LimitFloat( GetDX(), -5.0, 5.0 ) )
+    SetDX( L_LimitDouble( GetDX(), -5.0, 5.0 ) )
     AlterDY( L_DeltaTime * Gravity )
     
     'debugstop

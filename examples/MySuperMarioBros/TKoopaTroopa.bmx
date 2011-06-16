@@ -11,7 +11,7 @@
 Type TKoopaTroopa Extends TEnemy
 	Const Shell:Int = 2
 	
-	Const ShellSpeed:Float = 15.0
+	Const ShellSpeed:Double = 15.0
 	
 	
 	Method Init()

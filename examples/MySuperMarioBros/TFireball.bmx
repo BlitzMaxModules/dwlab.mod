@@ -9,8 +9,8 @@
 '
 
 Type TFireball Extends LTVectorSprite
-	Const MovingSpeed:Float = 10.0
-	Const Size:Float = 0.4
+	Const MovingSpeed:Double = 10.0
+	Const Size:Double = 0.4
 	
 	
 	
@@ -34,8 +34,8 @@ End Type
 
 
 Type TFlying Extends LTBehaviorModel
-	Const RotatingSpeed:Float = 8.0 * 360.0
-	Const JumpStrength:Float = 8.0
+	Const RotatingSpeed:Double = 8.0 * 360.0
+	Const JumpStrength:Double = 8.0
 	
 	
 	
@@ -74,9 +74,9 @@ End Type
 
 
 Type TExploding Extends LTBehaviorModel
-	Const ExplosionSpeed:Float = 0.1
+	Const ExplosionSpeed:Double = 0.1
 	
-	Field StartingTime:Float
+	Field StartingTime:Double
 	
 	
 

@@ -10,8 +10,8 @@
 '
 
 Type TPan Extends LTDrag
-	Field CursorX:Float
-	Field CursorY:Float
+	Field CursorX:Double
+	Field CursorY:Double
 	Field Camera:LTCamera
 	
 	

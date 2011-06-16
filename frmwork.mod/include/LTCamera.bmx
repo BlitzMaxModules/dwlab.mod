@@ -9,52 +9,52 @@
 '
 
 Global L_CurrentCamera:LTCamera
-Global L_CameraSpeed:Float = 2.0
-Global L_CameraMagnificationSpeed:Float = 2.0
+Global L_CameraSpeed:Double = 2.0
+Global L_CameraMagnificationSpeed:Double = 2.0
 
 Type LTCamera Extends LTSprite
 	Field Viewport:LTShape = New LTShape
-	Field XK:Float = 1.0, YK:Float = 1.0
-	Field DX:Float, DY:Float
+	Field XK:Double = 1.0, YK:Double = 1.0
+	Field DX:Double, DY:Double
 	Field ViewportClipping:Int = 1
 	
 	
 	
-	Method ScreenToField( ScreenX:Float, ScreenY:Float, FieldX:Float Var, FieldY:Float Var )
+	Method ScreenToField( ScreenX:Double, ScreenY:Double, FieldX:Double Var, FieldY:Double Var )
 		FieldX = ScreenX / XK - DX
 		FieldY = ScreenY / YK - DY
 	End Method
 
 	
 	
-	Method SizeScreenToField( ScreenWidth:Float, ScreenHeight:Float, FieldWidth:Float Var, FieldHeight:Float Var )
+	Method SizeScreenToField( ScreenWidth:Double, ScreenHeight:Double, FieldWidth:Double Var, FieldHeight:Double Var )
 		FieldWidth = ScreenWidth / XK
 		FieldHeight = ScreenHeight / YK
 	End Method
 
 	
 	
-	Method DistScreenToField:Float( ScreenDist:Float )
+	Method DistScreenToField:Double( ScreenDist:Double )
 		Return ScreenDist / XK
 	End Method
 	
 	
 	
-	Method FieldToScreen( FieldX:Float, FieldY:Float, ScreenX:Float Var, ScreenY:Float Var )
+	Method FieldToScreen( FieldX:Double, FieldY:Double, ScreenX:Double Var, ScreenY:Double Var )
 		ScreenX = ( FieldX + DX ) * XK
 		ScreenY = ( FieldY + DY ) * YK
 	End Method
 
 	
 	
-	Method SizeFieldToScreen( FieldWidth:Float, FieldHeight:Float, ScreenWidth:Float Var, ScreenHeight:Float Var )
+	Method SizeFieldToScreen( FieldWidth:Double, FieldHeight:Double, ScreenWidth:Double Var, ScreenHeight:Double Var )
 		ScreenWidth = FieldWidth * XK
 		ScreenHeight = FieldHeight * YK
 	End Method
 
 	
 	
-	Method DistFieldToScreen:Float( ScreenDist:Float )
+	Method DistFieldToScreen:Double( ScreenDist:Double )
 		Return ScreenDist * XK
 	End Method
 	
@@ -74,7 +74,7 @@ Type LTCamera Extends LTSprite
 	
 	
 	
-	Method SetMagnification( NewXK:Float, NewYK:Float )
+	Method SetMagnification( NewXK:Double, NewYK:Double )
 		XK = NewXK
 		YK = NewYK
 		Width = Viewport.Width / XK
@@ -83,7 +83,7 @@ Type LTCamera Extends LTSprite
 	
 	
 	
-	Method ShiftCameraToPoint( NewX:Float, NewY:Float )
+	Method ShiftCameraToPoint( NewX:Double, NewY:Double )
 		X :+ L_CameraSpeed * L_DeltaTime * ( NewX - X )
 		Y :+ L_CameraSpeed * L_DeltaTime * ( NewY - Y )
 		Update()
@@ -91,7 +91,7 @@ Type LTCamera Extends LTSprite
 	
 	
 	
-	Method AlterCameraMagnification( NewXK:Float, NewYK:Float )
+	Method AlterCameraMagnification( NewXK:Double, NewYK:Double )
 		SetMagnification( XK + L_CameraMagnificationSpeed * L_DeltaTime * ( NewXK - XK ), ..
 		 YK + L_CameraMagnificationSpeed * L_DeltaTime * ( NewYK - YK ) )
 	End Method
@@ -107,7 +107,7 @@ Type LTCamera Extends LTSprite
 	
 	
 	
-	Function Create:LTCamera( Width:Float, Height:Float, UnitSize:Float )
+	Function Create:LTCamera( Width:Double, Height:Double, UnitSize:Double )
 		Local Camera:LTCamera = New LTCamera
 		Camera.Width = Width / UnitSize
 		Camera.Height = Height / UnitSize
@@ -123,7 +123,7 @@ End Type
 
 
 
-Function InitGraphics( Width:Int = 800, Height:Int = 600, UnitSize:Float = 32.0 )
+Function InitGraphics( Width:Int = 800, Height:Int = 600, UnitSize:Double = 32.0 )
 	Graphics( Width, Height )
 	L_CurrentCamera = LTCamera.Create( Width, Height, UnitSize )
 	SetGraphicsParameters()

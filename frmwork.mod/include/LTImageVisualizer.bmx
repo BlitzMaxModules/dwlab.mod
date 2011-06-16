@@ -47,7 +47,7 @@ Type LTImageVisualizer Extends LTVisualizer
 		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
 		SetAlpha Alpha
 	
-		Local SX:Float, SY:Float, SWidth:Float, SHeight:Float
+		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
 		L_CurrentCamera.FieldToScreen( Sprite.X + DX, Sprite.Y + DY, SX, SY )
 		
 		Local AngularSprite:LTAngularSprite = LTAngularSprite( Sprite )
@@ -87,7 +87,7 @@ Type LTImageVisualizer Extends LTVisualizer
 		Super.XMLIO( XMLObject )
 		
 		Image = LTImage( XMLObject.ManageObjectField( "image", Image ) )
-		XMLObject.ManageFloatAttribute( "angle", Angle )
+		XMLObject.ManageDoubleAttribute( "angle", Angle )
 		XMLObject.ManageIntAttribute( "rotating", Rotating, 1 )
 	End Method
 End Type

@@ -26,8 +26,8 @@ Type TGame Extends LTProject
   Field GameCamera:LTCamera = New LTCamera
   Field SidebarCamera:LTCamera = New LTCamera
   Field Sidebar:LTSprite = New LTSprite
-  Field LevelStartTime:Float
-  Field LevelTime:Float
+  Field LevelStartTime:Double
+  Field LevelTime:Double
   Field LevelNum:Int
   Field GeneratorImage:LTImage
   
@@ -36,7 +36,7 @@ Type TGame Extends LTProject
   Method Init()
     L_IncludedObjects.Insert( "FlashingVisualizer", FlashingVisualizer )
     
-    Local TileSize:Float = GraphicsWidth() / 16
+    Local TileSize:Double = GraphicsWidth() / 16
     
     GameCamera.SetCoords( 6.0, 5.5 )
     GameCamera.SetSize( 13.0, 12.0 )
@@ -86,7 +86,7 @@ Type TGame Extends LTProject
     BulletImage = LTImage.FromFile( "media\bullet.png" )
     L_IncludedObjects.Insert( "BulletImage", BulletImage )
         
-    Local Scale:Float = 1.0 * GraphicsWidth() / 256.0
+    Local Scale:Double = 1.0 * GraphicsWidth() / 256.0
     ScoreFont = LTFont.FromFile( "media\score.png", Asc( "0" ), Asc( "9" ), 10 )
     ScoreFont.SetFontScale( Scale, Scale )
     NumbersFont = LTFont.FromFile( "media\numbers.png", Asc( "0" ), Asc( "9" ), 10 )

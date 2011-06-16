@@ -51,7 +51,7 @@ Type LTGame Extends LTProject
   
   Field FrameMap:LTIntMap = New LTIntMap
   Field TileSet:LTTileSet = New LTTileSet
-  Field HeightMap:LTFloatMap = New LTFloatMap
+  Field HeightMap:LTDoubleMap = New LTDoubleMap
   Field TileMap:LTTileMap = New LTTileMap
   Field TileMapVisualizer:LTImageVisualizer
 
@@ -136,12 +136,12 @@ Type LTGame Extends LTProject
     
     If MouseZ() + DZ > MaxMouseZ Then DZ = MaxMouseZ - MouseZ()
     If MouseZ() + DZ < MinMouseZ Then DZ = MinMouseZ - MouseZ()
-    Local NewD:Float = L_ScreenWidth / 16 * ( 1.1 ^ ( MouseZ() + DZ ) )
+    Local NewD:Double = L_ScreenWidth / 16 * ( 1.1 ^ ( MouseZ() + DZ ) )
     L_CurrentCamera.AlterCameraMagnification( NewD, NewD )
     
     Target.SetMouseCoords()
     If Player.DistanceToSprite( Target ) < 1.0 Then 
-      Local Angle:Float = Player.DirectionToSprite( Target )
+      Local Angle:Double = Player.DirectionToSprite( Target )
       Target.X = Player.X + 1.0 * Cos( Angle )
       Target.Y = Player.Y + 1.0 * Sin( Angle )
     End If

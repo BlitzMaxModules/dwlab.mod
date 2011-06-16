@@ -9,8 +9,8 @@
 '
 
 Type TMovePivot Extends LTDrag
-  Field DX:Float
-  Field DY:Float
+  Field DX:Double
+  Field DY:Double
   Field Pivot:LTSprite
   Field MoveSprite:LTMoveSprite
   

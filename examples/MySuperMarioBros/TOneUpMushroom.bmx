@@ -9,7 +9,7 @@
 '
 
 Type TOneUpMushroom Extends TBonus
-	Const Speed:Float = 2.0
+	Const Speed:Double = 2.0
 	
 	
 	

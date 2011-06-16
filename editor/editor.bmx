@@ -395,8 +395,8 @@ Type LTEditor Extends LTProject
 				
 				SetLanguage( ReadLine( IniFile ).ToInt() )
 				
-				Grid.CellWidth = ReadLine( IniFile ).ToFloat()
-				Grid.CellHeight = ReadLine( IniFile ).ToFloat()
+				Grid.CellWidth = ReadLine( IniFile ).ToDouble()
+				Grid.CellHeight = ReadLine( IniFile ).ToDouble()
 				Grid.CellXDiv = ReadLine( IniFile ).ToInt()
 				Grid.CellYDiv = ReadLine( IniFile ).ToInt()
 				L_DebugVisualizer.Red = ReadLine( IniFile ).ToInt()
@@ -874,35 +874,35 @@ Type LTEditor Extends LTProject
 						Case HiddenOKButton
 							Select ActiveGadget()
 								Case XField
-									Shape.X = TextFieldText( XField ).ToFloat()
+									Shape.X = TextFieldText( XField ).ToDouble()
 									SetShapeModifiers( Shape )
 									SetChanged()
 								Case YField
-									Shape.Y = TextFieldText( YField ).ToFloat()
+									Shape.Y = TextFieldText( YField ).ToDouble()
 									SetShapeModifiers( Shape )
 									SetChanged()
 								Case WidthField
-									Shape.Width = TextFieldText( WidthField ).ToFloat()
+									Shape.Width = TextFieldText( WidthField ).ToDouble()
 									SetShapeModifiers( Shape )
 									SetChanged()
 								Case HeightField
-									Shape.Height = TextFieldText( HeightField ).ToFloat()
+									Shape.Height = TextFieldText( HeightField ).ToDouble()
 									SetShapeModifiers( Shape )
 									SetChanged()
 								Case RedField
-									Shape.Visualizer.Red = TextFieldText( RedField ).ToFloat()
+									Shape.Visualizer.Red = TextFieldText( RedField ).ToDouble()
 									SetSliderValue( RedSlider, 0.01 * Shape.Visualizer.Red )
 									SetChanged()
 								Case GreenField
-									Shape.Visualizer.Green = TextFieldText( GreenField ).ToFloat()
+									Shape.Visualizer.Green = TextFieldText( GreenField ).ToDouble()
 									SetSliderValue( GreenSlider, 0.01 * Shape.Visualizer.Green )
 									SetChanged()
 								Case BlueField
-									Shape.Visualizer.Blue = TextFieldText( BlueField ).ToFloat()
+									Shape.Visualizer.Blue = TextFieldText( BlueField ).ToDouble()
 									SetSliderValue( BlueSlider, 0.01 * Shape.Visualizer.Blue )
 									SetChanged()
 								Case AlphaField
-									Shape.Visualizer.Alpha = TextFieldText( AlphaField ).ToFloat()
+									Shape.Visualizer.Alpha = TextFieldText( AlphaField ).ToDouble()
 									SetSliderValue( AlphaSlider, 0.01 * Shape.Visualizer.Alpha )
 									SetChanged()
 							End Select
@@ -932,38 +932,38 @@ Type LTEditor Extends LTProject
 								Case DXField
 									Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite )
 									If VectorSprite Then
-										VectorSprite.DX = TextFieldText( DXField ).ToFloat()
+										VectorSprite.DX = TextFieldText( DXField ).ToDouble()
 										SetChanged()
 									End If
 								Case DYField
 									Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite )
 									If VectorSprite Then
-										VectorSprite.DY = TextFieldText( DYField ).ToFloat()
+										VectorSprite.DY = TextFieldText( DYField ).ToDouble()
 										SetChanged()
 									End If
 								Case AngleField
 									Local AngularSprite:LTAngularSprite = LTAngularSprite( Sprite )
 									If AngularSprite Then
-										AngularSprite.Angle = TextFieldText( AngleField ).ToFloat()
+										AngularSprite.Angle = TextFieldText( AngleField ).ToDouble()
 										SetChanged()
 									End If
 								Case VelocityField
 									Local AngularSprite:LTAngularSprite = LTAngularSprite( Sprite )
 									If AngularSprite Then
-										AngularSprite.Velocity = TextFieldText( VelocityField ).ToFloat()
+										AngularSprite.Velocity = TextFieldText( VelocityField ).ToDouble()
 										SetChanged()
 									End If
 								Case VisDXField
-									Sprite.Visualizer.DX = TextFieldText( VisDXField ).ToFloat()
+									Sprite.Visualizer.DX = TextFieldText( VisDXField ).ToDouble()
 									SetChanged()
 								Case VisDYField
-									Sprite.Visualizer.DY = TextFieldText( VisDYField ).ToFloat()
+									Sprite.Visualizer.DY = TextFieldText( VisDYField ).ToDouble()
 									SetChanged()
 								Case XScaleField
-									Sprite.Visualizer.XScale = TextFieldText( XScaleField ).ToFloat()
+									Sprite.Visualizer.XScale = TextFieldText( XScaleField ).ToDouble()
 									SetChanged()
 								Case YScaleField
-									Sprite.Visualizer.YScale = TextFieldText( YScaleField ).ToFloat()
+									Sprite.Visualizer.YScale = TextFieldText( YScaleField ).ToDouble()
 									SetChanged()
 								Case FrameField
 									Local Image:LTImage = Sprite.Visualizer.GetImage()
@@ -973,7 +973,7 @@ Type LTEditor Extends LTProject
 										SetChanged()
 									End If
 								Case ImgAngleField
-									Sprite.Visualizer.Angle = TextFieldText( ImgAngleField ).ToFloat()
+									Sprite.Visualizer.Angle = TextFieldText( ImgAngleField ).ToDouble()
 									SetChanged()
 							End Select
 						Case ScalingCheckbox
@@ -1031,7 +1031,7 @@ Type LTEditor Extends LTProject
 		
 		SelectedModifier = Null
 		For Local Modifier:LTSprite = Eachin Modifiers
-			Local MX:Float, MY:Float
+			Local MX:Double, MY:Double
 			MainCamera.FieldToScreen( Modifier.X, Modifier.Y, MX, MY )
 			If MouseX() >= MX - 8 And MouseX() <= MX + 8 And MouseY() >= MY - 8 And MouseY() <= MY + 8 Then
 				SelectedModifier = Modifier
@@ -1040,7 +1040,7 @@ Type LTEditor Extends LTProject
 		Next
 		
 		If CurrentTilemap Then
-			Local MX:Float, MY:Float
+			Local MX:Double, MY:Double
 			MainCamera.ScreenToField( MouseX(), MouseY(), MX, MY )
 			Local MinX:Int = 0
 			Local MinY:Int = 0
@@ -1054,11 +1054,11 @@ Type LTEditor Extends LTProject
 					MinX = -TileSet.BlockWidth[ TileNum0 ]
 					MinY = -TileSet.BlockHeight[ TileNum0 ]
 				
-					Local FWidth:Float, FHeight:Float
+					Local FWidth:Double, FHeight:Double
 					TilesetCamera.SizeScreenToField( GadgetWidth( TilesetCanvas ), 0, FWidth, FHeight )
 					
 					If MouseIsOver = TilesetCanvas Then
-						Local FX:Float, FY:Float
+						Local FX:Double, FY:Double
 						TilesetCamera.ScreenToField( MouseX(), MouseY(), FX, FY )
 						Local IFX:Int = Floor( FX )
 						Local IFY:Int = Floor( FY )
@@ -1097,7 +1097,7 @@ Type LTEditor Extends LTProject
 			SetTile.Execute()
 		Else
 			ShapeUnderCursor = Null
-			Local Size:Float = MainCamera.DistScreenToField( 8.0 )
+			Local Size:Double = MainCamera.DistScreenToField( 8.0 )
 			Cursor.SetSize( Size, Size )
 			For Local Sprite:LTSprite = Eachin CurrentLayer.Children
 				If Cursor.CollidesWithSprite( Sprite ) Then ShapeUnderCursor = Sprite
@@ -1120,7 +1120,7 @@ Type LTEditor Extends LTProject
 	
 	
 	Method SetCameraMagnification( Camera:LTCamera, Canvas:TGadget, Z:Int, Width:Int )
-		Local NewD:Float = 1.0 * GadgetWidth( Canvas ) / Width * ( 1.1 ^ Z )
+		Local NewD:Double = 1.0 * GadgetWidth( Canvas ) / Width * ( 1.1 ^ Z )
 		Camera.SetMagnification( NewD, NewD )
 	End Method
 	
@@ -1140,12 +1140,12 @@ Type LTEditor Extends LTProject
 			If TileSet Then
 				Local Image:LTImage = TileSet.Image
 				If Image Then
-					Local TileWidth:Float, TileHeight:Float
+					Local TileWidth:Double, TileHeight:Double
 					TilesetCamera.SizeFieldToScreen( 1.0, 1.0, TileWidth, TileHeight )
 					SetScale( TileWidth / ImageWidth( Image.BMaxImage ), TileHeight / ImageHeight( Image.BMaxImage ) )
 					'debugstop
 					For Local Frame:Int = 0 Until Image.FramesQuantity()
-						Local SX:Float, SY:Float
+						Local SX:Double, SY:Double
 						TilesetCamera.FieldToScreen( 0.5 + Frame Mod Image.XCells, 0.5 + Floor( Frame / Image.XCells ), SX, SY )
 						DrawImage( Image.BMaxImage, SX, SY, Frame )
 					Next
@@ -1201,7 +1201,7 @@ Type LTEditor Extends LTProject
 			If Not ModifyShape.DraggingState And Not CreateSprite.DraggingState Then
 				SetAlpha( 0.75 )
 				For Local Modifier:LTSprite = Eachin Modifiers
-					Local X:Float, Y:Float
+					Local X:Double, Y:Double
 					L_CurrentCamera.FieldToScreen( Modifier.X, Modifier.Y, X, Y )
 					DrawImage( ModifiersImage, X, Y, Modifier.Frame )
 				Next
@@ -1250,14 +1250,14 @@ Type LTEditor Extends LTProject
 	Method FillShapeFields()
 		If Not CurrentShape Then Return
 	
-		SetGadgetText( XField, L_TrimFloat( CurrentShape.X ) )
-		SetGadgetText( YField ,L_TrimFloat( CurrentShape.Y ) )
-		SetGadgetText( WidthField, L_TrimFloat( CurrentShape.Width ) )
-		SetGadgetText( HeightField, L_TrimFloat( CurrentShape.Height ) )
-		SetGadgetText( RedField, L_TrimFloat( CurrentShape.Visualizer.Red ) )
-		SetGadgetText( GreenField, L_TrimFloat( CurrentShape.Visualizer.Green ) )
-		SetGadgetText( BlueField, L_TrimFloat( CurrentShape.Visualizer.Blue ) )
-		SetGadgetText( AlphaField, L_TrimFloat( CurrentShape.Visualizer.Alpha ) )
+		SetGadgetText( XField, L_TrimDouble( CurrentShape.X ) )
+		SetGadgetText( YField ,L_TrimDouble( CurrentShape.Y ) )
+		SetGadgetText( WidthField, L_TrimDouble( CurrentShape.Width ) )
+		SetGadgetText( HeightField, L_TrimDouble( CurrentShape.Height ) )
+		SetGadgetText( RedField, L_TrimDouble( CurrentShape.Visualizer.Red ) )
+		SetGadgetText( GreenField, L_TrimDouble( CurrentShape.Visualizer.Green ) )
+		SetGadgetText( BlueField, L_TrimDouble( CurrentShape.Visualizer.Blue ) )
+		SetGadgetText( AlphaField, L_TrimDouble( CurrentShape.Visualizer.Alpha ) )
 		
 		SetSliderValue( RedSlider, 100.0 * CurrentShape.Visualizer.Red )
 		SetSliderValue( GreenSlider, 100.0 * CurrentShape.Visualizer.Green )
@@ -1270,11 +1270,11 @@ Type LTEditor Extends LTProject
 		If Not CurrentSprite Then Return
 		
 		SetGadgetText( FrameField, CurrentSprite.Frame )
-		SetGadgetText( VisDXField, L_TrimFloat( CurrentSprite.Visualizer.DX ) )
-		SetGadgetText( VisDYField, L_TrimFloat( CurrentSprite.Visualizer.DY ) )
-		SetGadgetText( XScaleField, L_TrimFloat( CurrentSprite.Visualizer.XScale ) )
-		SetGadgetText( YScaleField, L_TrimFloat( CurrentSprite.Visualizer.YScale ) )
-		SetGadgetText( ImgAngleField, L_TrimFloat( LTImageVisualizer( CurrentSprite.Visualizer ).Angle ) )
+		SetGadgetText( VisDXField, L_TrimDouble( CurrentSprite.Visualizer.DX ) )
+		SetGadgetText( VisDYField, L_TrimDouble( CurrentSprite.Visualizer.DY ) )
+		SetGadgetText( XScaleField, L_TrimDouble( CurrentSprite.Visualizer.XScale ) )
+		SetGadgetText( YScaleField, L_TrimDouble( CurrentSprite.Visualizer.YScale ) )
+		SetGadgetText( ImgAngleField, L_TrimDouble( LTImageVisualizer( CurrentSprite.Visualizer ).Angle ) )
 		
 		SetButtonState( RotatingCheckbox, LTImageVisualizer( CurrentSprite.Visualizer ).Rotating )
 		SetButtonState( ScalingCheckbox, CurrentSprite.Visualizer.Scaling )
@@ -1284,14 +1284,14 @@ Type LTEditor Extends LTProject
 		
 		Local CurrentAngularSprite:LTAngularSprite = LTAngularSprite( CurrentShape )
 		If CurrentAngularSprite Then
-			SetGadgetText( AngleField, L_TrimFloat( CurrentAngularSprite.Angle ) )
-			SetGadgetText( VelocityField, L_TrimFloat( CurrentAngularSprite.Velocity ) )
+			SetGadgetText( AngleField, L_TrimDouble( CurrentAngularSprite.Angle ) )
+			SetGadgetText( VelocityField, L_TrimDouble( CurrentAngularSprite.Velocity ) )
 		End If
 		
 		Local CurrentVectorSprite:LTVectorSprite = LTVectorSprite( CurrentShape )
 		If CurrentVectorSprite Then
-			SetGadgetText( DXField, L_TrimFloat( CurrentVectorSprite.DX ) )
-			SetGadgetText( DYField, L_TrimFloat( CurrentVectorSprite.DY ) )
+			SetGadgetText( DXField, L_TrimDouble( CurrentVectorSprite.DX ) )
+			SetGadgetText( DYField, L_TrimDouble( CurrentVectorSprite.DY ) )
 		End If
 	End Method
 	
@@ -1321,7 +1321,7 @@ Type LTEditor Extends LTProject
 	Method SetShapeModifiers( Shape:LTShape )
 		Modifiers.Clear()
 	
-		Local SWidth:Float, SHeight:Float
+		Local SWidth:Double, SHeight:Double
 		L_CurrentCamera.SizeFieldToScreen( 0.5 * Shape.Width, 0.5 * Shape.Height, SWidth, SHeight )
 		
 		If SWidth < 25 Then SWidth = 25
@@ -1353,7 +1353,7 @@ Type LTEditor Extends LTProject
 	
 	Method AddModifier( Shape:LTShape, ModType:Int, DX:Int, DY:Int )
 		Local Modifier:LTSprite = New LTSprite
-		Local FDX:Float, FDY:Float
+		Local FDX:Double, FDY:Double
 		L_CurrentCamera.SizeScreenToField( DX, DY, FDX, FDY )
 		Modifier.X = Shape.X + FDX
 		Modifier.Y = Shape.Y + FDY

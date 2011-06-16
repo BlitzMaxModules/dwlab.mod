@@ -8,22 +8,30 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Import dwlab.frmwork
+
+SeedRnd 0
+PushingStressTest()
+
 Function PushingStressTest()
 	Local Sprite1:LTSprite = New LTSprite
 	Local Sprite2:LTSprite = New LTSprite
-	Sprite1.Shape = L_Rectangle
-	Sprite2.Shape = L_Rectangle
+	Sprite1.ShapeType = L_Rectangle
+	Sprite2.ShapeType = L_Rectangle
 	
 	Local Count:Int = 0
+	
+	Local Time:Int = MilliSecs()
 	
 	Repeat
 		Sprite1.SetCoords( Rnd( -1.0, 1.0 ), Rnd( -1.0, 1.0 ) )
 		Sprite2.SetCoords( 0.0, 0.0 )
-		If Sprite1.CollidesWith( Sprite2 ) Then Sprite1.Push( Sprite2, 1.0, 1.0 )
+		If Sprite1.CollidesWithSprite( Sprite2 ) Then Sprite1.PushFromSprite( Sprite2 )
 		Count :+ 1
-		If Count Mod 10000 = 0 Then DebugLog Count
+		If Count Mod 10000000 = 0 Then Exit
 	Until KeyHit( Key_Escape )
-	End
+	
+	Print MilliSecs() - Time
 End Function
 
 
@@ -31,12 +39,12 @@ End Function
 
 
 Function TestCircle()
-	Local FloatMap:LTFloatMap = New LTFloatMap
-	FloatMap.SetResolution( 64, 64 )
-	FloatMap.DrawCircle( 32, 32, 31.5, 1.0 )
+	Local DoubleMap:LTDoubleMap = New LTDoubleMap
+	DoubleMap.SetResolution( 64, 64 )
+	DoubleMap.DrawCircle( 32, 32, 31.5, 1.0 )
 	For Local Y:Int = 0 Until 64
 		For Local X:Int = 0 Until 64
-			Local Col:Float = Int( 0.5 + 255.0 * FloatMap.Value[ X, Y ] )
+			Local Col:Float = Int( 0.5 + 255.0 * DoubleMap.Value[ X, Y ] )
 			SetColor( Col, Col, Col )
 			DrawRect( X * 8, Y * 8, 8, 8 )
 		Next
@@ -49,27 +57,28 @@ End Function
 
 
 Function TestMaskSpeed()
-	Local Map:LTFloatMap = New LTFloatMap
+	Local Map:LTDoubleMap = New LTDoubleMap
 	Map.SetResolution( 64, 64 )
-	Local Time:Int = Millisecs()
+	Local Time:Int = MilliSecs()
 	For Local N:Int = 0 To 1000
 		'Local X:Int = L_WrapInt( 1, Map.XQuantity )
 		'Local X:Int = 1 & Map.XMask
-		If 0 Then
+		Rem
 			For Local Y:Int = 0 Until Map.YQuantity
 				For Local X:Int = 0 Until Map.XQuantity
 					Map.Value[ X & Map.XMask, Y & Map.YMask ] = 1.0
 				Next
 			Next
-		Else
-			For Local Y:Int = 0 Until Map.YQuantity
-				For Local X:Int = 0 Until Map.XQuantity
-					Map.Value[ L_WrapInt( X, Map.XQuantity ), L_WrapInt( Y, Map.YQuantity ) ] = 1.0
-				Next
+		EndRem
+		'Rem
+		For Local Y:Int = 0 Until Map.YQuantity
+			For Local X:Int = 0 Until Map.XQuantity
+				Map.Value[ L_WrapInt( X, Map.XQuantity ), L_WrapInt( Y, Map.YQuantity ) ] = 1.0
 			Next
-		End If
+		Next
+		'EndRem
 	Next
-	DebugLog Millisecs() - Time
+	DebugLog MilliSecs() - Time
 	End
 End Function
 
@@ -78,14 +87,14 @@ End Function
 
 
 Function TestMaskSpeed2()
-	Local Map:LTFloatMap = New LTFloatMap
+	Local Map:LTDoubleMap = New LTDoubleMap
 	Map.SetResolution( 65, 65 )
-	Local Time:Int = Millisecs()
+	Local Time:Int = MilliSecs()
 	
 	For Local N:Int = 0 To 1000
 		Map.DrawCircle( 32, 32, 31.5, 1.0 )
 	Next
 
-	DebugLog Millisecs() - Time
+	DebugLog MilliSecs() - Time
 	End
 End Function

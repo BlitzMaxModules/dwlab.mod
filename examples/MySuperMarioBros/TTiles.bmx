@@ -9,7 +9,7 @@
 '
 
 Type TTiles Extends LTTileMap
-	Const FadingSpeed:Float = 0.15
+	Const FadingSpeed:Double = 0.15
 	Const FadingPeriod:Int = 5
 	
 	Const EmptyBlock:Int = 0

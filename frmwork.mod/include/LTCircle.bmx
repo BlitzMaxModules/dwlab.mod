@@ -9,11 +9,11 @@
 '
 
 Type LTCircle Extends LTPivot
-	Field Diameter:Float = 1.0
+	Field Diameter:Double = 1.0
 
 	' ==================== Parameters ====================
 	
-	Method SetDiameter( NewDiameter:Float )
+	Method SetDiameter( NewDiameter:Double )
 		Diameter = NewDiameter
 	End Method
 	
@@ -102,7 +102,7 @@ Type LTCircle Extends LTPivot
 
 	' ==================== Other ====================
 	
-	Method CloneShape:LTShape( DX:Float, DY:Float, XK:Float, YK:Float )
+	Method CloneShape:LTShape( DX:Double, DY:Double, XK:Double, YK:Double )
 		Local Circle:LTCircle = New LTCircle
 		Circle.X = DX + X * XK
 		Circle.Y = DY + Y * YK
@@ -114,6 +114,6 @@ Type LTCircle Extends LTPivot
 	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
-		XMLObject.ManageFloatAttribute( "diameter", Diameter )
+		XMLObject.ManageDoubleAttribute( "diameter", Diameter )
 	End Method
 End Type

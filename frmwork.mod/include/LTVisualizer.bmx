@@ -9,24 +9,24 @@
 '
 
 Type LTVisualizer Extends LTObject
-	Field Red:Float = 1.0, Green:Float = 1.0, Blue:Float = 1.0
-	Field Alpha:Float = 1.0
-	FIeld DX:Float = 0.0, DY:Float = 0.0
-	Field XScale:Float = 1.0, YScale:Float = 1.0
+	Field Red:Double = 1.0, Green:Double = 1.0, Blue:Double = 1.0
+	Field Alpha:Double = 1.0
+	FIeld DX:Double = 0.0, DY:Double = 0.0
+	Field XScale:Double = 1.0, YScale:Double = 1.0
 	Field Scaling:Int = True
-	Field Angle:Float = 0.0
+	Field Angle:Double = 0.0
 	Field Rotating:Int = True
 
 	' ==================== Parameters ====================
 	
-	Method SetDXDY( NewDX:Float, NewDY:Float )
+	Method SetDXDY( NewDX:Double, NewDY:Double )
 		DX = NewDX
 		DY = NewDY
 	End Method
 	
 	
 	
-	Method SetVisualizerScale( NewXScale:Float, NewYScale:Float )
+	Method SetVisualizerScale( NewXScale:Double, NewYScale:Double )
 		XScale = NewXScale
 		YScale = NewYScale
 	End Method
@@ -46,7 +46,7 @@ Type LTVisualizer Extends LTObject
 	Method DrawUsingSprite( Sprite:LTSprite )
 		ApplyColor()
 		
-		Local SX:Float, SY:Float, SWidth:Float, SHeight:Float
+		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
 		L_CurrentCamera.FieldToScreen( Sprite.X + DX, Sprite.Y + DY, SX, SY )
 		L_CurrentCamera.SizeFieldToScreen( Sprite.Width * XScale, Sprite.Height * YScale, SWidth, SHeight )
 		
@@ -67,7 +67,7 @@ Type LTVisualizer Extends LTObject
 	Method DrawUsingLine( Line:LTLine )
 		ApplyColor()
 		
-		Local SX1:Float, SY1:Float, SX2:Float, SY2:Float
+		Local SX1:Double, SY1:Double, SX2:Double, SY2:Double
 		L_CurrentCamera.FieldToScreen( Line.Pivot[ 0 ].X, Line.Pivot[ 0 ].Y, SX1, SY1 )
 		L_CurrentCamera.FieldToScreen( Line.Pivot[ 1 ].X, Line.Pivot[ 1 ].Y, SX2, SY2 )
 		
@@ -90,45 +90,45 @@ Type LTVisualizer Extends LTObject
 		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
 		SetAlpha Alpha
 	
-		Local SWidth:Float, SHeight:Float
-		Local CellWidth:Float = TileMap.GetCellWidth()
-		Local CellHeight:Float = TileMap.GetCellHeight()
+		Local SWidth:Double, SHeight:Double
+		Local CellWidth:Double = TileMap.GetCellWidth()
+		Local CellHeight:Double = TileMap.GetCellHeight()
 		L_CurrentCamera.SizeFieldToScreen( CellWidth, CellHeight, SWidth, SHeight )
 		SetScale( SWidth / ImageWidth( Image.BMaxImage ), SHeight / ImageHeight( Image.BMaxImage ) )
 		
-		Local SX:Float, SY:Float
+		Local SX:Double, SY:Double
 		L_CurrentCamera.FieldToScreen( TileMap.X - 0.5 * TileMap.Width, TileMap.Y - 0.5 * TileMap.Height, SX, SY )
 
-		Local X1:Float = L_CurrentCamera.ViewPort.X - 0.5 * L_CurrentCamera.ViewPort.Width
-		Local Y1:Float = L_CurrentCamera.ViewPort.Y - 0.5 * L_CurrentCamera.ViewPort.Height
-		Local X2:Float = X1 + L_CurrentCamera.ViewPort.Width + SWidth * 0.5
-		Local Y2:Float = Y1 + L_CurrentCamera.ViewPort.Height + SHeight * 0.5
+		Local X1:Double = L_CurrentCamera.ViewPort.X - 0.5 * L_CurrentCamera.ViewPort.Width
+		Local Y1:Double = L_CurrentCamera.ViewPort.Y - 0.5 * L_CurrentCamera.ViewPort.Height
+		Local X2:Double = X1 + L_CurrentCamera.ViewPort.Width + SWidth * 0.5
+		Local Y2:Double = Y1 + L_CurrentCamera.ViewPort.Height + SHeight * 0.5
 		
 		Local StartXFrame:Int = Int( ( L_CurrentCamera.X - TileMap.X - 0.5 * ( L_CurrentCamera.Width - TileMap.Width ) ) / CellWidth )
 		Local StartYFrame:Int = Int( ( L_CurrentCamera.Y - TileMap.Y - 0.5 * ( L_CurrentCamera.Height - TileMap.Height ) ) / CellHeight )
-		Local StartX:Float = SX + SWidth * ( Int( ( X1 - SX ) / SWidth ) ) + SWidth * 0.5
-		Local StartY:Float = SY + SHeight * ( Int( ( Y1 - SY ) / SHeight ) ) + SHeight * 0.5
+		Local StartX:Double = SX + SWidth * ( Int( ( X1 - SX ) / SWidth ) ) + SWidth * 0.5
+		Local StartY:Double = SY + SHeight * ( Int( ( Y1 - SY ) / SHeight ) ) + SHeight * 0.5
 		
 		If Not TileMap.Wrapped Then
 			If StartXFrame < 0 Then 
 				StartX :- StartXFrame * SWidth
 				StartXFrame = 0
 			End If
-			Local EndX:Float = StartX + SWidth * ( FrameMap.XQuantity - StartXFrame ) - 0.001
+			Local EndX:Double = StartX + SWidth * ( FrameMap.XQuantity - StartXFrame ) - 0.001
 			If  EndX < X2  Then X2 = EndX
 			
 			If StartYFrame < 0 Then 
 				StartY :- StartYFrame * SHeight
 				StartYFrame = 0
 			End If
-			Local EndY:Float = StartY + SHeight * ( FrameMap.YQuantity - StartYFrame ) - 0.001
+			Local EndY:Double = StartY + SHeight * ( FrameMap.YQuantity - StartYFrame ) - 0.001
 			If  EndY < Y2  Then Y2 = EndY
 		End If
 		
-		Local YY:Float = StartY
+		Local YY:Double = StartY
 		Local YFrame:Int = StartYFrame
 		While YY < Y2
-			Local XX:Float = StartX
+			Local XX:Double = StartX
 			Local XFrame:Int = StartXFrame
 			While XX < X2
 				If FrameMap.Masked Then
@@ -150,7 +150,7 @@ Type LTVisualizer Extends LTObject
 	
 	
 	
-	Method DrawTile( TileMap:LTTileMap, X:Float, Y:Float, TileX:Int, TileY:Int )
+	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, TileX:Int, TileY:Int )
 		Local Value:Int = TileMap.FrameMap.Value[ TileX, TileY ]
 		If Value <> L_EmptyTilemapFrame Then Drawimage( TileMap.TileSet.Image.BMaxImage, X, Y, Value )
 	End Method
@@ -165,7 +165,7 @@ Type LTVisualizer Extends LTObject
 	
 	
 	
-	Method SetColorFromRGB( NewRed:Float, NewGreen:Float, NewBlue:Float )
+	Method SetColorFromRGB( NewRed:Double, NewGreen:Double, NewBlue:Double )
 		?debug
 		If NewRed < 0.0 Or NewRed > 1.0 Then L_Error( "Red component must be between 0.0 and 1.0 inclusive" )
 		If NewGreen < 0.0 Or NewGreen > 1.0 Then L_Error( "Green component must be between 0.0 and 1.0 inclusive" )
@@ -179,10 +179,10 @@ Type LTVisualizer Extends LTObject
 	
 	
 	
-	Method AlterColor( D1:Float, D2:Float )
-		Red = L_LimitFloat( Red + Rnd( D1, D2 ), 0.0, 1.0 )
-		Green = L_LimitFloat( Green + Rnd( D1, D2 ), 0.0, 1.0 )
-		Blue = L_LimitFloat( Blue + Rnd( D1, D2 ), 0.0, 1.0 )
+	Method AlterColor( D1:Double, D2:Double )
+		Red = L_LimitDouble( Red + Rnd( D1, D2 ), 0.0, 1.0 )
+		Green = L_LimitDouble( Green + Rnd( D1, D2 ), 0.0, 1.0 )
+		Blue = L_LimitDouble( Blue + Rnd( D1, D2 ), 0.0, 1.0 )
 	End Method
 	
 	
@@ -203,12 +203,12 @@ Type LTVisualizer Extends LTObject
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
-		XMLObject.ManageFloatAttribute( "red", Red, 1.0 )
-		XMLObject.ManageFloatAttribute( "green", Green, 1.0 )
-		XMLObject.ManageFloatAttribute( "blue", Blue, 1.0 )
-		XMLObject.ManageFloatAttribute( "alpha", Alpha, 1.0 )
-		XMLObject.ManageFloatAttribute( "xscale", XScale, 1.0 )
-		XMLObject.ManageFloatAttribute( "yscale", YScale, 1.0 )
+		XMLObject.ManageDoubleAttribute( "red", Red, 1.0 )
+		XMLObject.ManageDoubleAttribute( "green", Green, 1.0 )
+		XMLObject.ManageDoubleAttribute( "blue", Blue, 1.0 )
+		XMLObject.ManageDoubleAttribute( "alpha", Alpha, 1.0 )
+		XMLObject.ManageDoubleAttribute( "xscale", XScale, 1.0 )
+		XMLObject.ManageDoubleAttribute( "yscale", YScale, 1.0 )
 		XMLObject.ManageIntAttribute( "scaling", Scaling, 1 )
 	End Method
 End Type

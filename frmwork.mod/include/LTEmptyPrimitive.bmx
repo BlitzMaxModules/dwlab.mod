@@ -9,7 +9,7 @@
 '
 
 Type LTEmptyPrimitive Extends LTVisualizer
-	Field LineWidth:Float = 1.0
+	Field LineWidth:Double = 1.0
 	
 	
 	
@@ -18,7 +18,7 @@ Type LTEmptyPrimitive Extends LTVisualizer
 		SetAlpha( Alpha )
 		SetProperLineWidth()
 		
-		Local SX:Float, SY:Float, SWidth:Float, SHeight:Float
+		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
 		L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX, SY )
 		L_CurrentCamera.SizeFieldToScreen( Sprite.Width * XScale, Sprite.Height * YScale, SWidth, SHeight )
 		L_DrawEmptyRect( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
@@ -35,7 +35,7 @@ Type LTEmptyPrimitive Extends LTVisualizer
 		SetAlpha( Alpha )
 		SetProperLineWidth()
 		
-		Local SX1:Float, SY1:Float, SX2:Float, SY2:Float
+		Local SX1:Double, SY1:Double, SX2:Double, SY2:Double
 		L_CurrentCamera.FieldToScreen( Line.Pivot[ 0 ].X, Line.Pivot[ 0 ].Y, SX1, SY1 )
 		L_CurrentCamera.FieldToScreen( Line.Pivot[ 1 ].X, Line.Pivot[ 1 ].Y, SX2, SY2 )
 		DrawLine( SX1, SY1, SX2, SY2 )

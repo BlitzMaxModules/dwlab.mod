@@ -9,7 +9,7 @@
 '
 
 Type TBricks Extends LTVectorSprite
-	Const RotationSpeed:Float = 180.0
+	Const RotationSpeed:Double = 180.0
 
 	
 	

@@ -8,13 +8,30 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTAnimatedTileMapVisualizer Extends LTVisualizer
-	Field TileNum:Int[]
+Type LTPause Extends LTObject
+	Field PreviousPause:LTPause
+	Field Project:LTProject
+	Field Key:Int
 	
 	
 	
-	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, TileX:Int, TileY:Int )
-		Local Value:Int = TileNum[ TileMap.FrameMap.Value[ TileX, TileY ] ]
-		If Value <> L_EmptyTilemapFrame Then Drawimage( TileMap.TileSet.Image.BMaxImage, X, Y, Value )
+	Method Render()
+	End Method
+	
+	
+	
+	Method Update()
+	End Method
+	
+	
+	
+	Method CheckKey()
+		If KeyHit( Key ) Then Remove()
+	End Method
+	
+	
+	
+	Method Remove()
+		Project.CurrentPause = PreviousPause
 	End Method
 End Type

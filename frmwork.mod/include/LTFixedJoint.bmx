@@ -11,9 +11,9 @@
 Type LTFixedJoint Extends LTJoint
 	Field ParentPivot:LTAngularSprite
 	Field Pivot:LTAngularSprite
-	Field Angle:Float
-	Field Distance:Float
-	Field DAngle:Float
+	Field Angle:Double
+	Field Distance:Double
+	Field DAngle:Double
 	
 	
 	

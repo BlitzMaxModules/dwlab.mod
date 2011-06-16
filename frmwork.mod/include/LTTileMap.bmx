@@ -16,13 +16,13 @@ Type LTTileMap Extends LTShape
 	
 	' ==================== Parameters ===================	
 	
-	Method GetCellWidth:Float()
+	Method GetCellWidth:Double()
 			Return Width / FrameMap.XQuantity
 	End Method
 
 	
 	
-	Method GetCellHeight:Float()
+	Method GetCellHeight:Double()
 		Return Height / FrameMap.YQuantity
 	End Method
 	

@@ -9,7 +9,7 @@
 '
 
 Type TMushroom Extends TBonus
-	Const Speed:Float = 2.0
+	Const Speed:Double = 2.0
 	
 	
 
@@ -34,9 +34,9 @@ End Type
 
 
 Type TAppearing Extends LTBehaviorModel
-	Const Speed:Float = 1.0
+	Const Speed:Double = 1.0
 
-	Field DestinationY:Float
+	Field DestinationY:Double
 
 	
 	

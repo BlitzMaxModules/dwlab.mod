@@ -10,27 +10,27 @@
 '
 
 Type TGrid Extends LTShape
-	Field CellWidth:Float = 1.0
-	Field CellHeight:Float = 1.0
+	Field CellWidth:Double = 1.0
+	Field CellHeight:Double = 1.0
 	Field CellXDiv:Int = 2
 	Field CellYDiv:Int = 2
 	
 	
 	
 	Method Draw()
-		Local SX:Float, SY:Float
+		Local SX:Double, SY:Double
 		L_DebugVisualizer.ApplyColor()
 		
-		Local X:Float = Floor( L_CurrentCamera.LeftX() / CellWidth ) * CellWidth
-		Local EndX:Float = L_CurrentCamera.RightX()
+		Local X:Double = Floor( L_CurrentCamera.LeftX() / CellWidth ) * CellWidth
+		Local EndX:Double = L_CurrentCamera.RightX()
 		While X < EndX
 			L_CurrentCamera.FieldToScreen( X, 0, SX, SY )
 			DrawLine( SX, 0, SX, GraphicsHeight() )
 			X :+ CellWidth
 		WEnd
 		
-		Local Y:Float = Floor( L_CurrentCamera.TopY() / CellHeight ) * CellHeight
-		Local EndY:Float = L_CurrentCamera.BottomY()
+		Local Y:Double = Floor( L_CurrentCamera.TopY() / CellHeight ) * CellHeight
+		Local EndY:Double = L_CurrentCamera.BottomY()
 		While Y < EndY
 			L_CurrentCamera.FieldToScreen( 0, Y, SX, SY )
 			DrawLine( 0, SY, GraphicsWidth(), SY )
@@ -42,28 +42,28 @@ Type TGrid Extends LTShape
 	
 	
 	
-	Method SnapX:Float( X:Float )
+	Method SnapX:Double( X:Double )
 		If Editor.SnapToGrid Then Return L_Round( X / CellWidth * CellXDiv ) * CellWidth / CellXDiv Else Return X
 	End Method
 	
 	
 	
-	Method SnapY:Float( Y:Float )
+	Method SnapY:Double( Y:Double )
 		If Editor.SnapToGrid Then Return L_Round( Y / CellHeight * CellYDiv ) * CellHeight / CellYDiv Else Return Y
 	End method
 	
 	
 	
-	Method Snap( X:Float Var, Y:Float Var )
+	Method Snap( X:Double Var, Y:Double Var )
 		X = SnapX( X )
 		Y = SnapY( Y )
 	End Method
 	
 	
 	
-	Method SetSnaps( Side1:Float Var, Side2:Float Var, Vertical:Int )
+	Method SetSnaps( Side1:Double Var, Side2:Double Var, Vertical:Int )
 		If Editor.SnapToGrid Then
-			Local Snap1:Float, Snap2:Float
+			Local Snap1:Double, Snap2:Double
 			If Vertical Then
 				Snap1 = DYSnap( Side1 )
 				Snap2 = DYSnap( Side2 )
@@ -84,18 +84,18 @@ Type TGrid Extends LTShape
 	
 	
 	
-	Method SetCornerSnaps( NewHorizontalSide:Float Var, NewVerticalSide:Float Var, HorizontalSide:Float Var,..
-	VerticalSide:Float Var, OppositeHorizontalSide:Float, OppositeVerticalSide:Float, X:Float, Y:Float )
+	Method SetCornerSnaps( NewHorizontalSide:Double Var, NewVerticalSide:Double Var, HorizontalSide:Double Var,..
+	VerticalSide:Double Var, OppositeHorizontalSide:Double, OppositeVerticalSide:Double, X:Double, Y:Double )
 	
-		Local Diagonal:Float = L_Distance( HorizontalSide - OppositeHorizontalSide, VerticalSide - OppositeVerticalSide )
-		Local R:Float = L_Distance( X - OppositeHorizontalSide, Y - OppositeVerticalSide )
+		Local Diagonal:Double = L_Distance( HorizontalSide - OppositeHorizontalSide, VerticalSide - OppositeVerticalSide )
+		Local R:Double = L_Distance( X - OppositeHorizontalSide, Y - OppositeVerticalSide )
 		
 		NewHorizontalSide = OppositeHorizontalSide + ( HorizontalSide - OppositeHorizontalSide ) * R / Diagonal
 		NewVerticalSide = OppositeVerticalSide + ( VerticalSide - OppositeVerticalSide ) * R / Diagonal
 		
 		If Editor.SnapToGrid Then
-			Local HorizontalSnap:Float = DXSnap( NewHorizontalSide )
-			Local VerticalSnap:Float = DYSnap( NewVerticalSide )
+			Local HorizontalSnap:Double = DXSnap( NewHorizontalSide )
+			Local VerticalSnap:Double = DYSnap( NewVerticalSide )
 			If Abs( HorizontalSnap ) < Abs( VerticalSnap ) Then
 				NewHorizontalSide = NewHorizontalSide + HorizontalSnap
 				NewVerticalSide = NewVerticalSide + HorizontalSnap * ( VerticalSide - OppositeVerticalSide ) / ( HorizontalSide - OppositeHorizontalSide )
@@ -108,13 +108,13 @@ Type TGrid Extends LTShape
 	
 	
 	
-	Method DXSnap:Float( Coord:Float )
+	Method DXSnap:Double( Coord:Double )
 		Return CellWidth * L_Round( Coord / CellWidth * CellXDiv ) / CellXDiv - Coord
 	End Method
 	
 	
 	
-	Method DYSnap:Float( Coord:Float )
+	Method DYSnap:Double( Coord:Double )
 		Return CellHeight * L_Round( Coord / CellHeight * CellYDiv  ) / CellYDiv - Coord
 	End Method
 	
@@ -152,10 +152,10 @@ Type TGrid Extends LTShape
 							L_DebugVisualizer.Green = RequestedGreen() / 255.0
 							L_DebugVisualizer.Blue = RequestedBlue() / 255.0
 						Case OKButton
-							Local NewCellWidth:Float = TextFieldText( CellWidthField ).ToFloat()
-							Local NewCellHeight:Float = TextFieldText( CellHeightField ).ToFloat()
-							Local NewCellXDiv:Float = TextFieldText( VerticalDivField ).ToInt()
-							Local NewCellYDiv:Float = TextFieldText( HorizontalDivField ).ToInt()
+							Local NewCellWidth:Double = TextFieldText( CellWidthField ).ToDouble()
+							Local NewCellHeight:Double = TextFieldText( CellHeightField ).ToDouble()
+							Local NewCellXDiv:Double = TextFieldText( VerticalDivField ).ToInt()
+							Local NewCellYDiv:Double = TextFieldText( HorizontalDivField ).ToInt()
 							If NewCellWidth > 0 And NewCellHeight > 0 Then
 								If NewCellXDiv > 0 And NewCellYDiv > 0 Then
 									CellWidth = NewCellWidth

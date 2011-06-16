@@ -9,7 +9,7 @@
 '
 	
 Type LTVectorSprite Extends LTSprite
-	Field DX:Float, DY:Float
+	Field DX:Double, DY:Double
 	
 	' ==================== Position ====================
 	
@@ -44,7 +44,7 @@ Type LTVectorSprite Extends LTSprite
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
-		XMLObject.ManageFloatAttribute( "dx", DX )
-		XMLObject.ManageFloatAttribute( "dy", DY )
+		XMLObject.ManageDoubleAttribute( "dx", DX )
+		XMLObject.ManageDoubleAttribute( "dy", DY )
 	End Method
 End Type

@@ -10,8 +10,8 @@
 '
 
 Type TMoveShape Extends LTDrag
-	Field StartX:Float, StartY:Float
-	Field LastDX:Float, LastDY:Float
+	Field StartX:Double, StartY:Double
+	Field LastDX:Double, LastDY:Double
 	
 	
 	
@@ -41,8 +41,8 @@ Type TMoveShape Extends LTDrag
 	
 	
 	Method Dragging()
-		Local DX:Float = Editor.Cursor.X - StartX
-		Local DY:Float = Editor.Cursor.Y - StartY
+		Local DX:Double = Editor.Cursor.X - StartX
+		Local DY:Double = Editor.Cursor.Y - StartY
 		Editor.Grid.Snap( DX, DY )
 		
 		For Local Shape:LTShape = Eachin Editor.SelectedShapes

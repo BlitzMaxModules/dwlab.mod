@@ -49,7 +49,7 @@ Type LTGroup Extends LTShape
 	
 	
 	
-	Method TileCollisionsWithSprite( Sprite:LTSprite, DX:Float, DY:Float, XScale:Float, YScale:Float, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
+	Method TileCollisionsWithSprite( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
 		For Local GroupSprite:LTSprite = Eachin Children
 			If GroupSprite.TileCollidesWithSprite( Sprite, DX, DY, XScale, YScale ) Then
 				Sprite.HandleCollisionWithTile( TileMap, GroupSprite, TileX, TileY, CollisionType )
@@ -90,8 +90,8 @@ Type LTGroup Extends LTShape
 	
 	
 	Method Update()
-		Local MinX:Float, MinY:Float
-		Local MaxX:Float, MaxY:Float
+		Local MinX:Double, MinY:Double
+		Local MaxX:Double, MaxY:Double
 		Local FirstShape:Int = False
 		For Local Shape:LTShape = Eachin Children
 			Shape.Update()

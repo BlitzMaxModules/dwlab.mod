@@ -9,7 +9,7 @@
 '
 
 Type TFireFlower Extends TBonus
-	Const AnimationSpeed:Float = 0.1
+	Const AnimationSpeed:Double = 0.1
 
 	
 
