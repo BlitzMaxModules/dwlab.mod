@@ -34,6 +34,7 @@ Type LTGroup Extends LTShape
 	
 	
 	Method Act()
+		Super.Act()
 		If Active Then
 			For Local Obj:LTShape = Eachin Children
 				Obj.Act()

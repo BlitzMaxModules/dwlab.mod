@@ -14,6 +14,7 @@ Include "TBricks.bmx"
 Type TBlock Extends LTVectorSprite
 	Const Gravity:Double = 8.0
 	Const Impulse:Double = 1.5
+	Const BonusImpulse:Double = 8.0
 
 	Field LowestY:Double
 	Field TileX:Int, TileY:Int, TileNum:Int
@@ -32,6 +33,10 @@ Type TBlock Extends LTVectorSprite
 		Select TileNum
 			Case TTiles.QuestionBlock
 				TCoin.FromTile( TileX, TileY )
+			Case TTiles.CoinsBlock
+				TCoin.FromTile( TileX, TileY )
+				Game.Level.AttachModel( TTileChange.Create( TileX, TileY ) )
+				Block.Frame = TileNum 
 			Case TTiles.MushroomBlock
 				If Game.Mario.FindModel( "TBig" ) Then
 					TFireFlower.FromTile( TileX, TileY )
@@ -52,12 +57,64 @@ Type TBlock Extends LTVectorSprite
 	
 	
 	
+	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
+		If DY < 0.0 Then
+			Local Bonus:TBonus = TBonus( Sprite )
+			If Bonus Then
+				Bonus.DY = -BonusImpulse
+				Bonus.DX = Abs( Bonus.DX ) * Sgn( Bonus.X - X )
+			ElseIf TEnemy( Sprite ) Then
+				TEnemy( Sprite ).AttachModel( New TKicked )
+			End If
+		End If
+	End Method
+	
+	
+	
 	Method Act()
 		DY :+ Game.PerSecond( Gravity )
 		MoveForward()
 		If Y >= LowestY And DY > 0 Then
 			Game.Tilemap.SetTile( TileX, TileY, Frame )
 			Game.Level.Remove( Self )
+		End If
+		CollisionsWithCollisionMap( Game.MovingObjects, 0 )
+	End Method
+End Type
+
+
+
+
+
+Type TTileChange Extends LTBehaviorModel
+	Const Period:Float = 8.0	
+
+	Field TileX:Int, TileY:Int
+	Field StartingTime:Float
+	
+	
+	
+	Function Create:TTileChange( TileX:Int, TileY:Int )
+		Local TileChange:TTileChange = New TTileChange
+		TileChange.TileX = TileX
+		TileChange.TileY = TileY
+		Return TileChange
+	End Function
+	
+	
+	
+	Method Activate( Shape:LTShape )
+		StartingTime = Game.Time
+	End Method
+	
+	
+	
+	Method ApplyTo( Shape:LTShape )
+		If Game.Time >= StartingTime + Period Then
+			If Game.Tilemap.GetTile( TileX, TileY ) <> 53 Then
+				Game.Tilemap.SetTile( TileX, TileY, TTiles.SolidBlock )
+				Remove( Shape )
+			End If
 		End If
 	End Method
 End Type

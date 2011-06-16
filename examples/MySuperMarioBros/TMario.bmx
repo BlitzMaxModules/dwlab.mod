@@ -34,7 +34,6 @@ Type TMario Extends LTVectorSprite
 		AttachModel( New TCollisions )
 		AttachModel( New TGravity )
 		AttachModel( New TMoving )
-		AttachModel( New TWalkingAnimation )
 		AttachModel( New TJumping )
 	End Method
 	
@@ -42,11 +41,14 @@ Type TMario Extends LTVectorSprite
 	
 	Method Draw()
 		Super.Draw()
+		'DrawText( X + ", " + Y, 0, 100 )
+		Rem
 		Local Y:Int = 100
 		For Local Model:LTBehaviorModel = Eachin BehaviorModels
 			DrawText( TTypeID.ForObject( Model ).Name() + ", " + Model.Active, 0, Y )
 			Y :+ 16
 		Next
+		EndRem
 	End Method
 	
 	
@@ -136,21 +138,32 @@ End Type
 
 
 Type TMoving Extends LTBehaviorModel
+	Const Acceleration:Double = 20.0
+	Const MaxWalkingSpeed:Double = 5.0
+	Const MaxRunningSpeed:Double = 15.0
+	Const Friction:Double = 20.0
+	
+	
+	
 	Method ApplyTo( Shape:LTShape )
 		Local Mario:TMario = TMario( Shape )
-		Mario.DX = 0
-		If KeyDown( Key_Left ) Then
-			Mario.DX = -5.0
-			Mario.SetFacing( LTSprite.LeftFacing )
-			Mario.ActivateModel( "TWalkingAnimation" )
-		ElseIf KeyDown( Key_Right ) Then
-			Mario.DX = 5.0
-			Mario.SetFacing( LTSprite.RightFacing )
-			Mario.ActivateModel( "TWalkingAnimation" )
-		Else
+		Local Direction:Float = Sgn( Mario.DX )
+		Local Force:Float = KeyDown( Key_Right ) - KeyDown( Key_Left )
+		If Force = 0.0 Then
 			If Mario.OnLand Then Mario.Frame = TMario.Standing
-			Mario.DeactivateModel( "TWalkingAnimation" )
-		EndIf
+		Else
+			Mario.SetFacing( Force )
+		End If
+		If Force <> Direction Then
+			Mario.Frame = TMario.Sliding
+			If Abs( Mario.DX ) < Game.PerSecond( Friction ) Then
+				Mario.DX = 0
+			Else
+				Mario.DX :- Sgn( Mario.DX ) * Game.PerSecond( Friction )
+			End If
+		ElseIf Force <> 0.0 Then
+			Mario.DX :- Game.PerSecond( Acceleration )
+		End If
 	End Method
 	
 	
@@ -205,7 +218,6 @@ Type TDying Extends LTBehaviorModel
 		Local Mario:TMario = TMario( Shape )
 		TCollisions( Mario.FindModel( "TCollisions" ) ).SetCollisions( False, False )
 		Mario.DeactivateModel( "TMoving" )
-		Mario.DeactivateModel( "TWalkingAnimation" )
 		Mario.DeactivateModel( "TJumping" )
 		Mario.DX = 0.0
 		Mario.DY = TMario.JumpStrength
@@ -530,7 +542,11 @@ Type TFinalSequence Extends LTBehaviorModel
 	
 	
 	Method Activate( Shape:LTShape )
-		Shape.DeactivateAllModels()
+		Shape.DeactivateModel( "TCollisions" )
+		Shape.DeactivateModel( "TGravity" )
+		Shape.DeactivateModel( "TMoving" )
+		Shape.DeactivateModel( "TJumping" )
+		Shape.DeactivateModel( "TSitting" )
 		Game.Level.Active = False
 		Game.Mario.X = Pole.X - 0.3 * Game.Mario.GetFacing()
 		Game.Mario.Frame = TMario.SlidingDown
@@ -580,13 +596,12 @@ Type TFinalSequence Extends LTBehaviorModel
 		Select Phase
 			Case Walking
 				Shape.ActivateModel( "TCollisions" )
-				Shape.ActivateModel( "TWalkingAnimation" )
 				Shape.ActivateModel( "TGravity" )
 				Game.Mario.DX = WalkingSpeed
 				Game.Mario.SetFacing( LTSprite.RightFacing )
 				Game.Mario.Frame = TMario.Jumping
-			Case Exiting
 				Game.StageClear.Play()
+			Case Exiting
 				Game.Mario.LimitByWindowShape( FinalExit )
 			Case RaisingFlag
 				Game.Mario.Visible = False
