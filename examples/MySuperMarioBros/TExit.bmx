@@ -71,6 +71,7 @@ End Type
 
 Type TEnteringHorizontalPipe Extends LTBehaviorModel
 	Const Speed:Double = 1.0
+	Const AnimationSpeed:Double = 0.15
 	
 	Field ExitSprite:TExit
 	
@@ -87,7 +88,7 @@ Type TEnteringHorizontalPipe Extends LTBehaviorModel
 	Method Activate( Shape:LTShape )
 		Shape.DeactivateAllModels()
 		Game.Level.Active = False
-		Shape.LimitByWindow( ExitSprite.X, ExitSprite.Y, ExitSprite.Width, ExitSprite.Height )
+		Shape.LimitByWindowShape( ExitSprite )
 		Game.Pipe.Play()
 	End Method
 	
@@ -95,7 +96,7 @@ Type TEnteringHorizontalPipe Extends LTBehaviorModel
 	
 	Method ApplyTo( Shape:LTShape )
 		Shape.Move( ExitSprite.DX * Speed, 0.0 )
-		Game.Mario.Animate( Game, TMario.WalkingAnimationSpeed, 3, 1 )
+		Game.Mario.Animate( Game, AnimationSpeed, 3, 1 )
 		If ( ExitSprite.DX > 0.0 And Shape.X >= ExitSprite.X + 1.0 ) Or ( ExitSprite.DX < 0.0 And Shape.X <= ExitSprite.X - 1.0 ) Then Remove( Shape )
 	End Method
 	

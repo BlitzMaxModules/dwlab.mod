@@ -12,8 +12,6 @@ Include "TFireball.bmx"
 
 Type TMario Extends LTVectorSprite
 	Const FramesInRow:Int = 9
-	Const JumpStrength:Double = -17.0
-	Const WalkingAnimationSpeed:Double = 0.15
 	Const HopStrength:Double = -4.0
 
 	Const Standing:Int = 0
@@ -94,7 +92,7 @@ Type TMario Extends LTVectorSprite
 			TileMap.SetTile( TileX, TileY, TTiles.DarkEmptyBlock )
 			Game.Coins :+ 1
 			Game.CoinFlip.Play()
-		Else
+		ElseIf TileNum <> TTIles.DarkEmptyBlock Then
 			PushFromTile( TileMap, TileSprite, TileX, TileY )
 			If CollisionType = Vertical Then
 				If DY >= 0 Then
@@ -114,6 +112,8 @@ Type TMario Extends LTVectorSprite
 					End Select
 				End If
 				DY = 0
+			Else
+				DX = 0
 			End If
 		End If		
 	End Method
@@ -139,30 +139,44 @@ End Type
 
 Type TMoving Extends LTBehaviorModel
 	Const Acceleration:Double = 20.0
-	Const MaxWalkingSpeed:Double = 5.0
-	Const MaxRunningSpeed:Double = 15.0
-	Const Friction:Double = 20.0
+	Const AnimationSpeed:Double = 1.5
+	Const MaxWalkingSpeed:Double = 7.0
+	Const MaxRunningSpeed:Double = 20.0
+	Const Friction:Double = 40.0
+	
+	Field Frame:Float
 	
 	
 	
 	Method ApplyTo( Shape:LTShape )
 		Local Mario:TMario = TMario( Shape )
 		Local Direction:Float = Sgn( Mario.DX )
-		Local Force:Float = KeyDown( Key_Right ) - KeyDown( Key_Left )
+		Local Force:Float = 0.0
+		If KeyDown( Key_Left ) Then Force = -1.0
+		If KeyDown( Key_Right ) Then Force = 1.0
 		If Force = 0.0 Then
 			If Mario.OnLand Then Mario.Frame = TMario.Standing
+			Frame = 0.0
 		Else
 			Mario.SetFacing( Force )
 		End If
-		If Force <> Direction Then
-			Mario.Frame = TMario.Sliding
+		
+		If Force <> Direction And Direction <> 0.0 Then
+			Frame = 0.0
+			If Force <> 0.0 And Mario.OnLand Then Mario.Frame = TMario.Sliding
 			If Abs( Mario.DX ) < Game.PerSecond( Friction ) Then
 				Mario.DX = 0
 			Else
 				Mario.DX :- Sgn( Mario.DX ) * Game.PerSecond( Friction )
 			End If
 		ElseIf Force <> 0.0 Then
-			Mario.DX :- Game.PerSecond( Acceleration )
+			Local MaxSpeed:Float = MaxWalkingSpeed
+			If KeyDown( Key_S ) Then MaxSpeed = MaxRunningSpeed
+			if Abs( Mario.DX ) < MaxSpeed Then Mario.DX :+ Sgn( Force ) * Game.PerSecond( Acceleration )
+			If Mario.OnLand Then
+				Frame :+ Game.PerSecond( Mario.DX ) * AnimationSpeed
+				Mario.Frame = Floor( Frame - Floor( Frame / 3.0 ) * 3.0 ) + 1
+			End If
 		End If
 	End Method
 	
@@ -174,38 +188,57 @@ Type TMoving Extends LTBehaviorModel
 End Type
 
 
+Rem
+Type TMoving Extends LTBehaviorModel
+	Const Speed:Double = 5.0
+	Const WalkingAnimationSpeed:Double = 0.15
+	
+	Field AnimationStartingTime:Double
+	
+	
+	
+	Method ApplyTo( Shape:LTShape )
+		Local Mario:TMario = TMario( Shape )
+		Mario.DX = 0.0
+		If KeyDown( Key_Left ) Then
+			Mario.DX = -Speed
+			Mario.SetFacing( LTSprite.LeftFacing )
+		ElseIf KeyDown( Key_Right ) Then
+			Mario.DX = Speed
+			Mario.SetFacing( LTSprite.RightFacing )
+		End If
+		
+		If Mario.DX Then
+			If Mario.OnLand Then Mario.Animate( Game, WalkingAnimationSpeed, 3, 1, AnimationStartingTime )
+		Else
+			If Mario.OnLand Then Mario.Frame = TMario.Standing
+			AnimationStartingTime = Game.Time
+		End If
+	End Method
+	
+	
+	
+	Method Deactivate( Shape:LTShape )
+		TMario( Shape ).DX = 0.0
+	End Method
+End Type
+EndRem
+
 
 
 
 Type TJumping Extends LTBehaviorModel
+	Const Strength:Double = -17.0
+	
+	
+	
 	Method ApplyTo( Shape:LTShape )
 		Local Mario:TMario = TMario( Shape )
 		If KeyDown( Key_A ) And Mario.OnLand Then
-			Mario.DY = TMario.JumpStrength
+			Mario.DY = Strength
 			Mario.Frame = TMario.Jumping
 			Game.Jump.Play()
 		End If
-	End Method
-End Type
-
-
-
-
-
-Type TWalkingAnimation Extends LTBehaviorModel
-	Field StartingTime:Double
-	
-	
-	
-	Method Activate( Shape:LTShape )
-		StartingTime = Game.Time
-	End Method
-	
-
-	
-	Method ApplyTo( Shape:LTShape )
-		Local Mario:TMario = TMario( Shape )
-		If Mario.OnLand Then Mario.Animate( Game, TMario.WalkingAnimationSpeed, 3, 1, StartingTime )
 	End Method
 End Type
 
@@ -220,7 +253,7 @@ Type TDying Extends LTBehaviorModel
 		Mario.DeactivateModel( "TMoving" )
 		Mario.DeactivateModel( "TJumping" )
 		Mario.DX = 0.0
-		Mario.DY = TMario.JumpStrength
+		Mario.DY = TJumping.Strength
 		Mario.Frame = TMario.Dying
 		
 		Game.MusicChannel.Stop()
@@ -455,8 +488,7 @@ Type TInvulnerable Extends LTBehaviorModel
 			Mario.FrameShift = 1 + ( Floor( Game.Time / AnimationSpeed ) Mod 3 )
 		ElseIf Game.Time < StartingTime + Period + FadingPeriod Then
 			If Not Fading Then
-				Game.MusicChannel.Stop()
-				Game.MusicChannel = Game.MusicIntro.Play()
+				TMusic( Game.Level.FindShapeWithType( "TMusic" ) ).Start()
 				Fading = True
 			End If
 			Mario.FrameShift = 1 + ( Floor( Game.Time / FadingAnimationSpeed ) Mod 3 )
@@ -519,6 +551,7 @@ Type TFinalSequence Extends LTBehaviorModel
 	Const MarioSpeed:Double = 4.0
 	Const FlagSpeed:Double = 8.0
 	Const WalkingSpeed:Double = 5.0
+	Const WalkingAnimationSpeed:Double = 0.15
 	Const CastleFlagSpeed:Double = 0.8
 	Const TotalFireworks:Int = 5
 	Const ExplodingSpeed:Double = 0.2
@@ -530,6 +563,7 @@ Type TFinalSequence Extends LTBehaviorModel
 	Const Fireworks:Int = 4
 	
 	Field Phase:Int = Sliding
+	Field AnimationStartingTime:Double
 	Field Pole:LTShape = Game.Level.FindShapeWithType( "TPole" )
 	Field Flag:LTShape = Game.Level.FindShape( "Flag" )
 	Field FinalExit:LTShape = Game.Level.FindShape( "FinalExit" )
@@ -552,6 +586,7 @@ Type TFinalSequence Extends LTBehaviorModel
 		Game.Mario.Frame = TMario.SlidingDown
 		Game.MusicChannel.SetVolume( 0.0 )
 		Game.FlagPole.Play()
+		TScore.FromSprite( Game.Mario, L_LimitInt( ( Pole.BottomY() - Game.Mario.BottomY() ) / Pole.Height * 11, TScore.s100, TScore.s8000 ) )
 	End Method
 	
 	
@@ -566,8 +601,15 @@ Type TFinalSequence Extends LTBehaviorModel
 					NextPhase( Shape )
 				End If
 			Case Walking
+				Game.Mario.DX = WalkingSpeed
+				If Game.Mario.OnLand Then
+					Game.Mario.Animate( Game, WalkingAnimationSpeed, 3, 1, AnimationStartingTime )
+				Else
+					AnimationStartingTime = Game.Time
+				End If
 				If Game.Mario.X >= FinalExit.X Then NextPhase( Shape )
 			Case Exiting
+				Game.Mario.DX = WalkingSpeed
 				If Game.Mario.LeftX() >= FinalExit.RightX() Then NextPhase( Shape )
 			Case RaisingFlag
 				CastleFlag.Move( 0, -CastleFlagSpeed )
@@ -597,7 +639,6 @@ Type TFinalSequence Extends LTBehaviorModel
 			Case Walking
 				Shape.ActivateModel( "TCollisions" )
 				Shape.ActivateModel( "TGravity" )
-				Game.Mario.DX = WalkingSpeed
 				Game.Mario.SetFacing( LTSprite.RightFacing )
 				Game.Mario.Frame = TMario.Jumping
 				Game.StageClear.Play()

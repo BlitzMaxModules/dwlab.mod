@@ -81,7 +81,7 @@
 					<LTSprite x="0.56" y="0.5" width="0.87" shape="2">
 						<Object field="visualizer" id="127"/>
 					</LTSprite>
-					<LTSprite x="0.43" y="0.5" width="0.87" shape="2">
+					<LTSprite x="0.4299" y="0.5" width="0.87" shape="2">
 						<Object field="visualizer" id="127"/>
 					</LTSprite>
 					<Null/>
@@ -104,7 +104,7 @@
 					<LTSprite x="0.56" y="0.5" width="0.87" shape="2">
 						<Object field="visualizer" id="127"/>
 					</LTSprite>
-					<LTSprite x="0.43" y="0.5" width="0.87" shape="2">
+					<LTSprite x="0.4299" y="0.5" width="0.87" shape="2">
 						<Object field="visualizer" id="127"/>
 					</LTSprite>
 					<LTGroup>
@@ -134,7 +134,7 @@
 					<LTSprite x="0.5" y="0.5" shape="2">
 						<Object field="visualizer" id="127"/>
 					</LTSprite>
-					<LTSprite x="0.5" y="0.43" height="0.87" shape="2">
+					<LTSprite x="0.5" y="0.4299" height="0.87" shape="2">
 						<Object field="visualizer" id="127"/>
 					</LTSprite>
 					<LTGroup>
@@ -451,6 +451,9 @@
 		<LTVectorSprite name="LTVectorSprite,FinalExit" x="204.5" y="12" height="2" shape="2">
 			<LTImageVisualizer field="visualizer" alpha="0"/>
 		</LTVectorSprite>
+		<LTVectorSprite name="TMusic,1" x="1.5" y="1.5" shape="2">
+			<LTImageVisualizer field="visualizer" alpha="0"/>
+		</LTVectorSprite>
 	</LTLayer>
 	<LTLayer name="LTLayer,1">
 		<Object field="visualizer" id="145"/>
@@ -480,6 +483,9 @@
 			<LTImageVisualizer field="visualizer" alpha="0"/>
 		</LTVectorSprite>
 		<LTVectorSprite name="TExit,0,1" x="12.5" y="10" height="2" shape="2" dx="1">
+			<LTImageVisualizer field="visualizer" alpha="0"/>
+		</LTVectorSprite>
+		<LTVectorSprite name="TMusic,2" x="13.5" y="1.5" shape="2">
 			<LTImageVisualizer field="visualizer" alpha="0"/>
 		</LTVectorSprite>
 	</LTLayer>

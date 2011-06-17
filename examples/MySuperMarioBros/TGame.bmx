@@ -57,9 +57,7 @@ Type TGame Extends LTProject
 	Field FlagPole:TSound = TSound.Load( "media\FlagPole.ogg", False )
 	Field Fireworks:TSound = TSound.Load( "media\Fireworks.ogg", False )
 
-	Field MusicChannel:TChannel
-	Field MusicIntro:TSound = TSound.Load( "media\Music1intro.ogg", False )
-	Field Music:TSound = TSound.Load( "media\Music1.ogg", True ) ' True for looped
+	Field MusicChannel:TChannel = New TChannel
 	Field MarioDie:TSound = TSound.Load( "media\MarioDie.ogg", False )
 	Field Invulnerability:TSound = TSound.Load( "media\Invulnerability.ogg", True )
 	Field StageClear:TSound = TSound.Load( "media\StageClear.ogg", False )
@@ -104,8 +102,7 @@ Type TGame Extends LTProject
 		TileMap = LTTileMap( Level.FindShapeWithType( "TTiles" ) )
 		MovingObjects = CollisionMaps[ Num ]
 		Mario.JumpTo( Level.FindShapeWithType( "TStart", String( PointNum ) ) )
-		If MusicChannel Then MusicChannel.Stop()
-		MusicChannel = MusicIntro.Play()
+		TMusic( Level.FindShapeWithType( "TMusic" ) ).Start()
 	End Method
 	
 	
@@ -114,7 +111,6 @@ Type TGame Extends LTProject
 		Level.Act()
 		If Not Level.Active Then Level.FindShapeWithType( "TMario" ).Act()
 		If KeyHit( Key_Escape ) Then End ' exit after pressing Escape
-		If Not MusicChannel.Playing() Then MusicChannel = Music.Play()
 	End Method
 	
 	
