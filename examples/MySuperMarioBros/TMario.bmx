@@ -79,21 +79,21 @@ Type TMario Extends LTVectorSprite
 			If FindModel( "TBig" ) Then
 				If Not FindModel( "TShrinking" ) Then AttachModel( New TShrinking )
 			Else
-				AttachModel( New TDying )
+				AttachModel( TDying.Create( False ) )
 			End If
 		End If		
 	End Method
 	
 	
 	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileSprite:LTSprite, TileX:Int, TileY:Int, CollisionType:Int )
+	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
 		Local TileNum:Int = TileMap.GetTile( TileX, TileY )
 		If TileNum = TTIles.Coin Then
 			TileMap.SetTile( TileX, TileY, TTiles.DarkEmptyBlock )
 			Game.Coins :+ 1
 			Game.CoinFlip.Play()
-		ElseIf TileNum <> TTIles.DarkEmptyBlock Then
-			PushFromTile( TileMap, TileSprite, TileX, TileY )
+		Else
+			PushFromTile( TileMap, TileX, TileY )
 			If CollisionType = Vertical Then
 				If DY >= 0 Then
 					OnLand = True
@@ -105,7 +105,7 @@ Type TMario Extends LTVectorSprite
 						Case TTiles.Bricks, TTiles.ShadyBricks
 							Local Model:LTBehaviorModel = FindModel( "TBig" )
 							If Model Then
-								Model.HandleCollisionWithTile( Self, TileMap, TileSprite, TileX, TileY, CollisionType )
+								Model.HandleCollisionWithTile( Self, TileMap, TileX, TileY, CollisionType )
 							Else
 								TBlock.FromTile( TileX, TileY, TileNum )
 							End If
@@ -130,6 +130,8 @@ Type TMario Extends LTVectorSprite
 		
 		L_CurrentCamera.JumpTo( Self )
 		L_CurrentCamera.LimitWith( Game.Level.Bounds )
+		
+		If TopY() > Game.Tilemap.BottomY() And Not FindModel( "TDying" ) Then AttachModel( TDying.Create( True ) )
 	End Method
 End Type
 
@@ -188,42 +190,6 @@ Type TMoving Extends LTBehaviorModel
 End Type
 
 
-Rem
-Type TMoving Extends LTBehaviorModel
-	Const Speed:Double = 5.0
-	Const WalkingAnimationSpeed:Double = 0.15
-	
-	Field AnimationStartingTime:Double
-	
-	
-	
-	Method ApplyTo( Shape:LTShape )
-		Local Mario:TMario = TMario( Shape )
-		Mario.DX = 0.0
-		If KeyDown( Key_Left ) Then
-			Mario.DX = -Speed
-			Mario.SetFacing( LTSprite.LeftFacing )
-		ElseIf KeyDown( Key_Right ) Then
-			Mario.DX = Speed
-			Mario.SetFacing( LTSprite.RightFacing )
-		End If
-		
-		If Mario.DX Then
-			If Mario.OnLand Then Mario.Animate( Game, WalkingAnimationSpeed, 3, 1, AnimationStartingTime )
-		Else
-			If Mario.OnLand Then Mario.Frame = TMario.Standing
-			AnimationStartingTime = Game.Time
-		End If
-	End Method
-	
-	
-	
-	Method Deactivate( Shape:LTShape )
-		TMario( Shape ).DX = 0.0
-	End Method
-End Type
-EndRem
-
 
 
 
@@ -247,23 +213,41 @@ End Type
 
 
 Type TDying Extends LTBehaviorModel
+	Const Period:Double = 3.5
+	
+	Field Chasm:Int
+	Field StartingTime:Double
+
+	
+
+	Function Create:TDying( Chasm:Int )
+		Local Dying:TDying = New TDying
+		Dying.Chasm = Chasm
+		Return Dying
+	End Function
+
+	
+	
 	Method Activate( Shape:LTShape )
 		Local Mario:TMario = TMario( Shape )
 		TCollisions( Mario.FindModel( "TCollisions" ) ).SetCollisions( False, False )
 		Mario.DeactivateModel( "TMoving" )
 		Mario.DeactivateModel( "TJumping" )
 		Mario.DX = 0.0
-		Mario.DY = TJumping.Strength
-		Mario.Frame = TMario.Dying
+		If Not Chasm Then
+			Mario.DY = TJumping.Strength
+			Mario.Frame = TMario.Dying
+		End If
 		
 		Game.MusicChannel.Stop()
 		Game.MusicChannel = Game.MarioDie.Play()
+		StartingTime = Game.Time
 	End Method
 	
 	
 	
 	Method ApplyTo( Shape:LTShape )
-		If Not Game.MusicChannel.Playing() Then Game.InitLevel()
+		If Game.Time > StartingTime + Period Then Game.InitLevel()
 	End Method
 End Type
 
@@ -313,7 +297,7 @@ End Type
 
 
 Type TBig Extends LTBehaviorModel
-	Method HandleCollisionWithTile( Sprite:LTSprite, TileMap:LTTileMap, TileSprite:LTSprite, TileX:Int, TileY:Int, CollisionType:Int )
+	Method HandleCollisionWithTile( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
 		Local TileNum:Int = TileMap.GetTile( TileX, TileY )
 		If TileNum = TTiles.Bricks Or TileNum = TTiles.ShadyBricks Then TBricks.FromTile( TileX, TileY, TileNum )
 	End Method

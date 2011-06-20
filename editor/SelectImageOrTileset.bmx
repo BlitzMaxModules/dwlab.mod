@@ -60,9 +60,9 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 		End If
 		
 		If Image Then
-			Frame = PrintImageToCanvas( TImage( Editor.BigImages.ValueForKey( Image ) ), Canvas, Image.XCells, Image.YCells, Frame )
+			Frame = PrintImageToCanvas( TImage( Editor.BigImages.ValueForKey( Image ) ), Canvas, Image.XCells, Image.YCells, Frame, , LTTileSet( SelectedObject ) )
 		Else
-			PrintImageToCanvas( Null, Canvas, 0, 0, 0 )
+			PrintImageToCanvas( Null, Canvas )
 		End If
 	
 		PollEvent()

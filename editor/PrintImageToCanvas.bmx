@@ -9,8 +9,9 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Function PrintImageToCanvas:Int( Image:TImage, Canvas:TGadget, XCells:Int = 0, YCells:Int = 0, Frame:Int = -1, SelectFrame:Int = True )
+Function PrintImageToCanvas:Int( Image:TImage, Canvas:TGadget, XCells:Int = 0, YCells:Int = 0, Frame:Int = -1, SelectFrame:Int = True, TileSet:LTTileSet = Null )
 	SetGraphics( CanvasGraphics( Canvas ) )
+	SetBlend( AlphaBlend )
 	Cls
 	
 	If Image Then
@@ -37,6 +38,28 @@ Function PrintImageToCanvas:Int( Image:TImage, Canvas:TGadget, XCells:Int = 0, Y
 				DrawLine( DX, DY + YY, DX + Width, DY + YY )
 			Next
 			
+			If TileSet Then
+				SetAlpha( 0.5 )
+				For Local Y:Int = 0 Until YCells
+					For Local X:Int = 0 Until XCells
+						Local Shape:LTShape = TileSet.CollisionShape[ X + Y * XCells ]
+						If Shape Then
+							Local XX:Double = DX + Width * X / XCells
+							Local YY:Double = DY + Height * Y / YCells
+							Local Sprite:LTSprite = LTSprite( Shape )
+							If Sprite Then
+								DrawCollisionSprite( Sprite, XX, YY, Width / XCells, Height / YCells )
+							Else
+								For Sprite = Eachin LTGroup( Shape )
+									DrawCollisionSprite( Sprite, XX, YY, Width / XCells, Height / YCells )
+								Next
+							End If
+						End If
+					Next
+				Next
+				SetAlpha( 1.0 )
+			End If
+			
 			SetColor( 255, 255, 255 )
 			
 			If Frame >= 0 Then
@@ -58,4 +81,23 @@ Function PrintImageToCanvas:Int( Image:TImage, Canvas:TGadget, XCells:Int = 0, Y
 	SetGraphics( CanvasGraphics( Editor.MainCanvas ) )
 
 	Return Frame
+End Function
+
+
+
+
+
+Function DrawCollisionSprite( Sprite:LTSprite, X:Double, Y:Double, Width:Double, Height:Double )
+	Local ShapeX:Double = X + Width * Sprite.X
+	Local ShapeY:Double = Y + Height * Sprite.Y
+	Local ShapeWidth:Double = Width * Sprite.Width
+	Local ShapeHeight:Double = Height * Sprite.Height
+	Select Sprite.ShapeType
+		Case LTSprite.Pivot
+			DrawOval( ShapeX - 2, ShapeY - 2, 5, 5 )
+		Case LTSprite.Circle
+			DrawOval( ShapeX - 0.5 * ShapeWidth, ShapeY - 0.5 * ShapeHeight, ShapeWidth, ShapeHeight )
+		Case LTSprite.Rectangle
+			DrawRect( ShapeX - 0.5 * ShapeWidth, ShapeY - 0.5 * ShapeHeight, ShapeWidth, ShapeHeight )
+	End Select
 End Function

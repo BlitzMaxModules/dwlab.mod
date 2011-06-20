@@ -31,8 +31,8 @@ Type LTSprite Extends LTShape
 	
 	' ==================== Collisions ===================
 	
-	Method TileCollisionsWithSprite( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
-		If TileCollidesWithSprite( Sprite, DX, DY, XScale, YScale ) Then Sprite.HandleCollisionWithTile( TileMap, Self, TileX, TileY, CollisionType )
+	Method TileShapeCollisionsWithSprite( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
+		If TileSpriteCollidesWithSprite( Sprite, DX, DY, XScale, YScale ) Then Sprite.HandleCollisionWithTile( TileMap, TileX, TileY, CollisionType )
 	End Method
 	
 	
@@ -92,7 +92,7 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Method TileCollidesWithSprite:Int( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double )
+	Method TileSpriteCollidesWithSprite:Int( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double )
 		?debug
 		L_CollisionChecks :+ 1
 		?
@@ -190,7 +190,7 @@ Type LTSprite Extends LTShape
 				
 				If TileX >= 0 And TileY >= 0 And TileX < XQuantity And TileY < YQuantity Then
 					Local Shape:LTShape = Tileset.CollisionShape[ TileMap.FrameMap.Value[ TileX, TileY ] ]
-					If Shape Then Shape.TileCollisionsWithSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, CellWidth, CellHeight, TileMap, TileX, TileY, CollisionType )
+					If Shape Then Shape.TileShapeCollisionsWithSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, CellWidth, CellHeight, TileMap, TileX, TileY, CollisionType )
 				End If
 			Case Circle, Rectangle
 				Local X1:Int = Floor( ( X - 0.5 * Width - X0 ) / CellWidth )
@@ -207,7 +207,7 @@ Type LTSprite Extends LTShape
 					For Local TileY:Int = Y1 To Y2
 						For Local TileX:Int = X1 To X2
 							Local Shape:LTShape = Tileset.CollisionShape[ TileMap.FrameMap.Value[ TileX, TileY ] ]
-							If Shape Then Shape.TileCollisionsWithSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, CellWidth, CellHeight, TileMap, TileX, TileY, CollisionType )
+							If Shape Then Shape.TileShapeCollisionsWithSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, CellWidth, CellHeight, TileMap, TileX, TileY, CollisionType )
 						Next
 					Next
 				End If
@@ -264,10 +264,10 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileSprite:LTSprite, TileX:Int, TileY:Int, CollisionType:Int )
+	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
 		If Active Then
 			For Local Model:LTBehaviorModel = Eachin BehaviorModels
-				If Model.Active Then Model.HandleCollisionWithTile( Self, TileMap, TileSprite, TileX, TileY, CollisionType )
+				If Model.Active Then Model.HandleCollisionWithTile( Self, TileMap, TileX, TileY, CollisionType )
 			Next
 		End If
 	End Method
@@ -323,10 +323,22 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Method PushFromTile( TileMap:LTTileMap, Sprite:LTSprite, TileX:Int, TileY:Int )
+	Method PushFromTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
 		Local CellWidth:Double = TileMap.GetCellWidth()
 		Local CellHeight:Double = TileMap.GetCellHeight()
-		PushFromTileSprite( Sprite, TileMap.LeftX() + CellWidth * TileX, TileMap.TopY() + CellHeight * TileY, CellWidth, CellHeight )
+		Local X:Double = TileMap.LeftX() + CellWidth * TileX
+		Local Y:Double = TileMap.TopY() + CellHeight * TileY
+		Local Shape:LTShape = TileMap.GetTileCollisionShape( TileX, TileY )
+		Local Sprite:LTSprite = LTSprite( Shape )
+		If Sprite Then
+			PushFromTileSprite( Sprite, X, Y, CellWidth, CellHeight )
+		Else
+			For Sprite = Eachin LTGroup( Shape ).Children
+				If Sprite.TileSpriteCollidesWithSprite( Self, X, Y, CellWidth, CellHeight ) Then
+					PushFromTileSprite( Sprite, TileMap.LeftX() + CellWidth * TileX, TileMap.TopY() + CellHeight * TileY, CellWidth, CellHeight )
+				End If
+			Next
+		End If
 	End Method
 
 

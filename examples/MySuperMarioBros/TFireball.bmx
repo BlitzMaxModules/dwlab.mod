@@ -48,8 +48,8 @@ Type TFlying Extends LTBehaviorModel
 	
 	
 	
-	Method HandleCollisionWithTile( Sprite:LTSprite, TileMap:LTTileMap, TileSprite:LTSprite, TileX:Int, TileY:Int, CollisionType:Int )
-		Sprite.PushFromTile( TileMap, TileSprite, TileX, TileY )
+	Method HandleCollisionWithTile( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
+		Sprite.PushFromTile( TileMap, TileX, TileY )
 		Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite )
 		If CollisionType = LTSprite.Vertical Then
 			If VectorSprite.DY >= 0.0 Then

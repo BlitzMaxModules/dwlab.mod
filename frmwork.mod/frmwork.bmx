@@ -21,7 +21,7 @@ Import brl.audio
 
 SeedRnd( MilliSecs() )
 
-Const L_Version:String = "0.13.1"
+Const L_Version:String = "0.13.2"
 
 Include "include/LTObject.bmx"
 Include "include/LTProject.bmx"

@@ -20,6 +20,9 @@ Type TTileCollisionShapes
 	Field TileSet:LTTileSet
 	Field TileNum:Int
 	Field Visualizer:LTVisualizer = New LTVisualizer
+	Field GridCellXDiv:Int = 16
+	Field GridCellYDiv:Int = 16
+	Field GridActive:Int = True
 
 	Field ShapeComboBox:TGadget
 	Field XField:TGadget
@@ -91,7 +94,7 @@ Type TTileCollisionShapes
 			Flip( False )
 	
 			Local OldTileNum:Int = TileNum
-			TileNum = PrintImageToCanvas( TImage( Editor.BigImages.ValueForKey( Image ) ), TilesetCanvas, Image.XCells, Image.YCells, TileNum, MouseIsOver = TilesetCanvas )
+			TileNum = PrintImageToCanvas( TImage( Editor.BigImages.ValueForKey( Image ) ), TilesetCanvas, Image.XCells, Image.YCells, TileNum, MouseIsOver = TilesetCanvas, TileSet )
 			If OldTileNum <> TileNum Then
 				SelectedCollisionShape = Null
 				RefreshFields()
@@ -177,7 +180,7 @@ Type TTileCollisionShapes
 								If SelectedCollisionShape.BottomY() > 1.0 Then SelectedCollisionShape.Height = 2.0 * ( 1.0 - SelectedCollisionShape.Y )
 							End If
 						Case GridSettingsButton
-							Editor.Grid.Settings()
+							GridSettings()
 						Case CloseButton
 							Exit
 					End Select
@@ -221,6 +224,51 @@ Type TTileCollisionShapes
 			SetGadgetText( HeightField, "" )
 		End If
 	End Method
+	
+	
+	
+	
+	
+	Method GridSettings()
+		Local GridSettingsWindow:TGadget = CreateWindow( "{{W_GridSettings}}", 0, 0, 0, 0, Editor.Window, Window_Titlebar | Window_ClientCoords )
+		Local Form:LTForm = LTForm.Create( GridSettingsWindow )
+		Form.NewLine()
+		Local VerticalDivField:TGadget = Form.AddTextField( "{{L_VerticalCellDivision}}", 200 )
+		Form.NewLine()
+		Local HorizontalDivField:TGadget = Form.AddTextField( "{{L_HorizontalCellDivision}}", 200 )
+		Form.NewLine()
+		Local ActiveCheckBox:TGadget = Form.AddButton( "{{L_GridActive}}", 120, Button_CheckBox )
+		Form.NewLine()
+		Local OKButton:TGadget = Form.AddButton( "{{B_OK}}", 80, Button_OK )
+		Form.Finalize()
+		
+		SetGadgetText( VerticalDivField, GridCellXDiv )
+		SetGadgetText( HorizontalDivField, GridCellYDiv )
+		SetButtonState( ActiveCheckBox, GridActive )
+		
+		Repeat
+			PollEvent()
+			Select EventID()
+				Case Event_GadgetAction
+					Select EventSource()
+						Case OKButton
+							Local NewCellXDiv:Double = TextFieldText( VerticalDivField ).ToInt()
+							Local NewCellYDiv:Double = TextFieldText( HorizontalDivField ).ToInt()
+							If NewCellXDiv > 0 And NewCellYDiv > 0 Then
+								GridCellXDiv = NewCellXDiv
+								GridCellYDiv = NewCellYDiv
+								GridActive = ButtonState( ActiveCheckBox )
+								Exit
+							Else
+								Notify( "Cell divisions must be more than 0", True )
+							End If
+					End Select
+				Case Event_WindowClose
+					Exit
+			End Select
+		Forever
+		FreeGadget( GridSettingsWindow )
+	End Method
 End Type
 
 
@@ -251,8 +299,8 @@ Type TCreateCollisionShape Extends LTDrag
 		CollisionShape.Visualizer = Null
 		CollisionShape.JumpTo( TileCollisionShapes.Cursor )
 		CollisionShape.SetSize( 0.0, 0.0 )
-		StartingX = 1.0 * Int( TileCollisionShapes.Cursor.X * Editor.Grid.CellXDiv ) / Editor.Grid.CellXDiv
-		StartingY = 1.0 * Int( TileCollisionShapes.Cursor.Y * Editor.Grid.CellYDiv ) / Editor.Grid.CellYDiv
+		StartingX = 1.0 * Int( TileCollisionShapes.Cursor.X * TileCollisionShapes.GridCellXDiv ) / TileCollisionShapes.GridCellXDiv
+		StartingY = 1.0 * Int( TileCollisionShapes.Cursor.Y * TileCollisionShapes.GridCellYDiv ) / TileCollisionShapes.GridCellYDiv
 		
 		If TileCollisionShapes.CollisionGroup Then
 			TileCollisionShapes.CollisionGroup.AddLast( CollisionShape )
@@ -274,9 +322,9 @@ Type TCreateCollisionShape Extends LTDrag
 	Method Dragging()
 		Local CursorX:Double = TileCollisionShapes.Cursor.X
 		Local CursorY:Double = TileCollisionShapes.Cursor.Y
-		If Editor.Grid.Active Then
-			CursorX = 1.0 * Int( CursorX * Editor.Grid.CellXDiv ) / Editor.Grid.CellXDiv
-			CursorY = 1.0 * Int( CursorY * Editor.Grid.CellYDiv ) / Editor.Grid.CellYDiv
+		If TileCollisionShapes.GridActive Then
+			CursorX = 1.0 * Int( CursorX * TileCollisionShapes.GridCellXDiv ) / TileCollisionShapes.GridCellXDiv
+			CursorY = 1.0 * Int( CursorY * TileCollisionShapes.GridCellYDiv ) / TileCollisionShapes.GridCellYDiv
 		End If
 		CollisionShape.SetSize( Abs( StartingX - CursorX ), Abs( StartingY - CursorY ) )
 		CollisionShape.SetCornerCoords( Min( StartingX, CursorX ), Min( StartingY, CursorY ) )
@@ -328,9 +376,9 @@ Type TMoveCollisionShape Extends LTDrag
 		If NewTopY < 0.0 Then NewTopY = 0
 		If NewLeftX + CollisionShape.Width > 1.0 Then NewLeftX = 1.0 - CollisionShape.Width
 		If NewTopY + CollisionShape.Height > 1.0 Then NewTopY = 1.0 - CollisionShape.Height
-		If Editor.Grid.Active Then
-			NewLeftX = 1.0 * Int( NewLeftX * Editor.Grid.CellXDiv ) / Editor.Grid.CellXDiv
-			NewTopY = 1.0 * Int( NewTopY * Editor.Grid.CellYDiv ) / Editor.Grid.CellYDiv
+		If TileCollisionShapes.GridActive Then
+			NewLeftX = 1.0 * Int( NewLeftX * TileCollisionShapes.GridCellXDiv ) / TileCollisionShapes.GridCellXDiv
+			NewTopY = 1.0 * Int( NewTopY * TileCollisionShapes.GridCellYDiv ) / TileCollisionShapes.GridCellYDiv
 		End If
 		CollisionShape.SetCornerCoords( NewLeftX, NewTopY )
 		TileCollisionShapes.RefreshFields()
@@ -376,9 +424,9 @@ Type TResizeCollisionShape Extends LTDrag
 		Local NewHeight:Double = L_LimitDouble( DY + TileCollisionShapes.Cursor.Y, 0.0, 1.0 )
 		If CollisionShape.LeftX() + NewWidth > 1.0 Then NewWidth = 1.0 - CollisionShape.LeftX()
 		If CollisionShape.TopY() + NewHeight > 1.0 Then NewHeight = 1.0 - CollisionShape.TopY()
-		If Editor.Grid.Active Then
-			NewWidth = 1.0 * Int( NewWidth * Editor.Grid.CellXDiv ) / Editor.Grid.CellXDiv
-			NewHeight = 1.0 * Int( NewHeight * Editor.Grid.CellYDiv ) / Editor.Grid.CellYDiv
+		If TileCollisionShapes.GridActive Then
+			NewWidth = 1.0 * Int( NewWidth * TileCollisionShapes.GridCellXDiv ) / TileCollisionShapes.GridCellXDiv
+			NewHeight = 1.0 * Int( NewHeight * TileCollisionShapes.GridCellYDiv ) / TileCollisionShapes.GridCellYDiv
 		End If
 		If CollisionShape.ShapeType = LTSprite.Circle Then
 			NewWidth = Min( NewWidth, NewHeight )

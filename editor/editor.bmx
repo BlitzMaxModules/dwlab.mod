@@ -50,8 +50,8 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.3.2"
-	Const INIVersion:Int = 2
+	Const Version:String = "1.3.3"
+	Const INIVersion:Int = 3
 	
 	Field EnglishLanguage:TMaxGuiLanguage
 	Field RussianLanguage:TMaxGuiLanguage
@@ -402,6 +402,10 @@ Type LTEditor Extends LTProject
 				L_DebugVisualizer.Red = ReadLine( IniFile ).ToInt()
 				L_DebugVisualizer.Green = ReadLine( IniFile ).ToInt()
 				L_DebugVisualizer.Blue = ReadLine( IniFile ).ToInt()
+				
+				TileCollisionShapes.GridActive = ReadLine( IniFile ).ToInt()
+				TileCollisionShapes.GridCellXDiv = ReadLine( IniFile ).ToInt()
+				TileCollisionShapes.GridCellYDiv = ReadLine( IniFile ).ToInt()
 			End If
 			
 			CloseFile( IniFile )
@@ -471,6 +475,10 @@ Type LTEditor Extends LTProject
 		
 		WorldFilename = ""
 		World = New LTWorld
+		CurrentShape = Null
+		CurrentTilemap = Null
+		CurrentLayer = Null
+		SelectedShapes.Clear()
 		RealPathsForImages.Clear()
 		BigImages.Clear()
 		AddLayer( "LTLayer" )
@@ -491,7 +499,9 @@ Type LTEditor Extends LTProject
 			World = LTWorld( L_LoadFromFile( Filename ) )
 			
 			CurrentShape = Null
+			CurrentTilemap = Null
 			CurrentLayer = Null
+			SelectedShapes.Clear()
 			If Not World.Children.IsEmpty() Then CurrentLayer = LTLayer( World.Children.First() )
 			
 			RealPathsForImages.Clear()
@@ -554,7 +564,10 @@ Type LTEditor Extends LTProject
 		WriteLine( IniFile, L_DebugVisualizer.Red )
 		WriteLine( IniFile, L_DebugVisualizer.Green )
 		WriteLine( IniFile, L_DebugVisualizer.Blue )
-		
+		WriteLine( IniFile, TileCollisionShapes.GridActive )
+		WriteLine( IniFile, TileCollisionShapes.GridCellXDiv )
+		WriteLine( IniFile, TileCollisionShapes.GridCellYDiv )
+
 		CloseFile( IniFile )
 		
 		End

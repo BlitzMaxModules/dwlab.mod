@@ -1,3 +1,7 @@
+1.3.3
+* Tile collision shapes are now showing on tileset window
+* Tile collision shapes editor grid now is separated from world editor grid
+
 1.3.2
 * Tile collision shapes now are displaying
 

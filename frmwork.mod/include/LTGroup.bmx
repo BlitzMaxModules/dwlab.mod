@@ -50,10 +50,11 @@ Type LTGroup Extends LTShape
 	
 	
 	
-	Method TileCollisionsWithSprite( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
+	Method TileShapeCollisionsWithSprite( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
 		For Local GroupSprite:LTSprite = Eachin Children
-			If GroupSprite.TileCollidesWithSprite( Sprite, DX, DY, XScale, YScale ) Then
-				Sprite.HandleCollisionWithTile( TileMap, GroupSprite, TileX, TileY, CollisionType )
+			If GroupSprite.TileSpriteCollidesWithSprite( Sprite, DX, DY, XScale, YScale ) Then
+				Sprite.HandleCollisionWithTile( TileMap, TileX, TileY, CollisionType )
+				Return
 			End If
 		Next
 	End Method
