@@ -142,8 +142,17 @@ Function ImportTilemap:LTTileMap( TileWidth:Int, TileHeight:Int, TileMapPixmap:T
 	Local Tiles:TList = New TList
 	
 	Local Image:TImage = TileSet.Image.BMaxImage
+	If Not Image Then
+		Local Pixmap:TPixmap = LoadPixmap( TileSet.Image.Filename )
+		Local PixmapWidth:Int = PixmapWidth( Pixmap )
+		Local PixmapHeight:Int = PixmapHeight( Pixmap )
+		If PixmapWidth Mod TileWidth = 0 And PixmapHeight Mod TileHeight = 0 Then
+			Image = LoadAnimImage( Pixmap, TileWidth, TileHeight, 0, PixmapWidth / TileWidth * PixmapHeight / TileHeight )
+		End If
+	End If
+	
 	If Image Then
-		For Local N:Int = 0 Until TileSet.Image.FramesQuantity()
+		For Local N:Int = 0 Until Image.frames.Dimensions()[ 0 ]
 			Local Pixmap:TPixmap = LockImage( Image, N )
 			If PixmapIsEmpty( Pixmap ) Then Exit
 			Tiles.AddLast( Pixmap )

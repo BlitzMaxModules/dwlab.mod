@@ -36,7 +36,7 @@ Type LTImage Extends LTObject
 	
 	Method Split()
 		?debug
-		If ImageWidth( BMaxImage ) Mod XCells <> 0 Or ImageHeight( BMaxImage ) Mod YCells <> 0 Then L_Error( "Incorrect cells quantity for splitting" )
+		'If ImageWidth( BMaxImage ) Mod XCells <> 0 Or ImageHeight( BMaxImage ) Mod YCells <> 0 Then L_Error( "Incorrect cells quantity for splitting" )
 		?
 		
 		Local Width:Int = ImageWidth( BMaxImage ) / XCells

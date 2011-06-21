@@ -320,8 +320,8 @@ Type TCreateCollisionShape Extends LTDrag
 	
 	
 	Method Dragging()
-		Local CursorX:Double = TileCollisionShapes.Cursor.X
-		Local CursorY:Double = TileCollisionShapes.Cursor.Y
+		Local CursorX:Double = L_LimitDouble( TileCollisionShapes.Cursor.X, 0.0, 1.0 )
+		Local CursorY:Double = L_LimitDouble( TileCollisionShapes.Cursor.Y, 0.0, 1.0 )
 		If TileCollisionShapes.GridActive Then
 			CursorX = 1.0 * Int( CursorX * TileCollisionShapes.GridCellXDiv ) / TileCollisionShapes.GridCellXDiv
 			CursorY = 1.0 * Int( CursorY * TileCollisionShapes.GridCellYDiv ) / TileCollisionShapes.GridCellYDiv

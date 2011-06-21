@@ -33,7 +33,6 @@ Include "EnterString.bmx"
 Include "TilesetRules.bmx"
 Include "PrintImageToCanvas.bmx"
 Include "ResizeTilemap.bmx"
-Include "LTMenuSwitch.bmx"
 Include "AddOKCancelButtons.bmx"
 Include "SelectImageOrTileset.bmx"
 Include "ImageProperties.bmx"
@@ -297,20 +296,20 @@ Type LTEditor Extends LTProject
 		CreateMenu( "{{M_Exit}}", MenuExit, FileMenu )
 		
 		Local EditMenu:TGadget = CreateMenu( "{{M_Edit}}", 0, WindowMenu( Window ) )
-		LTMenuSwitch.Create( "{{M_ShowCollisions}}", MenuShowCollisionShapes, EditMenu )
-		LTMenuSwitch.Create( "{{M_ShowVectors}}", MenuShowVectors, EditMenu )
-		LTMenuSwitch.Create( "{{M_ShowNames}}", MenuShowNames, EditMenu )
+		LTMenuSwitch.Create( "{{M_ShowCollisions}}", Toolbar, MenuShowCollisionShapes, EditMenu )
+		LTMenuSwitch.Create( "{{M_ShowVectors}}", Toolbar, MenuShowVectors, EditMenu )
+		LTMenuSwitch.Create( "{{M_ShowNames}}", Toolbar, MenuShowNames, EditMenu )
 		CreateMenu( "", 0, EditMenu )
-		LTMenuSwitch.Create( "{{M_ShowGrid}}", MenuShowGrid, EditMenu )
-		LTMenuSwitch.Create( "{{M_SnapToGrid}}", MenuSnapToGrid, EditMenu )
+		LTMenuSwitch.Create( "{{M_ShowGrid}}", Toolbar, MenuShowGrid, EditMenu )
+		LTMenuSwitch.Create( "{{M_SnapToGrid}}", Toolbar, MenuSnapToGrid, EditMenu )
 		CreateMenu( "{{M_GridSettings}}", MenuGridSettings, EditMenu )
 		CreateMenu( "", 0, EditMenu )
 		StaticModel = CreateMenu( "{{M_StaticModel}}", MenuStaticModel, EditMenu )
 		VectorModel = CreateMenu( "{{M_VectorModel}}", MenuVectorModel, EditMenu )
 		AngularModel = CreateMenu( "{{M_AngularModel}}", MenuAngularModel, EditMenu )
 		CreateMenu( "", 0, EditMenu )
-		LTMenuSwitch.Create( "{{M_ReplacementOfTiles}}", MenuReplacementOfTiles, EditMenu )
-		LTMenuSwitch.Create( "{{M_ProlongTiles}}", MenuProlongTiles, EditMenu )
+		LTMenuSwitch.Create( "{{M_ReplacementOfTiles}}", Toolbar, MenuReplacementOfTiles, EditMenu )
+		LTMenuSwitch.Create( "{{M_ProlongTiles}}", Toolbar, MenuProlongTiles, EditMenu )
 		
 		Local LanguageMenu:TGadget = CreateMenu( "{{M_Language}}", 0, WindowMenu( Window ) )
 		English = CreateMenu( "{{M_English}}", MenuEnglish, LanguageMenu )

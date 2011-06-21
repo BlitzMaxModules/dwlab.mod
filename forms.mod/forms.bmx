@@ -18,3 +18,4 @@ Import dwlab.frmwork
 Include "LTForm.bmx"
 Include "LTGadget.bmx"
 Include "LTHorizontalList.bmx"
+Include "LTMenuSwitch.bmx"

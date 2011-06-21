@@ -549,6 +549,7 @@ Type TFinalSequence Extends LTBehaviorModel
 	Const CastleFlagSpeed:Double = 0.8
 	Const TotalFireworks:Int = 5
 	Const ExplodingSpeed:Double = 0.2
+	Const TimeToScoreSpeed:Float = 0.02
 	
 	Const Sliding:Int = 0
 	Const Walking:Int = 1
@@ -566,6 +567,7 @@ Type TFinalSequence Extends LTBehaviorModel
 	Field Firework:LTSprite
 	Field FireworksLeft:Int = TotalFireworks
 	Field FireworkExplodingTime:Double
+	Field LastTimeToScoreSwap:Float
 	
 	
 	
@@ -623,6 +625,11 @@ Type TFinalSequence Extends LTBehaviorModel
 					Firework.Animate( Game, ExplodingSpeed, , , FireworkExplodingTime )
 				End If
 		End Select
+		If Phase >= Walking And Game.TimeLeft > 0 And Game.Time > LastTimeToScoreSwap + TimeToScoreSpeed Then
+			Game.TimeLeft :- 1
+			Game.Score :+ 50
+			LastTimeToScoreSwap = Game.Time
+		End If
 	End Method
 	
 	

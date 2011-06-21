@@ -11,13 +11,15 @@
 Global L_MenuSwicthes:TList = New TList
 
 Type LTMenuSwitch Extends LTObject
+	Field Toolbar:TGadget
 	Field MenuItem:TGadget
 	Field MenuNumber:Int
 	
 	
 	
-	Function Create( Text:String, MenuNumber:Int, Menu:TGadget )
+	Function Create( Text:String, Toolbar:TGadget, MenuNumber:Int, Menu:TGadget )
 		Local Switch:LTMenuSwitch = New LTMenuSwitch
+		Switch.Toolbar = Toolbar
 		Switch.MenuItem = CreateMenu( Text, MenuNumber, Menu )
 		Switch.MenuNumber = MenuNumber
 		L_MenuSwicthes.AddLast( Switch )
@@ -26,7 +28,7 @@ Type LTMenuSwitch Extends LTObject
 	
 	
 	Function Find:LTMenuSwitch( MenuNumber:Int )
-		For Local Switch:LTMenuSwitch = Eachin L_MenuSwicthes
+		For Local Switch:LTMenuSwitch = EachIn L_MenuSwicthes
 			If Switch.MenuNumber = MenuNumber Then Return Switch
 		Next
 	End Function
@@ -34,7 +36,7 @@ Type LTMenuSwitch Extends LTObject
 	
 	
 	Function ReadSwitches( File:TStream )
-		For Local Switch:LTMenuSwitch = Eachin L_MenuSwicthes
+		For Local Switch:LTMenuSwitch = EachIn L_MenuSwicthes
 			Local Dummy:Int
 			Switch.Set( ReadLine( File ) = "1", Dummy )
 		Next
@@ -43,7 +45,7 @@ Type LTMenuSwitch Extends LTObject
 	
 	
 	Function SaveSwicthes( File:TStream )
-		For Local Switch:LTMenuSwitch = Eachin L_MenuSwicthes
+		For Local Switch:LTMenuSwitch = EachIn L_MenuSwicthes
 			WriteLine( File, Switch.State() )
 		Next
 	End Function
@@ -54,10 +56,10 @@ Type LTMenuSwitch Extends LTObject
 		Variable = ToState
 		If ToState Then
 			CheckMenu( MenuItem )
-			SelectGadgetItem( Editor.Toolbar, MenuNumber )
+			If Toolbar Then SelectGadgetItem( Toolbar, MenuNumber )
 		Else
 			UncheckMenu( MenuItem )
-			DeselectGadgetItem( Editor.Toolbar, MenuNumber )
+			If Toolbar Then DeselectGadgetItem( Toolbar, MenuNumber )
 		End If		
 	End Method
 	

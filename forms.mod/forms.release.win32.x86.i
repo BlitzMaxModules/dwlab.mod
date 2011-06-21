@@ -53,5 +53,20 @@ LTHorizontalList^brl.linkedlist.TList{
 -New%()="_dwlab_forms_LTHorizontalList_New"
 -Delete%()="_dwlab_forms_LTHorizontalList_Delete"
 }="dwlab_forms_LTHorizontalList"
+LTMenuSwitch^dwlab.frmwork.LTObject{
+.Toolbar:maxgui.maxgui.TGadget&
+.MenuItem:maxgui.maxgui.TGadget&
+.MenuNumber%&
+-New%()="_dwlab_forms_LTMenuSwitch_New"
+-Delete%()="_dwlab_forms_LTMenuSwitch_Delete"
++Create%(Text$,Toolbar:maxgui.maxgui.TGadget,MenuNumber%,Menu:maxgui.maxgui.TGadget)="_dwlab_forms_LTMenuSwitch_Create"
++Find:LTMenuSwitch(MenuNumber%)="_dwlab_forms_LTMenuSwitch_Find"
++ReadSwitches%(File:brl.stream.TStream)="_dwlab_forms_LTMenuSwitch_ReadSwitches"
++SaveSwicthes%(File:brl.stream.TStream)="_dwlab_forms_LTMenuSwitch_SaveSwicthes"
+-Set%(ToState%,Variable% Var)="_dwlab_forms_LTMenuSwitch_Set"
+-Toggle%(Variable% Var)="_dwlab_forms_LTMenuSwitch_Toggle"
+-State%()="_dwlab_forms_LTMenuSwitch_State"
+}="dwlab_forms_LTMenuSwitch"
 L_LabelIndent%&=mem("dwlab_forms_L_LabelIndent")
 L_FieldHeight%&=mem("dwlab_forms_L_FieldHeight")
+L_MenuSwicthes:brl.linkedlist.TList&=mem:p("dwlab_forms_L_MenuSwicthes")
