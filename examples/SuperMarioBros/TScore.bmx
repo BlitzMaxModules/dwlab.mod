@@ -9,11 +9,11 @@
 '
 
 Type TScore Extends LTSprite
-	Field StartingTime:Float
-	
-	Const MovingSpeed:Float = 3.0
-	Const LifeTime:Float = 1.0
+	Const Speed:Double = 3.0
+	Const LifeTime:Double = 1.0
 
+	Field StartingTime:Double
+	
 	Const s1up:Int = 0	
 	Const s100:Int = 1
 	Const s200:Int = 2
@@ -29,17 +29,19 @@ Type TScore Extends LTSprite
 	
 	
 	Method Act()
-		Y :- MovingSpeed * L_DeltaTime
-		If Game.Time > StartingTime + LifeTime Then Game.MainLayer.Remove( Self )
+		Move( 0, -Speed )
+		If Game.Time > StartingTime + LifeTime Then Game.Level.Remove( Self )
 	End Method
 	
 	
 
 	Function FromSprite( Sprite:LTSprite, Frame:Int )
 		Local Score:TScore = New TScore
-		Score.X = Sprite.X
-		Score.Y = Sprite.Y - 1.0
+		Score.SetCoords( Sprite.X, Sprite.Y - 1.0 )
 		Score.Frame = Frame
+		Score.Visualizer = Game.ScoreVisualizer
+		Score.CorrectHeight()
+		Score.StartingTime = Game.Time
 		Select Frame
 			Case s1up
 				Game.Lives :+ 1
@@ -64,9 +66,6 @@ Type TScore Extends LTSprite
 			Case s8000
 				Game.Score :+ 8000
 		End Select
-		Score.Visualizer = Game.ScoreVis
-		Score.CorrectHeight()
-		Score.StartingTime = Game.Time
-		Game.MainLayer.AddLast( Score )
+		Game.Level.AddLast( Score )
 	End Function
 End Type

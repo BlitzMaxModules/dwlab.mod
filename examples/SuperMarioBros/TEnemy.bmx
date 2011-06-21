@@ -8,28 +8,10 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "TTrigger.bmx"
 Include "TGoomba.bmx"
 Include "TKoopaTroopa.bmx"
 
-Type TEnemy Extends TMovingObject
-	Field Mode:Int = Normal
-	
-	Const Normal:Int = 0
-	Const Falling:Int = 1
-	
-	
-	
-	Method Init()
-	End Method
-	
-	
-	
+Type TEnemy Extends LTVectorSprite
 	Method Stomp()
-	End Method
-	
-	
-	
-	Method Push()
 	End Method
 End Type

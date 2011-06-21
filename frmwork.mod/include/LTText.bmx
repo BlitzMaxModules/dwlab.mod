@@ -18,20 +18,23 @@ Type LTBitmapFont Extends LTObject
 	
 	
 	Method Print( Text:String, X:Double, Y:Double, FontHeightInUnits:Double, HorizontalAlignment:Int = LTAlign.ToRight, VerticalAlignment:Int = LTAlign.ToTop )
+		Local SX:Double, SY:Double
+		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
+		
 		Local Scale:Double = L_CurrentCamera.YK * FontHeightInUnits / Height()
 	
 		Select HorizontalAlignment
 			Case LTAlign.ToCenter
-				X :- 0.5 * Width( Text ) * Scale
+				SX :- 0.5 * Width( Text ) * Scale
 			Case LTAlign.ToRight
-				X :- Width( Text ) * Scale
+				SX :- Width( Text ) * Scale
 		End Select
 		
 		Select VerticalAlignment
 			Case LTAlign.ToCenter
-				Y :- 0.5 * Height() * Scale
+				SY :- 0.5 * Height() * Scale
 			Case LTAlign.ToBottom
-				Y :- Height() * Scale
+				SY :- Height() * Scale
 		End Select
 		
 		SetScale Scale, Scale
@@ -40,8 +43,8 @@ Type LTBitmapFont Extends LTObject
 			If Text[ N ] < FromNum Or Text[ N ] > ToNum Then L_Error( "String contains letter that is out of font range" )
 			?
 			
-			DrawImage( BMaxImage, X, Y, Text[ N ] - FromNum )
-			X :+ Scale * LetterLength[ Text[ N ] - FromNum ]
+			DrawImage( BMaxImage, SX, SY, Text[ N ] - FromNum )
+			SX :+ Scale * LetterLength[ Text[ N ] - FromNum ]
 		Next
 		SetScale 1.0, 1.0
 	End Method
@@ -69,10 +72,7 @@ Type LTBitmapFont Extends LTObject
 				Y = Shape.BottomY()
 		End Select
 		
-		Local SX:Double, SY:Double
-		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
-		
-		Print( Text, SX, SY, FontHeightInUnits, HorizontalAlignment, VerticalAlignment )
+		Print( Text, X, Y, FontHeightInUnits, HorizontalAlignment, VerticalAlignment )
 	End Method
 	
 

@@ -9,15 +9,16 @@
 '
 
 Type TFireFlower Extends TBonus
-	Const AnimationSpeed:Float = 0.1
+	Const AnimationSpeed:Double = 0.1
 
 	
 
 	Function FromTile( TileX:Int, TileY:Int )
-		Local Bonus:TBonus = New TFireFlower
-		Bonus.Initialize( TileX, TileY )
-		Bonus.Visualizer = Game.FireFlower
-		Bonus.DX = 0.0
+		Local FireFlower:TFireFlower = New TFireFlower
+		FireFlower.SetAsTile( Game.TileMap, TileX, TileY )
+		FireFlower.Visualizer = Game.FireFlower
+		FireFlower.DX = 0
+		FireFlower.AttachModel( New TAppearing )
 	End Function
 	
 	
@@ -28,15 +29,13 @@ Type TFireFlower Extends TBonus
 	End Method
 	
 	
-	
+
 	Method Collect()
-		If Game.Mario.Big Then
-			Game.Mario.Mode = Game.Mario.FireGaining
-			Game.Mario.AnimationStartingTime = Game.Time
-		Else
-			Game.Mario.SetGrowth()
-		End If
 		TScore.FromSprite( Self, TScore.s1000 )
-		PlaySound( Game.Powerup )
+		If Game.Mario.FindModel( "TBig" ) Then
+			Game.Mario.AttachModel( New TFlashing )
+		Else
+			Game.Mario.AttachModel( New TGrowing )
+		End If
 	End Method
 End Type

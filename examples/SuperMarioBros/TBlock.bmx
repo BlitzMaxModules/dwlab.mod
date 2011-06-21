@@ -8,61 +8,113 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "TCoin.bmx"
+Include "TBricks.bmx"
+
 Type TBlock Extends LTVectorSprite
-	Field LowestY:Float
+	Const Gravity:Double = 8.0
+	Const Impulse:Double = 1.5
+	Const BonusImpulse:Double = 8.0
+
+	Field LowestY:Double
 	Field TileX:Int, TileY:Int, TileNum:Int
-	Field RemovingTime:Float
 	
 	
 	
 	Function FromTile( TileX:Int, TileY:Int, TileNum:Int )
 		Local Block:TBlock = New TBlock
 		Block.SetAsTile( Game.TileMap, TileX, TileY )
-		Game.TileMap.SetTile( TileX, TileY, 63 )
+		Game.TileMap.SetTile( TileX, TileY, 53 )
 		Block.TileX = TileX
 		Block.TileY = TileY
-		Block.RemovingTime = Game.Time + 2.0
 		Block.LowestY = Block.Y
-		Block.Y :- 0.01
-		Block.DY = -1.0
-		Block.Frame = 48
-		
+		Block.DY = -Impulse
+		Block.Frame = TTiles.SolidBlock
 		Select TileNum
-			Case 9
+			Case TTiles.QuestionBlock
 				TCoin.FromTile( TileX, TileY )
-			Case 11
-				If Game.Mario.Big Then
+			Case TTiles.CoinsBlock
+				TCoin.FromTile( TileX, TileY )
+				Game.Level.AttachModel( TTileChange.Create( TileX, TileY ) )
+				Block.Frame = TileNum 
+			Case TTiles.MushroomBlock
+				If Game.Mario.FindModel( "TBig" ) Then
 					TFireFlower.FromTile( TileX, TileY )
 				Else
-					TMagicMushroom.FromTile( TileX, TileY )
+					TMushroom.FromTile( TileX, TileY )
 				End If
-			Case 13
+			Case TTiles.Mushroom1UPBlock
 				TOneUpMushroom.FromTile( TileX, TileY )
-			Case 18
+			Case TTiles.StarmanBlock
 				TStarMan.FromTile( TileX, TileY )
-			Case 10, 27
+			Case TTiles.Bricks, TTiles.ShadyBricks
 				Block.Frame = TileNum 
 		End Select
-		
-		If ( TileNum = 10 Or TileNum = 27 ) And Game.Mario.Big Then
-			Game.BreakBlock.Play()
-			TBricks.FromTile( TileX, TileY, TileNum )
-		Else
-			Game.Bump.Play()
-			Game.MainLayer.AddLast( Block )
-		End If
+
+		Game.Bump.Play()
+		Game.Level.AddLast( Block )
 	End Function
 	
 	
 	
+	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
+		If DY < 0.0 Then
+			Local Bonus:TBonus = TBonus( Sprite )
+			If Bonus Then
+				Bonus.DY = -BonusImpulse
+				Bonus.DX = Abs( Bonus.DX ) * Sgn( Bonus.X - X )
+			ElseIf TEnemy( Sprite ) Then
+				TEnemy( Sprite ).AttachModel( New TKicked )
+			End If
+		End If
+	End Method
+	
+	
+	
 	Method Act()
-		DY :+ 5.0 * L_DeltaTime
-		If Y >= LowestY Then
-			Y = LowestY
+		DY :+ Game.PerSecond( Gravity )
+		MoveForward()
+		If Y >= LowestY And DY > 0 Then
 			Game.Tilemap.SetTile( TileX, TileY, Frame )
-			If Frame = 10 Or Frame = 27 Or RemovingTime < Game.Time Then Game.MainLayer.Remove( Self )
-		Else
-			MoveForward()
+			Game.Level.Remove( Self )
+		End If
+		CollisionsWithCollisionMap( Game.MovingObjects, 0 )
+	End Method
+End Type
+
+
+
+
+
+Type TTileChange Extends LTBehaviorModel
+	Const Period:Float = 8.0	
+
+	Field TileX:Int, TileY:Int
+	Field StartingTime:Float
+	
+	
+	
+	Function Create:TTileChange( TileX:Int, TileY:Int )
+		Local TileChange:TTileChange = New TTileChange
+		TileChange.TileX = TileX
+		TileChange.TileY = TileY
+		Return TileChange
+	End Function
+	
+	
+	
+	Method Activate( Shape:LTShape )
+		StartingTime = Game.Time
+	End Method
+	
+	
+	
+	Method ApplyTo( Shape:LTShape )
+		If Game.Time >= StartingTime + Period Then
+			If Game.Tilemap.GetTile( TileX, TileY ) <> 53 Then
+				Game.Tilemap.SetTile( TileX, TileY, TTiles.SolidBlock )
+				Remove( Shape )
+			End If
 		End If
 	End Method
 End Type

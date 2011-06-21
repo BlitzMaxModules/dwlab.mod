@@ -21,6 +21,7 @@ LTProject^LTObject{
 .Pass%&
 .Time!&
 .CurrentPause:LTPause&
+.Exiting%&
 -New%()="_dwlab_frmwork_LTProject_New"
 -Delete%()="_dwlab_frmwork_LTProject_Delete"
 -Init%()="_dwlab_frmwork_LTProject_Init"

@@ -8,76 +8,96 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TFireball Extends TMovingObject
-	Field Exploding:Int = False
-	Field ExplosionStartingTime:Float
-
-	Const HorizontalSpeed:Float = 10.0
-	Const Size:Float = 0.4
-	Const ExplosionSpeed:Float = 0.1
-	Const JumpStrength:Float = -8.0
-	Const RotatingSpeed:Float = 8.0 * 360.0
+Type TFireball Extends LTVectorSprite
+	Const MovingSpeed:Double = 10.0
+	Const Size:Double = 0.4
 	
 	
-
-	Function Launch()
+	
+	Function Fire()
 		Local Fireball:TFireball = New TFireball
-		Fireball.X = Game.Mario.X + 0.5 * Game.Mario.Visualizer.XScale
-		Fireball.Y = Game.Mario.Y
-		Fireball.DX = HorizontalSpeed * Game.Mario.Visualizer.XScale
-		Fireball.Width = Size
-		Fireball.Height = Size
+		Fireball.SetCoords( Game.Mario.X + 0.5 * Game.Mario.GetFacing(), Game.Mario.Y )
+		Fireball.SetSize( Size, Size )
+		Fireball.DX = MovingSpeed * Game.Mario.GetFacing()
 		Fireball.Visualizer = LTImageVisualizer.FromImage( Game.Fireball )
-		Fireball.ShapeType = Rectangle
-		Game.MainLayer.AddLast( Fireball )
+		Fireball.ShapeType = LTSprite.Circle
+		Fireball.AttachModel( New TCollisions )
+		Fireball.AttachModel( New TGravity )
+		Fireball.AttachModel( New TFlying )
+		Game.Firing.Play()
+		Game.Level.AddLast( Fireball )
 	End Function
+End Type
+
+
+
+
+
+Type TFlying Extends LTBehaviorModel
+	Const RotatingSpeed:Double = 8.0 * 360.0
+	Const JumpStrength:Double = 8.0
 	
 	
 	
-	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
-		If TEnemy( Sprite ) Then
-			Sprite.AttachModel( New TKicked )
-			Explode()
+	Method HandleCollisionWithSprite( Sprite1:LTSprite, Sprite2:LTSprite, CollisionType:Int )
+		If TEnemy( Sprite2 ) Then
+			Sprite1.AttachModel( New TExploding )
+			Sprite2.AttachModel( New TKicked )
 		End If
 	End Method
 	
 	
 	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, Shape:LTShape, TileX:Int, TileY:Int, CollisionType:Int )
-		If TCoin( Shape ) Then Return
-		If CollisionType = Vertical Then
-			PushFromTile( TileMap, TileX, TileY )
-			If DY <= 0.0 Then
-				DY = 0.0
+	Method HandleCollisionWithTile( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
+		Sprite.PushFromTile( TileMap, TileX, TileY )
+		Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite )
+		If CollisionType = LTSprite.Vertical Then
+			If VectorSprite.DY >= 0.0 Then
+				VectorSprite.DY = -JumpStrength
 			Else
-				DY = JumpStrength
+				VectorSprite.DY = 0.0
 			End If
 		Else
-			Explode()
+			VectorSprite.AttachModel( New TExploding )
 		End If
 	End Method
 	
 	
 	
-	Method Act()
-		If Exploding Then
-			Animate( Game, ExplosionSpeed )
-			If ExplosionStartingTime + 3 * ExplosionSpeed < Game.Time Then Game.MainLayer.Remove( Self )
-		Else
-			Super.Act()
-			DY :+ L_DeltaTime * Game.Gravity
-			Visualizer.Angle :+ RotatingSpeed * L_DeltaTime
-		End If
+	Method ApplyTo( Shape:LTShape )
+		Shape.Visualizer.Angle :+ Game.PerSecond( RotatingSpeed )
+	End Method
+End Type
+
+
+
+
+
+Type TExploding Extends LTBehaviorModel
+	Const ExplosionSpeed:Double = 0.1
+	
+	Field StartingTime:Double
+	
+	
+
+	Method Activate( Shape:LTShape )
+		StartingTime = Game.Time
+		Shape.SetSize( 1.0, 1.0 )
+		Shape.Visualizer = Game.Explosion
+		Game.Bump.Play()
+		Shape.DeactivateAllModels()
 	End Method
 	
 	
 	
-	Method Explode()
-		ExplosionStartingTime = Game.Time
-		Exploding = True
-		Width = 1.0
-		Height = 1.0
-		Visualizer = Game.Explosion
-		PlaySound( Game.Bump )
+	Method ApplyTo( Shape:LTShape )
+		If Game.Time > StartingTime + 3.0 * ExplosionSpeed Then Remove( Shape )
+		LTSprite( Shape ).Frame = ( Game.Time - StartingTime ) / ExplosionSpeed
+	End Method
+	
+	
+	
+	Method Deactivate( Shape:LTShape )
+		Game.Level.Remove( Shape )
 	End Method
 End Type

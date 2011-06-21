@@ -9,7 +9,9 @@
 '
 
 Type TCoin Extends LTVectorSprite
-	Field LowestY:Float
+	Const Gravity:Double = 16.0
+
+	Field LowestY:Double
 
 
 	
@@ -18,22 +20,22 @@ Type TCoin Extends LTVectorSprite
 		Local Coin:TCoin = New TCoin
 		Coin.SetAsTile( Game.Tilemap, TileX, TileY )
 		Coin.LowestY = Coin.Y
-		Coin.Width :* 0.5
-		Coin.Height :* 0.5
+		Coin.SetSize( 0.5, 0.5 )
 		Coin.DY = -10.0
 		Coin.Visualizer = Game.Coin
 		Coin.Frame = 0
-		Game.MainLayer.AddLast( Coin )
+		Coin.LimitByWindow( Coin.X, Coin.Y - 3.5, 1.0, 6.0 )
+		Game.Level.AddLast( Coin )
 	End Function
 	
 	
 	
 	Method Act()
-		Animate( Game, 0.1 )
-		DY :+ 16.0 * L_DeltaTime
+		Animate( Game, 0.1, 4 )
+		DY :+ Game.PerSecond( Gravity )
 		MoveForward()
 		If Y > LowestY Then
-			Game.MainLayer.Remove( Self )
+			Game.Level.Remove( Self )
 			TScore.FromSprite( Self, TScore.s200 )
 			Game.Coins :+ 1
 		End If

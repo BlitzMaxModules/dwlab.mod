@@ -9,16 +9,23 @@
 '
 
 Type TOneUpMushroom Extends TBonus
+	Const Speed:Double = 2.0
+	
+	
+	
 	Function FromTile( TileX:Int, TileY:Int )
-		Local Bonus:TBonus = New TOneUpMushroom
-		Bonus.Initialize( TileX, TileY )
-		Bonus.Visualizer = Game.OneUpMushroom
+		Local Mushroom:TOneUpMushroom = New TOneUpMushroom
+		Mushroom.SetAsTile( Game.TileMap, TileX, TileY )
+		Mushroom.Visualizer = Game.OneUpMushroom
+		Mushroom.DX = Speed
+		Mushroom.AttachModel( New TAppearing )
 	End Function
 	
 	
-	
+
 	Method Collect()
 		TScore.FromSprite( Self, TScore.s1up )
-		PlaySound( Game.OneUp )
+		Game.OneUp.Play()
+		Game.Lives :+ 1
 	End Method
 End Type

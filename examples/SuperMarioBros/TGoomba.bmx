@@ -9,18 +9,20 @@
 '
 
 Type TGoomba Extends TEnemy
+	Const WalkingAnimationSpeed:Double = 0.3
+	
+	Const Stomped:Int = 2
+	
+	
+	
 	Method Init()
-		AttachModel( New TCollisionsWithAll )
-		AttachModel( New TGravity )
-		AttachModel( New TMovingAnimation )
-		AttachModel( New TRemoveIfOutside )
 		Game.MovingObjects.InsertSprite( Self )
-	End Method
-
-	
-	
-	Method Push()
-		Game.Mario.Damage()
+		AttachModel( New TEnemyWalkingAnimation )
+		AttachModel( New TCollisions )
+		AttachModel( New TGravity )
+		AttachModel( New TBumpingTiles )
+		AttachModel( New TBumpingSprites )
+		AttachModel( New TRemoveIfOutside )
 	End Method
 	
 	
@@ -32,39 +34,56 @@ End Type
 
 
 
-Type TStomped Extends LTBehaviorModel
-	Field StartingTime:Float
-	
-	Const FlatPeriod:Float = 1.0
 
-	
-	
-	Method Init( Sprite:LTSprite )
-		StartingTime = Game.Time
-		Sprite.Frame = 2
-		Sprite.DeactivateModel( "TGravity" )
-		Sprite.DeactivateModel( "TCollisionsWithAll" )
-		Sprite.DeactivateModel( "TMovingAnimation" )
-		Game.MovingObjects.RemoveSprite( Sprite )
-	End Method
-	
-	
-	
-	Method ApplyTo( Sprite:LTSprite )
-		If Game.Time > StartingTime + FlatPeriod Then Game.MainLayer.Remove( Sprite )
+
+Type TEnemyWalkingAnimation Extends LTBehaviorModel
+	Method ApplyTo( Shape:LTShape )
+		LTSprite( Shape ).Animate( Game, TGoomba.WalkingAnimationSpeed, 2 )
 	End Method
 End Type
 
 
 
+
+Type TStomped Extends LTBehaviorModel
+	Const FlatPeriod:Double = 1.0
+	
+	Field StartingTime:Double
+
+	
+
+	Method Activate( Shape:LTShape )
+		Local Goomba:TGoomba = TGoomba( Shape )
+		Goomba.DeactivateAllModels()
+		Goomba.Frame = TGoomba.Stomped
+		Game.MovingObjects.RemoveSprite( Goomba )
+		
+		Game.Stomp.Play()
+		
+		StartingTime = Game.Time
+	End Method
+	
+	
+	
+	Method ApplyTo( Shape:LTShape )
+		If Game.Time > StartingTime + FlatPeriod Then Game.Level.Remove( Shape )
+	End Method
+End Type
+
+
+
+
+
 Type TKicked Extends LTBehaviorModel
-	Const KickStrength:Float = -6.0
+	Const Strength:Double = -6.0
 	
 	
 	
-	Method Init( Sprite:LTSprite )
-		LTVectorSprite( Sprite ).DY = KickStrength
-		Sprite.DeactivateModel( "TCollisionsWithAll" )
+	Method Init( Shape:LTShape )
+		Local Sprite:LTVectorSprite = LTVectorSprite( Shape )
+		Sprite.DY = Strength
+		TCollisions( Sprite.FindModel( "TCollisions" ) ).SetCollisions( False, False )
+		Sprite.DeactivateModel( "TEnemyWalkingAnimation" )
 		Sprite.Visualizer.YScale :* -1.0
 		PlaySound( Game.Kick )
 		TScore.FromSprite( Sprite, TScore.s100 )

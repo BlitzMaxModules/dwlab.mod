@@ -18,6 +18,7 @@ Type LTProject Extends LTObject
 	Field Pass:Int
 	Field Time:Double
 	Field CurrentPause:LTPause
+	Field Exiting:Int
 
 	
 	
@@ -73,6 +74,7 @@ Type LTProject Extends LTObject
 		FlushKeys
 		FlushMouse
 	    
+		Exiting = False
 		Pass = 1
 		L_DeltaTime = 0
 		
@@ -97,6 +99,7 @@ Type LTProject Extends LTObject
 				CurrentPause.Update()
 			Else
 				Logic()
+				If Exiting Then Exit
 				For Local Joint:LTJoint = Eachin L_JointList
 					Joint.Operate()
 				Next
