@@ -109,10 +109,7 @@ Type TTileCollisionShapes
 					If Cursor.CollidesWithSprite( Sprite ) Then CollisionShapeUnderCursor = Sprite
 				ElseIf CollisionGroup Then
 					For Sprite = Eachin CollisionGroup
-						If Cursor.CollidesWithSprite( Sprite ) Then
-							CollisionShapeUnderCursor = Sprite
-							Exit
-						End If
+						If Cursor.CollidesWithSprite( Sprite ) Then CollisionShapeUnderCursor = Sprite
 					Next
 				End If
 				

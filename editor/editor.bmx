@@ -846,7 +846,7 @@ Type LTEditor Extends LTProject
 						TileCollisionShapes.TileSet = LTTileMap( SelectedShape ).TileSet
 						TileCollisionShapes.Edit()
 					Case MenuEditReplacementRules
-						TilesetRules( LTTileMap( SelectedShape ).TileSet )
+						TilesetRules.Execute( LTTileMap( SelectedShape ).TileSet )
 					Case MenuSetBounds
 						CurrentLayer.SetBounds( SelectedShape )
 						SetChanged()
