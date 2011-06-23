@@ -2,11 +2,11 @@
 	<LTVisualizer field="visualizer" id="1"/>
 	<TList field="images">
 		<Object id="6"/>
-		<Object id="13"/>
-		<Object id="16"/>
-		<Object id="23"/>
-		<Object id="28"/>
-		<Object id="47"/>
+		<Object id="68"/>
+		<Object id="71"/>
+		<Object id="78"/>
+		<Object id="83"/>
+		<Object id="101"/>
 	</TList>
 	<TList field="tilesets">
 		<Object id="5"/>
@@ -40,22 +40,92 @@
 					<Null/>
 					<Null/>
 				</ShapeArray>
+				<LTTileCategory name="Grass">
+					<LTTileRule tilenums="1,5">
+						<LTTilePos dy="1" tilenum="6"/>
+						<LTTilePos dx="1" tilenum="2"/>
+						<LTTilePos dx="1" dy="1" tilenum="7"/>
+					</LTTileRule>
+					<LTTileRule tilenums="2">
+						<LTTilePos dx="-1" tilenum="1"/>
+						<LTTilePos dx="1" tilenum="3"/>
+						<LTTilePos dy="1" tilenum="7"/>
+					</LTTileRule>
+					<LTTileRule tilenums="3,9">
+						<LTTilePos dy="1" tilenum="8"/>
+						<LTTilePos dx="-1" tilenum="2"/>
+						<LTTilePos dx="-1" dy="1" tilenum="7"/>
+					</LTTileRule>
+					<LTTileRule tilenums="6">
+						<LTTilePos dx="-1" tilenum="5"/>
+						<LTTilePos dy="-1" tilenum="1"/>
+						<LTTilePos dy="1" tilenum="7"/>
+						<LTTilePos dx="1" tilenum="7"/>
+					</LTTileRule>
+					<LTTileRule tilenums="8">
+						<LTTilePos dy="-1" tilenum="3"/>
+						<LTTilePos dx="1" tilenum="9"/>
+						<LTTilePos dx="-1" tilenum="7"/>
+						<LTTilePos dy="1" tilenum="7"/>
+					</LTTileRule>
+					<LTTileRule tilenums="10">
+						<LTTilePos dy="-1" tilenum="5"/>
+						<LTTilePos dy="1" tilenum="15"/>
+						<LTTilePos dx="1" tilenum="7"/>
+					</LTTileRule>
+					<LTTileRule tilenums="11">
+						<LTTilePos dy="1" tilenum="16"/>
+						<LTTilePos dx="1" tilenum="12"/>
+						<LTTilePos dx="-1" tilenum="7"/>
+						<LTTilePos dy="-1" tilenum="7"/>
+					</LTTileRule>
+					<LTTileRule tilenums="12">
+						<LTTilePos dx="1" tilenum="13"/>
+						<LTTilePos dx="-1" tilenum="11"/>
+						<LTTilePos dy="-1" tilenum="7"/>
+					</LTTileRule>
+					<LTTileRule tilenums="13">
+						<LTTilePos dx="-1" tilenum="12"/>
+						<LTTilePos dy="1" tilenum="18"/>
+						<LTTilePos dy="-1" tilenum="7"/>
+						<LTTilePos dx="1" tilenum="7"/>
+					</LTTileRule>
+					<LTTileRule tilenums="14">
+						<LTTilePos dy="-1" tilenum="9"/>
+						<LTTilePos dy="1" tilenum="19"/>
+						<LTTilePos dx="-1" tilenum="7"/>
+					</LTTileRule>
+					<LTTileRule tilenums="15,18">
+						<LTTilePos dy="-1" tilenum="10"/>
+						<LTTilePos dx="1" tilenum="16"/>
+						<LTTilePos dx="1" dy="-1" tilenum="7"/>
+					</LTTileRule>
+					<LTTileRule tilenums="16,19">
+						<LTTilePos dy="-1" tilenum="11"/>
+						<LTTilePos dx="-1" tilenum="15"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="7"/>
+					</LTTileRule>
+					<LTTileRule tilenums="0"/>
+				</LTTileCategory>
 			</LTTileSet>
 			<Row data="0"/>
 		</LTTileMap>
+		<LTLayer name="LTLayer,Blocks">
+			<LTVisualizer field="visualizer" id="62"/>
+		</LTLayer>
 		<LTLayer name="LTLayer,Bullets">
 			<LTVisualizer field="visualizer"/>
 		</LTLayer>
 		<LTLayer name="LTLayer,Player">
-			<LTVisualizer field="visualizer" id="10"/>
+			<Object field="visualizer" id="62"/>
 			<LTAngularSprite name="TPlayer" x="3.5" y="2.5" shape="1" velocity="5">
 				<LTImageVisualizer field="visualizer" xscale="1.75" yscale="1.75">
-					<LTImage field="image" id="13" filename="media\brain.png"/>
+					<LTImage field="image" id="68" filename="media\brain.png"/>
 				</LTImageVisualizer>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,Visor" x="3.5" y="2.5">
 				<LTImageVisualizer field="visualizer" xscale="2" yscale="2">
-					<LTImage field="image" id="16" filename="media\visor.png"/>
+					<LTImage field="image" id="71" filename="media\visor.png"/>
 				</LTImageVisualizer>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,Hinge,0" x="3.41" y="2.8929" width="0.4103" height="0.316">
@@ -66,22 +136,22 @@
 			</LTAngularSprite>
 			<LTAngularSprite name="TChaingun,0" x="3.64" y="3.0499" width="1.6496" height="0.5998">
 				<LTImageVisualizer field="visualizer" yscale="-1">
-					<LTImage field="image" id="23" filename="media\cannon.png"/>
+					<LTImage field="image" id="78" filename="media\cannon.png"/>
 				</LTImageVisualizer>
 			</LTAngularSprite>
 			<LTAngularSprite name="TChaingun,1" x="3.64" y="1.95" width="1.6496" height="0.5998">
 				<LTImageVisualizer field="visualizer">
-					<Object field="image" id="23"/>
+					<Object field="image" id="78"/>
 				</LTImageVisualizer>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,Barrel,0" x="4.4329" y="3.145" width="0.885" height="0.23">
 				<LTImageVisualizer field="visualizer">
-					<LTImage field="image" id="28" filename="media\barrel.png" xcells="4" ycells="4"/>
+					<LTImage field="image" id="83" filename="media\barrel.png" xcells="4" ycells="4"/>
 				</LTImageVisualizer>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,Barrel,1" x="4.4329" y="1.855" width="0.885" height="0.23" frame="8">
 				<LTImageVisualizer field="visualizer">
-					<Object field="image" id="28"/>
+					<Object field="image" id="83"/>
 				</LTImageVisualizer>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,FirePos,0,0" x="4.53" y="3.1019" width="0.1247" height="0.1532">
@@ -103,15 +173,12 @@
 				<LTImageVisualizer field="visualizer"/>
 			</LTAngularSprite>
 		</LTLayer>
-		<LTLayer name="LTLayer,Objects">
-			<Object field="visualizer" id="10"/>
-		</LTLayer>
 		<LTLayer name="LTLayer,Trees">
-			<Object field="visualizer" id="10"/>
+			<Object field="visualizer" id="62"/>
 		</LTLayer>
 		<LTSprite name="LTSprite,Target" x="12.3809" y="7.1428" width="2.8571" height="2.9205">
 			<LTImageVisualizer field="visualizer" scaling="0">
-				<LTImage field="image" id="47" filename="media\target.png"/>
+				<LTImage field="image" id="101" filename="media\target.png"/>
 			</LTImageVisualizer>
 		</LTSprite>
 	</LTLayer>

@@ -8,6 +8,12 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+SuperStrict
+
+Import dwlab.frmwork
+
+PackPNG( "tree_x_", 1, 1, 3, 3 )
+
 Function PackPNG( Header:String, Digits:Int, FromNum:Int, ToNum:Int, FramesInRow:Int )
 	Local Quantity:Int = ToNum - FromNum + 1
 	Local Pixmaps:TPixmap[] = New TPixmap[ Quantity ]

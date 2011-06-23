@@ -238,6 +238,12 @@ Type LTShape Extends LTObject
 	
 	
 	
+	Method GetDiameter:Double()
+		Return Width
+	End Method
+	
+	
+	
 	Method SetDiameter( NewDiameter:Double )
 		SetSize( NewDiameter, NewDiameter )
 	End Method

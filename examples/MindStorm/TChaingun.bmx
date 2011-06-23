@@ -69,10 +69,10 @@ Type TChaingun Extends LTAngularSprite
 		BarrelFrame :+ Game.PerSecond( BarrelAnimationSpeed )
 		Barrel.Frame = Floor( BarrelFrame + 0.5 * BarrelFramesQuantity * Num ) Mod BarrelFramesQuantity
 		
+		Super.Act()
+		
 		Fire.PlaceBetween( FirePos[ 0 ], FirePos[ 1 ], 0.5 - 0.5 * Cos( -20.0 + 360.0 * BarrelFrame / BarrelFramesQuantity ) )
 		Fire.DirectAs( Aimer )
-		
-		Super.Act()
 	End Method
 	
 	

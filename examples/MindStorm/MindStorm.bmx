@@ -32,6 +32,6 @@ Include "TTiles.bmx"
 Include "TPlayer.bmx"
 Include "TChaingun.bmx"
 Include "TChaingunBullet.bmx"
-Include "TScenery.bmx"
+Include "TGameObject.bmx"
 Global Game:TGame = New TGame
 Game.Execute()

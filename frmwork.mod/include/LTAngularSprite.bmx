@@ -52,6 +52,7 @@ Type LTAngularSprite Extends LTSprite
 			DX :/ Sqr( 2 )
 			DY :/ Sqr( 2 )
 		End If
+		Angle = ATan2( DY, DX )
 		SetCoords( X + DX * Velocity * L_DeltaTime, Y + DY * Velocity * L_DeltaTime )
 	End Method
 

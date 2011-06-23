@@ -20,6 +20,7 @@ Type TGrid Extends LTShape
 	Method Draw()
 		Local SX:Double, SY:Double
 		L_DebugVisualizer.ApplyColor()
+		SetAlpha( 1.0 )
 		
 		Local X:Double = Floor( L_CurrentCamera.LeftX() / CellWidth ) * CellWidth
 		Local EndX:Double = L_CurrentCamera.RightX()

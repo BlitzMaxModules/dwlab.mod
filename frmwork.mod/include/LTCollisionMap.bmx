@@ -11,6 +11,7 @@
 Type LTCollisionMap Extends LTMap
 	Field Sprites:TList[ , ]
 	Field XScale:Double = 1.0, YScale:Double = 1.0
+	Field FrameWidth:Double
 	
 	' ==================== Parameters ====================
 	
@@ -34,6 +35,30 @@ Type LTCollisionMap Extends LTMap
 	Method SetMapScale( NewXScale:Double, NewYScale:Double )
 		XScale = NewXScale
 		YScale = NewYScale
+	End Method
+	
+	' ==================== Drawing ===================	
+	
+	Method Draw()
+		If Visible Then
+			Local MapX1:Int = Floor( ( L_CurrentCamera.X - 0.5 * L_CurrentCamera.Width - FrameWidth ) / XScale )
+			Local MapY1:Int = Floor( ( L_CurrentCamera.Y - 0.5 * L_CurrentCamera.Height - FrameWidth ) / YScale )
+			Local MapX2:Int = Floor( ( L_CurrentCamera.X + 0.5 * L_CurrentCamera.Width - L_Inaccuracy + FrameWidth ) / XScale )
+			Local MapY2:Int = Floor( ( L_CurrentCamera.Y + 0.5 * L_CurrentCamera.Height - L_Inaccuracy + FrameWidth ) / YScale )
+			
+			Local SpriteMap:TMap = New TMap
+			
+			For Local Y:Int = MapY1 To MapY2
+				For Local X:Int = MapX1 To MapX2
+					For Local Sprite:LTSprite = Eachin Sprites[ X & XMask, Y & YMask ]
+						If Not SpriteMap.Contains( Sprite ) Then
+							Sprite.Draw()
+							SpriteMap.Insert( Sprite, Null )
+						End If
+					Next
+				Next
+			Next
+		End If
 	End Method
 	
 	' ==================== Insert / remove objects ====================

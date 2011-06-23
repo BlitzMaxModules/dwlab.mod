@@ -8,18 +8,5 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TScenery Extends LTAngularSprite
-	Field Bad:Int = False
-	
-	
-	
-	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
-		Bad = True
-	End Method
-	
-	
-	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
-		Bad = True
-	End Method
+Type TBlock Extends LTAngularSprite
 End Type

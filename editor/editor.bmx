@@ -11,8 +11,14 @@
 
 SuperStrict
 
+?win32
 Framework brl.d3d7max2d
-'Import brl.glmax2d
+?linux
+Framework brl.glmax2d
+?macos
+Framework brl.glmax2d
+?
+
 Import brl.pngloader
 Import brl.jpgloader
 Import brl.bmploader
@@ -1145,6 +1151,7 @@ Type LTEditor Extends LTProject
 		
 		If CurrentTileMap Then
 			SetGraphics( CanvasGraphics( TilesetCanvas ) )
+			SetBlend( AlphaBlend )
 			Cls
 			
 			Local TileSet:LTTileSet = CurrentTileMap.TileSet
@@ -1184,6 +1191,7 @@ Type LTEditor Extends LTProject
 		If Not CurrentLayer Then Return
 		
 		SetGraphics( CanvasGraphics( MainCanvas ) )
+		SetBlend( AlphaBlend )
 		Cls
 		
 		MainCamera.Viewport.X = 0.5 * MainCanvas.GetWidth()
@@ -1383,6 +1391,10 @@ Type LTEditor Extends LTProject
 		
 		Local Image:LTImage = TileSet.Image
 		If Not Image Then Return
+		
+		For Local N:Int = 0 To 1
+			TileNum[ N ] = 0
+		Next
 		
 		TilesetCameraWidth = Image.XCells
 		TilesetCanvasZ = 0.0

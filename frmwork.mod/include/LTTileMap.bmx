@@ -39,17 +39,17 @@ Type LTTileMap Extends LTIntMap
 	
 	
 	
-	Method DrawUsingVisualizer( Visizer:LTVisualizer )
-		If Visible Then Visizer.DrawUsingTileMap( Self )
+	Method DrawUsingVisualizer( Visualizer:LTVisualizer )
+		If Visible Then Visualizer.DrawUsingTileMap( Self )
 	End Method
 	
 	' ==================== Other ===================	
 	
-	Method Enframe( ByTileset:LTTileset = Null )
-		If Not ByTileset Then ByTileset = Tileset
+	Method Enframe( ByTileSet:LTTileset = Null )
+		If Not ByTileSet Then ByTileSet = TileSet
 		For Local Y:Int = 0 Until YQuantity
 			For Local X:Int = 0 Until XQuantity
-				ByTileset.Enframe( Self, X, Y )
+				ByTileSet.Enframe( Self, X, Y )
 			Next
 		Next
 	End Method

@@ -11,7 +11,13 @@
 SuperStrict
 
 Import brl.eventqueue
+?win32
 import maxgui.win32maxguiex
+?linux
+import maxgui.fltkmaxgui
+?macos
+import maxgui.cocoamaxgui
+?
 
 Import dwlab.frmwork
 

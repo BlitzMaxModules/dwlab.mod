@@ -87,7 +87,6 @@ Type TTilesetRules
 		
 		CurrentCategory = Null
 		CurrentTileRule = Null
-		debugstop
 		RefreshCategoriesListBox()
 		Local PosDX:Int, PosDY:Int, TIleRulesListDY:Int
 		
@@ -100,7 +99,6 @@ Type TTilesetRules
 			
 			SetGraphics( CanvasGraphics( TilesetCanvas ) )
 			SetClsColor( 255, 255, 255 )
-			SetAlpha( 1.0 )
 			Cls
 			
 			SetScale( Magnifier, Magnifier )
@@ -112,9 +110,9 @@ Type TTilesetRules
 			SetScale( 1.0, 1.0 )
 			
 			If CurrentCategory Then
+				SetBlend( AlphaBlend )
 				L_DebugVisualizer.ApplyColor()
 				SetAlpha( 0.5 )
-				SetBlend( AlphaBlend )
 				Local Tiles:TMap = New TMap
 				For Local TileRule:LTTileRule = Eachin CurrentCategory.TileRules
 					For Local Num:Int = Eachin TileRule.TileNums
@@ -144,8 +142,8 @@ Type TTilesetRules
 			Flip( False )
 			
 			SetGraphics( CanvasGraphics( TileRulesList ) )
+			SetBlend( AlphaBlend )
 			SetClsColor( 192, 192, 255 )
-			SetAlpha( 1.0 )
 			Cls
 			
 			If CurrentCategory Then
@@ -163,8 +161,8 @@ Type TTilesetRules
 			Flip( False )
 			
 			SetGraphics( CanvasGraphics( TileRuleCanvas ) )
+			SetBlend( AlphaBlend )
 			SetClsColor( 255, 255, 255 )
-			SetAlpha( 1.0 )
 			Cls
 			
 			If CurrentTileRule Then
@@ -177,6 +175,7 @@ Type TTilesetRules
 			End If
 			
 			L_DebugVisualizer.ApplyColor()
+			SetAlpha( 1.0 )
 	
 			For Local Coord:Int = 0 To 224 Step 32
 				DrawLine( Coord, 0, Coord, 224 )

@@ -62,7 +62,7 @@ Function ImageProperties:Int( Image:LTImage )
 								End If
 								Image.XCells = XCells
 								Image.YCells = YCells
-								Image.Split()
+								Image.Init()
 								Editor.SetChanged()
 								FreeGadget( EditWindow )
 								Return True

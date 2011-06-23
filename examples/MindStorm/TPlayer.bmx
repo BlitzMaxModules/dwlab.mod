@@ -18,6 +18,17 @@ Type TPlayer Extends LTAngularSprite
 	
 	
 	
+	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
+		If TTree( Sprite ) Then
+			PushFromSprite( Sprite )
+		Else
+			WedgeOffWithSprite( Sprite, 6.0, Sprite.Height * Sprite.Width )
+			Game.ActingList.AddLast( Sprite )
+		End If
+	End Method
+	
+	
+	
 	Method Init()
 		Game.Player = Self
 		Visor = LTAngularSprite( Game.Level.FindShape( "Visor" ) )
@@ -36,5 +47,8 @@ Type TPlayer Extends LTAngularSprite
 		DirectTo( Game.Target )
 		
 		L_CurrentCamera.JumpTo( Self )
+		
+		CollisionsWithCollisionMap( Game.Blocks )
+		CollisionsWithCollisionMap( Game.Trees )
 	End Method
 End Type

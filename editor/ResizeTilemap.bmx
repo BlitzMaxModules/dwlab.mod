@@ -89,17 +89,15 @@ Function ResizeTilemap( TileMap:LTTileMap )
 						Local Proceed:Int = True
 						If NewXQuantity < XQuantity Or NewYQuantity < YQuantity Then Proceed = Confirm( LocalizeString( "{{D_TilemapDataLoss}}" ) )
 						If Proceed Then
-							Local NewValue:Int[ , ] = New Int[ NewXQuantity, NewYQuantity ]
+							Local OldValue:Int[ , ] = TileMap.Value
+							TileMap.SetResolution( NewXQuantity, NewYQuantity )
 							For Local TileY:Int = 0 Until NewYQuantity
 								If TileY + Y >= 0 And TileY + Y < YQuantity Then
 									For Local TileX:Int = 0 Until NewXQuantity
-										If TileX + X >= 0 And TileX + X < XQuantity Then NewValue[ TileX, TileY ] = TileMap.Value[ TileX + X, TileY + Y ]
+										If TileX + X >= 0 And TileX + X < XQuantity Then TileMap.Value[ TileX, TileY ] = OldValue[ TileX + X, TileY + Y ]
 									Next
 								End If
 							Next
-							TileMap.Value = NewValue
-							TileMap.XQuantity = NewXQuantity
-							TileMap.YQuantity = NewYQuantity
 							TileMap.X :+ 0.5 * ( NewXQuantity - XQuantity ) + X
 							TileMap.Y :+ 0.5 * ( NewYQuantity - YQuantity ) + Y
 							TileMap.Width :* 1.0 * NewXQuantity / XQuantity

@@ -83,12 +83,7 @@ Type LTTileSet Extends LTObject
 			Local Passed:Int = True
 			For Local Pos:LTTilePos = Eachin Rule.TilePositions
 				Local TileCategory:Int = GetTileCategory( TileMap, X + Pos.DX, Y + Pos.DY )
-				If Pos.Category = CatNum Then
-					If TileCategory <> CatNum Then
-						Passed = False
-						Exit
-					End If
-				Elseif Pos.Category = -1 Then
+				if Pos.Category = -1 Then
 					If TileCategory = CatNum Then
 						Passed = False
 						Exit

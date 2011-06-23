@@ -64,11 +64,6 @@ Type LTIntMap Extends LTMap
 		Next
 		Value = NewArray
 	End Method
-
-		
-	
-	Method EnframeBy( Tileset:LTTileset)
-	End Method
 	
 	
 	

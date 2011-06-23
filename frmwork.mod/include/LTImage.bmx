@@ -34,77 +34,12 @@ Type LTImage Extends LTObject
 		
 	
 	
-	Method Split()
-		?debug
-		'If ImageWidth( BMaxImage ) Mod XCells <> 0 Or ImageHeight( BMaxImage ) Mod YCells <> 0 Then L_Error( "Incorrect cells quantity for splitting" )
-		?
-		
-		Local Width:Int = ImageWidth( BMaxImage ) / XCells
-		Local Height:Int = ImageHeight( BMaxImage ) / YCells
-		
-		Local NewBMaxImage:TImage = CreateImage( Width, Height, BMaxImage.Pixmaps.Dimensions()[ 0 ] * XCells * YCells )
-		'SetImageHandle( NewBMaxImage, 0.5 * ( Width - 1 ), 0.5 * ( Height - 1 ) )
-		MidHandleImage( NewBMaxImage )
-
-		Local Num:Int = 0
-		For Local Pixmap:TPixmap = EachIn BMaxImage.Pixmaps
-			Local IntermediateImage:TImage = LoadAnimImage( Pixmap, Width, Height, 0, XCells * YCells )
-			For Local IntermediatePixmap:TPixmap = EachIn IntermediateImage.Pixmaps
-				NewBMaxImage.SetPixmap( Num, IntermediatePixmap )
-				Num :+ 1
-			Next
-		Next
-		
-		BMaxImage = NewBMaxImage
-	End Method
-	
-	
-	
 	Method Init()
-		Local FirstToken:Int = FileName.Find( "#" )
-		Local LastToken:Int = FileName.FindLast( "#" )
-		Local NumLen:Int = LastToken - FirstToken + 1
-		
-		Local NewPixmap:TPixmap
-		Local PixmapList:TList = New TList
-		Local Num:Int = 0
-		
-		Repeat
-			Local NewFile:String = FileName
-			
-			If FirstToken >= 0 Then
-				Local NumString:String = Num
-				For Local K:Int = Len( NumString ) Until NumLen
-					NumString = "0" + NumString
-				Next
-				NewFile = FileName[ ..FirstToken ] + NumString + FileName[ LastToken + 1.. ]
-			End If
-					
-			NewFile = L_TryExtensions( NewFile, [ "png", "jpg", "bmp" ] )
-			If Not FileType( NewFile ) Then Exit
-				
-			NewPixmap = LoadPixmap( NewFile )
-	
-			PixmapList.AddLast( NewPixmap )
-			
-			If FirstToken < 0 Then Exit
-			Num :+ 1
-		Forever
-		
+		Local Pixmap:TPixmap = LoadPixmap( Filename )
 		?debug
-		If NewPixmap = Null Then L_Error( "Cannot load file named " + FileName )
+		'If PixmapWidth( BMaxImage ) Mod XCells <> 0 Or PixmapHeight( BMaxImage ) Mod YCells <> 0 Then L_Error( "Incorrect cells quantity for splitting" )
 		?
-		
-		BMaxImage = CreateImage( NewPixmap.Width, NewPixmap.Height, PixmapList.Count() )
-		Num = 0
-		For Local Pixmap:TPixmap = EachIn PixmapList
-			BMaxImage.SetPixmap( Num, Pixmap )
-			Num :+ 1
-		Next
-	
-		If XCells > 1 Or YCells > 1 Then Split()
-		
-		'SetImageHandle( BMaxImage, 0.5 * ( ImageWidth( BMaxImage ) - 1.0 ), 0.5 * ( ImageHeight( BMaxImage ) - 1.0 ) )
+		BMaxImage = LoadAnimImage( Pixmap, PixmapWidth( Pixmap ) / XCells, PixmapHeight( Pixmap ) / YCells, 0, XCells * YCells )
 		MidHandleImage( BMaxImage )
 	End Method
 	

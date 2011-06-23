@@ -159,7 +159,7 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Method CollisionsWithGroup( Group:LTGroup, CollisionType:Int )
+	Method CollisionsWithGroup( Group:LTGroup, CollisionType:Int = 0 )
 		For Local Shape:LTShape = Eachin Group
 			Shape.SpriteGroupCollisions( Self, CollisionType )
 		Next
@@ -167,14 +167,14 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Method CollisionsWithSprite( Sprite:LTSprite, CollisionType:Int )
+	Method CollisionsWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
 		If CollidesWithSprite( Sprite ) Then HandleCollisionWithSprite( Sprite, CollisionType )
 	End Method
 
 	
 	
 	
-	Method CollisionsWithTileMap( TileMap:LTTileMap, CollisionType:Int )
+	Method CollisionsWithTileMap( TileMap:LTTileMap, CollisionType:Int = 0 )
 		Local X0:Double = TileMap.LeftX()
 		Local Y0:Double = TileMap.TopY()
 		Local CellWidth:Double = TileMap.GetCellWidth()
@@ -216,13 +216,13 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Method CollisionsWithLine( Line:LTLine, CollisionType:Int )
+	Method CollisionsWithLine( Line:LTLine, CollisionType:Int = 0 )
 		If CollidesWithLine( Line ) Then HandleCollisionWithLine( Line, CollisionType )
 	End Method
 	
 	
 	
-	Method CollisionsWithCollisionMap( CollisionMap:LTCollisionMap, CollisionType:Int )
+	Method CollisionsWithCollisionMap( CollisionMap:LTCollisionMap, CollisionType:Int = 0 )
 		Select ShapeType
 			Case Pivot
 				For Local MapSprite:LTSprite = Eachin CollisionMap.Sprites[ Int( X / CollisionMap.XScale ) & CollisionMap.XMask, Int( Y / CollisionMap.YScale ) & CollisionMap.YMask ]
@@ -248,13 +248,13 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Method SpriteGroupCollisions( Sprite:LTSprite, CollisionType:Int )
+	Method SpriteGroupCollisions( Sprite:LTSprite, CollisionType:Int = 0 )
 		If Sprite.CollidesWithSprite( Self ) Then Sprite.HandleCollisionWithSprite( Self, CollisionType )
 	End Method
 	
 	
 	
-	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
+	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
 		If Active Then
 			For Local Model:LTBehaviorModel = Eachin BehaviorModels
 				If Model.Active Then Model.HandleCollisionWithSprite( Self, Sprite, CollisionType )
@@ -264,7 +264,7 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
+	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int = 0 )
 		If Active Then
 			For Local Model:LTBehaviorModel = Eachin BehaviorModels
 				If Model.Active Then Model.HandleCollisionWithTile( Self, TileMap, TileX, TileY, CollisionType )
