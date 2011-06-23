@@ -17,7 +17,7 @@ Type LTBitmapFont Extends LTObject
 	
 	
 	
-	Method Print( Text:String, X:Double, Y:Double, FontHeightInUnits:Double, HorizontalAlignment:Int = LTAlign.ToRight, VerticalAlignment:Int = LTAlign.ToTop )
+	Method Print( Text:String, X:Double, Y:Double, FontHeightInUnits:Double, HorizontalAlignment:Int = LTAlign.ToLeft, VerticalAlignment:Int = LTAlign.ToTop )
 		Local SX:Double, SY:Double
 		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
 		
@@ -51,7 +51,7 @@ Type LTBitmapFont Extends LTObject
 	
 	
 	
-	Method PrintInShape( Text:String, Shape:LTShape, FontHeightInUnits:Double, HorizontalAlignment:Int = LTAlign.ToRight, VerticalAlignment:Int = LTAlign.ToTop )
+	Method PrintInShape( Text:String, Shape:LTShape, FontHeightInUnits:Double, HorizontalAlignment:Int = LTAlign.ToLeft, VerticalAlignment:Int = LTAlign.ToTop )
 		Local X:Double, Y:Double
 		
 		Select HorizontalAlignment

@@ -41,6 +41,25 @@ Type LTObject
 		If L_XMLMode = L_XMLSet Then XMLObject.Name = TTypeId.ForObject( Self ).Name()
 		XMLObject.ManageStringAttribute( "name", Name )
 	End Method
+	
+
+
+	Function LoadFromFile:LTObject( FileName:String )
+		L_IDNum = 0
+		Local XMLObject:LTXMLObject = LTXMLObject.ReadFromFile( FileName )
+		
+		L_IDArray = New LTObject[ L_IDNum + 1 ]
+		
+		Local List:TList = New TList
+		XMLObject.ManageListField( "definitions", List )
+		
+		Local Obj:LTObject = LTObject( TTypeId.ForName( XMLObject.Name ).NewObject() )
+		
+		L_XMLMode = L_XMLGet
+		Obj.XMLIO( XMLObject )
+		
+		Return Obj
+	End Function
 
 
 
@@ -72,23 +91,3 @@ Type LTObject
 		XMLObject.WriteToFile( FileName )
 	End Method
 End Type
-	
-	
-
-
-Function L_LoadFromFile:LTObject( FileName:String )
-	L_IDNum = 0
-	Local XMLObject:LTXMLObject = LTXMLObject.ReadFromFile( FileName )
-	
-	L_IDArray = New LTObject[ L_IDNum + 1 ]
-	
-	Local List:TList = New TList
-	XMLObject.ManageListField( "definitions", List )
-	
-	Local Obj:LTObject = LTObject( TTypeId.ForName( XMLObject.Name ).NewObject() )
-	
-	L_XMLMode = L_XMLGet
-	Obj.XMLIO( XMLObject )
-	
-	Return Obj
-End Function

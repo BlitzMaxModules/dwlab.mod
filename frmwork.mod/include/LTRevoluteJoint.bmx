@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTRevoluteJoint Extends LTJoint
+Type LTRevoluteJoint Extends LTBehaviorModel
 	Field ParentPivot:LTAngularSprite
 	Field Pivot:LTSprite
 	Field Angle:Double
@@ -16,20 +16,25 @@ Type LTRevoluteJoint Extends LTJoint
 	
 	
 	
-	Function Create:LTRevoluteJoint( ParentPivot:LTAngularSprite, Pivot:LTAngularSprite )
+	Function Create:LTRevoluteJoint( ParentPivot:LTAngularSprite )
 		Local Joint:LTRevoluteJoint = New LTRevoluteJoint
 		Joint.ParentPivot = ParentPivot
-		Joint.Pivot = Pivot
-		Joint.Angle = ParentPivot.DirectionTo( Pivot ) - ParentPivot.Angle
-		Joint.Distance = ParentPivot.DistanceTo( Pivot )
-		L_JointList.AddLast( Joint )
 		Return Joint
 	End Function
 	
 	
 	
-	Method Operate()
-		Pivot.X = ParentPivot.X + Cos( Angle + ParentPivot.Angle ) * Distance
-		Pivot.Y = ParentPivot.Y + Sin( Angle + ParentPivot.Angle ) * Distance
+	Method Init( Shape:LTShape )
+		Local Sprite:LTAngularSprite = LTAngularSprite( Shape )
+		Angle = ParentPivot.DirectionTo( Sprite ) - ParentPivot.Angle
+		Distance = ParentPivot.DistanceTo( Sprite )
+	End Method
+	
+	
+	
+	Method ApplyTo( Shape:LTShape )
+		Local Sprite:LTAngularSprite = LTAngularSprite( Shape )
+		Sprite.X = ParentPivot.X + Cos( Angle + ParentPivot.Angle ) * Distance
+		Sprite.Y = ParentPivot.Y + Sin( Angle + ParentPivot.Angle ) * Distance
 	End Method
 End Type

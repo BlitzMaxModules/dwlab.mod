@@ -135,8 +135,7 @@ Function ImportTilemap:LTTileMap( TileWidth:Int, TileHeight:Int, TileMapPixmap:T
 	Local TileYQuantity:Int = TileMapHeight / TileHeight
 	
 	Local TileMap:LTTileMap = New LTTileMap
-	TileMap.FrameMap = New LTIntMap
-	TileMap.FrameMap.SetResolution( TileXQuantity, TileYQuantity )
+	TileMap.SetResolution( TileXQuantity, TileYQuantity )
 	Editor.InitTileMap( TileMap )
 	
 	Local Tiles:TList = New TList
@@ -176,7 +175,7 @@ Function ImportTilemap:LTTileMap( TileWidth:Int, TileHeight:Int, TileMapPixmap:T
 				TilesQuantity :+ 1
 			End If
 			
-			TileMap.FrameMap.Value[ X, Y ] = N
+			TileMap.Value[ X, Y ] = N
 		Next
 	Next
 	

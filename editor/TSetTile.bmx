@@ -31,7 +31,6 @@ Type TSetTile Extends LTDrag
 		Local Image:LTImage = TileSet.Image
 		If Not Image Then Return
 		
-		Local FrameMap:LTIntMap = TileMap.FrameMap
 		Local TileNum:Int = Editor.TileNum[ MouseDown( 2 ) ]
 		Local TileX:Int = Editor.TileX
 		Local TileY:Int = Editor.TileY
@@ -39,11 +38,11 @@ Type TSetTile Extends LTDrag
 		Local BlockHeight:Int = TileSet.BlockHeight[ TileNum ]
 		For Local DY:Int = 0 To BlockHeight
 			Local Y:Int = TileY + DY
-			If Y < 0 Or Y >= FrameMap.YQuantity Then Continue
+			If Y < 0 Or Y >= TileMap.YQuantity Then Continue
 			For Local DX:Int = 0 To BlockWidth
 				Local X:Int = TileX + DX
-				If X < 0 Or X >= FrameMap.XQuantity Then Continue
-				FrameMap.Value[ X, Y ] = L_LimitInt( TileNum + DX + DY * Image.XCells, 0, Image.FramesQuantity() - 1 )
+				If X < 0 Or X >= TileMap.XQuantity Then Continue
+				TileMap.Value[ X, Y ] = L_LimitInt( TileNum + DX + DY * Image.XCells, 0, Image.FramesQuantity() - 1 )
 			Next
 		Next
 		Editor.SetChanged()
@@ -51,21 +50,21 @@ Type TSetTile Extends LTDrag
 		If Editor.ReplacementOfTiles Then
 			For Local DY:Int = -3 To 3 + BlockHeight
 				Local Y:Int = TileY + DY
-				If Not Tilemap.Wrapped And ( Y < 0 Or Y >= FrameMap.YQuantity ) Then Continue
+				If Not Tilemap.Wrapped And ( Y < 0 Or Y >= TileMap.YQuantity ) Then Continue
 				For Local DX:Int = -3 To 3 + BlockWidth
 					Local X:Int = TileX + DX
 					If Tilemap.Wrapped Then
-						If FrameMap.Masked Then
-							X = X & FrameMap.XMask
-							Y = Y & FrameMap.YMask
+						If TileMap.Masked Then
+							X = X & TileMap.XMask
+							Y = Y & TileMap.YMask
 						Else
-							X = FrameMap.WrapX( X )
-							Y = FrameMap.WrapY( Y )
+							X = TileMap.WrapX( X )
+							Y = TileMap.WrapY( Y )
 						End If
 					Else
-						If X < 0 Or X >= FrameMap.XQuantity Then Continue
+						If X < 0 Or X >= TileMap.XQuantity Then Continue
 					End If
-					Editor.TilesQueue.Insert( String( X + Y * FrameMap.XQuantity ), Null )
+					Editor.TilesQueue.Insert( String( X + Y * TileMap.XQuantity ), Null )
 				Next
 			Next
 		End If

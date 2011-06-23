@@ -32,7 +32,14 @@ Type LTGroup Extends LTShape
 	End Method
 	
 	
+	Method Init()
+		For Local Obj:LTShape = Eachin Children
+			Obj.Init()
+		Next
+	End Method
 	
+	
+
 	Method Act()
 		Super.Act()
 		If Active Then

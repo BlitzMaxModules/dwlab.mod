@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTMap Extends LTObject
+Type LTMap Extends LTShape
 	Field XQuantity:Int, YQuantity:Int
 	Field XMask:Int, YMask:Int, Masked:Int
 	

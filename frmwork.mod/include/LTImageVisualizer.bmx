@@ -44,6 +44,8 @@ Type LTImageVisualizer Extends LTVisualizer
 	
 	
 	Method DrawUsingSprite( Sprite:LTSprite )
+		If Not Image Then Return
+		
 		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
 		SetAlpha Alpha
 	
@@ -57,28 +59,23 @@ Type LTImageVisualizer Extends LTVisualizer
 			SetRotation( Angle )
 		End If
 		
-		If Image Then
-			If Scaling Then
-				L_CurrentCamera.SizeFieldToScreen( Sprite.Width, Sprite.Height, SWidth, SHeight )
-				SetScale( XScale * SWidth / ImageWidth( Image.BMaxImage ), YScale * SHeight / ImageHeight( Image.BMaxImage ) )
-			Else
-				SetScale XScale, YScale
-			End If
-			
-			?debug
-			If Sprite.Frame < 0 Or Sprite.Frame >= Image.FramesQuantity() Then L_Error( "Incorrect frame number ( " + Sprite.Frame + " ) for sprite ~q" + Sprite.Name + "~q, must be less than " + Image.FramesQuantity() )
-			?
-			
-			DrawImage( Image.BMaxImage, SX, SY, Sprite.Frame )
-		Else
+		If Scaling Then
 			L_CurrentCamera.SizeFieldToScreen( Sprite.Width, Sprite.Height, SWidth, SHeight )
-			DrawRect( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
+			SetScale( XScale * SWidth / ImageWidth( Image.BMaxImage ), YScale * SHeight / ImageHeight( Image.BMaxImage ) )
+		Else
+			SetScale XScale, YScale
 		End If
+		
+		?debug
+		If Sprite.Frame < 0 Or Sprite.Frame >= Image.FramesQuantity() Then L_Error( "Incorrect frame number ( " + Sprite.Frame + " ) for sprite ~q" + Sprite.Name + "~q, must be less than " + Image.FramesQuantity() )
+		?
+		
+		DrawImage( Image.BMaxImage, SX, SY, Sprite.Frame )
 		
 		SetScale( 1.0, 1.0 )
 		SetRotation( 0.0 )
-		SetColor 255, 255, 255
-		SetAlpha 1.0
+		SetColor( 255, 255, 255 )
+		SetAlpha( 1.0 )
 	End Method
 	
 	
@@ -87,7 +84,5 @@ Type LTImageVisualizer Extends LTVisualizer
 		Super.XMLIO( XMLObject )
 		
 		Image = LTImage( XMLObject.ManageObjectField( "image", Image ) )
-		XMLObject.ManageDoubleAttribute( "angle", Angle )
-		XMLObject.ManageIntAttribute( "rotating", Rotating, 1 )
 	End Method
 End Type

@@ -74,7 +74,7 @@ Type LTTileSet Extends LTObject
 	
 	
 	Method Enframe( TileMap:LTTileMap, X:Int, Y:Int )
-		Local CatNum:Int = TileCategory[ TileMap.FrameMap.Value[ X, Y ] ]
+		Local CatNum:Int = TileCategory[ TileMap.Value[ X, Y ] ]
 		If CatNum < 0 Then Return
 		Local Category:LTTileCategory = LTTileCategory( Categories.ValueAtIndex( CatNum ) )
 		For Local Rule:LTTileRule = Eachin Category.TileRules
@@ -102,7 +102,7 @@ Type LTTileSet Extends LTObject
 			Next
 			
 			If Passed Then
-				TileMap.FrameMap.Value[ X, Y ] = Rule.TileNums[ Rand( 0, Rule.TileNums.Dimensions()[ 0 ] - 1 ) ]
+				TileMap.Value[ X, Y ] = Rule.TileNums[ Rand( 0, Rule.TileNums.Dimensions()[ 0 ] - 1 ) ]
 				Return
 			End If
 		Next
@@ -111,33 +111,32 @@ Type LTTileSet Extends LTObject
 	
 	
 	Method GetTileCategory:Int( TileMap:LTTileMap, X:Int, Y:Int )
-		Local FrameMap:LTIntMap = TileMap.FrameMap
 		If TileMap.Wrapped Then
-			If FrameMap.Masked Then
-				X = X & FrameMap.XMask
-				Y = Y & FrameMap.YMask
+			If TileMap.Masked Then
+				X = X & TileMap.XMask
+				Y = Y & TileMap.YMask
 			Else
-				X = FrameMap.WrapX( X )
-				Y = FrameMap.WrapY( Y )
+				X = TileMap.WrapX( X )
+				Y = TileMap.WrapY( Y )
 			End If
 		Else
 			If L_ProlongTiles Then
 				If X < 0 Then
 					X = 0
-				ElseIf X >= FrameMap.XQuantity
-					X = FrameMap.XQuantity - 1
+				ElseIf X >= TileMap.XQuantity
+					X = TileMap.XQuantity - 1
 				End If
 				
 				If Y < 0 Then
 					Y = 0
-				ElseIf Y >= FrameMap.YQuantity
-					Y = FrameMap.YQuantity - 1
+				ElseIf Y >= TileMap.YQuantity
+					Y = TileMap.YQuantity - 1
 				End If
 			Else
-				If X < 0 Or X >= FrameMap.XQuantity Or Y < 0 Or Y >= FrameMap.YQuantity Then Return -1
+				If X < 0 Or X >= TileMap.XQuantity Or Y < 0 Or Y >= TileMap.YQuantity Then Return -1
 			End If
 		End If
-		Return TileCategory[ FrameMap.Value[ X, Y ] ]
+		Return TileCategory[ TileMap.Value[ X, Y ] ]
 	End Method
 	
 	

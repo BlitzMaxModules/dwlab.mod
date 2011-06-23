@@ -1,5 +1,5 @@
 '
-' Digital Wizard's Lab - game development framework
+' Graph usage demo - Digital Wizard's Lab example
 ' Copyright (C) 2010, Matt Merkulov
 '
 ' All rights reserved. Use of this code is allowed under the
@@ -8,22 +8,15 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTWorld Extends LTLayer
-	Field Images:TList = New TList
-	Field Tilesets:TList = New TList
-	
-	
-	
-	Function FromFile:LTWorld( Filename:String )
-		Return LTWorld( LoadFromFile( Filename ) )
-	End Function
+Type TGameMap Extends LTGraph
+	Field PlayerPivot:LTSprite
+	Field Events:TMap = New TMap
 	
 	
 	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
-		
-		XMLObject.ManageListField( "images", Images )
-		XMLObject.ManageListField( "tilesets", Tilesets )
+		PlayerPivot = LTSprite( XMLObject.ManageObjectField( "player", PlayerPivot ) )
+		'XMLObject.ManageObjectMapField( "events", Events )
 	End Method
 End Type

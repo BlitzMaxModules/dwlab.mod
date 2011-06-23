@@ -49,7 +49,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.3.3"
+	Const Version:String = "1.3.3.1"
 	Const INIVersion:Int = 3
 	
 	Field EnglishLanguage:TMaxGuiLanguage
@@ -495,7 +495,7 @@ Type LTEditor Extends LTProject
 			WorldFilename = Filename
 			ChangeDir( ExtractDir( Filename ) )
 			
-			World = LTWorld( L_LoadFromFile( Filename ) )
+			World = LTWorld.FromFile( Filename )
 			
 			CurrentShape = Null
 			CurrentTilemap = Null
@@ -1093,18 +1093,17 @@ Type LTEditor Extends LTProject
 				End If
 			
 				Local N:Int = 0
-				Local FrameMap:LTIntMap = CurrentTilemap.FrameMap
 				For Local StringPos:String = Eachin TilesQueue.Keys()
 					Local Pos:Int = StringPos.ToInt()
-					TileSet.Enframe( CurrentTilemap, Pos Mod FrameMap.XQuantity, Floor( Pos / FrameMap.XQuantity ) )
+					TileSet.Enframe( CurrentTilemap, Pos Mod CurrentTilemap.XQuantity, Floor( Pos / CurrentTilemap.XQuantity ) )
 					TilesQueue.Remove( StringPos )
 					N :+ 1
 					If N = 16 Then  Exit
 				Next
 			End If
 			
-			TileX = L_LimitInt( Floor( MX ), MinX, CurrentTilemap.FrameMap.XQuantity - 1 )
-			TileY = L_LimitInt( Floor( MY ), MinY, CurrentTilemap.FrameMap.YQuantity - 1 )
+			TileX = L_LimitInt( Floor( MX ), MinX, CurrentTilemap.XQuantity - 1 )
+			TileY = L_LimitInt( Floor( MY ), MinY, CurrentTilemap.YQuantity - 1 )
 					
 			SetTile.Execute()
 		Else
@@ -1495,10 +1494,10 @@ Type LTEditor Extends LTProject
 	
 	
 	Method InitTileMap( TileMap:LTTileMap )
-		TileMap.X = 0.5 * TileMap.FrameMap.XQuantity
-		TileMap.Y = 0.5 * TileMap.FrameMap.YQuantity
-		TileMap.Width = TileMap.FrameMap.XQuantity
-		TileMap.Height = TileMap.FrameMap.YQuantity
+		TileMap.X = 0.5 * TileMap.XQuantity
+		TileMap.Y = 0.5 * TileMap.YQuantity
+		TileMap.Width = TileMap.XQuantity
+		TileMap.Height = TileMap.YQuantity
 	End Method
 	
 	

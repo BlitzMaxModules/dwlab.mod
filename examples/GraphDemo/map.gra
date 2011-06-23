@@ -1,19 +1,18 @@
-<TEditor dwlab_version="0.1">
-  <LTGraph field="map">
+  <TGameMap>
     <LTLine>
-      <LTActor field="piv0" id="3" x="-3.25" y="0.25"/>
-      <LTActor field="piv1" id="4" x="-2.28" y="1.06"/>
+      <LTSprite shape="0" field="piv0" id="3" x="-3.25" y="0.25"/>
+      <LTSprite shape="0" field="piv1" id="4" x="-2.28" y="1.06"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="4"/>
-      <LTActor field="piv1" id="6" x="-0.59" y="-0.09"/>
+      <LTSprite shape="0" field="piv1" id="6" x="-0.59" y="-0.09"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="6"/>
-      <LTActor field="piv1" id="8" x="-0.46" y="1.96"/>
+      <LTSprite shape="0" field="piv1" id="8" x="-0.46" y="1.96"/>
     </LTLine>
     <LTLine>
-      <LTActor field="piv0" id="10" x="-3.28" y="-2.18"/>
+      <LTSprite shape="0" field="piv0" id="10" x="-3.28" y="-2.18"/>
       <Object field="piv1" id="6"/>
     </LTLine>
     <LTLine>
@@ -21,24 +20,24 @@
       <Object field="piv1" id="8"/>
     </LTLine>
     <LTLine>
-      <LTActor field="piv0" id="13" x="-4.03" y="2.12"/>
+      <LTSprite shape="0" field="piv0" id="13" x="-4.03" y="2.12"/>
       <Object field="piv1" id="4"/>
     </LTLine>
     <LTLine>
-      <LTActor field="piv0" id="15" x="-2.81" y="3.5"/>
+      <LTSprite shape="0" field="piv0" id="15" x="-2.81" y="3.5"/>
       <Object field="piv1" id="8"/>
     </LTLine>
     <LTLine>
-      <LTActor field="piv0" id="17" x="-3.12" y="4.84"/>
+      <LTSprite shape="0" field="piv0" id="17" x="-3.12" y="4.84"/>
       <Object field="piv1" id="15"/>
     </LTLine>
     <LTLine>
-      <LTActor field="piv0" id="19" x="-5.12" y="4.37"/>
+      <LTSprite shape="0" field="piv0" id="19" x="-5.12" y="4.37"/>
       <Object field="piv1" id="17"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="3"/>
-      <LTActor field="piv1" id="21" x="-4.59" y="-1.03"/>
+      <LTSprite shape="0" field="piv1" id="21" x="-4.59" y="-1.03"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="13"/>
@@ -46,11 +45,11 @@
     </LTLine>
     <LTLine>
       <Object field="piv0" id="13"/>
-      <LTActor field="piv1" id="24" x="-6.25" y="2.96"/>
+      <LTSprite shape="0" field="piv1" id="24" x="-6.25" y="2.96"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="10"/>
-      <LTActor field="piv1" x="-3.81" y="-3.81"/>
+      <LTSprite shape="0" field="piv1" x="-3.81" y="-3.81"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="21"/>
@@ -66,47 +65,47 @@
     </LTLine>
     <LTLine>
       <Object field="piv0" id="10"/>
-      <LTActor field="piv1" id="31" x="-1.28" y="-1.75"/>
+      <LTSprite shape="0" field="piv1" id="31" x="-1.28" y="-1.75"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="31"/>
-      <LTActor field="piv1" id="33" x="0.75" y="-2.65"/>
+      <LTSprite shape="0" field="piv1" id="33" x="0.75" y="-2.65"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="6"/>
       <Object field="piv1" id="31"/>
     </LTLine>
     <LTLine>
-      <LTActor field="piv0" x="2.06" y="-7.75"/>
-      <LTActor field="piv1" id="37" x="2.21" y="-6.75"/>
+      <LTSprite shape="0" field="piv0" x="2.06" y="-7.75"/>
+      <LTSprite shape="0" field="piv1" id="37" x="2.21" y="-6.75"/>
     </LTLine>
     <LTLine>
-      <LTActor field="piv0" x="1.96" y="-5.37"/>
+      <LTSprite shape="0" field="piv0" x="1.96" y="-5.37"/>
       <Object field="piv1" id="37"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="37"/>
-      <LTActor field="piv1" id="41" x="3.65" y="-6.78"/>
+      <LTSprite shape="0" field="piv1" id="41" x="3.65" y="-6.78"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="41"/>
-      <LTActor field="piv1" id="43" x="3.59" y="-4.71"/>
+      <LTSprite shape="0" field="piv1" id="43" x="3.59" y="-4.71"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="43"/>
-      <LTActor field="piv1" id="45" x="2.4" y="-3.18"/>
+      <LTSprite shape="0" field="piv1" id="45" x="2.4" y="-3.18"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="45"/>
       <Object field="piv1" id="33"/>
     </LTLine>
     <LTLine>
-      <LTActor field="piv0" id="48" x="2.84" y="5.09"/>
-      <LTActor field="piv1" id="49" x="5.09" y="5.84"/>
+      <LTSprite shape="0" field="piv0" id="48" x="2.84" y="5.09"/>
+      <LTSprite shape="0" field="piv1" id="49" x="5.09" y="5.84"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="48"/>
-      <LTActor field="piv1" id="51" x="3.18" y="7.06"/>
+      <LTSprite shape="0" field="piv1" id="51" x="3.18" y="7.06"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="51"/>
@@ -114,7 +113,7 @@
     </LTLine>
     <LTLine>
       <Object field="piv0" id="49"/>
-      <LTActor field="piv1" id="54" x="4.84" y="8.31"/>
+      <LTSprite shape="0" field="piv1" id="54" x="4.84" y="8.31"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="54"/>
@@ -122,14 +121,14 @@
     </LTLine>
     <LTLine>
       <Object field="piv0" id="49"/>
-      <LTActor field="piv1" id="57" x="5.28" y="4.93"/>
+      <LTSprite shape="0" field="piv1" id="57" x="5.28" y="4.93"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="57"/>
-      <LTActor field="piv1" id="59" x="6.84" y="5.46"/>
+      <LTSprite shape="0" field="piv1" id="59" x="6.84" y="5.46"/>
     </LTLine>
     <LTLine>
-      <LTActor field="piv0" id="61" x="6.5" y="4.09"/>
+      <LTSprite shape="0" field="piv0" id="61" x="6.5" y="4.09"/>
       <Object field="piv1" id="59"/>
     </LTLine>
     <LTLine>
@@ -138,69 +137,69 @@
     </LTLine>
     <LTLine>
       <Object field="piv0" id="61"/>
-      <LTActor field="piv1" id="64" x="6.21" y="2.81"/>
+      <LTSprite shape="0" field="piv1" id="64" x="6.21" y="2.81"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="61"/>
-      <LTActor field="piv1" x="7.53" y="3.31"/>
+      <LTSprite shape="0" field="piv1" x="7.53" y="3.31"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="64"/>
-      <LTActor field="piv1" id="68" x="8.12" y="1.28"/>
+      <LTSprite shape="0" field="piv1" id="68" x="8.12" y="1.28"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="68"/>
-      <LTActor field="piv1" x="8.78" y="1.93"/>
+      <LTSprite shape="0" field="piv1" x="8.78" y="1.93"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="68"/>
-      <LTActor field="piv1" id="72" x="9.46" y="-0.87"/>
+      <LTSprite shape="0" field="piv1" id="72" x="9.46" y="-0.87"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="72"/>
-      <LTActor field="piv1" id="74" x="9.81" y="0.65"/>
+      <LTSprite shape="0" field="piv1" id="74" x="9.81" y="0.65"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="74"/>
-      <LTActor field="piv1" x="10.59" y="-0.34"/>
+      <LTSprite shape="0" field="piv1" x="10.59" y="-0.34"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="72"/>
-      <LTActor field="piv1" id="78" x="8.59" y="-2.68"/>
+      <LTSprite shape="0" field="piv1" id="78" x="8.59" y="-2.68"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="78"/>
-      <LTActor field="piv1" id="80" x="7.18" y="-2.71"/>
+      <LTSprite shape="0" field="piv1" id="80" x="7.18" y="-2.71"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="80"/>
-      <LTActor field="piv1" id="82" x="6.25" y="-3.34"/>
+      <LTSprite shape="0" field="piv1" id="82" x="6.25" y="-3.34"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="82"/>
-      <LTActor field="piv1" id="84" x="5.56" y="-5.03"/>
+      <LTSprite shape="0" field="piv1" id="84" x="5.56" y="-5.03"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="84"/>
       <Object field="piv1" id="43"/>
     </LTLine>
     <LTLine>
-      <LTActor field="piv0" id="87" x="6.18" y="-7.71"/>
+      <LTSprite shape="0" field="piv0" id="87" x="6.18" y="-7.71"/>
       <Object field="piv1" id="41"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="41"/>
-      <LTActor field="piv1" x="4.25" y="-9.4"/>
+      <LTSprite shape="0" field="piv1" x="4.25" y="-9.4"/>
     </LTLine>
     <LTLine>
-      <LTActor field="piv0" id="91" x="5.25" y="-6.28"/>
+      <LTSprite shape="0" field="piv0" id="91" x="5.25" y="-6.28"/>
       <Object field="piv1" id="84"/>
     </LTLine>
     <LTLine>
       <Object field="piv0" id="87"/>
       <Object field="piv1" id="91"/>
     </LTLine>
-  </LTGraph>
-  <TMap field="events"/>
-  <TList field="definitions"/>
-</TEditor>
+    <TMap field="events"/>
+  </TGameMap>
+
+

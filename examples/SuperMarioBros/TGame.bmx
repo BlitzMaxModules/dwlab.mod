@@ -71,7 +71,7 @@ Type TGame Extends LTProject
 	Method Init()
 		InitGraphics( 960, 720, 48.0 )
 		World = LTWorld.FromFile( "world.lw" )
-		HUD = LoadLayer( LTLayer( LTWorld.FromFile( "hud.lw" ).FindShape( "LTLayer" ) ) )
+		LoadAndInitLayer( HUD, LTLayer( LTWorld.FromFile( "hud.lw" ).FindShape( "LTLayer" ) ) )
 		InitLevel()
 	End Method
 	
@@ -91,7 +91,7 @@ Type TGame Extends LTProject
 		For Local N:Int = 0 Until LevelsQuantity
 			Local Layer:LTLayer = LTLayer( World.FindShape( "LTLayer," + N ) )
 			MovingObjects = LTCollisionMap.CreateForShape( Layer.FindShape( "TTiles" ), 2.0 )
-			Levels[ N ] = LoadLayer( Layer )
+			LoadAndInitLayer( Levels[ N ], Layer )
 			Levels[ N ].AddLast( Mario )
 			Levels[ N ].AttachModel( TimeModel )
 			CollisionMaps[ N ] = MovingObjects

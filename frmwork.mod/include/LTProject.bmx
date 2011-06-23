@@ -37,6 +37,13 @@ Type LTProject Extends LTObject
 	
 	
 	
+	Method LoadAndInitLayer( NewLayer:LTLayer Var, Layer:LTLayer )
+		NewLayer = LoadLayer( Layer )
+		NewLayer.Init()
+	End Method
+	
+	
+	
 	Method LoadLayer:LTLayer( Layer:LTLayer )
 		Local NewLayer:LTLayer = LTLayer( CreateShape( Layer ) )
 		For Local Shape:LTShape = Eachin Layer.Children
@@ -52,7 +59,6 @@ Type LTProject Extends LTObject
 	End Method
 	
 	
-	
 	Method CreateShape:LTShape( Shape:LTShape )
 		Local CommaPos:Int = Shape.Name.Find( "," )
 		Local TypeName:String = Shape.Name
@@ -64,7 +70,6 @@ Type LTProject Extends LTObject
 		Local NewShape:LTShape = LTShape( L_GetTypeID( TypeName ).NewObject() )
 		Shape.CopyTo( NewShape )
 		NewShape.Name = RealName
-		NewShape.Init()
 		Return NewShape
 	End Method
 	
@@ -100,9 +105,6 @@ Type LTProject Extends LTObject
 			Else
 				Logic()
 				If Exiting Then Exit
-				For Local Joint:LTJoint = Eachin L_JointList
-					Joint.Operate()
-				Next
 			End If
 		
 			Repeat

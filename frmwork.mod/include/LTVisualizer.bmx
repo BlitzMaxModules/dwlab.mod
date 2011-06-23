@@ -85,8 +85,6 @@ Type LTVisualizer Extends LTObject
 		Local Image:LTImage = TileSet.Image
 		If Not Image Then Return
 	
-		Local FrameMap:LTIntMap = TileMap.FrameMap
-	
 		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
 		SetAlpha Alpha
 	
@@ -114,14 +112,14 @@ Type LTVisualizer Extends LTObject
 				StartX :- StartXFrame * SWidth
 				StartXFrame = 0
 			End If
-			Local EndX:Double = StartX + SWidth * ( FrameMap.XQuantity - StartXFrame ) - 0.001
+			Local EndX:Double = StartX + SWidth * ( TileMap.XQuantity - StartXFrame ) - 0.001
 			If  EndX < X2  Then X2 = EndX
 			
 			If StartYFrame < 0 Then 
 				StartY :- StartYFrame * SHeight
 				StartYFrame = 0
 			End If
-			Local EndY:Double = StartY + SHeight * ( FrameMap.YQuantity - StartYFrame ) - 0.001
+			Local EndY:Double = StartY + SHeight * ( TileMap.YQuantity - StartYFrame ) - 0.001
 			If  EndY < Y2  Then Y2 = EndY
 		End If
 		
@@ -131,10 +129,10 @@ Type LTVisualizer Extends LTObject
 			Local XX:Double = StartX
 			Local XFrame:Int = StartXFrame
 			While XX < X2
-				If FrameMap.Masked Then
-					DrawTile( TileMap, XX, YY, XFrame & FrameMap.XMask, YFrame & FrameMap.YMask )
+				If TileMap.Masked Then
+					DrawTile( TileMap, XX, YY, XFrame & TileMap.XMask, YFrame & TileMap.YMask )
 				Else
-					DrawTile( TileMap, XX, YY, FrameMap.WrapX( XFrame ), FrameMap.WrapY( YFrame ) )
+					DrawTile( TileMap, XX, YY, TileMap.WrapX( XFrame ), TileMap.WrapY( YFrame ) )
 				End If
 				XX = XX + SWidth
 				XFrame :+ 1
@@ -151,7 +149,7 @@ Type LTVisualizer Extends LTObject
 	
 	
 	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, TileX:Int, TileY:Int )
-		Local Value:Int = TileMap.FrameMap.Value[ TileX, TileY ]
+		Local Value:Int = TileMap.Value[ TileX, TileY ]
 		If Value <> L_EmptyTilemapFrame Then Drawimage( TileMap.TileSet.Image.BMaxImage, X, Y, Value )
 	End Method
 	
@@ -210,6 +208,8 @@ Type LTVisualizer Extends LTObject
 		XMLObject.ManageDoubleAttribute( "xscale", XScale, 1.0 )
 		XMLObject.ManageDoubleAttribute( "yscale", YScale, 1.0 )
 		XMLObject.ManageIntAttribute( "scaling", Scaling, 1 )
+		XMLObject.ManageDoubleAttribute( "angle", Angle )
+		XMLObject.ManageIntAttribute( "rotating", Rotating, 1 )
 	End Method
 End Type
 

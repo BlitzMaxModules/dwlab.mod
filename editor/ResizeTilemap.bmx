@@ -12,8 +12,8 @@
 Const TilemapsCanvasSize:Int = 480
 
 Function ResizeTilemap( TileMap:LTTileMap )
-	Local XQuantity:Int = TileMap.FrameMap.XQuantity
-	Local YQuantity:Int = TileMap.FrameMap.YQuantity
+	Local XQuantity:Int = TileMap.XQuantity
+	Local YQuantity:Int = TileMap.YQuantity
 		
 	Local Window:TGadget = CreateWindow( "{{W_ResizeTilemap}}", 0, 0, 0, 0, Editor.Window, Window_Titlebar | Window_ClientCoords )
 	Local Form:LTForm = LTForm.Create( Window )
@@ -89,16 +89,17 @@ Function ResizeTilemap( TileMap:LTTileMap )
 						Local Proceed:Int = True
 						If NewXQuantity < XQuantity Or NewYQuantity < YQuantity Then Proceed = Confirm( LocalizeString( "{{D_TilemapDataLoss}}" ) )
 						If Proceed Then
-							Local NewFrameMap:LTIntMap = New LTIntMap
-							NewFrameMap.SetResolution( NewXQuantity, NewYQuantity )
+							Local NewValue:Int[ , ] = New Int[ NewXQuantity, NewYQuantity ]
 							For Local TileY:Int = 0 Until NewYQuantity
 								If TileY + Y >= 0 And TileY + Y < YQuantity Then
 									For Local TileX:Int = 0 Until NewXQuantity
-										If TileX + X >= 0 And TileX + X < XQuantity Then NewFrameMap.Value[ TileX, TileY ] = TileMap.FrameMap.Value[ TileX + X, TileY + Y ]
+										If TileX + X >= 0 And TileX + X < XQuantity Then NewValue[ TileX, TileY ] = TileMap.Value[ TileX + X, TileY + Y ]
 									Next
 								End If
 							Next
-							TileMap.FrameMap = NewFrameMap
+							TileMap.Value = NewValue
+							TileMap.XQuantity = NewXQuantity
+							TileMap.YQuantity = NewYQuantity
 							TileMap.X :+ 0.5 * ( NewXQuantity - XQuantity ) + X
 							TileMap.Y :+ 0.5 * ( NewYQuantity - YQuantity ) + Y
 							TileMap.Width :* 1.0 * NewXQuantity / XQuantity
@@ -120,13 +121,13 @@ End Function
 	Rem
 	Method TilemapSettings()
 		Local Tilemap:LTTileMap = LTTilemap( SelectedShape )
-		Local XQuantity:Int = Tilemap.FrameMap.XQuantity
-		Local YQuantity:Int = Tilemap.FrameMap.YQuantity
+		Local XQuantity:Int = Tilemap.XQuantity
+		Local YQuantity:Int = Tilemap.YQuantity
 		If ChooseParameter( XQuantity, YQuantity, LocalizeString( "{{L_TilesQuantity}}" ), LocalizeString( "{{L_Tiles}}" ) ) Then
-			If XQuantity < Tilemap.FrameMap.XQuantity Or YQuantity < Tilemap.FrameMap.YQuantity Then
+			If XQuantity < Tilemap.XQuantity Or YQuantity < Tilemap.YQuantity Then
 				If Not Confirm( LocalizeString( "{{D_TilemapDataLoss}}" ) ) Then Return
 			End If
-			Tilemap.FrameMap.SetResolution( XQuantity, YQuantity )
+			Tilemap.SetResolution( XQuantity, YQuantity )
 			Tilemap.X = 0.5 * XQuantity
 			Tilemap.Y = 0.5 * YQuantity
 			Tilemap.Width = XQuantity

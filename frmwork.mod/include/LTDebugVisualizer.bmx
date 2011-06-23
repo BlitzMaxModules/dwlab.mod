@@ -85,7 +85,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 	
 	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, TileX:Int, TileY:Int )
 		If Not ShowCollisionShapes Then Return
-		Local Shape:LTShape = LTShape( TileMap.GetTileCollisionShape( TileX, TileY ) )
+		Local Shape:LTShape = TileMap.GetTileCollisionShape( TileX, TileY )
 		If Not Shape Then Return
 		SetScale( 1.0, 1.0 )
 		Local Sprite:LTSprite = LTSprite( Shape )
