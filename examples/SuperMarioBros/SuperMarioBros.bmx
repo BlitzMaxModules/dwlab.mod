@@ -10,15 +10,13 @@
 
 SuperStrict
 
+' Setting framework
 ?win32
 Framework brl.d3d7max2d
-Import brl.directsoundaudio
 ?linux
 Framework brl.glmax2d
-Import brl.freeaudioaudio
 ?macos
 Framework brl.glmax2d
-Import brl.freeaudioaudio
 ?
 
 'Import brl.bmploader ' for importing BMPs
@@ -28,6 +26,7 @@ Import brl.pngloader ' for importing PNGs
 Import brl.oggloader ' for importing OGGs
 
 Import dwlab.frmwork' DWLab framework import
+Import dwlab.sound' DWLab framework sound import
 
 Include "TGame.bmx"
 Include "TMario.bmx"

@@ -26,12 +26,6 @@ Type TModifyShape Extends LTDrag
 	Const ResizeHorizontally:Int = 1
 	Const ResizeVertically:Int = 2
 	Const Resize:Int = 3
-	Const ResizeDiagonally1:Int = 4
-	Const ResizeDiagonally2:Int = 5
-	Const MirrorHorizontally:Int = 6
-	Const MirrorVertically:Int = 7
-	Const RotateBackward:Int = 8
-	Const RotateForward:Int = 9
 	
 	
 	
@@ -89,18 +83,6 @@ Type TModifyShape Extends LTDrag
 			Case Resize
 				HorizontalResize( DX )
 				VerticalResize( DY )
-			Case ResizeDiagonally1
-				If MDX < 0 Then
-					Editor.Grid.SetCornerSnaps( NewLeftSide, NewTopSide, LeftSide, TopSide, RightSide, BottomSide, X, Y )
-				Else
-					Editor.Grid.SetCornerSnaps( NewRightSide, NewBottomSide, RightSide, BottomSide, LeftSide, TopSide, X, Y )
-				End If
-			Case ResizeDiagonally2
-				If MDX < 0 Then
-					Editor.Grid.SetCornerSnaps( NewLeftSide, NewBottomSide, LeftSide, BottomSide, RightSide, TopSide, X, Y )
-				Else
-					Editor.Grid.SetCornerSnaps( NewRightSide, NewTopSide, RightSide, TopSide, LeftSide, BottomSide, X, Y )
-				End If
 		End Select
 				
 		Shape.X = 0.5 * ( NewLeftSide + NewRightSide )
@@ -136,19 +118,6 @@ Type TModifyShape Extends LTDrag
 	
 	
 	Method EndDragging()
-		Select ModifierType
-			Case MirrorHorizontally
-				Shape.Visualizer.XScale = -Shape.Visualizer.XScale
-			Case MirrorVertically
-				Shape.Visualizer.YScale = -Shape.Visualizer.YScale
-			Case RotateBackward
-				Local AngularSprite:LTAngularSprite = LTAngularSprite( Shape )
-				If AngularSprite Then AngularSprite.Angle :- 45
-			Case RotateForward
-				Local AngularSprite:LTAngularSprite = LTAngularSprite( Shape )
-				If AngularSprite Then AngularSprite.Angle :+ 45
-		End Select
-		
 		If Not Shape.Width Or Not Shape.Height Then
 			Shape.X = 0.5 * ( LeftSide + RightSide )
 			Shape.Y = 0.5 * ( TopSide + BottomSide )

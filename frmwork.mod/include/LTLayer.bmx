@@ -57,11 +57,11 @@ Type LTLayer Extends LTGroup
 			End If
 			Local ChildLayer:LTLayer = LTLayer( ChildShape )
 			If ChildLayer Then
-				Local Shape:LTShape = ChildLayer.FindShapeWithTypeID( ShapeTypeID, True )
+				Local Shape:LTShape = ChildLayer.FindShapeWithTypeID( ShapeTypeID, Name, True )
 				If Shape Then Return Shape
 			End If
 		Next
-		If Not IgnoreError Then L_Error( "Shape width type ~q" + ShapeTypeID.Name() + "~q not found." )
+		If Not IgnoreError Then L_Error( "Shape with type ~q" + ShapeTypeID.Name() + "~q not found." )
 		Return Null
 	End Method
 	

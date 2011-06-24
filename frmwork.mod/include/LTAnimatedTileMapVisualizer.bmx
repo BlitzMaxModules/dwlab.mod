@@ -14,6 +14,10 @@ Type LTAnimatedTileMapVisualizer Extends LTVisualizer
 	
 	
 	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, TileX:Int, TileY:Int )
+		?debug
+		L_TilesDisplayed :+ 1
+		?
+		
 		Local Value:Int = TileNum[ TileMap.Value[ TileX, TileY ] ]
 		If Value <> L_EmptyTilemapFrame Then Drawimage( TileMap.TileSet.Image.BMaxImage, X, Y, Value )
 	End Method

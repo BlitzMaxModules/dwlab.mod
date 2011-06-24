@@ -82,8 +82,8 @@ Function L_Separate( Pivot1:LTSprite, Pivot2:LTSprite, DX:Double, DY:Double, Mas
 		K2 = 0.5
 	End If
 	
-	Pivot1.AlterCoords( K1 * DX, K1 * DY )
-	Pivot2.AlterCoords( -K2 * DX, -K2 * DY )
+	IF K1 <> 0.0 Then Pivot1.AlterCoords( K1 * DX, K1 * DY )
+	IF K2 <> 0.0 Then Pivot2.AlterCoords( -K2 * DX, -K2 * DY )
 	
 	'If Pivot1.CollidesWith( Pivot2 ) Then debugstop
 End Function

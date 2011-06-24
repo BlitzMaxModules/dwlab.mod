@@ -8,6 +8,8 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "TChaingun.bmx"
+
 Type TPlayer Extends LTAngularSprite
 	Const MinTargetDistance:Double = 1.25
 
@@ -23,7 +25,7 @@ Type TPlayer Extends LTAngularSprite
 			PushFromSprite( Sprite )
 		Else
 			WedgeOffWithSprite( Sprite, 6.0, Sprite.Height * Sprite.Width )
-			Game.ActingList.AddLast( Sprite )
+			Game.ActingMap.Insert( Sprite, Null )
 		End If
 	End Method
 	
@@ -46,7 +48,9 @@ Type TPlayer Extends LTAngularSprite
 		End If
 		DirectTo( Game.Target )
 		
+	    LimitWith( Game.Level.Bounds )
 		L_CurrentCamera.JumpTo( Self )
+	    L_CurrentCamera.LimitWith( Game.Level.Bounds )
 		
 		CollisionsWithCollisionMap( Game.Blocks )
 		CollisionsWithCollisionMap( Game.Trees )

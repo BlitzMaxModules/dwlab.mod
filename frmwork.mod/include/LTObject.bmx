@@ -16,11 +16,22 @@ Global L_IDNum:Int
 Global L_IDArray:LTObject[]
 Global LayerName:String
 
+Rem
+bbdoc: Global object class
+End Rem
 Type LTObject
+	Rem
+	bbdoc: Name of the object.
+	End Rem
 	Field Name:String
 	
 
 	
+	Rem
+	bbdoc: Retrieving object's name part.
+	returns: Part of the name for given index (parts are separated by commas). 
+	about: First part index is 1.
+	End Rem
 	Method GetNamePart:String( Num:Int = 1 )
 		Local PartStart:Int = 0
 		Local PartNum:Int = 1
@@ -37,6 +48,9 @@ Type LTObject
 
 	' ==================== loading / saving ===================
 
+	Rem
+	bbdoc: Method for storing object fields into XML object for saving and retrieving object fields from XML object for loading.
+	End Rem
 	Method XMLIO( XMLObject:LTXMLObject )
 		If L_XMLMode = L_XMLSet Then XMLObject.Name = TTypeId.ForObject( Self ).Name()
 		XMLObject.ManageStringAttribute( "name", Name )
@@ -44,6 +58,9 @@ Type LTObject
 	
 
 
+	Rem
+	bbdoc: Loads object with all contents from file.
+	End Rem
 	Function LoadFromFile:LTObject( FileName:String )
 		L_IDNum = 0
 		Local XMLObject:LTXMLObject = LTXMLObject.ReadFromFile( FileName )
@@ -63,6 +80,10 @@ Type LTObject
 
 
 
+	Rem
+	bbdoc: Saves object with all contents to file.
+	about: See also: #XMLObject.ManageIntField.
+	End Rem
 	Method SaveToFile( FileName:String )
 		L_IDMap = New TMap
 		L_RemoveIDMap = New TMap

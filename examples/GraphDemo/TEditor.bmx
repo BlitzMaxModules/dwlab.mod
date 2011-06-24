@@ -79,7 +79,7 @@ Type TEditor Extends LTProject
 		Game.Player.Draw()
 		
 		Game.Font.Print( "Drag selected pivot with left mouse button.", -16.0, -10.0, 1.0 )
-		Game.Font.Print( "Create pivots with right mouse button on empty space.", -16.0, -9.0, 1.0 )
+		Game.Font.Print( "Create pivots with left mouse button on empty space.", -16.0, -9.0, 1.0 )
 		Game.Font.Print( "Create lines by dragging right mouse button from one pivot to another.", -16.0, -8.0, 1.0 )
 		Game.Font.Print( "Press Del to delete selected object.", -16.0, -7.0, 1.0 )
 		Game.Font.Print( "Press Ctrl-Z to undo.", -16.0, -6.0, 1.0 )

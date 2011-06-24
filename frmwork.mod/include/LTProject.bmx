@@ -9,34 +9,82 @@
 '
 
 Global L_CollisionChecks:Int
+Global L_TilesDisplayed:Int
+Global L_SpritesDisplayed:Int
+Global L_SpritesActed:Int
+Global L_SpriteActed:Int
+
 Global L_DeltaTime:Double
 
+Rem
+bbdoc: Class for main project and subprojects.
+End Rem
 Type LTProject Extends LTObject
+	Rem
+	bbdoc: Quantity of logic frames per second.
+	End Rem
 	Field LogicFPS:Double = 75
+	
+	Rem
+	bbdoc: Minimal frames per second
+	about: Game will start to go slower if this threshold will be reached.
+	End Rem
 	Field MinFPS:Double = 15
+	
+	Rem
+	bbdoc: Current frames per second quantity.
+	End Rem
 	Field FPS:Int
+	
+	Rem
+	bbdoc: Current logic frame number.
+	End Rem
 	Field Pass:Int
+	
+	Rem
+	bbdoc: Current game time in seconds (starts from 0).
+	End Rem
 	Field Time:Double
+	
 	Field CurrentPause:LTPause
+	
+	Rem
+	bbdoc: Exit flag.
+	about: Set it to true to exit project.
+	End Rem
 	Field Exiting:Int
 
 	
 	
+	Rem
+	bbdoc: Initialization method.
+	about: Fill it with project initialization commands.
+	End Rem
 	Method Init()
 	End Method
   
   
-  
+	Rem
+	bbdoc: Rendering method.
+	about: Fill it with objects drawing commands. Will be executed as many times as possible, while keeping logic frame rate.
+	End Rem
 	Method Render()
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: Logic method. 
+	about: Fill it with project mechanics commands. Will be executed "LogicFPS" times per second.
+	End Rem
 	Method Logic()
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: Loads and initializes layer and all its child objects from previously loaded world.
+	End Rem
 	Method LoadAndInitLayer( NewLayer:LTLayer Var, Layer:LTLayer )
 		NewLayer = LoadLayer( Layer )
 		NewLayer.Init()
@@ -44,6 +92,9 @@ Type LTProject Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: Loads layer from world.
+	End Rem
 	Method LoadLayer:LTLayer( Layer:LTLayer )
 		Local NewLayer:LTLayer = LTLayer( CreateShape( Layer ) )
 		For Local Shape:LTShape = Eachin Layer.Children
@@ -57,6 +108,7 @@ Type LTProject Extends LTObject
 		Next
 		Return NewLayer
 	End Method
+	
 	
 	
 	Method CreateShape:LTShape( Shape:LTShape )
@@ -75,6 +127,9 @@ Type LTProject Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: Executes the project.
+	End Rem
 	Method Execute()
 		FlushKeys
 		FlushMouse
@@ -98,11 +153,14 @@ Type LTProject Extends LTObject
 		Repeat
 			Time :+  L_DeltaTime
 			
-			L_CollisionChecks = 0
-			
 			If CurrentPause Then
 				CurrentPause.Update()
 			Else
+				?debug
+				L_CollisionChecks = 0
+				L_SpritesActed = 0
+				?
+				
 				Logic()
 				If Exiting Then Exit
 			End If
@@ -112,6 +170,12 @@ Type LTProject Extends LTObject
 				If RealTime >= Time And ( RealTime - LastRenderTime ) < MaxRenderPeriod Then Exit
 				
 				Cls
+				
+				?debug
+				L_SpritesDisplayed = 0
+				L_TilesDisplayed = 0
+				?
+				
 				Render()
 				If CurrentPause Then CurrentPause.Render()
 				Flip( False )
@@ -133,21 +197,37 @@ Type LTProject Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: Converts value second to value per logic frame.
+	returns: Value for logic frame using given per second value.
+	about: For example, can return coordinate increment for speed per second.
+	End Rem
 	Method PerSecond:Double( Value:Double )
 		Return Value * L_DeltaTime
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: Shows various debugging information.
+	End Rem
 	Method ShowDebugInfo( MainLayer:LTLayer )
 		DrawText( "FPS: " + FPS, 0, 0 )
 		DrawText( "Memory: " + Int( GCMemAlloced() / 1024 ) + "kb", 0, 16 )
-		DrawText( "Sprites: " + MainLayer.CountSprites(), 0, 32 )
-		DrawText( "Collisions: " + L_CollisionChecks, 0, 48 )
+		
+		?debug
+		DrawText( "Collision checks: " + L_CollisionChecks, 0, 32 )
+		DrawText( "Tiles displayed: " + L_TilesDisplayed, 0, 48 )
+		DrawText( "Sprites displayed: " + L_SpritesDisplayed, 0, 64 )
+		DrawText( "Sprites acted: " + L_SpritesActed, 0, 80 )
+		?
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: Applies pause object to the project (to switch to pause mode).
+	End Rem
 	Method ApplyPause( NewPause:LTPause, Key:Int )
 		NewPause.Project = Self
 		NewPause.Key = Key

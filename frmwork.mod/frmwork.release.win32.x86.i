@@ -1,9 +1,12 @@
+ModuleInfo "Version: 1.13.3"
+ModuleInfo "Author: Matt Merkulov"
+ModuleInfo "License: Artistic License 2.0"
+ModuleInfo "Modserver: DWLAB"
 import brl.blitz
 import brl.random
 import brl.reflection
 import brl.retro
 import brl.max2d
-import brl.audio
 L_Version$=$"0.13.3"
 LTObject^brl.blitz.Object{
 .Name$&
@@ -35,23 +38,9 @@ LTProject^LTObject{
 -ShowDebugInfo%(MainLayer:LTLayer)="_dwlab_frmwork_LTProject_ShowDebugInfo"
 -ApplyPause%(NewPause:LTPause,Key%)="_dwlab_frmwork_LTProject_ApplyPause"
 }="dwlab_frmwork_LTProject"
-LTMap^LTShape{
-.XQuantity%&
-.YQuantity%&
-.XMask%&
-.YMask%&
-.Masked%&
--New%()="_dwlab_frmwork_LTMap_New"
--Delete%()="_dwlab_frmwork_LTMap_Delete"
--SetResolution%(NewXQuantity%,NewYQuantity%)="_dwlab_frmwork_LTMap_SetResolution"
--WrapX%(Value%)="_dwlab_frmwork_LTMap_WrapX"
--WrapY%(Value%)="_dwlab_frmwork_LTMap_WrapY"
--Stretch:LTMap(XMultiplier%,YMultiplier%)="_dwlab_frmwork_LTMap_Stretch"
--XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTMap_XMLIO"
-}="dwlab_frmwork_LTMap"
 LTShape^LTObject{
-Horizontal%=0
-Vertical%=1
+Horizontal%=1
+Vertical%=2
 LeftFacing!=-1!
 RightFacing!=1!
 .X!&
@@ -85,12 +74,12 @@ RightFacing!=1!
 -Move%(DX!,DY!)="_dwlab_frmwork_LTShape_Move"
 -PlaceBetween%(Shape1:LTShape,Shape2:LTShape,K!)="_dwlab_frmwork_LTShape_PlaceBetween"
 -LimitWith%(Rectangle:LTShape)="_dwlab_frmwork_LTShape_LimitWith"
--LimitLeftWith%(Rectangle:LTShape,UpdateFlag%=1)="_dwlab_frmwork_LTShape_LimitLeftWith"
--LimitTopWith%(Rectangle:LTShape,UpdateFlag%=1)="_dwlab_frmwork_LTShape_LimitTopWith"
--LimitRightWith%(Rectangle:LTShape,UpdateFlag%=1)="_dwlab_frmwork_LTShape_LimitRightWith"
--LimitBottomWith%(Rectangle:LTShape,UpdateFlag%=1)="_dwlab_frmwork_LTShape_LimitBottomWith"
--LimitHorizontallyWith%(Rectangle:LTShape,UpdateFlag%=1)="_dwlab_frmwork_LTShape_LimitHorizontallyWith"
--LimitVerticallyWith%(Rectangle:LTShape,UpdateFlag%=1)="_dwlab_frmwork_LTShape_LimitVerticallyWith"
+-LimitLeftWith%(Rectangle:LTShape)="_dwlab_frmwork_LTShape_LimitLeftWith"
+-LimitTopWith%(Rectangle:LTShape)="_dwlab_frmwork_LTShape_LimitTopWith"
+-LimitRightWith%(Rectangle:LTShape)="_dwlab_frmwork_LTShape_LimitRightWith"
+-LimitBottomWith%(Rectangle:LTShape)="_dwlab_frmwork_LTShape_LimitBottomWith"
+-LimitHorizontallyWith%(Rectangle:LTShape)="_dwlab_frmwork_LTShape_LimitHorizontallyWith"
+-LimitVerticallyWith%(Rectangle:LTShape)="_dwlab_frmwork_LTShape_LimitVerticallyWith"
 -DirectionToPoint!(PointX!,PointY!)="_dwlab_frmwork_LTShape_DirectionToPoint"
 -DirectionTo!(Shape:LTShape)="_dwlab_frmwork_LTShape_DirectionTo"
 -SetWidth%(NewWidth!)="_dwlab_frmwork_LTShape_SetWidth"
@@ -119,18 +108,6 @@ RightFacing!=1!
 -Destroy%()="_dwlab_frmwork_LTShape_Destroy"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTShape_XMLIO"
 }="dwlab_frmwork_LTShape"
-LTMoveShape^LTAction{
-.Shape:LTShape&
-.OldX!&
-.OldY!&
-.NewX!&
-.NewY!&
--New%()="_dwlab_frmwork_LTMoveShape_New"
--Delete%()="_dwlab_frmwork_LTMoveShape_Delete"
-+Create:LTMoveShape(Shape:LTShape,X!=0!,Y!=0!)="_dwlab_frmwork_LTMoveShape_Create"
--Do%()="_dwlab_frmwork_LTMoveShape_Do"
--Undo%()="_dwlab_frmwork_LTMoveShape_Undo"
-}="dwlab_frmwork_LTMoveShape"
 LTGroup^LTShape{
 .Children:brl.linkedlist.TList&
 -New%()="_dwlab_frmwork_LTGroup_New"
@@ -275,6 +252,20 @@ L_WedgingValuesOfCircleAndCircle%(Circle1X!,Circle1Y!,Circle1Diameter!,Circle2X!
 L_WedgingValuesOfCircleAndRectangle%(CircleX!,CircleY!,CircleDiameter!,RectangleX!,RectangleY!,RectangleWidth!,RectangleHeight!,DX! Var,DY! Var)="dwlab_frmwork_L_WedgingValuesOfCircleAndRectangle"
 L_WedgingValuesOfRectangleAndRectangle%(Rectangle1X!,Rectangle1Y!,Rectangle1Width!,Rectangle1Height!,Rectangle2X!,Rectangle2Y!,Rectangle2Width!,Rectangle2Height!,DX! Var,DY! Var)="dwlab_frmwork_L_WedgingValuesOfRectangleAndRectangle"
 L_Separate%(Pivot1:LTSprite,Pivot2:LTSprite,DX!,DY!,Mass1!,Mass2!)="dwlab_frmwork_L_Separate"
+LTMap^LTShape{
+.XQuantity%&
+.YQuantity%&
+.XMask%&
+.YMask%&
+.Masked%&
+-New%()="_dwlab_frmwork_LTMap_New"
+-Delete%()="_dwlab_frmwork_LTMap_Delete"
+-SetResolution%(NewXQuantity%,NewYQuantity%)="_dwlab_frmwork_LTMap_SetResolution"
+-WrapX%(Value%)="_dwlab_frmwork_LTMap_WrapX"
+-WrapY%(Value%)="_dwlab_frmwork_LTMap_WrapY"
+-Stretch:LTMap(XMultiplier%,YMultiplier%)="_dwlab_frmwork_LTMap_Stretch"
+-XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTMap_XMLIO"
+}="dwlab_frmwork_LTMap"
 LTIntMap^LTMap{
 .Value%&[,]&
 -New%()="_dwlab_frmwork_LTIntMap_New"
@@ -380,7 +371,7 @@ LTCollisionMap^LTMap{
 .Sprites:brl.linkedlist.TList&[,]&
 .XScale!&
 .YScale!&
-.FrameWidth!&
+.Border!&
 -New%()="_dwlab_frmwork_LTCollisionMap_New"
 -Delete%()="_dwlab_frmwork_LTCollisionMap_Delete"
 -SetResolution%(NewXQuantity%,NewYQuantity%)="_dwlab_frmwork_LTCollisionMap_SetResolution"
@@ -406,6 +397,8 @@ LTGraph^LTShape{
 .Lines:brl.map.TMap&
 -New%()="_dwlab_frmwork_LTGraph_New"
 -Delete%()="_dwlab_frmwork_LTGraph_Delete"
+-Draw%()="_dwlab_frmwork_LTGraph_Draw"
+-DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTGraph_DrawUsingVisualizer"
 -DrawPivotsUsing%(Visualizer:LTVisualizer)="_dwlab_frmwork_LTGraph_DrawPivotsUsing"
 -DrawLinesUsing%(Visualizer:LTVisualizer)="_dwlab_frmwork_LTGraph_DrawLinesUsing"
 -AddPivot:brl.linkedlist.TList(Pivot:LTSprite)="_dwlab_frmwork_LTGraph_AddPivot"
@@ -614,14 +607,6 @@ LTBitmapFont^LTObject{
 -Height%()="_dwlab_frmwork_LTBitmapFont_Height"
 +FromFile:LTBitmapFont(FileName$,FromNum%=32,ToNum%=255,SymbolsPerRow%=16,VariableLength%=0)="_dwlab_frmwork_LTBitmapFont_FromFile"
 }="dwlab_frmwork_LTBitmapFont"
-LTChannelPack^LTObject{
-.Channel:brl.audio.TChannel&[]&
-.ChannelsQuantity%&
--New%()="_dwlab_frmwork_LTChannelPack_New"
--Delete%()="_dwlab_frmwork_LTChannelPack_Delete"
-+Create:LTChannelPack(ChannelsQuantity%)="_dwlab_frmwork_LTChannelPack_Create"
--Play%(Sound:brl.audio.TSound)="_dwlab_frmwork_LTChannelPack_Play"
-}="dwlab_frmwork_LTChannelPack"
 LTPath^LTObject{
 .Pivots:brl.linkedlist.TList&
 -New%()="_dwlab_frmwork_LTPath_New"
@@ -734,6 +719,10 @@ L_IDNum%&=mem("dwlab_frmwork_L_IDNum")
 L_IDArray:LTObject&[]&=mem:p("dwlab_frmwork_L_IDArray")
 LayerName$&=mem:p("dwlab_frmwork_LayerName")
 L_CollisionChecks%&=mem("dwlab_frmwork_L_CollisionChecks")
+L_TilesDisplayed%&=mem("dwlab_frmwork_L_TilesDisplayed")
+L_SpritesDisplayed%&=mem("dwlab_frmwork_L_SpritesDisplayed")
+L_SpritesActed%&=mem("dwlab_frmwork_L_SpritesActed")
+L_SpriteActed%&=mem("dwlab_frmwork_L_SpriteActed")
 L_DeltaTime!&=mem:d("dwlab_frmwork_L_DeltaTime")
 L_CurrentCamera:LTCamera&=mem:p("dwlab_frmwork_L_CurrentCamera")
 L_CameraSpeed!&=mem:d("dwlab_frmwork_L_CameraSpeed")

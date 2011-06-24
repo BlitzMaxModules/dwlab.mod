@@ -2,7 +2,7 @@ import brl.blitz
 import brl.eventqueue
 import maxgui.win32maxguiex
 import dwlab.frmwork
-LTForm^dwlab.frmwork.LTObject{
+LTForm^brl.blitz.Object{
 .Gadget:maxgui.maxgui.TGadget&
 .Margins%&
 .HorizontalCellSpacing%&
@@ -28,7 +28,7 @@ LTForm^dwlab.frmwork.LTObject{
 -MoveGadgets%(LabGadget:LTGadget,DX%,DWidth%=0)="_dwlab_forms_LTForm_MoveGadgets"
 -MoveGadget%(Gadget:maxgui.maxgui.TGadget,X%,Y%,DWidth%=0)="_dwlab_forms_LTForm_MoveGadget"
 }="dwlab_forms_LTForm"
-LTGadget^dwlab.frmwork.LTObject{
+LTGadget^brl.blitz.Object{
 Button%=0
 TextField%=1
 ComboBox%=2
@@ -53,7 +53,7 @@ LTHorizontalList^brl.linkedlist.TList{
 -New%()="_dwlab_forms_LTHorizontalList_New"
 -Delete%()="_dwlab_forms_LTHorizontalList_Delete"
 }="dwlab_forms_LTHorizontalList"
-LTMenuSwitch^dwlab.frmwork.LTObject{
+LTMenuSwitch^brl.blitz.Object{
 .Toolbar:maxgui.maxgui.TGadget&
 .MenuItem:maxgui.maxgui.TGadget&
 .MenuNumber%&

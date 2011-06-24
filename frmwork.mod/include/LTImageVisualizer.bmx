@@ -46,6 +46,10 @@ Type LTImageVisualizer Extends LTVisualizer
 	Method DrawUsingSprite( Sprite:LTSprite )
 		If Not Image Then Return
 		
+		?debug
+		L_SpritesDisplayed :+ 1
+		?
+		
 		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
 		SetAlpha Alpha
 	

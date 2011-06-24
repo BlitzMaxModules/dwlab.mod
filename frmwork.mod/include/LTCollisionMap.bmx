@@ -11,7 +11,7 @@
 Type LTCollisionMap Extends LTMap
 	Field Sprites:TList[ , ]
 	Field XScale:Double = 1.0, YScale:Double = 1.0
-	Field FrameWidth:Double
+	Field Border:Double
 	
 	' ==================== Parameters ====================
 	
@@ -41,10 +41,10 @@ Type LTCollisionMap Extends LTMap
 	
 	Method Draw()
 		If Visible Then
-			Local MapX1:Int = Floor( ( L_CurrentCamera.X - 0.5 * L_CurrentCamera.Width - FrameWidth ) / XScale )
-			Local MapY1:Int = Floor( ( L_CurrentCamera.Y - 0.5 * L_CurrentCamera.Height - FrameWidth ) / YScale )
-			Local MapX2:Int = Floor( ( L_CurrentCamera.X + 0.5 * L_CurrentCamera.Width - L_Inaccuracy + FrameWidth ) / XScale )
-			Local MapY2:Int = Floor( ( L_CurrentCamera.Y + 0.5 * L_CurrentCamera.Height - L_Inaccuracy + FrameWidth ) / YScale )
+			Local MapX1:Int = Floor( ( L_CurrentCamera.X - 0.5 * L_CurrentCamera.Width - Border ) / XScale )
+			Local MapY1:Int = Floor( ( L_CurrentCamera.Y - 0.5 * L_CurrentCamera.Height - Border ) / YScale )
+			Local MapX2:Int = Floor( ( L_CurrentCamera.X + 0.5 * L_CurrentCamera.Width - L_Inaccuracy + Border ) / XScale )
+			Local MapY2:Int = Floor( ( L_CurrentCamera.Y + 0.5 * L_CurrentCamera.Height - L_Inaccuracy + Border ) / YScale )
 			
 			Local SpriteMap:TMap = New TMap
 			

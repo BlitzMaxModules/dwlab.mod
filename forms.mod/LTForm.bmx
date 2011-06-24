@@ -11,7 +11,7 @@
 Global L_LabelIndent:Int = 3
 Global L_FieldHeight:Int = 22
 
-Type LTForm Extends LTObject
+Type LTForm
   Field Gadget:TGadget
   Field Margins:Int
   Field HorizontalCellSpacing:Int

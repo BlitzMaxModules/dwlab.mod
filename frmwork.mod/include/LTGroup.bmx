@@ -44,7 +44,17 @@ Type LTGroup Extends LTShape
 		Super.Act()
 		If Active Then
 			For Local Obj:LTShape = Eachin Children
-				Obj.Act()
+				If Obj.Active Then
+					?debug
+					L_SpriteActed = False
+					?
+					
+					Obj.Act()
+					
+					?debug
+					If LTSprite( Obj ) And Not L_SpriteActed Then L_SpritesActed :+ 1
+					?
+				End If
 			Next
 		End If
 	End Method

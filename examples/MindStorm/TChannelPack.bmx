@@ -8,27 +8,30 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTChannelPack Extends LTObject
+Type TChannelPack Extends LTObject
 	Field Channel:TChannel[]
 	Field ChannelsQuantity:Int
 	
 	
 	
-	Function Create:LTChannelPack( ChannelsQuantity:Int )
-		Local ChannelPack:LTChannelPack = New LTChannelPack 
+	Function Create:TChannelPack( ChannelsQuantity:Int )
+		Local ChannelPack:TChannelPack = New TChannelPack
 		ChannelPack.Channel = New TChannel[ ChannelsQuantity ]
 		ChannelPack.ChannelsQuantity = ChannelsQuantity
 		For Local N:Int = 0 Until ChannelsQuantity
 			ChannelPack.Channel[ N ] = New TChannel
 		Next
+		Return ChannelPack
 	End Function
 	
 	
 	
-	Method Play( Sound:TSound )
+	Method Play( Sound:TSound, Volume:Double = -1.0, Rate:Double = 1.0 )
 		For Local N:Int = 0 Until ChannelsQuantity
 			If Not Channel[ N ].Playing() Then
 				PlaySound( Sound, Channel[ N ] )
+				If Volume >= 0.0 Then SetChannelVolume( Channel[ N ], Volume )
+				If Rate <> 1.0 Then SetChannelRate( Channel[ N ], Rate )
 				Exit
 			End If
 		Next

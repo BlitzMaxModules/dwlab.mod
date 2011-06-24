@@ -10,7 +10,7 @@
 
 Global L_MenuSwicthes:TList = New TList
 
-Type LTMenuSwitch Extends LTObject
+Type LTMenuSwitch
 	Field Toolbar:TGadget
 	Field MenuItem:TGadget
 	Field MenuNumber:Int

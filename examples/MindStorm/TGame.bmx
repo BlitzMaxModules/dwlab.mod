@@ -17,21 +17,33 @@ Type TGame Extends LTProject
 	Field Blocks:LTCollisionMap
 	Field Bullets:LTCollisionMap
 	Field Trees:LTCollisionMap
-	Field ActingList:TList = New TList
+	Field BulletLayer:LTLayer = New LTLayer
+	Field ActingMap:TMap = New TMap
 	
 	Field Fire:LTImageVisualizer = LTImageVisualizer.FromFile( "media\fire.png", 5 )
 	Field ChaingunBullet:LTImage = LTImage.FromFile( "media\bullet.png", 8, 11 )
 	Field Pyramid:LTImage = LTImage.FromFile( "media\pyramid.png", 2 )
 	Field Brain:LTImage = LTImage.FromFile( "media\brain2.png" )
 	Field Tree:LTImage = LTImage.FromFile( "media\tree.png", 3 )
+	Field Explosion:LTImageVisualizer = LTImageVisualizer.FromFile( "media\explosion.png", 8, 5 )
+	
+	Field FireSounds:LTChannelPack = LTChannelPack.Create( 4 )
+	Field ExplosionSounds:LTChannelPack = LTChannelPack.Create( 4 )
+	
+	Field FireSound:TSound = LoadSound( "media\fire.ogg" )
+	Field ExplosionSound:TSound = LoadSound( "media\explosion.ogg" )
 	
 	
 	
 	Method Init()
 		InitGraphics( 960, 720, 48.0 )
+		HideMouse()
 		World = LTWorld.FromFile( "world.lw" )
 		LoadAndInitLayer( Level, LTLayer( World.FindShape( "LTLayer" ) ) )
 		Target = LTSprite( Level.FindShape( "Target" ) )
+		LTLayer( Game.Level.FindShape( "Trees" ) ).AddLast( Game.Trees )
+		LTLayer( Game.Level.FindShape( "Blocks" ) ).AddLast( Game.Blocks )
+		LTLayer( Game.Level.FindShape( "Bullets" ) ).AddLast( Game.Bullets )
 	End Method
 	
 	
@@ -39,9 +51,11 @@ Type TGame Extends LTProject
 	Method Logic()
 		Target.SetMouseCoords()
 		Level.Act()
-		Local OldActingList:TList = ActingList
-		ActingList = New TList
-		For Local Sprite:LTSprite = Eachin OldActingList
+		BulletLayer.Act()
+		
+		Local OldActingMap:TMap = ActingMap
+		ActingMap = New TMap
+		For Local Sprite:LTSprite = Eachin OldActingMap.Keys()
 			Sprite.Act()
 		Next
 		
@@ -52,5 +66,6 @@ Type TGame Extends LTProject
 	
 	Method Render()
 		Level.Draw()
+		ShowDebugInfo( Level )
 	End Method
 End Type

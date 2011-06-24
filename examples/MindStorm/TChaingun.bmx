@@ -8,6 +8,9 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "TChaingunBullet.bmx"
+Include "TFire.bmx"
+
 Type TChaingun Extends LTAngularSprite
 	Const BarrelAnimationAcceleration:Double = 100.0
 	Const BarrelAnimationDeceleration:Double = 20.0
@@ -24,7 +27,7 @@ Type TChaingun Extends LTAngularSprite
 	Field BarrelAnimationSpeed:Double
 	Field BarrelFrame:Double
 	Field FiringStartingTime:Double
-	Field Fire:LTAngularSprite = New LTAngularSprite
+	Field Fire:TFire
 	
 	
 	
@@ -35,6 +38,8 @@ Type TChaingun Extends LTAngularSprite
 		Hinge = LTAngularSprite( Game.Level.FindShape( "Hinge," + Num ) )
 		Barrel = LTAngularSprite( Game.Level.FindShape( "Barrel," + Num ) )
 		Aimer = LTAngularSprite( Game.Level.FindShape( "Aimer," + Num ) )
+		Fire = TFire( Game.Level.FindShapeWithType( "TFire", Num ) )
+		Fire.Chaingun = Self
 		
 		Hinge.AttachModel( LTRevoluteJoint.Create( Game.Player ) )
 		AttachModel( LTFixedJoint.Create( Hinge ) )
@@ -45,9 +50,6 @@ Type TChaingun Extends LTAngularSprite
 			FirePos[ N ] = LTAngularSprite( Game.Level.FindShape( "FirePos," + Num + "," + N ) )
 			FirePos[ N ].AttachModel( LTFixedJoint.Create( Hinge ) )
 		Next
-		
-		Fire.Visualizer = Game.Fire
-		Fire.ShapeType = LTSprite.Pivot
 	End Method
 	
 	
@@ -82,6 +84,7 @@ Type TChaingun Extends LTAngularSprite
 			FiringStartingTime = Game.Time
 			Fire.Frame = Rand( FireFramesQuantity - 1 )
 			TChaingunBullet.Create( Fire )
+			If Num Then Game.FireSounds.Play( Game.FireSound, 0.2 )
 		End If
 	End Method
 	
@@ -89,9 +92,5 @@ Type TChaingun Extends LTAngularSprite
 	
 	Method Draw()
 		Super.Draw()
-		if Game.Time < FiringStartingTime + FiringPeriod Then
-			Fire.Visualizer.Alpha = 1.5 * ( FiringStartingTime + FiringPeriod - Game.Time ) / FiringPeriod
-			Fire.Draw()
-		End If
 	End Method
 End Type

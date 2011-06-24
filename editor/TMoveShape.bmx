@@ -22,7 +22,8 @@ Type TMoveShape Extends LTDrag
 	
 	
 	Method DraggingConditions:Int()
-		If Not Editor.CurrentTilemap And Editor.ShapeUnderCursor And Not Editor.SelectShapes.DraggingState Then Return True
+		If Not Editor.CurrentTilemap And Editor.ShapeUnderCursor And Not Editor.SelectShapes.DraggingState ..
+			And Not Editor.SelectedModifier And Not Editor.ModifyShape.DraggingState Then Return True
 	End Method
 	
 	

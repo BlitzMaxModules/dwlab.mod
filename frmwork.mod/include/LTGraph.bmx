@@ -14,7 +14,25 @@ Type LTGraph Extends LTShape
 	
 	' ==================== Drawing ===================	
 	
-	Method	DrawPivotsUsing( Visualizer:LTVisualizer )
+	Method Draw()
+		If Visible Then
+			DrawLinesUsing( Visualizer )
+			DrawPivotsUsing( Visualizer )
+		End If
+	End Method
+	
+	
+	
+	Method DrawUsingVisualizer( Vis:LTVisualizer )
+		If Visible Then
+			DrawLinesUsing( Vis )
+			DrawPivotsUsing( Vis )
+		End If
+	End Method
+	
+	
+	
+	Method DrawPivotsUsing( Visualizer:LTVisualizer )
 		For Local Pivot:LTSprite = Eachin Pivots.Keys()
 			'debugstop
 			Pivot.DrawUsingVisualizer( Visualizer )
@@ -127,16 +145,27 @@ Type LTGraph Extends LTShape
 		Super.XMLIO( XMLObject )
 		Local List:TList
 		If L_XMLMode = L_XMLGet Then
-			XMLObject.ManageChildList( List )
+			XMLObject.ManageListField( "pivots", List )
+			For Local Piv:LTSprite = Eachin List
+				AddPivot( Piv )
+			Next
+			
+			XMLObject.ManageListField( "lines", List )
 			For Local Line:LTLine = Eachin List
 				AddLine( Line )
 			Next
 		Else
 			List = New TList
+			For Local Piv:LTSprite = Eachin Pivots.Keys()
+				List.AddLast( Piv )
+			Next
+			XMLObject.ManageListField( "pivots", List )
+			
+			List = New TList
 			For Local Line:LTLine = Eachin Lines.Keys()
 				List.AddLast( Line )
 			Next
-			XMLObject.ManageChildList( List )
+			XMLObject.ManageListField( "lines", List )
 		End If
 	End Method
 End Type

@@ -8,17 +8,32 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "TExplosion.bmx"
+
 Type TChaingunBullet Extends LTVectorSprite
 	Const MinFlyingTime:Double = 1.0
 	Const MaxFlyingTime:Double = 2.0
 	Const MinFadingTime:Double = 0.5
 	Const MaxFadingTime:Double = 1.0
 	Const Velocity:Double = 8.0
+	Const Power:Double = 0.2
 	
 	Field CreatingTime:Int
 	Field FadingPeriod:Double
 	Field FlyingPeriod:Double
   
+	
+	
+	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
+		Local Block:TBlock = TBlock( Sprite )
+		If Block Then
+			Block.DX :+ DX * Power / Block.Width / Block.Height
+			Block.DY :+ DY * Power / Block.Width / Block.Height
+			Game.ActingMap.Insert( Block, Null )
+		End If
+		Destroy()
+	End Method
+	
 	
   
 	Function Create( Fire:LTAngularSprite )
@@ -36,7 +51,8 @@ Type TChaingunBullet Extends LTVectorSprite
 		Bullet.FadingPeriod = Rnd( MinFadingTime, MaxFadingTime )
 		Bullet.JumpTo( Fire )
 		Bullet.ShapeType = LTSprite.Circle
-		Game.Level.AddLast( Bullet )
+		Game.Bullets.InsertSprite( Bullet )
+		Game.BulletLayer.AddLast( Bullet )
 	End Function
 	
 	
@@ -45,9 +61,21 @@ Type TChaingunBullet Extends LTVectorSprite
 		MoveForward()
 		Frame = L_WrapInt2( Floor( 10.0 + 50.0 * ( Game.Time - CreatingTime ) ), 27, 87 )
 		If Game.Time > CreatingTime + FlyingPeriod + FadingPeriod Then
-			Game.Level.Remove( Self )
+			Destroy()
 		ElseIf Game.Time > CreatingTime + FlyingPeriod
 			Visualizer.Alpha = 1.0 * ( CreatingTime + FlyingPeriod + FadingPeriod - Game.Time ) / FadingPeriod
 		End If
+		CollisionsWithCollisionMap( Game.Blocks )
+		CollisionsWithCollisionMap( Game.Trees )
+	End Method
+	
+	
+	
+	Method Destroy()
+		Local Explosion:TExplosion = New TExplosion
+		Explosion.JumpTo( Self )
+		Explosion.Init()
+		Game.BulletLayer.Remove( Self )
+		Game.Bullets.RemoveSprite( Self )
 	End Method
 End Type

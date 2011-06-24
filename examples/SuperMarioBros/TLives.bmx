@@ -27,7 +27,13 @@ Type TLives Extends LTProject
 		Game.HUD.Draw()
 		Game.Mario.Draw()
 		
-		Game.Font.Print( "X" + Game.Lives, Game.Mario.RightX(), Game.Mario.Y, 0.5, LTAlign.ToLeft, LTAlign.ToCenter )
+		Local X:Double = Game.Mario.RightX()
+		Local Y:Double = Game.Mario.Y
+		Game.Font.Print( "X" + Game.Lives, X, Y, 0.5, LTAlign.ToLeft, LTAlign.ToCenter )		
+		Game.Font.Print( "Press left and right arrows to walk", X - 10.0, Y + 5.5, 0.5 )
+		Game.Font.Print( "Press down arrow to sit while big", X - 10.0, Y + 6.0, 0.5 )
+		Game.Font.Print( "Press ~qA~q key to jump", X - 10.0, Y + 6.5, 0.5 )
+		Game.Font.Print( "Press ~qS~q key to run and fire", X - 10.0, Y + 7.0, 0.5 )
 		L_CurrentCamera = Game.LevelCamera
 	End Method
 End Type

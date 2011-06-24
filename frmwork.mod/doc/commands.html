@@ -1,0 +1,191 @@
+<html><head><title>Digital Wizard's Lab Framework reference</title>
+<link rel=stylesheet Type=text/css href='../../../../doc/bmxstyle.css'>
+</head><body>
+<table width=100% cellspacing=0><tr align=center><td class=small>&nbsp;</td>
+<td class=small width=1%><b>dwlab.frmwork:</b></td>
+<td class=small width=1%><a href=#types class=small>Types</a></td>
+<td class=small width=1%><a href=#modinfo class=small>Modinfo</a></td>
+<td class=small width=1%><a href='../../../../mod/dwlab.mod/frmwork.mod/frmwork.bmx' class=small>Source</a></td>
+<td class=small>&nbsp;</td></tr></table>
+<h1>Digital Wizard's Lab Framework</h1>
+<h2><a name=types></a>Types Summary</h2><table class=doc width=100%>
+<tr><td class=docleft width=1%><a href=#LTObject>LTObject</a></td><td class=docright>
+Global object class.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#LTProject>LTProject</a></td><td class=docright>
+Class for main project and subprojects.
+</td></tr>
+</table>
+<h2
+ id=typesdet>Types
+</h2>
+<table class=doc width=100% cellspacing=3 id=LTObject>
+<tr><td class=doctop colspan=2>Type LTObject</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Global object class.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTObject_fields></a>Fields Summary</th></tr><tr><td colspan=2>
+<a href=#Name>Name</a>
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTObject_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#GetNamePart>GetNamePart</a></td><td class=docright>
+Retrieving object's name part.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SaveToFile>SaveToFile</a></td><td class=docright>
+Saves object with all contents to file.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#XMLIO>XMLIO</a></td><td class=docright>
+Method for storing object fields into XML object for saving and retrieving object fields from XML object for loading.
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTObject_functions></a>Functions Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#LoadFromFile>LoadFromFile</a></td><td class=docright>
+Loads object with all contents from file.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Name>
+<tr><td class=doctop colspan=2>Field Name:String</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Name of the object.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetNamePart>
+<tr><td class=doctop colspan=2>Method GetNamePart:String( Num:Int = 1 )</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>Part of the name for given index (parts are separated by commas).</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Retrieving object's name part.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>First part index is 1.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SaveToFile>
+<tr><td class=doctop colspan=2>Method SaveToFile( FileName:String )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Saves object with all contents to file.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=../../../XMLObject.mod/doc/commands.html#ManageIntField>ManageIntField</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=XMLIO>
+<tr><td class=doctop colspan=2>Method XMLIO( XMLObject:LTXMLObject )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Method for storing object fields into XML object for saving and retrieving object fields from XML object for loading.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=LoadFromFile>
+<tr><td class=doctop colspan=2>Function LoadFromFile:LTObject( FileName:String )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Loads object with all contents from file.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=LTProject>
+<tr><td class=doctop colspan=2>Type LTProject Extends LTObject</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Class for main project and subprojects.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTProject_fields></a>Fields Summary</th></tr><tr><td colspan=2>
+<a href=#Exiting>Exiting</a>
+, 
+<a href=#FPS>FPS</a>
+, 
+<a href=#LogicFPS>LogicFPS</a>
+, 
+<a href=#MinFPS>MinFPS</a>
+, 
+<a href=#Pass>Pass</a>
+, 
+<a href=#Time>Time</a>
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTProject_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#ApplyPause>ApplyPause</a></td><td class=docright>
+Applies pause object to the project (to switch to pause mode).
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Execute>Execute</a></td><td class=docright>
+Executes the project.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Init>Init</a></td><td class=docright>
+Initialization method.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#LoadAndInitLayer>LoadAndInitLayer</a></td><td class=docright>
+Loads and initializes layer and all its child objects from previously loaded world.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#LoadLayer>LoadLayer</a></td><td class=docright>
+Loads layer from world.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Logic>Logic</a></td><td class=docright>
+Logic method.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#PerSecond>PerSecond</a></td><td class=docright>
+Converts value second to value per logic frame.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Render>Render</a></td><td class=docright>
+Rendering method.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#ShowDebugInfo>ShowDebugInfo</a></td><td class=docright>
+Shows various debugging information.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Exiting>
+<tr><td class=doctop colspan=2>Field Exiting:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Exit flag.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Set it to true to exit project.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=FPS>
+<tr><td class=doctop colspan=2>Field FPS:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Current frames per second quantity.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=LogicFPS>
+<tr><td class=doctop colspan=2>Field LogicFPS:Double = 75</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Quantity of logic frames per second.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=MinFPS>
+<tr><td class=doctop colspan=2>Field MinFPS:Double = 15</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Minimal frames per second.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Game will start to go slower if this threshold will be reached.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Pass>
+<tr><td class=doctop colspan=2>Field Pass:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Current logic frame number.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Time>
+<tr><td class=doctop colspan=2>Field Time:Double</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Current game time in seconds (starts from 0).</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=ApplyPause>
+<tr><td class=doctop colspan=2>Method ApplyPause( NewPause:LTPause, Key:Int )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Applies pause object to the project (to switch to pause mode).</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Execute>
+<tr><td class=doctop colspan=2>Method Execute()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Executes the project.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Init>
+<tr><td class=doctop colspan=2>Method Init()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Initialization method.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Fill it with project initialization commands.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=LoadAndInitLayer>
+<tr><td class=doctop colspan=2>Method LoadAndInitLayer( NewLayer:LTLayer Var, Layer:LTLayer )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Loads and initializes layer and all its child objects from previously loaded world.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=LoadLayer>
+<tr><td class=doctop colspan=2>Method LoadLayer:LTLayer( Layer:LTLayer )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Loads layer from world.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Logic>
+<tr><td class=doctop colspan=2>Method Logic()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Logic method.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Fill it with project mechanics commands. Will be executed "LogicFPS" times per second.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=PerSecond>
+<tr><td class=doctop colspan=2>Method PerSecond:Double( Value:Double )</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>Value for logic frame using given per second value.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Converts value second to value per logic frame.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>For example, can return coordinate increment for speed per second.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Render>
+<tr><td class=doctop colspan=2>Method Render()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Rendering method.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Fill it with objects drawing commands. Will be executed as many times as possible, while keeping logic frame rate.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=ShowDebugInfo>
+<tr><td class=doctop colspan=2>Method ShowDebugInfo( MainLayer:LTLayer )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Shows various debugging information.</td></tr>
+</table>
+<br>
+<h2 id=modinfo>Module Information</h2>
+<table width=100%>
+<tr><th width=1%>Version</th><td>1.13.3</td></tr>
+<tr><th width=1%>Author</th><td>Matt Merkulov</td></tr>
+<tr><th width=1%>License</th><td>Artistic License 2.0</td></tr>
+<tr><th width=1%>Modserver</th><td>DWLAB</td></tr>
+</body></html>

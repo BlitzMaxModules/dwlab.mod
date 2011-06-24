@@ -10,14 +10,21 @@
 
 SuperStrict
 
+Rem
+bbdoc: Digital Wizard's Lab Framework
+End Rem
 Module dwlab.frmwork
+
+ModuleInfo "Version: 1.13.3"
+ModuleInfo "Author: Matt Merkulov"
+ModuleInfo "License: Artistic License 2.0"
+ModuleInfo "Modserver: DWLAB"
 
 Import brl.random
 Import brl.reflection
 Import brl.retro
 Import brl.map
 Import brl.max2d
-Import brl.audio
 
 SeedRnd( MilliSecs() )
 
@@ -25,7 +32,6 @@ Const L_Version:String = "0.13.3"
 
 Include "include/LTObject.bmx"
 Include "include/LTProject.bmx"
-Include "include/LTMap.bmx"
 Include "include/LTShape.bmx"
 Include "include/LTGroup.bmx"
 Include "include/LTLayer.bmx"
@@ -36,6 +42,7 @@ Include "include/LTVectorSprite.bmx"
 Include "include/LTCamera.bmx"
 Include "include/Collisions.bmx"
 Include "include/Physics.bmx"
+Include "include/LTMap.bmx"
 Include "include/LTIntMap.bmx"
 Include "include/LTTileMap.bmx"
 Include "include/LTTileSet.bmx"
@@ -56,7 +63,6 @@ Include "include/LTFixedJoint.bmx"
 Include "include/LTRevoluteJoint.bmx"
 Include "include/LTAlign.bmx"
 Include "include/LTText.bmx"
-Include "include/LTChannelPack.bmx"
 Include "include/LTPath.bmx"
 Include "include/LTDrag.bmx"
 Include "include/LTAction.bmx"

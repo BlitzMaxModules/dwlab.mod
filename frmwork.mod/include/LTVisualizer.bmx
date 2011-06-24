@@ -44,6 +44,10 @@ Type LTVisualizer Extends LTObject
 	' ==================== Drawing ===================	
 	
 	Method DrawUsingSprite( Sprite:LTSprite )
+		?debug
+		L_SpritesDisplayed :+ 1
+		?
+		
 		ApplyColor()
 		
 		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
@@ -149,6 +153,10 @@ Type LTVisualizer Extends LTObject
 	
 	
 	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, TileX:Int, TileY:Int )
+		?debug
+		L_TilesDisplayed :+ 1
+		?
+		
 		Local Value:Int = TileMap.Value[ TileX, TileY ]
 		If Value <> L_EmptyTilemapFrame Then Drawimage( TileMap.TileSet.Image.BMaxImage, X, Y, Value )
 	End Method

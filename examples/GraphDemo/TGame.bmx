@@ -40,7 +40,7 @@ Type TGame Extends LTProject
 		Player.Visualizer = PlayerVisualizer
 		
 		Cursor.ShapeType = LTSprite.Circle
-		Cursor.SetDiameter( 0.5 )
+		Cursor.SetDiameter( 0.2 )
 		
 		PivotVisualizer.SetVisualizerScale( 0.25, 0.25 )
 		PivotVisualizer.SetColorFromHex( "FF7F00" )

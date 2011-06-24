@@ -49,14 +49,14 @@ Incbin "russian.lng"
 
 Incbin "toolbar.png"
 Incbin "treeview.png"
-Incbin "modifiers.png"
 
 Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.3.3.1"
+	Const Version:String = "1.3.4"
 	Const INIVersion:Int = 3
+	Const ModifierSize:Int = 3
 	
 	Field EnglishLanguage:TMaxGuiLanguage
 	Field RussianLanguage:TMaxGuiLanguage
@@ -143,7 +143,6 @@ Type LTEditor Extends LTProject
 	Field ShapeUnderCursor:LTShape
 	Field SelectedShapes:TList = New TList
 	Field SelectedModifier:LTSprite
-	Field ModifiersImage:TImage
 	Field Modifiers:TList = New TList
 	
 	Field SelectedTile:LTSprite = New LTSprite
@@ -355,9 +354,6 @@ Type LTEditor Extends LTProject
 		
 		SetClsColor( 255, 255, 255 )
 		
-		ModifiersImage = LoadAnimImage( "incbin::modifiers.png", 16, 16, 0, 10 )
-		MidHandleImage( ModifiersImage )
-		
 		L_DebugVisualizer.SetColorFromHex( "FF00FF" )
 		L_DebugVisualizer.Alpha = 0.5
 		
@@ -519,7 +515,7 @@ Type LTEditor Extends LTProject
 			Changed = False
 			
 			SetTitle()
-			RefreshProjectManager( World )
+			RefreshProjectManager()
 		End If
 	End Method
 	
@@ -640,42 +636,16 @@ Type LTEditor Extends LTProject
 						End If
 					Case Key_PageUp, Key_End
 						If Not SelectedShapes.IsEmpty() Then
-							Local SelectedLink:TLink = SelectedShapes.FirstLink()
-							Local ShapeLink:TLink = CurrentLayer.Children.FirstLink()
-							Local ShapesList:TList = CurrentLayer.Children
-							While ShapeLink And SelectedLink
-								If ShapeLink.Value() = SelectedLink.Value() And ( ShapeLink.PrevLink() Or EvData = Key_End ) Then
-									if EvData = Key_PageUp Then
-										ShapesList.InsertBeforeLink( ShapeLink.Value(), ShapeLink.PrevLink() )
-									Else
-										ShapesList.InsertAfterLink( ShapeLink.Value(), ShapesList.LastLink() )
-									End If
-									ShapeLink.Remove()
-									SelectedLink = SelectedLink.NextLink()
-								End If
-								ShapeLink = ShapeLink.NextLink()
-							Wend
+							Local Link:TLink = SelectedShapes.FirstLink()
+							ShiftPageUpEnd( World, Link, EvData )
 							If LTLayer( SelectedShapes.First() ) Then SelectedShapes.Clear()
 							SetChanged()
 							RefreshProjectManager()
 						End If
 					Case Key_PageDown, Key_Home
 						If Not SelectedShapes.IsEmpty() Then
-							Local SelectedLink:TLink = SelectedShapes.LastLink()
-							Local ShapeLink:TLink = CurrentLayer.Children.LastLink()
-							Local ShapesList:TList = CurrentLayer.Children
-							While ShapeLink And SelectedLink
-								If ShapeLink.Value() = SelectedLink.Value() And ( ShapeLink.NextLink() Or EvData = Key_Home ) Then
-									if EvData = Key_PageDown Then
-										ShapesList.InsertAfterLink( ShapeLink.Value(), ShapeLink.NextLink() )
-									Else
-										ShapesList.InsertBeforeLink( ShapeLink.Value(), ShapesList.FirstLink() )
-									End If
-									ShapeLink.Remove()
-									SelectedLink = SelectedLink.PrevLink()
-								End If
-								ShapeLink = ShapeLink.PrevLink()
-							Wend
+							Local Link:TLink = SelectedShapes.LastLink()
+							ShiftPageDownHome( World, Link, EvData )
 							If LTLayer( SelectedShapes.First() ) Then SelectedShapes.Clear()
 							SetChanged()
 							RefreshProjectManager()
@@ -737,7 +707,7 @@ Type LTEditor Extends LTProject
 					Case MenuRemove
 						RemoveObject( SelectedShape, World )
 						If SelectedShape = CurrentLayer Then CurrentLayer = Null
-						If SelectedShape = CurrentTilemap Then DeselectTilemap() Else RefreshProjectManager( World )
+						If SelectedShape = CurrentTilemap Then DeselectTilemap() Else RefreshProjectManager()
 						SetChanged()
 					Case MenuToggleVisibility
 						SelectedShape.Visible = Not SelectedShape.Visible
@@ -815,7 +785,7 @@ Type LTEditor Extends LTProject
 									RefreshTilemap()
 									If Layer.Children.IsEmpty() And Not Layer.Bounds Then Layer.SetBounds( CurrentTilemap )
 									Layer.AddLast( CurrentTilemap )
-									RefreshProjectManager( World )
+									RefreshProjectManager()
 									SetChanged()
 								End If
 							End If
@@ -825,10 +795,10 @@ Type LTEditor Extends LTProject
 							Local Layer:LTLayer = LTLayer( SelectedShape )
 							If Layer.Children.IsEmpty() And Not Layer.Bounds Then Layer.SetBounds( CurrentTilemap )
 							Layer.AddLast( CurrentTilemap )
-							RefreshProjectManager( World )
+							RefreshProjectManager()
 						End If
 					Case MenuImportTilemaps
-						If TileMapImportDialog( True ) Then RefreshProjectManager( World )
+						If TileMapImportDialog( True ) Then RefreshProjectManager()
 					Case MenuRemoveBounds
 						LTLayer( SelectedShape ).Bounds = Null
 						SetChanged()
@@ -837,7 +807,7 @@ Type LTEditor Extends LTProject
 					
 					Case MenuEditTilemap
 						CurrentTileMap = LTTileMap( SelectedShape )
-						RefreshProjectManager( World )
+						RefreshProjectManager()
 						RefreshTilemap()
 					Case MenuSelectTileMap
 						SelectShape( SelectedShape )
@@ -883,7 +853,7 @@ Type LTEditor Extends LTProject
 						Local Name:String = EnterString( "{{D_EnterNameOfLayer}}", "LTLayer" )
 						If Name Then
 							AddLayer( Name )
-							RefreshProjectManager( World )
+							RefreshProjectManager()
 						End If
 				End Select
 				
@@ -1051,7 +1021,7 @@ Type LTEditor Extends LTProject
 		For Local Modifier:LTSprite = Eachin Modifiers
 			Local MX:Double, MY:Double
 			MainCamera.FieldToScreen( Modifier.X, Modifier.Y, MX, MY )
-			If MouseX() >= MX - 8 And MouseX() <= MX + 8 And MouseY() >= MY - 8 And MouseY() <= MY + 8 Then
+			If MouseX() >= MX - ModifierSize And MouseX() <= MX + ModifierSize And MouseY() >= MY - ModifierSize And MouseY() <= MY + ModifierSize Then
 				SelectedModifier = Modifier
 				Exit
 			End If
@@ -1218,13 +1188,14 @@ Type LTEditor Extends LTProject
 			If SelectShapes.Frame Then SelectShapes.Frame.DrawUsingVisualizer( MarchingAnts )
 			
 			If Not ModifyShape.DraggingState And Not CreateSprite.DraggingState Then
-				SetAlpha( 0.75 )
 				For Local Modifier:LTSprite = Eachin Modifiers
 					Local X:Double, Y:Double
 					L_CurrentCamera.FieldToScreen( Modifier.X, Modifier.Y, X, Y )
-					DrawImage( ModifiersImage, X, Y, Modifier.Frame )
+					DrawRect( X - 3, Y - 3, 7, 7 )
+					SetColor( 0, 0, 0 )
+					DrawRect( X - 2, Y - 2, 5, 5 )
+					SetColor( 255, 255, 255 )
 				Next
-				SetAlpha( 1.0 )
 			End If
 		End If
 		
@@ -1343,29 +1314,17 @@ Type LTEditor Extends LTProject
 		Local SWidth:Double, SHeight:Double
 		L_CurrentCamera.SizeFieldToScreen( 0.5 * Shape.Width, 0.5 * Shape.Height, SWidth, SHeight )
 		
-		If SWidth < 25 Then SWidth = 25
-		If SHeight < 25 Then SHeight = 25
+		If SWidth < 4 Then SWidth = 4
+		If SHeight < 4 Then SHeight = 4
 		
-		AddModifier( Shape, TModifyShape.Move, 0, 0 )
-		AddModifier( Shape, TModifyShape.ResizeHorizontally, -SWidth - 9, 0 )
-		AddModifier( Shape, TModifyShape.ResizeHorizontally, SWidth + 9, 0 )
-		AddModifier( Shape, TModifyShape.ResizeVertically, 0, -SHeight - 9 )
-		AddModifier( Shape, TModifyShape.ResizeVertically, 0, +SHeight + 9 )
-		AddModifier( Shape, TModifyShape.Resize, -SWidth + 8, -SHeight + 8 )
-		AddModifier( Shape, TModifyShape.Resize, SWidth - 8, -SHeight + 8 )
-		AddModifier( Shape, TModifyShape.Resize, -SWidth + 8, SHeight - 8 )
-		AddModifier( Shape, TModifyShape.Resize, SWidth - 8, SHeight - 8 )
-		AddModifier( Shape, TModifyShape.ResizeDiagonally1, SWidth + 9, SHeight + 9 )
-		AddModifier( Shape, TModifyShape.ResizeDiagonally1, -SWidth - 9, -SHeight - 9 )
-		AddModifier( Shape, TModifyShape.ResizeDiagonally2, -SWidth - 9, SHeight + 9 )
-		AddModifier( Shape, TModifyShape.ResizeDiagonally2, SWidth + 9, -SHeight - 9 )
-		AddModifier( Shape, TModifyShape.MirrorHorizontally, 0, -17 )
-		AddModifier( Shape, TModifyShape.MirrorVertically, 0, 17 )
-		
-		If Not LTAngularSprite( Shape ) Then Return
-		
-		AddModifier( Shape, TModifyShape.RotateBackward, -17, 0 )
-		AddModifier( Shape, TModifyShape.RotateForward, 17, 0 )		
+		AddModifier( Shape, TModifyShape.ResizeHorizontally, -SWidth - 4, 0 )
+		AddModifier( Shape, TModifyShape.ResizeHorizontally, SWidth + 4, 0 )
+		AddModifier( Shape, TModifyShape.ResizeVertically, 0, -SHeight - 4 )
+		AddModifier( Shape, TModifyShape.ResizeVertically, 0, +SHeight + 4 )
+		AddModifier( Shape, TModifyShape.Resize, -SWidth - 4, -SHeight - 4 )
+		AddModifier( Shape, TModifyShape.Resize, SWidth + 4, -SHeight - 4 )
+		AddModifier( Shape, TModifyShape.Resize, -SWidth - 4, SHeight + 4 )
+		AddModifier( Shape, TModifyShape.Resize, SWidth + 4, SHeight + 4 )
 	End Method
 	
 	
@@ -1411,61 +1370,57 @@ Type LTEditor Extends LTProject
 	
 	
 	Method RefreshProjectManager( Layer:LTLayer = Null, Node:TGadget = Null )
-		If Not Layer Then Layer = CurrentLayer
 		If Not Layer Then Layer = World
 		If Not Node Then Node = TreeViewRoot( ProjectManager )
-		If GadgetExtra( Node ) = Layer Or ( Layer = World And Node = TreeViewRoot( ProjectManager ) ) Then
-			If GadgetExtra( Node ) = CurrentLayer Then
-				SetGadgetText( Node, "< " + Layer.Name + " >" )
+		
+		Local Link:TLink = Node.kids.FirstLink()
+		Local SelectedShapesLink:TLink = Null
+		If Not SelectedShapes.IsEmpty() Then SelectedShapesLink = SelectedShapes.FirstLink()
+		For Local Shape:LTShape = Eachin Layer.Children
+			Local Icon:Int
+			If LTLayer( Shape ) Then
+				Icon = 0
+			ElseIf LTTIleMap( Shape ) Then
+				Icon = 1
 			Else
-				SetGadgetText( Node, Layer.Name )
+				Icon = 2
 			End If
-			Local Link:TLink = Node.kids.FirstLink()
-			Local SelectedShapesLink:TLink = Null
-			If Not SelectedShapes.IsEmpty() Then SelectedShapesLink = SelectedShapes.FirstLink()
-			For Local Shape:LTShape = Eachin Layer.Children
-				Local Icon:Int
-				If LTLayer( Shape ) Then
-					Icon = 0
-				ElseIf LTTIleMap( Shape ) Then
-					Icon = 1
-				Else
-					Icon = 2
+			
+			Local Name:String = Shape.Name
+			If Not Shape.Visible Then Name = "(x) " + Name
+			If Not Shape.Active Then Name = "(-) " + Name
+			
+			If Shape = CurrentTilemap Or Shape = CurrentLayer Then Name = "< " + Name + " >"
+			If SelectedShapesLink Then
+				If SelectedShapesLink.Value() = Shape Then
+					Name = "* " + Name + " *"
+					SelectedShapesLink = SelectedShapesLink.NextLink()
+				End If
+			End If
+			
+			Local CurrentNode:TGadget
+			If Link <> Null Then
+				CurrentNode = TGadget( Link.Value() )
+				ModifyTreeViewNode( CurrentNode, Name, Icon )
+				SetGadgetExtra( CurrentNode, Shape )
+				
+				If Not LTLayer( Shape ) Then
+					For Local ChildNode:TGadget = Eachin CurrentNode.kids
+						FreeTreeViewNode( ChildNode )
+					Next
 				End If
 				
-				Local Name:String = Shape.Name
-				If Not Shape.Visible Then Name = "(x) " + Name
-				If Not Shape.Active Then Name = "(-) " + Name
-				
-				If Shape = CurrentTilemap Then Name = "< " + Name + " >"
-				If SelectedShapesLink Then
-					If SelectedShapesLink.Value() = Shape Then
-						Name = "* " + Name + " *"
-						SelectedShapesLink = SelectedShapesLink.NextLink()
-					End If
-				End If
-				
-				Local CurrentNode:TGadget
-				If Link <> Null Then
-					CurrentNode = TGadget( Link.Value() )
-					ModifyTreeViewNode( CurrentNode, Name, Icon )
-					SetGadgetExtra( CurrentNode, Shape )
-					Link = Link.NextLink()
-				Else
-					CurrentNode = AddTreeViewNode( Name, Node, Icon, Shape )
-				End If
-				If LTLayer( Shape ) Then RefreshProjectManager( LTLayer( Shape ), CurrentNode )
-			Next
-			While Link <> Null
-				FreeTreeViewNode( TGadget( Link.Value() ) )
 				Link = Link.NextLink()
-			WEnd
-		Else
-			For Local ChildNode:TGadget = Eachin Node.kids
-				Local Layer:LTLayer = LTLayer( GadgetExtra( ChildNode ) )
-				If Layer Then RefreshProjectManager( Layer, ChildNode )
-			Next
-		End If
+			Else
+				CurrentNode = AddTreeViewNode( Name, Node, Icon, Shape )
+			End If
+			
+			If LTLayer( Shape ) Then RefreshProjectManager( LTLayer( Shape ), CurrentNode )
+		Next
+		While Link <> Null
+			FreeTreeViewNode( TGadget( Link.Value() ) )
+			Link = Link.NextLink()
+		WEnd
 	End Method	
 	
 	
@@ -1483,7 +1438,7 @@ Type LTEditor Extends LTProject
 		CurrentLayer = Layer
 		SelectedShapes.Clear()
 		Modifiers.Clear()
-		RefreshProjectManager( World )
+		RefreshProjectManager()
 	End Method
 	
 	
@@ -1525,8 +1480,52 @@ Type LTEditor Extends LTProject
 	Method DeselectTilemap()
 		If CurrentTileMap Then
 			CurrentTileMap = Null
-			RefreshProjectManager( World )
+			RefreshProjectManager()
 		End If
+	End Method
+	
+	
+	
+	Method ShiftPageUpEnd( Layer:LTLayer, SelectedLink:TLink Var, Key:Int )
+		Local ShapesList:TList = Layer.Children
+		Local ShapeLink:TLink = ShapesList.FirstLink()
+		While ShapeLink And SelectedLink
+			If ShapeLink.Value() = SelectedLink.Value() And ( ShapeLink.PrevLink() Or Key = Key_End ) Then
+				if Key = Key_PageUp Then
+					ShapesList.InsertBeforeLink( ShapeLink.Value(), ShapeLink.PrevLink() )
+				Else
+					ShapesList.InsertAfterLink( ShapeLink.Value(), ShapesList.LastLink() )
+				End If
+				ShapeLink.Remove()
+				SelectedLink = SelectedLink.NextLink()
+			Else
+				Local ChildLayer:LTLayer = LTLayer( ShapeLink.Value() )
+				If ChildLayer Then ShiftPageUpEnd( ChildLayer, SelectedLink, Key )
+			End If
+			ShapeLink = ShapeLink.NextLink()
+		Wend
+	End Method
+	
+	
+	
+	Method ShiftPageDownHome( Layer:LTLayer, SelectedLink:TLink Var, Key:Int )
+		Local ShapesList:TList = Layer.Children
+		Local ShapeLink:TLink = ShapesList.LastLink()
+		While ShapeLink And SelectedLink
+			If ShapeLink.Value() = SelectedLink.Value() And ( ShapeLink.NextLink() Or Key = Key_Home ) Then
+				if Key = Key_PageDown Then
+					ShapesList.InsertAfterLink( ShapeLink.Value(), ShapeLink.NextLink() )
+				Else
+					ShapesList.InsertBeforeLink( ShapeLink.Value(), ShapesList.FirstLink() )
+				End If
+				ShapeLink.Remove()
+				SelectedLink = SelectedLink.PrevLink()
+			Else
+				Local ChildLayer:LTLayer = LTLayer( ShapeLink.Value() )
+				If ChildLayer Then ShiftPageDownHome( ChildLayer, SelectedLink, Key )
+			End If
+			ShapeLink = ShapeLink.PrevLink()
+		Wend
 	End Method
 End Type
 

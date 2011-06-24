@@ -12,7 +12,7 @@ SuperStrict
 
 Import dwlab.frmwork
 
-PackPNG( "tree_x_", 1, 1, 3, 3 )
+PackPNG( "Explo", 2, 0, 39, 8 )
 
 Function PackPNG( Header:String, Digits:Int, FromNum:Int, ToNum:Int, FramesInRow:Int )
 	Local Quantity:Int = ToNum - FromNum + 1

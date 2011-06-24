@@ -12,13 +12,10 @@ SuperStrict
 
 ?win32
 Framework brl.d3d7max2d
-Import brl.directsoundaudio
 ?linux
 Framework brl.glmax2d
-Import brl.freeaudioaudio
 ?macos
 Framework brl.glmax2d
-Import brl.freeaudioaudio
 ?
 
 Import brl.jpgloader
@@ -26,12 +23,11 @@ Import brl.pngloader
 Import brl.oggloader
 
 Import dwlab.frmwork
+Import dwlab.sound
 
 Include "TGame.bmx"
 Include "TTiles.bmx"
 Include "TPlayer.bmx"
-Include "TChaingun.bmx"
-Include "TChaingunBullet.bmx"
 Include "TGameObject.bmx"
 Global Game:TGame = New TGame
 Game.Execute()

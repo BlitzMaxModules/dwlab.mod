@@ -6,7 +6,8 @@
 		<Object id="71"/>
 		<Object id="78"/>
 		<Object id="83"/>
-		<Object id="101"/>
+		<Object id="106"/>
+		<Object id="100"/>
 	</TList>
 	<TList field="tilesets">
 		<Object id="5"/>
@@ -154,16 +155,16 @@
 					<Object field="image" id="83"/>
 				</LTImageVisualizer>
 			</LTAngularSprite>
-			<LTAngularSprite name="LTAngularSprite,FirePos,0,0" x="4.53" y="3.1019" width="0.1247" height="0.1532">
+			<LTAngularSprite name="LTAngularSprite,FirePos,0,0" x="4.5499" y="3.1019" width="0.1247" height="0.1532">
 				<LTImageVisualizer field="visualizer"/>
 			</LTAngularSprite>
-			<LTAngularSprite name="LTAngularSprite,FirePos,0,1" x="4.53" y="3.208" width="0.1832" height="0.1792">
+			<LTAngularSprite name="LTAngularSprite,FirePos,0,1" x="4.5499" y="3.208" width="0.1832" height="0.1792">
 				<LTImageVisualizer field="visualizer"/>
 			</LTAngularSprite>
-			<LTAngularSprite name="LTAngularSprite,FirePos,1,0" x="4.53" y="1.9157" width="0.1202" height="0.1217">
+			<LTAngularSprite name="LTAngularSprite,FirePos,1,0" x="4.5499" y="1.9157" width="0.1202" height="0.1217">
 				<LTImageVisualizer field="visualizer"/>
 			</LTAngularSprite>
-			<LTAngularSprite name="LTAngularSprite,FirePos,1,1" x="4.53" y="1.814" width="0.1262" height="0.1278">
+			<LTAngularSprite name="LTAngularSprite,FirePos,1,1" x="4.5499" y="1.814" width="0.1262" height="0.1278">
 				<LTImageVisualizer field="visualizer"/>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,Aimer,0" x="3.41" y="3.1419" width="0.3425" height="0.3024">
@@ -172,13 +173,23 @@
 			<LTAngularSprite name="LTAngularSprite,Aimer,1" x="3.41" y="1.858" width="0.3083" height="0.2911">
 				<LTImageVisualizer field="visualizer"/>
 			</LTAngularSprite>
+			<LTAngularSprite name="TFire,0" x="4.5499" y="1.9207">
+				<LTImageVisualizer field="visualizer">
+					<LTImage field="image" id="100" filename="media\fire.png" xcells="5"/>
+				</LTImageVisualizer>
+			</LTAngularSprite>
+			<LTAngularSprite name="TFire,1" x="4.5499" y="3.1089">
+				<LTImageVisualizer field="visualizer">
+					<Object field="image" id="100"/>
+				</LTImageVisualizer>
+			</LTAngularSprite>
 		</LTLayer>
 		<LTLayer name="LTLayer,Trees">
 			<Object field="visualizer" id="62"/>
 		</LTLayer>
 		<LTSprite name="LTSprite,Target" x="12.3809" y="7.1428" width="2.8571" height="2.9205">
 			<LTImageVisualizer field="visualizer" scaling="0">
-				<LTImage field="image" id="101" filename="media\target.png"/>
+				<LTImage field="image" id="106" filename="media\target.png"/>
 			</LTImageVisualizer>
 		</LTSprite>
 	</LTLayer>
