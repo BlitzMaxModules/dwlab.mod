@@ -9,6 +9,11 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Type LTMarchingAnts Extends LTVisualizer
 	Method DrawUsingSprite( Sprite:LTSprite )
 		SetColor( 255.0 * Red, 255.0 * Green, 255.0 * Blue )
@@ -26,6 +31,11 @@ Type LTMarchingAnts Extends LTVisualizer
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Function DrawMARect( X:Double, Y:Double, Width:Double, Height:Double )
 		Local Pos:Int = Int( Millisecs() / 100 ) Mod 8
 		

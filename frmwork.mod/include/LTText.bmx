@@ -8,7 +8,11 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Type LTBitmapFont Extends LTObject
 	Field LetterLength:Int[]
 	Field FromNum:Int
@@ -17,6 +21,11 @@ Type LTBitmapFont Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method Print( Text:String, X:Double, Y:Double, FontHeightInUnits:Double, HorizontalAlignment:Int = LTAlign.ToLeft, VerticalAlignment:Int = LTAlign.ToTop )
 		Local SX:Double, SY:Double
 		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
@@ -51,6 +60,11 @@ Type LTBitmapFont Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method PrintInShape( Text:String, Shape:LTShape, FontHeightInUnits:Double, HorizontalAlignment:Int = LTAlign.ToLeft, VerticalAlignment:Int = LTAlign.ToTop )
 		Local X:Double, Y:Double
 		
@@ -77,6 +91,11 @@ Type LTBitmapFont Extends LTObject
 	
 
 		
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method Width:Int( Text:String )
 		Local X:Int = 0
 		For Local N:Int = 0 Until Len( Text )
@@ -98,6 +117,11 @@ Type LTBitmapFont Extends LTObject
 
 
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Function FromFile:LTBitmapFont( FileName:String, FromNum:Int = 32, ToNum:Int = 255, SymbolsPerRow:Int = 16, VariableLength:Int = False )
 		Local Font:LTBitmapFont = New LTBitmapFont
 		Font.FromNum = FromNum

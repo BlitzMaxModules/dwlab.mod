@@ -8,17 +8,95 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Type LTVisualizer Extends LTObject
-	Field Red:Double = 1.0, Green:Double = 1.0, Blue:Double = 1.0
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
+	Field Red:Double = 1.0
+	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
+	Field Green:Double = 1.0
+	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
+	Field Blue:Double = 1.0
+	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Field Alpha:Double = 1.0
-	FIeld DX:Double = 0.0, DY:Double = 0.0
-	Field XScale:Double = 1.0, YScale:Double = 1.0
+	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
+	FIeld DX:Double = 0.0
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
+	Field DY:Double = 0.0
+	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
+	Field XScale:Double = 1.0
+	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
+	Field YScale:Double = 1.0
+	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Field Scaling:Int = True
+	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Field Angle:Double = 0.0
+	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Field Rotating:Int = True
 
 	' ==================== Parameters ====================
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method SetDXDY( NewDX:Double, NewDY:Double )
 		DX = NewDX
 		DY = NewDY
@@ -26,6 +104,11 @@ Type LTVisualizer Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method SetVisualizerScale( NewXScale:Double, NewYScale:Double )
 		XScale = NewXScale
 		YScale = NewYScale
@@ -33,11 +116,21 @@ Type LTVisualizer Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method GetImage:LTImage()
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method SetImage( NewImage:LTImage )
 	End Method
 	
@@ -152,17 +245,27 @@ Type LTVisualizer Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, TileX:Int, TileY:Int )
 		?debug
 		L_TilesDisplayed :+ 1
 		?
 		
 		Local Value:Int = TileMap.Value[ TileX, TileY ]
-		If Value <> L_EmptyTilemapFrame Then Drawimage( TileMap.TileSet.Image.BMaxImage, X, Y, Value )
+		If Value <> Tilemap.EmptyTile Then Drawimage( TileMap.TileSet.Image.BMaxImage, X, Y, Value )
 	End Method
 	
 	' ==================== Other ====================
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method SetColorFromHex( S:String )
 		Red = 1.0 * L_HexToInt( S[ 0..2 ] ) / 255.0
 		Green = 1.0 * L_HexToInt( S[ 2..4 ] ) / 255.0
@@ -171,6 +274,11 @@ Type LTVisualizer Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method SetColorFromRGB( NewRed:Double, NewGreen:Double, NewBlue:Double )
 		?debug
 		If NewRed < 0.0 Or NewRed > 1.0 Then L_Error( "Red component must be between 0.0 and 1.0 inclusive" )
@@ -185,6 +293,11 @@ Type LTVisualizer Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method AlterColor( D1:Double, D2:Double )
 		Red = L_LimitDouble( Red + Rnd( D1, D2 ), 0.0, 1.0 )
 		Green = L_LimitDouble( Green + Rnd( D1, D2 ), 0.0, 1.0 )
@@ -193,6 +306,11 @@ Type LTVisualizer Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ApplyColor()
 		SetColor( 255.0 * Red, 255.0 * Green, 255.0 * Blue )
 		SetAlpha( Alpha )
@@ -200,10 +318,16 @@ Type LTVisualizer Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ResetColor()
 		SetColor( 255, 255, 255 )
 		SetAlpha( 1.0 )
 	End Method
+	
 	
 	
 	Method XMLIO( XMLObject:LTXMLObject )

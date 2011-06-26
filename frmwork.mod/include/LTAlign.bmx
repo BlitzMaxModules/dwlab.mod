@@ -8,6 +8,11 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Type LTAlign
 	Const ToRight:Int = 0
 	Const ToTop:Int = 0

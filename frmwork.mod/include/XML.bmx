@@ -13,8 +13,11 @@ Global L_XMLMode:Int
 Const L_XMLGet:Int = 0
 Const L_XMLSet:Int = 1
 
-
-
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Type LTXMLObject Extends LTObject
 	Field Attributes:TList = New TList
 	Field Children:TList = New TList
@@ -23,6 +26,11 @@ Type LTXMLObject Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method GetAttribute:String( AttrName:String )
 		For Local Attr:LTXMLAttribute = EachIn Attributes
 			If Attr.Name = AttrName Then Return Attr.Value
@@ -31,6 +39,11 @@ Type LTXMLObject Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method SetAttribute( AttrName:String, AttrValue:String)
 		For Local Attr:LTXMLAttribute = EachIn Attributes
 			If Attr.Name = AttrName Then
@@ -48,6 +61,11 @@ Type LTXMLObject Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method GetField:LTXMLObject( FieldName:String )
 		For Local ObjectField:LTXMLObjectField = EachIn Fields
 			If ObjectField.Name = FieldName Then Return ObjectField.Value
@@ -56,6 +74,11 @@ Type LTXMLObject Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method SetField:LTXMLObjectField( FieldName:String, XMLObject:LTXMLObject )
 		Local ObjectField:LTXMLObjectField = New LTXMLObjectField
 		ObjectField.Name = FieldName
@@ -66,6 +89,11 @@ Type LTXMLObject Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ManageIntAttribute( AttrName:String, AttrVariable:Int Var, DefaultValue:Int = 0 )
 		If L_XMLMode = L_XMLGet Then
 			For Local Attr:LTXMLAttribute = EachIn Attributes
@@ -82,6 +110,11 @@ Type LTXMLObject Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ManageDoubleAttribute( AttrName:String, AttrVariable:Double Var, DefaultValue:Double = 0 )
 		If L_XMLMode = L_XMLGet Then
 			For Local Attr:LTXMLAttribute = EachIn Attributes
@@ -98,6 +131,11 @@ Type LTXMLObject Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ManageStringAttribute( AttrName:String, AttrVariable:String Var )
 		If L_XMLMode = L_XMLGet Then
 			For Local Attr:LTXMLAttribute = EachIn Attributes
@@ -113,6 +151,11 @@ Type LTXMLObject Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ManageObjectAttribute:LTObject( AttrName:String, Obj:LTObject )
 		If L_XMLMode = L_XMLGet Then
 			'debugstop
@@ -150,6 +193,11 @@ Type LTXMLObject Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ManageIntArrayAttribute( AttrName:String, IntArray:Int[] Var )
 		If L_XMLMode = L_XMLGet Then
 			Local Values:String[] = GetAttribute( AttrName ).Split( "," )
@@ -170,6 +218,11 @@ Type LTXMLObject Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ManageObjectField:LTObject( FieldName:String, FieldObject:LTObject)
 		If L_XMLMode = L_XMLGet Then
 			Local XMLObject:LTXMLObject = GetField( FieldName )
@@ -191,6 +244,11 @@ Type LTXMLObject Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ManageListField( FieldName:String, List:TList Var )
 		If L_XMLMode = L_XMLGet Then
 			Local XMLObject:LTXMLObject = GetField( FieldName )
@@ -205,6 +263,11 @@ Type LTXMLObject Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ManageObjectMapField( FieldName:String, Map:TMap Var )
 		If L_XMLMode = L_XMLGet Then
 			For Local XMLObject:LTXMLObject = Eachin Children
@@ -227,6 +290,11 @@ Type LTXMLObject Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ManageObjectArrayField( FieldName:String, FieldObjectsArray:LTObject[] Var )
 		If L_XMLMode = L_XMLGet Then
 			Local XMLArray:LTXMLObject = GetField( FieldName )
@@ -241,6 +309,11 @@ Type LTXMLObject Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ManageObject:LTObject( Obj:LTObject )
 		If L_XMLMode = L_XMLGet Then
 			Local ID:Int = GetAttribute( "id" ).ToInt()
@@ -304,6 +377,11 @@ Type LTXMLObject Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ManageChildList( List:TList Var )
 		'debugstop
 		If L_XMLMode = L_XMLGet Then
@@ -323,6 +401,11 @@ Type LTXMLObject Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ManageChildArray( ChildArray:LTObject[] Var )
 		If L_XMLMode = L_XMLGet Then
 			ChildArray = New LTObject[ Children.Count() ]

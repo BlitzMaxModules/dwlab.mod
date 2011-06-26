@@ -8,7 +8,17 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Type LTAnimatedTileMapVisualizer Extends LTVisualizer
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Field TileNum:Int[]
 	
 	
@@ -19,6 +29,6 @@ Type LTAnimatedTileMapVisualizer Extends LTVisualizer
 		?
 		
 		Local Value:Int = TileNum[ TileMap.Value[ TileX, TileY ] ]
-		If Value <> L_EmptyTilemapFrame Then Drawimage( TileMap.TileSet.Image.BMaxImage, X, Y, Value )
+		If Value <> Tilemap.EmptyTile Then Drawimage( TileMap.TileSet.Image.BMaxImage, X, Y, Value )
 	End Method
 End Type

@@ -49,7 +49,11 @@ Type LTObject
 	' ==================== loading / saving ===================
 
 	Rem
-	bbdoc: Method for storing object fields into XML object for saving and retrieving object fields from XML object for loading.
+	bbdoc: Method for loading / saving object.
+	about: This method is for storing object fields into XML object for saving and retrieving object fields from XML object for loading.
+	You can put different XMLObject commands and your own algorithms for loading / saving data structures here.
+	
+	See also: #XMLObject.ManageIntField.
 	End Rem
 	Method XMLIO( XMLObject:LTXMLObject )
 		If L_XMLMode = L_XMLSet Then XMLObject.Name = TTypeId.ForObject( Self ).Name()
@@ -82,7 +86,6 @@ Type LTObject
 
 	Rem
 	bbdoc: Saves object with all contents to file.
-	about: See also: #XMLObject.ManageIntField.
 	End Rem
 	Method SaveToFile( FileName:String )
 		L_IDMap = New TMap

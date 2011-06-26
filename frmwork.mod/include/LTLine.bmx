@@ -8,11 +8,26 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Type LTLine Extends LTShape
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Field Pivot:LTSprite[] = New LTSprite[ 2 ]
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method Create:LTLine( Pivot1:LTSprite, Pivot2:LTSprite )
 		Local Line:LTLine = New LTLine
 		Line.Pivot[ 0 ] = Pivot1

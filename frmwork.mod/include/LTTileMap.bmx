@@ -8,25 +8,60 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: Tilemap is displayable rectangular tile-based shape with 2d array of tile indexes and tileset with tile images.
+End Rem
 Type LTTileMap Extends LTIntMap
+	Rem
+	bbdoc: Tilemap's default tileset.
+	End Rem
 	Field TileSet:LTTileset
+	
+	Rem
+	bbdoc: Tiles quantity of tilemap.
+	about: All map tile indexes should be in 0...TilesQuantity - 1 interval.
+	End Rem
 	Field TilesQuantity:Int
+	
+	Rem
+	bbdoc: Wrapping flag.
+	about: If this flag will be set to True, then map will be repeated (tiled, wrapped) enlessly in all directions.
+	End Rem
 	Field Wrapped:Int = False
+	
+	Rem
+	bbdoc: Number of undrawable tile.
+	about: If this number will be set to o or more, the tile with this index will not be drawn.
+	End Rem
+	Field EmptyTile:Int = -1
+
 	
 	' ==================== Parameters ===================	
 	
+	Rem
+	bbdoc: Tilemap cell width.
+	returns: Cell width of the tilemap.
+	End Rem
 	Method GetCellWidth:Double()
 			Return Width / XQuantity
 	End Method
 
 	
 	
+	Rem
+	bbdoc: Tilemap cell height.
+	returns: Cell height of the tilemap.
+	End Rem
 	Method GetCellHeight:Double()
 		Return Height / YQuantity
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: Returns tile collision shape.
+	returns: Tile collision shape of tilemap's tile with given coordinates using default tilemap tileset.
+	End Rem
 	Method GetTileCollisionShape:LTShape( TileX:Int, TileY:Int )
 		Return Tileset.CollisionShape[ Value[ TileX, TileY ] ]
 	End Method
@@ -45,6 +80,10 @@ Type LTTileMap Extends LTIntMap
 	
 	' ==================== Other ===================	
 	
+	Rem
+	bbdoc: Enframes tilemap.
+	about: You can specify tileset for enframing. If no tileset will be specified, tilemap's default tileset will be used.
+	End Rem
 	Method Enframe( ByTileSet:LTTileset = Null )
 		If Not ByTileSet Then ByTileSet = TileSet
 		For Local Y:Int = 0 Until YQuantity
@@ -56,6 +95,10 @@ Type LTTileMap Extends LTIntMap
 	
 	
 	
+	Rem
+	bbdoc: Returns tile index fro given coordinates.
+	returns: Tile index for given tile coordinates.
+	End Rem
 	Method GetTile:Int( TileX:Int, TileY:Int )
 		?debug
 		If TileX < 0 Or TileX >= XQuantity Then L_Error( "Incorrect tile X position" )
@@ -66,6 +109,9 @@ Type LTTileMap Extends LTIntMap
 	
 	
 	
+	Rem
+	bbdoc: Sets tile index for given tile coordinates.
+	End Rem
 	Method SetTile( TileX:Int, TileY:Int, TileNum:Int )
 		?debug
 		If TileNum < 0 Or TileNum >= TilesQuantity Then L_Error( "Incorrect tile number" )
@@ -77,6 +123,11 @@ Type LTTileMap Extends LTIntMap
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method RefreshTilesQuantity()
 		If Not TileSet Then Return
 		If TileSet.TilesQuantity < TilesQuantity Then

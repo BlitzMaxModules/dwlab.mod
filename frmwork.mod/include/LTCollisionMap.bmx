@@ -8,9 +8,33 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Type LTCollisionMap Extends LTMap
 	Field Sprites:TList[ , ]
-	Field XScale:Double = 1.0, YScale:Double = 1.0
+	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
+	Field XScale:Double = 1.0
+	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
+	Field YScale:Double = 1.0
+	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Field Border:Double
 	
 	' ==================== Parameters ====================
@@ -32,6 +56,11 @@ Type LTCollisionMap Extends LTMap
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method SetMapScale( NewXScale:Double, NewYScale:Double )
 		XScale = NewXScale
 		YScale = NewYScale
@@ -39,6 +68,11 @@ Type LTCollisionMap Extends LTMap
 	
 	' ==================== Drawing ===================	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method Draw()
 		If Visible Then
 			Local MapX1:Int = Floor( ( L_CurrentCamera.X - 0.5 * L_CurrentCamera.Width - Border ) / XScale )
@@ -63,6 +97,11 @@ Type LTCollisionMap Extends LTMap
 	
 	' ==================== Insert / remove objects ====================
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method InsertSprite( Sprite:LTSprite, ChangeCollisionMapField:Int = True )
 		Select Sprite.ShapeType
 			Case LTSprite.Pivot
@@ -84,6 +123,11 @@ Type LTCollisionMap Extends LTMap
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method RemoveSprite( Sprite:LTSprite, ChangeCollisionMapField:Int = True )
 		Select Sprite.ShapeType
 			Case LTSprite.Pivot
@@ -105,6 +149,11 @@ Type LTCollisionMap Extends LTMap
 	
 	' ==================== Collisions ===================
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Function Create:LTCollisionMap( XQuantity:Int, YQuantity:Int, XScale:Double = 1.0, YScale:Double = 1.0 )
 		Local Map:LTCollisionMap = New LTCollisionMap
 		Map.SetResolution( XQuantity, YQuantity )
@@ -115,6 +164,11 @@ Type LTCollisionMap Extends LTMap
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Function CreateForShape:LTCollisionMap( Shape:LTShape, Scale:Double = 1.0 )
 		Return Create( L_ToPowerOf2( Shape.Width / Scale ), L_ToPowerOf2( Shape.Height / Scale ), Scale, Scale )
 	End Function

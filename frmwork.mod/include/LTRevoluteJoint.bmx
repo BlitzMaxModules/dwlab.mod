@@ -8,6 +8,11 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Type LTRevoluteJoint Extends LTBehaviorModel
 	Field ParentPivot:LTAngularSprite
 	Field Pivot:LTSprite
@@ -16,6 +21,11 @@ Type LTRevoluteJoint Extends LTBehaviorModel
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Function Create:LTRevoluteJoint( ParentPivot:LTAngularSprite )
 		Local Joint:LTRevoluteJoint = New LTRevoluteJoint
 		Joint.ParentPivot = ParentPivot

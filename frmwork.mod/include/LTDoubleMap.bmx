@@ -8,20 +8,29 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Const L_Red:Int = 0
-Const L_Green:Int = 1
-Const L_Blue:Int = 2
-Const L_Alpha:Int = 3
-Const L_RGB:Int = 4
-
-Const L_Overwrite:Int = 0
-Const L_Add:Int = 1
-Const L_Multiply:Int = 2
-Const L_Max:Int = 3
-Const L_Min:Int = 4
-
-
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Type LTDoubleMap Extends LTMap
+	Const Red:Int = 0
+	Const Green:Int = 1
+	Const Blue:Int = 2
+	Const Alpha:Int = 3
+	Const RGB:Int = 4
+	
+	Const Overwrite:Int = 0
+	Const Add:Int = 1
+	Const Multiply:Int = 2
+	Const Maximum:Int = 3
+	Const Minimum:Int = 4
+
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Field Value:Double[ , ] = New Double[ 1, 1 ]
 
 	' ==================== Parameters ====================
@@ -33,6 +42,11 @@ Type LTDoubleMap Extends LTMap
 	
 	' ==================== Manipulations ====================	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ToNewImage:LTImage( Channel:Int = L_RGB )
 		Local Image:LTImage = New LTImage
 		Image.BMaxImage = CreateImage( XQuantity, YQuantity )
@@ -45,6 +59,11 @@ Type LTDoubleMap Extends LTMap
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ToNewPixmap:TPixmap( Channel:Int = L_RGB )
 		Local Pixmap:TPixmap = CreatePixmap( XQuantity, YQuantity, PF_RGBA8888 )
 		Pixmap.ClearPixels( $FFFFFFFF )
@@ -54,6 +73,11 @@ Type LTDoubleMap Extends LTMap
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ToImage( Image:LTImage, XShift:Int = 0, YShift:Int = 0, Frame:Int = 0, Channel:Int = L_RGB )
 		ToPixmap( LockImage( Image.BMaxImage, Frame ), XShift, YShift, Channel )
 		UnlockImage( Image.BMaxImage )
@@ -61,6 +85,11 @@ Type LTDoubleMap Extends LTMap
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ToPixmap:TPixmap( Pixmap:TPixmap, XShift:Int = 0, YShift:Int = 0, Channel:Int = L_RGB )
 		For Local Y:Int = 0 Until YQuantity
 			For Local X:Int = 0 Until XQuantity
@@ -78,15 +107,15 @@ Type LTDoubleMap Extends LTMap
 				Local Pixel:Int = ReadPixel( Pixmap, XX, YY )
 				
 				Select Channel
-					Case L_RGB
+					Case RGB
 						WritePixel( Pixmap, XX, YY, ( Col * $010101 ) | ( Pixel & $FF000000 )  )
-					Case L_Alpha
+					Case Alpha
 						WritePixel( Pixmap, XX, YY, ( Col Shl 24 ) | ( Pixel & $00FFFFFF )  )
-					Case L_Red
+					Case Red
 						WritePixel( Pixmap, XX, YY, Col | ( Pixel & $FFFFFF00 )  )
-					Case L_Green
+					Case Green
 						WritePixel( Pixmap, XX, YY, ( Col Shl 8 ) | ( Pixel & $FFFF00FF )  )
-					Case L_Blue
+					Case Blue
 						WritePixel( Pixmap, XX, YY, ( Col Shl 16 ) | ( Pixel & $FF00FFFF )  )
 				End Select
 			Next
@@ -95,6 +124,11 @@ Type LTDoubleMap Extends LTMap
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method Paste( SourceMap:LTDoubleMap, X:Int, Y:Int, Mode:Int = L_Overwrite )
 		For Local Y0:Int = 0 Until SourceMap.YQuantity
 			For Local X0:Int = 0 Until SourceMap.XQuantity
@@ -109,15 +143,15 @@ Type LTDoubleMap Extends LTMap
 				End If
 				
 			Select Mode
-					Case L_Overwrite
+					Case Overwrite
 						Value[ XX, YY ] = SourceMap.Value[ X0, Y0 ]
-					Case L_Add
+					Case Add
 						Value[ XX, YY ] = Value[ XX, YY ] + SourceMap.Value[ X0, Y0 ]
-					Case L_Multiply
+					Case Multiply
 						Value[ XX, YY ] = Value[ XX, YY ] * SourceMap.Value[ X0, Y0 ]
-					Case L_Max
+					Case Maximum
 						Value[ XX, YY ] = Max( Value[ XX, YY ], SourceMap.Value[ X0, Y0 ] )
-					Case L_Min
+					Case Minimum
 						Value[ XX, YY ] = Min( Value[ XX, YY ], SourceMap.Value[ X0, Y0 ] )
 				End Select
 			Next
@@ -126,6 +160,11 @@ Type LTDoubleMap Extends LTMap
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ExtractTo( TileMap:LTIntMap, VFrom:Double, VTo:Double, TileNum:Int )
 		?debug
 		If TileMap.XQuantity <> XQuantity Or TileMap.YQuantity <> YQuantity Then L_Error( "Sizes of source heightmap and resulting tilemap are different." )
@@ -140,6 +179,11 @@ Type LTDoubleMap Extends LTMap
 
 		
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method Blur()
 		Local NewArray:Double[ XQuantity, YQuantity ]
 		
@@ -163,6 +207,11 @@ Type LTDoubleMap Extends LTMap
 
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method PerlinNoise( StartingXFrequency:Int, StartingYFrequency:Double, StartingAmplitude:Double, DAmplitude:Double, LayersQuantity:Int )
 		Local XFrequency:Int = StartingXFrequency
 		Local YFrequency:Int = StartingYFrequency
@@ -223,6 +272,11 @@ Type LTDoubleMap Extends LTMap
 	
 	Const CircleBound:Double = 0.707107
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method DrawCircle( XCenter:Double, YCenter:Double, Radius:Double, Color:Double = 1.0 )
 		For Local Y:Int = Floor( YCenter - Radius ) To Ceil( YCenter + Radius )
 			For Local X:Int = Floor( XCenter - Radius ) To Ceil( XCenter + Radius )
@@ -254,6 +308,11 @@ Type LTDoubleMap Extends LTMap
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method Limit()
 		For Local X:Int = 0 Until XQuantity
 			For Local Y:Int = 0 Until YQuantity

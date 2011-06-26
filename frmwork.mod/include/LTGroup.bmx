@@ -8,11 +8,22 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: Group of shapes.
+about: Will have a lot of methods duplicating TList's.
+End Rem
 Type LTGroup Extends LTShape
+	Rem
+	bbdoc: List of shapes.
+	End Rem
 	Field Children:TList = New TList
 	
 	' ==================== Drawing ===================
 	
+	Rem
+	bbdoc: Draws the group.
+	about: Every child shape will be drawn.
+	End Rem
 	Method Draw()
 		If Visible Then
 			For Local Obj:LTShape = Eachin Children
@@ -23,6 +34,10 @@ Type LTGroup Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc: Draws group using given visualizer
+	about: Every child shape will be drawn using given visualizer
+	End Rem
 	Method DrawUsingVisualizer( Vis:LTVisualizer )
 		If Visible Then
 			For Local Obj:LTShape = Eachin Children
@@ -32,6 +47,10 @@ Type LTGroup Extends LTShape
 	End Method
 	
 	
+	Rem
+	bbdoc: Initialization method.
+	about: Every child shape will be initialized by default.
+	End Rem
 	Method Init()
 		For Local Obj:LTShape = Eachin Children
 			Obj.Init()
@@ -40,6 +59,10 @@ Type LTGroup Extends LTShape
 	
 	
 
+	Rem
+	bbdoc: Acting method.
+	about: Every child shape will be acted.
+	End Rem
 	Method Act()
 		Super.Act()
 		If Active Then
@@ -108,6 +131,10 @@ Type LTGroup Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc: Update method.
+	about: Size and position of the group will be updated: group rectangular shape fields will cover all of the child shapes.
+	End Rem
 	Method Update()
 		Local MinX:Double, MinY:Double
 		Local MaxX:Double, MaxY:Double

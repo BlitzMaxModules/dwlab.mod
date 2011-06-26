@@ -8,7 +8,17 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Type LTEmptyPrimitive Extends LTVisualizer
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Field LineWidth:Double = 1.0
 	
 	
@@ -47,6 +57,11 @@ Type LTEmptyPrimitive Extends LTVisualizer
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method SetProperLineWidth()
 		If Scaling Then
 			SetLineWidth( L_CurrentCamera.DistScreenToField( LineWidth ) )

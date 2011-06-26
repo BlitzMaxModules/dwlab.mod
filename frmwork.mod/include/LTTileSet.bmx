@@ -10,6 +10,11 @@
 
 Global L_ProlongTiles:Int = True
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Type LTTileSet Extends LTObject
 	Field Image:LTImage
 	Field CollisionShape:LTShape[]
@@ -21,6 +26,11 @@ Type LTTileSet Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method Init()
 		TileCategory = New Int[ TilesQuantity ]
 		For Local N:Int = 0 Until TilesQuantity
@@ -53,6 +63,11 @@ Type LTTileSet Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method RefreshTilesQuantity()
 		If Not Image Then Return
 		Local NewTilesQuantity:Int = Image.FramesQuantity()
@@ -73,6 +88,11 @@ Type LTTileSet Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method Enframe( TileMap:LTTileMap, X:Int, Y:Int )
 		Local CatNum:Int = TileCategory[ TileMap.Value[ X, Y ] ]
 		If CatNum < 0 Then Return

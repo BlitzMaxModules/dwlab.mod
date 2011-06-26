@@ -256,7 +256,12 @@ Type LTShape Extends LTObject
 	
 	Rem
 	bbdoc: Places the shape between two another.
-	about: K parameter is in 0...1 interval. 0 shifts shape to the center of first given shape, 1 shifts to the center of the second, 0.5 shifts shape to the middle between given shapes centers.
+	about: K parameter is in 0...1 interval.
+	[
+	* 0 shifts shape to the center of first given shape.
+	* 1 shifts shape to the center of the second given shape.
+	* 0.5 shifts shape to the middle between given shapes centers.
+	]
 	End Rem
 	Method PlaceBetween( Shape1:LTShape, Shape2:LTShape, K:Double )
 		SetCoords( Shape1.X + ( Shape2.X - Shape1.X ) * K, Shape1.Y + ( Shape2.Y - Shape1.Y ) * K )
@@ -430,8 +435,9 @@ Type LTShape Extends LTObject
 	
 	Rem
 	bbdoc: Returns shape facing.
-	returns: -1.0 if shape is facing left (LeftFacing constant) and +1.0 if shape is facing right (RightFacing constant). Equal to the sign of visualizer XScale field.
-	about: 
+	returns: -1.0 if shape is facing left (LeftFacing constant) 
+	+1.0 if shape is facing right (RightFacing constant).
+	about: Equal to the sign of visualizer XScale field.
 	End Rem
 	Method GetFacing:Double()
 		Return Sgn( Visualizer.XScale )
@@ -439,13 +445,13 @@ Type LTShape Extends LTObject
 	
 	
 	
+	Const LeftFacing:Double = -1.0
+	Const RightFacing:Double = 1.0
+	
 	Rem
 	bbdoc: Sets the facing of a shape.
 	about: Use LeftFacing and RightFacing constants.
 	End Rem
-	Const LeftFacing:Double = -1.0
-	Const RightFacing:Double = 1.0
-	
 	Method SetFacing( NewFacing:Double )
 		Visualizer.XScale = Abs( Visualizer.XScale ) * NewFacing
 	End Method
@@ -579,9 +585,9 @@ Type LTShape Extends LTObject
 	' ==================== Windowed Visualizer ====================
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Limits sprite displaying by window with given parameters.
+	about: These parameters forms a rectangle on game field which will be viewport for displaying the sprite.
+	All sprite parts which are outside this rectangle will not be displayed.
 	End Rem
 	Method LimitByWindow( X:Double, Y:Double, Width:Double, Height:Double )
 		Local NewVisualizer:LTWindowedVisualizer = New LTWindowedVisualizer
@@ -597,9 +603,8 @@ Type LTShape Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Limits sprite displaying by given rectangular shape.
+	about: All sprite parts which are outside this rectangle will not be displayed.
 	End Rem
 	Method LimitByWindowShape( Shape:LTShape )
 		LimitByWindow( Shape.X, Shape.Y, Shape.Width, Shape.Height )
@@ -608,9 +613,8 @@ Type LTShape Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Removes window limit.
+	about: After executing this method the sprite will be displayed as usual.
 	End Rem
 	Method RemoveWindowLimit()
 		Visualizer = LTWindowedVisualizer( Visualizer ).Visualizer
@@ -619,9 +623,8 @@ Type LTShape Extends LTObject
 	' ==================== Other ===================
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Initialiation method of the sprite.
+	about: Fill it with shape initialization commands. This method will be executed after loading the layer which have this shape inside.
 	End Rem
 	Method Init()
 	End Method
@@ -629,10 +632,17 @@ Type LTShape Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Clones the shape.
+	returns: Clone of the shape.
 	End Rem
+	Method Clone:LTShape()
+		Local NewShape:LTShape = New LTShape
+		CopyTo( NewShape )
+		Return NewShape
+	End Method
+	
+	
+	
 	Method CopyTo( Shape:LTShape )
 		Shape.Name = Name
 		Shape.Visualizer = Visualizer
@@ -647,9 +657,9 @@ Type LTShape Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Acting method of the shape.
+	about: Fill it with the shape acting commands. By default this method applies all behavior models of the shape to the shape, so if
+	you want to have this action inside your own Act() method, use Super.Act() command.
 	End Rem
 	Method Act()
 		If Active Then
@@ -673,9 +683,8 @@ Type LTShape Extends LTObject
 
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Method for updating shape.
+	about: It will be called after changing coordinates or size. You can add your shape updating commands here, but don't forget to add Super.Update() command as well.
 	End Rem
 	Method Update()
 	End Method
@@ -683,9 +692,8 @@ Type LTShape Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Method for destruction of the shape.
+	about: Fill it with commands for removing shape from layers, lists, maps, etc.
 	End Rem
 	Method Destroy()
 	End Method

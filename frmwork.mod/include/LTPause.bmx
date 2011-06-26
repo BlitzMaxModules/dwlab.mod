@@ -8,6 +8,11 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Type LTPause Extends LTObject
 	Field PreviousPause:LTPause
 	Field Project:LTProject
@@ -15,22 +20,42 @@ Type LTPause Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method Render()
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method Update()
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method CheckKey()
 		If KeyHit( Key ) Then Remove()
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method Remove()
 		Project.CurrentPause = PreviousPause
 	End Method

@@ -8,6 +8,11 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_HexToInt:Int( HexString:String )
 	Local Value:Int = 0
 	HexString = HexString.ToUpper().Trim()
@@ -25,6 +30,11 @@ End Function
 
 
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_DrawEmptyRect( X1:Double, Y1:Double, X2:Double, Y2:Double )
 	DrawLine( X1, Y1, X2, Y1 )
 	DrawLine( X1, Y1, X1, Y2 )
@@ -36,6 +46,11 @@ End Function
 
 
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_DeleteList( List:TList )
 	List.Clear()
 	List._head._pred = Null
@@ -46,6 +61,11 @@ End Function
 
 
 	
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_TrimDouble:String ( Val:Double )
 	Local StrVal:String = Val + "0000"
 	Local N:Int = StrVal.Find( "." ) + 5
@@ -65,6 +85,11 @@ End Function
 
 
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_FirstZeroes:String( Value:Int, TotalSymbols:Int )
 	Local StringValue:String = Value
 	Local Length:Int = Len( StringValue )
@@ -79,6 +104,11 @@ End Function
 
 
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_Symbols:String( Symbol:String, Times:Int )
 	Local Symbols:String = ""
 	For Local N:Int = 1 To Times
@@ -91,6 +121,11 @@ End Function
 
 
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_LimitDouble:Double( Value:Double, FromValue:Double, ToValue:Double )
 	?debug
 	 If FromValue > ToValue Then L_Error( "FromValue must be less than ToValue" )
@@ -108,6 +143,11 @@ End Function
 
 
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_LimitInt:Int( Value:Int, FromValue:Int, ToValue:Int )
 	?debug
 	If FromValue > ToValue Then L_Error( "FromValue must be less than ToValue" )
@@ -125,6 +165,11 @@ End Function
 
 
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_IsPowerOf2:Int( Value:Int )
 	If Value + ( Value - 1 ) = Value ~ ( Value - 1 ) Then Return True
 End Function
@@ -133,6 +178,11 @@ End Function
 
 
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_WrapInt:Int( Value:Int, Size:Int )
 	Return Value - Size * Floor( 1.0 * Value / Size )
 End Function
@@ -141,6 +191,11 @@ End Function
 
 
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_WrapInt2:Int( Value:Int, FromValue:Int, ToValue:Int )
 	Local Size:Int = ToValue - FromValue
 	If Value >= ToValue Then Return Value - Floor( 1.0 * ( Value - FromValue ) / Size ) * Size
@@ -151,6 +206,11 @@ End Function
 
 
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_WrapDouble:Double( Value:Double, Size:Double )
 	Return Value - Size * Floor( Value / Size )
 End Function
@@ -159,6 +219,11 @@ End Function
 
 
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_TryExtensions:String( Filename:String, Extensions:String[] )
 	If FileType( Filename ) = 1 Then Return Filename
 	
@@ -172,6 +237,11 @@ End Function
 	
 
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_ClearPixmap( Pixmap:TPixmap, Red:Double = 0.0, Green:Double = 0.0, Blue:Double = 0.0, Alpha:Double = 1.0 )
 	Local Col:Int = Int( 255.0 * Red ) + Int( 255.0 * Green ) Shl 8 + Int( 255.0 * Blue ) Shl 16 + Int( 255.0 * Alpha ) Shl 16
 	Pixmap.ClearPixels( Col )
@@ -181,6 +251,11 @@ End Function
 
 
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_Round:Double( Value:Double )
 	Return Int( Value + 0.5 * Sgn( Value ) )
 End Function
@@ -188,6 +263,11 @@ End Function
 
 
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_Distance:Double( DX:Double, DY:Double )
 	Return Sqr( DX * DX + DY * DY )
 End Function
@@ -196,6 +276,11 @@ End Function
 	
 	
 	
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function ChopFilename:String( Filename:String )
 	Local Dir:String = CurrentDir()
 	?Win32
@@ -228,6 +313,11 @@ End Function
 
 
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_AddItemToIntArray( Array:Int[] Var, Item:Int )
 	Local Quantity:Int = Array.Dimensions()[ 0 ]
 	Local NewArray:Int[] = New Int[ Quantity + 1 ]
@@ -242,6 +332,11 @@ End Function
 
 
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_RemoveItemFromIntArray( Array:Int[] Var, Index:Int )
 	Local Quantity:Int = Array.Dimensions()[ 0 ]
 	If Quantity = 1 Then
@@ -263,6 +358,11 @@ End Function
 
 
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_IntInLimits:Int( Value:Int, FromValue:Int, ToValue:Int )
 	If Value >= FromValue And Value <= ToValue Then Return True
 End Function
@@ -270,6 +370,11 @@ End Function
 
 
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_GetTypeID:TTypeId( TypeName:String )
 	Local TypeID:TTypeId = TTypeID.ForName( TypeName )
 	
@@ -284,6 +389,11 @@ End Function
 
 
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Function L_ToPowerOf2:Int( Value:Int )
 	Local Result:Int = 1
 	Repeat

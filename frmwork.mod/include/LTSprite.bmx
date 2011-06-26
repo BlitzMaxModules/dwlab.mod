@@ -8,15 +8,38 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: Sprite is the main basic shape of the framework to draw, move and check collisions.
+End Rem
 Type LTSprite Extends LTShape
-	Field ShapeType:Int = Rectangle
-	Field Frame:Int
-	Field CollisionMap:LTCollisionMap
-	
+	Rem
+	bbdoc: Type of the sprite shape: pivot. It's a point on game field with (X, Y) coordinates.
+	End Rem
 	Const Pivot:Int = 0
+	
+	Rem
+	bbdoc: Type of the sprite shape: circle.
+	End Rem
 	Const Circle:Int = 1
+	
+	Rem
+	bbdoc: Type of the sprite shape: rectangle.
+	End Rem
 	Const Rectangle:Int = 2
 
+	Rem
+	bbdoc: Type of the sprite shape.
+	End Rem
+	Field ShapeType:Int = Rectangle
+	
+	Rem
+	bbdoc: Frame of the sprite image.
+	about: Can be used with image visualizer only.
+	End Rem
+	Field Frame:Int
+	
+	Field CollisionMap:LTCollisionMap
+	
 	' ==================== Drawing ===================	
 	
 	Method Draw()
@@ -37,6 +60,10 @@ Type LTSprite Extends LTShape
 	
 	
 
+	Rem
+	bbdoc: Checks if this sprite collides with given.
+	returns: True if the sprite collides with given sprite, false otherwise.
+	End Rem
 	Method CollidesWithSprite:Int( Sprite:LTSprite )
 		?debug
 		L_CollisionChecks :+ 1
@@ -74,6 +101,11 @@ Type LTSprite Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc: Checks if the sprite collides with given line.
+	returns: True if the sprite collides with given line, otherwise false.
+	about: Only collision of line and circle is yet implemented.
+	End Rem
 	Method CollidesWithLine:Int( Line:LTLine )
 		?debug
 		L_CollisionChecks :+ 1
@@ -129,6 +161,11 @@ Type LTSprite Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc: Checks if the sprite overlaps given sprite.
+	returns: True if the sprite overlaps given sprite, otherwise false.
+	about: Pivot overlapping is not supported.
+	End Rem
 	Method Overlaps:Int( Sprite:LTSprite )
 		?debug
 		L_CollisionChecks :+ 1
@@ -159,6 +196,11 @@ Type LTSprite Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc: Executes reaction for collision of sprite with shapes in given group.
+	about: For every collided shape collision handling method will be executed and corresponding parameters will be passed to this method.
+	You can specify collision type which will be passed to this method too.
+	End Rem
 	Method CollisionsWithGroup( Group:LTGroup, CollisionType:Int = 0 )
 		For Local Shape:LTShape = Eachin Group
 			Shape.SpriteGroupCollisions( Self, CollisionType )
@@ -167,6 +209,11 @@ Type LTSprite Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc: Executes reaction for collision of sprite with given sprite.
+	about: If sprites collide then HandleCollisionWithSprite() method will be executed and given sprite will be passed to this method.
+	You can specify collision type which will be passed to this method too.
+	End Rem
 	Method CollisionsWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
 		If CollidesWithSprite( Sprite ) Then HandleCollisionWithSprite( Sprite, CollisionType )
 	End Method
@@ -174,6 +221,11 @@ Type LTSprite Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc: Executes reaction for collision of sprite with tiles in given tilemap.
+	about: For every collided tile HandleCollisionWithTile() method will be executed and tilemap with tile indexes will be passed to this method.
+	You can specify collision type which will be passed to this method too.
+	End Rem
 	Method CollisionsWithTileMap( TileMap:LTTileMap, CollisionType:Int = 0 )
 		Local X0:Double = TileMap.LeftX()
 		Local Y0:Double = TileMap.TopY()
@@ -216,12 +268,22 @@ Type LTSprite Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc: Executes reaction for collision of sprite with given line.
+	about: If sprite collides with line then HandleCollisionWithLine() method will be executed and line will be passed to this method.
+	You can specify collision type which will be passed to this method too.
+	End Rem
 	Method CollisionsWithLine( Line:LTLine, CollisionType:Int = 0 )
 		If CollidesWithLine( Line ) Then HandleCollisionWithLine( Line, CollisionType )
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: Executes reaction for collision of sprite with sprites in collision map.
+	about: For every collided sprite HandleCollisionWithSprite() method will be executed and collided srite will be passed to this method.
+	You can specify collision type which will be passed to this method too.
+	End Rem
 	Method CollisionsWithCollisionMap( CollisionMap:LTCollisionMap, CollisionType:Int = 0 )
 		Select ShapeType
 			Case Pivot
@@ -254,6 +316,10 @@ Type LTSprite Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc: Sprite collision handling method.
+	about: Will be executed for every collision of this sprite with another sprite found by the collision checks.
+	End Rem
 	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
 		If Active Then
 			For Local Model:LTBehaviorModel = Eachin BehaviorModels
@@ -264,6 +330,10 @@ Type LTSprite Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc: Tile collision handling method.
+	about: Will be executed for every collision of this sprite with tile found by the collision checks for this sprite with tilemaps.
+	End Rem
 	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int = 0 )
 		If Active Then
 			For Local Model:LTBehaviorModel = Eachin BehaviorModels
@@ -274,11 +344,24 @@ Type LTSprite Extends LTShape
 	
 
 	
+	Rem
+	bbdoc: Line collision handling method.
+	about: Will be executed for every collision of this sprite with line found by the collision checks.
+	End Rem
 	Method HandleCollisionWithLine( Line:LTLine, CollisionType:Int )
 	End Method
 	
 	' ==================== Wedging off ====================
 	
+	Rem
+	bbdoc: Wedges off sprite with given sprite.
+	about: Pushes sprites from each other until they stops colliding. More the mass, less the sprite will be moved.
+	[
+	* If each sprite's mass is zero, or each sprite's mass is less than 0 then sprites will be moved on same distance.
+	* If one of the sprite has zero mass and other's mass is non-zero, only zero-mass sprite will be moved
+	* If one of the sprite has mass less than 0 and other has mass less or equal to 0, then only zero-or-more-mass sprite will be moved.
+	]
+	End Rem
 	Method WedgeOffWithSprite( Sprite:LTSprite, SelfMass:Double, SpriteMass:Double )
 		Local DX:Double, DY:Double
 		Select ShapeType
@@ -317,12 +400,18 @@ Type LTSprite Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc: Pushes sprite from given one.
+	End Rem
 	Method PushFromSprite( Sprite:LTSprite )
 		WedgeOffWithSprite( Sprite, 0.0, 1.0 )
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: Pushes sprite from given tile.
+	End Rem
 	Method PushFromTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
 		Local CellWidth:Double = TileMap.GetCellWidth()
 		Local CellHeight:Double = TileMap.GetCellHeight()
@@ -418,6 +507,10 @@ Type LTSprite Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc: Sets the sprite as a tile.
+	about: Position, size, visualizer and frame will be changed. This method can be used to cover other shapes with the tile or voluntary moving the tile.
+	End Rem
 	Method SetAsTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
 		Width = TileMap.GetCellWidth()
 		Height = TileMap.GetCellHeight()
@@ -429,6 +522,10 @@ Type LTSprite Extends LTShape
 	
 	' ==================== Animation ====================
 	
+	Rem
+	bbdoc: Animates the sprite.
+	about: 
+	End Rem
 	Method Animate( Project:LTProject, Speed:Double, FramesQuantity:Int = 0, FrameStart:Int = 0, StartingTime:Double = 0.0, PingPong:Int = False )
 		If FramesQuantity = 0 Then FramesQuantity = Visualizer.GetImage().FramesQuantity()
 		Local ModFactor:Int = FramesQuantity

@@ -7,13 +7,27 @@
 ' file distributed with this code, or available from
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
-	
+
+Rem
+bbdoc: Sprite with angle and velocity parameters.
+about: Handy for top-view games.
+End Rem	
 Type LTAngularSprite Extends LTSprite
+	Rem
+	bbdoc: Direction of the sprite
+	End Rem
 	Field Angle:Double
+	
+	Rem
+	bbdoc: Velocity of the sprite in units per second.
+	End Rem
 	Field Velocity:Double
 	
 	' ==================== Position ====================
 	
+	Rem
+	bbdoc: Moves the sprite with current velocity towards shape.
+	End Rem
 	Method MoveTowards( Shape:LTShape )
 		Local Angle:Double = DirectionTo( Shape )
 		Local DX:Double = Cos( Angle ) * Velocity * L_DeltaTime
@@ -33,18 +47,27 @@ Type LTAngularSprite Extends LTSprite
 	
 	
 	
+	Rem
+	bbdoc: Allowing moving the sprite around with current velocity with WSAD keys.
+	End Rem
 	Method MoveUsingWSAD()
 		MoveUsingKeys( Key_W, Key_S, Key_A, Key_D )
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: Allowing moving the sprite around with current velocity with Arrow keys.
+	End Rem
 	Method MoveUsingArrows()
 		MoveUsingKeys( Key_Up, Key_Down, Key_Left, Key_Right )
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: Allowing moving the sprite around with current velocity with given keys.
+	End Rem
 	Method MoveUsingKeys( KUp:Int, KDown:Int, KLeft:Int, KRight:Int )
 		Local DX:Double = KeyDown( KRight ) - KeyDown( KLeft )
 		Local DY:Double = KeyDown( KDown ) - KeyDown( KUp )
@@ -58,18 +81,29 @@ Type LTAngularSprite Extends LTSprite
 
 	' ==================== Angle ====================
 	
+	Rem
+	bbdoc: Directs sprite as given angular sprite. 
+	End Rem
 	Method DirectAs( Sprite:LTAngularSprite )
 		Angle = Sprite.Angle
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: Turns the sprite.
+	about: Turns the sprite with given speed per second.
+	End Rem
 	Method Turn( TurningSpeed:Double )
 		Angle :+ L_DeltaTime * TurningSpeed
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: Direct the sprite to center of the given shape.
+	about: 
+	End Rem
 	Method DirectTo( Shape:LTShape )
 		Angle = ATan2( Shape.Y - Y, Shape.X - X )
 	End Method

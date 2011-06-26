@@ -8,11 +8,26 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Type LTPath Extends LTObject
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Field Pivots:TList = New TList
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Function Find:LTPath( FromPivot:LTSprite, ToPivot:LTSprite, Graph:LTGraph )
 		Local ShortestPath:LTPath= New LTPath	
 	

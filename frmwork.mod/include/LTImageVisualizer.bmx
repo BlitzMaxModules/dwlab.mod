@@ -8,13 +8,21 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Global L_EmptyTilemapFrame:Int = -1
-
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Type LTImageVisualizer Extends LTVisualizer
 	Field Image:LTImage
 
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Function FromFile:LTImageVisualizer( Filename:String, XCells:Int = 1, YCells:Int = 1 )
 		Local ImageVisualizer:LTImageVisualizer = New LTImageVisualizer
 		ImageVisualizer.Image = LTImage.FromFile( Filename, XCells, YCells )
@@ -23,6 +31,11 @@ Type LTImageVisualizer Extends LTVisualizer
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Function FromImage:LTImageVisualizer( Image:LTImage )
 		Local ImageVisualizer:LTImageVisualizer = New LTImageVisualizer
 		ImageVisualizer.Image = Image

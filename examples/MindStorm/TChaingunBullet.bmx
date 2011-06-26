@@ -31,6 +31,9 @@ Type TChaingunBullet Extends LTVectorSprite
 			Block.DY :+ DY * Power / Block.Width / Block.Height
 			Game.ActingMap.Insert( Block, Null )
 		End If
+		Local Explosion:TExplosion = New TExplosion
+		Explosion.JumpTo( Self )
+		Explosion.Init()
 		Destroy()
 	End Method
 	
@@ -72,9 +75,6 @@ Type TChaingunBullet Extends LTVectorSprite
 	
 	
 	Method Destroy()
-		Local Explosion:TExplosion = New TExplosion
-		Explosion.JumpTo( Self )
-		Explosion.Init()
 		Game.BulletLayer.Remove( Self )
 		Game.Bullets.RemoveSprite( Self )
 	End Method

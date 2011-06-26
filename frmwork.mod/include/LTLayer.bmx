@@ -8,11 +8,22 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: Layer is the group of sprites which have bounds.
+End Rem
 Type LTLayer Extends LTGroup
+	Rem
+	bbdoc: Rectangular shape of layer bounds.
+	End Rem
 	Field Bounds:LTShape
 	
 	
 	
+	Rem
+	bbdoc: Counts quantity of sprites inside the layer.
+	returns: Quantity of sprites inside layer and included layers.
+	about: 
+	End Rem
 	Method CountSprites:Int()
 		Local Count:Int = 0
 		For Local Shape:LTShape = Eachin Children
@@ -27,6 +38,11 @@ Type LTLayer Extends LTGroup
 	
 	
 	
+	Rem
+	bbdoc: Finds shape with given name.
+	returns: First found layer shape with given name.
+	about: IgnorError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
+	End Rem
 	Method FindShape:LTShape( ShapeName:String, IgnoreError:Int = False )
 		If Name = ShapeName Then Return Self
 		For Local ChildShape:LTShape = Eachin Children
@@ -43,6 +59,11 @@ Type LTLayer Extends LTGroup
 	
 	
 	
+	Rem
+	bbdoc: Finds shape of class with given name.
+	returns: First found layer shape of class with given name.
+	about: IgnorError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
+	End Rem
 	Method FindShapeWithType:LTShape( ShapeType:String, Name:String = "", IgnoreError:Int = False )
 		Return FindShapeWithTypeID( L_GetTypeID( ShapeType ), Name, IgnoreError )
 	End Method
@@ -67,6 +88,10 @@ Type LTLayer Extends LTGroup
 	
 	
 	
+	Rem
+	bbdoc: Removes the shape from layer.
+	about: Included layers will be also checked.
+	End Rem
 	Method Remove( Shape:LTShape )
 		Local Link:TLink = Children.FirstLink()
 		While Link <> Null
@@ -78,6 +103,9 @@ Type LTLayer Extends LTGroup
 	
 	
 	
+	Rem
+	bbdoc: Sets the bounds of layer to given shape.
+	End Rem
 	Method SetBounds( Shape:LTShape )
 		If Not Bounds Then
 			Bounds = New LTShape

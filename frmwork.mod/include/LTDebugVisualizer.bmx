@@ -8,6 +8,11 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Type LTDebugVisualizer Extends LTVisualizer
 	Field ShowCollisionShapes:Int = True
 	Field ShowVectors:Int = True

@@ -10,6 +10,11 @@
 
 Global L_LoadImages:Int = 1
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Type LTImage Extends LTObject
 	Field BMaxImage:TImage
 	Field Filename:String
@@ -18,6 +23,11 @@ Type LTImage Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Function FromFile:LTImage( Filename:String, XCells:Int = 1, YCells:Int = 1 )
 		?debug
 		If XCells <= 0 Or YCells <= 0 Then L_Error( "Cells quantity must be 1 or more" )
@@ -34,6 +44,11 @@ Type LTImage Extends LTObject
 		
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method Init()
 		Local Pixmap:TPixmap = LoadPixmap( Filename )
 		?debug
@@ -45,40 +60,44 @@ Type LTImage Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method SetHandle( X:Double, Y:Double )
 		SetImageHandle( BMaxImage, X * ImageWidth( BMaxImage ), Y * ImageHeight( BMaxImage ) )
 	End Method
 	
 	
 	
-	Function Create:LTImage( Width:Int, Height:Int, Frames:Int = 1 )
-		Local Image:LTImage = New LTImage
-		Image.BMaxImage = CreateImage( Width, Height, Frames )
-		Return Image
-	End Function
-	
-	
-	
-	Method CopyFrame( Frame:Int, FromImage:LTImage, FromFrame:Int )
-		Local Pixmap:TPixmap = LockImage( FromImage.BMaxImage, FromFrame )
-		BMaxImage.SetPixmap( Frame, Pixmap )
-		UnlockImage( FromImage.BMaxImage )
-	End Method
-	
-	
-	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method FramesQuantity:Int()
 		Return BMaxImage.frames.Dimensions()[ 0 ]
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method Width:Double()
 		Return BMaxImage.width
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method Height:Double()
 		Return BMaxImage.height
 	End Method

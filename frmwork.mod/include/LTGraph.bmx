@@ -8,12 +8,22 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Type LTGraph Extends LTShape
 	Field Pivots:TMap = New TMap
 	Field Lines:TMap = New TMap
 	
 	' ==================== Drawing ===================	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method Draw()
 		If Visible Then
 			DrawLinesUsing( Visualizer )
@@ -23,6 +33,11 @@ Type LTGraph Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method DrawUsingVisualizer( Vis:LTVisualizer )
 		If Visible Then
 			DrawLinesUsing( Vis )
@@ -32,6 +47,11 @@ Type LTGraph Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method DrawPivotsUsing( Visualizer:LTVisualizer )
 		For Local Pivot:LTSprite = Eachin Pivots.Keys()
 			'debugstop
@@ -41,6 +61,11 @@ Type LTGraph Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method DrawLinesUsing( Visualizer:LTVisualizer )
 		For Local Line:LTLine = Eachin Lines.Keys()
 			Line.DrawUsingVisualizer( Visualizer )
@@ -49,6 +74,11 @@ Type LTGraph Extends LTShape
 	
 	' ==================== Add / Remove items ===================	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method AddPivot:TList( Pivot:LTSprite )
 		Local List:TList = TList( Pivots.ValueForKey( Pivot ) )
 		If Not List Then
@@ -60,6 +90,11 @@ Type LTGraph Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method AddLine( Line:LTLine )
 		?debug
 		If Line.Pivot[ 0 ] = Line.Pivot[ 1 ] Then L_Error( "Cannot add line with equal starting and ending points to the graph" )
@@ -74,6 +109,11 @@ Type LTGraph Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method RemovePivot( Pivot:LTSprite )
 		Local List:TList = TList( Pivots.ValueForkey( Pivot ) )
 		?debug
@@ -88,6 +128,11 @@ Type LTGraph Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method RemoveLine( Line:LTLine )
 		?debug
 		If Not Lines.ValueForKey( Line ) Then L_Error( "The deleting line doesn't belongs to the graph" )
@@ -99,6 +144,11 @@ Type LTGraph Extends LTShape
 	
 	' ==================== Collisions ===================
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method FindPivotCollidingWith:LTSprite( Sprite:LTSprite )
 		For Local Pivot:LTSprite = Eachin Pivots.Keys()
 			If Sprite.CollidesWithSprite( Pivot ) Then Return Pivot
@@ -107,6 +157,11 @@ Type LTGraph Extends LTShape
 	
 	
 
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method FindLineCollidingWith:LTLine( Sprite:LTSprite )
 		For Local Line:LTLine = Eachin Lines.Keys()
 			If Sprite.CollidesWithLine( Line ) Then Return Line
@@ -115,18 +170,33 @@ Type LTGraph Extends LTShape
 
 	' ==================== Contents ====================
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ContainsPivot:Int( Pivot:LTSprite )
 		If Pivots.ValueForKey( Pivot ) Then Return True
 	End Method
 	
 	
 
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method ContainsLine:Int( Line:LTLine )
 		If Lines.ValueForKey( Line ) Then Return True
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method FindLine:LTLine( Pivot1:LTSprite, Pivot2:LTSprite )
 		If Pivot1 = Pivot2 Then Return Null
 		

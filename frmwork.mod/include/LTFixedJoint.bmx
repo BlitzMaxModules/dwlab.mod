@@ -8,6 +8,11 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Type LTFixedJoint Extends LTBehaviorModel
 	Field ParentPivot:LTAngularSprite
 	Field Angle:Double
@@ -16,6 +21,11 @@ Type LTFixedJoint Extends LTBehaviorModel
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Function Create:LTFixedJoint( ParentPivot:LTAngularSprite )
 		Local Joint:LTFixedJoint = New LTFixedJoint
 		Joint.ParentPivot = ParentPivot

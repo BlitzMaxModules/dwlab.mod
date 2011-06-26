@@ -8,12 +8,20 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: World is the root layer which can be created in the editor and loaded from file.
+about: 
+End Rem
 Type LTWorld Extends LTLayer
 	Field Images:TList = New TList
 	Field Tilesets:TList = New TList
 	
 	
 	
+	Rem
+	bbdoc: Loads a world from file.
+	returns: Loaded world.
+	End Rem
 	Function FromFile:LTWorld( Filename:String )
 		Return LTWorld( LoadFromFile( Filename ) )
 	End Function
@@ -21,9 +29,9 @@ Type LTWorld Extends LTLayer
 	
 	
 	Method XMLIO( XMLObject:LTXMLObject )
-		Super.XMLIO( XMLObject )
-		
 		XMLObject.ManageListField( "images", Images )
 		XMLObject.ManageListField( "tilesets", Tilesets )
+		
+		Super.XMLIO( XMLObject )		
 	End Method
 End Type

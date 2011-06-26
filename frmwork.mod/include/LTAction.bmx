@@ -13,12 +13,27 @@ Global L_CurrentUndoList:TList = New TList
 Global L_RedoStack:TList = New TList
 Global L_CurrentRedoList:TList = New TList
 
+Rem
+bbdoc: 
+returns: 
+about: 
+End Rem
 Type LTAction Extends LTObject
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method Do()
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: 
+	returns: 
+	about: 
+	End Rem
 	Method Undo()
 	End Method
 End Type

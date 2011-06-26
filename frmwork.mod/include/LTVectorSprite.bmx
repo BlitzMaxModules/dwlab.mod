@@ -8,8 +8,20 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 	
+Rem
+bbdoc: Vector sprite has horizontal and vertical velocities forming velocity vector.
+about: Handy for projects with gravity, platformers for example.
+End Rem
 Type LTVectorSprite Extends LTSprite
-	Field DX:Double, DY:Double
+	Rem
+	bbdoc: Horizontal velocity of the sprite.
+	End Rem
+	Field DX:Double
+	
+	Rem
+	bbdoc: Vertical velocity of the sprite.
+	End Rem
+	Field DY:Double
 	
 	' ==================== Position ====================
 	
