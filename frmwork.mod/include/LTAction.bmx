@@ -14,15 +14,14 @@ Global L_RedoStack:TList = New TList
 Global L_CurrentRedoList:TList = New TList
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Action class for implementing UNDO/REDO technology.
 End Rem
 Type LTAction Extends LTObject
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Action performing method.
+	about: Execute it when you want to perform an action of this type.
+	Fill this method with action initialization commands (which also need to store information for UNDO operation).
+	Also it can be executed automatically when you will execute L_Redo function.
 	End Rem
 	Method Do()
 	End Method
@@ -30,9 +29,9 @@ Type LTAction Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Action undoing method.
+	about: Fill it with commands which will perform rolling back changes done by Do() method.
+	Can be executed automatically when you will execute L_Undo function.
 	End Rem
 	Method Undo()
 	End Method
@@ -42,7 +41,10 @@ End Type
 
 
 
-Function L_PushUndoList()
+Rem
+bbdoc: Function for finalizing current actions list as single step and pushing it to action steps list.
+End Rem
+Function L_PushActionsList()
 	If Not L_CurrentUndoList.IsEmpty() Then
 		L_UndoStack.AddFirst( L_CurrentUndoList )
 		L_CurrentUndoList = New TList
@@ -53,6 +55,10 @@ End Function
 
 
 
+Rem
+bbdoc: Function for performing single step of UNDO.
+about: Executes all Undo() methods for every action in head action step list of Undo stack and moves this list to Redo stack.
+End Rem
 Function L_Undo()
 	If L_UndoStack.IsEmpty() Then Return
 	Local UndoList:TList = TList( L_UndoStack.First() )
@@ -67,6 +73,10 @@ End Function
 
 
 
+Rem
+bbdoc: Function for performing single step of REDO.
+about: Executes all Redo() methods for every action in head action step list of Redo stack and moves this list to Undo stack.
+End Rem
 Function L_Redo()
 	If L_RedoStack.IsEmpty() Then Return
 	Local RedoList:TList = TList( L_RedoStack.First() )

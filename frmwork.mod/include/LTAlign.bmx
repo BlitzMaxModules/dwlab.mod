@@ -9,9 +9,7 @@
 '
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Class for alignment constants.
 End Rem
 Type LTAlign
 	Const ToRight:Int = 0

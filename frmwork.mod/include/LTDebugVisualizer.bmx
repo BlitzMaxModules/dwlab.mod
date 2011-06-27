@@ -9,9 +9,14 @@
 '
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Global variable for debug vesualizer.
+End Rem
+Global L_DebugVisualizer:LTDebugVisualizer = New LTDebugVisualizer
+L_DebugVisualizer.SetColorFromRGB( 1.0, 0.0, 1.0 )
+L_DebugVisualizer.Alpha = 0.5
+
+Rem
+bbdoc: This visualizer can draw collision shape, vector and name of the shape with this shape itself.
 End Rem
 Type LTDebugVisualizer Extends LTVisualizer
 	Field ShowCollisionShapes:Int = True
@@ -107,7 +112,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 	
 	Method DrawCollisionSprite( TileMap:LTTileMap, X:Double, Y:Double, Sprite:LTSprite )
 		Local TileWidth:Double, TileHeight:Double
-		L_CurrentCamera.SizeFieldToScreen( TileMap.GetCellWidth(), TileMap.GetCellHeight(), TileWidth, TileHeight )
+		L_CurrentCamera.SizeFieldToScreen( TileMap.GetTileWidth(), TileMap.GetTileHeight(), TileWidth, TileHeight )
 		
 		Local ShapeX:Double = X + TileWidth * ( Sprite.X - 0.5 )
 		Local ShapeY:Double = Y + TileHeight * ( Sprite.Y - 0.5 )
@@ -123,11 +128,3 @@ Type LTDebugVisualizer Extends LTVisualizer
 		End Select
 	End Method
 End Type
-
-
-
-
-
-Global L_DebugVisualizer:LTDebugVisualizer = New LTDebugVisualizer
-L_DebugVisualizer.SetColorFromRGB( 1.0, 0.0, 1.0 )
-L_DebugVisualizer.Alpha = 0.5

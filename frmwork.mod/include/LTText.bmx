@@ -9,9 +9,7 @@
 '
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Bitmap font class.
 End Rem
 Type LTBitmapFont Extends LTObject
 	Field LetterLength:Int[]
@@ -22,9 +20,8 @@ Type LTBitmapFont Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Prints text using bitmap font.
+	about: You should specify text, coordinates, font height and alignment.
 	End Rem
 	Method Print( Text:String, X:Double, Y:Double, FontHeightInUnits:Double, HorizontalAlignment:Int = LTAlign.ToLeft, VerticalAlignment:Int = LTAlign.ToTop )
 		Local SX:Double, SY:Double
@@ -61,9 +58,8 @@ Type LTBitmapFont Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Prints text inside given shape using bitmap font.
+	about: You should specify text, shape and alignment.
 	End Rem
 	Method PrintInShape( Text:String, Shape:LTShape, FontHeightInUnits:Double, HorizontalAlignment:Int = LTAlign.ToLeft, VerticalAlignment:Int = LTAlign.ToTop )
 		Local X:Double, Y:Double
@@ -92,9 +88,8 @@ Type LTBitmapFont Extends LTObject
 
 		
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Returns text width in pixels.
+	returns: Text width in pixels for current bitmap font.
 	End Rem
 	Method Width:Int( Text:String )
 		Local X:Int = 0
@@ -118,9 +113,11 @@ Type LTBitmapFont Extends LTObject
 
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Creates bitmap font from file.
+	returns: New bitmap font.
+	about: You should specify image with letters file name, interval of symbols which are in the image, letter images per row.
+	VariableLength flag should be set to true if you want to use letters with variable lengths and have file with letter lengths with ".lfn"
+	extension and same name as image file.
 	End Rem
 	Function FromFile:LTBitmapFont( FileName:String, FromNum:Int = 32, ToNum:Int = 255, SymbolsPerRow:Int = 16, VariableLength:Int = False )
 		Local Font:LTBitmapFont = New LTBitmapFont

@@ -9,9 +9,7 @@
 '
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Transfers hex string value to Int.
 End Rem
 Function L_HexToInt:Int( HexString:String )
 	Local Value:Int = 0
@@ -31,9 +29,7 @@ End Function
 
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Draws empty rectangle.
 End Rem
 Function L_DrawEmptyRect( X1:Double, Y1:Double, X2:Double, Y2:Double )
 	DrawLine( X1, Y1, X2, Y1 )
@@ -47,9 +43,7 @@ End Function
 
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Deletes list.
 End Rem
 Function L_DeleteList( List:TList )
 	List.Clear()
@@ -62,9 +56,7 @@ End Function
 
 	
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Trims trailing zeroes of Double value and cuts all digits after 4 after dot.
 End Rem
 Function L_TrimDouble:String ( Val:Double )
 	Local StrVal:String = Val + "0000"
@@ -86,9 +78,8 @@ End Function
 
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Adds zeroes to Int value to make resulting string length equal to given.
+returns: String with zeroes equal to Int value.
 End Rem
 Function L_FirstZeroes:String( Value:Int, TotalSymbols:Int )
 	Local StringValue:String = Value
@@ -105,9 +96,8 @@ End Function
 
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Returns string made from given string repeated given number of times.
+returns: String consisting of repeated given string.
 End Rem
 Function L_Symbols:String( Symbol:String, Times:Int )
 	Local Symbols:String = ""
@@ -122,9 +112,13 @@ End Function
 
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Limits Double value with inerval defined by two Double values.
+returns: Limited Double value.
+about: [
+* If Value is less than FromValue then function returns FromValue
+* If Value is more than ToValue then function returns ToValue
+* Otherwise function returns Value.
+]
 End Rem
 Function L_LimitDouble:Double( Value:Double, FromValue:Double, ToValue:Double )
 	?debug
@@ -144,9 +138,13 @@ End Function
 
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Limits Int value with inerval defined by two Int values.
+returns: Limited Int value.
+about: [
+* If Value is less than FromValue then function returns FromValue
+* If Value is more than ToValue then function returns ToValue
+* Otherwise function returns Value.
+]
 End Rem
 Function L_LimitInt:Int( Value:Int, FromValue:Int, ToValue:Int )
 	?debug
@@ -166,9 +164,8 @@ End Function
 
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Checks if given value is the power of 2.
+returns: True is given value is power of 2 otherwise false.
 End Rem
 Function L_IsPowerOf2:Int( Value:Int )
 	If Value + ( Value - 1 ) = Value ~ ( Value - 1 ) Then Return True
@@ -179,9 +176,9 @@ End Function
 
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Wraps Int value using given size.
+returns: Wrapped Int value.
+about: Function returns Value which will be kept in 0...Size - 1 interval.
 End Rem
 Function L_WrapInt:Int( Value:Int, Size:Int )
 	Return Value - Size * Floor( 1.0 * Value / Size )
@@ -192,9 +189,9 @@ End Function
 
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Wraps Int value using given interval defined by two given Int values.
+returns: Wrapped Int value.
+about: Function returns Value which will be kept in FromValue...ToVlaue - 1 interval.
 End Rem
 Function L_WrapInt2:Int( Value:Int, FromValue:Int, ToValue:Int )
 	Local Size:Int = ToValue - FromValue
@@ -207,9 +204,9 @@ End Function
 
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Wraps Double value using given size.
+returns: Wrapped Int value.
+about: Function returns Value which will be kept in 0...Size interval.
 End Rem
 Function L_WrapDouble:Double( Value:Double, Size:Double )
 	Return Value - Size * Floor( Value / Size )

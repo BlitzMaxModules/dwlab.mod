@@ -9,24 +9,20 @@
 '
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Class for implementing dragging operations.
 End Rem
 Type LTDrag Extends LTObject
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Dragging state: True if this dragging operation is currently active, False otherwise.
 	End Rem
 	Field DraggingState:Int
 	
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Method which should return True if drag key (or other similar controller) is down.
+	returns: True is dragging key is down.
+	about: Usually you should fill it with single line checking if dragging key is down.
 	End Rem
 	Method DragKey:Int()
 	End Method
@@ -34,9 +30,9 @@ Type LTDrag Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Method which should return True if all dragging conditions are met.
+	returns: True if all dragging conditions are met.
+	about: Fill it with conditions.
 	End Rem
 	Method DraggingConditions:Int()
 		Return True
@@ -45,9 +41,9 @@ Type LTDrag Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Dragging starting method.
+	about: Will be executed once when all dragging conditions are met and dragging key has been pressed.
+	Fill it with dragging system initialization commands.
 	End Rem
 	Method StartDragging()
 	End Method
@@ -55,9 +51,9 @@ Type LTDrag Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Dragging method.
+	about: Will be executed persistently during dragging process.
+	Fill it with commands which will accompany dragging process.
 	End Rem
 	Method Dragging()
 	End Method
@@ -65,9 +61,9 @@ Type LTDrag Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Dragging ending method
+	about: Will be executed when dragging key will be released during dragging.
+	Fill it with dragging operation finalization commands.
 	End Rem
 	Method EndDragging()
 	End Method
@@ -75,9 +71,8 @@ Type LTDrag Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Dragging system executing method.
+	about: Execute it persistently in your project Logic method or some object's Act() method.
 	End Rem
 	Method Execute()
 		If DraggingState = False Then

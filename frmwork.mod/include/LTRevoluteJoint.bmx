@@ -9,9 +9,7 @@
 '
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Revolute joint moves angular sprite if parent pivot moves or rotates, but the sprite can be rotated freely.
 End Rem
 Type LTRevoluteJoint Extends LTBehaviorModel
 	Field ParentPivot:LTAngularSprite
@@ -22,7 +20,7 @@ Type LTRevoluteJoint Extends LTBehaviorModel
 	
 	
 	Rem
-	bbdoc: 
+	bbdoc: Creates revolute joint for specified parent pivot using current pivots position.
 	returns: 
 	about: 
 	End Rem

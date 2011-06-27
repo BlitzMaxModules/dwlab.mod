@@ -11,9 +11,7 @@
 Global L_LoadImages:Int = 1
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Image class.
 End Rem
 Type LTImage Extends LTObject
 	Field BMaxImage:TImage
@@ -24,9 +22,8 @@ Type LTImage Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Creates new image from file with specified cell quantities for splitting.
+	returns: New image (LTImage).
 	End Rem
 	Function FromFile:LTImage( Filename:String, XCells:Int = 1, YCells:Int = 1 )
 		?debug
@@ -61,9 +58,8 @@ Type LTImage Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Sets handle of image.
+	about: Values should be in 0.0...1.0 interval.
 	End Rem
 	Method SetHandle( X:Double, Y:Double )
 		SetImageHandle( BMaxImage, X * ImageWidth( BMaxImage ), Y * ImageHeight( BMaxImage ) )
@@ -72,9 +68,8 @@ Type LTImage Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Returns frames quantity of given image.
+	returns: Frames quantity of given image.
 	End Rem
 	Method FramesQuantity:Int()
 		Return BMaxImage.frames.Dimensions()[ 0 ]
@@ -83,9 +78,8 @@ Type LTImage Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Returns width of image.
+	returns: Width of image in pixels.
 	End Rem
 	Method Width:Double()
 		Return BMaxImage.width
@@ -94,9 +88,8 @@ Type LTImage Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Returns height of image.
+	returns: Height of image in pixels.
 	End Rem
 	Method Height:Double()
 		Return BMaxImage.height

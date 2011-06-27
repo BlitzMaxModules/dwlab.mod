@@ -10,7 +10,7 @@
 '
 
 Rem
-bbdoc: 
+bbdoc: This visualizer draws rectangular animated dashed frame around the shape.
 returns: 
 about: 
 End Rem

@@ -9,9 +9,7 @@
 '
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Fixed joint moves and rotates angular sprite as parent angular sprite moves or rotates.
 End Rem
 Type LTFixedJoint Extends LTBehaviorModel
 	Field ParentPivot:LTAngularSprite
@@ -22,9 +20,8 @@ Type LTFixedJoint Extends LTBehaviorModel
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Creates fixed joint for specified parent pivot using current pivots position.
+	returns: New fixed joint
 	End Rem
 	Function Create:LTFixedJoint( ParentPivot:LTAngularSprite )
 		Local Joint:LTFixedJoint = New LTFixedJoint

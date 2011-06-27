@@ -9,24 +9,19 @@
 '
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: It's line section between 2 pivots (sprites centers).
 End Rem
 Type LTLine Extends LTShape
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Pivots array.
 	End Rem
 	Field Pivot:LTSprite[] = New LTSprite[ 2 ]
 	
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Creates line section between two pivots.
+	returns: New line.
 	End Rem
 	Method Create:LTLine( Pivot1:LTSprite, Pivot2:LTSprite )
 		Local Line:LTLine = New LTLine

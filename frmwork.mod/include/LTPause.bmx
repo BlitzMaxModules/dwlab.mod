@@ -9,9 +9,7 @@
 '
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Singleton class for Pause objects
 End Rem
 Type LTPause Extends LTObject
 	Field PreviousPause:LTPause
@@ -21,9 +19,9 @@ Type LTPause Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Render method.
+	about: Will be executed persistently by active project rendering mechanism when pause will be active for this project.
+	Fill it with methods which will display pause information.
 	End Rem
 	Method Render()
 	End Method
@@ -31,9 +29,9 @@ Type LTPause Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Pause updating method.
+	about: Will be executed persistently by active project logic mechanism when pause will be active for this project.
+	Fill it with methods which will control pause object state (animation for example).
 	End Rem
 	Method Update()
 	End Method
@@ -41,9 +39,7 @@ Type LTPause Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Method for checking if pause key has been pressed and remove pause object if yes.
 	End Rem
 	Method CheckKey()
 		If KeyHit( Key ) Then Remove()
@@ -52,9 +48,7 @@ Type LTPause Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Pause object removing method.
 	End Rem
 	Method Remove()
 		Project.CurrentPause = PreviousPause

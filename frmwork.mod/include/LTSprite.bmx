@@ -229,8 +229,8 @@ Type LTSprite Extends LTShape
 	Method CollisionsWithTileMap( TileMap:LTTileMap, CollisionType:Int = 0 )
 		Local X0:Double = TileMap.LeftX()
 		Local Y0:Double = TileMap.TopY()
-		Local CellWidth:Double = TileMap.GetCellWidth()
-		Local CellHeight:Double = TileMap.GetCellHeight()
+		Local CellWidth:Double = TileMap.GetTileWidth()
+		Local CellHeight:Double = TileMap.GetTileHeight()
 		Local XQuantity:Int = TileMap.XQuantity
 		Local YQuantity:Int = TileMap.YQuantity
 		Local Tileset:LTTileset = TileMap.Tileset
@@ -413,8 +413,8 @@ Type LTSprite Extends LTShape
 	bbdoc: Pushes sprite from given tile.
 	End Rem
 	Method PushFromTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
-		Local CellWidth:Double = TileMap.GetCellWidth()
-		Local CellHeight:Double = TileMap.GetCellHeight()
+		Local CellWidth:Double = TileMap.GetTileWidth()
+		Local CellHeight:Double = TileMap.GetTileHeight()
 		Local X:Double = TileMap.LeftX() + CellWidth * TileX
 		Local Y:Double = TileMap.TopY() + CellHeight * TileY
 		Local Shape:LTShape = TileMap.GetTileCollisionShape( TileX, TileY )
@@ -512,8 +512,8 @@ Type LTSprite Extends LTShape
 	about: Position, size, visualizer and frame will be changed. This method can be used to cover other shapes with the tile or voluntary moving the tile.
 	End Rem
 	Method SetAsTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
-		Width = TileMap.GetCellWidth()
-		Height = TileMap.GetCellHeight()
+		Width = TileMap.GetTileWidth()
+		Height = TileMap.GetTileHeight()
 		X = TileMap.LeftX() + Width * ( 0.5 + TileX )
 		Y = TileMap.TopY() + Height * ( 0.5 + TileY )
 		Visualizer = LTImageVisualizer.FromImage( Tilemap.TileSet.Image )

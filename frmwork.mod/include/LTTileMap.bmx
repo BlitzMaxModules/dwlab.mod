@@ -39,10 +39,10 @@ Type LTTileMap Extends LTIntMap
 	' ==================== Parameters ===================	
 	
 	Rem
-	bbdoc: Tilemap cell width.
-	returns: Cell width of the tilemap.
+	bbdoc: Tilemap tile width.
+	returns: Tile width of the tilemap in units.
 	End Rem
-	Method GetCellWidth:Double()
+	Method GetTileWidth:Double()
 			Return Width / XQuantity
 	End Method
 
@@ -50,9 +50,9 @@ Type LTTileMap Extends LTIntMap
 	
 	Rem
 	bbdoc: Tilemap cell height.
-	returns: Cell height of the tilemap.
+	returns: Tile height of the tilemap in units.
 	End Rem
-	Method GetCellHeight:Double()
+	Method GetTileHeight:Double()
 		Return Height / YQuantity
 	End Method
 	

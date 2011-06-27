@@ -9,27 +9,63 @@
 '
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: DoubleMap is basicaly a heightmap.
+about: It is 2d array of Double values which are in 0.0...1.0 interval.
 End Rem
 Type LTDoubleMap Extends LTMap
+	Rem
+	bbdoc: Constant for filling red color channel in pixmap.
+	End Rem
 	Const Red:Int = 0
+
+	Rem
+	bbdoc: Constant for filling green color channel in pixmap.
+	End Rem
 	Const Green:Int = 1
+
+	Rem
+	bbdoc: Constant for filling blue color channel in pixmap.
+	End Rem
 	Const Blue:Int = 2
+
+	Rem
+	bbdoc: Constant for filling alpha channel in pixmap (transparency).
+	End Rem
 	Const Alpha:Int = 3
+
+	Rem
+	bbdoc: Constant for filling all color channels in pixmap (resulting color will be from black to white).
+	End Rem
 	Const RGB:Int = 4
 	
+
+	Rem
+	bbdoc: Constant for overwriting source heightmap values by destination heightmap values.
+	End Rem
 	Const Overwrite:Int = 0
+
+	Rem
+	bbdoc: Constant for adding source heightmap values to destination heightmap values.
+	End Rem
 	Const Add:Int = 1
+
+	Rem
+	bbdoc: Constant for multiplying source heightmap values by destination heightmap values.
+	End Rem
 	Const Multiply:Int = 2
+
+	Rem
+	bbdoc: Constant for selecting maximum value between source heightmap values and destination heightmap values.
+	End Rem
 	Const Maximum:Int = 3
+
+	Rem
+	bbdoc: Constant for selecting minimum value between source heightmap values and destination heightmap values.
+	End Rem
 	Const Minimum:Int = 4
 
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: 2D array of heightmap values.
 	End Rem
 	Field Value:Double[ , ] = New Double[ 1, 1 ]
 
@@ -43,9 +79,9 @@ Type LTDoubleMap Extends LTMap
 	' ==================== Manipulations ====================	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Converts heightmap to new image with single frame.
+	returns: New image.
+	about: By default every color channel will be filled by heightmap values, but you can specify another channel filling mode.
 	End Rem
 	Method ToNewImage:LTImage( Channel:Int = L_RGB )
 		Local Image:LTImage = New LTImage
@@ -60,9 +96,9 @@ Type LTDoubleMap Extends LTMap
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Converts heightmap to new pixmap.
+	returns: New pixmap.
+	about: By default every color channel will be filled by heightmap values, but you can specify another channel filling mode.
 	End Rem
 	Method ToNewPixmap:TPixmap( Channel:Int = L_RGB )
 		Local Pixmap:TPixmap = CreatePixmap( XQuantity, YQuantity, PF_RGBA8888 )
@@ -74,11 +110,10 @@ Type LTDoubleMap Extends LTMap
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Pastes heightmap to existing image frame with given shift.
+	about: By default every color channel will be filled by heightmap values, but you can specify another channel filling mode.
 	End Rem
-	Method ToImage( Image:LTImage, XShift:Int = 0, YShift:Int = 0, Frame:Int = 0, Channel:Int = L_RGB )
+	Method PasteToImage( Image:LTImage, XShift:Int = 0, YShift:Int = 0, Frame:Int = 0, Channel:Int = L_RGB )
 		ToPixmap( LockImage( Image.BMaxImage, Frame ), XShift, YShift, Channel )
 		UnlockImage( Image.BMaxImage )
 	End Method
@@ -86,11 +121,10 @@ Type LTDoubleMap Extends LTMap
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Pastes heightmap to existing pixmap with given shift.
+	about: By default every color channel will be filled by heightmap values, but you can specify another channel filling mode.
 	End Rem
-	Method ToPixmap:TPixmap( Pixmap:TPixmap, XShift:Int = 0, YShift:Int = 0, Channel:Int = L_RGB )
+	Method PasteToPixmap( Pixmap:TPixmap, XShift:Int = 0, YShift:Int = 0, Channel:Int = L_RGB )
 		For Local Y:Int = 0 Until YQuantity
 			For Local X:Int = 0 Until XQuantity
 				Local Col:Int = Int( 255.0 * Value[ X, Y ] + 0.5 )
@@ -125,9 +159,9 @@ Type LTDoubleMap Extends LTMap
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Pastes one heightmap over another.
+	about: You can change coordinate shift and pasting mode.
+	All parts of source heightmap which will be outside destination pixmap will be wrapped around destination pixmap.
 	End Rem
 	Method Paste( SourceMap:LTDoubleMap, X:Int, Y:Int, Mode:Int = L_Overwrite )
 		For Local Y0:Int = 0 Until SourceMap.YQuantity
@@ -161,9 +195,9 @@ Type LTDoubleMap Extends LTMap
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Extracts slice of heightmap to the tilemap.
+	about: Areas of Tilemap with corresponding heightmap values between VFrom and VTo will be filled with TileNum tile index.
+	Tilemap and heightmap must have same resolution.
 	End Rem
 	Method ExtractTo( TileMap:LTIntMap, VFrom:Double, VTo:Double, TileNum:Int )
 		?debug
@@ -180,9 +214,7 @@ Type LTDoubleMap Extends LTMap
 		
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Blurs the heightmap with simple 3x3 filter.
 	End Rem
 	Method Blur()
 		Local NewArray:Double[ XQuantity, YQuantity ]
@@ -208,9 +240,7 @@ Type LTDoubleMap Extends LTMap
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Fills heightmap with perlin noise.
 	End Rem
 	Method PerlinNoise( StartingXFrequency:Int, StartingYFrequency:Double, StartingAmplitude:Double, DAmplitude:Double, LayersQuantity:Int )
 		Local XFrequency:Int = StartingXFrequency
@@ -273,9 +303,8 @@ Type LTDoubleMap Extends LTMap
 	Const CircleBound:Double = 0.707107
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Draws anti-aliased circle on the heightmap.
+	about: Parts of circle which will be ouside the heightma, will be wrapped around.
 	End Rem
 	Method DrawCircle( XCenter:Double, YCenter:Double, Radius:Double, Color:Double = 1.0 )
 		For Local Y:Int = Floor( YCenter - Radius ) To Ceil( YCenter + Radius )
@@ -309,9 +338,10 @@ Type LTDoubleMap Extends LTMap
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Limits the heightmap values by standard interval.
+	returns:  
+	about: This method will force heighmap values to be in 0.0...1.0 interval.
+	Use this method after applying unsafe operations on heightmap, for example adding another heightmap to it.
 	End Rem
 	Method Limit()
 		For Local X:Int = 0 Until XQuantity

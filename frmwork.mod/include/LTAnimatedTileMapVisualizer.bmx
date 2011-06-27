@@ -9,15 +9,11 @@
 '
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: This visualizer provides simple tile animation mechanism.
 End Rem
 Type LTAnimatedTileMapVisualizer Extends LTVisualizer
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Array of destination tile indexes which will override real file indexes of tilemap.
 	End Rem
 	Field TileNum:Int[]
 	

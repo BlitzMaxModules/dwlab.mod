@@ -8,6 +8,10 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: Prolonging tiles flag.
+about: Defines the method of recognizing tiles outside tilemap.
+End Rem
 Global L_ProlongTiles:Int = True
 
 Rem
@@ -27,46 +31,8 @@ Type LTTileSet Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
-	End Rem
-	Method Init()
-		TileCategory = New Int[ TilesQuantity ]
-		For Local N:Int = 0 Until TilesQuantity
-			TileCategory[ N ] = -1
-		Next
-		
-		Local CatNum:Int = 0
-		For Local Category:LTTileCategory = Eachin Categories
-			Category.Num = CatNum
-			For Local Rule:LTTileRule = Eachin Category.TileRules
-				For Local N:Int = 0 Until Rule.TileNums.Dimensions()[ 0 ]
-					If Rule.TileNums[ N ] >= TilesQuantity Then Rule.TileNums[ N ] = TilesQuantity - 1
-					TileCategory[ Rule.TileNums[ N ] ] = Category.Num
-				Next
-			Next
-			CatNum :+ 1
-		Next
-		
-		For Local Category:LTTileCategory = Eachin Categories
-			For Local Rule:LTTileRule = Eachin Category.TileRules
-				If Rule.X >= Rule.XDivider Then Rule.X = Rule.XDivider - 1
-				If Rule.Y >= Rule.YDivider Then Rule.Y = Rule.YDivider - 1
-				For Local Pos:LTTilePos = Eachin Rule.TilePositions
-					If Pos.TileNum >= TilesQuantity Then Pos.TileNum = TilesQuantity - 1
-					Pos.Category = TileCategory[ Pos.TileNum ]
-				Next
-			Next
-		Next
-	End Method
-	
-	
-	
-	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Updates tileset when tiles quantity was changed.
+	about: Execute this method every time you change TilesQuantity parameter.
 	End Rem
 	Method RefreshTilesQuantity()
 		If Not Image Then Return
@@ -89,9 +55,7 @@ Type LTTileSet Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Enframes the tile of given tilemap with given coordinates.
 	End Rem
 	Method Enframe( TileMap:LTTileMap, X:Int, Y:Int )
 		Local CatNum:Int = TileCategory[ TileMap.Value[ X, Y ] ]
@@ -156,6 +120,46 @@ Type LTTileSet Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: Updates tileset.
+	about: This method will be automatically executed after loading tileset. Also execute it after forming or changing tileset categories.
+	End Rem
+	Method Update()
+		TileCategory = New Int[ TilesQuantity ]
+		For Local N:Int = 0 Until TilesQuantity
+			TileCategory[ N ] = -1
+		Next
+		
+		Local CatNum:Int = 0
+		For Local Category:LTTileCategory = Eachin Categories
+			Category.Num = CatNum
+			For Local Rule:LTTileRule = Eachin Category.TileRules
+				For Local N:Int = 0 Until Rule.TileNums.Dimensions()[ 0 ]
+					If Rule.TileNums[ N ] >= TilesQuantity Then Rule.TileNums[ N ] = TilesQuantity - 1
+					TileCategory[ Rule.TileNums[ N ] ] = Category.Num
+				Next
+			Next
+			CatNum :+ 1
+		Next
+		
+		For Local Category:LTTileCategory = Eachin Categories
+			For Local Rule:LTTileRule = Eachin Category.TileRules
+				If Rule.X >= Rule.XDivider Then Rule.X = Rule.XDivider - 1
+				If Rule.Y >= Rule.YDivider Then Rule.Y = Rule.YDivider - 1
+				For Local Pos:LTTilePos = Eachin Rule.TilePositions
+					If Pos.TileNum >= TilesQuantity Then Pos.TileNum = TilesQuantity - 1
+					Pos.Category = TileCategory[ Pos.TileNum ]
+				Next
+			Next
+		Next
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Creates tileset with given image.
+	returns: Created tileset.
+	End Rem
 	Function Create:LTTileSet( Image:LTImage )
 		Local TileSet:LTTileSet = New LTTileSet
 		TileSet.Image = Image

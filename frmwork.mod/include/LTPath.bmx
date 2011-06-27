@@ -9,23 +9,19 @@
 '
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Path is basically a sequence of pivots.
 End Rem
 Type LTPath Extends LTObject
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: List of pivots in the path.
 	End Rem
 	Field Pivots:TList = New TList
 	
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
+	bbdoc: Finds a path from one point to another inside graph.
+	returns: Found path or empty path if path is not found.
 	about: 
 	End Rem
 	Function Find:LTPath( FromPivot:LTSprite, ToPivot:LTSprite, Graph:LTGraph )

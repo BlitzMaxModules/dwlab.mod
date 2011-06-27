@@ -9,93 +9,75 @@
 '
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Global variable for default visualizer.
+End Rem
+Global L_DefaultVisualizer:LTVisualizer = New LTVisualizer
+
+Rem
+bbdoc: Visualizer is object which contains parameters for drawing the shape.
 End Rem
 Type LTVisualizer Extends LTObject
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Red color intensity for drawing.
 	End Rem
 	Field Red:Double = 1.0
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Green color intensity for drawing.
 	End Rem
 	Field Green:Double = 1.0
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Blue color intensity for drawing.
 	End Rem
 	Field Blue:Double = 1.0
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Alpha (transparency) value for drawing.
 	End Rem
 	Field Alpha:Double = 1.0
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Horizontal shift of displaying image from the center of drawing shape in units .
 	End Rem
 	FIeld DX:Double = 0.0
+	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Vertical shift of displaying image from the center of drawing shape in units .
 	End Rem
 	Field DY:Double = 0.0
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Horizontal scaling of displaying image relative to the width of the drawing shape.
 	End Rem
 	Field XScale:Double = 1.0
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Vertical scaling of displaying image relative to the height of the drawing shape.
 	End Rem
 	Field YScale:Double = 1.0
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Scaling flag.
+	about: If False then image will be drawn with no scaling at all.
 	End Rem
 	Field Scaling:Int = True
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Rotation angle of displaying image relative to the angle of drawing AngularVector (other sprites will be drawed just using visualizer angle).
 	End Rem
 	Field Angle:Double = 0.0
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Rotating flag.
+	about: If False then Angle parameter will not be used.
 	End Rem
 	Field Rotating:Int = True
 
 	' ==================== Parameters ====================
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Sets shifts of the visualizer.
 	End Rem
 	Method SetDXDY( NewDX:Double, NewDY:Double )
 		DX = NewDX
@@ -105,9 +87,7 @@ Type LTVisualizer Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Sets scaling parameters of the visualizer
 	End Rem
 	Method SetVisualizerScale( NewXScale:Double, NewYScale:Double )
 		XScale = NewXScale
@@ -117,9 +97,9 @@ Type LTVisualizer Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Returns visualizer image.
+	returns: Visualizer image.
+	about: Only for ImageVisualizer, other visualizers will return Null.
 	End Rem
 	Method GetImage:LTImage()
 	End Method
@@ -127,15 +107,18 @@ Type LTVisualizer Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Sets visualizer image.
+	about: Only for ImageVisualizer, for other visualizers this method will do nothing.
 	End Rem
 	Method SetImage( NewImage:LTImage )
 	End Method
 	
 	' ==================== Drawing ===================	
 	
+	Rem
+	bbdoc: Draws given sprite using this visualizer.
+	about: Change this method if you are making your own visualizer.
+	End Rem
 	Method DrawUsingSprite( Sprite:LTSprite )
 		?debug
 		L_SpritesDisplayed :+ 1
@@ -161,6 +144,10 @@ Type LTVisualizer Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: Draws given line using this visualizer.
+	about: Change this method if you are making your own visualizer.
+	End Rem
 	Method DrawUsingLine( Line:LTLine )
 		ApplyColor()
 		
@@ -175,6 +162,10 @@ Type LTVisualizer Extends LTObject
 	
 	
 
+	Rem
+	bbdoc: Draws given tilemap using this visualizer.
+	about: Change this method if you are making your own visualizer.
+	End Rem
 	Method DrawUsingTileMap( TileMap:LTTileMap )
 		Local TileSet:LTTileSet = TileMap.TileSet
 		If Not TileSet Then Return
@@ -186,8 +177,8 @@ Type LTVisualizer Extends LTObject
 		SetAlpha Alpha
 	
 		Local SWidth:Double, SHeight:Double
-		Local CellWidth:Double = TileMap.GetCellWidth()
-		Local CellHeight:Double = TileMap.GetCellHeight()
+		Local CellWidth:Double = TileMap.GetTileWidth()
+		Local CellHeight:Double = TileMap.GetTileHeight()
 		L_CurrentCamera.SizeFieldToScreen( CellWidth, CellHeight, SWidth, SHeight )
 		SetScale( SWidth / ImageWidth( Image.BMaxImage ), SHeight / ImageHeight( Image.BMaxImage ) )
 		
@@ -246,9 +237,9 @@ Type LTVisualizer Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Draws tile of given tilemap with given coordinates using this visualizer.
+	about: Change this method if you are making your own visualizer.
+	If you are making visualizer for tilemaps, you will probably need to modify only this method.
 	End Rem
 	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, TileX:Int, TileY:Int )
 		?debug
@@ -262,9 +253,7 @@ Type LTVisualizer Extends LTObject
 	' ==================== Other ====================
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Applies color given in hex string to visualizer.
 	End Rem
 	Method SetColorFromHex( S:String )
 		Red = 1.0 * L_HexToInt( S[ 0..2 ] ) / 255.0
@@ -275,9 +264,8 @@ Type LTVisualizer Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Applies color given in color intensities to visualizer.
+	about: Every intensity should be in range from 0.0 to 1.0.
 	End Rem
 	Method SetColorFromRGB( NewRed:Double, NewGreen:Double, NewBlue:Double )
 		?debug
@@ -294,9 +282,8 @@ Type LTVisualizer Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Alters color randomly with given increments.
+	about: Every color channel will be altered by random value in D1...D2 interval (value(s) can be negative).
 	End Rem
 	Method AlterColor( D1:Double, D2:Double )
 		Red = L_LimitDouble( Red + Rnd( D1, D2 ), 0.0, 1.0 )
@@ -307,9 +294,7 @@ Type LTVisualizer Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Sets the color of visualizer as drawing color.
 	End Rem
 	Method ApplyColor()
 		SetColor( 255.0 * Red, 255.0 * Green, 255.0 * Blue )
@@ -319,9 +304,7 @@ Type LTVisualizer Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Resets drawing color to white.
 	End Rem
 	Method ResetColor()
 		SetColor( 255, 255, 255 )
@@ -344,9 +327,3 @@ Type LTVisualizer Extends LTObject
 		XMLObject.ManageIntAttribute( "rotating", Rotating, 1 )
 	End Method
 End Type
-
-
-
-
-
-Global L_DefaultVisualizer:LTVisualizer = New LTVisualizer

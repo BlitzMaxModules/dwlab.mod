@@ -9,9 +9,7 @@
 '
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: This visualizer displays image for the sprite.
 End Rem
 Type LTImageVisualizer Extends LTVisualizer
 	Field Image:LTImage
@@ -19,9 +17,8 @@ Type LTImageVisualizer Extends LTVisualizer
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Creates new image visualizer from image file.
+	returns: New visualizer.
 	End Rem
 	Function FromFile:LTImageVisualizer( Filename:String, XCells:Int = 1, YCells:Int = 1 )
 		Local ImageVisualizer:LTImageVisualizer = New LTImageVisualizer
@@ -32,9 +29,8 @@ Type LTImageVisualizer Extends LTVisualizer
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Creates new image visualizer from existing image (LTImage).
+	returns: New visualizer.
 	End Rem
 	Function FromImage:LTImageVisualizer( Image:LTImage )
 		Local ImageVisualizer:LTImageVisualizer = New LTImageVisualizer
