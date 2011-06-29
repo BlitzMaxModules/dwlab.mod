@@ -8,12 +8,19 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: Channel pack provides ability to initialize several channels for playing separated set of sounds.
+EndRem
 Type LTChannelPack
 	Field Channel:TChannel[]
 	Field ChannelsQuantity:Int
 	
 	
 	
+	Rem
+	bbdoc: Creates new channel pack with givwen channels quantity.
+	returns: New channels pack
+	EndRem
 	Function Create:LTChannelPack( ChannelsQuantity:Int )
 		Local ChannelPack:LTChannelPack = New LTChannelPack
 		ChannelPack.Channel = New TChannel[ ChannelsQuantity ]
@@ -26,6 +33,10 @@ Type LTChannelPack
 	
 	
 	
+	Rem
+	bbdoc: Plays a sound using channel pack.
+	about: You can specify volume and rate of the sound. If channel pack has no free channels, then sound will not be played.
+	EndRem
 	Method Play( Sound:TSound, Volume:Double = -1.0, Rate:Double = 1.0 )
 		For Local N:Int = 0 Until ChannelsQuantity
 			If Not Channel[ N ].Playing() Then

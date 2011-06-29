@@ -10,8 +10,6 @@
 
 Rem
 bbdoc: Behavior model is the object which can be attached to the shape and affect its state.
-returns: 
-about: 
 End Rem
 Type LTBehaviorModel Extends LTObject
 	Field Active:Int
@@ -32,6 +30,8 @@ Type LTBehaviorModel Extends LTObject
 	Rem
 	bbdoc: Activation method.
 	about: It will be executed when model will be activated (and when attached too if you didn't set activation flag to False).
+	
+	See also: #Deactivate, #ActivateAllModels, #DeactivateAllModels, #ActivateModel, #DeactivateModel
 	End Rem
 	Method Activate( Shape:LTShape )
 	End Method
@@ -41,6 +41,8 @@ Type LTBehaviorModel Extends LTObject
 	Rem
 	bbdoc: Deactivation method.
 	about: It will be executed when model will be activated (and when removed too if it was active).
+	
+	See also: #Activate, #ActivateAllModels, #DeactivateAllModels, #ActivateModel, #DeactivateModel
 	End Rem
 	Method Deactivate( Shape:LTShape )
 	End Method
@@ -51,6 +53,8 @@ Type LTBehaviorModel Extends LTObject
 	bbdoc: Watching method.
 	about: This method will be executed by shape default Act() method if the model will be inactive.
 	Fill it with commands which will check certain conditions and activate model.
+	
+	See also: #ApplyTo, #Act
 	End Rem
 	Method Watch( Shape:LTShape )
 	End Method
@@ -61,6 +65,8 @@ Type LTBehaviorModel Extends LTObject
 	bbdoc: Model applying method.
 	about: This method will be executed by shape default Act() method if the model will be active.
 	Fill it with commands which are affect shape in the way of corresponding behavior.
+	
+	See also: #Watch, #Act
 	End Rem
 	Method ApplyTo( Shape:LTShape )
 	End Method
@@ -68,9 +74,9 @@ Type LTBehaviorModel Extends LTObject
 	
 	
 	Rem
-	bbdoc: Collision with sprite handleing method.
+	bbdoc: Collision with sprite handling method.
 	about: It will be executed by default HandleCollisionWithSprite method if this model will be active.
-	Fill it with sprite collision reaction commands which need to be executed when the model is active.
+	Fill it with sprite collision reaction commands which are need to be executed when the model is active.
 	End Rem
 	Method HandleCollisionWithSprite( Sprite1:LTSprite, Sprite2:LTSprite, CollisionType:Int )
 	End Method
@@ -80,7 +86,7 @@ Type LTBehaviorModel Extends LTObject
 	Rem
 	bbdoc: Collision with sprite handleing method.
 	about: It will be executed by default HandleCollisionWithTile method if this model will be active.
-	Fill it with tile collision reaction commands which need to be executed when the model is active.
+	Fill it with tile collision reaction commands which are need to be executed when the model is active.
 	End Rem
 	Method HandleCollisionWithTile( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
 	End Method
@@ -90,6 +96,8 @@ Type LTBehaviorModel Extends LTObject
 	Rem
 	bbdoc: Activates behavior model.
 	about: For use inside model's methods.
+	
+	See also: #Activate, #Deactivate, #ActivateAllModels, #DeactivateAllModels, #DeactivateModel
 	End Rem
 	Method ActivateModel( Shape:LTShape )
 		Activate( Shape )
@@ -101,6 +109,8 @@ Type LTBehaviorModel Extends LTObject
 	Rem
 	bbdoc: Deactivates behavior model.
 	about: For use inside model's methods.
+	
+	See also: #Activate, #Deactivate, #ActivateAllModels, #DeactivateAllModels, #ActivateModel
 	End Rem
 	Method DeactivateModel( Shape:LTShape )
 		Deactivate( Shape )
@@ -112,6 +122,8 @@ Type LTBehaviorModel Extends LTObject
 	Rem
 	bbdoc: Removes behavior model.
 	about: Model will be deactivated before removal.
+	
+	See also: #Deactivate
 	End Rem
 	Method Remove( Shape:LTShape )
 		If Active Then DeactivateModel( Shape )

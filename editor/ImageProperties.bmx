@@ -42,7 +42,7 @@ Function ImageProperties:Int( Image:LTImage )
 				Select EventSource()
 					Case ReloadImageButton
 						Filename = RequestFile( LocalizeString( "{{D_SelectImage}}" ), "Image files:png,jpg,bmp" )
-						Filename = ChopFilename( Filename )
+						Filename = L_ChopFilename( Filename )
 						If Filename Then
 							Local LoadedImage:TImage = LoadImage( Filename )
 							If LoadedImage Then

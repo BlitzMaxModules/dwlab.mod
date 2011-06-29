@@ -11,8 +11,6 @@
 
 Rem
 bbdoc: This visualizer draws rectangular animated dashed frame around the shape.
-returns: 
-about: 
 End Rem
 Type LTMarchingAnts Extends LTVisualizer
 	Method DrawUsingSprite( Sprite:LTSprite )
@@ -32,9 +30,7 @@ Type LTMarchingAnts Extends LTVisualizer
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Draws voluntary marching ants rectangle.
 	End Rem
 	Function DrawMARect( X:Double, Y:Double, Width:Double, Height:Double )
 		Local Pos:Int = Int( Millisecs() / 100 ) Mod 8

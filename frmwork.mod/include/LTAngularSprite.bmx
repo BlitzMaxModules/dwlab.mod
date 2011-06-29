@@ -11,15 +11,19 @@
 Rem
 bbdoc: Sprite with angle and velocity parameters.
 about: Handy for top-view games.
+
+See also: #LTSprite, #LTVectorSprite
 End Rem	
 Type LTAngularSprite Extends LTSprite
 	Rem
 	bbdoc: Direction of the sprite
+	about: See also: #MoveForward, #MoveTowards
 	End Rem
 	Field Angle:Double
 	
 	Rem
 	bbdoc: Velocity of the sprite in units per second.
+	about: See also: #MoveForward, #MoveTowards
 	End Rem
 	Field Velocity:Double
 	
@@ -27,6 +31,7 @@ Type LTAngularSprite Extends LTSprite
 	
 	Rem
 	bbdoc: Moves the sprite with current velocity towards shape.
+	about: See also: #MoveForward
 	End Rem
 	Method MoveTowards( Shape:LTShape )
 		Local Angle:Double = DirectionTo( Shape )
@@ -49,6 +54,7 @@ Type LTAngularSprite Extends LTSprite
 	
 	Rem
 	bbdoc: Allowing moving the sprite around with current velocity with WSAD keys.
+	about: See also: #MoveUsingArrows, #MoveUsingKeys, #Move
 	End Rem
 	Method MoveUsingWSAD()
 		MoveUsingKeys( Key_W, Key_S, Key_A, Key_D )
@@ -58,6 +64,7 @@ Type LTAngularSprite Extends LTSprite
 	
 	Rem
 	bbdoc: Allowing moving the sprite around with current velocity with Arrow keys.
+	about: See also: #MoveUsingWSAD, #MoveUsingKeys, #Move
 	End Rem
 	Method MoveUsingArrows()
 		MoveUsingKeys( Key_Up, Key_Down, Key_Left, Key_Right )
@@ -67,6 +74,7 @@ Type LTAngularSprite Extends LTSprite
 	
 	Rem
 	bbdoc: Allowing moving the sprite around with current velocity with given keys.
+	about: See also: #MoveUsingArrows, #MoveUsingWSAD, #Move
 	End Rem
 	Method MoveUsingKeys( KUp:Int, KDown:Int, KLeft:Int, KRight:Int )
 		Local DX:Double = KeyDown( KRight ) - KeyDown( KLeft )
@@ -83,6 +91,7 @@ Type LTAngularSprite Extends LTSprite
 	
 	Rem
 	bbdoc: Directs sprite as given angular sprite. 
+	about: See also: #DirectTo
 	End Rem
 	Method DirectAs( Sprite:LTAngularSprite )
 		Angle = Sprite.Angle
@@ -102,7 +111,7 @@ Type LTAngularSprite Extends LTSprite
 	
 	Rem
 	bbdoc: Direct the sprite to center of the given shape.
-	about: 
+	about: See also: #DirectAs
 	End Rem
 	Method DirectTo( Shape:LTShape )
 		Angle = ATan2( Shape.Y - Y, Shape.X - X )

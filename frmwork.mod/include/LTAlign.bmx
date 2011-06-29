@@ -10,6 +10,7 @@
 
 Rem
 bbdoc: Class for alignment constants.
+about: See also: #Print, #PrintInShape
 End Rem
 Type LTAlign
 	Const ToRight:Int = 0

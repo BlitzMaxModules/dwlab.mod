@@ -19,41 +19,49 @@ End Rem
 Type LTVisualizer Extends LTObject
 	Rem
 	bbdoc: Red color intensity for drawing.
+	about: See also: #SetColorFromHex, #SetColorFromRGB, #AlterColor, #ApplyColor, #ResetColor
 	End Rem
 	Field Red:Double = 1.0
 	
 	Rem
 	bbdoc: Green color intensity for drawing.
+	about: See also: #SetColorFromHex, #SetColorFromRGB, #AlterColor, #ApplyColor, #ResetColor
 	End Rem
 	Field Green:Double = 1.0
 	
 	Rem
 	bbdoc: Blue color intensity for drawing.
+	about: See also: #SetColorFromHex, #SetColorFromRGB, #AlterColor, #ApplyColor, #ResetColor
 	End Rem
 	Field Blue:Double = 1.0
 	
 	Rem
 	bbdoc: Alpha (transparency) value for drawing.
+	about: #ApplyColor, #ResetColor
 	End Rem
 	Field Alpha:Double = 1.0
 	
 	Rem
 	bbdoc: Horizontal shift of displaying image from the center of drawing shape in units .
+	about: See also: #SetDXDY
 	End Rem
 	FIeld DX:Double = 0.0
 	
 	Rem
 	bbdoc: Vertical shift of displaying image from the center of drawing shape in units .
+	about: See also: #SetDXDY
 	End Rem
 	Field DY:Double = 0.0
 	
 	Rem
 	bbdoc: Horizontal scaling of displaying image relative to the width of the drawing shape.
+	about: See also: #SetVisualizerScale
 	End Rem
 	Field XScale:Double = 1.0
 	
 	Rem
 	bbdoc: Vertical scaling of displaying image relative to the height of the drawing shape.
+	about: See also: #SetVisualizerScale
 	End Rem
 	Field YScale:Double = 1.0
 	
@@ -100,6 +108,8 @@ Type LTVisualizer Extends LTObject
 	bbdoc: Returns visualizer image.
 	returns: Visualizer image.
 	about: Only for ImageVisualizer, other visualizers will return Null.
+	
+	See also: #SetImage
 	End Rem
 	Method GetImage:LTImage()
 	End Method
@@ -109,6 +119,8 @@ Type LTVisualizer Extends LTObject
 	Rem
 	bbdoc: Sets visualizer image.
 	about: Only for ImageVisualizer, for other visualizers this method will do nothing.
+	
+	See also: #GetImage
 	End Rem
 	Method SetImage( NewImage:LTImage )
 	End Method
@@ -240,6 +252,8 @@ Type LTVisualizer Extends LTObject
 	bbdoc: Draws tile of given tilemap with given coordinates using this visualizer.
 	about: Change this method if you are making your own visualizer.
 	If you are making visualizer for tilemaps, you will probably need to modify only this method.
+	
+	See also: #DrawTileMap
 	End Rem
 	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, TileX:Int, TileY:Int )
 		?debug
@@ -254,6 +268,7 @@ Type LTVisualizer Extends LTObject
 	
 	Rem
 	bbdoc: Applies color given in hex string to visualizer.
+	about: See also: #SetColorFromRGB, #AlterColor, #ApplyColor, #ResetColor
 	End Rem
 	Method SetColorFromHex( S:String )
 		Red = 1.0 * L_HexToInt( S[ 0..2 ] ) / 255.0
@@ -266,6 +281,8 @@ Type LTVisualizer Extends LTObject
 	Rem
 	bbdoc: Applies color given in color intensities to visualizer.
 	about: Every intensity should be in range from 0.0 to 1.0.
+	
+	See also: #SetColorFromHex, #AlterColor, #ApplyColor, #ResetColor
 	End Rem
 	Method SetColorFromRGB( NewRed:Double, NewGreen:Double, NewBlue:Double )
 		?debug
@@ -284,6 +301,8 @@ Type LTVisualizer Extends LTObject
 	Rem
 	bbdoc: Alters color randomly with given increments.
 	about: Every color channel will be altered by random value in D1...D2 interval (value(s) can be negative).
+	
+	See also: #SetColorFromHex, #SetColorFromRGB, #ApplyColor, #ResetColor
 	End Rem
 	Method AlterColor( D1:Double, D2:Double )
 		Red = L_LimitDouble( Red + Rnd( D1, D2 ), 0.0, 1.0 )
@@ -295,6 +314,7 @@ Type LTVisualizer Extends LTObject
 	
 	Rem
 	bbdoc: Sets the color of visualizer as drawing color.
+	about: See also: #SetColorFromHex, #SetColorFromRGB, #AlterColor, #ResetColor
 	End Rem
 	Method ApplyColor()
 		SetColor( 255.0 * Red, 255.0 * Green, 255.0 * Blue )
@@ -305,6 +325,7 @@ Type LTVisualizer Extends LTObject
 	
 	Rem
 	bbdoc: Resets drawing color to white.
+	about: See also: #SetColorFromHex, #SetColorFromRGB, #AlterColor, #ApplyColor
 	End Rem
 	Method ResetColor()
 		SetColor( 255, 255, 255 )

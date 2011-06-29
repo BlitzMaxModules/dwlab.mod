@@ -22,17 +22,21 @@ End Rem
 Type LTProject Extends LTObject
 	Rem
 	bbdoc: Quantity of logic frames per second.
+	about: See also: #Logic
 	End Rem
 	Field LogicFPS:Double = 75
 	
 	Rem
 	bbdoc: Minimal frames per second
 	about: Game will start to go slower if this threshold will be reached.
+	
+	See also: #Render
 	End Rem
 	Field MinFPS:Double = 15
 	
 	Rem
 	bbdoc: Current frames per second quantity.
+	about: See also: #Render
 	End Rem
 	Field FPS:Int
 	
@@ -43,6 +47,7 @@ Type LTProject Extends LTObject
 	
 	Rem
 	bbdoc: Current game time in seconds (starts from 0).
+	about: See also: #PerSecond
 	End Rem
 	Field Time:Double
 	
@@ -50,7 +55,7 @@ Type LTProject Extends LTObject
 	
 	Rem
 	bbdoc: Exit flag.
-	about: Set it to true to exit project.
+	about: Set it to True to exit project.
 	End Rem
 	Field Exiting:Int
 
@@ -67,6 +72,8 @@ Type LTProject Extends LTObject
 	Rem
 	bbdoc: Rendering method.
 	about: Fill it with objects drawing commands. Will be executed as many times as possible, while keeping logic frame rate.
+	
+	See also: #MinFPS, #FPS
 	End Rem
 	Method Render()
 	End Method
@@ -76,6 +83,8 @@ Type LTProject Extends LTObject
 	Rem
 	bbdoc: Logic method. 
 	about: Fill it with project mechanics commands. Will be executed "LogicFPS" times per second.
+	
+	See also: #LogicFPS
 	End Rem
 	Method Logic()
 	End Method
@@ -209,7 +218,7 @@ Type LTProject Extends LTObject
 	
 	
 	Rem
-	bbdoc: Shows various debugging information.
+	bbdoc: Draws various debugging information on screen.
 	End Rem
 	Method ShowDebugInfo( MainLayer:LTLayer )
 		DrawText( "FPS: " + FPS, 0, 0 )

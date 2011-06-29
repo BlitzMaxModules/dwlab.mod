@@ -15,7 +15,9 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.13.3"
+ModuleInfo "History: v1.0 (28.06.11) Initial release"
+
+ModuleInfo "Version: 1.0"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"

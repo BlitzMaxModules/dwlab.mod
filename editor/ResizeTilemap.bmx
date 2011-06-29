@@ -39,7 +39,7 @@ Function ResizeTilemap( TileMap:LTTileMap )
 
 	Repeat
 		SetGraphics( CanvasGraphics( TilemapsCanvas ) )
-		SetGraphicsParameters()
+		SetBlend( AlphaBlend )
 		Cls
 		
 		Local NewXQuantity:Int = NewXQuantityTextField.GetText().ToInt()

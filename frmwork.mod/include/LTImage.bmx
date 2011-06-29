@@ -42,9 +42,8 @@ Type LTImage Extends LTObject
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Initializes image.
+	about: Splits image by XCells x YCells grid. Will be executed after loading image object from XML file.
 	End Rem
 	Method Init()
 		Local Pixmap:TPixmap = LoadPixmap( Filename )

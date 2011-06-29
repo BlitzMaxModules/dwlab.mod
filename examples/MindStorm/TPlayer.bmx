@@ -49,8 +49,6 @@ Type TPlayer Extends LTAngularSprite
 		DirectTo( Game.Target )
 		
 	    LimitWith( Game.Level.Bounds )
-		L_CurrentCamera.JumpTo( Self )
-	    L_CurrentCamera.LimitWith( Game.Level.Bounds )
 		
 		CollisionsWithCollisionMap( Game.Blocks )
 		CollisionsWithCollisionMap( Game.Trees )

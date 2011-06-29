@@ -9,7 +9,7 @@
 '
 
 Rem
-bbdoc: Global variable for debug vesualizer.
+bbdoc: Global variable for debug visualizer.
 End Rem
 Global L_DebugVisualizer:LTDebugVisualizer = New LTDebugVisualizer
 L_DebugVisualizer.SetColorFromRGB( 1.0, 0.0, 1.0 )

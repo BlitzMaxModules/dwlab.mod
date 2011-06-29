@@ -28,7 +28,7 @@ Type TGame Extends LTProject
 	
 	
 	Method Init()
-		InitGraphics( , , 25.0 )
+		L_InitGraphics( , , 25.0 )
 		Map = TGameMap( LoadFromFile( "map.gra" ) )
 		
 		Player.Velocity = 2.0

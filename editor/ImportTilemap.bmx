@@ -56,7 +56,7 @@ Function TilemapImportDialog:Int( Multiple:Int = False )
 		TileSet = New LTTileSet
 		TileSet.Name = "Imported"
 		TileSet.Image = New LTImage
-		TileSet.Image.Filename = ChopFilename( RequestFile( LocalizeString( "{{D_SelectFileToSaveImageTo}}" ), "png", True ) )
+		TileSet.Image.Filename = L_ChopFilename( RequestFile( LocalizeString( "{{D_SelectFileToSaveImageTo}}" ), "png", True ) )
 		If Not TileSet.Image.Filename Then Return False
 		ImageInit = True
 	End If

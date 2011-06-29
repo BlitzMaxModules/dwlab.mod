@@ -213,6 +213,8 @@ Type LTEditor Extends LTProject
 	
 	
 	Method Init()
+		AutoImageFlags( FILTEREDIMAGE | DYNAMICIMAGE )
+		
 		SetLocalizationMode( Localization_On | Localization_Override )
 		EnglishLanguage = LoadLanguage( "incbin::english.lng" )
 		RussianLanguage = LoadLanguage( "incbin::russian.lng" )
@@ -350,8 +352,8 @@ Type LTEditor Extends LTProject
 		CreateMenu( "{{M_SetBounds}}", MenuSetBounds, SpriteMenu )
 	
 		SetGraphics( CanvasGraphics( MainCanvas ) )
-		SetGraphicsParameters()
-		
+		SetBlend( AlphaBlend )
+				
 		SetClsColor( 255, 255, 255 )
 		
 		L_DebugVisualizer.SetColorFromHex( "FF00FF" )
@@ -529,7 +531,7 @@ Type LTEditor Extends LTProject
 			ChangeDir( ExtractDir( Filename ) )
 			
 			For Local Image:LTImage = Eachin World.Images
-				Image.Filename = ChopFilename( String( RealPathsForImages.ValueForKey( Image ) ) )
+				Image.Filename = L_ChopFilename( String( RealPathsForImages.ValueForKey( Image ) ) )
 			Next
 			
 			World.SaveToFile( Filename )

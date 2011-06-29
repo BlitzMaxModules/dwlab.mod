@@ -14,6 +14,7 @@ End Rem
 Type LTTileMap Extends LTIntMap
 	Rem
 	bbdoc: Tilemap's default tileset.
+	about: See also: #LTTileSet
 	End Rem
 	Field TileSet:LTTileset
 	
@@ -31,7 +32,7 @@ Type LTTileMap Extends LTIntMap
 	
 	Rem
 	bbdoc: Number of undrawable tile.
-	about: If this number will be set to o or more, the tile with this index will not be drawn.
+	about: If this number will be set to 0 or more, the tile with this index will not be drawn.
 	End Rem
 	Field EmptyTile:Int = -1
 
@@ -39,8 +40,9 @@ Type LTTileMap Extends LTIntMap
 	' ==================== Parameters ===================	
 	
 	Rem
-	bbdoc: Tilemap tile width.
+	bbdoc: Returns tilemap tile width.
 	returns: Tile width of the tilemap in units.
+	about: See also: #GetTileHeight
 	End Rem
 	Method GetTileWidth:Double()
 			Return Width / XQuantity
@@ -49,7 +51,7 @@ Type LTTileMap Extends LTIntMap
 	
 	
 	Rem
-	bbdoc: Tilemap cell height.
+	bbdoc: Returns tilemap tile height.
 	returns: Tile height of the tilemap in units.
 	End Rem
 	Method GetTileHeight:Double()
@@ -83,6 +85,8 @@ Type LTTileMap Extends LTIntMap
 	Rem
 	bbdoc: Enframes tilemap.
 	about: You can specify tileset for enframing. If no tileset will be specified, tilemap's default tileset will be used.
+	
+	See also: #LTTileSet
 	End Rem
 	Method Enframe( ByTileSet:LTTileset = Null )
 		If Not ByTileSet Then ByTileSet = TileSet
@@ -96,8 +100,9 @@ Type LTTileMap Extends LTIntMap
 	
 	
 	Rem
-	bbdoc: Returns tile index fro given coordinates.
+	bbdoc: Returns tile index for given coordinates.
 	returns: Tile index for given tile coordinates.
+	about: See also: #SetTile
 	End Rem
 	Method GetTile:Int( TileX:Int, TileY:Int )
 		?debug
@@ -111,6 +116,7 @@ Type LTTileMap Extends LTIntMap
 	
 	Rem
 	bbdoc: Sets tile index for given tile coordinates.
+	about: See also: #GetTile
 	End Rem
 	Method SetTile( TileX:Int, TileY:Int, TileNum:Int )
 		?debug
@@ -124,9 +130,9 @@ Type LTTileMap Extends LTIntMap
 	
 	
 	Rem
-	bbdoc: 
-	returns: 
-	about: 
+	bbdoc: Refreshes tile indexes of tilemap.
+	about: Execute this method after lowering tiles quantity of this tilemap or its tileset to avoid errors.
+	Tile indexes will be limited to 0...TilesQuantity - 1 interval.
 	End Rem
 	Method RefreshTilesQuantity()
 		If Not TileSet Then Return

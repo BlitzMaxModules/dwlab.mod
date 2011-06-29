@@ -22,7 +22,7 @@ Type LTPath Extends LTObject
 	Rem
 	bbdoc: Finds a path from one point to another inside graph.
 	returns: Found path or empty path if path is not found.
-	about: 
+	about: See also: LTGraph
 	End Rem
 	Function Find:LTPath( FromPivot:LTSprite, ToPivot:LTSprite, Graph:LTGraph )
 		Local ShortestPath:LTPath= New LTPath	

@@ -10,14 +10,12 @@
 
 Rem
 bbdoc: Prolonging tiles flag.
-about: Defines the method of recognizing tiles outside tilemap.
+about: Defines the method of recognizing tiles outside tilemap for tile replacing/enframing algorythm.
 End Rem
 Global L_ProlongTiles:Int = True
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Tileset stores image and collision shapes of tiles for tilemaps. Also tile replacing/enframing rules are stored here.
 End Rem
 Type LTTileSet Extends LTObject
 	Field Image:LTImage
@@ -49,7 +47,7 @@ Type LTTileSet Extends LTObject
 		BlockHeight = NewBlockHeight
 		CollisionShape = NewCollisionShape
 		TilesQuantity = NewTilesQuantity
-		Init()
+		Update()
 	End Method
 	
 	
@@ -61,13 +59,13 @@ Type LTTileSet Extends LTObject
 		Local CatNum:Int = TileCategory[ TileMap.Value[ X, Y ] ]
 		If CatNum < 0 Then Return
 		Local Category:LTTileCategory = LTTileCategory( Categories.ValueAtIndex( CatNum ) )
-		For Local Rule:LTTileRule = Eachin Category.TileRules
+		For Local Rule:LTTileRule = EachIn Category.TileRules
 			If X Mod Rule.XDivider <> Rule.X Or Y Mod Rule.YDivider <> Rule.Y Then Continue
 			
 			Local Passed:Int = True
-			For Local Pos:LTTilePos = Eachin Rule.TilePositions
+			For Local Pos:LTTilePos = EachIn Rule.TilePositions
 				Local TileCategory:Int = GetTileCategory( TileMap, X + Pos.DX, Y + Pos.DY )
-				if Pos.Category = -1 Then
+				If Pos.Category = -1 Then
 					If TileCategory = CatNum Then
 						Passed = False
 						Exit
@@ -121,7 +119,7 @@ Type LTTileSet Extends LTObject
 	
 	
 	Rem
-	bbdoc: Updates tileset.
+	bbdoc: Updates tileset information.
 	about: This method will be automatically executed after loading tileset. Also execute it after forming or changing tileset categories.
 	End Rem
 	Method Update()
@@ -131,9 +129,9 @@ Type LTTileSet Extends LTObject
 		Next
 		
 		Local CatNum:Int = 0
-		For Local Category:LTTileCategory = Eachin Categories
+		For Local Category:LTTileCategory = EachIn Categories
 			Category.Num = CatNum
-			For Local Rule:LTTileRule = Eachin Category.TileRules
+			For Local Rule:LTTileRule = EachIn Category.TileRules
 				For Local N:Int = 0 Until Rule.TileNums.Dimensions()[ 0 ]
 					If Rule.TileNums[ N ] >= TilesQuantity Then Rule.TileNums[ N ] = TilesQuantity - 1
 					TileCategory[ Rule.TileNums[ N ] ] = Category.Num
@@ -142,11 +140,11 @@ Type LTTileSet Extends LTObject
 			CatNum :+ 1
 		Next
 		
-		For Local Category:LTTileCategory = Eachin Categories
-			For Local Rule:LTTileRule = Eachin Category.TileRules
+		For Local Category:LTTileCategory = EachIn Categories
+			For Local Rule:LTTileRule = EachIn Category.TileRules
 				If Rule.X >= Rule.XDivider Then Rule.X = Rule.XDivider - 1
 				If Rule.Y >= Rule.YDivider Then Rule.Y = Rule.YDivider - 1
-				For Local Pos:LTTilePos = Eachin Rule.TilePositions
+				For Local Pos:LTTilePos = EachIn Rule.TilePositions
 					If Pos.TileNum >= TilesQuantity Then Pos.TileNum = TilesQuantity - 1
 					Pos.Category = TileCategory[ Pos.TileNum ]
 				Next
@@ -190,7 +188,7 @@ Type LTTileSet Extends LTObject
 				Next
 			End If
 			
-			Init()
+			Update()
 		Else
 			Local ArrayXMLObject:LTXMLObject = New LTXMLObject
 			ArrayXMLObject.Name = "ShapeArray"

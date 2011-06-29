@@ -52,7 +52,8 @@ Type LTMap Extends LTShape
 	about: Wrapping means to keep index in the dimension limits.
 	For example, if you will wrap index "5" for map with resolution ( 4x4 ) it will be keeped in 0...3 interval and turned to 1 as 5 + 4 * ( -1 ) = 1.
 	If you wrap index "-2" for the same map, you will get 2 as -2 + 4 * 1 = 2.
-	Index "
+	
+	See also: #WrapY
 	End Rem
 	Method WrapX:Int( Value:Int )
 		Return Value - XQuantity * Floor( 1.0 * Value / XQuantity )
@@ -62,7 +63,7 @@ Type LTMap Extends LTShape
 	Rem
 	bbdoc: Wrapping second map index.
 	returns: Wrapped second index of the map.
-	about: See #WrapX.
+	about: See also: #WrapX
 	End Rem
 	Method WrapY:Int( Value:Int )
 		Return Value - YQuantity * Floor( 1.0 * Value / YQuantity )

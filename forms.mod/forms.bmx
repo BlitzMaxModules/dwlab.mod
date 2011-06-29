@@ -10,6 +10,18 @@
 
 SuperStrict
 
+Rem
+bbdoc: Digital Wizard's Lab Framework GUI form constructor module.
+End Rem
+Module dwlab.forms
+
+ModuleInfo "History: v1.0 (28.06.11) Initial release"
+
+ModuleInfo "Version: 1.0"
+ModuleInfo "Author: Matt Merkulov"
+ModuleInfo "License: Artistic License 2.0"
+ModuleInfo "Modserver: DWLAB"
+
 Import brl.eventqueue
 ?win32
 import maxgui.win32maxguiex

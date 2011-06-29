@@ -41,7 +41,7 @@ Type LTLayer Extends LTGroup
 	Rem
 	bbdoc: Finds shape with given name.
 	returns: First found layer shape with given name.
-	about: IgnorError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
+	about: IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
 	End Rem
 	Method FindShape:LTShape( ShapeName:String, IgnoreError:Int = False )
 		If Name = ShapeName Then Return Self
@@ -62,7 +62,7 @@ Type LTLayer Extends LTGroup
 	Rem
 	bbdoc: Finds shape of class with given name.
 	returns: First found layer shape of class with given name.
-	about: IgnorError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
+	about: IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
 	End Rem
 	Method FindShapeWithType:LTShape( ShapeType:String, Name:String = "", IgnoreError:Int = False )
 		Return FindShapeWithTypeID( L_GetTypeID( ShapeType ), Name, IgnoreError )

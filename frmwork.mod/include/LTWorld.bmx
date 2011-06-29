@@ -29,9 +29,9 @@ Type LTWorld Extends LTLayer
 	
 	
 	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		
 		XMLObject.ManageListField( "images", Images )
 		XMLObject.ManageListField( "tilesets", Tilesets )
-		
-		Super.XMLIO( XMLObject )		
 	End Method
 End Type

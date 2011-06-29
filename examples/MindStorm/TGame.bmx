@@ -9,11 +9,15 @@
 '
 
 Type TGame Extends LTProject
+	Const MinMouseZ:Int = -8
+	Const MaxMouseZ:Int = 8
+	
 	Field World:LTWorld
 	Field Level:LTLayer
 	Field Player:TPlayer
 	Field Target:LTSprite
-	
+	Field DZ:Int
+
 	Field Blocks:LTCollisionMap
 	Field Bullets:LTCollisionMap
 	Field Trees:LTCollisionMap
@@ -36,7 +40,7 @@ Type TGame Extends LTProject
 	
 	
 	Method Init()
-		InitGraphics( 960, 720, 48.0 )
+		L_InitGraphics( 960, 720, 48.0 )
 		HideMouse()
 		World = LTWorld.FromFile( "world.lw" )
 		LoadAndInitLayer( Level, LTLayer( World.FindShape( "LTLayer" ) ) )
@@ -50,6 +54,16 @@ Type TGame Extends LTProject
 	
 	Method Logic()
 		Target.SetMouseCoords()
+		
+		L_CurrentCamera.ShiftCameraToPoint( ( 2.0 * Player.X + Target.X ) / 3.0, ( 2.0 * Player.Y + Target.Y ) / 3.0 )
+		
+		If MouseZ() + DZ > MaxMouseZ Then DZ = MaxMouseZ - MouseZ()
+		If MouseZ() + DZ < MinMouseZ Then DZ = MinMouseZ - MouseZ()
+		Local NewD:Double = L_CurrentCamera.Viewport.Width / 16 * ( 1.1 ^ ( MouseZ() + DZ ) )
+		L_CurrentCamera.AlterCameraMagnification( NewD, NewD )
+		
+	    L_CurrentCamera.LimitWith( Game.Level.Bounds )
+
 		Level.Act()
 		BulletLayer.Act()
 		
@@ -67,5 +81,6 @@ Type TGame Extends LTProject
 	Method Render()
 		Level.Draw()
 		ShowDebugInfo( Level )
+		DrawText( "Move mouse to aim, use WSAD to move, use left mouse button to fire", 0, 704 )
 	End Method
 End Type

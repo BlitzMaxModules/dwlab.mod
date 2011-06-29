@@ -58,7 +58,7 @@ Type TEditor Extends LTProject
 			If CurrentLine Then LTRemoveLineFromGraph.Create( Game.Map, CurrentLine ).Do()
 		End If
 		
-		L_PushUndoList()
+		L_PushActionsList()
 		If KeyHit( Key_Z ) And KeyDown( Key_LControl ) Then L_Undo()
 		If KeyHit( Key_Y ) And KeyDown( Key_LControl ) Then L_Redo()
 	End Method

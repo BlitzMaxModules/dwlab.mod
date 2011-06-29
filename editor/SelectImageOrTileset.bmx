@@ -86,7 +86,7 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 						Else
 							Local Filename:String = RequestFile( LocalizeString( "{{D_SelectImage}}" ), "Image files:png,jpg,bmp" )
 							If Filename Then
-								Filename = ChopFilename( Filename )
+								Filename = L_ChopFilename( Filename )
 								Local LoadedImage:TImage = LoadImage( Filename )
 								If LoadedImage Then
 									Local NewImage:LTImage = New LTImage

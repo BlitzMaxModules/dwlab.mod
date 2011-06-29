@@ -30,6 +30,7 @@ End Function
 
 Rem
 bbdoc: Draws empty rectangle.
+about: See also: #DrawMARect
 End Rem
 Function L_DrawEmptyRect( X1:Double, Y1:Double, X2:Double, Y2:Double )
 	DrawLine( X1, Y1, X2, Y1 )
@@ -56,7 +57,7 @@ End Function
 
 	
 Rem
-bbdoc: Trims trailing zeroes of Double value and cuts all digits after 4 after dot.
+bbdoc: Trims trailing zeroes of Double value and cuts all digits after 4 after point.
 End Rem
 Function L_TrimDouble:String ( Val:Double )
 	Local StrVal:String = Val + "0000"
@@ -114,11 +115,14 @@ End Function
 Rem
 bbdoc: Limits Double value with inerval defined by two Double values.
 returns: Limited Double value.
-about: [
-* If Value is less than FromValue then function returns FromValue
-* If Value is more than ToValue then function returns ToValue
-* Otherwise function returns Value.
-]
+about:
+<ul>
+<li> If Value is less than FromValue then function returns FromValue.
+<li> If Value is more than ToValue then function returns ToValue.
+<li> Otherwise function returns Value.
+</ul>
+
+See also: #L_LimitInt
 End Rem
 Function L_LimitDouble:Double( Value:Double, FromValue:Double, ToValue:Double )
 	?debug
@@ -140,11 +144,14 @@ End Function
 Rem
 bbdoc: Limits Int value with inerval defined by two Int values.
 returns: Limited Int value.
-about: [
-* If Value is less than FromValue then function returns FromValue
-* If Value is more than ToValue then function returns ToValue
-* Otherwise function returns Value.
-]
+about:
+<ul>
+<li> If Value is less than FromValue then function returns FromValue.
+<li> If Value is more than ToValue then function returns ToValue.
+<li> Otherwise function returns Value.
+</ul>
+
+See also: #L_LimitDouble, #L_IntInLimits
 End Rem
 Function L_LimitInt:Int( Value:Int, FromValue:Int, ToValue:Int )
 	?debug
@@ -165,7 +172,8 @@ End Function
 
 Rem
 bbdoc: Checks if given value is the power of 2.
-returns: True is given value is power of 2 otherwise false.
+returns: True is given value is power of 2 otherwise False.
+about: See also: #L_ToPowerOf2
 End Rem
 Function L_IsPowerOf2:Int( Value:Int )
 	If Value + ( Value - 1 ) = Value ~ ( Value - 1 ) Then Return True
@@ -179,6 +187,8 @@ Rem
 bbdoc: Wraps Int value using given size.
 returns: Wrapped Int value.
 about: Function returns Value which will be kept in 0...Size - 1 interval.
+
+See also: #L_WrapInt2, #L_WrapDouble
 End Rem
 Function L_WrapInt:Int( Value:Int, Size:Int )
 	Return Value - Size * Floor( 1.0 * Value / Size )
@@ -191,7 +201,9 @@ End Function
 Rem
 bbdoc: Wraps Int value using given interval defined by two given Int values.
 returns: Wrapped Int value.
-about: Function returns Value which will be kept in FromValue...ToVlaue - 1 interval.
+about: Function returns Value which will be kept in FromValue...ToValue - 1 interval.
+
+See also: #L_WrapInt, #L_WrapDouble
 End Rem
 Function L_WrapInt2:Int( Value:Int, FromValue:Int, ToValue:Int )
 	Local Size:Int = ToValue - FromValue
@@ -205,8 +217,10 @@ End Function
 
 Rem
 bbdoc: Wraps Double value using given size.
-returns: Wrapped Int value.
-about: Function returns Value which will be kept in 0...Size interval.
+returns: Wrapped Double value.
+about: Function returns Value which will be kept in 0...Size interval excluding Size.
+
+See also: #L_WrapInt
 End Rem
 Function L_WrapDouble:Double( Value:Double, Size:Double )
 	Return Value - Size * Floor( Value / Size )
@@ -217,9 +231,9 @@ End Function
 
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Searches for the file with given filename and one of extensions.
+returns: Filename of found file or empty string if file is not found.
+about: Filename without extension will be also checked.
 End Rem
 Function L_TryExtensions:String( Filename:String, Extensions:String[] )
 	If FileType( Filename ) = 1 Then Return Filename
@@ -235,9 +249,7 @@ End Function
 
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Clears pixmap with given color and alpha values.
 End Rem
 Function L_ClearPixmap( Pixmap:TPixmap, Red:Double = 0.0, Green:Double = 0.0, Blue:Double = 0.0, Alpha:Double = 1.0 )
 	Local Col:Int = Int( 255.0 * Red ) + Int( 255.0 * Green ) Shl 8 + Int( 255.0 * Blue ) Shl 16 + Int( 255.0 * Alpha ) Shl 16
@@ -249,9 +261,9 @@ End Function
 
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Rounds double value to nearest integer.
+returns: Rounded value.
+about: Faster than Int().
 End Rem
 Function L_Round:Double( Value:Double )
 	Return Int( Value + 0.5 * Sgn( Value ) )
@@ -260,11 +272,6 @@ End Function
 
 
 
-Rem
-bbdoc: 
-returns: 
-about: 
-End Rem
 Function L_Distance:Double( DX:Double, DY:Double )
 	Return Sqr( DX * DX + DY * DY )
 End Function
@@ -274,11 +281,9 @@ End Function
 	
 	
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Converts full path to path relative to current directory.
 End Rem
-Function ChopFilename:String( Filename:String )
+Function L_ChopFilename:String( Filename:String )
 	Local Dir:String = CurrentDir()
 	?Win32
 	Local Slash:String = "\"
@@ -311,9 +316,8 @@ End Function
 
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Adds Int value to Int array.
+See also: #L_RemoveItemFromintArray
 End Rem
 Function L_AddItemToIntArray( Array:Int[] Var, Item:Int )
 	Local Quantity:Int = Array.Dimensions()[ 0 ]
@@ -330,9 +334,8 @@ End Function
 
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Removes item with given index from Int array.
+See also: #L_AddItemToIntArray
 End Rem
 Function L_RemoveItemFromIntArray( Array:Int[] Var, Index:Int )
 	Local Quantity:Int = Array.Dimensions()[ 0 ]
@@ -356,9 +359,9 @@ End Function
 
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Checks if Int value is in the interval between FromValue and ToValue.
+returns: True if Value is in FromValue...ToValue interval.
+about: See also: #L_LimitInt
 End Rem
 Function L_IntInLimits:Int( Value:Int, FromValue:Int, ToValue:Int )
 	If Value >= FromValue And Value <= ToValue Then Return True
@@ -368,9 +371,9 @@ End Function
 
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Returns TypeID for given class name.
+returns: TypeID for given class name.
+about: If class is not found then error will occur.
 End Rem
 Function L_GetTypeID:TTypeId( TypeName:String )
 	Local TypeID:TTypeId = TTypeID.ForName( TypeName )
@@ -387,9 +390,9 @@ End Function
 
 
 Rem
-bbdoc: 
-returns: 
-about: 
+bbdoc: Returns nearest power of 2.
+returns: Lowest power of 2 which is more than Value.
+See also: #L_IsPowerOf2
 End Rem
 Function L_ToPowerOf2:Int( Value:Int )
 	Local Result:Int = 1

@@ -10,7 +10,7 @@
 
 Rem
 bbdoc: Group of shapes.
-about: Will have a lot of methods duplicating TList's.
+about: It has a lot of methods duplicating methods of TList.
 End Rem
 Type LTGroup Extends LTShape
 	Rem
@@ -133,7 +133,7 @@ Type LTGroup Extends LTShape
 	
 	Rem
 	bbdoc: Update method.
-	about: Size and position of the group will be updated: group rectangular shape fields will cover all of the child shapes.
+	about: Size and position of the group will be updated: group rectangular shape will cover all of the child shapes.
 	End Rem
 	Method Update()
 		Local MinX:Double, MinY:Double

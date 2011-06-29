@@ -1,3 +1,8 @@
+ModuleInfo "History: v1.0 (28.06.11) Initial release"
+ModuleInfo "Version: 1.0"
+ModuleInfo "Author: Matt Merkulov"
+ModuleInfo "License: Artistic License 2.0"
+ModuleInfo "Modserver: DWLAB"
 import brl.blitz
 import brl.eventqueue
 import maxgui.win32maxguiex

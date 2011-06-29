@@ -17,11 +17,13 @@ Type LTCollisionMap Extends LTMap
 	
 	Rem
 	bbdoc: Width of collision map cell in units.
+	about: See also: #SetCellSize
 	End Rem
 	Field CellWidth:Double = 1.0
 	
 	Rem
 	bbdoc: Height of collision map cell in units.
+	about: See also: #SetCellSize
 	End Rem
 	Field CellHeight:Double = 1.0
 	
@@ -54,7 +56,7 @@ Type LTCollisionMap Extends LTMap
 	Rem
 	bbdoc: Sets cell size of collision map.
 	End Rem
-	Method SetMapCellSize( NewCellWidth:Double, NewCellHeight:Double )
+	Method SetCellSize( NewCellWidth:Double, NewCellHeight:Double )
 		CellWidth = NewCellWidth
 		CellHeight = NewCellHeight
 	End Method
@@ -91,6 +93,8 @@ Type LTCollisionMap Extends LTMap
 	Rem
 	bbdoc: Inserts a sprite into collision map.
 	about: Pivot insertion works faster.
+	
+	See also: #RemoveSprite
 	End Rem
 	Method InsertSprite( Sprite:LTSprite, ChangeCollisionMapField:Int = True )
 		Select Sprite.ShapeType
@@ -116,6 +120,8 @@ Type LTCollisionMap Extends LTMap
 	Rem
 	bbdoc: Removes a sprite into collision map.
 	about: Pivot removal works faster.
+	
+	See also: #InsertSprite
 	End Rem
 	Method RemoveSprite( Sprite:LTSprite, ChangeCollisionMapField:Int = True )
 		Select Sprite.ShapeType
@@ -141,6 +147,8 @@ Type LTCollisionMap Extends LTMap
 	Rem
 	bbdoc: Creates collision map.
 	about: You should specify cell quantities and size.
+	
+	See also: #CreateForShape
 	End Rem
 	Function Create:LTCollisionMap( XQuantity:Int, YQuantity:Int, CellWidth:Double = 1.0, CellHeight:Double = 1.0 )
 		Local Map:LTCollisionMap = New LTCollisionMap

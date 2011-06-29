@@ -10,6 +10,7 @@
 
 Rem
 bbdoc: Revolute joint moves angular sprite if parent pivot moves or rotates, but the sprite can be rotated freely.
+about: See also: #LTFixedJoint
 End Rem
 Type LTRevoluteJoint Extends LTBehaviorModel
 	Field ParentPivot:LTAngularSprite

@@ -374,7 +374,7 @@ Type TTilesetRules
 		
 		SetGraphics( CanvasGraphics( Editor.MainCanvas ) )
 		FreeGadget( Window )
-		Tileset.Init()
+		Tileset.Update()
 	End Method
 	
 	
@@ -420,7 +420,7 @@ Type TTilesetRules
 			CurrentTileRule = Null
 			
 			If Copy Then
-				Tileset.Init()
+				Tileset.Update()
 				Local Shift:Int = EnterString( LocalizeString( "{{D_EnterTileShift}}" ) ).ToInt()
 				For Local Rule:LTTileRule = Eachin CurrentCategory.TileRules
 					Local NewRule:LTTileRule = New LTTileRule

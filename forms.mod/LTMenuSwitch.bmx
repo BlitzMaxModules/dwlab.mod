@@ -10,6 +10,9 @@
 
 Global L_MenuSwicthes:TList = New TList
 
+Rem
+bbdoc: Class for switchable menu items connected with corresponding toolbar buttons.
+EndRem
 Type LTMenuSwitch
 	Field Toolbar:TGadget
 	Field MenuItem:TGadget
@@ -17,6 +20,11 @@ Type LTMenuSwitch
 	
 	
 	
+	Rem
+	bbdoc: Creates new menu switch.
+	returns: Menu switch
+	about: You should provide menu text, toolbar gadget, menu number (which should also be a toolbar button number) and menu gadget.
+	EndRem
 	Function Create( Text:String, Toolbar:TGadget, MenuNumber:Int, Menu:TGadget )
 		Local Switch:LTMenuSwitch = New LTMenuSwitch
 		Switch.Toolbar = Toolbar
@@ -27,6 +35,10 @@ Type LTMenuSwitch
 	
 	
 	
+	Rem
+	bbdoc: Searches for menu switch with given number.
+	returns: Found menu switch
+	EndRem
 	Function Find:LTMenuSwitch( MenuNumber:Int )
 		For Local Switch:LTMenuSwitch = EachIn L_MenuSwicthes
 			If Switch.MenuNumber = MenuNumber Then Return Switch
@@ -35,6 +47,10 @@ Type LTMenuSwitch
 	
 	
 	
+	Rem
+	bbdoc: Reads menu switches states from specified file
+	about: States will be stored as list of 0s and 1s.
+	EndRem
 	Function ReadSwitches( File:TStream )
 		For Local Switch:LTMenuSwitch = EachIn L_MenuSwicthes
 			Local Dummy:Int
@@ -44,6 +60,10 @@ Type LTMenuSwitch
 	
 	
 	
+	Rem
+	bbdoc: Saves menu switches states to specified file.
+	about: States will be stored as list of 0s and 1s.
+	EndRem
 	Function SaveSwicthes( File:TStream )
 		For Local Switch:LTMenuSwitch = EachIn L_MenuSwicthes
 			WriteLine( File, Switch.State() )
@@ -52,6 +72,10 @@ Type LTMenuSwitch
 	
 	
 	
+	Rem
+	bbdoc: Sets the state of menu switch to given.
+	about: You should also provide variable which should store switch state.
+	EndRem
 	Method Set( ToState:Int, Variable:Int Var )
 		Variable = ToState
 		If ToState Then
@@ -65,12 +89,19 @@ Type LTMenuSwitch
 	
 	
 	
+	Rem
+	bbdoc: Toggles state of menu switch.
+	EndRem
 	Method Toggle( Variable:Int Var )
 		Set( 1 - State(), Variable )
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: Returns state of menu switch.
+	returns: State of menu switch.
+	EndRem
 	Method State:Int()
 		Return MenuChecked( MenuItem )
 	End Method

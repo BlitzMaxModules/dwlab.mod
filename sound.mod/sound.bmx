@@ -9,7 +9,17 @@
 '
 SuperStrict
 
+Rem
+bbdoc: Digital Wizard's Lab Framework sound module
+End Rem
 Module dwlab.sound
+
+ModuleInfo "History: v1.0 (28.06.11) Initial release"
+
+ModuleInfo "Version: 1.0"
+ModuleInfo "Author: Matt Merkulov"
+ModuleInfo "License: Artistic License 2.0"
+ModuleInfo "Modserver: DWLAB"
 
 ?win32
 Import brl.directsoundaudio

@@ -19,6 +19,7 @@ Type LTImageVisualizer Extends LTVisualizer
 	Rem
 	bbdoc: Creates new image visualizer from image file.
 	returns: New visualizer.
+	about: See also: #FromImage
 	End Rem
 	Function FromFile:LTImageVisualizer( Filename:String, XCells:Int = 1, YCells:Int = 1 )
 		Local ImageVisualizer:LTImageVisualizer = New LTImageVisualizer
@@ -31,6 +32,7 @@ Type LTImageVisualizer Extends LTVisualizer
 	Rem
 	bbdoc: Creates new image visualizer from existing image (LTImage).
 	returns: New visualizer.
+	about: See also: #FromFile
 	End Rem
 	Function FromImage:LTImageVisualizer( Image:LTImage )
 		Local ImageVisualizer:LTImageVisualizer = New LTImageVisualizer

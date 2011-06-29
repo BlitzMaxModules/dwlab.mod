@@ -53,7 +53,9 @@ Type LTObject
 	about: This method is for storing object fields into XML object for saving and retrieving object fields from XML object for loading.
 	You can put different XMLObject commands and your own algorithms for loading / saving data structures here.
 	
-	See also: #XMLObject.ManageIntField.
+	See also: #ManageChildArray, #ManageChildList, #ManageDoubleAttribute, #ManageIntArrayAttribute
+	#ManageIntAttribute, #ManageListField, #ManageObjectArrayField, #ManageObjectAttribute, #ManageObjectField
+	#ManageObjectMapField, #ManageStringAttribute 
 	End Rem
 	Method XMLIO( XMLObject:LTXMLObject )
 		If L_XMLMode = L_XMLSet Then XMLObject.Name = TTypeId.ForObject( Self ).Name()
@@ -64,6 +66,7 @@ Type LTObject
 
 	Rem
 	bbdoc: Loads object with all contents from file.
+	about: See also: #SaveToFile, #XMLIO
 	End Rem
 	Function LoadFromFile:LTObject( FileName:String )
 		L_IDNum = 0
@@ -86,6 +89,7 @@ Type LTObject
 
 	Rem
 	bbdoc: Saves object with all contents to file.
+	about: See also: #LoadFromFile, #XMLIO
 	End Rem
 	Method SaveToFile( FileName:String )
 		L_IDMap = New TMap

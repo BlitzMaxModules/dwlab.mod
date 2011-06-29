@@ -15,52 +15,62 @@ End Rem
 Type LTDoubleMap Extends LTMap
 	Rem
 	bbdoc: Constant for filling red color channel in pixmap.
+	about: See also: #PasteToImage, #PasteToPixmap
 	End Rem
 	Const Red:Int = 0
 
 	Rem
 	bbdoc: Constant for filling green color channel in pixmap.
+	about: See also: #PasteToImage, #PasteToPixmap
 	End Rem
 	Const Green:Int = 1
 
 	Rem
 	bbdoc: Constant for filling blue color channel in pixmap.
+	about: See also: #PasteToImage, #PasteToPixmap
 	End Rem
 	Const Blue:Int = 2
 
 	Rem
 	bbdoc: Constant for filling alpha channel in pixmap (transparency).
+	about: See also: #PasteToImage, #PasteToPixmap
 	End Rem
 	Const Alpha:Int = 3
 
 	Rem
 	bbdoc: Constant for filling all color channels in pixmap (resulting color will be from black to white).
+	about: See also: #PasteToImage, #PasteToPixmap
 	End Rem
 	Const RGB:Int = 4
 	
 
 	Rem
 	bbdoc: Constant for overwriting source heightmap values by destination heightmap values.
+	about: See also: #Overwrite, #Add, #Multiply, #Maximum, #Minimum, #Paste
 	End Rem
 	Const Overwrite:Int = 0
 
 	Rem
 	bbdoc: Constant for adding source heightmap values to destination heightmap values.
+	about: See also: #Overwrite, #Add, #Multiply, #Maximum, #Minimum, #Paste, #Limit
 	End Rem
 	Const Add:Int = 1
 
 	Rem
 	bbdoc: Constant for multiplying source heightmap values by destination heightmap values.
+	about: See also: #Overwrite, #Add, #Multiply, #Maximum, #Minimum, #Paste
 	End Rem
 	Const Multiply:Int = 2
 
 	Rem
 	bbdoc: Constant for selecting maximum value between source heightmap values and destination heightmap values.
+	about: See also: #Overwrite, #Add, #Multiply, #Maximum, #Minimum, #Paste
 	End Rem
 	Const Maximum:Int = 3
 
 	Rem
 	bbdoc: Constant for selecting minimum value between source heightmap values and destination heightmap values.
+	about: See also: #Overwrite, #Add, #Multiply, #Maximum, #Minimum, #Paste
 	End Rem
 	Const Minimum:Int = 4
 
@@ -82,12 +92,14 @@ Type LTDoubleMap Extends LTMap
 	bbdoc: Converts heightmap to new image with single frame.
 	returns: New image.
 	about: By default every color channel will be filled by heightmap values, but you can specify another channel filling mode.
+	
+	See also: #ToNewPixmap, #PasteToImage, #PasteToPixmap
 	End Rem
-	Method ToNewImage:LTImage( Channel:Int = L_RGB )
+	Method ToNewImage:LTImage( Channel:Int = RGB )
 		Local Image:LTImage = New LTImage
 		Image.BMaxImage = CreateImage( XQuantity, YQuantity )
 		
-		ToPixmap( LockImage( Image.BMaxImage ), 0, 0, Channel )
+		PasteToPixmap( LockImage( Image.BMaxImage ), 0, 0, Channel )
 		
 		UnlockImage( Image.BMaxImage )
 		Return Image
@@ -99,11 +111,13 @@ Type LTDoubleMap Extends LTMap
 	bbdoc: Converts heightmap to new pixmap.
 	returns: New pixmap.
 	about: By default every color channel will be filled by heightmap values, but you can specify another channel filling mode.
+	
+	See also: #ToNewImage, #PasteToImage, #PasteToPixmap
 	End Rem
-	Method ToNewPixmap:TPixmap( Channel:Int = L_RGB )
+	Method ToNewPixmap:TPixmap( Channel:Int = RGB )
 		Local Pixmap:TPixmap = CreatePixmap( XQuantity, YQuantity, PF_RGBA8888 )
 		Pixmap.ClearPixels( $FFFFFFFF )
-		ToPixmap( Pixmap, 0, 0, Channel )
+		PasteToPixmap( Pixmap, 0, 0, Channel )
 		Return Pixmap
 	End Method
 	
@@ -112,9 +126,11 @@ Type LTDoubleMap Extends LTMap
 	Rem
 	bbdoc: Pastes heightmap to existing image frame with given shift.
 	about: By default every color channel will be filled by heightmap values, but you can specify another channel filling mode.
+	
+	See also: #ToNewImage, #ToNewPixmap, #PasteToPixmap
 	End Rem
-	Method PasteToImage( Image:LTImage, XShift:Int = 0, YShift:Int = 0, Frame:Int = 0, Channel:Int = L_RGB )
-		ToPixmap( LockImage( Image.BMaxImage, Frame ), XShift, YShift, Channel )
+	Method PasteToImage( Image:LTImage, XShift:Int = 0, YShift:Int = 0, Frame:Int = 0, Channel:Int = RGB )
+		PasteToPixmap( LockImage( Image.BMaxImage, Frame ), XShift, YShift, Channel )
 		UnlockImage( Image.BMaxImage )
 	End Method
 	
@@ -123,8 +139,10 @@ Type LTDoubleMap Extends LTMap
 	Rem
 	bbdoc: Pastes heightmap to existing pixmap with given shift.
 	about: By default every color channel will be filled by heightmap values, but you can specify another channel filling mode.
+	
+	See also: #ToNewImage, #ToNewPixmap, #PasteToImage
 	End Rem
-	Method PasteToPixmap( Pixmap:TPixmap, XShift:Int = 0, YShift:Int = 0, Channel:Int = L_RGB )
+	Method PasteToPixmap( Pixmap:TPixmap, XShift:Int = 0, YShift:Int = 0, Channel:Int = RGB )
 		For Local Y:Int = 0 Until YQuantity
 			For Local X:Int = 0 Until XQuantity
 				Local Col:Int = Int( 255.0 * Value[ X, Y ] + 0.5 )
@@ -162,8 +180,10 @@ Type LTDoubleMap Extends LTMap
 	bbdoc: Pastes one heightmap over another.
 	about: You can change coordinate shift and pasting mode.
 	All parts of source heightmap which will be outside destination pixmap will be wrapped around destination pixmap.
+	
+	See also: #Overwrite, #Add, #Multiply, #Maximum, #Minimum, #Paste
 	End Rem
-	Method Paste( SourceMap:LTDoubleMap, X:Int, Y:Int, Mode:Int = L_Overwrite )
+	Method Paste( SourceMap:LTDoubleMap, X:Int, Y:Int, Mode:Int = Overwrite )
 		For Local Y0:Int = 0 Until SourceMap.YQuantity
 			For Local X0:Int = 0 Until SourceMap.XQuantity
 				Local XX:Int, YY:Int
@@ -215,6 +235,7 @@ Type LTDoubleMap Extends LTMap
 	
 	Rem
 	bbdoc: Blurs the heightmap with simple 3x3 filter.
+	about: See also: #PerlinNoise
 	End Rem
 	Method Blur()
 		Local NewArray:Double[ XQuantity, YQuantity ]
@@ -241,6 +262,7 @@ Type LTDoubleMap Extends LTMap
 	
 	Rem
 	bbdoc: Fills heightmap with perlin noise.
+	about: See also: #Blur
 	End Rem
 	Method PerlinNoise( StartingXFrequency:Int, StartingYFrequency:Double, StartingAmplitude:Double, DAmplitude:Double, LayersQuantity:Int )
 		Local XFrequency:Int = StartingXFrequency
@@ -304,7 +326,7 @@ Type LTDoubleMap Extends LTMap
 	
 	Rem
 	bbdoc: Draws anti-aliased circle on the heightmap.
-	about: Parts of circle which will be ouside the heightma, will be wrapped around.
+	about: Parts of circle which will be ouside the heightmap, will be wrapped around.
 	End Rem
 	Method DrawCircle( XCenter:Double, YCenter:Double, Radius:Double, Color:Double = 1.0 )
 		For Local Y:Int = Floor( YCenter - Radius ) To Ceil( YCenter + Radius )

@@ -11,15 +11,19 @@
 Rem
 bbdoc: Vector sprite has horizontal and vertical velocities forming velocity vector.
 about: Handy for projects with gravity, platformers for example.
+
+See also: #LTSprite, #LTAngularSprite
 End Rem
 Type LTVectorSprite Extends LTSprite
 	Rem
 	bbdoc: Horizontal velocity of the sprite.
+	about: See also: #MoveForward
 	End Rem
 	Field DX:Double
 	
 	Rem
 	bbdoc: Vertical velocity of the sprite.
+	about: See also: #MoveForward
 	End Rem
 	Field DY:Double
 	

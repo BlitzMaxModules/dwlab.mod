@@ -45,6 +45,7 @@ Type LTGraph Extends LTShape
 	
 	Rem
 	bbdoc: Draws pivots using given visualizer.
+	about: See also: #DrawLinesUsing
 	End Rem
 	Method DrawPivotsUsing( Visualizer:LTVisualizer )
 		For Local Pivot:LTSprite = Eachin Pivots.Keys()
@@ -57,6 +58,7 @@ Type LTGraph Extends LTShape
 	
 	Rem
 	bbdoc: Draws lines using given visualizer.
+	about: See also: #DrawPivotsUsing
 	End Rem
 	Method DrawLinesUsing( Visualizer:LTVisualizer )
 		For Local Line:LTLine = Eachin Lines.Keys()
@@ -68,6 +70,7 @@ Type LTGraph Extends LTShape
 	
 	Rem
 	bbdoc: Adds pivot to the graph.
+	about: See also: #RemovePivot, #FindPivotCollidingWith, #ContainsPivot
 	End Rem
 	Method AddPivot:TList( Pivot:LTSprite )
 		Local List:TList = TList( Pivots.ValueForKey( Pivot ) )
@@ -84,6 +87,8 @@ Type LTGraph Extends LTShape
 	bbdoc: Adds line to the graph.
 	about: If you'll try to add line which already exists in the graph, an error will occur.
 	Pivots of the line will be also inserted into the graph if they are not already there.
+	
+	See also: #RemoveLine, #FindLineCollidingWith, #ContainsLine, #FindLine
 	End Rem
 	Method AddLine( Line:LTLine )
 		?debug
@@ -102,6 +107,8 @@ Type LTGraph Extends LTShape
 	Rem
 	bbdoc: Remove pivot from the graph.
 	about: Line with this pivot will be also removed.
+	
+	See also: #AddPivot, #FindPivotCollidingWith, #ContainsPivot
 	End Rem
 	Method RemovePivot( Pivot:LTSprite )
 		Local List:TList = TList( Pivots.ValueForkey( Pivot ) )
@@ -120,6 +127,8 @@ Type LTGraph Extends LTShape
 	Rem
 	bbdoc: Removes line from the graph.
 	about: If line is not in the graph, you will encounter an error.
+	
+	See also: #AddLine, #FindLineCollidingWith, #ContainsLine, #FindLine
 	End Rem
 	Method RemoveLine( Line:LTLine )
 		?debug
@@ -134,8 +143,7 @@ Type LTGraph Extends LTShape
 	
 	Rem
 	bbdoc: Finds pivot which collides with given sprite.
-	returns: 
-	about: 
+	about: See also: #AddPivot, #RemovePivot, #ContainsPivot
 	End Rem
 	Method FindPivotCollidingWith:LTSprite( Sprite:LTSprite )
 		For Local Pivot:LTSprite = Eachin Pivots.Keys()
@@ -147,6 +155,7 @@ Type LTGraph Extends LTShape
 
 	Rem
 	bbdoc: Finds line which collides with given sprite.
+	See also: #AddLine, #RemoveLine, #ContainsLine, #FindLine
 	End Rem
 	Method FindLineCollidingWith:LTLine( Sprite:LTSprite )
 		For Local Line:LTLine = Eachin Lines.Keys()
@@ -159,6 +168,7 @@ Type LTGraph Extends LTShape
 	Rem
 	bbdoc: Checks if graph contains given pivot.
 	returns: True if pivot is in the graph, otherwise False.
+	about: See also: #AddPivot, #RemovePivot, #FindPivotCollidingWith
 	End Rem
 	Method ContainsPivot:Int( Pivot:LTSprite )
 		If Pivots.ValueForKey( Pivot ) Then Return True
@@ -169,6 +179,7 @@ Type LTGraph Extends LTShape
 	Rem
 	bbdoc: Checks if graph contains given line.
 	returns: True if line is in the graph, otherwise False.
+	See also: #AddLine, #RemoveLine, #FindLineCollidingWith, #FindLine
 	End Rem
 	Method ContainsLine:Int( Line:LTLine )
 		If Lines.ValueForKey( Line ) Then Return True
@@ -178,6 +189,7 @@ Type LTGraph Extends LTShape
 	
 	Rem
 	bbdoc: Finds a line in the graph for given pivots.
+	See also: #AddLine, #RemoveLine, #FindLineCollidingWith, #ContainsLine
 	End Rem
 	Method FindLine:LTLine( Pivot1:LTSprite, Pivot2:LTSprite )
 		If Pivot1 = Pivot2 Then Return Null

@@ -22,6 +22,7 @@ End Rem
 Type LTCamera Extends LTSprite
 	Rem
 	bbdoc: Viewport rectangular shape.
+	about: See also: #ViewportClipping, #SetCameraViewport, #ResetViewport
 	End Rem
 	Field Viewport:LTShape = New LTShape
 	
@@ -31,6 +32,8 @@ Type LTCamera Extends LTSprite
 	Rem
 	bbdoc: Viewport clipping flag
 	about: Defines will the objects parts outside viewport be clipped. Defaults to True.
+	
+	See also: #Viewport, #SetCameraViewport, #ResetViewport
 	End Rem
 	Field ViewportClipping:Int = True
 	
@@ -38,6 +41,7 @@ Type LTCamera Extends LTSprite
 	
 	Rem
 	bbdoc: Transforms screen coordinates to game field coordinates.
+	about: See also: #SizeScreenToField, #DistScreenToField, #FieldToScreen, #SizeFieldToScreen, #DistFieldToScreen
 	End Rem
 	Method ScreenToField( ScreenX:Double, ScreenY:Double, FieldX:Double Var, FieldY:Double Var )
 		FieldX = ScreenX / XK - DX
@@ -48,6 +52,7 @@ Type LTCamera Extends LTSprite
 	
 	Rem
 	bbdoc: Transforms size of the object on the screen in pixels to size of this object on game field in units.
+	about: See also: #ScreenToField, #DistScreenToField, #FieldToScreen, #SizeFieldToScreen, #DistFieldToScreen
 	End Rem
 	Method SizeScreenToField( ScreenWidth:Double, ScreenHeight:Double, FieldWidth:Double Var, FieldHeight:Double Var )
 		FieldWidth = ScreenWidth / XK
@@ -58,8 +63,7 @@ Type LTCamera Extends LTSprite
 	
 	Rem
 	bbdoc: Transforms distance from the screen to field coordinate system.
-	returns: 
-	about: 
+	about: See also: #ScreenToField, #SizeScreenToField, #FieldToScreen, #SizeFieldToScreen, #DistFieldToScreen
 	End Rem
 	Method DistScreenToField:Double( ScreenDist:Double )
 		Return ScreenDist / XK
@@ -69,6 +73,7 @@ Type LTCamera Extends LTSprite
 	
 	Rem
 	bbdoc: Transforms game field coordinates to the screen coordinates.
+	about: See also: #ScreenToField, #SizeScreenToField, #DistScreenToField, #SizeFieldToScreen, #DistFieldToScreen
 	End Rem
 	Method FieldToScreen( FieldX:Double, FieldY:Double, ScreenX:Double Var, ScreenY:Double Var )
 		ScreenX = ( FieldX + DX ) * XK
@@ -79,6 +84,7 @@ Type LTCamera Extends LTSprite
 	
 	Rem
 	bbdoc: Transforms size of the object on the field in units to size of this object on screen in pixels.
+	about: See also: #ScreenToField, #SizeScreenToField, #DistScreenToField, #FieldToScreen, #DistFieldToScreen
 	End Rem
 	Method SizeFieldToScreen( FieldWidth:Double, FieldHeight:Double, ScreenWidth:Double Var, ScreenHeight:Double Var )
 		ScreenWidth = FieldWidth * XK
@@ -89,6 +95,7 @@ Type LTCamera Extends LTSprite
 	
 	Rem
 	bbdoc: Transforms field distance to the screen distance.
+	about: See also: #ScreenToField, #SizeScreenToField, #DistScreenToField, #FieldToScreen, #SizeFieldToScreen
 	End Rem
 	Method DistFieldToScreen:Double( ScreenDist:Double )
 		Return ScreenDist * XK
@@ -99,6 +106,8 @@ Type LTCamera Extends LTSprite
 	Rem
 	bbdoc: Set viewport cliiping for camera.
 	about: If ViewportClipping flag is set to False, then this command does nothing.
+	
+	See also: #Viewport, #ViewportClipping, #ResetViewport
 	End Rem
 	Method SetCameraViewport()
 		If Not ViewportClipping Then Return
@@ -110,6 +119,7 @@ Type LTCamera Extends LTSprite
 	
 	Rem
 	bbdoc: Resets viewport to whole screen.
+	about: See also: #Viewport, #ViewportClipping, #SetCameraViewport
 	End Rem
 	Method ResetViewport()
 		SetViewport( 0, 0, GraphicsWidth(), GraphicsHeight() )
@@ -117,11 +127,6 @@ Type LTCamera Extends LTSprite
 	
 	
 	
-	Rem
-	bbdoc: 
-	returns: 
-	about: 
-	End Rem
 	Method SetMagnification( NewXK:Double, NewYK:Double )
 		XK = NewXK
 		YK = NewYK
@@ -131,11 +136,6 @@ Type LTCamera Extends LTSprite
 	
 	
 	
-	Rem
-	bbdoc: 
-	returns: 
-	about: 
-	End Rem
 	Method ShiftCameraToPoint( NewX:Double, NewY:Double )
 		X :+ L_CameraSpeed * L_DeltaTime * ( NewX - X )
 		Y :+ L_CameraSpeed * L_DeltaTime * ( NewY - Y )
@@ -144,11 +144,6 @@ Type LTCamera Extends LTSprite
 	
 	
 	
-	Rem
-	bbdoc: 
-	returns: 
-	about: 
-	End Rem
 	Method AlterCameraMagnification( NewXK:Double, NewYK:Double )
 		SetMagnification( XK + L_CameraMagnificationSpeed * L_DeltaTime * ( NewXK - XK ), ..
 		 YK + L_CameraMagnificationSpeed * L_DeltaTime * ( NewYK - YK ) )
@@ -168,7 +163,6 @@ Type LTCamera Extends LTSprite
 	Rem
 	bbdoc: Creates new camera object.
 	returns: New camera object.
-	about: 
 	End Rem
 	Function Create:LTCamera( Width:Double, Height:Double, UnitSize:Double )
 		Local Camera:LTCamera = New LTCamera
@@ -190,7 +184,7 @@ Rem
 bbdoc: Sets graphics mode.
 about: Provide width and height of screen in pixels and unit size in pixels for camera.
 End Rem
-Function InitGraphics( Width:Int = 800, Height:Int = 600, UnitSize:Double = 32.0 )
+Function L_InitGraphics( Width:Int = 800, Height:Int = 600, UnitSize:Double = 32.0 )
 	Graphics( Width, Height )
 	L_CurrentCamera = LTCamera.Create( Width, Height, UnitSize )
 	AutoImageFlags( FILTEREDIMAGE | DYNAMICIMAGE )

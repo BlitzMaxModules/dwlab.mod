@@ -22,6 +22,8 @@ Type LTBitmapFont Extends LTObject
 	Rem
 	bbdoc: Prints text using bitmap font.
 	about: You should specify text, coordinates, font height and alignment.
+	
+	See also: #LTAlign, #PrintInShape
 	End Rem
 	Method Print( Text:String, X:Double, Y:Double, FontHeightInUnits:Double, HorizontalAlignment:Int = LTAlign.ToLeft, VerticalAlignment:Int = LTAlign.ToTop )
 		Local SX:Double, SY:Double
@@ -60,6 +62,8 @@ Type LTBitmapFont Extends LTObject
 	Rem
 	bbdoc: Prints text inside given shape using bitmap font.
 	about: You should specify text, shape and alignment.
+	
+	See also: #LTAlign, #Print
 	End Rem
 	Method PrintInShape( Text:String, Shape:LTShape, FontHeightInUnits:Double, HorizontalAlignment:Int = LTAlign.ToLeft, VerticalAlignment:Int = LTAlign.ToTop )
 		Local X:Double, Y:Double

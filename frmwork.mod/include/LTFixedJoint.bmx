@@ -10,6 +10,7 @@
 
 Rem
 bbdoc: Fixed joint moves and rotates angular sprite as parent angular sprite moves or rotates.
+about: See also: #LTRevoluteJoint
 End Rem
 Type LTFixedJoint Extends LTBehaviorModel
 	Field ParentPivot:LTAngularSprite
