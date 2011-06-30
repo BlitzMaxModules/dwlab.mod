@@ -285,15 +285,13 @@ bbdoc: Converts full path to path relative to current directory.
 End Rem
 Function L_ChopFilename:String( Filename:String )
 	Local Dir:String = CurrentDir()
-	?Win32
-	Local Slash:String = "\"
-	Dir = Dir.Replace( "/", "\" ) + Slash
-	Filename = Filename.Replace( "/", "\" )
-	?Linux
 	Local Slash:String = "/"
-	Dir = Dir + Slash
+	?Win32
+	Slash = "\"
+	Dir = Dir.Replace( "/", "\" )
+	Filename = Filename.Replace( "/", "\" )
 	?
-	'debugstop
+	Dir :+ Slash
 	For Local N:Int = 0 Until Len( Dir )
 		If N => Len( Filename ) Then Return Filename
 		If Dir[ N ] <> Filename[ N ] Then

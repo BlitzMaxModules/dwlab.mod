@@ -15,6 +15,7 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
+ModuleInfo "History: v1.0.0.1 (30.06.11) Fixed bug of ChopFilename function under Mac."
 ModuleInfo "History: v1.0 (28.06.11) Initial release"
 
 ModuleInfo "Version: 1.0"
