@@ -65,7 +65,7 @@ Type LTImageVisualizer Extends LTVisualizer
 		SetAlpha Alpha
 	
 		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
-		L_CurrentCamera.FieldToScreen( Sprite.X + DX, Sprite.Y + DY, SX, SY )
+		L_CurrentCamera.FieldToScreen( Sprite.X + DX * XScale * Sprite.Width, Sprite.Y + DY * YScale * Sprite.Height, SX, SY )
 		
 		Local AngularSprite:LTAngularSprite = LTAngularSprite( Sprite )
 		If Rotating And AngularSprite Then

@@ -28,11 +28,18 @@ Type LTCollisionMap Extends LTMap
 	Field CellHeight:Double = 1.0
 	
 	Rem
-	bbdoc: Border for drawing collision map in units.
-	about: When drawing collision map, border defines the size of rectangular frame around camera's rectangle in which objects will be also drawn.
-	Will be handy if you draw collision map with objects with XScale / YSclae parameters greater than 1.0.
+	bbdoc: Margins for drawing collision map in units.
+	about: When drawing collision map, margins define the size of rectangular frame around camera's rectangle in which objects will be also drawn.
+	Will be handy if you draw collision map with objects with XScale / YScale parameters greater than 1.0.
 	End Rem
-	Field Border:Double
+	Field LeftMargin:Double, RightMargin:Double
+	Field TopMargin:Double, BottomMargin:Double
+	
+	Rem
+	bbdoc: Flag which defines will be the collision map sorted by sprite Y coordinates.
+	about: False by default.
+	End Rem
+	Field Sorted:Int = False
 	
 	' ==================== Parameters ====================
 	
@@ -61,29 +68,99 @@ Type LTCollisionMap Extends LTMap
 		CellHeight = NewCellHeight
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Sets all margins to single value.
+	End Rem
+	Method SetBorder( Border:Double )
+		SetMargins( Border, Border, Border, Border )
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Sets margins of the map.
+	End Rem
+	Method SetMargins( NewLeftMargin:Double, NewTopMargin:Double, NewRightMargin:Double, NewBottomMargin:Double )
+		LeftMargin = NewLeftMargin
+		TopMargin = NewTopMargin
+		RightMargin = NewRightMargin
+		BottomMargin = NewBottomMargin
+	End Method
+	
 	' ==================== Drawing ===================	
 	
 	Rem
-	bbdoc: Draws all objects of collision map which are in cells under camera's rectangle and border aroud it.
+	bbdoc: Draws all objects of collision map which are in cells under camera's rectangle plus margins.
 	End Rem
 	Method Draw()
+		DrawUsingVisualizer( Null )
+	End Method
+	
+	
+	
+	Method DrawUsingVisualizer( Vis:LTVisualizer )
 		If Visible Then
-			Local MapX1:Int = Floor( ( L_CurrentCamera.X - 0.5 * L_CurrentCamera.Width - Border ) / CellWidth )
-			Local MapY1:Int = Floor( ( L_CurrentCamera.Y - 0.5 * L_CurrentCamera.Height - Border ) / CellHeight )
-			Local MapX2:Int = Floor( ( L_CurrentCamera.X + 0.5 * L_CurrentCamera.Width - L_Inaccuracy + Border ) / CellWidth )
-			Local MapY2:Int = Floor( ( L_CurrentCamera.Y + 0.5 * L_CurrentCamera.Height - L_Inaccuracy + Border ) / CellHeight )
+			Local MapX1:Int = Floor( ( L_CurrentCamera.X - 0.5 * L_CurrentCamera.Width - LeftMargin ) / CellWidth )
+			Local MapY1:Int = Floor( ( L_CurrentCamera.Y - 0.5 * L_CurrentCamera.Height - TopMargin ) / CellHeight )
+			Local MapX2:Int = Floor( ( L_CurrentCamera.X + 0.5 * L_CurrentCamera.Width - L_Inaccuracy + RightMargin ) / CellWidth )
+			Local MapY2:Int = Floor( ( L_CurrentCamera.Y + 0.5 * L_CurrentCamera.Height - L_Inaccuracy + BottomMargin ) / CellHeight )
 			
 			Local SpriteMap:TMap = New TMap
 			
+			Local XLink:TLink[]
+			If Sorted Then XLink = New TLink[ MapX2 - MapX1 + 1 ]
+			
 			For Local Y:Int = MapY1 To MapY2
-				For Local X:Int = MapX1 To MapX2
-					For Local Sprite:LTSprite = Eachin Sprites[ X & XMask, Y & YMask ]
+				Local MaskedY:Int = Y & YMask
+				If Sorted Then
+					For Local X:Int = MapX1 To MapX2
+						XLink[ X - MapX1 ] = Sprites[ X & XMask, MaskedY ].FirstLink()
+					Next
+					
+					Repeat
+						Local MinY:Double
+						Local StoredX:Int
+						Local StoredLink:TLink = Null
+						For Local X:Int = 0 To MapX2 - MapX1
+							Local Link:TLink = XLink[ X & XMask ]
+							if Not Link Then Continue
+							Local Sprite:LTSprite = LTSprite( Link.Value() )
+							If Not StoredLink Or MinY < Sprite.Y Then
+								MinY = Sprite.Y
+								StoredX = X
+								StoredLink = Link
+							End If
+						Next
+						If Not StoredLink Then Exit
+						
+						Local Sprite:LTSprite = LTSprite( StoredLink.Value() )
 						If Not SpriteMap.Contains( Sprite ) Then
-							Sprite.Draw()
+							If Vis Then
+								Vis.DrawUsingSprite( Sprite )
+							Else
+								Sprite.Draw()
+							End If
 							SpriteMap.Insert( Sprite, Null )
 						End If
+						
+						XLink[ StoredX & XMask ] = StoredLink.NextLink()
+					Forever
+				Else
+					For Local X:Int = MapX1 To MapX2
+						For Local Sprite:LTSprite = Eachin Sprites[ X & XMask, MaskedY ]
+							If Not SpriteMap.Contains( Sprite ) Then
+								If Vis Then
+									Vis.DrawUsingSprite( Sprite )
+								Else
+									Sprite.Draw()
+								End If
+								SpriteMap.Insert( Sprite, Null )
+							End If
+						Next
 					Next
-				Next
+				End If
 			Next
 		End If
 	End Method
@@ -99,7 +176,11 @@ Type LTCollisionMap Extends LTMap
 	Method InsertSprite( Sprite:LTSprite, ChangeCollisionMapField:Int = True )
 		Select Sprite.ShapeType
 			Case LTSprite.Pivot
-				Sprites[ Int( Sprite.X / CellWidth ) & XMask, Int( Sprite.Y / CellHeight ) & YMask ].AddLast( Sprite )
+				If Sorted Then
+					InsertSpriteTo( Sprite, Int( Sprite.X / CellWidth ) & XMask, Int( Sprite.Y / CellHeight ) & YMask )
+				Else
+					Sprites[ Int( Sprite.X / CellWidth ) & XMask, Int( Sprite.Y / CellHeight ) & YMask ].AddFirst( Sprite )
+				End If
 			Default
 				Local MapX1:Int = Floor( ( Sprite.X - 0.5 * Sprite.Width ) / CellWidth )
 				Local MapY1:Int = Floor( ( Sprite.Y - 0.5 * Sprite.Height ) / CellHeight )
@@ -108,11 +189,36 @@ Type LTCollisionMap Extends LTMap
 				
 				For Local Y:Int = MapY1 To MapY2
 					For Local X:Int = MapX1 To MapX2
-						Sprites[ X & XMask, Y & YMask ].AddFirst( Sprite )
+						If Sorted Then
+							InsertSpriteTo( Sprite, X & XMask, Y & YMask )
+						Else
+							Sprites[ X & XMask, Y & YMask ].AddFirst( Sprite )
+						End If
 					Next
 				Next
 		End Select
 		If ChangeCollisionMapField Then Sprite.CollisionMap = Self
+	End Method
+	
+	
+	
+	Method InsertSpriteTo( Sprite:LTSprite, MapX:Int, MapY:Int )
+		Local List:TList = Sprites[ MapX, MapY ]
+		Local Link:TLink = List.FirstLink()
+		Repeat
+			If Not Link Then
+				List.AddLast( Sprite )
+				Exit
+			End If
+			
+			Local ListSprite:LTSprite = LTSprite( Link.Value() )
+			If Sprite.Y < ListSprite.Y Then
+				List.InsertBeforeLink( Sprite, Link )
+				Exit
+			End If
+			
+			Link = Link.NextLink()
+		Forever
 	End Method
 	
 	
@@ -150,11 +256,12 @@ Type LTCollisionMap Extends LTMap
 	
 	See also: #CreateForShape
 	End Rem
-	Function Create:LTCollisionMap( XQuantity:Int, YQuantity:Int, CellWidth:Double = 1.0, CellHeight:Double = 1.0 )
+	Function Create:LTCollisionMap( XQuantity:Int, YQuantity:Int, CellWidth:Double = 1.0, CellHeight:Double = 1.0, Sorted:Int = False )
 		Local Map:LTCollisionMap = New LTCollisionMap
 		Map.SetResolution( XQuantity, YQuantity )
 		Map.CellWidth = CellWidth
 		Map.CellHeight = CellHeight
+		Map.Sorted = Sorted
 		Return Map
 	End Function
 	
@@ -165,7 +272,7 @@ Type LTCollisionMap Extends LTMap
 	about: Collision map with size not less than shape size will be created. You can specify cell size either.
 	Use this function ob layer bounds or layer tilemap which are covers all level to maximize performance.
 	End Rem
-	Function CreateForShape:LTCollisionMap( Shape:LTShape, CellSize:Double = 1.0 )
-		Return Create( L_ToPowerOf2( Shape.Width / CellSize ), L_ToPowerOf2( Shape.Height / CellSize ), CellSize, CellSize )
+	Function CreateForShape:LTCollisionMap( Shape:LTShape, CellSize:Double = 1.0, Sorted:Int = False )
+		Return Create( L_ToPowerOf2( Shape.Width / CellSize ), L_ToPowerOf2( Shape.Height / CellSize ), CellSize, CellSize, Sorted )
 	End Function
 End Type

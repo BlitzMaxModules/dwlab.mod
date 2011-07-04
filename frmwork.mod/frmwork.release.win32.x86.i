@@ -1,3 +1,4 @@
+ModuleInfo "History: v1.0.0.1 (30.06.11) Fixed bug of ChopFilename function under Mac."
 ModuleInfo "History: v1.0 (28.06.11) Initial release"
 ModuleInfo "Version: 1.0"
 ModuleInfo "Author: Matt Merkulov"
@@ -373,16 +374,24 @@ LTCollisionMap^LTMap{
 .Sprites:brl.linkedlist.TList&[,]&
 .CellWidth!&
 .CellHeight!&
-.Border!&
+.LeftMargin!&
+.RightMargin!&
+.TopMargin!&
+.BottomMargin!&
+.Sorted%&
 -New%()="_dwlab_frmwork_LTCollisionMap_New"
 -Delete%()="_dwlab_frmwork_LTCollisionMap_Delete"
 -SetResolution%(NewXQuantity%,NewYQuantity%)="_dwlab_frmwork_LTCollisionMap_SetResolution"
 -SetCellSize%(NewCellWidth!,NewCellHeight!)="_dwlab_frmwork_LTCollisionMap_SetCellSize"
+-SetBorder%(Border!)="_dwlab_frmwork_LTCollisionMap_SetBorder"
+-SetMargins%(NewLeftMargin!,NewTopMargin!,NewRightMargin!,NewBottomMargin!)="_dwlab_frmwork_LTCollisionMap_SetMargins"
 -Draw%()="_dwlab_frmwork_LTCollisionMap_Draw"
+-DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTCollisionMap_DrawUsingVisualizer"
 -InsertSprite%(Sprite:LTSprite,ChangeCollisionMapField%=1)="_dwlab_frmwork_LTCollisionMap_InsertSprite"
+-InsertSpriteTo%(Sprite:LTSprite,MapX%,MapY%)="_dwlab_frmwork_LTCollisionMap_InsertSpriteTo"
 -RemoveSprite%(Sprite:LTSprite,ChangeCollisionMapField%=1)="_dwlab_frmwork_LTCollisionMap_RemoveSprite"
-+Create:LTCollisionMap(XQuantity%,YQuantity%,CellWidth!=1!,CellHeight!=1!)="_dwlab_frmwork_LTCollisionMap_Create"
-+CreateForShape:LTCollisionMap(Shape:LTShape,CellSize!=1!)="_dwlab_frmwork_LTCollisionMap_CreateForShape"
++Create:LTCollisionMap(XQuantity%,YQuantity%,CellWidth!=1!,CellHeight!=1!,Sorted%=0)="_dwlab_frmwork_LTCollisionMap_Create"
++CreateForShape:LTCollisionMap(Shape:LTShape,CellSize!=1!,Sorted%=0)="_dwlab_frmwork_LTCollisionMap_CreateForShape"
 }="dwlab_frmwork_LTCollisionMap"
 LTLine^LTShape{
 .Pivot:LTSprite&[]&
