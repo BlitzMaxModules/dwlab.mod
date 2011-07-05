@@ -23,7 +23,7 @@ Type TCreateSprite Extends LTDrag
 	
 	
 	Method DraggingConditions:Int()
-		If Not Editor.CurrentTilemap Then Return True
+		If Not Editor.CurrentTileMap And Editor.CurrentContainer Then Return True
 	End Method
 	
 	
@@ -65,7 +65,13 @@ Type TCreateSprite Extends LTDrag
 			Sprite.Visualizer = New LTImageVisualizer
 		End If
 		
-		Editor.CurrentLayer.AddLast( Sprite )
+		Local Layer:LTLayer = LTLayer( Editor.CurrentContainer )
+		If Layer Then
+			Layer.AddLast( Sprite )
+		Else
+			LTCollisionMap( Editor.CurrentContainer ).InsertSprite( Sprite )
+		End If
+		
 		Editor.SelectShape( Sprite )
 	End Method
 	
@@ -75,17 +81,19 @@ Type TCreateSprite Extends LTDrag
 		Local X:Double = Editor.Cursor.X
 		Local Y:Double = Editor.Cursor.Y
 		Editor.Grid.Snap( X, Y )
+		Local CollisionMap:LTCollisionMap = Editor.UnRegisterShape( Sprite )
 		Sprite.X = 0.5 * ( X + StartX )
 		Sprite.Y = 0.5 * ( Y + StartY )
 		Sprite.Width = Abs( X - StartX )
 		Sprite.Height = Abs( Y - StartY )
+		Editor.RegisterShape( Sprite, CollisionMap )
 	End Method
 	
 	
 	
 	Method EndDragging()
 		If Not Sprite.Width Or Not Sprite.Height Then
-			Editor.CurrentLayer.Remove( Sprite )
+			Editor.RemoveFromCurrentContainer( Sprite )
 		Else
 			Editor.SetChanged()
 			If Not Sprite.Visualizer.GetImage() Then SelectImageOrTileset( Sprite )

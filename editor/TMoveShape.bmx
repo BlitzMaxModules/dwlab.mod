@@ -47,8 +47,10 @@ Type TMoveShape Extends LTDrag
 		Editor.Grid.Snap( DX, DY )
 		
 		For Local Shape:LTShape = Eachin Editor.SelectedShapes
+			Local CollisionMap:LTCollisionMap = Editor.UnRegisterShape( Shape )
 			Shape.X :+ DX - LastDX
 			Shape.Y :+ DY - LastDY
+			Editor.RegisterShape( Shape, CollisionMap )
 		Next
 		
 		LastDX = DX

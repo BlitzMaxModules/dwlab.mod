@@ -459,15 +459,6 @@ Direct the sprite to center of the given shape.
 <tr><td class=docleft width=1%><a href=#MoveTowards>MoveTowards</a></td><td class=docright>
 Moves the sprite with current velocity towards shape.
 </td></tr>
-<tr><td class=docleft width=1%><a href=#MoveUsingArrows>MoveUsingArrows</a></td><td class=docright>
-Allowing moving the sprite around with current velocity with Arrow keys.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#MoveUsingKeys>MoveUsingKeys</a></td><td class=docright>
-Allowing moving the sprite around with current velocity with given keys.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#MoveUsingWSAD>MoveUsingWSAD</a></td><td class=docright>
-Allowing moving the sprite around with current velocity with WSAD keys.
-</td></tr>
 <tr><td class=docleft width=1%><a href=#Turn>Turn</a></td><td class=docright>
 Turns the sprite.
 </td></tr>
@@ -496,21 +487,6 @@ Turns the sprite.
 <tr><td class=doctop colspan=2>Method MoveTowards( Shape:LTShape )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Moves the sprite with current velocity towards shape.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#MoveForward>MoveForward</a>.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=MoveUsingArrows>
-<tr><td class=doctop colspan=2>Method MoveUsingArrows()</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Allowing moving the sprite around with current velocity with Arrow keys.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#MoveUsingWSAD>MoveUsingWSAD</a>, <a href=#MoveUsingKeys>MoveUsingKeys</a>, <a href=#Move>Move</a>.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=MoveUsingKeys>
-<tr><td class=doctop colspan=2>Method MoveUsingKeys( KUp:Int, KDown:Int, KLeft:Int, KRight:Int )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Allowing moving the sprite around with current velocity with given keys.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#MoveUsingArrows>MoveUsingArrows</a>, <a href=#MoveUsingWSAD>MoveUsingWSAD</a>, <a href=#Move>Move</a>.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=MoveUsingWSAD>
-<tr><td class=doctop colspan=2>Method MoveUsingWSAD()</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Allowing moving the sprite around with current velocity with WSAD keys.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#MoveUsingArrows>MoveUsingArrows</a>, <a href=#MoveUsingKeys>MoveUsingKeys</a>, <a href=#Move>Move</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Turn>
 <tr><td class=doctop colspan=2>Method Turn( TurningSpeed:Double )</td></tr>
@@ -792,16 +768,18 @@ See also: <a href=#Viewport>Viewport</a>, <a href=#ViewportClipping>ViewportClip
 <tr><td class=docleft width=1%>Information</td><td class=docright>Operations like drawing and checking collision between large groups of sprites will be faster with use of collision maps.</td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTCollisionMap_fields></a>Fields Summary</th></tr><tr><td colspan=2>
-<a href=#Border>Border</a>
-, 
 <a href=#CellHeight>CellHeight</a>
 , 
 <a href=#CellWidth>CellWidth</a>
+, 
+<a href=#LeftMargin>LeftMargin</a>
+, 
+<a href=#Sorted>Sorted</a>
 </td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTCollisionMap_methods></a>Methods Summary</th></tr>
 <tr><td class=docleft width=1%><a href=#Draw>Draw</a></td><td class=docright>
-Draws all objects of collision map which are in cells under camera's rectangle and border aroud it.
+Draws all objects of collision map which are in cells under camera's rectangle plus margins.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#InsertSprite>InsertSprite</a></td><td class=docright>
 Inserts a sprite into collision map.
@@ -809,8 +787,14 @@ Inserts a sprite into collision map.
 <tr><td class=docleft width=1%><a href=#RemoveSprite>RemoveSprite</a></td><td class=docright>
 Removes a sprite into collision map.
 </td></tr>
+<tr><td class=docleft width=1%><a href=#SetBorder>SetBorder</a></td><td class=docright>
+Sets all margins to single value.
+</td></tr>
 <tr><td class=docleft width=1%><a href=#SetCellSize>SetCellSize</a></td><td class=docright>
 Sets cell size of collision map.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetMargins>SetMargins</a></td><td class=docright>
+Sets margins of the map.
 </td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTCollisionMap_functions></a>Functions Summary</th></tr>
@@ -820,12 +804,6 @@ Creates collision map.
 <tr><td class=docleft width=1%><a href=#CreateForShape>CreateForShape</a></td><td class=docright>
 Creates collision map using existing shape.
 </td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=Border>
-<tr><td class=doctop colspan=2>Field Border:Double</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Border for drawing collision map in units.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>When drawing collision map, border defines the size of rectangular frame around camera's rectangle in which objects will be also drawn.
-Will be handy if you draw collision map with objects with XScale / YSclae parameters greater than 1.0.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=CellHeight>
 <tr><td class=doctop colspan=2>Field CellHeight:Double = 1.0</td></tr>
@@ -837,9 +815,20 @@ Will be handy if you draw collision map with objects with XScale / YSclae parame
 <tr><td class=docleft width=1%>Description</td><td class=docright>Width of collision map cell in units.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#SetCellSize>SetCellSize</a>.</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=LeftMargin>
+<tr><td class=doctop colspan=2>Field LeftMargin:Double, RightMargin:Double</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Margins for drawing collision map in units.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>When drawing collision map, margins define the size of rectangular frame around camera's rectangle in which objects will be also drawn.
+Will be handy if you draw collision map with objects with XScale / YScale parameters greater than 1.0.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Sorted>
+<tr><td class=doctop colspan=2>Field Sorted:Int = False</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Flag which defines will be the collision map sorted by sprite Y coordinates.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>False by default.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=Draw>
 <tr><td class=doctop colspan=2>Method Draw()</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Draws all objects of collision map which are in cells under camera's rectangle and border aroud it.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Draws all objects of collision map which are in cells under camera's rectangle plus margins.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=InsertSprite>
 <tr><td class=doctop colspan=2>Method InsertSprite( Sprite:LTSprite, ChangeCollisionMapField:Int = True )</td></tr>
@@ -855,19 +844,27 @@ See also: <a href=#RemoveSprite>RemoveSprite</a>.</td></tr>
 <p>
 See also: <a href=#InsertSprite>InsertSprite</a>.</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=SetBorder>
+<tr><td class=doctop colspan=2>Method SetBorder( Border:Double )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets all margins to single value.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=SetCellSize>
 <tr><td class=doctop colspan=2>Method SetCellSize( NewCellWidth:Double, NewCellHeight:Double )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Sets cell size of collision map.</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=SetMargins>
+<tr><td class=doctop colspan=2>Method SetMargins( NewLeftMargin:Double, NewTopMargin:Double, NewRightMargin:Double, NewBottomMargin:Double )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets margins of the map.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=Create>
-<tr><td class=doctop colspan=2>Function Create:LTCollisionMap( XQuantity:Int, YQuantity:Int, CellWidth:Double = 1.0, CellHeight:Double = 1.0 )</td></tr>
+<tr><td class=doctop colspan=2>Function Create:LTCollisionMap( XQuantity:Int, YQuantity:Int, CellWidth:Double = 1.0, CellHeight:Double = 1.0, Sorted:Int = False )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Creates collision map.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>You should specify cell quantities and size.
 <p>
 See also: <a href=#CreateForShape>CreateForShape</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=CreateForShape>
-<tr><td class=doctop colspan=2>Function CreateForShape:LTCollisionMap( Shape:LTShape, CellSize:Double = 1.0 )</td></tr>
+<tr><td class=doctop colspan=2>Function CreateForShape:LTCollisionMap( Shape:LTShape, CellSize:Double = 1.0, Sorted:Int = False )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Creates collision map using existing shape.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Collision map with size not less than shape size will be created. You can specify cell size either.
 Use this function ob layer bounds or layer tilemap which are covers all level to maximize performance.</td></tr>
@@ -1018,7 +1015,7 @@ Tilemap and heightmap must have same resolution.</td></tr>
 Use this method after applying unsafe operations on heightmap, for example adding another heightmap to it.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Paste>
-<tr><td class=doctop colspan=2>Method Paste( SourceMap:LTDoubleMap, X:Int, Y:Int, Mode:Int = L_Overwrite )</td></tr>
+<tr><td class=doctop colspan=2>Method Paste( SourceMap:LTDoubleMap, X:Int, Y:Int, Mode:Int = Overwrite )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Pastes one heightmap over another.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>You can change coordinate shift and pasting mode.
 All parts of source heightmap which will be outside destination pixmap will be wrapped around destination pixmap.
@@ -1026,14 +1023,14 @@ All parts of source heightmap which will be outside destination pixmap will be w
 See also: <a href=#Overwrite>Overwrite</a>, <a href=#Add>Add</a>, <a href=#Multiply>Multiply</a>, <a href=#Maximum>Maximum</a>, <a href=#Minimum>Minimum</a>, <a href=#Paste>Paste</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=PasteToImage>
-<tr><td class=doctop colspan=2>Method PasteToImage( Image:LTImage, XShift:Int = 0, YShift:Int = 0, Frame:Int = 0, Channel:Int = L_RGB )</td></tr>
+<tr><td class=doctop colspan=2>Method PasteToImage( Image:LTImage, XShift:Int = 0, YShift:Int = 0, Frame:Int = 0, Channel:Int = RGB )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Pastes heightmap to existing image frame with given shift.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>By default every color channel will be filled by heightmap values, but you can specify another channel filling mode.
 <p>
 See also: <a href=#ToNewImage>ToNewImage</a>, <a href=#ToNewPixmap>ToNewPixmap</a>, <a href=#PasteToPixmap>PasteToPixmap</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=PasteToPixmap>
-<tr><td class=doctop colspan=2>Method PasteToPixmap( Pixmap:TPixmap, XShift:Int = 0, YShift:Int = 0, Channel:Int = L_RGB )</td></tr>
+<tr><td class=doctop colspan=2>Method PasteToPixmap( Pixmap:TPixmap, XShift:Int = 0, YShift:Int = 0, Channel:Int = RGB )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Pastes heightmap to existing pixmap with given shift.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>By default every color channel will be filled by heightmap values, but you can specify another channel filling mode.
 <p>
@@ -1045,7 +1042,7 @@ See also: <a href=#ToNewImage>ToNewImage</a>, <a href=#ToNewPixmap>ToNewPixmap</
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#Blur>Blur</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=ToNewImage>
-<tr><td class=doctop colspan=2>Method ToNewImage:LTImage( Channel:Int = L_RGB )</td></tr>
+<tr><td class=doctop colspan=2>Method ToNewImage:LTImage( Channel:Int = RGB )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>New image.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Converts heightmap to new image with single frame.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>By default every color channel will be filled by heightmap values, but you can specify another channel filling mode.
@@ -1053,7 +1050,7 @@ See also: <a href=#ToNewImage>ToNewImage</a>, <a href=#ToNewPixmap>ToNewPixmap</
 See also: <a href=#ToNewPixmap>ToNewPixmap</a>, <a href=#PasteToImage>PasteToImage</a>, <a href=#PasteToPixmap>PasteToPixmap</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=ToNewPixmap>
-<tr><td class=doctop colspan=2>Method ToNewPixmap:TPixmap( Channel:Int = L_RGB )</td></tr>
+<tr><td class=doctop colspan=2>Method ToNewPixmap:TPixmap( Channel:Int = RGB )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>New pixmap.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Converts heightmap to new pixmap.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>By default every color channel will be filled by heightmap values, but you can specify another channel filling mode.
@@ -1801,7 +1798,7 @@ See also: <a href=#LogicFPS>LogicFPS</a>.</td></tr>
 See also: <a href=#MinFPS>MinFPS</a>, <a href=#FPS>FPS</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=ShowDebugInfo>
-<tr><td class=doctop colspan=2>Method ShowDebugInfo( MainLayer:LTLayer )</td></tr>
+<tr><td class=doctop colspan=2>Method ShowDebugInfo()</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Draws various debugging information on screen.</td></tr>
 </table>
 <br>
@@ -1950,6 +1947,15 @@ Limits shape with given rectangular shape.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#Move>Move</a></td><td class=docright>
 Moves the shape.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#MoveUsingArrows>MoveUsingArrows</a></td><td class=docright>
+Allowing moving the shape around with given velocity with Arrow keys.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#MoveUsingKeys>MoveUsingKeys</a></td><td class=docright>
+Allowing moving the shape around with with given keys and velocity.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#MoveUsingWSAD>MoveUsingWSAD</a></td><td class=docright>
+Allowing moving the shape around with given velocity with WSAD keys.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#PlaceBetween>PlaceBetween</a></td><td class=docright>
 Places the shape between two another shapes.
@@ -2288,6 +2294,21 @@ See also: <a href=#LimitHorizontallyWith>LimitHorizontallyWith</a>, <a href=#Lim
 <tr><td class=doctop colspan=2>Method Move( DX:Double, DY:Double )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Moves the shape.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>The shape will be moved with given horizontal and vertical speed per second.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=MoveUsingArrows>
+<tr><td class=doctop colspan=2>Method MoveUsingArrows( Velocity:Double )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Allowing moving the shape around with given velocity with Arrow keys.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#MoveUsingWSAD>MoveUsingWSAD</a>, <a href=#MoveUsingKeys>MoveUsingKeys</a>, <a href=#Move>Move</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=MoveUsingKeys>
+<tr><td class=doctop colspan=2>Method MoveUsingKeys( KUp:Int, KDown:Int, KLeft:Int, KRight:Int, Velocity:Double )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Allowing moving the shape around with with given keys and velocity.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#MoveUsingArrows>MoveUsingArrows</a>, <a href=#MoveUsingWSAD>MoveUsingWSAD</a>, <a href=#Move>Move</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=MoveUsingWSAD>
+<tr><td class=doctop colspan=2>Method MoveUsingWSAD( Velocity:Double )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Allowing moving the shape around with given velocity with WSAD keys.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#MoveUsingArrows>MoveUsingArrows</a>, <a href=#MoveUsingKeys>MoveUsingKeys</a>, <a href=#Move>Move</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=PlaceBetween>
 <tr><td class=doctop colspan=2>Method PlaceBetween( Shape1:LTShape, Shape2:LTShape, K:Double )</td></tr>
@@ -3122,9 +3143,21 @@ See also: <a href=#ManageIntAttribute>ManageIntAttribute</a>, <a href=#ManageDou
 <br>
 <h2 id=modinfo>Module Information</h2>
 <table width=100%>
-<tr><th width=1%>History</th><td>v1.0 (28.06.11) Initial release</td></tr>
-<tr><th width=1%>Version</th><td>1.0</td></tr>
+<tr><th width=1%>Version</th><td>1.0.1.1</td></tr>
 <tr><th width=1%>Author</th><td>Matt Merkulov</td></tr>
 <tr><th width=1%>License</th><td>Artistic License 2.0</td></tr>
 <tr><th width=1%>Modserver</th><td>DWLAB</td></tr>
+<tr><th width=1%>History</th><td>v1.0.1.1 (05.07.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; ShowDebugInfo() method is now without parameters.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; MoveUsingKeys() methods are now in LTShape and have velocity parameter.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Max2D drivers import is now inside framework.</td></tr>
+<tr><th width=1%>History</th><td>v1.0.1 (04.07.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added sorting parameter to collision maps.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Border parameter of collision map is turned to 4 margin parameters.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Now setting all collision map margins to one value is possible by using SetBorder() method.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Visualizer's DX and DY parameters are now image-relative.</td></tr>
+<tr><th width=1%>History</th><td>v1.0.0.1 (30.06.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed bug of ChopFilename() function under Mac.</td></tr>
+<tr><th width=1%>History</th><td>v1.0 (28.06.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Initial release.</td></tr>
 </body></html>

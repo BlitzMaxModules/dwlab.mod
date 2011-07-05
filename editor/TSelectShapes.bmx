@@ -49,7 +49,7 @@ Type TSelectShapes Extends LTDrag
 	
 	Method EndDragging()
 		Editor.CurrentShape = Null
-		ProcessLayer( Editor.CurrentLayer )
+		ProcessLayer( Editor.CurrentViewLayer )
 		Editor.FillShapeFields()
 		Editor.RefreshProjectManager()
 		Frame = Null
@@ -59,16 +59,19 @@ Type TSelectShapes Extends LTDrag
 	
 	Method ProcessLayer( ParentLayer:LTLayer )
 		For Local Shape:LTShape = Eachin ParentLayer.Children
-			Local Layer:LTLayer = LTLayer( Shape )
-			If Layer Then
-				ProcessLayer( Layer )
+			Local Sprite:LTSprite = LTSprite( Shape )
+			If Sprite Then
+				If Frame.Overlaps( Sprite ) Then
+					Editor.SelectedShapes.AddLast( Shape )
+					If Not Editor.CurrentShape Then Editor.CurrentShape = Sprite
+				End If
 			Else
-				Local Sprite:LTSprite = LTSprite( Shape )
-				If Sprite Then
-					If Frame.Overlaps( Sprite ) Then
-						Editor.SelectedShapes.AddLast( Shape )
-						If Not Editor.CurrentShape Then Editor.CurrentShape = Sprite
-					End If
+				Local CollisionMap:LTCollisionMap = LTCollisionMap( Shape )
+				If CollisionMap Then
+					
+				Else
+					Local Layer:LTLayer = LTLayer( Shape )
+					If Layer Then ProcessLayer( Layer )
 				End If
 			End If
 		Next

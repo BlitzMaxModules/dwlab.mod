@@ -15,14 +15,33 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "History: v1.0.1 (04.07.11) Added sorting parameter to collision maps. Visualizer's DX and DY parameters are now image-relative."
-ModuleInfo "History: v1.0.0.1 (30.06.11) Fixed bug of ChopFilename function under Mac."
-ModuleInfo "History: v1.0 (28.06.11) Initial release"
-
-ModuleInfo "Version: 1.0"
+ModuleInfo "Version: 1.0.1.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
+
+ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.1.1 (05.07.11)"
+ModuleInfo "History: &nbsp; &nbsp; ShowDebugInfo() method is now without parameters."
+ModuleInfo "History: &nbsp; &nbsp; MoveUsingKeys() methods are now in LTShape and have velocity parameter."
+ModuleInfo "History: &nbsp; &nbsp; Max2D drivers import is now inside framework."
+ModuleInfo "History: v1.0.1 (04.07.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added sorting parameter to collision maps."
+ModuleInfo "History: &nbsp; &nbsp; Border parameter of collision map is turned to 4 margin parameters."
+ModuleInfo "History: &nbsp; &nbsp; Now setting all collision map margins to one value is possible by using SetBorder() method."
+ModuleInfo "History: &nbsp; &nbsp; Visualizer's DX and DY parameters are now image-relative."
+ModuleInfo "History: v1.0.0.1 (30.06.11)"
+ModuleInfo "History: &nbsp; &nbsp; Fixed bug of ChopFilename() function under Mac."
+ModuleInfo "History: v1.0 (28.06.11)"
+ModuleInfo "History: &nbsp; &nbsp; Initial release."
+
+?win32
+Import brl.d3d7max2d
+?linux
+Import brl.glmax2d
+?macos
+Import brl.glmax2d
+?
 
 Import brl.random
 Import brl.reflection

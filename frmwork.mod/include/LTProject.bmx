@@ -220,7 +220,7 @@ Type LTProject Extends LTObject
 	Rem
 	bbdoc: Draws various debugging information on screen.
 	End Rem
-	Method ShowDebugInfo( MainLayer:LTLayer )
+	Method ShowDebugInfo()
 		DrawText( "FPS: " + FPS, 0, 0 )
 		DrawText( "Memory: " + Int( GCMemAlloced() / 1024 ) + "kb", 0, 16 )
 		

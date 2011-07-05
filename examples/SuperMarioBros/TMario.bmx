@@ -394,7 +394,7 @@ Type TSitting Extends LTBehaviorModel
   Method Activate( Shape:LTShape )
     Shape.SetHeight( 1.4 )
     Shape.AlterCoords( 0, 0.3 )
-    Shape.Visualizer.DY = -0.3
+    Shape.Visualizer.DY = -0.3 / 2.0
     Shape.Visualizer.YScale = 2.0 / 1.4
     Shape.DeactivateModel( "TMoving" )
   End Method

@@ -80,7 +80,7 @@ Type TGame Extends LTProject
 	
 	Method Render()
 		Level.Draw()
-		ShowDebugInfo( Level )
+		ShowDebugInfo()
 		DrawText( "Move mouse to aim, use WSAD to move, use left mouse button to fire", 0, 704 )
 	End Method
 End Type

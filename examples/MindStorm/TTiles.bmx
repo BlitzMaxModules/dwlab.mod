@@ -48,7 +48,7 @@ Type TTiles Extends LTTileMap
 		TileSet.CollisionShape[ 16 ] = CollisionShape
 		
 		Game.Trees = LTCollisionMap.CreateForShape( Self, 5.0 )
-		Game.Trees.Border = 2.5
+		Game.Trees.SetBorder( 2.5 )
 		For Local N:Int = 1 To TreesQuantity
 			Local NewObject:TGameObject = New TGameObject
 			NewObject.SetCoords( Rnd( 0.0, FieldSize ), Rnd( 0.0, FieldSize ) )

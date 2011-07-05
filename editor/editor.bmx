@@ -11,14 +11,6 @@
 
 SuperStrict
 
-?win32
-Framework brl.d3d7max2d
-?linux
-Framework brl.glmax2d
-?macos
-Framework brl.glmax2d
-?
-
 Import brl.pngloader
 Import brl.jpgloader
 Import brl.bmploader
@@ -43,6 +35,7 @@ Include "AddOKCancelButtons.bmx"
 Include "SelectImageOrTileset.bmx"
 Include "ImageProperties.bmx"
 Include "TileCollisionShapes.bmx"
+Include "CollisionMapProperties.bmx"
 
 Incbin "english.lng"
 Incbin "russian.lng"
@@ -54,7 +47,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.3.4"
+	Const Version:String = "1.4"
 	Const INIVersion:Int = 3
 	Const ModifierSize:Int = 3
 	
@@ -128,13 +121,15 @@ Type LTEditor Extends LTProject
 	
 	Field LayerMenu:TGadget
 	Field TilemapMenu:TGadget
+	Field CollisionMapMenu:TGadget
 	Field SpriteMenu:TGadget
 	
 	Field World:LTWorld = New LTWorld
 	Field RealPathsForImages:TMap = New TMap
 	Field BigImages:TMap = New TMap
-	Field CurrentLayer:LTLayer
-	Field CurrentTilemap:LTTileMap
+	Field CurrentViewLayer:LTLayer
+	Field CurrentTileMap:LTTileMap
+	Field CurrentContainer:LTShape
 	Field CurrentShape:LTShape
 	Field SelectedShape:LTShape
 	Field SpriteModel:Int
@@ -181,6 +176,8 @@ Type LTEditor Extends LTProject
 	Const MenuRussian:Int = 32
 	Const MenuEnglish:Int = 33
 	
+	Const MenuToggleVisibility:Int =  30
+	Const MenuToggleActivity:Int =  31
 	Const MenuRename:Int = 35
 	Const MenuShiftToTheTop:Int = 36
 	Const MenuShiftUp:Int = 37
@@ -189,16 +186,15 @@ Type LTEditor Extends LTProject
 	Const MenuRemove:Int = 40
 	Const MenuSetBounds:Int = 28
 
-	Const MenuSelect:Int = 41
+	Const MenuSelectViewLayer:Int = 41
+	Const MenuSelectContainer:Int = 45
 	Const MenuAddLayer:Int = 19
 	Const MenuAddTilemap:Int = 20
 	Const MenuImportTilemap:Int = 21
 	Const MenuImportTilemaps:Int = 22
+	Const MenuAddCollisionMap:Int = 44
 	Const MenuRemoveBounds:Int = 29
 
-	Const MenuToggleVisibility:Int =  30
-	Const MenuToggleActivity:Int =  31
-		
 	Const MenuEditTilemap:Int = 23
 	Const MenuSelectTileMap:Int = 27
 	Const MenuSelectTileset:Int = 24
@@ -206,6 +202,8 @@ Type LTEditor Extends LTProject
 	Const MenuTilemapSettings:Int = 25
 	Const MenuEditReplacementRules:Int = 26
 	Const MenuEditTileCollisionShapes:Int = 43
+	
+	Const MenuCollisionMapProperties:Int = 46
 
 	Const PanelHeight:Int = 320
 	Const BarWidth:Int = 256
@@ -325,19 +323,19 @@ Type LTEditor Extends LTProject
 		UpdateWindowMenu( Window )
 		
 		LayerMenu = CreateMenu( "", 0, null )
-		CreateMenu( "{{M_Select}}", MenuSelect, LayerMenu )
+		CreateMenu( "{{M_SelectViewLayer}}", MenuSelectViewLayer, LayerMenu )
+		CreateMenu( "{{M_SelectContainer}}", MenuSelectContainer, LayerMenu )
 		CreateMenu( "{{M_AddLayer}}", MenuAddLayer, LayerMenu )
 		CreateMenu( "{{M_AddTilemap}}", MenuAddTilemap, LayerMenu )
 		CreateMenu( "{{M_ImportTilemap}}", MenuImportTilemap, LayerMenu )
 		CreateMenu( "{{M_ImportTilemaps}}", MenuImportTilemaps, LayerMenu )
+		CreateMenu( "{{M_AddCollisionMap}}", MenuAddCollisionMap, LayerMenu )
 		CreateMenu( "{{M_RemoveBounds}}", MenuRemoveBounds, LayerMenu )
 		AddCommonMenuItems( LayerMenu )
 		
 		TilemapMenu = CreateMenu( "", 0, null )
 		CreateMenu( "{{M_EditTilemap}}", MenuEditTilemap, TilemapMenu )
 		CreateMenu( "{{M_Select}}", MenuSelectTileMap, TilemapMenu )
-		CreateMenu( "{{M_ToggleVisibility}}", MenuToggleVisibility, TilemapMenu )
-		CreateMenu( "{{M_ToggleActivity}}", MenuToggleActivity, TilemapMenu )
 		CreateMenu( "{{M_SelectTileset}}", MenuSelectTileset, TilemapMenu )
 		CreateMenu( "{{M_ResizeTilemap}}", MenuResizeTilemap, TilemapMenu )
 		CreateMenu( "{{M_EditTileCollisionShapes}}", MenuEditTileCollisionShapes, TilemapMenu )
@@ -345,9 +343,12 @@ Type LTEditor Extends LTProject
 		CreateMenu( "{{M_SetBounds}}", MenuSetBounds, TilemapMenu )
 		AddCommonMenuItems( TilemapMenu )
 		
+		CollisionMapMenu = CreateMenu( "", 0, null )
+		CreateMenu( "{{M_SelectContainer}}", MenuSelectContainer, CollisionMapMenu )
+		CreateMenu( "{{M_CollisionMapProperties}}", MenuCollisionMapProperties, CollisionMapMenu )
+		AddCommonMenuItems( CollisionMapMenu )
+		
 		SpriteMenu = CreateMenu( "", 0, null )
-		CreateMenu( "{{M_ToggleVisibility}}", MenuToggleVisibility, SpriteMenu )
-		CreateMenu( "{{M_ToggleActivity}}", MenuToggleActivity, SpriteMenu )
 		AddCommonMenuItems( SpriteMenu )
 		CreateMenu( "{{M_SetBounds}}", MenuSetBounds, SpriteMenu )
 	
@@ -436,6 +437,8 @@ Type LTEditor Extends LTProject
 	
 	
 	Method AddCommonMenuItems( Menu:TGadget )
+		CreateMenu( "{{M_ToggleVisibility}}", MenuToggleVisibility, SpriteMenu )
+		CreateMenu( "{{M_ToggleActivity}}", MenuToggleActivity, SpriteMenu )
 		CreateMenu( "{{M_Rename}}", MenuRename, Menu )
 		CreateMenu( "{{M_ShiftToTheTop}}", MenuShiftToTheTop, Menu )
 		CreateMenu( "{{M_ShiftUp}}", MenuShiftUp, Menu )
@@ -479,12 +482,12 @@ Type LTEditor Extends LTProject
 		WorldFilename = ""
 		World = New LTWorld
 		CurrentShape = Null
-		CurrentTilemap = Null
-		CurrentLayer = Null
+		CurrentTileMap = Null
 		SelectedShapes.Clear()
 		RealPathsForImages.Clear()
 		BigImages.Clear()
-		AddLayer( "LTLayer" )
+		CurrentViewLayer = AddLayer( "LTLayer" )
+		CurrentContainer = CurrentViewLayer
 		RefreshProjectManager()
 	End Method
 	
@@ -503,9 +506,10 @@ Type LTEditor Extends LTProject
 			
 			CurrentShape = Null
 			CurrentTilemap = Null
-			CurrentLayer = Null
+			CurrentViewLayer = Null
 			SelectedShapes.Clear()
-			If Not World.Children.IsEmpty() Then CurrentLayer = LTLayer( World.Children.First() )
+			If Not World.Children.IsEmpty() Then CurrentViewLayer = LTLayer( World.Children.First() )
+			CurrentContainer = CurrentViewLayer
 			
 			RealPathsForImages.Clear()
 			BigImages.Clear()
@@ -591,15 +595,17 @@ Type LTEditor Extends LTProject
 						EvID = Event_MenuAction
 					Case ProjectManager
 						SelectedShape = LTShape( GadgetExtra( TGadget( EventExtra() ) ) )
+						EvID = Event_MenuAction
 						If LTLayer( SelectedShape ) Then
-							EvID = Event_MenuAction
-							EvData = MenuSelect
+							EvData = MenuSelectViewLayer
 						ElseIf LTTileMap( SelectedShape ) Then
-							EvID = Event_MenuAction
 							EvData = MenuEditTilemap
+						ElseIf LTCollisionMap( SelectedShape ) Then
+							EvData = MenuSelectContainer
 						Else
 							DeselectTilemap()
 							SelectShape( SelectedShape )
+							EvID = Event_GadgetAction
 						End If
 				End Select
 			Case Event_MenuAction
@@ -629,7 +635,7 @@ Type LTEditor Extends LTProject
 					Case Key_Delete
 						If Not SelectedShapes.IsEmpty() Then
 							For Local Obj:LTShape = Eachin SelectedShapes
-								CurrentLayer.Remove( Obj )
+								RemoveObject( Obj, World )
 							Next
 							SetChanged()
 							SelectedShapes.Clear()
@@ -708,9 +714,11 @@ Type LTEditor Extends LTProject
 						End If
 					Case MenuRemove
 						RemoveObject( SelectedShape, World )
-						If SelectedShape = CurrentLayer Then CurrentLayer = Null
-						If SelectedShape = CurrentTilemap Then DeselectTilemap() Else RefreshProjectManager()
+						If SelectedShape = CurrentViewLayer Then CurrentViewLayer = Null
+						If SelectedShape = CurrentTilemap Then DeselectTilemap()
+						If SelectedShape = CurrentContainer Then CurrentContainer = Null
 						SetChanged()
+						RefreshProjectManager()
 					Case MenuToggleVisibility
 						SelectedShape.Visible = Not SelectedShape.Visible
 						SetChanged()
@@ -761,17 +769,21 @@ Type LTEditor Extends LTProject
 						
 					' ============================= Layer menu ==================================
 					
-					Case MenuSelect
+					Case MenuSelectViewLayer
 						DeselectTilemap()
-						SelectLayer( LTLayer( SelectedShape ) )
+						CurrentViewLayer = LTLayer( SelectedShape )
+						RefreshProjectManager()
+					Case MenuSelectContainer
+						CurrentContainer = SelectedShape
+						RefreshProjectManager()
 					Case MenuAddLayer
 						Local LayerName:String = EnterString( "{{D_EnterNameOfLayer}}", "LTLayer" )
 						If LayerName Then
-							Local Layer:LTLayer = New LTLayer
-							Layer.Name = LayerName
-							LTLayer( SelectedShape ).AddLast( Layer )
-							SelectLayer( Layer )
+							CurrentViewLayer = New LTLayer
+							CurrentViewLayer.Name = LayerName
+							LTLayer( SelectedShape ).AddLast( CurrentViewLayer )
 							SetChanged()
+							RefreshProjectManager()
 						End If
 					Case MenuAddTilemap
 						Local Name:String = EnterString( "{{D_EnterNameOfTilemap}}", "LTTileMap" )
@@ -801,6 +813,33 @@ Type LTEditor Extends LTProject
 						End If
 					Case MenuImportTilemaps
 						If TileMapImportDialog( True ) Then RefreshProjectManager()
+					Case MenuAddCollisionMap
+						Local Name:String = EnterString( "{{D_EnterNameOfCollisionMap}}", "LTCollisionMap" )
+						If Name Then
+							Local CellSize:Double = EnterString( "{{D_EnterCellSize}}", "2" ).ToDouble()
+							If CellSize > 0.0 Then
+								Local CollisionMap:LTCollisionMap = New LTCollisionMap
+								CollisionMap.Name = Name
+								CollisionMap.CellWidth = CellSize
+								CollisionMap.CellHeight = CellSize
+								
+								Local Bounds:LTShape = LTLayer( SelectedShape ).Bounds
+								If Bounds Then
+									CollisionMap.XQuantity = Bounds.Width / CellSize
+									CollisionMap.YQuantity = Bounds.Height / CellSize
+								Else
+									CollisionMap.XQuantity = 16
+									CollisionMap.YQuantity = 16
+								End If
+								
+								If CollisionMapProperties( CollisionMap ) Then
+									LTLayer( SelectedShape ).AddLast( CollisionMap )
+									CurrentContainer = CollisionMap
+									SetChanged()
+									RefreshProjectManager()
+								End If
+							End If
+						End If
 					Case MenuRemoveBounds
 						LTLayer( SelectedShape ).Bounds = Null
 						SetChanged()
@@ -820,14 +859,17 @@ Type LTEditor Extends LTProject
 					Case MenuResizeTilemap
 						ResizeTilemap( LTTileMap( SelectedShape ) )
 						RefreshTilemap()
-					Case 	MenuEditTileCollisionShapes
+					Case MenuEditTileCollisionShapes
 						TileCollisionShapes.TileSet = LTTileMap( SelectedShape ).TileSet
 						TileCollisionShapes.Edit()
 					Case MenuEditReplacementRules
 						TilesetRules.Execute( LTTileMap( SelectedShape ).TileSet )
 					Case MenuSetBounds
-						CurrentLayer.SetBounds( SelectedShape )
+						CurrentViewLayer.SetBounds( SelectedShape )
 						SetChanged()
+						
+					Case MenuCollisionMapProperties
+						CollisionMapProperties( LTCollisionMap( SelectedShape ) )
 				End Select
 			Case Event_GadgetAction
 				Select EventSource()
@@ -844,12 +886,12 @@ Type LTEditor Extends LTProject
 							End If
 						End If
 					Case HScroller
-						If CurrentLayer Then 
-							If CurrentLayer.Bounds Then MainCamera.X = SliderValue( HScroller ) * CurrentLayer.Bounds.Width / 10000.0 + 0.5 * MainCamera.Width
+						If CurrentViewLayer Then 
+							If CurrentViewLayer.Bounds Then MainCamera.X = SliderValue( HScroller ) * CurrentViewLayer.Bounds.Width / 10000.0 + 0.5 * MainCamera.Width
 						End If
 					Case VScroller
-						If CurrentLayer Then 
-							If CurrentLayer.Bounds Then MainCamera.Y = SliderValue( VScroller ) * CurrentLayer.Bounds.Height / 10000.0 + 0.5 * MainCamera.Height
+						If CurrentViewLayer Then 
+							If CurrentViewLayer.Bounds Then MainCamera.Y = SliderValue( VScroller ) * CurrentViewLayer.Bounds.Height / 10000.0 + 0.5 * MainCamera.Height
 						End If
 					Case AddLayerButton
 						Local Name:String = EnterString( "{{D_EnterNameOfLayer}}", "LTLayer" )
@@ -984,15 +1026,17 @@ Type LTEditor Extends LTProject
 						PopUpWindowMenu( Window, LayerMenu )
 					ElseIf LTTileMap( SelectedShape ) Then
 						PopUpWindowMenu( Window, TileMapMenu )
+					ElseIf LTCollisionMap( SelectedShape ) Then
+						PopUpWindowMenu( Window, CollisionMapMenu )
 					Else
 						PopUpWindowMenu( Window, SpriteMenu )
 					End If
 				End If
 		End Select
 		
-		If Not CurrentLayer Then Return
+		If Not CurrentViewLayer Then Return
 		
-		Local Bounds:LTShape = CurrentLayer.Bounds
+		Local Bounds:LTShape = CurrentViewLayer.Bounds
 		If Bounds Then
 			SetSliderRange( HScroller, Min( 10000.0, 10000.0 * MainCamera.Width / Bounds.Width ), 10000.0 )
 			SetSliderRange( VScroller, Min( 10000.0, 10000.0 * MainCamera.Height / Bounds.Height ), 10000.0 )
@@ -1088,9 +1132,7 @@ Type LTEditor Extends LTProject
 			ShapeUnderCursor = Null
 			Local Size:Double = MainCamera.DistScreenToField( 8.0 )
 			Cursor.SetSize( Size, Size )
-			For Local Sprite:LTSprite = Eachin CurrentLayer.Children
-				If Cursor.CollidesWithSprite( Sprite ) Then ShapeUnderCursor = Sprite
-			Next
+			CheckForSpriteUnderCursor( CurrentViewLayer )
 			SelectShapes.Execute()
 			MoveShape.Execute()
 			CreateSprite.Execute()
@@ -1102,8 +1144,24 @@ Type LTEditor Extends LTProject
 		SetCameraMagnification( MainCamera, MainCanvas, MainCanvasZ, 32.0 )
 		SetCameraMagnification( TilesetCamera, TilesetCanvas, TilesetCanvasZ, TilesetCameraWidth )
 		
-		If CurrentLayer.Bounds Then MainCamera.LimitWith( CurrentLayer.Bounds )
+		If CurrentViewLayer.Bounds Then MainCamera.LimitWith( CurrentViewLayer.Bounds )
 		TilesetCamera.LimitWith( TilesetRectangle )
+	End Method
+	
+	
+	
+	Method CheckForSpriteUnderCursor( Layer:LTLayer )
+		For Local Shape:LTShape = Eachin Layer.Children
+			Local ChildLayer:LTLayer = LTLayer( Shape )
+			If ChildLayer Then
+				CheckForSpriteUnderCursor( ChildLayer )
+			Else
+				Local Sprite:LTSprite = LTSprite( Shape )
+				If Sprite Then
+					If Cursor.CollidesWithSprite( Sprite ) Then ShapeUnderCursor = Sprite
+				End If
+			End If
+		Next
 	End Method
 	
 	
@@ -1160,7 +1218,7 @@ Type LTEditor Extends LTProject
 		End If
 		
 		L_CurrentCamera = MainCamera
-		If Not CurrentLayer Then Return
+		If Not CurrentViewLayer Then Return
 		
 		SetGraphics( CanvasGraphics( MainCanvas ) )
 		SetBlend( AlphaBlend )
@@ -1172,7 +1230,7 @@ Type LTEditor Extends LTProject
 		MainCamera.Viewport.Height = MainCanvas.GetHeight()
 		MainCamera.Update()
 		
-		CurrentLayer.DrawUsingVisualizer( L_DebugVisualizer )
+		CurrentViewLayer.DrawUsingVisualizer( L_DebugVisualizer )
 		
 		if ShowGrid Then Grid.Draw()
 		
@@ -1384,6 +1442,8 @@ Type LTEditor Extends LTProject
 				Icon = 0
 			ElseIf LTTIleMap( Shape ) Then
 				Icon = 1
+			ElseIf LTCollisionMap( Shape ) Then
+				Icon = 3
 			Else
 				Icon = 2
 			End If
@@ -1392,7 +1452,8 @@ Type LTEditor Extends LTProject
 			If Not Shape.Visible Then Name = "(x) " + Name
 			If Not Shape.Active Then Name = "(-) " + Name
 			
-			If Shape = CurrentTilemap Or Shape = CurrentLayer Then Name = "< " + Name + " >"
+			If Shape = CurrentContainer Then Name = "{ " + Name + " }"
+			If Shape = CurrentTilemap Or Shape = CurrentViewLayer Then Name = "< " + Name + " >"
 			If SelectedShapesLink Then
 				If SelectedShapesLink.Value() = Shape Then
 					Name = "* " + Name + " *"
@@ -1427,20 +1488,11 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method AddLayer( LayerName:String )
+	Method AddLayer:LTLayer( LayerName:String )
 		Local Layer:LTLayer = New LTLayer
 		Layer.Name = LayerName
 		World.AddLast( Layer )
-		SelectLayer( Layer )
-	End Method
-	
-	
-	
-	Method SelectLayer( Layer:LTLayer )
-		CurrentLayer = Layer
-		SelectedShapes.Clear()
-		Modifiers.Clear()
-		RefreshProjectManager()
+		Return Layer
 	End Method
 	
 	
@@ -1471,15 +1523,7 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Rem
-				For Local N:Int = 0 To 1
-					L_LimitInt( TileNum[ N ], 0, Image.FramesQuantity() - 1 )
-				Next
-	EndRem
-	
-	
-	
-	Method DeselectTilemap()
+	Method DeselectTileMap()
 		If CurrentTileMap Then
 			CurrentTileMap = Null
 			RefreshProjectManager()
@@ -1528,6 +1572,35 @@ Type LTEditor Extends LTProject
 			End If
 			ShapeLink = ShapeLink.PrevLink()
 		Wend
+	End Method
+	
+	
+	
+	Method RemoveFromCurrentContainer( Sprite:LTSprite )
+		Local Layer:LTLayer = LTLayer( CurrentContainer )
+		If Layer Then
+			Layer.Remove( Sprite )
+		Else
+			LTCollisionMap( CurrentContainer ).RemoveSprite( Sprite )
+		End If
+	End Method
+	
+	
+	
+	Method UnRegisterShape:LTCollisionMap( Shape:LTShape )
+		Local Sprite:LTSprite = LTSprite( Shape )
+		If Not Sprite Then Return Null
+		Local CollisionMap:LTCollisionMap = Sprite.CollisionMap
+		If CollisionMap Then CollisionMap.RemoveSprite( Sprite )
+		Return CollisionMap
+	End Method
+	
+	
+	
+	Method RegisterShape( Shape:LTShape, CollisionMap:LTCollisionMap )
+		Local Sprite:LTSprite = LTSprite( Shape )
+		If Not Sprite Then Return
+		If CollisionMap Then CollisionMap.InsertSprite( Sprite )
 	End Method
 End Type
 

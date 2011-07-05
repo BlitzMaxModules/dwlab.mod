@@ -389,8 +389,8 @@ End Function
 
 Rem
 bbdoc: Returns nearest power of 2.
-returns: Lowest power of 2 which is more than Value.
-See also: #L_IsPowerOf2
+returns: Lowest power of 2 which is more than or equal to Value.
+about: See also: #L_IsPowerOf2
 End Rem
 Function L_ToPowerOf2:Int( Value:Int )
 	Local Result:Int = 1

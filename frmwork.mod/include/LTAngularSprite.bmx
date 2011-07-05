@@ -49,43 +49,6 @@ Type LTAngularSprite Extends LTSprite
 	Method MoveForward()
 		SetCoords( X + Cos( Angle ) * Velocity * L_DeltaTime, Y + Sin( Angle ) * Velocity * L_DeltaTime )
 	End Method
-	
-	
-	
-	Rem
-	bbdoc: Allowing moving the sprite around with current velocity with WSAD keys.
-	about: See also: #MoveUsingArrows, #MoveUsingKeys, #Move
-	End Rem
-	Method MoveUsingWSAD()
-		MoveUsingKeys( Key_W, Key_S, Key_A, Key_D )
-	End Method
-	
-	
-	
-	Rem
-	bbdoc: Allowing moving the sprite around with current velocity with Arrow keys.
-	about: See also: #MoveUsingWSAD, #MoveUsingKeys, #Move
-	End Rem
-	Method MoveUsingArrows()
-		MoveUsingKeys( Key_Up, Key_Down, Key_Left, Key_Right )
-	End Method
-	
-	
-	
-	Rem
-	bbdoc: Allowing moving the sprite around with current velocity with given keys.
-	about: See also: #MoveUsingArrows, #MoveUsingWSAD, #Move
-	End Rem
-	Method MoveUsingKeys( KUp:Int, KDown:Int, KLeft:Int, KRight:Int )
-		Local DX:Double = KeyDown( KRight ) - KeyDown( KLeft )
-		Local DY:Double = KeyDown( KDown ) - KeyDown( KUp )
-		If DX * DY Then
-			DX :/ Sqr( 2 )
-			DY :/ Sqr( 2 )
-		End If
-		Angle = ATan2( DY, DX )
-		SetCoords( X + DX * Velocity * L_DeltaTime, Y + DY * Velocity * L_DeltaTime )
-	End Method
 
 	' ==================== Angle ====================
 	

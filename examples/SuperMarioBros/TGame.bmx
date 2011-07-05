@@ -133,6 +133,6 @@ Type TGame Extends LTProject
 		L_CurrentCamera = HUDCamera
 		HUD.Draw()
 		L_CurrentCamera = LevelCamera
-		ShowDebugInfo( Level )
+		ShowDebugInfo()
 	End Method
 End Type

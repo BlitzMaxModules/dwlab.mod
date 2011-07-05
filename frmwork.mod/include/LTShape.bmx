@@ -311,6 +311,42 @@ Type LTShape Extends LTObject
 		SetCoords( Shape1.X + ( Shape2.X - Shape1.X ) * K, Shape1.Y + ( Shape2.Y - Shape1.Y ) * K )
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Allowing moving the shape around with given velocity with WSAD keys.
+	about: See also: #MoveUsingArrows, #MoveUsingKeys, #Move
+	End Rem
+	Method MoveUsingWSAD( Velocity:Double )
+		MoveUsingKeys( Key_W, Key_S, Key_A, Key_D, Velocity )
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Allowing moving the shape around with given velocity with Arrow keys.
+	about: See also: #MoveUsingWSAD, #MoveUsingKeys, #Move
+	End Rem
+	Method MoveUsingArrows( Velocity:Double )
+		MoveUsingKeys( Key_Up, Key_Down, Key_Left, Key_Right, Velocity )
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Allowing moving the shape around with with given keys and velocity.
+	about: See also: #MoveUsingArrows, #MoveUsingWSAD, #Move
+	End Rem
+	Method MoveUsingKeys( KUp:Int, KDown:Int, KLeft:Int, KRight:Int, Velocity:Double )
+		Local DX:Double = KeyDown( KRight ) - KeyDown( KLeft )
+		Local DY:Double = KeyDown( KDown ) - KeyDown( KUp )
+		If DX * DY Then
+			DX :/ Sqr( 2 )
+			DY :/ Sqr( 2 )
+		End If
+		SetCoords( X + DX * Velocity * L_DeltaTime, Y + DY * Velocity * L_DeltaTime )
+	End Method
+	
 	' ==================== Limiting ====================
 	
 	Rem

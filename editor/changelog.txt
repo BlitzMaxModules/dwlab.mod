@@ -1,17 +1,22 @@
-1.3.4
+1.5
++ Collision maps are available for creating and filling with sprites.
++ Container can be selected for inserting sprites (layer or collision map).
+* View layer now can be selected separated from container.
+
+1.4.3
 * Modifiers are changed to the black squares.
 * Fixed modifier bug. 
 * Fixed project manager refreshing bug.
 * Fixed layer shifting bug.
 
-1.3.3
+1.4.2
 * Tile collision shapes are now showing on tileset window
 * Tile collision shapes editor grid now is separated from world editor grid
 
-1.3.2
+1.4.1
 * Tile collision shapes now are displaying
 
-1.3.1
+1.4
 + Added tile collision shapes editor
 
 1.3

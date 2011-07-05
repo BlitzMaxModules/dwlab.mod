@@ -40,7 +40,7 @@ Type TPlayer Extends LTAngularSprite
 	
 	
 	Method Act()
-		MoveUsingWSAD()
+		MoveUsingWSAD( Velocity )
 		
 		If DistanceTo( Game.Target ) < MinTargetDistance Then
 			Local TargetAngle:Double = DirectionTo( Game.Target )

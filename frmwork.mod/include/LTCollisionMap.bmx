@@ -124,10 +124,10 @@ Type LTCollisionMap Extends LTMap
 						Local StoredX:Int
 						Local StoredLink:TLink = Null
 						For Local X:Int = 0 To MapX2 - MapX1
-							Local Link:TLink = XLink[ X & XMask ]
+							Local Link:TLink = XLink[ X ]
 							if Not Link Then Continue
 							Local Sprite:LTSprite = LTSprite( Link.Value() )
-							If Not StoredLink Or MinY < Sprite.Y Then
+							If Not StoredLink Or Sprite.Y < MinY Then
 								MinY = Sprite.Y
 								StoredX = X
 								StoredLink = Link
@@ -145,7 +145,7 @@ Type LTCollisionMap Extends LTMap
 							SpriteMap.Insert( Sprite, Null )
 						End If
 						
-						XLink[ StoredX & XMask ] = StoredLink.NextLink()
+						XLink[ StoredX ] = StoredLink.NextLink()
 					Forever
 				Else
 					For Local X:Int = MapX1 To MapX2

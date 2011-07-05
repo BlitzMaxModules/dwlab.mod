@@ -10,14 +10,6 @@
 
 SuperStrict
 
-?win32
-Framework brl.d3d7max2d
-?linux
-Framework brl.glmax2d
-?macos
-Framework brl.glmax2d
-?
-
 Import brl.jpgloader
 Import brl.pngloader
 Import brl.oggloader

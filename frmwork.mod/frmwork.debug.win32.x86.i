@@ -1,14 +1,26 @@
-ModuleInfo "History: v1.0.0.1 (30.06.11) Fixed bug of ChopFilename function under Mac."
-ModuleInfo "History: v1.0 (28.06.11) Initial release"
-ModuleInfo "Version: 1.0"
+ModuleInfo "Version: 1.0.1.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
+ModuleInfo "History: &nbsp; &nbsp; ."
+ModuleInfo "History: v1.0.1.1 (05.07.11)"
+ModuleInfo "History: &nbsp; &nbsp; ShowDebugInfo() method is now without parameters."
+ModuleInfo "History: &nbsp; &nbsp; MoveUsingKeys() methods are now in LTShape and have velocity parameter."
+ModuleInfo "History: &nbsp; &nbsp; Max2D drivers import is now inside framework."
+ModuleInfo "History: v1.0.1 (04.07.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added sorting parameter to collision maps."
+ModuleInfo "History: &nbsp; &nbsp; Border parameter of collision map is turned to 4 margin parameters."
+ModuleInfo "History: &nbsp; &nbsp; Now set all margins to one value is possible by using SetBorder() method."
+ModuleInfo "History: &nbsp; &nbsp; Visualizer's DX and DY parameters are now image-relative."
+ModuleInfo "History: v1.0.0.1 (30.06.11)"
+ModuleInfo "History: &nbsp; &nbsp; Fixed bug of ChopFilename() function under Mac."
+ModuleInfo "History: v1.0 (28.06.11)"
+ModuleInfo "History: &nbsp; &nbsp; Initial release."
 import brl.blitz
+import brl.d3d7max2d
 import brl.random
 import brl.reflection
 import brl.retro
-import brl.max2d
 L_Version$=$"0.13.3"
 LTObject^brl.blitz.Object{
 .Name$&
@@ -37,7 +49,7 @@ LTProject^LTObject{
 -CreateShape:LTShape(Shape:LTShape)="_dwlab_frmwork_LTProject_CreateShape"
 -Execute%()="_dwlab_frmwork_LTProject_Execute"
 -PerSecond!(Value!)="_dwlab_frmwork_LTProject_PerSecond"
--ShowDebugInfo%(MainLayer:LTLayer)="_dwlab_frmwork_LTProject_ShowDebugInfo"
+-ShowDebugInfo%()="_dwlab_frmwork_LTProject_ShowDebugInfo"
 -ApplyPause%(NewPause:LTPause,Key%)="_dwlab_frmwork_LTProject_ApplyPause"
 }="dwlab_frmwork_LTProject"
 LTShape^LTObject{
@@ -75,6 +87,9 @@ RightFacing!=1!
 -SetMouseCoords%()="_dwlab_frmwork_LTShape_SetMouseCoords"
 -Move%(DX!,DY!)="_dwlab_frmwork_LTShape_Move"
 -PlaceBetween%(Shape1:LTShape,Shape2:LTShape,K!)="_dwlab_frmwork_LTShape_PlaceBetween"
+-MoveUsingWSAD%(Velocity!)="_dwlab_frmwork_LTShape_MoveUsingWSAD"
+-MoveUsingArrows%(Velocity!)="_dwlab_frmwork_LTShape_MoveUsingArrows"
+-MoveUsingKeys%(KUp%,KDown%,KLeft%,KRight%,Velocity!)="_dwlab_frmwork_LTShape_MoveUsingKeys"
 -LimitWith%(Rectangle:LTShape)="_dwlab_frmwork_LTShape_LimitWith"
 -LimitLeftWith%(Rectangle:LTShape)="_dwlab_frmwork_LTShape_LimitLeftWith"
 -LimitTopWith%(Rectangle:LTShape)="_dwlab_frmwork_LTShape_LimitTopWith"
@@ -196,9 +211,6 @@ LTAngularSprite^LTSprite{
 -Delete%()="_dwlab_frmwork_LTAngularSprite_Delete"
 -MoveTowards%(Shape:LTShape)="_dwlab_frmwork_LTAngularSprite_MoveTowards"
 -MoveForward%()="_dwlab_frmwork_LTAngularSprite_MoveForward"
--MoveUsingWSAD%()="_dwlab_frmwork_LTAngularSprite_MoveUsingWSAD"
--MoveUsingArrows%()="_dwlab_frmwork_LTAngularSprite_MoveUsingArrows"
--MoveUsingKeys%(KUp%,KDown%,KLeft%,KRight%)="_dwlab_frmwork_LTAngularSprite_MoveUsingKeys"
 -DirectAs%(Sprite:LTAngularSprite)="_dwlab_frmwork_LTAngularSprite_DirectAs"
 -Turn%(TurningSpeed!)="_dwlab_frmwork_LTAngularSprite_Turn"
 -DirectTo%(Shape:LTShape)="_dwlab_frmwork_LTAngularSprite_DirectTo"
