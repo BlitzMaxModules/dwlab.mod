@@ -1,7 +1,8 @@
 1.5
 + Sprite maps are available for creating and filling with sprites
 + Container can be selected for inserting sprites (layer or collision map)
-+ Added button for switching off tilemap editing mode
++ Added button for switching off tilemap editing mode.
++ Added possibility to copy collision shapes and correcting heght.
 * View layer now can be selected separated from container
 
 1.4.3

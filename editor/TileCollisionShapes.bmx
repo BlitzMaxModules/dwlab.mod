@@ -10,6 +10,7 @@
 '
 
 Global TileCollisionShapes:TTileCollisionShapes = New TTileCollisionShapes
+Global Frame2:Int
 
 Type TTileCollisionShapes
 	Field CollisionGroup:LTGroup
@@ -77,6 +78,7 @@ Type TTileCollisionShapes
 		Visualizer.SetColorFromRGB( 1.0, 0.0, 1.0 )
 		
 		Local MouseIsOver:TGadget
+		TileNum = 0
 		
 		Repeat
 			SetGraphics( CanvasGraphics( TileCanvas ) )
@@ -93,13 +95,16 @@ Type TTileCollisionShapes
 			
 			Flip( False )
 	
+			Frame2 = -1
 			Local OldTileNum:Int = TileNum
 			TileNum = PrintImageToCanvas( TImage( Editor.BigImages.ValueForKey( Image ) ), TilesetCanvas, Image.XCells, Image.YCells, TileNum, MouseIsOver = TilesetCanvas, TileSet )
 			If OldTileNum <> TileNum Then
 				SelectedCollisionShape = Null
 				RefreshFields()
 			End If
-	
+			
+			If Frame2 >= 0 Then TileSet.CollisionShape[ Frame2 ] = TileSet.CollisionShape[ TileNum ].Clone()
+			
 			If MouseIsOver = TileCanvas Then
 				Cursor.SetMouseCoords()
 				CollisionGroup = LTGroup( CollisionShape )
@@ -112,7 +117,6 @@ Type TTileCollisionShapes
 						If Cursor.CollidesWithSprite( Sprite ) Then CollisionShapeUnderCursor = Sprite
 					Next
 				End If
-				
 				
 				If SelectedCollisionShape And KeyHit( Key_Delete ) Then DeleteShape()
 				

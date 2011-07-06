@@ -131,6 +131,15 @@ Type LTGroup Extends LTShape
 	
 	
 	
+	Method Clone:LTShape()
+		Local NewGroup:LTGroup = New LTGroup
+		For Local Shape:LTShape = Eachin NewGroup.Children
+			NewGroup.Children.AddLast( Shape.Clone() )
+		Next
+		Return NewGroup
+	End Method
+	
+	
 	Rem
 	bbdoc: Update method.
 	about: Size and position of the group will be updated: group rectangular shape will cover all of the child shapes.
