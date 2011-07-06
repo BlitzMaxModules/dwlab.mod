@@ -81,11 +81,43 @@ Type LTVisualizer Extends LTObject
 	about: If False then Angle parameter will not be used.
 	End Rem
 	Field Rotating:Int = True
+	
+	Rem
+	bbdoc: Image (LTImage) field.
+	End Rem
+	Field Image:LTImage
+
+	' ==================== Creating ====================
+	
+	Rem
+	bbdoc: Creates new image visualizer from image file.
+	returns: New visualizer.
+	about: See also: #FromImage
+	End Rem
+	Function FromFile:LTVisualizer( Filename:String, XCells:Int = 1, YCells:Int = 1 )
+		Local Visualizer:LTVisualizer = New LTVisualizer
+		Visualizer.Image = LTImage.FromFile( Filename, XCells, YCells )
+		Return Visualizer
+	End Function
+	
+	
+	
+	Rem
+	bbdoc: Creates new image visualizer from existing image (LTImage).
+	returns: New visualizer.
+	about: See also: #FromFile
+	End Rem
+	Function FromImage:LTVisualizer( Image:LTImage )
+		Local Visualizer:LTVisualizer = New LTVisualizer
+		Visualizer.Image = Image
+		Return Visualizer
+	End Function
 
 	' ==================== Parameters ====================
 	
 	Rem
 	bbdoc: Sets shifts of the visualizer.
+	about: Works only with images.
 	End Rem
 	Method SetDXDY( NewDX:Double, NewDY:Double )
 		DX = NewDX
@@ -96,6 +128,7 @@ Type LTVisualizer Extends LTObject
 	
 	Rem
 	bbdoc: Sets scaling parameters of the visualizer
+	about: Works only with images.
 	End Rem
 	Method SetVisualizerScale( NewXScale:Double, NewYScale:Double )
 		XScale = NewXScale
@@ -104,25 +137,16 @@ Type LTVisualizer Extends LTObject
 	
 	
 	
-	Rem
-	bbdoc: Returns visualizer image.
-	returns: Visualizer image.
-	about: Only for ImageVisualizer, other visualizers will return Null.
-	
-	See also: #SetImage
-	End Rem
+	' Deprecated
 	Method GetImage:LTImage()
+		Return Image
 	End Method
 	
 	
 	
-	Rem
-	bbdoc: Sets visualizer image.
-	about: Only for ImageVisualizer, for other visualizers this method will do nothing.
-	
-	See also: #GetImage
-	End Rem
+	' Deprecated
 	Method SetImage( NewImage:LTImage )
+		Image = NewImage
 	End Method
 	
 	' ==================== Drawing ===================	
@@ -139,17 +163,48 @@ Type LTVisualizer Extends LTObject
 		ApplyColor()
 		
 		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
-		L_CurrentCamera.FieldToScreen( Sprite.X + DX, Sprite.Y + DY, SX, SY )
-		L_CurrentCamera.SizeFieldToScreen( Sprite.Width * XScale, Sprite.Height * YScale, SWidth, SHeight )
 		
-		Select Sprite.ShapeType
-			Case LTSprite.Pivot
-				DrawOval( SX - 2, SY - 2, 5, 5 )
-			Case LTSprite.Circle
-				DrawOval( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
-			Case LTSprite.Rectangle
-				DrawRect( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
-		End Select
+		If Image Then
+			SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
+			SetAlpha Alpha
+		
+			L_CurrentCamera.FieldToScreen( Sprite.X + DX * XScale * Sprite.Width, Sprite.Y + DY * YScale * Sprite.Height, SX, SY )
+			
+			Local AngularSprite:LTAngularSprite = LTAngularSprite( Sprite )
+			If Rotating And AngularSprite Then
+				SetRotation( Angle + AngularSprite.Angle )
+			Else
+				SetRotation( Angle )
+			End If
+			
+			If Scaling Then
+				L_CurrentCamera.SizeFieldToScreen( Sprite.Width, Sprite.Height, SWidth, SHeight )
+				SetScale( XScale * SWidth / ImageWidth( Image.BMaxImage ), YScale * SHeight / ImageHeight( Image.BMaxImage ) )
+			Else
+				SetScale XScale, YScale
+			End If
+			
+			?debug
+			If Sprite.Frame < 0 Or Sprite.Frame >= Image.FramesQuantity() Then L_Error( "Incorrect frame number ( " + Sprite.Frame + " ) for sprite ~q" + Sprite.Name + "~q, must be less than " + Image.FramesQuantity() )
+			?
+			
+			DrawImage( Image.BMaxImage, SX, SY, Sprite.Frame )
+			
+			SetScale( 1.0, 1.0 )
+			SetRotation( 0.0 )
+		Else
+			L_CurrentCamera.FieldToScreen( Sprite.X + DX, Sprite.Y + DY, SX, SY )
+			L_CurrentCamera.SizeFieldToScreen( Sprite.Width * XScale, Sprite.Height * YScale, SWidth, SHeight )
+			
+			Select Sprite.ShapeType
+				Case LTSprite.Pivot
+					DrawOval( SX - 2, SY - 2, 5, 5 )
+				Case LTSprite.Circle
+					DrawOval( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
+				Case LTSprite.Rectangle
+					DrawRect( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
+			End Select
+		End If
 		
 		ResetColor()
 	End Method
@@ -334,6 +389,33 @@ Type LTVisualizer Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: Clones the visualizer.
+	returns: Clone of the visualizer.
+	End Rem
+	Method Clone:LTVisualizer()
+		Local Visualizer:LTVisualizer = New LTVisualizer
+		CopyTo( Visualizer )
+		Return Visualizer
+	End Method
+	
+	
+	
+	Method CopyTo( Visualizer:LTVisualizer )
+		Visualizer.Red = Red
+		Visualizer.Green = Green
+		Visualizer.Blue = Blue
+		Visualizer.Alpha = Alpha
+		Visualizer.Angle = Angle
+		Visualizer.Rotating = Rotating
+		Visualizer.XScale = XScale
+		Visualizer.YScale = YScale
+		Visualizer.Scaling = Scaling
+		Visualizer.Image = Image
+	End Method
+	
+	
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
@@ -346,5 +428,14 @@ Type LTVisualizer Extends LTObject
 		XMLObject.ManageIntAttribute( "scaling", Scaling, 1 )
 		XMLObject.ManageDoubleAttribute( "angle", Angle )
 		XMLObject.ManageIntAttribute( "rotating", Rotating, 1 )
+		Image = LTImage( XMLObject.ManageObjectField( "image", Image ) )
 	End Method
 End Type
+
+
+
+
+
+' Deprecated
+Type LTImageVisualizer Extends LTVisualizer
+End type

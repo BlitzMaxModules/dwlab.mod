@@ -12,7 +12,7 @@ Rem
 bbdoc: Collision map is a structure which can contain sprites, draw and perform collision checks between them and other shapes.
 about: Operations like drawing and checking collision between large groups of sprites will be faster with use of collision maps.
 End Rem
-Type LTCollisionMap Extends LTMap
+Type LTSpriteMap Extends LTMap
 	Field Sprites:TList[ , ]
 	
 	Rem
@@ -89,6 +89,24 @@ Type LTCollisionMap Extends LTMap
 		BottomMargin = NewBottomMargin
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Returns all sprite map sprites.
+	returns: TMap object with each sprite map sprite as key.
+	End Rem
+	Method GetSprites:TMap()
+		Local Map:TMap = New TMap
+		For Local Y:Int = 0 Until YQuantity
+			For Local X:Int = 0 Until XQuantity
+				For Local Sprite:LTSprite = Eachin Sprites[ X, Y ]
+					Map.Insert( Sprite, Null )
+				Next
+			Next
+		Next
+		Return Map
+	End Method
+	
 	' ==================== Drawing ===================	
 	
 	Rem
@@ -114,6 +132,7 @@ Type LTCollisionMap Extends LTMap
 			
 			For Local Y:Int = MapY1 To MapY2
 				Local MaskedY:Int = Y & YMask
+				Local MaxY:Double = ( Y + 1 ) * CellHeight
 				If Sorted Then
 					For Local X:Int = MapX1 To MapX2
 						XLink[ X - MapX1 ] = Sprites[ X & XMask, MaskedY ].FirstLink()
@@ -127,6 +146,7 @@ Type LTCollisionMap Extends LTMap
 							Local Link:TLink = XLink[ X ]
 							if Not Link Then Continue
 							Local Sprite:LTSprite = LTSprite( Link.Value() )
+							If Sprite.Y >= MaxY Then Continue
 							If Not StoredLink Or Sprite.Y < MinY Then
 								MinY = Sprite.Y
 								StoredX = X
@@ -173,7 +193,7 @@ Type LTCollisionMap Extends LTMap
 	
 	See also: #RemoveSprite
 	End Rem
-	Method InsertSprite( Sprite:LTSprite, ChangeCollisionMapField:Int = True )
+	Method InsertSprite( Sprite:LTSprite, ChangeSpriteMapField:Int = True )
 		Select Sprite.ShapeType
 			Case LTSprite.Pivot
 				If Sorted Then
@@ -197,7 +217,7 @@ Type LTCollisionMap Extends LTMap
 					Next
 				Next
 		End Select
-		If ChangeCollisionMapField Then Sprite.CollisionMap = Self
+		If ChangeSpriteMapField Then Sprite.SpriteMap = Self
 	End Method
 	
 	
@@ -229,7 +249,7 @@ Type LTCollisionMap Extends LTMap
 	
 	See also: #InsertSprite
 	End Rem
-	Method RemoveSprite( Sprite:LTSprite, ChangeCollisionMapField:Int = True )
+	Method RemoveSprite( Sprite:LTSprite, ChangeSpriteMapField:Int = True )
 		Select Sprite.ShapeType
 			Case LTSprite.Pivot
 				Sprites[ Int( Sprite.X / CellWidth ) & XMask, Int( Sprite.Y / CellHeight ) & YMask ].Remove( Sprite )
@@ -245,7 +265,7 @@ Type LTCollisionMap Extends LTMap
 					Next
 				Next
 		End Select
-		If ChangeCollisionMapField Then Sprite.CollisionMap = Null
+		If ChangeSpriteMapField Then Sprite.SpriteMap = Null
 	End Method
 	
 	' ==================== Collisions ===================
@@ -256,8 +276,8 @@ Type LTCollisionMap Extends LTMap
 	
 	See also: #CreateForShape
 	End Rem
-	Function Create:LTCollisionMap( XQuantity:Int, YQuantity:Int, CellWidth:Double = 1.0, CellHeight:Double = 1.0, Sorted:Int = False )
-		Local Map:LTCollisionMap = New LTCollisionMap
+	Function Create:LTSpriteMap( XQuantity:Int, YQuantity:Int, CellWidth:Double = 1.0, CellHeight:Double = 1.0, Sorted:Int = False )
+		Local Map:LTSpriteMap = New LTSpriteMap
 		Map.SetResolution( XQuantity, YQuantity )
 		Map.CellWidth = CellWidth
 		Map.CellHeight = CellHeight
@@ -272,7 +292,34 @@ Type LTCollisionMap Extends LTMap
 	about: Collision map with size not less than shape size will be created. You can specify cell size either.
 	Use this function ob layer bounds or layer tilemap which are covers all level to maximize performance.
 	End Rem
-	Function CreateForShape:LTCollisionMap( Shape:LTShape, CellSize:Double = 1.0, Sorted:Int = False )
+	Function CreateForShape:LTSpriteMap( Shape:LTShape, CellSize:Double = 1.0, Sorted:Int = False )
 		Return Create( L_ToPowerOf2( Shape.Width / CellSize ), L_ToPowerOf2( Shape.Height / CellSize ), CellSize, CellSize, Sorted )
 	End Function
+	
+	
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		
+		XMLObject.ManageDoubleAttribute( "cell-width", CellWidth )
+		XMLObject.ManageDoubleAttribute( "cell-height", CellHeight )
+		XMLObject.ManageDoubleAttribute( "left-margin", LeftMargin )
+		XMLObject.ManageDoubleAttribute( "right-margin", RightMargin )
+		XMLObject.ManageDoubleAttribute( "top-margin", TopMargin )
+		XMLObject.ManageDoubleAttribute( "bottom-margin", BottomMargin )
+		XMLObject.ManageIntAttribute( "sorted", Sorted )
+		
+		If L_XMLMode = L_XMLGet Then
+			For Local SpriteXMLObject:LTXMLObject = Eachin XMLObject.Children
+				InsertSprite( LTSprite( SpriteXMLObject.ManageObject( Null ) ) )
+			Next
+		Else
+			Local Map:TMap = GetSprites()
+			For Local Sprite:LTSprite = Eachin Map.Keys()
+				Local NewXMLObject:LTXMLObject = New LTXMLObject
+				NewXMLObject.ManageObject( Sprite )
+				XMLObject.Children.AddLast( NewXMLObject )
+			Next
+		End If
+	End Method
 End Type

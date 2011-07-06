@@ -61,19 +61,19 @@ Type LTCircle Extends LTPivot
 	
 	' ==================== Collision map ===================
 	
-	Method InsertIntoMap( Map:LTCollisionMap )
+	Method InsertIntoMap( Map:LTSpriteMap )
 		Map.InsertCircle( Self )
 	End Method
 	
 	
 	
-	Method RemoveFromMap( Map:LTCollisionMap )
+	Method RemoveFromMap( Map:LTSpriteMap )
 		Map.RemoveCircle( Self )
 	End Method
 	
 	
 	
-	Method Collisions( Map:LTCollisionMap )
+	Method Collisions( Map:LTSpriteMap )
 		Map.CollisionsWithCircle( Self )
 	End Method
 	

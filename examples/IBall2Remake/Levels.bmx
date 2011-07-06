@@ -16,9 +16,9 @@ Function GenerateLevels()
   Local Filename:String = "levels\" + L_FirstZeroes( Num, 2 ) + ".xml"
   L_LoadFromFile( Filename )
   
-  Game.CollisionMap = New LTCollisionMap
-  Game.CollisionMap.SetResolution( 8, 8 )
-  Game.CollisionMap.SetMapScale( 2.0, 2.0 )
+  Game.SpriteMap = New LTSpriteMap
+  Game.SpriteMap.SetResolution( 8, 8 )
+  Game.SpriteMap.SetMapScale( 2.0, 2.0 )
 
   Select Num
     Case 1

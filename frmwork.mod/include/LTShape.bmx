@@ -72,7 +72,7 @@ Type LTShape Extends LTObject
 	bbdoc: Constant for horizontal collision type.
 	about: See tutorial for additional info.
 	
-	See also: #CollisionsWithGroup, #CollisionsWithSprite, #CollisionsWithTileMap, #CollisionsWithCollisionMap, #CollisionsWithLine
+	See also: #CollisionsWithGroup, #CollisionsWithSprite, #CollisionsWithTileMap, #CollisionsWithSpriteMap, #CollisionsWithLine
 	#HandleCollisionWithSprite, #HandleCollisionWithTile
 	End Rem
 	Const Horizontal:Int = 1
@@ -81,7 +81,7 @@ Type LTShape Extends LTObject
 	bbdoc: Constant for vertical collision type.
 	about: See tutorial for additional info.
 	
-	See also: #CollisionsWithGroup, #CollisionsWithSprite, #CollisionsWithTileMap, #CollisionsWithCollisionMap, #CollisionsWithLine
+	See also: #CollisionsWithGroup, #CollisionsWithSprite, #CollisionsWithTileMap, #CollisionsWithSpriteMap, #CollisionsWithLine
 	#HandleCollisionWithSprite, #HandleCollisionWithTile
 	End Rem
 	Const Vertical:Int = 2
@@ -284,6 +284,14 @@ Type LTShape Extends LTObject
 		Local NewX:Double, NewY:Double
 		L_CurrentCamera.ScreenToField( MouseX(), MouseY(), NewX, NewY )
 		SetCoords( NewX, NewY )
+	End Method
+	
+	
+	
+	Method SetCoordsRelativeTo( Sprite:LTAngularSprite, NewX:Double, NewY:Double )
+		Local SpriteAngle:Double = DirectionToPoint( NewX, NewY ) + Sprite.Angle
+		Local Radius:Double = Sqr( NewX * NewX + NewY * NewY )
+		SetCoords( Sprite.X + Radius * Cos( SpriteAngle ), Sprite.Y + Radius * Sin( SpriteAngle ) )
 	End Method
 	
 	
@@ -519,7 +527,7 @@ Type LTShape Extends LTObject
 	Rem
 	bbdoc: Corrects height to display shape image with no distortion.
 	about: Works only for shapes with image visualizer. After this operation ratio of width to height will be the same as ratio of image width to image height.
-	about: See also: #Height, #SetHeight, #ImageVisualizer
+	about: See also: #Height, #SetHeight, #Visualizer
 	End Rem
 	Method CorrectHeight()
 		Local Image:LTImage = Visualizer.GetImage()

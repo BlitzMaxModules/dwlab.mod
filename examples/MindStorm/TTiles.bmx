@@ -37,7 +37,7 @@ Type TTiles Extends LTTileMap
     	Stretch( 2, 2 )
     	Enframe()
 		
-		Game.Bullets = LTCollisionMap.CreateForShape( Self, 5.0 )
+		Game.Bullets = LTSpriteMap.CreateForShape( Self, 5.0 )
 		
 		Local CollisionShape:LTSprite = New LTSprite
 		CollisionShape.SetCoords( 0.5, 0.5 )
@@ -47,14 +47,14 @@ Type TTiles Extends LTTileMap
 		TileSet.CollisionShape[ 4 ] = CollisionShape
 		TileSet.CollisionShape[ 16 ] = CollisionShape
 		
-		Game.Trees = LTCollisionMap.CreateForShape( Self, 5.0 )
+		Game.Trees = LTSpriteMap.CreateForShape( Self, 5.0 )
 		Game.Trees.SetBorder( 2.5 )
 		For Local N:Int = 1 To TreesQuantity
 			Local NewObject:TGameObject = New TGameObject
 			NewObject.SetCoords( Rnd( 0.0, FieldSize ), Rnd( 0.0, FieldSize ) )
 			NewObject.SetDiameter( Rnd( MinTreeSize, MaxTreeSize ) )
 			
-			NewObject.CollisionsWithCollisionMap( Game.Trees )
+			NewObject.CollisionsWithSpriteMap( Game.Trees )
 			If Not NewObject.Bad Then
 				NewObject.CollisionsWithTileMap( Self )
 				If Not NewObject.Bad Then
@@ -62,7 +62,7 @@ Type TTiles Extends LTTileMap
 					NewTree.SetCoords( NewObject.X, NewObject.Y )
 					NewTree.SetDiameter( NewObject.GetDiameter() * TreeBranch )
 					NewTree.Angle = Rnd( 360.0 )
-					NewTree.Visualizer = New LTImageVisualizer.FromImage( Game.Tree )
+					NewTree.Visualizer = New LTVisualizer.FromImage( Game.Tree )
 					NewTree.Visualizer.SetVisualizerScale( TreeScale, TreeScale )
 					NewTree.Frame = Rand( 0, 2 )
 					NewTree.ShapeType = LTSprite.Circle
@@ -78,7 +78,7 @@ Type TTiles Extends LTTileMap
 		TileSet.CollisionShape[ 4 ] = Null
 		TileSet.CollisionShape[ 16 ] = Null
 
-		Game.Blocks = LTCollisionMap.CreateForShape( Self, 3.0 )
+		Game.Blocks = LTSpriteMap.CreateForShape( Self, 3.0 )
 		For Local N:Int = 1 To ObjectsQuantity
 			Local NewObject:TGameObject = New TGameObject
 			NewObject.SetCoords( Rnd( 0.0, FieldSize ), Rnd( 0.0, FieldSize ) )
@@ -93,7 +93,7 @@ Type TTiles Extends LTTileMap
 					NewObject.ShapeType = LTSprite.Rectangle
 			End Select
 			
-			NewObject.CollisionsWithCollisionMap( Game.Blocks )
+			NewObject.CollisionsWithSpriteMap( Game.Blocks )
 			If Not NewObject.Bad Then
 				NewObject.CollisionsWithTileMap( Self )
 				If Not NewObject.Bad Then
@@ -103,11 +103,11 @@ Type TTiles Extends LTTileMap
 					NewBlock.ShapeType = NewObject.ShapeType
 					Select ObjectType
 						Case 0
-							NewBlock.Visualizer = LTImageVisualizer.FromImage( Game.Brain )
+							NewBlock.Visualizer = LTVisualizer.FromImage( Game.Brain )
 							NewBlock.Visualizer.AlterColor( -0.5, 0.0 )
 							NewBlock.Visualizer.Angle = Rnd( 360.0 )
 						Case 1
-							NewBlock.Visualizer = LTImageVisualizer.FromImage( Game.Pyramid )
+							NewBlock.Visualizer = LTVisualizer.FromImage( Game.Pyramid )
 							NewBlock.Visualizer.AlterColor( -0.2, 0.0 )
 					End Select
 					Game.Blocks.InsertSprite( NewBlock )

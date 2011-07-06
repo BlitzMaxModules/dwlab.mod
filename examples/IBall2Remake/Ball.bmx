@@ -17,7 +17,7 @@ Type TGameSprite Extends LTSprite
     FadingStartTime = Game.ProjectTime
     'debugstop
     Game.Objects.Remove( Self )
-    Game.CollisionMap.RemoveSprite( Self )
+    Game.SpriteMap.RemoveSprite( Self )
     Game.DestructingObjects.AddLast( Self )
   End Method
   
@@ -93,7 +93,7 @@ Type TBall Extends TGameSprite
       Bullet.SetDX( BulletSpeed * Direction )
       Bullet.Shape = L_Circle
       
-      Local BulletVisualizer:LTImageVisualizer = New LTImageVisualizer
+      Local BulletVisualizer:LTVisualizer = New LTVisualizer
       BulletVisualizer.SetVisualizerScale( 3.0 * Direction, 3.0 )
       BulletVisualizer.Image = Game.BulletImage
       BulletVisualizer.Rotating = False
@@ -107,7 +107,7 @@ Type TBall Extends TGameSprite
     
     'debugstop
     MoveForward()
-    'Game.CollisionMap.CollisionsWithSprite( Self )
+    'Game.SpriteMap.CollisionsWithSprite( Self )
     CollisionsWith( Game.TileMap )
   End Method
   
@@ -158,7 +158,7 @@ End Type
 Type TBullet Extends LTSprite
   Method Act()
     MoveForward()
-    Game.CollisionMap.CollisionsWithSprite( Self )
+    Game.SpriteMap.CollisionsWithSprite( Self )
     Game.TileMap.CollisionsWithSprite( Self )
   End Method
   

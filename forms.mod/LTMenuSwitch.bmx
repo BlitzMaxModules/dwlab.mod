@@ -17,6 +17,7 @@ Type LTMenuSwitch
 	Field Toolbar:TGadget
 	Field MenuItem:TGadget
 	Field MenuNumber:Int
+	Field Store:Int
 	
 	
 	
@@ -25,11 +26,12 @@ Type LTMenuSwitch
 	returns: Menu switch
 	about: You should provide menu text, toolbar gadget, menu number (which should also be a toolbar button number) and menu gadget.
 	EndRem
-	Function Create( Text:String, Toolbar:TGadget, MenuNumber:Int, Menu:TGadget )
+	Function Create( Text:String, Toolbar:TGadget, MenuNumber:Int, Menu:TGadget, Store:Int = True )
 		Local Switch:LTMenuSwitch = New LTMenuSwitch
 		Switch.Toolbar = Toolbar
 		Switch.MenuItem = CreateMenu( Text, MenuNumber, Menu )
 		Switch.MenuNumber = MenuNumber
+		Switch.Store = Store
 		L_MenuSwicthes.AddLast( Switch )
 	End Function
 	
@@ -53,8 +55,7 @@ Type LTMenuSwitch
 	EndRem
 	Function ReadSwitches( File:TStream )
 		For Local Switch:LTMenuSwitch = EachIn L_MenuSwicthes
-			Local Dummy:Int
-			Switch.Set( ReadLine( File ) = "1", Dummy )
+			If Switch.Store Then Switch.Set( ReadLine( File ) = "1" )
 		Next
 	End Function
 	
@@ -66,7 +67,7 @@ Type LTMenuSwitch
 	EndRem
 	Function SaveSwicthes( File:TStream )
 		For Local Switch:LTMenuSwitch = EachIn L_MenuSwicthes
-			WriteLine( File, Switch.State() )
+			If Switch.Store Then WriteLine( File, Switch.State() )
 		Next
 	End Function
 	
@@ -76,8 +77,7 @@ Type LTMenuSwitch
 	bbdoc: Sets the state of menu switch to given.
 	about: You should also provide variable which should store switch state.
 	EndRem
-	Method Set( ToState:Int, Variable:Int Var )
-		Variable = ToState
+	Method Set( ToState:Int )
 		If ToState Then
 			CheckMenu( MenuItem )
 			If Toolbar Then SelectGadgetItem( Toolbar, MenuNumber )
@@ -92,8 +92,9 @@ Type LTMenuSwitch
 	Rem
 	bbdoc: Toggles state of menu switch.
 	EndRem
-	Method Toggle( Variable:Int Var )
-		Set( 1 - State(), Variable )
+	Method Toggle:Int()
+		Set( 1 - State() )
+		Return State()
 	End Method
 	
 	

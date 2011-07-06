@@ -40,7 +40,7 @@ Type LTSprite Extends LTShape
 	End Rem
 	Field Frame:Int
 	
-	Field CollisionMap:LTCollisionMap
+	Field SpriteMap:LTSpriteMap
 	
 	' ==================== Drawing ===================	
 	
@@ -203,7 +203,7 @@ Type LTSprite Extends LTShape
 	about: For every collided shape collision handling method will be executed and corresponding parameters will be passed to this method.
 	You can specify collision type which will be passed to this method too.
 	
-	See also: #CollisionsWithSprite, #CollisionsWithTileMap, #CollisionsWithLine, #CollisionsWithCollisionMap, #Horizontal, #Vertical
+	See also: #CollisionsWithSprite, #CollisionsWithTileMap, #CollisionsWithLine, #CollisionsWithSpriteMap, #Horizontal, #Vertical
 	End Rem
 	Method CollisionsWithGroup( Group:LTGroup, CollisionType:Int = 0 )
 		For Local Shape:LTShape = EachIn Group
@@ -218,7 +218,7 @@ Type LTSprite Extends LTShape
 	about: If sprites collide then HandleCollisionWithSprite() method will be executed and given sprite will be passed to this method.
 	You can specify collision type which will be passed to this method too.
 	
-	See also: #CollisionsWithGroup, #CollisionsWithTileMap, #CollisionsWithLine, #CollisionsWithCollisionMap, #Horizontal, #Vertical
+	See also: #CollisionsWithGroup, #CollisionsWithTileMap, #CollisionsWithLine, #CollisionsWithSpriteMap, #Horizontal, #Vertical
 	End Rem
 	Method CollisionsWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
 		If CollidesWithSprite( Sprite ) Then HandleCollisionWithSprite( Sprite, CollisionType )
@@ -232,7 +232,7 @@ Type LTSprite Extends LTShape
 	about: For every collided tile HandleCollisionWithTile() method will be executed and tilemap with tile indexes will be passed to this method.
 	You can specify collision type which will be passed to this method too.
 	
-	See also: #CollisionsWithGroup, #CollisionsWithSprite, #CollisionsWithLine, #CollisionsWithCollisionMap, #Horizontal, #Vertical
+	See also: #CollisionsWithGroup, #CollisionsWithSprite, #CollisionsWithLine, #CollisionsWithSpriteMap, #Horizontal, #Vertical
 	End Rem
 	Method CollisionsWithTileMap( TileMap:LTTileMap, CollisionType:Int = 0 )
 		Local X0:Double = TileMap.LeftX()
@@ -281,7 +281,7 @@ Type LTSprite Extends LTShape
 	about: If sprite collides with line then HandleCollisionWithLine() method will be executed and line will be passed to this method.
 	You can specify collision type which will be passed to this method too.
 	
-	See also: #CollisionsWithGroup, #CollisionsWithSprite, #CollisionsWithTileMap, #CollisionsWithCollisionMap, #Horizontal, #Vertical
+	See also: #CollisionsWithGroup, #CollisionsWithSprite, #CollisionsWithTileMap, #CollisionsWithSpriteMap, #Horizontal, #Vertical
 	End Rem
 	Method CollisionsWithLine( Line:LTLine, CollisionType:Int = 0 )
 		If CollidesWithLine( Line ) Then HandleCollisionWithLine( Line, CollisionType )
@@ -290,30 +290,43 @@ Type LTSprite Extends LTShape
 	
 	
 	Rem
-	bbdoc: Executes reaction for collision of sprite with sprites in collision map.
+	bbdoc: Executes reaction for collision of sprite with sprites in sprite map.
 	about: For every collided sprite HandleCollisionWithSprite() method will be executed and collided srite will be passed to this method.
 	You can specify collision type which will be passed to this method too.
+	Map parameter allows you to specify map to where collided sprites will be added as keys. In this case HandleCollisionWithSprite() will not be executed.
 	
 	See also: #CollisionsWithGroup, #CollisionsWithSprite, #CollisionsWithTileMap, #CollisionsWithLine, #Horizontal, #Vertical
 	End Rem
-	Method CollisionsWithCollisionMap( CollisionMap:LTCollisionMap, CollisionType:Int = 0 )
+	Method CollisionsWithSpriteMap( SpriteMap:LTSpriteMap, CollisionType:Int = 0, Map:TMap = Null )
 		Select ShapeType
 			Case Pivot
-				For Local MapSprite:LTSprite = EachIn CollisionMap.Sprites[ Int( X / CollisionMap.CellWidth ) & CollisionMap.XMask, Int( Y / CollisionMap.CellHeight ) & CollisionMap.YMask ]
+				For Local MapSprite:LTSprite = EachIn SpriteMap.Sprites[ Int( X / SpriteMap.CellWidth ) & SpriteMap.XMask, Int( Y / SpriteMap.CellHeight ) & SpriteMap.YMask ]
 					If Self = MapSprite Then Continue
-					If CollidesWithSprite( MapSprite ) Then HandleCollisionWithSprite( MapSprite, CollisionType )
+					If CollidesWithSprite( MapSprite ) Then
+						If Map Then
+							Map.Insert( MapSprite, Null )
+						Else
+							HandleCollisionWithSprite( MapSprite, CollisionType )
+						End If
+					End If
 				Next
 			Default
-				Local MapX1:Int = Floor( ( X - 0.5 * Width ) / CollisionMap.CellWidth )
-				Local MapY1:Int = Floor( ( Y - 0.5 * Height ) / CollisionMap.CellHeight )
-				Local MapX2:Int = Floor( ( X + 0.5 * Width - 0.000001 ) / CollisionMap.CellWidth )
-				Local MapY2:Int = Floor( ( Y + 0.5 * Height - 0.000001 ) / CollisionMap.CellHeight )
+				Local MapX1:Int = Floor( ( X - 0.5 * Width ) / SpriteMap.CellWidth )
+				Local MapY1:Int = Floor( ( Y - 0.5 * Height ) / SpriteMap.CellHeight )
+				Local MapX2:Int = Floor( ( X + 0.5 * Width - L_Inaccuracy ) / SpriteMap.CellWidth )
+				Local MapY2:Int = Floor( ( Y + 0.5 * Height - L_Inaccuracy ) / SpriteMap.CellHeight )
 				
 				For Local CellY:Int = MapY1 To MapY2
 					For Local CellX:Int = MapX1 To MapX2
-						For Local MapSprite:LTSprite = EachIn CollisionMap.Sprites[ CellX & CollisionMap.XMask, CellY & CollisionMap.YMask ]
+						For Local MapSprite:LTSprite = EachIn SpriteMap.Sprites[ CellX & SpriteMap.XMask, CellY & SpriteMap.YMask ]
 							If Self = MapSprite Then Continue
-							If CollidesWithSprite( MapSprite ) Then HandleCollisionWithSprite( MapSprite, CollisionType )
+							If CollidesWithSprite( MapSprite ) Then
+								If Map Then
+									Map.Insert( MapSprite, Null )
+								Else
+									HandleCollisionWithSprite( MapSprite, CollisionType )
+								End If
+							End If
 						Next
 					Next
 				Next
@@ -485,13 +498,13 @@ Type LTSprite Extends LTShape
 	' ==================== Position and size ====================
 	
 	Method SetCoords( NewX:Double, NewY:Double )
-		If CollisionMap Then CollisionMap.RemoveSprite( Self, False )
+		If SpriteMap Then SpriteMap.RemoveSprite( Self, False )
 		
 		X = NewX
 		Y = NewY
 		
 		Update()
-		If CollisionMap Then CollisionMap.InsertSprite( Self, False )
+		If SpriteMap Then SpriteMap.InsertSprite( Self, False )
 	End Method
 	
 	
@@ -511,22 +524,14 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Method SetCoordsRelativeTo( Sprite:LTAngularSprite, NewX:Double, NewY:Double )
-		Local SpriteAngle:Double = DirectionToPoint( NewX, NewY ) + Sprite.Angle
-		Local Radius:Double = Sqr( NewX * NewX + NewY * NewY )
-		SetCoords( Sprite.X + Radius * Cos( SpriteAngle ), Sprite.Y + Radius * Sin( SpriteAngle ) )
-	End Method
-	
-	
-	
 	Method SetSize( NewWidth:Double, NewHeight:Double )
-		If CollisionMap Then CollisionMap.RemoveSprite( Self )
+		If SpriteMap Then SpriteMap.RemoveSprite( Self, False )
 		
 		Width = NewWidth
 		Height = NewHeight
 
 		Update()
-		If CollisionMap Then CollisionMap.InsertSprite( Self )
+		If SpriteMap Then SpriteMap.InsertSprite( Self, False )
 	End Method
 	
 	
@@ -540,7 +545,7 @@ Type LTSprite Extends LTShape
 		Height = TileMap.GetTileHeight()
 		X = TileMap.LeftX() + Width * ( 0.5 + TileX )
 		Y = TileMap.TopY() + Height * ( 0.5 + TileY )
-		Visualizer = LTImageVisualizer.FromImage( Tilemap.TileSet.Image )
+		Visualizer = LTVisualizer.FromImage( Tilemap.TileSet.Image )
 		Frame = TileMap.GetTile( TileX, TileY )
 	End Method
 	

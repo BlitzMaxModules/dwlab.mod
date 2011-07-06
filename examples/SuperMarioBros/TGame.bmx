@@ -16,7 +16,7 @@ Type TGame Extends LTProject
 	Field Coins:Int
 	Field TimeLeft:Int
 	
-	Field MovingObjects:LTCollisionMap
+	Field MovingObjects:LTSpriteMap
 	Field Tilemap:LTTileMap
 	Field World:LTWorld ' this field will store our world created in editor
 	Field Level:LTLayer ' this field will store layer loaded from the world
@@ -25,7 +25,7 @@ Type TGame Extends LTProject
 	Field HUDCamera:LTCamera = LTCamera.Create( 960, 720, 48.0 )
 	Field Font:LTBitmapFont = LTBitmapFont.FromFile( "media/font.png", 32, 127, 16 )
 	Field Levels:LTLayer[]
-	Field CollisionMaps:LTCollisionMap[]
+	Field SpriteMaps:LTSpriteMap[]
 	Field Mario:TMario
 	Field LivesScreen:TLives = New TLives
 	Field TimeModel:TTime = New TTime
@@ -34,16 +34,16 @@ Type TGame Extends LTProject
 	Field SuperMario:LTImage = LTImage.FromFile( "media\SuperMario.png", TMario.FramesInRow, 5 )
 	Field Growth:LTImage = LTImage.FromFile( "media\Growth.png", 3 )
 	
-	Field ScoreVisualizer:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Score.png", 11 )
-	Field Coin:LTImageVisualizer = LTImageVisualizer.FromFile( "media\FlippingCoin.png", 4 )
-	Field Mushroom:LTImageVisualizer = LTImageVisualizer.FromFile( "media\MagicMushroom.png" )
+	Field ScoreVisualizer:LTVisualizer = LTVisualizer.FromFile( "media\Score.png", 11 )
+	Field Coin:LTVisualizer = LTVisualizer.FromFile( "media\FlippingCoin.png", 4 )
+	Field Mushroom:LTVisualizer = LTVisualizer.FromFile( "media\MagicMushroom.png" )
 	Field Bricks:LTImage = LTImage.FromFile( "media\Bricks.png", 2 )
-	Field FireFlower:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Fireflower.png", 4 )
-	Field OneUpMushroom:LTImageVisualizer = LTImageVisualizer.FromFile( "media\1upMushroom.png" )
-	Field StarMan:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Starman.png", 4 )
+	Field FireFlower:LTVisualizer = LTVisualizer.FromFile( "media\Fireflower.png", 4 )
+	Field OneUpMushroom:LTVisualizer = LTVisualizer.FromFile( "media\1upMushroom.png" )
+	Field StarMan:LTVisualizer = LTVisualizer.FromFile( "media\Starman.png", 4 )
 	Field Fireball:LTImage = LTImage.FromFile( "media\Fireball.png" )
-	Field Explosion:LTImageVisualizer = LTImageVisualizer.FromFile( "media\Explosion.png", 3 )
-	Field FlagOnCastle:LTImageVisualizer = LTImageVisualizer.FromFile( "media\FlagOnCastle.png" )
+	Field Explosion:LTVisualizer = LTVisualizer.FromFile( "media\Explosion.png", 3 )
+	Field FlagOnCastle:LTVisualizer = LTVisualizer.FromFile( "media\FlagOnCastle.png" )
 
 	Field Jump:TSound = TSound.Load( "media\Jump.ogg", False )
 	Field Stomp:TSound = TSound.Load( "media\Stomp.ogg", False )
@@ -80,21 +80,21 @@ Type TGame Extends LTProject
 	Method InitLevel()
 		Local LevelsQuantity:Int = World.Children.Count()
 		Levels = New LTLayer[ LevelsQuantity ]
-		CollisionMaps = New LTCollisionMap[ LevelsQuantity ]
+		SpriteMaps = New LTSpriteMap[ LevelsQuantity ]
 		
 		Mario = New TMario
 		Mario.SetWidth( 0.8 )
-		Mario.Visualizer = New LTImageVisualizer.FromImage( Game.SmallMario )
+		Mario.Visualizer = New LTVisualizer.FromImage( Game.SmallMario )
 		Mario.Visualizer.XScale = 1.0 / 0.8
 		Mario.Init()
 		
 		For Local N:Int = 0 Until LevelsQuantity
 			Local Layer:LTLayer = LTLayer( World.FindShape( "LTLayer," + N ) )
-			MovingObjects = LTCollisionMap.CreateForShape( Layer.FindShape( "TTiles" ), 2.0 )
+			MovingObjects = LTSpriteMap.CreateForShape( Layer.FindShape( "TTiles" ), 2.0 )
 			LoadAndInitLayer( Levels[ N ], Layer )
 			Levels[ N ].AddLast( Mario )
 			Levels[ N ].AttachModel( TimeModel )
-			CollisionMaps[ N ] = MovingObjects
+			SpriteMaps[ N ] = MovingObjects
 		Next
 		
 		LivesScreen.Execute()
@@ -107,7 +107,7 @@ Type TGame Extends LTProject
 	Method SwitchToLevel( Num:Int, PointNum:Int = 0 )
 		Level = Levels[ Num ]
 		TileMap = LTTileMap( Level.FindShapeWithType( "TTiles" ) )
-		MovingObjects = CollisionMaps[ Num ]
+		MovingObjects = SpriteMaps[ Num ]
 		Mario.JumpTo( Level.FindShapeWithType( "TStart", String( PointNum ) ) )
 		TMusic( Level.FindShapeWithType( "TMusic" ) ).Start()
 	End Method

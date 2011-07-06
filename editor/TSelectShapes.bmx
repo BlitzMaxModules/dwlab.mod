@@ -41,8 +41,8 @@ Type TSelectShapes Extends LTDrag
 	Method Dragging()
 		Frame.X = 0.5 * ( StartX + Editor.Cursor.X )
 		Frame.Y = 0.5 * ( StartY + Editor.Cursor.Y )
-		Frame.Width = Abs ( StartX - Editor.Cursor.X )
-		Frame.Height = Abs ( StartY - Editor.Cursor.Y )
+		Frame.Width = Abs( StartX - Editor.Cursor.X )
+		Frame.Height = Abs( StartY - Editor.Cursor.Y )
 	End Method
 	
 	
@@ -66,9 +66,13 @@ Type TSelectShapes Extends LTDrag
 					If Not Editor.CurrentShape Then Editor.CurrentShape = Sprite
 				End If
 			Else
-				Local CollisionMap:LTCollisionMap = LTCollisionMap( Shape )
-				If CollisionMap Then
-					
+				Local SpriteMap:LTSpriteMap = LTSpriteMap( Shape )
+				If SpriteMap Then
+					Local Map:TMap = New TMap
+					Frame.CollisionsWithSpriteMap( SpriteMap, , Map )
+					For Sprite = EachIn Map.Keys()
+						If Frame.Overlaps( Sprite ) Then Editor.SelectedShapes.AddLast( Sprite )
+					Next
 				Else
 					Local Layer:LTLayer = LTLayer( Shape )
 					If Layer Then ProcessLayer( Layer )

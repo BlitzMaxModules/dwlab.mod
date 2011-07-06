@@ -1,8 +1,16 @@
-ModuleInfo "Version: 1.0.1.1"
+ModuleInfo "Version: 1.0.2"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
-ModuleInfo "History: &nbsp; &nbsp; ."
+ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.2 (06.07.11)"
+ModuleInfo "History: &nbsp; &nbsp; CollisionsWithSpriteMap() method now have List parameter to add collided sprites to."
+ModuleInfo "History: &nbsp; &nbsp; Added visualizer cloning method."
+ModuleInfo "History: &nbsp; &nbsp; ImageVisualizer is merged with Visualizer."
+ModuleInfo "History: &nbsp; &nbsp; Fixed bug in SetSize (old method cleared collision map)."
+ModuleInfo "History: &nbsp; &nbsp; Collision maps are renamed to sprite maps."
+ModuleInfo "History: &nbsp; &nbsp; Added sprite maps saving/loading method."
+ModuleInfo "History: &nbsp; &nbsp; Added GetSprites() method."
 ModuleInfo "History: v1.0.1.1 (05.07.11)"
 ModuleInfo "History: &nbsp; &nbsp; ShowDebugInfo() method is now without parameters."
 ModuleInfo "History: &nbsp; &nbsp; MoveUsingKeys() methods are now in LTShape and have velocity parameter."
@@ -10,7 +18,7 @@ ModuleInfo "History: &nbsp; &nbsp; Max2D drivers import is now inside framework.
 ModuleInfo "History: v1.0.1 (04.07.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added sorting parameter to collision maps."
 ModuleInfo "History: &nbsp; &nbsp; Border parameter of collision map is turned to 4 margin parameters."
-ModuleInfo "History: &nbsp; &nbsp; Now set all margins to one value is possible by using SetBorder() method."
+ModuleInfo "History: &nbsp; &nbsp; Now setting all collision map margins to one value is possible by using SetBorder() method."
 ModuleInfo "History: &nbsp; &nbsp; Visualizer's DX and DY parameters are now image-relative."
 ModuleInfo "History: v1.0.0.1 (30.06.11)"
 ModuleInfo "History: &nbsp; &nbsp; Fixed bug of ChopFilename() function under Mac."
@@ -21,7 +29,7 @@ import brl.d3d7max2d
 import brl.random
 import brl.reflection
 import brl.retro
-L_Version$=$"0.13.3"
+L_Version$=$"1.0.2"
 LTObject^brl.blitz.Object{
 .Name$&
 -New%()="_dwlab_frmwork_LTObject_New"
@@ -85,6 +93,7 @@ RightFacing!=1!
 -SetCornerCoords%(NewX!,NewY!)="_dwlab_frmwork_LTShape_SetCornerCoords"
 -JumpTo%(Shape:LTShape)="_dwlab_frmwork_LTShape_JumpTo"
 -SetMouseCoords%()="_dwlab_frmwork_LTShape_SetMouseCoords"
+-SetCoordsRelativeTo%(Sprite:LTAngularSprite,NewX!,NewY!)="_dwlab_frmwork_LTShape_SetCoordsRelativeTo"
 -Move%(DX!,DY!)="_dwlab_frmwork_LTShape_Move"
 -PlaceBetween%(Shape1:LTShape,Shape2:LTShape,K!)="_dwlab_frmwork_LTShape_PlaceBetween"
 -MoveUsingWSAD%(Velocity!)="_dwlab_frmwork_LTShape_MoveUsingWSAD"
@@ -171,7 +180,7 @@ Circle%=1
 Rectangle%=2
 .ShapeType%&
 .Frame%&
-.CollisionMap:LTCollisionMap&
+.SpriteMap:LTSpriteMap&
 -New%()="_dwlab_frmwork_LTSprite_New"
 -Delete%()="_dwlab_frmwork_LTSprite_Delete"
 -Draw%()="_dwlab_frmwork_LTSprite_Draw"
@@ -185,7 +194,7 @@ Rectangle%=2
 -CollisionsWithSprite%(Sprite:LTSprite,CollisionType%=0)="_dwlab_frmwork_LTSprite_CollisionsWithSprite"
 -CollisionsWithTileMap%(TileMap:LTTileMap,CollisionType%=0)="_dwlab_frmwork_LTSprite_CollisionsWithTileMap"
 -CollisionsWithLine%(Line:LTLine,CollisionType%=0)="_dwlab_frmwork_LTSprite_CollisionsWithLine"
--CollisionsWithCollisionMap%(CollisionMap:LTCollisionMap,CollisionType%=0)="_dwlab_frmwork_LTSprite_CollisionsWithCollisionMap"
+-CollisionsWithSpriteMap%(SpriteMap:LTSpriteMap,CollisionType%=0,Map:brl.map.TMap="bbNullObject")="_dwlab_frmwork_LTSprite_CollisionsWithSpriteMap"
 -SpriteGroupCollisions%(Sprite:LTSprite,CollisionType%=0)="_dwlab_frmwork_LTSprite_SpriteGroupCollisions"
 -HandleCollisionWithSprite%(Sprite:LTSprite,CollisionType%=0)="_dwlab_frmwork_LTSprite_HandleCollisionWithSprite"
 -HandleCollisionWithTile%(TileMap:LTTileMap,TileX%,TileY%,CollisionType%=0)="_dwlab_frmwork_LTSprite_HandleCollisionWithTile"
@@ -196,7 +205,6 @@ Rectangle%=2
 -PushFromTileSprite%(TileSprite:LTSprite,DX!,DY!,XScale!,YScale!)="_dwlab_frmwork_LTSprite_PushFromTileSprite"
 -SetCoords%(NewX!,NewY!)="_dwlab_frmwork_LTSprite_SetCoords"
 -MoveForward%()="_dwlab_frmwork_LTSprite_MoveForward"
--SetCoordsRelativeTo%(Sprite:LTAngularSprite,NewX!,NewY!)="_dwlab_frmwork_LTSprite_SetCoordsRelativeTo"
 -SetSize%(NewWidth!,NewHeight!)="_dwlab_frmwork_LTSprite_SetSize"
 -SetAsTile%(TileMap:LTTileMap,TileX%,TileY%)="_dwlab_frmwork_LTSprite_SetAsTile"
 -Animate%(Project:LTProject,Speed!,FramesQuantity%=0,FrameStart%=0,StartingTime!=0!,PingPong%=0)="_dwlab_frmwork_LTSprite_Animate"
@@ -382,7 +390,7 @@ CircleBound!=0.707107!
 -DrawCircle%(XCenter!,YCenter!,Radius!,Color!=1!)="_dwlab_frmwork_LTDoubleMap_DrawCircle"
 -Limit%()="_dwlab_frmwork_LTDoubleMap_Limit"
 }="dwlab_frmwork_LTDoubleMap"
-LTCollisionMap^LTMap{
+LTSpriteMap^LTMap{
 .Sprites:brl.linkedlist.TList&[,]&
 .CellWidth!&
 .CellHeight!&
@@ -391,20 +399,22 @@ LTCollisionMap^LTMap{
 .TopMargin!&
 .BottomMargin!&
 .Sorted%&
--New%()="_dwlab_frmwork_LTCollisionMap_New"
--Delete%()="_dwlab_frmwork_LTCollisionMap_Delete"
--SetResolution%(NewXQuantity%,NewYQuantity%)="_dwlab_frmwork_LTCollisionMap_SetResolution"
--SetCellSize%(NewCellWidth!,NewCellHeight!)="_dwlab_frmwork_LTCollisionMap_SetCellSize"
--SetBorder%(Border!)="_dwlab_frmwork_LTCollisionMap_SetBorder"
--SetMargins%(NewLeftMargin!,NewTopMargin!,NewRightMargin!,NewBottomMargin!)="_dwlab_frmwork_LTCollisionMap_SetMargins"
--Draw%()="_dwlab_frmwork_LTCollisionMap_Draw"
--DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTCollisionMap_DrawUsingVisualizer"
--InsertSprite%(Sprite:LTSprite,ChangeCollisionMapField%=1)="_dwlab_frmwork_LTCollisionMap_InsertSprite"
--InsertSpriteTo%(Sprite:LTSprite,MapX%,MapY%)="_dwlab_frmwork_LTCollisionMap_InsertSpriteTo"
--RemoveSprite%(Sprite:LTSprite,ChangeCollisionMapField%=1)="_dwlab_frmwork_LTCollisionMap_RemoveSprite"
-+Create:LTCollisionMap(XQuantity%,YQuantity%,CellWidth!=1!,CellHeight!=1!,Sorted%=0)="_dwlab_frmwork_LTCollisionMap_Create"
-+CreateForShape:LTCollisionMap(Shape:LTShape,CellSize!=1!,Sorted%=0)="_dwlab_frmwork_LTCollisionMap_CreateForShape"
-}="dwlab_frmwork_LTCollisionMap"
+-New%()="_dwlab_frmwork_LTSpriteMap_New"
+-Delete%()="_dwlab_frmwork_LTSpriteMap_Delete"
+-SetResolution%(NewXQuantity%,NewYQuantity%)="_dwlab_frmwork_LTSpriteMap_SetResolution"
+-SetCellSize%(NewCellWidth!,NewCellHeight!)="_dwlab_frmwork_LTSpriteMap_SetCellSize"
+-SetBorder%(Border!)="_dwlab_frmwork_LTSpriteMap_SetBorder"
+-SetMargins%(NewLeftMargin!,NewTopMargin!,NewRightMargin!,NewBottomMargin!)="_dwlab_frmwork_LTSpriteMap_SetMargins"
+-GetSprites:brl.map.TMap()="_dwlab_frmwork_LTSpriteMap_GetSprites"
+-Draw%()="_dwlab_frmwork_LTSpriteMap_Draw"
+-DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTSpriteMap_DrawUsingVisualizer"
+-InsertSprite%(Sprite:LTSprite,ChangeSpriteMapField%=1)="_dwlab_frmwork_LTSpriteMap_InsertSprite"
+-InsertSpriteTo%(Sprite:LTSprite,MapX%,MapY%)="_dwlab_frmwork_LTSpriteMap_InsertSpriteTo"
+-RemoveSprite%(Sprite:LTSprite,ChangeSpriteMapField%=1)="_dwlab_frmwork_LTSpriteMap_RemoveSprite"
++Create:LTSpriteMap(XQuantity%,YQuantity%,CellWidth!=1!,CellHeight!=1!,Sorted%=0)="_dwlab_frmwork_LTSpriteMap_Create"
++CreateForShape:LTSpriteMap(Shape:LTShape,CellSize!=1!,Sorted%=0)="_dwlab_frmwork_LTSpriteMap_CreateForShape"
+-XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTSpriteMap_XMLIO"
+}="dwlab_frmwork_LTSpriteMap"
 LTLine^LTShape{
 .Pivot:LTSprite&[]&
 -New%()="_dwlab_frmwork_LTLine_New"
@@ -484,8 +494,11 @@ LTVisualizer^LTObject{
 .Scaling%&
 .Angle!&
 .Rotating%&
+.Image:LTImage&
 -New%()="_dwlab_frmwork_LTVisualizer_New"
 -Delete%()="_dwlab_frmwork_LTVisualizer_Delete"
++FromFile:LTVisualizer(Filename$,XCells%=1,YCells%=1)="_dwlab_frmwork_LTVisualizer_FromFile"
++FromImage:LTVisualizer(Image:LTImage)="_dwlab_frmwork_LTVisualizer_FromImage"
 -SetDXDY%(NewDX!,NewDY!)="_dwlab_frmwork_LTVisualizer_SetDXDY"
 -SetVisualizerScale%(NewXScale!,NewYScale!)="_dwlab_frmwork_LTVisualizer_SetVisualizerScale"
 -GetImage:LTImage()="_dwlab_frmwork_LTVisualizer_GetImage"
@@ -499,18 +512,13 @@ LTVisualizer^LTObject{
 -AlterColor%(D1!,D2!)="_dwlab_frmwork_LTVisualizer_AlterColor"
 -ApplyColor%()="_dwlab_frmwork_LTVisualizer_ApplyColor"
 -ResetColor%()="_dwlab_frmwork_LTVisualizer_ResetColor"
+-Clone:LTVisualizer()="_dwlab_frmwork_LTVisualizer_Clone"
+-CopyTo%(Visualizer:LTVisualizer)="_dwlab_frmwork_LTVisualizer_CopyTo"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTVisualizer_XMLIO"
 }="dwlab_frmwork_LTVisualizer"
 LTImageVisualizer^LTVisualizer{
-.Image:LTImage&
 -New%()="_dwlab_frmwork_LTImageVisualizer_New"
 -Delete%()="_dwlab_frmwork_LTImageVisualizer_Delete"
-+FromFile:LTImageVisualizer(Filename$,XCells%=1,YCells%=1)="_dwlab_frmwork_LTImageVisualizer_FromFile"
-+FromImage:LTImageVisualizer(Image:LTImage)="_dwlab_frmwork_LTImageVisualizer_FromImage"
--GetImage:LTImage()="_dwlab_frmwork_LTImageVisualizer_GetImage"
--SetImage%(NewImage:LTImage)="_dwlab_frmwork_LTImageVisualizer_SetImage"
--DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTImageVisualizer_DrawUsingSprite"
--XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTImageVisualizer_XMLIO"
 }="dwlab_frmwork_LTImageVisualizer"
 LTImage^LTObject{
 .BMaxImage:brl.max2d.TImage&

@@ -120,77 +120,77 @@
 		<LTLayer name="LTLayer,Player">
 			<Object field="visualizer" id="62"/>
 			<LTAngularSprite name="TPlayer" x="3.5" y="2.5" shape="1" velocity="5">
-				<LTImageVisualizer field="visualizer" xscale="1.75" yscale="1.75">
+				<LTVisualizer field="visualizer" xscale="1.75" yscale="1.75">
 					<LTImage field="image" id="68" filename="media\brain.png"/>
-				</LTImageVisualizer>
+				</LTVisualizer>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,Visor" x="3.5" y="2.5">
-				<LTImageVisualizer field="visualizer" xscale="2" yscale="2">
+				<LTVisualizer field="visualizer" xscale="2" yscale="2">
 					<LTImage field="image" id="71" filename="media\visor.png"/>
-				</LTImageVisualizer>
+				</LTVisualizer>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,Hinge,0" x="3.41" y="2.8929" width="0.4103" height="0.316">
-				<LTImageVisualizer field="visualizer"/>
+				<LTVisualizer field="visualizer"/>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,Hinge,1" x="3.41" y="2.107" width="0.2767" height="0.2495">
-				<LTImageVisualizer field="visualizer"/>
+				<LTVisualizer field="visualizer"/>
 			</LTAngularSprite>
 			<LTAngularSprite name="TChaingun,0" x="3.64" y="3.0499" width="1.6496" height="0.5998">
-				<LTImageVisualizer field="visualizer" yscale="-1">
+				<LTVisualizer field="visualizer" yscale="-1">
 					<LTImage field="image" id="78" filename="media\cannon.png"/>
-				</LTImageVisualizer>
+				</LTVisualizer>
 			</LTAngularSprite>
 			<LTAngularSprite name="TChaingun,1" x="3.64" y="1.95" width="1.6496" height="0.5998">
-				<LTImageVisualizer field="visualizer">
+				<LTVisualizer field="visualizer">
 					<Object field="image" id="78"/>
-				</LTImageVisualizer>
+				</LTVisualizer>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,Barrel,0" x="4.4329" y="3.145" width="0.885" height="0.23">
-				<LTImageVisualizer field="visualizer">
+				<LTVisualizer field="visualizer">
 					<LTImage field="image" id="83" filename="media\barrel.png" xcells="4" ycells="4"/>
-				</LTImageVisualizer>
+				</LTVisualizer>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,Barrel,1" x="4.4329" y="1.855" width="0.885" height="0.23" frame="8">
-				<LTImageVisualizer field="visualizer">
+				<LTVisualizer field="visualizer">
 					<Object field="image" id="83"/>
-				</LTImageVisualizer>
+				</LTVisualizer>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,FirePos,0,0" x="4.5499" y="3.1019" width="0.1247" height="0.1532">
-				<LTImageVisualizer field="visualizer"/>
+				<LTVisualizer field="visualizer"/>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,FirePos,0,1" x="4.5499" y="3.208" width="0.1832" height="0.1792">
-				<LTImageVisualizer field="visualizer"/>
+				<LTVisualizer field="visualizer"/>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,FirePos,1,0" x="4.5499" y="1.9157" width="0.1202" height="0.1217">
-				<LTImageVisualizer field="visualizer"/>
+				<LTVisualizer field="visualizer"/>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,FirePos,1,1" x="4.5499" y="1.814" width="0.1262" height="0.1278">
-				<LTImageVisualizer field="visualizer"/>
+				<LTVisualizer field="visualizer"/>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,Aimer,0" x="3.41" y="3.1419" width="0.3425" height="0.3024">
-				<LTImageVisualizer field="visualizer"/>
+				<LTVisualizer field="visualizer"/>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,Aimer,1" x="3.41" y="1.858" width="0.3083" height="0.2911">
-				<LTImageVisualizer field="visualizer"/>
+				<LTVisualizer field="visualizer"/>
 			</LTAngularSprite>
 			<LTAngularSprite name="TFire,0" x="4.5499" y="1.9207">
-				<LTImageVisualizer field="visualizer">
+				<LTVisualizer field="visualizer">
 					<LTImage field="image" id="100" filename="media\fire.png" xcells="5"/>
-				</LTImageVisualizer>
+				</LTVisualizer>
 			</LTAngularSprite>
 			<LTAngularSprite name="TFire,1" x="4.5499" y="3.1089">
-				<LTImageVisualizer field="visualizer">
+				<LTVisualizer field="visualizer">
 					<Object field="image" id="100"/>
-				</LTImageVisualizer>
+				</LTVisualizer>
 			</LTAngularSprite>
 		</LTLayer>
 		<LTLayer name="LTLayer,Trees">
 			<Object field="visualizer" id="62"/>
 		</LTLayer>
 		<LTSprite name="LTSprite,Target" x="12.3809" y="7.1428" width="2.8571" height="2.9205">
-			<LTImageVisualizer field="visualizer" scaling="0">
+			<LTVisualizer field="visualizer" scaling="0">
 				<LTImage field="image" id="106" filename="media\target.png"/>
-			</LTImageVisualizer>
+			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>
 </LTWorld>

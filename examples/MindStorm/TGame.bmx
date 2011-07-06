@@ -18,18 +18,18 @@ Type TGame Extends LTProject
 	Field Target:LTSprite
 	Field DZ:Int
 
-	Field Blocks:LTCollisionMap
-	Field Bullets:LTCollisionMap
-	Field Trees:LTCollisionMap
+	Field Blocks:LTSpriteMap
+	Field Bullets:LTSpriteMap
+	Field Trees:LTSpriteMap
 	Field BulletLayer:LTLayer = New LTLayer
 	Field ActingMap:TMap = New TMap
 	
-	Field Fire:LTImageVisualizer = LTImageVisualizer.FromFile( "media\fire.png", 5 )
+	Field Fire:LTVisualizer = LTVisualizer.FromFile( "media\fire.png", 5 )
 	Field ChaingunBullet:LTImage = LTImage.FromFile( "media\bullet.png", 8, 11 )
 	Field Pyramid:LTImage = LTImage.FromFile( "media\pyramid.png", 2 )
 	Field Brain:LTImage = LTImage.FromFile( "media\brain2.png" )
 	Field Tree:LTImage = LTImage.FromFile( "media\tree.png", 3 )
-	Field Explosion:LTImageVisualizer = LTImageVisualizer.FromFile( "media\explosion.png", 8, 5 )
+	Field Explosion:LTVisualizer = LTVisualizer.FromFile( "media\explosion.png", 8, 5 )
 	
 	Field FireSounds:LTChannelPack = LTChannelPack.Create( 4 )
 	Field ExplosionSounds:LTChannelPack = LTChannelPack.Create( 4 )

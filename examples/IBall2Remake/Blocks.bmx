@@ -31,7 +31,7 @@ Type TMovingBlock Extends TBlock
     Block.SetDY( DY )
     Block.Frame = FrameNum
     Block.Visualizer = Game.FlashingVisualizer
-    Game.CollisionMap.InsertSprite( Block )
+    Game.SpriteMap.InsertSprite( Block )
     Game.Objects.AddLast( Block )
   End Function
   
@@ -39,7 +39,7 @@ Type TMovingBlock Extends TBlock
   
   Method Act()
     MoveForward()
-    Game.CollisionMap.CollisionsWithSprite( Self )
+    Game.SpriteMap.CollisionsWithSprite( Self )
     Game.TileMap.CollisionsWithSprite( Self )
   End Method
   

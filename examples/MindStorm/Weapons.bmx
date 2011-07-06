@@ -30,9 +30,9 @@ Type TChaingun Extends TWeapon
   Field CannonHinge:LTSprite = New LTSprite
   Field CannonAimer:LTSprite = New LTSprite
   Field Cannon:LTSprite = New LTSprite
-  Field CannonVisualizer:LTImageVisualizer = New LTImageVisualizer
+  Field CannonVisualizer:LTVisualizer = New LTVisualizer
   Field Barrel:LTSprite = New LTSprite
-  Field BarrelVisualizer:LTImageVisualizer = New LTImageVisualizer
+  Field BarrelVisualizer:LTVisualizer = New LTVisualizer
   Field FireMin:LTSprite = New LTSprite
   Field FireMax:LTSprite = New LTSprite
   Field Fire:LTSprite = New LTSprite
@@ -109,7 +109,7 @@ Type TChaingun Extends TWeapon
       BarrelAnimAcc = 60.0
       If Millisecs() - LastShotTime >= 50 Then
         Local Bullet:LTChaingunBullet = New LTChaingunBullet
-        Local BulletVisualizer:LTImageVisualizer = New LTImageVisualizer
+        Local BulletVisualizer:LTVisualizer = New LTVisualizer
         Bullet.Visualizer = BulletVisualizer
         Bullet.SetDiameter( Rnd( 0.1, 0.25 ) )
         BulletVisualizer.Image = Game.ChaingunBullet

@@ -170,7 +170,7 @@ Function ConvertLevels()
 
   Local World:LTWorld = New LTWorld
   Local BlockImage:LTImage = LTImage.FromFile( "media\tiles.png", 16, 11 )
-  Local BlockVisualizer:LTImageVisualizer = New LTImageVisualizer
+  Local BlockVisualizer:LTVisualizer = New LTVisualizer
   BlockVisualizer.Image = BlockImage
   BlockVisualizer.Rotating = False
   For Local Num:Int = 1 To 50

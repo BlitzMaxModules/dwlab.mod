@@ -15,12 +15,16 @@ bbdoc: Digital Wizard's Lab Framework GUI form constructor module.
 End Rem
 Module dwlab.forms
 
-ModuleInfo "History: v1.0 (28.06.11) Initial release"
-
-ModuleInfo "Version: 1.0"
+ModuleInfo "Version: 1.0.0.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
+
+ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.0.1 (28.06.11)"
+ModuleInfo "History: &nbsp; &nbsp; Removed variable parameters from Set() and Toggle() methods of LTMenuSwitch class."
+ModuleInfo "History: v1.0 (28.06.11)"
+ModuleInfo "History: &nbsp; &nbsp; Initial release."
 
 Import brl.eventqueue
 ?win32

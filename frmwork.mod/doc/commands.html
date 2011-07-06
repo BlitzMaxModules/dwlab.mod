@@ -119,9 +119,6 @@ Bitmap font class.
 <tr><td class=docleft width=1%><a href=#LTCamera>LTCamera</a></td><td class=docright>
 Camera for displaying game objects.
 </td></tr>
-<tr><td class=docleft width=1%><a href=#LTCollisionMap>LTCollisionMap</a></td><td class=docright>
-Collision map is a structure which can contain sprites, draw and perform collision checks between them and other shapes.
-</td></tr>
 <tr><td class=docleft width=1%><a href=#LTDebugVisualizer>LTDebugVisualizer</a></td><td class=docright>
 This visualizer can draw collision shape, vector and name of the shape with this shape itself.
 </td></tr>
@@ -145,9 +142,6 @@ Group of shapes.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTImage>LTImage</a></td><td class=docright>
 Image class.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#LTImageVisualizer>LTImageVisualizer</a></td><td class=docright>
-This visualizer displays image for the sprite.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTIntMap>LTIntMap</a></td><td class=docright>
 IntMap is basically a 2d int array.
@@ -184,6 +178,9 @@ Common object for item of game field.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTSprite>LTSprite</a></td><td class=docright>
 Sprite is the main basic shape of the framework to draw, move and check collisions.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#LTSpriteMap>LTSpriteMap</a></td><td class=docright>
+Collision map is a structure which can contain sprites, draw and perform collision checks between them and other shapes.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTTileMap>LTTileMap</a></td><td class=docright>
 Tilemap is displayable rectangular tile-based shape with 2d array of tile indexes and tileset with tile images.
@@ -352,8 +349,9 @@ See also: <a href=#L_LimitDouble>L_LimitDouble</a>, <a href=#L_IntInLimits>L_Int
 <br>
 <table class=doc width=100% cellspacing=3 id=L_ToPowerOf2>
 <tr><td class=doctop colspan=2>Function L_ToPowerOf2:Int( Value:Int )</td></tr>
-<tr><td class=docleft width=1%>Returns</td><td class=docright>Lowest power of 2 which is more than Value.</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>Lowest power of 2 which is more than or equal to Value.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Returns nearest power of 2.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#L_IsPowerOf2>L_IsPowerOf2</a>.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=L_TrimDouble>
@@ -760,114 +758,6 @@ See also: <a href=#Viewport>Viewport</a>, <a href=#ViewportClipping>ViewportClip
 <tr><td class=doctop colspan=2>Function Create:LTCamera( Width:Double, Height:Double, UnitSize:Double )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>New camera object.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Creates new camera object.</td></tr>
-</table>
-<br>
-<table class=doc width=100% cellspacing=3 id=LTCollisionMap>
-<tr><td class=doctop colspan=2>Type LTCollisionMap Extends LTMap</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Collision map is a structure which can contain sprites, draw and perform collision checks between them and other shapes.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Operations like drawing and checking collision between large groups of sprites will be faster with use of collision maps.</td></tr>
-</table>
-<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTCollisionMap_fields></a>Fields Summary</th></tr><tr><td colspan=2>
-<a href=#CellHeight>CellHeight</a>
-, 
-<a href=#CellWidth>CellWidth</a>
-, 
-<a href=#LeftMargin>LeftMargin</a>
-, 
-<a href=#Sorted>Sorted</a>
-</td></tr>
-</table>
-<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTCollisionMap_methods></a>Methods Summary</th></tr>
-<tr><td class=docleft width=1%><a href=#Draw>Draw</a></td><td class=docright>
-Draws all objects of collision map which are in cells under camera's rectangle plus margins.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#InsertSprite>InsertSprite</a></td><td class=docright>
-Inserts a sprite into collision map.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#RemoveSprite>RemoveSprite</a></td><td class=docright>
-Removes a sprite into collision map.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#SetBorder>SetBorder</a></td><td class=docright>
-Sets all margins to single value.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#SetCellSize>SetCellSize</a></td><td class=docright>
-Sets cell size of collision map.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#SetMargins>SetMargins</a></td><td class=docright>
-Sets margins of the map.
-</td></tr>
-</table>
-<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTCollisionMap_functions></a>Functions Summary</th></tr>
-<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
-Creates collision map.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#CreateForShape>CreateForShape</a></td><td class=docright>
-Creates collision map using existing shape.
-</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=CellHeight>
-<tr><td class=doctop colspan=2>Field CellHeight:Double = 1.0</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Height of collision map cell in units.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#SetCellSize>SetCellSize</a>.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=CellWidth>
-<tr><td class=doctop colspan=2>Field CellWidth:Double = 1.0</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Width of collision map cell in units.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#SetCellSize>SetCellSize</a>.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=LeftMargin>
-<tr><td class=doctop colspan=2>Field LeftMargin:Double, RightMargin:Double</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Margins for drawing collision map in units.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>When drawing collision map, margins define the size of rectangular frame around camera's rectangle in which objects will be also drawn.
-Will be handy if you draw collision map with objects with XScale / YScale parameters greater than 1.0.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=Sorted>
-<tr><td class=doctop colspan=2>Field Sorted:Int = False</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Flag which defines will be the collision map sorted by sprite Y coordinates.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>False by default.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=Draw>
-<tr><td class=doctop colspan=2>Method Draw()</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Draws all objects of collision map which are in cells under camera's rectangle plus margins.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=InsertSprite>
-<tr><td class=doctop colspan=2>Method InsertSprite( Sprite:LTSprite, ChangeCollisionMapField:Int = True )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Inserts a sprite into collision map.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Pivot insertion works faster.
-<p>
-See also: <a href=#RemoveSprite>RemoveSprite</a>.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=RemoveSprite>
-<tr><td class=doctop colspan=2>Method RemoveSprite( Sprite:LTSprite, ChangeCollisionMapField:Int = True )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Removes a sprite into collision map.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Pivot removal works faster.
-<p>
-See also: <a href=#InsertSprite>InsertSprite</a>.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=SetBorder>
-<tr><td class=doctop colspan=2>Method SetBorder( Border:Double )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Sets all margins to single value.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=SetCellSize>
-<tr><td class=doctop colspan=2>Method SetCellSize( NewCellWidth:Double, NewCellHeight:Double )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Sets cell size of collision map.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=SetMargins>
-<tr><td class=doctop colspan=2>Method SetMargins( NewLeftMargin:Double, NewTopMargin:Double, NewRightMargin:Double, NewBottomMargin:Double )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Sets margins of the map.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=Create>
-<tr><td class=doctop colspan=2>Function Create:LTCollisionMap( XQuantity:Int, YQuantity:Int, CellWidth:Double = 1.0, CellHeight:Double = 1.0, Sorted:Int = False )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Creates collision map.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>You should specify cell quantities and size.
-<p>
-See also: <a href=#CreateForShape>CreateForShape</a>.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=CreateForShape>
-<tr><td class=doctop colspan=2>Function CreateForShape:LTCollisionMap( Shape:LTShape, CellSize:Double = 1.0, Sorted:Int = False )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Creates collision map using existing shape.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Collision map with size not less than shape size will be created. You can specify cell size either.
-Use this function ob layer bounds or layer tilemap which are covers all level to maximize performance.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTDebugVisualizer>
@@ -1382,31 +1272,6 @@ Creates new image from file with specified cell quantities for splitting.
 <tr><td class=doctop colspan=2>Function FromFile:LTImage( Filename:String, XCells:Int = 1, YCells:Int = 1 )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>New image (LTImage).</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Creates new image from file with specified cell quantities for splitting.</td></tr>
-</table>
-<br>
-<table class=doc width=100% cellspacing=3 id=LTImageVisualizer>
-<tr><td class=doctop colspan=2>Type LTImageVisualizer Extends LTVisualizer</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>This visualizer displays image for the sprite.</td></tr>
-</table>
-<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTImageVisualizer_functions></a>Functions Summary</th></tr>
-<tr><td class=docleft width=1%><a href=#FromFile>FromFile</a></td><td class=docright>
-Creates new image visualizer from image file.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#FromImage>FromImage</a></td><td class=docright>
-Creates new image visualizer from existing image (LTImage).
-</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=FromFile>
-<tr><td class=doctop colspan=2>Function FromFile:LTImageVisualizer( Filename:String, XCells:Int = 1, YCells:Int = 1 )</td></tr>
-<tr><td class=docleft width=1%>Returns</td><td class=docright>New visualizer.</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Creates new image visualizer from image file.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#FromImage>FromImage</a>.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=FromImage>
-<tr><td class=doctop colspan=2>Function FromImage:LTImageVisualizer( Image:LTImage )</td></tr>
-<tr><td class=docleft width=1%>Returns</td><td class=docright>New visualizer.</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Creates new image visualizer from existing image (LTImage).</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#FromFile>FromFile</a>.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTIntMap>
@@ -2014,7 +1879,7 @@ Method for updating shape.
 <tr><td class=docleft width=1%>Description</td><td class=docright>Constant for horizontal collision type.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See tutorial for additional info.
 <p>
-See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithTileMap>CollisionsWithTileMap</a>, <a href=#CollisionsWithCollisionMap>CollisionsWithCollisionMap</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>
+See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithTileMap>CollisionsWithTileMap</a>, <a href=#CollisionsWithSpriteMap>CollisionsWithSpriteMap</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>
 <a href=#HandleCollisionWithSprite>HandleCollisionWithSprite</a>, <a href=#HandleCollisionWithTile>HandleCollisionWithTile</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Vertical>
@@ -2022,7 +1887,7 @@ See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#Collisi
 <tr><td class=docleft width=1%>Description</td><td class=docright>Constant for vertical collision type.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See tutorial for additional info.
 <p>
-See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithTileMap>CollisionsWithTileMap</a>, <a href=#CollisionsWithCollisionMap>CollisionsWithCollisionMap</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>
+See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithTileMap>CollisionsWithTileMap</a>, <a href=#CollisionsWithSpriteMap>CollisionsWithSpriteMap</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>
 <a href=#HandleCollisionWithSprite>HandleCollisionWithSprite</a>, <a href=#HandleCollisionWithTile>HandleCollisionWithTile</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Active>
@@ -2123,7 +1988,7 @@ See also: <a href=#LTBehaviorModel>LTBehaviorModel</a>, <a href=#Activate>Activa
 <tr><td class=doctop colspan=2>Method CorrectHeight()</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Corrects height to display shape image with no distortion.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Works only for shapes with image visualizer. After this operation ratio of width to height will be the same as ratio of image width to image height.
-about: See also: <a href=#Height>Height</a>, <a href=#SetHeight>SetHeight</a>, <a href=#ImageVisualizer>ImageVisualizer</a>.</td></tr>
+about: See also: <a href=#Height>Height</a>, <a href=#SetHeight>SetHeight</a>, <a href=#Visualizer>Visualizer</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=DeactivateAllModels>
 <tr><td class=doctop colspan=2>Method DeactivateAllModels()</td></tr>
@@ -2455,9 +2320,6 @@ Checks if the sprite collides with given line.
 <tr><td class=docleft width=1%><a href=#CollidesWithSprite>CollidesWithSprite</a></td><td class=docright>
 Checks if this sprite collides with given sprite.
 </td></tr>
-<tr><td class=docleft width=1%><a href=#CollisionsWithCollisionMap>CollisionsWithCollisionMap</a></td><td class=docright>
-Executes reaction for collision of sprite with sprites in collision map.
-</td></tr>
 <tr><td class=docleft width=1%><a href=#CollisionsWithGroup>CollisionsWithGroup</a></td><td class=docright>
 Executes reaction for collision of sprite with shapes in given group.
 </td></tr>
@@ -2466,6 +2328,9 @@ Executes reaction for collision of sprite with given line.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#CollisionsWithSprite>CollisionsWithSprite</a></td><td class=docright>
 Executes reaction for collision of sprite with given sprite.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#CollisionsWithSpriteMap>CollisionsWithSpriteMap</a></td><td class=docright>
+Executes reaction for collision of sprite with sprites in sprite map.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#CollisionsWithTileMap>CollisionsWithTileMap</a></td><td class=docright>
 Executes reaction for collision of sprite with tiles in given tilemap.
@@ -2535,21 +2400,13 @@ Wedges off sprite with given sprite.
 <tr><td class=docleft width=1%>Returns</td><td class=docright>True if the sprite collides with given sprite, False otherwise.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Checks if this sprite collides with given sprite.</td></tr>
 </table>
-<table class=doc width=100% cellspacing=3 id=CollisionsWithCollisionMap>
-<tr><td class=doctop colspan=2>Method CollisionsWithCollisionMap( CollisionMap:LTCollisionMap, CollisionType:Int = 0 )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Executes reaction for collision of sprite with sprites in collision map.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>For every collided sprite HandleCollisionWithSprite() method will be executed and collided srite will be passed to this method.
-You can specify collision type which will be passed to this method too.
-<p>
-See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithTileMap>CollisionsWithTileMap</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>, <a href=#Horizontal>Horizontal</a>, <a href=#Vertical>Vertical</a>.</td></tr>
-</table>
 <table class=doc width=100% cellspacing=3 id=CollisionsWithGroup>
 <tr><td class=doctop colspan=2>Method CollisionsWithGroup( Group:LTGroup, CollisionType:Int = 0 )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Executes reaction for collision of sprite with shapes in given group.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>For every collided shape collision handling method will be executed and corresponding parameters will be passed to this method.
 You can specify collision type which will be passed to this method too.
 <p>
-See also: <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithTileMap>CollisionsWithTileMap</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>, <a href=#CollisionsWithCollisionMap>CollisionsWithCollisionMap</a>, <a href=#Horizontal>Horizontal</a>, <a href=#Vertical>Vertical</a>.</td></tr>
+See also: <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithTileMap>CollisionsWithTileMap</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>, <a href=#CollisionsWithSpriteMap>CollisionsWithSpriteMap</a>, <a href=#Horizontal>Horizontal</a>, <a href=#Vertical>Vertical</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=CollisionsWithLine>
 <tr><td class=doctop colspan=2>Method CollisionsWithLine( Line:LTLine, CollisionType:Int = 0 )</td></tr>
@@ -2557,7 +2414,7 @@ See also: <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#Colli
 <tr><td class=docleft width=1%>Information</td><td class=docright>If sprite collides with line then HandleCollisionWithLine() method will be executed and line will be passed to this method.
 You can specify collision type which will be passed to this method too.
 <p>
-See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithTileMap>CollisionsWithTileMap</a>, <a href=#CollisionsWithCollisionMap>CollisionsWithCollisionMap</a>, <a href=#Horizontal>Horizontal</a>, <a href=#Vertical>Vertical</a>.</td></tr>
+See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithTileMap>CollisionsWithTileMap</a>, <a href=#CollisionsWithSpriteMap>CollisionsWithSpriteMap</a>, <a href=#Horizontal>Horizontal</a>, <a href=#Vertical>Vertical</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=CollisionsWithSprite>
 <tr><td class=doctop colspan=2>Method CollisionsWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )</td></tr>
@@ -2565,7 +2422,16 @@ See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#Collisi
 <tr><td class=docleft width=1%>Information</td><td class=docright>If sprites collide then HandleCollisionWithSprite() method will be executed and given sprite will be passed to this method.
 You can specify collision type which will be passed to this method too.
 <p>
-See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#CollisionsWithTileMap>CollisionsWithTileMap</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>, <a href=#CollisionsWithCollisionMap>CollisionsWithCollisionMap</a>, <a href=#Horizontal>Horizontal</a>, <a href=#Vertical>Vertical</a>.</td></tr>
+See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#CollisionsWithTileMap>CollisionsWithTileMap</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>, <a href=#CollisionsWithSpriteMap>CollisionsWithSpriteMap</a>, <a href=#Horizontal>Horizontal</a>, <a href=#Vertical>Vertical</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=CollisionsWithSpriteMap>
+<tr><td class=doctop colspan=2>Method CollisionsWithSpriteMap( SpriteMap:LTSpriteMap, CollisionType:Int = 0, Map:TMap = Null )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Executes reaction for collision of sprite with sprites in sprite map.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>For every collided sprite HandleCollisionWithSprite() method will be executed and collided srite will be passed to this method.
+You can specify collision type which will be passed to this method too.
+Map parameter allows you to specify map to where collided sprites will be added as keys. In this case HandleCollisionWithSprite() will not be executed.
+<p>
+See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithTileMap>CollisionsWithTileMap</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>, <a href=#Horizontal>Horizontal</a>, <a href=#Vertical>Vertical</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=CollisionsWithTileMap>
 <tr><td class=doctop colspan=2>Method CollisionsWithTileMap( TileMap:LTTileMap, CollisionType:Int = 0 )</td></tr>
@@ -2573,7 +2439,7 @@ See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#Collisi
 <tr><td class=docleft width=1%>Information</td><td class=docright>For every collided tile HandleCollisionWithTile() method will be executed and tilemap with tile indexes will be passed to this method.
 You can specify collision type which will be passed to this method too.
 <p>
-See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>, <a href=#CollisionsWithCollisionMap>CollisionsWithCollisionMap</a>, <a href=#Horizontal>Horizontal</a>, <a href=#Vertical>Vertical</a>.</td></tr>
+See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>, <a href=#CollisionsWithSpriteMap>CollisionsWithSpriteMap</a>, <a href=#Horizontal>Horizontal</a>, <a href=#Vertical>Vertical</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=HandleCollisionWithLine>
 <tr><td class=doctop colspan=2>Method HandleCollisionWithLine( Line:LTLine, CollisionType:Int )</td></tr>
@@ -2630,6 +2496,122 @@ See also: <a href=#Move>Move</a>.</td></tr>
 <li> If one of the sprite has zero mass and other's mass is non-zero, only zero-mass sprite will be moved
 <li> If one of the sprite has mass less than 0 and other has mass less or equal to 0, then only zero-or-more-mass sprite will be moved.
 </ul></td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=LTSpriteMap>
+<tr><td class=doctop colspan=2>Type LTSpriteMap Extends LTMap</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Collision map is a structure which can contain sprites, draw and perform collision checks between them and other shapes.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Operations like drawing and checking collision between large groups of sprites will be faster with use of collision maps.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTSpriteMap_fields></a>Fields Summary</th></tr><tr><td colspan=2>
+<a href=#CellHeight>CellHeight</a>
+, 
+<a href=#CellWidth>CellWidth</a>
+, 
+<a href=#LeftMargin>LeftMargin</a>
+, 
+<a href=#Sorted>Sorted</a>
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTSpriteMap_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Draw>Draw</a></td><td class=docright>
+Draws all objects of collision map which are in cells under camera's rectangle plus margins.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetSprites>GetSprites</a></td><td class=docright>
+Returns all sprite map sprites.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#InsertSprite>InsertSprite</a></td><td class=docright>
+Inserts a sprite into collision map.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#RemoveSprite>RemoveSprite</a></td><td class=docright>
+Removes a sprite into collision map.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetBorder>SetBorder</a></td><td class=docright>
+Sets all margins to single value.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetCellSize>SetCellSize</a></td><td class=docright>
+Sets cell size of collision map.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetMargins>SetMargins</a></td><td class=docright>
+Sets margins of the map.
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTSpriteMap_functions></a>Functions Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+Creates collision map.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#CreateForShape>CreateForShape</a></td><td class=docright>
+Creates collision map using existing shape.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=CellHeight>
+<tr><td class=doctop colspan=2>Field CellHeight:Double = 1.0</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Height of collision map cell in units.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#SetCellSize>SetCellSize</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=CellWidth>
+<tr><td class=doctop colspan=2>Field CellWidth:Double = 1.0</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Width of collision map cell in units.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#SetCellSize>SetCellSize</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=LeftMargin>
+<tr><td class=doctop colspan=2>Field LeftMargin:Double, RightMargin:Double</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Margins for drawing collision map in units.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>When drawing collision map, margins define the size of rectangular frame around camera's rectangle in which objects will be also drawn.
+Will be handy if you draw collision map with objects with XScale / YScale parameters greater than 1.0.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Sorted>
+<tr><td class=doctop colspan=2>Field Sorted:Int = False</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Flag which defines will be the collision map sorted by sprite Y coordinates.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>False by default.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Draw>
+<tr><td class=doctop colspan=2>Method Draw()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Draws all objects of collision map which are in cells under camera's rectangle plus margins.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetSprites>
+<tr><td class=doctop colspan=2>Method GetSprites:TMap()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>TMap object with each sprite map sprite as key.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns all sprite map sprites.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=InsertSprite>
+<tr><td class=doctop colspan=2>Method InsertSprite( Sprite:LTSprite, ChangeSpriteMapField:Int = True )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Inserts a sprite into collision map.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Pivot insertion works faster.
+<p>
+See also: <a href=#RemoveSprite>RemoveSprite</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=RemoveSprite>
+<tr><td class=doctop colspan=2>Method RemoveSprite( Sprite:LTSprite, ChangeSpriteMapField:Int = True )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Removes a sprite into collision map.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Pivot removal works faster.
+<p>
+See also: <a href=#InsertSprite>InsertSprite</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetBorder>
+<tr><td class=doctop colspan=2>Method SetBorder( Border:Double )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets all margins to single value.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetCellSize>
+<tr><td class=doctop colspan=2>Method SetCellSize( NewCellWidth:Double, NewCellHeight:Double )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets cell size of collision map.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetMargins>
+<tr><td class=doctop colspan=2>Method SetMargins( NewLeftMargin:Double, NewTopMargin:Double, NewRightMargin:Double, NewBottomMargin:Double )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets margins of the map.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Function Create:LTSpriteMap( XQuantity:Int, YQuantity:Int, CellWidth:Double = 1.0, CellHeight:Double = 1.0, Sorted:Int = False )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates collision map.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>You should specify cell quantities and size.
+<p>
+See also: <a href=#CreateForShape>CreateForShape</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=CreateForShape>
+<tr><td class=doctop colspan=2>Function CreateForShape:LTSpriteMap( Shape:LTShape, CellSize:Double = 1.0, Sorted:Int = False )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates collision map using existing shape.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Collision map with size not less than shape size will be created. You can specify cell size either.
+Use this function ob layer bounds or layer tilemap which are covers all level to maximize performance.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTTileMap>
@@ -2810,6 +2792,8 @@ See also: <a href=#LTSprite>LTSprite</a>, <a href=#LTAngularSprite>LTAngularSpri
 , 
 <a href=#Green>Green</a>
 , 
+<a href=#Image>Image</a>
+, 
 <a href=#Red>Red</a>
 , 
 <a href=#Rotating>Rotating</a>
@@ -2828,6 +2812,9 @@ Alters color randomly with given increments.
 <tr><td class=docleft width=1%><a href=#ApplyColor>ApplyColor</a></td><td class=docright>
 Sets the color of visualizer as drawing color.
 </td></tr>
+<tr><td class=docleft width=1%><a href=#Clone>Clone</a></td><td class=docright>
+Clones the visualizer.
+</td></tr>
 <tr><td class=docleft width=1%><a href=#DrawTile>DrawTile</a></td><td class=docright>
 Draws tile of given tilemap with given coordinates using this visualizer.
 </td></tr>
@@ -2839,9 +2826,6 @@ Draws given sprite using this visualizer.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#DrawUsingTileMap>DrawUsingTileMap</a></td><td class=docright>
 Draws given tilemap using this visualizer.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#GetImage>GetImage</a></td><td class=docright>
-Returns visualizer image.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#ResetColor>ResetColor</a></td><td class=docright>
 Resets drawing color to white.
@@ -2855,11 +2839,16 @@ Applies color given in color intensities to visualizer.
 <tr><td class=docleft width=1%><a href=#SetDXDY>SetDXDY</a></td><td class=docright>
 Sets shifts of the visualizer.
 </td></tr>
-<tr><td class=docleft width=1%><a href=#SetImage>SetImage</a></td><td class=docright>
-Sets visualizer image.
-</td></tr>
 <tr><td class=docleft width=1%><a href=#SetVisualizerScale>SetVisualizerScale</a></td><td class=docright>
 Sets scaling parameters of the visualizer.
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTVisualizer_functions></a>Functions Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#FromFile>FromFile</a></td><td class=docright>
+Creates new image visualizer from image file.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#FromImage>FromImage</a></td><td class=docright>
+Creates new image visualizer from existing image (LTImage).
 </td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Alpha>
@@ -2890,6 +2879,10 @@ Sets scaling parameters of the visualizer.
 <tr><td class=doctop colspan=2>Field Green:Double = 1.0</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Green color intensity for drawing.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#SetColorFromHex>SetColorFromHex</a>, <a href=#SetColorFromRGB>SetColorFromRGB</a>, <a href=#AlterColor>AlterColor</a>, <a href=#ApplyColor>ApplyColor</a>, <a href=#ResetColor>ResetColor</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Image>
+<tr><td class=doctop colspan=2>Field Image:LTImage</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Image (LTImage) field.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Red>
 <tr><td class=doctop colspan=2>Field Red:Double = 1.0</td></tr>
@@ -2928,6 +2921,11 @@ See also: <a href=#SetColorFromHex>SetColorFromHex</a>, <a href=#SetColorFromRGB
 <tr><td class=docleft width=1%>Description</td><td class=docright>Sets the color of visualizer as drawing color.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#SetColorFromHex>SetColorFromHex</a>, <a href=#SetColorFromRGB>SetColorFromRGB</a>, <a href=#AlterColor>AlterColor</a>, <a href=#ResetColor>ResetColor</a>.</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=Clone>
+<tr><td class=doctop colspan=2>Method Clone:LTVisualizer()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>Clone of the visualizer.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Clones the visualizer.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=DrawTile>
 <tr><td class=doctop colspan=2>Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, TileX:Int, TileY:Int )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Draws tile of given tilemap with given coordinates using this visualizer.</td></tr>
@@ -2951,14 +2949,6 @@ See also: <a href=#DrawTileMap>DrawTileMap</a>.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Draws given tilemap using this visualizer.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Change this method if you are making your own visualizer.</td></tr>
 </table>
-<table class=doc width=100% cellspacing=3 id=GetImage>
-<tr><td class=doctop colspan=2>Method GetImage:LTImage()</td></tr>
-<tr><td class=docleft width=1%>Returns</td><td class=docright>Visualizer image.</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Returns visualizer image.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Only for ImageVisualizer, other visualizers will return Null.
-<p>
-See also: <a href=#SetImage>SetImage</a>.</td></tr>
-</table>
 <table class=doc width=100% cellspacing=3 id=ResetColor>
 <tr><td class=doctop colspan=2>Method ResetColor()</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Resets drawing color to white.</td></tr>
@@ -2979,17 +2969,24 @@ See also: <a href=#SetColorFromHex>SetColorFromHex</a>, <a href=#AlterColor>Alte
 <table class=doc width=100% cellspacing=3 id=SetDXDY>
 <tr><td class=doctop colspan=2>Method SetDXDY( NewDX:Double, NewDY:Double )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Sets shifts of the visualizer.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=SetImage>
-<tr><td class=doctop colspan=2>Method SetImage( NewImage:LTImage )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Sets visualizer image.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Only for ImageVisualizer, for other visualizers this method will do nothing.
-<p>
-See also: <a href=#GetImage>GetImage</a>.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Works only with images.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=SetVisualizerScale>
 <tr><td class=doctop colspan=2>Method SetVisualizerScale( NewXScale:Double, NewYScale:Double )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Sets scaling parameters of the visualizer.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Works only with images.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=FromFile>
+<tr><td class=doctop colspan=2>Function FromFile:LTVisualizer( Filename:String, XCells:Int = 1, YCells:Int = 1 )</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>New visualizer.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates new image visualizer from image file.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#FromImage>FromImage</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=FromImage>
+<tr><td class=doctop colspan=2>Function FromImage:LTVisualizer( Image:LTImage )</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>New visualizer.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates new image visualizer from existing image (LTImage).</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#FromFile>FromFile</a>.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTWorld>
@@ -3143,10 +3140,19 @@ See also: <a href=#ManageIntAttribute>ManageIntAttribute</a>, <a href=#ManageDou
 <br>
 <h2 id=modinfo>Module Information</h2>
 <table width=100%>
-<tr><th width=1%>Version</th><td>1.0.1.1</td></tr>
+<tr><th width=1%>Version</th><td>1.0.2</td></tr>
 <tr><th width=1%>Author</th><td>Matt Merkulov</td></tr>
 <tr><th width=1%>License</th><td>Artistic License 2.0</td></tr>
 <tr><th width=1%>Modserver</th><td>DWLAB</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp;</td></tr>
+<tr><th width=1%>History</th><td>v1.0.2 (06.07.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; CollisionsWithSpriteMap() method now have List parameter to add collided sprites to.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added visualizer cloning method.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Visualizer is merged with Visualizer.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed bug in SetSize (old method cleared collision map).</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Collision maps are renamed to sprite maps.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added sprite maps saving/loading method.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added GetSprites() method.</td></tr>
 <tr><th width=1%>History</th><td>v1.0.1.1 (05.07.11)</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; ShowDebugInfo() method is now without parameters.</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; MoveUsingKeys() methods are now in LTShape and have velocity parameter.</td></tr>

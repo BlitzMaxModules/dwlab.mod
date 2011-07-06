@@ -78,7 +78,7 @@ Type TBlock Extends LTVectorSprite
       Game.Tilemap.SetTile( TileX, TileY, Frame )
       Game.Level.Remove( Self )
     End If
-    CollisionsWithCollisionMap( Game.MovingObjects, 0 )
+    CollisionsWithSpriteMap( Game.MovingObjects, 0 )
   End Method
 End Type
 

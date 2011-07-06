@@ -19,11 +19,11 @@ Type TCollisions Extends LTBehaviorModel
 	
 		VectorSprite.Move( VectorSprite.DX, 0.0 )
 		If CheckCollisionsWithTilemap Then VectorSprite.CollisionsWithTilemap( Game.Tilemap, LTSprite.Horizontal )
-		If CheckCollisionsWithSprites Then VectorSprite.CollisionsWithCollisionMap( Game.MovingObjects, LTSprite.Horizontal )
+		If CheckCollisionsWithSprites Then VectorSprite.CollisionsWithSpriteMap( Game.MovingObjects, LTSprite.Horizontal )
 
 		VectorSprite.Move( 0.0, VectorSprite.DY )
 		If CheckCollisionsWithTilemap Then VectorSprite.CollisionsWithTilemap( Game.Tilemap, LTSprite.Vertical )
-		If CheckCollisionsWithSprites Then VectorSprite.CollisionsWithCollisionMap( Game.MovingObjects, LTSprite.Vertical )
+		If CheckCollisionsWithSprites Then VectorSprite.CollisionsWithSpriteMap( Game.MovingObjects, LTSprite.Vertical )
 	End Method
 	
 	

@@ -14,7 +14,7 @@ Global Game:TGame = New TGame
 
 Type TGame Extends LTProject
 	Field Player:LTAngularSprite = New LTAngularSprite
-	Field PlayerVisualizer:LTImageVisualizer = LTImageVisualizer.FromFile( "media/footman.png", 5, 13 )
+	Field PlayerVisualizer:LTVisualizer = LTVisualizer.FromFile( "media/footman.png", 5, 13 )
 	Field Cursor:LTSprite = New LTSprite
 	Field PivotVisualizer:LTVisualizer = New LTVisualizer
 	Field LineVisualizer:LTEmptyPrimitive = New LTEmptyPrimitive
@@ -50,7 +50,7 @@ Type TGame Extends LTProject
 		
 		Background.Width = 32
 		Background.Height = 24
-		Background.Visualizer = LTImageVisualizer.FromFile( "media/world-map.jpg" )
+		Background.Visualizer = LTVisualizer.FromFile( "media/world-map.jpg" )
 		
 		CurrentPivotVisualizer.SetVisualizerScale( 0.35, 0.35 )
 		CurrentPivotVisualizer.SetColorFromHex( "FFBF7F" )

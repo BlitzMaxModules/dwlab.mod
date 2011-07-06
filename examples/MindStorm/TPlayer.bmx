@@ -50,7 +50,7 @@ Type TPlayer Extends LTAngularSprite
 		
 	    LimitWith( Game.Level.Bounds )
 		
-		CollisionsWithCollisionMap( Game.Blocks )
-		CollisionsWithCollisionMap( Game.Trees )
+		CollisionsWithSpriteMap( Game.Blocks )
+		CollisionsWithSpriteMap( Game.Trees )
 	End Method
 End Type

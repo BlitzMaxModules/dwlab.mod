@@ -10,21 +10,21 @@
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
 		<LTVectorSprite name="TBackground" x="17" y="8.5" width="20" height="15" shape="2">
-			<LTImageVisualizer field="visualizer" red="0"/>
+			<LTVisualizer field="visualizer" red="0"/>
 		</LTVectorSprite>
 		<LTVectorSprite name="TScoreBar" x="10" y="2.25" width="4" height="0.5" shape="2">
-			<LTImageVisualizer field="visualizer"/>
+			<LTVisualizer field="visualizer"/>
 		</LTVectorSprite>
 		<LTVectorSprite name="TTimeBar" x="24" y="2.25" width="4" height="0.5" shape="2">
-			<LTImageVisualizer field="visualizer"/>
+			<LTVisualizer field="visualizer"/>
 		</LTVectorSprite>
 		<LTVectorSprite name="TSmallCoin" x="16.25" y="2.25" width="0.5" height="0.5">
-			<LTImageVisualizer field="visualizer">
+			<LTVisualizer field="visualizer">
 				<LTImage field="image" id="12" filename="media\SmallCoin.png" xcells="3"/>
-			</LTImageVisualizer>
+			</LTVisualizer>
 		</LTVectorSprite>
 		<LTVectorSprite name="TCoinsQuantity" x="17.25" y="2.25" width="1.5" height="0.5" shape="2">
-			<LTImageVisualizer field="visualizer"/>
+			<LTVisualizer field="visualizer"/>
 		</LTVectorSprite>
 	</LTLayer>
 </LTWorld>

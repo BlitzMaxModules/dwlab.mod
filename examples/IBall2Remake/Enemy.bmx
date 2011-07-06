@@ -32,11 +32,11 @@ Type TEnemy Extends TGameSprite
     Enemy.SetDXDY( DX, DY )
     Enemy.SetDiameter( 0.95 )
     
-    Local ImageVisualizer:LTImageVisualizer = New LTImageVisualizer
-    ImageVisualizer.Image = Game.EnemyImage[ EnemyType ]
-    ImageVisualizer.Rotating = False
-    ImageVisualizer.SetColorFromHex( HexColor )
-    Enemy.Visualizer = ImageVisualizer
+    Local Visualizer:LTVisualizer = New LTVisualizer
+    Visualizer.Image = Game.EnemyImage[ EnemyType ]
+    Visualizer.Rotating = False
+    Visualizer.SetColorFromHex( HexColor )
+    Enemy.Visualizer = Visualizer
     
     Select EnemyType
       Case Sandwitch, Pad
@@ -50,7 +50,7 @@ Type TEnemy Extends TGameSprite
         Enemy.ChangeFacing = True
     End Select
     
-    Game.CollisionMap.InsertSprite( Enemy )
+    Game.SpriteMap.InsertSprite( Enemy )
     Game.Objects.AddLast( Enemy )
     Return Enemy
   End Function
@@ -92,7 +92,7 @@ Type TEnemy Extends TGameSprite
     If ChangeFacing Then Visualizer.XScale = Sgn( GetDX() )
     Frame = L_WrapInt( Floor( X * 8.0 ), 4 )
     
-    'CollisionsWith( Game.CollisionMap )
+    'CollisionsWith( Game.SpriteMap )
     CollisionsWith( Game.TileMap )
   End Method
   
@@ -130,7 +130,7 @@ Type TEnemyGenerator Extends LTSprite
     Generator.SetDXDY( DX, DY )
     Generator.EnemyType = EnemyType
     Generator.EnemyColor = EnemyColor
-    Generator.Visualizer = LTImageVisualizer.FromImage( Game.GeneratorImage )
+    Generator.Visualizer = LTVisualizer.FromImage( Game.GeneratorImage )
     Game.Objects.AddLast( Generator )
     Return Generator
   End Function
@@ -164,7 +164,7 @@ Type TEnemyGenerator Extends LTSprite
     ElseIf NextEnemy < Game.ProjectTime Then
       GenerationStartTime = Game.ProjectTime
       EnemyTemplate = New LTSprite
-      EnemyTemplate.Visualizer = LTImageVisualizer.FromImage( Game.EnemyImage[ EnemyType ] )
+      EnemyTemplate.Visualizer = LTVisualizer.FromImage( Game.EnemyImage[ EnemyType ] )
       EnemyTemplate.SetCoords( X, Y )
       EnemyTemplate.SetSize( 1.0, 1.0 )
       EnemyTemplate.Shape = L_Rectangle
@@ -194,7 +194,7 @@ End Type
 
 
 
-Type LTFlashingVisualizer Extends LTImageVisualizer
+Type LTFlashingVisualizer Extends LTVisualizer
   Method Act()
     Local Time:Double = L_WrapDouble( Game.ProjectTime, 3.0 )
     If Time < 1.0 Then

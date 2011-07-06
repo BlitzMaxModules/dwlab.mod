@@ -24,7 +24,7 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 	
 	If Sprite Then
 		Title = "{{W_SelectSpriteImage}}"
-		SelectedObject = Sprite.Visualizer.GetImage()
+		SelectedObject = Sprite.Visualizer.Image
 		Frame = Sprite.Frame
 	ElseIf TileMap Then
 		Title = "{{W_SelectTilemapTileset}}"
@@ -167,7 +167,7 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 							FreeGadget( Window )
 							Editor.SetChanged()
 							If Sprite Then
-								Sprite.Visualizer.SetImage( LTImage( SelectedObject ) )
+								Sprite.Visualizer.Image = LTImage( SelectedObject )
 								Sprite.Frame = Frame
 								Return Sprite
 							ElseIf TileMap Then
@@ -226,7 +226,7 @@ Function CheckImageUsage:Int( Image:LTImage, Layer:LTLayer = Null )
 				If Value Then Return True
 			Else
 				Local Sprite:LTSprite = LTSprite( Shape )
-				If Sprite Then If Sprite.Visualizer.GetImage() = Image Then Return True
+				If Sprite Then If Sprite.Visualizer.Image = Image Then Return True
 			End If
 		Next
 	Else
@@ -280,7 +280,7 @@ Function RemoveImage( Image:LTImage, Layer:LTLayer )
 			RemoveImage( Image, ChildLayer )
 		Else
 			Local Sprite:LTSprite = LTSprite( Shape )
-			If Sprite Then If Sprite.Visualizer.GetImage() = Image Then Sprite.Visualizer.SetImage( Null )
+			If Sprite Then If Sprite.Visualizer.Image = Image Then Sprite.Visualizer.Image = Null
 		End If
 	Next
 End Function

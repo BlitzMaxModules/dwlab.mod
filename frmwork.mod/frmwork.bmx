@@ -15,12 +15,20 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.0.1.1"
+ModuleInfo "Version: 1.0.2"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.2 (06.07.11)"
+ModuleInfo "History: &nbsp; &nbsp; CollisionsWithSpriteMap() method now have Map parameter to add collided sprites to."
+ModuleInfo "History: &nbsp; &nbsp; Added visualizer cloning method."
+ModuleInfo "History: &nbsp; &nbsp; ImageVisualizer is merged with Visualizer."
+ModuleInfo "History: &nbsp; &nbsp; Fixed bug in SetSize (old method cleared collision map)."
+ModuleInfo "History: &nbsp; &nbsp; Collision maps are renamed to sprite maps."
+ModuleInfo "History: &nbsp; &nbsp; Added sprite maps saving/loading method."
+ModuleInfo "History: &nbsp; &nbsp; Added GetSprites() method."
 ModuleInfo "History: v1.0.1.1 (05.07.11)"
 ModuleInfo "History: &nbsp; &nbsp; ShowDebugInfo() method is now without parameters."
 ModuleInfo "History: &nbsp; &nbsp; MoveUsingKeys() methods are now in LTShape and have velocity parameter."
@@ -49,9 +57,9 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-SeedRnd( MilliSecs() )
+Const L_Version:String = "1.0.2"
 
-Const L_Version:String = "0.13.3"
+SeedRnd( MilliSecs() )
 
 Include "include/LTObject.bmx"
 Include "include/LTProject.bmx"
@@ -70,11 +78,10 @@ Include "include/LTIntMap.bmx"
 Include "include/LTTileMap.bmx"
 Include "include/LTTileSet.bmx"
 Include "include/LTDoubleMap.bmx"
-Include "include/LTCollisionMap.bmx"
+Include "include/LTSpriteMap.bmx"
 Include "include/LTLine.bmx"
 Include "include/LTGraph.bmx"
 Include "include/LTVisualizer.bmx"
-Include "include/LTImageVisualizer.bmx"
 Include "include/LTImage.bmx"
 Include "include/LTAnimatedTileMapVisualizer.bmx"
 Include "include/LTEmptyPrimitive.bmx"

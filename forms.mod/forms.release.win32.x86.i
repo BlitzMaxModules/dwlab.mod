@@ -1,8 +1,12 @@
-ModuleInfo "History: v1.0 (28.06.11) Initial release"
-ModuleInfo "Version: 1.0"
+ModuleInfo "Version: 1.0.0.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
+ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.0.1 (28.06.11)"
+ModuleInfo "History: &nbsp; &nbsp; Removed variable parameters from Set() and Toggle() methods of LTMenuSwitch class."
+ModuleInfo "History: v1.0 (28.06.11)"
+ModuleInfo "History: &nbsp; &nbsp; Initial release."
 import brl.blitz
 import brl.eventqueue
 import maxgui.win32maxguiex
@@ -62,14 +66,15 @@ LTMenuSwitch^brl.blitz.Object{
 .Toolbar:maxgui.maxgui.TGadget&
 .MenuItem:maxgui.maxgui.TGadget&
 .MenuNumber%&
+.Store%&
 -New%()="_dwlab_forms_LTMenuSwitch_New"
 -Delete%()="_dwlab_forms_LTMenuSwitch_Delete"
-+Create%(Text$,Toolbar:maxgui.maxgui.TGadget,MenuNumber%,Menu:maxgui.maxgui.TGadget)="_dwlab_forms_LTMenuSwitch_Create"
++Create%(Text$,Toolbar:maxgui.maxgui.TGadget,MenuNumber%,Menu:maxgui.maxgui.TGadget,Store%=1)="_dwlab_forms_LTMenuSwitch_Create"
 +Find:LTMenuSwitch(MenuNumber%)="_dwlab_forms_LTMenuSwitch_Find"
 +ReadSwitches%(File:brl.stream.TStream)="_dwlab_forms_LTMenuSwitch_ReadSwitches"
 +SaveSwicthes%(File:brl.stream.TStream)="_dwlab_forms_LTMenuSwitch_SaveSwicthes"
--Set%(ToState%,Variable% Var)="_dwlab_forms_LTMenuSwitch_Set"
--Toggle%(Variable% Var)="_dwlab_forms_LTMenuSwitch_Toggle"
+-Set%(ToState%)="_dwlab_forms_LTMenuSwitch_Set"
+-Toggle%()="_dwlab_forms_LTMenuSwitch_Toggle"
 -State%()="_dwlab_forms_LTMenuSwitch_State"
 }="dwlab_forms_LTMenuSwitch"
 L_LabelIndent%&=mem("dwlab_forms_L_LabelIndent")

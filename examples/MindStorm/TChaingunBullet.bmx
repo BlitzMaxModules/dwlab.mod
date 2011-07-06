@@ -41,7 +41,7 @@ Type TChaingunBullet Extends LTVectorSprite
   
 	Function Create( Fire:LTAngularSprite )
 		Local Bullet:TChaingunBullet = New TChaingunBullet
-		Local BulletVisualizer:LTImageVisualizer = New LTImageVisualizer
+		Local BulletVisualizer:LTVisualizer = New LTVisualizer
 		Bullet.Visualizer = BulletVisualizer
 		BulletVisualizer.Image = Game.ChaingunBullet
 		BulletVisualizer.SetVisualizerScale( 5.0, 5.0 )
@@ -68,8 +68,8 @@ Type TChaingunBullet Extends LTVectorSprite
 		ElseIf Game.Time > CreatingTime + FlyingPeriod
 			Visualizer.Alpha = 1.0 * ( CreatingTime + FlyingPeriod + FadingPeriod - Game.Time ) / FadingPeriod
 		End If
-		CollisionsWithCollisionMap( Game.Blocks )
-		CollisionsWithCollisionMap( Game.Trees )
+		CollisionsWithSpriteMap( Game.Blocks )
+		CollisionsWithSpriteMap( Game.Trees )
 	End Method
 	
 	

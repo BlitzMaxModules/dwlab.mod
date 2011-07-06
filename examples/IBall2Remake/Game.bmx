@@ -10,9 +10,9 @@
 
 Type TGame Extends LTProject
   Field Ball:TBall = New TBall
-  Field BlockVisualizer:LTImageVisualizer = New LTImageVisualizer
+  Field BlockVisualizer:LTVisualizer = New LTVisualizer
   Field FlashingVisualizer:LTFlashingVisualizer = New LTFlashingVisualizer
-  Field CollisionMap:LTCollisionMap
+  Field SpriteMap:LTSpriteMap
   Field TileMap:LTTileMap = New LTTileMap
   Field KeyCollected:Int
   Field Score:Int
@@ -48,10 +48,10 @@ Type TGame Extends LTProject
     SidebarCamera.Viewport.SetSize( TileSize * 3.0, TileSize * 12.0 )
     SidebarCamera.Update()
     
-    Sidebar.Visualizer = LTImageVisualizer.FromFile( "media\sidebar.png" )
+    Sidebar.Visualizer = LTVisualizer.FromFile( "media\sidebar.png" )
     Sidebar.Shape = L_Rectangle
     
-    Local BallVisualizer:LTImageVisualizer = LTImageVisualizer.FromFile( "media\ball.png" )
+    Local BallVisualizer:LTVisualizer = LTVisualizer.FromFile( "media\ball.png" )
     BallVisualizer.Rotating = False
     Ball.Visualizer = BallVisualizer
     
@@ -153,9 +153,9 @@ Type TGame Extends LTProject
     Bullets.Draw()
     Objects.Draw()
 
-    'For Local Y:Int = 0 Until CollisionMap.YQuantity
-    ' For Local X:Int = 0 Until CollisionMap.XQuantity
-    '   ScoreFont.Print( CollisionMap.Objects[ X, Y ].Count(), X * 75 + 37, Y * 75 + 37, L_AlignToCenter, L_AlignToCenter ) 
+    'For Local Y:Int = 0 Until SpriteMap.YQuantity
+    ' For Local X:Int = 0 Until SpriteMap.XQuantity
+    '   ScoreFont.Print( SpriteMap.Objects[ X, Y ].Count(), X * 75 + 37, Y * 75 + 37, L_AlignToCenter, L_AlignToCenter ) 
     ' Next
     'Next
     
@@ -169,14 +169,14 @@ Type TGame Extends LTProject
   
   
   Method LoadLevel( Num:Int )
-    Game.CollisionMap = New LTCollisionMap
-    Game.CollisionMap.SetResolution( 8, 8 )
-    Game.CollisionMap.SetMapScale( 2.0, 2.0 )
+    Game.SpriteMap = New LTSpriteMap
+    Game.SpriteMap.SetResolution( 8, 8 )
+    Game.SpriteMap.SetMapScale( 2.0, 2.0 )
     
     L_LoadFromFile( "levels\" + L_FirstZeroes( Num, 2 ) + ".xml" )
   
     For Local Sprite:LTSprite = Eachin Game.Objects
-      If Not TEnemyGenerator( Sprite ) Then Game.CollisionMap.InsertSprite( Sprite )
+      If Not TEnemyGenerator( Sprite ) Then Game.SpriteMap.InsertSprite( Sprite )
     Next
     
     Game.LevelNum = Num

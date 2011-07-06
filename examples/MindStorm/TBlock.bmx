@@ -37,8 +37,8 @@ Type TBlock Extends LTVectorSprite
 			Game.ActingMap.Insert( Self, Null )
 		End If
 		
-		CollisionsWithCollisionMap( Game.Blocks )
-		CollisionsWithCollisionMap( Game.Trees )
+		CollisionsWithSpriteMap( Game.Blocks )
+		CollisionsWithSpriteMap( Game.Trees )
 	End Method
 	
 	

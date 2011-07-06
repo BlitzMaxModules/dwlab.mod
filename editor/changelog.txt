@@ -1,13 +1,14 @@
 1.5
-+ Collision maps are available for creating and filling with sprites.
-+ Container can be selected for inserting sprites (layer or collision map).
-* View layer now can be selected separated from container.
++ Sprite maps are available for creating and filling with sprites
++ Container can be selected for inserting sprites (layer or collision map)
++ Added button for switching off tilemap editing mode
+* View layer now can be selected separated from container
 
 1.4.3
-* Modifiers are changed to the black squares.
-* Fixed modifier bug. 
-* Fixed project manager refreshing bug.
-* Fixed layer shifting bug.
+* Modifiers are changed to the black squares
+* Fixed modifier bug
+* Fixed project manager refreshing bug
+* Fixed layer shifting bug
 
 1.4.2
 * Tile collision shapes are now showing on tileset window

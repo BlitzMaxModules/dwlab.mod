@@ -27,7 +27,7 @@ Type TBricks Extends LTVectorSprite
 				Bricks.SetSize( Bricks.Width * 0.5, Bricks.Height * 0.5 )
 				Bricks.DX = 3.0 * X
 				Bricks.DY = 3.0 * ( Y - 3.0 )
-				Bricks.Visualizer = LTImageVisualizer.FromImage( Game.Bricks )
+				Bricks.Visualizer = LTVisualizer.FromImage( Game.Bricks )
 				If TileNum = TTiles.ShadyBricks Then Bricks.Frame = 1
 				Bricks.AttachModel( New TGravity )
 				Bricks.AttachModel( New TRemoveIfOutside )
@@ -41,7 +41,7 @@ Type TBricks Extends LTVectorSprite
 
 	Method Act()
 		Super.Act()
-		LTImageVisualizer( Visualizer ).Angle :+ DX * Game.PerSecond( RotationSpeed )
+		LTVisualizer( Visualizer ).Angle :+ DX * Game.PerSecond( RotationSpeed )
 		MoveForward()
 	End Method
 End Type

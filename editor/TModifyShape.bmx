@@ -85,12 +85,8 @@ Type TModifyShape Extends LTDrag
 				VerticalResize( DY )
 		End Select
 				
-		Local CollisionMap:LTCollisionMap = Editor.UnRegisterShape( Shape )
-		Shape.X = 0.5 * ( NewLeftSide + NewRightSide )
-		Shape.Y = 0.5 * ( NewTopSide + NewBottomSide )
-		Shape.Width = NewRightSide - NewLeftSide
-		Shape.Height = NewBottomSide - NewTopSide
-		Editor.RegisterShape( Shape, CollisionMap )
+		Shape.SetCoords( 0.5 * ( NewLeftSide + NewRightSide ), 0.5 * ( NewTopSide + NewBottomSide ) )
+		Shape.SetSize( NewRightSide - NewLeftSide, NewBottomSide - NewTopSide )
 	End Method
 	
 	
