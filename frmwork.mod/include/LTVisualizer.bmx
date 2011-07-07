@@ -423,6 +423,8 @@ Type LTVisualizer Extends LTObject
 		XMLObject.ManageDoubleAttribute( "green", Green, 1.0 )
 		XMLObject.ManageDoubleAttribute( "blue", Blue, 1.0 )
 		XMLObject.ManageDoubleAttribute( "alpha", Alpha, 1.0 )
+		XMLObject.ManageDoubleAttribute( "dx", DX )
+		XMLObject.ManageDoubleAttribute( "dy", DY )
 		XMLObject.ManageDoubleAttribute( "xscale", XScale, 1.0 )
 		XMLObject.ManageDoubleAttribute( "yscale", YScale, 1.0 )
 		XMLObject.ManageIntAttribute( "scaling", Scaling, 1 )

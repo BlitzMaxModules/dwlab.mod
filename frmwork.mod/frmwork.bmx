@@ -15,12 +15,14 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.0.2"
+ModuleInfo "Version: 1.0.2.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.2.1 (07.07.11)"
+ModuleInfo "History: &nbsp; &nbsp; Fixed bug of visualizer's DX/DY not saving/loading."
 ModuleInfo "History: v1.0.2 (06.07.11)"
 ModuleInfo "History: &nbsp; &nbsp; CollisionsWithSpriteMap() method now have Map parameter to add collided sprites to."
 ModuleInfo "History: &nbsp; &nbsp; Added visualizer cloning method."
@@ -57,7 +59,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.0.2"
+Const L_Version:String = "1.0.2.1"
 
 SeedRnd( MilliSecs() )
 

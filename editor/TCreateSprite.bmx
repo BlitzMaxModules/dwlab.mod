@@ -52,13 +52,7 @@ Type TCreateSprite Extends LTDrag
 			Sprite.Visualizer = New LTVisualizer
 		End If
 		
-		Local Layer:LTLayer = LTLayer( Editor.CurrentContainer )
-		If Layer Then
-			Layer.AddLast( Sprite )
-		Else
-			LTSpriteMap( Editor.CurrentContainer ).InsertSprite( Sprite )
-		End If
-		
+		Editor.InsertIntoCurrentContainer( Sprite )
 		Editor.SelectShape( Sprite )
 	End Method
 	

@@ -151,7 +151,7 @@ Saves menu switches states to specified file.
 </td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Set>
-<tr><td class=doctop colspan=2>Method Set( ToState:Int, Variable:Int Var )</td></tr>
+<tr><td class=doctop colspan=2>Method Set( ToState:Int )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Sets the state of menu switch to given.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>You should also provide variable which should store switch state.</td></tr>
 </table>
@@ -161,11 +161,11 @@ Saves menu switches states to specified file.
 <tr><td class=docleft width=1%>Description</td><td class=docright>Returns state of menu switch.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Toggle>
-<tr><td class=doctop colspan=2>Method Toggle( Variable:Int Var )</td></tr>
+<tr><td class=doctop colspan=2>Method Toggle:Int()</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Toggles state of menu switch.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Create>
-<tr><td class=doctop colspan=2>Function Create( Text:String, Toolbar:TGadget, MenuNumber:Int, Menu:TGadget )</td></tr>
+<tr><td class=doctop colspan=2>Function Create( Text:String, Toolbar:TGadget, MenuNumber:Int, Menu:TGadget, Store:Int = True )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>Menu switch.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Creates new menu switch.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>You should provide menu text, toolbar gadget, menu number (which should also be a toolbar button number) and menu gadget.</td></tr>
@@ -188,9 +188,13 @@ Saves menu switches states to specified file.
 <br>
 <h2 id=modinfo>Module Information</h2>
 <table width=100%>
-<tr><th width=1%>History</th><td>v1.0 (28.06.11) Initial release</td></tr>
-<tr><th width=1%>Version</th><td>1.0</td></tr>
+<tr><th width=1%>Version</th><td>1.0.0.1</td></tr>
 <tr><th width=1%>Author</th><td>Matt Merkulov</td></tr>
 <tr><th width=1%>License</th><td>Artistic License 2.0</td></tr>
 <tr><th width=1%>Modserver</th><td>DWLAB</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp;</td></tr>
+<tr><th width=1%>History</th><td>v1.0.0.1 (28.06.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Removed variable parameters from Set() and Toggle() methods of LTMenuSwitch class.</td></tr>
+<tr><th width=1%>History</th><td>v1.0 (28.06.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Initial release.</td></tr>
 </body></html>

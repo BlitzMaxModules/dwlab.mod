@@ -1,8 +1,10 @@
-ModuleInfo "Version: 1.0.2"
+ModuleInfo "Version: 1.0.2.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.2.1 (07.07.11)"
+ModuleInfo "History: &nbsp; &nbsp; Fixed bug of visualizer's DX/DY not saving/loading."
 ModuleInfo "History: v1.0.2 (06.07.11)"
 ModuleInfo "History: &nbsp; &nbsp; CollisionsWithSpriteMap() method now have Map parameter to add collided sprites to."
 ModuleInfo "History: &nbsp; &nbsp; Added visualizer cloning method."
@@ -29,7 +31,7 @@ import brl.d3d7max2d
 import brl.random
 import brl.reflection
 import brl.retro
-L_Version$=$"1.0.2"
+L_Version$=$"1.0.2.1"
 LTObject^brl.blitz.Object{
 .Name$&
 -New%()="_dwlab_frmwork_LTObject_New"

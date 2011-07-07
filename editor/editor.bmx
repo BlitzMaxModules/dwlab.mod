@@ -47,7 +47,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.4"
+	Const Version:String = "1.5.1"
 	Const INIVersion:Int = 3
 	Const ModifierSize:Int = 3
 	
@@ -177,6 +177,7 @@ Type LTEditor Extends LTProject
 	Const MenuRussian:Int = 32
 	Const MenuEnglish:Int = 33
 	
+	Const MenuDuplicate:Int = 49
 	Const MenuToggleVisibility:Int =  30
 	Const MenuToggleActivity:Int =  31
 	Const MenuRename:Int = 35
@@ -338,7 +339,7 @@ Type LTEditor Extends LTProject
 		
 		TilemapMenu = CreateMenu( "", 0, null )
 		CreateMenu( "{{M_EditTilemap}}", MenuEditTilemap, TilemapMenu )
-		CreateMenu( "{{M_Select}}", MenuSelectTileMap, TilemapMenu )
+		CreateMenu( "{{M_SelectTilemap}}", MenuSelectTileMap, TilemapMenu )
 		CreateMenu( "{{M_SelectTileset}}", MenuSelectTileset, TilemapMenu )
 		CreateMenu( "{{M_ResizeTilemap}}", MenuResizeTilemap, TilemapMenu )
 		CreateMenu( "{{M_EditTileCollisionShapes}}", MenuEditTileCollisionShapes, TilemapMenu )
@@ -440,6 +441,7 @@ Type LTEditor Extends LTProject
 	
 	
 	Method AddCommonMenuItems( Menu:TGadget )
+		CreateMenu( "{{M_Duplicate}}", MenuDuplicate, Menu )
 		CreateMenu( "{{M_ToggleVisibility}}", MenuToggleVisibility, Menu )
 		CreateMenu( "{{M_ToggleActivity}}", MenuToggleActivity, Menu )
 		CreateMenu( "{{M_Rename}}", MenuRename, Menu )
@@ -629,6 +631,10 @@ Type LTEditor Extends LTProject
 						EvID = Event_KeyDown
 						EvData = Key_End
 						SelectShape( SelectedShape, True )
+					Case MenuDuplicate
+						EvID = Event_KeyDown
+						EvData = Key_D
+						SelectShape( SelectedShape, True )
 				End Select
 		End Select
 		
@@ -688,6 +694,14 @@ Type LTEditor Extends LTProject
 							Sprite.SetSize( Sprite.Width, NewHeight )
 						Next
 						SetChanged()
+					Case Key_D
+						If Not SelectedShapes.IsEmpty() Then
+							For Local Shape:LTShape = Eachin SelectedShapes
+								InsertIntoCurrentContainer( Shape.Clone() )
+							Next
+							RefreshProjectManager()
+							SetChanged()
+						End If
 				End Select
 			Case Event_MouseWheel
 				If Not Modifiers.IsEmpty() Then SetShapeModifiers( LTShape( SelectedShapes.First() ) )
@@ -1156,6 +1170,7 @@ Type LTEditor Extends LTProject
 		End If
 		
 		Pan.Execute()
+		MainCamera.MoveUsingArrows( MainCamera.Width )
 		
 		SetCameraMagnification( MainCamera, MainCanvas, MainCanvasZ, 32.0 )
 		SetCameraMagnification( TilesetCamera, TilesetCanvas, TilesetCanvasZ, TilesetCameraWidth )
@@ -1609,6 +1624,22 @@ Type LTEditor Extends LTProject
 			End If
 			ShapeLink = ShapeLink.PrevLink()
 		Wend
+	End Method
+	
+	
+	
+	Method InsertIntoCurrentContainer( Shape:LTShape )
+		Local Layer:LTLayer = LTLayer( CurrentContainer )
+		If Layer Then
+			Layer.AddLast( Shape )
+		Else
+			Local Sprite:LTSprite = LTSprite( Shape )
+			if Sprite Then
+				LTSpriteMap( CurrentContainer ).InsertSprite( Sprite )
+			Else
+				Notify( LocalizeString( "{{N_CannotInsertNonSpriteToSpriteMap}}" ) )
+			End If
+		End If
 	End Method
 End Type
 

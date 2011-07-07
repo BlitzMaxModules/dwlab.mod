@@ -112,7 +112,7 @@ Type LTXMLObject Extends LTObject
 	bbdoc: Transfers data between XMLObject attribute and framework object parameter with Double type.
 	about: See also: #ManageIntAttribute, #ManageStringAttribute, #ManageObjectAttribute
 	End Rem
-	Method ManageDoubleAttribute( AttrName:String, AttrVariable:Double Var, DefaultValue:Double = 0 )
+	Method ManageDoubleAttribute( AttrName:String, AttrVariable:Double Var, DefaultValue:Double = 0.0 )
 		If L_XMLMode = L_XMLGet Then
 			For Local Attr:LTXMLAttribute = EachIn Attributes
 				If Attr.Name = AttrName Then

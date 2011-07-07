@@ -24,7 +24,7 @@ Function SpriteMapProperties:Int( SpriteMap:LTSpriteMap )
 	Local RightMarginTextField:TGadget = Form.AddTextField( "{{L_RightMargin}}", 165 )
 	Local BottomMarginTextField:TGadget = Form.AddTextField( "{{L_BottomMargin}}", 165 )
 	Form.NewLine()
-	Local Sorted:TGadget = Form.AddButton( "{{L_Sorted}}", 250, Button_CheckBox )
+	Local SortedCheckBox:TGadget = Form.AddButton( "{{L_Sorted}}", 250, Button_CheckBox )
 	Local OKButton:TGadget, CancelButton:TGadget
 	AddOKCancelButtons( Form, OKButton, CancelButton )
 	
@@ -36,7 +36,7 @@ Function SpriteMapProperties:Int( SpriteMap:LTSpriteMap )
 	SetGadgetText( TopMarginTextField, L_TrimDouble( SpriteMap.TopMargin ) )
 	SetGadgetText( RightMarginTextField, L_TrimDouble( SpriteMap.RightMargin ) )
 	SetGadgetText( BottomMarginTextField, L_TrimDouble( SpriteMap.BottomMargin ) )
-	SetButtonState( Sorted, SpriteMap.Sorted )
+	SetButtonState( SortedCheckBox, SpriteMap.Sorted )
 	
 	Repeat
 		PollEvent()
@@ -49,16 +49,26 @@ Function SpriteMapProperties:Int( SpriteMap:LTSpriteMap )
 						
 						Local CellWidth:Double = TextFieldText( CellWidthTextField ).ToDouble()
 						Local CellHeight:Double = TextFieldText( CellHeightTextField ).ToDouble()
+						
+						Local Sorted:Int = ButtonState( SortedCheckBox )
 							
 						if CellWidth > 0.0 And CellHeight > 0.0 Then
-							SpriteMap.SetResolution( XQuantity, YQuantity )
-							SpriteMap.CellWidth = CellWidth
-							SpriteMap.CellHeight = CellHeight
+							If SpriteMap.XQuantity <> XQuantity Or SpriteMap.YQuantity <> YQuantity Or..
+							SpriteMap.CellWidth <> CellWidth Or SpriteMap.CellHeight <> CellHeight Or SpriteMap.Sorted <> Sorted Then
+								Local Sprites:TMap = SpriteMap.GetSprites()
+								SpriteMap.SetResolution( XQuantity, YQuantity )
+								SpriteMap.CellWidth = CellWidth
+								SpriteMap.CellHeight = CellHeight
+								SpriteMap.Sorted = Sorted
+								For Local Sprite:LTSprite = Eachin Sprites.Keys()
+									SpriteMap.InsertSprite( Sprite )
+								Next
+							End If
+							
 							SpriteMap.LeftMargin = TextFieldText( LeftMarginTextField ).ToDouble()
 							SpriteMap.TopMargin = TextFieldText( TopMarginTextField ).ToDouble()
 							SpriteMap.RightMargin = TextFieldText( RightMarginTextField ).ToDouble()
 							SpriteMap.BottomMargin = TextFieldText( BottomMarginTextField ).ToDouble()
-							SpriteMap.Sorted = ButtonState( Sorted )
 							
 							FreeGadget( EditWindow )
 							Return True

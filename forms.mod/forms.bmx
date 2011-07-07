@@ -28,11 +28,11 @@ ModuleInfo "History: &nbsp; &nbsp; Initial release."
 
 Import brl.eventqueue
 ?win32
-import maxgui.win32maxguiex
+Import maxgui.win32maxguiex
 ?linux
-import maxgui.fltkmaxgui
+Import maxgui.fltkmaxgui
 ?macos
-import maxgui.cocoamaxgui
+Import maxgui.cocoamaxgui
 ?
 
 Import dwlab.frmwork
