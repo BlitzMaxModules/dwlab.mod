@@ -98,8 +98,11 @@ Type LTDoubleMap Extends LTMap
 	Method ToNewImage:LTImage( Channel:Int = RGB )
 		Local Image:LTImage = New LTImage
 		Image.BMaxImage = CreateImage( XQuantity, YQuantity )
+		MidHandleImage( Image.BMaxImage )
 		
-		PasteToPixmap( LockImage( Image.BMaxImage ), 0, 0, Channel )
+		Local Pixmap:TPixmap = LockImage( Image.BMaxImage )
+		Pixmap.ClearPixels( $FFFFFFFF )
+		PasteToPixmap( Pixmap, 0, 0, Channel )
 		
 		UnlockImage( Image.BMaxImage )
 		Return Image

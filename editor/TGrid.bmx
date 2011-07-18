@@ -129,9 +129,9 @@ Type TGrid Extends LTShape
 		Form.NewLine()
 		Local CellHeightField:TGadget = Form.AddTextField( "{{L_CellHeight}}", 200 )
 		Form.NewLine()
-		Local VerticalDivField:TGadget = Form.AddTextField( "{{L_VerticalCellDivision}}", 200 )
-		Form.NewLine()
 		Local HorizontalDivField:TGadget = Form.AddTextField( "{{L_HorizontalCellDivision}}", 200 )
+		Form.NewLine()
+		Local VerticalDivField:TGadget = Form.AddTextField( "{{L_VerticalCellDivision}}", 200 )
 		Form.NewLine()
 		Local SelectColorButton:TGadget = Form.AddButton( "{{B_SelectColor}}", 80 )
 		Local OKButton:TGadget = Form.AddButton( "{{B_OK}}", 80, Button_OK )
@@ -139,8 +139,8 @@ Type TGrid Extends LTShape
 		
 		SetGadgetText( CellWidthField, CellWidth )
 		SetGadgetText( CellHeightField, CellHeight )
-		SetGadgetText( VerticalDivField, CellXDiv )
-		SetGadgetText( HorizontalDivField, CellYDiv )
+		SetGadgetText( HorizontalDivField, CellXDiv )
+		SetGadgetText( VerticalDivField, CellYDiv )
 		
 		Repeat
 			PollEvent()
@@ -155,8 +155,8 @@ Type TGrid Extends LTShape
 						Case OKButton
 							Local NewCellWidth:Double = TextFieldText( CellWidthField ).ToDouble()
 							Local NewCellHeight:Double = TextFieldText( CellHeightField ).ToDouble()
-							Local NewCellXDiv:Double = TextFieldText( VerticalDivField ).ToInt()
-							Local NewCellYDiv:Double = TextFieldText( HorizontalDivField ).ToInt()
+							Local NewCellXDiv:Double = TextFieldText( HorizontalDivField ).ToInt()
+							Local NewCellYDiv:Double = TextFieldText( VerticalDivField ).ToInt()
 							If NewCellWidth > 0 And NewCellHeight > 0 Then
 								If NewCellXDiv > 0 And NewCellYDiv > 0 Then
 									CellWidth = NewCellWidth

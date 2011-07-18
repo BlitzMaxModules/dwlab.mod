@@ -9,34 +9,34 @@
 '
 
 Rem
-bbdoc: Collision map is a structure which can contain sprites, draw and perform collision checks between them and other shapes.
+bbdoc: Sprite map is a structure which can contain sprites, draw and perform collision checks between them and other shapes.
 about: Operations like drawing and checking collision between large groups of sprites will be faster with use of collision maps.
 End Rem
 Type LTSpriteMap Extends LTMap
 	Field Sprites:TList[ , ]
 	
 	Rem
-	bbdoc: Width of collision map cell in units.
+	bbdoc: Width of sprite map cell in units.
 	about: See also: #SetCellSize
 	End Rem
 	Field CellWidth:Double = 1.0
 	
 	Rem
-	bbdoc: Height of collision map cell in units.
+	bbdoc: Height of sprite map cell in units.
 	about: See also: #SetCellSize
 	End Rem
 	Field CellHeight:Double = 1.0
 	
 	Rem
-	bbdoc: Margins for drawing collision map in units.
-	about: When drawing collision map, margins define the size of rectangular frame around camera's rectangle in which objects will be also drawn.
-	Will be handy if you draw collision map with objects with XScale / YScale parameters greater than 1.0.
+	bbdoc: Margins for drawing sprite map in units.
+	about: When drawing sprite map, margins define the size of rectangular frame around camera's rectangle in which objects will be also drawn.
+	Will be handy if you draw sprite map with objects with XScale / YScale parameters greater than 1.0.
 	End Rem
 	Field LeftMargin:Double, RightMargin:Double
 	Field TopMargin:Double, BottomMargin:Double
 	
 	Rem
-	bbdoc: Flag which defines will be the collision map sorted by sprite Y coordinates.
+	bbdoc: Flag which defines will be the sprite map sorted by sprite Y coordinates.
 	about: False by default.
 	End Rem
 	Field Sorted:Int = False
@@ -61,7 +61,7 @@ Type LTSpriteMap Extends LTMap
 	
 	
 	Rem
-	bbdoc: Sets cell size of collision map.
+	bbdoc: Sets cell size of sprite map.
 	End Rem
 	Method SetCellSize( NewCellWidth:Double, NewCellHeight:Double )
 		CellWidth = NewCellWidth
@@ -110,7 +110,7 @@ Type LTSpriteMap Extends LTMap
 	' ==================== Drawing ===================	
 	
 	Rem
-	bbdoc: Draws all objects of collision map which are in cells under camera's rectangle plus margins.
+	bbdoc: Draws all objects of sprite map which are in cells under camera's rectangle plus margins.
 	End Rem
 	Method Draw()
 		DrawUsingVisualizer( Null )
@@ -188,7 +188,7 @@ Type LTSpriteMap Extends LTMap
 	' ==================== Insert / remove objects ====================
 	
 	Rem
-	bbdoc: Inserts a sprite into collision map.
+	bbdoc: Inserts a sprite into sprite map.
 	about: Pivot insertion works faster.
 	
 	See also: #RemoveSprite
@@ -244,7 +244,7 @@ Type LTSpriteMap Extends LTMap
 	
 	
 	Rem
-	bbdoc: Removes a sprite into collision map.
+	bbdoc: Removes sprite from sprite map.
 	about: Pivot removal works faster.
 	
 	See also: #InsertSprite
@@ -266,6 +266,19 @@ Type LTSpriteMap Extends LTMap
 				Next
 		End Select
 		If ChangeSpriteMapField Then Sprite.SpriteMap = Null
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Clears sprite map.
+	End Rem
+	Method Clear()
+		For Local Y:Int = 0 Until YQuantity
+			For Local X:Int = 0 Until XQuantity
+				Sprites[ X, Y ].Clear()
+			Next
+		Next
 	End Method
 	
 	' ==================== Collisions ===================

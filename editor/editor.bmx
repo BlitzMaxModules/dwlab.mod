@@ -854,11 +854,9 @@ Type LTEditor Extends LTProject
 								
 								Local Bounds:LTShape = LTLayer( SelectedShape ).Bounds
 								If Bounds Then
-									SpriteMap.XQuantity = Bounds.Width / CellSize
-									SpriteMap.YQuantity = Bounds.Height / CellSize
+									SpriteMap.SetResolution( L_ToPowerOf2( Bounds.Width / CellSize ), L_ToPowerOf2( Bounds.Height / CellSize ) )
 								Else
-									SpriteMap.XQuantity = 16
-									SpriteMap.YQuantity = 16
+									SpriteMap.SetResolution( 16, 16 )
 								End If
 								
 								If SpriteMapProperties( SpriteMap ) Then

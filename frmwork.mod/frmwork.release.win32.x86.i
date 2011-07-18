@@ -1,8 +1,12 @@
-ModuleInfo "Version: 1.0.2.1"
+ModuleInfo "Version: 1.0.3"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.3 (18.07.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added Parallax() function."
+ModuleInfo "History: &nbsp; &nbsp; Added sprite map clearing method."
+ModuleInfo "History: &nbsp; &nbsp; Fixed bug in LTDoubleMap.ToNewImage() method."
 ModuleInfo "History: v1.0.2.1 (07.07.11)"
 ModuleInfo "History: &nbsp; &nbsp; Fixed bug of visualizer's DX/DY not saving/loading."
 ModuleInfo "History: v1.0.2 (06.07.11)"
@@ -31,7 +35,7 @@ import brl.d3d7max2d
 import brl.random
 import brl.reflection
 import brl.retro
-L_Version$=$"1.0.2.1"
+L_Version$=$"1.0.3"
 LTObject^brl.blitz.Object{
 .Name$&
 -New%()="_dwlab_frmwork_LTObject_New"
@@ -101,6 +105,7 @@ RightFacing!=1!
 -MoveUsingWSAD%(Velocity!)="_dwlab_frmwork_LTShape_MoveUsingWSAD"
 -MoveUsingArrows%(Velocity!)="_dwlab_frmwork_LTShape_MoveUsingArrows"
 -MoveUsingKeys%(KUp%,KDown%,KLeft%,KRight%,Velocity!)="_dwlab_frmwork_LTShape_MoveUsingKeys"
+-Parallax%(Shape:LTShape)="_dwlab_frmwork_LTShape_Parallax"
 -LimitWith%(Rectangle:LTShape)="_dwlab_frmwork_LTShape_LimitWith"
 -LimitLeftWith%(Rectangle:LTShape)="_dwlab_frmwork_LTShape_LimitLeftWith"
 -LimitTopWith%(Rectangle:LTShape)="_dwlab_frmwork_LTShape_LimitTopWith"
@@ -414,6 +419,7 @@ LTSpriteMap^LTMap{
 -InsertSprite%(Sprite:LTSprite,ChangeSpriteMapField%=1)="_dwlab_frmwork_LTSpriteMap_InsertSprite"
 -InsertSpriteTo%(Sprite:LTSprite,MapX%,MapY%)="_dwlab_frmwork_LTSpriteMap_InsertSpriteTo"
 -RemoveSprite%(Sprite:LTSprite,ChangeSpriteMapField%=1)="_dwlab_frmwork_LTSpriteMap_RemoveSprite"
+-Clear%()="_dwlab_frmwork_LTSpriteMap_Clear"
 +Create:LTSpriteMap(XQuantity%,YQuantity%,CellWidth!=1!,CellHeight!=1!,Sorted%=0)="_dwlab_frmwork_LTSpriteMap_Create"
 +CreateForShape:LTSpriteMap(Shape:LTShape,CellSize!=1!,Sorted%=0)="_dwlab_frmwork_LTSpriteMap_CreateForShape"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTSpriteMap_XMLIO"

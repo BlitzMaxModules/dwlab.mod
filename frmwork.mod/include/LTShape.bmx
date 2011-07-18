@@ -355,6 +355,18 @@ Type LTShape Extends LTObject
 		SetCoords( X + DX * Velocity * L_DeltaTime, Y + DY * Velocity * L_DeltaTime )
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Applies parallax effect for shape depending on current camera size and position relative to given shape.
+	End Rem
+	Method Parallax( Shape:LTShape )
+		Local DX:Double = Shape.Width - L_CurrentCamera.Width
+		Local DY:Double = Shape.Height - L_CurrentCamera.Height
+		SetCoords( Shape.LeftX() + 0.5 * Width + ( L_CurrentCamera.LeftX() - Shape.LeftX() ) * ( Shape.Width - Width ) / DX,..
+			Shape.TopY() + 0.5 * Height + ( L_CurrentCamera.TopY() - Shape.TopY() ) * ( Shape.Height - Height ) / DY )
+	End Method
+	
 	' ==================== Limiting ====================
 	
 	Rem
@@ -781,7 +793,7 @@ Type LTShape Extends LTObject
 	
 	Method CopyTo( Shape:LTShape )
 		Shape.Name = Name
-		Shape.Visualizer = Visualizer
+		Shape.Visualizer = Visualizer.Clone()
 		Shape.X = X
 		Shape.Y = Y
 		Shape.Width = Width

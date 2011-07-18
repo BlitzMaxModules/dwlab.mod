@@ -406,6 +406,8 @@ Type LTVisualizer Extends LTObject
 		Visualizer.Green = Green
 		Visualizer.Blue = Blue
 		Visualizer.Alpha = Alpha
+		Visualizer.DX = DX
+		Visualizer.DY = DY
 		Visualizer.Angle = Angle
 		Visualizer.Rotating = Rotating
 		Visualizer.XScale = XScale
