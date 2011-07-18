@@ -10,11 +10,14 @@ Global Game:TGame = New TGame
 Game.Execute()
 
 Type TGame Extends LTProject
-	Const MazeSize:Int = 128
+	Const MazeSize:Int = 256
+	Const ZombieProbability:Double = 0.1
 	
 	Field Template:LTWorld
 	Field Maze:LTTileMap
 	Field Objects:LTSpriteMap
+	Field Zombies:Int
+	Field ActingRegion:TActingRegion = New TActingRegion
 	
 	
 	
@@ -27,38 +30,49 @@ Type TGame Extends LTProject
 		Maze.Stretch( 2, 2 )
 		Maze.Enframe()
 		Objects = LTSpriteMap( Template.FindShape( "LTSpriteMap" ) )
-		Objects.SetCellSize( 4.0, 4.0 )
+		Objects.SetCellSize( 2.0, 2.0 )
 		Objects.SetResolution( MazeSize, MazeSize )
 		
-		Local WallSprite:LTSprite = LTSprite( Template.FindShape( "LTSprite,Wall" ) )
-		Local FloorSprite:LTSprite = LTSprite( Template.FindShape( "LTSprite,Floor" ) )
+		Local WallSprite:TWall = TWall( CreateShape( Template.FindShape( "TWall" ) ) )
+		Local FloorSprite:TFloor = TFloor( CreateShape( Template.FindShape( "TFloor" ) ) )
+		Local ZombieSprite:TZombie =  TZombie( CreateShape( Template.FindShape( "TZombie" ) ) )
 		For Local Y:Int = 0 Until Maze.YQuantity
 			For Local X:Int = 0 Until Maze.XQuantity
-				Local Sprite:LTSprite
 				If Maze.Value[ X, Y ] = 1 Then
 					InsertSprite( FloorSprite, X, Y, Rand( 0, 3 ) )
+					If Rnd() < ZombieProbability Then
+						InsertSprite( ZombieSprite, X, Y, Rand( 0, 63 ) )
+						Zombies :+ 1
+					End If
 				ElseIf Maze.Value[ X, Y ] >= 4 Then
 					InsertSprite( WallSprite, X, Y, Maze.Value[ X, Y ] )
 					If Maze.Value[ X, Y ] = 8 Or Maze.Value[ X, Y ] = 10 Then InsertSprite( FloorSprite, X, Y, Rand( 0, 3 ) )
 				End If
 			Next
 		Next
+		
+		ActingRegion.ShapeType = LTSprite.Rectangle
+		ActingRegion.SetSize( 2.0 * L_CurrentCamera.Width, 2.0 * L_CurrentCamera.Height )
 	End Method
 	
 	
 	
 	Method InsertSprite( Sprite:LTSprite, X:Int, Y:Int, Frame:Int )
-		Sprite = LTSprite( Sprite.Clone() )
-		Sprite.X :+ X - Y
-		Sprite.Y :+ 0.5 * ( X + Y )
-		Sprite.Frame = Frame
-		Objects.InsertSprite( Sprite )
+		Local NewSprite:LTSprite = LTSprite( TTypeID.ForObject( Sprite ).NewObject() )
+		Sprite.CopyTo( NewSprite )
+		NewSprite.X :+ X - Y
+		NewSprite.Y :+ 0.5 * ( X + Y )
+		NewSprite.Frame = Frame
+		NewSprite.Init()
+		Objects.InsertSprite( NewSprite )
 	End Method
 	
 	
 	
 	Method Logic()
 		L_CurrentCamera.MoveUsingArrows( 8.0 )
+		ActingRegion.JumpTo( L_CurrentCamera )
+		ActingRegion.CollisionsWithSpriteMap( Objects )
 		If KeyHit( Key_Escape ) Then End
 	End Method
 	
@@ -67,19 +81,20 @@ Type TGame Extends LTProject
 	Method Render()
 		Objects.Draw()
 		ShowDebugInfo()
+		DrawText( "Zombies: " + Zombies, 0, 96 )
 	End Method
 End Type
 
 
 
 Type TMazeGenerator
-	Const BranchPossibility:Double = 0.8
-	Const LoopPossibility:Double = 0.2
-	Const RoomPossibility:Double = 0.3
-	Const MinBranchLength:Int = 4
-	Const MaxBranchLength:Int = 16
-	Const MinRoomSize:Int = 4
-	Const MaxRoomSize:Int = 16
+	Field BranchPossibility:Double = 0.6
+	Field LoopPossibility:Double = 0.2
+	Field RoomPossibility:Double = 0.3
+	Field MinBranchLength:Int = 4
+	Field MaxBranchLength:Int = 16
+	Field MinRoomSize:Int = 4
+	Field MaxRoomSize:Int = 16
 	
 	Field PivotList:TList = New TList
 	
@@ -95,7 +110,7 @@ Type TMazeGenerator
 				DrawText( Quantity, 0, 0 )
 				Flip False
 			End If
-			Cnt = ( Cnt + 1 ) Mod 100
+			Cnt = ( Cnt + 1 ) Mod 500
 			If Quantity = 0 Then Exit
 			Local Pivot:TMazePivot = TMazePivot( PivotList.ValueAtIndex( Rand( 0, Quantity - 1 ) ) )
 			SetBranch( Maze, Pivot )
@@ -118,13 +133,18 @@ Type TMazeGenerator
 		For Local N:Int = 0 To Length
 			Local X:Int = Pivot.X + Dir.DX * N
 			Local Y:Int = Pivot.Y + Dir.DY * N
-			Maze.Value[ X, Y ] = 1
 			Local NextX:Int = X + Dir.DX
 			Local NextY:Int = Y + Dir.DY
 			Local ExitFlag:Int = False
-			If NextX = 0 Or NextY = 0 Or NextX = Maze.XQuantity - 1 Or NextY = Maze.YQuantity - 1 Or Maze.Value[ NextX, NextY ] = 1 Then ExitFlag = True
-			If Maze.Value[ NextX + Dir.DY, NextY + Dir.DX ] = 1 Or Maze.Value[ NextX - Dir.DY, NextY - Dir.DX ] = 1 Then ExitFlag = True
-			If Not ExitFlag Then If Maze.Value[ NextX + Dir.DX, NextY + Dir.DY ] = 1 Then If Rnd() > LoopPossibility Then ExitFlag = True
+			If NextX = 0 Or NextY = 0 Or NextX = Maze.XQuantity - 1 Or NextY = Maze.YQuantity - 1 Or Maze.Value[ NextX, NextY ] = 1 Then
+				ExitFlag = True
+			ElseIf Maze.Value[ NextX + Dir.DY, NextY + Dir.DX ] = 1 Or Maze.Value[ NextX - Dir.DY, NextY - Dir.DX ] = 1 Then
+				ExitFlag = True
+			ElseIf Maze.Value[ NextX + Dir.DX, NextY + Dir.DY ] = 1 Then If Rnd() > LoopPossibility Then ExitFlag = True
+				ExitFlag = True
+			Else
+				Maze.Value[ X, Y ] = 1
+			End If
 			If ExitFlag Then
 				If N > 0 Then AddPivot( X, Y )
 				Length = N
@@ -219,4 +239,61 @@ Type TDir
 		Dir.DY = DY
 		Return Dir
 	End Function
+End Type
+
+
+
+Type TWall Extends LTSprite
+End Type
+
+
+
+Type TFloor Extends LTSprite
+End Type
+
+
+
+Type TZombie Extends LTAngularSprite
+	Field Speed:Double
+	Field AnimationSpeed:Double
+
+	Field Destination:LTSprite = New LTSprite
+	Field Collided:Int
+	
+	
+	
+	Method Init()
+		X :+ Rnd( 0.25, -0.25 )
+		Y :+ Rnd( 0.25, -0.25 )
+		Angle = Rnd( 360.0 )
+		Speed = Rnd( 1.0, 1.5 )
+		AnimationSpeed = 0.2 / Speed
+	End Method
+	
+	
+	
+	Method Act()
+		Move( Speed * Cos( Angle ), 0.5 * Speed * Sin( Angle ) )
+		Collided = False
+		CollisionsWithSpriteMap( Game.Objects )
+		If Not Collided Then Animate( Game, AnimationSpeed, 8, 8 * ( ( 4.0 + L_Round( Angle / 45.0 ) ) Mod 8 ) )
+	End Method
+	
+	
+	
+	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
+		If Not TFloor( Sprite ) Then
+			PushFromSprite( Sprite )
+			Angle = Rnd( 360.0 )
+			Collided = True
+		End If
+	End Method
+End Type
+
+
+
+Type TActingRegion Extends LTSprite
+	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
+		Sprite.Act()
+	End Method
 End Type

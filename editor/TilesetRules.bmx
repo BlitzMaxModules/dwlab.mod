@@ -379,8 +379,6 @@ Type TTilesetRules
 	
 	
 	
-	
-	
 	Method FindTilePos:LTTilePos( TileRule:LTTileRule, PosDX:Int, PosDY:Int )
 		For Local TilePos:LTTilePos = Eachin TileRule.TilePositions
 			If TilePos.DX = PosDX And TilePos.DY = PosDY Then Return TilePos
