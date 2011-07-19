@@ -87,10 +87,4 @@ Type TChaingun Extends LTAngularSprite
 			If Num Then Game.FireSounds.Play( Game.FireSound, 0.2 )
 		End If
 	End Method
-	
-	
-	
-	Method Draw()
-		Super.Draw()
-	End Method
 End Type

@@ -10,20 +10,8 @@
 
 SuperStrict
 
-?win32
-Framework brl.d3d7max2d
-Import brl.directsoundaudio
-?linux
-Framework brl.glmax2d
-Import brl.freeaudioaudio
-?macos
-Framework brl.glmax2d
-Import brl.freeaudioaudio
-?
-
 Import brl.jpgloader
 Import brl.pngloader
-Import brl.oggloader
 
 Import dwlab.frmwork
 

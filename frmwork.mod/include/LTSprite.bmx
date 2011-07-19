@@ -293,19 +293,19 @@ Type LTSprite Extends LTShape
 	bbdoc: Executes reaction for collision of sprite with sprites in sprite map.
 	about: For every collided sprite HandleCollisionWithSprite() method will be executed and collided srite will be passed to this method.
 	You can specify collision type which will be passed to this method too.
-	Map parameter allows you to specify map to where collided sprites will be added as keys. In this case HandleCollisionWithSprite() will not be executed.
+	Map parameter allows you to specify map to where collided sprites will be added as keys.
 	
 	See also: #CollisionsWithGroup, #CollisionsWithSprite, #CollisionsWithTileMap, #CollisionsWithLine, #Horizontal, #Vertical
 	End Rem
 	Method CollisionsWithSpriteMap( SpriteMap:LTSpriteMap, CollisionType:Int = 0, Map:TMap = Null )
+		If Not Map Then Map = New TMap
 		Select ShapeType
 			Case Pivot
 				For Local MapSprite:LTSprite = EachIn SpriteMap.Sprites[ Int( X / SpriteMap.CellWidth ) & SpriteMap.XMask, Int( Y / SpriteMap.CellHeight ) & SpriteMap.YMask ]
 					If Self = MapSprite Then Continue
 					If CollidesWithSprite( MapSprite ) Then
-						If Map Then
+						If Not Map.Contains( MapSprite ) Then
 							Map.Insert( MapSprite, Null )
-						Else
 							HandleCollisionWithSprite( MapSprite, CollisionType )
 						End If
 					End If
@@ -321,9 +321,8 @@ Type LTSprite Extends LTShape
 						For Local MapSprite:LTSprite = EachIn SpriteMap.Sprites[ CellX & SpriteMap.XMask, CellY & SpriteMap.YMask ]
 							If Self = MapSprite Then Continue
 							If CollidesWithSprite( MapSprite ) Then
-								If Map Then
+								If Not Map.Contains( MapSprite ) Then
 									Map.Insert( MapSprite, Null )
-								Else
 									HandleCollisionWithSprite( MapSprite, CollisionType )
 								End If
 							End If

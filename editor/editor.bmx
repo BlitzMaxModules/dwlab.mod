@@ -204,6 +204,7 @@ Type LTEditor Extends LTProject
 	Const MenuTilemapSettings:Int = 25
 	Const MenuEditReplacementRules:Int = 26
 	Const MenuEditTileCollisionShapes:Int = 43
+	Const MenuEnframe:Int = 50
 	
 	Const MenuSpriteMapProperties:Int = 46
 
@@ -344,6 +345,7 @@ Type LTEditor Extends LTProject
 		CreateMenu( "{{M_ResizeTilemap}}", MenuResizeTilemap, TilemapMenu )
 		CreateMenu( "{{M_EditTileCollisionShapes}}", MenuEditTileCollisionShapes, TilemapMenu )
 		CreateMenu( "{{M_EditTileReplacementRules}}", MenuEditReplacementRules, TilemapMenu )
+		CreateMenu( "{{M_Enframe}}", MenuEnframe, TilemapMenu )
 		CreateMenu( "{{M_SetBounds}}", MenuSetBounds, TilemapMenu )
 		AddCommonMenuItems( TilemapMenu )
 		
@@ -895,7 +897,9 @@ Type LTEditor Extends LTProject
 					Case MenuSetBounds
 						CurrentViewLayer.SetBounds( SelectedShape )
 						SetChanged()
-						
+					Case MenuEnframe
+						LTTileMap( SelectedShape ).Enframe()
+						SetChanged()
 					Case MenuSpriteMapProperties
 						SpriteMapProperties( LTSpriteMap( SelectedShape ) )
 				End Select

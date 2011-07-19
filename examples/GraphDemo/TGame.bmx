@@ -35,7 +35,7 @@ Type TGame Extends LTProject
 		Player.SetSize( 72.0 / 25.0, 72.0 / 25.0 )
 		Player.ShapeType = LTSprite.Rectangle
 		
-		PlayerVisualizer.DY = -0.4
+		PlayerVisualizer.DY = -0.2
 		PlayerVisualizer.Rotating = False
 		Player.Visualizer = PlayerVisualizer
 		

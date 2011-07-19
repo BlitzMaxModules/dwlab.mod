@@ -1,4 +1,4 @@
-<LTWorld dwlab_version="0.13.3">
+<LTWorld dwlab_version="1.0.3">
 	<LTVisualizer field="visualizer" id="1"/>
 	<TList field="images">
 		<Object id="6"/>
@@ -156,16 +156,16 @@
 				</LTVisualizer>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,FirePos,0,0" x="4.5499" y="3.1019" width="0.1247" height="0.1532">
-				<LTVisualizer field="visualizer"/>
+				<LTVisualizer field="visualizer" alpha="0"/>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,FirePos,0,1" x="4.5499" y="3.208" width="0.1832" height="0.1792">
-				<LTVisualizer field="visualizer"/>
+				<LTVisualizer field="visualizer" alpha="0"/>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,FirePos,1,0" x="4.5499" y="1.9157" width="0.1202" height="0.1217">
-				<LTVisualizer field="visualizer"/>
+				<LTVisualizer field="visualizer" alpha="0"/>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,FirePos,1,1" x="4.5499" y="1.814" width="0.1262" height="0.1278">
-				<LTVisualizer field="visualizer"/>
+				<LTVisualizer field="visualizer" alpha="0"/>
 			</LTAngularSprite>
 			<LTAngularSprite name="LTAngularSprite,Aimer,0" x="3.41" y="3.1419" width="0.3425" height="0.3024">
 				<LTVisualizer field="visualizer"/>

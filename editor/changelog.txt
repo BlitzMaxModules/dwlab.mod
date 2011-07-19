@@ -1,12 +1,12 @@
 1.5.1
-+ Added possibility of duplicating objects
++ Added possibility of duplicating objects with "d" key
 + Camera now can be moved with arrow keys
 
 1.5
 + Sprite maps are available for creating and filling with sprites
 + Container can be selected for inserting sprites (layer or collision map)
 + Added button for switching off tilemap editing mode.
-+ Added possibility to copy collision shapes and correcting heghtt
++ Added possibility to copy collision shapes and correcting heght with "c" key
 * View layer now can be selected separated from container
 
 1.4.3
