@@ -8,12 +8,74 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Framework brl.basic
+
 Import dwlab.frmwork
 
-SeedRnd 0
-PushingStressTest()
+Local Test:TTest = New TTest
+Test.Execute()
+
+'PushingStressTest()
+
+Type TTest Extends LTProject
+	Field Sprite1:LTSprite = New LTSprite
+	Field Sprite2:LTSprite = New LTSprite
+	Field CircleSprite1:LTSprite = New LTSprite
+	Field CircleSprite2:LTSprite = New LTSprite
+	
+	
+	
+	Method Init()
+		L_InitGraphics()
+		
+		Sprite1.ShapeType = LTSprite.rectangle
+		Sprite1.SetSize( 3.0, 6.0 )
+		Sprite1.Visualizer = New LTVisualizer
+		Sprite1.Visualizer.SetColorFromRGB( 1.0, 0.0, 0.0 )
+		
+		Sprite2.ShapeType = LTSprite.Oval
+		Sprite2.SetSize( 6.0, 3.0 )
+		Sprite2.Visualizer = New LTVisualizer
+		Sprite2.Visualizer.Alpha = 0.5
+		
+		CircleSprite1.ShapeType = LTSprite.Oval
+		CircleSprite1.Visualizer = New LTEmptyPrimitive
+		
+		CircleSprite2.ShapeType = LTSprite.Oval
+		CircleSprite2.Visualizer = New LTEmptyPrimitive
+	End Method
+	
+	
+	
+	Method Logic()
+		Sprite2.SetMouseCoords()
+		If Sprite1.CollidesWithSprite( Sprite2 ) Then
+			Sprite2.Visualizer.SetColorFromRGB( 1.0, 1.0, 0.0 )
+		Else
+			Sprite2.Visualizer.SetColorFromRGB( 0.0, 1.0, 0.0 )
+		End If
+		CircleSprite1.JumpTo( Sprite1 )
+		CircleSprite2.JumpTo( Sprite2 )
+		CircleSprite1.SetDiameter( L_GetOvalDiameter( CircleSprite1.X, CircleSprite1.Y, Sprite1.Width, Sprite1.Height, Sprite2.X, Sprite2.Y ) )
+		CircleSprite2.SetDiameter( L_GetOvalDiameter( CircleSprite2.X, CircleSprite2.Y, Sprite2.Width, Sprite2.Height, CircleSprite1.X, CircleSprite1.Y ) )
+		If KeyHit( KEY_ESCAPE ) Then End
+	End Method
+	
+	
+	
+	Method Render()
+		Sprite1.Draw()
+		Sprite2.Draw()
+		CircleSprite1.Draw()
+		CircleSprite2.Draw()
+	End Method
+End Type
+
+
 
 Function PushingStressTest()
+	SeedRnd 0
+	
 	Local Sprite1:LTSprite = New LTSprite
 	Local Sprite2:LTSprite = New LTSprite
 	Sprite1.ShapeType = L_Rectangle

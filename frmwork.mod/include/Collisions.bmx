@@ -18,8 +18,14 @@ End Function
 
 
 
-Function L_PivotWithCircle:Int( PivotX:Double, PivotY:Double, CircleX:Double, CircleY:Double, CircleDiameter:Double )
-	If ( PivotX - CircleX ) * ( PivotX - CircleX ) + ( PivotY - CircleY ) * ( PivotY - CircleY ) < 0.25 * CircleDiameter * CircleDiameter Then Return True
+Function L_PivotWithOval:Int( PivotX:Double, PivotY:Double, OvalX:Double, OvalY:Double, OvalWidth:Double, OvalHeight:Double )
+	Local OvalDiameter:Double
+	If OvalWidth = OvalHeight Then
+		OvalDiameter = OvalWidth
+	Else
+		OvalDiameter = L_GetOvalDiameter( OvalX, OvalY, OvalWidth, OvalHeight, PivotX, PivotY )
+	End If
+	If ( PivotX - OvalX ) * ( PivotX - OvalX ) + ( PivotY - OvalY ) * ( PivotY - OvalY ) < 0.25 * OvalDiameter * OvalDiameter Then Return True
 End Function
 
 
@@ -30,19 +36,36 @@ End Function
 
 
 
-Function L_CircleWithCircle:Int( Circle1X:Double, Circle1Y:Double, Circle1Diameter:Double, Circle2X:Double, Circle2Y:Double, Circle2Diameter:Double )
-	If 4.0 * ( ( Circle2X - Circle1X ) * ( Circle2X - Circle1X ) + ( Circle2Y - Circle1Y ) * ( Circle2Y - Circle1Y ) ) < ( Circle2Diameter + Circle1Diameter ) * ( Circle2Diameter + Circle1Diameter ) - L_Inaccuracy Then Return True
+Function L_OvalWithOval:Int( Oval1X:Double, Oval1Y:Double, Oval1Width:Double, Oval1Height:Double, Oval2X:Double, Oval2Y:Double, Oval2Width:Double, Oval2Height:Double )
+	Local Oval1Diameter:Double, Oval2Diameter:Double
+	If Oval1Width = Oval1Height Then
+		Oval1Diameter = Oval1Width
+	Else
+		Oval1Diameter = L_GetOvalDiameter( Oval1X, Oval1Y, Oval1Width, Oval1Height, Oval2X, Oval2Y )
+	End If
+	If Oval2Width = Oval2Height Then
+		Oval2Diameter = Oval2Width
+	Else
+		Oval2Diameter = L_GetOvalDiameter( Oval2X, Oval2Y, Oval2Width, Oval2Height, Oval1X, Oval1Y )
+	End If
+	If 4.0 * ( ( Oval2X - Oval1X ) * ( Oval2X - Oval1X ) + ( Oval2Y - Oval1Y ) * ( Oval2Y - Oval1Y ) ) < ( Oval2Diameter + Oval1Diameter ) * ( Oval2Diameter + Oval1Diameter ) - L_Inaccuracy Then Return True
 End Function
 
 
 
-Function L_CircleWithRectangle:Int( CircleX:Double, CircleY:Double, CircleDiameter:Double, RectangleX:Double, RectangleY:Double, RectangleWidth:Double, RectangleHeight:Double )
-	If ( RectangleX - RectangleWidth * 0.5 <= CircleX And CircleX <= RectangleX + RectangleWidth * 0.5 ) Or ( RectangleY - RectangleHeight * 0.5 <= CircleY And CircleY <= RectangleY + RectangleHeight * 0.5 ) Then
-		If 2.0 * Abs( CircleX - RectangleX ) < CircleDiameter + RectangleWidth - L_Inaccuracy And 2.0 * Abs( CircleY - RectangleY ) < CircleDiameter + RectangleHeight - L_Inaccuracy Then Return True
+Function L_OvalWithRectangle:Int( OvalX:Double, OvalY:Double, OvalWidth:Double, OvalHeight:Double, RectangleX:Double, RectangleY:Double, RectangleWidth:Double, RectangleHeight:Double )
+	Local OvalDiameter:Double
+	If OvalWidth = OvalHeight Then
+		OvalDiameter = OvalWidth
 	Else
-		Local DX:Double = Abs( RectangleX - CircleX ) - 0.5 * RectangleWidth
-		Local DY:Double = Abs( RectangleY - CircleY ) - 0.5 * RectangleHeight
-		If 4.0 * ( DX * DX + DY * DY ) < CircleDiameter * CircleDiameter - L_Inaccuracy Then Return True
+		OvalDiameter = L_GetOvalDiameter( OvalX, OvalY, OvalWidth, OvalHeight, RectangleX, RectangleY )
+	End If
+	If ( RectangleX - RectangleWidth * 0.5 <= OvalX And OvalX <= RectangleX + RectangleWidth * 0.5 ) Or ( RectangleY - RectangleHeight * 0.5 <= OvalY And OvalY <= RectangleY + RectangleHeight * 0.5 ) Then
+		If 2.0 * Abs( OvalX - RectangleX ) < OvalDiameter + RectangleWidth - L_Inaccuracy And 2.0 * Abs( OvalY - RectangleY ) < OvalDiameter + RectangleHeight - L_Inaccuracy Then Return True
+	Else
+		Local DX:Double = Abs( RectangleX - OvalX ) - 0.5 * RectangleWidth
+		Local DY:Double = Abs( RectangleY - OvalY ) - 0.5 * RectangleHeight
+		If 4.0 * ( DX * DX + DY * DY ) < OvalDiameter * OvalDiameter - L_Inaccuracy Then Return True
 	End If
 End Function
 
@@ -54,16 +77,16 @@ End Function
 
 
 
-Function L_CircleWithLine:Int( CircleX:Double, CircleY:Double, CircleDiameter:Double, LineX1:Double, LineY1:Double, LineX2:Double, LineY2:Double )
+Function L_OvalWithLine:Int( OvalX:Double, OvalY:Double, OvalWidth:Double, OvalHeight:Double, LineX1:Double, LineY1:Double, LineX2:Double, LineY2:Double )
 	Local A:Double = LineY2 - LineY1
 	Local B:Double = LineX1 - LineX2
 	Local C1:Double = -A * LineX1 - B * LineY1
 	Local AABB:Double = A * A + B * B
-	Local D:Double = Abs( A * CircleX + B * CircleY + C1 ) / AABB
-	If D < 0.5 * CircleDiameter Then
-		If L_PivotWithCircle( LineX1, LineY1, CircleX, CircleY, CircleDiameter ) Then Return True
-		If L_PivotWithCircle( LineX2, LineY2, CircleX, CircleY, CircleDiameter ) Then Return True
-		Local C2:Double = A * CircleY - B * CircleX
+	Local D:Double = Abs( A * OvalX + B * OvalY + C1 ) / AABB
+	If D < 0.5 * Max( OvalWidth, OvalHeight ) Then
+		If L_PivotWithOval( LineX1, LineY1, OvalX, OvalY, OvalWidth, OvalHeight ) Then Return True
+		If L_PivotWithOval( LineX2, LineY2, OvalX, OvalY, OvalWidth, OvalHeight ) Then Return True
+		Local C2:Double = A * OvalY - B * OvalX
 		Local X0:Double = -( A * C1 + B * C2 ) / AABB
 		Local Y0:Double = ( A * C2 - B * C1 ) / AABB
 		If LineX1 <> LineX2 Then
@@ -76,8 +99,19 @@ End Function
 
 
 
-Function L_CircleOverlapsCircle:Int( Circle1X:Double, Circle1Y:Double, Circle1Diameter:Double, Circle2X:Double, Circle2Y:Double, Circle2Diameter:Double )
-	If 4.0 * ( ( Circle1X - Circle2X ) * ( Circle1X - Circle2X ) + ( Circle1Y - Circle2Y ) * ( Circle1Y - Circle2Y ) ) <= ( Circle1Diameter - Circle2Diameter ) * ( Circle1Diameter - Circle2Diameter ) Then Return True
+Function L_OvalOverlapsOval:Int( Oval1X:Double, Oval1Y:Double, Oval1Width:Double, Oval1Height:Double, Oval2X:Double, Oval2Y:Double, Oval2Width:Double, Oval2Height:Double )
+	Local Oval1Diameter:Double, Oval2Diameter:Double
+	If Oval1Width = Oval1Height Then
+		Oval1Diameter = Oval1Width
+	Else
+		Oval1Diameter = L_GetOvalDiameter( Oval1X, Oval1Y, Oval1Width, Oval1Height, Oval2X, Oval2Y )
+	End If
+	If Oval2Width = Oval2Height Then
+		Oval2Diameter = Oval2Width
+	Else
+		Oval2Diameter = L_GetOvalDiameter( Oval2X, Oval2Y, Oval2Width, Oval2Height, Oval1X, Oval1Y )
+	End If
+	If 4.0 * ( ( Oval1X - Oval2X ) * ( Oval1X - Oval2X ) + ( Oval1Y - Oval2Y ) * ( Oval1Y - Oval2Y ) ) <= ( Oval1Diameter - Oval2Diameter ) * ( Oval1Diameter - Oval2Diameter ) Then Return True
 End Function
 
 
@@ -85,4 +119,16 @@ End Function
 Function L_RectangleOverlapsRectangle:Int( Rectangle1X:Double, Rectangle1Y:Double, Rectangle1Width:Double, Rectangle1Height:Double, Rectangle2X:Double, Rectangle2Y:Double, Rectangle2Width:Double, Rectangle2Height:Double )
 	If ( Rectangle1X - 0.5 * Rectangle1Width <= Rectangle2X - 0.5 * Rectangle2Width ) And ( Rectangle1Y - 0.5 * Rectangle1Height <= Rectangle2Y - 0.5 * Rectangle2Height ) And ..
 		( Rectangle1X + 0.5 * Rectangle1Width >= Rectangle2X + 0.5 * Rectangle2Width ) And ( Rectangle1Y + 0.5 * Rectangle1Height >= Rectangle2Y + 0.5 * Rectangle2Height ) Then Return True
+End Function
+
+
+
+Function L_GetOvalDiameter:Double( OvalX:Double Var, OvalY:Double Var, OvalWidth:Double, OvalHeight:Double, X:Double, Y:Double )
+	If OvalWidth > OvalHeight Then
+		OvalX = L_LimitDouble( X, OvalX - 0.5 * ( OvalWidth - OvalHeight ), OvalX + 0.5 * ( OvalWidth - OvalHeight ) )
+		Return OvalHeight
+	Else
+		OvalY = L_LimitDouble( Y, OvalY - 0.5 * ( OvalHeight - OvalWidth ), OvalY + 0.5 * ( OvalHeight - OvalWidth ) )
+		Return OvalWidth
+	End If
 End Function

@@ -429,10 +429,6 @@ Type TResizeCollisionShape Extends LTDrag
 			NewWidth = 1.0 * Int( NewWidth * TileCollisionShapes.GridCellXDiv ) / TileCollisionShapes.GridCellXDiv
 			NewHeight = 1.0 * Int( NewHeight * TileCollisionShapes.GridCellYDiv ) / TileCollisionShapes.GridCellYDiv
 		End If
-		If CollisionShape.ShapeType = LTSprite.Circle Then
-			NewWidth = Min( NewWidth, NewHeight )
-			NewHeight = NewWidth
-		End If
 		CollisionShape.SetCoords( CollisionShape.LeftX() + 0.5 * NewWidth, CollisionShape.TopY() + 0.5 * NewHeight )
 		CollisionShape.SetSize( NewWidth, NewHeight )
 		TileCollisionShapes.RefreshFields()

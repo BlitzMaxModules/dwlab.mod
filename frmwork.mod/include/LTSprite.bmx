@@ -19,9 +19,10 @@ Type LTSprite Extends LTShape
 	Const Pivot:Int = 0
 	
 	Rem
-	bbdoc: Type of the sprite shape: circle.
+	bbdoc: Type of the sprite shape: oval / Oval.
 	End Rem
 	Const Circle:Int = 1
+	Const Oval:Int = 1
 	
 	Rem
 	bbdoc: Type of the sprite shape: rectangle.
@@ -30,7 +31,7 @@ Type LTSprite Extends LTShape
 
 	Rem
 	bbdoc: Type of the sprite shape.
-	about: See also: #Pivot, #Circle, #Rectangle
+	about: See also: #Pivot, #Oval, #Rectangle
 	End Rem
 	Field ShapeType:Int = Rectangle
 	
@@ -75,26 +76,26 @@ Type LTSprite Extends LTShape
 				Select Sprite.ShapeType
 					Case Pivot
 						Return L_PivotWithPivot( X, Y, Sprite.X, Sprite.Y )
-					Case Circle
-						Return L_PivotWithCircle( X, Y, Sprite.X, Sprite.Y, Sprite.Width )
+					Case Oval
+						Return L_PivotWithOval( X, Y, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 					Case Rectangle
 						Return L_PivotWithRectangle( X, Y, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 				End Select
-			Case Circle
+			Case Oval
 				Select Sprite.ShapeType
 					Case Pivot
-						Return L_PivotWithCircle( Sprite.X, Sprite.Y, X, Y, Width )
-					Case Circle
-						Return L_CircleWithCircle( X, Y, Width, Sprite.X, Sprite.Y, Sprite.Width )
+						Return L_PivotWithOval( Sprite.X, Sprite.Y, X, Y, Width, Height )
+					Case Oval
+						Return L_OvalWithOval( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 					Case Rectangle
-						Return L_CircleWithRectangle( X, Y, Width, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
+						Return L_OvalWithRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 				End Select
 			Case Rectangle
 				Select Sprite.ShapeType
 					Case Pivot
 						Return L_PivotWithRectangle( Sprite.X, Sprite.Y, X, Y, Width, Height )
-					Case Circle
-						Return L_CircleWithRectangle( Sprite.X, Sprite.Y, Sprite.Width, X, Y, Width, Height )
+					Case Oval
+						Return L_OvalWithRectangle( Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, X, Y, Width, Height )
 					Case Rectangle
 						Return L_RectangleWithRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 				End Select
@@ -106,7 +107,7 @@ Type LTSprite Extends LTShape
 	Rem
 	bbdoc: Checks if the sprite collides with given line.
 	returns: True if the sprite collides with given line, otherwise false.
-	about: Only collision of line and circle is yet implemented.
+	about: Only collision of line and Oval is yet implemented.
 	End Rem
 	Method CollidesWithLine:Int( Line:LTLine )
 		?debug
@@ -116,8 +117,8 @@ Type LTSprite Extends LTShape
 			Case Pivot
 				L_Error( "Line with pivot collision is not yet implemented" )
 				'Return L_PivotWithLine( Self, Line )
-			Case Circle
-				Return L_CircleWithLine( X, Y, Width, Line.Pivot[ 0 ].X, Line.Pivot[ 0 ].Y, Line.Pivot[ 1 ].X, Line.Pivot[ 1 ].Y )
+			Case Oval
+				Return L_OvalWithLine( X, Y, Width, Height, Line.Pivot[ 0 ].X, Line.Pivot[ 0 ].Y, Line.Pivot[ 1 ].X, Line.Pivot[ 1 ].Y )
 			Case Rectangle
 				L_Error( "Line with rectangle collision is not yet implemented" )
 				'Return L_RectangleWithLine( Self, Line )
@@ -135,26 +136,26 @@ Type LTSprite Extends LTShape
 				Select ShapeType
 					Case Pivot
 						Return L_PivotWithPivot( Sprite.X, Sprite.Y, X * XScale + DX, Y * YScale + DY )
-					Case Circle
-						Return L_PivotWithCircle( Sprite.X, Sprite.Y, X * XScale + DX, Y * YScale + DY, Width * XScale )
+					Case Oval
+						Return L_PivotWithOval( Sprite.X, Sprite.Y, X * XScale + DX, Y * YScale + DY, Width * XScale, Height * YScale )
 					Case Rectangle
 						Return L_PivotWithRectangle( Sprite.X, Sprite.Y, X * XScale + DX, Y * YScale + DY, Width * XScale, Height * YScale )
 				End Select
-			Case Circle
+			Case Oval
 				Select ShapeType
 					Case Pivot
-						Return L_PivotWithCircle( X * XScale + DX, Y * YScale + DY, Sprite.X, Sprite.Y, Sprite.Width )
-					Case Circle
-						Return L_CircleWithCircle( Sprite.X, Sprite.Y, Sprite.Width, X * XScale + DX, Y * YScale + DY, Width * XScale )
+						Return L_PivotWithOval( X * XScale + DX, Y * YScale + DY, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
+					Case Oval
+						Return L_OvalWithOval( Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, X * XScale + DX, Y * YScale + DY, Width * XScale, Height * YScale )
 					Case Rectangle
-						Return L_CircleWithRectangle( Sprite.X, Sprite.Y, Sprite.Width, X * XScale + DX, Y * YScale + DY, Width * XScale, Height * YScale )
+						Return L_OvalWithRectangle( Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, X * XScale + DX, Y * YScale + DY, Width * XScale, Height * YScale )
 				End Select
 			Case Rectangle
 				Select ShapeType
 					Case Pivot
 						Return L_PivotWithRectangle( X * XScale + DX, Y * YScale + DY, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
-					Case Circle
-						Return L_CircleWithRectangle( X * XScale + DX, Y * YScale + DY, Width * XScale, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
+					Case Oval
+						Return L_OvalWithRectangle( X * XScale + DX, Y * YScale + DY, Width * XScale, Height * YScale, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 					Case Rectangle
 						Return L_RectangleWithRectangle( Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, X * XScale + DX, Y * YScale + DY, Width * XScale, Height * YScale )
 				End Select
@@ -175,12 +176,12 @@ Type LTSprite Extends LTShape
 		Select ShapeType
 			Case Pivot
 				 L_Error( "Pivot overlapping is not supported" )
-			Case Circle
+			Case Oval
 				Select Sprite.ShapeType
 					Case Pivot
-						Return L_CircleOverlapsCircle( X, Y, Width, Sprite.X, Sprite.Y, 0 )
-					Case Circle
-						Return L_CircleOverlapsCircle( X, Y, Width, Sprite.X, Sprite.Y, Sprite.Width )
+						Return L_OvalOverlapsOval( X, Y, Width, Height, Sprite.X, Sprite.Y, 0, 0 )
+					Case Oval
+						Return L_OvalOverlapsOval( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 					Case Rectangle
 						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 				End Select
@@ -188,8 +189,8 @@ Type LTSprite Extends LTShape
 				Select Sprite.ShapeType
 					Case Pivot
 						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, 0, 0 )
-					Case Circle
-						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Width )
+					Case Oval
+						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 					Case Rectangle
 						Return L_RectangleOverlapsRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 				End Select
@@ -252,7 +253,7 @@ Type LTSprite Extends LTShape
 					Local Shape:LTShape = Tileset.CollisionShape[ TileMap.Value[ TileX, TileY ] ]
 					If Shape Then Shape.TileShapeCollisionsWithSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, CellWidth, CellHeight, TileMap, TileX, TileY, CollisionType )
 				End If
-			Case Circle, Rectangle
+			Case Oval, Rectangle
 				Local X1:Int = Floor( ( X - 0.5 * Width - X0 ) / CellWidth )
 				Local Y1:Int = Floor( ( Y - 0.5 * Height - Y0 ) / CellHeight )
 				Local X2:Int = Floor( ( X + 0.5 * Width - X0 - L_Inaccuracy ) / CellWidth )
@@ -393,26 +394,26 @@ Type LTSprite Extends LTShape
 				Select Sprite.ShapeType
 					Case Pivot
 						Return
-					Case Circle
-						L_WedgingValuesOfCircleAndCircle( X, Y, 0, Sprite.X, Sprite.Y, Sprite.Width, DX, DY )
+					Case Oval
+						L_WedgingValuesOfOvalAndOval( X, Y, 0, 0, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, DX, DY )
 					Case Rectangle
 						L_WedgingValuesOfRectangleAndRectangle( X, Y, 0, 0, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, DX, DY )
 				End Select
-			Case Circle
+			Case Oval
 				Select Sprite.ShapeType
 					Case Pivot
-						L_WedgingValuesOfCircleAndCircle( X, Y, Width, Sprite.X, Sprite.Y, 0, DX, DY )
-					Case Circle
-						L_WedgingValuesOfCircleAndCircle( X, Y, Width, Sprite.X, Sprite.Y, Sprite.Width, DX, DY )
+						L_WedgingValuesOfOvalAndOval( X, Y, Width, Height, Sprite.X, Sprite.Y, 0, 0, DX, DY )
+					Case Oval
+						L_WedgingValuesOfOvalAndOval( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, DX, DY )
 					Case Rectangle
-						L_WedgingValuesOfCircleAndRectangle( X, Y, Width, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, DX, DY )
+						L_WedgingValuesOfOvalAndRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, DX, DY )
 				End Select
 			Case Rectangle
 				Select Sprite.ShapeType
 					Case Pivot
 						L_WedgingValuesOfRectangleAndRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, 0, 0, DX, DY )
-					Case Circle
-						L_WedgingValuesOfCircleAndRectangle( Sprite.X, Sprite.Y, Sprite.Width, X, Y, Width, Height, DX, DY )
+					Case Oval
+						L_WedgingValuesOfOvalAndRectangle( Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, X, Y, Width, Height, DX, DY )
 						L_Separate( Sprite, Self, DX, DY, SpriteMass, SelfMass )
 						Return
 					Case Rectangle
@@ -465,26 +466,26 @@ Type LTSprite Extends LTShape
 				Select TileSprite.ShapeType
 					Case Pivot
 						Return
-					Case Circle
-						L_WedgingValuesOfCircleAndCircle( X, Y, 0, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, PushingDX, PushingDY )
+					Case Oval
+						L_WedgingValuesOfOvalAndOval( X, Y, 0, 0, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, TileSprite.Height * YScale, PushingDX, PushingDY )
 					Case Rectangle
 						L_WedgingValuesOfRectangleAndRectangle( X, Y, 0, 0, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, TileSprite.Height * YScale, PushingDX, PushingDY )
 				End Select
-			Case Circle
+			Case Oval
 				Select TileSprite.ShapeType
 					Case Pivot
-						L_WedgingValuesOfCircleAndCircle( X, Y, Width, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, 0, PushingDX, PushingDY )
-					Case Circle
-						L_WedgingValuesOfCircleAndCircle( X, Y, Width, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, PushingDX, PushingDY )
+						L_WedgingValuesOfOvalAndOval( X, Y, Width, Height, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, 0, 0, PushingDX, PushingDY )
+					Case Oval
+						L_WedgingValuesOfOvalAndOval( X, Y, Width, Height, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, TileSprite.Height * YScale, PushingDX, PushingDY )
 					Case Rectangle
-						L_WedgingValuesOfCircleAndRectangle( X, Y, Width, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, TileSprite.Height * YScale, PushingDX, PushingDY )
+						L_WedgingValuesOfOvalAndRectangle( X, Y, Width, Height, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, TileSprite.Height * YScale, PushingDX, PushingDY )
 				End Select
 			Case Rectangle
 				Select TileSprite.ShapeType
 					Case Pivot
 						L_WedgingValuesOfRectangleAndRectangle( X, Y, Width, Height, TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, 0, 0, PushingDX, PushingDY )
-					Case Circle
-						L_WedgingValuesOfCircleAndRectangle( TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, X, Y, Width, Height, PushingDX, PushingDY )
+					Case Oval
+						L_WedgingValuesOfOvalAndRectangle( TileSprite.X * XScale + DX, TileSprite.Y * YScale + DY, TileSprite.Width * XScale, TileSprite.Height * YScale, X, Y, Width, Height, PushingDX, PushingDY )
 						L_Separate( TileSprite, Self, PushingDX, PushingDY, 1.0, 0.0 )
 						Return
 					Case Rectangle

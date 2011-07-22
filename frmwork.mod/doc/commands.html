@@ -180,7 +180,7 @@ Common object for item of game field.
 Sprite is the main basic shape of the framework to draw, move and check collisions.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTSpriteMap>LTSpriteMap</a></td><td class=docright>
-Collision map is a structure which can contain sprites, draw and perform collision checks between them and other shapes.
+Sprite map is a structure which can contain sprites, draw and perform collision checks between them and other shapes.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTTileMap>LTTileMap</a></td><td class=docright>
 Tilemap is displayable rectangular tile-based shape with 2d array of tile indexes and tileset with tile images.
@@ -1822,6 +1822,9 @@ Allowing moving the shape around with with given keys and velocity.
 <tr><td class=docleft width=1%><a href=#MoveUsingWSAD>MoveUsingWSAD</a></td><td class=docright>
 Allowing moving the shape around with given velocity with WSAD keys.
 </td></tr>
+<tr><td class=docleft width=1%><a href=#Parallax>Parallax</a></td><td class=docright>
+Applies parallax effect for shape depending on current camera size and position relative to given shape.
+</td></tr>
 <tr><td class=docleft width=1%><a href=#PlaceBetween>PlaceBetween</a></td><td class=docright>
 Places the shape between two another shapes.
 </td></tr>
@@ -2175,6 +2178,10 @@ See also: <a href=#LimitHorizontallyWith>LimitHorizontallyWith</a>, <a href=#Lim
 <tr><td class=docleft width=1%>Description</td><td class=docright>Allowing moving the shape around with given velocity with WSAD keys.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#MoveUsingArrows>MoveUsingArrows</a>, <a href=#MoveUsingKeys>MoveUsingKeys</a>, <a href=#Move>Move</a>.</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=Parallax>
+<tr><td class=doctop colspan=2>Method Parallax( Shape:LTShape )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Applies parallax effect for shape depending on current camera size and position relative to given shape.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=PlaceBetween>
 <tr><td class=doctop colspan=2>Method PlaceBetween( Shape1:LTShape, Shape2:LTShape, K:Double )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Places the shape between two another shapes.</td></tr>
@@ -2429,7 +2436,7 @@ See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#Collisi
 <tr><td class=docleft width=1%>Description</td><td class=docright>Executes reaction for collision of sprite with sprites in sprite map.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>For every collided sprite HandleCollisionWithSprite() method will be executed and collided srite will be passed to this method.
 You can specify collision type which will be passed to this method too.
-Map parameter allows you to specify map to where collided sprites will be added as keys. In this case HandleCollisionWithSprite() will not be executed.
+Map parameter allows you to specify map to where collided sprites will be added as keys.
 <p>
 See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithTileMap>CollisionsWithTileMap</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>, <a href=#Horizontal>Horizontal</a>, <a href=#Vertical>Vertical</a>.</td></tr>
 </table>
@@ -2500,7 +2507,7 @@ See also: <a href=#Move>Move</a>.</td></tr>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTSpriteMap>
 <tr><td class=doctop colspan=2>Type LTSpriteMap Extends LTMap</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Collision map is a structure which can contain sprites, draw and perform collision checks between them and other shapes.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sprite map is a structure which can contain sprites, draw and perform collision checks between them and other shapes.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Operations like drawing and checking collision between large groups of sprites will be faster with use of collision maps.</td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTSpriteMap_fields></a>Fields Summary</th></tr><tr><td colspan=2>
@@ -2514,23 +2521,26 @@ See also: <a href=#Move>Move</a>.</td></tr>
 </td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTSpriteMap_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Clear>Clear</a></td><td class=docright>
+Clears sprite map.
+</td></tr>
 <tr><td class=docleft width=1%><a href=#Draw>Draw</a></td><td class=docright>
-Draws all objects of collision map which are in cells under camera's rectangle plus margins.
+Draws all objects of sprite map which are in cells under camera's rectangle plus margins.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#GetSprites>GetSprites</a></td><td class=docright>
 Returns all sprite map sprites.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#InsertSprite>InsertSprite</a></td><td class=docright>
-Inserts a sprite into collision map.
+Inserts a sprite into sprite map.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#RemoveSprite>RemoveSprite</a></td><td class=docright>
-Removes a sprite into collision map.
+Removes sprite from sprite map.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#SetBorder>SetBorder</a></td><td class=docright>
 Sets all margins to single value.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#SetCellSize>SetCellSize</a></td><td class=docright>
-Sets cell size of collision map.
+Sets cell size of sprite map.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#SetMargins>SetMargins</a></td><td class=docright>
 Sets margins of the map.
@@ -2546,28 +2556,32 @@ Creates collision map using existing shape.
 </table>
 <table class=doc width=100% cellspacing=3 id=CellHeight>
 <tr><td class=doctop colspan=2>Field CellHeight:Double = 1.0</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Height of collision map cell in units.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Height of sprite map cell in units.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#SetCellSize>SetCellSize</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=CellWidth>
 <tr><td class=doctop colspan=2>Field CellWidth:Double = 1.0</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Width of collision map cell in units.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Width of sprite map cell in units.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#SetCellSize>SetCellSize</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=LeftMargin>
 <tr><td class=doctop colspan=2>Field LeftMargin:Double, RightMargin:Double</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Margins for drawing collision map in units.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>When drawing collision map, margins define the size of rectangular frame around camera's rectangle in which objects will be also drawn.
-Will be handy if you draw collision map with objects with XScale / YScale parameters greater than 1.0.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Margins for drawing sprite map in units.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>When drawing sprite map, margins define the size of rectangular frame around camera's rectangle in which objects will be also drawn.
+Will be handy if you draw sprite map with objects with XScale / YScale parameters greater than 1.0.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Sorted>
 <tr><td class=doctop colspan=2>Field Sorted:Int = False</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Flag which defines will be the collision map sorted by sprite Y coordinates.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Flag which defines will be the sprite map sorted by sprite Y coordinates.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>False by default.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Clear>
+<tr><td class=doctop colspan=2>Method Clear()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Clears sprite map.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Draw>
 <tr><td class=doctop colspan=2>Method Draw()</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Draws all objects of collision map which are in cells under camera's rectangle plus margins.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Draws all objects of sprite map which are in cells under camera's rectangle plus margins.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=GetSprites>
 <tr><td class=doctop colspan=2>Method GetSprites:TMap()</td></tr>
@@ -2576,14 +2590,14 @@ Will be handy if you draw collision map with objects with XScale / YScale parame
 </table>
 <table class=doc width=100% cellspacing=3 id=InsertSprite>
 <tr><td class=doctop colspan=2>Method InsertSprite( Sprite:LTSprite, ChangeSpriteMapField:Int = True )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Inserts a sprite into collision map.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Inserts a sprite into sprite map.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Pivot insertion works faster.
 <p>
 See also: <a href=#RemoveSprite>RemoveSprite</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=RemoveSprite>
 <tr><td class=doctop colspan=2>Method RemoveSprite( Sprite:LTSprite, ChangeSpriteMapField:Int = True )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Removes a sprite into collision map.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Removes sprite from sprite map.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Pivot removal works faster.
 <p>
 See also: <a href=#InsertSprite>InsertSprite</a>.</td></tr>
@@ -2594,7 +2608,7 @@ See also: <a href=#InsertSprite>InsertSprite</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=SetCellSize>
 <tr><td class=doctop colspan=2>Method SetCellSize( NewCellWidth:Double, NewCellHeight:Double )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Sets cell size of collision map.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets cell size of sprite map.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=SetMargins>
 <tr><td class=doctop colspan=2>Method SetMargins( NewLeftMargin:Double, NewTopMargin:Double, NewRightMargin:Double, NewBottomMargin:Double )</td></tr>
@@ -3081,7 +3095,7 @@ Sets value of the field with given name to given XMLObject.
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#ManageListField>ManageListField</a>, <a href=#ManageChildArray>ManageChildArray</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=ManageDoubleAttribute>
-<tr><td class=doctop colspan=2>Method ManageDoubleAttribute( AttrName:String, AttrVariable:Double Var, DefaultValue:Double = 0 )</td></tr>
+<tr><td class=doctop colspan=2>Method ManageDoubleAttribute( AttrName:String, AttrVariable:Double Var, DefaultValue:Double = 0.0 )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Transfers data between XMLObject attribute and framework object parameter with Double type.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#ManageIntAttribute>ManageIntAttribute</a>, <a href=#ManageStringAttribute>ManageStringAttribute</a>, <a href=#ManageObjectAttribute>ManageObjectAttribute</a>.</td></tr>
 </table>
@@ -3140,15 +3154,23 @@ See also: <a href=#ManageIntAttribute>ManageIntAttribute</a>, <a href=#ManageDou
 <br>
 <h2 id=modinfo>Module Information</h2>
 <table width=100%>
-<tr><th width=1%>Version</th><td>1.0.2</td></tr>
+<tr><th width=1%>Version</th><td>1.0.3</td></tr>
 <tr><th width=1%>Author</th><td>Matt Merkulov</td></tr>
 <tr><th width=1%>License</th><td>Artistic License 2.0</td></tr>
 <tr><th width=1%>Modserver</th><td>DWLAB</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp;</td></tr>
+<tr><th width=1%>History</th><td>v1.0.3.1 (19.07.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Removed multiple collision reactions when executing CollisionsWithSpriteMap method.</td></tr>
+<tr><th width=1%>History</th><td>v1.0.3 (18.07.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added Parallax() function.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added sprite map clearing method.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed bug in LTDoubleMap.ToNewImage() method.</td></tr>
+<tr><th width=1%>History</th><td>v1.0.2.1 (07.07.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed bug of visualizer's DX/DY not saving/loading.</td></tr>
 <tr><th width=1%>History</th><td>v1.0.2 (06.07.11)</td></tr>
-<tr><th width=1%>History</th><td>&nbsp; &nbsp; CollisionsWithSpriteMap() method now have List parameter to add collided sprites to.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; CollisionsWithSpriteMap() method now have Map parameter to add collided sprites to.</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Added visualizer cloning method.</td></tr>
-<tr><th width=1%>History</th><td>&nbsp; &nbsp; Visualizer is merged with Visualizer.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; ImageVisualizer is merged with Visualizer.</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed bug in SetSize (old method cleared collision map).</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Collision maps are renamed to sprite maps.</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Added sprite maps saving/loading method.</td></tr>

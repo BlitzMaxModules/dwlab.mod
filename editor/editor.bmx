@@ -1389,7 +1389,7 @@ Type LTEditor Extends LTProject
 	
 	Method FillShapeComboBox( ComboBox:TGadget )
 		AddGadgetItem( ComboBox, LocalizeString( "{{I_Pivot}}" ) )
-		AddGadgetItem( ComboBox, LocalizeString( "{{I_Circle}}" ) )
+		AddGadgetItem( ComboBox, LocalizeString( "{{I_Oval}}" ) )
 		AddGadgetItem( ComboBox, LocalizeString( "{{I_Rectangle}}" ) )
 	End Method
 	

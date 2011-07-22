@@ -1,10 +1,11 @@
-ModuleInfo "Version: 1.0.3"
+ModuleInfo "Version: 1.0.3.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
 ModuleInfo "History: v1.0.3.1 (19.07.11)"
 ModuleInfo "History: &nbsp; &nbsp; Removed multiple collision reactions when executing CollisionsWithSpriteMap method."
+ModuleInfo "History: &nbsp; &nbsp; "
 ModuleInfo "History: v1.0.3 (18.07.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added Parallax() function."
 ModuleInfo "History: &nbsp; &nbsp; Added sprite map clearing method."
@@ -33,11 +34,11 @@ ModuleInfo "History: &nbsp; &nbsp; Fixed bug of ChopFilename() function under Ma
 ModuleInfo "History: v1.0 (28.06.11)"
 ModuleInfo "History: &nbsp; &nbsp; Initial release."
 import brl.blitz
-import brl.d3d7max2d
+import brl.d3d9max2d
 import brl.random
 import brl.reflection
 import brl.retro
-L_Version$=$"1.0.3"
+L_Version$=$"1.0.3.1"
 LTObject^brl.blitz.Object{
 .Name$&
 -New%()="_dwlab_frmwork_LTObject_New"
@@ -187,6 +188,7 @@ LTWorld^LTLayer{
 LTSprite^LTShape{
 Pivot%=0
 Circle%=1
+Oval%=1
 Rectangle%=2
 .ShapeType%&
 .Frame%&
@@ -272,16 +274,17 @@ LTCamera^LTSprite{
 L_InitGraphics%(Width%=800,Height%=600,UnitSize!=32!)="dwlab_frmwork_L_InitGraphics"
 L_Inaccuracy!=1e-006!
 L_PivotWithPivot%(Pivot1X!,Pivot1Y!,Pivot2X!,Pivot2Y!)="dwlab_frmwork_L_PivotWithPivot"
-L_PivotWithCircle%(PivotX!,PivotY!,CircleX!,CircleY!,CircleDiameter!)="dwlab_frmwork_L_PivotWithCircle"
+L_PivotWithOval%(PivotX!,PivotY!,OvalX!,OvalY!,OvalWidth!,OvalHeight!)="dwlab_frmwork_L_PivotWithOval"
 L_PivotWithRectangle%(PivotX!,PivotY!,RectangleX!,RectangleY!,RectangleWidth!,RectangleHeight!)="dwlab_frmwork_L_PivotWithRectangle"
-L_CircleWithCircle%(Circle1X!,Circle1Y!,Circle1Diameter!,Circle2X!,Circle2Y!,Circle2Diameter!)="dwlab_frmwork_L_CircleWithCircle"
-L_CircleWithRectangle%(CircleX!,CircleY!,CircleDiameter!,RectangleX!,RectangleY!,RectangleWidth!,RectangleHeight!)="dwlab_frmwork_L_CircleWithRectangle"
+L_OvalWithOval%(Oval1X!,Oval1Y!,Oval1Width!,Oval1Height!,Oval2X!,Oval2Y!,Oval2Width!,Oval2Height!)="dwlab_frmwork_L_OvalWithOval"
+L_OvalWithRectangle%(OvalX!,OvalY!,OvalWidth!,OvalHeight!,RectangleX!,RectangleY!,RectangleWidth!,RectangleHeight!)="dwlab_frmwork_L_OvalWithRectangle"
 L_RectangleWithRectangle%(Rectangle1X!,Rectangle1Y!,Rectangle1Width!,Rectangle1Height!,Rectangle2X!,Rectangle2Y!,Rectangle2Width!,Rectangle2Height!)="dwlab_frmwork_L_RectangleWithRectangle"
-L_CircleWithLine%(CircleX!,CircleY!,CircleDiameter!,LineX1!,LineY1!,LineX2!,LineY2!)="dwlab_frmwork_L_CircleWithLine"
-L_CircleOverlapsCircle%(Circle1X!,Circle1Y!,Circle1Diameter!,Circle2X!,Circle2Y!,Circle2Diameter!)="dwlab_frmwork_L_CircleOverlapsCircle"
+L_OvalWithLine%(OvalX!,OvalY!,OvalWidth!,OvalHeight!,LineX1!,LineY1!,LineX2!,LineY2!)="dwlab_frmwork_L_OvalWithLine"
+L_OvalOverlapsOval%(Oval1X!,Oval1Y!,Oval1Width!,Oval1Height!,Oval2X!,Oval2Y!,Oval2Width!,Oval2Height!)="dwlab_frmwork_L_OvalOverlapsOval"
 L_RectangleOverlapsRectangle%(Rectangle1X!,Rectangle1Y!,Rectangle1Width!,Rectangle1Height!,Rectangle2X!,Rectangle2Y!,Rectangle2Width!,Rectangle2Height!)="dwlab_frmwork_L_RectangleOverlapsRectangle"
-L_WedgingValuesOfCircleAndCircle%(Circle1X!,Circle1Y!,Circle1Diameter!,Circle2X!,Circle2Y!,Circle2Diameter!,DX! Var,DY! Var)="dwlab_frmwork_L_WedgingValuesOfCircleAndCircle"
-L_WedgingValuesOfCircleAndRectangle%(CircleX!,CircleY!,CircleDiameter!,RectangleX!,RectangleY!,RectangleWidth!,RectangleHeight!,DX! Var,DY! Var)="dwlab_frmwork_L_WedgingValuesOfCircleAndRectangle"
+L_GetOvalDiameter!(OvalX! Var,OvalY! Var,OvalWidth!,OvalHeight!,X!,Y!)="dwlab_frmwork_L_GetOvalDiameter"
+L_WedgingValuesOfOvalAndOval%(Oval1X!,Oval1Y!,Oval1Width!,Oval1Height!,Oval2X!,Oval2Y!,Oval2Width!,Oval2Height!,DX! Var,DY! Var)="dwlab_frmwork_L_WedgingValuesOfOvalAndOval"
+L_WedgingValuesOfOvalAndRectangle%(OvalX!,OvalY!,OvalWidth!,OvalHeight!,RectangleX!,RectangleY!,RectangleWidth!,RectangleHeight!,DX! Var,DY! Var)="dwlab_frmwork_L_WedgingValuesOfOvalAndRectangle"
 L_WedgingValuesOfRectangleAndRectangle%(Rectangle1X!,Rectangle1Y!,Rectangle1Width!,Rectangle1Height!,Rectangle2X!,Rectangle2Y!,Rectangle2Width!,Rectangle2Height!,DX! Var,DY! Var)="dwlab_frmwork_L_WedgingValuesOfRectangleAndRectangle"
 L_Separate%(Pivot1:LTSprite,Pivot2:LTSprite,DX!,DY!,Mass1!,Mass2!)="dwlab_frmwork_L_Separate"
 LTMap^LTShape{
@@ -729,7 +732,7 @@ LTXMLObjectField^brl.blitz.Object{
 -Delete%()="_dwlab_frmwork_LTXMLObjectField_Delete"
 }="dwlab_frmwork_LTXMLObjectField"
 L_HexToInt%(HexString$)="dwlab_frmwork_L_HexToInt"
-L_DrawEmptyRect%(X1!,Y1!,X2!,Y2!)="dwlab_frmwork_L_DrawEmptyRect"
+L_DrawEmptyRect%(X!,Y!,Width!,Height!)="dwlab_frmwork_L_DrawEmptyRect"
 L_DeleteList%(List:brl.linkedlist.TList)="dwlab_frmwork_L_DeleteList"
 L_TrimDouble$(Val!)="dwlab_frmwork_L_TrimDouble"
 L_FirstZeroes$(Value%,TotalSymbols%)="dwlab_frmwork_L_FirstZeroes"

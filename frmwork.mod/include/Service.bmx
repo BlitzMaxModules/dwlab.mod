@@ -32,11 +32,11 @@ Rem
 bbdoc: Draws empty rectangle.
 about: See also: #DrawMARect
 End Rem
-Function L_DrawEmptyRect( X1:Double, Y1:Double, X2:Double, Y2:Double )
-	DrawLine( X1, Y1, X2, Y1 )
-	DrawLine( X1, Y1, X1, Y2 )
-	DrawLine( X2, Y1, X2, Y2 )
-	DrawLine( X1, Y2, X2, Y2 )
+Function L_DrawEmptyRect( X:Double, Y:Double, Width:Double, Height:Double )
+	DrawLine( X, Y, X + Width, Y )
+	DrawLine( X, Y, X, Y + Height )
+	DrawLine( X + Width, Y, X + Width, Y + Height )
+	DrawLine( X, Y + Height, X + Width, Y + Height )
 End Function
 
 

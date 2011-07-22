@@ -8,11 +8,21 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Function L_WedgingValuesOfCircleAndCircle( Circle1X:Double, Circle1Y:Double, Circle1Diameter:Double, ..
-Circle2X:Double, Circle2Y:Double, Circle2Diameter:Double, DX:Double Var, DY:Double Var )
-	DX = Circle1X - Circle2X
-	DY = Circle1Y - Circle2Y
-	Local K:Double = 0.5 * ( Circle1Diameter + Circle2Diameter ) / Sqr( DX * DX + DY * DY ) - 1.0
+Function L_WedgingValuesOfOvalAndOval( Oval1X:Double, Oval1Y:Double, Oval1Width:Double, Oval1Height:Double, Oval2X:Double, Oval2Y:Double, Oval2Width:Double, Oval2Height:Double, DX:Double Var, DY:Double Var )
+	Local Oval1Diameter:Double, Oval2Diameter:Double
+	If Oval1Width = Oval1Height Then
+		Oval1Diameter = Oval1Width
+	Else
+		Oval1Diameter = L_GetOvalDiameter( Oval1X, Oval1Y, Oval1Width, Oval1Height, Oval2X, Oval2Y )
+	End If
+	If Oval2Width = Oval2Height Then
+		Oval2Diameter = Oval2Width
+	Else
+		Oval2Diameter = L_GetOvalDiameter( Oval2X, Oval2Y, Oval2Width, Oval2Height, Oval2X, Oval2Y )
+	End If
+	DX = Oval1X - Oval2X
+	DY = Oval1Y - Oval2Y
+	Local K:Double = 0.5 * ( Oval1Diameter + Oval2Diameter ) / Sqr( DX * DX + DY * DY ) - 1.0
 	DX :* K
 	DY :* K
 End Function
@@ -21,18 +31,24 @@ End Function
 
 
 
-Function L_WedgingValuesOfCircleAndRectangle( CircleX:Double, CircleY:Double, CircleDiameter:Double, ..
+Function L_WedgingValuesOfOvalAndRectangle( OvalX:Double, OvalY:Double, OvalWidth:Double, OvalHeight:Double, ..
 RectangleX:Double, RectangleY:Double, RectangleWidth:Double, RectangleHeight:Double, DX:Double Var, DY:Double Var )
-	If CircleX > RectangleX - 0.5 * RectangleWidth And CircleX < RectangleX + 0.5 * RectangleWidth Then
-		DY = ( 0.5 * ( RectangleHeight + CircleDiameter ) - Abs( RectangleY - CircleY ) ) * Sgn( CircleY - RectangleY )
-	ElseIf CircleY > RectangleY - 0.5 * RectangleHeight And CircleY < RectangleY + 0.5 * RectangleHeight Then
-		DX = ( 0.5 * ( RectangleWidth + CircleDiameter ) - Abs( RectangleX - CircleX ) ) * Sgn( CircleX - RectangleX )
+	Local OvalDiameter:Double
+	If OvalWidth = OvalHeight Then
+		OvalDiameter = OvalWidth
 	Else
-		Local PX:Double = RectangleX + 0.5 * RectangleWidth * Sgn( CircleX - RectangleX )
-		Local PY:Double = RectangleY + 0.5 * RectangleHeight * Sgn( CircleY - RectangleY )
-		Local K:Double = 1.0 - 0.5 * CircleDiameter / Sqr( ( CircleX - PX ) * ( CircleX - PX ) + ( CircleY - PY ) * ( CircleY - PY ) )
-		DX = ( PX - CircleX ) * K
-		DY = ( PY - CircleY ) * K
+		OvalDiameter = L_GetOvalDiameter( OvalX, OvalY, OvalWidth, OvalHeight, RectangleX, RectangleY )
+	End If
+	If OvalX > RectangleX - 0.5 * RectangleWidth And OvalX < RectangleX + 0.5 * RectangleWidth Then
+		DY = ( 0.5 * ( RectangleHeight + OvalDiameter ) - Abs( RectangleY - OvalY ) ) * Sgn( OvalY - RectangleY )
+	ElseIf OvalY > RectangleY - 0.5 * RectangleHeight And OvalY < RectangleY + 0.5 * RectangleHeight Then
+		DX = ( 0.5 * ( RectangleWidth + OvalDiameter ) - Abs( RectangleX - OvalX ) ) * Sgn( OvalX - RectangleX )
+	Else
+		Local PX:Double = RectangleX + 0.5 * RectangleWidth * Sgn( OvalX - RectangleX )
+		Local PY:Double = RectangleY + 0.5 * RectangleHeight * Sgn( OvalY - RectangleY )
+		Local K:Double = 1.0 - 0.5 * OvalDiameter / Sqr( ( OvalX - PX ) * ( OvalX - PX ) + ( OvalY - PY ) * ( OvalY - PY ) )
+		DX = ( PX - OvalX ) * K
+		DY = ( PY - OvalY ) * K
 	End If
 End Function
 
