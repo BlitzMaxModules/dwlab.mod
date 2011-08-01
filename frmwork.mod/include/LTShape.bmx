@@ -108,6 +108,11 @@ Type LTShape Extends LTObject
 	Method DrawUsingVisualizer( Vis:LTVisualizer )
 	End Method
 	
+	
+	
+	Method DrawIsoTile( X:Double, Y:Double, TileX:Int, TileY:Int, TileMap:LTTileMap )
+	End Method
+	
 	' ==================== Collisions ===================
 	
 	Method SpriteGroupCollisions( Sprite:LTSprite, CollisionType:Int )

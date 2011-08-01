@@ -15,15 +15,19 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.0.3.1"
+ModuleInfo "Version: 1.0.4.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.4.1 (01.08.11)"
+ModuleInfo "History: &nbsp; &nbsp; Removed support for different axis magnification."
+ModuleInfo "History: &nbsp; &nbsp; Added camera field into the world object."
+ModuleInfo "History: v1.0.4 (22.07.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added full support of Oval shape type (replaced Circle)."
 ModuleInfo "History: v1.0.3.1 (19.07.11)"
 ModuleInfo "History: &nbsp; &nbsp; Removed multiple collision reactions when executing CollisionsWithSpriteMap method."
-ModuleInfo "History: &nbsp; &nbsp; "
 ModuleInfo "History: v1.0.3 (18.07.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added Parallax() function."
 ModuleInfo "History: &nbsp; &nbsp; Added sprite map clearing method."
@@ -66,7 +70,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.0.3.1"
+Const L_Version:String = "1.0.4.1"
 
 SeedRnd( MilliSecs() )
 

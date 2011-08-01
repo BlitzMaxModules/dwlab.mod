@@ -26,11 +26,11 @@ Type LTCamera Extends LTSprite
 	End Rem
 	Field Viewport:LTShape = New LTShape
 	
-	Field XK:Double = 1.0, YK:Double = 1.0
+	Field K:Double = 1.0
 	Field DX:Double, DY:Double
 	
 	Rem
-	bbdoc: Viewport clipping flag
+	bbdoc: Viewport clipping flag.
 	about: Defines will the objects parts outside viewport be clipped. Defaults to True.
 	
 	See also: #Viewport, #SetCameraViewport, #ResetViewport
@@ -40,12 +40,24 @@ Type LTCamera Extends LTSprite
 	
 	
 	Rem
+	bbdoc: Isometric view flag.
+	End Rem
+	Field Isometric:Int
+	Field VX1:Double, VY1:Double, VX2:Double, VY2:Double, VK:Double
+	
+	
+	Rem
 	bbdoc: Transforms screen coordinates to game field coordinates.
 	about: See also: #SizeScreenToField, #DistScreenToField, #FieldToScreen, #SizeFieldToScreen, #DistFieldToScreen
 	End Rem
 	Method ScreenToField( ScreenX:Double, ScreenY:Double, FieldX:Double Var, FieldY:Double Var )
-		FieldX = ScreenX / XK - DX
-		FieldY = ScreenY / YK - DY
+		If Isometric Then
+			FieldY = ( ( ScreenX * VY1  - ScreenY * VX1 ) / VK - DY ) / K
+			FieldX = ( ( ScreenX - ( FieldY * K  + DY ) * VX2 ) / VX1 - DX ) / K
+		Else
+			FieldX = ScreenX / K - DX
+			FieldY = ScreenY / K - DY
+		End If
 	End Method
 
 	
@@ -55,8 +67,8 @@ Type LTCamera Extends LTSprite
 	about: See also: #ScreenToField, #DistScreenToField, #FieldToScreen, #SizeFieldToScreen, #DistFieldToScreen
 	End Rem
 	Method SizeScreenToField( ScreenWidth:Double, ScreenHeight:Double, FieldWidth:Double Var, FieldHeight:Double Var )
-		FieldWidth = ScreenWidth / XK
-		FieldHeight = ScreenHeight / YK
+		FieldWidth = ScreenWidth / K
+		FieldHeight = ScreenHeight / K
 	End Method
 
 	
@@ -66,7 +78,7 @@ Type LTCamera Extends LTSprite
 	about: See also: #ScreenToField, #SizeScreenToField, #FieldToScreen, #SizeFieldToScreen, #DistFieldToScreen
 	End Rem
 	Method DistScreenToField:Double( ScreenDist:Double )
-		Return ScreenDist / XK
+		Return ScreenDist / K
 	End Method
 	
 	
@@ -76,8 +88,13 @@ Type LTCamera Extends LTSprite
 	about: See also: #ScreenToField, #SizeScreenToField, #DistScreenToField, #SizeFieldToScreen, #DistFieldToScreen
 	End Rem
 	Method FieldToScreen( FieldX:Double, FieldY:Double, ScreenX:Double Var, ScreenY:Double Var )
-		ScreenX = ( FieldX + DX ) * XK
-		ScreenY = ( FieldY + DY ) * YK
+		If Isometric Then
+			ScreenX = ( ( FieldX + DX ) * VX1 + ( FieldY + DY ) * VX2 ) * K
+			ScreenY = ( ( FieldX + DX ) * VY1 + ( FieldY + DY ) * VY2 ) * K
+		Else
+			ScreenX = ( FieldX + DX ) * K
+			ScreenY = ( FieldY + DY ) * K
+		End If
 	End Method
 
 	
@@ -87,8 +104,8 @@ Type LTCamera Extends LTSprite
 	about: See also: #ScreenToField, #SizeScreenToField, #DistScreenToField, #FieldToScreen, #DistFieldToScreen
 	End Rem
 	Method SizeFieldToScreen( FieldWidth:Double, FieldHeight:Double, ScreenWidth:Double Var, ScreenHeight:Double Var )
-		ScreenWidth = FieldWidth * XK
-		ScreenHeight = FieldHeight * YK
+		ScreenWidth = FieldWidth * K
+		ScreenHeight = FieldHeight * K
 	End Method
 
 	
@@ -98,7 +115,7 @@ Type LTCamera Extends LTSprite
 	about: See also: #ScreenToField, #SizeScreenToField, #DistScreenToField, #FieldToScreen, #SizeFieldToScreen
 	End Rem
 	Method DistFieldToScreen:Double( ScreenDist:Double )
-		Return ScreenDist * XK
+		Return ScreenDist * K
 	End Method
 	
 	
@@ -127,11 +144,10 @@ Type LTCamera Extends LTSprite
 	
 	
 	
-	Method SetMagnification( NewXK:Double, NewYK:Double )
-		XK = NewXK
-		YK = NewYK
-		Width = Viewport.Width / XK
-		Height = Viewport.Height / YK
+	Method SetMagnification( NewK:Double )
+		K = NewK
+		Width = Viewport.Width / K
+		Height = Viewport.Height / K
 	End Method
 	
 	
@@ -144,18 +160,21 @@ Type LTCamera Extends LTSprite
 	
 	
 	
-	Method AlterCameraMagnification( NewXK:Double, NewYK:Double )
-		SetMagnification( XK + L_CameraMagnificationSpeed * L_DeltaTime * ( NewXK - XK ), ..
-		 YK + L_CameraMagnificationSpeed * L_DeltaTime * ( NewYK - YK ) )
+	Method AlterCameraMagnification( NewK:Double )
+		SetMagnification( K + L_CameraMagnificationSpeed * L_DeltaTime * ( NewK - K ) )
 	End Method
 	
 	
 	
 	Method Update()
-		XK = Viewport.Width / Width
-		YK = Viewport.Height / Height
-		DX = Viewport.X / XK - X
-		DY = Viewport.Y/ YK - Y
+		If Isometric Then
+			K = Viewport.Width / Width
+			Height = Viewport.Height / YK
+			DX = Viewport.X / K - X
+			DY = Viewport.Y/ K - Y
+		Else
+			VK = VY1 * VX2 - VX1 * VY2
+		End If
 	End Method
 	
 	

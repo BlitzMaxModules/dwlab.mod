@@ -19,6 +19,27 @@ Type LTLayer Extends LTGroup
 	
 	
 	
+	Method Draw()
+		If L_CurrentCamera.Isometric Then
+			Local SpriteMap:LTSpriteMap
+			Local TileMap:LTTileMap
+			Local TileMaps:TList = New TList
+			For Local Shape:LTShape = Eachin Children
+				If LTTileMap( Shape ) Then
+					TileMap = LTTileMap( Shape )
+					TileMaps.AddLast( Shape )
+				ElseIf LTSpriteMap( Shape ) Then
+					SpriteMap = LTSpriteMap( Shape )
+				End If
+			Next
+			Visualizer.DrawUsingTileMap( TileMap, LTTileMap( TileMaps.First() ), SpriteMap )
+		Else
+			Super.Draw()
+		End If
+	End Method
+	
+	
+	
 	Rem
 	bbdoc: Counts quantity of sprites inside the layer.
 	returns: Quantity of sprites inside layer and included layers.

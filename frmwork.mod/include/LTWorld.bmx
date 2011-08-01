@@ -33,5 +33,6 @@ Type LTWorld Extends LTLayer
 		
 		XMLObject.ManageListField( "images", Images )
 		XMLObject.ManageListField( "tilesets", Tilesets )
+		XMLObject.ManageObjectField( "camera", L_CurrentCamera )
 	End Method
 End Type

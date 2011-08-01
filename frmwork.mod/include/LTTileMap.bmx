@@ -80,6 +80,12 @@ Type LTTileMap Extends LTIntMap
 		If Visible Then Visualizer.DrawUsingTileMap( Self )
 	End Method
 	
+	
+	
+	Method DrawIsoTile( X:Double, Y:Double, TileX:Int, TileY:Int, TileMap:LTTileMap )
+		DrawImage( TileSet.Image.BMaxImage, X + DX, Y, Value[ TileX, TileY ] )
+	End Method
+
 	' ==================== Other ===================	
 	
 	Rem
