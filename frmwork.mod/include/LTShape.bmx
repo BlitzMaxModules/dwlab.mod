@@ -110,7 +110,7 @@ Type LTShape Extends LTObject
 	
 	
 	
-	Method DrawIsoTile( X:Double, Y:Double, TileX:Int, TileY:Int, TileMap:LTTileMap )
+	Method DrawIsoTile( X:Double, Y:Double, TileX:Int, TileY:Int )
 	End Method
 	
 	' ==================== Collisions ===================

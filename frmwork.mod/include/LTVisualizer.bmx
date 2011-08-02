@@ -278,33 +278,36 @@ Type LTVisualizer Extends LTObject
 			
 			Local TileY:Int = StartingTileY
 			While TileY < MaxTileY
-				Local WrappedTileY:Int
-				Local X:Double, Y:Double
-				L_CurrentCamera.FieldToScreen( CornerX + CellWidth * TileX, CornerY + CellHeight * TileY )
+				Local TileX:Int = StartingTileX
 				
-				Local TileY:Int = StartingTileY
+				Local X:Double, Y:Double
+				L_CurrentCamera.FieldToScreen( CornerX + CellWidth * TileX, CornerY + CellHeight * TileY, X, Y )
+				
+				Local WrappedTileY:Int
 				If TileMap.Masked Then
-					WrappedTileY = YFrame & TileMap.YMask
+					WrappedTileY = TileY & TileMap.YMask
 				Else
-					WrappedTileY = TileMap.WrapY( YFrame )
+					WrappedTileY = TileMap.WrapY( TileY )
 				End If
 				While TileX < MaxTileX
-					Local WrappedTileX:Int 
+					Local WrappedTileX:Int
 					If TileMap.Masked Then
-						WrappedTileX = XFrame & TileMap.XMask
+						WrappedTileX = TileX & TileMap.XMask
 					Else
-						WrappedTileX = TileMap.WrapX( XFrame )
+						WrappedTileX = TileMap.WrapX( TileX )
 					End If
 					
 					For Local Shape:LTShape = Eachin Shapes
-						Shape.DrawIsoTile( X, Y, TileX, TileY, TileMap )
+						Shape.DrawIsoTile( X, Y, WrappedTileX, WrappedTileY )
 					Next
 					
 					X :+ VX1
 					Y:+ VY1
+					TileX :+ 1
 				Wend
+				
+				TileY :+ 1
 			Wend
-			
 		Else
 			Local SWidth:Double, SHeight:Double
 			L_CurrentCamera.SizeFieldToScreen( CellWidth, CellHeight, SWidth, SHeight )
@@ -505,3 +508,11 @@ End Type
 ' Deprecated
 Type LTImageVisualizer Extends LTVisualizer
 End type
+
+
+
+Type LTTile
+	Field TileX:Int, TileY:Int
+	Field TileDX:Int, TileDY:Int
+	Field DX:Double, DY:Double
+End Type

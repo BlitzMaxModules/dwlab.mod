@@ -86,7 +86,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 	
 	
 	
-	Method DrawUsingTileMap( TileMap:LTTileMap )
+	Method DrawUsingTileMap( TileMap:LTTileMap, Tiles:TList = Null )
 		TileMap.Visualizer.DrawUsingTileMap( TileMap )
 		Super.DrawUsingTileMap( TileMap )
 	End Method

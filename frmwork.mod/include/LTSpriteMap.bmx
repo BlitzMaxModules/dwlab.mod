@@ -41,6 +41,13 @@ Type LTSpriteMap Extends LTMap
 	End Rem
 	Field Sorted:Int = False
 	
+	Rem
+	bbdoc: Flag which defines will be all objects recognized as pivots.
+	about: False by default.
+	End Rem
+	Field PivotMode:Int = False
+	Field ObjectRadius:Double
+	
 	' ==================== Parameters ====================
 	
 	Method SetResolution( NewXQuantity:Int, NewYQuantity:Int )
@@ -184,39 +191,46 @@ Type LTSpriteMap Extends LTMap
 			Next
 		End If
 	End Method
+
 	
+	
+	Method DrawIsoTile( X:Double, Y:Double, TileX:Int, TileY:Int )
+		For Local Sprite:LTSprite = Eachin Sprites[ TileX, TileY ]
+			Sprite.Draw()
+		Next
+	End Method
+		
 	' ==================== Insert / remove objects ====================
 	
 	Rem
-	bbdoc: Inserts a sprite into sprite map.
-	about: Pivot insertion works faster.
+	bbdoc: Inserts a sprite into sprite map
+	about: When PivotMode is set to True, insertion will be faster.
 	
 	See also: #RemoveSprite
 	End Rem
 	Method InsertSprite( Sprite:LTSprite, ChangeSpriteMapField:Int = True )
-		Select Sprite.ShapeType
-			Case LTSprite.Pivot
-				If Sorted Then
-					InsertSpriteTo( Sprite, Int( Sprite.X / CellWidth ) & XMask, Int( Sprite.Y / CellHeight ) & YMask )
-				Else
-					Sprites[ Int( Sprite.X / CellWidth ) & XMask, Int( Sprite.Y / CellHeight ) & YMask ].AddFirst( Sprite )
-				End If
-			Default
-				Local MapX1:Int = Floor( ( Sprite.X - 0.5 * Sprite.Width ) / CellWidth )
-				Local MapY1:Int = Floor( ( Sprite.Y - 0.5 * Sprite.Height ) / CellHeight )
-				Local MapX2:Int = Floor( ( Sprite.X + 0.5 * Sprite.Width - 0.000001 ) / CellWidth )
-				Local MapY2:Int = Floor( ( Sprite.Y + 0.5 * Sprite.Height - 0.000001 ) / CellHeight )
-				
-				For Local Y:Int = MapY1 To MapY2
-					For Local X:Int = MapX1 To MapX2
-						If Sorted Then
-							InsertSpriteTo( Sprite, X & XMask, Y & YMask )
-						Else
-							Sprites[ X & XMask, Y & YMask ].AddFirst( Sprite )
-						End If
-					Next
+		If PivotMode Then
+			If Sorted Then
+				InsertSpriteTo( Sprite, Int( Sprite.X / CellWidth ) & XMask, Int( Sprite.Y / CellHeight ) & YMask )
+			Else
+				Sprites[ Int( Sprite.X / CellWidth ) & XMask, Int( Sprite.Y / CellHeight ) & YMask ].AddFirst( Sprite )
+			End If
+		Else
+			Local MapX1:Int = Floor( ( Sprite.X - 0.5 * Sprite.Width ) / CellWidth )
+			Local MapY1:Int = Floor( ( Sprite.Y - 0.5 * Sprite.Height ) / CellHeight )
+			Local MapX2:Int = Floor( ( Sprite.X + 0.5 * Sprite.Width - L_Inaccuracy ) / CellWidth )
+			Local MapY2:Int = Floor( ( Sprite.Y + 0.5 * Sprite.Height - L_Inaccuracy ) / CellHeight )
+			
+			For Local Y:Int = MapY1 To MapY2
+				For Local X:Int = MapX1 To MapX2
+					If Sorted Then
+						InsertSpriteTo( Sprite, X & XMask, Y & YMask )
+					Else
+						Sprites[ X & XMask, Y & YMask ].AddFirst( Sprite )
+					End If
 				Next
-		End Select
+			Next
+		End If
 		If ChangeSpriteMapField Then Sprite.SpriteMap = Self
 	End Method
 	
@@ -245,26 +259,25 @@ Type LTSpriteMap Extends LTMap
 	
 	Rem
 	bbdoc: Removes sprite from sprite map.
-	about: Pivot removal works faster.
+	about: When PivotMode is set to True, removal will be faster.
 	
 	See also: #InsertSprite
 	End Rem
 	Method RemoveSprite( Sprite:LTSprite, ChangeSpriteMapField:Int = True )
-		Select Sprite.ShapeType
-			Case LTSprite.Pivot
-				Sprites[ Int( Sprite.X / CellWidth ) & XMask, Int( Sprite.Y / CellHeight ) & YMask ].Remove( Sprite )
-			Default
-				Local MapX1:Int = Floor( ( Sprite.X - 0.5 * Sprite.Width ) / CellWidth )
-				Local MapY1:Int = Floor( ( Sprite.Y - 0.5 * Sprite.Height ) / CellHeight )
-				Local MapX2:Int = Floor( ( Sprite.X + 0.5 * Sprite.Width - 0.000001 ) / CellWidth )
-				Local MapY2:Int = Floor( ( Sprite.Y + 0.5 * Sprite.Height - 0.000001 ) / CellHeight )
-				
-				For Local Y:Int = MapY1 To MapY2
-					For Local X:Int = MapX1 To MapX2
-						Sprites[ X & XMask, Y & YMask ].Remove( Sprite )
-					Next
+		If PivotMode Then
+			Sprites[ Int( Sprite.X / CellWidth ) & XMask, Int( Sprite.Y / CellHeight ) & YMask ].Remove( Sprite )
+		Else
+			Local MapX1:Int = Floor( ( Sprite.X - 0.5 * Sprite.Width ) / CellWidth )
+			Local MapY1:Int = Floor( ( Sprite.Y - 0.5 * Sprite.Height ) / CellHeight )
+			Local MapX2:Int = Floor( ( Sprite.X + 0.5 * Sprite.Width - L_Inaccuracy ) / CellWidth )
+			Local MapY2:Int = Floor( ( Sprite.Y + 0.5 * Sprite.Height - L_Inaccuracy ) / CellHeight )
+			
+			For Local Y:Int = MapY1 To MapY2
+				For Local X:Int = MapX1 To MapX2
+					Sprites[ X & XMask, Y & YMask ].Remove( Sprite )
 				Next
-		End Select
+			Next
+		End If
 		If ChangeSpriteMapField Then Sprite.SpriteMap = Null
 	End Method
 	

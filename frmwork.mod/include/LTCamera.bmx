@@ -37,13 +37,12 @@ Type LTCamera Extends LTSprite
 	End Rem
 	Field ViewportClipping:Int = True
 	
-	
-	
 	Rem
 	bbdoc: Isometric view flag.
 	End Rem
 	Field Isometric:Int
 	Field VX1:Double, VY1:Double, VX2:Double, VY2:Double, VK:Double
+	
 	
 	
 	Rem
@@ -169,7 +168,7 @@ Type LTCamera Extends LTSprite
 	Method Update()
 		If Isometric Then
 			K = Viewport.Width / Width
-			Height = Viewport.Height / YK
+			Height = Viewport.Height / K
 			DX = Viewport.X / K - X
 			DY = Viewport.Y/ K - Y
 		Else

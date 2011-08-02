@@ -29,7 +29,7 @@ Type LTBitmapFont Extends LTObject
 		Local SX:Double, SY:Double
 		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
 		
-		Local Scale:Double = L_CurrentCamera.YK * FontHeightInUnits / Height()
+		Local Scale:Double = L_CurrentCamera.K * FontHeightInUnits / Height()
 	
 		Select HorizontalAlignment
 			Case LTAlign.ToCenter

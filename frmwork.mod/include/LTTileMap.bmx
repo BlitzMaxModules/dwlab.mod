@@ -82,8 +82,8 @@ Type LTTileMap Extends LTIntMap
 	
 	
 	
-	Method DrawIsoTile( X:Double, Y:Double, TileX:Int, TileY:Int, TileMap:LTTileMap )
-		DrawImage( TileSet.Image.BMaxImage, X + DX, Y, Value[ TileX, TileY ] )
+	Method DrawIsoTile( X:Double, Y:Double, TileX:Int, TileY:Int )
+		DrawImage( TileSet.Image.BMaxImage, X + Visualizer.DX, Y + Visualizer.DY, Value[ TileX, TileY ] )
 	End Method
 
 	' ==================== Other ===================	

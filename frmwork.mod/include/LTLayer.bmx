@@ -21,18 +21,20 @@ Type LTLayer Extends LTGroup
 	
 	Method Draw()
 		If L_CurrentCamera.Isometric Then
-			Local SpriteMap:LTSpriteMap
-			Local TileMap:LTTileMap
-			Local TileMaps:TList = New TList
+			Local Shapes:TList = New TList
+			Local MainTileMap:LTTileMap
 			For Local Shape:LTShape = Eachin Children
-				If LTTileMap( Shape ) Then
-					TileMap = LTTileMap( Shape )
-					TileMaps.AddLast( Shape )
+				Local TileMap:LTTileMap = LTTileMap( Shape )
+				If TileMap Then
+					If TileMap.TileSet.Image Then
+						MainTileMap = LTTileMap( Shape )
+						Shapes.AddLast( Shape )
+					End If
 				ElseIf LTSpriteMap( Shape ) Then
-					SpriteMap = LTSpriteMap( Shape )
+					Shapes.AddLast( Shape )
 				End If
 			Next
-			Visualizer.DrawUsingTileMap( TileMap, LTTileMap( TileMaps.First() ), SpriteMap )
+			Visualizer.DrawUsingTileMap( MainTileMap, Shapes )
 		Else
 			Super.Draw()
 		End If
