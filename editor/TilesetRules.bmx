@@ -186,6 +186,7 @@ Type TTilesetRules
 			LTMarchingAnts.DrawMARect( ( PosDX + 3 ) * 32, ( PosDY + 3 ) * 32, 33, 33 )
 			
 			Flip( False )
+			EndGraphics
 			
 			Local LMB:Int = MouseHit( 1 )
 			Local RMB:Int = MouseHit( 2 )
@@ -372,7 +373,6 @@ Type TTilesetRules
 			If EventID() = Event_WindowClose Then Exit
 		Forever
 		
-		SetGraphics( CanvasGraphics( Editor.MainCanvas ) )
 		FreeGadget( Window )
 		Tileset.Update()
 	End Method

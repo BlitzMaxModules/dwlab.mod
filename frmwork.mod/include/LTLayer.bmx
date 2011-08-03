@@ -34,7 +34,7 @@ Type LTLayer Extends LTGroup
 					Shapes.AddLast( Shape )
 				End If
 			Next
-			Visualizer.DrawUsingTileMap( MainTileMap, Shapes )
+			MainTileMap.Visualizer.DrawUsingTileMap( MainTileMap, Shapes )
 		Else
 			Super.Draw()
 		End If

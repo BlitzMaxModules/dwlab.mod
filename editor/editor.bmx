@@ -36,6 +36,7 @@ Include "SelectImageOrTileset.bmx"
 Include "ImageProperties.bmx"
 Include "TileCollisionShapes.bmx"
 Include "SpriteMapProperties.bmx"
+Include "CameraProperties.bmx"
 
 Incbin "english.lng"
 Incbin "russian.lng"
@@ -173,6 +174,7 @@ Type LTEditor Extends LTProject
 	Const MenuTilemapEditingMode:Int = 17
 	Const MenuReplacementOfTiles:Int = 19
 	Const MenuProlongTiles:Int = 20
+	Const MenuCameraProperties:Int = 51
 	Const MenuExit:Int = 34
 	Const MenuRussian:Int = 32
 	Const MenuEnglish:Int = 33
@@ -320,6 +322,8 @@ Type LTEditor Extends LTProject
 		CreateMenu( "", 0, EditMenu )
 		LTMenuSwitch.Create( "{{M_ReplacementOfTiles}}", Toolbar, MenuReplacementOfTiles, EditMenu )
 		LTMenuSwitch.Create( "{{M_ProlongTiles}}", Toolbar, MenuProlongTiles, EditMenu )
+		CreateMenu( "", 0, EditMenu )
+		CreateMenu( "{{M_CameraProperties}}", MenuCameraProperties, EditMenu )
 		
 		Local LanguageMenu:TGadget = CreateMenu( "{{M_Language}}", 0, WindowMenu( Window ) )
 		English = CreateMenu( "{{M_English}}", MenuEnglish, LanguageMenu )
@@ -358,15 +362,12 @@ Type LTEditor Extends LTProject
 		AddCommonMenuItems( SpriteMenu )
 		CreateMenu( "{{M_SetBounds}}", MenuSetBounds, SpriteMenu )
 	
-		SetGraphics( CanvasGraphics( MainCanvas ) )
-		SetBlend( AlphaBlend )
-				
-		SetClsColor( 255, 255, 255 )
-		
 		L_DebugVisualizer.SetColorFromHex( "FF00FF" )
 		L_DebugVisualizer.Alpha = 0.5
 		
 		SelectedTile.Visualizer = New LTMarchingAnts
+		
+		Flipping = False
 		
 		EditorPath = CurrentDir()
 		AddLayer( "LTLayer" )
@@ -509,7 +510,9 @@ Type LTEditor Extends LTProject
 			WorldFilename = Filename
 			ChangeDir( ExtractDir( Filename ) )
 			
+			L_CurrentCamera = MainCamera
 			World = LTWorld.FromFile( Filename )
+			MainCamera = L_CurrentCamera
 			
 			CurrentShape = Null
 			CurrentTilemap = Null
@@ -545,6 +548,7 @@ Type LTEditor Extends LTProject
 				Image.Filename = L_ChopFilename( String( RealPathsForImages.ValueForKey( Image ) ) )
 			Next
 			
+			L_CurrentCamera = MainCamera
 			World.SaveToFile( Filename )
 			Changed = False
 			SetTitle()
@@ -794,6 +798,8 @@ Type LTEditor Extends LTProject
 						ReplacementOfTiles = LTMenuSwitch.Find( MenuReplacementOfTiles ).Toggle()
 					Case MenuProlongTiles
 						L_ProlongTiles = LTMenuSwitch.Find( MenuProlongTiles ).Toggle()
+					Case MenuCameraProperties
+						CameraProperties.Execute()
 					Case MenuEnglish
 						SetLanguage( EnglishNum )
 					Case MenuRussian
@@ -934,6 +940,7 @@ Type LTEditor Extends LTProject
 				End Select
 				
 				For Local Shape:LTShape = Eachin SelectedShapes
+					Local Visualizer:LTVisualizer = Shape.Visualizer
 					Select EventSource()
 						Case HiddenOKButton
 							Select ActiveGadget()
@@ -954,37 +961,58 @@ Type LTEditor Extends LTProject
 									SetShapeModifiers( Shape )
 									SetChanged()
 								Case RedField
-									Shape.Visualizer.Red = TextFieldText( RedField ).ToDouble()
+									Visualizer.Red = TextFieldText( RedField ).ToDouble()
 									SetSliderValue( RedSlider, 0.01 * Shape.Visualizer.Red )
 									SetChanged()
 								Case GreenField
-									Shape.Visualizer.Green = TextFieldText( GreenField ).ToDouble()
+									Visualizer.Green = TextFieldText( GreenField ).ToDouble()
 									SetSliderValue( GreenSlider, 0.01 * Shape.Visualizer.Green )
 									SetChanged()
 								Case BlueField
-									Shape.Visualizer.Blue = TextFieldText( BlueField ).ToDouble()
+									Visualizer.Blue = TextFieldText( BlueField ).ToDouble()
 									SetSliderValue( BlueSlider, 0.01 * Shape.Visualizer.Blue )
 									SetChanged()
 								Case AlphaField
-									Shape.Visualizer.Alpha = TextFieldText( AlphaField ).ToDouble()
+									Visualizer.Alpha = TextFieldText( AlphaField ).ToDouble()
 									SetSliderValue( AlphaSlider, 0.01 * Shape.Visualizer.Alpha )
+									SetChanged()
+								Case VisDXField
+									Visualizer.DX = TextFieldText( VisDXField ).ToDouble()
+									SetChanged()
+								Case VisDYField
+									Visualizer.DY = TextFieldText( VisDYField ).ToDouble()
+									SetChanged()
+								Case XScaleField
+									Visualizer.XScale = TextFieldText( XScaleField ).ToDouble()
+									SetChanged()
+								Case YScaleField
+									Visualizer.YScale = TextFieldText( YScaleField ).ToDouble()
+									SetChanged()
+								Case ImgAngleField
+									Visualizer.Angle = TextFieldText( ImgAngleField ).ToDouble()
 									SetChanged()
 							End Select
 						Case RedSlider
-							Shape.Visualizer.Red = 0.01 * SliderValue( RedSlider )
+							Visualizer.Red = 0.01 * SliderValue( RedSlider )
 							SetGadgetText( RedField, Shape.Visualizer.Red )
 							SetChanged()
 						Case GreenSlider
-							Shape.Visualizer.Green = 0.01 * SliderValue( GreenSlider )
+							Visualizer.Green = 0.01 * SliderValue( GreenSlider )
 							SetGadgetText( GreenField, Shape.Visualizer.Green )
 							SetChanged()
 						Case BlueSlider
-							Shape.Visualizer.Blue = 0.01 * SliderValue( BlueSlider )
+							Visualizer.Blue = 0.01 * SliderValue( BlueSlider )
 							SetGadgetText( BlueField, Shape.Visualizer.Blue )
 							SetChanged()
 						Case AlphaSlider
-							Shape.Visualizer.Alpha = 0.01 * SliderValue( AlphaSlider )
+							Visualizer.Alpha = 0.01 * SliderValue( AlphaSlider )
 							SetGadgetText( AlphaField, Shape.Visualizer.Alpha )
+							SetChanged()
+						Case ScalingCheckbox
+							Visualizer.Scaling = ButtonState( ScalingCheckbox )
+							SetChanged()
+						Case RotatingCheckbox
+							Visualizer.Rotating = ButtonState( RotatingCheckbox )
 							SetChanged()
 					End Select
 				Next
@@ -1017,18 +1045,6 @@ Type LTEditor Extends LTProject
 										AngularSprite.Velocity = TextFieldText( VelocityField ).ToDouble()
 										SetChanged()
 									End If
-								Case VisDXField
-									Sprite.Visualizer.DX = TextFieldText( VisDXField ).ToDouble()
-									SetChanged()
-								Case VisDYField
-									Sprite.Visualizer.DY = TextFieldText( VisDYField ).ToDouble()
-									SetChanged()
-								Case XScaleField
-									Sprite.Visualizer.XScale = TextFieldText( XScaleField ).ToDouble()
-									SetChanged()
-								Case YScaleField
-									Sprite.Visualizer.YScale = TextFieldText( YScaleField ).ToDouble()
-									SetChanged()
 								Case FrameField
 									Local Image:LTImage = Sprite.Visualizer.Image
 									If Image Then
@@ -1036,16 +1052,7 @@ Type LTEditor Extends LTProject
 										SetGadgetText( FrameField, Sprite.Frame )
 										SetChanged()
 									End If
-								Case ImgAngleField
-									Sprite.Visualizer.Angle = TextFieldText( ImgAngleField ).ToDouble()
-									SetChanged()
 							End Select
-						Case ScalingCheckbox
-							Sprite.Visualizer.Scaling = ButtonState( ScalingCheckbox )
-							SetChanged()
-						Case RotatingCheckbox
-							Sprite.Visualizer.Rotating = ButtonState( RotatingCheckbox )
-							SetChanged()
 						Case ShapeBox
 							Sprite.ShapeType = SelectedGadgetItem( ShapeBox )
 							SetChanged()
@@ -1142,6 +1149,24 @@ Type LTEditor Extends LTProject
 									SetChanged()
 								End If							
 							End If
+							If KeyHit( Key_E ) Then
+								If TileSet.EmptyTile = TileNumUnderCursor Then
+									TileSet.EmptyTile = -1
+								Else
+									TileSet.EmptyTile = TileNumUnderCursor
+								End If
+								SetChanged()
+							End If
+							If KeyHit( Key_K ) Then
+								If Proceed( LocalizeString( "{{D_AreYouSure}}" ), True ) Then
+									For Local Y:Int = 0 Until CurrentTilemap.YQuantity
+										For Local X:Int = 0 Until CurrentTilemap.XQuantity
+											CurrentTilemap.Value[ X, Y ] = TileNumUnderCursor
+										Next
+									Next
+									SetChanged()
+								End If
+							End If
 						End If
 					End If
 				End If
@@ -1156,8 +1181,8 @@ Type LTEditor Extends LTProject
 				Next
 			End If
 			
-			TileX = L_LimitInt( Floor( MX ), MinX, CurrentTilemap.XQuantity - 1 )
-			TileY = L_LimitInt( Floor( MY ), MinY, CurrentTilemap.YQuantity - 1 )
+			TileX = L_LimitInt( Floor( ( MX - CurrentTileMap.LeftX() )/ CurrentTileMap.GetTileWidth() ), MinX, CurrentTilemap.XQuantity - 1 )
+			TileY = L_LimitInt( Floor( ( MY - CurrentTileMap.TopY() ) / CurrentTileMap.GetTileHeight() ), MinY, CurrentTilemap.YQuantity - 1 )
 					
 			SetTile.Execute()
 		Else
@@ -1208,7 +1233,7 @@ Type LTEditor Extends LTProject
 	
 	Method SetCameraMagnification( Camera:LTCamera, Canvas:TGadget, Z:Int, Width:Int )
 		Local NewD:Double = 1.0 * GadgetWidth( Canvas ) / Width * ( 1.1 ^ Z )
-		Camera.SetMagnification( NewD, NewD )
+		Camera.SetMagnification( NewD )
 	End Method
 	
 	
@@ -1246,8 +1271,8 @@ Type LTEditor Extends LTProject
 						TileNum[ N ] = L_LimitInt( TileNum[ N ], 0, Image.FramesQuantity() - 1 )
 						Local TileNumN:Int = TileNum[ N ]
 						SelectedTile.Width = 1.0 + Tileset.BlockWidth[ TileNumN ]
-						SelectedTile.Height = 1.0 + Tileset.BlockHeight[ TileNumN ]
-						SelectedTile.X = 0.5 * SelectedTile.Width + TileNumN Mod Image.XCells
+						SelectedTile.Height =1.0 + Tileset.BlockHeight[ TileNumN ]
+						SelectedTile.X = 0.5 * SelectedTile.Width + ( TileNumN Mod Image.XCells )
 						SelectedTile.Y = 0.5 * SelectedTile.Height + Floor( TileNumN / Image.XCells )
 						SelectedTile.Draw()
 					Next
@@ -1255,6 +1280,7 @@ Type LTEditor Extends LTProject
 			End If
 			
 			Flip( False )
+			EndGraphics
 		End If
 		
 		L_CurrentCamera = MainCamera
@@ -1262,6 +1288,7 @@ Type LTEditor Extends LTProject
 		
 		SetGraphics( CanvasGraphics( MainCanvas ) )
 		SetBlend( AlphaBlend )
+		SetClsColor( 255, 255, 255 )		
 		Cls
 		
 		MainCamera.Viewport.X = 0.5 * MainCanvas.GetWidth()
@@ -1276,8 +1303,13 @@ Type LTEditor Extends LTProject
 		
 		If CurrentTilemap Then
 			If MouseIsOver = MainCanvas Then
-				SelectedTile.X = 0.5 * SelectedTile.Width + TileX
-				SelectedTile.Y = 0.5 * SelectedTile.Height + TileY
+				Local TileSet:LTTileSet = CurrentTileMap.TileSet
+				Local TileWidth:Double = CurrentTileMap.GetTileWidth()
+				Local TileHeight:Double = CurrentTileMap.GetTileHeight()
+				SelectedTile.Width = TileWidth * ( 1.0 + Tileset.BlockWidth[ TileNum[ 0 ] ] )
+				SelectedTile.Height = TileHeight * ( 1.0 + Tileset.BlockHeight[ TileNum[ 0 ] ] )
+				SelectedTile.X = 0.5 * SelectedTile.Width + TileWidth * TileX + CurrentTileMap.LeftX()
+				SelectedTile.Y = 0.5 * SelectedTile.Height + TileHeight * TileY + CurrentTileMap.TopY()
 				SelectedTile.Draw()
 			End If
 		Else
@@ -1299,7 +1331,28 @@ Type LTEditor Extends LTProject
 			End If
 		End If
 		
-		'DrawText( SelectedShapes.Count(), 0, 0 )
+		Rem
+		If CurrentTilemap Then
+			SetColor( 0, 0, 0 )
+			Local X00:Double, Y00:Double
+			Local X01:Double, Y01:Double
+			Local X10:Double, Y10:Double
+			Local X11:Double, Y11:Double
+			MainCamera.FieldToScreen( CurrentTilemap.X - 0.5 * CurrentTilemap.Width, CurrentTilemap.Y - 0.5 * CurrentTilemap.Height, X00, Y00 )
+			MainCamera.FieldToScreen( CurrentTilemap.X - 0.5 * CurrentTilemap.Width, CurrentTilemap.Y + 0.5 * CurrentTilemap.Height, X01, Y01 )
+			MainCamera.FieldToScreen( CurrentTilemap.X + 0.5 * CurrentTilemap.Width, CurrentTilemap.Y - 0.5 * CurrentTilemap.Height, X10, Y10 )
+			MainCamera.FieldToScreen( CurrentTilemap.X + 0.5 * CurrentTilemap.Width, CurrentTilemap.Y + 0.5 * CurrentTilemap.Height, X11, Y11 )
+			DrawLine( X00, Y00, X01, Y01 )
+			DrawLine( X00, Y00, X10, Y10 )
+			DrawLine( X11, Y11, X01, Y01 )
+			DrawLine( X11, Y11, X10, Y10 )
+			Cursor.Draw()
+			SetColor( 255, 255, 255 )
+		End If
+		EndRem
+		
+		Flip( False )
+		EndGraphics
 	End Method
 	
 	
@@ -1340,19 +1393,30 @@ Type LTEditor Extends LTProject
 	Method FillShapeFields()
 		If Not CurrentShape Then Return
 	
+		Local Visualizer:LTVisualizer = CurrentShape.Visualizer
+		
 		SetGadgetText( XField, L_TrimDouble( CurrentShape.X ) )
 		SetGadgetText( YField ,L_TrimDouble( CurrentShape.Y ) )
 		SetGadgetText( WidthField, L_TrimDouble( CurrentShape.Width ) )
 		SetGadgetText( HeightField, L_TrimDouble( CurrentShape.Height ) )
-		SetGadgetText( RedField, L_TrimDouble( CurrentShape.Visualizer.Red ) )
-		SetGadgetText( GreenField, L_TrimDouble( CurrentShape.Visualizer.Green ) )
-		SetGadgetText( BlueField, L_TrimDouble( CurrentShape.Visualizer.Blue ) )
-		SetGadgetText( AlphaField, L_TrimDouble( CurrentShape.Visualizer.Alpha ) )
+		SetGadgetText( RedField, L_TrimDouble( Visualizer.Red ) )
+		SetGadgetText( GreenField, L_TrimDouble( Visualizer.Green ) )
+		SetGadgetText( BlueField, L_TrimDouble( Visualizer.Blue ) )
+		SetGadgetText( AlphaField, L_TrimDouble( Visualizer.Alpha ) )
 		
-		SetSliderValue( RedSlider, 100.0 * CurrentShape.Visualizer.Red )
-		SetSliderValue( GreenSlider, 100.0 * CurrentShape.Visualizer.Green )
-		SetSliderValue( BlueSlider, 100.0 * CurrentShape.Visualizer.Blue )
-		SetSliderValue( AlphaSlider, 100.0 * CurrentShape.Visualizer.Alpha )
+		SetSliderValue( RedSlider, 100.0 * Visualizer.Red )
+		SetSliderValue( GreenSlider, 100.0 * Visualizer.Green )
+		SetSliderValue( BlueSlider, 100.0 * Visualizer.Blue )
+		SetSliderValue( AlphaSlider, 100.0 * Visualizer.Alpha )
+		
+		SetGadgetText( VisDXField, L_TrimDouble( Visualizer.DX ) )
+		SetGadgetText( VisDYField, L_TrimDouble( Visualizer.DY ) )
+		SetGadgetText( XScaleField, L_TrimDouble( Visualizer.XScale ) )
+		SetGadgetText( YScaleField, L_TrimDouble( Visualizer.YScale ) )
+		SetGadgetText( ImgAngleField, L_TrimDouble( Visualizer.Angle ) )
+		
+		SetButtonState( RotatingCheckbox, Visualizer.Rotating )
+		SetButtonState( ScalingCheckbox, Visualizer.Scaling )
 		
 		ClearGadgetItems( ShapeBox )
 		
@@ -1360,14 +1424,6 @@ Type LTEditor Extends LTProject
 		If Not CurrentSprite Then Return
 		
 		SetGadgetText( FrameField, CurrentSprite.Frame )
-		SetGadgetText( VisDXField, L_TrimDouble( CurrentSprite.Visualizer.DX ) )
-		SetGadgetText( VisDYField, L_TrimDouble( CurrentSprite.Visualizer.DY ) )
-		SetGadgetText( XScaleField, L_TrimDouble( CurrentSprite.Visualizer.XScale ) )
-		SetGadgetText( YScaleField, L_TrimDouble( CurrentSprite.Visualizer.YScale ) )
-		SetGadgetText( ImgAngleField, L_TrimDouble( CurrentSprite.Visualizer.Angle ) )
-		
-		SetButtonState( RotatingCheckbox, CurrentSprite.Visualizer.Rotating )
-		SetButtonState( ScalingCheckbox, CurrentSprite.Visualizer.Scaling )
 		
 		FillShapeComboBox( ShapeBox )
 		SelectGadgetItem( ShapeBox, CurrentSprite.ShapeType )

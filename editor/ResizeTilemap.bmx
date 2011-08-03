@@ -79,7 +79,7 @@ Function ResizeTilemap( TileMap:LTTileMap )
 		SetAlpha( 1.0 )
 		
 		Flip( False )
-		SetGraphics( CanvasGraphics( Editor.MainCanvas ) )
+		EndGraphics
 		
 		WaitEvent()
 		Select EventID()

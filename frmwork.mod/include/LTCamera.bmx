@@ -19,7 +19,7 @@ Rem
 bbdoc: Camera for displaying game objects.
 about: Camera sprite defines rectangular area on game field which will be projected to the defined viewport rectangle.
 End Rem
-Type LTCamera Extends LTSprite
+Type LTCamera Extends LTShape
 	Rem
 	bbdoc: Viewport rectangular shape.
 	about: See also: #ViewportClipping, #SetCameraViewport, #ResetViewport
@@ -51,8 +51,8 @@ Type LTCamera Extends LTSprite
 	End Rem
 	Method ScreenToField( ScreenX:Double, ScreenY:Double, FieldX:Double Var, FieldY:Double Var )
 		If Isometric Then
-			FieldY = ( ( ScreenX * VY1  - ScreenY * VX1 ) / VK - DY ) / K
-			FieldX = ( ( ScreenX - ( FieldY * K  + DY ) * VX2 ) / VX1 - DX ) / K
+			FieldX = ( ScreenY * VX2 - ScreenX * VY2 ) / VK - DX
+			FieldY = ( ScreenX * VY1  - ScreenY * VX1 ) / VK - DY
 		Else
 			FieldX = ScreenX / K - DX
 			FieldY = ScreenY / K - DY
@@ -167,12 +167,19 @@ Type LTCamera Extends LTSprite
 	
 	Method Update()
 		If Isometric Then
+			Local DWidth:Double = Abs( VX1 ) + Abs( VX2 )
+			Local DHeight:Double = Abs( VY1 ) + Abs( VY2 )
+			K = Min( Viewport.Width / DWidth / Width, Viewport.Height / DHeight / Height  )
+			VK = ( VY1 * VX2 - VX1 * VY2 ) * K
+			'Width = K * DWidth
+			'Height = K * DHeight
+			DX = ( Viewport.X * VX2 - Viewport.Y * VY2 ) / VK - X
+			DY = ( Viewport.X * VY1 - Viewport.Y * VX1 ) / VK - Y
+		Else
 			K = Viewport.Width / Width
 			Height = Viewport.Height / K
 			DX = Viewport.X / K - X
 			DY = Viewport.Y/ K - Y
-		Else
-			VK = VY1 * VX2 - VX1 * VY2
 		End If
 	End Method
 	
@@ -194,6 +201,22 @@ Type LTCamera Extends LTSprite
 		
 		Return Camera
 	End Function
+	
+	' ==================== Saving / loading ====================
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		
+		Viewport = LTShape( XMLObject.ManageObjectField( "viewport", Viewport ) )
+		XMLObject.ManageIntAttribute( "viewport-clipping", ViewportClipping )
+		XMLObject.ManageIntAttribute( "isometric", Isometric )
+		XMLObject.ManageDoubleAttribute( "x1", VX1 )
+		XMLObject.ManageDoubleAttribute( "y1", VY1 )
+		XMLObject.ManageDoubleAttribute( "x2", VX2 )
+		XMLObject.ManageDoubleAttribute( "y2", VY2 )
+		
+		If L_XMLMode = L_XMLGet Then Update()
+	End Method
 End Type
 
 

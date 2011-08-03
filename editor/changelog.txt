@@ -1,3 +1,7 @@
+1.6
++ Added isometric cameras support
++ Implemented empty tile selection
+
 1.5.1
 + Added possibility of duplicating objects with "d" key
 + Camera now can be moved with arrow keys

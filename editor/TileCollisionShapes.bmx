@@ -94,6 +94,7 @@ Type TTileCollisionShapes
 			If SelectedCollisionShape Then SelectedCollisionShape.DrawUsingVisualizer( Editor.MarchingAnts )
 			
 			Flip( False )
+			EndGraphics
 	
 			Frame2 = -1
 			Local OldTileNum:Int = TileNum

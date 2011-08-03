@@ -30,13 +30,6 @@ Type LTTileMap Extends LTIntMap
 	End Rem
 	Field Wrapped:Int = False
 	
-	Rem
-	bbdoc: Number of undrawable tile.
-	about: If this number will be set to 0 or more, the tile with this index will not be drawn.
-	End Rem
-	Field EmptyTile:Int = -1
-
-	
 	' ==================== Parameters ===================	
 	
 	Rem
@@ -83,7 +76,12 @@ Type LTTileMap Extends LTIntMap
 	
 	
 	Method DrawIsoTile( X:Double, Y:Double, TileX:Int, TileY:Int )
-		DrawImage( TileSet.Image.BMaxImage, X + Visualizer.DX, Y + Visualizer.DY, Value[ TileX, TileY ] )
+		Local TileValue:Int = Value[ TileX, TileY ]
+		If TileValue = TileSet.EmptyTile Then Return
+		Local Image:TImage = TileSet.Image.BMaxImage
+		Local Scale:Double = 4.0 * L_CurrentCamera.K / ImageWidth( Image )
+		SetScale( Scale * Visualizer.XScale, Scale * Visualizer.YScale )
+		DrawImage( Image, X + Visualizer.DX, Y + Visualizer.DY, TileValue )
 	End Method
 
 	' ==================== Other ===================	

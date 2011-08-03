@@ -25,6 +25,7 @@ Type LTAnimatedTileMapVisualizer Extends LTVisualizer
 		?
 		
 		Local Value:Int = TileNum[ TileMap.Value[ TileX, TileY ] ]
-		If Value <> Tilemap.EmptyTile Then Drawimage( TileMap.TileSet.Image.BMaxImage, X, Y, Value )
+		Local TileSet:LTTileSet =Tilemap.TileSet 
+		If Value <> TileSet.EmptyTile Then Drawimage( TileSet.Image.BMaxImage, X, Y, Value )
 	End Method
 End Type

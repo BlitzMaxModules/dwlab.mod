@@ -59,11 +59,18 @@ Type LTProject Extends LTObject
 	End Rem
 	Field Exiting:Int
 
+	Rem
+	bbdoc: Flipping flag.
+	about: If set to True then Cls will be performed before Render() and Flip will be performed after Render().
+	End Rem
+	Field Flipping:Int = True
 	
 	
 	Rem
 	bbdoc: Initialization method.
 	about: Fill it with project initialization commands.
+	
+	See also: #DeInit
 	End Rem
 	Method Init()
 	End Method
@@ -89,6 +96,15 @@ Type LTProject Extends LTObject
 	Method Logic()
 	End Method
 	
+	
+	Rem
+	bbdoc: Deinitialization method.
+	about: It will be executed before exit.
+	
+	See also: #Init
+	End Rem
+	Method DeInit()
+	End Method
 	
 	
 	Rem
@@ -160,6 +176,8 @@ Type LTProject Extends LTObject
 		L_DeltaTime = 1.0 / LogicFPS
 	    
 		Repeat
+			PollSystem()	
+		
 			Time :+  L_DeltaTime
 			
 			If CurrentPause Then
@@ -178,7 +196,7 @@ Type LTProject Extends LTObject
 				RealTime = 0.001 * ( Millisecs() - StartTime )
 				If RealTime >= Time And ( RealTime - LastRenderTime ) < MaxRenderPeriod Then Exit
 				
-				Cls
+				If Flipping Then Cls
 				
 				?debug
 				L_SpritesDisplayed = 0
@@ -187,7 +205,7 @@ Type LTProject Extends LTObject
 				
 				Render()
 				If CurrentPause Then CurrentPause.Render()
-				Flip( False )
+				If Flipping Then Flip( False )
 		      
 				LastRenderTime = 0.001 * ( Millisecs() - StartTime )
 				FPSCount :+ 1
@@ -202,6 +220,8 @@ Type LTProject Extends LTObject
 			PollSystem()
 			Pass :+ 1
 		Forever
+		
+		DeInit()
 	End Method
 	
 	

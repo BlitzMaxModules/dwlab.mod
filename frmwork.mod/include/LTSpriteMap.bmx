@@ -334,6 +334,8 @@ Type LTSpriteMap Extends LTMap
 		XMLObject.ManageDoubleAttribute( "top-margin", TopMargin )
 		XMLObject.ManageDoubleAttribute( "bottom-margin", BottomMargin )
 		XMLObject.ManageIntAttribute( "sorted", Sorted )
+		XMLObject.ManageIntAttribute( "pivpot-mode", PivotMode )
+		XMLObject.ManageDoubleAttribute( "object-radius", ObjectRadius )
 		
 		If L_XMLMode = L_XMLGet Then
 			For Local SpriteXMLObject:LTXMLObject = Eachin XMLObject.Children

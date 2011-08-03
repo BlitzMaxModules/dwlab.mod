@@ -26,6 +26,12 @@ Type LTTileSet Extends LTObject
 	Field TilesQuantity:Int
 	Field TileCategory:Int[]
 	
+	Rem
+	bbdoc: Number of undrawable tile.
+	about: If this number will be set to 0 or more, the tile with this index will not be drawn.
+	End Rem
+	Field EmptyTile:Int = -1
+	
 	
 	
 	Rem
@@ -174,6 +180,7 @@ Type LTTileSet Extends LTObject
 		XMLObject.ManageIntAttribute( "tiles-quantity", TilesQuantity )
 		XMLObject.ManageIntArrayAttribute( "block-width", BlockWidth )
 		XMLObject.ManageIntArrayAttribute( "block-height", BlockHeight )
+		XMLObject.ManageIntAttribute( "empty-tile", EmptyTile, -1 )
 		XMLObject.ManageChildList( Categories )
 		
 		If L_XMLMode = L_XMLGet Then

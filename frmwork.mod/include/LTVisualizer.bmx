@@ -242,14 +242,15 @@ Type LTVisualizer Extends LTObject
 		Local Image:LTImage = TileSet.Image
 		If Not Image Then Return
 	
-		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
-		SetAlpha Alpha
+		ApplyColor()
 		
 		Local CellWidth:Double = TileMap.GetTileWidth()
 		Local CellHeight:Double = TileMap.GetTileHeight()
 		Local Viewport:LTShape = L_CurrentCamera.Viewport
 		
 		If L_CurrentCamera.Isometric Or Shapes Then
+			If LTDebugVisualizer( Self ) Then Return
+			
 			If Not Shapes Then
 				Shapes = New TList
 				Shapes.AddLast( TileMap )
@@ -273,8 +274,8 @@ Type LTVisualizer Extends LTObject
 			Local MaxTileY:Int = L_LimitInt( Ceil( ( MaxY - CornerY ) / CellHeight ), 0, TileMap.YQuantity - 1 )
 			Local StartingX:Double, StartingY:Double
 			L_CurrentCamera.FieldToScreen( StartingTileX, StartingTileY, StartingX, StartingY )
-			Local VX1:Double = L_CurrentCamera.VX1 * L_CurrentCamera.K
-			Local VY1:Double = L_CurrentCamera.VY1 * L_CurrentCamera.K
+			Local VX1:Double = L_CurrentCamera.VX1 * L_CurrentCamera.K * TileMap.GetTileWidth()
+			Local VY1:Double = L_CurrentCamera.VY1 * L_CurrentCamera.K * TileMap.GetTileHeight()
 			
 			Local TileY:Int = StartingTileY
 			While TileY < MaxTileY
@@ -361,9 +362,8 @@ Type LTVisualizer Extends LTObject
 			Wend
 		End If
 		
-		SetColor( 255, 255, 255 )
+		ResetColor()
 		SetScale( 1.0, 1.0 )
-		SetAlpha( 1.0 )
 	End Method
 	
 	
@@ -381,7 +381,8 @@ Type LTVisualizer Extends LTObject
 		?
 		
 		Local Value:Int = TileMap.Value[ TileX, TileY ]
-		If Value <> Tilemap.EmptyTile Then Drawimage( TileMap.TileSet.Image.BMaxImage, X, Y, Value )
+		Local TileSet:LTTileSet =Tilemap.TileSet 
+		If Value <> TileSet.EmptyTile Then Drawimage( TileSet.Image.BMaxImage, X, Y, Value )
 	End Method
 	
 	' ==================== Other ====================
