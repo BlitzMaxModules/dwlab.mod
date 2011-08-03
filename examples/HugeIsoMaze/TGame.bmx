@@ -9,7 +9,7 @@
 '
 
 Type TGame Extends LTProject
-	Const MazeSize:Int = 256
+	Const MazeSize:Int = 128
 	Const ZombieProbability:Double = 0.1
 	
 	Field Template:LTWorld
@@ -28,9 +28,9 @@ Type TGame Extends LTProject
 		( New TMazeGenerator ).Execute( Maze )
 		Maze.Stretch( 2, 2 )
 		Maze.Enframe()
+		Maze.SetSize( 2.0 * MazeSize, 2.0 * MazeSize )
 		Objects = LTSpriteMap( Template.FindShape( "LTSpriteMap" ) )
-		Objects.SetCellSize( 2.0, 2.0 )
-		Objects.SetResolution( MazeSize, MazeSize )
+		Objects.SetResolution( MazeSize * 2, MazeSize * 2 )
 		
 		Local WallSprite:TWall = TWall( CreateShape( Template.FindShape( "TWall" ) ) )
 		Local FloorSprite:TFloor = TFloor( CreateShape( Template.FindShape( "TFloor" ) ) )
@@ -39,14 +39,15 @@ Type TGame Extends LTProject
 			PleaseWait()
 			For Local X:Int = 0 Until Maze.XQuantity
 				If Maze.Value[ X, Y ] = 1 Then
-					InsertSprite( FloorSprite, X, Y, Rand( 0, 3 ) )
+					'InsertSprite( FloorSprite, X, Y, Rand( 0, 3 ) )
+					Maze.Value[ X, Y ] = 0
 					If Rnd() < ZombieProbability Then
 						InsertSprite( ZombieSprite, X, Y, Rand( 0, 63 ) )
 						Zombies :+ 1
 					End If
 				ElseIf Maze.Value[ X, Y ] >= 4 Then
-					InsertSprite( WallSprite, X, Y, Maze.Value[ X, Y ] )
-					If Maze.Value[ X, Y ] = 8 Or Maze.Value[ X, Y ] = 10 Then InsertSprite( FloorSprite, X, Y, Rand( 0, 3 ) )
+					'InsertSprite( WallSprite, X, Y, Maze.Value[ X, Y ] )
+					'If Maze.Value[ X, Y ] = 8 Or Maze.Value[ X, Y ] = 10 Then InsertSprite( FloorSprite, X, Y, Rand( 0, 3 ) )
 				End If
 			Next
 		Next
@@ -60,8 +61,8 @@ Type TGame Extends LTProject
 	Method InsertSprite( Sprite:LTSprite, X:Int, Y:Int, Frame:Int )
 		Local NewSprite:LTSprite = LTSprite( TTypeID.ForObject( Sprite ).NewObject() )
 		Sprite.CopyTo( NewSprite )
-		NewSprite.X :+ X - Y
-		NewSprite.Y :+ 0.5 * ( X + Y )
+		NewSprite.X = X
+		NewSprite.Y = Y
 		NewSprite.Frame = Frame
 		NewSprite.Init()
 		Objects.InsertSprite( NewSprite )
@@ -80,6 +81,7 @@ Type TGame Extends LTProject
 	
 	Method Render()
 		Objects.Draw()
+		Maze.Draw()
 		ShowDebugInfo()
 		DrawText( "Zombies: " + Zombies, 0, 96 )
 	End Method

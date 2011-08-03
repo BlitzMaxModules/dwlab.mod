@@ -20,6 +20,12 @@ Type LTLayer Extends LTGroup
 	
 	
 	Method Draw()
+		DrawUsingVisualizer( Null )
+	End Method
+	
+	
+	
+	Method DrawUsingVisualizer( Vis:LTVisualizer )
 		If L_CurrentCamera.Isometric Then
 			Local Shapes:TList = New TList
 			Local MainTileMap:LTTileMap
@@ -36,7 +42,7 @@ Type LTLayer Extends LTGroup
 			Next
 			MainTileMap.Visualizer.DrawUsingTileMap( MainTileMap, Shapes )
 		Else
-			Super.Draw()
+			Super.DrawUsingVisualizer( Vis )
 		End If
 	End Method
 	

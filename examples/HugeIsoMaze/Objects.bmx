@@ -41,7 +41,7 @@ Type TZombie Extends LTAngularSprite
 		Move( Speed * Cos( Angle ), 0.5 * Speed * Sin( Angle ) )
 		Collided = False
 		CollisionsWithSpriteMap( Game.Objects )
-		If Not Collided Then Animate( Game, AnimationSpeed, 8, 8 * ( ( 4.0 + L_Round( Angle / 45.0 ) ) Mod 8 ) )
+		If Not Collided Then Animate( Game, AnimationSpeed, 8, 8 * ( ( 5.0 + L_Round( Angle / 45.0 ) ) Mod 8 ) )
 	End Method
 	
 	

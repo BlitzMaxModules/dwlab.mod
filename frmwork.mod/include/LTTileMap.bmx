@@ -82,6 +82,10 @@ Type LTTileMap Extends LTIntMap
 		Local Scale:Double = 4.0 * L_CurrentCamera.K / ImageWidth( Image )
 		SetScale( Scale * Visualizer.XScale, Scale * Visualizer.YScale )
 		DrawImage( Image, X + Visualizer.DX, Y + Visualizer.DY, TileValue )
+		
+		?debug
+		L_TilesDisplayed :+ 1
+		?
 	End Method
 
 	' ==================== Other ===================	

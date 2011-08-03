@@ -178,8 +178,8 @@ Type LTVisualizer Extends LTObject
 			End If
 			
 			If Scaling Then
-				L_CurrentCamera.SizeFieldToScreen( Sprite.Width, Sprite.Height, SWidth, SHeight )
-				SetScale( XScale * SWidth / ImageWidth( Image.BMaxImage ), YScale * SHeight / ImageHeight( Image.BMaxImage ) )
+				L_CurrentCamera.SizeFieldToScreen( XScale * Sprite.Width, YScale * Sprite.Height, SWidth, SHeight )
+				SetScale( SWidth / ImageWidth( Image.BMaxImage ), SHeight / ImageHeight( Image.BMaxImage ) )
 			Else
 				SetScale XScale, YScale
 			End If
