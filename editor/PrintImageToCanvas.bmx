@@ -82,7 +82,8 @@ Function PrintImageToCanvas:Int( Image:TImage, Canvas:TGadget, XCells:Int = 0, Y
 	End If
 	
 	Flip( False )
-	EndGraphics
+	'EndGraphics
+	SetGraphics( CanvasGraphics( Editor.MainCanvas ) )
 
 	Return Frame
 End Function

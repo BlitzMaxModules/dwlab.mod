@@ -186,7 +186,8 @@ Type TTilesetRules
 			LTMarchingAnts.DrawMARect( ( PosDX + 3 ) * 32, ( PosDY + 3 ) * 32, 33, 33 )
 			
 			Flip( False )
-			EndGraphics
+			'EndGraphics
+			SetGraphics( CanvasGraphics( Editor.MainCanvas ) )
 			
 			Local LMB:Int = MouseHit( 1 )
 			Local RMB:Int = MouseHit( 2 )

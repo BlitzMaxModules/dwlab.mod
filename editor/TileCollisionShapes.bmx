@@ -94,7 +94,8 @@ Type TTileCollisionShapes
 			If SelectedCollisionShape Then SelectedCollisionShape.DrawUsingVisualizer( Editor.MarchingAnts )
 			
 			Flip( False )
-			EndGraphics
+			SetGraphics( CanvasGraphics( Editor.MainCanvas ) )
+			'EndGraphics
 	
 			Frame2 = -1
 			Local OldTileNum:Int = TileNum
@@ -104,7 +105,13 @@ Type TTileCollisionShapes
 				RefreshFields()
 			End If
 			
-			If Frame2 >= 0 Then TileSet.CollisionShape[ Frame2 ] = TileSet.CollisionShape[ TileNum ].Clone()
+			If Frame2 >= 0 Then 
+				if TileSet.CollisionShape[ TileNum ] = Null Then
+					TileSet.CollisionShape[ Frame2 ] = Null
+				Else
+					TileSet.CollisionShape[ Frame2 ] = TileSet.CollisionShape[ TileNum ].Clone()
+				End If
+			End If
 			
 			If MouseIsOver = TileCanvas Then
 				Cursor.SetMouseCoords()
@@ -226,8 +233,6 @@ Type TTileCollisionShapes
 			SetGadgetText( HeightField, "" )
 		End If
 	End Method
-	
-	
 	
 	
 	

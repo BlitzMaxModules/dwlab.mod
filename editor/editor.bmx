@@ -1280,7 +1280,7 @@ Type LTEditor Extends LTProject
 			End If
 			
 			Flip( False )
-			EndGraphics
+			'EndGraphics
 		End If
 		
 		L_CurrentCamera = MainCamera
@@ -1352,7 +1352,7 @@ Type LTEditor Extends LTProject
 		EndRem
 		
 		Flip( False )
-		EndGraphics
+		'EndGraphics
 	End Method
 	
 	

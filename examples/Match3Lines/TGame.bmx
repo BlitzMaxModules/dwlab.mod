@@ -5,8 +5,9 @@ Type TGame Extends LTProject
 	Field Objects:LTLayer = New LTLayer
 	Field Particles:LTLayer = New LTLayer
 	Field Cursor:TCursor = New TCursor
-	Field Selected:TSelected = New TSelected
+	Field Selected:LTSprite
 	Field EmptyCells:TList = New TList
+	Field AStar:LTAStar = LTAStar.Create( False )
 
 	Method Init()
 		Level = LTTileMap( LTWorld.FromFile( "levels.lw" ).FindShape( "LTTileMap" ) )
