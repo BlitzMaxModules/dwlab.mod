@@ -867,7 +867,7 @@ Type LTEditor Extends LTProject
 									SpriteMap.SetResolution( 16, 16 )
 								End If
 								
-								If SpriteMapProperties( SpriteMap ) Then
+								If SpriteMapProperties.Set( SpriteMap ) Then
 									LTLayer( SelectedShape ).AddLast( SpriteMap )
 									CurrentContainer = SpriteMap
 									SetChanged()
@@ -907,7 +907,7 @@ Type LTEditor Extends LTProject
 						LTTileMap( SelectedShape ).Enframe()
 						SetChanged()
 					Case MenuSpriteMapProperties
-						SpriteMapProperties( LTSpriteMap( SelectedShape ) )
+						SpriteMapProperties.Set( LTSpriteMap( SelectedShape ) )
 				End Select
 			Case Event_GadgetAction
 				Select EventSource()
@@ -1089,12 +1089,12 @@ Type LTEditor Extends LTProject
 		If CurrentTilemap Then
 			EnableGadget( TilesetCanvas )
 			ShowGadget( TilesetCanvas )
-			DisableGadget( Panel )
 			HideGadget( Panel )
+			DisableGadget( Panel )
 			SetGadgetShape( ProjectManager, ClientWidth( Window ) - BarWidth, 0.5 * ClientHeight( Window ), BarWidth, 0.5 * ClientHeight( Window ) - 24 )
 		Else
-			DisableGadget( TilesetCanvas )
 			HideGadget( TilesetCanvas )
+			DisableGadget( TilesetCanvas )
 			EnableGadget( Panel )
 			ShowGadget( Panel )
 			SetGadgetShape( ProjectManager, ClientWidth( Window ) - BarWidth, PanelHeight, BarWidth, ClientHeight( Window ) - PanelHeight - 24 )
@@ -1157,7 +1157,7 @@ Type LTEditor Extends LTProject
 								End If
 								SetChanged()
 							End If
-							If KeyHit( Key_K ) Then
+							If KeyHit( Key_F ) Then
 								If Proceed( LocalizeString( "{{D_AreYouSure}}" ), True ) Then
 									For Local Y:Int = 0 Until CurrentTilemap.YQuantity
 										For Local X:Int = 0 Until CurrentTilemap.XQuantity

@@ -1,5 +1,6 @@
 1.6
 + Added isometric cameras support
++ Added possibility of filling tilemap with selected tile using "f" key
 + Implemented empty tile selection
 
 1.5.1

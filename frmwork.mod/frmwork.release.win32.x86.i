@@ -185,7 +185,7 @@ LTLayer^LTGroup{
 -CountSprites%()="_dwlab_frmwork_LTLayer_CountSprites"
 -FindShape:LTShape(ShapeName$,IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShape"
 -FindShapeWithType:LTShape(ShapeType$,Name$=$"",IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShapeWithType"
--FindShapeWithTypeID:LTShape(ShapeTypeID:brl.reflection.TTypeID,Name$=$"",IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShapeWithTypeID"
+-FindShapeWithTypeID:LTShape(ShapeTypeID:brl.reflection.TTypeId,Name$=$"",IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShapeWithTypeID"
 -Remove%(Shape:LTShape)="_dwlab_frmwork_LTLayer_Remove"
 -SetBounds%(Shape:LTShape)="_dwlab_frmwork_LTLayer_SetBounds"
 -CopyTo%(Shape:LTShape)="_dwlab_frmwork_LTLayer_CopyTo"
@@ -262,7 +262,7 @@ LTVectorSprite^LTSprite{
 -CopyTo%(Shape:LTShape)="_dwlab_frmwork_LTVectorSprite_CopyTo"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTVectorSprite_XMLIO"
 }="dwlab_frmwork_LTVectorSprite"
-LTCamera^LTShape{
+LTCamera^LTSprite{
 .Viewport:LTShape&
 .K!&
 .DX!&
@@ -539,6 +539,7 @@ LTVisualizer^LTObject{
 +FromImage:LTVisualizer(Image:LTImage)="_dwlab_frmwork_LTVisualizer_FromImage"
 -SetDXDY%(NewDX!,NewDY!)="_dwlab_frmwork_LTVisualizer_SetDXDY"
 -SetVisualizerScale%(NewXScale!,NewYScale!)="_dwlab_frmwork_LTVisualizer_SetVisualizerScale"
+-SetVisualizerScales%(NewScale!)="_dwlab_frmwork_LTVisualizer_SetVisualizerScales"
 -GetImage:LTImage()="_dwlab_frmwork_LTVisualizer_GetImage"
 -SetImage%(NewImage:LTImage)="_dwlab_frmwork_LTVisualizer_SetImage"
 -DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTVisualizer_DrawUsingSprite"

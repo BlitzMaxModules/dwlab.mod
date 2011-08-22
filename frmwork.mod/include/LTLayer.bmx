@@ -20,16 +20,10 @@ Type LTLayer Extends LTGroup
 	
 	
 	Method Draw()
-		DrawUsingVisualizer( Null )
-	End Method
-	
-	
-	
-	Method DrawUsingVisualizer( Vis:LTVisualizer )
 		If L_CurrentCamera.Isometric Then
 			Local Shapes:TList = New TList
 			Local MainTileMap:LTTileMap
-			For Local Shape:LTShape = Eachin Children
+			For Local Shape:LTShape = EachIn Children
 				Local TileMap:LTTileMap = LTTileMap( Shape )
 				If TileMap Then
 					If TileMap.TileSet.Image Then
@@ -42,7 +36,7 @@ Type LTLayer Extends LTGroup
 			Next
 			MainTileMap.Visualizer.DrawUsingTileMap( MainTileMap, Shapes )
 		Else
-			Super.DrawUsingVisualizer( Vis )
+			Super.Draw()
 		End If
 	End Method
 	
@@ -55,7 +49,7 @@ Type LTLayer Extends LTGroup
 	End Rem
 	Method CountSprites:Int()
 		Local Count:Int = 0
-		For Local Shape:LTShape = Eachin Children
+		For Local Shape:LTShape = EachIn Children
 			If LTSprite( Shape ) Then
 				Count :+ 1
 			ElseIf LTLayer( Shape ) Then
@@ -74,7 +68,7 @@ Type LTLayer Extends LTGroup
 	End Rem
 	Method FindShape:LTShape( ShapeName:String, IgnoreError:Int = False )
 		If Name = ShapeName Then Return Self
-		For Local ChildShape:LTShape = Eachin Children
+		For Local ChildShape:LTShape = EachIn Children
 			If ChildShape.Name = ShapeName Then Return ChildShape
 			Local ChildLayer:LTLayer = LTLayer( ChildShape )
 			If ChildLayer Then
@@ -99,10 +93,10 @@ Type LTLayer Extends LTGroup
 	
 	
 	
-	Method FindShapeWithTypeID:LTShape( ShapeTypeID:TTypeID, Name:String = "", IgnoreError:Int = False )
-		If TTypeID.ForObject( Self ) = ShapeTypeID Then Return Self
-		For Local ChildShape:LTShape = Eachin Children
-			If TTypeID.ForObject( ChildShape ) = ShapeTypeID Then
+	Method FindShapeWithTypeID:LTShape( ShapeTypeID:TTypeId, Name:String = "", IgnoreError:Int = False )
+		If TTypeId.ForObject( Self ) = ShapeTypeID Then Return Self
+		For Local ChildShape:LTShape = EachIn Children
+			If TTypeId.ForObject( ChildShape ) = ShapeTypeID Then
 				If Not Name Or Name = ChildShape.Name Then Return ChildShape
 			End If
 			Local ChildLayer:LTLayer = LTLayer( ChildShape )

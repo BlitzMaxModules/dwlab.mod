@@ -127,12 +127,23 @@ Type LTVisualizer Extends LTObject
 	
 	
 	Rem
-	bbdoc: Sets scaling parameters of the visualizer
+	bbdoc: Sets vertical and horizontal scaling of the visualizer
 	about: Works only with images.
 	End Rem
 	Method SetVisualizerScale( NewXScale:Double, NewYScale:Double )
 		XScale = NewXScale
 		YScale = NewYScale
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Sets scalings of the visualizer to one value
+	about: Works only with images.
+	End Rem
+	Method SetVisualizerScales( NewScale:Double )
+		XScale = NewScale
+		YScale = NewScale
 	End Method
 	
 	

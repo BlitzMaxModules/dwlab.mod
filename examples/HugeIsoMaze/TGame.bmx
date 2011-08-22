@@ -40,7 +40,7 @@ Type TGame Extends LTProject
 			For Local X:Int = 0 Until Maze.XQuantity
 				If Maze.Value[ X, Y ] = 1 Then
 					'InsertSprite( FloorSprite, X, Y, Rand( 0, 3 ) )
-					Maze.Value[ X, Y ] = 0
+					'Maze.Value[ X, Y ] = 0
 					If Rnd() < ZombieProbability Then
 						InsertSprite( ZombieSprite, X, Y, Rand( 0, 63 ) )
 						Zombies :+ 1

@@ -7,38 +7,60 @@
 ' file distributed with this code, or available from
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
-
-Function SpriteMapProperties:Int( SpriteMap:LTSpriteMap )
-	Local EditWindow:TGadget = CreateWindow( "{{W_SpriteMapProperties}}", 0, 0, 0, 0, Editor.Window, Window_Titlebar | Window_ClientCoords )
-	Local Form:LTForm = LTForm.Create( EditWindow )
-	Form.NewLine()
-	Local XQuantityTextField:TGadget = Form.AddTextField( "{{L_HorizontalCells}}", 165 )
-	Local YQuantityTextField:TGadget = Form.AddTextField( "{{L_VerticalCells}}", 165 )
-	Form.NewLine()
-	Local CellWidthTextField:TGadget = Form.AddTextField( "{{L_CellWidth}}", 165 )
-	Local CellHeightTextField:TGadget = Form.AddTextField( "{{L_CellHeight}}", 165 )
-	Form.NewLine()
-	Local LeftMarginTextField:TGadget = Form.AddTextField( "{{L_LeftMargin}}", 165 )
-	Local TopMarginTextField:TGadget = Form.AddTextField( "{{L_TopMargin}}", 165 )
-	Form.NewLine()
-	Local RightMarginTextField:TGadget = Form.AddTextField( "{{L_RightMargin}}", 165 )
-	Local BottomMarginTextField:TGadget = Form.AddTextField( "{{L_BottomMargin}}", 165 )
-	Form.NewLine()
-	Local SortedCheckBox:TGadget = Form.AddButton( "{{L_Sorted}}", 250, Button_CheckBox )
-	Local OKButton:TGadget, CancelButton:TGadget
-	AddOKCancelButtons( Form, OKButton, CancelButton )
+Global SpriteMapProperties:TSpriteMapProperties = New TSpriteMapProperties
+Type TSpriteMapProperties Extends LTProject
+	Field SpriteMap:LTSpriteMap
+	Field Succeeded:Int
 	
-	SetGadgetText( XQuantityTextField, SpriteMap.XQuantity )
-	SetGadgetText( YQuantityTextField, SpriteMap.YQuantity )
-	SetGadgetText( CellWidthTextField, L_TrimDouble( SpriteMap.CellWidth ) )
-	SetGadgetText( CellHeightTextField, L_TrimDouble( SpriteMap.CellHeight ) )
-	SetGadgetText( LeftMarginTextField, L_TrimDouble( SpriteMap.LeftMargin ) )
-	SetGadgetText( TopMarginTextField, L_TrimDouble( SpriteMap.TopMargin ) )
-	SetGadgetText( RightMarginTextField, L_TrimDouble( SpriteMap.RightMargin ) )
-	SetGadgetText( BottomMarginTextField, L_TrimDouble( SpriteMap.BottomMargin ) )
-	SetButtonState( SortedCheckBox, SpriteMap.Sorted )
+	Field EditWindow:TGadget
+	Field XQuantityTextField:TGadget
+	Field YQuantityTextField:TGadget
+	Field CellWidthTextField:TGadget
+	Field CellHeightTextField:TGadget
+	Field LeftMarginTextField:TGadget
+	Field TopMarginTextField:TGadget
+	Field RightMarginTextField:TGadget
+	Field BottomMarginTextField:TGadget
+	Field SortedCheckBox:TGadget
+	Field OKButton:TGadget, CancelButton:TGadget
 	
-	Repeat
+	
+	
+	Method Init()
+		EditWindow = CreateWindow( "{{W_SpriteMapProperties}}", 0, 0, 0, 0, Editor.Window, Window_Titlebar | Window_ClientCoords )
+		Local Form:LTForm = LTForm.Create( EditWindow )
+		Form.NewLine()
+		XQuantityTextField = Form.AddTextField( "{{L_HorizontalCells}}", 165 )
+		YQuantityTextField = Form.AddTextField( "{{L_VerticalCells}}", 165 )
+		Form.NewLine()
+		CellWidthTextField = Form.AddTextField( "{{L_CellWidth}}", 165 )
+		CellHeightTextField = Form.AddTextField( "{{L_CellHeight}}", 165 )
+		Form.NewLine()
+		LeftMarginTextField = Form.AddTextField( "{{L_LeftMargin}}", 165 )
+		TopMarginTextField = Form.AddTextField( "{{L_TopMargin}}", 165 )
+		Form.NewLine()
+		RightMarginTextField = Form.AddTextField( "{{L_RightMargin}}", 165 )
+		BottomMarginTextField = Form.AddTextField( "{{L_BottomMargin}}", 165 )
+		Form.NewLine()
+		SortedCheckBox = Form.AddButton( "{{L_Sorted}}", 250, Button_CheckBox )
+		AddOKCancelButtons( Form, OKButton, CancelButton )
+	
+		SetGadgetText( XQuantityTextField, SpriteMap.XQuantity )
+		SetGadgetText( YQuantityTextField, SpriteMap.YQuantity )
+		SetGadgetText( CellWidthTextField, L_TrimDouble( SpriteMap.CellWidth ) )
+		SetGadgetText( CellHeightTextField, L_TrimDouble( SpriteMap.CellHeight ) )
+		SetGadgetText( LeftMarginTextField, L_TrimDouble( SpriteMap.LeftMargin ) )
+		SetGadgetText( TopMarginTextField, L_TrimDouble( SpriteMap.TopMargin ) )
+		SetGadgetText( RightMarginTextField, L_TrimDouble( SpriteMap.RightMargin ) )
+		SetGadgetText( BottomMarginTextField, L_TrimDouble( SpriteMap.BottomMargin ) )
+		SetButtonState( SortedCheckBox, SpriteMap.Sorted )
+		
+		Succeeded = False
+	End Method
+	
+	
+	
+	Method Logic()
 		PollEvent()
 		Select EventID()
 			Case Event_GadgetAction
@@ -70,18 +92,30 @@ Function SpriteMapProperties:Int( SpriteMap:LTSpriteMap )
 							SpriteMap.RightMargin = TextFieldText( RightMarginTextField ).ToDouble()
 							SpriteMap.BottomMargin = TextFieldText( BottomMarginTextField ).ToDouble()
 							
-							FreeGadget( EditWindow )
-							Return True
+							Exiting = True
+							Succeeded = True
 						Else
 							Notify( LocalizeString( "{{N_CellSizeMoreThanZero}}" ) );
 						End If
 					Case CancelButton
-						Exit
+						Exiting = True
 				End Select
 			Case Event_WindowClose
-				Exit
+				Exiting = True
 		End Select
-	Forever
-	FreeGadget( EditWindow )
-	Return False
-End Function
+	End Method
+	
+	
+	
+	Method DeInit()
+		FreeGadget( EditWindow )
+	End Method
+	
+	
+	
+	Method Set:Int( NewSpriteMap:LTSpriteMap )
+		SpriteMap = NewSpriteMap
+		Execute()
+		Return Succeeded
+	End Method
+End Type

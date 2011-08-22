@@ -19,7 +19,7 @@ Rem
 bbdoc: Camera for displaying game objects.
 about: Camera sprite defines rectangular area on game field which will be projected to the defined viewport rectangle.
 End Rem
-Type LTCamera Extends LTShape
+Type LTCamera Extends LTSprite
 	Rem
 	bbdoc: Viewport rectangular shape.
 	about: See also: #ViewportClipping, #SetCameraViewport, #ResetViewport

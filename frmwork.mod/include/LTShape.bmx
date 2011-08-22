@@ -798,7 +798,7 @@ Type LTShape Extends LTObject
 	
 	Method CopyTo( Shape:LTShape )
 		Shape.Name = Name
-		Shape.Visualizer = Visualizer.Clone()
+		If Visualizer Then Shape.Visualizer = Visualizer.Clone()
 		Shape.X = X
 		Shape.Y = Y
 		Shape.Width = Width

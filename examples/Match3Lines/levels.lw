@@ -1,0 +1,68 @@
+<LTWorld dwlab_version="1.1">
+	<LTVisualizer field="visualizer" id="1"/>
+	<TList field="images">
+		<Object id="6"/>
+	</TList>
+	<TList field="tilesets">
+		<Object id="5"/>
+	</TList>
+	<LTCamera field="camera" x="8" y="5" width="32" height="27.0158" viewport-clipping="1" x1="2" y1="1" x2="-2" y2="1">
+		<LTVisualizer field="visualizer" id="26"/>
+		<LTShape field="viewport" x="504" y="425.5" width="1008" height="851">
+			<Object field="visualizer" id="26"/>
+		</LTShape>
+	</LTCamera>
+	<TList field="definitions"/>
+	<LTLayer name="LTLayer">
+		<Object field="visualizer" id="1"/>
+		<LTShape field="bounds" x="8" y="5" width="16" height="10">
+			<LTVisualizer field="visualizer"/>
+		</LTShape>
+		<LTTileMap name="LTTileMap" x="8" y="5" width="16" height="10" xquantity="16" yquantity="10" tiles-quantity="16">
+			<LTVisualizer field="visualizer"/>
+			<LTTileSet field="tileset" id="5" name="Default" tiles-quantity="16" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" empty-tile="9">
+				<LTImage field="image" id="6" filename="tiles.png" xcells="8" ycells="2"/>
+				<ShapeArray field="collision-shapes">
+					<LTSprite x="0.5" y="0.5" shape="2"/>
+					<LTSprite x="0.5" y="0.5312" width="0.875" height="0.9375" shape="1"/>
+					<LTSprite x="0.5" y="0.5312" width="0.875" height="0.9375" shape="1">
+						<LTVisualizer field="visualizer" id="10"/>
+					</LTSprite>
+					<LTSprite x="0.5" y="0.5312" width="0.875" height="0.9375" shape="1">
+						<Object field="visualizer" id="10"/>
+					</LTSprite>
+					<LTSprite x="0.5" y="0.5312" width="0.875" height="0.9375" shape="1">
+						<Object field="visualizer" id="10"/>
+					</LTSprite>
+					<LTSprite x="0.5" y="0.5312" width="0.875" height="0.9375" shape="1">
+						<Object field="visualizer" id="10"/>
+					</LTSprite>
+					<LTSprite x="0.5" y="0.5312" width="0.875" height="0.9375" shape="1">
+						<Object field="visualizer" id="10"/>
+					</LTSprite>
+					<LTSprite x="0.5" y="0.5312" width="0.875" height="0.9375" shape="1">
+						<Object field="visualizer" id="10"/>
+					</LTSprite>
+					<Null/>
+					<LTSprite x="0.5" y="0.5" shape="2"/>
+					<LTSprite x="0.5" y="0.5" width="0.75" height="0.75" shape="1"/>
+					<LTSprite x="0.5" y="0.5625" width="0.375" height="0.875" shape="2"/>
+					<LTSprite x="0.5" y="0.4687" width="0.875" height="0.875" shape="1"/>
+					<LTSprite x="0.5" y="0.5312" width="0.875" height="0.9375" shape="1"/>
+					<LTSprite x="0.5" y="0.5625" height="0.875" shape="2"/>
+					<LTSprite x="0.5" y="0.4687" width="0.875" height="0.9375" shape="1"/>
+				</ShapeArray>
+			</LTTileSet>
+			<Row data="8,8,8,0,0,0,0,0,0,0,0,0,0,8,8,8"/>
+			<Row data="8,8,0,0,0,0,0,0,0,0,0,0,0,0,8,8"/>
+			<Row data="8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8"/>
+			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8"/>
+			<Row data="8,8,0,0,0,0,0,0,0,0,0,0,0,0,8,8"/>
+			<Row data="8,8,8,0,0,0,0,0,0,0,0,0,0,8,8,8"/>
+			<Row data="8,8,8,8,0,0,0,0,0,0,0,0,8,8,8,8"/>
+		</LTTileMap>
+	</LTLayer>
+</LTWorld>
