@@ -28,6 +28,7 @@ Type TGame Extends LTProject
 	Method Render()
 		Level.Draw()
 		Objects.Draw()
+		Particles.Draw()
 	End Method
 	
 	Method Logic()
@@ -36,6 +37,7 @@ Type TGame Extends LTProject
 		
 		If KeyHit( Key_Escape ) Then End
 		Objects.Act()
+		Particles.Act()
 	End Method
 	
 	Method CreateBalls()

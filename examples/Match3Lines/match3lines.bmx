@@ -14,6 +14,7 @@ Include "LTTileMapPathFinder.bmx"
 Include "TMoveAlongPath.bmx"
 Include "TCheckLines.bmx"
 Include "TMoveBall.bmx"
+Include "TExplosion.bmx"
 
 Global Game:TGame = New TGame
 Game.Execute()

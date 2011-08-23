@@ -43,7 +43,10 @@ Type TRow
 	
 	Method Remove()
 		For Local KK:Int = 0 To K
-			Game.Level.SetTile( X + DX * KK, Y + DY * KK, TVisualizer.Empty )
+			Local XX:Int = X + DX * KK
+			Local YY:Int = Y + DY * KK
+			TExplosion.Create( XX, YY )
+			Game.Level.SetTile( XX, YY, TVisualizer.Empty )
 		Next
 	End Method
 End Type

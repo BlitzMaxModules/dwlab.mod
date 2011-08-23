@@ -1,6 +1,7 @@
 Type TCursor Extends LTSprite
 	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int = 0 )
 		Local TileNum:Int = TileMap.GetTile( TileX, TileY )
+		'If KeyHit( Key_E ) Then TExplosion.Create( TileX, TileY )
 		If MouseHit( 1 ) Then
 			'DebugStop
 			If Game.Selected Then Game.Selected.Remove( Null )
