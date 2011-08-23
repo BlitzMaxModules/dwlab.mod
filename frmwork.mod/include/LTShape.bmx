@@ -301,6 +301,13 @@ Type LTShape Extends LTObject
 	
 	
 	
+	Method PositionOnTileMap( TileMap:LTTileMap, TileX:Double, TileY:Double )
+		X = TileMap.LeftX() + ( TileX + 0.5 ) * TileMap.GetTileWidth()
+		Y = TileMap.TopY() + ( TileY + 0.5 ) * TileMap.GetTileHeight()
+	End Method
+	
+	
+	
 	Rem
 	bbdoc: Moves the shape.
 	about: The shape will be moved with given horizontal and vertical speed per second.

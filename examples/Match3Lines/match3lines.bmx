@@ -10,7 +10,10 @@ Include "TVisualizer.bmx"
 Include "TPopUpBall.bmx"
 Include "TCursor.bmx"
 Include "TSelected.bmx"
-Include "LTAStar.bmx"
+Include "LTTileMapPathFinder.bmx"
+Include "TMoveAlongPath.bmx"
+Include "TCheckLines.bmx"
+Include "TMoveBall.bmx"
 
 Global Game:TGame = New TGame
 Game.Execute()

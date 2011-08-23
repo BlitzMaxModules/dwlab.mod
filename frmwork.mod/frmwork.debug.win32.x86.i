@@ -116,6 +116,7 @@ RightFacing!=1!
 -JumpTo%(Shape:LTShape)="_dwlab_frmwork_LTShape_JumpTo"
 -SetMouseCoords%()="_dwlab_frmwork_LTShape_SetMouseCoords"
 -SetCoordsRelativeTo%(Sprite:LTAngularSprite,NewX!,NewY!)="_dwlab_frmwork_LTShape_SetCoordsRelativeTo"
+-PositionOnTileMap%(TileMap:LTTileMap,TileX!,TileY!)="_dwlab_frmwork_LTShape_PositionOnTileMap"
 -Move%(DX!,DY!)="_dwlab_frmwork_LTShape_Move"
 -PlaceBetween%(Shape1:LTShape,Shape2:LTShape,K!)="_dwlab_frmwork_LTShape_PlaceBetween"
 -MoveUsingWSAD%(Velocity!)="_dwlab_frmwork_LTShape_MoveUsingWSAD"

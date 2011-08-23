@@ -5,21 +5,24 @@ Type TGame Extends LTProject
 	Field Objects:LTLayer = New LTLayer
 	Field Particles:LTLayer = New LTLayer
 	Field Cursor:TCursor = New TCursor
-	Field Selected:LTSprite
+	Field Selected:TSelected
 	Field EmptyCells:TList = New TList
-	Field AStar:LTAStar = LTAStar.Create( False )
+	Field TileMapPathFinder:LTTileMapPathFinder
+	Field Busy:Int
 
 	Method Init()
 		Level = LTTileMap( LTWorld.FromFile( "levels.lw" ).FindShape( "LTTileMap" ) )
 		Level.SetCoords( 0, 0 )
 		Level.Visualizer = New TVisualizer
 		
-		Cursor.ShapeType = LTSprite.Circle
+		TileMapPathFinder = LTTileMapPathFinder.Create( Level, False )
+		
+		Cursor.ShapeType = LTSprite.Pivot
 		Cursor.SetDiameter( 0.1 )
 		
 		L_InitGraphics( 1088, 704, 64.0 )
 		
-		NextTurn()
+		CreateBalls()
 	End Method
 	
 	Method Render()
@@ -29,14 +32,13 @@ Type TGame Extends LTProject
 	
 	Method Logic()
 		Cursor.SetMouseCoords()
-		Cursor.CollisionsWithTileMap( Level )
+		If Not Busy Then Cursor.CollisionsWithTileMap( Level )
 		
 		If KeyHit( Key_Escape ) Then End
-		If KeyHit( Key_Space ) Then NextTurn()
 		Objects.Act()
 	End Method
 	
-	Method NextTurn()
+	Method CreateBalls()
 		RefreshEmptyCells()
 		If EmptyCells.Count() < 3 Then End
 		For Local N:Int = 0 Until BallsPerTurn
@@ -54,6 +56,15 @@ Type TGame Extends LTProject
 				End If
 			Next
 		Next
+	End Method
+	
+	Method TileToSprite:LTSprite( Model:LTBehaviorModel, X:Int, Y:Int )
+		Local Sprite:LTSprite = New LTSprite
+		Sprite.SetAsTile( Game.Level, X, Y )
+		Game.Objects.AddLast( Sprite )
+		Sprite.AttachModel( Model )
+		Game.Level.SetTile( X, Y, TVisualizer.Empty )
+		Return Sprite
 	End Method
 End Type
 
