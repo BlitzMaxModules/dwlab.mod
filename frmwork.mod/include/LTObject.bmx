@@ -70,7 +70,7 @@ Type LTObject
 	End Rem
 	Function LoadFromFile:LTObject( FileName:String )
 		L_IDNum = 0
-		Local XMLObject:LTXMLObject = LTXMLObject.ReadFromFile( FileName )
+		Local XMLObject:LTXMLObject = LTXMLObject.ReadFromFile( L_Incbin + FileName )
 		
 		L_IDArray = New LTObject[ L_IDNum + 1 ]
 		

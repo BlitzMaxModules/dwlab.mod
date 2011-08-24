@@ -2,6 +2,7 @@ Type TGame Extends LTProject
 	Const BallsPerTurn:Int = 3
 
 	Field Level:LTTileMap
+	Field HUD:LTLayer
 	Field Objects:LTLayer = New LTLayer
 	Field Particles:LTLayer = New LTLayer
 	Field Cursor:TCursor = New TCursor
@@ -9,18 +10,44 @@ Type TGame Extends LTProject
 	Field EmptyCells:TList = New TList
 	Field TileMapPathFinder:LTTileMapPathFinder
 	Field Busy:Int
+	Field Score:Int
+	Field HiScore:Int = 100
+	
+	Field Font:LTBitmapFont
+	Field FrameVisualizer:LTRasterFrameVisualizer
 
+	Field SwapSound:TSound = TSound.Load( "incbin::swap.ogg", False )
+	Field RushSound:TSound = TSound.Load( "incbin::rush.ogg", False )
+	Field StopSound:TSound = TSound.Load( "incbin::stop.ogg", False )
+	Field SelectSound:TSound = TSound.Load( "incbin::select.ogg", False )
+	Field ExplosionSound:TSound = TSound.Load( "incbin::explosion.ogg", False )
+	
 	Method Init()
-		Level = LTTileMap( LTWorld.FromFile( "levels.lw" ).FindShape( "LTTileMap" ) )
-		Level.SetCoords( 0, 0 )
+		Local World:LTWorld = LTWorld.FromFile( "levels.lw" )
+		
+		L_InitGraphics( 960, 704, 64.0 )
+		
+		Level = LTTileMap( World.FindShape( "LTTileMap" ) )
+		
+		Font = LTBitmapFont.FromFile( "font.png", 32, 127, 16, True )
+		FrameVisualizer = LTRasterFrameVisualizer.FromPixmap( Level.TileSet.Image.BMaxImage.pixmaps[ 0 ] )
+		
+		LoadAndInitLayer( HUD, LTLayer( World.FindShape( "LTLayer,HUD" ) ) )
+		
 		Level.Visualizer = New TVisualizer
+		
+		( New TIntro ).Execute()
 		
 		TileMapPathFinder = LTTileMapPathFinder.Create( Level, False )
 		
 		Cursor.ShapeType = LTSprite.Pivot
-		Cursor.SetDiameter( 0.1 )
+		Cursor.SetDiameter( 0.1 )		
 		
-		L_InitGraphics( 1088, 704, 64.0 )
+		If FileType( "hiscore.txt" ) Then
+			Local File:TStream = ReadFile( "hiscore.txt" )
+			HiScore = ReadLine( File ).ToInt()
+			CloseFile( File )
+		End If
 		
 		CreateBalls()
 	End Method
@@ -29,13 +56,22 @@ Type TGame Extends LTProject
 		Level.Draw()
 		Objects.Draw()
 		Particles.Draw()
+		HUD.Draw()
 	End Method
 	
 	Method Logic()
 		Cursor.SetMouseCoords()
 		If Not Busy Then Cursor.CollisionsWithTileMap( Level )
 		
-		If KeyHit( Key_Escape ) Then End
+		If Score > HiScore Then HiScore = Score
+		
+		If KeyHit( Key_Escape ) Or AppTerminate() Then 
+			Local File:TStream = WriteFile( "hiscore.txt" )
+			WriteLine( File, HiScore )
+			CloseFile( File )
+			Exiting = True
+		End If
+		
 		Objects.Act()
 		Particles.Act()
 	End Method

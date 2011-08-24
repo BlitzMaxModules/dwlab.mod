@@ -46,8 +46,8 @@ Type LTImage Extends LTObject
 	about: Splits image by XCells x YCells grid. Will be executed after loading image object from XML file.
 	End Rem
 	Method Init()
-		Local Pixmap:TPixmap = LoadPixmap( Filename )
-		If Not Pixmap Then L_Error( Filename + " cannot be loaded or not found." )
+		Local Pixmap:TPixmap = LoadPixmap( L_Incbin + Filename )
+		If Not Pixmap Then L_Error( L_Incbin + Filename + " cannot be loaded or not found." )
 		?debug
 		'If PixmapWidth( BMaxImage ) Mod XCells <> 0 Or PixmapHeight( BMaxImage ) Mod YCells <> 0 Then L_Error( "Incorrect cells quantity for splitting" )
 		?

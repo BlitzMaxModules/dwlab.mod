@@ -15,6 +15,7 @@ Type TMoveAlongPath Extends LTBehaviorModel
 		Game.Selected = Null
 		Game.Busy = True
 		Game.TileToSprite( Model, Position.X, Position.Y )
+		Game.RushSound.Play()
 	End Function
 	
 	Method ApplyTo( Shape:LTShape )
@@ -63,10 +64,8 @@ Type TMoveAlongPath Extends LTBehaviorModel
 	Method Deactivate( Shape:LTShape )
 		Game.Level.SetTile( Position.X, Position.Y, LTSprite( Shape ).Frame )
 		Game.Objects.Remove( Shape )
-		If TCheckLines.Execute() Then
-			Game.CreateBalls()
-			TCheckLines.Execute()
-		End If
+		TCheckLines.Execute()
 		Game.Busy = False
+		Game.StopSound.Play()
 	End Method
 End Type

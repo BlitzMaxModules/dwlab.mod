@@ -1,8 +1,10 @@
-ModuleInfo "Version: 1.1"
+ModuleInfo "Version: 1.1.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.1.1 (24.08.11)"
+ModuleInfo "History: &nbsp; &nbsp; Implemented incbin support."
 ModuleInfo "History: v1.1 (03.08.11)"
 ModuleInfo "History: &nbsp; &nbsp; Implemented isometric cameras."
 ModuleInfo "History: &nbsp; &nbsp; Added camera saving/loading method."
@@ -48,7 +50,7 @@ import brl.d3d9max2d
 import brl.random
 import brl.reflection
 import brl.retro
-L_Version$=$"1.1"
+L_Version$=$"1.1.1"
 LTObject^brl.blitz.Object{
 .Name$&
 -New%()="_dwlab_frmwork_LTObject_New"
@@ -790,6 +792,7 @@ L_IntInLimits%(Value%,FromValue%,ToValue%)="dwlab_frmwork_L_IntInLimits"
 L_GetTypeID:brl.reflection.TTypeId(TypeName$)="dwlab_frmwork_L_GetTypeID"
 L_ToPowerOf2%(Value%)="dwlab_frmwork_L_ToPowerOf2"
 L_Error%(Text$)="dwlab_frmwork_L_Error"
+L_SetIncbin%(Value%)="dwlab_frmwork_L_SetIncbin"
 L_IDMap:brl.map.TMap&=mem:p("dwlab_frmwork_L_IDMap")
 L_RemoveIDMap:brl.map.TMap&=mem:p("dwlab_frmwork_L_RemoveIDMap")
 L_DefinitionsMap:brl.map.TMap&=mem:p("dwlab_frmwork_L_DefinitionsMap")
@@ -815,3 +818,4 @@ L_CurrentUndoList:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_CurrentUndoList")
 L_RedoStack:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_RedoStack")
 L_CurrentRedoList:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_CurrentRedoList")
 L_XMLMode%&=mem("dwlab_frmwork_L_XMLMode")
+L_Incbin$&=mem:p("dwlab_frmwork_L_Incbin")

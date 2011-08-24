@@ -1,0 +1,2 @@
+Type LTRasterFrameVisualizer Extends LTVisualizer
+End Type

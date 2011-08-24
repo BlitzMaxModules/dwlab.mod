@@ -15,12 +15,14 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.1"
+ModuleInfo "Version: 1.1.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.1.1 (24.08.11)"
+ModuleInfo "History: &nbsp; &nbsp; Implemented incbin support."
 ModuleInfo "History: v1.1 (03.08.11)"
 ModuleInfo "History: &nbsp; &nbsp; Implemented isometric cameras."
 ModuleInfo "History: &nbsp; &nbsp; Added camera saving/loading method."
@@ -76,7 +78,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.1"
+Const L_Version:String = "1.1.1"
 
 SeedRnd( MilliSecs() )
 
@@ -127,4 +129,14 @@ Function L_Error( Text:String )
   Notify( Text, True )
   DebugStop
   End
+End Function
+
+
+
+
+
+Global L_Incbin:String = ""
+
+Function L_SetIncbin( Value:Int )
+	If Value Then L_Incbin = "incbin::" Else L_Incbin = ""
 End Function

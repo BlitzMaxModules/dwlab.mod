@@ -4,14 +4,16 @@ Type TMoveBall Extends LTBehaviorModel
 	
 	Field X:Int, Y:Int, DX:Int, DY:Int
 	Field StartingTime:Double
+	Field CheckLines:Int
 	
-	Function Create( X:Int, Y:Int, DX:Int, DY:Int )
+	Function Create( X:Int, Y:Int, DX:Int, DY:Int, CheckLines:Int )
 		Local Model:TMoveBall = New TMoveBall
 		Model.X = X
 		Model.Y = Y
 		Model.DX = DX
 		Model.DY = DY
 		Model.StartingTime = Game.Time
+		Model.CheckLines = CheckLines
 		Game.TileToSprite( Model, X, Y )
 		Game.Busy = True
 	End Function
@@ -29,10 +31,7 @@ Type TMoveBall Extends LTBehaviorModel
 	Method Deactivate( Shape:LTShape )
 		Game.Level.SetTile( X + DX, Y + DY, LTSprite( Shape ).Frame )
 		Game.Objects.Remove( Shape )
-		If TCheckLines.Execute() Then
-			Game.CreateBalls()
-			TCheckLines.Execute()
-		End If
+		If CheckLines Then TCheckLines.Execute()
 		Game.Busy = False
 		Game.Selected = Null
 	End Method

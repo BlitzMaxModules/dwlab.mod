@@ -6,6 +6,7 @@ Type TExplosion
 	Const ParticleDensity:Double = 6.0
 	Const Shift:Double = 0.03
 	Const DShift:Double = 0.1
+	Const ExplosionK:Double = 18.0
 	
 	Function Create( X:Int, Y:Int )
 		Local TileNum:Int = Game.Level.GetTile( X, Y )
@@ -18,8 +19,8 @@ Type TExplosion
 				Local DY:Double = Radius * CircleWidth * Sin( Angle )
 				Sprite.PositionOnTilemap( Game.Level, DX + X + Rnd( -Shift, Shift ), DY + Y + Rnd( -Shift, Shift ) )
 				Sprite.SetSize( ParticleSize + Rnd( -DSize, DSize ), ParticleSize + Rnd( -DSize, DSize ) )
-				Sprite.DX = ( DX + Rnd( -DShift, DShift ) ) * 10.0
-				Sprite.DY = ( DY + Rnd( -DShift, DShift ) ) * 10.0
+				Sprite.DX = ( DX + Rnd( -DShift, DShift ) ) * ExplosionK
+				Sprite.DY = ( DY + Rnd( -DShift, DShift ) ) * ExplosionK
 				Sprite.AttachModel( New TMoveParticle )
 				Sprite.Visualizer.Image = Game.Level.TileSet.Image
 				Sprite.Frame = TileNum
@@ -28,11 +29,12 @@ Type TExplosion
 			WEnd
 		Next
 		Game.Level.SetTile( X, Y, TVisualizer.Empty )
+		Game.Score :+ 1
 	End Function
 End Type
 
 Type TMoveParticle Extends LTBehaviorModel
-	Const Gravity:Double = 15.0
+	Const Gravity:Double = 12.0
 
 	Method ApplyTo( Shape:LTShape )
 		Local Particle:LTVectorSprite = LTVectorSprite( Shape )

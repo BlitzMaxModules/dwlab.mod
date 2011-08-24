@@ -128,7 +128,7 @@ Type LTBitmapFont Extends LTObject
 		Font.FromNum = FromNum
 		Font.ToNum = ToNum
 		
-		Local Pixmap:TPixmap = LoadPixmap( Filename )
+		Local Pixmap:TPixmap = LoadPixmap( L_Incbin + Filename )
 		Local SymbolsQuantity:Int = Font.ToNum - Font.FromNum + 1
 		Local SymbolWidth:Int = PixmapWidth( Pixmap ) / SymbolsPerRow
 		'debugstop
@@ -136,7 +136,7 @@ Type LTBitmapFont Extends LTObject
 		
 		Font.LetterLength = New Int[ SymbolsQuantity ]
 		If VariableLength Then
-			Local File:TStream = ReadFile( StripExt( FileName ) + ".lfn" )
+			Local File:TStream = ReadFile( L_Incbin + StripExt( FileName ) + ".lfn" )
 			For Local N:Int = 0 Until SymbolsQuantity
 				?debug
 				If Eof( File ) Then L_Error( "Not enough symbol length lines in file for font " + FileName )
