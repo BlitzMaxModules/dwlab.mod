@@ -7,9 +7,8 @@ Type TIntro Extends LTProject
 
 	Method Init()
 		Panel.JumpTo( L_CurrentCamera )
-		Panel.Height = 0.7 * ( Help.Length + 2 )
-		Panel.Width = 14.0
-		Panel.Visualizer = Game.FrameVisualizer
+		Panel.SetSize( 14.0, 0.7 * ( Help.Length + 2.0 ) )
+		Panel.Visualizer = Game.Panel.Visualizer
 	End Method
 
 	Method Render()

@@ -1,6 +1,6 @@
 Type THUDPanel Extends LTSprite
 	Method Init()
-		Visualizer = Game.FrameVisualizer
+		Visualizer = Game.Panel.Visualizer
 	End Method
 End Type
 

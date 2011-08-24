@@ -13,12 +13,12 @@
 		</LTShape>
 	</LTCamera>
 	<TList field="definitions"/>
-	<LTLayer name="LTLayer">
+	<LTLayer name="LTLayer,1">
 		<Object field="visualizer" id="1"/>
 		<LTShape field="bounds" x="8" y="5" width="16" height="10">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap name="LTTileMap" x="8" y="5" width="14" height="10" xquantity="14" yquantity="10" tiles-quantity="16">
+		<LTTileMap name="TLevel" x="8" y="5" width="14" height="10" xquantity="14" yquantity="10" tiles-quantity="16">
 			<LTVisualizer field="visualizer"/>
 			<LTTileSet field="tileset" id="5" name="Default" tiles-quantity="16" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" empty-tile="9">
 				<LTImage field="image" id="6" filename="tiles.png" xcells="8" ycells="2"/>

@@ -20,6 +20,7 @@ Include "TExplosion.bmx"
 Include "HUD.bmx"
 Include "TIntro.bmx"
 Include "LTRasterFrameVisualizer.bmx"
+Include "TLevel.bmx"
 
 Incbin "tiles.png"
 Incbin "font.png"

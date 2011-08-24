@@ -64,8 +64,8 @@ Type TMoveAlongPath Extends LTBehaviorModel
 	Method Deactivate( Shape:LTShape )
 		Game.Level.SetTile( Position.X, Position.Y, LTSprite( Shape ).Frame )
 		Game.Objects.Remove( Shape )
-		TCheckLines.Execute()
 		Game.Busy = False
 		Game.StopSound.Play()
+		TCheckLines.Execute()
 	End Method
 End Type

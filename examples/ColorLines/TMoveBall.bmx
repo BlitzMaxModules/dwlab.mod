@@ -31,8 +31,8 @@ Type TMoveBall Extends LTBehaviorModel
 	Method Deactivate( Shape:LTShape )
 		Game.Level.SetTile( X + DX, Y + DY, LTSprite( Shape ).Frame )
 		Game.Objects.Remove( Shape )
-		If CheckLines Then TCheckLines.Execute()
 		Game.Busy = False
 		Game.Selected = Null
+		If CheckLines Then TCheckLines.Execute()
 	End Method
 End Type

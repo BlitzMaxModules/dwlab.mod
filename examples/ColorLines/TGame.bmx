@@ -1,10 +1,12 @@
 Type TGame Extends LTProject
 	Const BallsPerTurn:Int = 3
 
+	Field World:LTWorld
 	Field Level:LTTileMap
 	Field HUD:LTLayer
 	Field Objects:LTLayer = New LTLayer
 	Field Particles:LTLayer = New LTLayer
+	
 	Field Cursor:TCursor = New TCursor
 	Field Selected:TSelected
 	Field EmptyCells:TList = New TList
@@ -12,9 +14,10 @@ Type TGame Extends LTProject
 	Field Busy:Int
 	Field Score:Int
 	Field HiScore:Int = 100
+	Field Panel:LTSprite = New LTSprite
+	Field GameOver:Int
 	
 	Field Font:LTBitmapFont
-	Field FrameVisualizer:LTRasterFrameVisualizer
 
 	Field SwapSound:TSound = TSound.Load( "incbin::swap.ogg", False )
 	Field RushSound:TSound = TSound.Load( "incbin::rush.ogg", False )
@@ -23,18 +26,20 @@ Type TGame Extends LTProject
 	Field ExplosionSound:TSound = TSound.Load( "incbin::explosion.ogg", False )
 	
 	Method Init()
-		Local World:LTWorld = LTWorld.FromFile( "levels.lw" )
+		World = LTWorld.FromFile( "levels.lw" )
 		
 		L_InitGraphics( 960, 704, 64.0 )
 		
-		Level = LTTileMap( World.FindShape( "LTTileMap" ) )
-		
 		Font = LTBitmapFont.FromFile( "font.png", 32, 127, 16, True )
-		FrameVisualizer = LTRasterFrameVisualizer.FromPixmap( Level.TileSet.Image.BMaxImage.pixmaps[ 0 ] )
+		
+		LoadLevel()
+		
+		Panel.SetSize( 7.0, 3.0 )
+		Panel.Visualizer = LTRasterFrameVisualizer.FromPixmap( Level.TileSet.Image.BMaxImage.pixmaps[ 0 ] )
 		
 		LoadAndInitLayer( HUD, LTLayer( World.FindShape( "LTLayer,HUD" ) ) )
 		
-		Level.Visualizer = New TVisualizer
+		Panel.JumpTo( L_CurrentCamera )
 		
 		( New TIntro ).Execute()
 		
@@ -52,11 +57,20 @@ Type TGame Extends LTProject
 		CreateBalls()
 	End Method
 	
+	Method LoadLevel()
+		Local Layer:LTLayer = Null
+		LoadAndInitLayer( Layer, LTLayer( World.FindShape( "LTLayer,1" ) ) )
+	End Method
+	
 	Method Render()
 		Level.Draw()
 		Objects.Draw()
 		Particles.Draw()
 		HUD.Draw()
+		If GameOver Then
+			Panel.Draw()
+			Font.Print( "GAME OVER", Panel.X, Panel.Y, 1.0, LTAlign.ToCenter, LTAlign.ToCenter )
+		End If
 	End Method
 	
 	Method Logic()
@@ -72,13 +86,26 @@ Type TGame Extends LTProject
 			Exiting = True
 		End If
 		
+		If GameOver Then
+			If GetChar() Or MouseHit( 1 ) Then
+				LoadLevel()
+				CreateBalls()
+				GameOver = False
+				Busy = False
+			End If
+		End If
+		
 		Objects.Act()
 		Particles.Act()
 	End Method
 	
 	Method CreateBalls()
 		RefreshEmptyCells()
-		If EmptyCells.Count() < 3 Then End
+		If EmptyCells.Count() < 3 Then
+			GameOver = True
+			Busy = True
+			Return
+		End If
 		For Local N:Int = 0 Until BallsPerTurn
 			Local Cell:TCell = TCell.PopFrom( EmptyCells )
 			TPopUpBall.Create( Cell.X, Cell.Y, Rand( 1, 7 ) )
