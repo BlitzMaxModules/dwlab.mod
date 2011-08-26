@@ -1,5 +1,5 @@
 Type TCheckLines
-	Function Execute:Int( CreateBalls:Int = True )
+	Function Execute( CreateBalls:Int = True )
 		Local Rows:TList = New TList
 		For Local Y:Int = 0 Until Game.Level.YQuantity
 			For Local X:Int = 0 Until Game.Level.XQuantity
@@ -17,10 +17,7 @@ Type TCheckLines
 		Next
 		
 		If Rows.IsEmpty() Then
-			If CreateBalls Then
-				Game.CreateBalls()
-				Execute( False )
-			End If
+			If CreateBalls Then Game.CreateBalls()
 		Else
 			Game.ExplosionSound.Play()
 			Game.Score :+ Rows.Count() * ( Rows.Count() - 1 ) / 2

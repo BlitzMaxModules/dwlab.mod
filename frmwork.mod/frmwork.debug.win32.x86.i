@@ -1,8 +1,11 @@
-ModuleInfo "Version: 1.1.1"
+ModuleInfo "Version: 1.1.2"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.1.2 (26.08.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added isometric camera support to marching ants rectangle."
+ModuleInfo "History: &nbsp; &nbsp; Added camera and incbin parametes to the world class."
 ModuleInfo "History: v1.1.1 (24.08.11)"
 ModuleInfo "History: &nbsp; &nbsp; Implemented incbin support."
 ModuleInfo "History: v1.1 (03.08.11)"
@@ -50,7 +53,7 @@ import brl.d3d9max2d
 import brl.random
 import brl.reflection
 import brl.retro
-L_Version$=$"1.1.1"
+L_Version$=$"1.1.2"
 LTObject^brl.blitz.Object{
 .Name$&
 -New%()="_dwlab_frmwork_LTObject_New"
@@ -197,6 +200,8 @@ LTLayer^LTGroup{
 LTWorld^LTLayer{
 .Images:brl.linkedlist.TList&
 .Tilesets:brl.linkedlist.TList&
+.Camera:LTCamera&
+.IncbinValue%&
 -New%()="_dwlab_frmwork_LTWorld_New"
 -Delete%()="_dwlab_frmwork_LTWorld_Delete"
 +FromFile:LTWorld(Filename$)="_dwlab_frmwork_LTWorld_FromFile"
@@ -605,7 +610,9 @@ LTMarchingAnts^LTVisualizer{
 -New%()="_dwlab_frmwork_LTMarchingAnts_New"
 -Delete%()="_dwlab_frmwork_LTMarchingAnts_Delete"
 -DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTMarchingAnts_DrawUsingSprite"
-+DrawMARect%(X!,Y!,Width!,Height!)="_dwlab_frmwork_LTMarchingAnts_DrawMARect"
++DrawMARect%(X%,Y%,Width%,Height%)="_dwlab_frmwork_LTMarchingAnts_DrawMARect"
++MakeMALine:brl.max2d.TImage(Width%,Pos% Var)="_dwlab_frmwork_LTMarchingAnts_MakeMALine"
++DrawMALine%(Image:brl.max2d.TImage,X1%,Y1%,X2%,Y2%)="_dwlab_frmwork_LTMarchingAnts_DrawMALine"
 }="dwlab_frmwork_LTMarchingAnts"
 LTWindowedVisualizer^LTVisualizer{
 .Viewport:LTShape&
@@ -818,4 +825,5 @@ L_CurrentUndoList:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_CurrentUndoList")
 L_RedoStack:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_RedoStack")
 L_CurrentRedoList:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_CurrentRedoList")
 L_XMLMode%&=mem("dwlab_frmwork_L_XMLMode")
+L_Discrete%&=mem("dwlab_frmwork_L_Discrete")
 L_Incbin$&=mem:p("dwlab_frmwork_L_Incbin")

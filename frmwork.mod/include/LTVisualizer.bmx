@@ -176,9 +176,6 @@ Type LTVisualizer Extends LTObject
 		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
 		
 		If Image Then
-			SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
-			SetAlpha Alpha
-		
 			L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX, SY )
 			
 			Local AngularSprite:LTAngularSprite = LTAngularSprite( Sprite )
@@ -199,7 +196,7 @@ Type LTVisualizer Extends LTObject
 			If Sprite.Frame < 0 Or Sprite.Frame >= Image.FramesQuantity() Then L_Error( "Incorrect frame number ( " + Sprite.Frame + " ) for sprite ~q" + Sprite.Name + "~q, must be less than " + Image.FramesQuantity() )
 			?
 			
-			DrawImage( Image.BMaxImage, SX + DX * SWidth, SY + DY * SHeight, Sprite.Frame )
+			DrawImage( Image.BMaxImage,  + Int( SX + DX * SWidth ),  + Int( SY + DY * SHeight ), Sprite.Frame )
 			
 			SetScale( 1.0, 1.0 )
 			SetRotation( 0.0 )
@@ -335,8 +332,8 @@ Type LTVisualizer Extends LTObject
 			
 			Local StartXFrame:Int = Int( ( L_CurrentCamera.X - TileMap.X - 0.5 * ( L_CurrentCamera.Width - TileMap.Width ) ) / CellWidth )
 			Local StartYFrame:Int = Int( ( L_CurrentCamera.Y - TileMap.Y - 0.5 * ( L_CurrentCamera.Height - TileMap.Height ) ) / CellHeight )
-			Local StartX:Double = SX + SWidth * ( Int( ( X1 - SX ) / SWidth ) ) + SWidth * 0.5
-			Local StartY:Double = SY + SHeight * ( Int( ( Y1 - SY ) / SHeight ) ) + SHeight * 0.5
+			Local StartX:Int = SX + SWidth * ( Int( ( X1 - SX ) / SWidth ) ) + SWidth * 0.5
+			Local StartY:Int = SY + SHeight * ( Int( ( Y1 - SY ) / SHeight ) ) + SHeight * 0.5
 			
 			If Not TileMap.Wrapped Then
 				If StartXFrame < 0 Then 
@@ -357,7 +354,7 @@ Type LTVisualizer Extends LTObject
 			Local YY:Double = StartY
 			Local YFrame:Int = StartYFrame
 			While YY < Y2
-				Local XX:Double = StartX
+				Local XX:Double = StartX 
 				Local XFrame:Int = StartXFrame
 				While XX < X2
 					If TileMap.Masked Then

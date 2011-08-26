@@ -15,12 +15,15 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.1.1"
+ModuleInfo "Version: 1.1.2"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.1.2 (26.08.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added isometric camera support to marching ants rectangle."
+ModuleInfo "History: &nbsp; &nbsp; Added camera and incbin parametes to the world class."
 ModuleInfo "History: v1.1.1 (24.08.11)"
 ModuleInfo "History: &nbsp; &nbsp; Implemented incbin support."
 ModuleInfo "History: v1.1 (03.08.11)"
@@ -78,7 +81,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.1.1"
+Const L_Version:String = "1.1.2"
 
 SeedRnd( MilliSecs() )
 
@@ -134,7 +137,7 @@ End Function
 
 
 
-
+Global L_Discrete:Int = False
 Global L_Incbin:String = ""
 
 Function L_SetIncbin( Value:Int )

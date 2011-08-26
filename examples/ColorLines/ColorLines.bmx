@@ -22,17 +22,14 @@ Include "TIntro.bmx"
 Include "LTRasterFrameVisualizer.bmx"
 Include "TLevel.bmx"
 
-Incbin "tiles.png"
 Incbin "font.png"
 Incbin "font.lfn"
-Incbin "levels.lw"
-
 Incbin "stop.ogg"
 Incbin "rush.ogg"
 Incbin "explosion.ogg"
 Incbin "select.ogg"
 Incbin "swap.ogg"
+Include "levels_incbin.bmx"
 
-L_SetIncbin( True )
 Global Game:TGame = New TGame
 Game.Execute()

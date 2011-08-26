@@ -32,5 +32,6 @@ Type TPopUpBall Extends LTBehaviorModel
 		Game.Level.SetTile( X, Y, LTSprite( Shape ).Frame )
 		Game.Objects.Remove( Shape )
 		Game.Busy = False
+		TCheckLines.Execute( False )
 	End Method
 End Type

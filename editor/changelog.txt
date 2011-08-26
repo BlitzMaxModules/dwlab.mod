@@ -2,6 +2,8 @@
 + Added isometric cameras support
 + Added possibility of filling tilemap with selected tile using "f" key
 + Implemented empty tile selection
++ Added help section with hotkeys list and information about editor
++ Added recent files list
 
 1.5.1
 + Added possibility of duplicating objects with "d" key

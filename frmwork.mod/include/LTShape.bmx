@@ -550,16 +550,12 @@ Type LTShape Extends LTObject
 	
 	Rem
 	bbdoc: Corrects height to display shape image with no distortion.
-	about: Works only for shapes with image visualizer. After this operation ratio of width to height will be the same as ratio of image width to image height.
-	about: See also: #Height, #SetHeight, #Visualizer
+	about: After this operation ratio of width to height will be the same as ratio of image width to image height.
+	
+	See also: #Height, #SetHeight, #Visualizer
 	End Rem
 	Method CorrectHeight()
-		Local Image:LTImage = Visualizer.GetImage()
-		
-		?debug
-		If Not Image Then L_Error( "Cannot correct Height: visual is not of LTImageVisual type" )
-		?
-		
+		Local Image:LTImage = Visualizer.Image
 		SetSize( Width, Width * ImageHeight( Image.BMaxImage ) / ImageWidth( Image.BMaxImage ) )
 	End Method
 	

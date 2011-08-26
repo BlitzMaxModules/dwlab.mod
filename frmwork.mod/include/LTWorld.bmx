@@ -15,6 +15,8 @@ End Rem
 Type LTWorld Extends LTLayer
 	Field Images:TList = New TList
 	Field Tilesets:TList = New TList
+	Field Camera:LTCamera
+	Field IncbinValue:Int
 	
 	
 	
@@ -31,8 +33,9 @@ Type LTWorld Extends LTLayer
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
+		XMLObject.ManageIntAttribute( "incbin", IncbinValue )
 		XMLObject.ManageListField( "images", Images )
 		XMLObject.ManageListField( "tilesets", Tilesets )
-		L_CurrentCamera = LTCamera( XMLObject.ManageObjectField( "camera", L_CurrentCamera ) )
+		Camera = LTCamera( XMLObject.ManageObjectField( "camera", Camera ) )
 	End Method
 End Type

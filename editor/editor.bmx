@@ -41,6 +41,9 @@ Include "CameraProperties.bmx"
 Incbin "english.lng"
 Incbin "russian.lng"
 
+Incbin "english.key"
+Incbin "russian.key"
+
 Incbin "toolbar.png"
 Incbin "treeview.png"
 
@@ -48,9 +51,10 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.5.1"
+	Const Version:String = "1.6"
 	Const INIVersion:Int = 3
 	Const ModifierSize:Int = 3
+	Const RecentFilesQuantity:Int = 10
 	
 	Field EnglishLanguage:TMaxGuiLanguage
 	Field RussianLanguage:TMaxGuiLanguage
@@ -62,7 +66,7 @@ Type LTEditor Extends LTProject
 	Field Window:TGadget
 	
 	Field MainCanvas:TGadget
-	Field MainCamera:LTCamera = New LTCamera
+	Field MainCamera:LTCamera
 	Field MainCanvasZ:Int
 	
 	Field TilesetCanvas:TGadget
@@ -117,13 +121,16 @@ Type LTEditor Extends LTProject
 	Field StaticModel:TGadget
 	Field VectorModel:TGadget
 	Field AngularModel:TGadget
+	Field IncbinMenu:TGadget
 	Field Russian:TGadget
 	Field English:TGadget
 	
+	Field FileMenu:TGadget
 	Field LayerMenu:TGadget
 	Field TilemapMenu:TGadget
 	Field SpriteMapMenu:TGadget
 	Field SpriteMenu:TGadget
+	Field RecentFiles:String[] = New String[ RecentFilesQuantity ]
 	
 	Field World:LTWorld = New LTWorld
 	Field RealPathsForImages:TMap = New TMap
@@ -162,6 +169,7 @@ Type LTEditor Extends LTProject
 	Const MenuOpen:Int = 1
 	Const MenuSave:Int = 2
 	Const MenuSaveAs:Int = 3
+	Const MenuRecentFile:Int = 100
 	Const MenuShowCollisionShapes:Int = 5
 	Const MenuShowVectors:Int = 6
 	Const MenuShowNames:Int = 7
@@ -175,9 +183,12 @@ Type LTEditor Extends LTProject
 	Const MenuReplacementOfTiles:Int = 19
 	Const MenuProlongTiles:Int = 20
 	Const MenuCameraProperties:Int = 51
+	Const MenuIncbin:Int = 54
 	Const MenuExit:Int = 34
 	Const MenuRussian:Int = 32
 	Const MenuEnglish:Int = 33
+	Const MenuHotKeys:Int = 52
+	Const MenuAbout:Int = 53
 	
 	Const MenuDuplicate:Int = 49
 	Const MenuToggleVisibility:Int =  30
@@ -222,6 +233,7 @@ Type LTEditor Extends LTProject
 		EnglishLanguage = LoadLanguage( "incbin::english.lng" )
 		RussianLanguage = LoadLanguage( "incbin::russian.lng" )
 		SetLocalizationLanguage( EnglishLanguage )
+		AppTitle = LocalizeString( "{{Title}}" + Version )
 	
 		Window  = CreateWindow( "{{Title}}", 0, 0, 640, 480 )
 		MaximizeWindow( Window )
@@ -291,20 +303,12 @@ Type LTEditor Extends LTProject
 		HiddenOKButton = CreateButton( "", 0, 0, 0, 0, Panel, Button_OK )
 		HideGadget( HiddenOKButton )
 				
-		MainCamera = LTCamera.Create( GadgetWidth( MainCanvas ), GadgetHeight( MainCanvas ), 32.0 )
+		World.Camera = LTCamera.Create( GadgetWidth( MainCanvas ), GadgetHeight( MainCanvas ), 32.0 )
 		TilesetCamera = LTCamera.Create( GadgetWidth( TilesetCanvas ), GadgetHeight( TilesetCanvas ), 16.0 )
-		L_CurrentCamera = MainCamera
 		
 		
 		
-		Local FileMenu:TGadget = CreateMenu( "{{M_File}}", 0, WindowMenu( Window ) )
-		CreateMenu( "{{M_New}}", MenuNew, FileMenu )
-		CreateMenu( "{{M_Open}}", MenuOpen, FileMenu )
-		CreateMenu( "{{M_Save}}", MenuSave, FileMenu )
-		CreateMenu( "{{M_SaveAs}}", MenuSaveAs, FileMenu )
-		CreateMenu( "", 0, FileMenu )
-		CreateMenu( "{{M_Exit}}", MenuExit, FileMenu )
-		
+		FileMenu = CreateMenu( "{{M_File}}", 0, WindowMenu( Window ) )
 		Local EditMenu:TGadget = CreateMenu( "{{M_Edit}}", 0, WindowMenu( Window ) )
 		LTMenuSwitch.Create( "{{M_ShowCollisions}}", Toolbar, MenuShowCollisionShapes, EditMenu )
 		LTMenuSwitch.Create( "{{M_ShowVectors}}", Toolbar, MenuShowVectors, EditMenu )
@@ -324,12 +328,15 @@ Type LTEditor Extends LTProject
 		LTMenuSwitch.Create( "{{M_ProlongTiles}}", Toolbar, MenuProlongTiles, EditMenu )
 		CreateMenu( "", 0, EditMenu )
 		CreateMenu( "{{M_CameraProperties}}", MenuCameraProperties, EditMenu )
+		IncbinMenu = CreateMenu( "{{M_Incbin}}", MenuIncbin, EditMenu )
 		
 		Local LanguageMenu:TGadget = CreateMenu( "{{M_Language}}", 0, WindowMenu( Window ) )
 		English = CreateMenu( "{{M_English}}", MenuEnglish, LanguageMenu )
 		Russian = CreateMenu( "{{M_Russian}}", MenuRussian, LanguageMenu )
 		
-		UpdateWindowMenu( Window )
+		Local HelpMenu:TGadget = CreateMenu( "{{M_Help}}", 0, WindowMenu( Window ) )
+		CreateMenu( "{{M_HotKeys}}", MenuHotKeys, HelpMenu )
+		CreateMenu( "{{M_About}}", MenuAbout, HelpMenu )
 		
 		LayerMenu = CreateMenu( "", 0, null )
 		CreateMenu( "{{M_SelectViewLayer}}", MenuSelectViewLayer, LayerMenu )
@@ -417,10 +424,18 @@ Type LTEditor Extends LTProject
 				TileCollisionShapes.GridActive = ReadLine( IniFile ).ToInt()
 				TileCollisionShapes.GridCellXDiv = ReadLine( IniFile ).ToInt()
 				TileCollisionShapes.GridCellYDiv = ReadLine( IniFile ).ToInt()
+				
+				For Local N:Int = 0 Until RecentFilesQuantity
+					RecentFiles[ N ] = ReadLine( IniFile )
+				Next
 			End If
 			
 			CloseFile( IniFile )
 		End If
+
+		MainCamera = World.Camera
+		L_CurrentCamera = MainCamera
+		FillFileMenu()
 	End Method
 	
 	
@@ -508,16 +523,18 @@ Type LTEditor Extends LTProject
 			If FileType( Filename ) = 0 Then Return
 			
 			WorldFilename = Filename
+			InsertToRecentFiles( Filename )
 			ChangeDir( ExtractDir( Filename ) )
 			
 			L_CurrentCamera = MainCamera
 			World = LTWorld.FromFile( Filename )
-			MainCamera = L_CurrentCamera
+			MainCamera = World.Camera
 			
 			CurrentShape = Null
 			CurrentTilemap = Null
 			CurrentViewLayer = Null
 			SelectedShapes.Clear()
+			Modifiers.Clear()
 			If Not World.Children.IsEmpty() Then CurrentViewLayer = LTLayer( World.Children.First() )
 			CurrentContainer = CurrentViewLayer
 			
@@ -529,6 +546,7 @@ Type LTEditor Extends LTProject
 			Next
 			
 			Changed = False
+			SetIncbin()
 			
 			SetTitle()
 			RefreshProjectManager()
@@ -542,6 +560,7 @@ Type LTEditor Extends LTProject
 		If SaveAs Or Not Filename Then Filename = RequestFile( LocalizeString( "{{D_SelectFileNameToSave}}" ), "DWLab world file:lw", True )
 		If Filename Then 
 			WorldFilename = Filename
+			InsertToRecentFiles( Filename )
 			ChangeDir( ExtractDir( Filename ) )
 			
 			For Local Image:LTImage = Eachin World.Images
@@ -552,6 +571,16 @@ Type LTEditor Extends LTProject
 			World.SaveToFile( Filename )
 			Changed = False
 			SetTitle()
+			
+			If World.IncbinValue Then
+				Local File:TStream = WriteFile( StripAll( FileName ) + "_incbin.bmx" )
+				WriteLine( File, "Incbin ~q" + StripDir( FileName ) + "~q" )
+				For Local Image:LTImage = Eachin World.Images
+					WriteLine( File, "Incbin ~q" + Image.Filename + "~q" )
+				Next
+				WriteLine( File, "SetIncbin( True )" )
+			End If
+			
 			Return True
 		End If
 	End Method
@@ -586,6 +615,10 @@ Type LTEditor Extends LTProject
 		WriteLine( IniFile, TileCollisionShapes.GridCellXDiv )
 		WriteLine( IniFile, TileCollisionShapes.GridCellYDiv )
 
+		For Local N:Int = 0 Until RecentFilesQuantity
+			WriteLine( IniFile, RecentFiles[ N ] )
+		Next
+		
 		CloseFile( IniFile )
 		
 		End
@@ -734,6 +767,7 @@ Type LTEditor Extends LTProject
 						Pan.Camera = TilesetCamera
 				End Select
 			Case Event_MenuAction
+				If EvData >= MenuRecentFile Then OpenWorld( RecentFiles[ EvData - MenuRecentFile ] )
 				Select EvData
 					Case MenuRename
 						Local Name:String = EnterString( LocalizeString( "{{D_EnterNameOfObject}}" ), SelectedShape.Name )
@@ -770,6 +804,7 @@ Type LTEditor Extends LTProject
 						SaveWorld( True )
 					Case MenuExit
 						ExitEditor()
+						
 					Case MenuShowCollisionShapes
 						L_DebugVisualizer.ShowCollisionShapes = LTMenuSwitch.Find( MenuShowCollisionShapes ).Toggle()
 					Case MenuShowVectors
@@ -800,10 +835,18 @@ Type LTEditor Extends LTProject
 						L_ProlongTiles = LTMenuSwitch.Find( MenuProlongTiles ).Toggle()
 					Case MenuCameraProperties
 						CameraProperties.Execute()
+					Case MenuIncbin
+						World.IncbinValue = 1 - World.IncbinValue
+						SetIncbin()
+						
 					Case MenuEnglish
 						SetLanguage( EnglishNum )
 					Case MenuRussian
 						SetLanguage( RussianNum )
+					Case MenuHotKeys
+						Hotkeys()
+					Case MenuAbout
+						About()
 						
 					' ============================= Layer menu ==================================
 					
@@ -1697,6 +1740,85 @@ Type LTEditor Extends LTProject
 			Else
 				Notify( LocalizeString( "{{N_CannotInsertNonSpriteToSpriteMap}}" ) )
 			End If
+		End If
+	End Method
+	
+	
+	
+	Method HotKeys()
+		Local FileName:String
+		Select CurrentLanguage
+			Case EnglishLanguage
+				FileName = "incbin::english.key"
+			Case RussianLanguage
+				FileName = "incbin::russian.key"
+		End Select
+		Local File:TStream = ReadFile( FileName )
+		Notify( ReadString( File, File.Size() ) )
+		CloseFile File
+	End Method
+	
+	
+	
+	Method About()
+		Notify( "Digital Wizard's Lab framework World Editor~r~rVersion " + Version + "~r~rhttp://code.google.com/p/dwlab" )
+	End Method
+	
+	
+	
+	Method FillFileMenu()
+		For Local kid:TWindowsMenu = EachIn FileMenu.kids
+			kid.Close()
+		Next
+		FileMenu.kids.Clear()
+		
+		CreateMenu( "{{M_New}}", MenuNew, FileMenu )
+		CreateMenu( "{{M_Open}}", MenuOpen, FileMenu )
+		CreateMenu( "{{M_Save}}", MenuSave, FileMenu )
+		CreateMenu( "{{M_SaveAs}}", MenuSaveAs, FileMenu )
+		CreateMenu( "", 0, FileMenu )
+		
+		Local ItemExists:Int = False
+		For Local N:Int = 0 To 9
+			If RecentFiles[ N ] Then
+				CreateMenu( RecentFiles[ N ], MenuRecentFile + N, FileMenu )
+				ItemExists = True
+			End If
+		Next
+		If ItemExists Then CreateMenu( "", 0, FileMenu )
+		
+		CreateMenu( "{{M_Exit}}", MenuExit, FileMenu )
+		UpdateWindowMenu( Window )
+	End Method
+	
+	
+	
+	Method InsertToRecentFiles( Filename:String )
+		For Local N:Int = 0 Until RecentFilesQuantity
+			If RecentFiles[ N ] = FileName Then
+				For Local NN:Int = N Until RecentFilesQuantity - 1
+					RecentFiles[ NN ] = RecentFiles[ NN + 1 ]
+				Next
+				RecentFiles[ RecentFilesQuantity - 1 ] = ""
+			End If
+		Next
+		
+		For Local N:Int = RecentFilesQuantity - 1 To 1 Step -1
+			RecentFiles[ N ] = RecentFiles[ N - 1 ]
+		Next
+		
+		RecentFiles[ 0 ] = FileName
+		
+		FillFileMenu()
+	End Method
+	
+	
+	
+	Method SetIncbin()
+		If World.IncbinValue Then
+			CheckMenu( IncbinMenu )
+		Else
+			UnCheckMenu( IncbinMenu )
 		End If
 	End Method
 End Type

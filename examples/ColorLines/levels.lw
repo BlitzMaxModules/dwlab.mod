@@ -1,4 +1,4 @@
-<LTWorld dwlab_version="1.1.1">
+<LTWorld incbin="1" dwlab_version="1.1.1">
 	<LTVisualizer field="visualizer" id="1"/>
 	<TList field="images">
 		<Object id="6"/>
