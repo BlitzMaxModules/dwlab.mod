@@ -2,6 +2,7 @@
 + Added isometric cameras support
 + Added possibility of filling tilemap with selected tile using "f" key
 + Implemented empty tile selection
++ Added pivot mode support for sprite maps
 + Added help section with hotkeys list and information about editor
 + Added recent files list
 

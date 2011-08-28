@@ -528,6 +528,7 @@ Type LTEditor Extends LTProject
 			
 			L_CurrentCamera = MainCamera
 			World = LTWorld.FromFile( Filename )
+			If Not World.Camera Then World.Camera = LTCamera.Create( GadgetWidth( TilesetCanvas ), GadgetHeight( TilesetCanvas ), 16.0 )
 			MainCamera = World.Camera
 			
 			CurrentShape = Null

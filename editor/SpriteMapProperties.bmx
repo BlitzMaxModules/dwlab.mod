@@ -22,6 +22,7 @@ Type TSpriteMapProperties Extends LTProject
 	Field RightMarginTextField:TGadget
 	Field BottomMarginTextField:TGadget
 	Field SortedCheckBox:TGadget
+	Field PivotModeCheckBox:TGadget
 	Field OKButton:TGadget, CancelButton:TGadget
 	
 	
@@ -43,6 +44,8 @@ Type TSpriteMapProperties Extends LTProject
 		BottomMarginTextField = Form.AddTextField( "{{L_BottomMargin}}", 165 )
 		Form.NewLine()
 		SortedCheckBox = Form.AddButton( "{{L_Sorted}}", 250, Button_CheckBox )
+		Form.NewLine()
+		PivotModeCheckBox = Form.AddButton( "{{L_PivotMode}}", 250, Button_CheckBox )
 		AddOKCancelButtons( Form, OKButton, CancelButton )
 	
 		SetGadgetText( XQuantityTextField, SpriteMap.XQuantity )
@@ -54,6 +57,7 @@ Type TSpriteMapProperties Extends LTProject
 		SetGadgetText( RightMarginTextField, L_TrimDouble( SpriteMap.RightMargin ) )
 		SetGadgetText( BottomMarginTextField, L_TrimDouble( SpriteMap.BottomMargin ) )
 		SetButtonState( SortedCheckBox, SpriteMap.Sorted )
+		SetButtonState( PivotModeCheckBox, SpriteMap.PivotMode )
 		
 		Succeeded = False
 	End Method
@@ -73,15 +77,19 @@ Type TSpriteMapProperties Extends LTProject
 						Local CellHeight:Double = TextFieldText( CellHeightTextField ).ToDouble()
 						
 						Local Sorted:Int = ButtonState( SortedCheckBox )
-							
+						Local PivotMode:Int = ButtonState( PivotModeCheckBox )
+							debugstop
 						if CellWidth > 0.0 And CellHeight > 0.0 Then
-							If SpriteMap.XQuantity <> XQuantity Or SpriteMap.YQuantity <> YQuantity Or..
-							SpriteMap.CellWidth <> CellWidth Or SpriteMap.CellHeight <> CellHeight Or SpriteMap.Sorted <> Sorted Then
+							If SpriteMap.XQuantity <> XQuantity Or SpriteMap.YQuantity <> YQuantity Or SpriteMap.CellWidth <> CellWidth..
+									Or SpriteMap.CellHeight <> CellHeight Or SpriteMap.Sorted <> Sorted Or SpriteMap.PivotMode <> PivotMode Then
 								Local Sprites:TMap = SpriteMap.GetSprites()
 								SpriteMap.SetResolution( XQuantity, YQuantity )
 								SpriteMap.CellWidth = CellWidth
 								SpriteMap.CellHeight = CellHeight
 								SpriteMap.Sorted = Sorted
+								SpriteMap.PivotMode = PivotMode
+								
+								SpriteMap.Clear()
 								For Local Sprite:LTSprite = Eachin Sprites.Keys()
 									SpriteMap.InsertSprite( Sprite )
 								Next

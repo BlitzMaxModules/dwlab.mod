@@ -22,7 +22,7 @@ Type TMazeGenerator
 	
 	
 	Method Execute( Maze:LTTileMap )
-		AddPivot( 1, 1 )
+		AddPivot( Maze.XQuantity / 2, Maze.YQuantity / 2 )
 		Repeat
 			PleaseWait()
 			Local Quantity:Int = PivotList.Count()

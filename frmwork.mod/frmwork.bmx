@@ -15,19 +15,24 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.1.2"
+ModuleInfo "Version: 1.0.7.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
-ModuleInfo "History: v1.1.2 (26.08.11)"
+ModuleInfo "History: v1.1 (28.08.11)"
+ModuleInfo "History: &nbsp; &nbsp; Finished isometric camera implementation."
+ModuleInfo "History: &nbsp; &nbsp; Implemented isometric shape displaying."
+ModuleInfo "History: &nbsp; &nbsp; MoveUsingKeys() method now works correctly with isometric cameras."
+ModuleInfo "History: &nbsp; &nbsp; Added class for tilemap pathfinding and raster frame visualizer."
+ModuleInfo "History: v1.0.7 (26.08.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added isometric camera support to marching ants rectangle."
 ModuleInfo "History: &nbsp; &nbsp; Added camera and incbin parametes to the world class."
-ModuleInfo "History: v1.1.1 (24.08.11)"
+ModuleInfo "History: v1.0.6 (24.08.11)"
 ModuleInfo "History: &nbsp; &nbsp; Implemented incbin support."
-ModuleInfo "History: v1.1 (03.08.11)"
-ModuleInfo "History: &nbsp; &nbsp; Implemented isometric cameras."
+ModuleInfo "History: v1.0.5 (03.08.11)"
+ModuleInfo "History: &nbsp; &nbsp; Partially implemented isometric cameras."
 ModuleInfo "History: &nbsp; &nbsp; Added camera saving/loading method."
 ModuleInfo "History: &nbsp; &nbsp; Added pivot mode to sprite maps."
 ModuleInfo "History: &nbsp; &nbsp; Added Flipping flag to the LTProject."
@@ -81,7 +86,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.1.2"
+Const L_Version:String = "1.0.7.1"
 
 SeedRnd( MilliSecs() )
 
@@ -107,6 +112,7 @@ Include "include/LTLine.bmx"
 Include "include/LTGraph.bmx"
 Include "include/LTVisualizer.bmx"
 Include "include/LTImage.bmx"
+Include "include/LTRasterFrameVisualizer.bmx"
 Include "include/LTAnimatedTileMapVisualizer.bmx"
 Include "include/LTEmptyPrimitive.bmx"
 Include "include/LTMarchingAnts.bmx"
@@ -118,6 +124,7 @@ Include "include/LTRevoluteJoint.bmx"
 Include "include/LTAlign.bmx"
 Include "include/LTText.bmx"
 Include "include/LTPath.bmx"
+Include "include/LTTileMapPathFinder.bmx"
 Include "include/LTDrag.bmx"
 Include "include/LTAction.bmx"
 Include "include/LTPause.bmx"

@@ -58,6 +58,11 @@ Type LTTileMap Extends LTIntMap
 	returns: Tile collision shape of tilemap's tile with given coordinates using default tilemap tileset.
 	End Rem
 	Method GetTileCollisionShape:LTShape( TileX:Int, TileY:Int )
+		?debug
+		If TileX < 0 Or TileX >= XQuantity Then L_Error( "Incorrect tile X position" )
+		If TileY < 0 Or TileY >= YQuantity Then L_Error( "Incorrect tile Y position" )
+		?
+		
 		Return Tileset.CollisionShape[ Value[ TileX, TileY ] ]
 	End Method
 	
@@ -75,17 +80,8 @@ Type LTTileMap Extends LTIntMap
 	
 	
 	
-	Method DrawIsoTile( X:Double, Y:Double, TileX:Int, TileY:Int )
-		Local TileValue:Int = Value[ TileX, TileY ]
-		If TileValue = TileSet.EmptyTile Then Return
-		Local Image:TImage = TileSet.Image.BMaxImage
-		Local Scale:Double = 4.0 * L_CurrentCamera.K / ImageWidth( Image )
-		SetScale( Scale * Visualizer.XScale, Scale * Visualizer.YScale )
-		DrawImage( Image, X + Visualizer.DX, Y + Visualizer.DY, TileValue )
-		
-		?debug
-		L_TilesDisplayed :+ 1
-		?
+	Method DrawIsoTile( X:Double, Y:Double, TileX:Int, TileY:Int, ParentVisualizer:LTVisualizer )
+		ParentVisualizer.DrawIsoTile( Self, X, Y, TileX, TileY )
 	End Method
 
 	' ==================== Other ===================	
@@ -192,7 +188,6 @@ Type LTTileMap Extends LTIntMap
 				TileMap.Value[ X, Y ] = Value[ X, Y ]
 			Next
 		Next
-		TileMap.Visualizer = New LTVisualizer
 	End Method
 	
 	

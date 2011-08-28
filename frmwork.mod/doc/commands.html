@@ -170,6 +170,9 @@ Singleton class for Pause objects.
 <tr><td class=docleft width=1%><a href=#LTProject>LTProject</a></td><td class=docright>
 Class for main project and subprojects.
 </td></tr>
+<tr><td class=docleft width=1%><a href=#LTRasterFrameVisualizer>LTRasterFrameVisualizer</a></td><td class=docright>
+Visualizes raster frame in given object's shape.
+</td></tr>
 <tr><td class=docleft width=1%><a href=#LTRevoluteJoint>LTRevoluteJoint</a></td><td class=docright>
 Revolute joint moves angular sprite if parent pivot moves or rotates, but the sprite can be rotated freely.
 </td></tr>
@@ -184,6 +187,12 @@ Sprite map is a structure which can contain sprites, draw and perform collision 
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTTileMap>LTTileMap</a></td><td class=docright>
 Tilemap is displayable rectangular tile-based shape with 2d array of tile indexes and tileset with tile images.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#LTTileMapPathFinder>LTTileMapPathFinder</a></td><td class=docright>
+Pathfinder finds a path in tilemap using flooding algorithm.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#LTTileMapPosition>LTTileMapPosition</a></td><td class=docright>
+Class for tilemap position - the point on tilemap.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTTileSet>LTTileSet</a></td><td class=docright>
 Tileset stores image and collision shapes of tiles for tilemaps. Also tile replacing/enframing rules are stored here.
@@ -249,7 +258,7 @@ Class for intermediate objects to save/load objects from XML file.
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=L_DrawEmptyRect>
-<tr><td class=doctop colspan=2>Function L_DrawEmptyRect( X1:Double, Y1:Double, X2:Double, Y2:Double )</td></tr>
+<tr><td class=doctop colspan=2>Function L_DrawEmptyRect( X:Double, Y:Double, Width:Double, Height:Double )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Draws empty rectangle.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#DrawMARect>DrawMARect</a>.</td></tr>
 </table>
@@ -664,6 +673,8 @@ extension and same name as image file.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Camera sprite defines rectangular area on game field which will be projected to the defined viewport rectangle.</td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTCamera_fields></a>Fields Summary</th></tr><tr><td colspan=2>
+<a href=#Isometric>Isometric</a>
+, 
 <a href=#Viewport>Viewport</a>
 , 
 <a href=#ViewportClipping>ViewportClipping</a>
@@ -699,6 +710,10 @@ Transforms size of the object on the screen in pixels to size of this object on 
 <tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
 Creates new camera object.
 </td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Isometric>
+<tr><td class=doctop colspan=2>Field Isometric:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Isometric view flag.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Viewport>
 <tr><td class=doctop colspan=2>Field Viewport:LTShape = New LTShape</td></tr>
@@ -1419,10 +1434,17 @@ See also: <a href=#WrapY>WrapY</a>.</td></tr>
 <tr><td class=docleft width=1%><a href=#DrawMARect>DrawMARect</a></td><td class=docright>
 Draws voluntary marching ants rectangle.
 </td></tr>
+<tr><td class=docleft width=1%><a href=#MakeMALine>MakeMALine</a></td><td class=docright>
+Creates marching ants line.
+</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=DrawMARect>
-<tr><td class=doctop colspan=2>Function DrawMARect( X:Double, Y:Double, Width:Double, Height:Double )</td></tr>
+<tr><td class=doctop colspan=2>Function DrawMARect( X:Int, Y:Int, Width:Int, Height:Int )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Draws voluntary marching ants rectangle.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=MakeMALine>
+<tr><td class=doctop colspan=2>Function MakeMALine:TImage( Width:Int, Pos:Int Var )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates marching ants line.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTObject>
@@ -1550,6 +1572,8 @@ Fill it with methods which will control pause object state (animation for exampl
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTProject_fields></a>Fields Summary</th></tr><tr><td colspan=2>
 <a href=#Exiting>Exiting</a>
 , 
+<a href=#Flipping>Flipping</a>
+, 
 <a href=#FPS>FPS</a>
 , 
 <a href=#LogicFPS>LogicFPS</a>
@@ -1564,6 +1588,9 @@ Fill it with methods which will control pause object state (animation for exampl
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTProject_methods></a>Methods Summary</th></tr>
 <tr><td class=docleft width=1%><a href=#ApplyPause>ApplyPause</a></td><td class=docright>
 Applies pause object to the project (to switch to pause mode).
+</td></tr>
+<tr><td class=docleft width=1%><a href=#DeInit>DeInit</a></td><td class=docright>
+Deinitialization method.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#Execute>Execute</a></td><td class=docright>
 Executes the project.
@@ -1595,6 +1622,11 @@ Draws various debugging information on screen.
 <tr><td class=docleft width=1%>Description</td><td class=docright>Exit flag.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Set it to True to exit project.</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=Flipping>
+<tr><td class=doctop colspan=2>Field Flipping:Int = True</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Flipping flag.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>If set to True then Cls will be performed before Render() and Flip will be performed after Render().</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=FPS>
 <tr><td class=doctop colspan=2>Field FPS:Int</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Current frames per second quantity.</td></tr>
@@ -1625,6 +1657,13 @@ See also: <a href=#Render>Render</a>.</td></tr>
 <tr><td class=doctop colspan=2>Method ApplyPause( NewPause:LTPause, Key:Int )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Applies pause object to the project (to switch to pause mode).</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=DeInit>
+<tr><td class=doctop colspan=2>Method DeInit()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Deinitialization method.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>It will be executed before exit.
+<p>
+See also: <a href=#Init>Init</a>.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=Execute>
 <tr><td class=doctop colspan=2>Method Execute()</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Executes the project.</td></tr>
@@ -1632,7 +1671,9 @@ See also: <a href=#Render>Render</a>.</td></tr>
 <table class=doc width=100% cellspacing=3 id=Init>
 <tr><td class=doctop colspan=2>Method Init()</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Initialization method.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Fill it with project initialization commands.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Fill it with project initialization commands.
+<p>
+See also: <a href=#DeInit>DeInit</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=LoadAndInitLayer>
 <tr><td class=doctop colspan=2>Method LoadAndInitLayer( NewLayer:LTLayer Var, Layer:LTLayer )</td></tr>
@@ -1665,6 +1706,34 @@ See also: <a href=#MinFPS>MinFPS</a>, <a href=#FPS>FPS</a>.</td></tr>
 <table class=doc width=100% cellspacing=3 id=ShowDebugInfo>
 <tr><td class=doctop colspan=2>Method ShowDebugInfo()</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Draws various debugging information on screen.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=LTRasterFrameVisualizer>
+<tr><td class=doctop colspan=2>Type LTRasterFrameVisualizer Extends LTVisualizer</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Visualizes raster frame in given object's shape.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>After creating this visualizer you have to load image. This image should consist of 9 images aligned by 3x3 grid.
+When raster frame visualizer have been drawn as the rectangular shape which represents sprite on the screen, this shape will be constructed following
+way: corner images will be put in corners of the shape, side images will be stretched horizontaly or vertically to fit side bars between them and center
+image will be stretched in both direction to fully cover remaining center rectangle.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTRasterFrameVisualizer_functions></a>Functions Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#FromPixmap>FromPixmap</a></td><td class=docright>
+Creates raster frame visualizer from existing pixmap.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetFromFile>GetFromFile</a></td><td class=docright>
+Creates raster frame visualizer from image file name.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=FromPixmap>
+<tr><td class=doctop colspan=2>Function FromPixmap:LTRasterFrameVisualizer( Pixmap:TPixmap )</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>Created visualizer.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates raster frame visualizer from existing pixmap.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetFromFile>
+<tr><td class=doctop colspan=2>Function GetFromFile:LTRasterFrameVisualizer( Filename:String )</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>Created visualizer.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates raster frame visualizer from image file name.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: FromPixmap.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTRevoluteJoint>
@@ -1990,8 +2059,9 @@ See also: <a href=#LTBehaviorModel>LTBehaviorModel</a>, <a href=#Activate>Activa
 <table class=doc width=100% cellspacing=3 id=CorrectHeight>
 <tr><td class=doctop colspan=2>Method CorrectHeight()</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Corrects height to display shape image with no distortion.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Works only for shapes with image visualizer. After this operation ratio of width to height will be the same as ratio of image width to image height.
-about: See also: <a href=#Height>Height</a>, <a href=#SetHeight>SetHeight</a>, <a href=#Visualizer>Visualizer</a>.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>After this operation ratio of width to height will be the same as ratio of image width to image height.
+<p>
+See also: <a href=#Height>Height</a>, <a href=#SetHeight>SetHeight</a>, <a href=#Visualizer>Visualizer</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=DeactivateAllModels>
 <tr><td class=doctop colspan=2>Method DeactivateAllModels()</td></tr>
@@ -2372,7 +2442,7 @@ Wedges off sprite with given sprite.
 </table>
 <table class=doc width=100% cellspacing=3 id=Circle>
 <tr><td class=doctop colspan=2>Const Circle:Int</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Type of the sprite shape: circle.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Type of the sprite shape: oval / Oval.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Pivot>
 <tr><td class=doctop colspan=2>Const Pivot:Int</td></tr>
@@ -2390,7 +2460,7 @@ Wedges off sprite with given sprite.
 <table class=doc width=100% cellspacing=3 id=ShapeType>
 <tr><td class=doctop colspan=2>Field ShapeType:Int = Rectangle</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Type of the sprite shape.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#Pivot>Pivot</a>, <a href=#Circle>Circle</a>, <a href=#Rectangle>Rectangle</a>.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#Pivot>Pivot</a>, <a href=#Oval>Oval</a>, <a href=#Rectangle>Rectangle</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Animate>
 <tr><td class=doctop colspan=2>Method Animate( Project:LTProject, Speed:Double, FramesQuantity:Int = 0, FrameStart:Int = 0, StartingTime:Double = 0.0, PingPong:Int = False )</td></tr>
@@ -2400,7 +2470,7 @@ Wedges off sprite with given sprite.
 <tr><td class=doctop colspan=2>Method CollidesWithLine:Int( Line:LTLine )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>True if the sprite collides with given line, otherwise false.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Checks if the sprite collides with given line.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Only collision of line and circle is yet implemented.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Only collision of line and Oval is yet implemented.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=CollidesWithSprite>
 <tr><td class=doctop colspan=2>Method CollidesWithSprite:Int( Sprite:LTSprite )</td></tr>
@@ -2517,6 +2587,8 @@ See also: <a href=#Move>Move</a>.</td></tr>
 , 
 <a href=#LeftMargin>LeftMargin</a>
 , 
+<a href=#PivotMode>PivotMode</a>
+, 
 <a href=#Sorted>Sorted</a>
 </td></tr>
 </table>
@@ -2570,6 +2642,11 @@ Creates collision map using existing shape.
 <tr><td class=docleft width=1%>Information</td><td class=docright>When drawing sprite map, margins define the size of rectangular frame around camera's rectangle in which objects will be also drawn.
 Will be handy if you draw sprite map with objects with XScale / YScale parameters greater than 1.0.</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=PivotMode>
+<tr><td class=doctop colspan=2>Field PivotMode:Int = False</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Flag which defines will be all objects recognized as pivots.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>False by default.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=Sorted>
 <tr><td class=doctop colspan=2>Field Sorted:Int = False</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Flag which defines will be the sprite map sorted by sprite Y coordinates.</td></tr>
@@ -2591,14 +2668,14 @@ Will be handy if you draw sprite map with objects with XScale / YScale parameter
 <table class=doc width=100% cellspacing=3 id=InsertSprite>
 <tr><td class=doctop colspan=2>Method InsertSprite( Sprite:LTSprite, ChangeSpriteMapField:Int = True )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Inserts a sprite into sprite map.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Pivot insertion works faster.
+<tr><td class=docleft width=1%>Information</td><td class=docright>When PivotMode is set to True, insertion will be faster.
 <p>
 See also: <a href=#RemoveSprite>RemoveSprite</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=RemoveSprite>
 <tr><td class=doctop colspan=2>Method RemoveSprite( Sprite:LTSprite, ChangeSpriteMapField:Int = True )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Removes sprite from sprite map.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Pivot removal works faster.
+<tr><td class=docleft width=1%>Information</td><td class=docright>When PivotMode is set to True, removal will be faster.
 <p>
 See also: <a href=#InsertSprite>InsertSprite</a>.</td></tr>
 </table>
@@ -2633,8 +2710,6 @@ Use this function ob layer bounds or layer tilemap which are covers all level to
 <tr><td class=docleft width=1%>Description</td><td class=docright>Tilemap is displayable rectangular tile-based shape with 2d array of tile indexes and tileset with tile images.</td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTTileMap_fields></a>Fields Summary</th></tr><tr><td colspan=2>
-<a href=#EmptyTile>EmptyTile</a>
-, 
 <a href=#TileSet>TileSet</a>
 , 
 <a href=#TilesQuantity>TilesQuantity</a>
@@ -2664,11 +2739,6 @@ Refreshes tile indexes of tilemap.
 <tr><td class=docleft width=1%><a href=#SetTile>SetTile</a></td><td class=docright>
 Sets tile index for given tile coordinates.
 </td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=EmptyTile>
-<tr><td class=doctop colspan=2>Field EmptyTile:Int = -1</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Number of undrawable tile.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>If this number will be set to 0 or more, the tile with this index will not be drawn.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=TileSet>
 <tr><td class=doctop colspan=2>Field TileSet:LTTileset</td></tr>
@@ -2726,9 +2796,72 @@ Tile indexes will be limited to 0...TilesQuantity - 1 interval.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#GetTile>GetTile</a>.</td></tr>
 </table>
 <br>
+<table class=doc width=100% cellspacing=3 id=LTTileMapPathFinder>
+<tr><td class=doctop colspan=2>Type LTTileMapPathFinder Extends LTObject</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Pathfinder finds a path in tilemap using flooding algorithm.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTTileMapPathFinder_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#FindPath>FindPath</a></td><td class=docright>
+Finds a path between two given points on previously specified tilemap.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Passage>Passage</a></td><td class=docright>
+Method which determines which tiles are passable.
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTTileMapPathFinder_functions></a>Functions Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+Creates pathfinder object with given tilemap and diagonal movement flag.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=FindPath>
+<tr><td class=doctop colspan=2>Method FindPath:LTTileMapPosition( StartingX:Int, StartingY:Int, FinalX:Int, FinalY:Int )</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>First tilemap position object in path. Next one can be retrieved using NextPosition field.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Finds a path between two given points on previously specified tilemap.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Passage>
+<tr><td class=doctop colspan=2>Method Passage:Double( X:Int, Y:Int )</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>True if tilemap cell with specified coordinates is passable.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Method which determines which tiles are passable.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>If you want to make your own way to determine is given tile passable, make class which extends LTTileMapPathFinder and rewrite this method.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Function Create:LTTileMapPathFinder( TileMap:LTIntMap, AllowDiagonalMovement:Int = True )</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>Found path or empty path if path is not found.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates pathfinder object with given tilemap and diagonal movement flag.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: LTGraph.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=LTTileMapPosition>
+<tr><td class=doctop colspan=2>Type LTTileMapPosition</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Class for tilemap position - the point on tilemap.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTTileMapPosition_fields></a>Fields Summary</th></tr><tr><td colspan=2>
+<a href=#NextPosition>NextPosition</a>
+, 
+<a href=#PrevPosition>PrevPosition</a>
+, 
+<a href=#X>X</a>
+</table>
+<table class=doc width=100% cellspacing=3 id=NextPosition>
+<tr><td class=doctop colspan=2>Field NextPosition:LTTileMapPosition</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Next position in the path.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=PrevPosition>
+<tr><td class=doctop colspan=2>Field PrevPosition:LTTileMapPosition</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Previous position in the path.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=X>
+<tr><td class=doctop colspan=2>Field X:Int, Y:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Tile coordinates of the tilemap postion.</td></tr>
+</table>
+<br>
 <table class=doc width=100% cellspacing=3 id=LTTileSet>
 <tr><td class=doctop colspan=2>Type LTTileSet Extends LTObject</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Tileset stores image and collision shapes of tiles for tilemaps. Also tile replacing/enframing rules are stored here.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTTileSet_fields></a>Fields Summary</th></tr><tr><td colspan=2>
+<a href=#EmptyTile>EmptyTile</a>
+</td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTTileSet_methods></a>Methods Summary</th></tr>
 <tr><td class=docleft width=1%><a href=#Enframe>Enframe</a></td><td class=docright>
@@ -2745,6 +2878,11 @@ Updates tileset information.
 <tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
 Creates tileset with given image.
 </td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=EmptyTile>
+<tr><td class=doctop colspan=2>Field EmptyTile:Int = -1</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Number of undrawable tile.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>If this number will be set to 0 or more, the tile with this index will not be drawn.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Enframe>
 <tr><td class=doctop colspan=2>Method Enframe( TileMap:LTTileMap, X:Int, Y:Int )</td></tr>
@@ -2829,6 +2967,15 @@ Sets the color of visualizer as drawing color.
 <tr><td class=docleft width=1%><a href=#Clone>Clone</a></td><td class=docright>
 Clones the visualizer.
 </td></tr>
+<tr><td class=docleft width=1%><a href=#DrawIsoOval>DrawIsoOval</a></td><td class=docright>
+Draws oval for isometric camera using given field coordinates and size.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#DrawIsoRectangle>DrawIsoRectangle</a></td><td class=docright>
+Draws rectangle for isometric camera using given field coordinates and size.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#DrawIsoTile>DrawIsoTile</a></td><td class=docright>
+Draws tile of given isometric tilemap with given coordinates using this visualizer.
+</td></tr>
 <tr><td class=docleft width=1%><a href=#DrawTile>DrawTile</a></td><td class=docright>
 Draws tile of given tilemap with given coordinates using this visualizer.
 </td></tr>
@@ -2854,7 +3001,10 @@ Applies color given in color intensities to visualizer.
 Sets shifts of the visualizer.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#SetVisualizerScale>SetVisualizerScale</a></td><td class=docright>
-Sets scaling parameters of the visualizer.
+Sets vertical and horizontal scaling of the visualizer.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetVisualizerScales>SetVisualizerScales</a></td><td class=docright>
+Sets scalings of the visualizer to one value.
 </td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTVisualizer_functions></a>Functions Summary</th></tr>
@@ -2940,13 +3090,29 @@ See also: <a href=#SetColorFromHex>SetColorFromHex</a>, <a href=#SetColorFromRGB
 <tr><td class=docleft width=1%>Returns</td><td class=docright>Clone of the visualizer.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Clones the visualizer.</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=DrawIsoOval>
+<tr><td class=doctop colspan=2>Method DrawIsoOval( X:Double, Y:Double, Width:Double, Height:Double )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Draws oval for isometric camera using given field coordinates and size.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=DrawIsoRectangle>
+<tr><td class=doctop colspan=2>Method DrawIsoRectangle( X:Double, Y:Double, Width:Double, Height:Double )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Draws rectangle for isometric camera using given field coordinates and size.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=DrawIsoTile>
+<tr><td class=doctop colspan=2>Method DrawIsoTile( TileMap:LTTileMap, X:Double, Y:Double, TileX:Int, TileY:Int )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Draws tile of given isometric tilemap with given coordinates using this visualizer.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>X and Y are center coordinates of this tile on the field.
+If you want to make your own isometric tilemap visualizer, make class which extends LTVisualizer and rewrite this method.
+<p>
+See also: <a href=#DrawUsingTileMap>DrawUsingTileMap</a>.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=DrawTile>
 <tr><td class=doctop colspan=2>Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, TileX:Int, TileY:Int )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Draws tile of given tilemap with given coordinates using this visualizer.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Change this method if you are making your own visualizer.
-If you are making visualizer for tilemaps, you will probably need to modify only this method.
+<tr><td class=docleft width=1%>Information</td><td class=docright>X and Y are center coordinates of this tile on the screen.
+If you want to make your own tilemap visualizer, make class which extends LTVisualizer and rewrite this method.
 <p>
-See also: <a href=#DrawTileMap>DrawTileMap</a>.</td></tr>
+See also: <a href=#DrawUsingTileMap>DrawUsingTileMap</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=DrawUsingLine>
 <tr><td class=doctop colspan=2>Method DrawUsingLine( Line:LTLine )</td></tr>
@@ -2959,7 +3125,7 @@ See also: <a href=#DrawTileMap>DrawTileMap</a>.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Change this method if you are making your own visualizer.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=DrawUsingTileMap>
-<tr><td class=doctop colspan=2>Method DrawUsingTileMap( TileMap:LTTileMap )</td></tr>
+<tr><td class=doctop colspan=2>Method DrawUsingTileMap( TileMap:LTTileMap, Shapes:TList = Null )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Draws given tilemap using this visualizer.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Change this method if you are making your own visualizer.</td></tr>
 </table>
@@ -2987,7 +3153,12 @@ See also: <a href=#SetColorFromHex>SetColorFromHex</a>, <a href=#AlterColor>Alte
 </table>
 <table class=doc width=100% cellspacing=3 id=SetVisualizerScale>
 <tr><td class=doctop colspan=2>Method SetVisualizerScale( NewXScale:Double, NewYScale:Double )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Sets scaling parameters of the visualizer.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets vertical and horizontal scaling of the visualizer.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Works only with images.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetVisualizerScales>
+<tr><td class=doctop colspan=2>Method SetVisualizerScales( NewScale:Double )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets scalings of the visualizer to one value.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Works only with images.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=FromFile>
@@ -3154,11 +3325,32 @@ See also: <a href=#ManageIntAttribute>ManageIntAttribute</a>, <a href=#ManageDou
 <br>
 <h2 id=modinfo>Module Information</h2>
 <table width=100%>
-<tr><th width=1%>Version</th><td>1.0.3</td></tr>
+<tr><th width=1%>Version</th><td>1.0.7.1</td></tr>
 <tr><th width=1%>Author</th><td>Matt Merkulov</td></tr>
 <tr><th width=1%>License</th><td>Artistic License 2.0</td></tr>
 <tr><th width=1%>Modserver</th><td>DWLAB</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp;</td></tr>
+<tr><th width=1%>History</th><td>v1.1 (28.08.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Finished isometric camera implementation.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Implemented isometric shape displaying.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; MoveUsingKeys() method now works correctly with isometric cameras.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added class for tilemap pathfinding and raster frame visualizer.</td></tr>
+<tr><th width=1%>History</th><td>v1.0.7 (26.08.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added isometric camera support to marching ants rectangle.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added camera and incbin parametes to the world class.</td></tr>
+<tr><th width=1%>History</th><td>v1.0.6 (24.08.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Implemented incbin support.</td></tr>
+<tr><th width=1%>History</th><td>v1.0.5 (03.08.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Partially implemented isometric cameras.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added camera saving/loading method.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added pivot mode to sprite maps.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added Flipping flag to the LTProject.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; EmptyTile parameter was moved from LTTIleMap to LTTileSet.</td></tr>
+<tr><th width=1%>History</th><td>v1.0.4.1 (01.08.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Removed support for different axis magnification.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added camera field into the LTWorld.</td></tr>
+<tr><th width=1%>History</th><td>v1.0.4 (22.07.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added full support of Oval shape type (replaced Circle).</td></tr>
 <tr><th width=1%>History</th><td>v1.0.3.1 (19.07.11)</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Removed multiple collision reactions when executing CollisionsWithSpriteMap method.</td></tr>
 <tr><th width=1%>History</th><td>v1.0.3 (18.07.11)</td></tr>

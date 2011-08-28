@@ -8,50 +8,55 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TWall Extends LTSprite
-End Type
-
-
-
-Type TFloor Extends LTSprite
-End Type
-
-
-
 Type TZombie Extends LTAngularSprite
-	Field Speed:Double
+	Const RotationSpeed:Double = 360.0
+	
+	Field NewAngle:Double
 	Field AnimationSpeed:Double
-
-	Field Destination:LTSprite = New LTSprite
-	Field Collided:Int
 	
 	
 	
 	Method Init()
-		X :+ Rnd( 0.25, -0.25 )
-		Y :+ Rnd( 0.25, -0.25 )
 		Angle = Rnd( 360.0 )
-		Speed = Rnd( 1.0, 2.0 )
-		AnimationSpeed = 0.2 / Speed
+		NewAngle = Angle
+		Velocity = Rnd( 1.0, 2.0 )
+		AnimationSpeed = 0.2 / Velocity
 	End Method
 	
 	
 	
 	Method Act()
-		Move( Speed * Cos( Angle ), 0.5 * Speed * Sin( Angle ) )
-		Collided = False
-		CollisionsWithSpriteMap( Game.Objects )
-		If Not Collided Then Animate( Game, AnimationSpeed, 8, 8 * ( ( 5.0 + L_Round( Angle / 45.0 ) ) Mod 8 ) )
+		If Angle <> NewAngle Then
+			Local DestinationAngle:Double = NewAngle
+			If Abs( Angle - NewAngle ) > 180.0 Then DestinationAngle = NewAngle + 360.0 * Sgn( Angle - NewAngle )
+			
+			Local DAngle:Double =  Game.PerSecond( RotationSpeed )
+			If Abs( DestinationAngle - Angle ) > DAngle Then
+				Angle :+ Sgn( NewAngle - Angle ) * DAngle
+			Else
+				Angle = DestinationAngle
+			End If
+			L_WrapDouble( Angle, 360.0 )
+		Else
+			MoveForward()
+			CollisionsWithTileMap( Game.Walls )
+			CollisionsWithSpriteMap( Game.Objects )
+		End If
+		Animate( Game, AnimationSpeed, 8, 8 * ( ( 5.0 + L_Round( Angle / 45.0 ) ) Mod 8 ) )
 	End Method
 	
 	
 	
 	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
-		If Not TFloor( Sprite ) Then
-			PushFromSprite( Sprite )
-			Angle = Rnd( 360.0 )
-			Collided = True
-		End If
+		PushFromSprite( Sprite )
+		NewAngle = Rnd( 360.0 )
+	End Method
+	
+	
+	
+	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int = 0 )
+		PushFromTile( TileMap, TileX, TileY )
+		NewAngle = Rnd( 360.0 )
 	End Method
 End Type
 

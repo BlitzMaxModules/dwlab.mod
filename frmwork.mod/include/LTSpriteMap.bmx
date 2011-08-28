@@ -194,7 +194,7 @@ Type LTSpriteMap Extends LTMap
 
 	
 	
-	Method DrawIsoTile( X:Double, Y:Double, TileX:Int, TileY:Int )
+	Method DrawIsoTile( X:Double, Y:Double, TileX:Int, TileY:Int, ParentVisualizer:LTVisualizer )
 		For Local Sprite:LTSprite = Eachin Sprites[ TileX, TileY ]
 			Sprite.Draw()
 		Next
@@ -334,7 +334,7 @@ Type LTSpriteMap Extends LTMap
 		XMLObject.ManageDoubleAttribute( "top-margin", TopMargin )
 		XMLObject.ManageDoubleAttribute( "bottom-margin", BottomMargin )
 		XMLObject.ManageIntAttribute( "sorted", Sorted )
-		XMLObject.ManageIntAttribute( "pivpot-mode", PivotMode )
+		XMLObject.ManageIntAttribute( "pivot-mode", PivotMode )
 		XMLObject.ManageDoubleAttribute( "object-radius", ObjectRadius )
 		
 		If L_XMLMode = L_XMLGet Then

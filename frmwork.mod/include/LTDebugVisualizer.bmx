@@ -34,16 +34,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 		L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX1, SY1 )
 		L_CurrentCamera.SizeFieldToScreen( Sprite.Width, Sprite.Height, SWidth, SHeight )
 		
-		If ShowCollisionShapes Then
-			Select Sprite.ShapeType
-				Case LTSprite.Pivot
-					DrawOval( SX1 - 2, SY1 - 2, 5, 5 )
-				Case LTSprite.Circle
-					DrawOval( SX1 - 0.5 * SWidth, SY1 - 0.5 * SHeight, SWidth, SHeight )
-				Case LTSprite.Rectangle
-					DrawRect( SX1 - 0.5 * SWidth, SY1 - 0.5 * SHeight, SWidth, SHeight )
-			End Select
-		End If
+		If ShowCollisionShapes Then DrawSpriteShape( Sprite )
 		
 		If ShowVectors Then
 			Local Size:Double = Max( SWidth, SHeight )
@@ -88,15 +79,15 @@ Type LTDebugVisualizer Extends LTVisualizer
 	
 	Method DrawUsingTileMap( TileMap:LTTileMap, Tiles:TList = Null )
 		TileMap.Visualizer.DrawUsingTileMap( TileMap )
-		Super.DrawUsingTileMap( TileMap )
+		If ShowCollisionShapes Then Super.DrawUsingTileMap( TileMap )
 	End Method
 	
 	
 	
 	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, TileX:Int, TileY:Int )
-		If Not ShowCollisionShapes Then Return
 		Local Shape:LTShape = TileMap.GetTileCollisionShape( TileX, TileY )
 		If Not Shape Then Return
+
 		SetScale( 1.0, 1.0 )
 		Local Sprite:LTSprite = LTSprite( Shape )
 		If Sprite Then
@@ -126,5 +117,43 @@ Type LTDebugVisualizer Extends LTVisualizer
 			Case LTSprite.Rectangle
 				DrawRect( ShapeX - 0.5 * ShapeWidth, ShapeY - 0.5 * ShapeHeight, ShapeWidth, ShapeHeight )
 		End Select
+	End Method
+
+	
+	
+	Method DrawIsoTile( TileMap:LTTileMap, X:Double, Y:Double, TileX:Int, TileY:Int )
+		Local Shape:LTShape = TileMap.GetTileCollisionShape( TileX, TileY )
+		If Not Shape Then Return
+
+		SetScale( 1.0, 1.0 )
+		Local Sprite:LTSprite = LTSprite( Shape )
+		If Sprite Then
+			DrawIsoCollisionSprite( TileMap, X, Y, Sprite )
+		Else
+			For Sprite = Eachin LTGroup( Shape )
+				DrawIsoCollisionSprite( TileMap, X, Y, Sprite )
+			Next
+		End If
+	End Method
+	
+	
+	
+	Method DrawIsoCollisionSprite( TileMap:LTTileMap, X:Double, Y:Double, Sprite:LTSprite )
+		Local TileWidth:Double = TileMap.GetTileWidth()
+		Local TileHeight:Double = TileMap.GetTileHeight()
+		Local ShapeX:Double = X + TileWidth * Sprite.X
+		Local ShapeY:Double = Y + TileHeight * Sprite.Y
+		Local ShapeWidth:Double = TileWidth * Sprite.Width
+		Local ShapeHeight:Double = TileHeight * Sprite.Height
+		Select Sprite.ShapeType
+			Case LTSprite.Pivot
+				Local SX:Double, SY:Double
+				L_CurrentCamera.FieldToScreen( ShapeX, ShapeY, SX, SY )
+				DrawOval( SX - 2, SY - 2, 5, 5 )
+			Case LTSprite.Circle
+				DrawIsoOval( ShapeX, ShapeY, ShapeWidth, ShapeHeight )
+			Case LTSprite.Rectangle
+				DrawIsoRectangle( ShapeX, ShapeY, ShapeWidth, ShapeHeight )
+		End Select		
 	End Method
 End Type

@@ -21,8 +21,8 @@ Type TGame Extends LTProject
 	Field World:LTWorld ' this field will store our world created in editor
 	Field Level:LTLayer ' this field will store layer loaded from the world
 	Field HUD:LTLayer
-	Field LevelCamera:LTCamera = LTCamera.Create( 320, 240, 16.0 )
-	Field HUDCamera:LTCamera = LTCamera.Create( 320, 240, 16.0 )
+	Field LevelCamera:LTCamera = LTCamera.Create( 960, 720, 48.0 )
+	Field HUDCamera:LTCamera = LTCamera.Create( 960, 720, 48.0 )
 	Field Font:LTBitmapFont = LTBitmapFont.FromFile( "media/font.png", 32, 127, 16 )
 	Field Levels:LTLayer[]
 	Field SpriteMaps:LTSpriteMap[]
@@ -69,7 +69,7 @@ Type TGame Extends LTProject
 	
 	
 	Method Init()
-		L_InitGraphics( 320, 240, 16.0 )
+		L_InitGraphics( 960, 720, 48.0 )
 		World = LTWorld.FromFile( "world.lw" )
 		LoadAndInitLayer( HUD, LTLayer( LTWorld.FromFile( "hud.lw" ).FindShape( "LTLayer" ) ) )
 		InitLevel()

@@ -12,8 +12,9 @@ Type TGame Extends LTProject
 	Const MazeSize:Int = 128
 	Const ZombieProbability:Double = 0.1
 	
-	Field Template:LTWorld
-	Field Maze:LTTileMap
+	Field World:LTWorld
+	Field Walls:LTTileMap
+	Field Floor:LTTileMap
 	Field Objects:LTSpriteMap
 	Field Zombies:Int
 	Field ActingRegion:TActingRegion = New TActingRegion
@@ -22,32 +23,46 @@ Type TGame Extends LTProject
 	
 	Method Init()
 		L_InitGraphics()
-		Template = LTWorld.FromFile( "template.lw" )
-		Maze = LTTileMap( Template.FindShape( "LTTileMap" ) )
-		Maze.SetResolution( MazeSize, MazeSize )
-		( New TMazeGenerator ).Execute( Maze )
-		Maze.Stretch( 2, 2 )
-		Maze.Enframe()
-		Maze.SetSize( 2.0 * MazeSize, 2.0 * MazeSize )
-		Objects = LTSpriteMap( Template.FindShape( "LTSpriteMap" ) )
-		Objects.SetResolution( MazeSize * 2, MazeSize * 2 )
+		World = LTWorld.FromFile( "template.lw" )
+		L_CurrentCamera = World.Camera
+		L_CurrentCamera.SetSize( 16, 16 )
+		L_CurrentCamera.SetCoords( MazeSize, MazeSize )
+		L_CurrentCamera.Update()
 		
-		Local WallSprite:TWall = TWall( CreateShape( Template.FindShape( "TWall" ) ) )
-		Local FloorSprite:TFloor = TFloor( CreateShape( Template.FindShape( "TFloor" ) ) )
-		Local ZombieSprite:TZombie =  TZombie( CreateShape( Template.FindShape( "TZombie" ) ) )
-		For Local Y:Int = 0 Until Maze.YQuantity
+		Floor = LTTileMap( World.FindShape( "LTTileMap,Floor" ) )
+		Walls = LTTileMap( World.FindShape( "LTTileMap,Walls" ) )
+		Walls.SetResolution( MazeSize, MazeSize )
+		( New TMazeGenerator ).Execute( Walls )
+		Walls.Stretch( 2, 2 )
+		Walls.Enframe()
+		Walls.SetCoords( MazeSize, MazeSize )
+		Walls.SetSize( 2.0 * MazeSize, 2.0 * MazeSize )
+		
+		Floor.SetResolution( 2 * MazeSize, 2 * MazeSize )
+		Floor.SetCoords( MazeSize, MazeSize )
+		Floor.SetSize( 2.0 * MazeSize, 2.0 * MazeSize )
+		
+		Objects = LTSpriteMap( World.FindShapeWithType( "LTSpriteMap" ) )
+		Objects.SetResolution( MazeSize * 2, MazeSize * 2 )
+		Objects.PivotMode = True
+		
+		Local ZombieSprite:LTSprite =  LTSprite( World.FindShape( "TZombie" ) )
+		For Local Y:Int = 0 Until Walls.YQuantity
 			PleaseWait()
-			For Local X:Int = 0 Until Maze.XQuantity
-				If Maze.Value[ X, Y ] = 1 Then
-					'InsertSprite( FloorSprite, X, Y, Rand( 0, 3 ) )
-					'Maze.Value[ X, Y ] = 0
+			For Local X:Int = 0 Until Walls.XQuantity
+				If Walls.Value[ X, Y ] = 1 Then Floor.Value[ X, Y ] = 1
+				If Walls.Value[ X, Y ] = 1 Then
+					Walls.Value[ X, Y ] = 0
 					If Rnd() < ZombieProbability Then
-						InsertSprite( ZombieSprite, X, Y, Rand( 0, 63 ) )
+						Local Zombie:TZombie = New TZombie
+						ZombieSprite.CopyTo( Zombie )
+						Zombie.X = 0.5 + X
+						Zombie.Y = 0.5 + Y
+						Zombie.Frame = Rand( 0, 63 )
+						Zombie.Init()
+						Objects.InsertSprite( Zombie )
 						Zombies :+ 1
 					End If
-				ElseIf Maze.Value[ X, Y ] >= 4 Then
-					'InsertSprite( WallSprite, X, Y, Maze.Value[ X, Y ] )
-					'If Maze.Value[ X, Y ] = 8 Or Maze.Value[ X, Y ] = 10 Then InsertSprite( FloorSprite, X, Y, Rand( 0, 3 ) )
 				End If
 			Next
 		Next
@@ -58,20 +73,8 @@ Type TGame Extends LTProject
 	
 	
 	
-	Method InsertSprite( Sprite:LTSprite, X:Int, Y:Int, Frame:Int )
-		Local NewSprite:LTSprite = LTSprite( TTypeID.ForObject( Sprite ).NewObject() )
-		Sprite.CopyTo( NewSprite )
-		NewSprite.X = X
-		NewSprite.Y = Y
-		NewSprite.Frame = Frame
-		NewSprite.Init()
-		Objects.InsertSprite( NewSprite )
-	End Method
-	
-	
-	
 	Method Logic()
-		L_CurrentCamera.MoveUsingArrows( 8.0 )
+		L_CurrentCamera.MoveUsingArrows( 16.0 )
 		ActingRegion.JumpTo( L_CurrentCamera )
 		ActingRegion.CollisionsWithSpriteMap( Objects )
 		If KeyHit( Key_Escape ) Then End
@@ -80,8 +83,7 @@ Type TGame Extends LTProject
 	
 	
 	Method Render()
-		Objects.Draw()
-		Maze.Draw()
+		World.Draw()
 		ShowDebugInfo()
 		DrawText( "Zombies: " + Zombies, 0, 96 )
 	End Method

@@ -98,6 +98,18 @@ Type LTCamera Extends LTSprite
 
 	
 	
+	Method FieldToScreenFloat( FieldX:Double, FieldY:Double, ScreenX:Float Var, ScreenY:Float Var )
+		If Isometric Then
+			ScreenX = ( ( FieldX + DX ) * VX1 + ( FieldY + DY ) * VX2 ) * K
+			ScreenY = ( ( FieldX + DX ) * VY1 + ( FieldY + DY ) * VY2 ) * K
+		Else
+			ScreenX = ( FieldX + DX ) * K
+			ScreenY = ( FieldY + DY ) * K
+		End If
+	End Method
+	
+	
+	
 	Rem
 	bbdoc: Transforms size of the object on the field in units to size of this object on screen in pixels.
 	about: See also: #ScreenToField, #SizeScreenToField, #DistScreenToField, #FieldToScreen, #DistFieldToScreen

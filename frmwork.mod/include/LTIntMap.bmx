@@ -66,6 +66,7 @@ Type LTIntMap Extends LTMap
 			Next
 		Next
 		Value = NewArray
+		Super.SetResolution( XQuantity * XMultiplier, YQuantity * YMultiplier )
 	End Method
 	
 	

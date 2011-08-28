@@ -1,3 +1,13 @@
+'
+' Color Lines - Digital Wizard's Lab example
+' Copyright (C) 2010, Matt Merkulov
+'
+' All rights reserved. Use of this code is allowed under the
+' Artistic License 2.0 terms, as specified in the license.txt
+' file distributed with this code, or available from
+' http://www.opensource.org/licenses/artistic-license-2.0.php
+'
+
 SuperStrict
 
 Framework brl.basic
@@ -12,14 +22,12 @@ Include "TVisualizer.bmx"
 Include "TPopUpBall.bmx"
 Include "TCursor.bmx"
 Include "TSelected.bmx"
-Include "LTTileMapPathFinder.bmx"
 Include "TMoveAlongPath.bmx"
 Include "TCheckLines.bmx"
 Include "TMoveBall.bmx"
 Include "TExplosion.bmx"
 Include "HUD.bmx"
 Include "TIntro.bmx"
-Include "LTRasterFrameVisualizer.bmx"
 Include "TLevel.bmx"
 
 Incbin "font.png"

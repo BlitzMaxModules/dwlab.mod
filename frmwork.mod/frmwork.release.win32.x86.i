@@ -1,15 +1,20 @@
-ModuleInfo "Version: 1.1.2"
+ModuleInfo "Version: 1.0.7.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
-ModuleInfo "History: v1.1.2 (26.08.11)"
+ModuleInfo "History: v1.1 (28.08.11)"
+ModuleInfo "History: &nbsp; &nbsp; Finished isometric camera implementation."
+ModuleInfo "History: &nbsp; &nbsp; Implemented isometric shape displaying."
+ModuleInfo "History: &nbsp; &nbsp; MoveUsingKeys() method now works correctly with isometric cameras."
+ModuleInfo "History: &nbsp; &nbsp; Added class for tilemap pathfinding and raster frame visualizer."
+ModuleInfo "History: v1.0.7 (26.08.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added isometric camera support to marching ants rectangle."
 ModuleInfo "History: &nbsp; &nbsp; Added camera and incbin parametes to the world class."
-ModuleInfo "History: v1.1.1 (24.08.11)"
+ModuleInfo "History: v1.0.6 (24.08.11)"
 ModuleInfo "History: &nbsp; &nbsp; Implemented incbin support."
-ModuleInfo "History: v1.1 (03.08.11)"
-ModuleInfo "History: &nbsp; &nbsp; Implemented isometric cameras."
+ModuleInfo "History: v1.0.5 (03.08.11)"
+ModuleInfo "History: &nbsp; &nbsp; Partially implemented isometric cameras."
 ModuleInfo "History: &nbsp; &nbsp; Added camera saving/loading method."
 ModuleInfo "History: &nbsp; &nbsp; Added pivot mode to sprite maps."
 ModuleInfo "History: &nbsp; &nbsp; Added Flipping flag to the LTProject."
@@ -53,7 +58,7 @@ import brl.d3d9max2d
 import brl.random
 import brl.reflection
 import brl.retro
-L_Version$=$"1.1.2"
+L_Version$=$"1.0.7.1"
 LTObject^brl.blitz.Object{
 .Name$&
 -New%()="_dwlab_frmwork_LTObject_New"
@@ -103,7 +108,7 @@ RightFacing!=1!
 -Delete%()="_dwlab_frmwork_LTShape_Delete"
 -Draw%()="_dwlab_frmwork_LTShape_Draw"
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTShape_DrawUsingVisualizer"
--DrawIsoTile%(X!,Y!,TileX%,TileY%)="_dwlab_frmwork_LTShape_DrawIsoTile"
+-DrawIsoTile%(X!,Y!,TileX%,TileY%,ParentVisualizer:LTVisualizer)="_dwlab_frmwork_LTShape_DrawIsoTile"
 -SpriteGroupCollisions%(Sprite:LTSprite,CollisionType%)="_dwlab_frmwork_LTShape_SpriteGroupCollisions"
 -TileShapeCollisionsWithSprite%(Sprite:LTSprite,DX!,DY!,XScale!,YScale!,TileMap:LTTileMap,TileX%,TileY%,CollisionType%)="_dwlab_frmwork_LTShape_TileShapeCollisionsWithSprite"
 -LeftX!()="_dwlab_frmwork_LTShape_LeftX"
@@ -288,6 +293,7 @@ LTCamera^LTSprite{
 -SizeScreenToField%(ScreenWidth!,ScreenHeight!,FieldWidth! Var,FieldHeight! Var)="_dwlab_frmwork_LTCamera_SizeScreenToField"
 -DistScreenToField!(ScreenDist!)="_dwlab_frmwork_LTCamera_DistScreenToField"
 -FieldToScreen%(FieldX!,FieldY!,ScreenX! Var,ScreenY! Var)="_dwlab_frmwork_LTCamera_FieldToScreen"
+-FieldToScreenFloat%(FieldX!,FieldY!,ScreenX# Var,ScreenY# Var)="_dwlab_frmwork_LTCamera_FieldToScreenFloat"
 -SizeFieldToScreen%(FieldWidth!,FieldHeight!,ScreenWidth! Var,ScreenHeight! Var)="_dwlab_frmwork_LTCamera_SizeFieldToScreen"
 -DistFieldToScreen!(ScreenDist!)="_dwlab_frmwork_LTCamera_DistFieldToScreen"
 -SetCameraViewport%()="_dwlab_frmwork_LTCamera_SetCameraViewport"
@@ -349,7 +355,7 @@ LTTileMap^LTIntMap{
 -GetTileCollisionShape:LTShape(TileX%,TileY%)="_dwlab_frmwork_LTTileMap_GetTileCollisionShape"
 -Draw%()="_dwlab_frmwork_LTTileMap_Draw"
 -DrawUsingVisualizer%(Visualizer:LTVisualizer)="_dwlab_frmwork_LTTileMap_DrawUsingVisualizer"
--DrawIsoTile%(X!,Y!,TileX%,TileY%)="_dwlab_frmwork_LTTileMap_DrawIsoTile"
+-DrawIsoTile%(X!,Y!,TileX%,TileY%,ParentVisualizer:LTVisualizer)="_dwlab_frmwork_LTTileMap_DrawIsoTile"
 -Enframe%(ByTileSet:LTTileset="bbNullObject")="_dwlab_frmwork_LTTileMap_Enframe"
 -GetTile%(TileX%,TileY%)="_dwlab_frmwork_LTTileMap_GetTile"
 -SetTile%(TileX%,TileY%,TileNum%)="_dwlab_frmwork_LTTileMap_SetTile"
@@ -452,7 +458,7 @@ LTSpriteMap^LTMap{
 -GetSprites:brl.map.TMap()="_dwlab_frmwork_LTSpriteMap_GetSprites"
 -Draw%()="_dwlab_frmwork_LTSpriteMap_Draw"
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTSpriteMap_DrawUsingVisualizer"
--DrawIsoTile%(X!,Y!,TileX%,TileY%)="_dwlab_frmwork_LTSpriteMap_DrawIsoTile"
+-DrawIsoTile%(X!,Y!,TileX%,TileY%,ParentVisualizer:LTVisualizer)="_dwlab_frmwork_LTSpriteMap_DrawIsoTile"
 -InsertSprite%(Sprite:LTSprite,ChangeSpriteMapField%=1)="_dwlab_frmwork_LTSpriteMap_InsertSprite"
 -InsertSpriteTo%(Sprite:LTSprite,MapX%,MapY%)="_dwlab_frmwork_LTSpriteMap_InsertSpriteTo"
 -RemoveSprite%(Sprite:LTSprite,ChangeSpriteMapField%=1)="_dwlab_frmwork_LTSpriteMap_RemoveSprite"
@@ -551,9 +557,13 @@ LTVisualizer^LTObject{
 -GetImage:LTImage()="_dwlab_frmwork_LTVisualizer_GetImage"
 -SetImage%(NewImage:LTImage)="_dwlab_frmwork_LTVisualizer_SetImage"
 -DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTVisualizer_DrawUsingSprite"
+-DrawSpriteShape%(Sprite:LTSprite)="_dwlab_frmwork_LTVisualizer_DrawSpriteShape"
+-DrawIsoRectangle%(X!,Y!,Width!,Height!)="_dwlab_frmwork_LTVisualizer_DrawIsoRectangle"
+-DrawIsoOval%(X!,Y!,Width!,Height!)="_dwlab_frmwork_LTVisualizer_DrawIsoOval"
 -DrawUsingLine%(Line:LTLine)="_dwlab_frmwork_LTVisualizer_DrawUsingLine"
 -DrawUsingTileMap%(TileMap:LTTileMap,Shapes:brl.linkedlist.TList="bbNullObject")="_dwlab_frmwork_LTVisualizer_DrawUsingTileMap"
 -DrawTile%(TileMap:LTTileMap,X!,Y!,TileX%,TileY%)="_dwlab_frmwork_LTVisualizer_DrawTile"
+-DrawIsoTile%(TileMap:LTTileMap,X!,Y!,TileX%,TileY%)="_dwlab_frmwork_LTVisualizer_DrawIsoTile"
 -SetColorFromHex%(S$)="_dwlab_frmwork_LTVisualizer_SetColorFromHex"
 -SetColorFromRGB%(NewRed!,NewGreen!,NewBlue!)="_dwlab_frmwork_LTVisualizer_SetColorFromRGB"
 -AlterColor%(D1!,D2!)="_dwlab_frmwork_LTVisualizer_AlterColor"
@@ -567,16 +577,6 @@ LTImageVisualizer^LTVisualizer{
 -New%()="_dwlab_frmwork_LTImageVisualizer_New"
 -Delete%()="_dwlab_frmwork_LTImageVisualizer_Delete"
 }="dwlab_frmwork_LTImageVisualizer"
-LTTile^brl.blitz.Object{
-.TileX%&
-.TileY%&
-.TileDX%&
-.TileDY%&
-.DX!&
-.DY!&
--New%()="_dwlab_frmwork_LTTile_New"
--Delete%()="_dwlab_frmwork_LTTile_Delete"
-}="dwlab_frmwork_LTTile"
 LTImage^LTObject{
 .BMaxImage:brl.max2d.TImage&
 .Filename$&
@@ -592,6 +592,15 @@ LTImage^LTObject{
 -Height!()="_dwlab_frmwork_LTImage_Height"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTImage_XMLIO"
 }="dwlab_frmwork_LTImage"
+LTRasterFrameVisualizer^LTVisualizer{
+.Images:brl.max2d.TImage&[,]&
+.ImageFile$&
+-New%()="_dwlab_frmwork_LTRasterFrameVisualizer_New"
+-Delete%()="_dwlab_frmwork_LTRasterFrameVisualizer_Delete"
++GetFromFile:LTRasterFrameVisualizer(Filename$)="_dwlab_frmwork_LTRasterFrameVisualizer_GetFromFile"
++FromPixmap:LTRasterFrameVisualizer(Pixmap:brl.pixmap.TPixmap)="_dwlab_frmwork_LTRasterFrameVisualizer_FromPixmap"
+-DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTRasterFrameVisualizer_DrawUsingSprite"
+}="dwlab_frmwork_LTRasterFrameVisualizer"
 LTAnimatedTileMapVisualizer^LTVisualizer{
 .TileNum%&[]&
 -New%()="_dwlab_frmwork_LTAnimatedTileMapVisualizer_New"
@@ -633,6 +642,8 @@ LTDebugVisualizer^LTVisualizer{
 -DrawUsingTileMap%(TileMap:LTTileMap,Tiles:brl.linkedlist.TList="bbNullObject")="_dwlab_frmwork_LTDebugVisualizer_DrawUsingTileMap"
 -DrawTile%(TileMap:LTTileMap,X!,Y!,TileX%,TileY%)="_dwlab_frmwork_LTDebugVisualizer_DrawTile"
 -DrawCollisionSprite%(TileMap:LTTileMap,X!,Y!,Sprite:LTSprite)="_dwlab_frmwork_LTDebugVisualizer_DrawCollisionSprite"
+-DrawIsoTile%(TileMap:LTTileMap,X!,Y!,TileX%,TileY%)="_dwlab_frmwork_LTDebugVisualizer_DrawIsoTile"
+-DrawIsoCollisionSprite%(TileMap:LTTileMap,X!,Y!,Sprite:LTSprite)="_dwlab_frmwork_LTDebugVisualizer_DrawIsoCollisionSprite"
 }="dwlab_frmwork_LTDebugVisualizer"
 LTBehaviorModel^LTObject{
 .Active%&
@@ -701,6 +712,29 @@ LTPath^LTObject{
 -Delete%()="_dwlab_frmwork_LTPath_Delete"
 +Find:LTPath(FromPivot:LTSprite,ToPivot:LTSprite,Graph:LTGraph)="_dwlab_frmwork_LTPath_Find"
 }="dwlab_frmwork_LTPath"
+LTTileMapPathFinder^LTObject{
+.Map:LTIntMap&
+.AllowDiagonalMovement%&
+.Points:brl.map.TMap&
+-New%()="_dwlab_frmwork_LTTileMapPathFinder_New"
+-Delete%()="_dwlab_frmwork_LTTileMapPathFinder_Delete"
++Create:LTTileMapPathFinder(TileMap:LTIntMap,AllowDiagonalMovement%=1)="_dwlab_frmwork_LTTileMapPathFinder_Create"
+-FindPath:LTTileMapPosition(StartingX%,StartingY%,FinalX%,FinalY%)="_dwlab_frmwork_LTTileMapPathFinder_FindPath"
+-Passage!(X%,Y%)="_dwlab_frmwork_LTTileMapPathFinder_Passage"
+-GetPoint:Object(X%,Y%)="_dwlab_frmwork_LTTileMapPathFinder_GetPoint"
+-SetPoint%(X%,Y%,Position:LTTileMapPosition)="_dwlab_frmwork_LTTileMapPathFinder_SetPoint"
+}="dwlab_frmwork_LTTileMapPathFinder"
+LTTileMapPosition^brl.blitz.Object{
+.X%&
+.Y%&
+.PrevPosition:LTTileMapPosition&
+.NextPosition:LTTileMapPosition&
+-New%()="_dwlab_frmwork_LTTileMapPosition_New"
+-Delete%()="_dwlab_frmwork_LTTileMapPosition_Delete"
++Create:LTTileMapPosition(PrevPosition:LTTileMapPosition,X%,Y%)="_dwlab_frmwork_LTTileMapPosition_Create"
+-Spread:LTTileMapPosition(TileMapPathFinder:LTTileMapPathFinder,FinalX%,FinalY%,List:brl.linkedlist.TList)="_dwlab_frmwork_LTTileMapPosition_Spread"
+-Revert:LTTileMapPosition()="_dwlab_frmwork_LTTileMapPosition_Revert"
+}="dwlab_frmwork_LTTileMapPosition"
 LTDrag^LTObject{
 .DraggingState%&
 -New%()="_dwlab_frmwork_LTDrag_New"

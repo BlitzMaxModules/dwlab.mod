@@ -110,7 +110,7 @@ Type LTShape Extends LTObject
 	
 	
 	
-	Method DrawIsoTile( X:Double, Y:Double, TileX:Int, TileY:Int )
+	Method DrawIsoTile( X:Double, Y:Double, TileX:Int, TileY:Int, ParentVisualizer:LTVisualizer )
 	End Method
 	
 	' ==================== Collisions ===================
@@ -360,11 +360,15 @@ Type LTShape Extends LTObject
 	Method MoveUsingKeys( KUp:Int, KDown:Int, KLeft:Int, KRight:Int, Velocity:Double )
 		Local DX:Double = KeyDown( KRight ) - KeyDown( KLeft )
 		Local DY:Double = KeyDown( KDown ) - KeyDown( KUp )
-		If DX * DY Then
-			DX :/ Sqr( 2 )
-			DY :/ Sqr( 2 )
-		End If
-		SetCoords( X + DX * Velocity * L_DeltaTime, Y + DY * Velocity * L_DeltaTime )
+		
+		Local X1:Double, Y1:Double, X2:Double, Y2:Double
+		L_CurrentCamera.ScreenToField( 0, 0, X1, Y1 )
+		L_CurrentCamera.ScreenToField( DX, DY, X2, Y2 )
+		
+		If X1 = X2 And Y1 = Y2 Then Return
+		
+		Local K:Double = Velocity / L_Distance( X2 - X1, Y2 - Y1 )
+		SetCoords( X + ( X2 - X1 ) * K * L_DeltaTime, Y + ( Y2 - Y1 ) * K * L_DeltaTime )
 	End Method
 	
 	
