@@ -53,8 +53,6 @@ Type TGame Extends LTProject
 		
 		( New TIntro ).Execute()
 		
-		TileMapPathFinder = LTTileMapPathFinder.Create( Level, False )
-		
 		Cursor.ShapeType = LTSprite.Pivot
 		Cursor.SetDiameter( 0.1 )		
 		
@@ -70,6 +68,8 @@ Type TGame Extends LTProject
 	Method LoadLevel()
 		Local Layer:LTLayer = Null
 		LoadAndInitLayer( Layer, LTLayer( World.FindShape( "LTLayer,1" ) ) )
+		
+		TileMapPathFinder = LTTileMapPathFinder.Create( Level, False )
 	End Method
 	
 	Method Render()

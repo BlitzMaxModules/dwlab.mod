@@ -15,7 +15,7 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.0.7.1"
+ModuleInfo "Version: 1.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
@@ -86,7 +86,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.0.7.1"
+Const L_Version:String = "1.1"
 
 SeedRnd( MilliSecs() )
 

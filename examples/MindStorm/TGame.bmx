@@ -60,7 +60,7 @@ Type TGame Extends LTProject
 		If MouseZ() + DZ > MaxMouseZ Then DZ = MaxMouseZ - MouseZ()
 		If MouseZ() + DZ < MinMouseZ Then DZ = MinMouseZ - MouseZ()
 		Local NewD:Double = L_CurrentCamera.Viewport.Width / 16 * ( 1.1 ^ ( MouseZ() + DZ ) )
-		L_CurrentCamera.AlterCameraMagnification( NewD, NewD )
+		L_CurrentCamera.AlterCameraMagnification( NewD )
 		
 	    L_CurrentCamera.LimitWith( Game.Level.Bounds )
 
