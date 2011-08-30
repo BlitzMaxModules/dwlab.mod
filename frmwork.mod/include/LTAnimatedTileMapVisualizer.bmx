@@ -19,13 +19,24 @@ Type LTAnimatedTileMapVisualizer Extends LTVisualizer
 	
 	
 	
-	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, TileX:Int, TileY:Int )
+	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, Width:Double, Height:Double, TileX:Int, TileY:Int )
+		Local TileSet:LTTileSet =Tilemap.TileSet
+		Local TileValue:Int = TileNum[ TileMap.Value[ TileX, TileY ] ]
+		If TileValue = TileSet.EmptyTile Then Return
+		
+		Local Image:TImage = TileSet.Image.BMaxImage
+		If Not Image Then Return
+		
+		Local SX:Double, SY:Double
+		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
+		
+		Local Visualizer:LTVisualizer = TileMap.Visualizer
+		SetScale( Width / ImageWidth( Image ), Height / ImageHeight( Image ) )
+		
+		DrawImage( Image, SX + Visualizer.DX * Width, SY + Visualizer.DY * Height, TileValue )
+		
 		?debug
 		L_TilesDisplayed :+ 1
 		?
-		
-		Local Value:Int = TileNum[ TileMap.Value[ TileX, TileY ] ]
-		Local TileSet:LTTileSet =Tilemap.TileSet 
-		If Value <> TileSet.EmptyTile Then Drawimage( TileSet.Image.BMaxImage, X, Y, Value )
 	End Method
 End Type

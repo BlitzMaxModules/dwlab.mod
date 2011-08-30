@@ -32,8 +32,7 @@ Type LTSpriteMap Extends LTMap
 	about: When drawing sprite map, margins define the size of rectangular frame around camera's rectangle in which objects will be also drawn.
 	Will be handy if you draw sprite map with objects with XScale / YScale parameters greater than 1.0.
 	End Rem
-	Field LeftMargin:Double, RightMargin:Double
-	Field TopMargin:Double, BottomMargin:Double
+	Field LeftMargin:Double, RightMargin:Double, TopMargin:Double, BottomMargin:Double
 	
 	Rem
 	bbdoc: Flag which defines will be the sprite map sorted by sprite Y coordinates.
@@ -47,6 +46,18 @@ Type LTSpriteMap Extends LTMap
 	End Rem
 	Field PivotMode:Int = False
 	Field ObjectRadius:Double
+	
+	
+	
+	Method WrapX:Int( Value:Int )
+		Return Value & XMask
+	End Method
+	
+	
+	
+	Method WrapY:Int( Value:Int )
+		Return Value & YMask
+	End Method
 	
 	' ==================== Parameters ====================
 	
@@ -190,14 +201,6 @@ Type LTSpriteMap Extends LTMap
 				End If
 			Next
 		End If
-	End Method
-
-	
-	
-	Method DrawIsoTile( X:Double, Y:Double, TileX:Int, TileY:Int, ParentVisualizer:LTVisualizer )
-		For Local Sprite:LTSprite = Eachin Sprites[ TileX, TileY ]
-			Sprite.Draw()
-		Next
 	End Method
 		
 	' ==================== Insert / remove objects ====================

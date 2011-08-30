@@ -185,10 +185,18 @@ Type LTVisualizer Extends LTObject
 				SetRotation( Angle )
 			End If
 			
+			Local SpriteDX:Double, SpriteDY:Double
 			If Scaling Then
-				L_CurrentCamera.SizeFieldToScreen( XScale * Sprite.Width, YScale * Sprite.Height, SWidth, SHeight )
-				SetScale( SWidth / ImageWidth( Image.BMaxImage ), SHeight / ImageHeight( Image.BMaxImage ) )
+				L_CurrentCamera.SizeFieldToScreen( Sprite.Width, Sprite.Height, SWidth, SHeight )
+				Local ScaledWidth:Double = SWidth * XScale
+				Local ScaledHeight:Double = SHeight * YScale
+				SetScale( ScaledWidth / ImageWidth( Image.BMaxImage ), ScaledHeight / ImageHeight( Image.BMaxImage ) )
+				
+				SpriteDX = DX * SWidth * XScale
+				SpriteDY = DY * SHeight * YScale
 			Else
+				SpriteDX = DX * ImageWidth( Image.BMaxImage )
+				SpriteDY = DY *ImageHeight( Image.BMaxImage )
 				SetScale XScale, YScale
 			End If
 			
@@ -196,7 +204,7 @@ Type LTVisualizer Extends LTObject
 			If Sprite.Frame < 0 Or Sprite.Frame >= Image.FramesQuantity() Then L_Error( "Incorrect frame number ( " + Sprite.Frame + " ) for sprite ~q" + Sprite.Name + "~q, must be less than " + Image.FramesQuantity() )
 			?
 			
-			DrawImage( Image.BMaxImage, Int( SX + DX * SWidth ), Int( SY + DY * SHeight ), Sprite.Frame )
+			DrawImage( Image.BMaxImage, Int( SX + SpriteDX ), Int( SY + SpriteDY ), Sprite.Frame )
 			
 			SetScale( 1.0, 1.0 )
 			SetRotation( 0.0 )
@@ -302,114 +310,97 @@ Type LTVisualizer Extends LTObject
 		Local CellHeight:Double = TileMap.GetTileHeight()
 		Local Viewport:LTShape = L_CurrentCamera.Viewport
 		
-		If L_CurrentCamera.Isometric Or Shapes Then
-			Local X00:Double, Y00:Double, X01:Double, Y01:Double
-			Local X10:Double, Y10:Double, X11:Double, Y11:Double
-			L_CurrentCamera.ScreenToField( Viewport.X - Viewport.Width * 0.5, Viewport.Y - Viewport.Height * 0.5, X00, Y00 )
-			L_CurrentCamera.ScreenToField( Viewport.X + Viewport.Width * 0.5, Viewport.Y - Viewport.Height * 0.5, X10, Y10 )
-			L_CurrentCamera.ScreenToField( Viewport.X - Viewport.Width * 0.5, Viewport.Y + Viewport.Height * 0.5, X01, Y01 )
-			L_CurrentCamera.ScreenToField( Viewport.X + Viewport.Width * 0.5, Viewport.Y + Viewport.Height * 0.5, X11, Y11 )
-			Local MinX:Double = Min( Min( X00, X10 ), Min( X01, X11 ) )
-			Local MinY:Double = Min( Min( Y00, Y10 ), Min( Y01, Y11 ) )
-			Local MaxX:Double = Max( Max( X00, X10 ), Max( X01, X11 ) )
-			Local MaxY:Double = Max( Max( Y00, Y10 ), Max( Y01, Y11 ) )
-			Local CornerX:Double = TileMap.LeftX()
-			Local CornerY:Double = TileMap.TopY()
-			Local StartingTileX:Int = L_LimitInt( Floor( ( MinX - CornerX ) / CellWidth ), 0, TileMap.XQuantity - 1 )
-			Local StartingTileY:Int = L_LimitInt( Floor( ( MinY - CornerY ) / CellHeight ), 0, TileMap.YQuantity - 1 )
-			Local MaxTileX:Int = L_LimitInt( Ceil( ( MaxX - CornerX ) / CellWidth ), 0, TileMap.XQuantity - 1 )
-			Local MaxTileY:Int = L_LimitInt( Ceil( ( MaxY - CornerY ) / CellHeight ), 0, TileMap.YQuantity - 1 )
-			Local StartingX:Double, StartingY:Double
-			L_CurrentCamera.FieldToScreen( StartingTileX, StartingTileY, StartingX, StartingY )
-			
-			Local TileY:Int = StartingTileY
-			Local Y:Double = CornerY + CellHeight * TileY
-			While TileY < MaxTileY
-				Local TileX:Int = StartingTileX
-				Local X:Double = CornerX + CellWidth * TileX
-				
-				Local WrappedTileY:Int
-				If TileMap.Masked Then
-					WrappedTileY = TileY & TileMap.YMask
-				Else
-					WrappedTileY = TileMap.WrapY( TileY )
-				End If
-				While TileX < MaxTileX
-					
-					Local WrappedTileX:Int
-					If TileMap.Masked Then
-						WrappedTileX = TileX & TileMap.XMask
-					Else
-						WrappedTileX = TileMap.WrapX( TileX )
-					End If
-					
-					If Shapes Then
-						For Local Shape:LTShape = Eachin Shapes
-							Shape.DrawIsoTile( X, Y, WrappedTileX, WrappedTileY, Self )
-						Next
-					Else
-						DrawIsoTile( TileMap, X, Y, WrappedTileX, WrappedTileY )
-					End If
-					
-					X :+ CellWidth
-					TileX :+ 1
-				Wend
-				
-				Y:+ CellHeight
-				TileY :+ 1
-			Wend
-		Else
-			Local SWidth:Double, SHeight:Double
-			L_CurrentCamera.SizeFieldToScreen( CellWidth, CellHeight, SWidth, SHeight )
-			SetScale( SWidth / ImageWidth( Image.BMaxImage ), SHeight / ImageHeight( Image.BMaxImage ) )
-			
-			Local SX:Double, SY:Double
-			L_CurrentCamera.FieldToScreen( TileMap.X - 0.5 * TileMap.Width, TileMap.Y - 0.5 * TileMap.Height, SX, SY )
-	
-			Local X1:Double = ViewPort.X - 0.5 * L_CurrentCamera.ViewPort.Width
-			Local Y1:Double = ViewPort.Y - 0.5 * L_CurrentCamera.ViewPort.Height
-			Local X2:Double = X1 + ViewPort.Width + SWidth * 0.5
-			Local Y2:Double = Y1 + ViewPort.Height + SHeight * 0.5
-			
-			Local StartXFrame:Int = Int( ( L_CurrentCamera.X - TileMap.X - 0.5 * ( L_CurrentCamera.Width - TileMap.Width ) ) / CellWidth )
-			Local StartYFrame:Int = Int( ( L_CurrentCamera.Y - TileMap.Y - 0.5 * ( L_CurrentCamera.Height - TileMap.Height ) ) / CellHeight )
-			Local StartX:Int = SX + SWidth * ( Int( ( X1 - SX ) / SWidth ) ) + SWidth * 0.5
-			Local StartY:Int = SY + SHeight * ( Int( ( Y1 - SY ) / SHeight ) ) + SHeight * 0.5
-			
-			If Not TileMap.Wrapped Then
-				If StartXFrame < 0 Then 
-					StartX :- StartXFrame * SWidth
-					StartXFrame = 0
-				End If
-				Local EndX:Double = StartX + SWidth * ( TileMap.XQuantity - StartXFrame ) - 0.001
-				If  EndX < X2  Then X2 = EndX
-				
-				If StartYFrame < 0 Then 
-					StartY :- StartYFrame * SHeight
-					StartYFrame = 0
-				End If
-				Local EndY:Double = StartY + SHeight * ( TileMap.YQuantity - StartYFrame ) - 0.001
-				If  EndY < Y2  Then Y2 = EndY
+		Local X00:Double, Y00:Double, X01:Double, Y01:Double
+		Local X10:Double, Y10:Double, X11:Double, Y11:Double
+		L_CurrentCamera.ScreenToField( Viewport.LeftX(), Viewport.TopY(), X00, Y00 )
+		L_CurrentCamera.ScreenToField( Viewport.RightX(), Viewport.TopY(), X10, Y10 )
+		L_CurrentCamera.ScreenToField( Viewport.LeftX(), Viewport.BottomY(), X01, Y01 )
+		L_CurrentCamera.ScreenToField( Viewport.RightX(), Viewport.BottomY(), X11, Y11 )
+		Local MinX:Double = Min( Min( X00 - TileMap.LeftMargin, X10 + TileMap.RightMargin ), Min( X01 - TileMap.LeftMargin, X11 + TileMap.RightMargin ) )
+		Local MinY:Double = Min( Min( Y00 - TileMap.TopMargin, Y10 - TileMap.TopMargin ), Min( Y01 + TileMap.BottomMargin, Y11 + TileMap.BottomMargin ) )
+		Local MaxX:Double = Max( Max( X00 - TileMap.LeftMargin, X10 + TileMap.RightMargin ), Max( X01 - TileMap.LeftMargin, X11 + TileMap.RightMargin ) )
+		Local MaxY:Double = Max( Max( Y00 - TileMap.TopMargin, Y10 - TileMap.TopMargin ), Max( Y01 + TileMap.BottomMargin, Y11 + TileMap.BottomMargin ) )
+		
+		Local CornerX:Double = TileMap.LeftX()
+		Local CornerY:Double = TileMap.TopY()
+		Local MinTileX:Int = Floor( ( MinX - CornerX ) / CellWidth )
+		Local MinTileY:Int = Floor( ( MinY - CornerY ) / CellHeight )
+		Local MaxTileX:Int = Ceil( ( MaxX - CornerX ) / CellWidth )
+		Local MaxTileY:Int = Ceil( ( MaxY - CornerY ) / CellHeight )
+		
+		If Not TileMap.Wrapped Then
+			MinTileX = L_LimitInt( MinTileX, 0, TileMap.XQuantity - 1 )
+			MinTileY = L_LimitInt( MinTileY, 0, TileMap.YQuantity - 1 )
+			MaxTileX = L_LimitInt( MaxTileX, 0, TileMap.XQuantity - 1 )
+			MaxTileY = L_LimitInt( MaxTileY, 0, TileMap.YQuantity - 1 )
+		End If
+		
+		Local TileDX:Int = TileMap.HorizontalOrder, TileDY:Int = TileMap.VerticalOrder
+		Local SDX:Double = CellWidth * TileDX, SDY:Double = CellHeight * TileDY
+		
+		Local SWidth:Double, SHeight:Double
+		L_CurrentCamera.SizeFieldToScreen( CellWidth, CellHeight, SWidth, SHeight )
+		SWidth :* XScale
+		SHeight :* YScale
+		
+		If Not L_CurrentCamera.Isometric Then If Not Image Then Return
+
+		Local TileY:Int
+		If TileDY = 1 Then TileY = MinTileY Else TileY = MaxTileY
+		Local Y:Double = CornerY + CellHeight * ( 0.5 + TileY )
+		Repeat
+			If TileDY = 1 Then
+				If TileY > MaxTileY Then Exit
+			Else
+				If TileY < MinTileY Then Exit
 			End If
 			
-			Local YY:Double = StartY
-			Local YFrame:Int = StartYFrame
-			While YY < Y2
-				Local XX:Double = StartX 
-				Local XFrame:Int = StartXFrame
-				While XX < X2
-					If TileMap.Masked Then
-						DrawTile( TileMap, XX, YY, XFrame & TileMap.XMask, YFrame & TileMap.YMask )
-					Else
-						DrawTile( TileMap, XX, YY, TileMap.WrapX( XFrame ), TileMap.WrapY( YFrame ) )
-					End If
-					XX :+ SWidth
-					XFrame :+ 1
-				Wend
-				YY :+ SHeight
-				YFrame :+ 1
-			Wend
-		End If
+			Local TileX:Int
+			If TileDX = 1 Then TileX = MinTileX Else TileX = MaxTileX
+			
+			Local X:Double = CornerX + CellWidth * ( 0.5 + TileX )
+			
+			Local WrappedTileY:Int
+			If TileMap.Masked Then
+				WrappedTileY = TileY & TileMap.YMask
+			Else
+				WrappedTileY = TileMap.WrapY( TileY )
+			End If
+			
+			Repeat
+				If TileDX = 1 Then
+					If TileX > MaxTileX Then Exit
+				Else
+					If TileX < MinTileX Then Exit
+				End If
+			
+				Local WrappedTileX:Int
+				If TileMap.Masked Then
+					WrappedTileX = TileX & TileMap.XMask
+				Else
+					WrappedTileX = TileMap.WrapX( TileX )
+				End If
+				
+				If Shapes Then
+					For Local Shape:LTShape = Eachin Shapes
+						Local ChildTileMap:LTTileMap = LTTileMap( Shape )
+						If ChildTileMap Then
+							DrawTile( ChildTileMap, X, Y, SWidth, SHeight, WrappedTileX, WrappedTileY )
+						Else
+							DrawIsoSpriteMapTile( LTSpriteMap( Shape ), X, Y )
+						End If
+					Next
+				Else
+					DrawTile( TileMap, X, Y, SWidth, SHeight, WrappedTileX, WrappedTileY )
+				End If
+				
+				X :+ SDX
+				TileX :+ TileDX
+			Forever
+			
+			Y:+ SDY
+			TileY :+ TileDY
+		Forever
 		
 		ResetColor()
 		SetScale( 1.0, 1.0 )
@@ -424,29 +415,8 @@ Type LTVisualizer Extends LTObject
 	
 	See also: #DrawUsingTileMap
 	End Rem
-	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, TileX:Int, TileY:Int )
-		Local TileSet:LTTileSet =Tilemap.TileSet 
-		If TileSet.Image Then
-			?debug
-			L_TilesDisplayed :+ 1
-			?
-			
-			Local Value:Int = TileMap.Value[ TileX, TileY ]
-			If Value <> TileSet.EmptyTile Then Drawimage( TileSet.Image.BMaxImage, X, Y, Value )
-		End If
-	End Method
-	
-	
-	
-	Rem
-	bbdoc: Draws tile of given isometric tilemap with given coordinates using this visualizer.
-	about: X and Y are center coordinates of this tile on the field.
-	If you want to make your own isometric tilemap visualizer, make class which extends LTVisualizer and rewrite this method.
-	
-	See also: #DrawUsingTileMap
-	End Rem
-	Method DrawIsoTile( TileMap:LTTileMap, X:Double, Y:Double, TileX:Int, TileY:Int )
-		Local TileSet:LTTileSet =Tilemap.TileSet 
+	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, Width:Double, Height:Double, TileX:Int, TileY:Int )
+		Local TileSet:LTTileSet =Tilemap.TileSet
 		Local TileValue:Int = TileMap.Value[ TileX, TileY ]
 		If TileValue = TileSet.EmptyTile Then Return
 		
@@ -457,16 +427,22 @@ Type LTVisualizer Extends LTObject
 		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
 		
 		Local Visualizer:LTVisualizer = TileMap.Visualizer
-		Local Scale:Double = 4.0 * L_CurrentCamera.K / ImageWidth( Image )
-		Local ImageXScale:Double = Scale * Visualizer.XScale
-		Local ImageYScale:Double = Scale * Visualizer.YScale
-		SetScale( ImageXScale, ImageYScale )
+		SetScale( Width / ImageWidth( Image ), Height / ImageHeight( Image ) )
 		
-		DrawImage( Image, SX + Visualizer.DX * ImageXScale * ImageWidth( Image ), SY + Visualizer.DY * ImageYScale * ImageHeight( Image ), TileValue )
+		DrawImage( Image, SX + Visualizer.DX * Width, SY + Visualizer.DY * Height, TileValue )
 		
 		?debug
 		L_TilesDisplayed :+ 1
 		?
+	End Method
+
+	
+	
+	Method DrawIsoSpriteMapTile( SpriteMap:LTSpriteMap, X:Double, Y:Double )
+		For Local Sprite:LTSprite = Eachin SpriteMap.Sprites[ Int( Floor( X / SpriteMap.CellWidth ) ) & SpriteMap.XMask, ..
+				Int( Floor( Y / SpriteMap.CellHeight ) ) & SpriteMap.YMask ]
+			Sprite.Draw()
+		Next
 	End Method
 	
 	' ==================== Other ====================

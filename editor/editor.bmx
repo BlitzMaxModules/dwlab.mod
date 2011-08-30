@@ -37,6 +37,7 @@ Include "ImageProperties.bmx"
 Include "TileCollisionShapes.bmx"
 Include "SpriteMapProperties.bmx"
 Include "CameraProperties.bmx"
+Include "TileMapProperties.bmx"
 
 Incbin "english.lng"
 Incbin "russian.lng"
@@ -214,7 +215,7 @@ Type LTEditor Extends LTProject
 	Const MenuSelectTileMap:Int = 27
 	Const MenuSelectTileset:Int = 24
 	Const MenuResizeTilemap:Int = 42
-	Const MenuTilemapSettings:Int = 25
+	Const MenuTilemapProperties:Int = 25
 	Const MenuEditReplacementRules:Int = 26
 	Const MenuEditTileCollisionShapes:Int = 43
 	Const MenuEnframe:Int = 50
@@ -354,6 +355,7 @@ Type LTEditor Extends LTProject
 		CreateMenu( "{{M_SelectTilemap}}", MenuSelectTileMap, TilemapMenu )
 		CreateMenu( "{{M_SelectTileset}}", MenuSelectTileset, TilemapMenu )
 		CreateMenu( "{{M_ResizeTilemap}}", MenuResizeTilemap, TilemapMenu )
+		CreateMenu( "{{M_TilemapProperties}}", MenuTilemapProperties, TilemapMenu )
 		CreateMenu( "{{M_EditTileCollisionShapes}}", MenuEditTileCollisionShapes, TilemapMenu )
 		CreateMenu( "{{M_EditTileReplacementRules}}", MenuEditReplacementRules, TilemapMenu )
 		CreateMenu( "{{M_Enframe}}", MenuEnframe, TilemapMenu )
@@ -517,11 +519,11 @@ Type LTEditor Extends LTProject
 	
 	
 	Method OpenWorld( Filename:String )
+		If FileType( Filename ) = 0 Then Return
+		
 		If Not AskForSaving() Then Return
 		
 		If Filename Then 
-			If FileType( Filename ) = 0 Then Return
-			
 			WorldFilename = Filename
 			InsertToRecentFiles( Filename )
 			ChangeDir( ExtractDir( Filename ) )
@@ -950,6 +952,12 @@ Type LTEditor Extends LTProject
 					Case MenuEnframe
 						LTTileMap( SelectedShape ).Enframe()
 						SetChanged()
+					Case MenuTileMapProperties
+						TileMapProperties.TileMap = LTTileMap( SelectedShape )
+						TileMapProperties.Execute()
+
+					' ============================= Sprite map menu ==================================
+					
 					Case MenuSpriteMapProperties
 						SpriteMapProperties.Set( LTSpriteMap( SelectedShape ) )
 				End Select
@@ -1161,6 +1169,18 @@ Type LTEditor Extends LTProject
 			MainCamera.ScreenToField( MouseX(), MouseY(), MX, MY )
 			Local MinX:Int = 0
 			Local MinY:Int = 0
+			
+			Rem
+			If KeyHit( KEY_F12 ) Then
+				Local NewValue:Int[,] = New Int[ CurrentTilemap.XQuantity, CurrentTilemap.YQuantity ]
+				For Local Y:Int = 0 Until CurrentTilemap.YQuantity
+					For Local X:Int = 0 Until CurrentTilemap.XQuantity
+						NewValue[ X, Y ] = CurrentTilemap.Value[ X, CurrentTilemap.YQuantity - 1 - Y ]
+					Next
+				Next
+				CurrentTilemap.Value = NewValue
+			End If
+			EndRem
 			
 			Local TileSet:LTTileSet = CurrentTilemap.TileSet
 			If TileSet Then

@@ -115,8 +115,13 @@ Type LTCamera Extends LTSprite
 	about: See also: #ScreenToField, #SizeScreenToField, #DistScreenToField, #FieldToScreen, #DistFieldToScreen
 	End Rem
 	Method SizeFieldToScreen( FieldWidth:Double, FieldHeight:Double, ScreenWidth:Double Var, ScreenHeight:Double Var )
-		ScreenWidth = FieldWidth * K
-		ScreenHeight = FieldHeight * K
+		If Isometric Then
+			ScreenWidth = ( Abs( FieldWidth * VX1 ) + Abs( FieldHeight * VX2 ) ) * K
+			ScreenHeight = ( Abs( FieldWidth * VY1 ) + Abs( FieldHeight * VY2 ) ) * K
+		Else
+			ScreenWidth = FieldWidth * K
+			ScreenHeight = FieldHeight * K
+		End If
 	End Method
 
 	
@@ -159,6 +164,7 @@ Type LTCamera Extends LTSprite
 		K = NewK
 		Width = Viewport.Width / K
 		Height = Viewport.Height / K
+		Update()
 	End Method
 	
 	

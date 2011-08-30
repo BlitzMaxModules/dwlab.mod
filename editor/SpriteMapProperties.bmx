@@ -7,6 +7,7 @@
 ' file distributed with this code, or available from
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
+
 Global SpriteMapProperties:TSpriteMapProperties = New TSpriteMapProperties
 Type TSpriteMapProperties Extends LTProject
 	Field SpriteMap:LTSpriteMap
@@ -78,7 +79,7 @@ Type TSpriteMapProperties Extends LTProject
 						
 						Local Sorted:Int = ButtonState( SortedCheckBox )
 						Local PivotMode:Int = ButtonState( PivotModeCheckBox )
-							debugstop
+
 						if CellWidth > 0.0 And CellHeight > 0.0 Then
 							If SpriteMap.XQuantity <> XQuantity Or SpriteMap.YQuantity <> YQuantity Or SpriteMap.CellWidth <> CellWidth..
 									Or SpriteMap.CellHeight <> CellHeight Or SpriteMap.Sorted <> Sorted Or SpriteMap.PivotMode <> PivotMode Then

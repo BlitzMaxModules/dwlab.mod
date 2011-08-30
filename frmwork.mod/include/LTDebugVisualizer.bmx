@@ -84,7 +84,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 	
 	
 	
-	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, TileX:Int, TileY:Int )
+	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, Width:Double, Height:Double, TileX:Int, TileY:Int )
 		Local Shape:LTShape = TileMap.GetTileCollisionShape( TileX, TileY )
 		If Not Shape Then Return
 
@@ -121,7 +121,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 
 	
 	
-	Method DrawIsoTile( TileMap:LTTileMap, X:Double, Y:Double, TileX:Int, TileY:Int )
+	Method DrawIsoTile( TileMap:LTTileMap, X:Double, Y:Double, Width:Double, Height:Double, TileX:Int, TileY:Int )
 		Local Shape:LTShape = TileMap.GetTileCollisionShape( TileX, TileY )
 		If Not Shape Then Return
 

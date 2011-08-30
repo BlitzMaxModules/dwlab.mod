@@ -7,7 +7,7 @@
 	<TList field="tilesets">
 		<Object id="6"/>
 	</TList>
-	<LTCamera field="camera" x="8" y="8" width="32" height="27.0158" viewport-clipping="1" isometric="1" x1="2" y1="1" x2="-2" y2="1">
+	<LTCamera field="camera" x="8" y="8" width="14.9282" height="12.6031" viewport-clipping="1" isometric="1" x1="2" y1="1" x2="-2" y2="1">
 		<LTVisualizer field="visualizer" id="145"/>
 		<LTShape field="viewport" x="504" y="425.5" width="1008" height="851">
 			<Object field="visualizer" id="145"/>
@@ -20,7 +20,7 @@
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
 		<LTTileMap name="LTTileMap,Floor" x="8" y="8" width="16" height="16" xquantity="16" yquantity="16" tiles-quantity="32">
-			<LTVisualizer field="visualizer" dy="-0.11" xscale="2" yscale="2"/>
+			<LTVisualizer field="visualizer" dy="-0.125" xscale="2" yscale="4"/>
 			<LTTileSet field="tileset" id="6" name="Default" tiles-quantity="32" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" empty-tile="0">
 				<LTImage field="image" id="7" filename="dungeon_walls.png" xcells="8" ycells="4"/>
 				<ShapeArray field="collision-shapes">
@@ -240,7 +240,7 @@
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
 		<LTTileMap name="LTTileMap,Walls" x="8" y="8" width="16" height="16" xquantity="16" yquantity="16" tiles-quantity="32">
-			<LTVisualizer field="visualizer" dy="-0.11" xscale="2" yscale="2"/>
+			<LTVisualizer field="visualizer" dy="-0.125" xscale="2" yscale="4"/>
 			<Object field="tileset" id="6"/>
 			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 			<Row data="0,0,0,0,0,0,13,31,23,14,0,0,0,0,0,0"/>
@@ -259,16 +259,16 @@
 			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 		</LTTileMap>
-		<LTSpriteMap name="LTSpriteMap" xquantity="16" yquantity="16" cell-width="1" cell-height="1" left-margin="1" right-margin="1" top-margin="1" bottom-margin="3" sorted="1" pivpot-mode="1">
+		<LTSpriteMap name="LTSpriteMap" xquantity="16" yquantity="16" cell-width="1" cell-height="1" left-margin="1" right-margin="1" top-margin="1" bottom-margin="3" sorted="1" pivot-mode="1">
 			<Object field="visualizer" id="1"/>
 			<LTAngularSprite name="TZombie" x="13" y="5.5" shape="1">
-				<LTVisualizer field="visualizer" dy="-0.25" xscale="12" yscale="12" rotating="0">
+				<LTVisualizer field="visualizer" dy="-0.25" xscale="3" yscale="6" rotating="0">
 					<LTImage field="image" id="139" filename="zombie.png" xcells="8" ycells="8"/>
 				</LTVisualizer>
 			</LTAngularSprite>
 		</LTSpriteMap>
 		<LTAngularSprite name="TZombie" x="8.5" y="2.5" shape="1">
-			<LTVisualizer field="visualizer" dy="-0.25" xscale="12" yscale="12" rotating="0">
+			<LTVisualizer field="visualizer" dy="-0.25" xscale="3" yscale="6" rotating="0">
 				<Object field="image" id="139"/>
 			</LTVisualizer>
 		</LTAngularSprite>

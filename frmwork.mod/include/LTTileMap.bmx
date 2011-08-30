@@ -25,10 +25,29 @@ Type LTTileMap Extends LTIntMap
 	Field TilesQuantity:Int
 	
 	Rem
+	bbdoc: Margins for drawing tile map in units.
+	about: When drawing tile map, margins define the size of rectangular frame around camera's rectangle in which tiles will be also drawn.
+	Will be handy if tilemap's XScale / YScale parameters are greater than 1.0.
+	End Rem
+	Field LeftMargin:Double, RightMargin:Double, TopMargin:Double, BottomMargin:Double
+	
+	Rem
 	bbdoc: Wrapping flag.
 	about: If this flag will be set to True, then map will be repeated (tiled, wrapped) enlessly in all directions.
 	End Rem
 	Field Wrapped:Int = False
+	
+	Rem
+	bbdoc: Horizontal displaying order.
+	about: 1 means drawing tile columns from left to right, -1 means otherwise.
+	End Rem
+	Field HorizontalOrder:Int = 1
+	
+	Rem
+	bbdoc: Vertical displaying order.
+	about: 1 means drawing tile rows from top to bottom, -1 means otherwise.
+	End Rem
+	Field VerticalOrder:Int = 1	
 	
 	' ==================== Parameters ===================	
 	
@@ -76,12 +95,6 @@ Type LTTileMap Extends LTIntMap
 	
 	Method DrawUsingVisualizer( Visualizer:LTVisualizer )
 		If Visible Then Visualizer.DrawUsingTileMap( Self )
-	End Method
-	
-	
-	
-	Method DrawIsoTile( X:Double, Y:Double, TileX:Int, TileY:Int, ParentVisualizer:LTVisualizer )
-		ParentVisualizer.DrawIsoTile( Self, X, Y, TileX, TileY )
 	End Method
 
 	' ==================== Other ===================	
@@ -197,6 +210,12 @@ Type LTTileMap Extends LTIntMap
 		
 		TileSet = LTTileSet( XMLObject.ManageObjectField( "tileset", TileSet ) )
 		XMLObject.ManageIntAttribute( "tiles-quantity", TilesQuantity )
+		XMLObject.ManageDoubleAttribute( "left-margin", LeftMargin )
+		XMLObject.ManageDoubleAttribute( "right-margin", RightMargin )
+		XMLObject.ManageDoubleAttribute( "top-margin", TopMargin )
+		XMLObject.ManageDoubleAttribute( "bottom-margin", BottomMargin )
 		XMLObject.ManageIntAttribute( "wrapped", Wrapped )
+		XMLObject.ManageIntAttribute( "horizontal-order", HorizontalOrder, 1 )
+		XMLObject.ManageIntAttribute( "vertical-order", VerticalOrder, 1 )
 	End Method
 End Type

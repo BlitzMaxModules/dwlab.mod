@@ -15,12 +15,18 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.1"
+ModuleInfo "Version: 1.1.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.1.1 (30.08.11)"
+ModuleInfo "History: &nbsp; &nbsp; Fixed isometric objects displaying (now displaying image is tied to rectangle escribed circum object parallelogram)."
+ModuleInfo "History: &nbsp; &nbsp; Fixed non-scaled objects displaying."
+ModuleInfo "History: &nbsp; &nbsp; Tilemap displaying method now supports different tile displaying orders and displays wrapped tilemaps correctly."
+ModuleInfo "History: &nbsp; &nbsp; Isomeric and orthogonal tilemap displaying methods are merged (note for custom tilemap visualizers)."
+ModuleInfo "History: &nbsp; &nbsp; Added margins to the tile map."
 ModuleInfo "History: v1.1 (28.08.11)"
 ModuleInfo "History: &nbsp; &nbsp; Finished isometric camera implementation."
 ModuleInfo "History: &nbsp; &nbsp; Implemented isometric shape displaying."
@@ -86,7 +92,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.1"
+Const L_Version:String = "1.1.1"
 
 SeedRnd( MilliSecs() )
 
