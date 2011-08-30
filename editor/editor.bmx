@@ -1768,8 +1768,8 @@ Type LTEditor Extends LTProject
 	
 	
 	Method FillFileMenu()
-		For Local kid:TWindowsMenu = EachIn FileMenu.kids
-			kid.Close()
+		For Local kid:TGadget = EachIn FileMenu.kids
+			kid.Free()
 		Next
 		FileMenu.kids.Clear()
 		
