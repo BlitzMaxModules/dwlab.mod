@@ -1,15 +1,15 @@
-<LTWorld dwlab_version="1.1.1.1">
+<LTWorld dwlab_version="1.1.2">
 	<LTVisualizer field="visualizer" id="1"/>
 	<TList field="images">
 		<Object id="38"/>
 		<Object id="7"/>
-		<Object id="42"/>
+		<LTImage filename="player.png" xcells="32" ycells="8"/>
 	</TList>
 	<TList field="tilesets">
 		<Object id="37"/>
 		<Object id="6"/>
 	</TList>
-	<LTCamera field="camera" x="35.8643" y="16.6557" width="32" height="27.0158" shape="2" viewport-clipping="1" isometric="1" x1="2" y1="1" x2="-2" y2="1">
+	<LTCamera field="camera" x="35.8643" y="16.6557" width="9.2692" height="7.8255" shape="2" viewport-clipping="1" isometric="1" x1="2" y1="1" x2="-2" y2="1">
 		<Object field="visualizer" id="31"/>
 		<LTShape field="viewport" x="504" y="425.5" width="1008" height="851">
 			<Object field="visualizer" id="31"/>
@@ -241,11 +241,6 @@
 			</LTTileMap>
 			<LTSpriteMap name="LTSpriteMap,Objects" xquantity="64" yquantity="64" cell-width="1" cell-height="1" pivot-mode="1">
 				<Object field="visualizer" id="1"/>
-				<LTAngularSprite name="LTAngularSprite" x="35.5" y="14.5" shape="2" frame="128">
-					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
-						<LTImage field="image" id="42" filename="player.png" xcells="32" ycells="8"/>
-					</LTVisualizer>
-				</LTAngularSprite>
 			</LTSpriteMap>
 		</LTLayer>
 		<LTTileMap name="LTTileMap,CollisionMap" x="32" y="32" width="64" height="64" xquantity="64" yquantity="64">

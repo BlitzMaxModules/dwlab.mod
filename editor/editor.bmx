@@ -52,7 +52,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.6.1.1"
+	Const Version:String = "1.6.2"
 	Const INIVersion:Int = 3
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 10
@@ -1638,7 +1638,7 @@ Type LTEditor Extends LTProject
 			If SpriteMap Then
 				debugstop
 				Local ChildLink:TLink = CurrentNode.kids.FirstLink()
-				For Local Sprite:LTSprite = Eachin SpriteMap.GetSprites()
+				For Local Sprite:LTSprite = Eachin SpriteMap.Sprites.Keys()
 					AddShapeEntry( Sprite, CurrentNode, ChildLink, SelectedShapesLink )
 				Next
 				While ChildLink <> Null

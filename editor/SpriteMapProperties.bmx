@@ -83,7 +83,8 @@ Type TSpriteMapProperties Extends LTProject
 						if CellWidth > 0.0 And CellHeight > 0.0 Then
 							If SpriteMap.XQuantity <> XQuantity Or SpriteMap.YQuantity <> YQuantity Or SpriteMap.CellWidth <> CellWidth..
 									Or SpriteMap.CellHeight <> CellHeight Or SpriteMap.Sorted <> Sorted Or SpriteMap.PivotMode <> PivotMode Then
-								Local Sprites:TMap = SpriteMap.GetSprites()
+								Local Sprites:TMap = SpriteMap.Sprites
+								SpriteMap.Sprites = New TMap
 								SpriteMap.SetResolution( XQuantity, YQuantity )
 								SpriteMap.CellWidth = CellWidth
 								SpriteMap.CellHeight = CellHeight

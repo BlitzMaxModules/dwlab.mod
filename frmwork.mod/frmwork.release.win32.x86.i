@@ -6,7 +6,7 @@ ModuleInfo "History: &nbsp; &nbsp; "
 ModuleInfo "History: v1.1.2 (31.08.11)"
 ModuleInfo "History: &nbsp; &nbsp; Fixed bug of sprite map displaying by isometric camera."
 ModuleInfo "History: &nbsp; &nbsp; Implemented sprite map loading within layer and cloning."
-ModuleInfo "History: &nbsp; &nbsp; Added sprites list to tile map."
+ModuleInfo "History: &nbsp; &nbsp; Added sprites list field to sprite map."
 ModuleInfo "History: v1.1.1 (30.08.11)"
 ModuleInfo "History: &nbsp; &nbsp; Fixed isometric objects displaying (now displaying image is tied to rectangle escribed circum object parallelogram)."
 ModuleInfo "History: &nbsp; &nbsp; Fixed non-scaled objects displaying."
@@ -660,8 +660,6 @@ LTDebugVisualizer^LTVisualizer{
 -DrawUsingTileMap%(TileMap:LTTileMap,Tiles:brl.linkedlist.TList="bbNullObject")="_dwlab_frmwork_LTDebugVisualizer_DrawUsingTileMap"
 -DrawTile%(TileMap:LTTileMap,X!,Y!,Width!,Height!,TileX%,TileY%)="_dwlab_frmwork_LTDebugVisualizer_DrawTile"
 -DrawCollisionSprite%(TileMap:LTTileMap,X!,Y!,Sprite:LTSprite)="_dwlab_frmwork_LTDebugVisualizer_DrawCollisionSprite"
--DrawIsoTile%(TileMap:LTTileMap,X!,Y!,Width!,Height!,TileX%,TileY%)="_dwlab_frmwork_LTDebugVisualizer_DrawIsoTile"
--DrawIsoCollisionSprite%(TileMap:LTTileMap,X!,Y!,Sprite:LTSprite)="_dwlab_frmwork_LTDebugVisualizer_DrawIsoCollisionSprite"
 }="dwlab_frmwork_LTDebugVisualizer"
 LTBehaviorModel^LTObject{
 .Active%&
