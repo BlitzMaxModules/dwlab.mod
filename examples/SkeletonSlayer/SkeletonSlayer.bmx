@@ -1,5 +1,5 @@
 '
-' Color Lines - Digital Wizard's Lab example
+' Skeleton Slayer - Digital Wizard's Lab example
 ' Copyright (C) 2011, Matt Merkulov
 '
 ' All rights reserved. Use of this code is allowed under the
@@ -8,9 +8,16 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TLevel Extends LTTileMap
-  Method Init()
-    Game.Level = Self
-    Visualizer = New TVisualizer    
-  End Method
-End Type
+SuperStrict
+
+Import brl.jpgloader
+Import brl.pngloader
+Import brl.oggloader
+
+Import dwlab.frmwork
+Import dwlab.sound
+
+Include "TGame.bmx"
+
+Global Game:TGame = New TGame
+Game.Execute()

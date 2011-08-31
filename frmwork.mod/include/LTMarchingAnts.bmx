@@ -52,6 +52,16 @@ Type LTMarchingAnts Extends LTVisualizer
 	
 	
 	
+	Method DrawUsingTileMap( TileMap:LTTileMap, Shapes:TList = Null )
+		Local Sprite:LTSprite = New LTSprite
+		Sprite.JumpTo( TileMap )
+		Sprite.SetSize( TileMap.Width, TileMap.Height )
+		DrawUsingSprite( Sprite )
+	End Method
+
+	
+	
+	
 	Rem
 	bbdoc: Draws voluntary marching ants rectangle.
 	End Rem

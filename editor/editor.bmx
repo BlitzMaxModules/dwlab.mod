@@ -52,7 +52,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.6"
+	Const Version:String = "1.6.1.1"
 	Const INIVersion:Int = 3
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 10
@@ -131,6 +131,7 @@ Type LTEditor Extends LTProject
 	Field TilemapMenu:TGadget
 	Field SpriteMapMenu:TGadget
 	Field SpriteMenu:TGadget
+	Field MapSpriteMenu:TGadget
 	Field RecentFiles:String[] = New String[ RecentFilesQuantity ]
 	
 	Field World:LTWorld = New LTWorld
@@ -370,6 +371,9 @@ Type LTEditor Extends LTProject
 		SpriteMenu = CreateMenu( "", 0, null )
 		AddCommonMenuItems( SpriteMenu )
 		CreateMenu( "{{M_SetBounds}}", MenuSetBounds, SpriteMenu )
+		
+		MapSpriteMenu = CreateMenu( "", 0, null )
+		AddCommonMenuItems( MapSpriteMenu, False )
 	
 		L_DebugVisualizer.SetColorFromHex( "FF00FF" )
 		L_DebugVisualizer.Alpha = 0.5
@@ -460,15 +464,17 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method AddCommonMenuItems( Menu:TGadget )
+	Method AddCommonMenuItems( Menu:TGadget, Shift:Int = True )
 		CreateMenu( "{{M_Duplicate}}", MenuDuplicate, Menu )
 		CreateMenu( "{{M_ToggleVisibility}}", MenuToggleVisibility, Menu )
 		CreateMenu( "{{M_ToggleActivity}}", MenuToggleActivity, Menu )
 		CreateMenu( "{{M_Rename}}", MenuRename, Menu )
-		CreateMenu( "{{M_ShiftToTheTop}}", MenuShiftToTheTop, Menu )
-		CreateMenu( "{{M_ShiftUp}}", MenuShiftUp, Menu )
-		CreateMenu( "{{M_ShiftDown}}", MenuShiftDown, Menu )
-		CreateMenu( "{{M_ShiftToTheBottom}}", MenuShiftToTheBottom, Menu )
+		If Shift Then
+			CreateMenu( "{{M_ShiftToTheTop}}", MenuShiftToTheTop, Menu )
+			CreateMenu( "{{M_ShiftUp}}", MenuShiftUp, Menu )
+			CreateMenu( "{{M_ShiftDown}}", MenuShiftDown, Menu )
+			CreateMenu( "{{M_ShiftToTheBottom}}", MenuShiftToTheBottom, Menu )
+		End If
 		CreateMenu( "{{M_Remove}}", MenuRemove, Menu )
 	End Method
 	
@@ -650,7 +656,7 @@ Type LTEditor Extends LTProject
 						ElseIf LTSpriteMap( SelectedShape ) Then
 							EvData = MenuSelectContainer
 						Else
-							DeselectTilemap()
+							EditTilemap( Null )
 							SelectShape( SelectedShape )
 							EvID = Event_GadgetAction
 						End If
@@ -782,7 +788,7 @@ Type LTEditor Extends LTProject
 					Case MenuRemove
 						RemoveObject( SelectedShape, World )
 						If SelectedShape = CurrentViewLayer Then CurrentViewLayer = Null
-						If SelectedShape = CurrentTilemap Then DeselectTilemap()
+						If SelectedShape = CurrentTilemap Then EditTilemap( Null )
 						If SelectedShape = CurrentContainer Then CurrentContainer = Null
 						SetChanged()
 						RefreshProjectManager()
@@ -827,11 +833,7 @@ Type LTEditor Extends LTProject
 					Case MenuAngularModel
 						SelectMenuItem( AngularModel )
 					Case MenuTileMapEditingMode
-						If CurrentTileMap Then
-							LTMenuSwitch.Find( MenuTileMapEditingMode ).Set( False )
-							CurrentTileMap = Null
-							RefreshProjectManager()
-						End If
+						EditTileMap( Null )
 					Case MenuReplacementOfTiles
 						ReplacementOfTiles = LTMenuSwitch.Find( MenuReplacementOfTiles ).Toggle()
 					Case MenuProlongTiles
@@ -874,28 +876,29 @@ Type LTEditor Extends LTProject
 							Local XQuantity:Int = 16
 							Local YQuantity:Int = 16
 							If ChooseParameter( XQuantity, YQuantity, "{{W_ChooseTilemapSize}}", "{{L_WidthInTiles}}", "{{L_HeightInTiles}}" ) Then
-								CurrentTilemap = LTTilemap.Create( Null, XQuantity, YQuantity )
-								CurrentTilemap.Name = Name
-								If SelectImageOrTileset( CurrentTilemap ) Then
+								Local Tilemap:LTTileMap = LTTilemap.Create( Null, XQuantity, YQuantity )
+								Tilemap.Name = Name
+								If SelectImageOrTileset( Tilemap ) Then
 									Local Layer:LTLayer = LTLayer( SelectedShape )
-									InitTileMap( CurrentTilemap )
-									RefreshTilemap()
-									If Layer.Children.IsEmpty() And Not Layer.Bounds Then Layer.SetBounds( CurrentTilemap )
-									Layer.AddLast( CurrentTilemap )
-									RefreshProjectManager()
+									InitTileMap( Tilemap )
+									If Layer.Children.IsEmpty() And Not Layer.Bounds Then Layer.SetBounds( Tilemap )
+									Layer.AddLast( Tilemap )
 									SetChanged()
+									EditTileMap( Tilemap )
 								End If
 							End If
 						End If
 					Case MenuImportTilemap
-						If TileMapImportDialog() Then
+						Local TileMap:LTTileMap = TileMapImportDialog()
+						If Tilemap Then
 							Local Layer:LTLayer = LTLayer( SelectedShape )
-							If Layer.Children.IsEmpty() And Not Layer.Bounds Then Layer.SetBounds( CurrentTilemap )
-							Layer.AddLast( CurrentTilemap )
-							RefreshProjectManager()
+							If Layer.Children.IsEmpty() And Not Layer.Bounds Then Layer.SetBounds( Tilemap )
+							Layer.AddLast( Tilemap )
+							EditTileMap( Tilemap )
 						End If
 					Case MenuImportTilemaps
-						If TileMapImportDialog( True ) Then RefreshProjectManager()
+						Local TileMap:LTTileMap = TileMapImportDialog( True ) 
+						If TileMap Then EditTileMap( Tilemap )
 					Case MenuAddSpriteMap
 						Local Name:String = EnterString( "{{D_EnterNameOfSpriteMap}}", "LTSpriteMap" )
 						If Name Then
@@ -928,13 +931,10 @@ Type LTEditor Extends LTProject
 					' ============================= Tilemap menu ==================================
 					
 					Case MenuEditTilemap
-						CurrentTileMap = LTTileMap( SelectedShape )
-						LTMenuSwitch.Find( MenuTileMapEditingMode ).Set( True )
-						RefreshProjectManager()
-						RefreshTilemap()
+						EditTileMap( LTTileMap( SelectedShape ) )
 					Case MenuSelectTileMap
 						SelectShape( SelectedShape )
-						DeselectTilemap()
+						EditTilemap( Null )
 					Case MenuSelectTileset
 						SelectImageOrTileset( LTTileMap( SelectedShape ) )
 						RefreshTilemap()
@@ -1366,8 +1366,8 @@ Type LTEditor Extends LTProject
 		if ShowGrid Then Grid.Draw()
 		
 		If CurrentTilemap Then
-			If MouseIsOver = MainCanvas Then
-				Local TileSet:LTTileSet = CurrentTileMap.TileSet
+			Local TileSet:LTTileSet = CurrentTileMap.TileSet
+			If MouseIsOver = MainCanvas And TileSet Then
 				Local TileWidth:Double = CurrentTileMap.GetTileWidth()
 				Local TileHeight:Double = CurrentTileMap.GetTileHeight()
 				SelectedTile.Width = TileWidth * ( 1.0 + Tileset.BlockWidth[ TileNum[ 0 ] ] )
@@ -1394,26 +1394,6 @@ Type LTEditor Extends LTProject
 				Next
 			End If
 		End If
-		
-		Rem
-		If CurrentTilemap Then
-			SetColor( 0, 0, 0 )
-			Local X00:Double, Y00:Double
-			Local X01:Double, Y01:Double
-			Local X10:Double, Y10:Double
-			Local X11:Double, Y11:Double
-			MainCamera.FieldToScreen( CurrentTilemap.X - 0.5 * CurrentTilemap.Width, CurrentTilemap.Y - 0.5 * CurrentTilemap.Height, X00, Y00 )
-			MainCamera.FieldToScreen( CurrentTilemap.X - 0.5 * CurrentTilemap.Width, CurrentTilemap.Y + 0.5 * CurrentTilemap.Height, X01, Y01 )
-			MainCamera.FieldToScreen( CurrentTilemap.X + 0.5 * CurrentTilemap.Width, CurrentTilemap.Y - 0.5 * CurrentTilemap.Height, X10, Y10 )
-			MainCamera.FieldToScreen( CurrentTilemap.X + 0.5 * CurrentTilemap.Width, CurrentTilemap.Y + 0.5 * CurrentTilemap.Height, X11, Y11 )
-			DrawLine( X00, Y00, X01, Y01 )
-			DrawLine( X00, Y00, X10, Y10 )
-			DrawLine( X11, Y11, X01, Y01 )
-			DrawLine( X11, Y11, X10, Y10 )
-			Cursor.Draw()
-			SetColor( 255, 255, 255 )
-		End If
-		EndRem
 		
 		Flip( False )
 		'EndGraphics
@@ -1532,29 +1512,30 @@ Type LTEditor Extends LTProject
 		Modifiers.Clear()
 	
 		Local SWidth:Double, SHeight:Double
-		L_CurrentCamera.SizeFieldToScreen( 0.5 * Shape.Width, 0.5 * Shape.Height, SWidth, SHeight )
+		Local Width:Double = 0.5 * Shape.Width
+		Local Height:Double = 0.5 * Shape.Height
 		
 		If SWidth < 4 Then SWidth = 4
 		If SHeight < 4 Then SHeight = 4
 		
-		AddModifier( Shape, TModifyShape.ResizeHorizontally, -SWidth - 4, 0 )
-		AddModifier( Shape, TModifyShape.ResizeHorizontally, SWidth + 4, 0 )
-		AddModifier( Shape, TModifyShape.ResizeVertically, 0, -SHeight - 4 )
-		AddModifier( Shape, TModifyShape.ResizeVertically, 0, +SHeight + 4 )
-		AddModifier( Shape, TModifyShape.Resize, -SWidth - 4, -SHeight - 4 )
-		AddModifier( Shape, TModifyShape.Resize, SWidth + 4, -SHeight - 4 )
-		AddModifier( Shape, TModifyShape.Resize, -SWidth - 4, SHeight + 4 )
-		AddModifier( Shape, TModifyShape.Resize, SWidth + 4, SHeight + 4 )
+		AddModifier( Shape, TModifyShape.ResizeHorizontally, -Width, 0, -4, 0 )
+		AddModifier( Shape, TModifyShape.ResizeHorizontally, Width, 0, 4, 0 )
+		AddModifier( Shape, TModifyShape.ResizeVertically, 0, -Height, 0, -4 )
+		AddModifier( Shape, TModifyShape.ResizeVertically, 0, Height, 0, 4 )
+		AddModifier( Shape, TModifyShape.Resize, -Width, -Height, -4, -4 )
+		AddModifier( Shape, TModifyShape.Resize, Width, -Height, 4, -4 )
+		AddModifier( Shape, TModifyShape.Resize, -Width, Height, -4, 4 )
+		AddModifier( Shape, TModifyShape.Resize, Width, Height, 4, 4 )
 	End Method
 	
 	
 	
-	Method AddModifier( Shape:LTShape, ModType:Int, DX:Int, DY:Int )
+	Method AddModifier( Shape:LTShape, ModType:Int, FDX:Double, FDY:Double, SDX:Int, SDY:Int )
 		Local Modifier:LTSprite = New LTSprite
-		Local FDX:Double, FDY:Double
-		L_CurrentCamera.SizeScreenToField( DX, DY, FDX, FDY )
-		Modifier.X = Shape.X + FDX
-		Modifier.Y = Shape.Y + FDY
+		Local FDX2:Double = 0, FDY2:Double = 0
+		If Not L_CurrentCamera.Isometric Then L_CurrentCamera.SizeScreenToField( SDX, SDY, FDX2, FDY2 )
+		Modifier.X = Shape.X + FDX + FDX2
+		Modifier.Y = Shape.Y + FDY + FDY2
 		Modifier.Frame = ModType
 		Modifier.ShapeType = LTSprite.Rectangle
 		Modifiers.AddLast( Modifier )
@@ -1597,54 +1578,76 @@ Type LTEditor Extends LTProject
 		Local SelectedShapesLink:TLink = Null
 		If Not SelectedShapes.IsEmpty() Then SelectedShapesLink = SelectedShapes.FirstLink()
 		For Local Shape:LTShape = Eachin Layer.Children
-			Local Icon:Int
-			If LTLayer( Shape ) Then
-				Icon = 0
-			ElseIf LTTIleMap( Shape ) Then
-				Icon = 1
-			ElseIf LTSpriteMap( Shape ) Then
-				Icon = 3
-			Else
-				Icon = 2
-			End If
-			
-			Local Name:String = Shape.Name
-			If Not Shape.Visible Then Name = "(x) " + Name
-			If Not Shape.Active Then Name = "(-) " + Name
-			
-			If Shape = CurrentContainer Then Name = "{ " + Name + " }"
-			If Shape = CurrentTilemap Or Shape = CurrentViewLayer Then Name = "< " + Name + " >"
-			If SelectedShapesLink Then
-				If SelectedShapesLink.Value() = Shape Then
-					Name = "* " + Name + " *"
-					SelectedShapesLink = SelectedShapesLink.NextLink()
-				End If
-			End If
-			
-			Local CurrentNode:TGadget
-			If Link <> Null Then
-				CurrentNode = TGadget( Link.Value() )
-				ModifyTreeViewNode( CurrentNode, Name, Icon )
-				SetGadgetExtra( CurrentNode, Shape )
-				
-				If Not LTLayer( Shape ) Then
-					For Local ChildNode:TGadget = Eachin CurrentNode.kids
-						FreeTreeViewNode( ChildNode )
-					Next
-				End If
-				
-				Link = Link.NextLink()
-			Else
-				CurrentNode = AddTreeViewNode( Name, Node, Icon, Shape )
-			End If
-			
-			If LTLayer( Shape ) Then RefreshProjectManager( LTLayer( Shape ), CurrentNode )
+			AddShapeEntry( Shape, Node, Link, SelectedShapesLink )
 		Next
 		While Link <> Null
 			FreeTreeViewNode( TGadget( Link.Value() ) )
 			Link = Link.NextLink()
 		WEnd
 	End Method	
+	
+	
+	
+	Method AddShapeEntry( Shape:LTShape, Node:TGadget, Link:TLink Var, SelectedShapesLink:TLink Var )
+		Local Icon:Int
+		If LTLayer( Shape ) Then
+			Icon = 0
+		ElseIf LTTIleMap( Shape ) Then
+			Icon = 1
+		ElseIf LTSpriteMap( Shape ) Then
+			Icon = 3
+		Else
+			Icon = 2
+		End If
+		
+		Local Name:String = Shape.Name
+		If Not Shape.Visible Then Name = "(x) " + Name
+		If Not Shape.Active Then Name = "(-) " + Name
+		
+		If Shape = CurrentContainer Then Name = "{ " + Name + " }"
+		If Shape = CurrentTilemap Or Shape = CurrentViewLayer Then Name = "< " + Name + " >"
+		If SelectedShapesLink Then
+			If SelectedShapesLink.Value() = Shape Then
+				Name = "* " + Name + " *"
+				SelectedShapesLink = SelectedShapesLink.NextLink()
+			End If
+		End If
+		
+		Local CurrentNode:TGadget
+		If Link <> Null Then
+			CurrentNode = TGadget( Link.Value() )
+			ModifyTreeViewNode( CurrentNode, Name, Icon )
+			SetGadgetExtra( CurrentNode, Shape )
+			
+			If Not LTLayer( Shape ) Then
+				For Local ChildNode:TGadget = Eachin CurrentNode.kids
+					FreeTreeViewNode( ChildNode )
+				Next
+			End If
+			
+			Link = Link.NextLink()
+		Else
+			CurrentNode = AddTreeViewNode( Name, Node, Icon, Shape )
+		End If
+		
+		Local Layer:LTLayer = LTLayer( Shape )
+		If Layer Then
+			RefreshProjectManager( Layer, CurrentNode )
+		Else
+			Local SpriteMap:LTSpriteMap = LTSpriteMap( Shape )
+			If SpriteMap Then
+				debugstop
+				Local ChildLink:TLink = CurrentNode.kids.FirstLink()
+				For Local Sprite:LTSprite = Eachin SpriteMap.GetSprites()
+					AddShapeEntry( Sprite, CurrentNode, ChildLink, SelectedShapesLink )
+				Next
+				While ChildLink <> Null
+					FreeTreeViewNode( TGadget( ChildLink.Value() ) )
+					ChildLink = ChildLink.NextLink()
+				WEnd
+			End If
+		End If
+	End Method
 	
 	
 	
@@ -1693,15 +1696,6 @@ Type LTEditor Extends LTProject
 		TileMap.Y = 0.5 * TileMap.YQuantity
 		TileMap.Width = TileMap.XQuantity
 		TileMap.Height = TileMap.YQuantity
-	End Method
-	
-	
-	
-	Method DeselectTileMap()
-		If CurrentTileMap Then
-			CurrentTileMap = Null
-			RefreshProjectManager()
-		End If
 	End Method
 	
 	
@@ -1841,6 +1835,23 @@ Type LTEditor Extends LTProject
 		Else
 			UnCheckMenu( IncbinMenu )
 		End If
+	End Method
+	
+	
+	
+	Method EditTileMap( TileMap:LTTileMap )
+		If TileMap Then
+			If Not TileMap.TileSet Then Return
+			CurrentTileMap = TileMap
+			LTMenuSwitch.Find( MenuTileMapEditingMode ).Set( True )
+		ElseIf CurrentTileMap Then
+			LTMenuSwitch.Find( MenuTileMapEditingMode ).Set( False )
+			CurrentTileMap = Null
+		Else
+			Return
+		End If
+		RefreshProjectManager()
+		RefreshTilemap()
 	End Method
 End Type
 

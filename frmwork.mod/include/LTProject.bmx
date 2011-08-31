@@ -124,10 +124,20 @@ Type LTProject Extends LTObject
 		Local NewLayer:LTLayer = LTLayer( CreateShape( Layer ) )
 		For Local Shape:LTShape = Eachin Layer.Children
 			Local NewShape:LTShape
-			If LTLayer( Shape ) Then
-				NewShape = LoadLayer( LTLayer( Shape ) )
+			Local ChildLayer:LTLayer = LTLayer( Shape )
+			If ChildLayer Then
+				NewShape = LoadLayer( ChildLayer )
 			Else
-				NewShape = CreateShape( Shape )
+				Local SpriteMap:LTSpriteMap = LTSpriteMap( Shape )
+				If SpriteMap Then
+					Local NewSpriteMap:LTSpriteMap = New LTSpriteMap
+					For Local ChildSprite:LTSprite = Eachin SpriteMap.Sprites
+						NewSpriteMap.InsertSprite( LTSprite( CreateShape( ChildSprite ) ) )
+					Next
+					NewShape = NewSpriteMap
+				Else
+					NewShape = CreateShape( Shape )
+				End If
 			End If
 			NewLayer.AddLast( NewShape )
 		Next

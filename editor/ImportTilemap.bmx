@@ -9,10 +9,10 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Function TilemapImportDialog:Int( Multiple:Int = False )
+Function TilemapImportDialog:LTTileMap( Multiple:Int = False )
 	Local TileWidth:Int = 16
 	Local TileHeight:Int = 16
-	If Not ChooseParameter( TileWidth, TileHeight, "{{W_ChooseTileSize}}", "{{L_WidthInPixels}}", "{{L_HeightInPixels}}" ) Then Return False
+	If Not ChooseParameter( TileWidth, TileHeight, "{{W_ChooseTileSize}}", "{{L_WidthInPixels}}", "{{L_HeightInPixels}}" ) Then Return Null
 	
 	Local TileSet:LTTileSet
 	
@@ -37,11 +37,11 @@ Function TilemapImportDialog:Int( Multiple:Int = False )
 							Exit
 						Case CancelButton
 							FreeGadget( Window )
-							Return False
+							Return Null
 					End Select
 				Case Event_WindowClose
 					FreeGadget( Window )
-					Return False
+					Return Null
 			End Select
 		Forever
 	End If
@@ -50,25 +50,26 @@ Function TilemapImportDialog:Int( Multiple:Int = False )
 	If TileSet Then
 		If Not TileSet.Image Then
 			Notify( LocalizeString( "{{L_SelectImage}}" ) )
-			Return False
+			Return Null
 		End If
 	Else
 		TileSet = New LTTileSet
 		TileSet.Name = "Imported"
 		TileSet.Image = New LTImage
-		TileSet.Image.Filename = L_ChopFilename( RequestFile( LocalizeString( "{{D_SelectFileToSaveImageTo}}" ), "png", True ) )
-		If Not TileSet.Image.Filename Then Return False
+		TileSet.Image.Filename = RequestFile( LocalizeString( "{{D_SelectFileToSaveImageTo}}" ), "png", True )
+		If Not TileSet.Image.Filename Then Return Null
 		ImageInit = True
 	End If
 	
+	Local TileMap:LTTileMap
 	If Not Multiple Then
 		Local Filename:String = RequestFile( LocalizeString( "{{D_SelectTilemapFile}}" ), "Image files:png,jpg,bmp" )
-		If Not FileName Then Return False
+		If Not FileName Then Return Null
 		
 		Local TilemapPixmap:TPixmap = LoadPixmap( Filename )
 		If Not TilemapPixmap Then
 			Notify( LocalizeString( "{{N_CannotLoadTilemap}}" ) )
-			Return False
+			Return Null
 		End If
 		
 		Local TilemapWidth:Int = PixmapWidth( TilemapPixmap )
@@ -76,13 +77,13 @@ Function TilemapImportDialog:Int( Multiple:Int = False )
 		
 		If TilemapWidth Mod TileWidth <> 0 Or TilemapHeight Mod TileHeight <> 0 Then
 			Notify( LocalizeString( "{{N_TilemapSize}}" ) )
-			Return False
+			Return Null
 		End If
 		
-		Editor.CurrentTilemap = ImportTilemap( TileWidth, TileHeight, TilemapPixmap, TileSet )
+		Tilemap = ImportTilemap( TileWidth, TileHeight, TilemapPixmap, TileSet )
 	Else
 		Local Path:String = RequestDir( LocalizeString( "{{D_SelectTilemapsDirectory}}" ), CurrentDir() )
-		If Not Path Then Return False
+		If Not Path Then Return Null
 		
 		Local Dir:Int = ReadDir( Path )
 		Local Num:Int = 1
@@ -102,7 +103,7 @@ Function TilemapImportDialog:Int( Multiple:Int = False )
 					Layer.Name = "LTLayer," + Num
 					Editor.World.AddLast( Layer )
 					
-					Local TileMap:LTTileMap = ImportTilemap( TileWidth, TileHeight, TilemapPixmap, TileSet )
+					TileMap = ImportTilemap( TileWidth, TileHeight, TilemapPixmap, TileSet )
 					Layer.AddLast( TileMap )
 					Layer.SetBounds( TileMap )
 					Num :+ 1
@@ -118,9 +119,8 @@ Function TilemapImportDialog:Int( Multiple:Int = False )
 		Editor.BigImages.Insert( TileSet.Image, LoadImage( TileSet.Image.Filename ) )
 	End If
 	TileSet.RefreshTilesQuantity()
-	Editor.RefreshTilemap()
 	Editor.SetChanged()
-	Return True
+	Return TileMap
 End Function
 
 
@@ -143,10 +143,12 @@ Function ImportTilemap:LTTileMap( TileWidth:Int, TileHeight:Int, TileMapPixmap:T
 	Local Image:TImage = TileSet.Image.BMaxImage
 	If Not Image Then
 		Local Pixmap:TPixmap = LoadPixmap( TileSet.Image.Filename )
-		Local PixmapWidth:Int = PixmapWidth( Pixmap )
-		Local PixmapHeight:Int = PixmapHeight( Pixmap )
-		If PixmapWidth Mod TileWidth = 0 And PixmapHeight Mod TileHeight = 0 Then
-			Image = LoadAnimImage( Pixmap, TileWidth, TileHeight, 0, PixmapWidth / TileWidth * PixmapHeight / TileHeight )
+		If Pixmap Then
+			Local PixmapWidth:Int = PixmapWidth( Pixmap )
+			Local PixmapHeight:Int = PixmapHeight( Pixmap )
+			If PixmapWidth Mod TileWidth = 0 And PixmapHeight Mod TileHeight = 0 Then
+				Image = LoadAnimImage( Pixmap, TileWidth, TileHeight, 0, PixmapWidth / TileWidth * PixmapHeight / TileHeight )
+			End If
 		End If
 	End If
 	

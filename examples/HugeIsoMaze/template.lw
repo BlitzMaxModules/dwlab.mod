@@ -1,4 +1,4 @@
-<LTWorld dwlab_version="1.0.7.1">
+<LTWorld dwlab_version="1.1">
 	<LTVisualizer field="visualizer" id="1"/>
 	<TList field="images">
 		<Object id="7"/>
@@ -7,7 +7,7 @@
 	<TList field="tilesets">
 		<Object id="6"/>
 	</TList>
-	<LTCamera field="camera" x="8" y="8" width="14.9282" height="12.6031" viewport-clipping="1" isometric="1" x1="2" y1="1" x2="-2" y2="1">
+	<LTCamera field="camera" x="9.5299" y="6.4211" width="12.3373" height="10.4157" viewport-clipping="1" isometric="1" x1="20" y1="10" x2="-20" y2="10">
 		<LTVisualizer field="visualizer" id="145"/>
 		<LTShape field="viewport" x="504" y="425.5" width="1008" height="851">
 			<Object field="visualizer" id="145"/>

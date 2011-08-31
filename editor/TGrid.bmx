@@ -18,43 +18,25 @@ Type TGrid Extends LTShape
 	
 	
 	Method Draw()
-		Local SX:Double, SY:Double
 		L_DebugVisualizer.ApplyColor()
-		SetAlpha( 1.0 )
 		
-		Local SX2:Double, SY2:Double
-		If L_CurrentCamera.Isometric Then
-			
-		End If
+		Local MinX:Double, MinY:Double, MaxX:Double, MaxY:Double
+		L_GetEscribedRectangle( 0, 0, 0, 0, MinX, MinY, MaxX, MaxY )
+		Local SX1:Double, SY1:Double, SX2:Double, SY2:Double
 		
-		Local X1:Double = Floor( L_CurrentCamera.LeftX() / CellWidth ) * CellWidth
-		Local X2:Double = L_CurrentCamera.RightX()
-		Local Y1:Double = Floor( L_CurrentCamera.TopY() / CellHeight ) * CellHeight
-		Local Y2:Double = L_CurrentCamera.BottomY()
-		
-		X = X1
-		While X < X2
-			If L_CurrentCamera.Isometric Then
-				L_CurrentCamera.FieldToScreen( X, Y1, SX, SY )
-				L_CurrentCamera.FieldToScreen( X, Y2, SX2, SY2 )
-				DrawLine( SX, SY, SX2, SY2 )
-			Else
-				L_CurrentCamera.FieldToScreen( X, 0, SX, SY )
-				DrawLine( SX, 0, SX, GraphicsHeight() )
-			End If
+		X = Floor( MinX / CellWidth ) * CellWidth
+		While X <= MaxX
+			L_CurrentCamera.FieldToScreen( X, MinY, SX1, SY1 )
+			L_CurrentCamera.FieldToScreen( X, MaxY, SX2, SY2 )
+			DrawLine( SX1, SY1, SX2, SY2 )
 			X :+ CellWidth
 		WEnd
 		
-		Y = Y1
-		While Y < Y2
-			If L_CurrentCamera.Isometric Then
-				L_CurrentCamera.FieldToScreen( X1, Y, SX, SY )
-				L_CurrentCamera.FieldToScreen( X2, Y, SX2, SY2 )
-				DrawLine( SX, SY, SX2, SY2 )
-			Else
-				L_CurrentCamera.FieldToScreen( 0, Y, SX, SY )
-				DrawLine( 0, SY, GraphicsWidth(), SY )
-			End If
+		Y = Floor( MinY / CellHeight ) * CellHeight
+		While Y <= MaxY
+			L_CurrentCamera.FieldToScreen( MinX, Y, SX1, SY1 )
+			L_CurrentCamera.FieldToScreen( MaxX, Y, SX2, SY2 )
+			DrawLine( SX1, SY1, SX2, SY2 )
 			Y :+ CellHeight
 		WEnd
 		

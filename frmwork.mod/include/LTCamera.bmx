@@ -66,8 +66,13 @@ Type LTCamera Extends LTSprite
 	about: See also: #ScreenToField, #DistScreenToField, #FieldToScreen, #SizeFieldToScreen, #DistFieldToScreen
 	End Rem
 	Method SizeScreenToField( ScreenWidth:Double, ScreenHeight:Double, FieldWidth:Double Var, FieldHeight:Double Var )
-		FieldWidth = ScreenWidth / K
-		FieldHeight = ScreenHeight / K
+		If Isometric Then
+			FieldWidth = ( ScreenHeight * VX2 - ScreenWidth * VY2 ) / VK
+			FieldHeight = ( ScreenWidth * VY1  - ScreenHeight * VX1 ) / VK
+		Else
+			FieldWidth = ScreenWidth / K
+			FieldHeight = ScreenHeight / K
+		End If
 	End Method
 
 	
@@ -243,8 +248,8 @@ Rem
 bbdoc: Sets graphics mode.
 about: Provide width and height of screen in pixels and unit size in pixels for camera.
 End Rem
-Function L_InitGraphics( Width:Int = 800, Height:Int = 600, UnitSize:Double = 32.0 )
-	Graphics( Width, Height )
+Function L_InitGraphics( Width:Int = 800, Height:Int = 600, UnitSize:Double = 32.0, ColorDepth:Int = 0 )
+	Graphics( Width, Height, ColorDepth )
 	L_CurrentCamera = LTCamera.Create( Width, Height, UnitSize )
 	AutoImageFlags( FILTEREDIMAGE | DYNAMICIMAGE )
 	SetBlend( AlphaBlend )

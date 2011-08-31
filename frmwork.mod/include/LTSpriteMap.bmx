@@ -13,7 +13,8 @@ bbdoc: Sprite map is a structure which can contain sprites, draw and perform col
 about: Operations like drawing and checking collision between large groups of sprites will be faster with use of collision maps.
 End Rem
 Type LTSpriteMap Extends LTMap
-	Field Sprites:TList[ , ]
+	Field Sprites:TMap = New TMap
+	Field Lists:TList[ , ]
 	
 	Rem
 	bbdoc: Width of sprite map cell in units.
@@ -45,7 +46,6 @@ Type LTSpriteMap Extends LTMap
 	about: False by default.
 	End Rem
 	Field PivotMode:Int = False
-	Field ObjectRadius:Double
 	
 	
 	
@@ -68,10 +68,10 @@ Type LTSpriteMap Extends LTMap
 		If Not Masked Then L_Error( "Map resoluton must be power of 2" )
 		?
 		
-		Sprites = New TList[ NewXQuantity, NewYQuantity ]
+		Lists = New TList[ NewXQuantity, NewYQuantity ]
 		For Local Y:Int = 0 Until NewYQuantity
 			For Local X:Int = 0 Until NewXQuantity
-				Sprites[ X, Y ] = New TList
+				Lists[ X, Y ] = New TList
 			Next
 		Next
 	End Method
@@ -107,24 +107,6 @@ Type LTSpriteMap Extends LTMap
 		BottomMargin = NewBottomMargin
 	End Method
 	
-	
-	
-	Rem
-	bbdoc: Returns all sprite map sprites.
-	returns: TMap object with each sprite map sprite as key.
-	End Rem
-	Method GetSprites:TMap()
-		Local Map:TMap = New TMap
-		For Local Y:Int = 0 Until YQuantity
-			For Local X:Int = 0 Until XQuantity
-				For Local Sprite:LTSprite = Eachin Sprites[ X, Y ]
-					Map.Insert( Sprite, Null )
-				Next
-			Next
-		Next
-		Return Map
-	End Method
-	
 	' ==================== Drawing ===================	
 	
 	Rem
@@ -138,10 +120,13 @@ Type LTSpriteMap Extends LTMap
 	
 	Method DrawUsingVisualizer( Vis:LTVisualizer )
 		If Visible Then
-			Local MapX1:Int = Floor( ( L_CurrentCamera.X - 0.5 * L_CurrentCamera.Width - LeftMargin ) / CellWidth )
-			Local MapY1:Int = Floor( ( L_CurrentCamera.Y - 0.5 * L_CurrentCamera.Height - TopMargin ) / CellHeight )
-			Local MapX2:Int = Floor( ( L_CurrentCamera.X + 0.5 * L_CurrentCamera.Width - L_Inaccuracy + RightMargin ) / CellWidth )
-			Local MapY2:Int = Floor( ( L_CurrentCamera.Y + 0.5 * L_CurrentCamera.Height - L_Inaccuracy + BottomMargin ) / CellHeight )
+			Local ScreenMinX:Double, ScreenMinY:Double, ScreenMaxX:Double, ScreenMaxY:Double
+			L_GetEscribedRectangle( LeftMargin, TopMargin, RightMargin, BottomMargin, ScreenMinX, ScreenMinY, ScreenMaxX, ScreenMaxY )
+			
+			Local MapX1:Int = Floor( ScreenMinX / CellWidth )
+			Local MapY1:Int = Floor( ScreenMinY / CellHeight )
+			Local MapX2:Int = Floor( ScreenMaxX / CellWidth )
+			Local MapY2:Int = Floor( ScreenMaxY / CellHeight )
 			
 			Local SpriteMap:TMap = New TMap
 			
@@ -153,7 +138,7 @@ Type LTSpriteMap Extends LTMap
 				Local MaxY:Double = ( Y + 1 ) * CellHeight
 				If Sorted Then
 					For Local X:Int = MapX1 To MapX2
-						XLink[ X - MapX1 ] = Sprites[ X & XMask, MaskedY ].FirstLink()
+						XLink[ X - MapX1 ] = Lists[ X & XMask, MaskedY ].FirstLink()
 					Next
 					
 					Repeat
@@ -187,7 +172,7 @@ Type LTSpriteMap Extends LTMap
 					Forever
 				Else
 					For Local X:Int = MapX1 To MapX2
-						For Local Sprite:LTSprite = Eachin Sprites[ X & XMask, MaskedY ]
+						For Local Sprite:LTSprite = Eachin Lists[ X & XMask, MaskedY ]
 							If Not SpriteMap.Contains( Sprite ) Then
 								If Vis Then
 									Vis.DrawUsingSprite( Sprite )
@@ -212,11 +197,12 @@ Type LTSpriteMap Extends LTMap
 	See also: #RemoveSprite
 	End Rem
 	Method InsertSprite( Sprite:LTSprite, ChangeSpriteMapField:Int = True )
+		Sprites.Insert( Sprite, Null )
 		If PivotMode Then
 			If Sorted Then
 				InsertSpriteTo( Sprite, Int( Sprite.X / CellWidth ) & XMask, Int( Sprite.Y / CellHeight ) & YMask )
 			Else
-				Sprites[ Int( Sprite.X / CellWidth ) & XMask, Int( Sprite.Y / CellHeight ) & YMask ].AddFirst( Sprite )
+				Lists[ Int( Sprite.X / CellWidth ) & XMask, Int( Sprite.Y / CellHeight ) & YMask ].AddFirst( Sprite )
 			End If
 		Else
 			Local MapX1:Int = Floor( ( Sprite.X - 0.5 * Sprite.Width ) / CellWidth )
@@ -229,7 +215,7 @@ Type LTSpriteMap Extends LTMap
 					If Sorted Then
 						InsertSpriteTo( Sprite, X & XMask, Y & YMask )
 					Else
-						Sprites[ X & XMask, Y & YMask ].AddFirst( Sprite )
+						Lists[ X & XMask, Y & YMask ].AddFirst( Sprite )
 					End If
 				Next
 			Next
@@ -240,7 +226,7 @@ Type LTSpriteMap Extends LTMap
 	
 	
 	Method InsertSpriteTo( Sprite:LTSprite, MapX:Int, MapY:Int )
-		Local List:TList = Sprites[ MapX, MapY ]
+		Local List:TList = Lists[ MapX, MapY ]
 		Local Link:TLink = List.FirstLink()
 		Repeat
 			If Not Link Then
@@ -267,8 +253,9 @@ Type LTSpriteMap Extends LTMap
 	See also: #InsertSprite
 	End Rem
 	Method RemoveSprite( Sprite:LTSprite, ChangeSpriteMapField:Int = True )
+		Sprites.Remove( Sprite )
 		If PivotMode Then
-			Sprites[ Int( Sprite.X / CellWidth ) & XMask, Int( Sprite.Y / CellHeight ) & YMask ].Remove( Sprite )
+			Lists[ Int( Sprite.X / CellWidth ) & XMask, Int( Sprite.Y / CellHeight ) & YMask ].Remove( Sprite )
 		Else
 			Local MapX1:Int = Floor( ( Sprite.X - 0.5 * Sprite.Width ) / CellWidth )
 			Local MapY1:Int = Floor( ( Sprite.Y - 0.5 * Sprite.Height ) / CellHeight )
@@ -277,7 +264,7 @@ Type LTSpriteMap Extends LTMap
 			
 			For Local Y:Int = MapY1 To MapY2
 				For Local X:Int = MapX1 To MapX2
-					Sprites[ X & XMask, Y & YMask ].Remove( Sprite )
+					Lists[ X & XMask, Y & YMask ].Remove( Sprite )
 				Next
 			Next
 		End If
@@ -290,14 +277,15 @@ Type LTSpriteMap Extends LTMap
 	bbdoc: Clears sprite map.
 	End Rem
 	Method Clear()
+		Sprites.Clear()
 		For Local Y:Int = 0 Until YQuantity
 			For Local X:Int = 0 Until XQuantity
-				Sprites[ X, Y ].Clear()
+				Lists[ X, Y ].Clear()
 			Next
 		Next
 	End Method
 	
-	' ==================== Collisions ===================
+	' ==================== Other ===================
 	
 	Rem
 	bbdoc: Creates collision map.
@@ -305,14 +293,47 @@ Type LTSpriteMap Extends LTMap
 	
 	See also: #CreateForShape
 	End Rem
-	Function Create:LTSpriteMap( XQuantity:Int, YQuantity:Int, CellWidth:Double = 1.0, CellHeight:Double = 1.0, Sorted:Int = False )
+	Function Create:LTSpriteMap( XQuantity:Int, YQuantity:Int, CellWidth:Double = 1.0, CellHeight:Double = 1.0, Sorted:Int = False, PivotMode:Int = False )
 		Local Map:LTSpriteMap = New LTSpriteMap
 		Map.SetResolution( XQuantity, YQuantity )
 		Map.CellWidth = CellWidth
 		Map.CellHeight = CellHeight
 		Map.Sorted = Sorted
+		Map.PivotMode = PivotMode
 		Return Map
 	End Function
+	
+	
+	
+	Method CopyTo( Shape:LTShape )
+		Super.CopyTo( Shape )
+		Local SpriteMap:LTSpriteMap = LTSpriteMap( Shape )
+		
+		?debug
+		If Not SpriteMap Then L_Error( "Trying to copy sprite map ~q" + Shape.Name + "~q data to non-sprite-map" )
+		?
+		
+		SpriteMap.SetResolution( XQuantity, YQuantity )
+		SpriteMap.CellWidth = CellWidth
+		SpriteMap.CellHeight = CellHeight
+		SpriteMap.LeftMargin = LeftMargin
+		SpriteMap.RightMargin = RightMargin
+		SpriteMap.TopMargin = TopMargin
+		SpriteMap.BottomMargin = BottomMargin
+		SpriteMap.Sorted = Sorted
+		SpriteMap.PivotMode = PivotMode
+	End Method
+	
+	
+	
+	Method Clone:LTShape()
+		Local NewSpriteMap:LTSpriteMap = New LTSpriteMap
+		CopyTo( NewSpriteMap )
+		For Local Sprite:LTSprite = Eachin Sprites
+			NewSpriteMap.InsertSprite( Sprite )
+		Next
+		Return NewSpriteMap
+	End Method
 	
 	
 	
@@ -338,15 +359,13 @@ Type LTSpriteMap Extends LTMap
 		XMLObject.ManageDoubleAttribute( "bottom-margin", BottomMargin )
 		XMLObject.ManageIntAttribute( "sorted", Sorted )
 		XMLObject.ManageIntAttribute( "pivot-mode", PivotMode )
-		XMLObject.ManageDoubleAttribute( "object-radius", ObjectRadius )
 		
 		If L_XMLMode = L_XMLGet Then
 			For Local SpriteXMLObject:LTXMLObject = Eachin XMLObject.Children
 				InsertSprite( LTSprite( SpriteXMLObject.ManageObject( Null ) ) )
 			Next
 		Else
-			Local Map:TMap = GetSprites()
-			For Local Sprite:LTSprite = Eachin Map.Keys()
+			For Local Sprite:LTSprite = Eachin Sprites
 				Local NewXMLObject:LTXMLObject = New LTXMLObject
 				NewXMLObject.ManageObject( Sprite )
 				XMLObject.Children.AddLast( NewXMLObject )

@@ -1,6 +1,6 @@
 '
 ' Color Lines - Digital Wizard's Lab example
-' Copyright (C) 2010, Matt Merkulov
+' Copyright (C) 2011, Matt Merkulov
 '
 ' All rights reserved. Use of this code is allowed under the
 ' Artistic License 2.0 terms, as specified in the license.txt
@@ -9,29 +9,29 @@
 '
 
 Type TSelected Extends LTBehaviorModel
-	Const Speed:Double = 2.0
-	Const Bump:Double = 0.3
+  Const Speed:Double = 2.0
+  Const Bump:Double = 0.3
 
-	Field X:Int, Y:Int
-	Field StartingTime:Double
-	Field Sprite:LTSprite
-	
-	Function Create:TSelected( X:Int, Y:Int )
-		Local Model:TSelected = New TSelected
-		Model.X = X
-		Model.Y = Y
-		Model.StartingTime = Game.Time
-		Model.Sprite = Game.TileToSprite( Model, X, Y )
-		Return Model
-	End Function
-	
-	Method ApplyTo( Shape:LTShape )
-		Local Angle:Double = ( Game.Time - StartingTime ) * 360.0 * Speed
-		Shape.Visualizer.SetVisualizerScale( 1.0 + Sin( Angle ) * Bump, 1.0 + Cos( Angle ) * Bump )
-	End Method
-	
-	Method Deactivate( Shape:LTShape )
-		Game.Level.SetTile( X, Y, Sprite.Frame )
-		Game.Objects.Remove( Sprite )
-	End Method
+  Field X:Int, Y:Int
+  Field StartingTime:Double
+  Field Sprite:LTSprite
+  
+  Function Create:TSelected( X:Int, Y:Int )
+    Local Model:TSelected = New TSelected
+    Model.X = X
+    Model.Y = Y
+    Model.StartingTime = Game.Time
+    Model.Sprite = Game.TileToSprite( Model, X, Y )
+    Return Model
+  End Function
+  
+  Method ApplyTo( Shape:LTShape )
+    Local Angle:Double = ( Game.Time - StartingTime ) * 360.0 * Speed
+    Shape.Visualizer.SetVisualizerScale( 1.0 + Sin( Angle ) * Bump, 1.0 + Cos( Angle ) * Bump )
+  End Method
+  
+  Method Deactivate( Shape:LTShape )
+    Game.Level.SetTile( X, Y, Sprite.Frame )
+    Game.Objects.Remove( Sprite )
+  End Method
 End Type

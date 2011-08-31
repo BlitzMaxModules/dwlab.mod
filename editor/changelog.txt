@@ -1,5 +1,10 @@
+1.6.2
++ Sprite map contents are now displayed in project manager
+* Fixed displaying of grid by isometric cameras
+* Fixed crash when creating tilemap with null tileset
+
 1.6.1
-+Added support for wrapped tilemaps and tilemaps with different tile displaying order.
++ Added support for wrapped tilemaps and tilemaps with different tile displaying order.
 
 1.6
 + Added isometric cameras support
@@ -107,3 +112,6 @@
 * Arranged GUI elements of image selection page
 * Object renaming if another object with same name exists
 * Grid color saving to ini-file
+
+1.0
+  Initial release

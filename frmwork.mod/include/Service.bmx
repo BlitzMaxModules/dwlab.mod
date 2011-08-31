@@ -399,3 +399,22 @@ Function L_ToPowerOf2:Int( Value:Int )
 		Result :* 2
 	Forever
 End Function
+
+
+
+
+
+Function L_GetEscribedRectangle( LeftMargin:Double, RightMargin:Double, TopMargin:Double, BottomMargin:Double, ..
+		MinX:Double Var, MinY:Double Var, MaxX:Double Var, MaxY:Double Var )
+	Local X00:Double, Y00:Double, X01:Double, Y01:Double
+	Local X10:Double, Y10:Double, X11:Double, Y11:Double
+	Local Viewport:LTShape = L_CurrentCamera.Viewport
+	L_CurrentCamera.ScreenToField( Viewport.LeftX(), Viewport.TopY(), X00, Y00 )
+	L_CurrentCamera.ScreenToField( Viewport.RightX(), Viewport.TopY(), X10, Y10 )
+	L_CurrentCamera.ScreenToField( Viewport.LeftX(), Viewport.BottomY(), X01, Y01 )
+	L_CurrentCamera.ScreenToField( Viewport.RightX(), Viewport.BottomY(), X11, Y11 )
+	MinX = Min( Min( X00 - LeftMargin, X10 + RightMargin ), Min( X01 - LeftMargin, X11 + RightMargin ) )
+	MinY = Min( Min( Y00 - TopMargin, Y10 - TopMargin ), Min( Y01 + BottomMargin, Y11 + BottomMargin ) )
+	MaxX = Max( Max( X00 - LeftMargin, X10 + RightMargin ), Max( X01 - LeftMargin, X11 + RightMargin ) )
+	MaxY = Max( Max( Y00 - TopMargin, Y10 - TopMargin ), Max( Y01 + BottomMargin, Y11 + BottomMargin ) )
+End Function

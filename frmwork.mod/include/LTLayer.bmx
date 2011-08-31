@@ -163,6 +163,16 @@ Type LTLayer Extends LTGroup
 	
 	
 	
+	Method Clone:LTShape()
+		Local NewLayer:LTLayer = New LTLayer
+		CopyTo( NewLayer )
+		For Local Shape:LTShape = Eachin Children
+			NewLayer.Children.AddLast( Shape )
+		Next
+		Return NewLayer
+	End Method
+	
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		

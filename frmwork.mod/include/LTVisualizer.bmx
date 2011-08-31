@@ -308,18 +308,9 @@ Type LTVisualizer Extends LTObject
 		
 		Local CellWidth:Double = TileMap.GetTileWidth()
 		Local CellHeight:Double = TileMap.GetTileHeight()
-		Local Viewport:LTShape = L_CurrentCamera.Viewport
 		
-		Local X00:Double, Y00:Double, X01:Double, Y01:Double
-		Local X10:Double, Y10:Double, X11:Double, Y11:Double
-		L_CurrentCamera.ScreenToField( Viewport.LeftX(), Viewport.TopY(), X00, Y00 )
-		L_CurrentCamera.ScreenToField( Viewport.RightX(), Viewport.TopY(), X10, Y10 )
-		L_CurrentCamera.ScreenToField( Viewport.LeftX(), Viewport.BottomY(), X01, Y01 )
-		L_CurrentCamera.ScreenToField( Viewport.RightX(), Viewport.BottomY(), X11, Y11 )
-		Local MinX:Double = Min( Min( X00 - TileMap.LeftMargin, X10 + TileMap.RightMargin ), Min( X01 - TileMap.LeftMargin, X11 + TileMap.RightMargin ) )
-		Local MinY:Double = Min( Min( Y00 - TileMap.TopMargin, Y10 - TileMap.TopMargin ), Min( Y01 + TileMap.BottomMargin, Y11 + TileMap.BottomMargin ) )
-		Local MaxX:Double = Max( Max( X00 - TileMap.LeftMargin, X10 + TileMap.RightMargin ), Max( X01 - TileMap.LeftMargin, X11 + TileMap.RightMargin ) )
-		Local MaxY:Double = Max( Max( Y00 - TileMap.TopMargin, Y10 - TileMap.TopMargin ), Max( Y01 + TileMap.BottomMargin, Y11 + TileMap.BottomMargin ) )
+		Local MinX:Double, MinY:Double, MaxX:Double, MaxY:Double
+		L_GetEscribedRectangle( TileMap.LeftMargin, TileMap.TopMargin, TileMap.RightMargin, TileMap.BottomMargin, MinX, MinY, MaxX, MaxY )
 		
 		Local CornerX:Double = TileMap.LeftX()
 		Local CornerY:Double = TileMap.TopY()
@@ -439,7 +430,7 @@ Type LTVisualizer Extends LTObject
 	
 	
 	Method DrawIsoSpriteMapTile( SpriteMap:LTSpriteMap, X:Double, Y:Double )
-		For Local Sprite:LTSprite = Eachin SpriteMap.Sprites[ Int( Floor( X / SpriteMap.CellWidth ) ) & SpriteMap.XMask, ..
+		For Local Sprite:LTSprite = Eachin SpriteMap.Lists[ Int( Floor( X / SpriteMap.CellWidth ) ) & SpriteMap.XMask, ..
 				Int( Floor( Y / SpriteMap.CellHeight ) ) & SpriteMap.YMask ]
 			Sprite.Draw()
 		Next
