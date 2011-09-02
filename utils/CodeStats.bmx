@@ -125,6 +125,6 @@ End Function
 
 Function StatEntry:String( Items:Int, CommentedItems:Int, WithClasses:Int = True )
 	Local ClassString:String = ""
-	If WithClasses Then ClassString = TrimDouble( 1.0 * Fields / ( Classes + ( Classes = 0 ) ) ) + " per class, "
+	If WithClasses Then ClassString = TrimDouble( 1.0 * Items / ( Classes + ( Classes = 0 ) ) ) + " per class, "
 	Return Items + " (" + ClassString + CommentedItems + " or " + TrimDouble( 100.0 * CommentedItems / ( Items + ( Items = 0 ) ) ) + "% commented)"
 End Function
