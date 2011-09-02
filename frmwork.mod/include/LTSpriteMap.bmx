@@ -107,6 +107,13 @@ Type LTSpriteMap Extends LTMap
 		BottomMargin = NewBottomMargin
 	End Method
 	
+	
+	
+	'Deprecated
+	Method GetSprites:TMap()
+		Return Sprites
+	End Method
+	
 	' ==================== Drawing ===================	
 	
 	Rem
@@ -287,6 +294,22 @@ Type LTSpriteMap Extends LTMap
 	
 	' ==================== Other ===================
 	
+	Method Init()
+		For Local Sprite:LTSprite = Eachin Sprites.Keys()
+			Sprite.Init()
+		Next
+	End Method
+
+	
+	
+	Method Act()
+		For Local Sprite:LTSprite = Eachin Sprites.Keys()
+			Sprite.Act()
+		Next
+	End Method
+
+	
+	
 	Rem
 	bbdoc: Creates collision map.
 	about: You should specify cell quantities and size.
@@ -351,8 +374,8 @@ Type LTSpriteMap Extends LTMap
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
-		XMLObject.ManageDoubleAttribute( "cell-width", CellWidth )
-		XMLObject.ManageDoubleAttribute( "cell-height", CellHeight )
+		XMLObject.ManageDoubleAttribute( "cell-width", CellWidth, 1.0 )
+		XMLObject.ManageDoubleAttribute( "cell-height", CellHeight, 1.0 )
 		XMLObject.ManageDoubleAttribute( "left-margin", LeftMargin )
 		XMLObject.ManageDoubleAttribute( "right-margin", RightMargin )
 		XMLObject.ManageDoubleAttribute( "top-margin", TopMargin )
@@ -365,7 +388,7 @@ Type LTSpriteMap Extends LTMap
 				InsertSprite( LTSprite( SpriteXMLObject.ManageObject( Null ) ) )
 			Next
 		Else
-			For Local Sprite:LTSprite = Eachin Sprites
+			For Local Sprite:LTSprite = Eachin Sprites.Keys()
 				Local NewXMLObject:LTXMLObject = New LTXMLObject
 				NewXMLObject.ManageObject( Sprite )
 				XMLObject.Children.AddLast( NewXMLObject )

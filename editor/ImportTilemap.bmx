@@ -181,8 +181,9 @@ Function ImportTilemap:LTTileMap( TileWidth:Int, TileHeight:Int, TileMapPixmap:T
 		Next
 	Next
 	
-	TileSet.Image.XCells = 16
-	TileSet.Image.YCells = Ceil( 1.0 * TilesQuantity / 16 )
+	TileSet.Image.XCells = 	L_ToPowerOf2( Ceil( Sqr( TilesQuantity ) ) )
+	If TileSet.Image.XCells > 1  Then TileSet.Image.XCells :/ 2
+	TileSet.Image.YCells = Ceil( 1.0 * TilesQuantity / TileSet.Image.XCells )
 	TileMap.TilesQuantity = TileSet.Image.XCells * TileSet.Image.YCells
 	
 	Local TilesPixmap:TPixmap = CreatePixmap( TileWidth * TileSet.Image.XCells, TileHeight * TileSet.Image.YCells, PixmapFormat( TilemapPixmap ) )

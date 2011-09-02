@@ -17,10 +17,21 @@ Type LTLayer Extends LTGroup
 	End Rem
 	Field Bounds:LTShape
 	
+	Rem
+	bbdoc: Flag which defines if layer content should be mixed while displaying.
+	about: Some conditions should be met to display mixed content correctly:
+	<ul><li>Mixed content layer should contain at least one tile map.
+	<li>All maps in layer should have equal tile/cell size.
+	<li>All tile maps in layer should have equal corner coordinates like ( N * CellWidth, M * CellHeight ) where N and M is integer.
+	<li>All tile maps in layer should have equal horizontal and vertical size in tiles.</ul>
+	If this layer contains sprites or other layers they will not be drawn.
+	End Rem
+	Field MixContent:Int
+	
 	
 	
 	Method Draw()
-		If L_CurrentCamera.Isometric Then
+		If MixContent Then
 			Local Shapes:TList = New TList
 			Local MainTileMap:LTTileMap
 			For Local Shape:LTShape = EachIn Children
@@ -177,5 +188,6 @@ Type LTLayer Extends LTGroup
 		Super.XMLIO( XMLObject )
 		
 		Bounds = LTShape( XMLObject.ManageObjectField( "bounds", Bounds ) )
+		XMLObject.ManageIntAttribute( "mix-content", MixContent )
 	End Method
 End Type

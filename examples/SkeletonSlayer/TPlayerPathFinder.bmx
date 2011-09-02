@@ -8,21 +8,8 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-SuperStrict
-
-Import brl.jpgloader
-Import brl.pngloader
-Import brl.oggloader
-
-Import dwlab.frmwork
-Import dwlab.sound
-
-Include "TGame.bmx"
-Include "TPlayer.bmx"
-Include "TPlayerPathFinder.bmx"
-Include "TSkeleton.bmx"
-
-AppTitle = "Skeleton Slayer"
-
-Global Game:TGame = New TGame
-Game.Execute()
+Type TPlayerPathFinder Extends LTTileMapPathFinder
+	Method Passage:Double( X:Int, Y:Int )
+		If Map.Value[ X, Y ] = TGame.PlayerTile Or Map.Value[ X, Y ] = TGame.EmptyTile Then Return True
+	End Method
+End Type

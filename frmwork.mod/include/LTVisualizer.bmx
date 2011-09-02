@@ -378,7 +378,7 @@ Type LTVisualizer Extends LTObject
 						If ChildTileMap Then
 							DrawTile( ChildTileMap, X, Y, SWidth, SHeight, WrappedTileX, WrappedTileY )
 						Else
-							DrawIsoSpriteMapTile( LTSpriteMap( Shape ), X, Y )
+							DrawSpriteMapTile( LTSpriteMap( Shape ), X, Y )
 						End If
 					Next
 				Else
@@ -429,7 +429,7 @@ Type LTVisualizer Extends LTObject
 
 	
 	
-	Method DrawIsoSpriteMapTile( SpriteMap:LTSpriteMap, X:Double, Y:Double )
+	Method DrawSpriteMapTile( SpriteMap:LTSpriteMap, X:Double, Y:Double )
 		For Local Sprite:LTSprite = Eachin SpriteMap.Lists[ Int( Floor( X / SpriteMap.CellWidth ) ) & SpriteMap.XMask, ..
 				Int( Floor( Y / SpriteMap.CellHeight ) ) & SpriteMap.YMask ]
 			Sprite.Draw()

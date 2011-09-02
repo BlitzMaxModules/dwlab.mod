@@ -314,6 +314,33 @@ Type LTShape Extends LTObject
 	
 	
 	Rem
+	bbdoc: Moves the shape with given velocity towards shape.
+	about: See also: #MoveForward
+	End Rem
+	Method MoveTowards( Shape:LTShape, Velocity:Double )
+		MoveTowardsPoint( Shape.X, Shape.Y, Velocity )
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Moves the shape with given velocity towards shape.
+	about: See also: #MoveForward
+	End Rem
+	Method MoveTowardsPoint( DestinationX:Double, DestinationY:Double, Velocity:Double )
+		Local Angle:Double = DirectionToPoint( DestinationX, DestinationY )
+		Local DX:Double = Cos( Angle ) * Velocity * L_DeltaTime
+		Local DY:Double = Sin( Angle ) * Velocity * L_DeltaTime
+		If Abs( DX ) >= Abs( X - DestinationX ) And Abs( DY ) >= Abs( Y - DestinationY ) Then
+			SetCoords( DestinationX, DestinationY )
+		Else
+			SetCoords( X + DX, Y + DY )
+		End If
+	End Method
+	
+	
+	
+	Rem
 	bbdoc: Places the shape between two another shapes.
 	about: K parameter is in 0...1 interval.
 	<ul>

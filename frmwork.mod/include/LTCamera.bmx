@@ -194,8 +194,6 @@ Type LTCamera Extends LTSprite
 			Local DHeight:Double = Abs( VY1 ) + Abs( VY2 )
 			K = Min( Viewport.Width / DWidth / Width, Viewport.Height / DHeight / Height  )
 			VK = ( VY1 * VX2 - VX1 * VY2 ) * K
-			'Width = K * DWidth
-			'Height = K * DHeight
 			DX = ( Viewport.X * VX2 - Viewport.Y * VY2 ) / VK - X
 			DY = ( Viewport.X * VY1 - Viewport.Y * VX1 ) / VK - Y
 		Else

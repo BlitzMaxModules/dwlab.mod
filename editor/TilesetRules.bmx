@@ -254,7 +254,20 @@ Type TTilesetRules
 			Repeat
 				PollEvent()
 				
-				Select EventID()
+				Local EvID:Int = EventID()
+				Local EvData:Int = EventData()
+				If EvID = Event_KeyDown Then
+					Select EvData
+						Case Key_PageUp
+							EvID = Event_MenuAction
+							EvData = MenuShiftTileRuleUp
+						Case Key_PageDown
+							EvID = Event_MenuAction
+							EvData = MenuShiftTileRuleDown
+					End Select
+				End If
+				
+				Select EvID
 					Case Event_WindowClose
 						Exit
 					Case Event_MouseEnter
@@ -285,6 +298,49 @@ Type TTilesetRules
 								If PosDY > - 3 Then PosDY :- 1
 							Case Key_Down
 								If PosDY < 3 Then PosDY :+ 1
+							Case Key_F12
+								If CurrentTileRule Then
+									Local TileArray:Int[,] = New Int[ 7, 7 ]
+									For Local DY2:Int = -2 To 2
+										For Local DX2:Int = -2 To 2
+											For Local Pos:LTTilePos = Eachin CurrentTileRule.TilePositions
+												If Pos.DX = DX2 And Pos.DY = DY2 Then TileArray[ DX2 + 2, DY2 + 2 ] = Pos.TileNum
+											Next
+										Next
+									Next
+									TileArray[ 2, 2 ] = CurrentTileRule.TileNums[ 0 ]
+									
+									RestoreData p444
+									Local CategoriesQuantity:Int
+									ReadData CategoriesQuantity
+									For Local CategoryNum:Int = 1 To CategoriesQuantity
+										Local Category:LTTileCategory = New LTTileCategory
+										Category.Name = "Category " + CategoryNum
+										Local RulesQuantity:Int
+										ReadData RulesQuantity
+										For Local RuleNum:Int = 1 To RulesQuantity
+											Local Rule:LTTileRule = New LTTileRule
+											Rule.TileNums = New Int[ 1 ]
+											For Local N:Int = 0 To 8
+												Local TileNum:Int
+												ReadData TileNum
+												If N = 4 Then
+													Rule.TileNums[ 0 ] = TileArray[ TileNum Mod 5, Floor( TileNum / 5 ) ]
+												Else If TileNum > 0 Then
+													Local Pos:LTTilePos = New LTTilePos
+													Pos.DX = ( N Mod 3 ) - 1
+													Pos.DY = Floor( N / 3 ) - 1
+													Pos.TileNum = TileArray[ TileNum Mod 5, Floor( TileNum / 5 ) ]
+													Rule.TilePositions.AddLast( Pos )
+												End If
+											Next
+											Category.TileRules.AddLast( Rule )
+										Next
+										Tileset.Categories.AddLast( Category )
+									Next
+									RefreshCategoriesListBox()
+									Editor.SetChanged()
+								End If
 						End Select
 					Case Event_MouseWheel
 						If EventSource() = TileRulesList Then TIleRulesListDY :- EventData() * 16
@@ -315,7 +371,7 @@ Type TTilesetRules
 								Editor.SetChanged()
 						End Select
 					Case Event_MenuAction
-						Select EventData()
+						Select EvData
 							Case MenuCopyCategory
 								AddCategory( 1 )
 							Case MenuRemoveCategory
@@ -326,8 +382,8 @@ Type TTilesetRules
 								RefreshCategoriesListBox()
 								Editor.SetChanged()
 							Case MenuAddTileRule
-								CurrentTIleRule = New LTTileRule
-								CurrentTIleRule.TileNums = New Int[ 1 ]
+								CurrentTileRule = New LTTileRule
+								CurrentTileRule.TileNums = New Int[ 1 ]
 								CurrentCategory.TileRules.AddLast( CurrentTileRule )
 								Editor.SetChanged()
 							Case MenuRemoveTileRule
@@ -449,3 +505,26 @@ Type TTilesetRules
 		End If
 	End Method
 End Type
+
+'Pattern: 4 outer corner, 4 inner corner, 4 sides
+
+#p444
+DefData 2
+
+DefData 1
+DefData 0, 0, 0, 0, 12, 0, 0, 0, 0
+
+DefData 13
+DefData 0, 0, 0, 0, 6, 7, 0, 11, 12
+DefData 0, 0, 0, 6, 7, 8, 0, 12, 0
+DefData 0, 0, 0, 7, 8, 0, 12, 13, 0
+DefData 0, 6, 0, 6, 11, 12, 0, 12, 0
+DefData 0, 8, 0, 12, 13, 8, 0, 12, 0
+DefData 0, 6, 0, 0, 15, 12, 0, 23, 0
+DefData 0, 12, 0, 12, 16, 17, 0, 21, 0
+DefData 0, 12, 0, 16, 17, 18, 0, 0, 0
+DefData 0, 12, 0, 17, 18, 12, 0, 23, 0
+DefData 0, 8, 0, 12, 19, 0, 0, 21, 0
+DefData 12, 16, 0, 23, 21, 0, 0, 0, 0
+DefData 0, 18, 12, 0, 23, 21, 0, 0, 0
+DefData 0, 0, 0, 0, 22, 0, 0, 0, 0

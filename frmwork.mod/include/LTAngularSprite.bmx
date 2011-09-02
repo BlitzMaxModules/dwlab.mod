@@ -29,23 +29,6 @@ Type LTAngularSprite Extends LTSprite
 	
 	' ==================== Position ====================
 	
-	Rem
-	bbdoc: Moves the sprite with current velocity towards shape.
-	about: See also: #MoveForward
-	End Rem
-	Method MoveTowards( Shape:LTShape )
-		Local Angle:Double = DirectionTo( Shape )
-		Local DX:Double = Cos( Angle ) * Velocity * L_DeltaTime
-		Local DY:Double = Sin( Angle ) * Velocity * L_DeltaTime
-		If Abs( DX ) >= Abs( X - Shape.X ) And Abs( DY ) >= Abs( Y - Shape.Y ) Then
-			SetCoords( Shape.X, Shape.Y )
-		Else
-			SetCoords( X + DX, Y + DY )
-		End If
-	End Method
-	
-	
-	
 	Method MoveForward()
 		SetCoords( X + Cos( Angle ) * Velocity * L_DeltaTime, Y + Sin( Angle ) * Velocity * L_DeltaTime )
 	End Method

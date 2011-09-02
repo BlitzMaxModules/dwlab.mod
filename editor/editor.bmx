@@ -42,9 +42,6 @@ Include "TileMapProperties.bmx"
 Incbin "english.lng"
 Incbin "russian.lng"
 
-Incbin "english.key"
-Incbin "russian.key"
-
 Incbin "toolbar.png"
 Incbin "treeview.png"
 
@@ -52,7 +49,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.6.2"
+	Const Version:String = "1.6.2.1"
 	Const INIVersion:Int = 3
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 10
@@ -125,6 +122,7 @@ Type LTEditor Extends LTProject
 	Field IncbinMenu:TGadget
 	Field Russian:TGadget
 	Field English:TGadget
+	Field MixContent:TGadget
 	
 	Field FileMenu:TGadget
 	Field LayerMenu:TGadget
@@ -211,6 +209,7 @@ Type LTEditor Extends LTProject
 	Const MenuImportTilemaps:Int = 22
 	Const MenuAddSpriteMap:Int = 44
 	Const MenuRemoveBounds:Int = 29
+	Const MenuMixContent:Int = 55
 
 	Const MenuEditTilemap:Int = 23
 	Const MenuSelectTileMap:Int = 27
@@ -349,6 +348,7 @@ Type LTEditor Extends LTProject
 		CreateMenu( "{{M_ImportTilemaps}}", MenuImportTilemaps, LayerMenu )
 		CreateMenu( "{{M_AddSpriteMap}}", MenuAddSpriteMap, LayerMenu )
 		CreateMenu( "{{M_RemoveBounds}}", MenuRemoveBounds, LayerMenu )
+		MixContent = CreateMenu( "{{M_MixContent}}", MenuMixContent, LayerMenu )
 		AddCommonMenuItems( LayerMenu )
 		
 		TilemapMenu = CreateMenu( "", 0, null )
@@ -383,7 +383,10 @@ Type LTEditor Extends LTProject
 		Flipping = False
 		
 		EditorPath = CurrentDir()
-		AddLayer( "LTLayer" )
+		CurrentViewLayer = AddLayer( "LTLayer" )
+		CurrentContainer = CurrentViewLayer
+		World.Camera = LTCamera.Create( GadgetWidth( TilesetCanvas ), GadgetHeight( TilesetCanvas ), 16.0 )
+		RefreshProjectManager()
 				
 		SetLanguage( EnglishNum )
 		L_DebugVisualizer.ShowCollisionShapes = LTMenuSwitch.Find( MenuShowCollisionShapes ).Toggle()
@@ -512,6 +515,7 @@ Type LTEditor Extends LTProject
 		
 		WorldFilename = ""
 		World = New LTWorld
+		World.Camera = LTCamera.Create( GadgetWidth( TilesetCanvas ), GadgetHeight( TilesetCanvas ), 16.0 )
 		CurrentShape = Null
 		CurrentTileMap = Null
 		SelectedShapes.Clear()
@@ -534,10 +538,12 @@ Type LTEditor Extends LTProject
 			InsertToRecentFiles( Filename )
 			ChangeDir( ExtractDir( Filename ) )
 			
-			L_CurrentCamera = MainCamera
 			World = LTWorld.FromFile( Filename )
 			If Not World.Camera Then World.Camera = LTCamera.Create( GadgetWidth( TilesetCanvas ), GadgetHeight( TilesetCanvas ), 16.0 )
 			MainCamera = World.Camera
+			MainCamera.Update()
+			L_CurrentCamera = MainCamera
+			MainCanvasZ = L_Round( Log( 32.0 / MainCamera.Width ) / Log( 1.1 ) )
 			
 			CurrentShape = Null
 			CurrentTilemap = Null
@@ -576,7 +582,6 @@ Type LTEditor Extends LTProject
 				Image.Filename = L_ChopFilename( String( RealPathsForImages.ValueForKey( Image ) ) )
 			Next
 			
-			L_CurrentCamera = MainCamera
 			World.SaveToFile( Filename )
 			Changed = False
 			SetTitle()
@@ -849,9 +854,9 @@ Type LTEditor Extends LTProject
 					Case MenuRussian
 						SetLanguage( RussianNum )
 					Case MenuHotKeys
-						Hotkeys()
+						Notify( LocalizeString( "{{H_HotKeys}}" ).Replace( "|", "~r" ) )
 					Case MenuAbout
-						About()
+						Notify( LocalizeString( "{{H_About1}}" + Version + "{{H_About2}}" ).Replace( "|", "~r" ) )
 						
 					' ============================= Layer menu ==================================
 					
@@ -926,6 +931,9 @@ Type LTEditor Extends LTProject
 						End If
 					Case MenuRemoveBounds
 						LTLayer( SelectedShape ).Bounds = Null
+						SetChanged()
+					Case MenuMixContent
+						LTLayer( SelectedShape ).MixContent = 1 - LTLayer( SelectedShape ).MixContent
 						SetChanged()
 
 					' ============================= Tilemap menu ==================================
@@ -1114,6 +1122,11 @@ Type LTEditor Extends LTProject
 				If EventSource() = ProjectManager Then
 					SelectedShape = LTShape( GadgetExtra( TGadget( EventExtra() ) ) )
 					If LTLayer( SelectedShape ) Then
+						If LTLayer( SelectedShape ).MixContent Then
+							CheckMenu( MixContent )
+						Else
+							UnCheckMenu( MixContent )
+						End If
 						PopUpWindowMenu( Window, LayerMenu )
 					ElseIf LTTileMap( SelectedShape ) Then
 						PopUpWindowMenu( Window, TileMapMenu )
@@ -1636,7 +1649,6 @@ Type LTEditor Extends LTProject
 		Else
 			Local SpriteMap:LTSpriteMap = LTSpriteMap( Shape )
 			If SpriteMap Then
-				debugstop
 				Local ChildLink:TLink = CurrentNode.kids.FirstLink()
 				For Local Sprite:LTSprite = Eachin SpriteMap.Sprites.Keys()
 					AddShapeEntry( Sprite, CurrentNode, ChildLink, SelectedShapesLink )
@@ -1756,27 +1768,6 @@ Type LTEditor Extends LTProject
 				Notify( LocalizeString( "{{N_CannotInsertNonSpriteToSpriteMap}}" ) )
 			End If
 		End If
-	End Method
-	
-	
-	
-	Method HotKeys()
-		Local FileName:String
-		Select CurrentLanguage
-			Case EnglishLanguage
-				FileName = "incbin::english.key"
-			Case RussianLanguage
-				FileName = "incbin::russian.key"
-		End Select
-		Local File:TStream = ReadFile( FileName )
-		Notify( ReadString( File, File.Size() ) )
-		CloseFile File
-	End Method
-	
-	
-	
-	Method About()
-		Notify( "Digital Wizard's Lab framework World Editor~r~rVersion " + Version + "~r~rhttp://code.google.com/p/dwlab" )
 	End Method
 	
 	

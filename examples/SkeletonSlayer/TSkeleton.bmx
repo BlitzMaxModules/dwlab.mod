@@ -8,21 +8,10 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-SuperStrict
-
-Import brl.jpgloader
-Import brl.pngloader
-Import brl.oggloader
-
-Import dwlab.frmwork
-Import dwlab.sound
-
-Include "TGame.bmx"
-Include "TPlayer.bmx"
-Include "TPlayerPathFinder.bmx"
-Include "TSkeleton.bmx"
-
-AppTitle = "Skeleton Slayer"
-
-Global Game:TGame = New TGame
-Game.Execute()
+Type TSkeleton Extends TPlayer
+	Method Init()
+		TileX = L_Round( X - 0.5 )
+		TileY = L_Round( Y - 0.5 )
+		Game.CollisionMap.Value[ TileX, TileY ] = Game.EnemyTile
+	End Method
+End Type

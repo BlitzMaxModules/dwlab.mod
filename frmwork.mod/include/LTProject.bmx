@@ -130,8 +130,8 @@ Type LTProject Extends LTObject
 			Else
 				Local SpriteMap:LTSpriteMap = LTSpriteMap( Shape )
 				If SpriteMap Then
-					Local NewSpriteMap:LTSpriteMap = New LTSpriteMap
-					For Local ChildSprite:LTSprite = Eachin SpriteMap.Sprites
+					Local NewSpriteMap:LTSpriteMap = LTSpriteMap( CreateShape( Shape ) )
+					For Local ChildSprite:LTSprite = Eachin SpriteMap.Sprites.Keys()
 						NewSpriteMap.InsertSprite( LTSprite( CreateShape( ChildSprite ) ) )
 					Next
 					NewShape = NewSpriteMap
