@@ -31,6 +31,8 @@ Function ImageProperties:Int( Image:LTImage )
 	SetGadgetText( YCellsTextField, Image.YCells )
 	
 	Repeat
+		Editor.Render()
+	
 		Local XCells:Int = TextFieldText( XCellsTextField ).ToInt()
 		Local YCells:Int = TextFieldText( YCellsTextField ).ToInt()
 		

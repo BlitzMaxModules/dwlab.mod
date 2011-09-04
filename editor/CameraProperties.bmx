@@ -78,6 +78,12 @@ Type TCameraProperties Extends LTProject
 	
 	
 	
+	Method Render()
+		Editor.Render()
+	End Method
+	
+	
+	
 	Method DeInit()
 		FreeGadget( Window )
 	End Method

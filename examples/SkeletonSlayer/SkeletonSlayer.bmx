@@ -12,10 +12,10 @@ SuperStrict
 
 Import brl.jpgloader
 Import brl.pngloader
-Import brl.oggloader
+'Import brl.oggloader
 
 Import dwlab.frmwork
-Import dwlab.sound
+'Import dwlab.sound
 
 Include "TGame.bmx"
 Include "TPlayer.bmx"

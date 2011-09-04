@@ -34,6 +34,7 @@ Type TTileCollisionShapes
 	Field CreateCollisionShape:TCreateCollisionShape = New TCreateCollisionShape
 	Field MoveCollisionShape:TMoveCollisionShape = New TMoveCollisionShape
 	Field ResizeCollisionShape:TResizeCollisionShape = New TResizeCollisionShape
+	Field Camera:LTCamera
 	
 			
 	
@@ -67,10 +68,10 @@ Type TTileCollisionShapes
 		Local CloseButton:TGadget = Form.AddButton( "{{B_Close}}", 64 )
 		Form.Finalize()
 		
-		L_CurrentCamera = LTCamera.Create( 128, 128, 128.0 )
-		L_CurrentCamera.SetCoords( 0.5, 0.5 )
+		Camera = LTCamera.Create( 128, 128, 128.0 )
+		Camera.SetCoords( 0.5, 0.5 )
 		
-		Local Size:Double = L_CurrentCamera.DistScreenToField( 8.0 )
+		Local Size:Double = Camera.DistScreenToField( 8.0 )
 		Cursor.ShapeType = LTSprite.Circle
 		Cursor.SetSize( Size, Size )
 	
@@ -81,6 +82,10 @@ Type TTileCollisionShapes
 		TileNum = 0
 		
 		Repeat
+			Editor.Render()
+	
+			L_CurrentCamera = Camera
+			
 			SetGraphics( CanvasGraphics( TileCanvas ) )
 			SetBlend( AlphaBlend )
 			Cls
@@ -133,6 +138,8 @@ Type TTileCollisionShapes
 				ResizeCollisionShape.Execute()
 			End If
 			
+			L_CurrentCamera = Editor.MainCamera
+			
 			PollEvent()
 			Select EventID()
 				Case Event_MouseEnter
@@ -153,13 +160,6 @@ Type TTileCollisionShapes
 						Case ShapeComboBox
 							If SelectedCollisionShape Then
 								SelectedCollisionShape.ShapeType = SelectedGadgetItem( ShapeComboBox )
-								Select SelectedCollisionShape.ShapeType
-									Case LTSprite.Pivot
-										SelectedCollisionShape.SetSize( 0.0, 0.0 )
-									Case LTSprite.Circle
-										Local Size:Double = Min( SelectedCollisionShape.Width, SelectedCollisionShape.Height )
-										SelectedCollisionShape.SetSize( Size, Size )
-								End Select
 								If SelectedCollisionShape.ShapeType <> LTSprite.Pivot Then
 									If SelectedCollisionShape.Width = 0.0 Or SelectedCollisionShape.Height = 0.0 Then DeleteShape()
 								End If

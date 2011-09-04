@@ -20,7 +20,9 @@ Function EnterString:String( Message:String, St:String = "" )
 	AddOKCancelButtons( Form, OKButton, CancelButton )
 	
 	Repeat
-		WaitEvent()
+		Editor.Render()
+	
+		PollEvent()
 		Select EventID()
 			Case Event_GadgetAction
 				Select EventSource()

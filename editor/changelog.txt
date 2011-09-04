@@ -1,3 +1,7 @@
+1.6.3.1
+* Main canvas is now rendering while child windows are active.
+* Fixed bugs of displaying and editing tile collision shapes.
+
 1.6.3
 + Support for layers with mixed content displaying
 + Added automatic rules generating for F12 key in replacement rules editor

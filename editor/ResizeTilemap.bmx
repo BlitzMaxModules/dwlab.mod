@@ -38,6 +38,8 @@ Function ResizeTilemap( TileMap:LTTileMap )
 	AddOKCancelButtons( Form, OKButton, CancelButton )
 
 	Repeat
+		Editor.Render()
+	
 		SetGraphics( CanvasGraphics( TilemapsCanvas ) )
 		SetBlend( AlphaBlend )
 		Cls
@@ -82,7 +84,7 @@ Function ResizeTilemap( TileMap:LTTileMap )
 		'EndGraphics
 		SetGraphics( CanvasGraphics( Editor.MainCanvas ) )
 		
-		WaitEvent()
+		PollEvent()
 		Select EventID()
 			Case Event_GadgetAction
 				Select EventSource()

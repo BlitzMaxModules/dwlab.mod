@@ -81,6 +81,12 @@ Type TTileMapProperties Extends LTProject
 	
 	
 	
+	Method Render()
+		Editor.Render()
+	End Method
+	
+	
+	
 	Method DeInit()
 		FreeGadget( EditWindow )
 	End Method

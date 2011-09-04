@@ -49,7 +49,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.6.2.1"
+	Const Version:String = "1.6.3.1"
 	Const INIVersion:Int = 3
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 10
@@ -1321,11 +1321,11 @@ Type LTEditor Extends LTProject
 		TilesetCamera.Viewport.Width = TilesetCanvas.GetWidth()
 		TilesetCamera.Viewport.Height = TilesetCanvas.GetHeight()
 		
+		SetGraphics( CanvasGraphics( TilesetCanvas ) )
+		SetBlend( AlphaBlend )
+		Cls
+		
 		If CurrentTileMap Then
-			SetGraphics( CanvasGraphics( TilesetCanvas ) )
-			SetBlend( AlphaBlend )
-			Cls
-			
 			Local TileSet:LTTileSet = CurrentTileMap.TileSet
 			If TileSet Then
 				Local Image:LTImage = TileSet.Image
@@ -1355,56 +1355,56 @@ Type LTEditor Extends LTProject
 					Next
 				End If
 			End If
-			
-			Flip( False )
-			'EndGraphics
 		End If
 		
-		L_CurrentCamera = MainCamera
-		If Not CurrentViewLayer Then Return
+		Flip( False )
+		'EndGraphics
 		
 		SetGraphics( CanvasGraphics( MainCanvas ) )
 		SetBlend( AlphaBlend )
 		SetClsColor( 255, 255, 255 )		
 		Cls
 		
-		MainCamera.Viewport.X = 0.5 * MainCanvas.GetWidth()
-		MainCamera.Viewport.Y = 0.5 * MainCanvas.GetHeight()
-		MainCamera.Viewport.Width = MainCanvas.GetWidth()
-		MainCamera.Viewport.Height = MainCanvas.GetHeight()
-		MainCamera.Update()
-		
-		CurrentViewLayer.DrawUsingVisualizer( L_DebugVisualizer )
-		
-		if ShowGrid Then Grid.Draw()
-		
-		If CurrentTilemap Then
-			Local TileSet:LTTileSet = CurrentTileMap.TileSet
-			If MouseIsOver = MainCanvas And TileSet Then
-				Local TileWidth:Double = CurrentTileMap.GetTileWidth()
-				Local TileHeight:Double = CurrentTileMap.GetTileHeight()
-				SelectedTile.Width = TileWidth * ( 1.0 + Tileset.BlockWidth[ TileNum[ 0 ] ] )
-				SelectedTile.Height = TileHeight * ( 1.0 + Tileset.BlockHeight[ TileNum[ 0 ] ] )
-				SelectedTile.X = 0.5 * SelectedTile.Width + TileWidth * TileX + CurrentTileMap.LeftX()
-				SelectedTile.Y = 0.5 * SelectedTile.Height + TileHeight * TileY + CurrentTileMap.TopY()
-				SelectedTile.Draw()
-			End If
-		Else
-			For Local Shape:LTShape = Eachin SelectedShapes
-				Shape.DrawUsingVisualizer( MarchingAnts )
-			Next
+		L_CurrentCamera = MainCamera
+		If CurrentViewLayer Then
+			MainCamera.Viewport.X = 0.5 * MainCanvas.GetWidth()
+			MainCamera.Viewport.Y = 0.5 * MainCanvas.GetHeight()
+			MainCamera.Viewport.Width = MainCanvas.GetWidth()
+			MainCamera.Viewport.Height = MainCanvas.GetHeight()
+			MainCamera.Update()
 			
-			If SelectShapes.Frame Then SelectShapes.Frame.DrawUsingVisualizer( MarchingAnts )
+			CurrentViewLayer.DrawUsingVisualizer( L_DebugVisualizer )
 			
-			If Not ModifyShape.DraggingState And Not CreateSprite.DraggingState Then
-				For Local Modifier:LTSprite = Eachin Modifiers
-					Local X:Double, Y:Double
-					L_CurrentCamera.FieldToScreen( Modifier.X, Modifier.Y, X, Y )
-					DrawRect( X - 3, Y - 3, 7, 7 )
-					SetColor( 0, 0, 0 )
-					DrawRect( X - 2, Y - 2, 5, 5 )
-					SetColor( 255, 255, 255 )
+			if ShowGrid Then Grid.Draw()
+			
+			If CurrentTilemap Then
+				Local TileSet:LTTileSet = CurrentTileMap.TileSet
+				If MouseIsOver = MainCanvas And TileSet Then
+					Local TileWidth:Double = CurrentTileMap.GetTileWidth()
+					Local TileHeight:Double = CurrentTileMap.GetTileHeight()
+					SelectedTile.Width = TileWidth * ( 1.0 + Tileset.BlockWidth[ TileNum[ 0 ] ] )
+					SelectedTile.Height = TileHeight * ( 1.0 + Tileset.BlockHeight[ TileNum[ 0 ] ] )
+					SelectedTile.X = 0.5 * SelectedTile.Width + TileWidth * TileX + CurrentTileMap.LeftX()
+					SelectedTile.Y = 0.5 * SelectedTile.Height + TileHeight * TileY + CurrentTileMap.TopY()
+					SelectedTile.Draw()
+				End If
+			Else
+				For Local Shape:LTShape = Eachin SelectedShapes
+					Shape.DrawUsingVisualizer( MarchingAnts )
 				Next
+				
+				If SelectShapes.Frame Then SelectShapes.Frame.DrawUsingVisualizer( MarchingAnts )
+				
+				If Not ModifyShape.DraggingState And Not CreateSprite.DraggingState Then
+					For Local Modifier:LTSprite = Eachin Modifiers
+						Local X:Double, Y:Double
+						L_CurrentCamera.FieldToScreen( Modifier.X, Modifier.Y, X, Y )
+						DrawRect( X - 3, Y - 3, 7, 7 )
+						SetColor( 0, 0, 0 )
+						DrawRect( X - 2, Y - 2, 5, 5 )
+						SetColor( 255, 255, 255 )
+					Next
+				End If
 			End If
 		End If
 		

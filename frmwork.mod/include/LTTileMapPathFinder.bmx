@@ -37,6 +37,7 @@ Type LTTileMapPathFinder Extends LTObject
 	returns: First tilemap position object in path. Next one can be retrieved using NextPosition field.
 	End Rem
 	Method FindPath:LTTileMapPosition( StartingX:Int, StartingY:Int, FinalX:Int, FinalY:Int )
+		If Not Passage( FinalX, FinalY ) Then Return Null
 		Points = New TMap
 		Local List:TList = New TList
 		List.AddLast( LTTileMapPosition.Create( Null, StartingX, StartingY ) )
@@ -78,6 +79,8 @@ End Type
 
 
 
+Global L_SpreadingDirections:Int[] = [ -1, 0, 0, -1, 1, 0, 0, 1, -1, -1, -1, 1, 1, -1, 1, 1 ]
+
 Rem
 bbdoc: Class for tilemap position - the point on tilemap.
 End Rem
@@ -110,21 +113,20 @@ Type LTTileMapPosition
 	
 	
 	Method Spread:LTTileMapPosition( TileMapPathFinder:LTTileMapPathFinder, FinalX:Int, FinalY:Int, List:TList )
-		For Local DY:Int = -1 To 1
-			Local YY:Int = Y + DY
+		For Local N:Int = 0 Until 8 + ( 8 * TileMapPathFinder.AllowDiagonalMovement ) Step 2
+			Local XX:Int = X + L_SpreadingDirections[ N ]
+			If XX < 0 Or XX >= TileMapPathFinder.Map.XQuantity Then Continue
+			
+			Local YY:Int = Y + L_SpreadingDirections[ N + 1 ]
 			If YY < 0 Or YY >= TileMapPathFinder.Map.YQuantity Then Continue
-			For Local DX:Int = -1 To 1
-				If DX = 0 And DY = 0 Then Continue
-				If Not TileMapPathFinder.AllowDiagonalMovement And DX <> 0 And DY <> 0 Then Continue
-				Local XX:Int = X + DX
-				If XX < 0 Or XX >= TileMapPathFinder.Map.XQuantity Then Continue
-				If Not TileMapPathFinder.Passage( XX, YY ) Then Continue
-				If TileMapPathFinder.GetPoint( XX, YY ) Then Continue
-				Local Position:LTTileMapPosition = LTTileMapPosition.Create( Self, XX, YY )
-				If XX = FinalX And YY = FinalY Then Return Position
-				TileMapPathFinder.SetPoint( XX, YY, Position )
-				List.AddLast( Position )
-			Next
+			
+			If Not TileMapPathFinder.Passage( XX, YY ) Then Continue
+			If TileMapPathFinder.GetPoint( XX, YY ) Then Continue
+			
+			Local Position:LTTileMapPosition = LTTileMapPosition.Create( Self, XX, YY )
+			If XX = FinalX And YY = FinalY Then Return Position
+			TileMapPathFinder.SetPoint( XX, YY, Position )
+			List.AddLast( Position )
 		Next
 	End Method
 	

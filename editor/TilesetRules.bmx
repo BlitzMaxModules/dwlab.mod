@@ -91,6 +91,8 @@ Type TTilesetRules
 		Local PosDX:Int, PosDY:Int, TIleRulesListDY:Int
 		
 		Repeat
+			Editor.Render()
+			
 			Local Magnifier:Double = Min( 1.0 * GadgetWidth( TilesetCanvas ) / Image.XCells / Image.Width(), 1.0 * GadgetHeight( TilesetCanvas ) / Image.YCells / Image.Height() )
 			Local TileWidth:Double = Floor( Magnifier * Image.Width() )
 			Local TileHeight:Double = Floor( Magnifier * Image.Height() )

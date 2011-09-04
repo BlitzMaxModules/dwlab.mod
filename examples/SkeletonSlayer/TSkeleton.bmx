@@ -10,8 +10,8 @@
 
 Type TSkeleton Extends TPlayer
 	Method Init()
-		TileX = L_Round( X - 0.5 )
-		TileY = L_Round( Y - 0.5 )
+		TileX = Floor( X )
+		TileY = Floor( Y )
 		Game.CollisionMap.Value[ TileX, TileY ] = Game.EnemyTile
 	End Method
 End Type

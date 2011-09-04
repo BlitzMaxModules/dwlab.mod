@@ -25,20 +25,25 @@ Type TPlayer Extends LTAngularSprite
 
 	Method Init()
 		Game.Player = Self
-		TileX = L_Round( X - 0.5 )
-		TileY = L_Round( Y - 0.5 )
+		TileX = Floor( X )
+		TileY = Floor( Y )
 		Game.CollisionMap.Value[ TileX, TileY ] = Game.PlayerTile
 	End Method
 	
 	Method Act()
 		If Position Then
-			Local PosX:Double = 0.5 + Position.X
-			Local PosY:Double = 0.5 + Position.Y
+			Local PosX:Double = 0.5 + TileX
+			Local PosY:Double = 0.5 + TileY
 			If X = PosX And Y = PosY Then
-				TileX = Position.X
-				TileY = Position.Y
 				Position = Position.NextPosition
-				If Position = Null Then StartingTime = Game.Time
+				If Position = Null Then
+					StartingTime = Game.Time
+				Else
+					Game.CollisionMap.Value[ TileX, TileY ] = Game.EmptyTile
+					TileX = Position.X
+					TileY = Position.Y
+					Game.CollisionMap.Value[ TileX, TileY ] = Game.PlayerTile
+				End If
 			Else
 				Phase = ( 5 + L_Round( DirectionToPoint( PosX, PosY ) / 45.0 ) ) Mod 8
 				MoveTowardsPoint( PosX, PosY, WalkingSpeed )

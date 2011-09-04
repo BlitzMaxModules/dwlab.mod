@@ -23,7 +23,9 @@ Function ChooseParameter:Int( Width:Int Var, Height:Int Var, Title:String, Width
 	AddOKCancelButtons( Form, OKButton, CancelButton )
 	
 	Repeat
-		WaitEvent()
+		Editor.Render()
+	
+		PollEvent()
 		Select EventID()
 			Case Event_GadgetAction
 				Select EventSource()

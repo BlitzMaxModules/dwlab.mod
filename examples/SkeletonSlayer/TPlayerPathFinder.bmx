@@ -10,6 +10,6 @@
 
 Type TPlayerPathFinder Extends LTTileMapPathFinder
 	Method Passage:Double( X:Int, Y:Int )
-		If Map.Value[ X, Y ] = TGame.PlayerTile Or Map.Value[ X, Y ] = TGame.EmptyTile Then Return True
+		If Map.Value[ X, Y ] = TGame.EmptyTile Then Return True
 	End Method
 End Type

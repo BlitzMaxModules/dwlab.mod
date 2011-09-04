@@ -20,12 +20,17 @@ Type TGame Extends LTProject
 	Field CollisionMap:LTIntMap
 	Field Player:TPlayer
 	Field Cursor:LTSprite = New LTSprite
+	Field SelectedTile:LTSprite = New LTSprite
 	Field PlayerPathFinder:TPlayerPathFinder
 	
 	Method Init()
 		World = LTWorld.FromFile( "world.lw" )
 		L_InitGraphics()
 		L_CurrentCamera = World.Camera
+		L_CurrentCamera.SetMagnification( 64.0 )
+		Cursor.ShapeType = LTSprite.Pivot
+		SelectedTile.ShapeType = LTSprite.Rectangle
+		SelectedTile.Visualizer = New LTMarchingAnts
 		InitLevel()
 	End Method
 	
@@ -46,7 +51,6 @@ Type TGame Extends LTProject
 		Local Walls:LTTileMap = LTTileMap( Level.FindShape( "Walls" ) )
 		For Local Y:Int = 0 Until CollisionMap.YQuantity
 			For Local X:Int = 0 Until CollisionMap.XQuantity
-				CollisionMap.Value[ X, Y ] = EmptyTile
 				If Ground.Value[ X, Y ] >= 4 Or Walls.Value[ X, Y ] < 10 Then CollisionMap.Value[ X, Y ] = BlockedTile
 			Next
 		Next
@@ -54,12 +58,15 @@ Type TGame Extends LTProject
 	
 	Method Render()
 		Level.Draw()
+		SelectedTile.Draw()
 		ShowDebugInfo()
 	End Method
 	
 	Method Logic()
 		Cursor.SetMouseCoords()
-		If MouseHit( 1 ) Then Player.Position = PlayerPathFinder.FindPath( Player.TileX, Player.TileY, L_Round( Cursor.X ), L_Round( Cursor.Y ) )
+		SelectedTile.SetCoords( Floor( Cursor.X ) + 0.5, Floor( Cursor.Y ) + 0.5 )
+		
+		If MouseHit( 1 ) Then Player.Position = PlayerPathFinder.FindPath( Player.TileX, Player.TileY, Floor( Cursor.X ), Floor( Cursor.Y ) )
 		If KeyHit( Key_Escape ) Or AppTerminate() Then Exiting = True
 		Level.Act()
 		L_CurrentCamera.JumpTo( Player )

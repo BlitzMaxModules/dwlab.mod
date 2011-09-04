@@ -53,6 +53,8 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 	EnablePolledInput( Canvas )
 	
 	Repeat
+		Editor.Render()
+	
 		If TileMap Then
 			If SelectedObject Then Image = LTTileSet( SelectedObject ).Image Else Image = Null
 		Else
