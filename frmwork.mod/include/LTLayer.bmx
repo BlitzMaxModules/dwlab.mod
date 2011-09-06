@@ -31,6 +31,12 @@ Type LTLayer Extends LTGroup
 	
 	
 	Method Draw()
+		DrawUsingVisualizer( Visualizer )
+	End Method
+	
+	
+	
+	Method DrawUsingVisualizer( Vis:LTVisualizer )
 		If MixContent Then
 			Local Shapes:TList = New TList
 			Local MainTileMap:LTTileMap
@@ -47,15 +53,18 @@ Type LTLayer Extends LTGroup
 			Next
 			If MainTileMap Then
 				If Shapes.Count() = 1 Then Shapes = Null
-				MainTileMap.Visualizer.DrawUsingTileMap( MainTileMap, Shapes )
-			Else
-				Super.Draw()
+				Vis.DrawUsingTileMap( MainTileMap, Shapes )
+				Return
 			End If
+		End If
+		
+		If Vis Then
+			Super.DrawUsingVisualizer( Vis )
 		Else
 			Super.Draw()
 		End If
 	End Method
-	
+
 	
 	
 	Rem
@@ -170,6 +179,7 @@ Type LTLayer Extends LTGroup
 			Layer.Bounds = New LTShape
 			Bounds.CopyTo( Layer.Bounds )
 		End If
+		Layer.MixContent = MixContent
 	End Method
 	
 	

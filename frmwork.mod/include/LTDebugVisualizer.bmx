@@ -77,9 +77,9 @@ Type LTDebugVisualizer Extends LTVisualizer
 	
 	
 	
-	Method DrawUsingTileMap( TileMap:LTTileMap, Tiles:TList = Null )
-		TileMap.Visualizer.DrawUsingTileMap( TileMap )
-		If ShowCollisionShapes Then Super.DrawUsingTileMap( TileMap )
+	Method DrawUsingTileMap( TileMap:LTTileMap, Shapes:TList = Null )
+		TileMap.Visualizer.DrawUsingTileMap( TileMap, Shapes )
+		If ShowCollisionShapes Then Super.DrawUsingTileMap( TileMap, Shapes )
 	End Method
 	
 	

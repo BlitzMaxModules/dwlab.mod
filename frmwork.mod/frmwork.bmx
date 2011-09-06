@@ -21,6 +21,8 @@ ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.1.4.1 (06.09.11)"
+ModuleInfo "History: &nbsp; &nbsp; Fixed bug of displaying layers with another visualizer."
 ModuleInfo "History: v1.1.4 (02.09.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added 'mixed' flag to layers."
 ModuleInfo "History: &nbsp; &nbsp; Fixed glitches of tilemap pathfinder."
