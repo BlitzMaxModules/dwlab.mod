@@ -58,10 +58,10 @@ Type LTLayer Extends LTGroup
 			End If
 		End If
 		
-		If Vis Then
-			Super.DrawUsingVisualizer( Vis )
-		Else
+		If Vis = Visualizer Then
 			Super.Draw()
+		Else
+			Super.DrawUsingVisualizer( Vis )
 		End If
 	End Method
 

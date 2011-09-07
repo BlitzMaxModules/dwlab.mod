@@ -58,7 +58,6 @@ Type LTMarchingAnts Extends LTVisualizer
 		Sprite.SetSize( TileMap.Width, TileMap.Height )
 		DrawUsingSprite( Sprite )
 	End Method
-
 	
 	
 	

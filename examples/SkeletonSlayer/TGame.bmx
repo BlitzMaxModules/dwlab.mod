@@ -19,18 +19,15 @@ Type TGame Extends LTProject
 	Field Objects:LTSpriteMap
 	Field CollisionMap:LTIntMap
 	Field Player:TPlayer
-	Field Cursor:LTSprite = New LTSprite
-	Field SelectedTile:LTSprite = New LTSprite
-	Field PlayerPathFinder:TPlayerPathFinder
+	Field SelectedTile:LTShape
+	Field PathFinder:LTTileMapPathFinder
 	
 	Method Init()
 		World = LTWorld.FromFile( "world.lw" )
 		L_InitGraphics()
 		L_CurrentCamera = World.Camera
 		L_CurrentCamera.SetMagnification( 64.0 )
-		Cursor.ShapeType = LTSprite.Pivot
-		SelectedTile.ShapeType = LTSprite.Rectangle
-		SelectedTile.Visualizer = New LTMarchingAnts
+		
 		InitLevel()
 	End Method
 	
@@ -39,14 +36,13 @@ Type TGame Extends LTProject
 		CollisionMap = New LTIntMap
 		CollisionMap.SetResolution( TileMap.XQuantity, TileMap.YQuantity )
 		
-		PlayerPathFinder = New TPlayerPathFinder
-		PlayerPathFinder.Map = CollisionMap
-		PlayerPathFinder.AllowDiagonalMovement = True
+		PathFinder = New LTTileMapPathFinder
+		PathFinder.Map = CollisionMap
+		PathFinder.AllowDiagonalMovement = True
 		 
-		LoadAndInitLayer( Level, LTLayer( World.FindShape( "LTLayer" ) ) )
+		LoadAndInitLayer( Level, LTLayer( World.FindShape( "LTLayer,Level" ) ) )
 		
 		Objects = LTSpriteMap( Level.FindShape( "Objects" ) )
-		
 		Local Ground:LTTileMap = LTTileMap( Level.FindShape( "Ground" ) )
 		Local Walls:LTTileMap = LTTileMap( Level.FindShape( "Walls" ) )
 		For Local Y:Int = 0 Until CollisionMap.YQuantity
@@ -54,21 +50,24 @@ Type TGame Extends LTProject
 				If Ground.Value[ X, Y ] >= 4 Or Walls.Value[ X, Y ] < 10 Then CollisionMap.Value[ X, Y ] = BlockedTile
 			Next
 		Next
+		
+		SelectedTile = Level.FindShape( "SelectedTile" )
+		SelectedTile.Visualizer = New LTMarchingAnts
 	End Method
 	
 	Method Render()
 		Level.Draw()
-		SelectedTile.Draw()
 		ShowDebugInfo()
 	End Method
 	
 	Method Logic()
-		Cursor.SetMouseCoords()
-		SelectedTile.SetCoords( Floor( Cursor.X ) + 0.5, Floor( Cursor.Y ) + 0.5 )
+		SelectedTile.SetMouseCoords()
+		SelectedTile.SetCoords( Floor( SelectedTile.X ) + 0.5, Floor( SelectedTile.Y ) + 0.5 )
 		
-		If MouseHit( 1 ) Then Player.Position = PlayerPathFinder.FindPath( Player.TileX, Player.TileY, Floor( Cursor.X ), Floor( Cursor.Y ) )
+		If MouseHit( 1 ) Then Player.Position = PathFinder.FindPath( Player.TileX, Player.TileY, Floor( SelectedTile.X ), Floor( SelectedTile.Y ) )
 		If KeyHit( Key_Escape ) Or AppTerminate() Then Exiting = True
 		Level.Act()
 		L_CurrentCamera.JumpTo( Player )
+		'debugstop
 	End Method
 End Type

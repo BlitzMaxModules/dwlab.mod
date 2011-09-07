@@ -331,8 +331,6 @@ Type LTVisualizer Extends LTObject
 		
 		Local SWidth:Double, SHeight:Double
 		L_CurrentCamera.SizeFieldToScreen( CellWidth, CellHeight, SWidth, SHeight )
-		SWidth :* XScale
-		SHeight :* YScale
 		
 		If Not L_CurrentCamera.Isometric Then If Not Image Then Return
 
@@ -418,7 +416,7 @@ Type LTVisualizer Extends LTObject
 		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
 		
 		Local Visualizer:LTVisualizer = TileMap.Visualizer
-		SetScale( Width / ImageWidth( Image ), Height / ImageHeight( Image ) )
+		SetScale( Width / ImageWidth( Image ) * Visualizer.XScale, Height / ImageHeight( Image ) * Visualizer.YScale )
 		
 		DrawImage( Image, SX + Visualizer.DX * Width, SY + Visualizer.DY * Height, TileValue )
 		

@@ -19,7 +19,6 @@ Import dwlab.frmwork
 
 Include "TGame.bmx"
 Include "TPlayer.bmx"
-Include "TPlayerPathFinder.bmx"
 Include "TSkeleton.bmx"
 
 AppTitle = "Skeleton Slayer"

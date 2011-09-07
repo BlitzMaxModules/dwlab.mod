@@ -39,10 +39,10 @@ Type TPlayer Extends LTAngularSprite
 				If Position = Null Then
 					StartingTime = Game.Time
 				Else
-					Game.CollisionMap.Value[ TileX, TileY ] = Game.EmptyTile
+					'Game.CollisionMap.Value[ TileX, TileY ] = Game.EmptyTile
 					TileX = Position.X
 					TileY = Position.Y
-					Game.CollisionMap.Value[ TileX, TileY ] = Game.PlayerTile
+					'Game.CollisionMap.Value[ TileX, TileY ] = Game.PlayerTile
 				End If
 			Else
 				Phase = ( 5 + L_Round( DirectionToPoint( PosX, PosY ) / 45.0 ) ) Mod 8
