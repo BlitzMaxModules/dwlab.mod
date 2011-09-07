@@ -41,7 +41,7 @@ Type LTCamera Extends LTSprite
 	bbdoc: Isometric view flag.
 	End Rem
 	Field Isometric:Int
-	Field VX1:Double, VY1:Double, VX2:Double, VY2:Double, VK:Double
+	Field VX1:Double, VY1:Double, VX2:Double, VY2:Double, VK:Double, AVK:Double
 	
 	
 	
@@ -67,8 +67,8 @@ Type LTCamera Extends LTSprite
 	End Rem
 	Method SizeScreenToField( ScreenWidth:Double, ScreenHeight:Double, FieldWidth:Double Var, FieldHeight:Double Var )
 		If Isometric Then
-			FieldWidth = ( ScreenHeight * VX2 - ScreenWidth * VY2 ) / VK - DX
-			FieldHeight = ( ScreenWidth * VY1 - ScreenHeight * VX1 ) / VK - DY
+			FieldWidth = Abs( ( Abs( ScreenWidth * VY2 ) - Abs( ScreenHeight * VX2 ) ) / AVK )
+			FieldHeight = Abs( ( Abs( ScreenHeight * VY2 ) - Abs( ScreenWidth * VX2 ) ) / AVK )
 		Else
 			FieldWidth = ScreenWidth / K
 			FieldHeight = ScreenHeight / K
@@ -194,8 +194,9 @@ Type LTCamera Extends LTSprite
 			Local DHeight:Double = Abs( VY1 ) + Abs( VY2 )
 			K = Min( Viewport.Width / DWidth / Width, Viewport.Height / DHeight / Height )
 			VK = ( VX1 * VY2 - VY1 * VX2 ) * K
+			AVK = ( Abs( VX1 * VY2 ) - Abs( VY1 * VX2 ) ) * K
 			DX = ( Viewport.X * VY2 - Viewport.Y * VX2 ) / VK - X
-			DY = ( Viewport.X * VY1  - Viewport.Y * VX1 ) / VK - Y
+			DY = ( Viewport.Y * VX1 - Viewport.X * VY1 ) / VK - Y
 		Else
 			K = Viewport.Width / Width
 			Height = Viewport.Height / K
@@ -271,7 +272,7 @@ ScreenY / K = FieldX * VY1 + DX * VY1 + ScreenX / K / VX2 * VY2 - FieldX * VX1 /
 ScreenY / K - DX * VY1 - ScreenX / K / VX2 * VY2 + DX * VX1 / VX2 * VY2 = FieldX * VY1 - FieldX * VX1 / VX2 * VY2
 ( ScreenY - ScreenX / VX2 * VY2 ) / K + DX * ( VX1 / VX2 * VY2 - VY1 ) = FieldX * ( VY1 - VX1 / VX2 * VY2 )
 ( ScreenY - ScreenX / VX2 * VY2 ) / ( VY1 - VX1 / VX2 * VY2 ) / K - DX = FieldX
-( ScreenY * VX2 - ScreenX* VY2 ) / ( VY1 * VX2 - VX1 * VY2 ) / K - DX = FieldX
+( ScreenY * VX2 - ScreenX * VY2 ) / ( VY1 * VX2 - VX1 * VY2 ) / K - DX = FieldX
 ( ScreenX * VY2 - ScreenY * VX2 ) / VK - DX = FieldX
 
 
@@ -283,45 +284,11 @@ ScreenY / K - ( FieldY + DY ) * VY2 = ( FieldX + DX ) * VY1
 
 ScreenX = ( ( FieldX + DX ) * VX1 + ( FieldY + DY ) * VX2 ) * K
 ScreenX = ( ( ( ScreenY / K - ( FieldY + DY ) * VY2 ) / VY1 - DX + DX ) * VX1 + ( FieldY + DY ) * VX2 ) * K
-ScreenX / K = ( ( ( ScreenY / K - ( FieldY + DY ) * VY2 ) / VY1 ) * VX1 + ( FieldY + DY ) * VX2 )
+ScreenX / K = ( ( ScreenY / K - ( FieldY + DY ) * VY2 ) / VY1 ) * VX1 + ( FieldY + DY ) * VX2
 ScreenX / K = ScreenY / K / VY1 * VX1 - FieldY * VY2 / VY1 * VX1 - DY * VY2 / VY1 * VX1 + FieldY * VX2 + DY * VX2
 ScreenX / K - ScreenY / K / VY1 * VX1 + DY * VY2 / VY1 * VX1 - DY * VX2 = FieldY * VX2 - FieldY * VY2 / VY1 * VX1
 ( ScreenX - ScreenY / VY1 * VX1 ) / K + DY * ( VY2 / VY1 * VX1 - VX2 ) = FieldY * ( VX2 - VY2 / VY1 * VX1 )
 ( ScreenX - ScreenY / VY1 * VX1 ) / ( VX2 - VY2 / VY1 * VX1 ) / K  - DY = FieldY
 ( ScreenX * VY1 - ScreenY * VX1 ) / ( VX2 * VY1 - VY2 * VX1 ) / K  - DY = FieldY
 ( ScreenY * VX1 - ScreenX * VY1 ) / VK  - DY = FieldY
-
-
-Viewport.X = ( ( X + DX ) * VX1 + ( Y + DY ) * VX2 ) * K
-Viewport.X / K = ( X + DX ) * VX1 + ( Y + DY ) * VX2
-Viewport.X / K - ( X + DX ) * VX1 = ( Y + DY ) * VX2
-( Viewport.X / K - ( X + DX ) * VX1 ) / VX2 = Y + DY
-( Viewport.X / K - ( X + DX ) * VX1 ) / VX2 - Y = DY
-
-Viewport.Y = ( ( X + DX ) * VY1 + ( Y + DY ) * VY2 ) * K
-Viewport.Y = ( ( X + DX ) * VY1 + ( Y + ( Viewport.X / K - ( X + DX ) * VX1 ) / VX2 - Y ) * VY2 ) * K
-Viewport.Y / K = ( X + DX ) * VY1 + ( Viewport.X / K - ( X + DX ) * VX1 ) / VX2 * VY2
-Viewport.Y / K = X * VY1 + DX * VY1 + Viewport.X / K / VX2 * VY2 - X * VX1 / VX2 * VY2 - DX * VX1 / VX2 * VY2
-Viewport.Y / K - X * VY1  - Viewport.X / K / VX2 * VY2 - X * VX1 / VX2 * VY2 = DX * VY1 - DX * VX1 / VX2 * VY2
-( Viewport.Y / K - X * VY1  - Viewport.X / K / VX2 * VY2 - X * VX1 / VX2 * VY2 ) / ( VY1 - VX1 / VX2 * VY2 ) = DX
-( ( Viewport.Y  - Viewport.X / VX2 * VY2 ) / K - X * ( VY1 - VX1 / VX2 * VY2 ) ) / ( VY1 - VX1 / VX2 * VY2 ) = DX
-( Viewport.Y - Viewport.X / VX2 * VY2 ) / K / ( VY1 - VX1 / VX2 * VY2 ) - X = DX
-( Viewport.Y * VX2 - Viewport.X * VY2 ) / K / ( VY1 * VX2 - VX1 * VY2 ) - X = DX
-( Viewport.X * VY2 - Viewport.Y * VX2 ) / VK - X = DX
-
-
-Viewport.Y = ( ( X + DX ) * VY1 + ( Y + DY ) * VY2 ) * K
-Viewport.Y / K = ( X + DX ) * VY1 + ( Y + DY ) * VY2
-Viewport.Y / K - ( Y + DY ) * VY2 = ( X + DX ) * VY1
-( Viewport.Y / K - ( Y + DY ) * VY2 ) / VY1 = X + DX
-( Viewport.Y / K - ( Y + DY ) * VY2 ) / VY1 - X = DX
-
-Viewport.X = ( ( X + DX ) * VX1 + ( Y + DY ) * VX2 ) * K
-Viewport.X = ( ( X + ( Viewport.Y / K - ( Y + DY ) * VY2 ) / VY1 - X ) * VX1 + ( Y + DY ) * VX2 ) * K
-Viewport.X / K = ( Viewport.Y / K / VY1 * VX1 - Y * VY2 / VY1 * VX1 - DY * VY2 / VY1 * VX1 + Y * VX2 + DY * VX2
-Viewport.X / K - Viewport.Y / K / VY1 * VX1 + Y * VY2 / VY1 * VX1 - Y * VX2 = DY * VX2 - DY * VY2 / VY1 * VX1
-( Viewport.X  - Viewport.Y / VY1 * VX1 ) / K + Y * ( VY2 / VY1 * VX1 - VX2 ) = DY ( VX2 - DY * VY2 / VY1 * VX1 )
-( Viewport.X  - Viewport.Y / VY1 * VX1 ) / K / ( VY2 / VY1 * VX1 - VX2 ) - Y = DY
-( Viewport.X * VY1  - Viewport.Y * VX1 ) / K / ( VY2 * VX1 - VX2 * VY1 ) - Y = DY
-( Viewport.X * VY1  - Viewport.Y * VX1 ) / VK - Y = DY
 EndRem

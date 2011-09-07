@@ -25,6 +25,7 @@ Type TGame Extends LTProject
 	Method Init()
 		World = LTWorld.FromFile( "world.lw" )
 		L_InitGraphics()
+		World.Camera.Viewport = L_CurrentCamera.Viewport
 		L_CurrentCamera = World.Camera
 		L_CurrentCamera.SetMagnification( 64.0 )
 		
@@ -68,6 +69,5 @@ Type TGame Extends LTProject
 		If KeyHit( Key_Escape ) Or AppTerminate() Then Exiting = True
 		Level.Act()
 		L_CurrentCamera.JumpTo( Player )
-		'debugstop
 	End Method
 End Type

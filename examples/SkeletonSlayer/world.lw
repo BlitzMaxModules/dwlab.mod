@@ -11,7 +11,7 @@
 		<Object id="68"/>
 		<Object id="5"/>
 	</TList>
-	<LTCamera field="camera" x="33.4631" y="9.8794" width="13.5711" height="11.4573" shape="2" viewport-clipping="1" isometric="1" x1="2" y1="1" x2="-2" y2="1">
+	<LTCamera field="camera" x="35.4287" y="20.0846" width="13.5711" height="11.4573" shape="2" viewport-clipping="1" isometric="1" x1="2" y1="1" x2="-2" y2="1">
 		<Object field="visualizer" id="1"/>
 		<LTShape field="viewport" x="504" y="425.5" width="1008" height="851">
 			<Object field="visualizer" id="1"/>

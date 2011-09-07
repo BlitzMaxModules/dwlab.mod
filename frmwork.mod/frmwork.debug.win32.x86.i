@@ -309,6 +309,7 @@ LTCamera^LTSprite{
 .VX2!&
 .VY2!&
 .VK!&
+.AVK!&
 -New%()="_dwlab_frmwork_LTCamera_New"
 -Delete%()="_dwlab_frmwork_LTCamera_Delete"
 -ScreenToField%(ScreenX!,ScreenY!,FieldX! Var,FieldY! Var)="_dwlab_frmwork_LTCamera_ScreenToField"
