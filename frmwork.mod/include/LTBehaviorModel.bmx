@@ -129,4 +129,17 @@ Type LTBehaviorModel Extends LTObject
 		If Active Then DeactivateModel( Shape )
 		Link.Remove()
 	End Method
+	
+	
+	
+	Rem
+	bbdoc: Removes every other behavior model of same type from shape's behavior models.
+	about: See also: #Remove
+	End Rem
+	Method RemoveSame( Shape:LTShape )
+		Local TypeID:TTypeId = TTypeId.ForObject( Self )
+		For Local Model:LTBehaviorModel = Eachin Shape.BehaviorModels
+			If TTypeId.ForObject( Model ) = TypeID And Model <> Self Then Model.Remove( Shape )
+		Next
+	End Method
 End Type

@@ -37,15 +37,13 @@ Type TGame Extends LTProject
 		CollisionMap = New LTIntMap
 		CollisionMap.SetResolution( TileMap.XQuantity, TileMap.YQuantity )
 		
-		PathFinder = New LTTileMapPathFinder
-		PathFinder.Map = CollisionMap
-		PathFinder.AllowDiagonalMovement = True
+		PathFinder = LTTileMapPathFinder.Create( CollisionMap, True )
 		 
 		LoadAndInitLayer( Level, LTLayer( World.FindShape( "LTLayer,Level" ) ) )
 		
 		Objects = LTSpriteMap( Level.FindShape( "Objects" ) )
 		Local Ground:LTTileMap = LTTileMap( Level.FindShape( "Ground" ) )
-		Local Walls:LTTileMap = LTTileMap( Level.FindShape( "Walls" ) )
+		Local Walls:LTTileMap = LTTileMap( Level.FindShape( "Fence" ) )
 		For Local Y:Int = 0 Until CollisionMap.YQuantity
 			For Local X:Int = 0 Until CollisionMap.XQuantity
 				If Ground.Value[ X, Y ] >= 4 Or Walls.Value[ X, Y ] < 10 Then CollisionMap.Value[ X, Y ] = BlockedTile
@@ -65,7 +63,15 @@ Type TGame Extends LTProject
 		SelectedTile.SetMouseCoords()
 		SelectedTile.SetCoords( Floor( SelectedTile.X ) + 0.5, Floor( SelectedTile.Y ) + 0.5 )
 		
-		If MouseHit( 1 ) Then Player.Position = PathFinder.FindPath( Player.TileX, Player.TileY, Floor( SelectedTile.X ), Floor( SelectedTile.Y ) )
+		If MouseHit( 1 ) Then
+			Local TileX:Int = Floor( SelectedTile.X )
+			Local TileY:Int = Floor( SelectedTile.Y )
+			Local TileNum:Int = Game.CollisionMap.Value[ TileX, TileY ]
+			If TileNum <> Game.BlockedTile Then
+				Player.AttachModel( TMovingAlongPath.Create( PathFinder.FindPath( Player.TileX, Player.TileY, TileX, TileY, TileNum <> Game.EmptyTile ) ) )
+			End If
+		End If
+
 		If KeyHit( Key_Escape ) Or AppTerminate() Then Exiting = True
 		Level.Act()
 		L_CurrentCamera.JumpTo( Player )

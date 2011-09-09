@@ -18,6 +18,7 @@ Import dwlab.frmwork
 'Import dwlab.sound
 
 Include "TGame.bmx"
+Include "TPerson.bmx"
 Include "TPlayer.bmx"
 Include "TSkeleton.bmx"
 

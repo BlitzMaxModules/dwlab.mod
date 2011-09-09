@@ -1,17 +1,17 @@
-<LTWorld dwlab_version="1.1.2">
+<LTWorld dwlab_version="1.1.5">
 	<LTVisualizer field="visualizer" id="1"/>
 	<TList field="images">
 		<Object id="69"/>
 		<Object id="6"/>
 		<Object id="100"/>
-		<LTImage filename="media\skeleton.png" xcells="32" ycells="8"/>
+		<Object id="103"/>
 		<LTImage filename="media\trees.png" xcells="4" ycells="2"/>
 	</TList>
 	<TList field="tilesets">
 		<Object id="68"/>
 		<Object id="5"/>
 	</TList>
-	<LTCamera field="camera" x="35.4287" y="20.0846" width="13.5711" height="11.4573" shape="2" viewport-clipping="1" isometric="1" x1="2" y1="1" x2="-2" y2="1">
+	<LTCamera field="camera" x="35.4286" y="20.0844" width="13.5711" height="11.4573" shape="2" viewport-clipping="1" isometric="1" x1="2" y1="1" x2="-2" y2="1">
 		<Object field="visualizer" id="1"/>
 		<LTShape field="viewport" x="504" y="425.5" width="1008" height="851">
 			<Object field="visualizer" id="1"/>
@@ -197,7 +197,7 @@
 			<LTShape field="bounds" x="32" y="32" width="64" height="64">
 				<Object field="visualizer" id="1"/>
 			</LTShape>
-			<LTTileMap name="LTTileMap,Walls" x="32" y="32" width="64" height="64" xquantity="64" yquantity="64" tiles-quantity="12">
+			<LTTileMap name="LTTileMap,Fence" x="32" y="32" width="64" height="64" xquantity="64" yquantity="64" tiles-quantity="12">
 				<LTVisualizer field="visualizer" dy="-0.5" yscale="2"/>
 				<LTTileSet field="tileset" id="68" name="Walls" tiles-quantity="12" block-width="0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0" empty-tile="10">
 					<LTImage field="image" id="69" filename="media\barricade_tiles.png" xcells="4" ycells="3"/>
@@ -324,6 +324,21 @@
 				<LTSprite name="TPlayer" x="36.5" y="17.5" shape="2">
 					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
 						<LTImage field="image" id="100" filename="media\player.png" xcells="32" ycells="8"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite name="TSkeleton" x="34.5" y="28.5" shape="2">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
+						<LTImage field="image" id="103" filename="media\skeleton.png" xcells="32" ycells="8"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite name="TSkeleton" x="47.5" y="21.5" shape="2">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
+						<Object field="image" id="103"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite name="TSkeleton" x="26.5" y="19.5" shape="2">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
+						<Object field="image" id="103"/>
 					</LTVisualizer>
 				</LTSprite>
 			</LTSpriteMap>

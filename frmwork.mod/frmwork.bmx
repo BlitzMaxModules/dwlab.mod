@@ -15,12 +15,15 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.1.2"
+ModuleInfo "Version: 1.1.5"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.1.5 (06.09.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added FirstPosition() and LastPosition() methods to tilemap position class for path finding."
+ModuleInfo "History: &nbsp; &nbsp; Added RemoveSame() method for LTBehaviorModel."
 ModuleInfo "History: v1.1.4.1 (06.09.11)"
 ModuleInfo "History: &nbsp; &nbsp; Fixed bug of displaying layers with another visualizer."
 ModuleInfo "History: v1.1.4 (02.09.11)"
@@ -105,7 +108,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.1.2"
+Const L_Version:String = "1.1.5"
 
 SeedRnd( MilliSecs() )
 

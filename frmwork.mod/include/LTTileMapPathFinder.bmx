@@ -36,15 +36,20 @@ Type LTTileMapPathFinder Extends LTObject
 	bbdoc: Finds a path between two given points on previously specified tilemap.
 	returns: First tilemap position object in path. Next one can be retrieved using NextPosition field.
 	End Rem
-	Method FindPath:LTTileMapPosition( StartingX:Int, StartingY:Int, FinalX:Int, FinalY:Int )
-		If Not Passage( FinalX, FinalY ) Then Return Null
+	Method FindPath:LTTileMapPosition( StartingX:Int, StartingY:Int, FinalX:Int, FinalY:Int, StayNear:Int = False )
+		If StayNear Then
+			If Abs( StartingX - FinalX ) <= 1 And Abs( StartingY - FinalY ) <= 1 Then Return Null
+		Else
+			If StartingX = FinalX And StartingY = FinalY Then Return Null
+		End If		
+		If Not Passage( FinalX, FinalY ) And Not StayNear Then Return Null
 		Points = New TMap
 		Local List:TList = New TList
 		List.AddLast( LTTileMapPosition.Create( Null, StartingX, StartingY ) )
 		Repeat
 			Local NewList:TList = New TList
 			For Local Position:LTTileMapPosition = EachIn List
-				Local FinalPosition:LTTileMapPosition = Position.Spread( Self, FinalX, FinalY, NewList )
+				Local FinalPosition:LTTileMapPosition = Position.Spread( Self, FinalX, FinalY, NewList, StayNear )
 				If FinalPosition Then Return FinalPosition.Revert()
 			Next
 			If NewList.IsEmpty() Then Return Null
@@ -112,7 +117,7 @@ Type LTTileMapPosition
 	
 	
 	
-	Method Spread:LTTileMapPosition( TileMapPathFinder:LTTileMapPathFinder, FinalX:Int, FinalY:Int, List:TList )
+	Method Spread:LTTileMapPosition( TileMapPathFinder:LTTileMapPathFinder, FinalX:Int, FinalY:Int, List:TList, StayNear:Int )
 		For Local N:Int = 0 Until 8 + ( 8 * TileMapPathFinder.AllowDiagonalMovement ) Step 2
 			Local XX:Int = X + L_SpreadingDirections[ N ]
 			If XX < 0 Or XX >= TileMapPathFinder.Map.XQuantity Then Continue
@@ -124,7 +129,12 @@ Type LTTileMapPosition
 			If TileMapPathFinder.GetPoint( XX, YY ) Then Continue
 			
 			Local Position:LTTileMapPosition = LTTileMapPosition.Create( Self, XX, YY )
-			If XX = FinalX And YY = FinalY Then Return Position
+			If StayNear Then
+				If Abs( XX - FinalX ) <= 1 And Abs( YY - FinalY ) <= 1 Then Return Position
+			Else
+				If XX = FinalX And YY = FinalY Then Return Position
+			End If
+			
 			TileMapPathFinder.SetPoint( XX, YY, Position )
 			List.AddLast( Position )
 		Next
@@ -132,9 +142,39 @@ Type LTTileMapPosition
 	
 	
 	
+	Rem
+	bbdoc: Method for retrieving first position in queue.
+	returns: First position in queue.
+	End Rem
+	Method FirstPosition:LTTileMapPosition()
+		Local Position:LTTileMapPosition = Self
+		While Position.PrevPosition <> Null
+			Position = Position.PrevPosition
+		WEnd
+		Return Position
+	End Method
+	
+	
+	Rem
+	bbdoc: Method for retrieving last position in queue.
+	returns: Last position in queue.
+	End Rem
+	Method LastPosition:LTTileMapPosition()
+		Local Position:LTTileMapPosition = Self
+		While Position.NextPosition <> Null
+			Position = Position.NextPosition
+		WEnd
+		Return Position
+	End Method
+	
+	
+	
 	Method Revert:LTTileMapPosition()
-		If PrevPosition = Null Then Return Self
-		PrevPosition.NextPosition = Self
-		Return PrevPosition.Revert()
+		Local Position:LTTileMapPosition = Self
+		While Position.PrevPosition <> Null
+			Position.PrevPosition.NextPosition = Position
+			Position = Position.PrevPosition
+		WEnd
+		Return Position
 	End Method
 End Type

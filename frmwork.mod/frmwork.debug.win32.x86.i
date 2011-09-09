@@ -1,8 +1,11 @@
-ModuleInfo "Version: 1.1.2"
+ModuleInfo "Version: 1.1.5"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.1.5 (06.09.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added FirstPosition() and LastPosition() methods to tilemap position class for path finding."
+ModuleInfo "History: &nbsp; &nbsp; Added RemoveSame() method for LTBehaviorModel."
 ModuleInfo "History: v1.1.4.1 (06.09.11)"
 ModuleInfo "History: &nbsp; &nbsp; Fixed bug of displaying layers with another visualizer."
 ModuleInfo "History: v1.1.4 (02.09.11)"
@@ -77,7 +80,7 @@ import brl.d3d9max2d
 import brl.random
 import brl.reflection
 import brl.retro
-L_Version$=$"1.1.2"
+L_Version$=$"1.1.5"
 LTObject^brl.blitz.Object{
 .Name$&
 -New%()="_dwlab_frmwork_LTObject_New"
@@ -692,6 +695,7 @@ LTBehaviorModel^LTObject{
 -ActivateModel%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_ActivateModel"
 -DeactivateModel%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_DeactivateModel"
 -Remove%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_Remove"
+-RemoveSame%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_RemoveSame"
 }="dwlab_frmwork_LTBehaviorModel"
 LTFixedJoint^LTBehaviorModel{
 .ParentPivot:LTAngularSprite&
@@ -751,7 +755,7 @@ LTTileMapPathFinder^LTObject{
 -New%()="_dwlab_frmwork_LTTileMapPathFinder_New"
 -Delete%()="_dwlab_frmwork_LTTileMapPathFinder_Delete"
 +Create:LTTileMapPathFinder(TileMap:LTIntMap,AllowDiagonalMovement%=1)="_dwlab_frmwork_LTTileMapPathFinder_Create"
--FindPath:LTTileMapPosition(StartingX%,StartingY%,FinalX%,FinalY%)="_dwlab_frmwork_LTTileMapPathFinder_FindPath"
+-FindPath:LTTileMapPosition(StartingX%,StartingY%,FinalX%,FinalY%,StayNear%=0)="_dwlab_frmwork_LTTileMapPathFinder_FindPath"
 -Passage!(X%,Y%)="_dwlab_frmwork_LTTileMapPathFinder_Passage"
 -GetPoint:Object(X%,Y%)="_dwlab_frmwork_LTTileMapPathFinder_GetPoint"
 -SetPoint%(X%,Y%,Position:LTTileMapPosition)="_dwlab_frmwork_LTTileMapPathFinder_SetPoint"
@@ -764,7 +768,9 @@ LTTileMapPosition^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTTileMapPosition_New"
 -Delete%()="_dwlab_frmwork_LTTileMapPosition_Delete"
 +Create:LTTileMapPosition(PrevPosition:LTTileMapPosition,X%,Y%)="_dwlab_frmwork_LTTileMapPosition_Create"
--Spread:LTTileMapPosition(TileMapPathFinder:LTTileMapPathFinder,FinalX%,FinalY%,List:brl.linkedlist.TList)="_dwlab_frmwork_LTTileMapPosition_Spread"
+-Spread:LTTileMapPosition(TileMapPathFinder:LTTileMapPathFinder,FinalX%,FinalY%,List:brl.linkedlist.TList,StayNear%)="_dwlab_frmwork_LTTileMapPosition_Spread"
+-FirstPosition:LTTileMapPosition()="_dwlab_frmwork_LTTileMapPosition_FirstPosition"
+-LastPosition:LTTileMapPosition()="_dwlab_frmwork_LTTileMapPosition_LastPosition"
 -Revert:LTTileMapPosition()="_dwlab_frmwork_LTTileMapPosition_Revert"
 }="dwlab_frmwork_LTTileMapPosition"
 LTDrag^LTObject{

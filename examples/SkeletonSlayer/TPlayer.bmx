@@ -8,50 +8,17 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TPlayer Extends LTAngularSprite
-	Const TotalActionFrames:Int = 32
-	Const StandingAnimationStart:Int = 0
-	Const StandingAnimationSize:Int = 4
-	Const StandingAnimationSpeed:Double = 0.3
-	Const WalkingAnimationStart:Int = 4
-	Const WalkingAnimationSize:Int = 8
-	Const WalkingAnimationSpeed:Double = 0.1
-	Const WalkingSpeed:Double = 4.0
-	
-	Field TileX:Int, TileY:Int
-	Field Position:LTTileMapPosition
-	Field Phase:Int
-	Field StartingTime:Int
-
+Type TPlayer Extends TPerson
 	Method Init()
 		Game.Player = Self
-		TileX = Floor( X )
-		TileY = Floor( Y )
-		Game.CollisionMap.Value[ TileX, TileY ] = Game.PlayerTile
+		Velocity = 5.0
+		TileType = Game.PlayerTile
+		Super.Init()
 	End Method
 	
-	Method Act()
-		If Position Then
-			Local PosX:Double = 0.5 + TileX
-			Local PosY:Double = 0.5 + TileY
-			If X = PosX And Y = PosY Then
-				Position = Position.NextPosition
-				If Position = Null Then
-					StartingTime = Game.Time
-				Else
-					'Game.CollisionMap.Value[ TileX, TileY ] = Game.EmptyTile
-					TileX = Position.X
-					TileY = Position.Y
-					'Game.CollisionMap.Value[ TileX, TileY ] = Game.PlayerTile
-				End If
-			Else
-				Phase = ( 5 + L_Round( DirectionToPoint( PosX, PosY ) / 45.0 ) ) Mod 8
-				MoveTowardsPoint( PosX, PosY, WalkingSpeed )
-			End If
-			Animate( Game, WalkingAnimationSpeed, WalkingAnimationSize, WalkingAnimationStart, StartingTime )
-		Else
-			Animate( Game, StandingAnimationSpeed, StandingAnimationSize, StandingAnimationStart, StartingTime, True )
-		End If
-		Frame = ( Frame Mod TotalActionFrames ) + TotalActionFrames * Phase
+	Method RecalculatePath( Model:TMovingAlongPath )
+		Local LastPosition:LTTileMapPosition = Model.Position.LastPosition()
+		Model.Position = Game.PathFinder.FindPath( TileX, TileY, LastPosition.X, LastPosition.Y )
 	End Method
 End Type
+
