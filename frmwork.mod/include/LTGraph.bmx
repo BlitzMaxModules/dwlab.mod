@@ -8,6 +8,8 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "LTPath.bmx"
+
 Rem
 bbdoc: Graph is a collection of pivots and line segments between them.
 End Rem

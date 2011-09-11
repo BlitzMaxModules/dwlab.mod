@@ -61,7 +61,7 @@ Type TEnteringVerticalPipe Extends LTBehaviorModel
 		Shape.RemoveWindowLimit()
 		Shape.ActivateAllModels()
 		Game.Level.Active = True
-		Game.SwitchToLevel( ExitSprite.GetNamePart( 1 ).ToInt(), ExitSprite.GetNamePart( 2 ).ToInt() )
+		Game.SwitchToLevel( ExitSprite.GetParameter( "level" ).ToInt(), ExitSprite.GetParameter( "start" ).ToInt() )
 	End Method
 End Type
 
@@ -107,6 +107,6 @@ Type TEnteringHorizontalPipe Extends LTBehaviorModel
 		Shape.RemoveWindowLimit()
 		Shape.ActivateAllModels()
 		Game.Level.Active = True
-		Game.SwitchToLevel( ExitSprite.GetNamePart( 1 ).ToInt(), ExitSprite.GetNamePart( 2 ).ToInt() )
+		Game.SwitchToLevel( ExitSprite.GetParameter( "level" ).ToInt(), ExitSprite.GetParameter( "start" ).ToInt() )
 	End Method
 End Type

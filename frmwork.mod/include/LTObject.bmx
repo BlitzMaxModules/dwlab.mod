@@ -20,33 +20,8 @@ Rem
 bbdoc: Global object class
 End Rem
 Type LTObject
-	Rem
-	bbdoc: Name of the object.
-	End Rem
-	Field Name:String
 	
-
-	
-	Rem
-	bbdoc: Retrieving object's name part.
-	returns: Part of the name for given index (parts are separated by commas). 
-	about: First part index is 1.
-	End Rem
-	Method GetNamePart:String( Num:Int = 1 )
-		Local PartStart:Int = 0
-		Local PartNum:Int = 1
-		For Local Sym:Int = 0 Until Len( Name )
-			if Name[ Sym ] = Asc( "," ) Then
-				If PartNum = Num Then Return Name[ PartStart..Sym ]
-				PartNum :+ 1
-				PartStart = Sym + 1
-			End If
-		Next
-		If PartNum = Num Then Return Name[ PartStart.. ]
-		Return ""
-	End Method
-
-	' ==================== loading / saving ===================
+	' ==================== Loading / saving ===================
 
 	Rem
 	bbdoc: Method for loading / saving object.
@@ -59,7 +34,6 @@ Type LTObject
 	End Rem
 	Method XMLIO( XMLObject:LTXMLObject )
 		If L_XMLMode = L_XMLSet Then XMLObject.Name = TTypeId.ForObject( Self ).Name()
-		XMLObject.ManageStringAttribute( "name", Name )
 	End Method
 	
 

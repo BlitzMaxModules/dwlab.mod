@@ -43,7 +43,7 @@ Type TGame Extends LTProject
 		L_InitGraphics( 960, 720, 48.0 )
 		HideMouse()
 		World = LTWorld.FromFile( "world.lw" )
-		LoadAndInitLayer( Level, LTLayer( World.FindShape( "LTLayer" ) ) )
+		LoadAndInitLayer( Level, LTLayer( World.FindShapeWithType( "LTLayer" ) ) )
 		Target = LTSprite( Level.FindShape( "Target" ) )
 		LTLayer( Game.Level.FindShape( "Trees" ) ).AddLast( Game.Trees )
 		LTLayer( Game.Level.FindShape( "Blocks" ) ).AddLast( Game.Blocks )

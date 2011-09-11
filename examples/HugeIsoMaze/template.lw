@@ -1,28 +1,31 @@
-<LTWorld dwlab_version="1.1.2">
+<LTWorld dwlab_version="1.2">
 	<LTVisualizer field="visualizer" id="1"/>
 	<TList field="images">
-		<Object id="7"/>
-		<Object id="139"/>
+		<Object id="8"/>
+		<Object id="143"/>
 	</TList>
 	<TList field="tilesets">
-		<Object id="6"/>
+		<Object id="7"/>
 	</TList>
-	<LTCamera field="camera" x="8" y="8" width="32" height="27.0158" viewport-clipping="1" isometric="1" x1="20" y1="10" x2="-20" y2="10">
-		<LTVisualizer field="visualizer" id="143"/>
+	<LTCamera field="camera" x="8.9344" y="6.0861" width="11.2158" height="9.4688" viewport-clipping="1" isometric="1" x1="20" y1="10" x2="-20" y2="10">
+		<LTVisualizer field="visualizer" id="149"/>
 		<LTShape field="viewport" x="504" y="425.5" width="1008" height="851">
-			<Object field="visualizer" id="143"/>
+			<Object field="visualizer" id="149"/>
 		</LTShape>
 	</LTCamera>
 	<TList field="definitions"/>
-	<LTLayer name="LTLayer">
+	<LTLayer>
 		<LTVisualizer field="visualizer"/>
 		<LTShape field="bounds" x="8" y="8" width="16" height="16">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap name="LTTileMap,Floor" x="8" y="8" width="16" height="16" xquantity="16" yquantity="16" tiles-quantity="32">
+		<LTTileMap x="8" y="8" width="16" height="16" xquantity="16" yquantity="16" tiles-quantity="32">
+			<TList field="parameters">
+				<LTParameter name="name" value="Floor"/>
+			</TList>
 			<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4"/>
-			<LTTileSet field="tileset" id="6" name="Default" tiles-quantity="32" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" empty-tile="0">
-				<LTImage field="image" id="7" filename="dungeon_walls.png" xcells="8" ycells="4"/>
+			<LTTileSet field="tileset" id="7" tiles-quantity="32" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" empty-tile="0">
+				<LTImage field="image" id="8" filename="dungeon_walls.png" xcells="8" ycells="4"/>
 				<ShapeArray field="collision-shapes">
 					<Null/>
 					<Null/>
@@ -30,7 +33,7 @@
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
 					<LTSprite x="0.5" y="0.6875" height="0.625" shape="2">
-						<LTVisualizer field="visualizer" id="71"/>
+						<LTVisualizer field="visualizer" id="72"/>
 					</LTSprite>
 					<LTSprite x="0.3125" y="0.5" width="0.625" shape="2">
 						<LTVisualizer field="visualizer"/>
@@ -45,51 +48,51 @@
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
 					<LTSprite x="0.3125" y="0.6875" width="0.625" height="0.625" shape="2">
-						<Object field="visualizer" id="71"/>
+						<Object field="visualizer" id="72"/>
 					</LTSprite>
 					<LTSprite x="0.3125" y="0.3125" width="0.625" height="0.625" shape="2">
-						<LTVisualizer field="visualizer" id="82"/>
+						<LTVisualizer field="visualizer" id="83"/>
 					</LTSprite>
 					<LTSprite x="0.6875" y="0.3125" width="0.625" height="0.625" shape="2">
-						<Object field="visualizer" id="71"/>
+						<Object field="visualizer" id="72"/>
 					</LTSprite>
 					<LTSprite x="0.6875" y="0.6875" width="0.625" height="0.625" shape="2">
-						<Object field="visualizer" id="71"/>
+						<Object field="visualizer" id="72"/>
 					</LTSprite>
 					<LTGroup>
-						<LTVisualizer field="visualizer" id="86"/>
+						<LTVisualizer field="visualizer" id="87"/>
 						<LTSprite x="0.8125" y="0.6875" width="0.375" height="0.625" shape="2">
-							<Object field="visualizer" id="86"/>
+							<Object field="visualizer" id="87"/>
 						</LTSprite>
 						<LTSprite x="0.3125" y="0.5" width="0.625" shape="2">
-							<Object field="visualizer" id="82"/>
+							<Object field="visualizer" id="83"/>
 						</LTSprite>
 					</LTGroup>
 					<LTGroup>
-						<LTVisualizer field="visualizer" id="90"/>
+						<LTVisualizer field="visualizer" id="91"/>
 						<LTSprite x="0.8125" y="0.3125" width="0.375" height="0.625" shape="2">
-							<Object field="visualizer" id="71"/>
+							<Object field="visualizer" id="72"/>
 						</LTSprite>
 						<LTSprite x="0.3125" y="0.5" width="0.625" shape="2">
-							<Object field="visualizer" id="86"/>
+							<Object field="visualizer" id="87"/>
 						</LTSprite>
 					</LTGroup>
 					<LTGroup>
-						<Object field="visualizer" id="90"/>
+						<Object field="visualizer" id="91"/>
 						<LTSprite x="0.6875" y="0.5" width="0.625" shape="2">
-							<Object field="visualizer" id="71"/>
+							<Object field="visualizer" id="72"/>
 						</LTSprite>
 						<LTSprite x="0.1875" y="0.3125" width="0.375" height="0.625" shape="2">
-							<Object field="visualizer" id="86"/>
+							<Object field="visualizer" id="87"/>
 						</LTSprite>
 					</LTGroup>
 					<LTGroup>
-						<Object field="visualizer" id="90"/>
+						<Object field="visualizer" id="91"/>
 						<LTSprite x="0.5" y="0.6875" height="0.625" shape="2">
-							<Object field="visualizer" id="71"/>
+							<Object field="visualizer" id="72"/>
 						</LTSprite>
 						<LTSprite x="0.6875" y="0.1875" width="0.625" height="0.375" shape="2">
-							<Object field="visualizer" id="86"/>
+							<Object field="visualizer" id="87"/>
 						</LTSprite>
 					</LTGroup>
 					<LTSprite x="0.3125" y="0.5" width="0.625" shape="2">
@@ -141,7 +144,7 @@
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
 				</ShapeArray>
-				<LTTileCategory name="wall">
+				<LTTileCategory name="Walls">
 					<LTTileRule tilenums="4,16,18,20,22,24,26,28,30">
 						<LTTilePos dy="1"/>
 						<LTTilePos dy="-1"/>
@@ -212,7 +215,7 @@
 					</LTTileRule>
 					<LTTileRule tilenums="0"/>
 				</LTTileCategory>
-				<LTTileCategory name="floor">
+				<LTTileCategory name="Floor">
 					<LTTileRule tilenums="1"/>
 				</LTTileCategory>
 			</LTTileSet>
@@ -234,14 +237,17 @@
 			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 		</LTTileMap>
 	</LTLayer>
-	<LTLayer name="LTLayer">
+	<LTLayer mix-content="1">
 		<Object field="visualizer" id="1"/>
 		<LTShape field="bounds" x="8" y="8" width="16" height="16">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap name="LTTileMap,Walls" x="8" y="8" width="16" height="16" xquantity="16" yquantity="16" tiles-quantity="32">
+		<LTTileMap x="8" y="8" width="16" height="16" xquantity="16" yquantity="16" tiles-quantity="32">
+			<TList field="parameters">
+				<LTParameter name="name" value="Walls"/>
+			</TList>
 			<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4"/>
-			<Object field="tileset" id="6"/>
+			<Object field="tileset" id="7"/>
 			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 			<Row data="0,0,0,0,0,0,13,31,23,14,0,0,0,0,0,0"/>
 			<Row data="0,0,0,0,0,0,26,1,1,10,14,0,0,0,0,0"/>
@@ -259,12 +265,26 @@
 			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 		</LTTileMap>
-		<LTSpriteMap name="LTSpriteMap" xquantity="16" yquantity="16" cell-width="1" cell-height="1" left-margin="1" right-margin="1" top-margin="1" bottom-margin="3" sorted="1" pivot-mode="1">
+		<LTSpriteMap xquantity="16" yquantity="16" left-margin="1" right-margin="1" top-margin="1" bottom-margin="3" sorted="1" pivot-mode="1">
+			<TList field="parameters">
+				<LTParameter name="name" value="Zombies"/>
+			</TList>
 			<Object field="visualizer" id="1"/>
+			<LTAngularSprite x="12" y="5.5" shape="1">
+				<TList field="parameters">
+					<LTParameter id="141" name="name" value="Zombie"/>
+				</TList>
+				<LTVisualizer field="visualizer" dy="-0.25" xscale="3" yscale="6" rotating="0">
+					<LTImage field="image" id="143" filename="zombie.png" xcells="8" ycells="8"/>
+				</LTVisualizer>
+			</LTAngularSprite>
 		</LTSpriteMap>
-		<LTAngularSprite name="TZombie" x="8.5" y="2.5" shape="1">
+		<LTAngularSprite x="8.5" y="2.5" shape="1">
+			<TList field="parameters">
+				<Object id="141"/>
+			</TList>
 			<LTVisualizer field="visualizer" dy="-0.25" xscale="3" yscale="6" rotating="0">
-				<LTImage field="image" id="139" filename="zombie.png" xcells="8" ycells="8"/>
+				<Object field="image" id="143"/>
 			</LTVisualizer>
 		</LTAngularSprite>
 	</LTLayer>

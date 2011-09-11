@@ -1,196 +1,267 @@
-<LTWorld dwlab_version="1.0.3">
-	<LTVisualizer field="visualizer" id="1"/>
-	<TList field="images">
-		<Object id="6"/>
-		<Object id="68"/>
-		<Object id="71"/>
-		<Object id="78"/>
-		<Object id="83"/>
-		<Object id="106"/>
-		<Object id="100"/>
-	</TList>
-	<TList field="tilesets">
-		<Object id="5"/>
-	</TList>
-	<TList field="definitions"/>
-	<LTLayer name="LTLayer">
-		<Object field="visualizer" id="1"/>
-		<LTTileMap name="TTiles" x="0.5" y="0.5" xquantity="1" yquantity="1" tiles-quantity="20">
-			<LTVisualizer field="visualizer"/>
-			<LTTileSet field="tileset" id="5" name="Default" tiles-quantity="20" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
-				<LTImage field="image" id="6" filename="media\tileset.png" xcells="5" ycells="4"/>
-				<ShapeArray field="collision-shapes">
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-				</ShapeArray>
-				<LTTileCategory name="Grass">
-					<LTTileRule tilenums="1,5">
-						<LTTilePos dy="1" tilenum="6"/>
-						<LTTilePos dx="1" tilenum="2"/>
-						<LTTilePos dx="1" dy="1" tilenum="7"/>
-					</LTTileRule>
-					<LTTileRule tilenums="2">
-						<LTTilePos dx="-1" tilenum="1"/>
-						<LTTilePos dx="1" tilenum="3"/>
-						<LTTilePos dy="1" tilenum="7"/>
-					</LTTileRule>
-					<LTTileRule tilenums="3,9">
-						<LTTilePos dy="1" tilenum="8"/>
-						<LTTilePos dx="-1" tilenum="2"/>
-						<LTTilePos dx="-1" dy="1" tilenum="7"/>
-					</LTTileRule>
-					<LTTileRule tilenums="6">
-						<LTTilePos dx="-1" tilenum="5"/>
-						<LTTilePos dy="-1" tilenum="1"/>
-						<LTTilePos dy="1" tilenum="7"/>
-						<LTTilePos dx="1" tilenum="7"/>
-					</LTTileRule>
-					<LTTileRule tilenums="8">
-						<LTTilePos dy="-1" tilenum="3"/>
-						<LTTilePos dx="1" tilenum="9"/>
-						<LTTilePos dx="-1" tilenum="7"/>
-						<LTTilePos dy="1" tilenum="7"/>
-					</LTTileRule>
-					<LTTileRule tilenums="10">
-						<LTTilePos dy="-1" tilenum="5"/>
-						<LTTilePos dy="1" tilenum="15"/>
-						<LTTilePos dx="1" tilenum="7"/>
-					</LTTileRule>
-					<LTTileRule tilenums="11">
-						<LTTilePos dy="1" tilenum="16"/>
-						<LTTilePos dx="1" tilenum="12"/>
-						<LTTilePos dx="-1" tilenum="7"/>
-						<LTTilePos dy="-1" tilenum="7"/>
-					</LTTileRule>
-					<LTTileRule tilenums="12">
-						<LTTilePos dx="1" tilenum="13"/>
-						<LTTilePos dx="-1" tilenum="11"/>
-						<LTTilePos dy="-1" tilenum="7"/>
-					</LTTileRule>
-					<LTTileRule tilenums="13">
-						<LTTilePos dx="-1" tilenum="12"/>
-						<LTTilePos dy="1" tilenum="18"/>
-						<LTTilePos dy="-1" tilenum="7"/>
-						<LTTilePos dx="1" tilenum="7"/>
-					</LTTileRule>
-					<LTTileRule tilenums="14">
-						<LTTilePos dy="-1" tilenum="9"/>
-						<LTTilePos dy="1" tilenum="19"/>
-						<LTTilePos dx="-1" tilenum="7"/>
-					</LTTileRule>
-					<LTTileRule tilenums="15,18">
-						<LTTilePos dy="-1" tilenum="10"/>
-						<LTTilePos dx="1" tilenum="16"/>
-						<LTTilePos dx="1" dy="-1" tilenum="7"/>
-					</LTTileRule>
-					<LTTileRule tilenums="16,19">
-						<LTTilePos dy="-1" tilenum="11"/>
-						<LTTilePos dx="-1" tilenum="15"/>
-						<LTTilePos dx="-1" dy="-1" tilenum="7"/>
-					</LTTileRule>
-					<LTTileRule tilenums="0"/>
-				</LTTileCategory>
-			</LTTileSet>
-			<Row data="0"/>
-		</LTTileMap>
-		<LTLayer name="LTLayer,Blocks">
-			<LTVisualizer field="visualizer" id="62"/>
-		</LTLayer>
-		<LTLayer name="LTLayer,Bullets">
-			<LTVisualizer field="visualizer"/>
-		</LTLayer>
-		<LTLayer name="LTLayer,Player">
-			<Object field="visualizer" id="62"/>
-			<LTAngularSprite name="TPlayer" x="3.5" y="2.5" shape="1" velocity="5">
-				<LTVisualizer field="visualizer" xscale="1.75" yscale="1.75">
-					<LTImage field="image" id="68" filename="media\brain.png"/>
-				</LTVisualizer>
-			</LTAngularSprite>
-			<LTAngularSprite name="LTAngularSprite,Visor" x="3.5" y="2.5">
-				<LTVisualizer field="visualizer" xscale="2" yscale="2">
-					<LTImage field="image" id="71" filename="media\visor.png"/>
-				</LTVisualizer>
-			</LTAngularSprite>
-			<LTAngularSprite name="LTAngularSprite,Hinge,0" x="3.41" y="2.8929" width="0.4103" height="0.316">
-				<LTVisualizer field="visualizer"/>
-			</LTAngularSprite>
-			<LTAngularSprite name="LTAngularSprite,Hinge,1" x="3.41" y="2.107" width="0.2767" height="0.2495">
-				<LTVisualizer field="visualizer"/>
-			</LTAngularSprite>
-			<LTAngularSprite name="TChaingun,0" x="3.64" y="3.0499" width="1.6496" height="0.5998">
-				<LTVisualizer field="visualizer" yscale="-1">
-					<LTImage field="image" id="78" filename="media\cannon.png"/>
-				</LTVisualizer>
-			</LTAngularSprite>
-			<LTAngularSprite name="TChaingun,1" x="3.64" y="1.95" width="1.6496" height="0.5998">
-				<LTVisualizer field="visualizer">
-					<Object field="image" id="78"/>
-				</LTVisualizer>
-			</LTAngularSprite>
-			<LTAngularSprite name="LTAngularSprite,Barrel,0" x="4.4329" y="3.145" width="0.885" height="0.23">
-				<LTVisualizer field="visualizer">
-					<LTImage field="image" id="83" filename="media\barrel.png" xcells="4" ycells="4"/>
-				</LTVisualizer>
-			</LTAngularSprite>
-			<LTAngularSprite name="LTAngularSprite,Barrel,1" x="4.4329" y="1.855" width="0.885" height="0.23" frame="8">
-				<LTVisualizer field="visualizer">
-					<Object field="image" id="83"/>
-				</LTVisualizer>
-			</LTAngularSprite>
-			<LTAngularSprite name="LTAngularSprite,FirePos,0,0" x="4.5499" y="3.1019" width="0.1247" height="0.1532">
-				<LTVisualizer field="visualizer" alpha="0"/>
-			</LTAngularSprite>
-			<LTAngularSprite name="LTAngularSprite,FirePos,0,1" x="4.5499" y="3.208" width="0.1832" height="0.1792">
-				<LTVisualizer field="visualizer" alpha="0"/>
-			</LTAngularSprite>
-			<LTAngularSprite name="LTAngularSprite,FirePos,1,0" x="4.5499" y="1.9157" width="0.1202" height="0.1217">
-				<LTVisualizer field="visualizer" alpha="0"/>
-			</LTAngularSprite>
-			<LTAngularSprite name="LTAngularSprite,FirePos,1,1" x="4.5499" y="1.814" width="0.1262" height="0.1278">
-				<LTVisualizer field="visualizer" alpha="0"/>
-			</LTAngularSprite>
-			<LTAngularSprite name="LTAngularSprite,Aimer,0" x="3.41" y="3.1419" width="0.3425" height="0.3024">
-				<LTVisualizer field="visualizer"/>
-			</LTAngularSprite>
-			<LTAngularSprite name="LTAngularSprite,Aimer,1" x="3.41" y="1.858" width="0.3083" height="0.2911">
-				<LTVisualizer field="visualizer"/>
-			</LTAngularSprite>
-			<LTAngularSprite name="TFire,0" x="4.5499" y="1.9207">
-				<LTVisualizer field="visualizer">
-					<LTImage field="image" id="100" filename="media\fire.png" xcells="5"/>
-				</LTVisualizer>
-			</LTAngularSprite>
-			<LTAngularSprite name="TFire,1" x="4.5499" y="3.1089">
-				<LTVisualizer field="visualizer">
-					<Object field="image" id="100"/>
-				</LTVisualizer>
-			</LTAngularSprite>
-		</LTLayer>
-		<LTLayer name="LTLayer,Trees">
-			<Object field="visualizer" id="62"/>
-		</LTLayer>
-		<LTSprite name="LTSprite,Target" x="12.3809" y="7.1428" width="2.8571" height="2.9205">
-			<LTVisualizer field="visualizer" scaling="0">
-				<LTImage field="image" id="106" filename="media\target.png"/>
-			</LTVisualizer>
-		</LTSprite>
-	</LTLayer>
-</LTWorld>
+<ltworld dwlab_version="1.0.3">
+	<ltvisualizer field="visualizer" id="1"/>
+	<tlist field="images">
+		<object id="6"/>
+		<object id="68"/>
+		<object id="71"/>
+		<object id="78"/>
+		<object id="83"/>
+		<object id="106"/>
+		<object id="100"/>
+	</tlist>
+	<tlist field="tilesets">
+		<object id="5"/>
+	</tlist>
+	<tlist field="definitions"/>
+	<ltlayer>
+		<object field="visualizer" id="1"/>
+		<list field="parameters"/>
+		<lttilemap x="0.5" y="0.5" xquantity="1" yquantity="1" tiles-quantity="20">
+			<ltvisualizer field="visualizer"/>
+			<lttileset field="tileset" id="5" name="Default" tiles-quantity="20" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+				<ltimage field="image" id="6" filename="media\tileset.png" xcells="5" ycells="4"/>
+				<shapearray field="collision-shapes">
+					<null/>
+					<null/>
+					<null/>
+					<null/>
+					<null/>
+					<null/>
+					<null/>
+					<null/>
+					<null/>
+					<null/>
+					<null/>
+					<null/>
+					<null/>
+					<null/>
+					<null/>
+					<null/>
+					<null/>
+					<null/>
+					<null/>
+					<null/>
+				</shapearray>
+				<lttilecategory name="Grass">
+					<lttilerule tilenums="1,5">
+						<lttilepos dy="1" tilenum="6"/>
+						<lttilepos dx="1" tilenum="2"/>
+						<lttilepos dx="1" dy="1" tilenum="7"/>
+					</lttilerule>
+					<lttilerule tilenums="2">
+						<lttilepos dx="-1" tilenum="1"/>
+						<lttilepos dx="1" tilenum="3"/>
+						<lttilepos dy="1" tilenum="7"/>
+					</lttilerule>
+					<lttilerule tilenums="3,9">
+						<lttilepos dy="1" tilenum="8"/>
+						<lttilepos dx="-1" tilenum="2"/>
+						<lttilepos dx="-1" dy="1" tilenum="7"/>
+					</lttilerule>
+					<lttilerule tilenums="6">
+						<lttilepos dx="-1" tilenum="5"/>
+						<lttilepos dy="-1" tilenum="1"/>
+						<lttilepos dy="1" tilenum="7"/>
+						<lttilepos dx="1" tilenum="7"/>
+					</lttilerule>
+					<lttilerule tilenums="8">
+						<lttilepos dy="-1" tilenum="3"/>
+						<lttilepos dx="1" tilenum="9"/>
+						<lttilepos dx="-1" tilenum="7"/>
+						<lttilepos dy="1" tilenum="7"/>
+					</lttilerule>
+					<lttilerule tilenums="10">
+						<lttilepos dy="-1" tilenum="5"/>
+						<lttilepos dy="1" tilenum="15"/>
+						<lttilepos dx="1" tilenum="7"/>
+					</lttilerule>
+					<lttilerule tilenums="11">
+						<lttilepos dy="1" tilenum="16"/>
+						<lttilepos dx="1" tilenum="12"/>
+						<lttilepos dx="-1" tilenum="7"/>
+						<lttilepos dy="-1" tilenum="7"/>
+					</lttilerule>
+					<lttilerule tilenums="12">
+						<lttilepos dx="1" tilenum="13"/>
+						<lttilepos dx="-1" tilenum="11"/>
+						<lttilepos dy="-1" tilenum="7"/>
+					</lttilerule>
+					<lttilerule tilenums="13">
+						<lttilepos dx="-1" tilenum="12"/>
+						<lttilepos dy="1" tilenum="18"/>
+						<lttilepos dy="-1" tilenum="7"/>
+						<lttilepos dx="1" tilenum="7"/>
+					</lttilerule>
+					<lttilerule tilenums="14">
+						<lttilepos dy="-1" tilenum="9"/>
+						<lttilepos dy="1" tilenum="19"/>
+						<lttilepos dx="-1" tilenum="7"/>
+					</lttilerule>
+					<lttilerule tilenums="15,18">
+						<lttilepos dy="-1" tilenum="10"/>
+						<lttilepos dx="1" tilenum="16"/>
+						<lttilepos dx="1" dy="-1" tilenum="7"/>
+					</lttilerule>
+					<lttilerule tilenums="16,19">
+						<lttilepos dy="-1" tilenum="11"/>
+						<lttilepos dx="-1" tilenum="15"/>
+						<lttilepos dx="-1" dy="-1" tilenum="7"/>
+					</lttilerule>
+					<lttilerule tilenums="0"/>
+				</lttilecategory>
+			</lttileset>
+			<list field="parameters">
+				<ltparameter name="class" value="TTiles"/>
+			</list>
+			<row data="0"/>
+		</lttilemap>
+		<ltlayer>
+			<ltvisualizer field="visualizer" id="62"/>
+			<list field="parameters">
+				<ltparameter name="name" value="Blocks"/>
+			</list>
+		</ltlayer>
+		<ltlayer>
+			<ltvisualizer field="visualizer"/>
+			<list field="parameters">
+				<ltparameter name="name" value="Bullets"/>
+			</list>
+		</ltlayer>
+		<ltlayer>
+			<object field="visualizer" id="62"/>
+			<list field="parameters">
+				<ltparameter name="name" value="Player"/>
+			</list>
+			<ltangularsprite x="3.5" y="2.5" shape="1" velocity="5">
+				<ltvisualizer field="visualizer" xscale="1.75" yscale="1.75">
+					<ltimage field="image" id="68" filename="media\brain.png"/>
+				</ltvisualizer>
+				<list field="parameters">
+					<ltparameter name="class" value="TPlayer"/>
+				</list>
+			</ltangularsprite>
+			<ltangularsprite x="3.5" y="2.5">
+				<ltvisualizer field="visualizer" xscale="2" yscale="2">
+					<ltimage field="image" id="71" filename="media\visor.png"/>
+				</ltvisualizer>
+				<list field="parameters">
+					<ltparameter name="name" value="Visor"/>
+				</list>
+			</ltangularsprite>
+			<ltangularsprite x="3.41" y="2.8929" width="0.4103" height="0.316">
+				<ltvisualizer field="visualizer"/>
+				<list field="parameters">
+					<ltparameter name="name" value="Hinge,0"/>
+				</list>
+			</ltangularsprite>
+			<ltangularsprite x="3.41" y="2.107" width="0.2767" height="0.2495">
+				<ltvisualizer field="visualizer"/>
+				<list field="parameters">
+					<ltparameter name="name" value="Hinge,1"/>
+				</list>
+			</ltangularsprite>
+			<ltangularsprite x="3.64" y="3.0499" width="1.6496" height="0.5998">
+				<ltvisualizer field="visualizer" yscale="-1">
+					<ltimage field="image" id="78" filename="media\cannon.png"/>
+				</ltvisualizer>
+				<list field="parameters">
+					<ltparameter name="class" value="TChaingun"/>
+					<ltparameter name="name" value="0"/>
+				</list>
+			</ltangularsprite>
+			<ltangularsprite x="3.64" y="1.95" width="1.6496" height="0.5998">
+				<ltvisualizer field="visualizer">
+					<object field="image" id="78"/>
+				</ltvisualizer>
+				<list field="parameters">
+					<ltparameter name="class" value="TChaingun"/>
+					<ltparameter name="name" value="1"/>
+				</list>
+			</ltangularsprite>
+			<ltangularsprite x="4.4329" y="3.145" width="0.885" height="0.23">
+				<ltvisualizer field="visualizer">
+					<ltimage field="image" id="83" filename="media\barrel.png" xcells="4" ycells="4"/>
+				</ltvisualizer>
+				<list field="parameters">
+					<ltparameter name="name" value="Barrel,0"/>
+				</list>
+			</ltangularsprite>
+			<ltangularsprite x="4.4329" y="1.855" width="0.885" height="0.23" frame="8">
+				<ltvisualizer field="visualizer">
+					<object field="image" id="83"/>
+				</ltvisualizer>
+				<list field="parameters">
+					<ltparameter name="name" value="Barrel,1"/>
+				</list>
+			</ltangularsprite>
+			<ltangularsprite x="4.5499" y="3.1019" width="0.1247" height="0.1532">
+				<ltvisualizer field="visualizer" alpha="0"/>
+				<list field="parameters">
+					<ltparameter name="name" value="FirePos,0,0"/>
+				</list>
+			</ltangularsprite>
+			<ltangularsprite x="4.5499" y="3.208" width="0.1832" height="0.1792">
+				<ltvisualizer field="visualizer" alpha="0"/>
+				<list field="parameters">
+					<ltparameter name="name" value="FirePos,0,1"/>
+				</list>
+			</ltangularsprite>
+			<ltangularsprite x="4.5499" y="1.9157" width="0.1202" height="0.1217">
+				<ltvisualizer field="visualizer" alpha="0"/>
+				<list field="parameters">
+					<ltparameter name="name" value="FirePos,1,0"/>
+				</list>
+			</ltangularsprite>
+			<ltangularsprite x="4.5499" y="1.814" width="0.1262" height="0.1278">
+				<ltvisualizer field="visualizer" alpha="0"/>
+				<list field="parameters">
+					<ltparameter name="name" value="FirePos,1,1"/>
+				</list>
+			</ltangularsprite>
+			<ltangularsprite x="3.41" y="3.1419" width="0.3425" height="0.3024">
+				<ltvisualizer field="visualizer"/>
+				<list field="parameters">
+					<ltparameter name="name" value="Aimer,0"/>
+				</list>
+			</ltangularsprite>
+			<ltangularsprite x="3.41" y="1.858" width="0.3083" height="0.2911">
+				<ltvisualizer field="visualizer"/>
+				<list field="parameters">
+					<ltparameter name="name" value="Aimer,1"/>
+				</list>
+			</ltangularsprite>
+			<ltangularsprite x="4.5499" y="1.9207">
+				<ltvisualizer field="visualizer">
+					<ltimage field="image" id="100" filename="media\fire.png" xcells="5"/>
+				</ltvisualizer>
+				<list field="parameters">
+					<ltparameter name="class" value="TFire"/>
+					<ltparameter name="name" value="0"/>
+				</list>
+			</ltangularsprite>
+			<ltangularsprite x="4.5499" y="3.1089">
+				<ltvisualizer field="visualizer">
+					<object field="image" id="100"/>
+				</ltvisualizer>
+				<list field="parameters">
+					<ltparameter name="class" value="TFire"/>
+					<ltparameter name="name" value="1"/>
+				</list>
+			</ltangularsprite>
+		</ltlayer>
+		<ltlayer>
+			<object field="visualizer" id="62"/>
+			<list field="parameters">
+				<ltparameter name="name" value="Trees"/>
+			</list>
+		</ltlayer>
+		<ltsprite x="12.3809" y="7.1428" width="2.8571" height="2.9205">
+			<ltvisualizer field="visualizer" scaling="0">
+				<ltimage field="image" id="106" filename="media\target.png"/>
+			</ltvisualizer>
+			<list field="parameters">
+				<ltparameter name="name" value="Target"/>
+			</list>
+		</ltsprite>
+	</ltlayer>
+</ltworld>

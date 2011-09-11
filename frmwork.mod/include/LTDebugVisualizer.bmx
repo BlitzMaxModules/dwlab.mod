@@ -64,14 +64,14 @@ Type LTDebugVisualizer Extends LTVisualizer
 		
 		If ShowNames Then
 			SetColor( 0, 0, 0 )
-			Local TextWidth2:Int = Len( Sprite.Name ) * 4
+			Local TextWidth2:Int = Len( Sprite.GetTitle() ) * 4
 			For Local DY:Int = -1 To 1
 				For Local DX:Int = -( DY = 0 ) To Abs( DY = 0 ) Step 2
-					DrawText( Sprite.Name, SX1 + DX - TextWidth2, SY1 + DY - 16 )
+					DrawText( Sprite.GetTitle(), SX1 + DX - TextWidth2, SY1 + DY - 16 )
 				Next
 			Next
 			ResetColor()
-			DrawText( Sprite.Name, SX1 - TextWidth2, SY1 - 16 )
+			DrawText( Sprite.GetTitle(), SX1 - TextWidth2, SY1 - 16 )
 		End If
 	End Method
 	
@@ -88,6 +88,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 		Local Shape:LTShape = TileMap.GetTileCollisionShape( TileX, TileY )
 		If Not Shape Then Return
 		
+		ApplyColor()
 		SetScale( 1.0, 1.0 )
 		Local Sprite:LTSprite = LTSprite( Shape )
 		If Sprite Then
@@ -136,5 +137,14 @@ Type LTDebugVisualizer Extends LTVisualizer
 					DrawRect( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
 			End Select
 		End If
+	End Method
+	
+	
+	
+	Method DrawSpriteMapTile( SpriteMap:LTSpriteMap, X:Double, Y:Double )
+		For Local Sprite:LTSprite = Eachin SpriteMap.Lists[ Int( Floor( X / SpriteMap.CellWidth ) ) & SpriteMap.XMask, ..
+				Int( Floor( Y / SpriteMap.CellHeight ) ) & SpriteMap.YMask ]
+			DrawUsingSprite( Sprite )
+		Next
 	End Method
 End Type

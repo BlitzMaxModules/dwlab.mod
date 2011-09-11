@@ -8,6 +8,12 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "LTAngularSprite.bmx"
+Include "LTVectorSprite.bmx"
+Include "LTCamera.bmx"
+Include "Collisions.bmx"
+Include "Physics.bmx"
+
 Rem
 bbdoc: Sprite is the main basic shape of the framework to draw, move and check collisions.
 about: See also: #LTAngularSprite, #LTVectorSprite
@@ -579,7 +585,7 @@ Type LTSprite Extends LTShape
 		Local Sprite:LTSprite = LTSprite( Shape )
 		
 		?debug
-		If Not Sprite Then L_Error( "Trying to copy sprite ~q" + Shape.Name + "~q data to non-sprite" )
+		If Not Sprite Then L_Error( "Trying to copy sprite ~q" + Shape.GetTitle() + "~q data to non-sprite" )
 		?
 		
 		Sprite.ShapeType = ShapeType

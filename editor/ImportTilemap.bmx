@@ -100,7 +100,7 @@ Function TilemapImportDialog:LTTileMap( Multiple:Int = False )
 				
 				If TilemapWidth Mod TileWidth = 0 And TilemapHeight Mod TileHeight = 0 Then
 					Local Layer:LTLayer = New LTLayer
-					Layer.Name = "LTLayer," + Num
+					Editor.SetParameter( Layer, "name", "Level " + Num )
 					Editor.World.AddLast( Layer )
 					
 					TileMap = ImportTilemap( TileWidth, TileHeight, TilemapPixmap, TileSet )
@@ -199,7 +199,6 @@ Function ImportTilemap:LTTileMap( TileWidth:Int, TileHeight:Int, TileMapPixmap:T
 	TileSet.Image.BMaxImage = LoadAnimImage( TileSet.Image.Filename, TileWidth, TileHeight, 0, TileMap.TilesQuantity )
 	MidHandleImage( TileSet.Image.BMaxImage )
 	
-	TileMap.Name = "LTTileMap"
 	TileMap.TileSet = TileSet
 	TileMap.Visualizer = New LTVisualizer
 	Editor.InitTileMap( TileMap )

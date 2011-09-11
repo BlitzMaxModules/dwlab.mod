@@ -76,8 +76,8 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 					Case AddButton
 						Local NewObject:LTObject
 						If TileMap Then
-							Local Name:String = EnterString( "{{D_EnterNameOfTileset}}", "Default" )
-							If Name Then
+							Local Name:String = "Default"
+							If EnterString( "{{D_EnterNameOfTileset}}", Name ) Then
 								Local NewTileSet:LTTileSet = New LTTileSet
 								NewTileSet.Name = Name
 								If SelectImageOrTileSet( NewTileSet ) Then

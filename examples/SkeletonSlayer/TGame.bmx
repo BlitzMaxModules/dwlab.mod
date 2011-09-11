@@ -33,13 +33,13 @@ Type TGame Extends LTProject
 	End Method
 	
 	Method InitLevel()
-		Local TileMap:LTTileMap = LTTileMap( World.FindShape( "LTTileMap,Ground" ) )
+		Local TileMap:LTTileMap = LTTileMap( World.FindShape( "Ground" ) )
 		CollisionMap = New LTIntMap
 		CollisionMap.SetResolution( TileMap.XQuantity, TileMap.YQuantity )
 		
 		PathFinder = LTTileMapPathFinder.Create( CollisionMap, True )
 		 
-		LoadAndInitLayer( Level, LTLayer( World.FindShape( "LTLayer,Level" ) ) )
+		LoadAndInitLayer( Level, LTLayer( World.FindShape( "Level" ) ) )
 		
 		Objects = LTSpriteMap( Level.FindShape( "Objects" ) )
 		Local Ground:LTTileMap = LTTileMap( Level.FindShape( "Ground" ) )

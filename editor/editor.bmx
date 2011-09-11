@@ -38,6 +38,7 @@ Include "TileCollisionShapes.bmx"
 Include "SpriteMapProperties.bmx"
 Include "CameraProperties.bmx"
 Include "TileMapProperties.bmx"
+Include "ParameterProperties.bmx"
 
 Incbin "english.lng"
 Incbin "russian.lng"
@@ -49,10 +50,10 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.6.3.2"
+	Const Version:String = "1.7"
 	Const INIVersion:Int = 3
 	Const ModifierSize:Int = 3
-	Const RecentFilesQuantity:Int = 10
+	Const RecentFilesQuantity:Int = 8
 	
 	Field EnglishLanguage:TMaxGuiLanguage
 	Field RussianLanguage:TMaxGuiLanguage
@@ -60,6 +61,8 @@ Type LTEditor Extends LTProject
 	
 	Const EnglishNum:Int = 0
 	Const RussianNum:Int = 1
+	
+	Field ParameterNames:TMap = New TMap
 	
 	Field Window:TGadget
 	
@@ -72,6 +75,7 @@ Type LTEditor Extends LTProject
 	Field TilesetCameraWidth:Int
 	Field TilesetCanvasZ:Int
 	Field TilesetRectangle:LTSprite = New LTSprite
+	Field ParametersListBox:TGadget
 	
 	Field Toolbar:TGadget
 	Field TreeViewIcons:TIconStrip
@@ -80,7 +84,6 @@ Type LTEditor Extends LTProject
 	Field Changed:Int
 	
 	Field ProjectManager:TGadget
-	Field AddLayerButton:TGadget
 	Field Panel:TGadget
 	Field RedField:TGadget
 	Field RedSlider:TGadget
@@ -130,6 +133,7 @@ Type LTEditor Extends LTProject
 	Field SpriteMapMenu:TGadget
 	Field SpriteMenu:TGadget
 	Field MapSpriteMenu:TGadget
+	Field ParameterMenu:TGadget
 	Field RecentFiles:String[] = New String[ RecentFilesQuantity ]
 	
 	Field World:LTWorld = New LTWorld
@@ -140,12 +144,15 @@ Type LTEditor Extends LTProject
 	Field CurrentContainer:LTShape
 	Field CurrentShape:LTShape
 	Field SelectedShape:LTShape
+	Field ShapeForParameters:LTShape
 	Field SpriteModel:Int
 	Field TilesQueue:TMap = New TMap
 	Field Cursor:LTSprite = New LTSprite
 	Field ShapeUnderCursor:LTShape
 	Field SelectedShapes:TList = New TList
+	Field Buffer:TList = New TList
 	Field SelectedModifier:LTSprite
+	Field SelectedParameter:LTParameter
 	Field Modifiers:TList = New TList
 	
 	Field SelectedTile:LTSprite = New LTSprite
@@ -194,6 +201,7 @@ Type LTEditor Extends LTProject
 	Const MenuToggleVisibility:Int =  30
 	Const MenuToggleActivity:Int =  31
 	Const MenuRename:Int = 35
+	Const MenuSetClass:Int = 56
 	Const MenuShiftToTheTop:Int = 36
 	Const MenuShiftUp:Int = 37
 	Const MenuShiftDown:Int = 38
@@ -221,10 +229,15 @@ Type LTEditor Extends LTProject
 	Const MenuEnframe:Int = 50
 	
 	Const MenuSpriteMapProperties:Int = 46
+	
+	Const MenuModifyParameter:Int = 57
+	Const MenuRemoveParameter:Int = 58
 
 	Const PanelHeight:Int = 320
 	Const BarWidth:Int = 256
 	Const LabelWidth:Int = 63
+	Const ListBoxHeight:Int = 62
+	
 	
 	
 	Method Init()
@@ -249,10 +262,10 @@ Type LTEditor Extends LTProject
 		SetGadgetLayout( Panel, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Centered )
 		TilesetCanvas = CreateCanvas( ClientWidth( Window ) - BarWidth, 0, BarWidth, 0.5 * ClientHeight( Window ), Window )
 		SetGadgetLayout( TilesetCanvas, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Relative )
-		ProjectManager = CreateTreeView( ClientWidth( Window ) - BarWidth, PanelHeight, BarWidth, BarHeight - 24, Window )
+		ProjectManager = CreateTreeView( ClientWidth( Window ) - BarWidth, PanelHeight, BarWidth, BarHeight - ListBoxHeight, Window )
 		SetGadgetLayout( ProjectManager, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Aligned )
-		AddLayerButton = CreateButton( "{{B_AddLayer}}", ClientWidth( Window ) - BarWidth, ClientHeight( Window ) - 24, BarWidth, 24, Window )
-		SetGadgetLayout( AddLayerButton, Edge_Centered, Edge_Aligned, Edge_Centered, Edge_Aligned )
+		ParametersListBox = CreateListBox( ClientWidth( Window ) - BarWidth, ClientHeight( Window ) - ListBoxHeight, BarWidth, ListBoxHeight, Window )
+		SetGadgetLayout( ParametersListBox, Edge_Centered, Edge_Aligned, Edge_Centered, Edge_Aligned )
 		TreeViewIcons = LoadIconStrip( "incbin::treeview.png" )
 		SetGadgetIconStrip( ProjectManager, TreeViewIcons )
 		
@@ -342,25 +355,35 @@ Type LTEditor Extends LTProject
 		LayerMenu = CreateMenu( "", 0, null )
 		CreateMenu( "{{M_SelectViewLayer}}", MenuSelectViewLayer, LayerMenu )
 		CreateMenu( "{{M_SelectContainer}}", MenuSelectContainer, LayerMenu )
+		CreateMenu( "", 0, LayerMenu )
 		CreateMenu( "{{M_AddLayer}}", MenuAddLayer, LayerMenu )
 		CreateMenu( "{{M_AddTilemap}}", MenuAddTilemap, LayerMenu )
-		CreateMenu( "{{M_ImportTilemap}}", MenuImportTilemap, LayerMenu )
-		CreateMenu( "{{M_ImportTilemaps}}", MenuImportTilemaps, LayerMenu )
 		CreateMenu( "{{M_AddSpriteMap}}", MenuAddSpriteMap, LayerMenu )
+		
+		Local ImportMenu:TGadget = CreateMenu( "{{M_Import}}", 0, LayerMenu )
+		CreateMenu( "{{M_ImportTilemap}}", MenuImportTilemap, ImportMenu )
+		CreateMenu( "{{M_ImportTilemaps}}", MenuImportTilemaps, ImportMenu )
+		
+		CreateMenu( "", 0, LayerMenu )
 		CreateMenu( "{{M_RemoveBounds}}", MenuRemoveBounds, LayerMenu )
 		MixContent = CreateMenu( "{{M_MixContent}}", MenuMixContent, LayerMenu )
+		CreateMenu( "", 0, LayerMenu )
 		AddCommonMenuItems( LayerMenu )
 		
 		TilemapMenu = CreateMenu( "", 0, null )
 		CreateMenu( "{{M_EditTilemap}}", MenuEditTilemap, TilemapMenu )
 		CreateMenu( "{{M_SelectTilemap}}", MenuSelectTileMap, TilemapMenu )
+		CreateMenu( "", 0, TilemapMenu )
 		CreateMenu( "{{M_SelectTileset}}", MenuSelectTileset, TilemapMenu )
 		CreateMenu( "{{M_ResizeTilemap}}", MenuResizeTilemap, TilemapMenu )
 		CreateMenu( "{{M_TilemapProperties}}", MenuTilemapProperties, TilemapMenu )
+		CreateMenu( "", 0, TilemapMenu )
 		CreateMenu( "{{M_EditTileCollisionShapes}}", MenuEditTileCollisionShapes, TilemapMenu )
+		CreateMenu( "{{M_SetBounds}}", MenuSetBounds, TilemapMenu )
+		CreateMenu( "", 0, TilemapMenu )
 		CreateMenu( "{{M_EditTileReplacementRules}}", MenuEditReplacementRules, TilemapMenu )
 		CreateMenu( "{{M_Enframe}}", MenuEnframe, TilemapMenu )
-		CreateMenu( "{{M_SetBounds}}", MenuSetBounds, TilemapMenu )
+		CreateMenu( "", 0, TilemapMenu )
 		AddCommonMenuItems( TilemapMenu )
 		
 		SpriteMapMenu = CreateMenu( "", 0, null )
@@ -370,10 +393,15 @@ Type LTEditor Extends LTProject
 		
 		SpriteMenu = CreateMenu( "", 0, null )
 		AddCommonMenuItems( SpriteMenu )
+		CreateMenu( "", 0, SpriteMenu )
 		CreateMenu( "{{M_SetBounds}}", MenuSetBounds, SpriteMenu )
 		
 		MapSpriteMenu = CreateMenu( "", 0, null )
 		AddCommonMenuItems( MapSpriteMenu, False )
+		
+		ParameterMenu = CreateMenu( "", 0, null )
+		CreateMenu( "{{M_ModifyParameter}}", MenuModifyParameter, ParameterMenu )
+		CreateMenu( "{{M_RemoveParameter}}", MenuRemoveParameter, ParameterMenu )
 	
 		L_DebugVisualizer.SetColorFromHex( "FF00FF" )
 		L_DebugVisualizer.Alpha = 0.5
@@ -468,16 +496,20 @@ Type LTEditor Extends LTProject
 	
 	
 	Method AddCommonMenuItems( Menu:TGadget, Shift:Int = True )
-		CreateMenu( "{{M_Duplicate}}", MenuDuplicate, Menu )
+		CreateMenu( "{{M_Rename}}", MenuRename, Menu )
+		CreateMenu( "{{M_SetClass}}", MenuSetClass, Menu )
+		CreateMenu( "", 0, Menu )
 		CreateMenu( "{{M_ToggleVisibility}}", MenuToggleVisibility, Menu )
 		CreateMenu( "{{M_ToggleActivity}}", MenuToggleActivity, Menu )
-		CreateMenu( "{{M_Rename}}", MenuRename, Menu )
 		If Shift Then
+			CreateMenu( "", 0, Menu )
 			CreateMenu( "{{M_ShiftToTheTop}}", MenuShiftToTheTop, Menu )
 			CreateMenu( "{{M_ShiftUp}}", MenuShiftUp, Menu )
 			CreateMenu( "{{M_ShiftDown}}", MenuShiftDown, Menu )
 			CreateMenu( "{{M_ShiftToTheBottom}}", MenuShiftToTheBottom, Menu )
 		End If
+		CreateMenu( "", 0, Menu )
+		CreateMenu( "{{M_Duplicate}}", MenuDuplicate, Menu )
 		CreateMenu( "{{M_Remove}}", MenuRemove, Menu )
 	End Method
 	
@@ -521,6 +553,7 @@ Type LTEditor Extends LTProject
 		SelectedShapes.Clear()
 		RealPathsForImages.Clear()
 		BigImages.Clear()
+		InitParameterNames()
 		CurrentViewLayer = AddLayer( "LTLayer" )
 		CurrentContainer = CurrentViewLayer
 		RefreshProjectManager()
@@ -559,6 +592,9 @@ Type LTEditor Extends LTProject
 				RealPathsForImages.Insert( Image, RealPath( Image.Filename ) )
 				BigImages.Insert( Image, LoadImage( Image.Filename ) )
 			Next
+			
+			InitParameterNames()
+			AddParameterNames( World )
 			
 			Changed = False
 			SetIncbin()
@@ -647,24 +683,51 @@ Type LTEditor Extends LTProject
 		Local EvData:Int = EventData()
 		
 		Select EvID
+			Case Event_GadgetSelect
+				If EventSource() = ProjectManager And EventExtra() Then
+					ShapeForParameters = LTShape( GadgetExtra( TGadget( EventExtra() ) ) )
+					RefreshParametersListBox( False )
+				End If
 			Case Event_GadgetAction
 				Select EventSource()
 					Case Toolbar
 						EvID = Event_MenuAction
 					Case ProjectManager
-						SelectedShape = LTShape( GadgetExtra( TGadget( EventExtra() ) ) )
-						EvID = Event_MenuAction
-						If LTLayer( SelectedShape ) Then
-							EvData = MenuSelectViewLayer
-						ElseIf LTTileMap( SelectedShape ) Then
-							EvData = MenuEditTilemap
-						ElseIf LTSpriteMap( SelectedShape ) Then
-							EvData = MenuSelectContainer
+						If EventExtra() Then
+							SelectedShape = LTShape( GadgetExtra( TGadget( EventExtra() ) ) )
+							If SelectedShape Then
+								EvID = Event_MenuAction
+								If LTLayer( SelectedShape ) Then
+									EvData = MenuSelectViewLayer
+								ElseIf LTTileMap( SelectedShape ) Then
+									EvData = MenuEditTilemap
+								ElseIf LTSpriteMap( SelectedShape ) Then
+									EvData = MenuSelectContainer
+								Else
+									EditTilemap( Null )
+									SelectShape( SelectedShape )
+									EvID = Event_GadgetAction
+								End If
+							End If
 						Else
-							EditTilemap( Null )
-							SelectShape( SelectedShape )
-							EvID = Event_GadgetAction
+							Local Name:String
+							If EnterString( "{{D_EnterNameOfLayer}}", Name ) Then
+								AddLayer( Name )
+								RefreshProjectManager()
+							End If
 						End If
+					Case ParametersListBox
+						SelectedParameter = LTParameter( EventExtra() )
+						If SelectedParameter Then
+							ParameterProperties.Execute()
+						Else
+							SelectedParameter = New LTParameter
+							ParameterProperties.Execute()
+							If ParameterProperties.Succesful Then
+								AddParameter( ShapeForParameters, SelectedParameter.Name, SelectedParameter.Value )
+							End If
+						End If
+						If ParameterProperties.Succesful Then RefreshParametersListBox()
 				End Select
 			Case Event_MenuAction
 				Select EventData()
@@ -694,8 +757,9 @@ Type LTEditor Extends LTProject
 		Select EvID
 			Case Event_KeyDown
 				Select EvData
-					Case Key_Delete
-						If Not SelectedShapes.IsEmpty() Then
+					Case Key_Delete, Key_X
+						If ( KeyDown( Key_LControl ) Or KeyDown( Key_RControl ) Or EvData = Key_Delete ) And Not SelectedShapes.IsEmpty() Then
+							if EvData = Key_X Then Buffer = SelectedShapes.Copy()
 							For Local Obj:LTShape = Eachin SelectedShapes
 								RemoveObject( Obj, World )
 							Next
@@ -725,7 +789,15 @@ Type LTEditor Extends LTProject
 					Case Key_NumSubtract
 						MainCanvasZ :- 1
 					Case Key_V
-						If Not SelectedShapes.IsEmpty() Then
+						If KeyDown( Key_LControl ) Or KeyDown( Key_RControl ) Then
+							If Not Buffer.IsEmpty() Then
+								For Local Shape:LTShape = Eachin Buffer
+									InsertIntoCurrentContainer( Shape.Clone() )
+								Next
+								RefreshProjectManager()
+								SetChanged()
+							End If
+						ElseIf Not SelectedShapes.IsEmpty() Then
 							For Local Shape:LTShape = Eachin SelectedShapes
 								Shape.Visible = Not Shape.Visible
 							Next
@@ -741,12 +813,19 @@ Type LTEditor Extends LTProject
 							RefreshProjectManager()
 						End If
 					Case Key_C
-						For Local Sprite:LTSprite = Eachin SelectedShapes
-							Local NewHeight:Double = Sprite.Width * Sprite.Visualizer.Image.Height() / Sprite.Visualizer.Image.Width()
-							Sprite.SetCoords( Sprite.X, Sprite.Y + 0.5 * ( Sprite.Height - NewHeight ) )
-							Sprite.SetSize( Sprite.Width, NewHeight )
-						Next
-						SetChanged()
+						If KeyDown( Key_LControl ) Or KeyDown( Key_RControl ) Then
+							If Not SelectedShapes.IsEmpty() Then
+								Buffer = SelectedShapes.Copy()
+								SetChanged()
+							End If
+						Else
+							For Local Sprite:LTSprite = Eachin SelectedShapes
+								Local NewHeight:Double = Sprite.Width * Sprite.Visualizer.Image.Height() / Sprite.Visualizer.Image.Width()
+								Sprite.SetCoords( Sprite.X, Sprite.Y + 0.5 * ( Sprite.Height - NewHeight ) )
+								Sprite.SetSize( Sprite.Width, NewHeight )
+							Next
+							SetChanged()
+						End If
 					Case Key_D
 						If Not SelectedShapes.IsEmpty() Then
 							For Local Shape:LTShape = Eachin SelectedShapes
@@ -784,10 +863,17 @@ Type LTEditor Extends LTProject
 				If EvData >= MenuRecentFile Then OpenWorld( RecentFiles[ EvData - MenuRecentFile ] )
 				Select EvData
 					Case MenuRename
-						Local Name:String = EnterString( LocalizeString( "{{D_EnterNameOfObject}}" ), SelectedShape.Name )
-						If Name Then
-							SelectedShape.Name = Name
-							RefreshProjectManager()
+						Local Name:String = SelectedShape.GetName()
+						If EnterString( LocalizeString( "{{D_EnterNameOfObject}}" ), Name ) Then
+							SetParameter( SelectedShape, "name", Name )
+							RefreshParametersListBox()
+							SetChanged()
+						End If
+					Case MenuSetClass
+						Local Class:String = SelectedShape.GetParameter( "class" )
+						If EnterString( LocalizeString( "{{D_EnterClassNameOfObject}}" ), Class ) Then
+							SetParameter( SelectedShape, "class", Class )
+							RefreshParametersListBox()
 							SetChanged()
 						End If
 					Case MenuRemove
@@ -867,22 +953,22 @@ Type LTEditor Extends LTProject
 						CurrentContainer = SelectedShape
 						RefreshProjectManager()
 					Case MenuAddLayer
-						Local LayerName:String = EnterString( "{{D_EnterNameOfLayer}}", "LTLayer" )
-						If LayerName Then
+						Local LayerName:String = ""
+						If EnterString( "{{D_EnterNameOfLayer}}", LayerName ) Then
 							CurrentViewLayer = New LTLayer
-							CurrentViewLayer.Name = LayerName
+							SetParameter( CurrentViewLayer, "name", LayerName )
 							LTLayer( SelectedShape ).AddLast( CurrentViewLayer )
 							SetChanged()
 							RefreshProjectManager()
 						End If
 					Case MenuAddTilemap
-						Local Name:String = EnterString( "{{D_EnterNameOfTilemap}}", "LTTileMap" )
-						If Name Then
+						Local Name:String = ""
+						If EnterString( "{{D_EnterNameOfTilemap}}", Name ) Then
 							Local XQuantity:Int = 16
 							Local YQuantity:Int = 16
 							If ChooseParameter( XQuantity, YQuantity, "{{W_ChooseTilemapSize}}", "{{L_WidthInTiles}}", "{{L_HeightInTiles}}" ) Then
 								Local Tilemap:LTTileMap = LTTilemap.Create( Null, XQuantity, YQuantity )
-								Tilemap.Name = Name
+								SetParameter( Tilemap, "name", LayerName )
 								If SelectImageOrTileset( Tilemap ) Then
 									Local Layer:LTLayer = LTLayer( SelectedShape )
 									InitTileMap( Tilemap )
@@ -905,27 +991,30 @@ Type LTEditor Extends LTProject
 						Local TileMap:LTTileMap = TileMapImportDialog( True ) 
 						If TileMap Then EditTileMap( Tilemap )
 					Case MenuAddSpriteMap
-						Local Name:String = EnterString( "{{D_EnterNameOfSpriteMap}}", "LTSpriteMap" )
-						If Name Then
-							Local CellSize:Double = EnterString( "{{D_EnterCellSize}}", "2" ).ToDouble()
-							If CellSize > 0.0 Then
-								Local SpriteMap:LTSpriteMap = New LTSpriteMap
-								SpriteMap.Name = Name
-								SpriteMap.CellWidth = CellSize
-								SpriteMap.CellHeight = CellSize
-								
-								Local Bounds:LTShape = LTLayer( SelectedShape ).Bounds
-								If Bounds Then
-									SpriteMap.SetResolution( L_ToPowerOf2( Bounds.Width / CellSize ), L_ToPowerOf2( Bounds.Height / CellSize ) )
-								Else
-									SpriteMap.SetResolution( 16, 16 )
-								End If
-								
-								If SpriteMapProperties.Set( SpriteMap ) Then
-									LTLayer( SelectedShape ).AddLast( SpriteMap )
-									CurrentContainer = SpriteMap
-									SetChanged()
-									RefreshProjectManager()
+						Local Name:String = ""
+						If EnterString( "{{D_EnterNameOfSpriteMap}}", Name ) Then
+							Local TextCellSize:String = "2"
+							If EnterString( "{{D_EnterCellSize}}", TextCellSize ) Then
+								Local CellSize:Double = TextCellSize.ToDouble()
+								If CellSize > 0.0 Then
+									Local SpriteMap:LTSpriteMap = New LTSpriteMap
+									SetParameter( SpriteMap, "name", Name )
+									SpriteMap.CellWidth = CellSize
+									SpriteMap.CellHeight = CellSize
+									
+									Local Bounds:LTShape = LTLayer( SelectedShape ).Bounds
+									If Bounds Then
+										SpriteMap.SetResolution( L_ToPowerOf2( Bounds.Width / CellSize ), L_ToPowerOf2( Bounds.Height / CellSize ) )
+									Else
+										SpriteMap.SetResolution( 16, 16 )
+									End If
+									
+									If SpriteMapProperties.Set( SpriteMap ) Then
+										LTLayer( SelectedShape ).AddLast( SpriteMap )
+										CurrentContainer = SpriteMap
+										SetChanged()
+										RefreshProjectManager()
+									End If
 								End If
 							End If
 						End If
@@ -968,6 +1057,15 @@ Type LTEditor Extends LTProject
 					
 					Case MenuSpriteMapProperties
 						SpriteMapProperties.Set( LTSpriteMap( SelectedShape ) )
+						
+					' ============================= Parameter menu ==================================
+					
+					Case MenuModifyParameter
+						ParameterProperties.Execute()
+						If ParameterProperties.Succesful Then RefreshParametersListBox()
+					Case MenuRemoveParameter
+						ShapeForParameters.Parameters.Remove( SelectedParameter )
+						RefreshParametersListBox()
 				End Select
 			Case Event_GadgetAction
 				Select EventSource()
@@ -990,12 +1088,6 @@ Type LTEditor Extends LTProject
 					Case VScroller
 						If CurrentViewLayer Then 
 							If CurrentViewLayer.Bounds Then MainCamera.Y = SliderValue( VScroller ) * CurrentViewLayer.Bounds.Height / 10000.0 + 0.5 * MainCamera.Height
-						End If
-					Case AddLayerButton
-						Local Name:String = EnterString( "{{D_EnterNameOfLayer}}", "LTLayer" )
-						If Name Then
-							AddLayer( Name )
-							RefreshProjectManager()
 						End If
 				End Select
 				
@@ -1133,8 +1225,15 @@ Type LTEditor Extends LTProject
 					ElseIf LTSpriteMap( SelectedShape ) Then
 						PopUpWindowMenu( Window, SpriteMapMenu )
 					Else
-						PopUpWindowMenu( Window, SpriteMenu )
+						If LTSprite( SelectedShape ).SpriteMap Then
+							PopUpWindowMenu( Window, MapSpriteMenu )
+						Else
+							PopUpWindowMenu( Window, SpriteMenu )
+						End If
 					End If
+				ElseIf EventSource() = ParametersListBox Then
+					SelectedParameter = LTParameter( EventExtra() )
+					If SelectedParameter Then PopUpWindowMenu( Window, ParameterMenu )
 				End If
 		End Select
 		
@@ -1156,13 +1255,13 @@ Type LTEditor Extends LTProject
 			ShowGadget( TilesetCanvas )
 			HideGadget( Panel )
 			DisableGadget( Panel )
-			SetGadgetShape( ProjectManager, ClientWidth( Window ) - BarWidth, 0.5 * ClientHeight( Window ), BarWidth, 0.5 * ClientHeight( Window ) - 24 )
+			SetGadgetShape( ProjectManager, ClientWidth( Window ) - BarWidth, 0.5 * ClientHeight( Window ), BarWidth, 0.5 * ClientHeight( Window ) - ListBoxHeight )
 		Else
 			HideGadget( TilesetCanvas )
 			DisableGadget( TilesetCanvas )
 			EnableGadget( Panel )
 			ShowGadget( Panel )
-			SetGadgetShape( ProjectManager, ClientWidth( Window ) - BarWidth, PanelHeight, BarWidth, ClientHeight( Window ) - PanelHeight - 24 )
+			SetGadgetShape( ProjectManager, ClientWidth( Window ) - BarWidth, PanelHeight, BarWidth, ClientHeight( Window ) - PanelHeight - ListBoxHeight )
 		End If
 		
 		Cursor.SetMouseCoords()
@@ -1597,7 +1696,8 @@ Type LTEditor Extends LTProject
 			FreeTreeViewNode( TGadget( Link.Value() ) )
 			Link = Link.NextLink()
 		WEnd
-	End Method	
+		If Layer = World Then AddTreeViewNode( "{{N_AddNewLayer}}", Node, 4 )
+	End Method
 	
 	
 	
@@ -1613,15 +1713,16 @@ Type LTEditor Extends LTProject
 			Icon = 2
 		End If
 		
-		Local Name:String = Shape.Name
-		If Not Shape.Visible Then Name = "(x) " + Name
-		If Not Shape.Active Then Name = "(-) " + Name
+		Local Title:String = Shape.GetTitle()
 		
-		If Shape = CurrentContainer Then Name = "{ " + Name + " }"
-		If Shape = CurrentTilemap Or Shape = CurrentViewLayer Then Name = "< " + Name + " >"
+		If Not Shape.Visible Then Title = "(x) " + Title
+		If Not Shape.Active Then Title = "(-) " + Title
+		
+		If Shape = CurrentContainer Then Title = "{ " + Title + " }"
+		If Shape = CurrentTilemap Or Shape = CurrentViewLayer Then Title = "< " + Title + " >"
 		If SelectedShapesLink Then
 			If SelectedShapesLink.Value() = Shape Then
-				Name = "* " + Name + " *"
+				Title = "* " + Title + " *"
 				SelectedShapesLink = SelectedShapesLink.NextLink()
 			End If
 		End If
@@ -1629,7 +1730,7 @@ Type LTEditor Extends LTProject
 		Local CurrentNode:TGadget
 		If Link <> Null Then
 			CurrentNode = TGadget( Link.Value() )
-			ModifyTreeViewNode( CurrentNode, Name, Icon )
+			ModifyTreeViewNode( CurrentNode, Title, Icon )
 			SetGadgetExtra( CurrentNode, Shape )
 			
 			If Not LTLayer( Shape ) Then
@@ -1640,7 +1741,7 @@ Type LTEditor Extends LTProject
 			
 			Link = Link.NextLink()
 		Else
-			CurrentNode = AddTreeViewNode( Name, Node, Icon, Shape )
+			CurrentNode = AddTreeViewNode( Title, Node, Icon, Shape )
 		End If
 		
 		Local Layer:LTLayer = LTLayer( Shape )
@@ -1665,7 +1766,7 @@ Type LTEditor Extends LTProject
 	
 	Method AddLayer:LTLayer( LayerName:String )
 		Local Layer:LTLayer = New LTLayer
-		Layer.Name = LayerName
+		SetParameter( Layer, "name", LayerName )
 		World.AddLast( Layer )
 		Return Layer
 	End Method
@@ -1785,7 +1886,7 @@ Type LTEditor Extends LTProject
 		CreateMenu( "", 0, FileMenu )
 		
 		Local ItemExists:Int = False
-		For Local N:Int = 0 To 9
+		For Local N:Int = 0 Until RecentFilesQuantity
 			If RecentFiles[ N ] Then
 				CreateMenu( RecentFiles[ N ], MenuRecentFile + N, FileMenu )
 				ItemExists = True
@@ -1843,6 +1944,75 @@ Type LTEditor Extends LTProject
 		End If
 		RefreshProjectManager()
 		RefreshTilemap()
+	End Method
+	
+	
+	
+	Method SetParameter( Shape:LTShape, Name:String, Value:String )
+		If Shape.Parameters Then
+			For Local Parameter:LTParameter = Eachin Shape.Parameters
+				If Parameter.Name = Name Then
+					Parameter.Value = Value
+					Return
+				End If
+			Next
+		End If
+		AddParameter( Shape, Name, Value )
+	End Method
+	
+	
+	
+	Method AddParameter:String( Shape:LTShape, Name:String, Value:String )
+		Local Parameter:LTParameter = New LTParameter
+		Parameter.Name = Name
+		Parameter.Value = Value
+		If Not Shape.Parameters Then Shape.Parameters = New TList
+		Shape.Parameters.AddLast( Parameter )
+	End Method
+	
+	
+	
+	Method RemoveParameter( Shape:LTShape, Parameter:LTParameter )
+		Shape.Parameters.Remove( Parameter )
+		If Shape.Parameters.IsEmpty() Then Shape.Parameters = Null
+	End Method
+	
+	
+	
+	Method RefreshParametersListBox( RefreshPM:Int = True )
+		ClearGadgetItems( ParametersListBox )
+		If Not ShapeForParameters Then Return
+		If ShapeForParameters.Parameters Then
+			For Local Parameter:LTParameter = Eachin ShapeForParameters.Parameters
+				AddGadgetItem( ParametersListBox, Parameter.Name + ": " + Parameter.Value, , , , Parameter )
+			Next
+		End If
+		AddGadgetItem( ParametersListBox, "Add new parameter" )
+		If RefreshPM Then RefreshProjectManager()
+	End Method
+	
+	
+	
+	Method InitParameterNames()
+		ParameterNames.Clear()
+		ParameterNames.Insert( "class", Null )
+		ParameterNames.Insert( "name", Null )
+	End Method
+	
+	
+	
+	Method AddParameterNames( Shape:LTShape )
+		If Shape.Parameters Then
+			For Local Parameter:LTParameter = Eachin Shape.Parameters
+				ParameterNames.Insert( Parameter.Name, Null )
+			Next
+		End If
+		Local Layer:LTLayer = LTLayer( Shape )
+		If Layer Then
+			For Local ChildShape:LTShape = Eachin Layer.Children
+				AddParameterNames( ChildShape )
+			Next
+		End If
 	End Method
 End Type
 

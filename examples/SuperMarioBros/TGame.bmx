@@ -66,12 +66,16 @@ Type TGame Extends LTProject
 	Field GameOver:TSound = TSound.Load( "media\GameOver.ogg", False )
 	Field Warning:TSound = TSound.Load( "media\Warning.ogg", False )
 	
+	Field Intro:TSound[]
+	Field Music:TSound[]
+	Field CurrentLevelNum:Int
+	
 	
 	
 	Method Init()
 		L_InitGraphics( 960, 720, 48.0 )
 		World = LTWorld.FromFile( "world.lw" )
-		LoadAndInitLayer( HUD, LTLayer( LTWorld.FromFile( "hud.lw" ).FindShape( "LTLayer" ) ) )
+		LoadAndInitLayer( HUD, LTLayer( LTWorld.FromFile( "hud.lw" ).FindShapeWithType( "LTLayer" ) ) )
 		InitLevel()
 	End Method
 	
@@ -81,6 +85,8 @@ Type TGame Extends LTProject
 		Local LevelsQuantity:Int = World.Children.Count()
 		Levels = New LTLayer[ LevelsQuantity ]
 		SpriteMaps = New LTSpriteMap[ LevelsQuantity ]
+		Music = New TSound[ LevelsQuantity ]
+		Intro = New TSound[ LevelsQuantity ]
 		
 		Mario = New TMario
 		Mario.SetWidth( 0.8 )
@@ -89,27 +95,38 @@ Type TGame Extends LTProject
 		Mario.Init()
 		
 		For Local N:Int = 0 Until LevelsQuantity
-			Local Layer:LTLayer = LTLayer( World.FindShape( "LTLayer," + N ) )
-			MovingObjects = LTSpriteMap.CreateForShape( Layer.FindShape( "TTiles" ), 2.0 )
+			Local Layer:LTLayer = LTLayer( World.FindShapeWithParameter( "LTLayer", "num", N ) )
 			LoadAndInitLayer( Levels[ N ], Layer )
 			Levels[ N ].AddLast( Mario )
 			Levels[ N ].AttachModel( TimeModel )
-			SpriteMaps[ N ] = MovingObjects
+			SpriteMaps[ N ] = LTSpriteMap( Levels[ N ].FindShapeWithType( "LTSpriteMap" ) )
+			
+			Local MusicNum:Int = Layer.GetParameter( "music" ).ToInt()
+			Intro[ N ] = LoadSound( "media\Music" + MusicNum + "intro.ogg" )
+			Music[ N ]  = LoadSound( "media\Music" + MusicNum + ".ogg" )
 		Next
 		
 		LivesScreen.Execute()
-		TimeModel.Init( Null )
 		SwitchToLevel( 0 )
+		TimeModel.Init( Null )
 	End Method
 	
 	
 	
 	Method SwitchToLevel( Num:Int, PointNum:Int = 0 )
+		CurrentLevelNum = Num
 		Level = Levels[ Num ]
 		TileMap = LTTileMap( Level.FindShapeWithType( "TTiles" ) )
 		MovingObjects = SpriteMaps[ Num ]
-		Mario.JumpTo( Level.FindShapeWithType( "TStart", String( PointNum ) ) )
-		TMusic( Level.FindShapeWithType( "TMusic" ) ).Start()
+		Mario.JumpTo( Level.FindShapeWithParameter( "TStart", "num", PointNum ) )
+		StartMusic()
+	End Method
+	
+	
+	
+	Method StartMusic()
+		MusicChannel.Stop()
+		If Intro[ CurrentLevelNum ] Then MusicChannel = Intro[ CurrentLevelNum ].Play()
 	End Method
 	
 	
@@ -118,6 +135,7 @@ Type TGame Extends LTProject
 		Level.Act()
 		If Not Level.Active Then Level.FindShapeWithType( "TMario" ).Act()
 		If KeyHit( Key_Escape ) Then End ' exit after pressing Escape
+		If Not MusicChannel.Playing() Then MusicChannel = Music[ CurrentLevelNum ].Play()
 	End Method
 	
 	

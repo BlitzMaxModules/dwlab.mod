@@ -9,7 +9,7 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Function EnterString:String( Message:String, St:String = "" )
+Function EnterString:Int( Message:String, St:String Var )
 	Local InputWindow:TGadget = CreateWindow( Message, 0, 0, 0, 0, Editor.Window, Window_Titlebar | Window_ClientCoords )
 	Local Form:LTForm = LTForm.Create( InputWindow )
 	Form.NewLine()
@@ -29,10 +29,10 @@ Function EnterString:String( Message:String, St:String = "" )
 					Case OKButton
 						St = TextFieldText( StringField )
 						FreeGadget( InputWindow )
-						Return St
+						Return True
 					Case CancelButton
 						FreeGadget( InputWindow )
-						Return ""
+						Return False
 				End Select
 		End Select
 	Forever

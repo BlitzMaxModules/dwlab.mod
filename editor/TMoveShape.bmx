@@ -34,7 +34,11 @@ Type TMoveShape Extends LTDrag
 		LastDX = 0
 		LastDY = 0
 		
-		If Not Editor.SelectedShapes.Contains( Editor.ShapeUnderCursor ) Then Editor.SelectShape( Editor.ShapeUnderCursor )
+		If Not Editor.SelectedShapes.Contains( Editor.ShapeUnderCursor ) Then
+			Editor.SelectShape( Editor.ShapeUnderCursor )
+			Editor.ShapeForParameters = Editor.ShapeUnderCursor
+			Editor.RefreshParametersListBox()
+		End If
 		
 		Editor.Modifiers.Clear()
 	End Method

@@ -8,10 +8,19 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "LTGroup.bmx"
+Include "LTSprite.bmx"
+Include "LTMap.bmx"
+Include "LTLine.bmx"
+Include "LTGraph.bmx"
+Include "LTVisualizer.bmx"
+
 Rem
 bbdoc: Common object for item of game field.
 End Rem
 Type LTShape Extends LTObject
+	Field Parameters:TList
+
 	Rem
 	bbdoc: X coordinate of the shape center in units.
 	about: See also: #SetX, #SetCoords, #SetCornerCoords, #SetVouseCoords, #AlterCoords, #LeftX, #RightX, #DistanceTo, #JumpTo
@@ -802,16 +811,56 @@ Type LTShape Extends LTObject
 		Visualizer = LTWindowedVisualizer( Visualizer ).Visualizer
 	End Method
 	
-	' ==================== Other ===================
+	' ==================== Parameters ===================	
 	
 	Rem
-	bbdoc: Initialization method of the sprite.
-	about: Fill it with shape initialization commands. This method will be executed after loading the layer which have this shape inside.
+	bbdoc: Retrieves value of object's parameter with given name.
+	returns: Value of object's parameter with given name.
+	about: See also: #GetTitle, #GetName
 	End Rem
-	Method Init()
+	Method GetParameter:String( Name:String )
+		If Not Parameters Then Return ""
+		For Local Parameter:LTParameter = Eachin Parameters
+			If Parameter.Name = Name Then Return Parameter.Value
+		Next
 	End Method
 	
 	
+	
+	Rem
+	bbdoc: Retrieves title of object.
+	returns: Title of object.
+	about: Will return (if not null):
+	<ul><li>Value of "name" parameter.
+	<li>Value of "class" parameter.
+	<li>Framework-based name of object class.
+	<li>Object class real name.</ul>
+	
+	See also: #GetParameter, #GetName
+	End Rem
+	Method GetTitle:String()
+		Local Title:String = GetParameter( "name" )
+		If Title Then Return Title
+		Title = GetParameter( "class" )
+		If Title Then Return Title
+		Local TypeID:TTypeId = TTypeID.ForObject( Self )
+		Title = String( L_ClassNames.ValueForKey( TypeID ) )
+		If Title Then Return Title
+		Return TypeID.Name()
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Retrieves name of object.
+	returns: Value of object's parameter "name".
+	about: See also: #GetParameter, #GetTitle
+	End Rem
+	Method GetName:String()
+		Return GetParameter( "name" )
+	End Method
+	
+	' ==================== Cloning ===================
 	
 	Rem
 	bbdoc: Clones the shape.
@@ -826,7 +875,7 @@ Type LTShape Extends LTObject
 	
 	
 	Method CopyTo( Shape:LTShape )
-		Shape.Name = Name
+		Shape.Parameters = Parameters
 		If Visualizer Then Shape.Visualizer = Visualizer.Clone()
 		Shape.X = X
 		Shape.Y = Y
@@ -834,6 +883,15 @@ Type LTShape Extends LTObject
 		Shape.Height = Height
 		Shape.Visible = Visible
 		Shape.Active = Active
+	End Method
+	
+	' ==================== Management ===================
+	
+	Rem
+	bbdoc: Initialization method of the sprite.
+	about: Fill it with shape initialization commands. This method will be executed after loading the layer which have this shape inside.
+	End Rem
+	Method Init()
 	End Method
 	
 	
@@ -886,6 +944,7 @@ Type LTShape Extends LTObject
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
+		XMLObject.ManageListField( "parameters", Parameters )
 		XMLObject.ManageDoubleAttribute( "x", X )
 		XMLObject.ManageDoubleAttribute( "y", Y )
 		XMLObject.ManageDoubleAttribute( "width", Width, 1.0 )
@@ -895,3 +954,31 @@ Type LTShape Extends LTObject
 		Visualizer = LTVisualizer( XMLObject.ManageObjectField( "visualizer", Visualizer ) )
 	End Method
 End Type
+
+
+
+
+
+Type LTParameter Extends LTObject
+	Field Name:String
+	Field Value:String
+	
+	
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		XMLObject.ManageStringAttribute( "name", Name )
+		XMLObject.ManageStringAttribute( "value", Value )
+	End Method
+End Type
+
+
+
+
+
+Global L_ClassNames:TMap = New TMap
+Local ClassTitle:String[] = [ "Layer", "Sprite", "Angular sprite", "Vector sprite", "Tile map", "Sprite map" ]
+Local ClassName:String[] = [ "LTLayer", "LTSprite", "LTAngularSprite","LTVectorSprite", "LTTileMap", "LTSpriteMap" ]
+For Local N:Int = 0 Until ClassTitle.Dimensions()[ 0 ]
+	L_ClassNames.Insert( TTypeId.ForName( ClassName[ N ] ), ClassTitle[ N ] )
+Next

@@ -310,6 +310,12 @@ Type LTSpriteMap Extends LTMap
 
 	
 	
+	Method ObjectEnumerator:TNodeEnumerator()
+		Return Sprites.Keys().ObjectEnumerator()
+	End Method
+	
+	
+	
 	Rem
 	bbdoc: Creates collision map.
 	about: You should specify cell quantities and size.
@@ -333,7 +339,7 @@ Type LTSpriteMap Extends LTMap
 		Local SpriteMap:LTSpriteMap = LTSpriteMap( Shape )
 		
 		?debug
-		If Not SpriteMap Then L_Error( "Trying to copy sprite map ~q" + Shape.Name + "~q data to non-sprite-map" )
+		If Not SpriteMap Then L_Error( "Trying to copy sprite map ~q" + Shape.GetTitle() + "~q data to non-sprite-map" )
 		?
 		
 		SpriteMap.SetResolution( XQuantity, YQuantity )

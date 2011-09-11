@@ -8,6 +8,9 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "LTTileSet.bmx"
+Include "LTTileMapPathFinder.bmx"
+
 Rem
 bbdoc: Tilemap is displayable rectangular tile-based shape with 2d array of tile indexes and tileset with tile images.
 End Rem
@@ -189,7 +192,7 @@ Type LTTileMap Extends LTIntMap
 		Local TileMap:LTTileMap = LTTileMap( Shape )
 		
 		?debug
-		If Not TileMap Then L_Error( "Trying to copy tilemap ~q" + Shape.Name + "~q data to non-tilemap" )
+		If Not TileMap Then L_Error( "Trying to copy tilemap ~q" + Shape.GetTitle() + "~q data to non-tilemap" )
 		?
 		
 		TileMap.TileSet = TileSet

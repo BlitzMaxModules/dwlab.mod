@@ -86,7 +86,7 @@ Type TGame Extends LTProject
 				Player.DirectTo( Map.PlayerPivot )
 				Path.Pivots.RemoveFirst()
 			Else
-				Player.MoveTowards( Map.PlayerPivot )
+				Player.MoveTowards( Map.PlayerPivot, Player.Velocity )
 			End If
 			If Not Player.IsAtPositionOf( Map.PlayerPivot ) Then Player.Frame :+ ( Floor( Time * 5 ) Mod 5 ) * 5
 		End If

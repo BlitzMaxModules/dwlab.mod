@@ -8,6 +8,14 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "LTImage.bmx"
+Include "LTRasterFrameVisualizer.bmx"
+Include "LTAnimatedTileMapVisualizer.bmx"
+Include "LTEmptyPrimitive.bmx"
+Include "LTMarchingAnts.bmx"
+Include "LTWindowedVisualizer.bmx"
+Include "LTDebugVisualizer.bmx"
+
 Rem
 bbdoc: Global variable for default visualizer.
 End Rem
@@ -201,7 +209,7 @@ Type LTVisualizer Extends LTObject
 			End If
 			
 			?debug
-			If Sprite.Frame < 0 Or Sprite.Frame >= Image.FramesQuantity() Then L_Error( "Incorrect frame number ( " + Sprite.Frame + " ) for sprite ~q" + Sprite.Name + "~q, must be less than " + Image.FramesQuantity() )
+			If Sprite.Frame < 0 Or Sprite.Frame >= Image.FramesQuantity() Then L_Error( "Incorrect frame number ( " + Sprite.Frame + " ) for sprite ~q" + Sprite.GetTitle() + "~q, must be less than " + Image.FramesQuantity() )
 			?
 			
 			DrawImage( Image.BMaxImage, Int( SX + SpriteDX ), Int( SY + SpriteDY ), Sprite.Frame )
@@ -416,7 +424,9 @@ Type LTVisualizer Extends LTObject
 		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
 		
 		Local Visualizer:LTVisualizer = TileMap.Visualizer
-		SetScale( Width / ImageWidth( Image ) * Visualizer.XScale, Height / ImageHeight( Image ) * Visualizer.YScale )
+		Width :* Visualizer.XScale
+		Height :* Visualizer.YScale
+		SetScale( Width / ImageWidth( Image ), Height / ImageHeight( Image ) )
 		
 		DrawImage( Image, SX + Visualizer.DX * Width, SY + Visualizer.DY * Height, TileValue )
 		

@@ -1,9 +1,14 @@
+1.7
++ Parameter lists for shapes
++ Cut / Copy / Paste operations
+* Right-click menus are structurized
+
 1.6.3.2
-* Fixed bug of displaying mixed content layers.
+* Fixed bug of displaying mixed content layers
 
 1.6.3.1
-* Main canvas is now rendering while child windows are active.
-* Fixed bugs of displaying and editing tile collision shapes.
+* Main canvas is now rendering while child windows are active
+* Fixed bugs of displaying and editing tile collision shapes
 
 1.6.3
 + Support for layers with mixed content displaying

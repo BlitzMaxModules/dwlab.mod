@@ -64,12 +64,13 @@ Type TAppearing Extends LTBehaviorModel
 	
 	Method Deactivate( Shape:LTShape )
 		Shape.RemoveWindowLimit()
-		Game.MovingObjects.InsertSprite( LTSprite( Shape ) )
 		Local Collisions:TCollisions = New TCollisions
 		Collisions.SetCollisions( True, False )
 		Shape.AttachModel( Collisions )
 		Shape.AttachModel( New TGravity )
 		Shape.AttachModel( New TBumpingTiles )
 		Shape.AttachModel( New TRemoveIfOutside )
+		Game.Level.Remove( Shape )
+		Game.MovingObjects.InsertSprite( LTSprite( Shape ) )
 	End Method
 End Type

@@ -8,6 +8,10 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "LTIntMap.bmx"
+Include "LTDoubleMap.bmx"
+Include "LTSpriteMap.bmx"
+
 Rem
 bbdoc: Common object for maps
 about: Map is object with 2d array.

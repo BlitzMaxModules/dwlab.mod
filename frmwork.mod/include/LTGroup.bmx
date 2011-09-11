@@ -8,6 +8,8 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "LTLayer.bmx"
+
 Rem
 bbdoc: Group of shapes.
 about: It has a lot of methods duplicating methods of TList.

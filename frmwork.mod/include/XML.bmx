@@ -20,6 +20,7 @@ During next step new objects will be created and filled with information using t
 When you save object to XML file, the system firstly creates a XMLObjects structure and unloads all information there, then save this structure to file. 
 End Rem
 Type LTXMLObject Extends LTObject
+	Field Name:String
 	Field Attributes:TList = New TList
 	Field Children:TList = New TList
 	Field Fields:TList = New TList
@@ -30,7 +31,7 @@ Type LTXMLObject Extends LTObject
 	Rem
 	bbdoc: Returns value of XMLObject attribute with given name.
 	returns: Attribute string value.
-	about: See also: #SetAttribute
+	about: See also: #SetAttribute, #RemoveAttribulte
 	End Rem
 	Method GetAttribute:String( AttrName:String )
 		For Local Attr:LTXMLAttribute = EachIn Attributes
@@ -42,7 +43,7 @@ Type LTXMLObject Extends LTObject
 	
 	Rem
 	bbdoc: Sets value of XMLObject attribute with given name.
-	about: See also: #GetAttribute
+	about: See also: #GetAttribute, #RemoveAttribulte
 	End Rem
 	Method SetAttribute( AttrName:String, AttrValue:String)
 		For Local Attr:LTXMLAttribute = EachIn Attributes
@@ -56,7 +57,20 @@ Type LTXMLObject Extends LTObject
 		Attr.Name = AttrName
 		Attr.Value = AttrValue
 		Attributes.AddLast( Attr )
-		'DebugLog Attr.Name + "=" +Attr.Value
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Removes attribute with given name of XMLObject.
+	about: See also: #GetAttribute, #SetAttribute
+	End Rem
+	Method RemoveAttribute:String( AttrName:String )
+		Local Link:TLink = Attributes.FirstLink()
+		While Link
+			If LTXMLAttribute( Link.Value() ).Name = AttrName Then Link.Remove()
+			Link = Link.NextLink()
+		Wend
 	End Method
 	
 	
@@ -246,12 +260,33 @@ Type LTXMLObject Extends LTObject
 	Method ManageListField( FieldName:String, List:TList Var )
 		If L_XMLMode = L_XMLGet Then
 			Local XMLObject:LTXMLObject = GetField( FieldName )
+			If Not XMLObject Then Return
 			If XMLObject Then XMLObject.ManageChildList( List )
-		ElseIf Not List.IsEmpty() Then
+		ElseIf List Then
+			If List.IsEmpty() Then Return
 			Local XMLObject:LTXMLObject = New LTXMLObject
 			XMLObject.Name = "TList"
 			XMLObject.ManageChildList( List )
 			SetField( FieldName, XMLObject )
+		End If
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Transfers data between XMLObject contents and framework object parameter with LTObject[] type.
+	about: See also: #ManageObjectAttribute, #ManageObjectField, #ManageObjectMapField
+	End Rem
+	Method ManageObjectArrayField( FieldName:String, Array:LTObject[] Var )
+		If L_XMLMode = L_XMLGet Then
+			Local XMLArray:LTXMLObject = GetField( FieldName )
+			If Not XMLArray Then Return
+			If XMLArray Then XMLArray.ManageChildArray( Array )
+		ElseIf Array Then
+			Local XMLArray:LTXMLObject = New LTXMLObject
+			XMLArray.Name = "Array"
+			XMLArray.ManageChildArray( Array )
+			SetField( FieldName, XMLArray )
 		End If
 	End Method
 	
@@ -263,39 +298,15 @@ Type LTXMLObject Extends LTObject
 	End Rem
 	Method ManageObjectMapField( FieldName:String, Map:TMap Var )
 		If L_XMLMode = L_XMLGet Then
-			For Local XMLObject:LTXMLObject = Eachin Children
-				Local Key:LTObject
-				XMLObject.ManageObjectAttribute( "key", Key )
-				Map.Insert( Key, XMLObject.ManageObject( Null ) )
-			Next
-		Else
+			Local XMLMap:LTXMLObject = GetField( FieldName )
+			If Not XMLMap Then Return
+			If XMLMap Then XMLMap.ManageChildMap( Map )
+		ElseIf Map Then
+			If Map.IsEmpty() Then Return
 			Local XMLMap:LTXMLObject = New LTXMLObject
-			XMLMap.Name = "TMap"
-			For Local KeyValue:TKeyValue = Eachin Map
-				Local XMLValue:LTXMLObject = New LTXMLObject
-				XMLValue.ManageObject( LTObject( KeyValue.Value() ) )
-				XMLValue.ManageObjectAttribute( "key", LTObject( KeyValue.Value() ) )
-				XMLMap.Children.AddLast( XMLValue )
-			Next
+			XMLMap.Name = "Map"
+			XMLMap.ManageChildMap( Map )
 			SetField( FieldName, XMLMap )
-		End If
-	End Method
-	
-	
-	
-	Rem
-	bbdoc: Transfers data between XMLObject contents and framework object parameter with LTObject[] type.
-	about: See also: #ManageObjectAttribute, #ManageObjectField, #ManageObjectMapField
-	End Rem
-	Method ManageObjectArrayField( FieldName:String, FieldObjectsArray:LTObject[] Var )
-		If L_XMLMode = L_XMLGet Then
-			Local XMLArray:LTXMLObject = GetField( FieldName )
-			If XMLArray Then XMLArray.ManageChildArray( FieldObjectsArray )
-		ElseIf FieldObjectsArray Then
-			Local XMLArray:LTXMLObject = New LTXMLObject
-			XMLArray.Name = "Array"
-			XMLArray.ManageChildArray( FieldObjectsArray )
-			SetField( FieldName, XMLArray )
 		End If
 	End Method
 	
@@ -405,6 +416,29 @@ Type LTXMLObject Extends LTObject
 				Local XMLObject:LTXMLObject = New LTXMLObject
 				XMLObject.ManageObject( Obj )
 				Children.AddLast( XMLObject )
+			Next
+		End If
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Transfers data between XMLObject field and framework object parameter with TMap type filled with LTObject-LTObject pairs.
+	about: See also: #ManageObjectAttribute, #ManageObjectField, #ManageObjectArrayField
+	End Rem
+	Method ManageChildMap( Map:TMap Var )
+		If L_XMLMode = L_XMLGet Then
+			For Local XMLObject:LTXMLObject = Eachin Children
+				Local Key:LTObject = Null
+				XMLObject.ManageObjectAttribute( "key", Key )
+				Map.Insert( Key, XMLObject.ManageObject( Null ) )
+			Next
+		Else
+			For Local KeyValue:TKeyValue = Eachin Map
+				Local XMLValue:LTXMLObject = New LTXMLObject
+				XMLValue.ManageObject( LTObject( KeyValue.Value() ) )
+				XMLValue.ManageObjectAttribute( "key", LTObject( KeyValue.Value() ) )
+				Children.AddLast( XMLValue )
 			Next
 		End If
 	End Method

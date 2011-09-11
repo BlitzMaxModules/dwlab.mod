@@ -47,7 +47,7 @@ Type TGame Extends LTProject
     Panel.SetSize( 7.0, 3.0 )
     Panel.Visualizer = LTRasterFrameVisualizer.FromPixmap( Level.TileSet.Image.BMaxImage.pixmaps[ 0 ] )
     
-    LoadAndInitLayer( HUD, LTLayer( World.FindShape( "LTLayer,HUD" ) ) )
+    LoadAndInitLayer( HUD, LTLayer( World.FindShape( "HUD" ) ) )
     
     Panel.JumpTo( L_CurrentCamera )
     
@@ -67,7 +67,7 @@ Type TGame Extends LTProject
   
   Method LoadLevel()
     Local Layer:LTLayer = Null
-    LoadAndInitLayer( Layer, LTLayer( World.FindShape( "LTLayer,1" ) ) )
+    LoadAndInitLayer( Layer, LTLayer( World.FindShape( "1" ) ) )
     
     TileMapPathFinder = LTTileMapPathFinder.Create( Level, False )
   End Method

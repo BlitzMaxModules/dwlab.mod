@@ -18,6 +18,7 @@ Rem
 bbdoc: Tileset stores image and collision shapes of tiles for tilemaps. Also tile replacing/enframing rules are stored here.
 End Rem
 Type LTTileSet Extends LTObject
+	Field Name:String
 	Field Image:LTImage
 	Field CollisionShape:LTShape[]
 	Field BlockWidth:Int[]
@@ -176,6 +177,7 @@ Type LTTileSet Extends LTObject
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
+		XMLObject.ManageStringAttribute( "name", Name )
 		Image = LTImage( XMLObject.ManageObjectField( "image", Image ) )
 		XMLObject.ManageIntAttribute( "tiles-quantity", TilesQuantity )
 		XMLObject.ManageIntArrayAttribute( "block-width", BlockWidth )
@@ -218,6 +220,7 @@ End Type
 
 
 Type LTTileCategory Extends LTObject
+	Field Name:String
 	Field Num:Int
 	Field TileRules:TList = New TList
 	
@@ -226,6 +229,7 @@ Type LTTileCategory Extends LTObject
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
+		XMLObject.ManageStringAttribute( "name", Name )
 		XMLObject.ManageChildList( TileRules )
 	End Method
 End Type

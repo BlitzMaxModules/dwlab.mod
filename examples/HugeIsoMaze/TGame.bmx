@@ -29,8 +29,8 @@ Type TGame Extends LTProject
     L_CurrentCamera.SetCoords( MazeSize, MazeSize )
     L_CurrentCamera.Update()
     
-    Floor = LTTileMap( World.FindShape( "LTTileMap,Floor" ) )
-    Walls = LTTileMap( World.FindShape( "LTTileMap,Walls" ) )
+    Floor = LTTileMap( World.FindShape( "Floor" ) )
+    Walls = LTTileMap( World.FindShape( "Walls" ) )
     Walls.SetResolution( MazeSize, MazeSize )
     ( New TMazeGenerator ).Execute( Walls )
     Walls.Stretch( 2, 2 )
@@ -42,11 +42,11 @@ Type TGame Extends LTProject
     Floor.SetCoords( MazeSize, MazeSize )
     Floor.SetSize( 2.0 * MazeSize, 2.0 * MazeSize )
     
-    Objects = LTSpriteMap( World.FindShapeWithType( "LTSpriteMap" ) )
+    Objects = LTSpriteMap( World.FindShape( "Zombies" ) )
     Objects.SetResolution( MazeSize * 2, MazeSize * 2 )
     Objects.PivotMode = True
     
-    Local ZombieSprite:LTSprite =  LTSprite( World.FindShape( "TZombie" ) )
+    Local ZombieSprite:LTSprite =  LTSprite( World.FindShape( "Zombie" ) )
     For Local Y:Int = 0 Until Walls.YQuantity
       PleaseWait()
       For Local X:Int = 0 Until Walls.XQuantity

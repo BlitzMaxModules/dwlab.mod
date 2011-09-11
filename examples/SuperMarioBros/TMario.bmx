@@ -53,7 +53,6 @@ Type TMario Extends LTVectorSprite
   
   Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
     If TBonus( Sprite ) Then
-      Game.Level.Remove( Sprite )
       Game.MovingObjects.RemoveSprite( Sprite )
       TBonus( Sprite ).Collect()
     Else If TEnemy( Sprite ) Then
@@ -240,7 +239,6 @@ Type TDying Extends LTBehaviorModel
     End If
     
     Game.MusicChannel.Stop()
-    Game.Level.Remove( Game.Level.FindShapeWithType( "TMusic" ) )
     Game.MusicChannel = Game.MarioDie.Play()
     StartingTime = Game.Time
   End Method
@@ -482,7 +480,7 @@ Type TInvulnerable Extends LTBehaviorModel
       Mario.FrameShift = 1 + ( Floor( Game.Time / AnimationSpeed ) Mod 3 )
     ElseIf Game.Time < StartingTime + Period + FadingPeriod Then
       If Not Fading Then
-        TMusic( Game.Level.FindShapeWithType( "TMusic" ) ).Start()
+        Game.StartMusic()
         Fading = True
       End If
       Mario.FrameShift = 1 + ( Floor( Game.Time / FadingAnimationSpeed ) Mod 3 )

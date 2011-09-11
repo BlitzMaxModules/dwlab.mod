@@ -15,7 +15,6 @@ Type TKoopaTroopa Extends TEnemy
 	
 	
 	Method Init()
-		Game.MovingObjects.InsertSprite( Self )
 		AttachModel( New TEnemyWalkingAnimation )
 		AttachModel( New TCollisions )
 		AttachModel( New TGravity )

@@ -67,47 +67,6 @@ Type LTProject Extends LTObject
 	
 	
 	Rem
-	bbdoc: Initialization method.
-	about: Fill it with project initialization commands.
-	
-	See also: #DeInit
-	End Rem
-	Method Init()
-	End Method
-  
-  
-	Rem
-	bbdoc: Rendering method.
-	about: Fill it with objects drawing commands. Will be executed as many times as possible, while keeping logic frame rate.
-	
-	See also: #MinFPS, #FPS
-	End Rem
-	Method Render()
-	End Method
-	
-	
-	
-	Rem
-	bbdoc: Logic method. 
-	about: Fill it with project mechanics commands. Will be executed "LogicFPS" times per second.
-	
-	See also: #LogicFPS
-	End Rem
-	Method Logic()
-	End Method
-	
-	
-	Rem
-	bbdoc: Deinitialization method.
-	about: It will be executed before exit.
-	
-	See also: #Init
-	End Rem
-	Method DeInit()
-	End Method
-	
-	
-	Rem
 	bbdoc: Loads and initializes layer and all its child objects from previously loaded world.
 	End Rem
 	Method LoadAndInitLayer( NewLayer:LTLayer Var, Layer:LTLayer )
@@ -147,17 +106,56 @@ Type LTProject Extends LTObject
 	
 	
 	Method CreateShape:LTShape( Shape:LTShape )
-		Local CommaPos:Int = Shape.Name.Find( "," )
-		Local TypeName:String = Shape.Name
-		Local RealName:String = ""
-		If CommaPos >= 0 Then
-			TypeName = Shape.Name[ ..CommaPos ]
-			RealName = Shape.Name[ CommaPos + 1.. ]
+		Local TypeName:String = Shape.GetParameter( "class" )
+		Local NewShape:LTShape
+		If TypeName Then 
+			NewShape = LTShape( L_GetTypeID( TypeName ).NewObject() )
+		Else
+			NewShape = LTShape( TTypeId.ForObject( Shape ).NewObject() )
 		End If
-		Local NewShape:LTShape = LTShape( L_GetTypeID( TypeName ).NewObject() )
 		Shape.CopyTo( NewShape )
-		NewShape.Name = RealName
 		Return NewShape
+	End Method
+	
+	
+	Rem
+	bbdoc: Initialization method.
+	about: Fill it with project initialization commands.
+	
+	See also: #DeInit
+	End Rem
+	Method Init()
+	End Method
+  
+  
+	Rem
+	bbdoc: Rendering method.
+	about: Fill it with objects drawing commands. Will be executed as many times as possible, while keeping logic frame rate.
+	
+	See also: #MinFPS, #FPS
+	End Rem
+	Method Render()
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Logic method. 
+	about: Fill it with project mechanics commands. Will be executed "LogicFPS" times per second.
+	
+	See also: #LogicFPS
+	End Rem
+	Method Logic()
+	End Method
+	
+	
+	Rem
+	bbdoc: Deinitialization method.
+	about: It will be executed before exit.
+	
+	See also: #Init
+	End Rem
+	Method DeInit()
 	End Method
 	
 	

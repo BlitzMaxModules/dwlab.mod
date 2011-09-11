@@ -29,7 +29,7 @@ Type TGame Extends LTProject
   Method Init()
     L_InitGraphics( 512, 512 )
     
-    Local Layer:LTLayer = LoadLayer( LTLayer( LTWorld.FromFile( "world.lw" ).FindShape( "LTLayer" ) ) )
+    Local Layer:LTLayer = LoadLayer( LTLayer( LTWorld.FromFile( "world.lw" ).FindShapeWithType( "LTLayer" ) ) )
   
     Local CloudsMap:LTDoubleMap = New LTDoubleMap
     CloudsMap.SetResolution( 512, 512 )

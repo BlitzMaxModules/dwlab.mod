@@ -16,7 +16,6 @@ Type TGoomba Extends TEnemy
 	
 	
 	Method Init()
-		Game.MovingObjects.InsertSprite( Self )
 		AttachModel( New TEnemyWalkingAnimation )
 		AttachModel( New TCollisions )
 		AttachModel( New TGravity )
@@ -57,6 +56,7 @@ Type TStomped Extends LTBehaviorModel
 		Goomba.DeactivateAllModels()
 		Goomba.Frame = TGoomba.Stomped
 		Game.MovingObjects.RemoveSprite( Goomba )
+		Game.Level.AddLast( Goomba )
 		
 		Game.Stomp.Play()
 		
@@ -88,5 +88,6 @@ Type TKicked Extends LTBehaviorModel
 		PlaySound( Game.Kick )
 		TScore.FromSprite( Sprite, TScore.s100 )
 		Game.MovingObjects.RemoveSprite( Sprite )
+		Game.Level.AddLast( Sprite )
 	End Method
 End Type

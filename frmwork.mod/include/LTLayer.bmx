@@ -8,6 +8,8 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "LTWorld.bmx"
+
 Rem
 bbdoc: Layer is the group of sprites which have bounds.
 End Rem
@@ -28,7 +30,7 @@ Type LTLayer Extends LTGroup
 	End Rem
 	Field MixContent:Int
 	
-	
+	' ==================== Drawing ===================	
 	
 	Method Draw()
 		DrawUsingVisualizer( Visualizer )
@@ -64,6 +66,126 @@ Type LTLayer Extends LTGroup
 			Super.DrawUsingVisualizer( Vis )
 		End If
 	End Method
+	
+	' ==================== Shape management ===================	
+	
+	Rem
+	bbdoc: Finds shape with given name.
+	returns: First found shape with given name.
+	about: IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
+	End Rem
+	Method FindShape:LTShape( Name:String, IgnoreError:Int = False )
+		If GetName() = Name Then Return Self
+		For Local ChildShape:LTShape = EachIn Children
+			If ChildShape.GetName() = Name Then Return ChildShape
+			Local ChildLayer:LTLayer = LTLayer( ChildShape )
+			If ChildLayer Then
+				Local Shape:LTShape = ChildLayer.FindShape( Name, True )
+				If Shape Then Return Shape
+			End If
+		Next
+		If Not IgnoreError Then L_Error( "Shape ~q" + Name + "~q not found." )
+		Return Null
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Finds shape of class with given name.
+	returns: First found shape of class of class with given name.
+	about: IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
+	You can specify optional Name parameter to check only shapes with this name.
+	End Rem
+	Method FindShapeWithType:LTShape( ShapeType:String, Name:String = "", IgnoreError:Int = False )
+		Return FindShapeWithTypeID( L_GetTypeID( ShapeType ), Name, IgnoreError )
+	End Method
+	
+	
+	
+	Method FindShapeWithTypeID:LTShape( ShapeTypeID:TTypeId, Name:String = "", IgnoreError:Int = False )
+		If TTypeId.ForObject( Self ) = ShapeTypeID Then Return Self
+		For Local ChildShape:LTShape = EachIn Children
+			If TTypeId.ForObject( ChildShape ) = ShapeTypeID Then
+				If Not Name Or Name = ChildShape.GetName() Then Return ChildShape
+			End If
+			Local ChildLayer:LTLayer = LTLayer( ChildShape )
+			If ChildLayer Then
+				Local Shape:LTShape = ChildLayer.FindShapeWithTypeID( ShapeTypeID, Name, True )
+				If Shape Then Return Shape
+			End If
+		Next
+		If Not IgnoreError Then L_Error( "Shape with type ~q" + ShapeTypeID.Name() + "~q not found." )
+		Return Null
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Finds shape of class with given name with parameter with given name and value.
+	returns: First found layer shape of class with given name and parameter with given name and value.
+	about: IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
+	End Rem
+	Method FindShapeWithParameter:LTShape( ShapeType:String, ParameterName:String, ParameterValue:String, IgnoreError:Int = False )
+		Return FindShapeWithParameterID( L_GetTypeID( ShapeType ), ParameterName, ParameterValue, IgnoreError )
+	End Method
+	
+	
+	
+	Method FindShapeWithParameterID:LTShape( ShapeTypeID:TTypeID, ParameterName:String, ParameterValue:String, IgnoreError:Int = False )
+		If TTypeId.ForObject( Self ) = ShapeTypeID Then If GetParameter( ParameterName ) = ParameterValue Then Return Self
+		For Local ChildShape:LTShape = EachIn Children
+			If TTypeId.ForObject( ChildShape ) = ShapeTypeID Then
+				If ChildShape.GetParameter( ParameterName ) = ParameterValue Then Return ChildShape
+			End If
+			Local ChildLayer:LTLayer = LTLayer( ChildShape )
+			If ChildLayer Then
+				Local Shape:LTShape = ChildLayer.FindShapeWithParameterID( ShapeTypeID, ParameterName, ParameterValue, True )
+				If Shape Then Return Shape
+			End If
+		Next
+		If Not IgnoreError Then L_Error( "Shape with type ~q" + ShapeTypeID.Name() + "~q and parameter " + ParameterName + " = " + ..
+				ParameterValue + " not found." )
+		Return Null
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Removes the shape from layer.
+	about: Included layers and sprite maps will be also checked.
+	End Rem
+	Method Remove( Shape:LTShape )
+		Local Sprite:LTSprite = LTSprite( Shape )
+		Local Link:TLink = Children.FirstLink()
+		While Link <> Null
+			Local Value:Object = Link.Value()
+			Local Layer:LTLayer = LTLayer( Value )
+			If Layer Then
+				Layer.Remove( Shape )
+			ElseIf Sprite Then
+				Local SpriteMap:LTSpriteMap = LTSpriteMap( Value )
+				If SpriteMap Then SpriteMap.RemoveSprite( Sprite )
+			End If
+			If Value = Shape Then Link.Remove()
+			Link = Link.NextLink()
+		Wend
+	End Method
+	
+	' ==================== Other ===================	
+	
+	Rem
+	bbdoc: Sets the bounds of layer to given shape.
+	End Rem
+	Method SetBounds( Shape:LTShape )
+		If Not Bounds Then
+			Bounds = New LTShape
+			Bounds.Visualizer = Null
+		End If
+		Bounds.X = Shape.X
+		Bounds.Y = Shape.Y
+		Bounds.Width = Shape.Width
+		Bounds.Height = Shape.Height
+	End Method
 
 	
 	
@@ -84,95 +206,14 @@ Type LTLayer Extends LTGroup
 		Return Count
 	End Method
 	
-	
-	
-	Rem
-	bbdoc: Finds shape with given name.
-	returns: First found layer shape with given name.
-	about: IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
-	End Rem
-	Method FindShape:LTShape( ShapeName:String, IgnoreError:Int = False )
-		If Name = ShapeName Then Return Self
-		For Local ChildShape:LTShape = EachIn Children
-			If ChildShape.Name = ShapeName Then Return ChildShape
-			Local ChildLayer:LTLayer = LTLayer( ChildShape )
-			If ChildLayer Then
-				Local Shape:LTShape = ChildLayer.FindShape( ShapeName, True )
-				If Shape Then Return Shape
-			End If
-		Next
-		If Not IgnoreError Then L_Error( "Shape ~q" + ShapeName + "~q not found." )
-		Return Null
-	End Method
-	
-	
-	
-	Rem
-	bbdoc: Finds shape of class with given name.
-	returns: First found layer shape of class with given name.
-	about: IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
-	End Rem
-	Method FindShapeWithType:LTShape( ShapeType:String, Name:String = "", IgnoreError:Int = False )
-		Return FindShapeWithTypeID( L_GetTypeID( ShapeType ), Name, IgnoreError )
-	End Method
-	
-	
-	
-	Method FindShapeWithTypeID:LTShape( ShapeTypeID:TTypeId, Name:String = "", IgnoreError:Int = False )
-		If TTypeId.ForObject( Self ) = ShapeTypeID Then Return Self
-		For Local ChildShape:LTShape = EachIn Children
-			If TTypeId.ForObject( ChildShape ) = ShapeTypeID Then
-				If Not Name Or Name = ChildShape.Name Then Return ChildShape
-			End If
-			Local ChildLayer:LTLayer = LTLayer( ChildShape )
-			If ChildLayer Then
-				Local Shape:LTShape = ChildLayer.FindShapeWithTypeID( ShapeTypeID, Name, True )
-				If Shape Then Return Shape
-			End If
-		Next
-		If Not IgnoreError Then L_Error( "Shape with type ~q" + ShapeTypeID.Name() + "~q not found." )
-		Return Null
-	End Method
-	
-	
-	
-	Rem
-	bbdoc: Removes the shape from layer.
-	about: Included layers will be also checked.
-	End Rem
-	Method Remove( Shape:LTShape )
-		Local Link:TLink = Children.FirstLink()
-		While Link <> Null
-			If LTLayer( Link.Value() ) Then LTLayer( Link.Value() ).Remove( Shape )
-			If Link.Value() = Shape Then Link.Remove()
-			Link = Link.NextLink()
-		Wend
-	End Method
-	
-	
-	
-	Rem
-	bbdoc: Sets the bounds of layer to given shape.
-	End Rem
-	Method SetBounds( Shape:LTShape )
-		If Not Bounds Then
-			Bounds = New LTShape
-			Bounds.Visualizer = Null
-		End If
-		Bounds.X = Shape.X
-		Bounds.Y = Shape.Y
-		Bounds.Width = Shape.Width
-		Bounds.Height = Shape.Height
-	End Method
-	
-	
+	' ==================== Cloning ===================	
 	
 	Method CopyTo( Shape:LTShape )
 		Super.CopyTo( Shape )
 		Local Layer:LTLayer = LTLayer( Shape )
 		
 		?debug
-		If Not Layer Then L_Error( "Trying to copy layer ~q" + Shape.Name + "~q data to non-layer" )
+		If Not Layer Then L_Error( "Trying to copy layer ~q" + Shape.GetName() + "~q data to non-layer" )
 		?
 		
 		If Bounds Then
@@ -182,7 +223,7 @@ Type LTLayer Extends LTGroup
 		Layer.MixContent = MixContent
 	End Method
 	
-	
+
 	
 	Method Clone:LTShape()
 		Local NewLayer:LTLayer = New LTLayer
@@ -193,7 +234,8 @@ Type LTLayer Extends LTGroup
 		Return NewLayer
 	End Method
 	
-	
+	' ==================== Saving / loading ===================
+
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		

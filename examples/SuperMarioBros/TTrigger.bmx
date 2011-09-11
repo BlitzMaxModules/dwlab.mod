@@ -11,8 +11,9 @@
 Type TTrigger Extends LTVectorSprite
 	Method Act()
 		If CollidesWithSprite( L_CurrentCamera ) Then
-			For Local Sprite:LTVectorSprite = Eachin Game.Level.Children
-				If Sprite.Name = Name Then
+			Local Group:String = GetParameter( "group" )
+			For Local Sprite:LTVectorSprite = Eachin Game.MovingObjects
+				If Sprite.GetParameter( "group" ) = Group Then
 					Sprite.DX = Abs( Sprite.DX ) * Sgn( Game.Mario.X - Sprite.X )
 					Sprite.Active = True
 				End If

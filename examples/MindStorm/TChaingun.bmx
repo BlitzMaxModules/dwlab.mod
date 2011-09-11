@@ -32,7 +32,7 @@ Type TChaingun Extends LTAngularSprite
 	
 	
 	Method Init()
-		Num = Name.ToInt()
+		Num = GetName().ToInt()
 		Game.Player.Weapon[ Num ] = Self
 		
 		Hinge = LTAngularSprite( Game.Level.FindShape( "Hinge," + Num ) )

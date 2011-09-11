@@ -8,6 +8,8 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "LTTileMap.bmx"
+
 Rem
 bbdoc: IntMap is basically a 2d int array.
 End Rem

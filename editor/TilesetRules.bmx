@@ -352,8 +352,8 @@ Type TTilesetRules
 								AddCategory( 0 )
 							Case CategoriesListBox
 								If CurrentCategory Then
-									Local Name:String = EnterString( LocalizeString( "{{D_EnterNameOfCategory}}" ), CurrentCategory.Name )
-									If Name Then
+									Local Name:String = CurrentCategory.Name
+									If EnterString( LocalizeString( "{{D_EnterNameOfCategory}}" ), Name ) Then
 										CurrentCategory.Name = Name
 										RefreshCategoriesListBox()
 										Editor.SetChanged()
@@ -448,13 +448,13 @@ Type TTilesetRules
 	
 	Method RefreshCategoriesListBox()
 		Local N:Int = 0
-		For Local Obj:LTObject = Eachin TileSet.Categories
-			Local ObjectName:String = Obj.Name
-			If Obj = CurrentCategory Then ObjectName = "< " + ObjectName + " >"
+		For Local Category:LTTileCategory = Eachin TileSet.Categories
+			Local Name:String = Category.Name
+			If Category = CurrentCategory Then Name = "< " + Name + " >"
 			If N < CountGadgetItems( CategoriesListBox ) Then
-				If GadgetItemText( CategoriesListBox, N ) <> ObjectName Then ModifyGadgetItem( CategoriesListBox, N, ObjectName )
+				If GadgetItemText( CategoriesListBox, N ) <> Name Then ModifyGadgetItem( CategoriesListBox, N, Name )
 			Else
-				AddGadgetItem( CategoriesListBox, ObjectName )
+				AddGadgetItem( CategoriesListBox, Name )
 			End If
 			N :+ 1
 		Next
@@ -469,8 +469,7 @@ Type TTilesetRules
 	Method AddCategory( Copy:Int )
 		Local Name:String = ""
 		If Copy Then Name = CurrentCategory.Name
-		Name = EnterString( LocalizeString( "{{D_EnterNameOfNewCategory}}" ), Name )
-		If Name Then
+		If EnterString( LocalizeString( "{{D_EnterNameOfNewCategory}}" ), Name ) Then
 			Local NewCategory:LTTileCategory = New LTTileCategory
 			Tileset.Categories.AddLast(	NewCategory )
 			NewCategory.Name = Name
@@ -478,27 +477,30 @@ Type TTilesetRules
 			
 			If Copy Then
 				Tileset.Update()
-				Local Shift:Int = EnterString( LocalizeString( "{{D_EnterTileShift}}" ) ).ToInt()
-				For Local Rule:LTTileRule = Eachin CurrentCategory.TileRules
-					Local NewRule:LTTileRule = New LTTileRule
-					Local Quantity:Int = Rule.TilesQuantity()
-					NewRule.TileNums = New Int[ Quantity ]
-					For Local N:Int = 0 Until Quantity
-						NewRule.TileNums[ N ] = Rule.TileNums[ N ] + Shift
+				Local TextShift:String = ""
+				If EnterString( LocalizeString( "{{D_EnterTileShift}}" ), TextShift ) Then
+					Local Shift:Int = TextShift.ToInt()
+					For Local Rule:LTTileRule = Eachin CurrentCategory.TileRules
+						Local NewRule:LTTileRule = New LTTileRule
+						Local Quantity:Int = Rule.TilesQuantity()
+						NewRule.TileNums = New Int[ Quantity ]
+						For Local N:Int = 0 Until Quantity
+							NewRule.TileNums[ N ] = Rule.TileNums[ N ] + Shift
+						Next
+						For Local Pos:LTTilePos = Eachin Rule.TilePositions
+							Local NewPos:LTTilePos = New LTTilePos
+							NewPos.DX = Pos.DX
+							NewPos.DY = Pos.DY
+							If Pos.Category = CurrentCategory.Num Then
+								NewPos.TileNum = Pos.TileNum + Shift
+							Else
+								NewPos.TileNum = Pos.TileNum
+							End If
+							NewRule.TilePositions.AddLast( NewPos )
+						Next
+						NewCategory.TileRules.AddLast( NewRule )
 					Next
-					For Local Pos:LTTilePos = Eachin Rule.TilePositions
-						Local NewPos:LTTilePos = New LTTilePos
-						NewPos.DX = Pos.DX
-						NewPos.DY = Pos.DY
-						If Pos.Category = CurrentCategory.Num Then
-							NewPos.TileNum = Pos.TileNum + Shift
-						Else
-							NewPos.TileNum = Pos.TileNum
-						End If
-						NewRule.TilePositions.AddLast( NewPos )
-					Next
-					NewCategory.TileRules.AddLast( NewRule )
-				Next	
+				End If
 			End If
 			
 			CurrentCategory = NewCategory
