@@ -357,13 +357,6 @@ Type LTVisualizer Extends LTObject
 			
 			Local X:Double = CornerX + CellWidth * ( 0.5 + TileX )
 			
-			Local WrappedTileY:Int
-			If TileMap.Masked Then
-				WrappedTileY = TileY & TileMap.YMask
-			Else
-				WrappedTileY = TileMap.WrapY( TileY )
-			End If
-			
 			Repeat
 				If TileDX = 1 Then
 					If TileX > MaxTileX Then Exit
@@ -371,24 +364,17 @@ Type LTVisualizer Extends LTObject
 					If TileX < MinTileX Then Exit
 				End If
 			
-				Local WrappedTileX:Int
-				If TileMap.Masked Then
-					WrappedTileX = TileX & TileMap.XMask
-				Else
-					WrappedTileX = TileMap.WrapX( TileX )
-				End If
-				
 				If Shapes Then
 					For Local Shape:LTShape = Eachin Shapes
 						Local ChildTileMap:LTTileMap = LTTileMap( Shape )
 						If ChildTileMap Then
-							DrawTile( ChildTileMap, X, Y, SWidth, SHeight, WrappedTileX, WrappedTileY )
+							DrawTile( ChildTileMap, X, Y, SWidth, SHeight, TileX, TileY )
 						Else
 							DrawSpriteMapTile( LTSpriteMap( Shape ), X, Y )
 						End If
 					Next
 				Else
-					DrawTile( TileMap, X, Y, SWidth, SHeight, WrappedTileX, WrappedTileY )
+					DrawTile( TileMap, X, Y, SWidth, SHeight, TileX, TileY )
 				End If
 				
 				X :+ SDX
@@ -413,8 +399,10 @@ Type LTVisualizer Extends LTObject
 	See also: #DrawUsingTileMap
 	End Rem
 	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, Width:Double, Height:Double, TileX:Int, TileY:Int )
+		ApplyColor()
+		
 		Local TileSet:LTTileSet =Tilemap.TileSet
-		Local TileValue:Int = TileMap.Value[ TileX, TileY ]
+		Local TileValue:Int = TileMap.Value[ TileMap.WrapX( TileX ), TileMap.WrapY( TileY ) ]
 		If TileValue = TileSet.EmptyTile Then Return
 		
 		Local Image:TImage = TileSet.Image.BMaxImage
@@ -434,7 +422,7 @@ Type LTVisualizer Extends LTObject
 		L_TilesDisplayed :+ 1
 		?
 	End Method
-
+	
 	
 	
 	Method DrawSpriteMapTile( SpriteMap:LTSpriteMap, X:Double, Y:Double )

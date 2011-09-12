@@ -30,6 +30,10 @@ Type TPerson Extends LTAngularSprite
 	
 	Method RecalculatePath( Model:TMovingAlongPath )
 	End Method
+	
+	Method TileDistanceToPerson( Person:TPerson )
+		Return Abs( Game.Player.TileX - TileX ) + Abs( Game.Player.TileY - TileY )
+	End Method
 End Type
 
 

@@ -300,7 +300,7 @@ Type TTilesetRules
 								If PosDY > - 3 Then PosDY :- 1
 							Case Key_Down
 								If PosDY < 3 Then PosDY :+ 1
-							Case Key_F12
+							Case Key_F11, Key_F12
 								If CurrentTileRule Then
 									Local TileArray:Int[,] = New Int[ 7, 7 ]
 									For Local DY2:Int = -2 To 2
@@ -312,23 +312,59 @@ Type TTilesetRules
 									Next
 									TileArray[ 2, 2 ] = CurrentTileRule.TileNums[ 0 ]
 									
-									RestoreData p444
-									Local CategoriesQuantity:Int
-									ReadData CategoriesQuantity
-									For Local CategoryNum:Int = 1 To CategoriesQuantity
-										Local Category:LTTileCategory = New LTTileCategory
+									Local Pattern:Int[][][]
+									Select EventData()
+										Case Key_F11
+											Pattern = [ [ [ -1, -1, -1, -1, 4, -1, -1, -1, -1 ] ], ..
+											[ [ -1, 12, -1, 12, 12, 12, -1, 12, -1 ], ..
+											[ -1, -1, -1, 12, 7, 12, -1, 12, -1 ], ..
+											[ -1, 12, -1, -1, 11, 12, -1, 12, -1 ], ..
+											[ -1, 12, -1, 12, 13, -1, -1, 12, -1 ], ..
+											[ -1, 12, -1, 12, 17, 12, -1, -1, -1 ], ..
+											[ -1, -1, -1, -1, 6, 12, -1, 12, -1 ], ..
+											[ -1, -1, -1, 12, 8, -1, -1, 13, -1 ], ..
+											[ -1, 12, -1, -1, 16, 12, -1, -1, -1 ], ..
+											[ -1, 12, -1, 12, 18, -1, -1, -1, -1 ], ..
+											[ -1, 12, -1, -1, 14, -1, -1, 12, -1 ], ..
+											[ -1, -1, -1, 12, 22, 12, -1, -1, -1 ], ..
+											[ -1, -1, -1, -1, 9, -1, -1, 12, -1 ], ..
+											[ -1, 12, -1, -1, 19, -1, -1, -1, -1 ], ..
+											[ -1, -1, -1, -1, 21, 12, -1, -1, -1 ], ..
+											[ -1, -1, -1, 12, 23, -1, -1, -1, -1 ], ..
+											[ -1, -1, -1, -1, 24, -1, -1, -1, -1 ] ] ]
+										Case Key_F12
+											Pattern = [ [ [ -1, -1, -1, -1, 12, -1, -1, -1, -1 ] ], ..
+											[ [ -1, -1, -1, -1, 7, 12, -1, 12, -1 ], ..
+											[ -1, 12, -1, -1, 11, 12, -1, -1, -1 ], ..
+											[ -1, -1, -1, 12, 13, -1, -1, 12, -1 ], ..
+											[ -1, 12, -1, 12, 17, -1, -1, -1, -1 ], ..
+											[ -1, -1, -1, -1, 6, -1, -1, 12, -1 ], ..
+											[ -1, -1, -1, 12, 8, -1, -1, -1, -1 ], ..
+											[ -1, -1, -1, -1, 16, 12, -1, -1, -1 ], ..
+											[ -1, 12, -1, -1, 18, -1, -1, -1, -1 ], ..
+											[ -1, -1, -1, -1, 5, -1, -1, -1, 12 ], ..
+											[ -1, -1, 12, -1, 10, -1, -1, -1, -1 ], ..
+											[ -1, -1, -1, -1, 14, -1, 12, -1, -1 ], ..
+											[ 12, -1, -1, -1, 19, -1, -1, -1, -1 ], ..
+											[ -1, -1, -1, -1, 15, -1, -1, -1, -1 ] ] ]
+									End Select
+									
+									Tileset.Categories.Remove( CurrentCategory )
+									CurrentTileRule = Null
+									
+									Local CategoryNum:Int = 0
+									For Local CategoryArray:Int[][] = Eachin Pattern
+										CategoryNum :+ 1
+										CurrentCategory = New LTTileCategory
 										Category.Name = "Category " + CategoryNum
-										Local RulesQuantity:Int
-										ReadData RulesQuantity
-										For Local RuleNum:Int = 1 To RulesQuantity
+										For Local RuleArray:Int[] = Eachin CategoryArray
 											Local Rule:LTTileRule = New LTTileRule
 											Rule.TileNums = New Int[ 1 ]
 											For Local N:Int = 0 To 8
-												Local TileNum:Int
-												ReadData TileNum
+												Local TileNum:Int = RuleArray[ N ]
 												If N = 4 Then
 													Rule.TileNums[ 0 ] = TileArray[ TileNum Mod 5, Floor( TileNum / 5 ) ]
-												Else If TileNum > 0 Then
+												Else If TileNum >= 0 Then
 													Local Pos:LTTilePos = New LTTilePos
 													Pos.DX = ( N Mod 3 ) - 1
 													Pos.DY = Floor( N / 3 ) - 1
@@ -336,10 +372,11 @@ Type TTilesetRules
 													Rule.TilePositions.AddLast( Pos )
 												End If
 											Next
-											Category.TileRules.AddLast( Rule )
+											CurrentCategory.TileRules.AddLast( Rule )
 										Next
-										Tileset.Categories.AddLast( Category )
+										Tileset.Categories.AddLast( CurrentCategory )
 									Next
+									
 									RefreshCategoriesListBox()
 									Editor.SetChanged()
 								End If
@@ -509,26 +546,3 @@ Type TTilesetRules
 		End If
 	End Method
 End Type
-
-'Pattern: 4 outer corner, 4 inner corner, 4 sides
-
-#p444
-DefData 2
-
-DefData 1
-DefData 0, 0, 0, 0, 12, 0, 0, 0, 0
-
-DefData 13
-DefData 0, 0, 0, 0, 6, 7, 0, 11, 12
-DefData 0, 0, 0, 6, 7, 8, 0, 12, 0
-DefData 0, 0, 0, 7, 8, 0, 12, 13, 0
-DefData 0, 6, 0, 6, 11, 12, 0, 12, 0
-DefData 0, 8, 0, 12, 13, 8, 0, 12, 0
-DefData 0, 6, 0, 0, 15, 12, 0, 23, 0
-DefData 0, 12, 0, 12, 16, 17, 0, 21, 0
-DefData 0, 12, 0, 16, 17, 18, 0, 0, 0
-DefData 0, 12, 0, 17, 18, 12, 0, 23, 0
-DefData 0, 8, 0, 12, 19, 0, 0, 21, 0
-DefData 12, 16, 0, 23, 21, 0, 0, 0, 0
-DefData 0, 18, 12, 0, 23, 21, 0, 0, 0
-DefData 0, 0, 0, 0, 22, 0, 0, 0, 0

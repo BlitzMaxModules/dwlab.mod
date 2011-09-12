@@ -1,4 +1,4 @@
 Title: Skeleton Warrior
-Author: Cliff Bellanger
+Author: Clint Bellanger
 License: GPL 3.0
-Site: http://opengameart.org/content/skeleton-warrior-0
+Link: http://opengameart.org/content/skeleton-warrior-0

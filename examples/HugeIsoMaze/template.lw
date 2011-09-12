@@ -8,9 +8,9 @@
 		<Object id="7"/>
 	</TList>
 	<LTCamera field="camera" x="8.9344" y="6.0861" width="11.2158" height="9.4688" viewport-clipping="1" isometric="1" x1="20" y1="10" x2="-20" y2="10">
-		<LTVisualizer field="visualizer" id="149"/>
+		<LTVisualizer field="visualizer" id="147"/>
 		<LTShape field="viewport" x="504" y="425.5" width="1008" height="851">
-			<Object field="visualizer" id="149"/>
+			<Object field="visualizer" id="147"/>
 		</LTShape>
 	</LTCamera>
 	<TList field="definitions"/>
@@ -270,21 +270,13 @@
 				<LTParameter name="name" value="Zombies"/>
 			</TList>
 			<Object field="visualizer" id="1"/>
-			<LTAngularSprite x="12" y="5.5" shape="1">
-				<TList field="parameters">
-					<LTParameter id="141" name="name" value="Zombie"/>
-				</TList>
-				<LTVisualizer field="visualizer" dy="-0.25" xscale="3" yscale="6" rotating="0">
-					<LTImage field="image" id="143" filename="zombie.png" xcells="8" ycells="8"/>
-				</LTVisualizer>
-			</LTAngularSprite>
 		</LTSpriteMap>
 		<LTAngularSprite x="8.5" y="2.5" shape="1">
 			<TList field="parameters">
-				<Object id="141"/>
+				<LTParameter name="name" value="Zombie"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="-0.25" xscale="3" yscale="6" rotating="0">
-				<Object field="image" id="143"/>
+				<LTImage field="image" id="143" filename="zombie.png" xcells="8" ycells="8"/>
 			</LTVisualizer>
 		</LTAngularSprite>
 	</LTLayer>

@@ -40,11 +40,11 @@ Type LTMap Extends LTShape
 		If L_IsPowerOf2( XQuantity ) And L_IsPowerOf2( YQuantity ) Then
 			XMask = XQuantity - 1
 			YMask = YQuantity - 1
-			Masked = 1
+			Masked = True
 		Else 
 			XMask = 0
 			YMask = 0
-			Masked = 0
+			Masked = False
 		End If
 	End Method
 	
@@ -60,7 +60,11 @@ Type LTMap Extends LTShape
 	See also: #WrapY
 	End Rem
 	Method WrapX:Int( Value:Int )
-		Return Value - XQuantity * Floor( 1.0 * Value / XQuantity )
+		If Masked Then
+			Return Value & XMask
+		Else
+			Return Value - XQuantity * Floor( 1.0 * Value / XQuantity )
+		End If
 	End Method
 	
 	
@@ -70,7 +74,11 @@ Type LTMap Extends LTShape
 	about: See also: #WrapX
 	End Rem
 	Method WrapY:Int( Value:Int )
-		Return Value - YQuantity * Floor( 1.0 * Value / YQuantity )
+		If Masked Then
+			Return Value & YMask
+		Else
+			Return Value - YQuantity * Floor( 1.0 * Value / YQuantity )
+		End If
 	End Method
 	
 	

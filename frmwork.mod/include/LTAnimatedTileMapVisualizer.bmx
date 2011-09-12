@@ -20,8 +20,10 @@ Type LTAnimatedTileMapVisualizer Extends LTVisualizer
 	
 	
 	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, Width:Double, Height:Double, TileX:Int, TileY:Int )
+		ApplyColor()
+		
 		Local TileSet:LTTileSet =Tilemap.TileSet
-		Local TileValue:Int = TileNum[ TileMap.Value[ TileX, TileY ] ]
+		Local TileValue:Int = TileMap.Value[ TileMap.WrapX( TileX ), TileMap.WrapY( TileY ) ]
 		If TileValue = TileSet.EmptyTile Then Return
 		
 		Local Image:TImage = TileSet.Image.BMaxImage

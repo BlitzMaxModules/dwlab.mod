@@ -85,7 +85,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 	
 	
 	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, Width:Double, Height:Double, TileX:Int, TileY:Int )
-		Local Shape:LTShape = TileMap.GetTileCollisionShape( TileX, TileY )
+		Local Shape:LTShape = TileMap.GetTileCollisionShape( TileMap.WrapX( TileX ), TileMap.WrapY( TileY ) )
 		If Not Shape Then Return
 		
 		ApplyColor()
@@ -142,9 +142,10 @@ Type LTDebugVisualizer Extends LTVisualizer
 	
 	
 	Method DrawSpriteMapTile( SpriteMap:LTSpriteMap, X:Double, Y:Double )
+		SetScale( 1.0, 1.0 )
 		For Local Sprite:LTSprite = Eachin SpriteMap.Lists[ Int( Floor( X / SpriteMap.CellWidth ) ) & SpriteMap.XMask, ..
 				Int( Floor( Y / SpriteMap.CellHeight ) ) & SpriteMap.YMask ]
-			DrawUsingSprite( Sprite )
+			DrawSpriteShape( Sprite )
 		Next
 	End Method
 End Type

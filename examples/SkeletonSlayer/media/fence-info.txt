@@ -1,0 +1,22 @@
+Title: Fence variation
+Author: Scribe
+License: Public domain
+Link: http://opengameart.org/content/fence-variation
+
+Title: Medieval props
+Author: Clint Bellanger
+License: GPL 3.0
+Link: http://opengameart.org/content/medieval-props-textured
+
+Title: Wood apple crate
+Author: Clint Bellanger
+License: GPL 3.0
+Link: http://opengameart.org/content/wood-apple-crate
+
+Title: Treasure chest
+Author: WeaponGuy
+License: Attribution 3.0 Unported (CC BY 3.0) 
+Link: http://opengameart.org/content/treasure-chest
+
+Rendered by: Leksii Puzankov
+Composed by: Matt Merkulov

@@ -1,4 +1,0 @@
-Title: Baricade tiles
-Author: Cliff Bellanger
-License: GPL 3.0
-Link: http://opengameart.org/content/barricade-tiles

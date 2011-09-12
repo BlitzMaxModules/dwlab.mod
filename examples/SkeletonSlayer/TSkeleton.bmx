@@ -25,6 +25,8 @@ Type TSkeleton Extends TPerson
 				AttachModel( TMovingAlongPath.Create( Game.PathFinder.FindPath( TileX, TileY, Game.Player.TileX, Game.Player.TileY, True ) ) )
 			End If
 		End If
+		If TileDistanceToPerson( Player ) = 1 Then AttachModel( TFight.Create( Player ) )
+		
 		Super.Act()
 	End Method
 	
@@ -83,6 +85,36 @@ End Type
 
 
 
-Type TFollow Extends LTBehaviorModel
+Type TFight Extends LTBehaviorModel
+	Const AnimationStart:Int = 12
+	Const AnimationSize:Int = 4
+	Const AnimationSpeed:Double = 0.3
 	
+	Field Opponent:TPerson
+	Field StartingTime:Double
+	
+	
+	
+	Method Create:TFight( Opponent:TPerson )
+		Local Fight:TFight = New TFight
+		Fight.Opponent = Opponent
+		Return Fight
+	End Method
+	
+	
+	
+	Method Activate( Shape:LTShape )
+		StartingTime = Game.Time
+	End Method
+
+
+
+	Method ApplyTo( Shape:LTShape )
+		Local Person:TPerson = TPerson( Shape )
+		If Person.TileDistanceToPerson( Opponent ) > 1 Then
+			DeactivateModel( Shape )
+		Else
+			Person.Animate( Game, AnimationSpeed, AnimationSize, AnimationStart, StartingTime, True )
+		End If
+	End Method
 End Type

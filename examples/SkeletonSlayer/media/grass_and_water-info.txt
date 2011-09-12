@@ -1,4 +1,4 @@
 Title: Grass and water tiles
-Author: Cliff Bellanger
+Author: Clint Bellanger
 License: GPL 3.0
 Link: http://opengameart.org/content/grass-and-water-tiles
