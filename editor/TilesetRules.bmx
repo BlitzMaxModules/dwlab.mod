@@ -356,7 +356,7 @@ Type TTilesetRules
 									For Local CategoryArray:Int[][] = Eachin Pattern
 										CategoryNum :+ 1
 										CurrentCategory = New LTTileCategory
-										Category.Name = "Category " + CategoryNum
+										CurrentCategory.Name = "Category " + CategoryNum
 										For Local RuleArray:Int[] = Eachin CategoryArray
 											Local Rule:LTTileRule = New LTTileRule
 											Rule.TileNums = New Int[ 1 ]

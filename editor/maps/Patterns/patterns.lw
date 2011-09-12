@@ -1,0 +1,140 @@
+<LTWorld dwlab_version="1.2">
+	<LTVisualizer field="visualizer" id="1"/>
+	<TList field="images">
+		<Object id="8"/>
+	</TList>
+	<TList field="tilesets">
+		<Object id="7"/>
+	</TList>
+	<LTCamera field="camera" x="8" y="8" width="19.8694" height="16.7747" shape="2" viewport-clipping="1">
+		<Object field="visualizer" id="1"/>
+		<LTShape field="viewport" x="504" y="425.5" width="1008" height="851">
+			<Object field="visualizer" id="1"/>
+		</LTShape>
+	</LTCamera>
+	<TList field="definitions"/>
+	<LTLayer>
+		<TList field="parameters">
+			<LTParameter name="name" value="LTLayer"/>
+		</TList>
+		<Object field="visualizer" id="1"/>
+		<LTShape field="bounds" x="8" y="8" width="16" height="16">
+			<LTVisualizer field="visualizer"/>
+		</LTShape>
+		<LTTileMap x="8" y="8" width="16" height="16" xquantity="16" yquantity="16" tiles-quantity="20">
+			<TList field="parameters">
+				<LTParameter name="name"/>
+			</TList>
+			<LTVisualizer field="visualizer"/>
+			<LTTileSet field="tileset" id="7" name="Walls" tiles-quantity="20" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+				<LTImage field="image" id="8" filename="walls.png" xcells="4" ycells="5"/>
+				<ShapeArray field="collision-shapes">
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+				</ShapeArray>
+				<LTTileCategory name="Category 1">
+					<LTTileRule tilenums="0"/>
+				</LTTileCategory>
+				<LTTileCategory name="Category 2">
+					<LTTileRule tilenums="9">
+						<LTTilePos dy="-1" tilenum="9"/>
+						<LTTilePos dx="-1" tilenum="9"/>
+						<LTTilePos dx="1" tilenum="9"/>
+						<LTTilePos dy="1" tilenum="9"/>
+					</LTTileRule>
+					<LTTileRule tilenums="5">
+						<LTTilePos dx="-1" tilenum="9"/>
+						<LTTilePos dx="1" tilenum="9"/>
+						<LTTilePos dy="1" tilenum="9"/>
+					</LTTileRule>
+					<LTTileRule tilenums="8">
+						<LTTilePos dy="-1" tilenum="9"/>
+						<LTTilePos dx="1" tilenum="9"/>
+						<LTTilePos dy="1" tilenum="9"/>
+					</LTTileRule>
+					<LTTileRule tilenums="10">
+						<LTTilePos dy="-1" tilenum="9"/>
+						<LTTilePos dx="-1" tilenum="9"/>
+						<LTTilePos dy="1" tilenum="9"/>
+					</LTTileRule>
+					<LTTileRule tilenums="13">
+						<LTTilePos dy="-1" tilenum="9"/>
+						<LTTilePos dx="-1" tilenum="9"/>
+						<LTTilePos dx="1" tilenum="9"/>
+					</LTTileRule>
+					<LTTileRule tilenums="4">
+						<LTTilePos dx="1" tilenum="9"/>
+						<LTTilePos dy="1" tilenum="9"/>
+					</LTTileRule>
+					<LTTileRule tilenums="6">
+						<LTTilePos dx="-1" tilenum="9"/>
+						<LTTilePos dy="1" tilenum="10"/>
+					</LTTileRule>
+					<LTTileRule tilenums="12">
+						<LTTilePos dy="-1" tilenum="9"/>
+						<LTTilePos dx="1" tilenum="9"/>
+					</LTTileRule>
+					<LTTileRule tilenums="14">
+						<LTTilePos dy="-1" tilenum="9"/>
+						<LTTilePos dx="-1" tilenum="9"/>
+					</LTTileRule>
+					<LTTileRule tilenums="11">
+						<LTTilePos dy="-1" tilenum="9"/>
+						<LTTilePos dy="1" tilenum="9"/>
+					</LTTileRule>
+					<LTTileRule tilenums="17">
+						<LTTilePos dx="-1" tilenum="9"/>
+						<LTTilePos dx="1" tilenum="9"/>
+					</LTTileRule>
+					<LTTileRule tilenums="7">
+						<LTTilePos dy="1" tilenum="9"/>
+					</LTTileRule>
+					<LTTileRule tilenums="15">
+						<LTTilePos dy="-1" tilenum="9"/>
+					</LTTileRule>
+					<LTTileRule tilenums="16">
+						<LTTilePos dx="1" tilenum="9"/>
+					</LTTileRule>
+					<LTTileRule tilenums="18">
+						<LTTilePos dx="-1" tilenum="9"/>
+					</LTTileRule>
+					<LTTileRule tilenums="19"/>
+				</LTTileCategory>
+			</LTTileSet>
+			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,4,17,17,17,6,0,0,0,0,0"/>
+			<Row data="0,0,0,0,4,17,14,0,0,0,12,6,0,0,0,0"/>
+			<Row data="0,0,0,4,14,0,0,0,0,0,0,12,6,0,0,0"/>
+			<Row data="0,0,4,14,0,0,0,0,0,0,0,0,11,0,0,0"/>
+			<Row data="0,0,11,0,0,0,0,0,0,0,0,0,11,0,0,0"/>
+			<Row data="0,0,11,0,0,0,0,0,0,0,0,0,11,0,0,0"/>
+			<Row data="0,0,11,0,0,0,0,4,17,6,0,4,14,0,0,0"/>
+			<Row data="0,0,15,0,0,0,16,14,0,12,17,14,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+		</LTTileMap>
+	</LTLayer>
+</LTWorld>

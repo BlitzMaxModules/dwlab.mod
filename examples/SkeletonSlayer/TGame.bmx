@@ -46,7 +46,7 @@ Type TGame Extends LTProject
 		Local Walls:LTTileMap = LTTileMap( Level.FindShape( "Fence" ) )
 		For Local Y:Int = 0 Until CollisionMap.YQuantity
 			For Local X:Int = 0 Until CollisionMap.XQuantity
-				If Ground.Value[ X, Y ] >= 4 Or Walls.Value[ X, Y ] < 10 Then CollisionMap.Value[ X, Y ] = BlockedTile
+				If Ground.Value[ X, Y ] >= 4 Or Walls.Value[ X, Y ] > 0 Then CollisionMap.Value[ X, Y ] = BlockedTile
 			Next
 		Next
 		

@@ -282,7 +282,7 @@ Class for intermediate objects to save/load objects from XML file.
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=L_InitGraphics>
-<tr><td class=doctop colspan=2>Function L_InitGraphics( Width:Int = 800, Height:Int = 600, UnitSize:Double = 32.0 )</td></tr>
+<tr><td class=doctop colspan=2>Function L_InitGraphics( Width:Int = 800, Height:Int = 600, UnitSize:Double = 32.0, ColorDepth:Int = 0 )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Sets graphics mode.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Provide width and height of screen in pixels and unit size in pixels for camera.</td></tr>
 </table>
@@ -463,9 +463,6 @@ Directs sprite as given angular sprite.
 <tr><td class=docleft width=1%><a href=#DirectTo>DirectTo</a></td><td class=docright>
 Direct the sprite to center of the given shape.
 </td></tr>
-<tr><td class=docleft width=1%><a href=#MoveTowards>MoveTowards</a></td><td class=docright>
-Moves the sprite with current velocity towards shape.
-</td></tr>
 <tr><td class=docleft width=1%><a href=#Turn>Turn</a></td><td class=docright>
 Turns the sprite.
 </td></tr>
@@ -489,11 +486,6 @@ Turns the sprite.
 <tr><td class=doctop colspan=2>Method DirectTo( Shape:LTShape )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Direct the sprite to center of the given shape.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#DirectAs>DirectAs</a>.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=MoveTowards>
-<tr><td class=doctop colspan=2>Method MoveTowards( Shape:LTShape )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Moves the sprite with current velocity towards shape.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#MoveForward>MoveForward</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Turn>
 <tr><td class=doctop colspan=2>Method Turn( TurningSpeed:Double )</td></tr>
@@ -544,6 +536,9 @@ Initialization method.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#Remove>Remove</a></td><td class=docright>
 Removes behavior model.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#RemoveSame>RemoveSame</a></td><td class=docright>
+Removes every other behavior model of same type from shape's behavior models.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#Watch>Watch</a></td><td class=docright>
 Watching method.
@@ -609,6 +604,11 @@ Fill it with model initialization commands.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Model will be deactivated before removal.
 <p>
 See also: <a href=#Deactivate>Deactivate</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=RemoveSame>
+<tr><td class=doctop colspan=2>Method RemoveSame( Shape:LTShape )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Removes every other behavior model of same type from shape's behavior models.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#Remove>Remove</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Watch>
 <tr><td class=doctop colspan=2>Method Watch( Shape:LTShape )</td></tr>
@@ -1300,6 +1300,8 @@ Creates new image from file with specified cell quantities for splitting.
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTLayer_fields></a>Fields Summary</th></tr><tr><td colspan=2>
 <a href=#Bounds>Bounds</a>
+, 
+<a href=#MixContent>MixContent</a>
 </td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTLayer_methods></a>Methods Summary</th></tr>
@@ -1308,6 +1310,9 @@ Counts quantity of sprites inside the layer.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#FindShape>FindShape</a></td><td class=docright>
 Finds shape with given name.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#FindShapeWithParameter>FindShapeWithParameter</a></td><td class=docright>
+Finds shape of class with given name with parameter with given name and value.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#FindShapeWithType>FindShapeWithType</a></td><td class=docright>
 Finds shape of class with given name.
@@ -1323,27 +1328,44 @@ Sets the bounds of layer to given shape.
 <tr><td class=doctop colspan=2>Field Bounds:LTShape</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Rectangular shape of layer bounds.</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=MixContent>
+<tr><td class=doctop colspan=2>Field MixContent:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Flag which defines if layer content should be mixed while displaying.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Some conditions should be met to display mixed content correctly:
+<ul><li>Mixed content layer should contain at least one tile map.
+<li>All maps in layer should have equal tile/cell size.
+<li>All tile maps in layer should have equal corner coordinates like ( N * CellWidth, M * CellHeight ) where N and M is integer.
+<li>All tile maps in layer should have equal horizontal and vertical size in tiles.</ul>
+If this layer contains sprites or other layers they will not be drawn.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=CountSprites>
 <tr><td class=doctop colspan=2>Method CountSprites:Int()</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>Quantity of sprites inside layer and included layers.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Counts quantity of sprites inside the layer.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=FindShape>
-<tr><td class=doctop colspan=2>Method FindShape:LTShape( ShapeName:String, IgnoreError:Int = False )</td></tr>
-<tr><td class=docleft width=1%>Returns</td><td class=docright>First found layer shape with given name.</td></tr>
+<tr><td class=doctop colspan=2>Method FindShape:LTShape( Name:String, IgnoreError:Int = False )</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>First found shape with given name.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Finds shape with given name.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=FindShapeWithParameter>
+<tr><td class=doctop colspan=2>Method FindShapeWithParameter:LTShape( ShapeType:String, ParameterName:String, ParameterValue:String, IgnoreError:Int = False )</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>First found layer shape of class with given name and parameter with given name and value.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Finds shape of class with given name with parameter with given name and value.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=FindShapeWithType>
 <tr><td class=doctop colspan=2>Method FindShapeWithType:LTShape( ShapeType:String, Name:String = "", IgnoreError:Int = False )</td></tr>
-<tr><td class=docleft width=1%>Returns</td><td class=docright>First found layer shape of class with given name.</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>First found shape of class of class with given name.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Finds shape of class with given name.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
+You can specify optional Name parameter to check only shapes with this name.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Remove>
 <tr><td class=doctop colspan=2>Method Remove( Shape:LTShape )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Removes the shape from layer.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Included layers will be also checked.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Included layers and sprite maps will be also checked.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=SetBounds>
 <tr><td class=doctop colspan=2>Method SetBounds( Shape:LTShape )</td></tr>
@@ -1451,14 +1473,7 @@ Creates marching ants line.
 <tr><td class=doctop colspan=2>Type LTObject</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Global object class.</td></tr>
 </table>
-<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTObject_fields></a>Fields Summary</th></tr><tr><td colspan=2>
-<a href=#Name>Name</a>
-</td></tr>
-</table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTObject_methods></a>Methods Summary</th></tr>
-<tr><td class=docleft width=1%><a href=#GetNamePart>GetNamePart</a></td><td class=docright>
-Retrieving object's name part.
-</td></tr>
 <tr><td class=docleft width=1%><a href=#SaveToFile>SaveToFile</a></td><td class=docright>
 Saves object with all contents to file.
 </td></tr>
@@ -1470,16 +1485,6 @@ Method for loading / saving object.
 <tr><td class=docleft width=1%><a href=#LoadFromFile>LoadFromFile</a></td><td class=docright>
 Loads object with all contents from file.
 </td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=Name>
-<tr><td class=doctop colspan=2>Field Name:String</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Name of the object.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=GetNamePart>
-<tr><td class=doctop colspan=2>Method GetNamePart:String( Num:Int = 1 )</td></tr>
-<tr><td class=docleft width=1%>Returns</td><td class=docright>Part of the name for given index (parts are separated by commas).</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Retrieving object's name part.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>First part index is 1.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=SaveToFile>
 <tr><td class=doctop colspan=2>Method SaveToFile( FileName:String )</td></tr>
@@ -1840,6 +1845,15 @@ Returns diameter of circular shape.
 <tr><td class=docleft width=1%><a href=#GetFacing>GetFacing</a></td><td class=docright>
 Returns shape facing.
 </td></tr>
+<tr><td class=docleft width=1%><a href=#GetName>GetName</a></td><td class=docright>
+Retrieves name of object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetParameter>GetParameter</a></td><td class=docright>
+Retrieves value of object's parameter with given name.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetTitle>GetTitle</a></td><td class=docright>
+Retrieves title of object.
+</td></tr>
 <tr><td class=docleft width=1%><a href=#Init>Init</a></td><td class=docright>
 Initialization method of the sprite.
 </td></tr>
@@ -1881,6 +1895,12 @@ Limits shape with given rectangular shape.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#Move>Move</a></td><td class=docright>
 Moves the shape.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#MoveTowards>MoveTowards</a></td><td class=docright>
+Moves the shape with given velocity towards shape.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#MoveTowardsPoint>MoveTowardsPoint</a></td><td class=docright>
+Moves the shape with given velocity towards shape.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#MoveUsingArrows>MoveUsingArrows</a></td><td class=docright>
 Allowing moving the shape around with given velocity with Arrow keys.
@@ -2144,6 +2164,30 @@ Equal to the sign of visualizer XScale field.
 <p>
 See also: <a href=#SetFacing>SetFacing</a>, <a href=#XScale>XScale</a>.</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=GetName>
+<tr><td class=doctop colspan=2>Method GetName:String()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>Value of object's parameter "name".</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Retrieves name of object.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#GetParameter>GetParameter</a>, <a href=#GetTitle>GetTitle</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetParameter>
+<tr><td class=doctop colspan=2>Method GetParameter:String( Name:String )</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>Value of object's parameter with given name.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Retrieves value of object's parameter with given name.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#GetTitle>GetTitle</a>, <a href=#GetName>GetName</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetTitle>
+<tr><td class=doctop colspan=2>Method GetTitle:String()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>Title of object.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Retrieves title of object.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Will return (if not null):
+<ul><li>Value of "name" parameter.
+<li>Value of "class" parameter.
+<li>Framework-based name of object class.
+<li>Object class real name.</ul>
+<p>
+See also: <a href=#GetParameter>GetParameter</a>, <a href=#GetName>GetName</a>.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=Init>
 <tr><td class=doctop colspan=2>Method Init()</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Initialization method of the sprite.</td></tr>
@@ -2232,6 +2276,16 @@ See also: <a href=#LimitHorizontallyWith>LimitHorizontallyWith</a>, <a href=#Lim
 <tr><td class=doctop colspan=2>Method Move( DX:Double, DY:Double )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Moves the shape.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>The shape will be moved with given horizontal and vertical speed per second.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=MoveTowards>
+<tr><td class=doctop colspan=2>Method MoveTowards( Shape:LTShape, Velocity:Double )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Moves the shape with given velocity towards shape.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#MoveForward>MoveForward</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=MoveTowardsPoint>
+<tr><td class=doctop colspan=2>Method MoveTowardsPoint( DestinationX:Double, DestinationY:Double, Velocity:Double )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Moves the shape with given velocity towards shape.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#MoveForward>MoveForward</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=MoveUsingArrows>
 <tr><td class=doctop colspan=2>Method MoveUsingArrows( Velocity:Double )</td></tr>
@@ -2599,9 +2653,6 @@ Clears sprite map.
 <tr><td class=docleft width=1%><a href=#Draw>Draw</a></td><td class=docright>
 Draws all objects of sprite map which are in cells under camera's rectangle plus margins.
 </td></tr>
-<tr><td class=docleft width=1%><a href=#GetSprites>GetSprites</a></td><td class=docright>
-Returns all sprite map sprites.
-</td></tr>
 <tr><td class=docleft width=1%><a href=#InsertSprite>InsertSprite</a></td><td class=docright>
 Inserts a sprite into sprite map.
 </td></tr>
@@ -2660,11 +2711,6 @@ Will be handy if you draw sprite map with objects with XScale / YScale parameter
 <tr><td class=doctop colspan=2>Method Draw()</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Draws all objects of sprite map which are in cells under camera's rectangle plus margins.</td></tr>
 </table>
-<table class=doc width=100% cellspacing=3 id=GetSprites>
-<tr><td class=doctop colspan=2>Method GetSprites:TMap()</td></tr>
-<tr><td class=docleft width=1%>Returns</td><td class=docright>TMap object with each sprite map sprite as key.</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Returns all sprite map sprites.</td></tr>
-</table>
 <table class=doc width=100% cellspacing=3 id=InsertSprite>
 <tr><td class=doctop colspan=2>Method InsertSprite( Sprite:LTSprite, ChangeSpriteMapField:Int = True )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Inserts a sprite into sprite map.</td></tr>
@@ -2692,7 +2738,7 @@ See also: <a href=#InsertSprite>InsertSprite</a>.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Sets margins of the map.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Create>
-<tr><td class=doctop colspan=2>Function Create:LTSpriteMap( XQuantity:Int, YQuantity:Int, CellWidth:Double = 1.0, CellHeight:Double = 1.0, Sorted:Int = False )</td></tr>
+<tr><td class=doctop colspan=2>Function Create:LTSpriteMap( XQuantity:Int, YQuantity:Int, CellWidth:Double = 1.0, CellHeight:Double = 1.0, Sorted:Int = False, PivotMode:Int = False )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Creates collision map.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>You should specify cell quantities and size.
 <p>
@@ -2836,7 +2882,7 @@ Creates pathfinder object with given tilemap and diagonal movement flag.
 </td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=FindPath>
-<tr><td class=doctop colspan=2>Method FindPath:LTTileMapPosition( StartingX:Int, StartingY:Int, FinalX:Int, FinalY:Int )</td></tr>
+<tr><td class=doctop colspan=2>Method FindPath:LTTileMapPosition( StartingX:Int, StartingY:Int, FinalX:Int, FinalY:Int, StayNear:Int = False )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>First tilemap position object in path. Next one can be retrieved using NextPosition field.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Finds a path between two given points on previously specified tilemap.</td></tr>
 </table>
@@ -2863,6 +2909,15 @@ Creates pathfinder object with given tilemap and diagonal movement flag.
 <a href=#PrevPosition>PrevPosition</a>
 , 
 <a href=#X>X</a>
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTTileMapPosition_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#FirstPosition>FirstPosition</a></td><td class=docright>
+Method for retrieving first position in queue.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#LastPosition>LastPosition</a></td><td class=docright>
+Method for retrieving last position in queue.
+</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=NextPosition>
 <tr><td class=doctop colspan=2>Field NextPosition:LTTileMapPosition</td></tr>
@@ -2875,6 +2930,16 @@ Creates pathfinder object with given tilemap and diagonal movement flag.
 <table class=doc width=100% cellspacing=3 id=X>
 <tr><td class=doctop colspan=2>Field X:Int, Y:Int</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Tile coordinates of the tilemap postion.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=FirstPosition>
+<tr><td class=doctop colspan=2>Method FirstPosition:LTTileMapPosition()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>First position in queue.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Method for retrieving first position in queue.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=LastPosition>
+<tr><td class=doctop colspan=2>Method LastPosition:LTTileMapPosition()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>Last position in queue.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Method for retrieving last position in queue.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTTileSet>
@@ -3220,6 +3285,9 @@ Transfers data between XMLObject contents and framework object parameter with LT
 <tr><td class=docleft width=1%><a href=#ManageChildList>ManageChildList</a></td><td class=docright>
 Transfers data between XMLObject contents and framework object parameter with TList type.
 </td></tr>
+<tr><td class=docleft width=1%><a href=#ManageChildMap>ManageChildMap</a></td><td class=docright>
+Transfers data between XMLObject field and framework object parameter with TMap type filled with LTObject-LTObject pairs.
+</td></tr>
 <tr><td class=docleft width=1%><a href=#ManageDoubleAttribute>ManageDoubleAttribute</a></td><td class=docright>
 Transfers data between XMLObject attribute and framework object parameter with Double type.
 </td></tr>
@@ -3247,6 +3315,9 @@ Transfers data between XMLObject field and framework object parameter with TMap 
 <tr><td class=docleft width=1%><a href=#ManageStringAttribute>ManageStringAttribute</a></td><td class=docright>
 Transfers data between XMLObject attribute and framework object parameter with String type.
 </td></tr>
+<tr><td class=docleft width=1%><a href=#RemoveAttribute>RemoveAttribute</a></td><td class=docright>
+Removes attribute with given name of XMLObject.
+</td></tr>
 <tr><td class=docleft width=1%><a href=#SetAttribute>SetAttribute</a></td><td class=docright>
 Sets value of XMLObject attribute with given name.
 </td></tr>
@@ -3258,7 +3329,7 @@ Sets value of the field with given name to given XMLObject.
 <tr><td class=doctop colspan=2>Method GetAttribute:String( AttrName:String )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>Attribute string value.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Returns value of XMLObject attribute with given name.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#SetAttribute>SetAttribute</a>.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#SetAttribute>SetAttribute</a>, <a href=#RemoveAttribulte>RemoveAttribulte</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=GetField>
 <tr><td class=doctop colspan=2>Method GetField:LTXMLObject( FieldName:String )</td></tr>
@@ -3275,6 +3346,11 @@ Sets value of the field with given name to given XMLObject.
 <tr><td class=doctop colspan=2>Method ManageChildList( List:TList Var )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Transfers data between XMLObject contents and framework object parameter with TList type.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#ManageListField>ManageListField</a>, <a href=#ManageChildArray>ManageChildArray</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=ManageChildMap>
+<tr><td class=doctop colspan=2>Method ManageChildMap( Map:TMap Var )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Transfers data between XMLObject field and framework object parameter with TMap type filled with LTObject-LTObject pairs.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#ManageObjectAttribute>ManageObjectAttribute</a>, <a href=#ManageObjectField>ManageObjectField</a>, <a href=#ManageObjectArrayField>ManageObjectArrayField</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=ManageDoubleAttribute>
 <tr><td class=doctop colspan=2>Method ManageDoubleAttribute( AttrName:String, AttrVariable:Double Var, DefaultValue:Double = 0.0 )</td></tr>
@@ -3297,7 +3373,7 @@ Sets value of the field with given name to given XMLObject.
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#ManageChildList>ManageChildList</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=ManageObjectArrayField>
-<tr><td class=doctop colspan=2>Method ManageObjectArrayField( FieldName:String, FieldObjectsArray:LTObject[] Var )</td></tr>
+<tr><td class=doctop colspan=2>Method ManageObjectArrayField( FieldName:String, Array:LTObject[] Var )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Transfers data between XMLObject contents and framework object parameter with LTObject[] type.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#ManageObjectAttribute>ManageObjectAttribute</a>, <a href=#ManageObjectField>ManageObjectField</a>, <a href=#ManageObjectMapField>ManageObjectMapField</a>.</td></tr>
 </table>
@@ -3323,10 +3399,15 @@ See also: <a href=#ManageIntAttribute>ManageIntAttribute</a>, <a href=#ManageDou
 <tr><td class=docleft width=1%>Description</td><td class=docright>Transfers data between XMLObject attribute and framework object parameter with String type.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#ManageIntAttribute>ManageIntAttribute</a>, <a href=#ManageDoubleAttribute>ManageDoubleAttribute</a>, <a href=#ManageObjectAttribute>ManageObjectAttribute</a>.</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=RemoveAttribute>
+<tr><td class=doctop colspan=2>Method RemoveAttribute:String( AttrName:String )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Removes attribute with given name of XMLObject.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#GetAttribute>GetAttribute</a>, <a href=#SetAttribute>SetAttribute</a>.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=SetAttribute>
 <tr><td class=doctop colspan=2>Method SetAttribute( AttrName:String, AttrValue:String)</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Sets value of XMLObject attribute with given name.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#GetAttribute>GetAttribute</a>.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#GetAttribute>GetAttribute</a>, <a href=#RemoveAttribulte>RemoveAttribulte</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=SetField>
 <tr><td class=doctop colspan=2>Method SetField:LTXMLObjectField( FieldName:String, XMLObject:LTXMLObject )</td></tr>
@@ -3336,11 +3417,31 @@ See also: <a href=#ManageIntAttribute>ManageIntAttribute</a>, <a href=#ManageDou
 <br>
 <h2 id=modinfo>Module Information</h2>
 <table width=100%>
-<tr><th width=1%>Version</th><td>1.1.1</td></tr>
+<tr><th width=1%>Version</th><td>1.2</td></tr>
 <tr><th width=1%>Author</th><td>Matt Merkulov</td></tr>
 <tr><th width=1%>License</th><td>Artistic License 2.0</td></tr>
 <tr><th width=1%>Modserver</th><td>DWLAB</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp;</td></tr>
+<tr><th width=1%>History</th><td>v1.2 (11.09.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added parameters list to the shapes.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Object Name parameter is deprecated.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Framework modules are structurized.</td></tr>
+<tr><th width=1%>History</th><td>v1.1.5 (09.09.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added FirstPosition() and LastPosition() methods to tilemap position class for path finding.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added RemoveSame() method for LTBehaviorModel.</td></tr>
+<tr><th width=1%>History</th><td>v1.1.4.1 (06.09.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed bug of displaying layers with another visualizer.</td></tr>
+<tr><th width=1%>History</th><td>v1.1.4 (02.09.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added 'mixed' flag to layers.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed glitches of tilemap pathfinder.</td></tr>
+<tr><th width=1%>History</th><td>v1.1.3 (01.09.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; MoveTowards() method is moved to LTShape and have now Velocity parameter.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added MoveTowardsPoint() method to LTShape.</td></tr>
+<tr><th width=1%>History</th><td>v1.1.2 (31.08.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed bug of sprite map displaying by isometric camera.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Implemented sprite map loading within layer and cloning.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added sprites list field to sprite map.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed bugs of collision shapes displaying.</td></tr>
 <tr><th width=1%>History</th><td>v1.1.1 (30.08.11)</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed isometric objects displaying (now displaying image is tied to rectangle escribed circum object parallelogram).</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed non-scaled objects displaying.</td></tr>

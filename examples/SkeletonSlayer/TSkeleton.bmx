@@ -25,7 +25,7 @@ Type TSkeleton Extends TPerson
 				AttachModel( TMovingAlongPath.Create( Game.PathFinder.FindPath( TileX, TileY, Game.Player.TileX, Game.Player.TileY, True ) ) )
 			End If
 		End If
-		If TileDistanceToPerson( Player ) = 1 Then AttachModel( TFight.Create( Player ) )
+		'If TileDistanceToPerson( Game.Player ) = 1 Then AttachModel( TFight.Create( Game.Player ) )
 		
 		Super.Act()
 	End Method

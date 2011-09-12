@@ -416,7 +416,7 @@ Type LTVisualizer Extends LTObject
 		Height :* Visualizer.YScale
 		SetScale( Width / ImageWidth( Image ), Height / ImageHeight( Image ) )
 		
-		DrawImage( Image, SX + Visualizer.DX * Width, SY + Visualizer.DY * Height, TileValue )
+		DrawImage( Image, Int( SX + Visualizer.DX * Width ), Int( SY + Visualizer.DY * Height ), TileValue )
 		
 		?debug
 		L_TilesDisplayed :+ 1
