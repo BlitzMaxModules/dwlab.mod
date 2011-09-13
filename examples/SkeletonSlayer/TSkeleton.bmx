@@ -9,25 +9,13 @@
 '
 
 Type TSkeleton Extends TPerson
-	Const SeekingRange:Double = 10.0
-	
 	Method Init()
 		TileType = Game.EnemyTile
 		Velocity = 3.0
 		WalkingAnimationSpeed = 0.3
 		AttachModel( New TWander )
+		AttachModel( New TFollow )
 		Super.Init()
-	End Method
-	
-	Method Act()
-		If DistanceTo( Game.Player ) <= SeekingRange Then
-			If Not FindModel( "TMovingAlongPath" ) Then
-				AttachModel( TMovingAlongPath.Create( Game.PathFinder.FindPath( TileX, TileY, Game.Player.TileX, Game.Player.TileY, True ) ) )
-			End If
-		End If
-		'If TileDistanceToPerson( Game.Player ) = 1 Then AttachModel( TFight.Create( Game.Player ) )
-		
-		Super.Act()
 	End Method
 	
 	Method RecalculatePath( Model:TMovingAlongPath )
@@ -45,11 +33,9 @@ Type TWander Extends LTBehaviorModel
 	
 	Field NextMovingTime:Double
 	
-	
 	Method Activate( Shape:LTShape )
 		NextMovingTime = Game.Time + Rnd( MinWaitingTime, MaxWaitingTime )
 	End Method
-
 	
 	Method ApplyTo( Shape:LTShape )
 		If Game.Time > NextMovingTime Then
@@ -85,6 +71,27 @@ End Type
 
 
 
+Type TFollow Extends LTBehaviorModel
+	Const SeekingRange:Double = 10.0
+	Const PathFinderPeriod:Double = 0.1
+	Const MaxSearchDistance:Int = 20
+	
+	Field LastSearchTime:Double
+	
+	Method ApplyTo( Shape:LTShape )
+		Local Person:TPerson = TPerson( Shape )
+		If Game.Time > LastSearchTime + PathFinderPeriod Then
+			If Person.DistanceTo( Game.Player ) <= SeekingRange And Person.TileDistanceToPerson( Game.Player ) > 1 Then
+				Shape.FindModel( "TMovingAlongPath" )
+				Shape.AttachModel( .Create( Game.PathFinder.FindPath( Person.TileX, Person.TileY, Game.Player.TileX, Game.Player.TileY, True, MaxSearchDistance ) ) )
+				LastSearchTime = Game.Time
+			End If
+		End If
+	End Method
+End Type
+
+
+
 Type TFight Extends LTBehaviorModel
 	Const AnimationStart:Int = 12
 	Const AnimationSize:Int = 4
@@ -93,21 +100,15 @@ Type TFight Extends LTBehaviorModel
 	Field Opponent:TPerson
 	Field StartingTime:Double
 	
-	
-	
 	Method Create:TFight( Opponent:TPerson )
 		Local Fight:TFight = New TFight
 		Fight.Opponent = Opponent
 		Return Fight
 	End Method
 	
-	
-	
 	Method Activate( Shape:LTShape )
 		StartingTime = Game.Time
 	End Method
-
-
 
 	Method ApplyTo( Shape:LTShape )
 		Local Person:TPerson = TPerson( Shape )

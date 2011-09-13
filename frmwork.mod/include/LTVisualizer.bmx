@@ -212,7 +212,7 @@ Type LTVisualizer Extends LTObject
 			If Sprite.Frame < 0 Or Sprite.Frame >= Image.FramesQuantity() Then L_Error( "Incorrect frame number ( " + Sprite.Frame + " ) for sprite ~q" + Sprite.GetTitle() + "~q, must be less than " + Image.FramesQuantity() )
 			?
 			
-			DrawImage( Image.BMaxImage, Int( SX + SpriteDX ), Int( SY + SpriteDY ), Sprite.Frame )
+			DrawImage( Image.BMaxImage, SX + SpriteDX, SY + SpriteDY, Sprite.Frame )
 			
 			SetScale( 1.0, 1.0 )
 			SetRotation( 0.0 )
@@ -416,7 +416,7 @@ Type LTVisualizer Extends LTObject
 		Height :* Visualizer.YScale
 		SetScale( Width / ImageWidth( Image ), Height / ImageHeight( Image ) )
 		
-		DrawImage( Image, Int( SX + Visualizer.DX * Width ), Int( SY + Visualizer.DY * Height ), TileValue )
+		DrawImage( Image, SX + Visualizer.DX * Width, SY + Visualizer.DY * Height, TileValue )
 		
 		?debug
 		L_TilesDisplayed :+ 1

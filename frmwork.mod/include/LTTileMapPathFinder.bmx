@@ -36,7 +36,7 @@ Type LTTileMapPathFinder Extends LTObject
 	bbdoc: Finds a path between two given points on previously specified tilemap.
 	returns: First tilemap position object in path. Next one can be retrieved using NextPosition field.
 	End Rem
-	Method FindPath:LTTileMapPosition( StartingX:Int, StartingY:Int, FinalX:Int, FinalY:Int, StayNear:Int = False )
+	Method FindPath:LTTileMapPosition( StartingX:Int, StartingY:Int, FinalX:Int, FinalY:Int, StayNear:Int = False, MaxDistance:Int = 1024 )
 		If StayNear Then
 			If Abs( StartingX - FinalX ) <= 1 And Abs( StartingY - FinalY ) <= 1 Then Return Null
 		Else
@@ -46,7 +46,11 @@ Type LTTileMapPathFinder Extends LTObject
 		Points = New TMap
 		Local List:TList = New TList
 		List.AddLast( LTTileMapPosition.Create( Null, StartingX, StartingY ) )
+		Local Distance:Int = 0
 		Repeat
+			Distance :+ 1
+			If Distance > MaxDistance Then Return Null
+			
 			Local NewList:TList = New TList
 			For Local Position:LTTileMapPosition = EachIn List
 				Local FinalPosition:LTTileMapPosition = Position.Spread( Self, FinalX, FinalY, NewList, StayNear )

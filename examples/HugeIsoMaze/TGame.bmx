@@ -23,6 +23,7 @@ Type TGame Extends LTProject
   
   Method Init()
     L_InitGraphics()
+	L_DiscreteGraphics = True
     World = LTWorld.FromFile( "template.lw" )
     L_CurrentCamera = World.Camera
     L_CurrentCamera.SetSize( 16, 16 )

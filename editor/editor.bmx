@@ -208,6 +208,9 @@ Type LTEditor Extends LTProject
 	Const MenuShiftToTheBottom:Int = 39
 	Const MenuRemove:Int = 40
 	Const MenuSetBounds:Int = 28
+	Const MenuCut:Int = 59
+	Const MenuCopy:Int = 60
+	Const MenuPaste:Int = 61
 
 	Const MenuSelectViewLayer:Int = 41
 	Const MenuSelectContainer:Int = 45
@@ -227,6 +230,8 @@ Type LTEditor Extends LTProject
 	Const MenuEditReplacementRules:Int = 26
 	Const MenuEditTileCollisionShapes:Int = 43
 	Const MenuEnframe:Int = 50
+	Const MenuGenerateRulesAreas:Int = 62
+	Const MenuGenerateRulesWalls:Int = 63
 	
 	Const MenuSpriteMapProperties:Int = 46
 	
@@ -369,6 +374,7 @@ Type LTEditor Extends LTProject
 		MixContent = CreateMenu( "{{M_MixContent}}", MenuMixContent, LayerMenu )
 		CreateMenu( "", 0, LayerMenu )
 		AddCommonMenuItems( LayerMenu )
+		CreateMenu( "{{M_Paste}}", MenuPaste, LayerMenu )
 		
 		TilemapMenu = CreateMenu( "", 0, null )
 		CreateMenu( "{{M_EditTilemap}}", MenuEditTilemap, TilemapMenu )
@@ -383,6 +389,11 @@ Type LTEditor Extends LTProject
 		CreateMenu( "", 0, TilemapMenu )
 		CreateMenu( "{{M_EditTileReplacementRules}}", MenuEditReplacementRules, TilemapMenu )
 		CreateMenu( "{{M_Enframe}}", MenuEnframe, TilemapMenu )
+		
+		Local GenerateRulesMenu:TGadget = CreateMenu( "{{M_GenerateRules}}", MenuEnframe, TilemapMenu )
+		CreateMenu( "{{M_Areas}}", MenuGenerateRulesAreas, GenerateRulesMenu )
+		CreateMenu( "{{M_Walls}}", MenuGenerateRulesWalls, GenerateRulesMenu )
+		
 		CreateMenu( "", 0, TilemapMenu )
 		AddCommonMenuItems( TilemapMenu )
 		
@@ -511,6 +522,9 @@ Type LTEditor Extends LTProject
 		CreateMenu( "", 0, Menu )
 		CreateMenu( "{{M_Duplicate}}", MenuDuplicate, Menu )
 		CreateMenu( "{{M_Remove}}", MenuRemove, Menu )
+		CreateMenu( "", 0, Menu )
+		CreateMenu( "{{M_Cut}}", MenuCut, Menu )
+		CreateMenu( "{{M_Copy}}", MenuCopy, Menu )
 	End Method
 	
 
@@ -792,7 +806,7 @@ Type LTEditor Extends LTProject
 						If KeyDown( Key_LControl ) Or KeyDown( Key_RControl ) Then
 							If Not Buffer.IsEmpty() Then
 								For Local Shape:LTShape = Eachin Buffer
-									InsertIntoCurrentContainer( Shape.Clone() )
+									InsertIntoContainer( Shape.Clone(), Editor.CurrentContainer )
 								Next
 								RefreshProjectManager()
 								SetChanged()
@@ -829,7 +843,7 @@ Type LTEditor Extends LTProject
 					Case Key_D
 						If Not SelectedShapes.IsEmpty() Then
 							For Local Shape:LTShape = Eachin SelectedShapes
-								InsertIntoCurrentContainer( Shape.Clone() )
+								InsertIntoContainer( Shape.Clone(), Editor.CurrentContainer )
 							Next
 							RefreshProjectManager()
 							SetChanged()
@@ -876,13 +890,20 @@ Type LTEditor Extends LTProject
 							RefreshParametersListBox()
 							SetChanged()
 						End If
-					Case MenuRemove
+					Case MenuRemove, MenuCut
+						If EvData = MenuCut Then
+							Buffer.Clear()
+							Buffer.AddLast( SelectedShape )
+						End If
 						RemoveObject( SelectedShape, World )
 						If SelectedShape = CurrentViewLayer Then CurrentViewLayer = Null
 						If SelectedShape = CurrentTilemap Then EditTilemap( Null )
 						If SelectedShape = CurrentContainer Then CurrentContainer = Null
 						SetChanged()
 						RefreshProjectManager()
+					Case MenuCopy
+						Buffer.Clear()
+						Buffer.AddLast( SelectedShape )
 					Case MenuToggleVisibility
 						SelectedShape.Visible = Not SelectedShape.Visible
 						SetChanged()
@@ -968,7 +989,7 @@ Type LTEditor Extends LTProject
 							Local YQuantity:Int = 16
 							If ChooseParameter( XQuantity, YQuantity, "{{W_ChooseTilemapSize}}", "{{L_WidthInTiles}}", "{{L_HeightInTiles}}" ) Then
 								Local Tilemap:LTTileMap = LTTilemap.Create( Null, XQuantity, YQuantity )
-								SetParameter( Tilemap, "name", LayerName )
+								SetParameter( Tilemap, "name", Name )
 								If SelectImageOrTileset( Tilemap ) Then
 									Local Layer:LTLayer = LTLayer( SelectedShape )
 									InitTileMap( Tilemap )
@@ -1024,6 +1045,14 @@ Type LTEditor Extends LTProject
 					Case MenuMixContent
 						LTLayer( SelectedShape ).MixContent = 1 - LTLayer( SelectedShape ).MixContent
 						SetChanged()
+					Case MenuPaste
+						If Not Buffer.IsEmpty() Then
+							For Local Shape:LTShape = Eachin Buffer
+								InsertIntoContainer( Shape.Clone(), SelectedShape )
+							Next
+							RefreshProjectManager()
+							SetChanged()
+						End If
 
 					' ============================= Tilemap menu ==================================
 					
@@ -1049,6 +1078,10 @@ Type LTEditor Extends LTProject
 					Case MenuEnframe
 						LTTileMap( SelectedShape ).Enframe()
 						SetChanged()
+					Case MenuGenerateRulesAreas
+						GenerateRules( LTTileMap( SelectedShape ), 1 )
+					Case MenuGenerateRulesWalls
+						GenerateRules( LTTileMap( SelectedShape ), 2 )
 					Case MenuTileMapProperties
 						TileMapProperties.TileMap = LTTileMap( SelectedShape )
 						TileMapProperties.Execute()
@@ -1346,15 +1379,6 @@ Type LTEditor Extends LTProject
 						End If
 					End If
 				End If
-			
-				Local N:Int = 0
-				For Local StringPos:String = Eachin TilesQueue.Keys()
-					Local Pos:Int = StringPos.ToInt()
-					TileSet.Enframe( CurrentTilemap, Pos Mod CurrentTilemap.XQuantity, Floor( Pos / CurrentTilemap.XQuantity ) )
-					TilesQueue.Remove( StringPos )
-					N :+ 1
-					If N = 16 Then  Exit
-				Next
 			End If
 			
 			TileX = L_LimitInt( Floor( ( MX - CurrentTileMap.LeftX() )/ CurrentTileMap.GetTileWidth() ), MinX, CurrentTilemap.XQuantity - 1 )
@@ -1857,17 +1881,13 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method InsertIntoCurrentContainer( Shape:LTShape )
-		Local Layer:LTLayer = LTLayer( CurrentContainer )
+	Method InsertIntoContainer( Shape:LTShape, Container:LTShape )
+		Local Layer:LTLayer = LTLayer( Container )
 		If Layer Then
 			Layer.AddLast( Shape )
 		Else
 			Local Sprite:LTSprite = LTSprite( Shape )
-			if Sprite Then
-				LTSpriteMap( CurrentContainer ).InsertSprite( Sprite )
-			Else
-				Notify( LocalizeString( "{{N_CannotInsertNonSpriteToSpriteMap}}" ) )
-			End If
+			if Sprite Then LTSpriteMap( Container ).InsertSprite( Sprite )
 		End If
 	End Method
 	

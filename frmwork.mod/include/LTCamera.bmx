@@ -12,6 +12,12 @@ Rem
 bbdoc: Global variable for current camera.
 End Rem
 Global L_CurrentCamera:LTCamera
+
+Rem
+bbdoc: Global flag for discrete graphics.
+End Rem
+Global L_DiscreteGraphics:Int = False
+
 Global L_CameraSpeed:Double = 2.0
 Global L_CameraMagnificationSpeed:Double = 2.0
 
@@ -99,6 +105,11 @@ Type LTCamera Extends LTSprite
 			ScreenX = ( FieldX + DX ) * K
 			ScreenY = ( FieldY + DY ) * K
 		End If
+		
+		If L_DiscreteGraphics Then
+			ScreenX = Int( ScreenX )
+			ScreenY = Int( ScreenY )
+		End If
 	End Method
 
 	
@@ -110,6 +121,11 @@ Type LTCamera Extends LTSprite
 		Else
 			ScreenX = ( FieldX + DX ) * K
 			ScreenY = ( FieldY + DY ) * K
+		End If
+		
+		If L_DiscreteGraphics Then
+			ScreenX = Int( ScreenX )
+			ScreenY = Int( ScreenY )
 		End If
 	End Method
 	
@@ -126,6 +142,11 @@ Type LTCamera Extends LTSprite
 		Else
 			ScreenWidth = FieldWidth * K
 			ScreenHeight = FieldHeight * K
+		End If
+		
+		If L_DiscreteGraphics Then
+			ScreenWidth = Int( ScreenWidth )
+			ScreenHeight = Int( ScreenHeight )
 		End If
 	End Method
 

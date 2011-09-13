@@ -74,6 +74,7 @@ Type TGame Extends LTProject
 	
 	Method Init()
 		L_InitGraphics( 960, 720, 48.0 )
+		L_DiscreteGraphics = True
 		World = LTWorld.FromFile( "world.lw" )
 		LoadAndInitLayer( HUD, LTLayer( LTWorld.FromFile( "hud.lw" ).FindShapeWithType( "LTLayer" ) ) )
 		InitLevel()

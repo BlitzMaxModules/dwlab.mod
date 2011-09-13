@@ -32,7 +32,7 @@ Type TPerson Extends LTAngularSprite
 	End Method
 	
 	Method TileDistanceToPerson:Int( Person:TPerson )
-		Return Abs( Game.Player.TileX - TileX ) + Abs( Game.Player.TileY - TileY )
+		Return Abs( Person.TileX - TileX ) + Abs( Person.TileY - TileY )
 	End Method
 End Type
 

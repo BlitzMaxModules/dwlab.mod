@@ -300,86 +300,6 @@ Type TTilesetRules
 								If PosDY > - 3 Then PosDY :- 1
 							Case Key_Down
 								If PosDY < 3 Then PosDY :+ 1
-							Case Key_F11, Key_F12
-								If CurrentTileRule Then
-									Local TileArray:Int[,] = New Int[ 7, 7 ]
-									For Local DY2:Int = -2 To 2
-										For Local DX2:Int = -2 To 2
-											For Local Pos:LTTilePos = Eachin CurrentTileRule.TilePositions
-												If Pos.DX = DX2 And Pos.DY = DY2 Then TileArray[ DX2 + 2, DY2 + 2 ] = Pos.TileNum
-											Next
-										Next
-									Next
-									TileArray[ 2, 2 ] = CurrentTileRule.TileNums[ 0 ]
-									
-									Local Pattern:Int[][][]
-									Select EventData()
-										Case Key_F11
-											Pattern = [ [ [ -1, -1, -1, -1, 4, -1, -1, -1, -1 ] ], ..
-											[ [ -1, 12, -1, 12, 12, 12, -1, 12, -1 ], ..
-											[ -1, -1, -1, 12, 7, 12, -1, 12, -1 ], ..
-											[ -1, 12, -1, -1, 11, 12, -1, 12, -1 ], ..
-											[ -1, 12, -1, 12, 13, -1, -1, 12, -1 ], ..
-											[ -1, 12, -1, 12, 17, 12, -1, -1, -1 ], ..
-											[ -1, -1, -1, -1, 6, 12, -1, 12, -1 ], ..
-											[ -1, -1, -1, 12, 8, -1, -1, 13, -1 ], ..
-											[ -1, 12, -1, -1, 16, 12, -1, -1, -1 ], ..
-											[ -1, 12, -1, 12, 18, -1, -1, -1, -1 ], ..
-											[ -1, 12, -1, -1, 14, -1, -1, 12, -1 ], ..
-											[ -1, -1, -1, 12, 22, 12, -1, -1, -1 ], ..
-											[ -1, -1, -1, -1, 9, -1, -1, 12, -1 ], ..
-											[ -1, 12, -1, -1, 19, -1, -1, -1, -1 ], ..
-											[ -1, -1, -1, -1, 21, 12, -1, -1, -1 ], ..
-											[ -1, -1, -1, 12, 23, -1, -1, -1, -1 ], ..
-											[ -1, -1, -1, -1, 24, -1, -1, -1, -1 ] ] ]
-										Case Key_F12
-											Pattern = [ [ [ -1, -1, -1, -1, 12, -1, -1, -1, -1 ] ], ..
-											[ [ -1, -1, -1, -1, 7, 12, -1, 12, -1 ], ..
-											[ -1, 12, -1, -1, 11, 12, -1, -1, -1 ], ..
-											[ -1, -1, -1, 12, 13, -1, -1, 12, -1 ], ..
-											[ -1, 12, -1, 12, 17, -1, -1, -1, -1 ], ..
-											[ -1, -1, -1, -1, 6, -1, -1, 12, -1 ], ..
-											[ -1, -1, -1, 12, 8, -1, -1, -1, -1 ], ..
-											[ -1, -1, -1, -1, 16, 12, -1, -1, -1 ], ..
-											[ -1, 12, -1, -1, 18, -1, -1, -1, -1 ], ..
-											[ -1, -1, -1, -1, 5, -1, -1, -1, 12 ], ..
-											[ -1, -1, 12, -1, 10, -1, -1, -1, -1 ], ..
-											[ -1, -1, -1, -1, 14, -1, 12, -1, -1 ], ..
-											[ 12, -1, -1, -1, 19, -1, -1, -1, -1 ], ..
-											[ -1, -1, -1, -1, 15, -1, -1, -1, -1 ] ] ]
-									End Select
-									
-									Tileset.Categories.Remove( CurrentCategory )
-									CurrentTileRule = Null
-									
-									Local CategoryNum:Int = 0
-									For Local CategoryArray:Int[][] = Eachin Pattern
-										CategoryNum :+ 1
-										CurrentCategory = New LTTileCategory
-										CurrentCategory.Name = "Category " + CategoryNum
-										For Local RuleArray:Int[] = Eachin CategoryArray
-											Local Rule:LTTileRule = New LTTileRule
-											Rule.TileNums = New Int[ 1 ]
-											For Local N:Int = 0 To 8
-												Local TileNum:Int = RuleArray[ N ]
-												If N = 4 Then
-													Rule.TileNums[ 0 ] = TileArray[ TileNum Mod 5, Floor( TileNum / 5 ) ]
-												Else If TileNum >= 0 Then
-													Local Pos:LTTilePos = New LTTilePos
-													Pos.DX = ( N Mod 3 ) - 1
-													Pos.DY = Floor( N / 3 ) - 1
-													Pos.TileNum = TileArray[ TileNum Mod 5, Floor( TileNum / 5 ) ]
-													Rule.TilePositions.AddLast( Pos )
-												End If
-											Next
-											CurrentCategory.TileRules.AddLast( Rule )
-										Next
-										Tileset.Categories.AddLast( CurrentCategory )
-									Next
-									
-									RefreshCategoriesListBox()
-									Editor.SetChanged()
-								End If
 						End Select
 					Case Event_MouseWheel
 						If EventSource() = TileRulesList Then TIleRulesListDY :- EventData() * 16
@@ -546,3 +466,79 @@ Type TTilesetRules
 		End If
 	End Method
 End Type
+
+
+
+
+
+Function GenerateRules( TileMap:LTTileMap, PatternNum:Int )
+	If TileMap.XQuantity < 5 And TileMap.YQuantity < 5 Then Return
+	
+	Local TileSet:LTTileSet = TileMap.TileSet
+	If Not TileSet Then Return
+	
+	Local Pattern:Int[][][]
+	Select PatternNum
+		Case 1
+			Pattern = [ [ [ -1, -1, -1, -1, 7, -1, -1, -1, -1 ] ], ..
+			[ [ -1, -1, -1, 7, 2, -1, -1, 7, -1 ], ..
+			[ -1, -1, -1, -1, 6, 7, -1, 7, -1 ], ..
+			[ -1, 7, -1, 7, 8, -1, -1, -1, -1 ], ..
+			[ -1, 7, -1, -1, 12, 7, -1, -1, -1 ], ..
+			[ -1, -1, -1, -1, 1, 7, -1, -1, -1 ], ..
+			[ -1, -1, -1, -1, 3, -1, -1, 7, -1 ], ..
+			[ -1, 7, -1, -1, 11, -1, -1, -1, -1 ], ..
+			[ -1, -1, -1, 7, 13, -1, -1, -1, -1 ], ..
+			[ -1, -1, -1, -1, 4, -1, 7, -1, -1 ], ..
+			[ -1, -1, -1, -1, 5, -1, -1, -1, 7 ], ..
+			[ 7, -1, -1, -1, 9, -1, -1, -1, -1 ], ..
+			[ -1, -1, 7, -1, 10, -1, -1, -1, -1 ], ..
+			[ -1, -1, -1, -1, 0, -1, -1, -1, -1 ] ] ]
+		Case 2
+			Pattern = [ [ [ -1, -1, -1, -1, 4, -1, -1, -1, -1 ] ], ..
+			[ [ -1, 12, -1, 12, 12, 12, -1, 12, -1 ], ..
+			[ -1, -1, -1, 12, 7, 12, -1, 12, -1 ], ..
+			[ -1, 12, -1, -1, 11, 12, -1, 12, -1 ], ..
+			[ -1, 12, -1, 12, 13, -1, -1, 12, -1 ], ..
+			[ -1, 12, -1, 12, 17, 12, -1, -1, -1 ], ..
+			[ -1, -1, -1, -1, 6, 12, -1, 12, -1 ], ..
+			[ -1, -1, -1, 12, 8, -1, -1, 13, -1 ], ..
+			[ -1, 12, -1, -1, 16, 12, -1, -1, -1 ], ..
+			[ -1, 12, -1, 12, 18, -1, -1, -1, -1 ], ..
+			[ -1, 12, -1, -1, 14, -1, -1, 12, -1 ], ..
+			[ -1, -1, -1, 12, 22, 12, -1, -1, -1 ], ..
+			[ -1, -1, -1, -1, 9, -1, -1, 12, -1 ], ..
+			[ -1, 12, -1, -1, 19, -1, -1, -1, -1 ], ..
+			[ -1, -1, -1, -1, 21, 12, -1, -1, -1 ], ..
+			[ -1, -1, -1, 12, 23, -1, -1, -1, -1 ], ..
+			[ -1, -1, -1, -1, 24, -1, -1, -1, -1 ] ] ]
+	End Select
+	
+	Local CategoryNum:Int = 0
+	For Local CategoryArray:Int[][] = Eachin Pattern
+		CategoryNum :+ 1
+		Local Category:LTTileCategory = New LTTileCategory
+		Category.Name = "Category " + CategoryNum
+		For Local RuleArray:Int[] = Eachin CategoryArray
+			Local Rule:LTTileRule = New LTTileRule
+			Rule.TileNums = New Int[ 1 ]
+			For Local N:Int = 0 To 8
+				Local TileNum:Int = RuleArray[ N ]
+				If N = 4 Then
+					Rule.TileNums[ 0 ] = TileMap.Value[ TileNum Mod 5, Floor( TileNum / 5 ) ]
+				Else If TileNum >= 0 Then
+					Local Pos:LTTilePos = New LTTilePos
+					Pos.DX = ( N Mod 3 ) - 1
+					Pos.DY = Floor( N / 3 ) - 1
+					Pos.TileNum = TileMap.Value[ TileNum Mod 5, Floor( TileNum / 5 ) ]
+					Rule.TilePositions.AddLast( Pos )
+				End If
+			Next
+			Category.TileRules.AddLast( Rule )
+		Next
+		Tileset.Categories.AddLast( Category )
+	Next
+	
+	TileSet.Update()
+	Editor.SetChanged()
+End Function

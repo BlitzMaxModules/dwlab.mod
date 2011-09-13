@@ -377,6 +377,22 @@ Type LTSpriteMap Extends LTMap
 	
 	
 	
+	Method ShowModels:Int( Y:Int = 0, Shift:String = "" )
+		If BehaviorModels.IsEmpty() Then
+			If Sprites.IsEmpty() Then Return Y
+			DrawText( Shift + GetTitle() + ":", 0, Y )
+	    	Y :+ 16
+		Else
+			Y = Super.ShowModels( Y, Shift )
+		End If
+		For Local Shape:LTShape = Eachin Sprites.Keys()
+			Y = Shape.ShowModels( Y, Shift + " " )
+		Next
+		Return Y
+	End Method
+	
+	
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		

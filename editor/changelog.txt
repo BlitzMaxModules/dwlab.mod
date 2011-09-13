@@ -1,3 +1,8 @@
+1.7.1
++ Rule generation pattern for auto-enframing of walls
++ Cut / copy / paste menu items
+* Removed tile enframing queue
+
 1.7
 + Parameter lists for shapes
 + Cut / Copy / Paste operations
@@ -12,7 +17,7 @@
 
 1.6.3
 + Support for layers with mixed content displaying
-+ Added automatic rules generating for F12 key in replacement rules editor
++ Rule generation pattern for auto-enframing of areas
 * Fixed hotkeys in replacement rules editor
 
 1.6.2.1

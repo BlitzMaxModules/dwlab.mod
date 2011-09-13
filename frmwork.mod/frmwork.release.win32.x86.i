@@ -1,8 +1,10 @@
-ModuleInfo "Version: 1.2"
+ModuleInfo "Version: 1.2.2"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.2.2 (13.09.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added ShowModels() debugging method to shape."
 ModuleInfo "History: v1.2.1 (12.09.11)"
 ModuleInfo "History: &nbsp; &nbsp; TileX and TileY which are passing to visualizer's DrawTile() method are now not wrapped (wrapped inside the method)."
 ModuleInfo "History: &nbsp; &nbsp; Fixed bug in DebugVisualizer shape displaying."
@@ -87,7 +89,7 @@ import brl.d3d9max2d
 import brl.random
 import brl.reflection
 import brl.retro
-L_Version$=$"1.2"
+L_Version$=$"1.2.2"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
@@ -143,6 +145,7 @@ LTLayer^LTGroup{
 -Remove%(Shape:LTShape)="_dwlab_frmwork_LTLayer_Remove"
 -SetBounds%(Shape:LTShape)="_dwlab_frmwork_LTLayer_SetBounds"
 -CountSprites%()="_dwlab_frmwork_LTLayer_CountSprites"
+-ShowModels%(Y%=0,Shift$=$"")="_dwlab_frmwork_LTLayer_ShowModels"
 -CopyTo%(Shape:LTShape)="_dwlab_frmwork_LTLayer_CopyTo"
 -Clone:LTShape()="_dwlab_frmwork_LTLayer_Clone"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTLayer_XMLIO"
@@ -330,7 +333,7 @@ LTTileMapPathFinder^LTObject{
 -New%()="_dwlab_frmwork_LTTileMapPathFinder_New"
 -Delete%()="_dwlab_frmwork_LTTileMapPathFinder_Delete"
 +Create:LTTileMapPathFinder(TileMap:LTIntMap,AllowDiagonalMovement%=1)="_dwlab_frmwork_LTTileMapPathFinder_Create"
--FindPath:LTTileMapPosition(StartingX%,StartingY%,FinalX%,FinalY%,StayNear%=0)="_dwlab_frmwork_LTTileMapPathFinder_FindPath"
+-FindPath:LTTileMapPosition(StartingX%,StartingY%,FinalX%,FinalY%,StayNear%=0,MaxDistance%=1024)="_dwlab_frmwork_LTTileMapPathFinder_FindPath"
 -Passage!(X%,Y%)="_dwlab_frmwork_LTTileMapPathFinder_Passage"
 -GetPoint:Object(X%,Y%)="_dwlab_frmwork_LTTileMapPathFinder_GetPoint"
 -SetPoint%(X%,Y%,Position:LTTileMapPosition)="_dwlab_frmwork_LTTileMapPathFinder_SetPoint"
@@ -443,6 +446,7 @@ LTSpriteMap^LTMap{
 -CopyTo%(Shape:LTShape)="_dwlab_frmwork_LTSpriteMap_CopyTo"
 -Clone:LTShape()="_dwlab_frmwork_LTSpriteMap_Clone"
 +CreateForShape:LTSpriteMap(Shape:LTShape,CellSize!=1!,Sorted%=0)="_dwlab_frmwork_LTSpriteMap_CreateForShape"
+-ShowModels%(Y%=0,Shift$=$"")="_dwlab_frmwork_LTSpriteMap_ShowModels"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTSpriteMap_XMLIO"
 }="dwlab_frmwork_LTSpriteMap"
 LTMap^LTShape{
@@ -712,6 +716,7 @@ RightFacing!=1!
 -DeactivateModel%(TypeName$)="_dwlab_frmwork_LTShape_DeactivateModel"
 -ToggleModel%(TypeName$)="_dwlab_frmwork_LTShape_ToggleModel"
 -RemoveModel%(TypeName$)="_dwlab_frmwork_LTShape_RemoveModel"
+-ShowModels%(Y%=0,Shift$=$"")="_dwlab_frmwork_LTShape_ShowModels"
 -LimitByWindow%(X!,Y!,Width!,Height!)="_dwlab_frmwork_LTShape_LimitByWindow"
 -LimitByWindowShape%(Shape:LTShape)="_dwlab_frmwork_LTShape_LimitByWindowShape"
 -RemoveWindowLimit%()="_dwlab_frmwork_LTShape_RemoveWindowLimit"
@@ -912,6 +917,7 @@ L_SpritesActed%&=mem("dwlab_frmwork_L_SpritesActed")
 L_SpriteActed%&=mem("dwlab_frmwork_L_SpriteActed")
 L_DeltaTime!&=mem:d("dwlab_frmwork_L_DeltaTime")
 L_CurrentCamera:LTCamera&=mem:p("dwlab_frmwork_L_CurrentCamera")
+L_DiscreteGraphics%&=mem("dwlab_frmwork_L_DiscreteGraphics")
 L_CameraSpeed!&=mem:d("dwlab_frmwork_L_CameraSpeed")
 L_CameraMagnificationSpeed!&=mem:d("dwlab_frmwork_L_CameraMagnificationSpeed")
 L_ProlongTiles%&=mem("dwlab_frmwork_L_ProlongTiles")
@@ -925,5 +931,4 @@ L_CurrentUndoList:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_CurrentUndoList")
 L_RedoStack:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_RedoStack")
 L_CurrentRedoList:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_CurrentRedoList")
 L_XMLMode%&=mem("dwlab_frmwork_L_XMLMode")
-L_Discrete%&=mem("dwlab_frmwork_L_Discrete")
 L_Incbin$&=mem:p("dwlab_frmwork_L_Incbin")

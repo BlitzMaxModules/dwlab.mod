@@ -19,10 +19,7 @@ Framework brl.glmax2d
 Framework brl.glmax2d
 ?
 
-'Import brl.bmploader ' for importing BMPs
-'Import brl.jpgloader ' for importing JPGs
 Import brl.pngloader ' for importing PNGs
-'Import brl.wavloader ' for importing WAVs
 Import brl.oggloader ' for importing OGGs
 
 Import dwlab.frmwork' DWLab framework import

@@ -50,21 +50,19 @@ Type TSetTile Extends LTDrag
 		If Editor.ReplacementOfTiles Then
 			For Local DY:Int = -3 To 3 + BlockHeight
 				Local Y:Int = TileY + DY
-				If Not Tilemap.Wrapped And ( Y < 0 Or Y >= TileMap.YQuantity ) Then Continue
+				If Tilemap.Wrapped Then
+					Y = TileMap.WrapY( Y )
+				Else
+					If Y < 0 Or Y >= TileMap.YQuantity Then Continue
+				End If
 				For Local DX:Int = -3 To 3 + BlockWidth
 					Local X:Int = TileX + DX
 					If Tilemap.Wrapped Then
-						If TileMap.Masked Then
-							X = X & TileMap.XMask
-							Y = Y & TileMap.YMask
-						Else
-							X = TileMap.WrapX( X )
-							Y = TileMap.WrapY( Y )
-						End If
+						X = TileMap.WrapX( X )
 					Else
 						If X < 0 Or X >= TileMap.XQuantity Then Continue
 					End If
-					Editor.TilesQueue.Insert( String( X + Y * TileMap.XQuantity ), Null )
+					TileSet.Enframe( TileMap, X, Y )
 				Next
 			Next
 		End If

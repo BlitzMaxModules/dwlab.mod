@@ -25,6 +25,7 @@ Type TGame Extends LTProject
 	Method Init()
 		World = LTWorld.FromFile( "world.lw" )
 		L_InitGraphics()
+		L_DiscreteGraphics = True
 		World.Camera.Viewport = L_CurrentCamera.Viewport
 		L_CurrentCamera = World.Camera
 		L_CurrentCamera.SetMagnification( 64.0 )
@@ -56,6 +57,7 @@ Type TGame Extends LTProject
 	
 	Method Render()
 		Level.Draw()
+		Level.ShowModels( 32 )
 		ShowDebugInfo()
 	End Method
 	

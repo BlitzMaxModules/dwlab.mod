@@ -15,12 +15,14 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.2"
+ModuleInfo "Version: 1.2.2"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.2.2 (13.09.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added ShowModels() debugging method to shape."
 ModuleInfo "History: v1.2.1 (12.09.11)"
 ModuleInfo "History: &nbsp; &nbsp; TileX and TileY which are passing to visualizer's DrawTile() method are now not wrapped (wrapped inside the method)."
 ModuleInfo "History: &nbsp; &nbsp; Fixed bug in DebugVisualizer shape displaying."
@@ -115,7 +117,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.2"
+Const L_Version:String = "1.2.2"
 
 SeedRnd( MilliSecs() )
 
@@ -143,7 +145,6 @@ End Function
 
 
 
-Global L_Discrete:Int = False
 Global L_Incbin:String = ""
 
 Function L_SetIncbin( Value:Int )

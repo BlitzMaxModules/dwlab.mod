@@ -767,6 +767,22 @@ Type LTShape Extends LTObject
 		Next
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Shows all behavior models attached to shape with their status.
+	End Rem
+	Method ShowModels:Int( Y:Int = 0, Shift:String = "" )
+		If BehaviorModels.IsEmpty() Then Return Y
+		DrawText( Shift + GetTitle() + ":", 0, Y )
+	    Y :+ 16
+	    For Local Model:LTBehaviorModel = Eachin BehaviorModels
+	      DrawText( Shift + TTypeID.ForObject( Model ).Name() + ": " + Model.Active, 8, Y )
+	      Y :+ 16
+	    Next
+		Return Y
+	End Method
+	
 	' ==================== Windowed Visualizer ====================
 	
 	Rem

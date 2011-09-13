@@ -49,7 +49,7 @@ Type TCreateSprite Extends LTDrag
 			Sprite.Visualizer = New LTVisualizer
 		End If
 		
-		Editor.InsertIntoCurrentContainer( Sprite )
+		Editor.InsertIntoContainer( Sprite, Editor.CurrentContainer )
 		Editor.SelectShape( Sprite )
 	End Method
 	

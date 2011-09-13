@@ -39,14 +39,7 @@ Type TMario Extends LTVectorSprite
   
   Method Draw()
     Super.Draw()
-    'DrawText( X + ", " + Y, 0, 100 )
-    Rem
-    Local Y:Int = 100
-    For Local Model:LTBehaviorModel = Eachin BehaviorModels
-      DrawText( TTypeID.ForObject( Model ).Name() + ", " + Model.Active, 0, Y )
-      Y :+ 16
-    Next
-    EndRem
+
   End Method
   
   

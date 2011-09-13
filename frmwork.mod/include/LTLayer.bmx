@@ -206,6 +206,25 @@ Type LTLayer Extends LTGroup
 		Return Count
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Shows all behavior models attached to shape with their status.
+	End Rem
+	Method ShowModels:Int( Y:Int = 0, Shift:String = "" )
+		If BehaviorModels.IsEmpty() Then 
+			If Children.IsEmpty() Then Return Y
+			DrawText( Shift + GetTitle() + ":", 0, Y )
+	    	Y :+ 16
+		Else
+			Y = Super.ShowModels( Y, Shift )
+		End If
+		For Local Shape:LTShape = Eachin Children
+			Y = Shape.ShowModels( Y, Shift + " " )
+		Next
+		Return Y
+	End Method
+	
 	' ==================== Cloning ===================	
 	
 	Method CopyTo( Shape:LTShape )
