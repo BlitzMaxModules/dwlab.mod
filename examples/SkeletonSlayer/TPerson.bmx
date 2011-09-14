@@ -8,13 +8,18 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "TPlayer.bmx"
+Include "TSkeleton.bmx"
+
 Type TPerson Extends LTAngularSprite
-	Const TotalActionFrames:Int = 32
+	Const TotalActionFrames:Int = 26
 
 	Field TileX:Int, TileY:Int
 	Field Phase:Int
 	Field WalkingAnimationSpeed:Double = 0.5
 	Field TileType:Int
+	Field Health:Int
+	Field MaxSearchDistance:Int
 	
 	Method Init()
 		TileX = Floor( X )
@@ -31,8 +36,8 @@ Type TPerson Extends LTAngularSprite
 	Method RecalculatePath( Model:TMovingAlongPath )
 	End Method
 	
-	Method TileDistanceToPerson:Int( Person:TPerson )
-		Return Abs( Person.TileX - TileX ) + Abs( Person.TileY - TileY )
+	Method IsNear:Int( Person:TPerson )
+		Return Abs( Person.TileX - TileX ) <= 1 And Abs( Person.TileY - TileY ) <= 1
 	End Method
 End Type
 
@@ -106,5 +111,119 @@ Type TMovingAlongPath Extends LTBehaviorModel
 	Method Deactivate( Shape:LTShape )
 		Shape.AttachModel( New TStanding )
 		Shape.ActivateModel( "TWander" )
+	End Method
+End Type
+
+
+
+Type TFollow Extends LTBehaviorModel
+	Const SeekingRange:Double = 10.0
+	Const PathFinderPeriod:Double = 0.1
+	
+	Field Opponent:TPerson
+	Field LastSearchTime:Double
+	
+	Function Create:TFollow( Opponent:TPerson )
+		Local Follow:TFollow = New TFollow
+		Follow.Opponent = Opponent
+		Return Follow
+	End Function
+	
+	Method ApplyTo( Shape:LTShape )
+		Local Person:TPerson = TPerson( Shape )
+		If Game.Time > LastSearchTime + PathFinderPeriod Then
+			If Person.DistanceTo( Game.Player ) <= SeekingRange And Not Person.IsNear( Opponent ) Then
+				Local Model:TMovingAlongPath = TMovingAlongPath( Shape.FindModel( "TMovingAlongPath" ) )
+				Local Position:LTTileMapPosition = Game.PathFinder.FindPath( Person.TileX, Person.TileY, Opponent.TileX, Opponent.TileY, True, Person.MaxSearchDistance )
+				If Model Then
+					Model.Position = Position
+				Else
+					Person.AttachModel( TMovingAlongPath.Create( Position ) )
+				End If
+				LastSearchTime = Game.Time
+			End If
+		End If
+	End Method
+End Type
+
+
+
+Type TFight Extends LTBehaviorModel
+	Const AnimationStart:Int = 12
+	Const AnimationSize:Int = 4
+	Const AnimationSpeed:Double = 0.1
+	
+	Field Opponent:TPerson
+	Field StartingTime:Double
+	Field NextHitTime:Double
+	
+	Function Create:TFight( Opponent:TPerson )
+		Local Fight:TFight = New TFight
+		Fight.Opponent = Opponent
+		Return Fight
+	End Function
+	
+	Method Watch( Shape:LTShape )
+		If TPerson( Shape ).IsNear( Opponent ) And Not Shape.FindModel( "TMovingAlongPath" ) Then ActivateModel( Shape )
+	End Method
+	
+	Method Activate( Shape:LTShape )
+		StartingTime = Game.Time
+		NextHitTime = StartingTime + AnimationSpeed * 2
+		Shape.DeactivateModel( "TWander" )
+		Shape.DeactivateModel( "TStanding" )
+	End Method
+
+	Method ApplyTo( Shape:LTShape )
+		Local Person:TPerson = TPerson( Shape )
+		If Person.IsNear( Opponent ) Then
+			Person.Phase = ( 5 + L_Round( Person.DirectionToPoint( Opponent.X, Opponent.Y ) / 45.0 ) ) Mod 8
+			Person.Animate( Game, AnimationSpeed, AnimationSize, AnimationStart, StartingTime, True )
+			If Game.Time > NextHitTime Then
+				TMessage.ApplyDamage( Opponent )
+				If Opponent = Game.Player Then If Not Opponent.FindModel( "TFight" ) Then Opponent.AttachModel( TFight.Create( Person ) )
+				If Opponent.Health <= 0 Then
+					Opponent.RemoveModel( "TFight" )
+					Person.RemoveModel( "TFollow" )
+					Remove( Person )
+				End If
+				NextHitTime :+ AnimationSpeed * ( AnimationSize * 2 - 2 )
+			End If
+		Else
+			DeactivateModel( Shape )
+		End If
+	End Method
+	
+	Method Deactivate( Shape:LTShape )
+		Shape.ActivateModel( "TWander" )
+		Shape.ActivateModel( "TStanding" )
+	End Method
+End Type
+
+
+
+Type TDeath Extends LTBehaviorModel
+	Const AnimationStart:Int = 16
+	Const AnimationSize:Int = 6
+	Const AnimationSpeed:Double = 0.2
+
+	Field StartingTime:Double
+	
+	Method Activate( Shape:LTShape )
+		StartingTime = Game.Time
+	End Method
+	
+	Method ApplyTo( Shape:LTShape )
+		Local Person:TPerson = TPerson( Shape )
+		Person.Animate( Game, AnimationSpeed, AnimationSize, AnimationStart, StartingTime )
+		If Person.Frame = AnimationStart + AnimationSize - 1 Then DeactivateModel( Shape )
+	End Method
+	
+	Method Deactivate( Shape:LTShape )
+		Local Person:TPerson = TPerson( Shape )
+		Game.Level.Remove( Person )
+		Game.Bodies.InsertSprite( Person )
+		Game.CollisionMap.Value[ Person.TileX, Person.TileY ] = Game.EmptyTile
+		Person.Active = False
 	End Method
 End Type

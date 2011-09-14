@@ -15,12 +15,15 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.2.2"
+ModuleInfo "Version: 1.2.3"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.2.3 (14.09.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added possibility to search for shapes inside layers' sprite maps."
+ModuleInfo "History: &nbsp; &nbsp; Added Range parameter to the pathfinder."
 ModuleInfo "History: v1.2.2 (13.09.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added ShowModels() debugging method to shape."
 ModuleInfo "History: v1.2.1 (12.09.11)"
@@ -117,7 +120,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.2.2"
+Const L_Version:String = "1.2.3"
 
 SeedRnd( MilliSecs() )
 

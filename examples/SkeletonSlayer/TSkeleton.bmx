@@ -13,8 +13,11 @@ Type TSkeleton Extends TPerson
 		TileType = Game.EnemyTile
 		Velocity = 3.0
 		WalkingAnimationSpeed = 0.3
+		Health = 10
+		MaxSearchDistance = 20
 		AttachModel( New TWander )
-		AttachModel( New TFollow )
+		AttachModel( TFollow.Create( TPerson( Game.Level.FindShapeWithType( "TPlayer" ) ) ) )
+		AttachModel( TFight.Create( TPerson( Game.Level.FindShapeWithType( "TPlayer" ) ) ) )
 		Super.Init()
 	End Method
 	
@@ -65,57 +68,6 @@ Type TWander Extends LTBehaviorModel
 			
 			Shape.AttachModel( TMovingAlongPath.Create( FirstPosition ) )
 			DeactivateModel( Shape )
-		End If
-	End Method
-End Type
-
-
-
-Type TFollow Extends LTBehaviorModel
-	Const SeekingRange:Double = 10.0
-	Const PathFinderPeriod:Double = 0.1
-	Const MaxSearchDistance:Int = 20
-	
-	Field LastSearchTime:Double
-	
-	Method ApplyTo( Shape:LTShape )
-		Local Person:TPerson = TPerson( Shape )
-		If Game.Time > LastSearchTime + PathFinderPeriod Then
-			If Person.DistanceTo( Game.Player ) <= SeekingRange And Person.TileDistanceToPerson( Game.Player ) > 1 Then
-				Shape.FindModel( "TMovingAlongPath" )
-				Shape.AttachModel( .Create( Game.PathFinder.FindPath( Person.TileX, Person.TileY, Game.Player.TileX, Game.Player.TileY, True, MaxSearchDistance ) ) )
-				LastSearchTime = Game.Time
-			End If
-		End If
-	End Method
-End Type
-
-
-
-Type TFight Extends LTBehaviorModel
-	Const AnimationStart:Int = 12
-	Const AnimationSize:Int = 4
-	Const AnimationSpeed:Double = 0.3
-	
-	Field Opponent:TPerson
-	Field StartingTime:Double
-	
-	Method Create:TFight( Opponent:TPerson )
-		Local Fight:TFight = New TFight
-		Fight.Opponent = Opponent
-		Return Fight
-	End Method
-	
-	Method Activate( Shape:LTShape )
-		StartingTime = Game.Time
-	End Method
-
-	Method ApplyTo( Shape:LTShape )
-		Local Person:TPerson = TPerson( Shape )
-		If Person.TileDistanceToPerson( Opponent ) > 1 Then
-			DeactivateModel( Shape )
-		Else
-			Person.Animate( Game, AnimationSpeed, AnimationSize, AnimationStart, StartingTime, True )
 		End If
 	End Method
 End Type

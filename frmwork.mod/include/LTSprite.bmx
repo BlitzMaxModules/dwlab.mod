@@ -562,7 +562,7 @@ Type LTSprite Extends LTShape
 	about: 
 	End Rem
 	Method Animate( Project:LTProject, Speed:Double, FramesQuantity:Int = 0, FrameStart:Int = 0, StartingTime:Double = 0.0, PingPong:Int = False )
-		If FramesQuantity = 0 Then FramesQuantity = Visualizer.GetImage().FramesQuantity()
+		If FramesQuantity = 0 Then FramesQuantity = Visualizer.Image.FramesQuantity()
 		Local ModFactor:Int = FramesQuantity
 		If PingPong Then ModFactor = FramesQuantity * 2 - 2
 		Frame = Floor( ( Project.Time - StartingTime ) / Speed ) Mod ModFactor

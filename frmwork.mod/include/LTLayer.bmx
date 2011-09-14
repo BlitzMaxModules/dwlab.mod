@@ -82,6 +82,13 @@ Type LTLayer Extends LTGroup
 			If ChildLayer Then
 				Local Shape:LTShape = ChildLayer.FindShape( Name, True )
 				If Shape Then Return Shape
+			Else
+				Local SpriteMap:LTSpriteMap = LTSpriteMap( ChildShape )
+				If SpriteMap Then
+					For Local Sprite:LTSprite = EachIn SpriteMap.Sprites.Keys()
+						If Sprite.GetName() = Name Then Return Sprite
+					Next
+				End If
 			End If
 		Next
 		If Not IgnoreError Then L_Error( "Shape ~q" + Name + "~q not found." )
@@ -112,6 +119,13 @@ Type LTLayer Extends LTGroup
 			If ChildLayer Then
 				Local Shape:LTShape = ChildLayer.FindShapeWithTypeID( ShapeTypeID, Name, True )
 				If Shape Then Return Shape
+			Else
+				Local SpriteMap:LTSpriteMap = LTSpriteMap( ChildShape )
+				If SpriteMap Then
+					For Local Sprite:LTSprite = EachIn SpriteMap.Sprites.Keys()
+						If TTypeId.ForObject( Sprite ) = ShapeTypeID Then Return Sprite
+					Next
+				End If
 			End If
 		Next
 		If Not IgnoreError Then L_Error( "Shape with type ~q" + ShapeTypeID.Name() + "~q not found." )
@@ -141,6 +155,15 @@ Type LTLayer Extends LTGroup
 			If ChildLayer Then
 				Local Shape:LTShape = ChildLayer.FindShapeWithParameterID( ShapeTypeID, ParameterName, ParameterValue, True )
 				If Shape Then Return Shape
+			Else
+				Local SpriteMap:LTSpriteMap = LTSpriteMap( ChildShape )
+				If SpriteMap Then
+					For Local Sprite:LTSprite = EachIn SpriteMap.Sprites.Keys()
+						If TTypeId.ForObject( Sprite ) = ShapeTypeID Then
+							If Sprite.GetParameter( ParameterName ) = ParameterValue Then Return Sprite
+						End If
+					Next
+				End If
 			End If
 		Next
 		If Not IgnoreError Then L_Error( "Shape with type ~q" + ShapeTypeID.Name() + "~q and parameter " + ParameterName + " = " + ..

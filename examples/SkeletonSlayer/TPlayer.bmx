@@ -13,6 +13,8 @@ Type TPlayer Extends TPerson
 		Game.Player = Self
 		Velocity = 5.0
 		TileType = Game.PlayerTile
+		Health = 30
+		MaxSearchDistance = 1024
 		Super.Init()
 	End Method
 	

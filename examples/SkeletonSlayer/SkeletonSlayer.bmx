@@ -19,8 +19,7 @@ Import dwlab.frmwork
 
 Include "TGame.bmx"
 Include "TPerson.bmx"
-Include "TPlayer.bmx"
-Include "TSkeleton.bmx"
+Include "TMessage.bmx"
 
 AppTitle = "Skeleton Slayer"
 

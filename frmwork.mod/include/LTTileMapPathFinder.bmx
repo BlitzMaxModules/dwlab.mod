@@ -36,13 +36,9 @@ Type LTTileMapPathFinder Extends LTObject
 	bbdoc: Finds a path between two given points on previously specified tilemap.
 	returns: First tilemap position object in path. Next one can be retrieved using NextPosition field.
 	End Rem
-	Method FindPath:LTTileMapPosition( StartingX:Int, StartingY:Int, FinalX:Int, FinalY:Int, StayNear:Int = False, MaxDistance:Int = 1024 )
-		If StayNear Then
-			If Abs( StartingX - FinalX ) <= 1 And Abs( StartingY - FinalY ) <= 1 Then Return Null
-		Else
-			If StartingX = FinalX And StartingY = FinalY Then Return Null
-		End If		
-		If Not Passage( FinalX, FinalY ) And Not StayNear Then Return Null
+	Method FindPath:LTTileMapPosition( StartingX:Int, StartingY:Int, FinalX:Int, FinalY:Int, Range:Int = 0, MaxDistance:Int = 1024 )
+		If Abs( StartingX - FinalX ) <= Range And Abs( StartingY - FinalY ) <= Range Then Return Null
+		If Not Passage( FinalX, FinalY ) And Range = 0 Then Return Null
 		Points = New TMap
 		Local List:TList = New TList
 		List.AddLast( LTTileMapPosition.Create( Null, StartingX, StartingY ) )
@@ -53,7 +49,7 @@ Type LTTileMapPathFinder Extends LTObject
 			
 			Local NewList:TList = New TList
 			For Local Position:LTTileMapPosition = EachIn List
-				Local FinalPosition:LTTileMapPosition = Position.Spread( Self, FinalX, FinalY, NewList, StayNear )
+				Local FinalPosition:LTTileMapPosition = Position.Spread( Self, FinalX, FinalY, NewList, Range )
 				If FinalPosition Then Return FinalPosition.Revert()
 			Next
 			If NewList.IsEmpty() Then Return Null
@@ -121,7 +117,7 @@ Type LTTileMapPosition
 	
 	
 	
-	Method Spread:LTTileMapPosition( TileMapPathFinder:LTTileMapPathFinder, FinalX:Int, FinalY:Int, List:TList, StayNear:Int )
+	Method Spread:LTTileMapPosition( TileMapPathFinder:LTTileMapPathFinder, FinalX:Int, FinalY:Int, List:TList, Range:Int )
 		For Local N:Int = 0 Until 8 + ( 8 * TileMapPathFinder.AllowDiagonalMovement ) Step 2
 			Local XX:Int = X + L_SpreadingDirections[ N ]
 			If XX < 0 Or XX >= TileMapPathFinder.Map.XQuantity Then Continue
@@ -133,11 +129,7 @@ Type LTTileMapPosition
 			If TileMapPathFinder.GetPoint( XX, YY ) Then Continue
 			
 			Local Position:LTTileMapPosition = LTTileMapPosition.Create( Self, XX, YY )
-			If StayNear Then
-				If Abs( XX - FinalX ) <= 1 And Abs( YY - FinalY ) <= 1 Then Return Position
-			Else
-				If XX = FinalX And YY = FinalY Then Return Position
-			End If
+			If Abs( XX - FinalX ) <= Range And Abs( YY - FinalY ) <= Range Then Return Position
 			
 			TileMapPathFinder.SetPoint( XX, YY, Position )
 			List.AddLast( Position )

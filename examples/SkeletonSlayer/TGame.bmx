@@ -18,6 +18,7 @@ Type TGame Extends LTProject
 	Field Level:LTLayer
 	Field Objects:LTSpriteMap
 	Field CollisionMap:LTIntMap
+	Field Bodies:LTSpriteMap
 	Field Player:TPlayer
 	Field SelectedTile:LTShape
 	Field PathFinder:LTTileMapPathFinder
@@ -53,11 +54,13 @@ Type TGame Extends LTProject
 		
 		SelectedTile = Level.FindShape( "SelectedTile" )
 		SelectedTile.Visualizer = New LTMarchingAnts
+		
+		Bodies = LTSpriteMap( Level.FindShape( "Bodies" ) )
 	End Method
 	
 	Method Render()
 		Level.Draw()
-		Level.ShowModels( 32 )
+		Level.ShowModels( 96 )
 		ShowDebugInfo()
 	End Method
 	
@@ -65,12 +68,22 @@ Type TGame Extends LTProject
 		SelectedTile.SetMouseCoords()
 		SelectedTile.SetCoords( Floor( SelectedTile.X ) + 0.5, Floor( SelectedTile.Y ) + 0.5 )
 		
-		If MouseHit( 1 ) Then
+		If MouseHit( 1 ) And Player.Health > 0 Then
 			Local TileX:Int = Floor( SelectedTile.X )
 			Local TileY:Int = Floor( SelectedTile.Y )
 			Local TileNum:Int = Game.CollisionMap.Value[ TileX, TileY ]
-			If TileNum <> Game.BlockedTile Then
+			If TileNum = EnemyTile Then
+				For Local Person:TPerson = Eachin Objects
+					If Person.TileX = TileX And Person.TileY = TileY Then
+						Player.AttachModel( TFollow.Create( Person ) )
+						Player.AttachModel( TFight.Create( Person ), False )
+						Exit
+					End If
+				Next
+			Else If TileNum <> BlockedTile Then
 				Player.AttachModel( TMovingAlongPath.Create( PathFinder.FindPath( Player.TileX, Player.TileY, TileX, TileY, TileNum <> Game.EmptyTile ) ) )
+				Player.RemoveModel( "TFollow" )
+				Player.RemoveModel( "TFight" )
 			End If
 		End If
 

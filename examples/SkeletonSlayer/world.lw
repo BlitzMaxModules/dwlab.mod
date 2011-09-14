@@ -1,16 +1,16 @@
-<LTWorld dwlab_version="1.2">
+<LTWorld dwlab_version="1.2.3">
 	<LTVisualizer field="visualizer" id="1"/>
 	<TList field="images">
 		<Object id="8"/>
 		<Object id="140"/>
-		<Object id="127"/>
-		<Object id="136"/>
-		<Object id="71"/>
-		<Object id="146"/>
 		<Object id="133"/>
+		<Object id="136"/>
+		<Object id="77"/>
+		<Object id="143"/>
+		<Object id="146"/>
 	</TList>
 	<TList field="tilesets">
-		<Object id="70"/>
+		<Object id="76"/>
 		<Object id="7"/>
 	</TList>
 	<LTCamera field="camera" x="33.3468" y="8.2194" width="13.5711" height="11.4573" shape="2" viewport-clipping="1" isometric="1" x1="2" y1="1" x2="-2" y2="1">
@@ -261,6 +261,18 @@
 			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 		</LTTileMap>
+		<LTSprite x="37.5" y="15.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="SelectedTile"/>
+			</TList>
+			<LTVisualizer field="visualizer" alpha="0"/>
+		</LTSprite>
+		<LTSpriteMap xquantity="16" yquantity="16" cell-width="4" cell-height="4">
+			<TList field="parameters">
+				<LTParameter name="name" value="Bodies"/>
+			</TList>
+			<LTVisualizer field="visualizer"/>
+		</LTSpriteMap>
 		<LTLayer mix-content="1">
 			<TList field="parameters">
 				<LTParameter name="name" value="ObjectsLayer"/>
@@ -274,8 +286,8 @@
 					<LTParameter name="name" value="Fence"/>
 				</TList>
 				<LTVisualizer field="visualizer" dy="-0.2999" xscale="1.25" yscale="2.5"/>
-				<LTTileSet field="tileset" id="70" tiles-quantity="40" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" empty-tile="0">
-					<LTImage field="image" id="71" filename="media\fence.png" xcells="8" ycells="5"/>
+				<LTTileSet field="tileset" id="76" tiles-quantity="40" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" empty-tile="0">
+					<LTImage field="image" id="77" filename="media\fence.png" xcells="8" ycells="5"/>
 					<ShapeArray field="collision-shapes">
 						<Null/>
 						<Null/>
@@ -520,25 +532,12 @@
 					<LTParameter name="name" value="Objects"/>
 				</TList>
 				<Object field="visualizer" id="1"/>
-				<LTSprite x="34.5" y="7.5" shape="1">
-					<TList field="parameters">
-						<LTParameter name="class" value="TSkeleton"/>
-					</TList>
-					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
-						<LTImage field="image" id="127" filename="media\skeleton.png" xcells="32" ycells="8"/>
-					</LTVisualizer>
-				</LTSprite>
 				<LTSprite x="34.5" y="28.5" shape="1">
 					<TList field="parameters">
 						<LTParameter name="class" value="TSkeleton"/>
 					</TList>
 					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
-						<Object field="image" id="127"/>
-					</LTVisualizer>
-				</LTSprite>
-				<LTSprite x="34.5" y="6.5" width="3" height="3">
-					<LTVisualizer field="visualizer" dy="0.0748" xscale="0.8498" yscale="1.7">
-						<LTImage field="image" id="133" filename="media\tower_back.png"/>
+						<LTImage field="image" id="133" filename="media\skeleton.png" xcells="26" ycells="8"/>
 					</LTVisualizer>
 				</LTSprite>
 				<LTSprite x="37.5" y="13.5" shape="1">
@@ -551,7 +550,17 @@
 						<LTParameter name="class" value="TPlayer"/>
 					</TList>
 					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
-						<LTImage field="image" id="140" filename="media\player.png" xcells="32" ycells="8"/>
+						<LTImage field="image" id="140" filename="media\player.png" xcells="26" ycells="8"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="36.5" y="8.5" width="3" height="3">
+					<LTVisualizer field="visualizer" dy="-0.325" xscale="0.8498" yscale="1.7">
+						<LTImage field="image" id="143" filename="media\tower.png"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="34.5" y="6.5" width="3" height="3">
+					<LTVisualizer field="visualizer" dy="0.0748" xscale="0.8498" yscale="1.7">
+						<LTImage field="image" id="146" filename="media\tower_back.png"/>
 					</LTVisualizer>
 				</LTSprite>
 				<LTSprite x="26.5" y="19.5" shape="1">
@@ -559,21 +568,18 @@
 						<LTParameter name="class" value="TSkeleton"/>
 					</TList>
 					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
-						<Object field="image" id="127"/>
+						<Object field="image" id="133"/>
 					</LTVisualizer>
 				</LTSprite>
-				<LTSprite x="36.5" y="8.5" width="3" height="3">
-					<LTVisualizer field="visualizer" dy="-0.325" xscale="0.8498" yscale="1.7">
-						<LTImage field="image" id="146" filename="media\tower.png"/>
+				<LTSprite x="34.5" y="7.5" shape="1">
+					<TList field="parameters">
+						<LTParameter name="class" value="TSkeleton"/>
+					</TList>
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
+						<Object field="image" id="133"/>
 					</LTVisualizer>
 				</LTSprite>
 			</LTSpriteMap>
 		</LTLayer>
-		<LTSprite x="37.5" y="15.5" shape="2">
-			<TList field="parameters">
-				<LTParameter name="name" value="SelectedTile"/>
-			</TList>
-			<LTVisualizer field="visualizer" alpha="0"/>
-		</LTSprite>
 	</LTLayer>
 </LTWorld>

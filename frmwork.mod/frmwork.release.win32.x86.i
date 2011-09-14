@@ -1,8 +1,11 @@
-ModuleInfo "Version: 1.2.2"
+ModuleInfo "Version: 1.2.3"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.2.3 (14.09.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added possibility to search for shapes inside layers' sprite maps."
+ModuleInfo "History: &nbsp; &nbsp; Added Range parameter to the pathfinder."
 ModuleInfo "History: v1.2.2 (13.09.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added ShowModels() debugging method to shape."
 ModuleInfo "History: v1.2.1 (12.09.11)"
@@ -89,7 +92,7 @@ import brl.d3d9max2d
 import brl.random
 import brl.reflection
 import brl.retro
-L_Version$=$"1.2.2"
+L_Version$=$"1.2.3"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
@@ -333,7 +336,7 @@ LTTileMapPathFinder^LTObject{
 -New%()="_dwlab_frmwork_LTTileMapPathFinder_New"
 -Delete%()="_dwlab_frmwork_LTTileMapPathFinder_Delete"
 +Create:LTTileMapPathFinder(TileMap:LTIntMap,AllowDiagonalMovement%=1)="_dwlab_frmwork_LTTileMapPathFinder_Create"
--FindPath:LTTileMapPosition(StartingX%,StartingY%,FinalX%,FinalY%,StayNear%=0,MaxDistance%=1024)="_dwlab_frmwork_LTTileMapPathFinder_FindPath"
+-FindPath:LTTileMapPosition(StartingX%,StartingY%,FinalX%,FinalY%,Range%=0,MaxDistance%=1024)="_dwlab_frmwork_LTTileMapPathFinder_FindPath"
 -Passage!(X%,Y%)="_dwlab_frmwork_LTTileMapPathFinder_Passage"
 -GetPoint:Object(X%,Y%)="_dwlab_frmwork_LTTileMapPathFinder_GetPoint"
 -SetPoint%(X%,Y%,Position:LTTileMapPosition)="_dwlab_frmwork_LTTileMapPathFinder_SetPoint"
@@ -346,7 +349,7 @@ LTTileMapPosition^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTTileMapPosition_New"
 -Delete%()="_dwlab_frmwork_LTTileMapPosition_Delete"
 +Create:LTTileMapPosition(PrevPosition:LTTileMapPosition,X%,Y%)="_dwlab_frmwork_LTTileMapPosition_Create"
--Spread:LTTileMapPosition(TileMapPathFinder:LTTileMapPathFinder,FinalX%,FinalY%,List:brl.linkedlist.TList,StayNear%)="_dwlab_frmwork_LTTileMapPosition_Spread"
+-Spread:LTTileMapPosition(TileMapPathFinder:LTTileMapPathFinder,FinalX%,FinalY%,List:brl.linkedlist.TList,Range%)="_dwlab_frmwork_LTTileMapPosition_Spread"
 -FirstPosition:LTTileMapPosition()="_dwlab_frmwork_LTTileMapPosition_FirstPosition"
 -LastPosition:LTTileMapPosition()="_dwlab_frmwork_LTTileMapPosition_LastPosition"
 -Revert:LTTileMapPosition()="_dwlab_frmwork_LTTileMapPosition_Revert"
