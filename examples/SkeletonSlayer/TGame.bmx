@@ -72,7 +72,7 @@ Type TGame Extends LTProject
 			Local TileX:Int = Floor( SelectedTile.X )
 			Local TileY:Int = Floor( SelectedTile.Y )
 			Local TileNum:Int = Game.CollisionMap.Value[ TileX, TileY ]
-			If TileNum = EnemyTile Then
+			If TileNum = EnemyTile And Not Player.FindModel( "TFight" ) Then
 				For Local Person:TPerson = Eachin Objects
 					If Person.TileX = TileX And Person.TileY = TileY Then
 						Player.AttachModel( TFollow.Create( Person ) )

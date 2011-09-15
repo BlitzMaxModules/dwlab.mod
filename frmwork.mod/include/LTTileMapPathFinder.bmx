@@ -37,11 +37,11 @@ Type LTTileMapPathFinder Extends LTObject
 	returns: First tilemap position object in path. Next one can be retrieved using NextPosition field.
 	End Rem
 	Method FindPath:LTTileMapPosition( StartingX:Int, StartingY:Int, FinalX:Int, FinalY:Int, Range:Int = 0, MaxDistance:Int = 1024 )
-		If Abs( StartingX - FinalX ) <= Range And Abs( StartingY - FinalY ) <= Range Then Return Null
 		If Not Passage( FinalX, FinalY ) And Range = 0 Then Return Null
 		Points = New TMap
 		Local List:TList = New TList
 		List.AddLast( LTTileMapPosition.Create( Null, StartingX, StartingY ) )
+		If Abs( StartingX - FinalX ) <= Range And Abs( StartingY - FinalY ) <= Range Then Return LTTileMapPosition( List.First() )
 		Local Distance:Int = 0
 		Repeat
 			Distance :+ 1

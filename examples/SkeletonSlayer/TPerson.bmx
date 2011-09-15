@@ -98,6 +98,8 @@ Type TMovingAlongPath Extends LTBehaviorModel
 						Game.CollisionMap.Value[ Person.TileX, Person.TileY ] = Person.TileType
 					End If
 				End If
+				Local Follow:TFollow = TFollow( Person.FindModel( "TFollow" ) )
+				If Follow Then If Follow.Active Then Follow.Activate( Person )
 			Else
 				Person.Phase = ( 5 + L_Round( Person.DirectionToPoint( PosX, PosY ) / 45.0 ) ) Mod 8
 				Person.MoveTowardsPoint( PosX, PosY, Person.Velocity )
@@ -118,10 +120,8 @@ End Type
 
 Type TFollow Extends LTBehaviorModel
 	Const SeekingRange:Double = 10.0
-	Const PathFinderPeriod:Double = 0.1
 	
 	Field Opponent:TPerson
-	Field LastSearchTime:Double
 	
 	Function Create:TFollow( Opponent:TPerson )
 		Local Follow:TFollow = New TFollow
@@ -129,20 +129,25 @@ Type TFollow Extends LTBehaviorModel
 		Return Follow
 	End Function
 	
+	Method Watch( Shape:LTShape )
+		Local Person:TPerson = TPerson( Shape )
+		If Person.DistanceTo( Opponent ) <= SeekingRange And Not Person.IsNear( Opponent ) Then ActivateModel( Shape )
+	End Method
+	
+	Method Activate( Shape:LTShape )
+		Local Person:TPerson = TPerson( Shape )
+		Local Model:TMovingAlongPath = TMovingAlongPath( Shape.FindModel( "TMovingAlongPath" ) )
+		Local Position:LTTileMapPosition = Game.PathFinder.FindPath( Person.TileX, Person.TileY, Opponent.TileX, Opponent.TileY, True, Person.MaxSearchDistance )
+		If Model Then
+			Model.Position = Position
+		Else
+			Person.AttachModel( TMovingAlongPath.Create( Position ) )
+		End If
+	End Method
+	
 	Method ApplyTo( Shape:LTShape )
 		Local Person:TPerson = TPerson( Shape )
-		If Game.Time > LastSearchTime + PathFinderPeriod Then
-			If Person.DistanceTo( Game.Player ) <= SeekingRange And Not Person.IsNear( Opponent ) Then
-				Local Model:TMovingAlongPath = TMovingAlongPath( Shape.FindModel( "TMovingAlongPath" ) )
-				Local Position:LTTileMapPosition = Game.PathFinder.FindPath( Person.TileX, Person.TileY, Opponent.TileX, Opponent.TileY, True, Person.MaxSearchDistance )
-				If Model Then
-					Model.Position = Position
-				Else
-					Person.AttachModel( TMovingAlongPath.Create( Position ) )
-				End If
-				LastSearchTime = Game.Time
-			End If
-		End If
+		If Person.DistanceTo( Game.Player ) > SeekingRange Or Person.IsNear( Opponent ) Then DeactivateModel( Shape )
 	End Method
 End Type
 
@@ -184,8 +189,14 @@ Type TFight Extends LTBehaviorModel
 				If Opponent = Game.Player Then If Not Opponent.FindModel( "TFight" ) Then Opponent.AttachModel( TFight.Create( Person ) )
 				If Opponent.Health <= 0 Then
 					Opponent.RemoveModel( "TFight" )
-					Person.RemoveModel( "TFollow" )
-					Remove( Person )
+					If Opponent = Game.Player Then
+						For Local Skeleton:TPerson = Eachin Game.Objects
+							Skeleton.RemoveModel( "TFollow" )
+							Skeleton.RemoveModel( "TFight" )
+						Next
+					Else
+						Person.RemoveModel( "TFight" )
+					End If
 				End If
 				NextHitTime :+ AnimationSpeed * ( AnimationSize * 2 - 2 )
 			End If

@@ -16,7 +16,7 @@ Type TSkeleton Extends TPerson
 		Health = 10
 		MaxSearchDistance = 20
 		AttachModel( New TWander )
-		AttachModel( TFollow.Create( TPerson( Game.Level.FindShapeWithType( "TPlayer" ) ) ) )
+		AttachModel( TFollow.Create( TPerson( Game.Level.FindShapeWithType( "TPlayer" ) ) ), False )
 		AttachModel( TFight.Create( TPerson( Game.Level.FindShapeWithType( "TPlayer" ) ) ) )
 		Super.Init()
 	End Method
