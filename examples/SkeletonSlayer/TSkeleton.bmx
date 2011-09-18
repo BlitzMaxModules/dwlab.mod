@@ -19,6 +19,8 @@ Type TSkeleton Extends TPerson
 		AttachModel( TFollow.Create( TPerson( Game.Level.FindShapeWithType( "TPlayer" ) ) ), False )
 		AttachModel( TFight.Create( TPerson( Game.Level.FindShapeWithType( "TPlayer" ) ) ) )
 		Super.Init()
+     MaxSearchDistance = 20
+     AttachModel( TFollow.Create( TPerson( Game.Level.FindShapeWithType( "TPlayer" ) ) ) )
 	End Method
 	
 	Method RecalculatePath( Model:TMovingAlongPath )

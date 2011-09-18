@@ -50,7 +50,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.7"
+	Const Version:String = "1.7.1"
 	Const INIVersion:Int = 3
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 8

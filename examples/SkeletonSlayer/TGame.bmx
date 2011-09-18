@@ -60,7 +60,7 @@ Type TGame Extends LTProject
 	
 	Method Render()
 		Level.Draw()
-		Level.ShowModels( 96 )
+		'Level.ShowModels( 96 )
 		ShowDebugInfo()
 	End Method
 	
