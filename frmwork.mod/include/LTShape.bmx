@@ -891,7 +891,17 @@ Type LTShape Extends LTObject
 	
 	
 	Method CopyTo( Shape:LTShape )
-		Shape.Parameters = Parameters
+		If Parameters Then
+			Shape.Parameters = New TList
+			For Local Parameter:LTParameter = Eachin Parameters
+				Local NewParameter:LTParameter = New LTParameter
+				NewParameter.Name = Parameter.Name
+				NewParameter.Value = Parameter.Value
+				Shape.Parameters.AddLast( NewParameter )
+			Next 
+		Else
+			Shape.Parameters = Null
+		End If
 		If Visualizer Then Shape.Visualizer = Visualizer.Clone()
 		Shape.X = X
 		Shape.Y = Y

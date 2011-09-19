@@ -35,8 +35,6 @@ Type TParameterProperties Extends LTProject
 	
 		SetGadgetText( NameComboBox, Editor.SelectedParameter.Name )
 		SetGadgetText( ValueField, Editor.SelectedParameter.Value )
-		
-		ActivateGadget( Window )
 	End Method
 	
 	

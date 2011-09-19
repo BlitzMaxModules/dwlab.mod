@@ -1,0 +1,396 @@
+<LTWorld dwlab_version="1.2.3">
+	<LTVisualizer field="visualizer" id="1"/>
+	<LTCamera field="camera" x="31" y="47" width="16.421" height="13.8634" shape="2" viewport-clipping="1">
+		<Object field="visualizer" id="1"/>
+		<LTShape field="viewport" x="504" y="425.5" width="1008" height="851">
+			<Object field="visualizer" id="1"/>
+		</LTShape>
+	</LTCamera>
+	<TList field="definitions"/>
+	<LTLayer>
+		<TList field="parameters">
+			<LTParameter name="name" value="Menu"/>
+			<LTParameter name="window" value="AddProfile"/>
+		</TList>
+		<LTVisualizer field="visualizer" id="5"/>
+		<LTSprite x="31" y="41.75" width="16" height="1.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="class" value="LTPanel"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
+		</LTSprite>
+		<LTSprite x="24.75" y="41.75" width="2" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Play"/>
+				<LTParameter name="class" value="LTButton"/>
+			</TList>
+			<LTVisualizer field="visualizer"/>
+		</LTSprite>
+		<LTSprite x="27.25" y="41.75" width="2" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Profile"/>
+				<LTParameter name="class" value="LTButton"/>
+				<LTParameter name="window" value="SelectProfile"/>
+			</TList>
+			<LTVisualizer field="visualizer"/>
+		</LTSprite>
+		<LTSprite x="29.75" y="41.75" width="2" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Settings"/>
+				<LTParameter name="class" value="LTButton"/>
+				<LTParameter name="window" value="Settings"/>
+			</TList>
+			<LTVisualizer field="visualizer"/>
+		</LTSprite>
+		<LTSprite x="32.25" y="41.75" width="2" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Scores"/>
+				<LTParameter name="class" value="LTButton"/>
+				<LTParameter name="window" value="Scores"/>
+			</TList>
+			<LTVisualizer field="visualizer"/>
+		</LTSprite>
+		<LTSprite x="34.75" y="41.75" width="2" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Authors"/>
+				<LTParameter name="class" value="LTButton"/>
+				<LTParameter name="window" value="Authors"/>
+			</TList>
+			<LTVisualizer field="visualizer"/>
+		</LTSprite>
+		<LTSprite x="37.25" y="41.75" width="2" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Exit"/>
+				<LTParameter name="class" value="LTButton"/>
+			</TList>
+			<LTVisualizer field="visualizer"/>
+		</LTSprite>
+		<LTSprite x="38.25" y="42.625" width="1.5" height="0.75" shape="2">
+			<TList field="parameters">
+				<LTParameter name="class" value="LTButton"/>
+				<LTParameter name="frame" value="menu_tab"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
+		</LTSprite>
+	</LTLayer>
+	<LTLayer>
+		<TList field="parameters">
+			<LTParameter name="name" value="Options"/>
+		</TList>
+		<Object field="visualizer" id="5"/>
+		<LTShape field="bounds" x="31" y="47" width="16" height="12">
+			<LTVisualizer field="visualizer" id="69"/>
+		</LTShape>
+		<LTSprite x="31" y="52.5" width="16" shape="2">
+			<TList field="parameters">
+				<LTParameter name="class" value="LTPanel"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
+		</LTSprite>
+		<LTSprite x="25.25" y="52.5" width="3.5" height="0.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="class" value="LTPanel"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
+		</LTSprite>
+		<LTSprite x="23.5" y="52.5" width="0.5" height="0.5" shape="2">
+			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
+		</LTSprite>
+		<LTSprite x="24.25" y="52.5" width="0.5" height="0.5" shape="2">
+			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
+		</LTSprite>
+		<LTSprite x="25.75" y="52.5" width="2" height="0.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="class" value="LTSlider"/>
+				<LTParameter name="name" value="SoundVolume"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
+		</LTSprite>
+		<LTSprite x="29.25" y="52.5" width="3.5" height="0.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="class" value="LTPanel"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
+		</LTSprite>
+		<LTSprite x="27.5" y="52.5" width="0.5" height="0.5" shape="2">
+			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
+		</LTSprite>
+		<LTSprite x="28.25" y="52.5" width="0.5" height="0.5" shape="2">
+			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
+		</LTSprite>
+		<LTSprite x="29.75" y="52.5" width="2" height="0.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="class" value="LTSlider"/>
+				<LTParameter name="name" value="MusicVolume"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
+		</LTSprite>
+	</LTLayer>
+	<LTLayer>
+		<TList field="parameters">
+			<LTParameter name="name" value="SelectProfile"/>
+		</TList>
+		<LTVisualizer field="visualizer"/>
+		<LTSprite x="27.25" y="45" width="8" height="4" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="SelectProfile"/>
+				<LTParameter name="class" value="LTWindow"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="29.75" y="43.75" width="2.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="AddProfile"/>
+				<LTParameter name="class" value="LTButton"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="29.75" y="45" width="2.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="RemoveProfile"/>
+				<LTParameter name="class" value="LTButton"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="29.75" y="46.25" width="2.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="SelectProfile"/>
+				<LTParameter name="class" value="LTButton"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="25.875" y="45" width="4.75" height="3.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Profiles"/>
+				<LTParameter name="class" value="LTListBox"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+	</LTLayer>
+	<LTLayer>
+		<TList field="parameters">
+			<LTParameter name="name" value="AddProfile"/>
+		</TList>
+		<LTVisualizer field="visualizer" id="95"/>
+		<LTSprite x="34.125" y="44.75" width="4.75" height="3.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="AddProfile"/>
+				<LTParameter name="class" value="LTWindow"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="33" y="45.875" width="2" height="0.75" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="OK"/>
+				<LTParameter name="class" value="LTButton"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="35.25" y="45.875" width="2" height="0.75" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Cancel"/>
+				<LTParameter name="class" value="LTButton"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="32.25" y="45" width="0.5" height="0.5" shape="2">
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="34.5" y="45" width="3.5" height="0.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="class" value="LTTextField"/>
+				<LTParameter name="name" value="ProfileName"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.4899"/>
+		</LTSprite>
+		<LTSprite x="34.125" y="44.25" width="4.25" height="0.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="class" value="LTLabel"/>
+				<LTParameter name="name" value="AddProfile"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.4899"/>
+		</LTSprite>
+	</LTLayer>
+	<LTLayer>
+		<TList field="parameters">
+			<LTParameter name="name" value="RemoveProfile"/>
+		</TList>
+		<Object field="visualizer" id="95"/>
+		<LTSprite x="28.875" y="48.75" width="4.75" height="2.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="RemoveProfile"/>
+				<LTParameter name="class" value="LTWindow"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="27.75" y="49.375" width="2" height="0.75" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="OK"/>
+				<LTParameter name="class" value="LTButton"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="30" y="49.375" width="2" height="0.75" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Cancel"/>
+				<LTParameter name="class" value="LTButton"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="28.875" y="48.5" width="4.25" height="0.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="class" value="LTLabel"/>
+				<LTParameter name="name" value="RemoveProfile"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.4899"/>
+		</LTSprite>
+	</LTLayer>
+	<LTLayer>
+		<TList field="parameters">
+			<LTParameter name="name" value="Settings"/>
+		</TList>
+		<Object field="visualizer" id="95"/>
+		<LTSprite x="31.125" y="48" width="4.75" height="8" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Settings"/>
+				<LTParameter name="class" value="LTWindow"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="30" y="51.375" width="2" height="0.75" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="OK"/>
+				<LTParameter name="class" value="LTButton"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="32.25" y="51.375" width="2" height="0.75" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Cancel"/>
+				<LTParameter name="class" value="LTButton"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="31.125" y="48.5" width="4.25" height="4.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="frame" value="simple"/>
+				<LTParameter name="class" value="LTKeysListBox"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="30" y="45" width="2" height="0.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Video"/>
+				<LTParameter name="class" value="LTLabel"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="32.25" y="45" width="2" height="0.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Video"/>
+				<LTParameter name="class" value="LTComboBox"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="32.25" y="45.75" width="2" height="0.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Language"/>
+				<LTParameter name="class" value="LTComboBox"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="30" y="45.75" width="2" height="0.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Language"/>
+				<LTParameter name="class" value="LTLabel"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+	</LTLayer>
+	<LTLayer>
+		<TList field="parameters">
+			<LTParameter name="name" value="Scores"/>
+		</TList>
+		<Object field="visualizer" id="69"/>
+		<LTSprite x="31" y="48" width="8" height="8" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Scores"/>
+				<LTParameter name="class" value="LTWindow"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="31" y="51.375" width="2" height="0.75" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="OK"/>
+				<LTParameter name="class" value="LTButton"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="31" y="47.75" width="7.5" height="6" shape="2">
+			<TList field="parameters">
+				<LTParameter name="class" value="LTScores"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+	</LTLayer>
+	<LTLayer>
+		<TList field="parameters">
+			<LTParameter name="name" value="Authors"/>
+		</TList>
+		<Object field="visualizer" id="69"/>
+		<LTSprite x="31" y="48" width="8" height="8" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Authors"/>
+				<LTParameter name="class" value="LTWindow"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="31" y="51.375" width="2" height="0.75" shape="2">
+			<TList field="parameters">
+				<LTParameter name="class" value="LTButton"/>
+				<LTParameter name="name" value="OK"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="31" y="47.75" width="7.5" height="6" shape="2">
+			<TList field="parameters">
+				<LTParameter name="class" value="LTAuthors"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+	</LTLayer>
+	<LTLayer>
+		<TList field="parameters">
+			<LTParameter name="name" value="Exit"/>
+		</TList>
+		<Object field="visualizer" id="69"/>
+		<LTSprite x="28.875" y="48.75" width="4.75" height="2.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Exit"/>
+				<LTParameter name="class" value="LTWindow"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="27.75" y="49.375" width="2" height="0.75" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="OK"/>
+				<LTParameter name="class" value="LTButton"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="30" y="49.375" width="2" height="0.75" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Cancel"/>
+				<LTParameter name="class" value="LTButton"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+		</LTSprite>
+		<LTSprite x="28.875" y="48.5" width="4.25" height="0.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="class" value="LTLabel"/>
+				<LTParameter name="name" value="Exit"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" alpha="0.4899"/>
+		</LTSprite>
+	</LTLayer>
+</LTWorld>

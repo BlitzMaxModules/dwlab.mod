@@ -707,21 +707,24 @@ Type LTEditor Extends LTProject
 					Case Toolbar
 						EvID = Event_MenuAction
 					Case ProjectManager
-						If EventExtra() Then
+						If Not EventExtra() Then
+							SelectedShape = Null
+						Else
 							SelectedShape = LTShape( GadgetExtra( TGadget( EventExtra() ) ) )
-							If SelectedShape Then
-								EvID = Event_MenuAction
-								If LTLayer( SelectedShape ) Then
-									EvData = MenuSelectViewLayer
-								ElseIf LTTileMap( SelectedShape ) Then
-									EvData = MenuEditTilemap
-								ElseIf LTSpriteMap( SelectedShape ) Then
-									EvData = MenuSelectContainer
-								Else
-									EditTilemap( Null )
-									SelectShape( SelectedShape )
-									EvID = Event_GadgetAction
-								End If
+						End If
+						
+						If SelectedShape Then
+							EvID = Event_MenuAction
+							If LTLayer( SelectedShape ) Then
+								EvData = MenuSelectViewLayer
+							ElseIf LTTileMap( SelectedShape ) Then
+								EvData = MenuEditTilemap
+							ElseIf LTSpriteMap( SelectedShape ) Then
+								EvData = MenuSelectContainer
+							Else
+								EditTilemap( Null )
+								SelectShape( SelectedShape )
+								EvID = Event_GadgetAction
 							End If
 						Else
 							Local Name:String
@@ -834,9 +837,11 @@ Type LTEditor Extends LTProject
 							End If
 						Else
 							For Local Sprite:LTSprite = Eachin SelectedShapes
-								Local NewHeight:Double = Sprite.Width * Sprite.Visualizer.Image.Height() / Sprite.Visualizer.Image.Width()
-								Sprite.SetCoords( Sprite.X, Sprite.Y + 0.5 * ( Sprite.Height - NewHeight ) )
-								Sprite.SetSize( Sprite.Width, NewHeight )
+								If Sprite.Visualizer.Image Then
+									Local NewHeight:Double = Sprite.Width * Sprite.Visualizer.Image.Height() / Sprite.Visualizer.Image.Width()
+									Sprite.SetCoords( Sprite.X, Sprite.Y + 0.5 * ( Sprite.Height - NewHeight ) )
+									Sprite.SetSize( Sprite.Width, NewHeight )
+								End If
 							Next
 							SetChanged()
 						End If
@@ -1257,7 +1262,7 @@ Type LTEditor Extends LTProject
 						PopUpWindowMenu( Window, TileMapMenu )
 					ElseIf LTSpriteMap( SelectedShape ) Then
 						PopUpWindowMenu( Window, SpriteMapMenu )
-					Else
+					ElseIf SelectedShape Then
 						If LTSprite( SelectedShape ).SpriteMap Then
 							PopUpWindowMenu( Window, MapSpriteMenu )
 						Else

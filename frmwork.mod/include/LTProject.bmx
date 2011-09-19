@@ -170,9 +170,10 @@ Type LTProject Extends LTObject
 		Exiting = False
 		Pass = 1
 		L_DeltaTime = 0
-		
+				
 		Init()
 		
+		Time = 0.0
 		Local StartTime:Int = MilliSecs()
 		
 		Local RealTime:Double = 0
@@ -184,9 +185,7 @@ Type LTProject Extends LTObject
 		L_DeltaTime = 1.0 / LogicFPS
 	    
 		Repeat
-			PollSystem()	
-		
-			Time :+  L_DeltaTime
+			Time :+  1.0 / LogicFPS
 			
 			If CurrentPause Then
 				CurrentPause.Update()

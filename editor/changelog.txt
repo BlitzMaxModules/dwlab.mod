@@ -1,3 +1,6 @@
+1.7.1.1
+* Fixed bug with freezing of child windows.
+
 1.7.1
 + Rule generation pattern for auto-enframing of walls
 + Cut / copy / paste menu items
