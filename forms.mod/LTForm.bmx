@@ -74,7 +74,7 @@ Type LTForm
 	returns: Label gadget.
 	EndRem
 	Method AddLabel:TGadget( Text:String, Width:Int, Style:Int = Label_Right )
-		Return AddGadget( Text, 0, L_FieldHeight, Width, 0, LTGadget.Label, Style ).Gadget
+		Return AddGadget( Text, 0, L_FieldHeight, Width, 0, LTFormGadget.Label, Style ).Gadget
 	End Method
 	
 	
@@ -84,7 +84,7 @@ Type LTForm
 	returns: Button gadget.
 	EndRem
 	Method AddButton:TGadget( Text:String, Width:Int, Style:Int = Button_Push )
-		Return AddGadget( Text, Width, L_FieldHeight, 0, 0, LTGadget.Button, Style ).Gadget
+		Return AddGadget( Text, Width, L_FieldHeight, 0, 0, LTFormGadget.Button, Style ).Gadget
 	End Method
 	
 	
@@ -94,7 +94,7 @@ Type LTForm
 	returns: New canvas.
 	EndRem
 	Method AddCanvas:TGadget( Width:Int, Height:Int )
-		Return AddGadget( "", Width, Height, 0, 0, LTGadget.Canvas, 0 ).Gadget
+		Return AddGadget( "", Width, Height, 0, 0, LTFormGadget.Canvas, 0 ).Gadget
 	End Method
 	
 	
@@ -104,7 +104,7 @@ Type LTForm
 	returns: Text field gadget.
 	EndRem
 	Method AddTextField:TGadget( LabelText:String, LabelWidth:Int, TextFieldWidth:Int = 56, TextFieldStyle:Int = 0 )
-		Return AddGadget( LabelText, TextFieldWidth, L_FieldHeight, LabelWidth, 0, LTGadget.TextField, TextFieldStyle ).Gadget
+		Return AddGadget( LabelText, TextFieldWidth, L_FieldHeight, LabelWidth, 0, LTFormGadget.TextField, TextFieldStyle ).Gadget
 	End Method
 	
 	
@@ -114,7 +114,7 @@ Type LTForm
 	returns: Combo box gadget.
 	EndRem
 	Method AddComboBox:TGadget( LabelText:String, LabelWidth:Int, ComboBoxWidth:Int = 56, ComboBoxStyle:Int = 0 )
-		Return AddGadget( LabelText, ComboBoxWidth, L_FieldHeight, LabelWidth, 0, LTGadget.ComboBox, ComboBoxStyle ).Gadget
+		Return AddGadget( LabelText, ComboBoxWidth, L_FieldHeight, LabelWidth, 0, LTFormGadget.ComboBox, ComboBoxStyle ).Gadget
 	End Method
 	
 	
@@ -125,50 +125,50 @@ Type LTForm
 	about: Slider gadget will be passed through Slider variable.
 	EndRem
 	Method AddSliderWidthTextField( Slider:TGadget Var, TextField:TGadget Var, LabelText:String, LabelWidth:Int, SliderWidth:Int = 56, TextFieldWidth:Int = 56, SliderStyle:Int = Slider_Trackbar | Slider_Horizontal )
-		Local LabGadget:LTGadget = AddGadget( LabelText, TextFieldWidth, L_FieldHeight, LabelWidth, SliderWidth, LTGadget.SliderWithTextField, SliderStyle )
-		Slider = LabGadget.SliderGadget
-		TextField = LabGadget.Gadget
+		Local FormGadget:LTFormGadget = AddGadget( LabelText, TextFieldWidth, L_FieldHeight, LabelWidth, SliderWidth, LTFormGadget.SliderWithTextField, SliderStyle )
+		Slider = FormGadget.SliderGadget
+		TextField = FormGadget.Gadget
 	End Method
 	
 	
 	
-	Method AddGadget:LTGadget( LabelText:String, Width:Int, Height:Int, LabelWidth:Int, SliderWidth:Int, GadgetType:Int, Style:Int )
-		Local LabGadget:LTGadget = New LTGadget
+	Method AddGadget:LTFormGadget( LabelText:String, Width:Int, Height:Int, LabelWidth:Int, SliderWidth:Int, GadgetType:Int, Style:Int )
+		Local FormGadget:LTFormGadget = New LTFormGadget
 		If X > Margins Then X :+ HorizontalCellSpacing
 		
 		If LabelText Then
 			Local LabelStyle:Int = Label_Right
-			If GadgetType = LTGadget.Label Then LabelStyle = Style
-			LabGadget.LabelGadget = CreateLabel( LabelText, X, Y, LabelWidth, 16, Gadget, LabelStyle )
-			LabGadget.LabelX = X
-			LabGadget.LabelY = Y + 0.5 * ( Height - 16 )
+			If GadgetType = LTFormGadget.Label Then LabelStyle = Style
+			FormGadget.LabelGadget = CreateLabel( LabelText, X, Y, LabelWidth, 16, Gadget, LabelStyle )
+			FormGadget.LabelX = X
+			FormGadget.LabelY = Y + 0.5 * ( Height - 16 )
 			X :+ LabelWidth + L_LabelIndent
 		End If
 		
 		Select GadgetType
-			Case LTGadget.Button
-				LabGadget.Gadget = CreateButton( LabelText, X, Y, Width, Height, Gadget, Style )
-			Case LTGadget.Canvas
-				LabGadget.Gadget = CreateCanvas( X, Y, Width, Height, Gadget, Style )
-			Case LTGadget.TextField
-				LabGadget.Gadget = CreateTextField( X, Y, Width, Height, Gadget, Style )
-			Case LTGadget.ComboBox
-				LabGadget.Gadget = CreateComboBox( X, Y, Width, Height, Gadget, Style	)
-			Case LTGadget.SliderWithTextField
-				LabGadget.SliderGadget = CreateSlider( X, Y, SliderWidth, Height, Gadget, Style )
-				SetSliderRange( LabGadget.SliderGadget, 0, 100 )
-				LabGadget.SliderX = X
+			Case LTFormGadget.Button
+				FormGadget.Gadget = CreateButton( LabelText, X, Y, Width, Height, Gadget, Style )
+			Case LTFormGadget.Canvas
+				FormGadget.Gadget = CreateCanvas( X, Y, Width, Height, Gadget, Style )
+			Case LTFormGadget.TextField
+				FormGadget.Gadget = CreateTextField( X, Y, Width, Height, Gadget, Style )
+			Case LTFormGadget.ComboBox
+				FormGadget.Gadget = CreateComboBox( X, Y, Width, Height, Gadget, Style	)
+			Case LTFormGadget.SliderWithTextField
+				FormGadget.SliderGadget = CreateSlider( X, Y, SliderWidth, Height, Gadget, Style )
+				SetSliderRange( FormGadget.SliderGadget, 0, 100 )
+				FormGadget.SliderX = X
 				X :+ SliderWidth + L_LabelIndent
-				LabGadget.Gadget = CreateTextField( X, Y, Width, Height, Gadget )
+				FormGadget.Gadget = CreateTextField( X, Y, Width, Height, Gadget )
 		End Select
-		LabGadget.X = X
-		LabGadget.Y = Y
+		FormGadget.X = X
+		FormGadget.Y = Y
 		X :+ Width
 		
-		LabGadget.GadgetType = GadgetType
-		CurrentHorizontalList.AddLast( LabGadget )
+		FormGadget.GadgetType = GadgetType
+		CurrentHorizontalList.AddLast( FormGadget )
 		CurrentHeight = Max( CurrentHeight, Height )
-		Return LabGadget
+		Return FormGadget
 	End Method
 	
 	
@@ -192,16 +192,16 @@ Type LTForm
 			Local DWidth:Int = MaxWidth - HorizontalList.TotalWidth
 			Local DWidth2:Double = 1.0 * DWidth / HorizontalList.Count()
 			Local DX:Double = 0
-			For Local LabGadget:LTGadget = Eachin HorizontalList
+			For Local FormGadget:LTFormGadget = Eachin HorizontalList
 				Select HorizontalList.Alignment
 					Case LTAlign.ToLeft
-						MoveGadgets( LabGadget, 0 )
+						MoveGadgets( FormGadget, 0 )
 					Case LTAlign.ToCenter
-						MoveGadgets( LabGadget, 0.5 * DWidth )
+						MoveGadgets( FormGadget, 0.5 * DWidth )
 					Case LTAlign.ToRight
-						MoveGadgets( LabGadget, DWidth )
+						MoveGadgets( FormGadget, DWidth )
 					Case LTAlign.Stretch
-						MoveGadgets( LabGadget, Floor( DX ), Floor( DWidth2 ) )
+						MoveGadgets( FormGadget, Floor( DX ), Floor( DWidth2 ) )
 						DX :+ DWidth2
 				End Select
 			Next
@@ -210,13 +210,13 @@ Type LTForm
 	
 	
 	
-	Method MoveGadgets( LabGadget:LTGadget, DX:Int, DWidth:Int = 0 )
-		If LabGadget.LabelGadget Then MoveGadget( LabGadget.LabelGadget, LabGadget.LabelX + DX, LabGadget.LabelY )
-		If LabGadget.SliderGadget Then 
-			MoveGadget( LabGadget.SliderGadget, LabGadget.SliderX + DX, LabGadget.Y, DWidth )
-			MoveGadget( LabGadget.Gadget, LabGadget.X + DX + DWidth, LabGadget.Y )
-		ElseIf LabGadget.Gadget Then
-			MoveGadget( LabGadget.Gadget, LabGadget.X + DX, LabGadget.Y, DWidth )
+	Method MoveGadgets( FormGadget:LTFormGadget, DX:Int, DWidth:Int = 0 )
+		If FormGadget.LabelGadget Then MoveGadget( FormGadget.LabelGadget, FormGadget.LabelX + DX, FormGadget.LabelY )
+		If FormGadget.SliderGadget Then 
+			MoveGadget( FormGadget.SliderGadget, FormGadget.SliderX + DX, FormGadget.Y, DWidth )
+			MoveGadget( FormGadget.Gadget, FormGadget.X + DX + DWidth, FormGadget.Y )
+		ElseIf FormGadget.Gadget Then
+			MoveGadget( FormGadget.Gadget, FormGadget.X + DX, FormGadget.Y, DWidth )
 		End If
 	End Method
 	

@@ -21,6 +21,8 @@ ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.1.1 (20.09.11)"
+ModuleInfo "History: &nbsp; &nbsp; LTGadget renamed to LTFormGadget."
 ModuleInfo "History: v1.0.0.1 (28.06.11)"
 ModuleInfo "History: &nbsp; &nbsp; Removed variable parameters from Set() and Toggle() methods of LTMenuSwitch class."
 ModuleInfo "History: v1.0 (28.06.11)"
@@ -38,6 +40,6 @@ Import maxgui.cocoamaxgui
 Import dwlab.frmwork
 
 Include "LTForm.bmx"
-Include "LTGadget.bmx"
+Include "LTFormGadget.bmx"
 Include "LTHorizontalList.bmx"
 Include "LTMenuSwitch.bmx"

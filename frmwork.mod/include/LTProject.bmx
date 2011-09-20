@@ -51,8 +51,6 @@ Type LTProject Extends LTObject
 	End Rem
 	Field Time:Double
 	
-	Field CurrentPause:LTPause
-	
 	Rem
 	bbdoc: Exit flag.
 	about: Set it to True to exit project.
@@ -64,6 +62,12 @@ Type LTProject Extends LTObject
 	about: If set to True then Cls will be performed before Render() and Flip will be performed after Render().
 	End Rem
 	Field Flipping:Int = True
+	
+	Field Paused:Int = False
+	
+	Field Windows:TList = New TList 
+	
+	Field MouseHit:Int[] = New Int[ 4 ]
 	
 	
 	Rem
@@ -187,17 +191,24 @@ Type LTProject Extends LTObject
 		Repeat
 			Time :+  1.0 / LogicFPS
 			
-			If CurrentPause Then
-				CurrentPause.Update()
-			Else
-				?debug
-				L_CollisionChecks = 0
-				L_SpritesActed = 0
-				?
-				
-				Logic()
-				If Exiting Then Exit
-			End If
+			?debug
+			L_CollisionChecks = 0
+			L_SpritesActed = 0
+			?
+			
+			For Local N:Int = 1 To 3
+				If MouseDown( N ) And Not MouseHit[ N ] Then MouseHit[ N ] = 1
+			Next
+			
+			If Not Paused Then Logic()
+			For Local Window:LTWindow = Eachin Windows
+				Window.Operate( Project )
+			Next
+			If Exiting Then Exit
+			
+			For Local N:Int = 1 To 3
+				If MouseHit[ N ] Then MouseHit[ N ] = 2 Else MouseHit[ N ] = 0
+			Next
 		
 			Repeat
 				RealTime = 0.001 * ( Millisecs() - StartTime )
@@ -211,7 +222,8 @@ Type LTProject Extends LTObject
 				?
 				
 				Render()
-				If CurrentPause Then CurrentPause.Render()
+				Gadgets.Draw()
+				
 				If Flipping Then Flip( False )
 		      
 				LastRenderTime = 0.001 * ( Millisecs() - StartTime )

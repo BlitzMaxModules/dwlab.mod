@@ -13,6 +13,7 @@ Include "LTVectorSprite.bmx"
 Include "LTCamera.bmx"
 Include "Collisions.bmx"
 Include "Physics.bmx"
+Include "LTGadget.bmx"
 
 Rem
 bbdoc: Sprite is the main basic shape of the framework to draw, move and check collisions.
@@ -571,7 +572,7 @@ Type LTSprite Extends LTShape
 	End Method
 	
 	' ==================== Other ====================	
-
+	
 	Method Clone:LTShape()
 		Local NewSprite:LTSprite = New LTSprite
 		CopyTo( NewSprite )

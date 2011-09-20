@@ -3,6 +3,8 @@ ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.1.1 (20.09.11)"
+ModuleInfo "History: &nbsp; &nbsp; LTGadget renamed to LTFormGadget."
 ModuleInfo "History: v1.0.0.1 (28.06.11)"
 ModuleInfo "History: &nbsp; &nbsp; Removed variable parameters from Set() and Toggle() methods of LTMenuSwitch class."
 ModuleInfo "History: v1.0 (28.06.11)"
@@ -32,12 +34,12 @@ LTForm^brl.blitz.Object{
 -AddTextField:maxgui.maxgui.TGadget(LabelText$,LabelWidth%,TextFieldWidth%=56,TextFieldStyle%=0)="_dwlab_forms_LTForm_AddTextField"
 -AddComboBox:maxgui.maxgui.TGadget(LabelText$,LabelWidth%,ComboBoxWidth%=56,ComboBoxStyle%=0)="_dwlab_forms_LTForm_AddComboBox"
 -AddSliderWidthTextField%(Slider:maxgui.maxgui.TGadget Var,TextField:maxgui.maxgui.TGadget Var,LabelText$,LabelWidth%,SliderWidth%=56,TextFieldWidth%=56,SliderStyle%=5)="_dwlab_forms_LTForm_AddSliderWidthTextField"
--AddGadget:LTGadget(LabelText$,Width%,Height%,LabelWidth%,SliderWidth%,GadgetType%,Style%)="_dwlab_forms_LTForm_AddGadget"
+-AddGadget:LTFormGadget(LabelText$,Width%,Height%,LabelWidth%,SliderWidth%,GadgetType%,Style%)="_dwlab_forms_LTForm_AddGadget"
 -Finalize%(Center%=1,FormDX%=0,FormDY%=0)="_dwlab_forms_LTForm_Finalize"
--MoveGadgets%(LabGadget:LTGadget,DX%,DWidth%=0)="_dwlab_forms_LTForm_MoveGadgets"
+-MoveGadgets%(FormGadget:LTFormGadget,DX%,DWidth%=0)="_dwlab_forms_LTForm_MoveGadgets"
 -MoveGadget%(Gadget:maxgui.maxgui.TGadget,X%,Y%,DWidth%=0)="_dwlab_forms_LTForm_MoveGadget"
 }="dwlab_forms_LTForm"
-LTGadget^brl.blitz.Object{
+LTFormGadget^brl.blitz.Object{
 Button%=0
 TextField%=1
 ComboBox%=2
@@ -53,9 +55,9 @@ Canvas%=5
 .LabelY%&
 .SliderGadget:maxgui.maxgui.TGadget&
 .SliderX%&
--New%()="_dwlab_forms_LTGadget_New"
--Delete%()="_dwlab_forms_LTGadget_Delete"
-}="dwlab_forms_LTGadget"
+-New%()="_dwlab_forms_LTFormGadget_New"
+-Delete%()="_dwlab_forms_LTFormGadget_Delete"
+}="dwlab_forms_LTFormGadget"
 LTHorizontalList^brl.linkedlist.TList{
 .TotalWidth%&
 .Alignment%&

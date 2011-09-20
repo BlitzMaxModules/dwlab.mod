@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTGadget
+Type LTFormGadget
 	Const Button:Int = 0
 	Const TextField:Int = 1
 	Const ComboBox:Int = 2

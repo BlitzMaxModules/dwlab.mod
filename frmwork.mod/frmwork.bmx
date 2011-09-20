@@ -134,7 +134,6 @@ Include "include/LTBehaviorModel.bmx"
 Include "include/LTText.bmx"
 Include "include/LTDrag.bmx"
 Include "include/LTAction.bmx"
-Include "include/LTPause.bmx"
 Include "include/XML.bmx"
 Include "include/Service.bmx"
 

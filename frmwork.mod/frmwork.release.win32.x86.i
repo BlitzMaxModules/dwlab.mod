@@ -542,6 +542,10 @@ LTRemoveLineFromGraph^LTAction{
 -Do%()="_dwlab_frmwork_LTRemoveLineFromGraph_Do"
 -Undo%()="_dwlab_frmwork_LTRemoveLineFromGraph_Undo"
 }="dwlab_frmwork_LTRemoveLineFromGraph"
+LTGadget^LTShape{
+-New%()="_dwlab_frmwork_LTGadget_New"
+-Delete%()="_dwlab_frmwork_LTGadget_Delete"
+}="dwlab_frmwork_LTGadget"
 LTImage^LTObject{
 .BMaxImage:brl.max2d.TImage&
 .Filename$&

@@ -1,5 +1,15 @@
 <LTWorld dwlab_version="1.2.3">
 	<LTVisualizer field="visualizer" id="1"/>
+	<TList field="images">
+		<Object id="51"/>
+		<Object id="76"/>
+		<Object id="79"/>
+		<Object id="82"/>
+		<Object id="85"/>
+		<Object id="54"/>
+		<Object id="66"/>
+		<Object id="138"/>
+	</TList>
 	<LTCamera field="camera" x="31" y="47" width="16.421" height="13.8634" shape="2" viewport-clipping="1">
 		<Object field="visualizer" id="1"/>
 		<LTShape field="viewport" x="504" y="425.5" width="1008" height="851">
@@ -9,10 +19,9 @@
 	<TList field="definitions"/>
 	<LTLayer>
 		<TList field="parameters">
-			<LTParameter name="name" value="Menu"/>
-			<LTParameter name="window" value="AddProfile"/>
+			<LTParameter name="class" value="LTMenuWindow"/>
 		</TList>
-		<LTVisualizer field="visualizer" id="5"/>
+		<LTVisualizer field="visualizer" id="4"/>
 		<LTSprite x="31" y="41.75" width="16" height="1.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="class" value="LTPanel"/>
@@ -76,11 +85,11 @@
 	</LTLayer>
 	<LTLayer>
 		<TList field="parameters">
-			<LTParameter name="name" value="Options"/>
+			<LTParameter name="class" value="LTOptionsWindow"/>
 		</TList>
-		<Object field="visualizer" id="5"/>
+		<Object field="visualizer" id="4"/>
 		<LTShape field="bounds" x="31" y="47" width="16" height="12">
-			<LTVisualizer field="visualizer" id="91"/>
+			<LTVisualizer field="visualizer" id="97"/>
 		</LTShape>
 		<LTSprite x="31" y="52.5" width="16" shape="2">
 			<TList field="parameters">
@@ -95,10 +104,14 @@
 			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
 		</LTSprite>
 		<LTSprite x="23.5" y="52.5" width="0.5" height="0.5" shape="2">
-			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
+			<LTVisualizer field="visualizer" green="0" alpha="0.4698">
+				<LTImage field="image" id="51" filename="..\\menu\images\on_off.png" xcells="2"/>
+			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="24.25" y="52.5" width="0.5" height="0.5" shape="2">
-			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
+			<LTVisualizer field="visualizer" green="0" alpha="0.4698">
+				<LTImage field="image" id="54" filename="..\\menu\images\sound.png"/>
+			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="26" y="52.5" width="2.5" height="0.5" shape="2">
 			<TList field="parameters">
@@ -114,10 +127,14 @@
 			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
 		</LTSprite>
 		<LTSprite x="28" y="52.5" width="0.5" height="0.5" shape="2">
-			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
+			<LTVisualizer field="visualizer" green="0" alpha="0.4698">
+				<Object field="image" id="51"/>
+			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="28.75" y="52.5" width="0.5" height="0.5" shape="2">
-			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
+			<LTVisualizer field="visualizer" green="0" alpha="0.4698">
+				<LTImage field="image" id="66" filename="..\\menu\images\music.png"/>
+			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="30.5" y="52.5" width="2.5" height="0.5" shape="2">
 			<TList field="parameters">
@@ -133,16 +150,24 @@
 			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
 		</LTSprite>
 		<LTSprite x="32.75" y="52.5" width="0.5" height="0.5" shape="2">
-			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
+			<LTVisualizer field="visualizer" green="0" alpha="0.4698">
+				<LTImage field="image" id="76" filename="..\\menu\images\prev_track.png"/>
+			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="33.25" y="52.5" width="0.5" height="0.5" shape="2">
-			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
+			<LTVisualizer field="visualizer" green="0" alpha="0.4698">
+				<LTImage field="image" id="79" filename="..\\menu\images\play.png" xcells="2"/>
+			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="33.75" y="52.5" width="0.5" height="0.5" shape="2">
-			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
+			<LTVisualizer field="visualizer" green="0" alpha="0.4698">
+				<LTImage field="image" id="82" filename="..\\menu\images\next_track.png"/>
+			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="34.25" y="52.5" width="0.5" height="0.5" shape="2">
-			<LTVisualizer field="visualizer" green="0" alpha="0.4698"/>
+			<LTVisualizer field="visualizer" green="0" alpha="0.4698">
+				<LTImage field="image" id="85" filename="..\\menu\images\repeat.png" xcells="2"/>
+			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="36" y="52.5" width="2" height="0.5" shape="2">
 			<TList field="parameters">
@@ -163,7 +188,7 @@
 	</LTLayer>
 	<LTLayer>
 		<TList field="parameters">
-			<LTParameter name="name" value="SelectProfile"/>
+			<LTParameter name="class" value="LTSelectProfileWindow"/>
 		</TList>
 		<LTVisualizer field="visualizer"/>
 		<LTSprite x="27.25" y="45" width="8" height="4" shape="2">
@@ -204,9 +229,9 @@
 	</LTLayer>
 	<LTLayer>
 		<TList field="parameters">
-			<LTParameter name="name" value="AddProfile"/>
+			<LTParameter name="class" value="LTAddProfileWindow"/>
 		</TList>
-		<LTVisualizer field="visualizer" id="117"/>
+		<LTVisualizer field="visualizer" id="123"/>
 		<LTSprite x="34.125" y="44.75" width="4.75" height="3.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="name" value="AddProfile"/>
@@ -229,7 +254,9 @@
 			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
 		</LTSprite>
 		<LTSprite x="32.25" y="45" width="0.5" height="0.5" shape="2">
-			<LTVisualizer field="visualizer" green="0" alpha="0.5"/>
+			<LTVisualizer field="visualizer" green="0" alpha="0.5">
+				<LTImage field="image" id="138" filename="..\\menu\images\people.png"/>
+			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="34.5" y="45" width="3.5" height="0.5" shape="2">
 			<TList field="parameters">
@@ -248,9 +275,9 @@
 	</LTLayer>
 	<LTLayer>
 		<TList field="parameters">
-			<LTParameter name="name" value="RemoveProfile"/>
+			<LTParameter name="class" value="LTRemoveProfileWindow"/>
 		</TList>
-		<Object field="visualizer" id="117"/>
+		<Object field="visualizer" id="123"/>
 		<LTSprite x="28.875" y="48.75" width="4.75" height="2.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="name" value="RemoveProfile"/>
@@ -282,9 +309,9 @@
 	</LTLayer>
 	<LTLayer>
 		<TList field="parameters">
-			<LTParameter name="name" value="Settings"/>
+			<LTParameter name="class" value="LTSettingsWindow"/>
 		</TList>
-		<Object field="visualizer" id="117"/>
+		<Object field="visualizer" id="123"/>
 		<LTSprite x="31.125" y="48" width="4.75" height="8" shape="2">
 			<TList field="parameters">
 				<LTParameter name="name" value="Settings"/>
@@ -344,9 +371,9 @@
 	</LTLayer>
 	<LTLayer>
 		<TList field="parameters">
-			<LTParameter name="name" value="Scores"/>
+			<LTParameter name="class" value="LTScoresWindow"/>
 		</TList>
-		<Object field="visualizer" id="91"/>
+		<Object field="visualizer" id="97"/>
 		<LTSprite x="31" y="48" width="8" height="8" shape="2">
 			<TList field="parameters">
 				<LTParameter name="name" value="Scores"/>
@@ -370,9 +397,9 @@
 	</LTLayer>
 	<LTLayer>
 		<TList field="parameters">
-			<LTParameter name="name" value="Authors"/>
+			<LTParameter name="class" value="LTAuthorsWindow"/>
 		</TList>
-		<Object field="visualizer" id="91"/>
+		<Object field="visualizer" id="97"/>
 		<LTSprite x="31" y="48" width="8" height="8" shape="2">
 			<TList field="parameters">
 				<LTParameter name="name" value="Authors"/>
@@ -396,9 +423,9 @@
 	</LTLayer>
 	<LTLayer>
 		<TList field="parameters">
-			<LTParameter name="name" value="Exit"/>
+			<LTParameter name="class" value="LTExitWindow"/>
 		</TList>
-		<Object field="visualizer" id="91"/>
+		<Object field="visualizer" id="97"/>
 		<LTSprite x="28.875" y="48.75" width="4.75" height="2.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="name" value="Exit"/>
