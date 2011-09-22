@@ -1,8 +1,10 @@
-ModuleInfo "Version: 1.2.3"
+ModuleInfo "Version: 1.2.4"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.2.4 (22.09.11)"
+ModuleInfo "History: &nbsp; &nbsp; LTRasterFrameVisualizer is deprecated, LTRasterFrame derived from LTImage created instead."
 ModuleInfo "History: v1.2.3.1 (19.09.11)"
 ModuleInfo "History: &nbsp; &nbsp; Fixed parameter cloning bug."
 ModuleInfo "History: &nbsp; &nbsp; Fixed bug of Time variable of LTProject not initialized."
@@ -95,7 +97,8 @@ import brl.d3d9max2d
 import brl.random
 import brl.reflection
 import brl.retro
-L_Version$=$"1.2.3"
+import maxgui.localization
+L_Version$=$"1.2.4"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
@@ -109,12 +112,17 @@ LTProject^LTObject{
 .FPS%&
 .Pass%&
 .Time!&
-.CurrentPause:LTPause&
 .Exiting%&
 .Flipping%&
+.Paused%&
+.World:LTWorld&
+.Windows:brl.linkedlist.TList&
+.MouseHits%&[]&
 -New%()="_dwlab_frmwork_LTProject_New"
 -Delete%()="_dwlab_frmwork_LTProject_Delete"
 -LoadAndInitLayer%(NewLayer:LTLayer Var,Layer:LTLayer)="_dwlab_frmwork_LTProject_LoadAndInitLayer"
+-LoadWindow%(World:LTWorld,Name$=$"",Class$=$"")="_dwlab_frmwork_LTProject_LoadWindow"
+-CloseWindow%(Window:LTWindow="bbNullObject")="_dwlab_frmwork_LTProject_CloseWindow"
 -LoadLayer:LTLayer(Layer:LTLayer)="_dwlab_frmwork_LTProject_LoadLayer"
 -CreateShape:LTShape(Shape:LTShape)="_dwlab_frmwork_LTProject_CreateShape"
 -Init%()="_dwlab_frmwork_LTProject_Init"
@@ -124,7 +132,6 @@ LTProject^LTObject{
 -Execute%()="_dwlab_frmwork_LTProject_Execute"
 -PerSecond!(Value!)="_dwlab_frmwork_LTProject_PerSecond"
 -ShowDebugInfo%()="_dwlab_frmwork_LTProject_ShowDebugInfo"
--ApplyPause%(NewPause:LTPause,Key%)="_dwlab_frmwork_LTProject_ApplyPause"
 }="dwlab_frmwork_LTProject"
 LTWorld^LTLayer{
 .Images:brl.linkedlist.TList&
@@ -136,6 +143,21 @@ LTWorld^LTLayer{
 +FromFile:LTWorld(Filename$)="_dwlab_frmwork_LTWorld_FromFile"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTWorld_XMLIO"
 }="dwlab_frmwork_LTWorld"
+LTWindow^LTLayer{
+.World:LTWorld&
+.Project:LTProject&
+.MouseOver:brl.map.TMap&
+.Modal%&
+-New%()="_dwlab_frmwork_LTWindow_New"
+-Delete%()="_dwlab_frmwork_LTWindow_Delete"
+-Operate%()="_dwlab_frmwork_LTWindow_Operate"
+-OnClick%(Gadget:LTGadget,Button%)="_dwlab_frmwork_LTWindow_OnClick"
+-OnMouseDown%(Gadget:LTGadget,Button%)="_dwlab_frmwork_LTWindow_OnMouseDown"
+-OnMouseOver%(Gadget:LTGadget)="_dwlab_frmwork_LTWindow_OnMouseOver"
+-OnMouseOut%(Gadget:LTGadget)="_dwlab_frmwork_LTWindow_OnMouseOut"
+-Save%()="_dwlab_frmwork_LTWindow_Save"
+-Close%()="_dwlab_frmwork_LTWindow_Close"
+}="dwlab_frmwork_LTWindow"
 LTLayer^LTGroup{
 .Bounds:LTShape&
 .MixContent%&
@@ -245,6 +267,23 @@ L_WedgingValuesOfOvalAndOval%(Oval1X!,Oval1Y!,Oval1Width!,Oval1Height!,Oval2X!,O
 L_WedgingValuesOfOvalAndRectangle%(OvalX!,OvalY!,OvalWidth!,OvalHeight!,RectangleX!,RectangleY!,RectangleWidth!,RectangleHeight!,DX! Var,DY! Var)="dwlab_frmwork_L_WedgingValuesOfOvalAndRectangle"
 L_WedgingValuesOfRectangleAndRectangle%(Rectangle1X!,Rectangle1Y!,Rectangle1Width!,Rectangle1Height!,Rectangle2X!,Rectangle2Y!,Rectangle2Width!,Rectangle2Height!,DX! Var,DY! Var)="dwlab_frmwork_L_WedgingValuesOfRectangleAndRectangle"
 L_Separate%(Pivot1:LTSprite,Pivot2:LTSprite,DX!,DY!,Mass1!,Mass2!)="dwlab_frmwork_L_Separate"
+LTButton^LTGadget{
+-New%()="_dwlab_frmwork_LTButton_New"
+-Delete%()="_dwlab_frmwork_LTButton_Delete"
+-Draw%()="_dwlab_frmwork_LTButton_Draw"
+-OnMouseOver%()="_dwlab_frmwork_LTButton_OnMouseOver"
+-OnMouseOut%()="_dwlab_frmwork_LTButton_OnMouseOut"
+-OnMouseDown%(Button%)="_dwlab_frmwork_LTButton_OnMouseDown"
+-OnMouseUp%()="_dwlab_frmwork_LTButton_OnMouseUp"
+}="dwlab_frmwork_LTButton"
+LTGadget^LTSprite{
+-New%()="_dwlab_frmwork_LTGadget_New"
+-Delete%()="_dwlab_frmwork_LTGadget_Delete"
+-Init%()="_dwlab_frmwork_LTGadget_Init"
+-OnMouseOver%()="_dwlab_frmwork_LTGadget_OnMouseOver"
+-OnMouseOut%()="_dwlab_frmwork_LTGadget_OnMouseOut"
+-OnMouseDown%(Button%)="_dwlab_frmwork_LTGadget_OnMouseDown"
+}="dwlab_frmwork_LTGadget"
 LTSprite^LTShape{
 Pivot%=0
 Circle%=1
@@ -542,10 +581,18 @@ LTRemoveLineFromGraph^LTAction{
 -Do%()="_dwlab_frmwork_LTRemoveLineFromGraph_Do"
 -Undo%()="_dwlab_frmwork_LTRemoveLineFromGraph_Undo"
 }="dwlab_frmwork_LTRemoveLineFromGraph"
-LTGadget^LTShape{
--New%()="_dwlab_frmwork_LTGadget_New"
--Delete%()="_dwlab_frmwork_LTGadget_Delete"
-}="dwlab_frmwork_LTGadget"
+LTRasterFrame^LTImage{
+.Images:brl.max2d.TImage&[,,]&
+.LeftBorder%&
+.RightBorder%&
+.TopBorder%&
+.BottomBorder%&
+-New%()="_dwlab_frmwork_LTRasterFrame_New"
+-Delete%()="_dwlab_frmwork_LTRasterFrame_Delete"
+-Init%()="_dwlab_frmwork_LTRasterFrame_Init"
+-Draw%(X!,Y!,TotalWidth!,TotalHeight!,Frame%)="_dwlab_frmwork_LTRasterFrame_Draw"
+-XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTRasterFrame_XMLIO"
+}="dwlab_frmwork_LTRasterFrame"
 LTImage^LTObject{
 .BMaxImage:brl.max2d.TImage&
 .Filename$&
@@ -559,6 +606,7 @@ LTImage^LTObject{
 -FramesQuantity%()="_dwlab_frmwork_LTImage_FramesQuantity"
 -Width!()="_dwlab_frmwork_LTImage_Width"
 -Height!()="_dwlab_frmwork_LTImage_Height"
+-Draw%(X!,Y!,Width!,Height!,Frame%)="_dwlab_frmwork_LTImage_Draw"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTImage_XMLIO"
 }="dwlab_frmwork_LTImage"
 LTRasterFrameVisualizer^LTVisualizer{
@@ -830,17 +878,6 @@ LTAction^LTObject{
 L_PushActionsList%()="dwlab_frmwork_L_PushActionsList"
 L_Undo%()="dwlab_frmwork_L_Undo"
 L_Redo%()="dwlab_frmwork_L_Redo"
-LTPause^LTObject{
-.PreviousPause:LTPause&
-.Project:LTProject&
-.Key%&
--New%()="_dwlab_frmwork_LTPause_New"
--Delete%()="_dwlab_frmwork_LTPause_Delete"
--Render%()="_dwlab_frmwork_LTPause_Render"
--Update%()="_dwlab_frmwork_LTPause_Update"
--CheckKey%()="_dwlab_frmwork_LTPause_CheckKey"
--Remove%()="_dwlab_frmwork_LTPause_Remove"
-}="dwlab_frmwork_LTPause"
 L_XMLGet%=0
 L_XMLSet%=1
 LTXMLObject^LTObject{
@@ -926,10 +963,13 @@ L_SpritesDisplayed%&=mem("dwlab_frmwork_L_SpritesDisplayed")
 L_SpritesActed%&=mem("dwlab_frmwork_L_SpritesActed")
 L_SpriteActed%&=mem("dwlab_frmwork_L_SpriteActed")
 L_DeltaTime!&=mem:d("dwlab_frmwork_L_DeltaTime")
+L_Window:LTWindow&=mem:p("dwlab_frmwork_L_Window")
+L_Cursor:LTSprite&=mem:p("dwlab_frmwork_L_Cursor")
 L_CurrentCamera:LTCamera&=mem:p("dwlab_frmwork_L_CurrentCamera")
 L_DiscreteGraphics%&=mem("dwlab_frmwork_L_DiscreteGraphics")
 L_CameraSpeed!&=mem:d("dwlab_frmwork_L_CameraSpeed")
 L_CameraMagnificationSpeed!&=mem:d("dwlab_frmwork_L_CameraMagnificationSpeed")
+L_Visualizers:brl.map.TMap&=mem:p("dwlab_frmwork_L_Visualizers")
 L_ProlongTiles%&=mem("dwlab_frmwork_L_ProlongTiles")
 L_SpreadingDirections%&[]&=mem:p("dwlab_frmwork_L_SpreadingDirections")
 L_LoadImages%&=mem("dwlab_frmwork_L_LoadImages")

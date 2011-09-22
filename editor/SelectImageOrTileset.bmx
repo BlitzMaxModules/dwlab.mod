@@ -39,7 +39,15 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 	Local Form:LTForm = LTForm.Create( Window )
 	Form.NewLine()
 	Local ComboBox:TGadget = Form.AddComboBox( ItemName, 84, 150 )
-	Local AddButton:TGadget = Form.AddButton( "{{B_Add}}", 64 )
+	Form.NewLine()
+	Local AddButton:TGadget, AddImageButton:TGadget, AddFrameButton:TGadget, RenameTilesetButton:TGadget
+	If TileMap Then
+		AddButton = Form.AddButton( "{{B_Add}}", 80 )
+	Else
+		AddImageButton = Form.AddButton( "{{B_AddImage}}", 120 )
+		AddFrameButton = Form.AddButton( "{{B_AddFrame}}", 120 )
+		If TileSet Then RenameTilesetButton = Form.AddButton( "{{B_RenameTileset}}", 80 )
+	End If
 	Local ModifyButton:TGadget = Form.AddButton( "{{B_Modify}}", 64 )
 	Local RemoveButton:TGadget = Form.AddButton( "{{B_Remove}}", 64 )
 	Form.NewLine()
@@ -73,9 +81,9 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 				Select EventSource()
 					Case ComboBox
 						SelectedObject = GadgetItemExtra( ComboBox, SelectedGadgetItem( ComboBox ) )
-					Case AddButton
+					Case AddButton, AddImageButton, AddFrameButton
 						Local NewObject:LTObject
-						If TileMap Then
+						If EventSource() = AddButton Then
 							Local Name:String = "Default"
 							If EnterString( "{{D_EnterNameOfTileset}}", Name ) Then
 								Local NewTileSet:LTTileSet = New LTTileSet
@@ -91,7 +99,13 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 								Filename = L_ChopFilename( Filename )
 								Local LoadedImage:TImage = LoadImage( Filename )
 								If LoadedImage Then
-									Local NewImage:LTImage = New LTImage
+									
+									Local NewImage:LTImage
+									If EventSource() = AddImageButton Then
+										NewImage = New LTImage
+									Else
+										NewImage = New LTRasterFrame
+									End If
 									NewImage.Filename = Filename
 									NewImage.BMaxImage = LoadedImage
 									If ImageProperties( NewImage ) Then
@@ -107,6 +121,9 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 							FillComboBox( ComboBox, TileMap, SelectedObject )
 							Editor.SetChanged()
 						End If
+					Case RenameTilesetButton
+						Local Name:String = TileSet.Name
+						If EnterString( "{{D_EnterNameOfTilemap}}", Name ) Then TileSet.Name = Name
 					Case ModifyButton
 						If SelectedObject Then 
 							If TileMap Then

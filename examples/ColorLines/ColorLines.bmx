@@ -38,6 +38,7 @@ Incbin "explosion.ogg"
 Incbin "select.ogg"
 Incbin "swap.ogg"
 Include "levels_incbin.bmx"
+'Include "menu/Menu.bmx"
 
 Global Game:TGame = New TGame
 Game.Execute()

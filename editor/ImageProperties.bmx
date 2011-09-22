@@ -10,12 +10,30 @@
 '
 
 Function ImageProperties:Int( Image:LTImage )
+	Local RasterFrame:LTRasterFrame = LTRasterFrame( Image )
+
 	Local EditWindow:TGadget = CreateWindow( "{{W_ImageProperties}}", 0, 0, 0, 0, Editor.Window, Window_Titlebar | Window_ClientCoords )
 	Local Form:LTForm = LTForm.Create( EditWindow )
 	Form.NewLine()
 	Local XCellsTextField:TGadget = Form.AddTextField( "{{L_HorizontalCellDivision}}", 165 )
 	Local YCellsTextField:TGadget = Form.AddTextField( "{{L_VerticalCellDivision}}", 165 )
 	Form.NewLine()
+	
+	Local LeftTextField:TGadget, TopTextField:TGadget, RightTextField:TGadget, BottomTextField:TGadget
+	If RasterFrame Then 
+		LeftTextField = Form.AddTextField( "{{L_LeftBorder}}", 120 )
+		TopTextField = Form.AddTextField( "{{L_TopBorder}}", 120 )
+		Form.NewLine()
+		RightTextField = Form.AddTextField( "{{L_RightBorder}}", 120 )
+		BottomTextField = Form.AddTextField( "{{L_BottomBorder}}", 120 )
+		Form.NewLine()
+		
+		SetGadgetText( LeftTextField, RasterFrame.LeftBorder )
+		SetGadgetText( RightTextField, RasterFrame.RightBorder )
+		SetGadgetText( TopTextField, RasterFrame.TopBorder )
+		SetGadgetText( BottomTextField, RasterFrame.BottomBorder )
+	End If
+	
 	Local ImageCanvas:TGadget = Form.AddCanvas( 480, 480 )
 	Form.NewLine()
 	Local ReloadImageButton:TGadget = Form.AddButton( "{{B_ReloadImage}}", 200 )
@@ -29,7 +47,7 @@ Function ImageProperties:Int( Image:LTImage )
 	
 	SetGadgetText( XCellsTextField, Image.XCells )
 	SetGadgetText( YCellsTextField, Image.YCells )
-	
+		
 	Repeat
 		Editor.Render()
 	
@@ -64,10 +82,32 @@ Function ImageProperties:Int( Image:LTImage )
 								End If
 								Image.XCells = XCells
 								Image.YCells = YCells
-								Image.Init()
-								Editor.SetChanged()
-								FreeGadget( EditWindow )
-								Return True
+								Local Error:String = ""
+								If RasterFrame Then
+									Local LeftBorder:Int = LeftTextField.GetText().ToInt()
+									Local RightBorder:Int = RightTextField.GetText().ToInt()
+									Local TopBorder:Int = TopTextField.GetText().ToInt()
+									Local BottomBorder:Int = BottomTextField.GetText().ToInt()
+									If LeftBorder <= 0 Or RightBorder <= 0 Or TopBorder <= 0 Or BottomBorder <= 0 Then Error = "LessThanZero"
+									If LeftBorder + RightBorder >= BMaxImage.Width / XCells Or TopBorder + BottomBorder >= BMaxImage.Height / YCells Then
+										Error = "BordersAreTooLarge"
+									End If
+									If Error Then
+										Notify( LocalizeString( "{{N_" + Error + "}}" ) )
+									Else
+										RasterFrame.LeftBorder = LeftBorder
+										RasterFrame.RightBorder = RightBorder
+										RasterFrame.TopBorder = TopBorder
+										RasterFrame.BottomBorder = BottomBorder
+									End If
+								End If
+								
+								If Not Error Then
+									Image.Init()	
+									Editor.SetChanged()
+									FreeGadget( EditWindow )
+									Return True
+								End If
 							Else
 								Notify( LocalizeString( "{{N_ImageDivideable}}" ), True )
 							End If

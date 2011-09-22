@@ -1,3 +1,10 @@
+1.7.2
++ Frame images now can be created and attached to shape visualizers.
+* Fixed bug of not applying selected image to all selected objects.
+
+1.7.1.2
+* Now double-clicking on layer selects it also as container
+
 1.7.1.1
 * Fixed bug with freezing of child windows.
 

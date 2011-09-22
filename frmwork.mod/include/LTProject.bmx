@@ -15,6 +15,7 @@ Global L_SpritesActed:Int
 Global L_SpriteActed:Int
 
 Global L_DeltaTime:Double
+Global L_Window:LTWindow
 
 Rem
 bbdoc: Class for main project and subprojects.
@@ -65,10 +66,13 @@ Type LTProject Extends LTObject
 	
 	Field Paused:Int = False
 	
+	Field World:LTWorld
+	
 	Field Windows:TList = New TList 
 	
-	Field MouseHit:Int[] = New Int[ 4 ]
-	
+	Field MouseHits:Int[] = New Int[ 4 ]
+
+	' ==================== Loading layers and windows ===================	
 	
 	Rem
 	bbdoc: Loads and initializes layer and all its child objects from previously loaded world.
@@ -76,6 +80,42 @@ Type LTProject Extends LTObject
 	Method LoadAndInitLayer( NewLayer:LTLayer Var, Layer:LTLayer )
 		NewLayer = LoadLayer( Layer )
 		NewLayer.Init()
+	End Method
+	
+	
+	
+	Method LoadWindow( World:LTWorld, Name:String = "", Class:String = "" )
+		If Class Then
+			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShapeWithType( Class, Name ) ) ) )
+		Else
+			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShape( Name ) ) ) )
+		End If
+		L_Window.Modal = L_Window.GetParameter( "modal" ).ToInt()
+		L_Window.World = World
+		L_Window.Project = Self
+		L_Window.Init()
+		If L_Window.Modal Then
+			For Local Window:LTWindow = Eachin Windows
+				Window.Active = False
+			Next
+		End If
+		Windows.AddLast( L_Window )
+	End Method
+	
+	
+	
+	Method CloseWindow( Window:LTWindow = Null )
+		If Window = Null Then Window = LTWindow( Windows.Last() )
+		Windows.Remove( Window )
+		If Window.Modal Then
+			Local Link:TLink = Windows.LastLink()
+			While Link <> Null
+				Local Window2:LTWindow = LTWindow( Link.Value() )
+				Window2.Active = True
+				If Window2.Modal Then Return
+				Link = Link.PrevLink()
+			Wend
+		End If
 	End Method
 	
 	
@@ -121,6 +161,7 @@ Type LTProject Extends LTObject
 		Return NewShape
 	End Method
 	
+	' ==================== Management ===================	
 	
 	Rem
 	bbdoc: Initialization method.
@@ -197,17 +238,17 @@ Type LTProject Extends LTObject
 			?
 			
 			For Local N:Int = 1 To 3
-				If MouseDown( N ) And Not MouseHit[ N ] Then MouseHit[ N ] = 1
+				If MouseDown( N ) And Not MouseHits[ N ] Then MouseHits[ N ] = 1
 			Next
 			
 			If Not Paused Then Logic()
 			For Local Window:LTWindow = Eachin Windows
-				Window.Operate( Project )
+				Window.Operate()
 			Next
 			If Exiting Then Exit
 			
 			For Local N:Int = 1 To 3
-				If MouseHit[ N ] Then MouseHit[ N ] = 2 Else MouseHit[ N ] = 0
+				If MouseHits[ N ] Then MouseHits[ N ] = 2 Else MouseHits[ N ] = 0
 			Next
 		
 			Repeat
@@ -222,7 +263,9 @@ Type LTProject Extends LTObject
 				?
 				
 				Render()
-				Gadgets.Draw()
+				For Local Window:LTWindow = Eachin Windows
+					Window.Draw()
+				Next
 				
 				If Flipping Then Flip( False )
 		      
@@ -243,7 +286,7 @@ Type LTProject Extends LTObject
 		DeInit()
 	End Method
 	
-	
+	' ==================== Other ===================	
 	
 	Rem
 	bbdoc: Converts value second to value per logic frame.
@@ -269,17 +312,5 @@ Type LTProject Extends LTObject
 		DrawText( "Sprites displayed: " + L_SpritesDisplayed, 0, 64 )
 		DrawText( "Sprites acted: " + L_SpritesActed, 0, 80 )
 		?
-	End Method
-	
-	
-	
-	Rem
-	bbdoc: Applies pause object to the project (to switch to pause mode).
-	End Rem
-	Method ApplyPause( NewPause:LTPause, Key:Int )
-		NewPause.Project = Self
-		NewPause.Key = Key
-		NewPause.PreviousPause = CurrentPause
-		CurrentPause = NewPause
 	End Method
 End Type

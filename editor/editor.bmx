@@ -50,7 +50,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.7.1.1"
+	Const Version:String = "1.7.2"
 	Const INIVersion:Int = 3
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 8
@@ -714,17 +714,19 @@ Type LTEditor Extends LTProject
 						End If
 						
 						If SelectedShape Then
-							EvID = Event_MenuAction
 							If LTLayer( SelectedShape ) Then
-								EvData = MenuSelectViewLayer
+								CurrentViewLayer = LTLayer( SelectedShape )
+								CurrentContainer = SelectedShape
+								RefreshProjectManager()
 							ElseIf LTTileMap( SelectedShape ) Then
 								EvData = MenuEditTilemap
+								EvID = Event_MenuAction
 							ElseIf LTSpriteMap( SelectedShape ) Then
 								EvData = MenuSelectContainer
+								EvID = Event_MenuAction
 							Else
 								EditTilemap( Null )
 								SelectShape( SelectedShape )
-								EvID = Event_GadgetAction
 							End If
 						Else
 							Local Name:String
@@ -1111,11 +1113,13 @@ Type LTEditor Extends LTProject
 						If Not SelectedShapes.IsEmpty() Then
 							Local FirstSprite:LTSprite = LTSprite( SelectedShapes.First() )
 							If FirstSprite Then
-								Local Image:LTImage = LTImage( SelectImageOrTileset( FirstSprite ) )
-								If Image Then
-									For Local Sprite:LTSprite = Eachin SelectedShapes
-										Sprite.Visualizer.Image = Image
-									Next
+								FirstSprite = LTSprite( SelectImageOrTileset( FirstSprite ) )
+								If FirstSprite Then
+									If FirstSprite.Visualizer.Image Then
+										For Local Sprite:LTSprite = Eachin SelectedShapes
+											Sprite.Visualizer.Image = FirstSprite.Visualizer.Image
+										Next
+									End If
 								End If
 							End If
 						End If

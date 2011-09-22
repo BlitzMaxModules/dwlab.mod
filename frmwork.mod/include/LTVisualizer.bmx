@@ -193,26 +193,20 @@ Type LTVisualizer Extends LTObject
 				SetRotation( Angle )
 			End If
 			
-			Local SpriteDX:Double, SpriteDY:Double
-			If Scaling Then
-				L_CurrentCamera.SizeFieldToScreen( Sprite.Width, Sprite.Height, SWidth, SHeight )
-				Local ScaledWidth:Double = SWidth * XScale
-				Local ScaledHeight:Double = SHeight * YScale
-				SetScale( ScaledWidth / ImageWidth( Image.BMaxImage ), ScaledHeight / ImageHeight( Image.BMaxImage ) )
-				
-				SpriteDX = DX * SWidth * XScale
-				SpriteDY = DY * SHeight * YScale
-			Else
-				SpriteDX = DX * ImageWidth( Image.BMaxImage )
-				SpriteDY = DY *ImageHeight( Image.BMaxImage )
-				SetScale XScale, YScale
-			End If
-			
 			?debug
 			If Sprite.Frame < 0 Or Sprite.Frame >= Image.FramesQuantity() Then L_Error( "Incorrect frame number ( " + Sprite.Frame + " ) for sprite ~q" + Sprite.GetTitle() + "~q, must be less than " + Image.FramesQuantity() )
 			?
 			
-			DrawImage( Image.BMaxImage, SX + SpriteDX, SY + SpriteDY, Sprite.Frame )
+			If Scaling Then
+				L_CurrentCamera.SizeFieldToScreen( Sprite.Width, Sprite.Height, SWidth, SHeight )
+				Local ScaledWidth:Double = SWidth * XScale
+				Local ScaledHeight:Double = SHeight * YScale
+				Image.Draw( SX + DX * ScaledWidth, SY + DY * ScaledHeight, ScaledWidth, ScaledHeight, Sprite.Frame )
+			Else
+				Local ScaledWidth:Double = ImageWidth( Image.BMaxImage ) * XScale
+				Local ScaledHeight:Double = ImageHeight( Image.BMaxImage ) * YScale
+				Image.Draw( SX + DX * ScaledWidth, SY + DY * ScaledHeight, XScale, YScale, Sprite.Frame )
+			End If
 			
 			SetScale( 1.0, 1.0 )
 			SetRotation( 0.0 )
@@ -405,7 +399,7 @@ Type LTVisualizer Extends LTObject
 		Local TileValue:Int = TileMap.Value[ TileMap.WrapX( TileX ), TileMap.WrapY( TileY ) ]
 		If TileValue = TileSet.EmptyTile Then Return
 		
-		Local Image:TImage = TileSet.Image.BMaxImage
+		Local Image:LTImage = TileSet.Image
 		If Not Image Then Return
 		
 		Local SX:Double, SY:Double
@@ -414,9 +408,8 @@ Type LTVisualizer Extends LTObject
 		Local Visualizer:LTVisualizer = TileMap.Visualizer
 		Width :* Visualizer.XScale
 		Height :* Visualizer.YScale
-		SetScale( Width / ImageWidth( Image ), Height / ImageHeight( Image ) )
 		
-		DrawImage( Image, SX + Visualizer.DX * Width, SY + Visualizer.DY * Height, TileValue )
+		Image.Draw( SX + Visualizer.DX * Width, SY + Visualizer.DY * Height, Width, Height, TileValue )
 		
 		?debug
 		L_TilesDisplayed :+ 1

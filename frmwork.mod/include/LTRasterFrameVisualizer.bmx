@@ -8,34 +8,19 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Rem
-bbdoc: Visualizes raster frame in given object's shape.
-about: After creating this visualizer you have to load image. This image should consist of 9 images aligned by 3x3 grid.
-When raster frame visualizer have been drawn as the rectangular shape which represents sprite on the screen, this shape will be constructed following
-way: corner images will be put in corners of the shape, side images will be stretched horizontaly or vertically to fit side bars between them and center
-image will be stretched in both direction to fully cover remaining center rectangle.
-End Rem
+'Deprecated
 Type LTRasterFrameVisualizer Extends LTVisualizer
 	Field Images:TImage[ 3, 3 ]
 	Field ImageFile:String
 	
 	
 	
-	Rem
-	bbdoc: Creates raster frame visualizer from image file name.
-	returns: Created visualizer.
-	about: See also: FromPixmap
-	End Rem
 	Function GetFromFile:LTRasterFrameVisualizer( Filename:String )
 		FromPixmap( LoadPixmap( L_Incbin + Filename ) )
 	End Function
 	
 	
 	
-	Rem
-	bbdoc: Creates raster frame visualizer from existing pixmap.
-	returns: Created visualizer.
-	End Rem
 	Function FromPixmap:LTRasterFrameVisualizer( Pixmap:TPixmap )
 		Local Vis:LTRasterFrameVisualizer = New LTRasterFrameVisualizer
 		Local IXSize:Int = PixmapWidth( Pixmap ) / 3

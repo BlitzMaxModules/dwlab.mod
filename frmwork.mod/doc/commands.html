@@ -17,6 +17,8 @@
 , 
 <a href=#L_DefaultVisualizer>L_DefaultVisualizer</a>
 , 
+<a href=#L_DiscreteGraphics>L_DiscreteGraphics</a>
+, 
 <a href=#L_ProlongTiles>L_ProlongTiles</a>
 </td></tr>
 </table>
@@ -164,14 +166,11 @@ Global object class.
 <tr><td class=docleft width=1%><a href=#LTPath>LTPath</a></td><td class=docright>
 Path is basically a sequence of pivots.
 </td></tr>
-<tr><td class=docleft width=1%><a href=#LTPause>LTPause</a></td><td class=docright>
-Singleton class for Pause objects.
-</td></tr>
 <tr><td class=docleft width=1%><a href=#LTProject>LTProject</a></td><td class=docright>
 Class for main project and subprojects.
 </td></tr>
-<tr><td class=docleft width=1%><a href=#LTRasterFrameVisualizer>LTRasterFrameVisualizer</a></td><td class=docright>
-Visualizes raster frame in given object's shape.
+<tr><td class=docleft width=1%><a href=#LTRasterFrame>LTRasterFrame</a></td><td class=docright>
+Special image class to display raster frame.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTRevoluteJoint>LTRevoluteJoint</a></td><td class=docright>
 Revolute joint moves angular sprite if parent pivot moves or rotates, but the sprite can be rotated freely.
@@ -226,6 +225,11 @@ Class for intermediate objects to save/load objects from XML file.
 <table class=doc width=100% cellspacing=3 id=L_DefaultVisualizer>
 <tr><td class=doctop colspan=2>Global L_DefaultVisualizer:LTVisualizer</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Global variable for default visualizer.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=L_DiscreteGraphics>
+<tr><td class=doctop colspan=2>Global L_DiscreteGraphics:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Global flag for discrete graphics.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=L_ProlongTiles>
@@ -1323,6 +1327,9 @@ Removes the shape from layer.
 <tr><td class=docleft width=1%><a href=#SetBounds>SetBounds</a></td><td class=docright>
 Sets the bounds of layer to given shape.
 </td></tr>
+<tr><td class=docleft width=1%><a href=#ShowModels>ShowModels</a></td><td class=docright>
+Shows all behavior models attached to shape with their status.
+</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Bounds>
 <tr><td class=doctop colspan=2>Field Bounds:LTShape</td></tr>
@@ -1370,6 +1377,10 @@ You can specify optional Name parameter to check only shapes with this name.</td
 <table class=doc width=100% cellspacing=3 id=SetBounds>
 <tr><td class=doctop colspan=2>Method SetBounds( Shape:LTShape )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Sets the bounds of layer to given shape.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=ShowModels>
+<tr><td class=doctop colspan=2>Method ShowModels:Int( Y:Int = 0, Shift:String = "" )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Shows all behavior models attached to shape with their status.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTLine>
@@ -1531,45 +1542,6 @@ Finds a path from one point to another inside graph.
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: LTGraph.</td></tr>
 </table>
 <br>
-<table class=doc width=100% cellspacing=3 id=LTPause>
-<tr><td class=doctop colspan=2>Type LTPause Extends LTObject</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Singleton class for Pause objects.</td></tr>
-</table>
-<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTPause_methods></a>Methods Summary</th></tr>
-<tr><td class=docleft width=1%><a href=#CheckKey>CheckKey</a></td><td class=docright>
-Method for checking if pause key has been pressed and remove pause object if yes.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#Remove>Remove</a></td><td class=docright>
-Pause object removing method.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#Render>Render</a></td><td class=docright>
-Render method.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#Update>Update</a></td><td class=docright>
-Pause updating method.
-</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=CheckKey>
-<tr><td class=doctop colspan=2>Method CheckKey()</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Method for checking if pause key has been pressed and remove pause object if yes.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=Remove>
-<tr><td class=doctop colspan=2>Method Remove()</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Pause object removing method.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=Render>
-<tr><td class=doctop colspan=2>Method Render()</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Render method.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Will be executed persistently by active project rendering mechanism when pause will be active for this project.
-Fill it with methods which will display pause information.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=Update>
-<tr><td class=doctop colspan=2>Method Update()</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Pause updating method.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Will be executed persistently by active project logic mechanism when pause will be active for this project.
-Fill it with methods which will control pause object state (animation for example).</td></tr>
-</table>
-<br>
 <table class=doc width=100% cellspacing=3 id=LTProject>
 <tr><td class=doctop colspan=2>Type LTProject Extends LTObject</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Class for main project and subprojects.</td></tr>
@@ -1591,9 +1563,6 @@ Fill it with methods which will control pause object state (animation for exampl
 </td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTProject_methods></a>Methods Summary</th></tr>
-<tr><td class=docleft width=1%><a href=#ApplyPause>ApplyPause</a></td><td class=docright>
-Applies pause object to the project (to switch to pause mode).
-</td></tr>
 <tr><td class=docleft width=1%><a href=#DeInit>DeInit</a></td><td class=docright>
 Deinitialization method.
 </td></tr>
@@ -1658,10 +1627,6 @@ See also: <a href=#Render>Render</a>.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Current game time in seconds (starts from 0).</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#PerSecond>PerSecond</a>.</td></tr>
 </table>
-<table class=doc width=100% cellspacing=3 id=ApplyPause>
-<tr><td class=doctop colspan=2>Method ApplyPause( NewPause:LTPause, Key:Int )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Applies pause object to the project (to switch to pause mode).</td></tr>
-</table>
 <table class=doc width=100% cellspacing=3 id=DeInit>
 <tr><td class=doctop colspan=2>Method DeInit()</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Deinitialization method.</td></tr>
@@ -1713,32 +1678,13 @@ See also: <a href=#MinFPS>MinFPS</a>, <a href=#FPS>FPS</a>.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Draws various debugging information on screen.</td></tr>
 </table>
 <br>
-<table class=doc width=100% cellspacing=3 id=LTRasterFrameVisualizer>
-<tr><td class=doctop colspan=2>Type LTRasterFrameVisualizer Extends LTVisualizer</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Visualizes raster frame in given object's shape.</td></tr>
+<table class=doc width=100% cellspacing=3 id=LTRasterFrame>
+<tr><td class=doctop colspan=2>Type LTRasterFrame Extends LTImage</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Special image class to display raster frame.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>After creating this visualizer you have to load image. This image should consist of 9 images aligned by 3x3 grid.
-When raster frame visualizer have been drawn as the rectangular shape which represents sprite on the screen, this shape will be constructed following
+When raster frame have been drawn as the rectangular shape which represents sprite on the screen, this shape will be constructed following
 way: corner images will be put in corners of the shape, side images will be stretched horizontaly or vertically to fit side bars between them and center
 image will be stretched in both direction to fully cover remaining center rectangle.</td></tr>
-</table>
-<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTRasterFrameVisualizer_functions></a>Functions Summary</th></tr>
-<tr><td class=docleft width=1%><a href=#FromPixmap>FromPixmap</a></td><td class=docright>
-Creates raster frame visualizer from existing pixmap.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#GetFromFile>GetFromFile</a></td><td class=docright>
-Creates raster frame visualizer from image file name.
-</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=FromPixmap>
-<tr><td class=doctop colspan=2>Function FromPixmap:LTRasterFrameVisualizer( Pixmap:TPixmap )</td></tr>
-<tr><td class=docleft width=1%>Returns</td><td class=docright>Created visualizer.</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Creates raster frame visualizer from existing pixmap.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=GetFromFile>
-<tr><td class=doctop colspan=2>Function GetFromFile:LTRasterFrameVisualizer( Filename:String )</td></tr>
-<tr><td class=docleft width=1%>Returns</td><td class=docright>Created visualizer.</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Creates raster frame visualizer from image file name.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: FromPixmap.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTRevoluteJoint>
@@ -1955,6 +1901,9 @@ Sets X coordinate of the shape.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#SetY>SetY</a></td><td class=docright>
 Sets X coordinate of the shape.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#ShowModels>ShowModels</a></td><td class=docright>
+Shows all behavior models attached to shape with their status.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#ToggleModel>ToggleModel</a></td><td class=docright>
 Toggles activity of shape behavior models of class with given name.
@@ -2402,6 +2351,10 @@ See also: <a href=#X>X</a>.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>It's better to use this method instead of equating X field to new value.
 <p>
 See also: <a href=#Y>Y</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=ShowModels>
+<tr><td class=doctop colspan=2>Method ShowModels:Int( Y:Int = 0, Shift:String = "" )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Shows all behavior models attached to shape with their status.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=ToggleModel>
 <tr><td class=doctop colspan=2>Method ToggleModel( TypeName:String )</td></tr>
@@ -2882,7 +2835,7 @@ Creates pathfinder object with given tilemap and diagonal movement flag.
 </td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=FindPath>
-<tr><td class=doctop colspan=2>Method FindPath:LTTileMapPosition( StartingX:Int, StartingY:Int, FinalX:Int, FinalY:Int, StayNear:Int = False )</td></tr>
+<tr><td class=doctop colspan=2>Method FindPath:LTTileMapPosition( StartingX:Int, StartingY:Int, FinalX:Int, FinalY:Int, Range:Int = 0, MaxDistance:Int = 1024 )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>First tilemap position object in path. Next one can be retrieved using NextPosition field.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Finds a path between two given points on previously specified tilemap.</td></tr>
 </table>
@@ -3417,11 +3370,24 @@ See also: <a href=#ManageIntAttribute>ManageIntAttribute</a>, <a href=#ManageDou
 <br>
 <h2 id=modinfo>Module Information</h2>
 <table width=100%>
-<tr><th width=1%>Version</th><td>1.2</td></tr>
+<tr><th width=1%>Version</th><td>1.2.4</td></tr>
 <tr><th width=1%>Author</th><td>Matt Merkulov</td></tr>
 <tr><th width=1%>License</th><td>Artistic License 2.0</td></tr>
 <tr><th width=1%>Modserver</th><td>DWLAB</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp;</td></tr>
+<tr><th width=1%>History</th><td>v1.2.4 (22.09.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; LTRasterFrameVisualizer is deprecated, LTRasterFrame derived from LTImage created instead.</td></tr>
+<tr><th width=1%>History</th><td>v1.2.3.1 (19.09.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed parameter cloning bug.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed bug of Time variable of LTProject not initialized.</td></tr>
+<tr><th width=1%>History</th><td>v1.2.3 (14.09.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added possibility to search for shapes inside layers' sprite maps.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added Range parameter to the pathfinder.</td></tr>
+<tr><th width=1%>History</th><td>v1.2.2 (13.09.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added ShowModels() debugging method to shape.</td></tr>
+<tr><th width=1%>History</th><td>v1.2.1 (12.09.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; TileX and TileY which are passing to visualizer's DrawTile() method are now not wrapped (wrapped inside the method).</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed bug in DebugVisualizer shape displaying.</td></tr>
 <tr><th width=1%>History</th><td>v1.2 (11.09.11)</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Added parameters list to the shapes.</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Object Name parameter is deprecated.</td></tr>

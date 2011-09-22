@@ -9,16 +9,21 @@
 '
 
 Include "LTButton.bmx"
-Include "LTComboBox.bmx"
-Include "LTTextField.bmx"
-Include "LTButton.bmx"
-
-Global L_DefaultVisualizers:TMap = New TMap
+'Include "LTComboBox.bmx"
+'Include "LTTextField.bmx"
+'Include "LTListBox.bmx"
+'Include "LTSlider.bmx"
 
 Type LTGadget Extends LTSprite
+	Method Init()
+	End Method
+
 	Method OnMouseOver()
 	End Method
 	
 	Method OnMouseOut()
 	End Method	
+	
+	Method OnMouseDown( Button:Int )
+	End Method
 End Type

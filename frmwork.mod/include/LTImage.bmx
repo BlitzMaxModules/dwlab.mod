@@ -10,6 +10,8 @@
 
 Global L_LoadImages:Int = 1
 
+Include "LTRasterFrame.bmx"
+
 Rem
 bbdoc: Image class.
 End Rem
@@ -82,7 +84,7 @@ Type LTImage Extends LTObject
 	returns: Width of image in pixels.
 	End Rem
 	Method Width:Double()
-		Return BMaxImage.width
+		Return ImageWidth( BMaxImage )
 	End Method
 	
 	
@@ -92,7 +94,14 @@ Type LTImage Extends LTObject
 	returns: Height of image in pixels.
 	End Rem
 	Method Height:Double()
-		Return BMaxImage.height
+		Return ImageHeight( BMaxImage )
+	End Method
+	
+	
+	
+	Method Draw( X:Double, Y:Double, Width:Double, Height:Double, Frame:Int )
+		SetScale( Width/ ImageWidth( BMaxImage ), Height / ImageHeight( BMaxImage ) )
+		DrawImage( BMaxImage, X, Y, Frame )
 	End Method
 	
 	
