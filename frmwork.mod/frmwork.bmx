@@ -15,12 +15,14 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.2.4"
+ModuleInfo "Version: 1.2.4.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.2.4.1 (26.09.11)"
+ModuleInfo "History: &nbsp; &nbsp; Fixed bug of wring displaying non-scaled sprite."
 ModuleInfo "History: v1.2.4 (22.09.11)"
 ModuleInfo "History: &nbsp; &nbsp; LTRasterFrameVisualizer is deprecated, LTRasterFrame derived from LTImage created instead."
 ModuleInfo "History: v1.2.3.1 (19.09.11)"
@@ -126,7 +128,7 @@ Import brl.map
 Import brl.max2d
 Import maxgui.localization
 
-Const L_Version:String = "1.2.4"
+Const L_Version:String = "1.2.4.1"
 
 SeedRnd( MilliSecs() )
 
@@ -134,9 +136,7 @@ Include "include/LTObject.bmx"
 Include "include/LTProject.bmx"
 Include "include/LTShape.bmx"
 Include "include/LTBehaviorModel.bmx"
-Include "include/LTText.bmx"
-Include "include/LTDrag.bmx"
-Include "include/LTAction.bmx"
+Include "include/LTGUI.bmx"
 Include "include/XML.bmx"
 Include "include/Service.bmx"
 

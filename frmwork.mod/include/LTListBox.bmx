@@ -8,31 +8,23 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTLabel.bmx"
-Include "LTButton.bmx"
-Include "LTTextField.bmx"
-Include "LTListBox.bmx"
-Include "LTSlider.bmx"
-
-Type LTGadget Extends LTSprite
+Type LTListBox Extends LTGadget
+	Field InnerArea:LTShape
+	Field Items:TList = New TList
+	Field ListType:Int = Vertical
+	
+	
+	
 	Method Init()
 	End Method
 	
-	Method GetValue:String()
+	
+	
+	Method Draw()
 	End Method
 	
-	Method SetValue( Value:String )
-	End Method
-
-	Method OnMouseOver()
-	End Method
 	
-	Method OnMouseOut()
-	End Method	
-	
-	Method OnMouseDown( Button:Int )
-	End Method
-	
-	Method OnMouseUp( Button:Int )
+	Method Act()
+		
 	End Method
 End Type

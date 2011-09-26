@@ -196,7 +196,7 @@ Type LTVisualizer Extends LTObject
 			?debug
 			If Sprite.Frame < 0 Or Sprite.Frame >= Image.FramesQuantity() Then L_Error( "Incorrect frame number ( " + Sprite.Frame + " ) for sprite ~q" + Sprite.GetTitle() + "~q, must be less than " + Image.FramesQuantity() )
 			?
-			
+		
 			If Scaling Then
 				L_CurrentCamera.SizeFieldToScreen( Sprite.Width, Sprite.Height, SWidth, SHeight )
 				Local ScaledWidth:Double = SWidth * XScale
@@ -205,7 +205,7 @@ Type LTVisualizer Extends LTObject
 			Else
 				Local ScaledWidth:Double = ImageWidth( Image.BMaxImage ) * XScale
 				Local ScaledHeight:Double = ImageHeight( Image.BMaxImage ) * YScale
-				Image.Draw( SX + DX * ScaledWidth, SY + DY * ScaledHeight, XScale, YScale, Sprite.Frame )
+				Image.Draw( SX + DX * ScaledWidth, SY + DY * ScaledHeight, ScaledWidth, ScaledHeight, Sprite.Frame )
 			End If
 			
 			SetScale( 1.0, 1.0 )

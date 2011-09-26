@@ -29,6 +29,7 @@ Include "TExplosion.bmx"
 Include "HUD.bmx"
 Include "TIntro.bmx"
 Include "TLevel.bmx"
+Include "menu/Menu.bmx"
 
 Incbin "font.png"
 Incbin "font.lfn"
@@ -38,7 +39,6 @@ Incbin "explosion.ogg"
 Incbin "select.ogg"
 Incbin "swap.ogg"
 Include "levels_incbin.bmx"
-'Include "menu/Menu.bmx"
 
 Global Game:TGame = New TGame
 Game.Execute()

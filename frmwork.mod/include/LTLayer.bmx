@@ -9,7 +9,6 @@
 '
 
 Include "LTWorld.bmx"
-Include "LTWindow.bmx"
 
 Rem
 bbdoc: Layer is the group of sprites which have bounds.

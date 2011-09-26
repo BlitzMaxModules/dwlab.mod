@@ -16,7 +16,9 @@ Type LTWindow Extends LTLayer
 	Field Project:LTProject
 	Field MouseOver:TMap = New TMap
 	Field Modal:Int
-
+	
+	
+	
 	Method Operate()
 		If Active Then
 			For Local Gadget:LTGadget = Eachin Children
@@ -37,10 +39,35 @@ Type LTWindow Extends LTLayer
 				End If
 			Next
 		End If
+		
+		If L_ActiveTextField Then
+			Local LeftPart:String = L_ActiveTextField.LeftPart
+			Local RightPart:String = L_ActiveTextField.RightPart
+			If LeftPart Then
+				If KeyHit( Key_Left ) Then
+					L_ActiveTextField.RightPart = LeftPart[ LeftPart.Length - 1.. ] + RightPart
+					L_ActiveTextField.LeftPart = LeftPart[ ..LeftPart.Length - 1 ]
+				End If
+				If KeyHit( Key_Backspace ) Then L_ActiveTextField.LeftPart = LeftPart[ ..LeftPart.Length - 1 ]
+			End If
+			If RightPart Then
+				If KeyHit( Key_Right ) Then
+					L_ActiveTextField.LeftPart = LeftPart + RightPart[ 1.. ]
+					L_ActiveTextField.RightPart = RightPart[ 1.. ]
+				End If
+				If KeyHit( Key_Delete ) Then L_ActiveTextField.RightPart = RightPart[ 1.. ]
+			End If
+			Local Key:Int = GetChar()
+			If Key Then L_ActiveTextField.LeftPart :+ Chr( Key )
+		End If
 	End Method
 
+	
+	
 	Method OnClick( Gadget:LTGadget, Button:Int )
 		Select Gadget.GetParameter( "action" ).ToLower()
+			Case "continue"
+				
 			Case "save"
 				Save()
 			Case "saveandclose"
@@ -50,6 +77,9 @@ Type LTWindow Extends LTLayer
 			Case "close"
 				Close()
 				Project.CloseWindow( Self )
+			Case "combobox"
+				Local ComboBox:LTComboBox = LTComboBox( FindShapeWithType( "LTComboBox", GetName() ) )
+				If ComboBox Then ComboBox.Expand()
 		End Select
 		
 		Local Name:String = Gadget.GetParameter( "window" )
@@ -60,6 +90,8 @@ Type LTWindow Extends LTLayer
 			If Class Then Project.LoadWindow( World, , Class ) 
 		End If
 	End Method
+	
+	
 	
 	Method OnMouseDown( Gadget:LTGadget, Button:Int )
 	End Method

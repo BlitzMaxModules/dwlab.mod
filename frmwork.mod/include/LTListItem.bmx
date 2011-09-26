@@ -8,31 +8,31 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTLabel.bmx"
-Include "LTButton.bmx"
-Include "LTTextField.bmx"
-Include "LTListBox.bmx"
-Include "LTSlider.bmx"
-
-Type LTGadget Extends LTSprite
-	Method Init()
+Type LTListItem Extends LTObject
+	Method GetHeight:Double()
 	End Method
+	
+	Method Draw( X:Double, Y:Double, Width:Double, Height:Double, ItemNum:Int )
+	End Method
+End Type
+
+
+
+
+
+Type LTTextListItem Extends LTListItem
+	Method GetHeight:Double()
+		Return L_CurrentCamera.DistScreenToField( 32.0 )
+	End Method
+	
+	
+	
+	Method Draw( X:Double, Y:Double, Width:Double, Height:Double, ItemNum:Int )
+		
+	End Method
+	
+	
 	
 	Method GetValue:String()
-	End Method
-	
-	Method SetValue( Value:String )
-	End Method
-
-	Method OnMouseOver()
-	End Method
-	
-	Method OnMouseOut()
-	End Method	
-	
-	Method OnMouseDown( Button:Int )
-	End Method
-	
-	Method OnMouseUp( Button:Int )
 	End Method
 End Type

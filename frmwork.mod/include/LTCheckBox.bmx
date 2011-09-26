@@ -8,30 +8,24 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTLabel.bmx"
-Include "LTButton.bmx"
-Include "LTTextField.bmx"
-Include "LTListBox.bmx"
-Include "LTSlider.bmx"
-
-Type LTGadget Extends LTSprite
-	Method Init()
+Type LTCheckBox Extends LTButton
+	Method GetValue:String()
+		Return State
 	End Method
 	
-	Method GetValue:String()
-	End Method
+	
 	
 	Method SetValue( Value:String )
-	End Method
-
-	Method OnMouseOver()
-	End Method
-	
-	Method OnMouseOut()
+		State = Value.ToInt()
 	End Method	
 	
+	
+
 	Method OnMouseDown( Button:Int )
+		State = Not State
 	End Method
+	
+	
 	
 	Method OnMouseUp( Button:Int )
 	End Method

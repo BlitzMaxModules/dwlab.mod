@@ -8,40 +8,59 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "LTCheckBox.bmx"
+
 Type LTButton Extends LTGadget
-	Method Draw()
-		Super.Draw()
-		Local SX:Double, SY:Double
-		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
-		Local Name:String = LocalizeString( "{{B_" + GetParameter( "name" ) + "}}" )
-		DrawText( Name, SX - Len( Name ) * 4, SY - 8 )
-	End Method
+	Field Icon:LTShape
+	Field State:Int
+	Field Focus:Int
 
 	
 	
-	Method OnMouseOver()
-		if Visualizer.Image.FramesQuantity() >= 2 Then Frame = 2 Else Frame = 0
-	End Method
-	
-	
-	
-	Method OnMouseOut()
-		Frame = 0
-	End Method
-	
-	
-	
-	Method OnMouseDown( Button:Int )
-		if Visualizer.Image.FramesQuantity() >= 3 Then
-			Frame = 3
-		Elseif Visualizer.Image.FramesQuantity() >= 1 Then
-			Frame = 1
+	Method Init()
+		Local Name:String = GetName()
+		If Name Then
+			Icon = L_Window.FindShapeWithType( "LTSprite", Name, True )
+			If Icon Then L_Window.Remove( Icon )
 		End If
 	End Method
 	
 	
 	
-	Method OnMouseUp()
-		if Visualizer.Image.FramesQuantity() >= 2 Then Frame = 2 Else Frame = 0
+	Method Draw()
+		Select Visualizer.Image.FramesQuantity()
+			Case 1; Frame = 0
+			Case 2; Frame = State
+			Case 4; Frame = State + Focus * 2
+		End Select
+		Super.Draw()
+		Local SX:Double, SY:Double
+		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
+		Local Name:String = LocalizeString( "{{B_" + GetParameter( "name" ) + "}}" )
+		DrawText( Name, SX - Len( Name ) * 4 + State, SY - 8 + State )
+	End Method
+
+	
+	
+	Method OnMouseOver()
+		Focus = True
+	End Method
+	
+	
+	
+	Method OnMouseOut()
+		Focus = False
+	End Method
+	
+	
+	
+	Method OnMouseDown( Button:Int )
+		State = True
+	End Method
+	
+	
+	
+	Method OnMouseUp( Button:Int )
+		State = False
 	End Method
 End Type

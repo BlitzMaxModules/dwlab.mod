@@ -38,7 +38,8 @@ Type TGame Extends LTProject
   
   Method Init()
     World = LTWorld.FromFile( "levels.lw" )
-	'Menu = LTWorld.FromFile( "menu/menu.lw" )
+	
+	Menu = LoadPanels()
 	
     L_InitGraphics( 960, 704, 64.0 )
     

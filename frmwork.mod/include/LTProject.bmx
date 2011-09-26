@@ -69,7 +69,7 @@ Type LTProject Extends LTObject
 	Field World:LTWorld
 	
 	Field Windows:TList = New TList 
-	
+	Field GUICamera:LTCamera = New LTCamera
 	Field MouseHits:Int[] = New Int[ 4 ]
 
 	' ==================== Loading layers and windows ===================	
@@ -263,9 +263,13 @@ Type LTProject Extends LTObject
 				?
 				
 				Render()
+				
+				Local MainCamera:LTCamera = L_CurrentCamera
+				L_CurrentCamera = GUICamera
 				For Local Window:LTWindow = Eachin Windows
 					Window.Draw()
 				Next
+				L_CurrentCamera = MainCamera
 				
 				If Flipping Then Flip( False )
 		      
