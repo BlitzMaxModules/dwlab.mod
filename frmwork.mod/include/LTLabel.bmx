@@ -9,4 +9,20 @@
 '
 
 Type LTLabel Extends LTGadget
+	Method GetClassTitle:String()
+		Return "Label"
+	End Method
+	
+	
+	
+	Method Draw()
+		Super.Draw()
+		Local SX:Double, SY:Double
+		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
+		Local Caption:String = GetParameter( "caption" )
+		If Caption Then Caption = LocalizeString( "{{B_" + Caption + "}}" )
+		SetColor( 0, 0, 0 )
+		DrawText( Caption, SX - Len( Caption ) * 4, SY - 8 )
+		Visualizer.ResetColor()
+	End Method
 End Type

@@ -9,4 +9,8 @@
 '
 
 Type LTSettingsWindow Extends LTWindow
+	Method Init()
+		
+	End Method
+
 End Type

@@ -59,6 +59,12 @@ Type LTSpriteMap Extends LTMap
 		Return Value & YMask
 	End Method
 	
+	
+	
+	Method GetClassTitle:String()
+		Return "Sprite map"
+	End Method
+	
 	' ==================== Parameters ====================
 	
 	Method SetResolution( NewXQuantity:Int, NewYQuantity:Int )

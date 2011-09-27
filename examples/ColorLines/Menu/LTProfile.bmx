@@ -12,7 +12,7 @@ Type LTProfile Extends LTObject
 	Field Name:String
 	Field AudioDriver:LTAudioDriver
 	Field VideoDriver:LTVideoDriver
-	Field VideoMode:LTVideoMode
+	Field Resolution:LTResolution
 End Type
 
 
@@ -37,9 +37,10 @@ End Type
 
 
 
-Type LTVideoMode Extends LTTextListItem
+Type LTResolution Extends LTTextListItem
 	Field Width:Int
 	Field Height:Int
+	Field ColorDepths:TList = New TList
 	
 	Method GetValue:String()
 		Return Width + " x " + Height
@@ -48,7 +49,43 @@ End Type
 
 
 
+Type LTColorDepth Extends LTTextListItem
+	Field Depth:Int
+	Field Frequencies:TList = New TList
+	
+	Method GetValue:String()
+		Return Depth + " bit"
+	End Method
+End Type
+
+
+
+Type LTFrequency
+	Field Frequency:Int
+	
+	Method GetValue:String()
+		Return Frequency + " Hz"
+	End Method
+End Type
+
+
+
 Type LTLanguage Extends LTTextListItem
 	Field Name:String
-	Field Handle:
+	Field Handle:TMaxGUILanguage
+	
+	
+	
+	Function Create:LTLanguage( Name:String, FileName:String ) 
+		Local Language:LTLanguage = New LTLanguage
+		Language.Name = Name
+		Language.Handle = LoadLanguage( FileName )
+		Return Language
+	End Function
+	
+	
+	
+	Method GetValue:String()
+		Return Name
+	End Method	
 End Type

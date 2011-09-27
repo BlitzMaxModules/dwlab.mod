@@ -297,7 +297,7 @@ Function L_ChopFilename:String( Filename:String )
 		If Dir[ N ] <> Filename[ N ] Then
 			If N = 0 Then Return Filename
 			Local SlashPos:Int = N - 1
-			Filename = Filename[ N - 1.. ]
+			Filename = Filename[ N.. ]
 			Repeat
 				SlashPos = Dir.Find( Slash, SlashPos + 1 )
 				If SlashPos = -1 Then Exit

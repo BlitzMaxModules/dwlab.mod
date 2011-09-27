@@ -27,6 +27,12 @@ Type LTVectorSprite Extends LTSprite
 	End Rem
 	Field DY:Double
 	
+	
+	
+	Method GetClassTitle:String()
+		Return "Vector sprite"
+	End Method
+	
 	' ==================== Position ====================
 	
 	Method MoveForward()

@@ -843,28 +843,14 @@ Type LTShape Extends LTObject
 	
 	
 	
-	Rem
-	bbdoc: Retrieves title of object.
-	returns: Title of object.
-	about: Will return (if not null):
-	<ul><li>Value of "name" parameter.
-	<li>Value of "class" parameter.
-	<li>Framework-based name of object class.
-	<li>Object class real name.</ul>
-	
-	See also: #GetParameter, #GetName
-	End Rem
 	Method GetTitle:String()
-		Local Title:String = GetParameter( "name" )
-		If Title Then Return Title
-		Title = GetParameter( "class" )
-		If Title Then Return Title
-		Local TypeID:TTypeId = TTypeID.ForObject( Self )
-		Title = String( L_ClassNames.ValueForKey( TypeID ) )
-		If Title Then Return Title
-		Return TypeID.Name()
+		Return L_TitleGenerator.GetTitle( Self )
 	End Method
 	
+	
+	
+	Method GetClassTitle:String()
+	End Method
 	
 	
 	Rem
@@ -1002,9 +988,14 @@ End Type
 
 
 
-Global L_ClassNames:TMap = New TMap
-Local ClassTitle:String[] = [ "Layer", "Sprite", "Angular sprite", "Vector sprite", "Tile map", "Sprite map" ]
-Local ClassName:String[] = [ "LTLayer", "LTSprite", "LTAngularSprite","LTVectorSprite", "LTTileMap", "LTSpriteMap" ]
-For Local N:Int = 0 Until ClassTitle.Dimensions()[ 0 ]
-	L_ClassNames.Insert( TTypeId.ForName( ClassName[ N ] ), ClassTitle[ N ] )
-Next
+Global L_TitleGenerator:LTTitleGenerator = New LTTitleGenerator
+
+Type LTTitleGenerator
+	Method GetTitle:String( Shape:LTShape )
+		Local Title:String = Shape.GetParameter( "name" )
+		If Title Then Return Title
+		Title = Shape.GetParameter( "class" )
+		If Title Then Return Title
+		Return Shape.GetClassTitle()
+	End Method
+End Type

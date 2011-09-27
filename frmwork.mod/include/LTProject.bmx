@@ -86,7 +86,7 @@ Type LTProject Extends LTObject
 	
 	Method LoadWindow( World:LTWorld, Name:String = "", Class:String = "" )
 		If Class Then
-			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShapeWithType( Class, Name ) ) ) )
+			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShapeWithParameter( "LTLayer", "class", Class ) ) ) )
 		Else
 			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShape( Name ) ) ) )
 		End If

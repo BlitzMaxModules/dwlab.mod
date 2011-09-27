@@ -49,6 +49,12 @@ Type LTSprite Extends LTShape
 	
 	Field SpriteMap:LTSpriteMap
 	
+	
+	
+	Method GetClassTitle:String()
+		Return "Sprite"
+	End Method
+	
 	' ==================== Drawing ===================	
 	
 	Method Draw()

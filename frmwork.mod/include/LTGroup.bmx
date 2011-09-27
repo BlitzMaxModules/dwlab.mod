@@ -49,6 +49,18 @@ Type LTGroup Extends LTShape
 	End Method
 	
 	
+	
+	Method SetCoords( NewX:Double, NewY:Double )
+		For Local Shape:LTShape = Eachin Children
+			Shape.Move( NewX - X, NewY - Y )
+		Next
+		X = NewX
+		Y = NewY
+		Update()
+	End Method
+	
+	
+	
 	Rem
 	bbdoc: Initialization method.
 	about: Every child shape will be initialized by default.

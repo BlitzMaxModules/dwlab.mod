@@ -8,8 +8,6 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTComboBox.bmx"
-
 Global L_ActiveTextField:LTTextField
 
 Type LTTextField Extends LTGadget
@@ -45,6 +43,12 @@ Type LTTextField Extends LTGadget
 		L_CurrentCamera.FieldToScreen( LeftX(), Y, SX, SY )
 		L_CurrentCamera.FieldToScreen( Width, Height, SWidth, SHeight )
 		DrawText( TextToDisplay, X + 0.5 * ( SHeight - 8 ), Y - 8 )
+	End Method
+	
+	
+	
+	Method GetClassTitle:String()
+		Return "Text field"
 	End Method
 	
 	

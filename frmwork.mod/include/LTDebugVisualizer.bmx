@@ -61,17 +61,18 @@ Type LTDebugVisualizer Extends LTVisualizer
 		End If
 		
 		ResetColor()
-		
+			
 		If ShowNames Then
 			SetColor( 0, 0, 0 )
-			Local TextWidth2:Int = Len( Sprite.GetTitle() ) * 4
+			Local Title:String = Sprite.GetTitle()
+			Local TextWidth2:Int = Len( Title ) * 4
 			For Local DY:Int = -1 To 1
 				For Local DX:Int = -( DY = 0 ) To Abs( DY = 0 ) Step 2
-					DrawText( Sprite.GetTitle(), SX1 + DX - TextWidth2, SY1 + DY - 16 )
+					DrawText( Title, SX1 + DX - TextWidth2, SY1 + DY - 16 )
 				Next
 			Next
 			ResetColor()
-			DrawText( Sprite.GetTitle(), SX1 - TextWidth2, SY1 - 16 )
+			DrawText( Title, SX1 - TextWidth2, SY1 - 16 )
 		End If
 	End Method
 	

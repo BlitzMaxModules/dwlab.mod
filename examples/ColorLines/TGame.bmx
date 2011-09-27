@@ -12,7 +12,6 @@ Type TGame Extends LTProject
   Const BallsPerTurn:Int = 3
 
   Field World:LTWorld
-  Field Menu:LTWorld
   Field Level:LTTileMap
   Field HUD:LTLayer
   Field Objects:LTLayer = New LTLayer
@@ -39,10 +38,9 @@ Type TGame Extends LTProject
   Method Init()
     World = LTWorld.FromFile( "levels.lw" )
 	
-	Menu = LoadPanels()
-	
     L_InitGraphics( 960, 704, 64.0 )
-    
+	Menu.Init( Self )
+	
     Font = LTBitmapFont.FromFile( "font.png", 32, 127, 16, True )
     
     LoadLevel()
@@ -66,6 +64,7 @@ Type TGame Extends LTProject
     End If
     
     CreateBalls()
+	Paused = True
   End Method
   
   Method LoadLevel()
@@ -145,6 +144,8 @@ Type TGame Extends LTProject
     Return Sprite
   End Method
 End Type
+
+
 
 Type TCell
   Field X:Int, Y:Int

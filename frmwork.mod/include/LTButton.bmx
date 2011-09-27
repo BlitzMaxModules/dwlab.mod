@@ -36,8 +36,17 @@ Type LTButton Extends LTGadget
 		Super.Draw()
 		Local SX:Double, SY:Double
 		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
-		Local Name:String = LocalizeString( "{{B_" + GetParameter( "name" ) + "}}" )
-		DrawText( Name, SX - Len( Name ) * 4 + State, SY - 8 + State )
+		Local Caption:String = GetParameter( "caption" )
+		If Caption Then Caption = LocalizeString( "{{B_" + Caption + "}}" )
+		SetColor( 0, 0, 0 )
+		DrawText( Caption, SX - Len( Caption ) * 4, SY - 8 )
+		Visualizer.ResetColor()
+	End Method
+	
+	
+	
+	Method GetClassTitle:String()
+		Return "Button"
 	End Method
 
 	

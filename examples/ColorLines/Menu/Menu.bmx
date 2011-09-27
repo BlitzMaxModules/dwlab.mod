@@ -18,16 +18,34 @@ Include "LTSettingsWindow.bmx"
 
 Include "menu_incbin.bmx"
 
-Function L_LoadPanels:LTWorld( Project:LTProject )
-	ChangeDir( "mouse_menu" )
-	Local Menu:LTWorld = LTWorld.FromFile( "menu.lw" )
-	ChangeDir( ".." )
+Incbin "russian.lng"
+
+Global Menu:LTMenu = New LTMenu
+
+Type LTMenu
+	Field Languages:TList = New TList
+	Field VideoModes:TList = New TList
 	
-	Local Screen:LTSprite = Menu.FindShape( "Screen" )
-	Project.GUICamera.JumpTo( Screen )
-	Project.GUICamera.SetSize( Screen.Width, Screen.Height )
-	Menu.Remove( Screen )
 	
-	Project.LoadWindow( Menu, , "LTMenuWindow" )
-	Project.LoadWindow( Menu, , "LTOptionsWindow" )	
-End Function
+
+	Method Init:LTWorld( Project:LTProject )
+		ChangeDir( "mouse_menu" )
+		Local Menu:LTWorld = LTWorld.FromFile( "menu.lw" )
+		ChangeDir( ".." )
+		
+		Languages.AddLast( LTLanguage.Create( "Russian", "incbin::russian.lng" ) )
+		For Local N:Int = 0 Until CountGraphicsModes()
+			Local Width:Int, Height:Int, Hertz:Int
+			'VideoModes.AddLast( LTVideoMode.Create(
+		Next
+	
+		Local Screen:LTShape = Menu.FindShape( "Screen" )
+		Project.GUICamera.Viewport = L_CurrentCamera.Viewport.Clone()
+		Project.GUICamera.JumpTo( Screen )
+		Project.GUICamera.SetSize( Screen.Width, Screen.Height )
+		Menu.Remove( Screen )
+		
+		Project.LoadWindow( Menu, , "LTMenuWindow" )
+		Project.LoadWindow( Menu, , "LTOptionsWindow" )	
+	End Method
+End Type

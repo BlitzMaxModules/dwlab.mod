@@ -27,6 +27,12 @@ Type LTAngularSprite Extends LTSprite
 	End Rem
 	Field Velocity:Double
 	
+	
+	
+	Method GetClassTitle:String()
+		Return "Angular sprite"
+	End Method
+	
 	' ==================== Position ====================
 	
 	Method MoveForward()

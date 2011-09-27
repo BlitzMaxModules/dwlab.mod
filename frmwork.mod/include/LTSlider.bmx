@@ -48,6 +48,12 @@ Type LTSlider Extends LTGadget
 	
 	
 	
+	Method GetClassTitle:String()
+		Return "Slider"
+	End Method
+	
+	
+	
 	Method Act()
 		If Dragging And Size < 1 Then
 			Select SliderType

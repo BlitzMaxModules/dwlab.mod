@@ -24,6 +24,12 @@ Type LTListBox Extends LTGadget
 	End Method
 	
 	
+	
+	Method GetClassTitle:String()
+		Return "List box"
+	End Method
+	
+	
 	Method Act()
 		
 	End Method

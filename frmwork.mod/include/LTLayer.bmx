@@ -30,6 +30,12 @@ Type LTLayer Extends LTGroup
 	End Rem
 	Field MixContent:Int
 	
+	
+	
+	Method GetClassTitle:String()
+		Return "Layer"
+	End Method
+	
 	' ==================== Drawing ===================	
 	
 	Method Draw()

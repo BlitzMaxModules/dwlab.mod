@@ -46,6 +46,8 @@ Incbin "russian.lng"
 Incbin "toolbar.png"
 Incbin "treeview.png"
 
+L_TitleGenerator = New EditorTitleGenerator
+
 Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
@@ -642,7 +644,7 @@ Type LTEditor Extends LTProject
 				For Local Image:LTImage = Eachin World.Images
 					WriteLine( File, "Incbin ~q" + Image.Filename + "~q" )
 				Next
-				WriteLine( File, "SetIncbin( True )" )
+				WriteLine( File, "L_SetIncbin( True )" )
 			End If
 			
 			Return True
@@ -832,21 +834,19 @@ Type LTEditor Extends LTProject
 							RefreshProjectManager()
 						End If
 					Case Key_C
-						If KeyDown( Key_LControl ) Or KeyDown( Key_RControl ) Then
-							If Not SelectedShapes.IsEmpty() Then
-								Buffer = SelectedShapes.Copy()
-								SetChanged()
-							End If
-						Else
-							For Local Sprite:LTSprite = Eachin SelectedShapes
-								If Sprite.Visualizer.Image Then
-									Local NewHeight:Double = Sprite.Width * Sprite.Visualizer.Image.Height() / Sprite.Visualizer.Image.Width()
-									Sprite.SetCoords( Sprite.X, Sprite.Y + 0.5 * ( Sprite.Height - NewHeight ) )
-									Sprite.SetSize( Sprite.Width, NewHeight )
-								End If
-							Next
+						If KeyDown( Key_LControl ) Or KeyDown( Key_RControl ) And Not SelectedShapes.IsEmpty() Then
+							Buffer = SelectedShapes.Copy()
 							SetChanged()
 						End If
+					Case Key_H
+						For Local Sprite:LTSprite = Eachin SelectedShapes
+							If Sprite.Visualizer.Image Then
+								Local NewHeight:Double = Sprite.Width * Sprite.Visualizer.Image.Height() / Sprite.Visualizer.Image.Width()
+								Sprite.SetCoords( Sprite.X, Sprite.Y + 0.5 * ( Sprite.Height - NewHeight ) )
+								Sprite.SetSize( Sprite.Width, NewHeight )
+							End If
+						Next
+						SetChanged()
 					Case Key_D
 						If Not SelectedShapes.IsEmpty() Then
 							For Local Shape:LTShape = Eachin SelectedShapes
@@ -854,6 +854,39 @@ Type LTEditor Extends LTProject
 							Next
 							RefreshProjectManager()
 							SetChanged()
+						End If
+					Case Key_T
+						If Not SelectedShapes.IsEmpty() Then
+							Local Name:String = SelectedShape.GetName()
+							If EnterString( LocalizeString( "{{D_EnterClassNameOfObject}}" ), Name ) Then
+								For Local Shape:LTShape = Eachin SelectedShapes
+									SetParameter( Shape, "class", Name )
+								Next
+								RefreshParametersListBox()
+								SetChanged()
+							End If
+						End If
+					Case Key_N
+						If Not SelectedShapes.IsEmpty() Then
+							Local Name:String = SelectedShape.GetName()
+							If EnterString( LocalizeString( "{{D_EnterNameOfObject}}" ), Name ) Then
+								For Local Shape:LTShape = Eachin SelectedShapes
+									SetParameter( Shape, "name", Name )
+								Next
+								RefreshParametersListBox()
+								SetChanged()
+							End If
+						End If
+					Case Key_P
+						If Not SelectedShapes.IsEmpty() Then
+							SelectedParameter = New LTParameter
+							ParameterProperties.Execute()
+							If ParameterProperties.Succesful Then
+								For Local Shape:LTShape = Eachin SelectedShapes
+									AddParameter( Shape, SelectedParameter.Name, SelectedParameter.Value )
+								Next
+								RefreshParametersListBox()
+							End If
 						End If
 				End Select
 			Case Event_MouseWheel
@@ -2057,3 +2090,20 @@ Function ComparePixmaps:Int( Pixmap1:TPixmap, Pixmap2:TPixmap )
 	Next
 	Return True
 End Function
+
+
+
+
+Type EditorTitleGenerator Extends LTTitleGenerator
+	Method GetTitle:String( Shape:LTShape )
+		Local Title:String = Shape.GetParameter( "caption" )
+		If Title Then Return Title
+		Title = Shape.GetParameter( "text" )
+		If Title Then Return Title
+		Title = Shape.GetParameter( "name" )
+		If Title Then Return Title
+		Title = Shape.GetParameter( "class" )
+		If Title Then Return Title
+		Return Shape.GetClassTitle()
+	End Method
+End Type

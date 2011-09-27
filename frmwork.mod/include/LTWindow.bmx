@@ -66,20 +66,16 @@ Type LTWindow Extends LTLayer
 	
 	Method OnClick( Gadget:LTGadget, Button:Int )
 		Select Gadget.GetParameter( "action" ).ToLower()
-			Case "continue"
-				
 			Case "save"
 				Save()
 			Case "saveandclose"
 				Save()
-				Close()
 				Project.CloseWindow( Self )
 			Case "close"
-				Close()
 				Project.CloseWindow( Self )
-			Case "combobox"
-				Local ComboBox:LTComboBox = LTComboBox( FindShapeWithType( "LTComboBox", GetName() ) )
-				If ComboBox Then ComboBox.Expand()
+			Case "saveandend"
+				Save()
+				End
 		End Select
 		
 		Local Name:String = Gadget.GetParameter( "window" )
@@ -103,8 +99,5 @@ Type LTWindow Extends LTLayer
 	End Method
 	
 	Method Save()
-	End Method
-
-	Method Close()
 	End Method
 End Type

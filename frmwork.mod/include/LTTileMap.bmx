@@ -88,6 +88,12 @@ Type LTTileMap Extends LTIntMap
 		Return Tileset.CollisionShape[ Value[ TileX, TileY ] ]
 	End Method
 	
+	
+	
+	Method GetClassTitle:String()
+		Return "Tile map"
+	End Method
+	
 	' ==================== Drawing ===================	
 	
 	Method Draw()
