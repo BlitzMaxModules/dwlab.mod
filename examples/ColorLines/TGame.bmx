@@ -52,8 +52,6 @@ Type TGame Extends LTProject
     
     Panel.JumpTo( L_CurrentCamera )
     
-    ( New TIntro ).Execute()
-    
     Cursor.ShapeType = LTSprite.Pivot
     Cursor.SetDiameter( 0.1 )   
     
@@ -64,7 +62,7 @@ Type TGame Extends LTProject
     End If
     
     CreateBalls()
-	Paused = True
+	'Paused = True
   End Method
   
   Method LoadLevel()

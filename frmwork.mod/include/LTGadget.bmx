@@ -9,7 +9,6 @@
 '
 
 Include "LTLabel.bmx"
-Include "LTButton.bmx"
 Include "LTTextField.bmx"
 Include "LTListBox.bmx"
 Include "LTSlider.bmx"
