@@ -15,22 +15,7 @@ Type LTListBox Extends LTGadget
 	
 	
 	
-	Method Init()
-	End Method
-	
-	
-	
-	Method Draw()
-	End Method
-	
-	
-	
 	Method GetClassTitle:String()
 		Return "List box"
-	End Method
-	
-	
-	Method Act()
-		
 	End Method
 End Type

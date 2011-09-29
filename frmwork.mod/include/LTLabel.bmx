@@ -14,6 +14,7 @@ Type LTLabel Extends LTGadget
 	Field Text:String
 	Field Icon:LTShape
 	Field DX:Int, DY:Int
+	Field Align:Int = LTAlign.ToCenter
 	
 	
 	
@@ -28,7 +29,12 @@ Type LTLabel Extends LTGadget
 		If Text Then
 			Icon = L_Window.FindShapeWithParameter( "LTSprite", "gadget", Text, True )
 			If Icon Then L_Window.Remove( Icon )
-			Text = LocalizeString( "{{B_" + Text + "}}" )
+			Text = LocalizeString( "{{" + Text + "}}" )
+			Select GetParameter( "align" )
+				Case "left"; Align = LTAlign.ToLeft
+				Case "center"; Align = LTAlign.ToCenter
+				Case "right"; Align = LTAlign.ToRight
+			End Select
 		End If
 	End Method
 	
@@ -37,18 +43,37 @@ Type LTLabel Extends LTGadget
 	Method Draw()
 		Super.Draw()
 		
-		Local IconShift:Double = 0
 		Local SWidth:Double = TextWidth( " " + Text )
+		Local TextX:Double, TextSDX:Double
 		If Icon Then
-			Icon.SetCoords( X - L_CurrentCamera.DistScreenToField( 0.5 * SWidth ), Y )
-			IconShift = 0.5 * Icon.Width
+			Select Align
+				Case LTAlign.ToLeft
+					Icon.SetCoords( LeftX() + 0.5 * Height, Y )
+				Case LTAlign.ToCenter
+					Icon.SetCoords( X - L_CurrentCamera.DistScreenToField( 0.5 * SWidth ), Y )
+				Case LTAlign.ToCenter
+					Icon.SetCoords( RightX() - L_CurrentCamera.DistScreenToField( SWidth ) - 0.5 * Height, Y )
+			End Select
+			TextX = Icon.X + 0.5 * Icon.Width
 			Icon.Draw()
+		Else
+			Select Align
+				Case LTAlign.ToLeft
+					TextX = LeftX()
+					TextSDX = TextWidth( " " )
+				Case LTAlign.ToCenter
+					TextX = X
+					TextSDX = -0.5 * SWidth
+				Case LTAlign.ToRight
+					TextX = RightX()
+					TextSDX = -SWidth - TextWidth( " " )
+			End Select
 		End If
 		
 		Local SX:Double, SY:Double
-		L_CurrentCamera.FieldToScreen( X + IconShift, Y, SX, SY )
+		L_CurrentCamera.FieldToScreen( TextX, Y, SX, SY )
 		SetColor( 0, 0, 0 )
-		DrawText( " " + Text, SX - SWidth * 0.5 + DX, SY - 0.5 * TextHeight( Text ) + DY )
+		DrawText( " " + Text, SX + TextSDX + DX, SY - 0.5 * TextHeight( Text ) + DY )
 		Visualizer.ResetColor()
 	End Method
 End Type

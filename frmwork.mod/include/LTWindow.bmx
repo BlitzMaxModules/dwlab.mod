@@ -8,9 +8,6 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Global L_Cursor:LTSprite = New LTSprite
-L_Cursor.ShapeType = LTSprite.Pivot
-
 Type LTWindow Extends LTLayer
 	Field World:LTWorld
 	Field Project:LTProject
@@ -19,7 +16,14 @@ Type LTWindow Extends LTLayer
 	
 	
 	
-	Method Operate()
+	Method Draw()
+		If Modal Then L_CurrentCamera.Darken( 0.3 )
+		Super.Draw()
+	End Method
+	
+	
+	
+	Method Act()
 		If Active Then
 			For Local Gadget:LTGadget = Eachin Children
 				If Gadget.CollidesWithSprite( L_Cursor ) Then
@@ -29,7 +33,10 @@ Type LTWindow Extends LTLayer
 						MouseOver.Insert( Gadget, Null )
 					End If
 					For Local N:Int = 1 To 3
-						If Project.MouseHits[ N ] = 1 Then OnClick( Gadget, N )
+						If Project.MouseHits[ N ] = 1 Then
+							OnClick( Gadget, N )
+							Gadget.OnClick( N )
+						End If
 						If MouseDown( N ) Then Gadget.OnMouseDown( N )
 					Next
 				ElseIf MouseOver.Contains( Gadget ) Then
@@ -38,34 +45,36 @@ Type LTWindow Extends LTLayer
 					MouseOver.Remove( Gadget )
 				End If
 			Next
-		End If
 		
-		If L_ActiveTextField Then
-			Local LeftPart:String = L_ActiveTextField.LeftPart
-			Local RightPart:String = L_ActiveTextField.RightPart
-			If LeftPart Then
-				If KeyHit( Key_Left ) Then
-					L_ActiveTextField.RightPart = LeftPart[ LeftPart.Length - 1.. ] + RightPart
-					L_ActiveTextField.LeftPart = LeftPart[ ..LeftPart.Length - 1 ]
+			If L_ActiveTextField Then
+				Local LeftPart:String = L_ActiveTextField.LeftPart
+				Local RightPart:String = L_ActiveTextField.RightPart
+				If LeftPart Then
+					If KeyHit( Key_Left ) Then
+						L_ActiveTextField.RightPart = LeftPart[ LeftPart.Length - 1.. ] + RightPart
+						L_ActiveTextField.LeftPart = LeftPart[ ..LeftPart.Length - 1 ]
+					End If
+					If KeyHit( Key_Backspace ) Then L_ActiveTextField.LeftPart = LeftPart[ ..LeftPart.Length - 1 ]
 				End If
-				If KeyHit( Key_Backspace ) Then L_ActiveTextField.LeftPart = LeftPart[ ..LeftPart.Length - 1 ]
-			End If
-			If RightPart Then
-				If KeyHit( Key_Right ) Then
-					L_ActiveTextField.LeftPart = LeftPart + RightPart[ 1.. ]
-					L_ActiveTextField.RightPart = RightPart[ 1.. ]
+				If RightPart Then
+					If KeyHit( Key_Right ) Then
+						L_ActiveTextField.LeftPart = LeftPart + RightPart[ 1.. ]
+						L_ActiveTextField.RightPart = RightPart[ 1.. ]
+					End If
+					If KeyHit( Key_Delete ) Then L_ActiveTextField.RightPart = RightPart[ 1.. ]
 				End If
-				If KeyHit( Key_Delete ) Then L_ActiveTextField.RightPart = RightPart[ 1.. ]
+				Local Key:Int = GetChar()
+				If Key Then L_ActiveTextField.LeftPart :+ Chr( Key )
 			End If
-			Local Key:Int = GetChar()
-			If Key Then L_ActiveTextField.LeftPart :+ Chr( Key )
+			
+			Super.Act()
 		End If
 	End Method
 
 	
 	
 	Method OnClick( Gadget:LTGadget, Button:Int )
-		Select Gadget.GetParameter( "action" ).ToLower()
+		Select Gadget.GetParameter( "action" )
 			Case "save"
 				Save()
 			Case "saveandclose"

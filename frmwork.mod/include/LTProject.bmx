@@ -15,7 +15,11 @@ Global L_SpritesActed:Int
 Global L_SpriteActed:Int
 
 Global L_DeltaTime:Double
+
 Global L_Window:LTWindow
+Global L_ActiveTextField:LTTextField
+Global L_Cursor:LTSprite = New LTSprite
+L_Cursor.ShapeType = LTSprite.Pivot
 
 Rem
 bbdoc: Class for main project and subprojects.
@@ -85,12 +89,13 @@ Type LTProject Extends LTObject
 	
 	
 	Method LoadWindow( World:LTWorld, Name:String = "", Class:String = "" )
+		if L_ActiveTextField Then L_ActiveTextField.Deselect()
 		If Class Then
 			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShapeWithParameter( "LTLayer", "class", Class ) ) ) )
 		Else
 			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShape( Name ) ) ) )
 		End If
-		L_Window.Modal = L_Window.GetParameter( "modal" ).ToInt()
+		L_Window.Modal = ( L_Window.GetParameter( "modal" ) = "true" )
 		L_Window.World = World
 		L_Window.Project = Self
 		L_Window.Init()
@@ -243,12 +248,12 @@ Type LTProject Extends LTObject
 			
 			If Not Paused Then Logic()
 			For Local Window:LTWindow = Eachin Windows
-				Window.Operate()
+				Window.Act()
 			Next
 			If Exiting Then Exit
 			
 			For Local N:Int = 1 To 3
-				If MouseHits[ N ] Then MouseHits[ N ] = 2 Else MouseHits[ N ] = 0
+				If MouseDown( N ) Then MouseHits[ N ] = 2 Else MouseHits[ N ] = 0
 			Next
 		
 			Repeat
@@ -266,6 +271,7 @@ Type LTProject Extends LTObject
 				
 				Local MainCamera:LTCamera = L_CurrentCamera
 				L_CurrentCamera = GUICamera
+				L_Cursor.SetMouseCoords()
 				For Local Window:LTWindow = Eachin Windows
 					Window.Draw()
 				Next

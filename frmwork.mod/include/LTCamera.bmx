@@ -228,6 +228,26 @@ Type LTCamera Extends LTSprite
 	
 	
 	
+	Method ApplyColor( Intensity:Double, Red:Double, Green:Double, Blue:Double )
+		SetAlpha( Intensity )
+		SetColor( 255.0 * Red, 255.0 * Green, 255.0 * Blue )
+		DrawRect( Viewport.X - 0.5 * Viewport.Width, Viewport.Y - 0.5 * Viewport.Height, Viewport.Width, Viewport.Height )
+		LTVisualizer.ResetColor()
+	End Method
+	
+	
+	
+	Method Lighten( Intensity:Double )
+		ApplyColor( Intensity, 1.0, 1.0, 1.0 )
+	End Method
+	
+	
+	
+	Method Darken( Intensity:Double )
+		ApplyColor( Intensity, 0.0, 0.0, 0.0 )
+	End Method
+	
+	
 	Rem
 	bbdoc: Creates new camera object.
 	returns: New camera object.

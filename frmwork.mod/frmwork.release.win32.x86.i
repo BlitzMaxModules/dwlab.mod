@@ -3,8 +3,10 @@ ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.2.5 (29.09.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added ApplyColor(), Lighten() and Darken() methods to the LTCamera."
 ModuleInfo "History: v1.2.4.1 (26.09.11)"
-ModuleInfo "History: &nbsp; &nbsp; Fixed bug of wring displaying non-scaled sprite."
+ModuleInfo "History: &nbsp; &nbsp; Fixed bug of wrong displaying of non-scaled sprite."
 ModuleInfo "History: v1.2.4 (22.09.11)"
 ModuleInfo "History: &nbsp; &nbsp; LTRasterFrameVisualizer is deprecated, LTRasterFrame derived from LTImage created instead."
 ModuleInfo "History: v1.2.3.1 (19.09.11)"
@@ -184,7 +186,6 @@ LTGroup^LTShape{
 -ValueAtIndex:LTShape(Index%)="_dwlab_frmwork_LTGroup_ValueAtIndex"
 -ObjectEnumerator:brl.linkedlist.TListEnum()="_dwlab_frmwork_LTGroup_ObjectEnumerator"
 -Clone:LTShape()="_dwlab_frmwork_LTGroup_Clone"
--Update%()="_dwlab_frmwork_LTGroup_Update"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTGroup_XMLIO"
 }="dwlab_frmwork_LTGroup"
 LTAngularSprite^LTSprite{
@@ -240,6 +241,9 @@ LTCamera^LTSprite{
 -ShiftCameraToPoint%(NewX!,NewY!)="_dwlab_frmwork_LTCamera_ShiftCameraToPoint"
 -AlterCameraMagnification%(NewK!)="_dwlab_frmwork_LTCamera_AlterCameraMagnification"
 -Update%()="_dwlab_frmwork_LTCamera_Update"
+-ApplyColor%(Intensity!,Red!,Green!,Blue!)="_dwlab_frmwork_LTCamera_ApplyColor"
+-Lighten%(Intensity!)="_dwlab_frmwork_LTCamera_Lighten"
+-Darken%(Intensity!)="_dwlab_frmwork_LTCamera_Darken"
 +Create:LTCamera(Width!,Height!,UnitSize!)="_dwlab_frmwork_LTCamera_Create"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTCamera_XMLIO"
 }="dwlab_frmwork_LTCamera"
@@ -674,7 +678,7 @@ LTVisualizer^LTObject{
 -SetColorFromRGB%(NewRed!,NewGreen!,NewBlue!)="_dwlab_frmwork_LTVisualizer_SetColorFromRGB"
 -AlterColor%(D1!,D2!)="_dwlab_frmwork_LTVisualizer_AlterColor"
 -ApplyColor%()="_dwlab_frmwork_LTVisualizer_ApplyColor"
--ResetColor%()="_dwlab_frmwork_LTVisualizer_ResetColor"
++ResetColor%()="_dwlab_frmwork_LTVisualizer_ResetColor"
 -Clone:LTVisualizer()="_dwlab_frmwork_LTVisualizer_Clone"
 -CopyTo%(Visualizer:LTVisualizer)="_dwlab_frmwork_LTVisualizer_CopyTo"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTVisualizer_XMLIO"
@@ -826,7 +830,8 @@ LTWindow^LTLayer{
 .Modal%&
 -New%()="_dwlab_frmwork_LTWindow_New"
 -Delete%()="_dwlab_frmwork_LTWindow_Delete"
--Operate%()="_dwlab_frmwork_LTWindow_Operate"
+-Draw%()="_dwlab_frmwork_LTWindow_Draw"
+-Act%()="_dwlab_frmwork_LTWindow_Act"
 -OnClick%(Gadget:LTGadget,Button%)="_dwlab_frmwork_LTWindow_OnClick"
 -OnMouseDown%(Gadget:LTGadget,Button%)="_dwlab_frmwork_LTWindow_OnMouseDown"
 -OnMouseOver%(Gadget:LTGadget)="_dwlab_frmwork_LTWindow_OnMouseOver"
@@ -838,6 +843,7 @@ LTCheckBox^LTButton{
 -Delete%()="_dwlab_frmwork_LTCheckBox_Delete"
 -GetValue$()="_dwlab_frmwork_LTCheckBox_GetValue"
 -SetValue%(Value$)="_dwlab_frmwork_LTCheckBox_SetValue"
+-OnClick%(Button%)="_dwlab_frmwork_LTCheckBox_OnClick"
 -OnMouseDown%(Button%)="_dwlab_frmwork_LTCheckBox_OnMouseDown"
 -OnMouseUp%(Button%)="_dwlab_frmwork_LTCheckBox_OnMouseUp"
 }="dwlab_frmwork_LTCheckBox"
@@ -858,6 +864,7 @@ LTLabel^LTGadget{
 .Icon:LTShape&
 .DX%&
 .DY%&
+.Align%&
 -New%()="_dwlab_frmwork_LTLabel_New"
 -Delete%()="_dwlab_frmwork_LTLabel_Delete"
 -GetClassTitle$()="_dwlab_frmwork_LTLabel_GetClassTitle"
@@ -875,6 +882,7 @@ LTTextField^LTGadget{
 -Draw%()="_dwlab_frmwork_LTTextField_Draw"
 -GetClassTitle$()="_dwlab_frmwork_LTTextField_GetClassTitle"
 -OnMouseDown%(Button%)="_dwlab_frmwork_LTTextField_OnMouseDown"
+-Deselect%()="_dwlab_frmwork_LTTextField_Deselect"
 }="dwlab_frmwork_LTTextField"
 LTListBox^LTGadget{
 .InnerArea:LTShape&
@@ -882,10 +890,7 @@ LTListBox^LTGadget{
 .ListType%&
 -New%()="_dwlab_frmwork_LTListBox_New"
 -Delete%()="_dwlab_frmwork_LTListBox_Delete"
--Init%()="_dwlab_frmwork_LTListBox_Init"
--Draw%()="_dwlab_frmwork_LTListBox_Draw"
 -GetClassTitle$()="_dwlab_frmwork_LTListBox_GetClassTitle"
--Act%()="_dwlab_frmwork_LTListBox_Act"
 }="dwlab_frmwork_LTListBox"
 LTSlider^LTGadget{
 .Slider:LTShape&
@@ -913,6 +918,7 @@ LTGadget^LTSprite{
 -SetValue%(Value$)="_dwlab_frmwork_LTGadget_SetValue"
 -OnMouseOver%()="_dwlab_frmwork_LTGadget_OnMouseOver"
 -OnMouseOut%()="_dwlab_frmwork_LTGadget_OnMouseOut"
+-OnClick%(Button%)="_dwlab_frmwork_LTGadget_OnClick"
 -OnMouseDown%(Button%)="_dwlab_frmwork_LTGadget_OnMouseDown"
 -OnMouseUp%(Button%)="_dwlab_frmwork_LTGadget_OnMouseUp"
 }="dwlab_frmwork_LTGadget"
@@ -1058,6 +1064,8 @@ L_SpritesActed%&=mem("dwlab_frmwork_L_SpritesActed")
 L_SpriteActed%&=mem("dwlab_frmwork_L_SpriteActed")
 L_DeltaTime!&=mem:d("dwlab_frmwork_L_DeltaTime")
 L_Window:LTWindow&=mem:p("dwlab_frmwork_L_Window")
+L_ActiveTextField:LTTextField&=mem:p("dwlab_frmwork_L_ActiveTextField")
+L_Cursor:LTSprite&=mem:p("dwlab_frmwork_L_Cursor")
 L_CurrentCamera:LTCamera&=mem:p("dwlab_frmwork_L_CurrentCamera")
 L_DiscreteGraphics%&=mem("dwlab_frmwork_L_DiscreteGraphics")
 L_CameraSpeed!&=mem:d("dwlab_frmwork_L_CameraSpeed")
@@ -1068,8 +1076,6 @@ L_LoadImages%&=mem("dwlab_frmwork_L_LoadImages")
 L_DebugVisualizer:LTDebugVisualizer&=mem:p("dwlab_frmwork_L_DebugVisualizer")
 L_DefaultVisualizer:LTVisualizer&=mem:p("dwlab_frmwork_L_DefaultVisualizer")
 L_TitleGenerator:LTTitleGenerator&=mem:p("dwlab_frmwork_L_TitleGenerator")
-L_Cursor:LTSprite&=mem:p("dwlab_frmwork_L_Cursor")
-L_ActiveTextField:LTTextField&=mem:p("dwlab_frmwork_L_ActiveTextField")
 L_UndoStack:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_UndoStack")
 L_CurrentUndoList:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_CurrentUndoList")
 L_RedoStack:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_RedoStack")

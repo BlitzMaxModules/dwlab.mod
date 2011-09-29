@@ -52,7 +52,7 @@ Type LTGroup Extends LTShape
 	
 	Method SetCoords( NewX:Double, NewY:Double )
 		For Local Shape:LTShape = Eachin Children
-			Shape.Move( NewX - X, NewY - Y )
+			Shape.SetCoords( Shape.X + NewX - X, Shape.Y + NewY - Y )
 		Next
 		X = NewX
 		Y = NewY
@@ -151,36 +151,6 @@ Type LTGroup Extends LTShape
 			NewGroup.Children.AddLast( Shape.Clone() )
 		Next
 		Return NewGroup
-	End Method
-	
-	
-	Rem
-	bbdoc: Update method.
-	about: Size and position of the group will be updated: group rectangular shape will cover all of the child shapes.
-	End Rem
-	Method Update()
-		Local MinX:Double, MinY:Double
-		Local MaxX:Double, MaxY:Double
-		Local FirstShape:Int = False
-		For Local Shape:LTShape = Eachin Children
-			Shape.Update()
-			If FirstShape Then
-				MinX = X
-				MinY = Y
-				MaxX = X
-				MaxY = Y
-				FirstShape = False
-			Else
-				If X < MinX Then MinX = X
-				If Y < MinY Then MinY = Y
-				If X > MaxX Then MaxX = X
-				If Y > MaxY Then MaxY = Y
-			End If
-		Next
-		X = 0.5 * ( MinX + MaxX )
-		Y = 0.5 * ( MinY + MaxY )
-		Width = MaxX - MinX
-		Height = MaxY - MinY
 	End Method
 	
 	' ==================== Saving / loading ====================

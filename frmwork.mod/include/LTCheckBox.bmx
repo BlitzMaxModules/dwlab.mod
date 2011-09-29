@@ -18,11 +18,16 @@ Type LTCheckBox Extends LTButton
 	Method SetValue( Value:String )
 		State = Value.ToInt()
 	End Method	
+
 	
+	
+	Method OnClick( Button:Int )
+		State = Not State
+	End Method
+		
 	
 
 	Method OnMouseDown( Button:Int )
-		State = Not State
 	End Method
 	
 	

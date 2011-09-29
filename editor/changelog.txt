@@ -1,3 +1,6 @@
+1.7.3
++ Added keys for changing class, name and adding parameter to selected objects.
+
 1.7.2
 + Frame images now can be created and attached to shape visualizers.
 * Fixed bug of not applying selected image to all selected objects.

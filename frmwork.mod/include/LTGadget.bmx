@@ -29,6 +29,9 @@ Type LTGadget Extends LTSprite
 	Method OnMouseOut()
 	End Method	
 	
+	Method OnClick( Button:Int )
+	End Method
+	
 	Method OnMouseDown( Button:Int )
 	End Method
 	

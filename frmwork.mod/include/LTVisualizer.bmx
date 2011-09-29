@@ -488,10 +488,10 @@ Type LTVisualizer Extends LTObject
 	bbdoc: Resets drawing color to white.
 	about: See also: #SetColorFromHex, #SetColorFromRGB, #AlterColor, #ApplyColor
 	End Rem
-	Method ResetColor()
+	Function ResetColor()
 		SetColor( 255, 255, 255 )
 		SetAlpha( 1.0 )
-	End Method
+	End Function
 	
 	
 	

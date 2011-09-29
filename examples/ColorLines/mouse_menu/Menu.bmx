@@ -54,3 +54,12 @@ Type LTMenu
 		Project.LoadWindow( Menu, , "LTOptionsWindow" )	
 	End Method
 End Type
+
+Type LTScoresWindow Extends LTWindow
+End Type
+
+Type LTAuthorsWindow Extends LTWindow	
+End Type
+
+Type LTExitWindow Extends LTWindow	
+End Type

@@ -53,7 +53,7 @@ Type TGame Extends LTProject
     Panel.JumpTo( L_CurrentCamera )
     
     Cursor.ShapeType = LTSprite.Pivot
-    Cursor.SetDiameter( 0.1 )   
+    Cursor.SetDiameter( 0.1 )
     
     If FileType( "hiscore.txt" ) Then
       Local File:TStream = ReadFile( "hiscore.txt" )
@@ -62,7 +62,7 @@ Type TGame Extends LTProject
     End If
     
     CreateBalls()
-	'Paused = True
+	Paused = True
   End Method
   
   Method LoadLevel()

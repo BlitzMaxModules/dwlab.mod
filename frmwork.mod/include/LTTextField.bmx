@@ -8,8 +8,6 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Global L_ActiveTextField:LTTextField
-
 Type LTTextField Extends LTGadget
 	Field Text:String
 	Field LeftPart:String
@@ -42,7 +40,7 @@ Type LTTextField Extends LTGadget
 		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
 		L_CurrentCamera.FieldToScreen( LeftX(), Y, SX, SY )
 		L_CurrentCamera.FieldToScreen( Width, Height, SWidth, SHeight )
-		DrawText( TextToDisplay, X + 0.5 * ( SHeight - 8 ), Y - 8 )
+		DrawText( " " + TextToDisplay, X + 0.5 * ( SHeight - 8 ), Y - 8 )
 	End Method
 	
 	
@@ -55,9 +53,17 @@ Type LTTextField Extends LTGadget
 	
 	Method OnMouseDown( Button:Int )
 		If Button = 1 Then
+			if L_ActiveTextField Then L_ActiveTextField.Deselect()
 			L_ActiveTextField = Self
 			LeftPart = Text
 			RightPart = ""
 		End If
+	End Method
+	
+	
+	
+	Method Deselect()
+		Text = LeftPart + RightPart
+		L_ActiveTextField = Null
 	End Method
 End Type

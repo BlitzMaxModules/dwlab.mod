@@ -9,8 +9,14 @@
 '
 
 Type LTSettingsWindow Extends LTWindow
-	Method Init()
-		
+	Method OnClick( Gadget:LTGadget, Button:Int )
+		Select Gadget.GetParameter( "action" )
+			Case "scroll_up"
+				
+			Case "scroll_down"
+				
+			Default
+				Super.OnClick( Gadget, Button )
+		End Select
 	End Method
-
 End Type
