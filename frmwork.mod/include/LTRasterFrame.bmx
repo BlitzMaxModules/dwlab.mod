@@ -48,8 +48,12 @@ Type LTRasterFrame Extends LTImage
 						Case 1; Width = TotalWidth - LeftBorder - RightBorder
 						Case 2; Width = RightBorder
 					End Select
-					Images[ N, XN, YN ] = CreateImage( Width, Height )
-					Images[ N, XN, YN ].Pixmaps[ 0 ] = Pixmap.Window( X, Y, Width, Height )
+					If Width > 0 And Height > 0 Then
+						Images[ N, XN, YN ] = CreateImage( Width, Height )
+						If X + Width <= TotalWidth And Y + Height <= TotalHeight Then
+							Images[ N, XN, YN ].Pixmaps[ 0 ] = Pixmap.Window( X, Y, Width, Height )
+						End If
+					End If
 					X :+ Width
 				Next
 				Y :+ Height

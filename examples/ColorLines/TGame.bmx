@@ -38,7 +38,8 @@ Type TGame Extends LTProject
   Method Init()
     World = LTWorld.FromFile( "levels.lw" )
 	
-    L_InitGraphics( 960, 704, 64.0 )
+	Menu.ScreenWidthGrain = 80
+	Menu.ScreenHeightGrain = 60
 	Menu.Init( Self )
 	
     Font = LTBitmapFont.FromFile( "font.png", 32, 127, 16, True )
@@ -88,13 +89,6 @@ Type TGame Extends LTProject
     If Not Busy Then Cursor.CollisionsWithTileMap( Level )
     
     If Score > HiScore Then HiScore = Score
-    
-    If KeyHit( Key_Escape ) Or AppTerminate() Then 
-      Local File:TStream = WriteFile( "hiscore.txt" )
-      WriteLine( File, HiScore )
-      CloseFile( File )
-      Exiting = True
-    End If
     
     If GameOver Then
       If GetChar() Or MouseHit( 1 ) Then

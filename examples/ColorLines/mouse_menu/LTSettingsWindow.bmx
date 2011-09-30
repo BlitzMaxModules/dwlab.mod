@@ -9,14 +9,35 @@
 '
 
 Type LTSettingsWindow Extends LTWindow
+	
+
+	Method GetTextFieldText:String( Name:String )
+		Select Name
+			Case "Language"
+				Return L_CurrentProfile.Language.GetName()
+			Case "Resolution"
+				Return L_CurrentProfile.ScreenWidth + " x " + L_CurrentProfile.ScreenHeight
+			Case "ColorDepth"
+				Return L_CurrentProfile.ColorDepth + " bit"
+			Case "Frequency"
+				Return L_CurrentProfile.Frequency + " Hz"
+			Case "VideoDriver"
+				'Return L_CurrentProfile.VideoDriver.
+		End Select
+	End Method
+	
 	Method OnClick( Gadget:LTGadget, Button:Int )
 		Select Gadget.GetParameter( "action" )
 			Case "scroll_up"
-				
+				ChangeListItem( Gadget.GetParameter( "gadget" ), -1 )
 			Case "scroll_down"
-				
+				ChangeListItem( Gadget.GetParameter( "gadget" ), +1 )
 			Default
 				Super.OnClick( Gadget, Button )
 		End Select
+	End Method
+	
+	Method ChangeListItem( GadgetName:String, D:Int = 0 )
+		
 	End Method
 End Type

@@ -25,7 +25,7 @@ Type LTTextField Extends LTGadget
 		Text = Value
 		LeftPart = Value
 		RightPart = ""
-	End Method	
+	End Method
 	
 	
 	

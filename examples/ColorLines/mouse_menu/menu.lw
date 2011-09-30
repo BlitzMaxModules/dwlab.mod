@@ -19,7 +19,7 @@
 		<Object id="362"/>
 		<Object id="368"/>
 	</TList>
-	<LTCamera field="camera" x="31" y="47" width="16.421" height="13.8634" shape="2" viewport-clipping="1">
+	<LTCamera field="camera" x="29.8307" y="44.8098" width="14.9282" height="12.6031" shape="2" viewport-clipping="1">
 		<Object field="visualizer" id="1"/>
 		<LTShape field="viewport" x="504" y="425.5" width="1008" height="851">
 			<Object field="visualizer" id="1"/>
@@ -52,7 +52,7 @@
 				<LTParameter name="action" value="continue"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="17" left="2" right="2" top="2" bottom="2" filename="frames\button.png"/>
+				<LTRasterFrame field="image" id="17" left="2" right="2" top="2" bottom="2" filename="frames\button.png" xcells="2"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="27.25" y="41.625" width="2" height="0.75" shape="2">
@@ -310,7 +310,7 @@
 		</LTSprite>
 		<LTSprite x="29.75" y="52.5" width="1.5" height="0.5" shape="2">
 			<TList field="parameters">
-				<LTParameter name="name" value="MusicVolume"/>
+				<LTParameter name="gadget" value="MusicVolume"/>
 			</TList>
 			<LTVisualizer field="visualizer" yscale="0.6996">
 				<LTRasterFrame field="image" id="137" filename="frames\volume.png"/>
@@ -318,7 +318,7 @@
 		</LTSprite>
 		<LTSprite x="25.25" y="52.5" width="1.5" height="0.5" shape="2">
 			<TList field="parameters">
-				<LTParameter name="name" value="SoundVolume"/>
+				<LTParameter name="gadget" value="SoundVolume"/>
 			</TList>
 			<LTVisualizer field="visualizer" yscale="0.6996">
 				<Object field="image" id="137"/>
@@ -338,12 +338,12 @@
 				<LTParameter name="align" value="left"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="152" left="3" right="3" top="3" filename="frames\window_title.png"/>
+				<LTRasterFrame field="image" id="152" left="3" right="3" top="3" bottom="3" filename="frames\window_title.png"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="27.25" y="45.25" width="8" height="4" shape="2">
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="155" left="3" right="3" top="3" bottom="2" filename="frames\window.png"/>
+				<LTRasterFrame field="image" id="155" left="3" right="3" bottom="3" filename="frames\window.png"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="29.75" y="44" width="2.5" shape="2">
@@ -429,7 +429,7 @@
 		</LTSprite>
 		<LTSprite x="28" y="45.25" width="0.5" height="2" shape="2">
 			<TList field="parameters">
-				<LTParameter name="name" value="Profiles"/>
+				<LTParameter name="gadget" value="Profiles"/>
 			</TList>
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="137"/>
@@ -679,7 +679,7 @@
 		</LTSprite>
 		<LTSprite x="34.5" y="48.5" width="0.5" height="3" shape="2">
 			<TList field="parameters">
-				<LTParameter name="name" value="KeysList"/>
+				<LTParameter name="gadget" value="KeysList"/>
 			</TList>
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="137"/>
@@ -779,7 +779,7 @@
 		</LTSprite>
 		<LTSprite x="31.625" y="43.375" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
-				<LTParameter name="name" value="Resolution"/>
+				<LTParameter name="gadget" value="Resolution"/>
 				<LTParameter name="class" value="LTButton"/>
 				<LTParameter name="action" value="scroll_up"/>
 			</TList>
@@ -789,7 +789,7 @@
 		</LTSprite>
 		<LTSprite x="31.625" y="43.625" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
-				<LTParameter name="name" value="Resolution"/>
+				<LTParameter name="gadget" value="Resolution"/>
 				<LTParameter name="class" value="LTButton"/>
 				<LTParameter name="action" value="scroll_down"/>
 			</TList>
@@ -799,7 +799,7 @@
 		</LTSprite>
 		<LTSprite x="31.625" y="44.125" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
-				<LTParameter name="name" value="VideoDriver"/>
+				<LTParameter name="gadget" value="VideoDriver"/>
 				<LTParameter name="class" value="LTButton"/>
 				<LTParameter name="action" value="scroll_up"/>
 			</TList>
@@ -809,7 +809,7 @@
 		</LTSprite>
 		<LTSprite x="31.625" y="44.375" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
-				<LTParameter name="name" value="VideoDriver"/>
+				<LTParameter name="gadget" value="VideoDriver"/>
 				<LTParameter name="class" value="LTButton"/>
 				<LTParameter name="action" value="scroll_down"/>
 			</TList>
@@ -819,7 +819,7 @@
 		</LTSprite>
 		<LTSprite x="31.625" y="44.875" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
-				<LTParameter name="name" value="AudioDriver"/>
+				<LTParameter name="gadget" value="AudioDriver"/>
 				<LTParameter name="class" value="LTButton"/>
 				<LTParameter name="action" value="scroll_up"/>
 			</TList>
@@ -829,7 +829,7 @@
 		</LTSprite>
 		<LTSprite x="31.625" y="45.125" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
-				<LTParameter name="name" value="AudioDriver"/>
+				<LTParameter name="gadget" value="AudioDriver"/>
 				<LTParameter name="class" value="LTButton"/>
 				<LTParameter name="action" value="scroll_down"/>
 			</TList>
@@ -839,7 +839,7 @@
 		</LTSprite>
 		<LTSprite x="31.625" y="45.625" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
-				<LTParameter name="name" value="Language"/>
+				<LTParameter name="gadget" value="Language"/>
 				<LTParameter name="class" value="LTButton"/>
 				<LTParameter name="action" value="scroll_up"/>
 			</TList>
@@ -849,7 +849,7 @@
 		</LTSprite>
 		<LTSprite x="31.625" y="45.875" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
-				<LTParameter name="name" value="Language"/>
+				<LTParameter name="gadget" value="Language"/>
 				<LTParameter name="class" value="LTButton"/>
 				<LTParameter name="action" value="scroll_down"/>
 			</TList>
@@ -859,7 +859,7 @@
 		</LTSprite>
 		<LTSprite x="33.125" y="43.375" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
-				<LTParameter name="name" value="Depth"/>
+				<LTParameter name="gadget" value="Depth"/>
 				<LTParameter name="class" value="LTButton"/>
 				<LTParameter name="action" value="scroll_up"/>
 			</TList>
@@ -869,7 +869,7 @@
 		</LTSprite>
 		<LTSprite x="33.125" y="43.625" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
-				<LTParameter name="name" value="Depth"/>
+				<LTParameter name="gadget" value="Depth"/>
 				<LTParameter name="class" value="LTButton"/>
 				<LTParameter name="action" value="scroll_down"/>
 			</TList>
@@ -879,7 +879,7 @@
 		</LTSprite>
 		<LTSprite x="34.625" y="43.375" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
-				<LTParameter name="name" value="Frequency"/>
+				<LTParameter name="gadget" value="Frequency"/>
 				<LTParameter name="class" value="LTButton"/>
 				<LTParameter name="action" value="scroll_up"/>
 			</TList>
@@ -889,7 +889,7 @@
 		</LTSprite>
 		<LTSprite x="34.625" y="43.625" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
-				<LTParameter name="name" value="Frequency"/>
+				<LTParameter name="gadget" value="Frequency"/>
 				<LTParameter name="class" value="LTButton"/>
 				<LTParameter name="action" value="scroll_down"/>
 			</TList>

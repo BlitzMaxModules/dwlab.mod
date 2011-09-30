@@ -9,7 +9,7 @@
 '
 
 Type LTMenuWindow Extends LTWindow
-	Const Speed:Double = 5.0
+	Const Speed:Double = 8.0
 	
 	Field Panel:LTShape
 	Field DestinationY:Double
@@ -42,6 +42,8 @@ Type LTMenuWindow Extends LTWindow
 	
 	
 	Method Act()
+	    If AppTerminate() Then Project.LoadWindow( World, , "LTExitWindow" )
+		
 		If DestinationY = Y Then
 		ElseIf Abs( DestinationY - Y ) < 0.01 Then
 			Active = True

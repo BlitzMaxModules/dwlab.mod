@@ -23,6 +23,15 @@ Type LTWindow Extends LTLayer
 	
 	
 	
+	Method Init()
+		For Local TextField:LTTextField = Eachin Children
+			TextField.Text = GetTextFieldText( TextField.GetName() )
+		Next
+		Super.Init()
+	End Method
+	
+	
+	
 	Method Act()
 		If Active Then
 			For Local Gadget:LTGadget = Eachin Children
@@ -37,7 +46,7 @@ Type LTWindow Extends LTLayer
 							OnClick( Gadget, N )
 							Gadget.OnClick( N )
 						End If
-						If MouseDown( N ) Then Gadget.OnMouseDown( N )
+						If MouseDown( N ) Then Gadget.OnMouseDown( N ) Else Gadget.OnMouseUp( N )
 					Next
 				ElseIf MouseOver.Contains( Gadget ) Then
 					Gadget.OnMouseOut()
@@ -73,6 +82,11 @@ Type LTWindow Extends LTLayer
 
 	
 	
+	Method GetTextFieldText:String( Name:String )
+	End Method
+	
+	
+	
 	Method OnClick( Gadget:LTGadget, Button:Int )
 		Select Gadget.GetParameter( "action" )
 			Case "save"
@@ -84,7 +98,7 @@ Type LTWindow Extends LTLayer
 				Project.CloseWindow( Self )
 			Case "saveandend"
 				Save()
-				End
+				Project.Exiting = True
 		End Select
 		
 		Local Name:String = Gadget.GetParameter( "window" )
