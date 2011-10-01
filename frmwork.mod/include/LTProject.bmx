@@ -172,9 +172,31 @@ Type LTProject Extends LTObject
 	bbdoc: Initialization method.
 	about: Fill it with project initialization commands.
 	
-	See also: #DeInit
+	See also: #InitGraphics, #InitSound, #DeInit
 	End Rem
 	Method Init()
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Graphics initialization method.
+	about: It will be relaunched after changing graphics driver. You should put font loading code there if you have any.
+	
+	See also: #Init, #InitSound, #DeInit
+	End Rem
+	Method InitGraphics()
+	End Method
+  
+	
+	
+	Rem
+	bbdoc: Sound initialization method.
+	about: It will be relaunched after changing sound driver. You should put sound loading code there if you have any.
+	
+	See also: #Init, #InitGraphics, #DeInit
+	End Rem
+	Method InitSound()
 	End Method
   
   
@@ -203,7 +225,7 @@ Type LTProject Extends LTObject
 	bbdoc: Deinitialization method.
 	about: It will be executed before exit.
 	
-	See also: #Init
+	See also: #Init, #InitGraphics, #InitSound
 	End Rem
 	Method DeInit()
 	End Method
@@ -222,6 +244,8 @@ Type LTProject Extends LTObject
 		L_DeltaTime = 0
 				
 		Init()
+		InitGraphics()
+		InitSound()
 		
 		Time = 0.0
 		Local StartTime:Int = MilliSecs()
@@ -243,7 +267,11 @@ Type LTProject Extends LTObject
 			?
 			
 			For Local N:Int = 1 To 3
-				If MouseDown( N ) And Not MouseHits[ N ] Then MouseHits[ N ] = 1
+				If MouseDown( N ) Then
+					If MouseHits[ N ] = 0 Then MouseHits[ N ] = 1
+				Else
+					If MouseHits[ N ] = 2 Then MouseHits[ N ] = -1
+				End If
 			Next
 			
 			If Not Paused Then Logic()

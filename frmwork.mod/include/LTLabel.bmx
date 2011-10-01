@@ -25,7 +25,7 @@ Type LTLabel Extends LTGadget
 	
 	
 	Method Init()
-		Text = GetParameter( "text" )
+		If Not Text Then Text = GetParameter( "text" )
 		If Text Then
 			Icon = L_Window.FindShapeWithParameter( "LTSprite", "gadget", Text, True )
 			If Icon Then L_Window.Remove( Icon )
@@ -46,13 +46,14 @@ Type LTLabel Extends LTGadget
 		Local SWidth:Double = TextWidth( " " + Text )
 		Local TextX:Double, TextSDX:Double
 		If Icon Then
+			L_CurrentCamera.SizeScreenToField( DX, DY, Icon.X, Icon.Y )
 			Select Align
 				Case LTAlign.ToLeft
-					Icon.SetCoords( LeftX() + 0.5 * Height, Y )
+					Icon.AlterCoords( LeftX() + 0.5 * Height, Y )
 				Case LTAlign.ToCenter
-					Icon.SetCoords( X - L_CurrentCamera.DistScreenToField( 0.5 * SWidth ), Y )
+					Icon.AlterCoords( X - L_CurrentCamera.DistScreenToField( 0.5 * SWidth ), Y )
 				Case LTAlign.ToCenter
-					Icon.SetCoords( RightX() - L_CurrentCamera.DistScreenToField( SWidth ) - 0.5 * Height, Y )
+					Icon.AlterCoords( RightX() - L_CurrentCamera.DistScreenToField( SWidth ) - 0.5 * Height + DX, Y )
 			End Select
 			TextX = Icon.X + 0.5 * Icon.Width
 			Icon.Draw()
@@ -60,20 +61,20 @@ Type LTLabel Extends LTGadget
 			Select Align
 				Case LTAlign.ToLeft
 					TextX = LeftX()
-					TextSDX = TextWidth( " " )
+					TextSDX = TextWidth( " " ) + DX
 				Case LTAlign.ToCenter
 					TextX = X
-					TextSDX = -0.5 * SWidth
+					TextSDX = -0.5 * SWidth + DX
 				Case LTAlign.ToRight
 					TextX = RightX()
-					TextSDX = -SWidth - TextWidth( " " )
+					TextSDX = -SWidth - TextWidth( " " ) + DX
 			End Select
 		End If
 		
 		Local SX:Double, SY:Double
 		L_CurrentCamera.FieldToScreen( TextX, Y, SX, SY )
 		SetColor( 0, 0, 0 )
-		DrawText( " " + Text, SX + TextSDX + DX, SY - 0.5 * TextHeight( Text ) + DY )
+		DrawText( " " + Text, SX + TextSDX, SY - 0.5 * TextHeight( Text ) + DY )
 		Visualizer.ResetColor()
 	End Method
 End Type

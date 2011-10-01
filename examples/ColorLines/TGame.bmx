@@ -29,18 +29,18 @@ Type TGame Extends LTProject
   
   Field Font:LTBitmapFont
 
-  Field SwapSound:TSound = TSound.Load( "incbin::swap.ogg", False )
-  Field RushSound:TSound = TSound.Load( "incbin::rush.ogg", False )
-  Field StopSound:TSound = TSound.Load( "incbin::stop.ogg", False )
-  Field SelectSound:TSound = TSound.Load( "incbin::select.ogg", False )
-  Field ExplosionSound:TSound = TSound.Load( "incbin::explosion.ogg", False )
+  Field SwapSound:TSound
+  Field RushSound:TSound
+  Field StopSound:TSound
+  Field SelectSound:TSound
+  Field ExplosionSound:TSound
   
   Method Init()
     World = LTWorld.FromFile( "levels.lw" )
 	
-	Menu.ScreenWidthGrain = 80
-	Menu.ScreenHeightGrain = 60
-	Menu.Init( Self )
+	L_ScreenWidthGrain = 80
+	L_ScreenHeightGrain = 60
+	Menu.InitSystem( Self )
 	
     Font = LTBitmapFont.FromFile( "font.png", 32, 127, 16, True )
     
@@ -71,6 +71,14 @@ Type TGame Extends LTProject
     LoadAndInitLayer( Layer, LTLayer( World.FindShape( "1" ) ) )
     
     TileMapPathFinder = LTTileMapPathFinder.Create( Level, False )
+  End Method
+  
+  Method InitSound()
+	  SwapSound = TSound.Load( "incbin::swap.ogg", False )
+	  RushSound = TSound.Load( "incbin::rush.ogg", False )
+	  StopSound = TSound.Load( "incbin::stop.ogg", False )
+	  SelectSound = TSound.Load( "incbin::select.ogg", False )
+	  ExplosionSound = TSound.Load( "incbin::explosion.ogg", False )
   End Method
   
   Method Render()

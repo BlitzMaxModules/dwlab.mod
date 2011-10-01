@@ -105,7 +105,6 @@ import maxgui.localization
 L_Version$=$"1.2.4.1"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
--Delete%()="_dwlab_frmwork_LTObject_Delete"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTObject_XMLIO"
 +LoadFromFile:LTObject(FileName$)="_dwlab_frmwork_LTObject_LoadFromFile"
 -SaveToFile%(FileName$)="_dwlab_frmwork_LTObject_SaveToFile"
@@ -124,15 +123,12 @@ LTProject^LTObject{
 .GUICamera:LTCamera&
 .MouseHits%&[]&
 -New%()="_dwlab_frmwork_LTProject_New"
--Delete%()="_dwlab_frmwork_LTProject_Delete"
 -LoadAndInitLayer%(NewLayer:LTLayer Var,Layer:LTLayer)="_dwlab_frmwork_LTProject_LoadAndInitLayer"
 -LoadWindow%(World:LTWorld,Name$=$"",Class$=$"")="_dwlab_frmwork_LTProject_LoadWindow"
 -CloseWindow%(Window:LTWindow="bbNullObject")="_dwlab_frmwork_LTProject_CloseWindow"
 -LoadLayer:LTLayer(Layer:LTLayer)="_dwlab_frmwork_LTProject_LoadLayer"
 -CreateShape:LTShape(Shape:LTShape)="_dwlab_frmwork_LTProject_CreateShape"
 -Init%()="_dwlab_frmwork_LTProject_Init"
--InitGraphics%()="_dwlab_frmwork_LTProject_InitGraphics"
--InitSound%()="_dwlab_frmwork_LTProject_InitSound"
 -Render%()="_dwlab_frmwork_LTProject_Render"
 -Logic%()="_dwlab_frmwork_LTProject_Logic"
 -DeInit%()="_dwlab_frmwork_LTProject_DeInit"
@@ -146,7 +142,6 @@ LTWorld^LTLayer{
 .Camera:LTCamera&
 .IncbinValue%&
 -New%()="_dwlab_frmwork_LTWorld_New"
--Delete%()="_dwlab_frmwork_LTWorld_Delete"
 +FromFile:LTWorld(Filename$)="_dwlab_frmwork_LTWorld_FromFile"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTWorld_XMLIO"
 }="dwlab_frmwork_LTWorld"
@@ -154,7 +149,6 @@ LTLayer^LTGroup{
 .Bounds:LTShape&
 .MixContent%&
 -New%()="_dwlab_frmwork_LTLayer_New"
--Delete%()="_dwlab_frmwork_LTLayer_Delete"
 -GetClassTitle$()="_dwlab_frmwork_LTLayer_GetClassTitle"
 -Draw%()="_dwlab_frmwork_LTLayer_Draw"
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTLayer_DrawUsingVisualizer"
@@ -174,7 +168,6 @@ LTLayer^LTGroup{
 LTGroup^LTShape{
 .Children:brl.linkedlist.TList&
 -New%()="_dwlab_frmwork_LTGroup_New"
--Delete%()="_dwlab_frmwork_LTGroup_Delete"
 -Draw%()="_dwlab_frmwork_LTGroup_Draw"
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTGroup_DrawUsingVisualizer"
 -SetCoords%(NewX!,NewY!)="_dwlab_frmwork_LTGroup_SetCoords"
@@ -194,7 +187,6 @@ LTAngularSprite^LTSprite{
 .Angle!&
 .Velocity!&
 -New%()="_dwlab_frmwork_LTAngularSprite_New"
--Delete%()="_dwlab_frmwork_LTAngularSprite_Delete"
 -GetClassTitle$()="_dwlab_frmwork_LTAngularSprite_GetClassTitle"
 -MoveForward%()="_dwlab_frmwork_LTAngularSprite_MoveForward"
 -DirectAs%(Sprite:LTAngularSprite)="_dwlab_frmwork_LTAngularSprite_DirectAs"
@@ -208,7 +200,6 @@ LTVectorSprite^LTSprite{
 .DX!&
 .DY!&
 -New%()="_dwlab_frmwork_LTVectorSprite_New"
--Delete%()="_dwlab_frmwork_LTVectorSprite_Delete"
 -GetClassTitle$()="_dwlab_frmwork_LTVectorSprite_GetClassTitle"
 -MoveForward%()="_dwlab_frmwork_LTVectorSprite_MoveForward"
 -Clone:LTShape()="_dwlab_frmwork_LTVectorSprite_Clone"
@@ -229,7 +220,6 @@ LTCamera^LTSprite{
 .VK!&
 .AVK!&
 -New%()="_dwlab_frmwork_LTCamera_New"
--Delete%()="_dwlab_frmwork_LTCamera_Delete"
 -ScreenToField%(ScreenX!,ScreenY!,FieldX! Var,FieldY! Var)="_dwlab_frmwork_LTCamera_ScreenToField"
 -SizeScreenToField%(ScreenWidth!,ScreenHeight!,FieldWidth! Var,FieldHeight! Var)="_dwlab_frmwork_LTCamera_SizeScreenToField"
 -DistScreenToField!(ScreenDist!)="_dwlab_frmwork_LTCamera_DistScreenToField"
@@ -274,7 +264,6 @@ Rectangle%=2
 .Frame%&
 .SpriteMap:LTSpriteMap&
 -New%()="_dwlab_frmwork_LTSprite_New"
--Delete%()="_dwlab_frmwork_LTSprite_Delete"
 -GetClassTitle$()="_dwlab_frmwork_LTSprite_GetClassTitle"
 -Draw%()="_dwlab_frmwork_LTSprite_Draw"
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTSprite_DrawUsingVisualizer"
@@ -316,7 +305,6 @@ LTTileSet^LTObject{
 .TileCategory%&[]&
 .EmptyTile%&
 -New%()="_dwlab_frmwork_LTTileSet_New"
--Delete%()="_dwlab_frmwork_LTTileSet_Delete"
 -RefreshTilesQuantity%()="_dwlab_frmwork_LTTileSet_RefreshTilesQuantity"
 -Enframe%(TileMap:LTTileMap,X%,Y%)="_dwlab_frmwork_LTTileSet_Enframe"
 -GetTileCategory%(TileMap:LTTileMap,X%,Y%)="_dwlab_frmwork_LTTileSet_GetTileCategory"
@@ -329,7 +317,6 @@ LTTileCategory^LTObject{
 .Num%&
 .TileRules:brl.linkedlist.TList&
 -New%()="_dwlab_frmwork_LTTileCategory_New"
--Delete%()="_dwlab_frmwork_LTTileCategory_Delete"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTTileCategory_XMLIO"
 }="dwlab_frmwork_LTTileCategory"
 LTTileRule^LTObject{
@@ -340,7 +327,6 @@ LTTileRule^LTObject{
 .XDivider%&
 .YDivider%&
 -New%()="_dwlab_frmwork_LTTileRule_New"
--Delete%()="_dwlab_frmwork_LTTileRule_Delete"
 -TilesQuantity%()="_dwlab_frmwork_LTTileRule_TilesQuantity"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTTileRule_XMLIO"
 }="dwlab_frmwork_LTTileRule"
@@ -350,7 +336,6 @@ LTTilePos^LTObject{
 .TileNum%&
 .Category%&
 -New%()="_dwlab_frmwork_LTTilePos_New"
--Delete%()="_dwlab_frmwork_LTTilePos_Delete"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTTilePos_XMLIO"
 }="dwlab_frmwork_LTTilePos"
 LTTileMapPathFinder^LTObject{
@@ -358,7 +343,6 @@ LTTileMapPathFinder^LTObject{
 .AllowDiagonalMovement%&
 .Points:brl.map.TMap&
 -New%()="_dwlab_frmwork_LTTileMapPathFinder_New"
--Delete%()="_dwlab_frmwork_LTTileMapPathFinder_Delete"
 +Create:LTTileMapPathFinder(TileMap:LTIntMap,AllowDiagonalMovement%=1)="_dwlab_frmwork_LTTileMapPathFinder_Create"
 -FindPath:LTTileMapPosition(StartingX%,StartingY%,FinalX%,FinalY%,Range%=0,MaxDistance%=1024)="_dwlab_frmwork_LTTileMapPathFinder_FindPath"
 -Passage!(X%,Y%)="_dwlab_frmwork_LTTileMapPathFinder_Passage"
@@ -371,7 +355,6 @@ LTTileMapPosition^brl.blitz.Object{
 .PrevPosition:LTTileMapPosition&
 .NextPosition:LTTileMapPosition&
 -New%()="_dwlab_frmwork_LTTileMapPosition_New"
--Delete%()="_dwlab_frmwork_LTTileMapPosition_Delete"
 +Create:LTTileMapPosition(PrevPosition:LTTileMapPosition,X%,Y%)="_dwlab_frmwork_LTTileMapPosition_Create"
 -Spread:LTTileMapPosition(TileMapPathFinder:LTTileMapPathFinder,FinalX%,FinalY%,List:brl.linkedlist.TList,Range%)="_dwlab_frmwork_LTTileMapPosition_Spread"
 -FirstPosition:LTTileMapPosition()="_dwlab_frmwork_LTTileMapPosition_FirstPosition"
@@ -389,7 +372,6 @@ LTTileMap^LTIntMap{
 .HorizontalOrder%&
 .VerticalOrder%&
 -New%()="_dwlab_frmwork_LTTileMap_New"
--Delete%()="_dwlab_frmwork_LTTileMap_Delete"
 -GetTileWidth!()="_dwlab_frmwork_LTTileMap_GetTileWidth"
 -GetTileHeight!()="_dwlab_frmwork_LTTileMap_GetTileHeight"
 -GetTileCollisionShape:LTShape(TileX%,TileY%)="_dwlab_frmwork_LTTileMap_GetTileCollisionShape"
@@ -408,7 +390,6 @@ LTTileMap^LTIntMap{
 LTIntMap^LTMap{
 .Value%&[,]&
 -New%()="_dwlab_frmwork_LTIntMap_New"
--Delete%()="_dwlab_frmwork_LTIntMap_Delete"
 -SetResolution%(NewXQuantity%,NewYQuantity%)="_dwlab_frmwork_LTIntMap_SetResolution"
 +FromFile:LTIntMap(Filename$)="_dwlab_frmwork_LTIntMap_FromFile"
 -Stretch:LTIntMap(XMultiplier%,YMultiplier%)="_dwlab_frmwork_LTIntMap_Stretch"
@@ -428,7 +409,6 @@ Minimum%=4
 CircleBound!=0.707107!
 .Value!&[,]&
 -New%()="_dwlab_frmwork_LTDoubleMap_New"
--Delete%()="_dwlab_frmwork_LTDoubleMap_Delete"
 -SetResolution%(NewXQuantity%,NewYQuantity%)="_dwlab_frmwork_LTDoubleMap_SetResolution"
 -ToNewImage:LTImage(Channel%=4)="_dwlab_frmwork_LTDoubleMap_ToNewImage"
 -ToNewPixmap:brl.pixmap.TPixmap(Channel%=4)="_dwlab_frmwork_LTDoubleMap_ToNewPixmap"
@@ -453,7 +433,6 @@ LTSpriteMap^LTMap{
 .Sorted%&
 .PivotMode%&
 -New%()="_dwlab_frmwork_LTSpriteMap_New"
--Delete%()="_dwlab_frmwork_LTSpriteMap_Delete"
 -WrapX%(Value%)="_dwlab_frmwork_LTSpriteMap_WrapX"
 -WrapY%(Value%)="_dwlab_frmwork_LTSpriteMap_WrapY"
 -GetClassTitle$()="_dwlab_frmwork_LTSpriteMap_GetClassTitle"
@@ -485,7 +464,6 @@ LTMap^LTShape{
 .YMask%&
 .Masked%&
 -New%()="_dwlab_frmwork_LTMap_New"
--Delete%()="_dwlab_frmwork_LTMap_Delete"
 -SetResolution%(NewXQuantity%,NewYQuantity%)="_dwlab_frmwork_LTMap_SetResolution"
 -WrapX%(Value%)="_dwlab_frmwork_LTMap_WrapX"
 -WrapY%(Value%)="_dwlab_frmwork_LTMap_WrapY"
@@ -495,7 +473,6 @@ LTMap^LTShape{
 LTLine^LTShape{
 .Pivot:LTSprite&[]&
 -New%()="_dwlab_frmwork_LTLine_New"
--Delete%()="_dwlab_frmwork_LTLine_Delete"
 -Create:LTLine(Pivot1:LTSprite,Pivot2:LTSprite)="_dwlab_frmwork_LTLine_Create"
 -Draw%()="_dwlab_frmwork_LTLine_Draw"
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTLine_DrawUsingVisualizer"
@@ -505,14 +482,12 @@ LTLine^LTShape{
 LTPath^LTObject{
 .Pivots:brl.linkedlist.TList&
 -New%()="_dwlab_frmwork_LTPath_New"
--Delete%()="_dwlab_frmwork_LTPath_Delete"
 +Find:LTPath(FromPivot:LTSprite,ToPivot:LTSprite,Graph:LTGraph)="_dwlab_frmwork_LTPath_Find"
 }="dwlab_frmwork_LTPath"
 LTGraph^LTShape{
 .Pivots:brl.map.TMap&
 .Lines:brl.map.TMap&
 -New%()="_dwlab_frmwork_LTGraph_New"
--Delete%()="_dwlab_frmwork_LTGraph_Delete"
 -Draw%()="_dwlab_frmwork_LTGraph_Draw"
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTGraph_DrawUsingVisualizer"
 -DrawPivotsUsing%(Visualizer:LTVisualizer)="_dwlab_frmwork_LTGraph_DrawPivotsUsing"
@@ -532,7 +507,6 @@ LTAddPivotToGraph^LTAction{
 .Graph:LTGraph&
 .Pivot:LTSprite&
 -New%()="_dwlab_frmwork_LTAddPivotToGraph_New"
--Delete%()="_dwlab_frmwork_LTAddPivotToGraph_Delete"
 +Create:LTAddPivotToGraph(Graph:LTGraph,Pivot:LTSprite)="_dwlab_frmwork_LTAddPivotToGraph_Create"
 -Do%()="_dwlab_frmwork_LTAddPivotToGraph_Do"
 -Undo%()="_dwlab_frmwork_LTAddPivotToGraph_Undo"
@@ -541,7 +515,6 @@ LTAddLineToGraph^LTAction{
 .Graph:LTGraph&
 .Line:LTLine&
 -New%()="_dwlab_frmwork_LTAddLineToGraph_New"
--Delete%()="_dwlab_frmwork_LTAddLineToGraph_Delete"
 +Create:LTAddLineToGraph(Graph:LTGraph,Line:LTLine)="_dwlab_frmwork_LTAddLineToGraph_Create"
 -Do%()="_dwlab_frmwork_LTAddLineToGraph_Do"
 -Undo%()="_dwlab_frmwork_LTAddLineToGraph_Undo"
@@ -551,7 +524,6 @@ LTRemovePivotFromGraph^LTAction{
 .Pivot:LTSprite&
 .Lines:brl.linkedlist.TList&
 -New%()="_dwlab_frmwork_LTRemovePivotFromGraph_New"
--Delete%()="_dwlab_frmwork_LTRemovePivotFromGraph_Delete"
 +Create:LTRemovePivotFromGraph(Graph:LTGraph,Pivot:LTSprite)="_dwlab_frmwork_LTRemovePivotFromGraph_Create"
 -Do%()="_dwlab_frmwork_LTRemovePivotFromGraph_Do"
 -Undo%()="_dwlab_frmwork_LTRemovePivotFromGraph_Undo"
@@ -560,7 +532,6 @@ LTRemoveLineFromGraph^LTAction{
 .Graph:LTGraph&
 .Line:LTLine&
 -New%()="_dwlab_frmwork_LTRemoveLineFromGraph_New"
--Delete%()="_dwlab_frmwork_LTRemoveLineFromGraph_Delete"
 +Create:LTRemoveLineFromGraph(Graph:LTGraph,Line:LTLine)="_dwlab_frmwork_LTRemoveLineFromGraph_Create"
 -Do%()="_dwlab_frmwork_LTRemoveLineFromGraph_Do"
 -Undo%()="_dwlab_frmwork_LTRemoveLineFromGraph_Undo"
@@ -572,7 +543,6 @@ LTRasterFrame^LTImage{
 .TopBorder%&
 .BottomBorder%&
 -New%()="_dwlab_frmwork_LTRasterFrame_New"
--Delete%()="_dwlab_frmwork_LTRasterFrame_Delete"
 -Init%()="_dwlab_frmwork_LTRasterFrame_Init"
 -Draw%(X!,Y!,TotalWidth!,TotalHeight!,Frame%)="_dwlab_frmwork_LTRasterFrame_Draw"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTRasterFrame_XMLIO"
@@ -583,7 +553,6 @@ LTImage^LTObject{
 .XCells%&
 .YCells%&
 -New%()="_dwlab_frmwork_LTImage_New"
--Delete%()="_dwlab_frmwork_LTImage_Delete"
 +FromFile:LTImage(Filename$,XCells%=1,YCells%=1)="_dwlab_frmwork_LTImage_FromFile"
 -Init%()="_dwlab_frmwork_LTImage_Init"
 -SetHandle%(X!,Y!)="_dwlab_frmwork_LTImage_SetHandle"
@@ -597,7 +566,6 @@ LTRasterFrameVisualizer^LTVisualizer{
 .Images:brl.max2d.TImage&[,]&
 .ImageFile$&
 -New%()="_dwlab_frmwork_LTRasterFrameVisualizer_New"
--Delete%()="_dwlab_frmwork_LTRasterFrameVisualizer_Delete"
 +GetFromFile:LTRasterFrameVisualizer(Filename$)="_dwlab_frmwork_LTRasterFrameVisualizer_GetFromFile"
 +FromPixmap:LTRasterFrameVisualizer(Pixmap:brl.pixmap.TPixmap)="_dwlab_frmwork_LTRasterFrameVisualizer_FromPixmap"
 -DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTRasterFrameVisualizer_DrawUsingSprite"
@@ -605,20 +573,17 @@ LTRasterFrameVisualizer^LTVisualizer{
 LTAnimatedTileMapVisualizer^LTVisualizer{
 .TileNum%&[]&
 -New%()="_dwlab_frmwork_LTAnimatedTileMapVisualizer_New"
--Delete%()="_dwlab_frmwork_LTAnimatedTileMapVisualizer_Delete"
 -DrawTile%(TileMap:LTTileMap,X!,Y!,Width!,Height!,TileX%,TileY%)="_dwlab_frmwork_LTAnimatedTileMapVisualizer_DrawTile"
 }="dwlab_frmwork_LTAnimatedTileMapVisualizer"
 LTEmptyPrimitive^LTVisualizer{
 .LineWidth!&
 -New%()="_dwlab_frmwork_LTEmptyPrimitive_New"
--Delete%()="_dwlab_frmwork_LTEmptyPrimitive_Delete"
 -DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTEmptyPrimitive_DrawUsingSprite"
 -DrawUsingLine%(Line:LTLine)="_dwlab_frmwork_LTEmptyPrimitive_DrawUsingLine"
 -SetProperLineWidth%()="_dwlab_frmwork_LTEmptyPrimitive_SetProperLineWidth"
 }="dwlab_frmwork_LTEmptyPrimitive"
 LTMarchingAnts^LTVisualizer{
 -New%()="_dwlab_frmwork_LTMarchingAnts_New"
--Delete%()="_dwlab_frmwork_LTMarchingAnts_Delete"
 -DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTMarchingAnts_DrawUsingSprite"
 -DrawUsingTileMap%(TileMap:LTTileMap,Shapes:brl.linkedlist.TList="bbNullObject")="_dwlab_frmwork_LTMarchingAnts_DrawUsingTileMap"
 +DrawMARect%(X%,Y%,Width%,Height%)="_dwlab_frmwork_LTMarchingAnts_DrawMARect"
@@ -629,7 +594,6 @@ LTWindowedVisualizer^LTVisualizer{
 .Viewport:LTShape&
 .Visualizer:LTVisualizer&
 -New%()="_dwlab_frmwork_LTWindowedVisualizer_New"
--Delete%()="_dwlab_frmwork_LTWindowedVisualizer_Delete"
 -GetImage:LTImage()="_dwlab_frmwork_LTWindowedVisualizer_GetImage"
 -SetImage%(NewImage:LTImage)="_dwlab_frmwork_LTWindowedVisualizer_SetImage"
 -DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTWindowedVisualizer_DrawUsingSprite"
@@ -639,7 +603,6 @@ LTDebugVisualizer^LTVisualizer{
 .ShowVectors%&
 .ShowNames%&
 -New%()="_dwlab_frmwork_LTDebugVisualizer_New"
--Delete%()="_dwlab_frmwork_LTDebugVisualizer_Delete"
 -DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTDebugVisualizer_DrawUsingSprite"
 -DrawUsingTileMap%(TileMap:LTTileMap,Shapes:brl.linkedlist.TList="bbNullObject")="_dwlab_frmwork_LTDebugVisualizer_DrawUsingTileMap"
 -DrawTile%(TileMap:LTTileMap,X!,Y!,Width!,Height!,TileX%,TileY%)="_dwlab_frmwork_LTDebugVisualizer_DrawTile"
@@ -660,7 +623,6 @@ LTVisualizer^LTObject{
 .Rotating%&
 .Image:LTImage&
 -New%()="_dwlab_frmwork_LTVisualizer_New"
--Delete%()="_dwlab_frmwork_LTVisualizer_Delete"
 +FromFile:LTVisualizer(Filename$,XCells%=1,YCells%=1)="_dwlab_frmwork_LTVisualizer_FromFile"
 +FromImage:LTVisualizer(Image:LTImage)="_dwlab_frmwork_LTVisualizer_FromImage"
 -SetDXDY%(NewDX!,NewDY!)="_dwlab_frmwork_LTVisualizer_SetDXDY"
@@ -687,7 +649,6 @@ LTVisualizer^LTObject{
 }="dwlab_frmwork_LTVisualizer"
 LTImageVisualizer^LTVisualizer{
 -New%()="_dwlab_frmwork_LTImageVisualizer_New"
--Delete%()="_dwlab_frmwork_LTImageVisualizer_Delete"
 }="dwlab_frmwork_LTImageVisualizer"
 LTShape^LTObject{
 Horizontal%=1
@@ -704,7 +665,6 @@ RightFacing!=1!
 .Active%&
 .BehaviorModels:brl.linkedlist.TList&
 -New%()="_dwlab_frmwork_LTShape_New"
--Delete%()="_dwlab_frmwork_LTShape_Delete"
 -Draw%()="_dwlab_frmwork_LTShape_Draw"
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTShape_DrawUsingVisualizer"
 -SpriteGroupCollisions%(Sprite:LTSprite,CollisionType%)="_dwlab_frmwork_LTShape_SpriteGroupCollisions"
@@ -778,12 +738,10 @@ LTParameter^LTObject{
 .Name$&
 .Value$&
 -New%()="_dwlab_frmwork_LTParameter_New"
--Delete%()="_dwlab_frmwork_LTParameter_Delete"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTParameter_XMLIO"
 }="dwlab_frmwork_LTParameter"
 LTTitleGenerator^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTTitleGenerator_New"
--Delete%()="_dwlab_frmwork_LTTitleGenerator_Delete"
 -GetTitle$(Shape:LTShape)="_dwlab_frmwork_LTTitleGenerator_GetTitle"
 }="dwlab_frmwork_LTTitleGenerator"
 LTFixedJoint^LTBehaviorModel{
@@ -792,7 +750,6 @@ LTFixedJoint^LTBehaviorModel{
 .Distance!&
 .DAngle!&
 -New%()="_dwlab_frmwork_LTFixedJoint_New"
--Delete%()="_dwlab_frmwork_LTFixedJoint_Delete"
 +Create:LTFixedJoint(ParentPivot:LTAngularSprite)="_dwlab_frmwork_LTFixedJoint_Create"
 -Init%(Shape:LTShape)="_dwlab_frmwork_LTFixedJoint_Init"
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTFixedJoint_ApplyTo"
@@ -803,7 +760,6 @@ LTRevoluteJoint^LTBehaviorModel{
 .Angle!&
 .Distance!&
 -New%()="_dwlab_frmwork_LTRevoluteJoint_New"
--Delete%()="_dwlab_frmwork_LTRevoluteJoint_Delete"
 +Create:LTRevoluteJoint(ParentPivot:LTAngularSprite)="_dwlab_frmwork_LTRevoluteJoint_Create"
 -Init%(Shape:LTShape)="_dwlab_frmwork_LTRevoluteJoint_Init"
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTRevoluteJoint_ApplyTo"
@@ -812,7 +768,6 @@ LTBehaviorModel^LTObject{
 .Active%&
 .Link:brl.linkedlist.TLink&
 -New%()="_dwlab_frmwork_LTBehaviorModel_New"
--Delete%()="_dwlab_frmwork_LTBehaviorModel_Delete"
 -Init%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_Init"
 -Activate%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_Activate"
 -Deactivate%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_Deactivate"
@@ -831,7 +786,6 @@ LTWindow^LTLayer{
 .MouseOver:brl.map.TMap&
 .Modal%&
 -New%()="_dwlab_frmwork_LTWindow_New"
--Delete%()="_dwlab_frmwork_LTWindow_Delete"
 -Draw%()="_dwlab_frmwork_LTWindow_Draw"
 -Act%()="_dwlab_frmwork_LTWindow_Act"
 -GetTextFieldText$(Name$)="_dwlab_frmwork_LTWindow_GetTextFieldText"
@@ -843,7 +797,6 @@ LTWindow^LTLayer{
 }="dwlab_frmwork_LTWindow"
 LTCheckBox^LTButton{
 -New%()="_dwlab_frmwork_LTCheckBox_New"
--Delete%()="_dwlab_frmwork_LTCheckBox_Delete"
 -GetValue$()="_dwlab_frmwork_LTCheckBox_GetValue"
 -SetValue%(Value$)="_dwlab_frmwork_LTCheckBox_SetValue"
 -OnClick%(Button%)="_dwlab_frmwork_LTCheckBox_OnClick"
@@ -854,7 +807,6 @@ LTButton^LTLabel{
 .State%&
 .Focus%&
 -New%()="_dwlab_frmwork_LTButton_New"
--Delete%()="_dwlab_frmwork_LTButton_Delete"
 -Draw%()="_dwlab_frmwork_LTButton_Draw"
 -GetClassTitle$()="_dwlab_frmwork_LTButton_GetClassTitle"
 -OnMouseOver%()="_dwlab_frmwork_LTButton_OnMouseOver"
@@ -869,7 +821,6 @@ LTLabel^LTGadget{
 .DY%&
 .Align%&
 -New%()="_dwlab_frmwork_LTLabel_New"
--Delete%()="_dwlab_frmwork_LTLabel_Delete"
 -GetClassTitle$()="_dwlab_frmwork_LTLabel_GetClassTitle"
 -Init%()="_dwlab_frmwork_LTLabel_Init"
 -Draw%()="_dwlab_frmwork_LTLabel_Draw"
@@ -879,7 +830,6 @@ LTTextField^LTGadget{
 .LeftPart$&
 .RightPart$&
 -New%()="_dwlab_frmwork_LTTextField_New"
--Delete%()="_dwlab_frmwork_LTTextField_Delete"
 -GetValue$()="_dwlab_frmwork_LTTextField_GetValue"
 -SetValue%(Value$)="_dwlab_frmwork_LTTextField_SetValue"
 -Draw%()="_dwlab_frmwork_LTTextField_Draw"
@@ -892,7 +842,6 @@ LTListBox^LTGadget{
 .Items:brl.linkedlist.TList&
 .ListType%&
 -New%()="_dwlab_frmwork_LTListBox_New"
--Delete%()="_dwlab_frmwork_LTListBox_Delete"
 -GetClassTitle$()="_dwlab_frmwork_LTListBox_GetClassTitle"
 }="dwlab_frmwork_LTListBox"
 LTSlider^LTGadget{
@@ -905,7 +854,6 @@ LTSlider^LTGadget{
 .StartingY!&
 .StartingPosition!&
 -New%()="_dwlab_frmwork_LTSlider_New"
--Delete%()="_dwlab_frmwork_LTSlider_Delete"
 -Init%()="_dwlab_frmwork_LTSlider_Init"
 -Draw%()="_dwlab_frmwork_LTSlider_Draw"
 -GetClassTitle$()="_dwlab_frmwork_LTSlider_GetClassTitle"
@@ -915,7 +863,6 @@ LTSlider^LTGadget{
 }="dwlab_frmwork_LTSlider"
 LTGadget^LTSprite{
 -New%()="_dwlab_frmwork_LTGadget_New"
--Delete%()="_dwlab_frmwork_LTGadget_Delete"
 -Init%()="_dwlab_frmwork_LTGadget_Init"
 -GetValue$()="_dwlab_frmwork_LTGadget_GetValue"
 -SetValue%(Value$)="_dwlab_frmwork_LTGadget_SetValue"
@@ -927,13 +874,11 @@ LTGadget^LTSprite{
 }="dwlab_frmwork_LTGadget"
 LTListItem^LTObject{
 -New%()="_dwlab_frmwork_LTListItem_New"
--Delete%()="_dwlab_frmwork_LTListItem_Delete"
 -GetHeight!()="_dwlab_frmwork_LTListItem_GetHeight"
 -Draw%(X!,Y!,Width!,Height!,ItemNum%)="_dwlab_frmwork_LTListItem_Draw"
 }="dwlab_frmwork_LTListItem"
 LTTextListItem^LTListItem{
 -New%()="_dwlab_frmwork_LTTextListItem_New"
--Delete%()="_dwlab_frmwork_LTTextListItem_Delete"
 -GetHeight!()="_dwlab_frmwork_LTTextListItem_GetHeight"
 -Draw%(X!,Y!,Width!,Height!,ItemNum%)="_dwlab_frmwork_LTTextListItem_Draw"
 -GetValue$()="_dwlab_frmwork_LTTextListItem_GetValue"
@@ -946,7 +891,6 @@ ToLeft%=2
 ToBottom%=2
 Stretch%=3
 -New%()="_dwlab_frmwork_LTAlign_New"
--Delete%()="_dwlab_frmwork_LTAlign_Delete"
 }="dwlab_frmwork_LTAlign"
 LTBitmapFont^LTObject{
 .LetterLength%&[]&
@@ -954,7 +898,6 @@ LTBitmapFont^LTObject{
 .ToNum%&
 .BMaxImage:brl.max2d.TImage&
 -New%()="_dwlab_frmwork_LTBitmapFont_New"
--Delete%()="_dwlab_frmwork_LTBitmapFont_Delete"
 -Print%(Text$,X!,Y!,FontHeightInUnits!,HorizontalAlignment%=2,VerticalAlignment%=0)="_dwlab_frmwork_LTBitmapFont_Print"
 -PrintInShape%(Text$,Shape:LTShape,FontHeightInUnits!,HorizontalAlignment%=2,VerticalAlignment%=0)="_dwlab_frmwork_LTBitmapFont_PrintInShape"
 -Width%(Text$)="_dwlab_frmwork_LTBitmapFont_Width"
@@ -964,7 +907,6 @@ LTBitmapFont^LTObject{
 LTDrag^LTObject{
 .DraggingState%&
 -New%()="_dwlab_frmwork_LTDrag_New"
--Delete%()="_dwlab_frmwork_LTDrag_Delete"
 -DragKey%()="_dwlab_frmwork_LTDrag_DragKey"
 -DraggingConditions%()="_dwlab_frmwork_LTDrag_DraggingConditions"
 -StartDragging%()="_dwlab_frmwork_LTDrag_StartDragging"
@@ -974,7 +916,6 @@ LTDrag^LTObject{
 }="dwlab_frmwork_LTDrag"
 LTAction^LTObject{
 -New%()="_dwlab_frmwork_LTAction_New"
--Delete%()="_dwlab_frmwork_LTAction_Delete"
 -Do%()="_dwlab_frmwork_LTAction_Do"
 -Undo%()="_dwlab_frmwork_LTAction_Undo"
 }="dwlab_frmwork_LTAction"
@@ -990,7 +931,6 @@ LTXMLObject^LTObject{
 .Fields:brl.linkedlist.TList&
 .Closing%&
 -New%()="_dwlab_frmwork_LTXMLObject_New"
--Delete%()="_dwlab_frmwork_LTXMLObject_Delete"
 -GetAttribute$(AttrName$)="_dwlab_frmwork_LTXMLObject_GetAttribute"
 -SetAttribute%(AttrName$,AttrValue$)="_dwlab_frmwork_LTXMLObject_SetAttribute"
 -RemoveAttribute$(AttrName$)="_dwlab_frmwork_LTXMLObject_RemoveAttribute"
@@ -1020,13 +960,11 @@ LTXMLAttribute^brl.blitz.Object{
 .Name$&
 .Value$&
 -New%()="_dwlab_frmwork_LTXMLAttribute_New"
--Delete%()="_dwlab_frmwork_LTXMLAttribute_Delete"
 }="dwlab_frmwork_LTXMLAttribute"
 LTXMLObjectField^brl.blitz.Object{
 .Name$&
 .Value:LTXMLObject&
 -New%()="_dwlab_frmwork_LTXMLObjectField_New"
--Delete%()="_dwlab_frmwork_LTXMLObjectField_Delete"
 }="dwlab_frmwork_LTXMLObjectField"
 L_HexToInt%(HexString$)="dwlab_frmwork_L_HexToInt"
 L_DrawEmptyRect%(X!,Y!,Width!,Height!)="dwlab_frmwork_L_DrawEmptyRect"

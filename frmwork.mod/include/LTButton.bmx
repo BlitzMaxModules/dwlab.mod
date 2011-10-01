@@ -50,12 +50,12 @@ Type LTButton Extends LTLabel
 	
 	
 	Method OnMouseDown( Button:Int )
-		State = True
+		If Button = 1 Then State = True
 	End Method
 	
 	
 	
 	Method OnMouseUp( Button:Int )
-		State = False
+		If Button = 1 Then State = False
 	End Method
 End Type

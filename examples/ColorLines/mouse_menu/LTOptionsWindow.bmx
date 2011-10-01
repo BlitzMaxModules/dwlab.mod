@@ -9,4 +9,26 @@
 '
 
 Type LTOptionsWindow Extends LTWindow
+	Method Init()
+		Super.Init()
+		InitButton()
+	End Method
+	
+	Method InitButton()
+		For Local Label:LTLabel = Eachin Children
+			If Label.GetName() = "Fullscreen" Then
+				If L_CurrentProfile.FullScreen Then Label.Text = LocalizeString( "{{Fullscreen}}" ) Else Label.Text = LocalizeString( "{{Windowed}}" )
+			End If
+		Next
+	End Method
+	
+	Method OnClick( Gadget:LTGadget, Button:Int )
+		Select Gadget.GetName()
+			Case "Fullscreen"
+				L_CurrentProfile.FullScreen = Not L_CurrentProfile.FullScreen
+				L_CurrentProfile.Apply()
+				Menu.InitGraphics()
+				InitButton()
+		End Select
+	End Method
 End Type

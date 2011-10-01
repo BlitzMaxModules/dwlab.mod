@@ -23,15 +23,6 @@ Type LTWindow Extends LTLayer
 	
 	
 	
-	Method Init()
-		For Local TextField:LTTextField = Eachin Children
-			TextField.Text = GetTextFieldText( TextField.GetName() )
-		Next
-		Super.Init()
-	End Method
-	
-	
-	
 	Method Act()
 		If Active Then
 			For Local Gadget:LTGadget = Eachin Children
@@ -42,7 +33,7 @@ Type LTWindow Extends LTLayer
 						MouseOver.Insert( Gadget, Null )
 					End If
 					For Local N:Int = 1 To 3
-						If Project.MouseHits[ N ] = 1 Then
+						If Project.MouseHits[ N ] = -1 Then
 							OnClick( Gadget, N )
 							Gadget.OnClick( N )
 						End If

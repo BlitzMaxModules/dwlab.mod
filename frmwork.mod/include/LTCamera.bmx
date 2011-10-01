@@ -11,7 +11,7 @@
 Rem
 bbdoc: Global variable for current camera.
 End Rem
-Global L_CurrentCamera:LTCamera
+Global L_CurrentCamera:LTCamera = LTCamera.Create( 800, 600, 25.0 )
 
 Rem
 bbdoc: Global flag for discrete graphics.
@@ -254,14 +254,9 @@ Type LTCamera Extends LTSprite
 	End Rem
 	Function Create:LTCamera( Width:Double, Height:Double, UnitSize:Double )
 		Local Camera:LTCamera = New LTCamera
-		Camera.Width = Width / UnitSize
-		Camera.Height = Height / UnitSize
-		Camera.Viewport.Width = Width
-		Camera.Viewport.Height = Height
-		Camera.Viewport.X = 0.5 * Width
-		Camera.Viewport.Y = 0.5 * Height
-		Camera.Update()
-		
+		Camera.Viewport.SetCoords( 0.5 * Width, 0.5 * Height )
+		Camera.Viewport.SetSize( Width, Height )
+		Camera.SetSize( Width / UnitSize, Height / UnitSize )
 		Return Camera
 	End Function
 	
@@ -288,11 +283,14 @@ Rem
 bbdoc: Sets graphics mode.
 about: Provide width and height of screen in pixels and unit size in pixels for camera.
 End Rem
-Function L_InitGraphics( Width:Int = 800, Height:Int = 600, UnitSize:Double = 32.0, ColorDepth:Int = 0 )
-	Graphics( Width, Height, ColorDepth )
-	L_CurrentCamera = LTCamera.Create( Width, Height, UnitSize )
+Function L_InitGraphics( Width:Int = 800, Height:Int = 600, UnitSize:Double = 25.0, ColorDepth:Int = 0, Frequency:Int = 60 )
+	Graphics( Width, Height, ColorDepth, Frequency )
 	AutoImageFlags( FILTEREDIMAGE | DYNAMICIMAGE )
 	SetBlend( AlphaBlend )
+	
+	L_CurrentCamera.Viewport.SetSize( Width, Height )
+	L_CurrentCamera.Viewport.SetCoords( 0.5 * Width, 0.5 * Height )
+	L_CurrentCamera.SetSize( Width / UnitSize, Height / UnitSize )
 End Function
 
 
