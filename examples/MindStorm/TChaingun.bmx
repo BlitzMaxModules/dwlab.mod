@@ -11,7 +11,7 @@
 Include "TChaingunBullet.bmx"
 Include "TFire.bmx"
 
-Type TChaingun Extends LTAngularSprite
+Type TChaingun Extends LTSprite
 	Const BarrelAnimationAcceleration:Double = 100.0
 	Const BarrelAnimationDeceleration:Double = 20.0
 	Const MaxBarrelAnimationSpeed:Double = 60.0
@@ -20,10 +20,10 @@ Type TChaingun Extends LTAngularSprite
 	Const FireFramesQuantity:Int = 5
 	
 	Field Num:Int
-	Field Hinge:LTAngularSprite
-	Field Barrel:LTAngularSprite
-	Field FirePos:LTAngularSprite[] = New LTAngularSprite[ 2 ]
-	Field Aimer:LTAngularSprite
+	Field Hinge:LTSprite
+	Field Barrel:LTSprite
+	Field FirePos:LTSprite[] = New LTSprite[ 2 ]
+	Field Aimer:LTSprite
 	Field BarrelAnimationSpeed:Double
 	Field BarrelFrame:Double
 	Field FiringStartingTime:Double
@@ -35,9 +35,9 @@ Type TChaingun Extends LTAngularSprite
 		Num = GetName().ToInt()
 		Game.Player.Weapon[ Num ] = Self
 		
-		Hinge = LTAngularSprite( Game.Level.FindShape( "Hinge," + Num ) )
-		Barrel = LTAngularSprite( Game.Level.FindShape( "Barrel," + Num ) )
-		Aimer = LTAngularSprite( Game.Level.FindShape( "Aimer," + Num ) )
+		Hinge = LTSprite( Game.Level.FindShape( "Hinge," + Num ) )
+		Barrel = LTSprite( Game.Level.FindShape( "Barrel," + Num ) )
+		Aimer = LTSprite( Game.Level.FindShape( "Aimer," + Num ) )
 		Fire = TFire( Game.Level.FindShapeWithType( "TFire", Num ) )
 		Fire.Chaingun = Self
 		
@@ -47,7 +47,7 @@ Type TChaingun Extends LTAngularSprite
 		Aimer.AttachModel( LTFixedJoint.Create( Hinge ) )
 		
 		For Local N:Int = 0 To 1
-			FirePos[ N ] = LTAngularSprite( Game.Level.FindShape( "FirePos," + Num + "," + N ) )
+			FirePos[ N ] = LTSprite( Game.Level.FindShape( "FirePos," + Num + "," + N ) )
 			FirePos[ N ].AttachModel( LTFixedJoint.Create( Hinge ) )
 		Next
 	End Method

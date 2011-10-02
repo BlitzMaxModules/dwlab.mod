@@ -132,35 +132,35 @@
 			<list field="parameters">
 				<ltparameter name="name" value="Player"/>
 			</list>
-			<ltangularsprite x="3.5" y="2.5" shape="1" velocity="5">
+			<ltsprite x="3.5" y="2.5" shape="1" velocity="5">
 				<ltvisualizer field="visualizer" xscale="1.75" yscale="1.75">
 					<ltimage field="image" id="68" filename="media\brain.png"/>
 				</ltvisualizer>
 				<list field="parameters">
 					<ltparameter name="class" value="TPlayer"/>
 				</list>
-			</ltangularsprite>
-			<ltangularsprite x="3.5" y="2.5">
+			</ltsprite>
+			<ltsprite x="3.5" y="2.5">
 				<ltvisualizer field="visualizer" xscale="2" yscale="2">
 					<ltimage field="image" id="71" filename="media\visor.png"/>
 				</ltvisualizer>
 				<list field="parameters">
 					<ltparameter name="name" value="Visor"/>
 				</list>
-			</ltangularsprite>
-			<ltangularsprite x="3.41" y="2.8929" width="0.4103" height="0.316">
+			</ltsprite>
+			<ltsprite x="3.41" y="2.8929" width="0.4103" height="0.316">
 				<ltvisualizer field="visualizer"/>
 				<list field="parameters">
 					<ltparameter name="name" value="Hinge,0"/>
 				</list>
-			</ltangularsprite>
-			<ltangularsprite x="3.41" y="2.107" width="0.2767" height="0.2495">
+			</ltsprite>
+			<ltsprite x="3.41" y="2.107" width="0.2767" height="0.2495">
 				<ltvisualizer field="visualizer"/>
 				<list field="parameters">
 					<ltparameter name="name" value="Hinge,1"/>
 				</list>
-			</ltangularsprite>
-			<ltangularsprite x="3.64" y="3.0499" width="1.6496" height="0.5998">
+			</ltsprite>
+			<ltsprite x="3.64" y="3.0499" width="1.6496" height="0.5998">
 				<ltvisualizer field="visualizer" yscale="-1">
 					<ltimage field="image" id="78" filename="media\cannon.png"/>
 				</ltvisualizer>
@@ -168,8 +168,8 @@
 					<ltparameter name="class" value="TChaingun"/>
 					<ltparameter name="name" value="0"/>
 				</list>
-			</ltangularsprite>
-			<ltangularsprite x="3.64" y="1.95" width="1.6496" height="0.5998">
+			</ltsprite>
+			<ltsprite x="3.64" y="1.95" width="1.6496" height="0.5998">
 				<ltvisualizer field="visualizer">
 					<object field="image" id="78"/>
 				</ltvisualizer>
@@ -177,60 +177,60 @@
 					<ltparameter name="class" value="TChaingun"/>
 					<ltparameter name="name" value="1"/>
 				</list>
-			</ltangularsprite>
-			<ltangularsprite x="4.4329" y="3.145" width="0.885" height="0.23">
+			</ltsprite>
+			<ltsprite x="4.4329" y="3.145" width="0.885" height="0.23">
 				<ltvisualizer field="visualizer">
 					<ltimage field="image" id="83" filename="media\barrel.png" xcells="4" ycells="4"/>
 				</ltvisualizer>
 				<list field="parameters">
 					<ltparameter name="name" value="Barrel,0"/>
 				</list>
-			</ltangularsprite>
-			<ltangularsprite x="4.4329" y="1.855" width="0.885" height="0.23" frame="8">
+			</ltsprite>
+			<ltsprite x="4.4329" y="1.855" width="0.885" height="0.23" frame="8">
 				<ltvisualizer field="visualizer">
 					<object field="image" id="83"/>
 				</ltvisualizer>
 				<list field="parameters">
 					<ltparameter name="name" value="Barrel,1"/>
 				</list>
-			</ltangularsprite>
-			<ltangularsprite x="4.5499" y="3.1019" width="0.1247" height="0.1532">
+			</ltsprite>
+			<ltsprite x="4.5499" y="3.1019" width="0.1247" height="0.1532">
 				<ltvisualizer field="visualizer" alpha="0"/>
 				<list field="parameters">
 					<ltparameter name="name" value="FirePos,0,0"/>
 				</list>
-			</ltangularsprite>
-			<ltangularsprite x="4.5499" y="3.208" width="0.1832" height="0.1792">
+			</ltsprite>
+			<ltsprite x="4.5499" y="3.208" width="0.1832" height="0.1792">
 				<ltvisualizer field="visualizer" alpha="0"/>
 				<list field="parameters">
 					<ltparameter name="name" value="FirePos,0,1"/>
 				</list>
-			</ltangularsprite>
-			<ltangularsprite x="4.5499" y="1.9157" width="0.1202" height="0.1217">
+			</ltsprite>
+			<ltsprite x="4.5499" y="1.9157" width="0.1202" height="0.1217">
 				<ltvisualizer field="visualizer" alpha="0"/>
 				<list field="parameters">
 					<ltparameter name="name" value="FirePos,1,0"/>
 				</list>
-			</ltangularsprite>
-			<ltangularsprite x="4.5499" y="1.814" width="0.1262" height="0.1278">
+			</ltsprite>
+			<ltsprite x="4.5499" y="1.814" width="0.1262" height="0.1278">
 				<ltvisualizer field="visualizer" alpha="0"/>
 				<list field="parameters">
 					<ltparameter name="name" value="FirePos,1,1"/>
 				</list>
-			</ltangularsprite>
-			<ltangularsprite x="3.41" y="3.1419" width="0.3425" height="0.3024">
+			</ltsprite>
+			<ltsprite x="3.41" y="3.1419" width="0.3425" height="0.3024">
 				<ltvisualizer field="visualizer"/>
 				<list field="parameters">
 					<ltparameter name="name" value="Aimer,0"/>
 				</list>
-			</ltangularsprite>
-			<ltangularsprite x="3.41" y="1.858" width="0.3083" height="0.2911">
+			</ltsprite>
+			<ltsprite x="3.41" y="1.858" width="0.3083" height="0.2911">
 				<ltvisualizer field="visualizer"/>
 				<list field="parameters">
 					<ltparameter name="name" value="Aimer,1"/>
 				</list>
-			</ltangularsprite>
-			<ltangularsprite x="4.5499" y="1.9207">
+			</ltsprite>
+			<ltsprite x="4.5499" y="1.9207">
 				<ltvisualizer field="visualizer">
 					<ltimage field="image" id="100" filename="media\fire.png" xcells="5"/>
 				</ltvisualizer>
@@ -238,8 +238,8 @@
 					<ltparameter name="class" value="TFire"/>
 					<ltparameter name="name" value="0"/>
 				</list>
-			</ltangularsprite>
-			<ltangularsprite x="4.5499" y="3.1089">
+			</ltsprite>
+			<ltsprite x="4.5499" y="3.1089">
 				<ltvisualizer field="visualizer">
 					<object field="image" id="100"/>
 				</ltvisualizer>
@@ -247,7 +247,7 @@
 					<ltparameter name="class" value="TFire"/>
 					<ltparameter name="name" value="1"/>
 				</list>
-			</ltangularsprite>
+			</ltsprite>
 		</ltlayer>
 		<ltlayer>
 			<object field="visualizer" id="62"/>

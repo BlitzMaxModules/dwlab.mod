@@ -121,9 +121,6 @@ Type LTEditor Extends LTProject
 	Field SnapToGrid:Int
 	Field ReplacementOfTiles:Int
 	
-	Field StaticModel:TGadget
-	Field VectorModel:TGadget
-	Field AngularModel:TGadget
 	Field IncbinMenu:TGadget
 	Field Russian:TGadget
 	Field English:TGadget
@@ -147,7 +144,6 @@ Type LTEditor Extends LTProject
 	Field CurrentShape:LTShape
 	Field SelectedShape:LTShape
 	Field ShapeForParameters:LTShape
-	Field SpriteModel:Int
 	Field TilesQueue:TMap = New TMap
 	Field Cursor:LTSprite = New LTSprite
 	Field ShapeUnderCursor:LTShape
@@ -185,12 +181,9 @@ Type LTEditor Extends LTProject
 	Const MenuShowGrid:Int = 9
 	Const MenuSnapToGrid:Int = 10
 	Const MenuGridSettings:Int = 11
-	Const MenuStaticModel:Int = 13
-	Const MenuVectorModel:Int = 14
-	Const MenuAngularModel:Int = 15
-	Const MenuTilemapEditingMode:Int = 17
-	Const MenuReplacementOfTiles:Int = 19
-	Const MenuProlongTiles:Int = 20
+	Const MenuTilemapEditingMode:Int = 13
+	Const MenuReplacementOfTiles:Int = 15
+	Const MenuProlongTiles:Int = 16
 	Const MenuCameraProperties:Int = 51
 	Const MenuIncbin:Int = 54
 	Const MenuExit:Int = 34
@@ -240,7 +233,7 @@ Type LTEditor Extends LTProject
 	Const MenuModifyParameter:Int = 57
 	Const MenuRemoveParameter:Int = 58
 
-	Const PanelHeight:Int = 320
+	Const PanelHeight:Int = 296
 	Const BarWidth:Int = 256
 	Const LabelWidth:Int = 63
 	Const ListBoxHeight:Int = 62
@@ -260,7 +253,7 @@ Type LTEditor Extends LTProject
 		MaximizeWindow( Window )
 		
 		Toolbar = CreateToolBar( "incbin::toolbar.png", 0, 0, 0, 0, Window )
-		SetToolbarTips( Toolbar, [ "{{M_New}}", "{{M_Open}}", "{{M_Save}}", "{{M_SaveAs}}", "", "{{M_ShowCollisions}}", "{{M_ShowVectors}}", "{{M_ShowNames}}", "", "{{M_ShowGrid}}", "{{M_SnapToGrid}}", "{{M_GridSettings}}", "", "{{M_StaticModel}}", "{{M_VectorModel}}", "{{M_AngularModel}}", "", "{{M_TileMapEditingMode}}", "", "{{M_ReplacementOfTiles}}", "{{M_ProlongTiles}}" ] )
+		SetToolbarTips( Toolbar, [ "{{M_New}}", "{{M_Open}}", "{{M_Save}}", "{{M_SaveAs}}", "", "{{M_ShowCollisions}}", "{{M_ShowVectors}}", "{{M_ShowNames}}", "", "{{M_ShowGrid}}", "{{M_SnapToGrid}}", "{{M_GridSettings}}", "", "{{M_TileMapEditingMode}}", "", "{{M_ReplacementOfTiles}}", "{{M_ProlongTiles}}" ] )
 		
 		Local BarHeight:Int = ClientHeight( Window ) - PanelHeight
 		MainCanvas = CreateCanvas( 0, 0, ClientWidth( Window ) - BarWidth - 16, ClientHeight( Window ) - 16, Window )
@@ -295,9 +288,6 @@ Type LTEditor Extends LTProject
 		PanelForm.NewLine()
 		AngleField = PanelForm.AddTextField( "{{L_Angle}}", LabelWidth )
 		VelocityField = PanelForm.AddTextField( "{{L_Velocity}}", LabelWidth )
-		PanelForm.NewLine()
-		DXField = PanelForm.AddTextField( "{{L_DX}}", LabelWidth )
-		DYField = PanelForm.AddTextField( "{{L_DY}}", LabelWidth )
 		PanelForm.NewLine( LTAlign.Stretch )		
 		PanelForm.AddSliderWidthTextField( RedSlider, RedField, "{{L_Red}}", LabelWidth, 50 )
 		PanelForm.NewLine( LTAlign.Stretch )		
@@ -338,10 +328,6 @@ Type LTEditor Extends LTProject
 		LTMenuSwitch.Create( "{{M_ShowGrid}}", Toolbar, MenuShowGrid, EditMenu )
 		LTMenuSwitch.Create( "{{M_SnapToGrid}}", Toolbar, MenuSnapToGrid, EditMenu )
 		CreateMenu( "{{M_GridSettings}}", MenuGridSettings, EditMenu )
-		CreateMenu( "", 0, EditMenu )
-		StaticModel = CreateMenu( "{{M_StaticModel}}", MenuStaticModel, EditMenu )
-		VectorModel = CreateMenu( "{{M_VectorModel}}", MenuVectorModel, EditMenu )
-		AngularModel = CreateMenu( "{{M_AngularModel}}", MenuAngularModel, EditMenu )
 		CreateMenu( "", 0, EditMenu )
 		LTMenuSwitch.Create( "{{M_TileMapEditingMode}}", Toolbar, MenuTileMapEditingMode, EditMenu, False )
 		CreateMenu( "", 0, EditMenu )
@@ -436,7 +422,6 @@ Type LTEditor Extends LTProject
 		SnapToGrid = LTMenuSwitch.Find( MenuSnapToGrid ).Toggle()
 		ShowGrid = LTMenuSwitch.Find( MenuShowGrid ).Toggle()
 		ReplacementOfTiles = LTMenuSwitch.Find( MenuReplacementOfTiles ).Toggle()
-		SelectMenuItem( VectorModel )
 			
 		If FileType( "editor.ini" ) = 1 Then
 			Local IniFile:TStream = ReadFile( "editor.ini" )
@@ -452,14 +437,7 @@ Type LTEditor Extends LTProject
 				L_ProlongTiles = LTMenuSwitch.Find( MenuProlongTiles ).State()
 				ReplacementOfTiles = LTMenuSwitch.Find( MenuReplacementOfTiles ).State()
 				
-				Select ReadLine( IniFile )
-					Case "0"
-						SelectMenuItem( StaticModel )
-					Case "1"
-						SelectMenuItem( VectorModel )
-					Case "2"
-						SelectMenuItem( AngularModel )
-				End Select
+				ReadLine( IniFile )
 				
 				SetLanguage( ReadLine( IniFile ).ToInt() )
 				
@@ -661,7 +639,7 @@ Type LTEditor Extends LTProject
 		WriteLine( IniFile, INIVersion )
 		WriteLine( IniFile, WorldFilename )
 		LTMenuSwitch.SaveSwicthes( IniFile )
-		WriteLine( IniFile, SpriteModel )
+		WriteLine( IniFile, "" )
 		
 		Select CurrentLanguage
 			Case EnglishLanguage
@@ -978,12 +956,6 @@ Type LTEditor Extends LTProject
 						ShowGrid = LTMenuSwitch.Find( MenuShowGrid ).Toggle()
 					Case MenuGridSettings
 						Grid.Settings()
-					Case MenuStaticModel
-						SelectMenuItem( StaticModel )
-					Case MenuVectorModel
-						SelectMenuItem( VectorModel )
-					Case MenuAngularModel
-						SelectMenuItem( AngularModel )
 					Case MenuTileMapEditingMode
 						EditTileMap( Null )
 					Case MenuReplacementOfTiles
@@ -1248,30 +1220,11 @@ Type LTEditor Extends LTProject
 					Select EventSource()
 						Case HiddenOKButton
 							Select ActiveGadget()
-								Case DXField
-									Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite )
-									If VectorSprite Then
-										VectorSprite.DX = TextFieldText( DXField ).ToDouble()
-										SetChanged()
-									End If
-								Case DYField
-									Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite )
-									If VectorSprite Then
-										VectorSprite.DY = TextFieldText( DYField ).ToDouble()
-										SetChanged()
-									End If
 								Case AngleField
-									Local AngularSprite:LTAngularSprite = LTAngularSprite( Sprite )
-									If AngularSprite Then
-										AngularSprite.Angle = TextFieldText( AngleField ).ToDouble()
-										SetChanged()
-									End If
+									Sprite.Angle = TextFieldText( AngleField ).ToDouble()
+									SetChanged()
 								Case VelocityField
-									Local AngularSprite:LTAngularSprite = LTAngularSprite( Sprite )
-									If AngularSprite Then
-										AngularSprite.Velocity = TextFieldText( VelocityField ).ToDouble()
-										SetChanged()
-									End If
+									Sprite.Velocity = TextFieldText( VelocityField ).ToDouble()
 								Case FrameField
 									Local Image:LTImage = Sprite.Visualizer.Image
 									If Image Then
@@ -1579,39 +1532,6 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method SelectMenuItem( MenuItem:TGadget, State:Int = 1 )
-		If State = 2 Then State = 1 - MenuChecked( MenuItem )
-	
-		Select Menuitem
-			Case StaticModel
-				CheckMenu( StaticModel )
-				UnCheckMenu( VectorModel )
-				UnCheckMenu( AngularModel )
-				SelectGadgetItem( Toolbar, MenuStaticModel )
-				DeselectGadgetItem( Toolbar, MenuVectorModel )
-				DeselectGadgetItem( Toolbar, MenuAngularModel )
-				SpriteModel = 0
-			Case VectorModel
-				UnCheckMenu( StaticModel )
-				CheckMenu( VectorModel )
-				UnCheckMenu( AngularModel )
-				DeselectGadgetItem( Toolbar, MenuStaticModel )
-				SelectGadgetItem( Toolbar, MenuVectorModel )
-				DeselectGadgetItem( Toolbar, MenuAngularModel )
-				SpriteModel = 1
-			Case AngularModel
-				UnCheckMenu( StaticModel )
-				UnCheckMenu( VectorModel )
-				CheckMenu( AngularModel )
-				DeselectGadgetItem( Toolbar, MenuStaticModel )
-				DeselectGadgetItem( Toolbar, MenuVectorModel )
-				SelectGadgetItem( Toolbar, MenuAngularModel )
-				SpriteModel = 2
-		End Select
-	End Method
-	
-	
-	
 	Method FillShapeFields()
 		If Not CurrentShape Then Return
 	
@@ -1650,17 +1570,8 @@ Type LTEditor Extends LTProject
 		FillShapeComboBox( ShapeBox )
 		SelectGadgetItem( ShapeBox, CurrentSprite.ShapeType )
 		
-		Local CurrentAngularSprite:LTAngularSprite = LTAngularSprite( CurrentShape )
-		If CurrentAngularSprite Then
-			SetGadgetText( AngleField, L_TrimDouble( CurrentAngularSprite.Angle ) )
-			SetGadgetText( VelocityField, L_TrimDouble( CurrentAngularSprite.Velocity ) )
-		End If
-		
-		Local CurrentVectorSprite:LTVectorSprite = LTVectorSprite( CurrentShape )
-		If CurrentVectorSprite Then
-			SetGadgetText( DXField, L_TrimDouble( CurrentVectorSprite.DX ) )
-			SetGadgetText( DYField, L_TrimDouble( CurrentVectorSprite.DY ) )
-		End If
+		SetGadgetText( AngleField, L_TrimDouble( CurrentSprite.Angle ) )
+		SetGadgetText( VelocityField, L_TrimDouble( CurrentSprite.Velocity ) )
 	End Method
 	
 	

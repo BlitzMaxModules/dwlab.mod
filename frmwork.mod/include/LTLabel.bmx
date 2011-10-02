@@ -25,10 +25,12 @@ Type LTLabel Extends LTGadget
 	
 	
 	Method Init()
+		Local Name:String = GetName()
+		If Name Then Icon = L_Window.FindShapeWithParameter( "LTSprite", "gadget_name", GetName(), True )
+		
 		If Not Text Then Text = GetParameter( "text" )
 		If Text Then
-			Icon = L_Window.FindShapeWithParameter( "LTSprite", "gadget", Text, True )
-			If Icon Then L_Window.Remove( Icon )
+			If Not Icon Then Icon = L_Window.FindShapeWithParameter( "LTSprite", "gadget_text", Text, True )
 			Text = LocalizeString( "{{" + Text + "}}" )
 			Select GetParameter( "align" )
 				Case "left"; Align = LTAlign.ToLeft
@@ -36,6 +38,8 @@ Type LTLabel Extends LTGadget
 				Case "right"; Align = LTAlign.ToRight
 			End Select
 		End If
+		
+		If Icon Then L_Window.Remove( Icon )
 	End Method
 	
 	

@@ -9,24 +9,24 @@
 '
 
 Type TVisualizer Extends LTVisualizer
-  Const Empty:Int = 0
-  Const Void:Int = 8
+	Const Empty:Int = 0
+	Const Void:Int = 8
 
-  Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, Width:Double, Height:Double, TileX:Int, TileY:Int )
-    Local TileSet:LTTileSet =Tilemap.TileSet
-    Local TileValue:Int = TileMap.Value[ TileX, TileY ]
-    If TileValue = Void Then Return
-    
-    Local Image:TImage = TileSet.Image.BMaxImage
-    If Not Image Then Return
-    
-    Local SX:Double, SY:Double
-    L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
-    
-    Local Visualizer:LTVisualizer = TileMap.Visualizer
-    SetScale( Width / ImageWidth( Image ), Height / ImageHeight( Image ) )
-    
-    DrawImage( Image, SX + Visualizer.DX * Width, SY + Visualizer.DY * Height, Empty )
-    If TileValue <> Empty Then DrawImage( Image, SX + Visualizer.DX * Width, SY + Visualizer.DY * Height, TileValue )
-  End Method
+	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, Width:Double, Height:Double, TileX:Int, TileY:Int )
+		Local TileSet:LTTileSet =Tilemap.TileSet
+		Local TileValue:Int = TileMap.Value[ TileX, TileY ]
+		If TileValue = Void Then Return
+		
+		Local Image:TImage = TileSet.Image.BMaxImage
+		If Not Image Then Return
+		
+		Local SX:Double, SY:Double
+		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
+		
+		Local Visualizer:LTVisualizer = TileMap.Visualizer
+		SetScale( Width / ImageWidth( Image ), Height / ImageHeight( Image ) )
+		
+		DrawImage( Image, SX + Visualizer.DX * Width, SY + Visualizer.DY * Height, Empty )
+		If TileValue <> Empty Then DrawImage( Image, SX + Visualizer.DX * Width, SY + Visualizer.DY * Height, TileValue )
+	End Method
 End Type

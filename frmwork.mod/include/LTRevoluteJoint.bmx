@@ -13,7 +13,7 @@ bbdoc: Revolute joint moves angular sprite if parent pivot moves or rotates, but
 about: See also: #LTFixedJoint
 End Rem
 Type LTRevoluteJoint Extends LTBehaviorModel
-	Field ParentPivot:LTAngularSprite
+	Field ParentPivot:LTSprite
 	Field Pivot:LTSprite
 	Field Angle:Double
 	Field Distance:Double
@@ -25,7 +25,7 @@ Type LTRevoluteJoint Extends LTBehaviorModel
 	returns: 
 	about: 
 	End Rem
-	Function Create:LTRevoluteJoint( ParentPivot:LTAngularSprite )
+	Function Create:LTRevoluteJoint( ParentPivot:LTSprite )
 		Local Joint:LTRevoluteJoint = New LTRevoluteJoint
 		Joint.ParentPivot = ParentPivot
 		Return Joint
@@ -34,7 +34,7 @@ Type LTRevoluteJoint Extends LTBehaviorModel
 	
 	
 	Method Init( Shape:LTShape )
-		Local Sprite:LTAngularSprite = LTAngularSprite( Shape )
+		Local Sprite:LTSprite = LTSprite( Shape )
 		Angle = ParentPivot.DirectionTo( Sprite ) - ParentPivot.Angle
 		Distance = ParentPivot.DistanceTo( Sprite )
 	End Method
@@ -42,7 +42,7 @@ Type LTRevoluteJoint Extends LTBehaviorModel
 	
 	
 	Method ApplyTo( Shape:LTShape )
-		Local Sprite:LTAngularSprite = LTAngularSprite( Shape )
+		Local Sprite:LTSprite = LTSprite( Shape )
 		Sprite.X = ParentPivot.X + Cos( Angle + ParentPivot.Angle ) * Distance
 		Sprite.Y = ParentPivot.Y + Sin( Angle + ParentPivot.Angle ) * Distance
 	End Method

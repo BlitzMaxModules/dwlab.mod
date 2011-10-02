@@ -186,9 +186,8 @@ Type LTVisualizer Extends LTObject
 		If Image Then
 			L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX, SY )
 			
-			Local AngularSprite:LTAngularSprite = LTAngularSprite( Sprite )
-			If Rotating And AngularSprite Then
-				SetRotation( Angle + AngularSprite.Angle )
+			If Rotating Then
+				SetRotation( Angle + Sprite.Angle )
 			Else
 				SetRotation( Angle )
 			End If

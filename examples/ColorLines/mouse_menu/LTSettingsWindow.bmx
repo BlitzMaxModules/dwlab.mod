@@ -9,27 +9,42 @@
 '
 
 Type LTSettingsWindow Extends LTWindow
+	Field Language:TMaxGuiLanguage
+	Field Resolution:LTScreenResolution
+	Field ColorDepth:LTColorDepth
+	Field Frequency:LTFrequency
+	Field VideoDriver:LTVideoDriver
+	Field AudioDriver:String
+
 	Method Init()
+		Language = LTProfile.GetLanguage( L_CurrentProfile.Language )
+		Resolution = LTScreenResolution.Get( L_CurrentProfile.ScreenWidth, L_CurrentProfile.ScreenHeight )
+		ColorDepth = LTColorDepth.Get( Resolution, L_CurrentProfile.ColorDepth )
+		Frequency = LTFrequency.Get( ColorDepth, L_CurrentProfile.Frequency )
+		VideoDriver = LTVideoDriver.Get( L_CurrentProfile.VideoDriver )
+		AudioDriver = L_CurrentProfile.AudioDriver
+		
 		For Local Label:LTLabel = Eachin Children
 			If Not Label.Text Then Label.Text = GetText( Label.GetName() )
 		Next
+		
 		Super.Init()
 	End Method
 
 	Method GetText:String( Name:String )
 		Select Name
 			Case "Language"
-				Return L_CurrentProfile.Language.GetName()
+				Return Language.GetName()
 			Case "Resolution"
-				Return L_CurrentProfile.Resolution.Width + " x " + L_CurrentProfile.Resolution.Height
+				Return Resolution.Width + " x " + Resolution.Height
 			Case "ColorDepth"
-				Return L_CurrentProfile.ColorDepth.Bits + LocalizeString( " {{bit}}" )
+				Return ColorDepth.Bits + LocalizeString( " {{bit}}" )
 			Case "Frequency"
-				Return L_CurrentProfile.Frequency.Hertz + LocalizeString( " {{Hz}}" )
+				Return Frequency.Hertz + LocalizeString( " {{Hz}}" )
 			Case "VideoDriver"
-				Return L_CurrentProfile.VideoDriver.Name
+				Return VideoDriver.Name
 			Case "AudioDriver"
-				Return L_CurrentProfile.AudioDriver
+				Return AudioDriver
 		End Select
 	End Method
 	
@@ -45,20 +60,20 @@ Type LTSettingsWindow Extends LTWindow
 	End Method
 	
 	Method ChangeListItem( Gadget:LTGadget, Direction:Int = 0 )
-		Local Name:String = Gadget.GetParameter( "gadget" )
+		Local Name:String = Gadget.GetParameter( "gadget_name" )
 		Select Name
 			Case "Language"
-				SwitchListItem( L_Languages, L_CurrentProfile.Language, Direction )
+				SwitchListItem( L_Languages, Language, Direction )
 			Case "Resolution"
-				SwitchListItem( L_ScreenResolutions, L_CurrentProfile.Resolution, Direction )
+				SwitchListItem( L_ScreenResolutions, Resolution, Direction )
 			Case "ColorDepth"
-				SwitchListItem( L_CurrentProfile.Resolution.ColorDepths, L_CurrentProfile.ColorDepth, Direction )
+				SwitchListItem( Resolution.ColorDepths, ColorDepth, Direction )
 			Case "Frequency"
-				SwitchListItem( L_CurrentProfile.ColorDepth.Frequencies, L_CurrentProfile.Frequency, Direction )
+				SwitchListItem( ColorDepth.Frequencies, Frequency, Direction )
 			Case "VideoDriver"
-				SwitchListItem( L_VideoDrivers, L_CurrentProfile.VideoDriver, Direction )
+				SwitchListItem( L_VideoDrivers, VideoDriver, Direction )
 			Case "AudioDriver"
-				SwitchListItem( L_AudioDrivers, L_CurrentProfile.AudioDriver, Direction )
+				SwitchListItem( L_AudioDrivers, AudioDriver, Direction )
 		End Select
 		For Local Label:LTLabel = Eachin Children
 			If Label.GetName() = Name Then Label.Text = GetText( Name )
@@ -84,10 +99,24 @@ Type LTSettingsWindow Extends LTWindow
 	End Method
 	
 	Method Save()
-		L_CurrentProfile.Apply()
-		Project.InitGraphics()
-		Project.InitSound()
-		Menu.InitGraphics()
+		Local NewScreen:Int, NewVideoDriver:Int, NewAudioDriver:Int
+		L_CurrentProfile.Language = Language.GetName()
+		
+		If L_CurrentProfile.ScreenWidth <> Resolution.Width Or L_CurrentProfile.ScreenHeight <> Resolution.Height Or ..
+				L_CurrentProfile.ColorDepth <> ColorDepth.Bits Or L_CurrentProfile.Frequency <> Frequency.Hertz Then NewScreen = True
+		L_CurrentProfile.ScreenWidth = Resolution.Width
+		L_CurrentProfile.ScreenHeight = Resolution.Height
+		L_CurrentProfile.ColorDepth = ColorDepth.Bits
+		L_CurrentProfile.Frequency = Frequency.Hertz
+		
+		If L_CurrentProfile.VideoDriver <> VideoDriver.Name Then NewVideoDriver = True
+		L_CurrentProfile.VideoDriver = VideoDriver.Name
+		
+		If L_CurrentProfile.AudioDriver <> AudioDriver Then NewAudioDriver = True
+		L_CurrentProfile.AudioDriver = AudioDriver
+		
+		L_CurrentProfile.Apply( True, [ Project, LTProject( Menu ) ], NewScreen, NewVideoDriver, NewAudioDriver )
+		
 		Project.Windows.Clear()
 		Project.LoadWindow( World, , "LTMenuWindow" )
 		Project.LoadWindow( World, , "LTOptionsWindow" )

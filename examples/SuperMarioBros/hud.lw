@@ -16,37 +16,37 @@
 			<ltvisualizer field="visualizer"/>
 		</ltshape>
 		<list field="parameters"/>
-		<ltvectorsprite x="17" y="8.5" width="20" height="15" shape="2">
+		<ltsprite x="17" y="8.5" width="20" height="15" shape="2" angle="0.00000000000000000" velocity="0.00000000000000000">
 			<ltvisualizer field="visualizer" red="0"/>
 			<list field="parameters">
 				<ltparameter name="class" value="TBackground"/>
 			</list>
-		</ltvectorsprite>
-		<ltvectorsprite x="10" y="2.25" width="4" height="0.5" shape="2">
+		</ltsprite>
+		<ltsprite x="10" y="2.25" width="4" height="0.5" shape="2" angle="0.00000000000000000" velocity="0.00000000000000000">
 			<ltvisualizer field="visualizer"/>
 			<list field="parameters">
 				<ltparameter name="class" value="TScoreBar"/>
 			</list>
-		</ltvectorsprite>
-		<ltvectorsprite x="24" y="2.25" width="4" height="0.5" shape="2">
+		</ltsprite>
+		<ltsprite x="24" y="2.25" width="4" height="0.5" shape="2" angle="0.00000000000000000" velocity="0.00000000000000000">
 			<ltvisualizer field="visualizer"/>
 			<list field="parameters">
 				<ltparameter name="class" value="TTimeBar"/>
 			</list>
-		</ltvectorsprite>
-		<ltvectorsprite x="16.25" y="2.25" width="0.5" height="0.5">
+		</ltsprite>
+		<ltsprite x="16.25" y="2.25" width="0.5" height="0.5" angle="0.00000000000000000" velocity="0.00000000000000000">
 			<ltvisualizer field="visualizer">
 				<ltimage field="image" id="12" filename="media\SmallCoin.png" xcells="3"/>
 			</ltvisualizer>
 			<list field="parameters">
 				<ltparameter name="class" value="TSmallCoin"/>
 			</list>
-		</ltvectorsprite>
-		<ltvectorsprite x="17.25" y="2.25" width="1.5" height="0.5" shape="2">
+		</ltsprite>
+		<ltsprite x="17.25" y="2.25" width="1.5" height="0.5" shape="2" angle="0.00000000000000000" velocity="0.00000000000000000">
 			<ltvisualizer field="visualizer"/>
 			<list field="parameters">
 				<ltparameter name="class" value="TCoinsQuantity"/>
 			</list>
-		</ltvectorsprite>
+		</ltsprite>
 	</ltlayer>
 </ltworld>

@@ -26,8 +26,7 @@ Type LTOptionsWindow Extends LTWindow
 		Select Gadget.GetName()
 			Case "Fullscreen"
 				L_CurrentProfile.FullScreen = Not L_CurrentProfile.FullScreen
-				L_CurrentProfile.Apply()
-				Menu.InitGraphics()
+				L_CurrentProfile.Apply( True, [ Menu ], True )
 				InitButton()
 		End Select
 	End Method

@@ -11,7 +11,7 @@
 Include "TBlock.bmx"
 Include "TTree.bmx"
 
-Type TGameObject Extends LTAngularSprite
+Type TGameObject Extends LTSprite
 	Field Bad:Int = False
 	
 	

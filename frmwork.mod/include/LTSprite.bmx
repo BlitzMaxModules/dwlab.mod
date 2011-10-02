@@ -8,7 +8,6 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTAngularSprite.bmx"
 Include "LTVectorSprite.bmx"
 Include "LTCamera.bmx"
 Include "Collisions.bmx"
@@ -16,16 +15,22 @@ Include "Physics.bmx"
 
 Rem
 bbdoc: Sprite is the main basic shape of the framework to draw, move and check collisions.
-about: See also: #LTAngularSprite, #LTVectorSprite
+about: See also: #LTVectorSprite
 End Rem
 Type LTSprite Extends LTShape
+	Rem
+	bbdoc: Type of the sprite shape.
+	about: See also: #Pivot, #Oval, #Rectangle
+	End Rem
+	Field ShapeType:Int = Rectangle
+	
 	Rem
 	bbdoc: Type of the sprite shape: pivot. It's a point on game field with (X, Y) coordinates.
 	End Rem
 	Const Pivot:Int = 0
 	
 	Rem
-	bbdoc: Type of the sprite shape: oval / Oval.
+	bbdoc: Type of the sprite shape: oval / circle.
 	End Rem
 	Const Circle:Int = 1
 	Const Oval:Int = 1
@@ -36,10 +41,16 @@ Type LTSprite Extends LTShape
 	Const Rectangle:Int = 2
 
 	Rem
-	bbdoc: Type of the sprite shape.
-	about: See also: #Pivot, #Oval, #Rectangle
+	bbdoc: Direction of the sprite
+	about: See also: #MoveForward, #MoveTowards
 	End Rem
-	Field ShapeType:Int = Rectangle
+	Field Angle:Double
+	
+	Rem
+	bbdoc: Velocity of the sprite in units per second.
+	about: See also: #MoveForward, #MoveTowards
+	End Rem
+	Field Velocity:Double = 1.0
 	
 	Rem
 	bbdoc: Frame of the sprite image.
@@ -523,15 +534,10 @@ Type LTSprite Extends LTShape
 	
 	Rem
 	bbdoc: Moves sprite forward.
-	about:
-	<ul>
-	<li> Angular sprite will be moved using its Angle and Velocity parameters.
-	<li> Vector sprite will be moved using its DX and DY parameters.
-	</ul>
-	
-	See also: #Move
+	about: See also: #Move
 	End Rem
 	Method MoveForward()
+		SetCoords( X + Cos( Angle ) * Velocity * L_DeltaTime, Y + Sin( Angle ) * Velocity * L_DeltaTime )
 	End Method
 	
 	
@@ -559,6 +565,36 @@ Type LTSprite Extends LTShape
 		Y = TileMap.TopY() + Height * ( 0.5 + TileY )
 		Visualizer = LTVisualizer.FromImage( Tilemap.TileSet.Image )
 		Frame = TileMap.GetTile( TileX, TileY )
+	End Method
+
+	' ==================== Angle ====================
+	
+	Rem
+	bbdoc: Directs sprite as given angular sprite. 
+	about: See also: #DirectTo
+	End Rem
+	Method DirectAs( Sprite:LTSprite )
+		Angle = Sprite.Angle
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Turns the sprite.
+	about: Turns the sprite with given speed per second.
+	End Rem
+	Method Turn( TurningSpeed:Double )
+		Angle :+ L_DeltaTime * TurningSpeed
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Direct the sprite to center of the given shape.
+	about: See also: #DirectAs
+	End Rem
+	Method DirectTo( Shape:LTShape )
+		Angle = ATan2( Shape.Y - Y, Shape.X - X )
 	End Method
 	
 	' ==================== Animation ====================
@@ -595,6 +631,8 @@ Type LTSprite Extends LTShape
 		?
 		
 		Sprite.ShapeType = ShapeType
+		Sprite.Angle = Angle
+		Sprite.Velocity = Velocity
 		Sprite.Frame = Frame
 	End Method
 	
@@ -604,6 +642,16 @@ Type LTSprite Extends LTShape
 		Super.XMLIO( XMLObject )
 		
 		XMLObject.ManageIntAttribute( "shape", ShapeType )
+		XMLObject.ManageDoubleAttribute( "angle", Angle )
+		XMLObject.ManageDoubleAttribute( "velocity", Velocity, 1.0 )
 		XMLObject.ManageIntAttribute( "frame", Frame )
 	End Method
+End Type
+
+
+
+
+
+'Deprecated
+Type LTAngularSprite Extends LTSprite
 End Type

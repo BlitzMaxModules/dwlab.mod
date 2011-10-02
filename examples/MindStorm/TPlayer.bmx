@@ -10,13 +10,13 @@
 
 Include "TChaingun.bmx"
 
-Type TPlayer Extends LTAngularSprite
+Type TPlayer Extends LTSprite
 	Const MinTargetDistance:Double = 1.25
 
 	
 	
 	Field Weapon:TChaingun[] = New TChaingun[ 2 ]
-	Field Visor:LTAngularSprite
+	Field Visor:LTSprite
 	
 	
 	
@@ -33,7 +33,7 @@ Type TPlayer Extends LTAngularSprite
 	
 	Method Init()
 		Game.Player = Self
-		Visor = LTAngularSprite( Game.Level.FindShape( "Visor" ) )
+		Visor = LTSprite( Game.Level.FindShape( "Visor" ) )
 		Visor.AttachModel( LTFixedJoint.Create( Self ) )
 	End Method
 	

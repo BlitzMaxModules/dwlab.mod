@@ -297,7 +297,7 @@ Type LTShape Extends LTObject
 	
 	
 	
-	Method SetCoordsRelativeTo( Sprite:LTAngularSprite, NewX:Double, NewY:Double )
+	Method SetCoordsRelativeTo( Sprite:LTSprite, NewX:Double, NewY:Double )
 		Local SpriteAngle:Double = DirectionToPoint( NewX, NewY ) + Sprite.Angle
 		Local Radius:Double = Sqr( NewX * NewX + NewY * NewY )
 		SetCoords( Sprite.X + Radius * Cos( SpriteAngle ), Sprite.Y + Radius * Sin( SpriteAngle ) )

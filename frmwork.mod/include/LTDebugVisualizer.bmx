@@ -38,24 +38,12 @@ Type LTDebugVisualizer Extends LTVisualizer
 		
 		If ShowVectors Then
 			Local Size:Double = Max( SWidth, SHeight )
-			Local AngularSprite:LTAngularSprite = LTAngularSprite( Sprite )
-			If AngularSprite Then
-				Angle = AngularSprite.Angle
-			Else
-				Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite )
-				If VectorSprite Then
-					Angle = ATan2( VectorSprite.DY, VectorSprite.DX )
-				Else
-					Size = 0
-				End If
-			End If
-			
 			If Size Then
-				Local SX2:Double = SX1 + Cos( Angle ) * Size
-				Local SY2:Double = SY1 + Sin( Angle ) * Size
+				Local SX2:Double = SX1 + Cos( Sprite.Angle ) * Size
+				Local SY2:Double = SY1 + Sin( Sprite.Angle ) * Size
 				DrawLine( SX1, SY1, SX2, SY2 )
 				For Local D:Double = -135 To 135 Step 270
-					DrawLine( SX2, SY2, SX2 + 5.0 * Cos( Angle + D ), SY2 + 5.0 * Sin( Angle + D ) )
+					DrawLine( SX2, SY2, SX2 + 5.0 * Cos( Sprite.Angle + D ), SY2 + 5.0 * Sin( Sprite.Angle + D ) )
 				Next
 			End If
 		End If

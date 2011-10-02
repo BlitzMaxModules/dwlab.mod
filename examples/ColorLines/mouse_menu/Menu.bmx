@@ -16,6 +16,7 @@ Include "LTSelectProfileWindow.bmx"
 Include "LTAddProfileWindow.bmx"
 Include "LTRemoveProfileWindow.bmx"
 Include "LTSettingsWindow.bmx"
+Include "LTProfilesList.bmx"
 
 Include "menu_incbin.bmx"
 
@@ -26,6 +27,8 @@ Global Menu:LTMenu = New LTMenu
 Type LTMenu Extends LTProject
 	Field Project:LTProject
 	Field World:LTWorld
+	Field ProfileTypeID:TTypeId = TTypeId.ForName( "LTProfile" )
+	Field Profiles:TList = New TList
 	
 	Method InitSystem( MainProject:LTProject )
 		Project = MainProject
@@ -46,18 +49,24 @@ Type LTMenu Extends LTProject
 	End Method
 	
 	Method InitGraphics()
-		SetImageFont( LoadImageFont( "mouse_menu\OpenSans-Regular.ttf", 14 ) )
+		SetImageFont( LoadImageFont( "mouse_menu\OpenSans-Regular.ttf", Floor( L_CurrentCamera.Viewport.Width / 80 ) ) )
 		
 		Local Screen:LTShape = World.FindShape( "Screen" )
 		GUICamera = Project.GUICamera
 		Project.GUICamera.Viewport = L_CurrentCamera.Viewport.Clone()
 		Project.GUICamera.JumpTo( Screen )
-		Project.GUICamera.SetSize( Screen.Width, Screen.Height )
+		Project.GUICamera.SetSize( Screen.Width, Screen.Height )		
 	End Method
 	
 	Method DeInit()
 		Project.LoadWindow( World, , "LTMenuWindow" )
 		Project.LoadWindow( World, , "LTOptionsWindow" )
+	End Method
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		XMLObject.ManageObjectAttribute( "current_profile", L_CurrentProfile )
+		XMLObject.ManageChildList( Profiles )
 	End Method
 End Type
 

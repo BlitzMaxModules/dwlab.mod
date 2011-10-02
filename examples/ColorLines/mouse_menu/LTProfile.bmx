@@ -18,18 +18,21 @@ Global L_ScreenResolutions:TList = New TList
 
 Type LTProfile Extends LTObject
 	Field Name:String
-	Field Language:TMaxGUILanguage
+	Field Language:String
 	Field AudioDriver:String
-	Field VideoDriver:LTVideoDriver
+	Field VideoDriver:String
 	Field FullScreen:Int
-	Field Resolution:LTScreenResolution
-	Field ColorDepth:LTColorDepth
-	Field Frequency:LTFrequency
+	Field ScreenWidth:Int
+	Field ScreenHeight:Int
+	Field ColorDepth:Int
+	Field Frequency:Int
 	
 	Function Init()
 		For Local Mode:TGraphicsMode = Eachin GraphicsModes()
-			If Mode.Width >= 640 Then LTScreenResolution.Add( Mode.Width, Mode.Height, Mode.Depth, Mode.Hertz )
-			'DebugLog Mode.Width +" x " + Mode.Height
+			If Mode.Width >= 640 And Mode.Width > Mode.Height Then 
+				LTScreenResolution.Add( Mode.Width, Mode.Height, Mode.Depth, Mode.Hertz )
+				'DebugLog Mode.Width + ", " + Mode.Height + ", " + Mode.Depth + ", " + Mode.Hertz
+			End If
 		Next
 		
 		For Local DriverTypeID:TTypeId = Eachin TTypeID.ForName( "TMax2DDriver" ).DerivedTypes()
@@ -58,7 +61,7 @@ Type LTProfile Extends LTObject
 		L_AudioDrivers = TList.FromArray( AudioDrivers() )
 		
 		LTProfile.CreateDefault()
-		L_CurrentProfile.Apply()
+		L_CurrentProfile.Apply( False )
 	End Function
 	
 	Function CreateDefault()
@@ -67,10 +70,15 @@ Type LTProfile Extends LTObject
 		
 		Local TypeID:TTypeId = TTypeId.ForObject( GetGraphicsDriver() )
 		For Local Driver:LTVideoDriver = Eachin L_VideoDrivers
-			If TTypeID.ForObject( Driver.Driver ) = TypeID Then L_CurrentProfile.VideoDriver = Driver
+			If TTypeID.ForObject( Driver.Driver ) = TypeID Then L_CurrentProfile.VideoDriver = Driver.Name
 		Next
 		
-		LTScreenResolution.GetMaximum( L_CurrentProfile )
+		Local Resolution:LTScreenResolution = LTScreenResolution.Get()
+		L_CurrentProfile.ScreenWidth = Resolution.Width
+		L_CurrentProfile.ScreenHeight = Resolution.Height
+		Local ColorDepth:LTColorDepth = LTColorDepth.Get( Resolution )
+		L_CurrentProfile.ColorDepth = ColorDepth.Bits
+		L_CurrentProfile.Frequency = LTFrequency.Get( ColorDepth ).Hertz
 		
 		?win32
 		If AudioDriverExists( "DirectSound" ) Then L_CurrentProfile.AudioDriver = "DirectSound"
@@ -82,51 +90,78 @@ Type LTProfile Extends LTObject
 		For Local Language:TMaxGuiLanguage = Eachin L_Languages
 			If Language.GetName() = Name Then Return Language
 		Next
+		Return TMaxGuiLanguage( L_Languages.First() )
 	End Function
 	
-	Function GetVideoDriver:LTVideoDriver( Name:String )
-		For Local Driver:LTVideoDriver = Eachin L_VideoDrivers
-			If Driver.Name = Name Then Return Driver
-		Next
-	End Function
-	
-	Method Apply()
-		If Language Then SetLocalizationLanguage( Language )
-		If VideoDriver Then SetGraphicsDriver( VideoDriver.Driver )
-		If AudioDriver Then SetAudioDriver( AudioDriver )
+	Method Apply( Refresh:Int = True, Projects:LTProject[] = Null, NewScreen:Int = True, NewVideoDriver:Int = True, NewAudioDriver:Int = True )
+		SetLocalizationLanguage( GetLanguage( Language ) )
 		
-		Local Width:Int, Height:Int 
-		If FullScreen Then
-			Width = Resolution.Width
-			Height = Resolution.Height
-		Else
-			Width = DesktopWidth()
-			Height = DesktopHeight() - 86
+		If NewVideoDriver Then SetGraphicsDriver( LTVideoDriver.Get( VideoDriver ).Driver )
+		If NewAudioDriver Then SetAudioDriver( AudioDriver )
+		
+		If NewScreen Or NewVideoDriver Then
+			Local Width:Int, Height:Int 
+			If FullScreen Then
+				Width = ScreenWidth
+				Height = ScreenHeight
+			Else
+				Width = DesktopWidth()
+				Height = DesktopHeight() - 86
+			End If
+			Width = Floor( Width / L_ScreenWidthGrain ) * L_ScreenWidthGrain
+			Height = Floor( Height / L_ScreenHeightGrain ) * L_ScreenHeightGrain
+			Local BlockSize:Int = Min( Floor( Width / L_ScreenWidthGrain ), Floor( Height / L_ScreenHeightGrain ) )
+			EndGraphics()
+			If FullScreen Then
+				L_InitGraphics( ScreenWidth, ScreenHeight, 64.0, ColorDepth, Frequency )
+				L_CurrentCamera.Viewport.SetSize( L_ScreenWidthGrain * BlockSize, L_ScreenHeightGrain * BlockSize )
+				L_CurrentCamera.Update()
+				L_CurrentCamera.SetCameraViewport()
+			Else
+					L_InitGraphics( L_ScreenWidthGrain * BlockSize, L_ScreenHeightGrain * BlockSize, 64.0, , Frequency )
+			End If
 		End If
-		Width = Floor( Width / L_ScreenWidthGrain ) * L_ScreenWidthGrain
-		Height = Floor( Height / L_ScreenHeightGrain ) * L_ScreenHeightGrain
-		Local BlockSize:Int = Min( Floor( Width / L_ScreenWidthGrain ), Floor( Height / L_ScreenHeightGrain ) )
-		EndGraphics()
-		If FullScreen Then
-			L_InitGraphics( Resolution.Width, Resolution.Height, 64.0, ColorDepth.Bits, Frequency.Hertz )
-			L_CurrentCamera.Viewport.SetSize( L_ScreenWidthGrain * BlockSize, L_ScreenHeightGrain * BlockSize )
-			L_CurrentCamera.Update()
-		Else
-    		L_InitGraphics( L_ScreenWidthGrain * BlockSize, L_ScreenHeightGrain * BlockSize, 64.0, , Frequency.Hertz )
+		
+		If Refresh Then
+			For Local Project:LTProject = Eachin Projects
+				If NewVideoDriver Or NewScreen Then Project.InitGraphics()
+				If NewAudioDriver Then Project.InitSound()
+			Next
 		End If
+	End Method
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		
+		XMLObject.ManageStringAttribute( "name", Name )
+		XMLObject.ManageStringAttribute( "language", Language )
+		XMLObject.ManageStringAttribute( "audio", AudioDriver )
+		XMLObject.ManageStringAttribute( "video", VideoDriver )
+		XMLObject.ManageIntAttribute( "fullscreen", FullScreen )
+		XMLObject.ManageIntAttribute( "width", ScreenWidth )
+		XMLObject.ManageIntAttribute( "height", ScreenHeight )
+		XMLObject.ManageIntAttribute( "depth", ColorDepth )
+		XMLObject.ManageIntAttribute( "frequency", Frequency )
 	End Method
 End Type
 
 
 
-Type LTVideoDriver Extends LTTextListItem
+Type LTVideoDriver
 	Field Name:String
 	Field Driver:TMax2DDriver
+	
+	Function Get:LTVideoDriver( Name:String ="" )
+		For Local Driver:LTVideoDriver = Eachin L_VideoDrivers
+			If Driver.Name = Name Then Return Driver
+		Next
+		Return LTVideoDriver( L_VideoDrivers.First() )
+	End Function
 End Type
 
 
 
-Type LTScreenResolution Extends LTTextListItem
+Type LTScreenResolution
 	Field Width:Int
 	Field Height:Int
 	Field ColorDepths:TList = New TList
@@ -146,23 +181,23 @@ Type LTScreenResolution Extends LTTextListItem
 		LTColorDepth.Add( Resolution, Bits, Hertz )
 	End Function
 	
-	Function GetMaximum( Profile:LTProfile )
+	Function Get:LTScreenResolution( Width:Int = 0, Height:Int = 0 )
 		Local MaxResolution:LTScreenResolution = Null
 		For Local Resolution:LTScreenResolution = Eachin L_ScreenResolutions
+			If Resolution.Width = L_CurrentProfile.ScreenWidth And Resolution.Height = L_CurrentProfile.ScreenHeight Then Return Resolution
 			If Not MaxResolution Then
 				MaxResolution = Resolution
 			ElseIf Resolution.Width >= MaxResolution.Width And Resolution.Height >= MaxResolution.Height Then
 				MaxResolution = Resolution
 			End If
 		Next
-		Profile.Resolution = MaxResolution
-		LTColorDepth.GetMaximum( Profile, MaxResolution )
+		Return MaxResolution
 	End Function
 End Type
 
 
 
-Type LTColorDepth Extends LTTextListItem
+Type LTColorDepth
 	Field Bits:Int
 	Field Frequencies:TList = New TList
 	
@@ -180,23 +215,23 @@ Type LTColorDepth Extends LTTextListItem
 		LTFrequency.Add( ColorDepth, Hertz )
 	End Function
 	
-	Function GetMaximum( Profile:LTProfile, Resolution:LTScreenResolution )
+	Function Get:LTColorDepth( Resolution:LTScreenResolution, Bits:Int = 0 )
 		Local MaxDepth:LTColorDepth = Null
 		For Local Depth:LTColorDepth = Eachin Resolution.ColorDepths
+			If Depth.Bits = Bits Then Return Depth
 			If Not MaxDepth Then
 				MaxDepth = Depth
 			ElseIf Depth.Bits > MaxDepth.Bits Then
 				MaxDepth = Depth
 			End If
 		Next
-		Profile.ColorDepth = MaxDepth
-		LTFrequency.GetMaximum( Profile, MaxDepth )
+		Return MaxDepth
 	End Function
 End Type
 
 
 
-Type LTFrequency Extends LTTextListItem
+Type LTFrequency
 	Field Hertz:Int
 	
 	Function Add( ColorDepth:LTColorDepth, Hertz:Int )
@@ -205,15 +240,16 @@ Type LTFrequency Extends LTTextListItem
 		ColorDepth.Frequencies.AddLast( Frequency )
 	End Function
 	
-	Function GetMaximum( Profile:LTProfile, Depth:LTColorDepth )
+	Function Get:LTFrequency( ColorDepth:LTColorDepth, Hertz:Int = 0 )
 		Local MaxFrequency:LTFrequency = Null
-		For Local Frequency:LTFrequency = Eachin Depth.Frequencies
+		For Local Frequency:LTFrequency = Eachin ColorDepth.Frequencies
+			If Frequency.Hertz = Hertz Then Return Frequency
 			If Not MaxFrequency Then
 				MaxFrequency = Frequency
 			ElseIf Frequency.Hertz > MaxFrequency.Hertz Then
 				MaxFrequency = Frequency
 			End If
 		Next
-		Profile.Frequency = MaxFrequency
+		Return MaxFrequency
 	End Function
 End Type

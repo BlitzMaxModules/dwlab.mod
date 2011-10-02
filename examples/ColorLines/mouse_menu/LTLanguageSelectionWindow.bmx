@@ -26,10 +26,15 @@ Type LTLanguageSelectionWindow Extends LTWindow
 		Super.Init()
 	End Method
 	
+	Method Act()
+		Super.Act()
+	End Method
+	
 	Method OnClick( Gadget:LTGadget, Button:Int )
 		If LTButton( Gadget ) Then
-			L_CurrentProfile.Language = TMaxGuiLanguage( LanguageMap.ValueForKey( Gadget ) )
-			SetLocalizationLanguage( L_CurrentProfile.Language )
+			Local Language:TMaxGuiLanguage = TMaxGuiLanguage( LanguageMap.ValueForKey( Gadget ) )
+			SetLocalizationLanguage( Language )
+			L_CurrentProfile.Language = Language.GetName()
 			Project.Exiting = True
 		End If
 	End Method

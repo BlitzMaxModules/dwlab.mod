@@ -517,11 +517,11 @@
 			<row data="107,107,106,94,83,84,84,84,84,84,93,100,87,81,81,81,90,115,106,87,81,89,32,115,99,92,85,85,91,99,108,115"/>
 			<row data="98,106,98,32,107,99,116,101,32,116,108,101,94,83,83,83,93,114,98,87,81,90,101,100,108,87,81,81,90,114,99,100"/>
 		</lttilemap>
-		<ltangularsprite x="8" y="8" width="16" height="16" shape="2">
+		<ltsprite x="8" y="8" width="16" height="16" shape="2">
 			<ltvisualizer field="visualizer" alpha="0.5"/>
 			<list field="parameters">
 				<ltparameter name="name" value="Clouds"/>
 			</list>
-		</ltangularsprite>
+		</ltsprite>
 	</ltlayer>
 </ltworld>

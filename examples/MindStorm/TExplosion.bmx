@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TExplosion Extends LTAngularSprite
+Type TExplosion Extends LTSprite
 	Const MinSize:Double = 0.6
 	Const MaxSize:Double = 1.0
 	Const MinAnimationSpeed:Double = 0.01

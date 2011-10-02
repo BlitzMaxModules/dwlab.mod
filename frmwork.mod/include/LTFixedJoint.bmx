@@ -13,7 +13,7 @@ bbdoc: Fixed joint moves and rotates angular sprite as parent angular sprite mov
 about: See also: #LTRevoluteJoint
 End Rem
 Type LTFixedJoint Extends LTBehaviorModel
-	Field ParentPivot:LTAngularSprite
+	Field ParentPivot:LTSprite
 	Field Angle:Double
 	Field Distance:Double
 	Field DAngle:Double
@@ -24,7 +24,7 @@ Type LTFixedJoint Extends LTBehaviorModel
 	bbdoc: Creates fixed joint for specified parent pivot using current pivots position.
 	returns: New fixed joint
 	End Rem
-	Function Create:LTFixedJoint( ParentPivot:LTAngularSprite )
+	Function Create:LTFixedJoint( ParentPivot:LTSprite )
 		Local Joint:LTFixedJoint = New LTFixedJoint
 		Joint.ParentPivot = ParentPivot
 		Return Joint
@@ -33,7 +33,7 @@ Type LTFixedJoint Extends LTBehaviorModel
 	
 	
 	Method Init( Shape:LTShape )
-		Local Sprite:LTAngularSprite = LTAngularSprite( Shape )
+		Local Sprite:LTSprite = LTSprite( Shape )
 		Angle = ParentPivot.DirectionTo( Sprite ) - ParentPivot.Angle
 		Distance = ParentPivot.DistanceTo( Sprite )
 		DAngle = Sprite.Angle - ParentPivot.Angle
@@ -42,7 +42,7 @@ Type LTFixedJoint Extends LTBehaviorModel
 	
 	
 	Method ApplyTo( Shape:LTShape )
-		Local Sprite:LTAngularSprite = LTAngularSprite( Shape )
+		Local Sprite:LTSprite = LTSprite( Shape )
 		Sprite.X = ParentPivot.X + Cos( Angle + ParentPivot.Angle ) * Distance
 		Sprite.Y = ParentPivot.Y + Sin( Angle + ParentPivot.Angle ) * Distance
 		Sprite.Angle = ParentPivot.Angle + DAngle

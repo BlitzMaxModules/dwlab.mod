@@ -2,7 +2,8 @@ ModuleInfo "Version: 1.2.4.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
-ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.2.6 (02.10.11)"
+ModuleInfo "History: &nbsp; &nbsp; LTSprite is merged with LTSprite and LTVectorSprite is cleaned of unuseful code."
 ModuleInfo "History: v1.2.5 (29.09.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added ApplyColor(), Lighten() and Darken() methods to the LTCamera."
 ModuleInfo "History: v1.2.4.1 (26.09.11)"
@@ -190,30 +191,14 @@ LTGroup^LTShape{
 -Clone:LTShape()="_dwlab_frmwork_LTGroup_Clone"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTGroup_XMLIO"
 }="dwlab_frmwork_LTGroup"
-LTAngularSprite^LTSprite{
-.Angle!&
-.Velocity!&
--New%()="_dwlab_frmwork_LTAngularSprite_New"
--Delete%()="_dwlab_frmwork_LTAngularSprite_Delete"
--GetClassTitle$()="_dwlab_frmwork_LTAngularSprite_GetClassTitle"
--MoveForward%()="_dwlab_frmwork_LTAngularSprite_MoveForward"
--DirectAs%(Sprite:LTAngularSprite)="_dwlab_frmwork_LTAngularSprite_DirectAs"
--Turn%(TurningSpeed!)="_dwlab_frmwork_LTAngularSprite_Turn"
--DirectTo%(Shape:LTShape)="_dwlab_frmwork_LTAngularSprite_DirectTo"
--Clone:LTShape()="_dwlab_frmwork_LTAngularSprite_Clone"
--CopyTo%(Shape:LTShape)="_dwlab_frmwork_LTAngularSprite_CopyTo"
--XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTAngularSprite_XMLIO"
-}="dwlab_frmwork_LTAngularSprite"
 LTVectorSprite^LTSprite{
 .DX!&
 .DY!&
 -New%()="_dwlab_frmwork_LTVectorSprite_New"
 -Delete%()="_dwlab_frmwork_LTVectorSprite_Delete"
 -GetClassTitle$()="_dwlab_frmwork_LTVectorSprite_GetClassTitle"
+-Init%()="_dwlab_frmwork_LTVectorSprite_Init"
 -MoveForward%()="_dwlab_frmwork_LTVectorSprite_MoveForward"
--Clone:LTShape()="_dwlab_frmwork_LTVectorSprite_Clone"
--CopyTo%(Shape:LTShape)="_dwlab_frmwork_LTVectorSprite_CopyTo"
--XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTVectorSprite_XMLIO"
 }="dwlab_frmwork_LTVectorSprite"
 LTCamera^LTSprite{
 .Viewport:LTShape&
@@ -271,6 +256,8 @@ Circle%=1
 Oval%=1
 Rectangle%=2
 .ShapeType%&
+.Angle!&
+.Velocity!&
 .Frame%&
 .SpriteMap:LTSpriteMap&
 -New%()="_dwlab_frmwork_LTSprite_New"
@@ -300,11 +287,18 @@ Rectangle%=2
 -MoveForward%()="_dwlab_frmwork_LTSprite_MoveForward"
 -SetSize%(NewWidth!,NewHeight!)="_dwlab_frmwork_LTSprite_SetSize"
 -SetAsTile%(TileMap:LTTileMap,TileX%,TileY%)="_dwlab_frmwork_LTSprite_SetAsTile"
+-DirectAs%(Sprite:LTSprite)="_dwlab_frmwork_LTSprite_DirectAs"
+-Turn%(TurningSpeed!)="_dwlab_frmwork_LTSprite_Turn"
+-DirectTo%(Shape:LTShape)="_dwlab_frmwork_LTSprite_DirectTo"
 -Animate%(Project:LTProject,Speed!,FramesQuantity%=0,FrameStart%=0,StartingTime!=0!,PingPong%=0)="_dwlab_frmwork_LTSprite_Animate"
 -Clone:LTShape()="_dwlab_frmwork_LTSprite_Clone"
 -CopyTo%(Shape:LTShape)="_dwlab_frmwork_LTSprite_CopyTo"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTSprite_XMLIO"
 }="dwlab_frmwork_LTSprite"
+LTAngularSprite^LTSprite{
+-New%()="_dwlab_frmwork_LTAngularSprite_New"
+-Delete%()="_dwlab_frmwork_LTAngularSprite_Delete"
+}="dwlab_frmwork_LTAngularSprite"
 LTTileSet^LTObject{
 .Name$&
 .Image:LTImage&
@@ -723,7 +717,7 @@ RightFacing!=1!
 -SetCornerCoords%(NewX!,NewY!)="_dwlab_frmwork_LTShape_SetCornerCoords"
 -JumpTo%(Shape:LTShape)="_dwlab_frmwork_LTShape_JumpTo"
 -SetMouseCoords%()="_dwlab_frmwork_LTShape_SetMouseCoords"
--SetCoordsRelativeTo%(Sprite:LTAngularSprite,NewX!,NewY!)="_dwlab_frmwork_LTShape_SetCoordsRelativeTo"
+-SetCoordsRelativeTo%(Sprite:LTSprite,NewX!,NewY!)="_dwlab_frmwork_LTShape_SetCoordsRelativeTo"
 -PositionOnTileMap%(TileMap:LTTileMap,TileX!,TileY!)="_dwlab_frmwork_LTShape_PositionOnTileMap"
 -Move%(DX!,DY!)="_dwlab_frmwork_LTShape_Move"
 -MoveTowards%(Shape:LTShape,Velocity!)="_dwlab_frmwork_LTShape_MoveTowards"
@@ -787,24 +781,24 @@ LTTitleGenerator^brl.blitz.Object{
 -GetTitle$(Shape:LTShape)="_dwlab_frmwork_LTTitleGenerator_GetTitle"
 }="dwlab_frmwork_LTTitleGenerator"
 LTFixedJoint^LTBehaviorModel{
-.ParentPivot:LTAngularSprite&
+.ParentPivot:LTSprite&
 .Angle!&
 .Distance!&
 .DAngle!&
 -New%()="_dwlab_frmwork_LTFixedJoint_New"
 -Delete%()="_dwlab_frmwork_LTFixedJoint_Delete"
-+Create:LTFixedJoint(ParentPivot:LTAngularSprite)="_dwlab_frmwork_LTFixedJoint_Create"
++Create:LTFixedJoint(ParentPivot:LTSprite)="_dwlab_frmwork_LTFixedJoint_Create"
 -Init%(Shape:LTShape)="_dwlab_frmwork_LTFixedJoint_Init"
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTFixedJoint_ApplyTo"
 }="dwlab_frmwork_LTFixedJoint"
 LTRevoluteJoint^LTBehaviorModel{
-.ParentPivot:LTAngularSprite&
+.ParentPivot:LTSprite&
 .Pivot:LTSprite&
 .Angle!&
 .Distance!&
 -New%()="_dwlab_frmwork_LTRevoluteJoint_New"
 -Delete%()="_dwlab_frmwork_LTRevoluteJoint_Delete"
-+Create:LTRevoluteJoint(ParentPivot:LTAngularSprite)="_dwlab_frmwork_LTRevoluteJoint_Create"
++Create:LTRevoluteJoint(ParentPivot:LTSprite)="_dwlab_frmwork_LTRevoluteJoint_Create"
 -Init%(Shape:LTShape)="_dwlab_frmwork_LTRevoluteJoint_Init"
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTRevoluteJoint_ApplyTo"
 }="dwlab_frmwork_LTRevoluteJoint"
@@ -894,6 +888,10 @@ LTListBox^LTGadget{
 -New%()="_dwlab_frmwork_LTListBox_New"
 -Delete%()="_dwlab_frmwork_LTListBox_Delete"
 -GetClassTitle$()="_dwlab_frmwork_LTListBox_GetClassTitle"
+-Init%()="_dwlab_frmwork_LTListBox_Init"
+-Draw%()="_dwlab_frmwork_LTListBox_Draw"
+-GetItemSize!(Item:Object)="_dwlab_frmwork_LTListBox_GetItemSize"
+-DrawItem%(Item:Object,Shape:LTShape)="_dwlab_frmwork_LTListBox_DrawItem"
 }="dwlab_frmwork_LTListBox"
 LTSlider^LTGadget{
 .Slider:LTShape&
@@ -925,19 +923,6 @@ LTGadget^LTSprite{
 -OnMouseDown%(Button%)="_dwlab_frmwork_LTGadget_OnMouseDown"
 -OnMouseUp%(Button%)="_dwlab_frmwork_LTGadget_OnMouseUp"
 }="dwlab_frmwork_LTGadget"
-LTListItem^LTObject{
--New%()="_dwlab_frmwork_LTListItem_New"
--Delete%()="_dwlab_frmwork_LTListItem_Delete"
--GetHeight!()="_dwlab_frmwork_LTListItem_GetHeight"
--Draw%(X!,Y!,Width!,Height!,ItemNum%)="_dwlab_frmwork_LTListItem_Draw"
-}="dwlab_frmwork_LTListItem"
-LTTextListItem^LTListItem{
--New%()="_dwlab_frmwork_LTTextListItem_New"
--Delete%()="_dwlab_frmwork_LTTextListItem_Delete"
--GetHeight!()="_dwlab_frmwork_LTTextListItem_GetHeight"
--Draw%(X!,Y!,Width!,Height!,ItemNum%)="_dwlab_frmwork_LTTextListItem_Draw"
--GetValue$()="_dwlab_frmwork_LTTextListItem_GetValue"
-}="dwlab_frmwork_LTTextListItem"
 LTAlign^brl.blitz.Object{
 ToRight%=0
 ToTop%=0

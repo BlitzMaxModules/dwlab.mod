@@ -22,6 +22,7 @@ Type TGoomba Extends TEnemy
 		AttachModel( New TBumpingTiles )
 		AttachModel( New TBumpingSprites )
 		AttachModel( New TRemoveIfOutside )
+		Super.Init()
 	End Method
 	
 	

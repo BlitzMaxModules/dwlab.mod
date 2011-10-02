@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TFire Extends LTAngularSprite
+Type TFire Extends LTSprite
 	Field Chaingun:TChaingun
 	
 	

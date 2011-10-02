@@ -39,7 +39,7 @@ Type TChaingunBullet Extends LTVectorSprite
 	
 	
   
-	Function Create( Fire:LTAngularSprite )
+	Function Create( Fire:LTSprite )
 		Local Bullet:TChaingunBullet = New TChaingunBullet
 		Local BulletVisualizer:LTVisualizer = New LTVisualizer
 		Bullet.Visualizer = BulletVisualizer

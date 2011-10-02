@@ -1,5 +1,8 @@
+1.7.4
+- Sprite models.
+
 1.7.3
-+ Added keys for changing class, name and adding parameter to selected objects.
++ Keys for changing class, name and adding parameter to selected objects.
 
 1.7.2
 + Frame images now can be created and attached to shape visualizers.

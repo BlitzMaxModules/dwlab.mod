@@ -38,14 +38,7 @@ Type TCreateSprite Extends LTDrag
 			Sprite = LTSprite( CurrentSprite.Clone() )
 			Sprite.Visualizer = CurrentSprite.Visualizer.Clone()
 		Else
-			Select Editor.SpriteModel
-				Case 0
-					Sprite = New LTSprite
-				Case 1
-					Sprite = New LTVectorSprite
-				Case 2
-					Sprite = New LTAngularSprite
-			End Select
+			Sprite = New LTSprite
 			Sprite.Visualizer = New LTVisualizer
 		End If
 		
