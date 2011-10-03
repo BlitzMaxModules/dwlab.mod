@@ -13,6 +13,7 @@ Include "LTButton.bmx"
 Type LTLabel Extends LTGadget
 	Field Text:String
 	Field Icon:LTShape
+	Field TextVisualizer:LTVisualizer = New LTVisualizer
 	Field DX:Int, DY:Int
 	Field Align:Int = LTAlign.ToCenter
 	
@@ -28,6 +29,7 @@ Type LTLabel Extends LTGadget
 		Local Name:String = GetName()
 		If Name Then Icon = L_Window.FindShapeWithParameter( "LTSprite", "gadget_name", GetName(), True )
 		
+		TextVisualizer.SetColorFromRGB( 0.0, 0.0, 0.0 )
 		If Not Text Then Text = GetParameter( "text" )
 		If Text Then
 			If Not Icon Then Icon = L_Window.FindShapeWithParameter( "LTSprite", "gadget_text", Text, True )
@@ -47,38 +49,44 @@ Type LTLabel Extends LTGadget
 	Method Draw()
 		Super.Draw()
 		
-		Local SWidth:Double = TextWidth( " " + Text )
-		Local TextX:Double, TextSDX:Double
+		Local HorizontalShift:Int = 0
 		If Icon Then
 			L_CurrentCamera.SizeScreenToField( DX, DY, Icon.X, Icon.Y )
+			Local FWidth:Double = L_CurrentCamera.DistScreenToField( TextWidth( " " + Text ) )
 			Select Align
 				Case LTAlign.ToLeft
+					HorizontalShift = L_CurrentCamera.DistFieldToScreen( Height )
 					Icon.AlterCoords( LeftX() + 0.5 * Height, Y )
 				Case LTAlign.ToCenter
-					Icon.AlterCoords( X - L_CurrentCamera.DistScreenToField( 0.5 * SWidth ), Y )
-				Case LTAlign.ToCenter
-					Icon.AlterCoords( RightX() - L_CurrentCamera.DistScreenToField( SWidth ) - 0.5 * Height + DX, Y )
-			End Select
-			TextX = Icon.X + 0.5 * Icon.Width
-			Icon.Draw()
-		Else
-			Select Align
-				Case LTAlign.ToLeft
-					TextX = LeftX()
-					TextSDX = TextWidth( " " ) + DX
-				Case LTAlign.ToCenter
-					TextX = X
-					TextSDX = -0.5 * SWidth + DX
+					HorizontalShift = 0.5 * L_CurrentCamera.DistFieldToScreen( Icon.Width )
+					Icon.AlterCoords( X - 0.5 * FWidth, Y )
 				Case LTAlign.ToRight
-					TextX = RightX()
-					TextSDX = -SWidth - TextWidth( " " ) + DX
+					HorizontalShift = - L_CurrentCamera.DistFieldToScreen( 0.5 * ( Height - Icon.Height ) )
+					Icon.AlterCoords( RightX() - FWidth - 0.5 * Height + DX, Y )
 			End Select
+			Icon.Draw()
 		End If
 		
-		Local SX:Double, SY:Double
-		L_CurrentCamera.FieldToScreen( TextX, Y, SX, SY )
-		SetColor( 0, 0, 0 )
-		DrawText( " " + Text, SX + TextSDX, SY - 0.5 * TextHeight( Text ) + DY )
-		Visualizer.ResetColor()
+		TextVisualizer.ApplyColor()
+		PrintText( " " + Text, Align, , HorizontalShift + DX, DY )
+		TextVisualizer.ResetColor()
+	End Method
+	
+	
+	
+	Method Activate()
+		Active = True
+		Visualizer.Alpha = 1.0
+		If Icon Then Icon.Visualizer.Alpha = 1.0
+		TextVisualizer.Alpha = 1.0
+	End Method
+	
+	
+	
+	Method Deactivate()
+		Active = False
+		Visualizer.Alpha = 0.5
+		If Icon Then Icon.Visualizer.Alpha = 0.5
+		TextVisualizer.Alpha = 0.5
 	End Method
 End Type

@@ -15,11 +15,15 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.2.4.1"
+ModuleInfo "Version: 1.2.7"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
+ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.2.7 (03.10.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added PrintText module to the LTShape."
+ModuleInfo "History: &nbsp; &nbsp; Fixed bug in LTCamera.SetCameraViewport() method."
 ModuleInfo "History: v1.2.6 (02.10.11)"
 ModuleInfo "History: &nbsp; &nbsp; LTSprite is merged with LTSprite and LTVectorSprite is cleaned of unuseful code."
 ModuleInfo "History: v1.2.5 (29.09.11)"
@@ -118,9 +122,7 @@ ModuleInfo "History: &nbsp; &nbsp; Initial release."
 
 ?win32
 Import brl.d3d9max2d
-?linux
-Import brl.glmax2d
-?macos
+?Not win32
 Import brl.glmax2d
 ?
 
@@ -129,19 +131,20 @@ Import brl.reflection
 Import brl.retro
 Import brl.map
 Import brl.max2d
-Import maxgui.localization
 
-Const L_Version:String = "1.2.4.1"
+Const L_Version:String = "1.2.7"
 
 SeedRnd( MilliSecs() )
 
-Include "include/LTObject.bmx"
-Include "include/LTProject.bmx"
-Include "include/LTShape.bmx"
-Include "include/LTBehaviorModel.bmx"
-Include "include/LTGUI.bmx"
-Include "include/XML.bmx"
-Include "include/Service.bmx"
+Include "include\LTObject.bmx"
+Include "include\LTProject.bmx"
+Include "include\LTShape.bmx"
+Include "include\LTBehaviorModel.bmx"
+Include "include\LTFont.bmx"
+Include "include\LTDrag.bmx"
+Include "include\LTAction.bmx"
+Include "include\XML.bmx"
+Include "include\Service.bmx"
 
 
 

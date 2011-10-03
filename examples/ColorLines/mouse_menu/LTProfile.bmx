@@ -9,6 +9,7 @@
 '
 
 Global L_CurrentProfile:LTProfile
+Global L_Profiles:TList = New TList
 Global L_ScreenWidthGrain:Int = 48
 Global L_ScreenHeightGrain:Int = 48
 Global L_Languages:TList = New TList
@@ -59,9 +60,6 @@ Type LTProfile Extends LTObject
 		Next
 		
 		L_AudioDrivers = TList.FromArray( AudioDrivers() )
-		
-		LTProfile.CreateDefault()
-		L_CurrentProfile.Apply( False )
 	End Function
 	
 	Function CreateDefault()
@@ -95,7 +93,7 @@ Type LTProfile Extends LTObject
 	
 	Method Apply( Refresh:Int = True, Projects:LTProject[] = Null, NewScreen:Int = True, NewVideoDriver:Int = True, NewAudioDriver:Int = True )
 		SetLocalizationLanguage( GetLanguage( Language ) )
-		
+		NewAudioDriver = True
 		If NewVideoDriver Then SetGraphicsDriver( LTVideoDriver.Get( VideoDriver ).Driver )
 		If NewAudioDriver Then SetAudioDriver( AudioDriver )
 		
@@ -116,9 +114,9 @@ Type LTProfile Extends LTObject
 				L_InitGraphics( ScreenWidth, ScreenHeight, 64.0, ColorDepth, Frequency )
 				L_CurrentCamera.Viewport.SetSize( L_ScreenWidthGrain * BlockSize, L_ScreenHeightGrain * BlockSize )
 				L_CurrentCamera.Update()
-				L_CurrentCamera.SetCameraViewport()
+				'L_CurrentCamera.SetCameraViewport()
 			Else
-					L_InitGraphics( L_ScreenWidthGrain * BlockSize, L_ScreenHeightGrain * BlockSize, 64.0, , Frequency )
+				L_InitGraphics( L_ScreenWidthGrain * BlockSize, L_ScreenHeightGrain * BlockSize, 64.0, , Frequency )
 			End If
 		End If
 		

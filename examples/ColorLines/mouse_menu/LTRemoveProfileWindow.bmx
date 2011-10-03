@@ -9,4 +9,15 @@
 '
 
 Type LTRemoveProfileWindow Extends LTWindow
+	Method Init()
+		Super.Init()
+		Local Label:LTLabel = LTLabel( FindShapeWithParameter( "LTLabel", "text", "SureRemoveProfile" ) )
+		Label.Text = Label.Text.Replace( "*", "~q" + LocalizeString( Menu.SelectedProfile.Name ) + "~q" )
+	End Method
+	
+	Method Save()
+		Menu.Profiles.Remove( Menu.SelectedProfile )
+		L_CurrentProfile = LTProfile( Menu.Profiles.First() )
+		Menu.SelectedProfile = L_CurrentProfile
+	End Method
 End Type

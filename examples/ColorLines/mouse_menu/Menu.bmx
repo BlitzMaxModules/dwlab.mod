@@ -24,13 +24,15 @@ Incbin "russian.lng"
 
 Global Menu:LTMenu = New LTMenu
 
-Type LTMenu Extends LTProject
-	Field Project:LTProject
+Type LTMenu Extends LTGUIProject
+	Field Project:LTGUIProject
 	Field World:LTWorld
 	Field ProfileTypeID:TTypeId = TTypeId.ForName( "LTProfile" )
 	Field Profiles:TList = New TList
+	Field SelectedProfile:LTProfile
+
 	
-	Method InitSystem( MainProject:LTProject )
+	Method InitSystem( MainProject:LTGUIProject )
 		Project = MainProject
 		'DebugStop
 		Execute()
@@ -38,6 +40,11 @@ Type LTMenu Extends LTProject
 	
 	Method Init()
 		LTProfile.Init()
+		If Not L_CurrentProfile Then
+			LTProfile.CreateDefault()
+			Profiles.AddLast( L_CurrentProfile )
+		End If
+		L_CurrentProfile.Apply( False )
 		
 		ChangeDir( "mouse_menu" )
 		World = LTWorld.FromFile( "menu.lw" )

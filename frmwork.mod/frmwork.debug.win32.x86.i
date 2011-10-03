@@ -1,7 +1,11 @@
-ModuleInfo "Version: 1.2.4.1"
+ModuleInfo "Version: 1.2.7"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
+ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.2.7 (03.10.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added PrintText module to the LTShape."
+ModuleInfo "History: &nbsp; &nbsp; Fixed bug in LTCamera.SetCameraViewport() method."
 ModuleInfo "History: v1.2.6 (02.10.11)"
 ModuleInfo "History: &nbsp; &nbsp; LTSprite is merged with LTSprite and LTVectorSprite is cleaned of unuseful code."
 ModuleInfo "History: v1.2.5 (29.09.11)"
@@ -102,8 +106,7 @@ import brl.d3d9max2d
 import brl.random
 import brl.reflection
 import brl.retro
-import maxgui.localization
-L_Version$=$"1.2.4.1"
+L_Version$=$"1.2.7"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
@@ -120,15 +123,9 @@ LTProject^LTObject{
 .Exiting%&
 .Flipping%&
 .Paused%&
-.World:LTWorld&
-.Windows:brl.linkedlist.TList&
-.GUICamera:LTCamera&
-.MouseHits%&[]&
 -New%()="_dwlab_frmwork_LTProject_New"
 -Delete%()="_dwlab_frmwork_LTProject_Delete"
 -LoadAndInitLayer%(NewLayer:LTLayer Var,Layer:LTLayer)="_dwlab_frmwork_LTProject_LoadAndInitLayer"
--LoadWindow%(World:LTWorld,Name$=$"",Class$=$"")="_dwlab_frmwork_LTProject_LoadWindow"
--CloseWindow%(Window:LTWindow="bbNullObject")="_dwlab_frmwork_LTProject_CloseWindow"
 -LoadLayer:LTLayer(Layer:LTLayer)="_dwlab_frmwork_LTProject_LoadLayer"
 -CreateShape:LTShape(Shape:LTShape)="_dwlab_frmwork_LTProject_CreateShape"
 -Init%()="_dwlab_frmwork_LTProject_Init"
@@ -701,6 +698,7 @@ RightFacing!=1!
 -Delete%()="_dwlab_frmwork_LTShape_Delete"
 -Draw%()="_dwlab_frmwork_LTShape_Draw"
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTShape_DrawUsingVisualizer"
+-PrintText%(Text$,HorizontalAlign%=1,VerticalAlign%=1,HorizontalShift%=0,VerticalShift%=0)="_dwlab_frmwork_LTShape_PrintText"
 -SpriteGroupCollisions%(Sprite:LTSprite,CollisionType%)="_dwlab_frmwork_LTShape_SpriteGroupCollisions"
 -TileShapeCollisionsWithSprite%(Sprite:LTSprite,DX!,DY!,XScale!,YScale!,TileMap:LTTileMap,TileX%,TileY%,CollisionType%)="_dwlab_frmwork_LTShape_TileShapeCollisionsWithSprite"
 -LeftX!()="_dwlab_frmwork_LTShape_LeftX"
@@ -819,110 +817,6 @@ LTBehaviorModel^LTObject{
 -Remove%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_Remove"
 -RemoveSame%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_RemoveSame"
 }="dwlab_frmwork_LTBehaviorModel"
-LTWindow^LTLayer{
-.World:LTWorld&
-.Project:LTProject&
-.MouseOver:brl.map.TMap&
-.Modal%&
--New%()="_dwlab_frmwork_LTWindow_New"
--Delete%()="_dwlab_frmwork_LTWindow_Delete"
--Draw%()="_dwlab_frmwork_LTWindow_Draw"
--Act%()="_dwlab_frmwork_LTWindow_Act"
--GetTextFieldText$(Name$)="_dwlab_frmwork_LTWindow_GetTextFieldText"
--OnClick%(Gadget:LTGadget,Button%)="_dwlab_frmwork_LTWindow_OnClick"
--OnMouseDown%(Gadget:LTGadget,Button%)="_dwlab_frmwork_LTWindow_OnMouseDown"
--OnMouseOver%(Gadget:LTGadget)="_dwlab_frmwork_LTWindow_OnMouseOver"
--OnMouseOut%(Gadget:LTGadget)="_dwlab_frmwork_LTWindow_OnMouseOut"
--Save%()="_dwlab_frmwork_LTWindow_Save"
-}="dwlab_frmwork_LTWindow"
-LTCheckBox^LTButton{
--New%()="_dwlab_frmwork_LTCheckBox_New"
--Delete%()="_dwlab_frmwork_LTCheckBox_Delete"
--GetValue$()="_dwlab_frmwork_LTCheckBox_GetValue"
--SetValue%(Value$)="_dwlab_frmwork_LTCheckBox_SetValue"
--OnClick%(Button%)="_dwlab_frmwork_LTCheckBox_OnClick"
--OnMouseDown%(Button%)="_dwlab_frmwork_LTCheckBox_OnMouseDown"
--OnMouseUp%(Button%)="_dwlab_frmwork_LTCheckBox_OnMouseUp"
-}="dwlab_frmwork_LTCheckBox"
-LTButton^LTLabel{
-.State%&
-.Focus%&
--New%()="_dwlab_frmwork_LTButton_New"
--Delete%()="_dwlab_frmwork_LTButton_Delete"
--Draw%()="_dwlab_frmwork_LTButton_Draw"
--GetClassTitle$()="_dwlab_frmwork_LTButton_GetClassTitle"
--OnMouseOver%()="_dwlab_frmwork_LTButton_OnMouseOver"
--OnMouseOut%()="_dwlab_frmwork_LTButton_OnMouseOut"
--OnMouseDown%(Button%)="_dwlab_frmwork_LTButton_OnMouseDown"
--OnMouseUp%(Button%)="_dwlab_frmwork_LTButton_OnMouseUp"
-}="dwlab_frmwork_LTButton"
-LTLabel^LTGadget{
-.Text$&
-.Icon:LTShape&
-.DX%&
-.DY%&
-.Align%&
--New%()="_dwlab_frmwork_LTLabel_New"
--Delete%()="_dwlab_frmwork_LTLabel_Delete"
--GetClassTitle$()="_dwlab_frmwork_LTLabel_GetClassTitle"
--Init%()="_dwlab_frmwork_LTLabel_Init"
--Draw%()="_dwlab_frmwork_LTLabel_Draw"
-}="dwlab_frmwork_LTLabel"
-LTTextField^LTGadget{
-.Text$&
-.LeftPart$&
-.RightPart$&
--New%()="_dwlab_frmwork_LTTextField_New"
--Delete%()="_dwlab_frmwork_LTTextField_Delete"
--GetValue$()="_dwlab_frmwork_LTTextField_GetValue"
--SetValue%(Value$)="_dwlab_frmwork_LTTextField_SetValue"
--Draw%()="_dwlab_frmwork_LTTextField_Draw"
--GetClassTitle$()="_dwlab_frmwork_LTTextField_GetClassTitle"
--OnMouseDown%(Button%)="_dwlab_frmwork_LTTextField_OnMouseDown"
--Deselect%()="_dwlab_frmwork_LTTextField_Deselect"
-}="dwlab_frmwork_LTTextField"
-LTListBox^LTGadget{
-.InnerArea:LTShape&
-.Items:brl.linkedlist.TList&
-.ListType%&
--New%()="_dwlab_frmwork_LTListBox_New"
--Delete%()="_dwlab_frmwork_LTListBox_Delete"
--GetClassTitle$()="_dwlab_frmwork_LTListBox_GetClassTitle"
--Init%()="_dwlab_frmwork_LTListBox_Init"
--Draw%()="_dwlab_frmwork_LTListBox_Draw"
--GetItemSize!(Item:Object)="_dwlab_frmwork_LTListBox_GetItemSize"
--DrawItem%(Item:Object,Shape:LTShape)="_dwlab_frmwork_LTListBox_DrawItem"
-}="dwlab_frmwork_LTListBox"
-LTSlider^LTGadget{
-.Slider:LTShape&
-.Position!&
-.SliderType%&
-.Size!&
-.Dragging%&
-.StartingX!&
-.StartingY!&
-.StartingPosition!&
--New%()="_dwlab_frmwork_LTSlider_New"
--Delete%()="_dwlab_frmwork_LTSlider_Delete"
--Init%()="_dwlab_frmwork_LTSlider_Init"
--Draw%()="_dwlab_frmwork_LTSlider_Draw"
--GetClassTitle$()="_dwlab_frmwork_LTSlider_GetClassTitle"
--Act%()="_dwlab_frmwork_LTSlider_Act"
--OnMouseDown%(Button%)="_dwlab_frmwork_LTSlider_OnMouseDown"
--OnMouseUp%(Button%)="_dwlab_frmwork_LTSlider_OnMouseUp"
-}="dwlab_frmwork_LTSlider"
-LTGadget^LTSprite{
--New%()="_dwlab_frmwork_LTGadget_New"
--Delete%()="_dwlab_frmwork_LTGadget_Delete"
--Init%()="_dwlab_frmwork_LTGadget_Init"
--GetValue$()="_dwlab_frmwork_LTGadget_GetValue"
--SetValue%(Value$)="_dwlab_frmwork_LTGadget_SetValue"
--OnMouseOver%()="_dwlab_frmwork_LTGadget_OnMouseOver"
--OnMouseOut%()="_dwlab_frmwork_LTGadget_OnMouseOut"
--OnClick%(Button%)="_dwlab_frmwork_LTGadget_OnClick"
--OnMouseDown%(Button%)="_dwlab_frmwork_LTGadget_OnMouseDown"
--OnMouseUp%(Button%)="_dwlab_frmwork_LTGadget_OnMouseUp"
-}="dwlab_frmwork_LTGadget"
 LTAlign^brl.blitz.Object{
 ToRight%=0
 ToTop%=0
@@ -1051,9 +945,6 @@ L_SpritesDisplayed%&=mem("dwlab_frmwork_L_SpritesDisplayed")
 L_SpritesActed%&=mem("dwlab_frmwork_L_SpritesActed")
 L_SpriteActed%&=mem("dwlab_frmwork_L_SpriteActed")
 L_DeltaTime!&=mem:d("dwlab_frmwork_L_DeltaTime")
-L_Window:LTWindow&=mem:p("dwlab_frmwork_L_Window")
-L_ActiveTextField:LTTextField&=mem:p("dwlab_frmwork_L_ActiveTextField")
-L_Cursor:LTSprite&=mem:p("dwlab_frmwork_L_Cursor")
 L_CurrentCamera:LTCamera&=mem:p("dwlab_frmwork_L_CurrentCamera")
 L_DiscreteGraphics%&=mem("dwlab_frmwork_L_DiscreteGraphics")
 L_CameraSpeed!&=mem:d("dwlab_frmwork_L_CameraSpeed")

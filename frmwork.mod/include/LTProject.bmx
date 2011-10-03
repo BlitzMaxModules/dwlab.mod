@@ -16,11 +16,6 @@ Global L_SpriteActed:Int
 
 Global L_DeltaTime:Double
 
-Global L_Window:LTWindow
-Global L_ActiveTextField:LTTextField
-Global L_Cursor:LTSprite = New LTSprite
-L_Cursor.ShapeType = LTSprite.Pivot
-
 Rem
 bbdoc: Class for main project and subprojects.
 End Rem
@@ -69,12 +64,6 @@ Type LTProject Extends LTObject
 	Field Flipping:Int = True
 	
 	Field Paused:Int = False
-	
-	Field World:LTWorld
-	
-	Field Windows:TList = New TList 
-	Field GUICamera:LTCamera = New LTCamera
-	Field MouseHits:Int[] = New Int[ 4 ]
 
 	' ==================== Loading layers and windows ===================	
 	
@@ -84,43 +73,6 @@ Type LTProject Extends LTObject
 	Method LoadAndInitLayer( NewLayer:LTLayer Var, Layer:LTLayer )
 		NewLayer = LoadLayer( Layer )
 		NewLayer.Init()
-	End Method
-	
-	
-	
-	Method LoadWindow( World:LTWorld, Name:String = "", Class:String = "" )
-		if L_ActiveTextField Then L_ActiveTextField.Deselect()
-		If Class Then
-			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShapeWithParameter( "LTLayer", "class", Class ) ) ) )
-		Else
-			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShape( Name ) ) ) )
-		End If
-		L_Window.Modal = ( L_Window.GetParameter( "modal" ) = "true" )
-		L_Window.World = World
-		L_Window.Project = Self
-		L_Window.Init()
-		If L_Window.Modal Then
-			For Local Window:LTWindow = Eachin Windows
-				Window.Active = False
-			Next
-		End If
-		Windows.AddLast( L_Window )
-	End Method
-	
-	
-	
-	Method CloseWindow( Window:LTWindow = Null )
-		If Window = Null Then Window = LTWindow( Windows.Last() )
-		Windows.Remove( Window )
-		If Window.Modal Then
-			Local Link:TLink = Windows.LastLink()
-			While Link <> Null
-				Local Window2:LTWindow = LTWindow( Link.Value() )
-				Window2.Active = True
-				If Window2.Modal Then Return
-				Link = Link.PrevLink()
-			Wend
-		End If
 	End Method
 	
 	
@@ -266,23 +218,8 @@ Type LTProject Extends LTObject
 			L_SpritesActed = 0
 			?
 			
-			For Local N:Int = 1 To 3
-				If MouseDown( N ) Then
-					If MouseHits[ N ] = 0 Then MouseHits[ N ] = 1
-				Else
-					If MouseHits[ N ] = 2 Then MouseHits[ N ] = -1
-				End If
-			Next
-			
 			If Not Paused Then Logic()
-			For Local Window:LTWindow = Eachin Windows
-				Window.Act()
-			Next
 			If Exiting Then Exit
-			
-			For Local N:Int = 1 To 3
-				If MouseDown( N ) Then MouseHits[ N ] = 2 Else MouseHits[ N ] = 0
-			Next
 		
 			Repeat
 				RealTime = 0.001 * ( Millisecs() - StartTime )
@@ -296,14 +233,6 @@ Type LTProject Extends LTObject
 				?
 				
 				Render()
-				
-				Local MainCamera:LTCamera = L_CurrentCamera
-				L_CurrentCamera = GUICamera
-				L_Cursor.SetMouseCoords()
-				For Local Window:LTWindow = Eachin Windows
-					Window.Draw()
-				Next
-				L_CurrentCamera = MainCamera
 				
 				If Flipping Then Flip( False )
 		      

@@ -17,6 +17,7 @@ Import brl.oggloader
 Import brl.freetypefont
 
 Import dwlab.frmwork
+Import dwlab.gui
 Import dwlab.sound
 
 Include "TGame.bmx"

@@ -11,5 +11,3 @@
 Include "LTWindow.bmx"
 Include "LTGadget.bmx"
 Include "LTFont.bmx"
-Include "LTDrag.bmx"
-Include "LTAction.bmx"

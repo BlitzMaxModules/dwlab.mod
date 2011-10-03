@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TGame Extends LTProject
+Type TGame Extends LTGUIProject
 	Const BallsPerTurn:Int = 3
 
 	Field World:LTWorld

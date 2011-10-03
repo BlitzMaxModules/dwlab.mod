@@ -864,7 +864,16 @@ Type LTEditor Extends LTProject
 									AddParameter( Shape, SelectedParameter.Name, SelectedParameter.Value )
 								Next
 								RefreshParametersListBox()
+								SetChanged()
 							End If
+						End If
+					Case Key_S
+						If Not SelectedShapes.IsEmpty() Then
+							Grid.Snap( Cursor.X, Cursor.Y )
+							For Local Sprite:LTSprite = Eachin SelectedShapes
+								Sprite.DirectTo( Cursor )
+							Next
+							SetChanged()
 						End If
 				End Select
 			Case Event_MouseWheel

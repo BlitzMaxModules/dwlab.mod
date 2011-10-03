@@ -117,6 +117,48 @@ Type LTShape Extends LTObject
 	Method DrawUsingVisualizer( Vis:LTVisualizer )
 	End Method
 	
+	
+	
+	Method PrintText( Text:String, HorizontalAlign:Int = LTAlign.ToCenter, VerticalAlign:Int = LTAlign.ToCenter, HorizontalShift:Int = 0, VerticalShift:Int = 0 )
+		Local XX:Double, YY:Double
+		Select HorizontalAlign
+			Case LTAlign.ToLeft
+				XX = LeftX()
+			Case LTAlign.ToCenter
+				XX = X
+			Case LTAlign.ToRight
+				XX = RightX()
+		End Select
+		
+		Select VerticalAlign
+			Case LTAlign.ToTop
+				YY = TopY()
+			Case LTAlign.ToCenter
+				YY = Y
+			Case LTAlign.ToBottom
+				YY = BottomY()
+		End Select
+		
+		Local SX:Double, SY:Double
+		L_CurrentCamera.FieldToScreen( XX, YY, SX, SY )
+		
+		Select HorizontalAlign
+			Case LTAlign.ToCenter
+				SX :- 0.5 * TextWidth( Text )
+			Case LTAlign.ToRight
+				SX :- TextWidth( Text )
+		End Select
+		
+		Select VerticalAlign
+			Case LTAlign.ToCenter
+				SY :- 0.5 * TextHeight( Text )
+			Case LTAlign.ToBottom
+				SY :- TextHeight( Text )
+		End Select
+		
+		DrawText( Text, SX + HorizontalShift, SY + VerticalShift )
+	End Method
+	
 	' ==================== Collisions ===================
 	
 	Method SpriteGroupCollisions( Sprite:LTSprite, CollisionType:Int )
