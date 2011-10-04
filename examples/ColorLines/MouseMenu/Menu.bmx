@@ -17,6 +17,7 @@ Include "LTAddProfileWindow.bmx"
 Include "LTRemoveProfileWindow.bmx"
 Include "LTSettingsWindow.bmx"
 Include "LTProfilesList.bmx"
+Include "LTHighScoresList.bmx"
 
 Include "menu_incbin.bmx"
 
@@ -27,14 +28,21 @@ Global Menu:LTMenu = New LTMenu
 Type LTMenu Extends LTGUIProject
 	Field Project:LTGUIProject
 	Field World:LTWorld
+	Field DesktopAreaWidth:Int = DesktopWidth()
+	Field DesktopAreaHeight:Int = DesktopHeight() - 86
+	
 	Field ProfileTypeID:TTypeId = TTypeId.ForName( "LTProfile" )
 	Field Profiles:TList = New TList
 	Field SelectedProfile:LTProfile
-
+	
+	Field HighScores:TList = New TList
+	Field MaxHighScores:Int = 20
+	
+	Field GameState:LTObject
 	
 	Method InitSystem( MainProject:LTGUIProject )
 		Project = MainProject
-		'DebugStop
+		If FileType( "settings.xml" ) = 1 Then Menu = LTMenu( Menu.LoadFromFile( "settings.xml", False ) )
 		Execute()
 	End Method
 	
@@ -44,19 +52,20 @@ Type LTMenu Extends LTGUIProject
 			LTProfile.CreateDefault()
 			Profiles.AddLast( L_CurrentProfile )
 		End If
-		L_CurrentProfile.Apply( False )
 		
-		ChangeDir( "mouse_menu" )
+		ChangeDir( "MouseMenu" )
 		World = LTWorld.FromFile( "menu.lw" )
 		
 		LoadWindow( World, , "LTLanguageSelectionWindow" )
 		ChangeDir( ".." )
 		
+		L_CurrentProfile.Apply( False )
+		
 		If L_CurrentProfile.Language Then Exiting = True
 	End Method
 	
 	Method InitGraphics()
-		SetImageFont( LoadImageFont( "mouse_menu\OpenSans-Regular.ttf", Floor( L_CurrentCamera.Viewport.Width / 80 ) ) )
+		SetImageFont( LoadImageFont( "MouseMenu\OpenSans-Regular.ttf", Floor( L_CurrentCamera.Viewport.Width / 80 ) ) )
 		
 		Local Screen:LTShape = World.FindShape( "Screen" )
 		GUICamera = Project.GUICamera
@@ -70,18 +79,47 @@ Type LTMenu Extends LTGUIProject
 		Project.LoadWindow( World, , "LTOptionsWindow" )
 	End Method
 	
+	Method AddHighScore( Name:String, Score:Int, Achievements:TList )
+		Local Link:TLink = HighScores.FirstLink()
+		While Link <> Null
+			If LTHighScore( Link.Value() ).Score <= Score Then
+				Local HighScore:LTHighScore = New LTHighScore
+				HighScore.Name = Name
+				HighScore.Score = Score
+				HighScore.Achievements = Achievements
+				HighScores.InsertBeforeLink( HighScore, Link )
+				Return
+			End If
+		WEnd
+	End Method
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
-		XMLObject.ManageObjectAttribute( "current_profile", L_CurrentProfile )
-		XMLObject.ManageChildList( Profiles )
+		L_CurrentProfile = LTProfile( XMLObject.ManageObjectAttribute( "current_profile", L_CurrentProfile ) )
+		XMLObject.ManageListField( "profiles", Profiles )
+		XMLObject.ManageListField( "high_scores", HighScores )
 	End Method
 End Type
+
+
+
+Type LTHighScore Extends LTObject
+	Field Score:Int
+	Field Name:String
+	Field Achievements:TList
+End Type
+
+
 
 Type LTScoresWindow Extends LTWindow
 End Type
 
+
+
 Type LTAuthorsWindow Extends LTWindow	
 End Type
+
+
 
 Type LTExitWindow Extends LTWindow	
 End Type

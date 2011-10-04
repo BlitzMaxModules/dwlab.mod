@@ -32,14 +32,14 @@ Type TMoveBall Extends LTBehaviorModel
 		If Game.Time > StartingTime + Period Then
 			Deactivate( Shape )
 		Else
-			Shape.PositionOnTileMap( Game.Level, X, Y )
+			Shape.PositionOnTileMap( Game.GameField, X, Y )
 			Local K:Double = ( Game.Time - StartingTime ) / Period
 			Shape.AlterCoords( DX * K + DY * Sin( K * 180 ) * Bump, DY * K + DX * Sin( K * 180 ) * Bump )
 		End If
 	End Method
 	
 	Method Deactivate( Shape:LTShape )
-		Game.Level.SetTile( X + DX, Y + DY, LTSprite( Shape ).Frame )
+		Game.Balls.SetTile( X + DX, Y + DY, LTSprite( Shape ).Frame )
 		Game.Objects.Remove( Shape )
 		Game.Busy = False
 		Game.Selected = Null

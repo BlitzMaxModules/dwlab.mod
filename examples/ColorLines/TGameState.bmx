@@ -8,9 +8,9 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TLevel Extends LTTileMap
-	Method Init()
-		Game.Level = Self
-		Visualizer = New TVisualizer		
+Type TGameState Extends LTObject
+	Method XMLIO( XMLObject:LTXMLObject )
+		Game.Balls = LTTileMap( XMLObject.ManageObjectField( "balls", Game.Balls ) )
+		XMLObject.ManageIntAttribute( "score", Game.Score )
 	End Method
 End Type

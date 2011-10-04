@@ -1,0 +1,8 @@
+<LTMenu current_profile="1" dwlab_version="1.2.7">
+	<TList field="profiles">
+		<LTProfile id="1" name="{{P_Player}}" language="Russian" audio="DirectSound" video="DirectX9" width="1280" height="1024" depth="32" frequency="75"/>
+	</TList>
+	<TList field="definitions">
+		<Define object="LTProfile" id="1"/>
+	</TList>
+</LTMenu>

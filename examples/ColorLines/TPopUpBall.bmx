@@ -23,7 +23,7 @@ Type TPopUpBall Extends LTBehaviorModel
 		Model.StartingTime = Game.Time
 		
 		Local Sprite:LTSprite = New LTSprite
-		Sprite.SetAsTile( Game.Level, X, Y )
+		Sprite.SetAsTile( Game.Balls, X, Y )
 		Sprite.Visualizer.SetVisualizerScales( 0.0 )
 		Sprite.Frame = TileNum
 		Sprite.AttachModel( Model )
@@ -34,12 +34,13 @@ Type TPopUpBall Extends LTBehaviorModel
 	
 	Method ApplyTo( Shape:LTShape )
 		Local Angle:Double = StartingAngle + ( Game.Time - StartingTime ) * ( EndingAngle - StartingAngle ) / Period
-		Shape.Visualizer.SetVisualizerScales( Sin( Angle ) / Sin( EndingAngle ) )
+		Local Scale:Double = Sin( Angle ) / Sin( EndingAngle )
+		Shape.Visualizer.SetVisualizerScale( Scale, 2.0 * Scale )
 		If Game.Time > StartingTime + Period Then Remove( Shape )
 	End Method
 	
 	Method Deactivate( Shape:LTShape )
-		Game.Level.SetTile( X, Y, LTSprite( Shape ).Frame )
+		Game.Balls.SetTile( X, Y, LTSprite( Shape ).Frame )
 		Game.Objects.Remove( Shape )
 		Game.Busy = False
 		TCheckLines.Execute( False )

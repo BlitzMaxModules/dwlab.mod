@@ -134,6 +134,7 @@ Type LTEditor Extends LTProject
 	Field MapSpriteMenu:TGadget
 	Field ParameterMenu:TGadget
 	Field RecentFiles:String[] = New String[ RecentFilesQuantity ]
+	Field CurrentTextField:TGadget 
 	
 	Field World:LTWorld = New LTWorld
 	Field RealPathsForImages:TMap = New TMap
@@ -673,6 +674,8 @@ Type LTEditor Extends LTProject
 	Method Logic()
 		PollEvent()
 	
+		If ActiveGadget() <> Panel Then CurrentTextField = ActiveGadget()
+		
 		Local EvID:Int = EventID()
 		Local EvData:Int = EventData()
 		
@@ -1151,7 +1154,7 @@ Type LTEditor Extends LTProject
 					Local Visualizer:LTVisualizer = Shape.Visualizer
 					Select EventSource()
 						Case HiddenOKButton
-							Select ActiveGadget()
+							Select CurrentTextField
 								Case XField
 									Shape.X = TextFieldText( XField ).ToDouble()
 									SetShapeModifiers( Shape )
@@ -1228,7 +1231,7 @@ Type LTEditor Extends LTProject
 				For Local Sprite:LTSprite = Eachin SelectedShapes
 					Select EventSource()
 						Case HiddenOKButton
-							Select ActiveGadget()
+							Select CurrentTextField
 								Case AngleField
 									Sprite.Angle = TextFieldText( AngleField ).ToDouble()
 									SetChanged()

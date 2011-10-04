@@ -191,7 +191,7 @@ Type LTXMLObject Extends LTObject
 					
 					Local XMLObject:LTXMLObject = New LTXMLObject
 					XMLObject.Name = "Define"
-					XMLObject.SetAttribute( "object", TTypeId.ForObject( Obj ).Name()[ 2.. ] );
+					XMLObject.SetAttribute( "object", TTypeId.ForObject( Obj ).Name() );
 					XMLObject.SetAttribute( "id", ID )
 					L_Definitions.Children.AddLast( XMLObject )
 				End If

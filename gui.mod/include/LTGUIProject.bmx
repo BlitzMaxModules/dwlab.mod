@@ -18,18 +18,35 @@ bbdoc: Class for GUI project and subprojects.
 End Rem
 Type LTGUIProject Extends LTProject
 	Field Windows:TList = New TList 
-	Field GUICamera:LTCamera = New LTCamera
+	Field GUICamera:LTCamera
 	Field MouseHits:Int[] = New Int[ 4 ]
 
 	' ==================== Loading layers and windows ===================	
 	
-	Method LoadWindow( World:LTWorld, Name:String = "", Class:String = "" )
+	Method LoadWindow:LTWindow( World:LTWorld, Name:String = "", Class:String = "" )
 		L_ActiveTextField = Null
 		If Class Then
 			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShapeWithParameter( "LTLayer", "class", Class ) ) ) )
 		Else
 			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShape( Name ) ) ) )
 		End If
+		
+		Local Screen:LTShape = L_Window.Bounds
+		If Screen Then
+			If GUICamera Then
+				Local DWidth:Double = GUICamera.Width / Screen.Width
+				Local DHeight:Double = GUICamera.Height / Screen.Height
+				For Local Gadget:LTGadget = Eachin L_Window.Chil
+					Gadget.SetCoords( GUICamera.X + ( Gadget.X - Screen.X ) * DWidth, GUICamera.Y + ( Gadget.Y - Screen.Y ) * Height )
+					Gadget.SetSize( Gadget.Width * DWidth, Gadget.Height * DHeight )
+				Next
+			Else
+				GUICamera.Viewport = L_CurrentCamera.Viewport.Clone()
+				GUICamera.SetCoords( Screen.X, Screen.Y )
+				GUICamera.SetSize( Screen.Width, Screen.Height )
+			End If
+		End If
+		
 		L_Window.Modal = ( L_Window.GetParameter( "modal" ) = "true" )
 		L_Window.World = World
 		L_Window.Project = Self
@@ -40,6 +57,7 @@ Type LTGUIProject Extends LTProject
 			Next
 		End If
 		Windows.AddLast( L_Window )
+		Return L_Window
 	End Method
 	
 	

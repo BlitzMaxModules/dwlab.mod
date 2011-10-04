@@ -21,7 +21,9 @@ Import dwlab.gui
 Import dwlab.sound
 
 Include "TGame.bmx"
-Include "TVisualizer.bmx"
+Include "THUD.bmx"
+Include "TGameState.bmx"
+Include "TPathFinder.bmx"
 Include "TPopUpBall.bmx"
 Include "TCursor.bmx"
 Include "TSelected.bmx"
@@ -29,10 +31,7 @@ Include "TMoveAlongPath.bmx"
 Include "TCheckLines.bmx"
 Include "TMoveBall.bmx"
 Include "TExplosion.bmx"
-Include "HUD.bmx"
-Include "TIntro.bmx"
-Include "TLevel.bmx"
-Include "mouse_menu/Menu.bmx"
+Include "MouseMenu/Menu.bmx"
 
 Incbin "font.png"
 Incbin "font.lfn"

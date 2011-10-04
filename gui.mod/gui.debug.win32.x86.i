@@ -13,7 +13,7 @@ LTGUIProject^dwlab.frmwork.LTProject{
 .MouseHits%&[]&
 -New%()="_dwlab_gui_LTGUIProject_New"
 -Delete%()="_dwlab_gui_LTGUIProject_Delete"
--LoadWindow%(World:dwlab.frmwork.LTWorld,Name$=$"",Class$=$"")="_dwlab_gui_LTGUIProject_LoadWindow"
+-LoadWindow:LTWindow(World:dwlab.frmwork.LTWorld,Name$=$"",Class$=$"")="_dwlab_gui_LTGUIProject_LoadWindow"
 -CloseWindow%(Window:LTWindow="bbNullObject")="_dwlab_gui_LTGUIProject_CloseWindow"
 -Execute%()="_dwlab_gui_LTGUIProject_Execute"
 }="dwlab_gui_LTGUIProject"
@@ -80,14 +80,15 @@ LTTextField^LTGadget{
 -OnClick%(Button%)="_dwlab_gui_LTTextField_OnClick"
 }="dwlab_gui_LTTextField"
 LTListBox^LTGadget{
+.ListType%&
+.Items:brl.linkedlist.TList&
+.ItemSize!&
+.Shift!&
 -New%()="_dwlab_gui_LTListBox_New"
 -Delete%()="_dwlab_gui_LTListBox_Delete"
 -GetClassTitle$()="_dwlab_gui_LTListBox_GetClassTitle"
--GetListType%()="_dwlab_gui_LTListBox_GetListType"
--GetItems:brl.linkedlist.TList()="_dwlab_gui_LTListBox_GetItems"
 -Draw%()="_dwlab_gui_LTListBox_Draw"
 -GetItemSprite:dwlab.frmwork.LTSprite(Num%)="_dwlab_gui_LTListBox_GetItemSprite"
--GetItemSize!()="_dwlab_gui_LTListBox_GetItemSize"
 -DrawItem%(Item:Object,Num%,Sprite:dwlab.frmwork.LTSprite)="_dwlab_gui_LTListBox_DrawItem"
 -OnClick%(Button%)="_dwlab_gui_LTListBox_OnClick"
 -OnClickOnItem%(Button%,Item:Object,Num%)="_dwlab_gui_LTListBox_OnClickOnItem"
@@ -95,6 +96,7 @@ LTListBox^LTGadget{
 LTSlider^LTGadget{
 Moving%=0
 Filling%=1
+.ListBox:LTListBox&
 .Slider:dwlab.frmwork.LTShape&
 .Position!&
 .SliderType%&

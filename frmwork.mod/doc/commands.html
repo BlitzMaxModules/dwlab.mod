@@ -106,9 +106,6 @@ Action class for implementing Undo/Redo technology.
 <tr><td class=docleft width=1%><a href=#LTAlign>LTAlign</a></td><td class=docright>
 Class for alignment constants.
 </td></tr>
-<tr><td class=docleft width=1%><a href=#LTAngularSprite>LTAngularSprite</a></td><td class=docright>
-Sprite with angle and velocity parameters.
-</td></tr>
 <tr><td class=docleft width=1%><a href=#LTAnimatedTileMapVisualizer>LTAnimatedTileMapVisualizer</a></td><td class=docright>
 This visualizer provides simple tile animation mechanism.
 </td></tr>
@@ -286,7 +283,7 @@ Class for intermediate objects to save/load objects from XML file.
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=L_InitGraphics>
-<tr><td class=doctop colspan=2>Function L_InitGraphics( Width:Int = 800, Height:Int = 600, UnitSize:Double = 32.0, ColorDepth:Int = 0 )</td></tr>
+<tr><td class=doctop colspan=2>Function L_InitGraphics( Width:Int = 800, Height:Int = 600, UnitSize:Double = 25.0, ColorDepth:Int = 0, Frequency:Int = 60 )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Sets graphics mode.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Provide width and height of screen in pixels and unit size in pixels for camera.</td></tr>
 </table>
@@ -445,56 +442,6 @@ Can be executed automatically when you will execute L_Undo function.</td></tr>
 <tr><td class=doctop colspan=2>Type LTAlign</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Class for alignment constants.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#Print>Print</a>, <a href=#PrintInShape>PrintInShape</a>.</td></tr>
-</table>
-<br>
-<table class=doc width=100% cellspacing=3 id=LTAngularSprite>
-<tr><td class=doctop colspan=2>Type LTAngularSprite Extends LTSprite</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Sprite with angle and velocity parameters.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Handy for top-view games.
-<p>
-See also: <a href=#LTSprite>LTSprite</a>, <a href=#LTVectorSprite>LTVectorSprite</a>.</td></tr>
-</table>
-<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTAngularSprite_fields></a>Fields Summary</th></tr><tr><td colspan=2>
-<a href=#Angle>Angle</a>
-, 
-<a href=#Velocity>Velocity</a>
-</td></tr>
-</table>
-<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTAngularSprite_methods></a>Methods Summary</th></tr>
-<tr><td class=docleft width=1%><a href=#DirectAs>DirectAs</a></td><td class=docright>
-Directs sprite as given angular sprite.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#DirectTo>DirectTo</a></td><td class=docright>
-Direct the sprite to center of the given shape.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#Turn>Turn</a></td><td class=docright>
-Turns the sprite.
-</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=Angle>
-<tr><td class=doctop colspan=2>Field Angle:Double</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Direction of the sprite.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#MoveForward>MoveForward</a>, <a href=#MoveTowards>MoveTowards</a>.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=Velocity>
-<tr><td class=doctop colspan=2>Field Velocity:Double</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Velocity of the sprite in units per second.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#MoveForward>MoveForward</a>, <a href=#MoveTowards>MoveTowards</a>.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=DirectAs>
-<tr><td class=doctop colspan=2>Method DirectAs( Sprite:LTAngularSprite )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Directs sprite as given angular sprite.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#DirectTo>DirectTo</a>.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=DirectTo>
-<tr><td class=doctop colspan=2>Method DirectTo( Shape:LTShape )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Direct the sprite to center of the given shape.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#DirectAs>DirectAs</a>.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=Turn>
-<tr><td class=doctop colspan=2>Method Turn( TurningSpeed:Double )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Turns the sprite.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Turns the sprite with given speed per second.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTAnimatedTileMapVisualizer>
@@ -1058,7 +1005,7 @@ Creates fixed joint for specified parent pivot using current pivots position.
 </td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Create>
-<tr><td class=doctop colspan=2>Function Create:LTFixedJoint( ParentPivot:LTAngularSprite )</td></tr>
+<tr><td class=doctop colspan=2>Function Create:LTFixedJoint( ParentPivot:LTSprite )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>New fixed joint.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Creates fixed joint for specified parent pivot using current pivots position.</td></tr>
 </table>
@@ -1202,9 +1149,6 @@ Draws group using given visualizer.
 <tr><td class=docleft width=1%><a href=#Init>Init</a></td><td class=docright>
 Initialization method.
 </td></tr>
-<tr><td class=docleft width=1%><a href=#Update>Update</a></td><td class=docright>
-Update method.
-</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Children>
 <tr><td class=doctop colspan=2>Field Children:TList = New TList</td></tr>
@@ -1229,11 +1173,6 @@ Update method.
 <tr><td class=doctop colspan=2>Method Init()</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Initialization method.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Every child shape will be initialized by default.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=Update>
-<tr><td class=doctop colspan=2>Method Update()</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Update method.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Size and position of the group will be updated: group rectangular shape will cover all of the child shapes.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTImage>
@@ -1513,7 +1452,7 @@ See also: <a href=#ManageChildArray>ManageChildArray</a>, <a href=#ManageChildLi
 <a href=#ManageObjectMapField>ManageObjectMapField</a>, <a href=#ManageStringAttribute>ManageStringAttribute</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=LoadFromFile>
-<tr><td class=doctop colspan=2>Function LoadFromFile:LTObject( FileName:String )</td></tr>
+<tr><td class=doctop colspan=2>Function LoadFromFile:LTObject( FileName:String, UseIncbin:Int = -1 )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Loads object with all contents from file.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#SaveToFile>SaveToFile</a>, <a href=#XMLIO>XMLIO</a>.</td></tr>
 </table>
@@ -1571,6 +1510,12 @@ Executes the project.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#Init>Init</a></td><td class=docright>
 Initialization method.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#InitGraphics>InitGraphics</a></td><td class=docright>
+Graphics initialization method.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#InitSound>InitSound</a></td><td class=docright>
+Sound initialization method.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LoadAndInitLayer>LoadAndInitLayer</a></td><td class=docright>
 Loads and initializes layer and all its child objects from previously loaded world.
@@ -1632,7 +1577,7 @@ See also: <a href=#Render>Render</a>.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Deinitialization method.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>It will be executed before exit.
 <p>
-See also: <a href=#Init>Init</a>.</td></tr>
+See also: <a href=#Init>Init</a>, <a href=#InitGraphics>InitGraphics</a>, <a href=#InitSound>InitSound</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Execute>
 <tr><td class=doctop colspan=2>Method Execute()</td></tr>
@@ -1643,7 +1588,21 @@ See also: <a href=#Init>Init</a>.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Initialization method.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Fill it with project initialization commands.
 <p>
-See also: <a href=#DeInit>DeInit</a>.</td></tr>
+See also: <a href=#InitGraphics>InitGraphics</a>, <a href=#InitSound>InitSound</a>, <a href=#DeInit>DeInit</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=InitGraphics>
+<tr><td class=doctop colspan=2>Method InitGraphics()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Graphics initialization method.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>It will be relaunched after changing graphics driver. You should put font loading code there if you have any.
+<p>
+See also: <a href=#Init>Init</a>, <a href=#InitSound>InitSound</a>, <a href=#DeInit>DeInit</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=InitSound>
+<tr><td class=doctop colspan=2>Method InitSound()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sound initialization method.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>It will be relaunched after changing sound driver. You should put sound loading code there if you have any.
+<p>
+See also: <a href=#Init>Init</a>, <a href=#InitGraphics>InitGraphics</a>, <a href=#DeInit>DeInit</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=LoadAndInitLayer>
 <tr><td class=doctop colspan=2>Method LoadAndInitLayer( NewLayer:LTLayer Var, Layer:LTLayer )</td></tr>
@@ -1698,7 +1657,7 @@ Creates revolute joint for specified parent pivot using current pivots position.
 </td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Create>
-<tr><td class=doctop colspan=2>Function Create:LTRevoluteJoint( ParentPivot:LTAngularSprite )</td></tr>
+<tr><td class=doctop colspan=2>Function Create:LTRevoluteJoint( ParentPivot:LTSprite )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Creates revolute joint for specified parent pivot using current pivots position.</td></tr>
 </table>
 <br>
@@ -1796,9 +1755,6 @@ Retrieves name of object.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#GetParameter>GetParameter</a></td><td class=docright>
 Retrieves value of object's parameter with given name.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#GetTitle>GetTitle</a></td><td class=docright>
-Retrieves title of object.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#Init>Init</a></td><td class=docright>
 Initialization method of the sprite.
@@ -2125,18 +2081,6 @@ See also: <a href=#SetFacing>SetFacing</a>, <a href=#XScale>XScale</a>.</td></tr
 <tr><td class=docleft width=1%>Description</td><td class=docright>Retrieves value of object's parameter with given name.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#GetTitle>GetTitle</a>, <a href=#GetName>GetName</a>.</td></tr>
 </table>
-<table class=doc width=100% cellspacing=3 id=GetTitle>
-<tr><td class=doctop colspan=2>Method GetTitle:String()</td></tr>
-<tr><td class=docleft width=1%>Returns</td><td class=docright>Title of object.</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Retrieves title of object.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Will return (if not null):
-<ul><li>Value of "name" parameter.
-<li>Value of "class" parameter.
-<li>Framework-based name of object class.
-<li>Object class real name.</ul>
-<p>
-See also: <a href=#GetParameter>GetParameter</a>, <a href=#GetName>GetName</a>.</td></tr>
-</table>
 <table class=doc width=100% cellspacing=3 id=Init>
 <tr><td class=doctop colspan=2>Method Init()</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Initialization method of the sprite.</td></tr>
@@ -2378,7 +2322,7 @@ See also: <a href=#LTBehaviorModel>LTBehaviorModel</a>, <a href=#Activate>Activa
 <table class=doc width=100% cellspacing=3 id=LTSprite>
 <tr><td class=doctop colspan=2>Type LTSprite Extends LTShape</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Sprite is the main basic shape of the framework to draw, move and check collisions.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#LTAngularSprite>LTAngularSprite</a>, <a href=#LTVectorSprite>LTVectorSprite</a>.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#LTVectorSprite>LTVectorSprite</a>.</td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTSprite_consts></a>Constants Summary</th></tr><tr><td colspan=2>
 <a href=#Circle>Circle</a>
@@ -2389,9 +2333,13 @@ See also: <a href=#LTBehaviorModel>LTBehaviorModel</a>, <a href=#Activate>Activa
 </td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTSprite_fields></a>Fields Summary</th></tr><tr><td colspan=2>
+<a href=#Angle>Angle</a>
+, 
 <a href=#Frame>Frame</a>
 , 
 <a href=#ShapeType>ShapeType</a>
+, 
+<a href=#Velocity>Velocity</a>
 </td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTSprite_methods></a>Methods Summary</th></tr>
@@ -2419,6 +2367,12 @@ Executes reaction for collision of sprite with sprites in sprite map.
 <tr><td class=docleft width=1%><a href=#CollisionsWithTileMap>CollisionsWithTileMap</a></td><td class=docright>
 Executes reaction for collision of sprite with tiles in given tilemap.
 </td></tr>
+<tr><td class=docleft width=1%><a href=#DirectAs>DirectAs</a></td><td class=docright>
+Directs sprite as given angular sprite.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#DirectTo>DirectTo</a></td><td class=docright>
+Direct the sprite to center of the given shape.
+</td></tr>
 <tr><td class=docleft width=1%><a href=#HandleCollisionWithLine>HandleCollisionWithLine</a></td><td class=docright>
 Line collision handling method.
 </td></tr>
@@ -2443,13 +2397,16 @@ Pushes sprite from given tile.
 <tr><td class=docleft width=1%><a href=#SetAsTile>SetAsTile</a></td><td class=docright>
 Sets the sprite as a tile.
 </td></tr>
+<tr><td class=docleft width=1%><a href=#Turn>Turn</a></td><td class=docright>
+Turns the sprite.
+</td></tr>
 <tr><td class=docleft width=1%><a href=#WedgeOffWithSprite>WedgeOffWithSprite</a></td><td class=docright>
 Wedges off sprite with given sprite.
 </td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Circle>
 <tr><td class=doctop colspan=2>Const Circle:Int</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Type of the sprite shape: oval / Oval.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Type of the sprite shape: oval / circle.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Pivot>
 <tr><td class=doctop colspan=2>Const Pivot:Int</td></tr>
@@ -2458,6 +2415,11 @@ Wedges off sprite with given sprite.
 <table class=doc width=100% cellspacing=3 id=Rectangle>
 <tr><td class=doctop colspan=2>Const Rectangle:Int</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Type of the sprite shape: rectangle.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Angle>
+<tr><td class=doctop colspan=2>Field Angle:Double</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Direction of the sprite.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#MoveForward>MoveForward</a>, <a href=#MoveTowards>MoveTowards</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Frame>
 <tr><td class=doctop colspan=2>Field Frame:Int</td></tr>
@@ -2468,6 +2430,11 @@ Wedges off sprite with given sprite.
 <tr><td class=doctop colspan=2>Field ShapeType:Int = Rectangle</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Type of the sprite shape.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#Pivot>Pivot</a>, <a href=#Oval>Oval</a>, <a href=#Rectangle>Rectangle</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Velocity>
+<tr><td class=doctop colspan=2>Field Velocity:Double = 1.0</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Velocity of the sprite in units per second.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#MoveForward>MoveForward</a>, <a href=#MoveTowards>MoveTowards</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Animate>
 <tr><td class=doctop colspan=2>Method Animate( Project:LTProject, Speed:Double, FramesQuantity:Int = 0, FrameStart:Int = 0, StartingTime:Double = 0.0, PingPong:Int = False )</td></tr>
@@ -2525,6 +2492,16 @@ You can specify collision type which will be passed to this method too.
 <p>
 See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>, <a href=#CollisionsWithSpriteMap>CollisionsWithSpriteMap</a>, <a href=#Horizontal>Horizontal</a>, <a href=#Vertical>Vertical</a>.</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=DirectAs>
+<tr><td class=doctop colspan=2>Method DirectAs( Sprite:LTSprite )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Directs sprite as given angular sprite.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#DirectTo>DirectTo</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=DirectTo>
+<tr><td class=doctop colspan=2>Method DirectTo( Shape:LTShape )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Direct the sprite to center of the given shape.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#DirectAs>DirectAs</a>.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=HandleCollisionWithLine>
 <tr><td class=doctop colspan=2>Method HandleCollisionWithLine( Line:LTLine, CollisionType:Int )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Line collision handling method.</td></tr>
@@ -2543,12 +2520,7 @@ See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#Collisi
 <table class=doc width=100% cellspacing=3 id=MoveForward>
 <tr><td class=doctop colspan=2>Method MoveForward()</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Moves sprite forward.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright><ul>
-<li> Angular sprite will be moved using its Angle and Velocity parameters.
-<li> Vector sprite will be moved using its DX and DY parameters.
-</ul>
-<p>
-See also: <a href=#Move>Move</a>.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#Move>Move</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Overlaps>
 <tr><td class=doctop colspan=2>Method Overlaps:Int( Sprite:LTSprite )</td></tr>
@@ -2570,6 +2542,11 @@ See also: <a href=#Move>Move</a>.</td></tr>
 <tr><td class=doctop colspan=2>Method SetAsTile( TileMap:LTTileMap, TileX:Int, TileY:Int )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Sets the sprite as a tile.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Position, size, visualizer and frame will be changed. This method can be used to cover other shapes with the tile or voluntary moving the tile.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Turn>
+<tr><td class=doctop colspan=2>Method Turn( TurningSpeed:Double )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Turns the sprite.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Turns the sprite with given speed per second.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=WedgeOffWithSprite>
 <tr><td class=doctop colspan=2>Method WedgeOffWithSprite( Sprite:LTSprite, SelfMass:Double, SpriteMass:Double )</td></tr>
@@ -2949,7 +2926,7 @@ Creates tileset with given image.
 <tr><td class=docleft width=1%>Description</td><td class=docright>Vector sprite has horizontal and vertical velocities forming velocity vector.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Handy for projects with gravity, platformers for example.
 <p>
-See also: <a href=#LTSprite>LTSprite</a>, <a href=#LTAngularSprite>LTAngularSprite</a>.</td></tr>
+See also: <a href=#LTSprite>LTSprite</a>.</td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTVectorSprite_fields></a>Fields Summary</th></tr><tr><td colspan=2>
 <a href=#DX>DX</a>
@@ -2959,12 +2936,10 @@ See also: <a href=#LTSprite>LTSprite</a>, <a href=#LTAngularSprite>LTAngularSpri
 <table class=doc width=100% cellspacing=3 id=DX>
 <tr><td class=doctop colspan=2>Field DX:Double</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Horizontal velocity of the sprite.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#MoveForward>MoveForward</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=DY>
 <tr><td class=doctop colspan=2>Field DY:Double</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Vertical velocity of the sprite.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#MoveForward>MoveForward</a>.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTVisualizer>
@@ -3025,9 +3000,6 @@ Draws given sprite using this visualizer.
 <tr><td class=docleft width=1%><a href=#DrawUsingTileMap>DrawUsingTileMap</a></td><td class=docright>
 Draws given tilemap using this visualizer.
 </td></tr>
-<tr><td class=docleft width=1%><a href=#ResetColor>ResetColor</a></td><td class=docright>
-Resets drawing color to white.
-</td></tr>
 <tr><td class=docleft width=1%><a href=#SetColorFromHex>SetColorFromHex</a></td><td class=docright>
 Applies color given in hex string to visualizer.
 </td></tr>
@@ -3050,6 +3022,9 @@ Creates new image visualizer from image file.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#FromImage>FromImage</a></td><td class=docright>
 Creates new image visualizer from existing image (LTImage).
+</td></tr>
+<tr><td class=docleft width=1%><a href=#ResetColor>ResetColor</a></td><td class=docright>
+Resets drawing color to white.
 </td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Alpha>
@@ -3158,11 +3133,6 @@ See also: <a href=#DrawUsingTileMap>DrawUsingTileMap</a>.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Draws given tilemap using this visualizer.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Change this method if you are making your own visualizer.</td></tr>
 </table>
-<table class=doc width=100% cellspacing=3 id=ResetColor>
-<tr><td class=doctop colspan=2>Method ResetColor()</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Resets drawing color to white.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#SetColorFromHex>SetColorFromHex</a>, <a href=#SetColorFromRGB>SetColorFromRGB</a>, <a href=#AlterColor>AlterColor</a>, <a href=#ApplyColor>ApplyColor</a>.</td></tr>
-</table>
 <table class=doc width=100% cellspacing=3 id=SetColorFromHex>
 <tr><td class=doctop colspan=2>Method SetColorFromHex( S:String )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Applies color given in hex string to visualizer.</td></tr>
@@ -3201,6 +3171,11 @@ See also: <a href=#SetColorFromHex>SetColorFromHex</a>, <a href=#AlterColor>Alte
 <tr><td class=docleft width=1%>Returns</td><td class=docright>New visualizer.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Creates new image visualizer from existing image (LTImage).</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#FromFile>FromFile</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=ResetColor>
+<tr><td class=doctop colspan=2>Function ResetColor()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Resets drawing color to white.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#SetColorFromHex>SetColorFromHex</a>, <a href=#SetColorFromRGB>SetColorFromRGB</a>, <a href=#AlterColor>AlterColor</a>, <a href=#ApplyColor>ApplyColor</a>.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTWorld>
@@ -3370,11 +3345,20 @@ See also: <a href=#ManageIntAttribute>ManageIntAttribute</a>, <a href=#ManageDou
 <br>
 <h2 id=modinfo>Module Information</h2>
 <table width=100%>
-<tr><th width=1%>Version</th><td>1.2.4</td></tr>
+<tr><th width=1%>Version</th><td>1.2.7</td></tr>
 <tr><th width=1%>Author</th><td>Matt Merkulov</td></tr>
 <tr><th width=1%>License</th><td>Artistic License 2.0</td></tr>
 <tr><th width=1%>Modserver</th><td>DWLAB</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp;</td></tr>
+<tr><th width=1%>History</th><td>v1.2.7 (03.10.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added PrintText module to the LTShape.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed bug in LTCamera.SetCameraViewport() method.</td></tr>
+<tr><th width=1%>History</th><td>v1.2.6 (02.10.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; LTSprite is merged with LTSprite and LTVectorSprite is cleaned of unuseful code.</td></tr>
+<tr><th width=1%>History</th><td>v1.2.5 (29.09.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added ApplyColor(), Lighten() and Darken() methods to the LTCamera.</td></tr>
+<tr><th width=1%>History</th><td>v1.2.4.1 (26.09.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed bug of wrong displaying of non-scaled sprite.</td></tr>
 <tr><th width=1%>History</th><td>v1.2.4 (22.09.11)</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; LTRasterFrameVisualizer is deprecated, LTRasterFrame derived from LTImage created instead.</td></tr>
 <tr><th width=1%>History</th><td>v1.2.3.1 (19.09.11)</td></tr>

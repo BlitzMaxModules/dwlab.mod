@@ -10,21 +10,25 @@
 
 Type TGame Extends LTGUIProject
 	Const BallsPerTurn:Int = 3
-
+	
+	Const Void:Int = 0
+	Const Plate:Int = 1
+	
+	Const NoBall:Int = 0
+	
 	Field World:LTWorld
-	Field Level:LTTileMap
-	Field HUD:LTLayer
+	Field GameField:LTTileMap
+	Field Balls:LTTileMap
+	Field HUD:LTWindow
 	Field Objects:LTLayer = New LTLayer
 	Field Particles:LTLayer = New LTLayer
 	
 	Field Cursor:TCursor = New TCursor
 	Field Selected:TSelected
 	Field EmptyCells:TList = New TList
-	Field TileMapPathFinder:LTTileMapPathFinder
+	Field PathFinder:TPathFinder
 	Field Busy:Int
 	Field Score:Int
-	Field HiScore:Int = 100
-	Field Panel:LTSprite = New LTSprite
 	Field GameOver:Int
 	
 	Field Font:LTBitmapFont
@@ -38,29 +42,14 @@ Type TGame Extends LTGUIProject
 	Method Init()
 		World = LTWorld.FromFile( "levels.lw" )
 	
-		L_ScreenWidthGrain = 80
-		L_ScreenHeightGrain = 60
+		L_ScreenWidthGrain = 76
+		L_ScreenHeightGrain = 57
 		Menu.InitSystem( Self )
 	
-		Font = LTBitmapFont.FromFile( "font.png", 32, 127, 16, True )
-		
 		LoadLevel()
-		
-		Panel.SetSize( 7.0, 3.0 )
-		Panel.Visualizer = LTRasterFrameVisualizer.FromPixmap( Level.TileSet.Image.BMaxImage.pixmaps[ 0 ] )
-		
-		LoadAndInitLayer( HUD, LTLayer( World.FindShape( "HUD" ) ) )
-		
-		Panel.JumpTo( L_CurrentCamera )
 		
 		Cursor.ShapeType = LTSprite.Pivot
 		Cursor.SetDiameter( 0.1 )
-		
-		If FileType( "hiscore.txt" ) Then
-			Local File:TStream = ReadFile( "hiscore.txt" )
-			HiScore = ReadLine( File ).ToInt()
-			CloseFile( File )
-		End If
 		
 		CreateBalls()
 		Paused = True
@@ -68,9 +57,18 @@ Type TGame Extends LTGUIProject
 	
 	Method LoadLevel()
 		Local Layer:LTLayer = Null
-		LoadAndInitLayer( Layer, LTLayer( World.FindShape( "1" ) ) )
+		LoadAndInitLayer( Layer, LTLayer( World.FindShapeWithParameter( "LTLayer", "level_num", "1" ) ) )
+		GameField = LTTileMap( Layer.FindShape( "Field" ) )
+		Balls = LTTileMap( Layer.FindShape( "Balls" ) )
 		
-		TileMapPathFinder = LTTileMapPathFinder.Create( Level, False )
+		L_CurrentCamera.JumpTo( GameField )
+		L_CurrentCamera.SetMagnification( L_CurrentCamera.Viewport.Width / L_ScreenWidthGrain * 3.0 )
+		
+		HUD = LoadWindow( World, , "THUD" )
+		HUD.Visible = False
+		
+		PathFinder = New TPathFinder
+		PathFinder.Map = GameField
 	End Method
 	
 	Method InitSound()
@@ -82,33 +80,22 @@ Type TGame Extends LTGUIProject
 	End Method
 	
 	Method Render()
-		Level.Draw()
+		GameField.Draw()
+		Balls.Draw()
 		Objects.Draw()
 		Particles.Draw()
-		HUD.Draw()
-		If GameOver Then
-			Panel.Draw()
-			Font.Print( "GAME OVER", Panel.X, Panel.Y, 1.0, LTAlign.ToCenter, LTAlign.ToCenter )
-		End If
 	End Method
 	
 	Method Logic()
+		If Not Paused Then HUD.Visible = True
 		Cursor.SetMouseCoords()
-		If Not Busy Then Cursor.CollisionsWithTileMap( Level )
-		
-		If Score > HiScore Then HiScore = Score
-		
-		If GameOver Then
-			If GetChar() Or MouseHit( 1 ) Then
-				LoadLevel()
-				CreateBalls()
-				GameOver = False
-				Busy = False
-			End If
-		End If
-		
+		If Not Busy Then Cursor.CollisionsWithTileMap( GameField )
 		Objects.Act()
 		Particles.Act()
+	End Method
+	
+	Method DeInit()
+		Menu.SaveToFile( "settings.xml" )
 	End Method
 	
 	Method CreateBalls()
@@ -126,9 +113,9 @@ Type TGame Extends LTGUIProject
 	
 	Method RefreshEmptyCells()
 		EmptyCells.Clear()
-		For Local Y:Int = 0 Until Level.YQuantity
-			For Local X:Int = 0 Until Level.XQuantity
-				If Level.Value[ X, Y ] = TVisualizer.Empty Then
+		For Local Y:Int = 0 Until GameField.YQuantity
+			For Local X:Int = 0 Until GameField.XQuantity
+				If GameField.Value[ X, Y ] = Plate And Balls.Value[ X, Y ] = NoBall Then
 					EmptyCells.AddLast( TCell.Create( X, Y ) )
 				End If
 			Next
@@ -137,10 +124,10 @@ Type TGame Extends LTGUIProject
 	
 	Method TileToSprite:LTSprite( Model:LTBehaviorModel, X:Int, Y:Int )
 		Local Sprite:LTSprite = New LTSprite
-		Sprite.SetAsTile( Game.Level, X, Y )
+		Sprite.SetAsTile( Game.Balls, X, Y )
 		Game.Objects.AddLast( Sprite )
 		Sprite.AttachModel( Model )
-		Game.Level.SetTile( X, Y, TVisualizer.Empty )
+		Game.Balls.SetTile( X, Y, NoBall )
 		Return Sprite
 	End Method
 End Type

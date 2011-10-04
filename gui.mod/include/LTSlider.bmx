@@ -67,16 +67,18 @@ Type LTSlider Extends LTGadget
 				Case Moving
 					Local ContentsSize:Double, ListBoxSize:Double
 					If ListBox Then
-						ContentsSize = ListBox.GetItemSize() * ListBox.GetItems().Count()
-						If ContentsSize > 0 
-							Select ListBox.GetListType()
-								Case Horizontal
-									ListBoxSize = ListBox.Width
-								Case Vertical
-									ListBoxSize = ListBox.Height
-							End Select
-							Size = ListBoxSize / ContentsSize
-							If Size > 1.0 Then Size = 1.0
+						If ListBox.Items Then
+							ContentsSize = ListBox.ItemSize * ListBox.Items.Count()
+							If ContentsSize > 0 
+								Select ListBox.ListType
+									Case Horizontal
+										ListBoxSize = ListBox.Width
+									Case Vertical
+										ListBoxSize = ListBox.Height
+								End Select
+								Size = ListBoxSize / ContentsSize
+								If Size > 1.0 Then Size = 1.0
+							End If
 						End If
 					End If
 					

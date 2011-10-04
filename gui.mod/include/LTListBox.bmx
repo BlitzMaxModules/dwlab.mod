@@ -9,6 +9,9 @@
 '
 
 Type LTListBox Extends LTGadget
+	Field ListType:Int = Vertical
+	Field Items:TList
+	Field ItemSize:Double = 1.0
 	Field Shift:Double
 	
 	
@@ -19,23 +22,10 @@ Type LTListBox Extends LTGadget
 	
 	
 	
-	Method GetListType:Int()
-		Return Vertical
-	End Method
-	
-	
-	
-	Method GetItems:TList()
-	End Method
-	
-	
-	
 	Method Draw()
 		Super.Draw()
-		Local Items:TList = GetItems()
 		If Not Items Then Return
 		Local Num:Int = 0
-		
 		For Local Item:Object = Eachin Items
 			DrawItem( Item, Num, GetItemSprite( Num ) )
 			Num :+ 1
@@ -46,19 +36,14 @@ Type LTListBox Extends LTGadget
 	
 	Method GetItemSprite:LTSprite( Num:Int )
 		Local Sprite:LTSprite = New LTSprite
-		If GetListType() = Vertical Then
-			Sprite.SetSize( Width, GetItemSize() )
-			Sprite.SetCornerCoords( LeftX(), TopY() + Num * GetItemSize() - Shift )
+		If ListType = Vertical Then
+			Sprite.SetSize( Width, ItemSize )
+			Sprite.SetCornerCoords( LeftX(), TopY() + Num * ItemSize - Shift )
 		Else
-			Sprite.SetSize( GetItemSize(), Height )
-			Sprite.SetCornerCoords( LeftX() + Num * GetItemSize() - Shift, TopY() )
+			Sprite.SetSize( ItemSize, Height )
+			Sprite.SetCornerCoords( LeftX() + Num * ItemSize - Shift, TopY() )
 		End If
 		Return Sprite
-	End Method
-	
-	
-	
-	Method GetItemSize:Double()
 	End Method
 	
 	
@@ -69,13 +54,13 @@ Type LTListBox Extends LTGadget
 	
 	
 	Method OnClick( Button:Int )
-		Local Items:TList = GetItems()
 		If Not Items Then Return
+		If ItemSize <= 0 Then Return
 		Local Num:Int
-		If GetListType() = Vertical Then
-			Num = Floor( ( L_Cursor.Y - TopY() ) / GetItemSize() )
+		If ListType = Vertical Then
+			Num = Floor( ( L_Cursor.Y - TopY() ) / ItemSize )
 		Else
-			Num = Floor( ( L_Cursor.X - LeftX() ) / GetItemSize() )
+			Num = Floor( ( L_Cursor.X - LeftX() ) / ItemSize )
 		End If
 		If Num < Items.Count() Then OnClickOnItem( Button, Items.ValueAtIndex( Num ), Num )
 	End Method

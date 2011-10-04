@@ -11,14 +11,16 @@
 Type TCursor Extends LTSprite
 	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int = 0 )
 		Local TileNum:Int = TileMap.GetTile( TileX, TileY )
+		Local BallNum:Int = Game.Balls.GetTile( TileX, TileY )
 		'If KeyHit( Key_E ) Then TExplosion.Create( TileX, TileY )
 		If MouseHit( 1 ) Then
 			'DebugStop
 			If Game.Selected Then Game.Selected.Remove( Null )
-			If TileNum = TVisualizer.Empty Then
+			If TileNum = Game.Void Then Return
+			If BallNum = Game.NoBall
 				If Not Game.Selected Then Return
-				TMoveAlongPath.Create( Game.TileMapPathFinder.FindPath( Game.Selected.X, Game.Selected.Y, TileX, TileY ) )
-			ElseIf TileNum <> TVisualizer.Void Then
+				TMoveAlongPath.Create( Game.PathFinder.FindPath( Game.Selected.X, Game.Selected.Y, TileX, TileY ) )
+			Else
 				Game.Selected = TSelected.Create( TileX, TileY )
 				Game.SelectSound.Play()
 			End If

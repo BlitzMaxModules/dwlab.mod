@@ -93,18 +93,18 @@ Type LTProfile Extends LTObject
 	
 	Method Apply( Refresh:Int = True, Projects:LTProject[] = Null, NewScreen:Int = True, NewVideoDriver:Int = True, NewAudioDriver:Int = True )
 		SetLocalizationLanguage( GetLanguage( Language ) )
-		NewAudioDriver = True
-		If NewVideoDriver Then SetGraphicsDriver( LTVideoDriver.Get( VideoDriver ).Driver )
-		If NewAudioDriver Then SetAudioDriver( AudioDriver )
+		
+		If NewVideoDriver Then SetGraphicsDriver( LTVideoDriver.Get( VideoDriver ).Driver ); 
 		
 		If NewScreen Or NewVideoDriver Then
+			NewAudioDriver = True
 			Local Width:Int, Height:Int 
 			If FullScreen Then
 				Width = ScreenWidth
 				Height = ScreenHeight
 			Else
-				Width = DesktopWidth()
-				Height = DesktopHeight() - 86
+				Width = Menu.DesktopAreaWidth
+				Height = Menu.DesktopAreaHeight
 			End If
 			Width = Floor( Width / L_ScreenWidthGrain ) * L_ScreenWidthGrain
 			Height = Floor( Height / L_ScreenHeightGrain ) * L_ScreenHeightGrain
@@ -117,8 +117,12 @@ Type LTProfile Extends LTObject
 				'L_CurrentCamera.SetCameraViewport()
 			Else
 				L_InitGraphics( L_ScreenWidthGrain * BlockSize, L_ScreenHeightGrain * BlockSize, 64.0, , Frequency )
+				DebugLog L_ScreenWidthGrain * BlockSize
+				DebugLog L_ScreenHeightGrain * BlockSize
 			End If
 		End If
+		
+		If NewAudioDriver Then SetAudioDriver( AudioDriver )
 		
 		If Refresh Then
 			For Local Project:LTProject = Eachin Projects

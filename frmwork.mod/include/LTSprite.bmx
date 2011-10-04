@@ -563,7 +563,8 @@ Type LTSprite Extends LTShape
 		Height = TileMap.GetTileHeight()
 		X = TileMap.LeftX() + Width * ( 0.5 + TileX )
 		Y = TileMap.TopY() + Height * ( 0.5 + TileY )
-		Visualizer = LTVisualizer.FromImage( Tilemap.TileSet.Image )
+		Visualizer = Tilemap.Visualizer.Clone()
+		Visualizer.Image = Tilemap.TileSet.Image
 		Frame = TileMap.GetTile( TileX, TileY )
 	End Method
 

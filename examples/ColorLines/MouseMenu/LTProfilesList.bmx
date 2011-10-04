@@ -9,12 +9,10 @@
 '
 
 Type LTProfilesList Extends LTListBox
-	Method GetItems:TList()
-		Return Menu.Profiles
-	End Method
-	
-	Method GetItemSize:Double()
-		Return 0.5
+	Method Init()
+		Super.Init()
+		ItemSize = 0.5
+		Items = Menu.Profiles
 	End Method
 	
 	Method DrawItem( Item:Object, Num:Int, Sprite:LTSprite )

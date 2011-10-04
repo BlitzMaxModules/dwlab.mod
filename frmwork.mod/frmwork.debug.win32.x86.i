@@ -111,7 +111,7 @@ LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTObject_XMLIO"
-+LoadFromFile:LTObject(FileName$)="_dwlab_frmwork_LTObject_LoadFromFile"
++LoadFromFile:LTObject(FileName$,UseIncbin%=-1)="_dwlab_frmwork_LTObject_LoadFromFile"
 -SaveToFile%(FileName$)="_dwlab_frmwork_LTObject_SaveToFile"
 }="dwlab_frmwork_LTObject"
 LTProject^LTObject{
