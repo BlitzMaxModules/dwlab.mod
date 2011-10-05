@@ -22,7 +22,7 @@ Import dwlab.sound
 
 Include "TGame.bmx"
 Include "THUD.bmx"
-Include "TGameState.bmx"
+Include "TGameProfile.bmx"
 Include "TPathFinder.bmx"
 Include "TPopUpBall.bmx"
 Include "TCursor.bmx"
@@ -33,8 +33,6 @@ Include "TMoveBall.bmx"
 Include "TExplosion.bmx"
 Include "MouseMenu/Menu.bmx"
 
-Incbin "font.png"
-Incbin "font.lfn"
 Incbin "stop.ogg"
 Incbin "rush.ogg"
 Incbin "explosion.ogg"

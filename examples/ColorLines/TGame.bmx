@@ -44,14 +44,17 @@ Type TGame Extends LTGUIProject
 	
 		L_ScreenWidthGrain = 76
 		L_ScreenHeightGrain = 57
-		Menu.InitSystem( Self )
 	
-		LoadLevel()
+		Menu.ProfileTypeID = TTypeID.ForName( "TGameProfile" )
+		Menu.InitSystem( Self )
+		HUD = LoadWindow( World, , "THUD" )
+		Menu.AddPanels()
 		
 		Cursor.ShapeType = LTSprite.Pivot
 		Cursor.SetDiameter( 0.1 )
+		'debugstop
+		L_CurrentProfile.Load()
 		
-		CreateBalls()
 		Paused = True
 	End Method
 	
@@ -61,11 +64,12 @@ Type TGame Extends LTGUIProject
 		GameField = LTTileMap( Layer.FindShape( "Field" ) )
 		Balls = LTTileMap( Layer.FindShape( "Balls" ) )
 		
+		CreateBalls()
+	End Method
+		
+	Method InitLevel()
 		L_CurrentCamera.JumpTo( GameField )
 		L_CurrentCamera.SetMagnification( L_CurrentCamera.Viewport.Width / L_ScreenWidthGrain * 3.0 )
-		
-		HUD = LoadWindow( World, , "THUD" )
-		HUD.Visible = False
 		
 		PathFinder = New TPathFinder
 		PathFinder.Map = GameField
@@ -87,7 +91,6 @@ Type TGame Extends LTGUIProject
 	End Method
 	
 	Method Logic()
-		If Not Paused Then HUD.Visible = True
 		Cursor.SetMouseCoords()
 		If Not Busy Then Cursor.CollisionsWithTileMap( GameField )
 		Objects.Act()
@@ -100,11 +103,11 @@ Type TGame Extends LTGUIProject
 	
 	Method CreateBalls()
 		RefreshEmptyCells()
-		If EmptyCells.Count() < 3 Then
-			GameOver = True
-			Busy = True
+		'If EmptyCells.Count() < 3 Then
+			Menu.LoadGameOverWindow()
+			Paused = True
 			Return
-		End If
+		'End If
 		For Local N:Int = 0 Until BallsPerTurn
 			Local Cell:TCell = TCell.PopFrom( EmptyCells )
 			TPopUpBall.Create( Cell.X, Cell.Y, Rand( 1, 7 ) )

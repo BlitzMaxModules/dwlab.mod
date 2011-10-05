@@ -9,12 +9,9 @@
 '
 
 Type THUD Extends LTWindow
-	Method Init()
-		For Local Gadget:LTGadget = Eachin Children
-			Select Gadget.GetName()
-				Case "ScreenCenter"
-					SetCoords( Gadget.LeftX(), Gadget.TopY() )
-			End Select
-		Next
+	Method Act()
+		Super.Act()
+		LTLabel( FindShape( "Score" ) ).Text = Game.Score
+		LTLabel( FindShape( "CurrentProfile" ) ).Text = LocalizeString( L_CurrentProfile.Name )
 	End Method
 End Type

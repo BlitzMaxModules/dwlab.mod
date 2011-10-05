@@ -119,7 +119,7 @@ Type LTShape Extends LTObject
 	
 	
 	
-	Method PrintText( Text:String, HorizontalAlign:Int = LTAlign.ToCenter, VerticalAlign:Int = LTAlign.ToCenter, HorizontalShift:Int = 0, VerticalShift:Int = 0 )
+	Method PrintText( Text:String, HorizontalAlign:Int = LTAlign.ToCenter, VerticalAlign:Int = LTAlign.ToCenter, HorizontalShift:Double = 0, VerticalShift:Double = 0 )
 		Local XX:Double, YY:Double
 		Select HorizontalAlign
 			Case LTAlign.ToLeft
@@ -140,7 +140,7 @@ Type LTShape Extends LTObject
 		End Select
 		
 		Local SX:Double, SY:Double
-		L_CurrentCamera.FieldToScreen( XX, YY, SX, SY )
+		L_CurrentCamera.FieldToScreen( XX + HorizontalShift, YY + VerticalShift, SX, SY )
 		
 		Select HorizontalAlign
 			Case LTAlign.ToCenter
@@ -156,7 +156,7 @@ Type LTShape Extends LTObject
 				SY :- TextHeight( Text )
 		End Select
 		
-		DrawText( Text, SX + HorizontalShift, SY + VerticalShift )
+		DrawText( Text, SX, SY )
 	End Method
 	
 	' ==================== Collisions ===================
@@ -991,6 +991,13 @@ Type LTShape Extends LTObject
 	about: Fill it with commands for removing shape from layers, lists, maps, etc.
 	End Rem
 	Method Destroy()
+	End Method
+	
+	
+	
+	Method Hide()
+		Active = False
+		Visible = False
 	End Method
 	
 	' ==================== Saving / loading ====================

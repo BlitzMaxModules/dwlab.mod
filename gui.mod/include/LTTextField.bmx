@@ -15,6 +15,13 @@ Type LTTextField Extends LTGadget
 	
 	
 	
+	Method Init()
+		Super.Init()
+		L_ActiveTextField = Self
+	End Method
+	
+	
+	
 	Method Draw()
 		Super.Draw()
 		SetColor( 0, 0, 0 )

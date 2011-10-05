@@ -42,7 +42,7 @@ Type LTMenuWindow Extends LTWindow
 	
 	
 	Method Act()
-			If AppTerminate() Then Project.LoadWindow( World, , "LTExitWindow" )
+		If AppTerminate() Then Project.LoadWindow( World, , "LTExitWindow" )
 		
 		If DestinationY = Y Then
 		ElseIf Abs( DestinationY - Y ) < 0.01 Then

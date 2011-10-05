@@ -14,7 +14,7 @@ Type LTLabel Extends LTGadget
 	Field Text:String
 	Field Icon:LTShape
 	Field TextVisualizer:LTVisualizer = New LTVisualizer
-	Field DX:Int, DY:Int
+	Field DX:Double, DY:Double
 	Field Align:Int = LTAlign.ToCenter
 	
 	
@@ -35,9 +35,12 @@ Type LTLabel Extends LTGadget
 			If Not Icon Then Icon = L_Window.FindShapeWithParameter( "LTSprite", "gadget_text", Text, True )
 			Text = LocalizeString( "{{" + Text + "}}" )
 			Select GetParameter( "align" )
-				Case "left"; Align = LTAlign.ToLeft
-				Case "center"; Align = LTAlign.ToCenter
-				Case "right"; Align = LTAlign.ToRight
+				Case "left"
+					Align = LTAlign.ToLeft
+				Case "center"
+					Align = LTAlign.ToCenter
+				Case "right"
+					Align = LTAlign.ToRight
 			End Select
 		End If
 		
@@ -49,19 +52,19 @@ Type LTLabel Extends LTGadget
 	Method Draw()
 		Super.Draw()
 		
-		Local HorizontalShift:Int = 0
+		Local HorizontalShift:Double = 0
 		If Icon Then
 			L_CurrentCamera.SizeScreenToField( DX, DY, Icon.X, Icon.Y )
 			Local FWidth:Double = L_CurrentCamera.DistScreenToField( TextWidth( " " + Text ) )
 			Select Align
 				Case LTAlign.ToLeft
-					HorizontalShift = L_CurrentCamera.DistFieldToScreen( Height )
+					HorizontalShift = Height
 					Icon.AlterCoords( LeftX() + 0.5 * Height, Y )
 				Case LTAlign.ToCenter
-					HorizontalShift = 0.5 * L_CurrentCamera.DistFieldToScreen( Icon.Width )
+					HorizontalShift = 0.5 * Icon.Width
 					Icon.AlterCoords( X - 0.5 * FWidth, Y )
 				Case LTAlign.ToRight
-					HorizontalShift = - L_CurrentCamera.DistFieldToScreen( 0.5 * ( Height - Icon.Height ) )
+					HorizontalShift = -0.5 * ( Height - Icon.Height )
 					Icon.AlterCoords( RightX() - FWidth - 0.5 * Height + DX, Y )
 			End Select
 			Icon.Draw()

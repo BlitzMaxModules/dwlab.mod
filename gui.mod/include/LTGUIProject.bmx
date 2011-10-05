@@ -36,11 +36,12 @@ Type LTGUIProject Extends LTProject
 			If GUICamera Then
 				Local DWidth:Double = GUICamera.Width / Screen.Width
 				Local DHeight:Double = GUICamera.Height / Screen.Height
-				For Local Gadget:LTGadget = Eachin L_Window.Chil
-					Gadget.SetCoords( GUICamera.X + ( Gadget.X - Screen.X ) * DWidth, GUICamera.Y + ( Gadget.Y - Screen.Y ) * Height )
-					Gadget.SetSize( Gadget.Width * DWidth, Gadget.Height * DHeight )
+				For Local Shape:LTShape = Eachin L_Window.Children
+					Shape.SetCoords( GUICamera.X + ( Shape.X - Screen.X ) * DWidth, GUICamera.Y + ( Shape.Y - Screen.Y ) * DHeight )
+					Shape.SetSize( Shape.Width * DWidth, Shape.Height * DHeight )
 				Next
 			Else
+				GUICamera = New LTCamera
 				GUICamera.Viewport = L_CurrentCamera.Viewport.Clone()
 				GUICamera.SetCoords( Screen.X, Screen.Y )
 				GUICamera.SetSize( Screen.Width, Screen.Height )

@@ -698,7 +698,7 @@ RightFacing!=1!
 -Delete%()="_dwlab_frmwork_LTShape_Delete"
 -Draw%()="_dwlab_frmwork_LTShape_Draw"
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTShape_DrawUsingVisualizer"
--PrintText%(Text$,HorizontalAlign%=1,VerticalAlign%=1,HorizontalShift%=0,VerticalShift%=0)="_dwlab_frmwork_LTShape_PrintText"
+-PrintText%(Text$,HorizontalAlign%=1,VerticalAlign%=1,HorizontalShift!=0!,VerticalShift!=0!)="_dwlab_frmwork_LTShape_PrintText"
 -SpriteGroupCollisions%(Sprite:LTSprite,CollisionType%)="_dwlab_frmwork_LTShape_SpriteGroupCollisions"
 -TileShapeCollisionsWithSprite%(Sprite:LTSprite,DX!,DY!,XScale!,YScale!,TileMap:LTTileMap,TileX%,TileY%,CollisionType%)="_dwlab_frmwork_LTShape_TileShapeCollisionsWithSprite"
 -LeftX!()="_dwlab_frmwork_LTShape_LeftX"
@@ -764,6 +764,7 @@ RightFacing!=1!
 -Act%()="_dwlab_frmwork_LTShape_Act"
 -Update%()="_dwlab_frmwork_LTShape_Update"
 -Destroy%()="_dwlab_frmwork_LTShape_Destroy"
+-Hide%()="_dwlab_frmwork_LTShape_Hide"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTShape_XMLIO"
 }="dwlab_frmwork_LTShape"
 LTParameter^LTObject{

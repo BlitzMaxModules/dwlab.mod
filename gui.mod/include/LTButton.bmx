@@ -24,8 +24,7 @@ Type LTButton Extends LTLabel
 				Case 4; Frame = State + Focus * 2
 			End Select
 		End If
-		DX = State
-		DY = State
+		L_CurrentCamera.SizeScreenToField( State, State, DX, DY )
 		Super.Draw()
 	End Method
 	

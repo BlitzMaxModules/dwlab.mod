@@ -58,8 +58,8 @@ LTLabel^LTGadget{
 .Text$&
 .Icon:dwlab.frmwork.LTShape&
 .TextVisualizer:dwlab.frmwork.LTVisualizer&
-.DX%&
-.DY%&
+.DX!&
+.DY!&
 .Align%&
 -New%()="_dwlab_gui_LTLabel_New"
 -Delete%()="_dwlab_gui_LTLabel_Delete"
@@ -75,6 +75,7 @@ LTTextField^LTGadget{
 .RightPart$&
 -New%()="_dwlab_gui_LTTextField_New"
 -Delete%()="_dwlab_gui_LTTextField_Delete"
+-Init%()="_dwlab_gui_LTTextField_Init"
 -Draw%()="_dwlab_gui_LTTextField_Draw"
 -GetClassTitle$()="_dwlab_gui_LTTextField_GetClassTitle"
 -OnClick%(Button%)="_dwlab_gui_LTTextField_OnClick"

@@ -85,13 +85,15 @@ Type LTWindow Extends LTLayer
 		Select Gadget.GetParameter( "action" )
 			Case "save"
 				Save()
-			Case "saveandclose"
+			Case "save_and_close"
 				Save()
 				Project.CloseWindow( Self )
 			Case "close"
 				Project.CloseWindow( Self )
-			Case "saveandend"
+			Case "save_and_end"
 				Save()
+				Project.Exiting = True
+			Case "end"
 				Project.Exiting = True
 		End Select
 		

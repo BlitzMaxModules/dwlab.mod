@@ -19,6 +19,7 @@ Global L_ScreenResolutions:TList = New TList
 
 Type LTProfile Extends LTObject
 	Field Name:String
+	Field Score:Int
 	Field Language:String
 	Field AudioDriver:String
 	Field VideoDriver:String
@@ -28,7 +29,7 @@ Type LTProfile Extends LTObject
 	Field ColorDepth:Int
 	Field Frequency:Int
 	
-	Function Init()
+	Function InitSystem()
 		For Local Mode:TGraphicsMode = Eachin GraphicsModes()
 			If Mode.Width >= 640 And Mode.Width > Mode.Height Then 
 				LTScreenResolution.Add( Mode.Width, Mode.Height, Mode.Depth, Mode.Hertz )
@@ -62,8 +63,8 @@ Type LTProfile Extends LTObject
 		L_AudioDrivers = TList.FromArray( AudioDrivers() )
 	End Function
 	
-	Function CreateDefault()
-		L_CurrentProfile = New LTProfile
+	Function CreateDefault( ProfileTypeID:TTypeID )
+		L_CurrentProfile = LTProfile( ProfileTypeID.NewObject() )
 		L_CurrentProfile.Name = "{{P_Player}}"
 		
 		Local TypeID:TTypeId = TTypeId.ForObject( GetGraphicsDriver() )
@@ -132,10 +133,34 @@ Type LTProfile Extends LTObject
 		End If
 	End Method
 	
+	Method Clone:LTProfile()
+		Local Profile:LTProfile = New Self
+		Profile.Name = Name
+		Profile.Language = Language
+		Profile.AudioDriver = AudioDriver
+		Profile.VideoDriver = VideoDriver
+		Profile.FullScreen = FullScreen
+		Profile.ScreenWidth = ScreenWidth
+		Profile.ScreenHeight = ScreenHeight
+		Profile.ColorDepth = ColorDepth
+		Profile.Frequency = Frequency
+		Return Profile
+	End Method
+	
+	Method Init()
+	End Method
+	
+	Method Load()
+	End Method
+	
+	Method Save()
+	End Method
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
 		XMLObject.ManageStringAttribute( "name", Name )
+		XMLObject.ManageIntAttribute( "score", Score )
 		XMLObject.ManageStringAttribute( "language", Language )
 		XMLObject.ManageStringAttribute( "audio", AudioDriver )
 		XMLObject.ManageStringAttribute( "video", VideoDriver )
