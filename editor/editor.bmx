@@ -1532,11 +1532,17 @@ Type LTEditor Extends LTProject
 						DrawRect( X - 3, Y - 3, 7, 7 )
 						SetColor( 0, 0, 0 )
 						DrawRect( X - 2, Y - 2, 5, 5 )
-						SetColor( 255, 255, 255 )
 					Next
 				End If
 			End If
+			
+			SetColor( 255, 0, 0 )
+			SetLineWidth( 3.0 )
+			If CurrentViewLayer.Bounds Then CurrentViewLayer.Bounds.DrawContour()
+			SetLineWidth( 1.0 )
+			SetColor( 255, 255, 255 )
 		End If
+		
 		
 		Flip( False )
 		'EndGraphics

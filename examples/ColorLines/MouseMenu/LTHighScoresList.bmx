@@ -28,3 +28,26 @@ Type LTHighScoresList Extends LTListBox
 		LTVisualizer.ResetColor()
 	End Method
 End Type
+
+
+
+Type LTHighScore Extends LTObject
+	Field Score:Int
+	Field Name:String
+	Field Achievements:TList
+	
+	Function Create:LTHighScore( Name:String, Score:Int, Achievements:TList = Null )
+		Local HighScore:LTHighScore = New LTHighScore
+		HighScore.Name = Name
+		HighScore.Score = Score
+		HighScore.Achievements = Achievements
+		Return HighScore
+	End Function
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		XMLObject.ManageIntAttribute( "score", Score )
+		XMLObject.ManageStringAttribute( "name", Name )
+		XMLObject.ManageChildList( Achievements )
+	End Method
+End Type

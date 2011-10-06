@@ -23,19 +23,20 @@ Type LTMenuWindow Extends LTWindow
 	
 	
 	
-	Method OnClick( Gadget:LTGadget, Button:Int )
+	Method OnButtonPress( Gadget:LTGadget, ButtonAction:LTButtonAction )
+		If ButtonAction <> L_ClickButton Then Return
 		Select Gadget.GetParameter( "action" )
-			Case "continue"
-				Active = False
-				DestinationY = -Panel.Height
-			Case "menu"
+			Case "continue", "menu"
 				If Y < 0 Then
 					Active = False
 					DestinationY = 0
-					Project.Paused = True
+					Project.Locked = True
+				Else
+					Active = False
+					DestinationY = -Panel.Height
 				End If
 			Default
-				Super.OnClick( Gadget, Button )
+				Super.OnButtonPress( Gadget, ButtonAction )
 		End Select
 	End Method
 	
@@ -47,7 +48,8 @@ Type LTMenuWindow Extends LTWindow
 		If DestinationY = Y Then
 		ElseIf Abs( DestinationY - Y ) < 0.01 Then
 			Active = True
-			If DestinationY < 0 Then Project.Paused = False
+			Y = DestinationY
+			If DestinationY < 0 Then Project.Locked = False
 		Else
 			SetY( DestinationY + ( Y - DestinationY ) * ( 1.0 - Project.PerSecond( Speed ) ) )
 		End If

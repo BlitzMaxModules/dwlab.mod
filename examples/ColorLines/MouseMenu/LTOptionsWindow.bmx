@@ -22,7 +22,8 @@ Type LTOptionsWindow Extends LTWindow
 		Next
 	End Method
 	
-	Method OnClick( Gadget:LTGadget, Button:Int )
+	Method OnButtonPress( Gadget:LTGadget, ButtonAction:LTButtonAction )
+		If ButtonAction <> L_ClickButton Then Return
 		Select Gadget.GetName()
 			Case "Fullscreen"
 				L_CurrentProfile.FullScreen = Not L_CurrentProfile.FullScreen

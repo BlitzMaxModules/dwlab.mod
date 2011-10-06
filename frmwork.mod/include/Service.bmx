@@ -374,6 +374,7 @@ returns: TypeID for given class name.
 about: If class is not found then error will occur.
 End Rem
 Function L_GetTypeID:TTypeId( TypeName:String )
+	If Not TypeName Then Return Null
 	Local TypeID:TTypeId = TTypeID.ForName( TypeName )
 	
 	?debug

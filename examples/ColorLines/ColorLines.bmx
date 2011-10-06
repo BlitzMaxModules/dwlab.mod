@@ -12,6 +12,7 @@ SuperStrict
 
 Framework brl.basic
 
+Import brl.jpgloader
 Import brl.pngloader
 Import brl.oggloader
 Import brl.freetypefont

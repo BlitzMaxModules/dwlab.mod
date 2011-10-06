@@ -19,14 +19,14 @@ End Rem
 Type LTGUIProject Extends LTProject
 	Field Windows:TList = New TList 
 	Field GUICamera:LTCamera
-	Field MouseHits:Int[] = New Int[ 4 ]
+	Field Locked:Int
 
 	' ==================== Loading layers and windows ===================	
 	
 	Method LoadWindow:LTWindow( World:LTWorld, Name:String = "", Class:String = "" )
 		L_ActiveTextField = Null
 		If Class Then
-			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShapeWithParameter( "LTLayer", "class", Class ) ) ) )
+			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShapeWithParameter( "class", Class ) ) ) )
 		Else
 			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShape( Name ) ) ) )
 		End If
@@ -59,6 +59,15 @@ Type LTGUIProject Extends LTProject
 		End If
 		Windows.AddLast( L_Window )
 		Return L_Window
+	End Method
+	
+	
+	
+	Method FindWindow:LTWindow( Name:String = "", Class:String = "" )
+		For Local Window:LTWindow = Eachin Windows
+			If Name Then If Window.GetName() = Name Then Return Window
+			If Class Then If TTypeID.ForObject( Window ).Name() = Class Then Return Window
+		Next
 	End Method
 	
 	
@@ -110,12 +119,8 @@ Type LTGUIProject Extends LTProject
 			L_SpritesActed = 0
 			?
 			
-			For Local N:Int = 1 To 3
-				If MouseDown( N ) Then
-					If MouseHits[ N ] = 0 Then MouseHits[ N ] = 1
-				Else
-					If MouseHits[ N ] = 2 Then MouseHits[ N ] = -1
-				End If
+			For Local Controller:LTPushable = Eachin L_Controllers
+				Controller.Prepare()
 			Next
 			
 			If Not Paused Then Logic()
@@ -124,8 +129,8 @@ Type LTGUIProject Extends LTProject
 			Next
 			If Exiting Then Exit
 			
-			For Local N:Int = 1 To 3
-				If MouseDown( N ) Then MouseHits[ N ] = 2 Else MouseHits[ N ] = 0
+			For Local Controller:LTPushable = Eachin L_Controllers
+				Controller.Flush()
 			Next
 		
 			Repeat

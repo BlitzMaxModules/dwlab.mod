@@ -8,15 +8,14 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTAddProfileWindow Extends LTWindow
+Type LTRenameProfileWindow Extends LTWindow
+	Method Init()
+		Super.Init()
+		LTTextField( FindShape( "ProfileName" ) ).LeftPart = LocalizeString( L_CurrentProfile.Name )
+	End Method
+
 	Method Save()
 		Local Name:String = LTTextField( FindShape( "ProfileName" ) ).Text
-		If Name Then
-			L_CurrentProfile = L_CurrentProfile.Clone()
-			L_CurrentProfile.Name = Name
-			L_CurrentProfile.Init()
-			L_CurrentProfile.Flush()
-			Menu.Profiles.AddLast( L_CurrentProfile )
-		End If
+		If Name Then L_CurrentProfile.Name = Name
 	End Method
 End Type

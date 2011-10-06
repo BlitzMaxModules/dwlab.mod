@@ -11,19 +11,23 @@
 Type LTGameOverWindow Extends LTWindow
 	Method Init()
 		Super.Init()
-		LTLabel( FindShapeWithParameter( "LTLabel", "text", "YourScore" ) ).Text.Replace( "*", L_CurrentProfile.Score )
-		If L_CurrentProfile.Name = "{{Player}}" Then
+		LTLabel( FindShape( "YourScore" ) ).Text = LocalizeString( "{{YourScore}}" ).Replace( "*", Game.Score )
+		If L_CurrentProfile.Name = "{{P_Player}}" Then
 			LTTextField( FindShape( "Name" ) ).Text = LocalizeString( "{{Player}}" )
 		Else
-			FindShape( "EnterYourName" ).Hide()
+			FindShapeWithParameter( "text", "Enter your name" ).Hide()
 			FindShape( "Name" ).Hide()
 		End If
 	End Method
 	
 	Method Save()
-		If L_CurrentProfile.Name = "{{Player}}" Then L_CurrentProfile.Name = LTTextField( FindShape( "Name" ) ).Text
-		Menu.AddHighScore( L_CurrentProfile.Name, L_CurrentProfile.Score )
-		L_CurrentProfile.Score = 0
-		L_CurrentProfile.Init()
+		If L_CurrentProfile.Name = "{{P_Player}}" Then L_CurrentProfile.Name = LTTextField( FindShape( "Name" ) ).Text
+		Menu.AddHighScore( L_CurrentProfile.Name, Game.Score )
+		
+		LTMenuWindow( Menu.Project.FindWindow( , "LTMenuWindow" ) ).DestinationY = 0
+		Menu.Project.LoadWindow( Menu.World, , "LTScoresWindow" )
+		
+		L_CurrentProfile.Flush()
+		L_CurrentProfile.Load()
 	End Method
 End Type

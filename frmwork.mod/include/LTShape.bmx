@@ -119,6 +119,19 @@ Type LTShape Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: Draws the contour of the shape.
+	about: See also: #Draw
+	End Rem
+	Method DrawContour()
+		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
+		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
+		L_CurrentCamera.SizeFieldToScreen( Width, Height, SWidth, SHeight )
+		L_DrawEmptyRect( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
+	End Method
+	
+	
+	
 	Method PrintText( Text:String, HorizontalAlign:Int = LTAlign.ToCenter, VerticalAlign:Int = LTAlign.ToCenter, HorizontalShift:Double = 0, VerticalShift:Double = 0 )
 		Local XX:Double, YY:Double
 		Select HorizontalAlign
@@ -157,6 +170,15 @@ Type LTShape Extends LTObject
 		End Select
 		
 		DrawText( Text, SX, SY )
+	End Method
+	
+	
+	
+	Method SetAsViewport()
+		Local VX:Double, VY:Double, VWidth:Double, VHeight:Double
+		L_CurrentCamera.FieldToScreen( LeftX(), TopY(), VX, VY )
+		L_CurrentCamera.SizeFieldToScreen( Width, Height, VWidth, VHeight )
+		SetViewport( VX, VY, VWidth, VHeight )
 	End Method
 	
 	' ==================== Collisions ===================

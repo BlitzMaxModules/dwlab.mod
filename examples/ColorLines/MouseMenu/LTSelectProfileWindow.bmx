@@ -12,7 +12,7 @@ Type LTSelectProfileWindow Extends LTWindow
 	Field RemoveProfileButton:LTButton
 	
 	Method Init()
-		RemoveProfileButton = LTButton( FindShapeWithParameter( "LTButton", "text", "RemoveProfile" ) )
+		RemoveProfileButton = LTButton( FindShapeWithParameter( "text", "Remove" ) )
 		Menu.SelectedProfile = L_CurrentProfile
 		Super.Init()
 	End Method

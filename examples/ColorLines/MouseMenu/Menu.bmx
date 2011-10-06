@@ -13,16 +13,22 @@ Include "LTLanguageSelectionWindow.bmx"
 Include "LTMenuWindow.bmx"
 Include "LTOptionsWindow.bmx"
 Include "LTSelectProfileWindow.bmx"
+Include "LTProfilesList.bmx"
 Include "LTAddProfileWindow.bmx"
+Include "LTRenameProfileWindow.bmx"
 Include "LTRemoveProfileWindow.bmx"
 Include "LTSettingsWindow.bmx"
-Include "LTProfilesList.bmx"
+Include "LTKeysList.bmx"
+Include "LTKeyWindow.bmx"
 Include "LTHighScoresList.bmx"
+Include "LTAuthorsList.bmx"
 Include "LTGameOverWindow.bmx"
 
 Include "menu_incbin.bmx"
 
 Incbin "russian.lng"
+Incbin "english.lng"
+Incbin "OpenSans-Regular.ttf"
 
 Global Menu:LTMenu = New LTMenu
 
@@ -51,28 +57,34 @@ Type LTMenu Extends LTGUIProject
 		LTProfile.InitSystem()
 		If Not L_CurrentProfile Then
 			LTProfile.CreateDefault( ProfileTypeID )
-			L_CurrentProfile.Init()
 			Profiles.AddLast( L_CurrentProfile )
 		End If
 		
+		L_CurrentProfile.Apply( False )
+		
 		ChangeDir( "MouseMenu" )
 		World = LTWorld.FromFile( "menu.lw" )
-		
 		LoadWindow( World, , "LTLanguageSelectionWindow" )
 		ChangeDir( ".." )
 		
-		L_CurrentProfile.Apply( False )
+		SetLocalizationLanguage( LTProfile.GetLanguage( L_CurrentProfile.Language ) )
 		
-		HighScores.Clear()
+		Rem
+		'HighScores.Clear()
+		Profiles.Clear()
 		For Local N:Int = 1 To 20
-			AddHighScore( "Mighty Matt", Rand( 100, 10000 ) )
+			'AddHighScore( "Mighty Matt", N )
+			LTProfile.CreateDefault( ProfileTypeID )
+			L_CurrentProfile.Name = N
+			Profiles.AddLast( L_CurrentProfile )
 		Next
+		EndRem
 		
 		If L_CurrentProfile.Language Then Exiting = True
 	End Method
 	
 	Method InitGraphics()
-		SetImageFont( LoadImageFont( "MouseMenu\OpenSans-Regular.ttf", Floor( L_CurrentCamera.Viewport.Width / 80 ) ) )
+		SetImageFont( LoadImageFont( "incbin::OpenSans-Regular.ttf", Floor( L_CurrentCamera.Viewport.Width / 80 ) ) )
 	End Method
 	
 	Method AddPanels()
@@ -85,6 +97,7 @@ Type LTMenu Extends LTGUIProject
 		While Link <> Null
 			If LTHighScore( Link.Value() ).Score <= Score Then
 				HighScores.InsertBeforeLink( LTHighScore.Create( Name, Score, Achievements ), Link )
+				If HighScores.Count() > MaxHighScores Then HighScores.RemoveLast()
 				Return
 			End If
 			Link = Link.NextLink()
@@ -102,22 +115,6 @@ Type LTMenu Extends LTGUIProject
 		XMLObject.ManageListField( "profiles", Menu.Profiles )
 		XMLObject.ManageListField( "high_scores", Menu.HighScores )
 	End Method
-End Type
-
-
-
-Type LTHighScore Extends LTObject
-	Field Score:Int
-	Field Name:String
-	Field Achievements:TList
-	
-	Function Create:LTHighScore( Name:String, Score:Int, Achievements:TList = Null )
-		Local HighScore:LTHighScore = New LTHighScore
-		HighScore.Name = Name
-		HighScore.Score = Score
-		HighScore.Achievements = Achievements
-		Return HighScore
-	End Function
 End Type
 
 

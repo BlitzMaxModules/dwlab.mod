@@ -20,14 +20,14 @@ Type TGame Extends LTGUIProject
 	Field GameField:LTTileMap
 	Field Balls:LTTileMap
 	Field HUD:LTWindow
+	Field Background:LTShape
 	Field Objects:LTLayer = New LTLayer
 	Field Particles:LTLayer = New LTLayer
 	
 	Field Cursor:TCursor = New TCursor
 	Field Selected:TSelected
 	Field EmptyCells:TList = New TList
-	Field PathFinder:TPathFinder
-	Field Busy:Int
+	Field PathFinder:TPathFinder = New TPathFinder
 	Field Score:Int
 	Field GameOver:Int
 	
@@ -44,34 +44,46 @@ Type TGame Extends LTGUIProject
 	
 		L_ScreenWidthGrain = 76
 		L_ScreenHeightGrain = 57
-	
+		'debugstop
 		Menu.ProfileTypeID = TTypeID.ForName( "TGameProfile" )
 		Menu.InitSystem( Self )
 		HUD = LoadWindow( World, , "THUD" )
+		Background = HUD.FindShape( "Background" )
+		HUD.Remove( Background )
 		Menu.AddPanels()
 		
 		Cursor.ShapeType = LTSprite.Pivot
 		Cursor.SetDiameter( 0.1 )
 		'debugstop
 		L_CurrentProfile.Load()
-		
-		Paused = True
 	End Method
 	
-	Method LoadLevel()
+	Method LoadLevel( Profile:TGameProfile )
 		Local Layer:LTLayer = Null
-		LoadAndInitLayer( Layer, LTLayer( World.FindShapeWithParameter( "LTLayer", "level_num", "1" ) ) )
-		GameField = LTTileMap( Layer.FindShape( "Field" ) )
-		Balls = LTTileMap( Layer.FindShape( "Balls" ) )
+		LoadAndInitLayer( Layer, LTLayer( World.FindShapeWithParameter( "level_num", "1" ) ) )
+		Profile.GameField = LTTileMap( Layer.FindShape( "Field" ) )
+		Profile.Balls = LTTileMap( Layer.FindShape( "Balls" ) )
 		
-		CreateBalls()
+		For Local N:Int = 1 To 3
+			Repeat
+				Local X:Int = Rand( 0, Profile.GameField.XQuantity - 1 )
+				Local Y:Int = Rand( 0, Profile.GameField.YQuantity - 1 )
+				If Profile.GameField.Value[ X, Y ] = Plate And Profile.Balls.Value[ X, Y ] = NoBall Then
+					Profile.Balls.Value[ X, Y ] = Rand( 1, 7 )
+					Exit
+				End If
+			Forever
+		Next
+		
+		Locked = True
 	End Method
 		
 	Method InitLevel()
 		L_CurrentCamera.JumpTo( GameField )
 		L_CurrentCamera.SetMagnification( L_CurrentCamera.Viewport.Width / L_ScreenWidthGrain * 3.0 )
+		Background.JumpTo( L_CurrentCamera )
+		Background.SetSize( L_CurrentCamera.Width, L_CurrentCamera.Height )
 		
-		PathFinder = New TPathFinder
 		PathFinder.Map = GameField
 	End Method
 	
@@ -84,6 +96,7 @@ Type TGame Extends LTGUIProject
 	End Method
 	
 	Method Render()
+		Background.Draw()
 		GameField.Draw()
 		Balls.Draw()
 		Objects.Draw()
@@ -92,22 +105,23 @@ Type TGame Extends LTGUIProject
 	
 	Method Logic()
 		Cursor.SetMouseCoords()
-		If Not Busy Then Cursor.CollisionsWithTileMap( GameField )
+		If Not Locked Then Cursor.CollisionsWithTileMap( GameField )
 		Objects.Act()
 		Particles.Act()
 	End Method
 	
 	Method DeInit()
+		L_CurrentProfile.Save()
 		Menu.SaveToFile( "settings.xml" )
 	End Method
 	
 	Method CreateBalls()
 		RefreshEmptyCells()
-		'If EmptyCells.Count() < 3 Then
+		If EmptyCells.Count() < 3 Then
 			Menu.LoadGameOverWindow()
-			Paused = True
+			Locked = True
 			Return
-		'End If
+		End If
 		For Local N:Int = 0 Until BallsPerTurn
 			Local Cell:TCell = TCell.PopFrom( EmptyCells )
 			TPopUpBall.Create( Cell.X, Cell.Y, Rand( 1, 7 ) )

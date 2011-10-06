@@ -1,3 +1,6 @@
+1.7.5
++ Contour of current view layer bounds.
+
 1.7.4
 - Sprite models.
 

@@ -81,24 +81,7 @@ Type LTLayer Extends LTGroup
 	about: IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
 	End Rem
 	Method FindShape:LTShape( Name:String, IgnoreError:Int = False )
-		If GetName() = Name Then Return Self
-		For Local ChildShape:LTShape = EachIn Children
-			If ChildShape.GetName() = Name Then Return ChildShape
-			Local ChildLayer:LTLayer = LTLayer( ChildShape )
-			If ChildLayer Then
-				Local Shape:LTShape = ChildLayer.FindShape( Name, True )
-				If Shape Then Return Shape
-			Else
-				Local SpriteMap:LTSpriteMap = LTSpriteMap( ChildShape )
-				If SpriteMap Then
-					For Local Sprite:LTSprite = EachIn SpriteMap.Sprites.Keys()
-						If Sprite.GetName() = Name Then Return Sprite
-					Next
-				End If
-			End If
-		Next
-		If Not IgnoreError Then L_Error( "Shape ~q" + Name + "~q not found." )
-		Return Null
+		Return FindShapeWithParameterID( "name", Name, Null, IgnoreError )
 	End Method
 	
 	
@@ -110,32 +93,11 @@ Type LTLayer Extends LTGroup
 	You can specify optional Name parameter to check only shapes with this name.
 	End Rem
 	Method FindShapeWithType:LTShape( ShapeType:String, Name:String = "", IgnoreError:Int = False )
-		Return FindShapeWithTypeID( L_GetTypeID( ShapeType ), Name, IgnoreError )
-	End Method
-	
-	
-	
-	Method FindShapeWithTypeID:LTShape( ShapeTypeID:TTypeId, Name:String = "", IgnoreError:Int = False )
-		If TTypeId.ForObject( Self ) = ShapeTypeID Then Return Self
-		For Local ChildShape:LTShape = EachIn Children
-			If TTypeId.ForObject( ChildShape ) = ShapeTypeID Then
-				If Not Name Or Name = ChildShape.GetName() Then Return ChildShape
-			End If
-			Local ChildLayer:LTLayer = LTLayer( ChildShape )
-			If ChildLayer Then
-				Local Shape:LTShape = ChildLayer.FindShapeWithTypeID( ShapeTypeID, Name, True )
-				If Shape Then Return Shape
-			Else
-				Local SpriteMap:LTSpriteMap = LTSpriteMap( ChildShape )
-				If SpriteMap Then
-					For Local Sprite:LTSprite = EachIn SpriteMap.Sprites.Keys()
-						If TTypeId.ForObject( Sprite ) = ShapeTypeID Then Return Sprite
-					Next
-				End If
-			End If
-		Next
-		If Not IgnoreError Then L_Error( "Shape with type ~q" + ShapeTypeID.Name() + "~q not found." )
-		Return Null
+		If Name Then
+			Return FindShapeWithParameterID( "name", Name, L_GetTypeID( ShapeType ), IgnoreError )
+		Else
+			Return FindShapeWithParameterID( "", "", L_GetTypeID( ShapeType ), IgnoreError )
+		End If
 	End Method
 	
 	
@@ -145,21 +107,23 @@ Type LTLayer Extends LTGroup
 	returns: First found layer shape of class with given name and parameter with given name and value.
 	about: IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
 	End Rem
-	Method FindShapeWithParameter:LTShape( ShapeType:String, ParameterName:String, ParameterValue:String, IgnoreError:Int = False )
-		Return FindShapeWithParameterID( L_GetTypeID( ShapeType ), ParameterName, ParameterValue, IgnoreError )
+	Method FindShapeWithParameter:LTShape( ParameterName:String, ParameterValue:String, ShapeType:String = "", IgnoreError:Int = False )
+		Return FindShapeWithParameterID( ParameterName, ParameterValue, L_GetTypeID( ShapeType ), IgnoreError )
 	End Method
 	
 	
 	
-	Method FindShapeWithParameterID:LTShape( ShapeTypeID:TTypeID, ParameterName:String, ParameterValue:String, IgnoreError:Int = False )
-		If TTypeId.ForObject( Self ) = ShapeTypeID Then If GetParameter( ParameterName ) = ParameterValue Then Return Self
+	Method FindShapeWithParameterID:LTShape( ParameterName:String, ParameterValue:String, ShapeTypeID:TTypeID, IgnoreError:Int = False )
+		If TTypeId.ForObject( Self ) = ShapeTypeID Or Not ShapeTypeID Then
+			If GetParameter( ParameterName ) = ParameterValue Or Not ParameterName Then Return Self
+		End If
 		For Local ChildShape:LTShape = EachIn Children
-			If TTypeId.ForObject( ChildShape ) = ShapeTypeID Then
-				If ChildShape.GetParameter( ParameterName ) = ParameterValue Then Return ChildShape
+			If TTypeId.ForObject( ChildShape ) = ShapeTypeID Or Not ShapeTypeID Then
+				If ChildShape.GetParameter( ParameterName ) = ParameterValue Or Not ParameterName Then Return ChildShape
 			End If
 			Local ChildLayer:LTLayer = LTLayer( ChildShape )
 			If ChildLayer Then
-				Local Shape:LTShape = ChildLayer.FindShapeWithParameterID( ShapeTypeID, ParameterName, ParameterValue, True )
+				Local Shape:LTShape = ChildLayer.FindShapeWithParameterID( ParameterName, ParameterValue, ShapeTypeID, True )
 				If Shape Then Return Shape
 			Else
 				Local SpriteMap:LTSpriteMap = LTSpriteMap( ChildShape )
@@ -172,8 +136,11 @@ Type LTLayer Extends LTGroup
 				End If
 			End If
 		Next
-		If Not IgnoreError Then L_Error( "Shape with type ~q" + ShapeTypeID.Name() + "~q and parameter " + ParameterName + " = " + ..
-				ParameterValue + " not found." )
+		If Not IgnoreError Then
+			Local TypeName:String = ""
+			If ShapeTypeID Then TypeName = " and type ~q" + ShapeTypeID.Name() + "~q"
+			L_Error( "Shape with parameter " + ParameterName + " = " + ParameterValue + TypeName + " not found." )
+		End If
 		Return Null
 	End Method
 	

@@ -23,13 +23,17 @@ Type LTListBox Extends LTGadget
 	
 	
 	Method Draw()
+		If Not Visible Then Return
 		Super.Draw()
+		
 		If Not Items Then Return
 		Local Num:Int = 0
+		SetAsViewport()
 		For Local Item:Object = Eachin Items
 			DrawItem( Item, Num, GetItemSprite( Num ) )
 			Num :+ 1
 		Next
+		L_CurrentCamera.SetCameraViewport()
 	End Method
 	
 	
@@ -53,20 +57,20 @@ Type LTListBox Extends LTGadget
 	
 	
 	
-	Method OnClick( Button:Int )
+	Method OnButtonPress( ButtonAction:LTButtonAction )
 		If Not Items Then Return
 		If ItemSize <= 0 Then Return
 		Local Num:Int
 		If ListType = Vertical Then
-			Num = Floor( ( L_Cursor.Y - TopY() ) / ItemSize )
+			Num = Floor( ( L_Cursor.Y - TopY() + Shift ) / ItemSize )
 		Else
-			Num = Floor( ( L_Cursor.X - LeftX() ) / ItemSize )
+			Num = Floor( ( L_Cursor.X - LeftX() + Shift ) / ItemSize )
 		End If
-		If Num < Items.Count() Then OnClickOnItem( Button, Items.ValueAtIndex( Num ), Num )
+		If Num >= 0 And Num < Items.Count() Then OnButtonPressOnItem( ButtonAction, Items.ValueAtIndex( Num ), Num )
 	End Method
 	
 	
 	
-	Method OnClickOnItem( Button:Int, Item:Object, Num:Int )
+	Method OnButtonPressOnItem( ButtonAction:LTButtonAction, Item:Object, Num:Int )
 	End Method
 End Type

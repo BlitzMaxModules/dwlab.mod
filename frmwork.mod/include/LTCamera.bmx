@@ -169,9 +169,11 @@ Type LTCamera Extends LTSprite
 	See also: #Viewport, #ViewportClipping, #ResetViewport
 	End Rem
 	Method SetCameraViewport()
-		If Not ViewportClipping Then Return
-	
-		SetViewport( Viewport.X - 0.5 * Viewport.Width, Y - 0.5 * Viewport.Height, Viewport.Width, Viewport.Height )
+		If ViewportClipping Then	
+			SetViewport( Viewport.X - 0.5 * Viewport.Width, Viewport.Y - 0.5 * Viewport.Height, Viewport.Width, Viewport.Height )
+		Else
+			ResetViewport()
+		End If
 	End Method
 	
 	

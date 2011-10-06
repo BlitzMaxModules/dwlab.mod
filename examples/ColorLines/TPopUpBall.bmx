@@ -29,7 +29,7 @@ Type TPopUpBall Extends LTBehaviorModel
 		Sprite.AttachModel( Model )
 		
 		Game.Objects.AddLast( Sprite )
-		Game.Busy = True
+		Game.Locked = True
 	End Function
 	
 	Method ApplyTo( Shape:LTShape )
@@ -42,7 +42,7 @@ Type TPopUpBall Extends LTBehaviorModel
 	Method Deactivate( Shape:LTShape )
 		Game.Balls.SetTile( X, Y, LTSprite( Shape ).Frame )
 		Game.Objects.Remove( Shape )
-		Game.Busy = False
+		Game.Locked = False
 		TCheckLines.Execute( False )
 	End Method
 End Type

@@ -17,6 +17,7 @@ Type LTButton Extends LTLabel
 	
 	
 	Method Draw()
+		If Not Visible Then Return
 		If Visualizer.Image Then
 			Select Visualizer.Image.FramesQuantity()
 				Case 1; Frame = 0
@@ -44,17 +45,18 @@ Type LTButton Extends LTLabel
 	
 	Method OnMouseOut()
 		Focus = False
+		State = False
 	End Method
 	
 	
 	
-	Method OnMouseDown( Button:Int )
-		If Button = 1 Then State = True
+	Method OnButtonDown( ButtonAction:LTButtonAction )
+		If ButtonAction = L_ClickButton Then State = True
 	End Method
 	
 	
 	
-	Method OnMouseUp( Button:Int )
-		If Button = 1 Then State = False
+	Method OnButtonUp( ButtonAction:LTButtonAction )
+		If ButtonAction = L_ClickButton Then State = False
 	End Method
 End Type

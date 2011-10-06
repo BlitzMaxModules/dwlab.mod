@@ -15,14 +15,17 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.2.7"
+ModuleInfo "Version: 1.3"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3 (06.10.11)"
+ModuleInfo "History: &nbsp; &nbsp; Implemented controllers system."
+ModuleInfo "History: &nbsp; &nbsp; Added Contour() and SetAsViewport() methods to the LTShape."
 ModuleInfo "History: v1.2.7 (03.10.11)"
-ModuleInfo "History: &nbsp; &nbsp; Added PrintText module to the LTShape."
+ModuleInfo "History: &nbsp; &nbsp; Added PrintText() method to the LTShape."
 ModuleInfo "History: &nbsp; &nbsp; Fixed bug in LTCamera.SetCameraViewport() method."
 ModuleInfo "History: v1.2.6 (02.10.11)"
 ModuleInfo "History: &nbsp; &nbsp; LTSprite is merged with LTSprite and LTVectorSprite is cleaned of unuseful code."
@@ -132,7 +135,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.2.7"
+Const L_Version:String = "1.3"
 
 SeedRnd( MilliSecs() )
 
@@ -141,6 +144,7 @@ Include "include\LTProject.bmx"
 Include "include\LTShape.bmx"
 Include "include\LTBehaviorModel.bmx"
 Include "include\LTFont.bmx"
+Include "include\Controllers.bmx"
 Include "include\LTDrag.bmx"
 Include "include\LTAction.bmx"
 Include "include\XML.bmx"

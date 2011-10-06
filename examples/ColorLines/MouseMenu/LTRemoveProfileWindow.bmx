@@ -11,7 +11,7 @@
 Type LTRemoveProfileWindow Extends LTWindow
 	Method Init()
 		Super.Init()
-		Local Label:LTLabel = LTLabel( FindShapeWithParameter( "LTLabel", "text", "SureRemoveProfile" ) )
+		Local Label:LTLabel = LTLabel( FindShapeWithParameter( "text", "SureRemoveProfile" ) )
 		Label.Text = Label.Text.Replace( "*", "~q" + LocalizeString( Menu.SelectedProfile.Name ) + "~q" )
 	End Method
 	

@@ -6,4 +6,5 @@ Incbin "balls.png"
 Incbin "MouseMenu\frames\panel.png"
 Incbin "player.png"
 Incbin "clock.png"
+Incbin "background.jpg"
 L_SetIncbin( True )

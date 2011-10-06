@@ -8,26 +8,29 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTProfilesList Extends LTListBox
+Global L_CurrentButtonAction:LTButtonAction
+
+Type LTKeysList Extends LTListBox
 	Method Init()
 		Super.Init()
-		ItemSize = 0.5
-		Items = Menu.Profiles
+		ItemSize = 0.3
+		Items = L_CurrentProfile.Keys
 	End Method
 	
 	Method DrawItem( Item:Object, Num:Int, Sprite:LTSprite )
 		Sprite.Visualizer.SetColorFromRGB( 0.0, 0.0, 0.0 )
-		If Item = Menu.SelectedProfile Then 
-			Sprite.Visualizer.Alpha = 0.2
-			Sprite.Draw()
-		End If
+		Sprite.Visualizer.Alpha = 0.1 + 0.1 * ( Num Mod 2 )
+		Sprite.Draw()
+		
 		SetColor( 0, 0, 0 )
-		Sprite.PrintText( LocalizeString( LTProfile( Item ).Name ) )
+		Local ButtonAction:LTButtonAction = LTButtonAction( Item )
+		Sprite.PrintText( LocalizeString( "{{" + ButtonAction.Name + "}}" ), LTAlign.ToLeft, , 0.25 )
+		Sprite.PrintText( LocalizeString( "{{" + ButtonAction.GetButtonName() + "}}" ), LTAlign.ToRight, , -0.25 )
 		LTVisualizer.ResetColor()
 	End Method
 	
 	Method OnButtonPressOnItem( ButtonAction:LTButtonAction, Item:Object, Num:Int )
-		If ButtonAction <> L_ClickButton Then Return
-		Menu.SelectedProfile = LTProfile( Item )
+		L_CurrentButtonAction = LTButtonAction( Item )
+		Menu.Project.LoadWindow( Menu.World, , "LTKeyWindow" )
 	End Method
 End Type

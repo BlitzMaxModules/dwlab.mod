@@ -25,7 +25,7 @@ Type TMoveBall Extends LTBehaviorModel
 		Model.StartingTime = Game.Time
 		Model.CheckLines = CheckLines
 		Game.TileToSprite( Model, X, Y )
-		Game.Busy = True
+		Game.Locked = True
 	End Function
 	
 	Method ApplyTo( Shape:LTShape )
@@ -41,7 +41,7 @@ Type TMoveBall Extends LTBehaviorModel
 	Method Deactivate( Shape:LTShape )
 		Game.Balls.SetTile( X + DX, Y + DY, LTSprite( Shape ).Frame )
 		Game.Objects.Remove( Shape )
-		Game.Busy = False
+		Game.Locked = False
 		Game.Selected = Null
 		If CheckLines Then TCheckLines.Execute()
 	End Method

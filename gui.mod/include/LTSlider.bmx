@@ -22,14 +22,23 @@ Type LTSlider Extends LTGadget
 	Field StartingX:Double
 	Field StartingY:Double
 	Field StartingPosition:Double
+	Field ListBoxSize:Double
+	Field ContentsSize:Double
+	
+	
+	
+	Method GetClassTitle:String()
+		Return "Slider"
+	End Method
 
 	
 	
 	Method Init()
 		Local Name:String = GetName()
 		If Name Then
-			Slider = L_Window.FindShapeWithParameter( "LTSprite", "slider_name", Name, True )
-			ListBox = LTListBox( L_Window.FindShapeWithParameter( "LTSprite", "list_name", Name, True ) )
+			Slider = L_Window.FindShapeWithParameter( "slider_name", Name, "", True )
+			ListBox = LTListBox( L_Window.FindShape( GetParameter( "list_box_name" ), True ) )
+			'debugstop
 			If Slider Then L_Window.Remove( Slider )
 		End If
 		If GetParameter( "type" ) = "vertical" Then SliderType = Vertical Else SliderType = Horizontal
@@ -39,6 +48,7 @@ Type LTSlider Extends LTGadget
 	
 	
 	Method Draw()
+		If Not Visible Then Return
 		Super.Draw()
 		If Slider Then
 			Select SliderType
@@ -55,8 +65,23 @@ Type LTSlider Extends LTGadget
 	
 	
 	
-	Method GetClassTitle:String()
-		Return "Slider"
+	Method Act()
+		Super.Act()
+		If ListBox Then
+			If ListBox.Items Then
+				ContentsSize = ListBox.ItemSize * ListBox.Items.Count()
+				If ContentsSize > 0 
+					Select ListBox.ListType
+						Case Horizontal
+							ListBoxSize = ListBox.Width
+						Case Vertical
+							ListBoxSize = ListBox.Height
+					End Select
+					Size = ListBoxSize / ContentsSize
+					If Size > 1.0 Then Size = 1.0
+				End If
+			End If
+		End If
 	End Method
 	
 	
@@ -65,23 +90,6 @@ Type LTSlider Extends LTGadget
 		If Button = 1 Then
 			Select SelectionType
 				Case Moving
-					Local ContentsSize:Double, ListBoxSize:Double
-					If ListBox Then
-						If ListBox.Items Then
-							ContentsSize = ListBox.ItemSize * ListBox.Items.Count()
-							If ContentsSize > 0 
-								Select ListBox.ListType
-									Case Horizontal
-										ListBoxSize = ListBox.Width
-									Case Vertical
-										ListBoxSize = ListBox.Height
-								End Select
-								Size = ListBoxSize / ContentsSize
-								If Size > 1.0 Then Size = 1.0
-							End If
-						End If
-					End If
-					
 					If Dragging Then
 						Select SliderType
 							Case Horizontal
@@ -90,7 +98,7 @@ Type LTSlider Extends LTGadget
 								Position = L_LimitDouble( StartingPosition + ( L_Cursor.Y - StartingY ) / Height / ( 1.0 - Size ), 0.0, 1.0 )
 						End Select
 						
-						If ListBox Then ListBox.Shift = Position * ( ContentsSize - ListBoxSize )
+						If ListBox Then ListBox.Shift = Position * ( ContentsSize - ListBoxSize )'; DebugLog ContentsSize + "," + ListBoxSize + "," + ListBox.Shift
 					Else
 						Dragging = True
 						StartingX = L_Cursor.X

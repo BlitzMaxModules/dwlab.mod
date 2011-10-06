@@ -13,8 +13,13 @@ Type TGameProfile Extends LTProfile
 	Field Balls:LTTileMap
 	
 	Method Init()
-		Game.LoadLevel()
-		Game.InitLevel()
+		Keys.AddLast( LTButtonAction.Create( LTKeyboardKey.Create( Key_Escape ), "Exit to menu" ) )
+		Keys.AddLast( LTButtonAction.Create( LTKeyboardKey.Create( Key_Z ), "Boss key" ) )
+	End Method
+	
+	Method Flush()
+		Score = 0
+		Game.LoadLevel( Self )
 	End Method
 
 	Method Load()

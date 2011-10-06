@@ -21,7 +21,7 @@ Type TMoveAlongPath Extends LTBehaviorModel
 		Model.StartingTime = Game.Time
 		Model.Position = Position
 		Game.Selected = Null
-		Game.Busy = True
+		Game.Locked = True
 		Game.TileToSprite( Model, Position.X, Position.Y )
 		Game.RushSound.Play()
 	End Function
@@ -72,7 +72,7 @@ Type TMoveAlongPath Extends LTBehaviorModel
 	Method Deactivate( Shape:LTShape )
 		Game.Balls.SetTile( Position.X, Position.Y, LTSprite( Shape ).Frame )
 		Game.Objects.Remove( Shape )
-		Game.Busy = False
+		Game.Locked = False
 		Game.StopSound.Play()
 		TCheckLines.Execute()
 	End Method

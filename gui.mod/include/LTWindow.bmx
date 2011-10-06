@@ -17,6 +17,7 @@ Type LTWindow Extends LTLayer
 	
 	
 	Method Draw()
+		If Not Visible Then Return
 		If Modal Then L_CurrentCamera.Darken( 0.3 )
 		Super.Draw()
 	End Method
@@ -35,12 +36,23 @@ Type LTWindow Extends LTLayer
 					Gadget.OnMouseOver()
 					MouseOver.Insert( Gadget, Null )
 				End If
-				For Local N:Int = 1 To 3
-					If Project.MouseHits[ N ] = -1 Then
-						OnClick( Gadget, N )
-						Gadget.OnClick( N )
+				
+				For Local ButtonAction:LTButtonAction = Eachin L_GUIButtons
+					If ButtonAction.WasPressed() Then
+						OnButtonPress( Gadget, ButtonAction )
+						Gadget.OnButtonPress( ButtonAction )
 					End If
-					If MouseDown( N ) Then Gadget.OnMouseDown( N ) Else Gadget.OnMouseUp( N )
+					If ButtonAction.WasUnpressed() Then
+						OnButtonUnpress( Gadget, ButtonAction )
+						Gadget.OnButtonUnpress( ButtonAction )
+					End If
+					If ButtonAction.IsDown() Then
+						OnButtonDown( Gadget, ButtonAction )
+						Gadget.OnButtonDown( ButtonAction )
+					Else
+						OnButtonUp( Gadget, ButtonAction )
+						Gadget.OnButtonUp( ButtonAction )
+					End If
 				Next
 			ElseIf MouseOver.Contains( Gadget ) Then
 				Gadget.OnMouseOut()
@@ -50,25 +62,27 @@ Type LTWindow Extends LTLayer
 		Next
 	
 		If L_ActiveTextField Then
-			Local LeftPart:String = L_ActiveTextField.LeftPart
-			Local RightPart:String = L_ActiveTextField.RightPart
-			If LeftPart Then
-				If KeyHit( Key_Left ) Then
-					L_ActiveTextField.RightPart = LeftPart[ LeftPart.Length - 1.. ] + RightPart
-					L_ActiveTextField.LeftPart = LeftPart[ ..LeftPart.Length - 1 ]
+			If L_ActiveTextField.Active Then
+				Local LeftPart:String = L_ActiveTextField.LeftPart
+				Local RightPart:String = L_ActiveTextField.RightPart
+				If LeftPart Then
+					If L_CharacterLeft.WasPressed() Then
+						L_ActiveTextField.RightPart = LeftPart[ LeftPart.Length - 1.. ] + RightPart
+						L_ActiveTextField.LeftPart = LeftPart[ ..LeftPart.Length - 1 ]
+					End If
+					If L_DeletePreviousCharacter.WasPressed() Then L_ActiveTextField.LeftPart = LeftPart[ ..LeftPart.Length - 1 ]
 				End If
-				If KeyHit( Key_Backspace ) Then L_ActiveTextField.LeftPart = LeftPart[ ..LeftPart.Length - 1 ]
-			End If
-			If RightPart Then
-				If KeyHit( Key_Right ) Then
-					L_ActiveTextField.LeftPart = LeftPart + RightPart[ ..1 ]
-					L_ActiveTextField.RightPart = RightPart[ 1.. ]
+				If RightPart Then
+					If L_CharacterRight.WasPressed() Then
+						L_ActiveTextField.LeftPart = LeftPart + RightPart[ ..1 ]
+						L_ActiveTextField.RightPart = RightPart[ 1.. ]
+					End If
+					If L_DeleteNextCharacter.WasPressed() Then L_ActiveTextField.RightPart = RightPart[ 1.. ]
 				End If
-				If KeyHit( Key_Delete ) Then L_ActiveTextField.RightPart = RightPart[ 1.. ]
+				Local Key:Int = GetChar()
+				If Key >= 32 Then L_ActiveTextField.LeftPart :+ Chr( Key )
+				L_ActiveTextField.Text = L_ActiveTextField.LeftPart + L_ActiveTextField.RightPart
 			End If
-			Local Key:Int = GetChar()
-			If Key >= 32 Then L_ActiveTextField.LeftPart :+ Chr( Key )
-			L_ActiveTextField.Text = L_ActiveTextField.LeftPart + L_ActiveTextField.RightPart
 		End If
 		
 		Super.Act()
@@ -81,7 +95,7 @@ Type LTWindow Extends LTLayer
 	
 	
 	
-	Method OnClick( Gadget:LTGadget, Button:Int )
+	Method OnButtonUnpress( Gadget:LTGadget, ButtonAction:LTButtonAction )
 		Select Gadget.GetParameter( "action" )
 			Case "save"
 				Save()
@@ -108,7 +122,13 @@ Type LTWindow Extends LTLayer
 	
 	
 	
-	Method OnMouseDown( Gadget:LTGadget, Button:Int )
+	Method OnButtonPress( Gadget:LTGadget, ButtonAction:LTButtonAction )
+	End Method
+	
+	Method OnButtonDown( Gadget:LTGadget, ButtonAction:LTButtonAction )
+	End Method
+	
+	Method OnButtonUp( Gadget:LTGadget, ButtonAction:LTButtonAction )
 	End Method
 	
 	Method OnMouseOver( Gadget:LTGadget )

@@ -23,6 +23,7 @@ Type LTTextField Extends LTGadget
 	
 	
 	Method Draw()
+		If Not Visible Then Return
 		Super.Draw()
 		SetColor( 0, 0, 0 )
 		If L_ActiveTextField = Self Then

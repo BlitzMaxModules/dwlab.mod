@@ -28,6 +28,7 @@ Type LTProfile Extends LTObject
 	Field ScreenHeight:Int
 	Field ColorDepth:Int
 	Field Frequency:Int
+	Field Keys:TList = New TList
 	
 	Function InitSystem()
 		For Local Mode:TGraphicsMode = Eachin GraphicsModes()
@@ -83,6 +84,9 @@ Type LTProfile Extends LTObject
 		If AudioDriverExists( "DirectSound" ) Then L_CurrentProfile.AudioDriver = "DirectSound"
 		?
 		If Not L_CurrentProfile.AudioDriver And AudioDrivers() Then L_CurrentProfile.AudioDriver = AudioDrivers()[ 0 ]
+		
+		L_CurrentProfile.Init()
+		L_CurrentProfile.Flush()
 	End Function
 	
 	Function GetLanguage:TMaxGuiLanguage( Name:String )
@@ -150,6 +154,9 @@ Type LTProfile Extends LTObject
 	Method Init()
 	End Method
 	
+	Method Flush()
+	End Method
+	
 	Method Load()
 	End Method
 	
@@ -169,6 +176,7 @@ Type LTProfile Extends LTObject
 		XMLObject.ManageIntAttribute( "height", ScreenHeight )
 		XMLObject.ManageIntAttribute( "depth", ColorDepth )
 		XMLObject.ManageIntAttribute( "frequency", Frequency )
+		XMLObject.ManageChildList( Keys )
 	End Method
 End Type
 

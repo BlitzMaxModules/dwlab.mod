@@ -386,7 +386,7 @@ Type LTXMLObject Extends LTObject
 			For Local XMLObject:LTXMLObject = EachIn Children
 				List.AddLast( XMLObject.ManageObject( Null ) )
 			Next
-		Else
+		ElseIf List Then
 			Children.Clear()
 			For Local Obj:LTObject = EachIn List
 				Local XMLObject:LTXMLObject = New LTXMLObject

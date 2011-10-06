@@ -19,3 +19,12 @@ Import maxgui.localization
 Include "include\LTGUIProject.bmx"
 Include "include\LTWindow.bmx"
 Include "include\LTGadget.bmx"
+
+Global L_ClickButton:LTButtonAction = LTButtonAction.Create( LTMouseButton.Create( 1 ) )
+Global L_CharacterLeft:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Left ) )
+Global L_CharacterRight:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Right ) )
+Global L_DeletePreviousCharacter:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Backspace ) )
+Global L_DeleteNextCharacter:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Delete ) )
+
+Global L_GUIButtons:TList = New TList
+L_GUIButtons.AddLast( L_ClickButton )
