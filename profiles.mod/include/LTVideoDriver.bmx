@@ -8,24 +8,16 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTCheckBox Extends LTButton
-	Method OnMouseOut()
-		Focus = False
-	End Method
+Global L_VideoDrivers:TList = New TList
 
+Type LTVideoDriver
+	Field Name:String
+	Field Driver:TMax2DDriver
 	
-	
-	Method OnButtonPress( ButtonAction:LTButtonAction )
-		State = Not State
-	End Method
-		
-	
-
-	Method OnButtonDown( ButtonAction:LTButtonAction )
-	End Method
-	
-	
-	
-	Method OnButtonUp( ButtonAction:LTButtonAction )
-	End Method
+	Function Get:LTVideoDriver( Name:String ="" )
+		For Local Driver:LTVideoDriver = Eachin L_VideoDrivers
+			If Driver.Name = Name Then Return Driver
+		Next
+		Return LTVideoDriver( L_VideoDrivers.First() )
+	End Function
 End Type

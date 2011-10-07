@@ -64,6 +64,7 @@ Type LTRasterFrame Extends LTImage
 	
 	
 	Method Draw( X:Double, Y:Double, TotalWidth:Double, TotalHeight:Double, Frame:Int )
+		SetRotation( 0.0 )
 		Local Width:Double, Height:Double
 		Local XX:Float = X - 0.5 * TotalWidth
 		For Local XN:Int = 0 To 2

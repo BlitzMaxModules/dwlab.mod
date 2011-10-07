@@ -8,7 +8,6 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTProfile.bmx"
 Include "LTLanguageSelectionWindow.bmx"
 Include "LTMenuWindow.bmx"
 Include "LTOptionsWindow.bmx"
@@ -35,8 +34,6 @@ Global Menu:LTMenu = New LTMenu
 Type LTMenu Extends LTGUIProject
 	Field Project:LTGUIProject
 	Field World:LTWorld
-	Field DesktopAreaWidth:Int = DesktopWidth()
-	Field DesktopAreaHeight:Int = DesktopHeight() - 86
 	
 	Field ProfileTypeID:TTypeId = TTypeId.ForName( "LTProfile" )
 	Field Profiles:TList = New TList
@@ -59,8 +56,7 @@ Type LTMenu Extends LTGUIProject
 			LTProfile.CreateDefault( ProfileTypeID )
 			Profiles.AddLast( L_CurrentProfile )
 		End If
-		
-		L_CurrentProfile.Apply( False )
+		L_CurrentProfile.Apply( [ Project, LTGUIProject( Self ) ] )
 		
 		ChangeDir( "MouseMenu" )
 		World = LTWorld.FromFile( "menu.lw" )
@@ -85,11 +81,13 @@ Type LTMenu Extends LTGUIProject
 	
 	Method InitGraphics()
 		SetImageFont( LoadImageFont( "incbin::OpenSans-Regular.ttf", Floor( L_CurrentCamera.Viewport.Width / 80 ) ) )
+		L_CurrentProfile.InitCamera( GUICamera )
 	End Method
 	
 	Method AddPanels()
 		Project.LoadWindow( World, , "LTMenuWindow" )
 		Project.LoadWindow( World, , "LTOptionsWindow" )
+		Project.Locked = True
 	End Method
 	
 	Method AddHighScore( Name:String, Score:Int, Achievements:TList = Null )

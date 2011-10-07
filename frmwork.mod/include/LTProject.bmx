@@ -133,18 +133,17 @@ Type LTProject Extends LTObject
 	
 	Rem
 	bbdoc: Graphics initialization method.
-	about: It will be relaunched after changing graphics driver. You should put font loading code there if you have any.
+	about: It will be relaunched after changing graphics driver (via profiles). You should put font loading code there if you have any.
 	
 	See also: #Init, #InitSound, #DeInit
 	End Rem
 	Method InitGraphics()
 	End Method
-  
 	
 	
 	Rem
 	bbdoc: Sound initialization method.
-	about: It will be relaunched after changing sound driver. You should put sound loading code there if you have any.
+	about: It will be relaunched after changing sound driver (via profiles). You should put sound loading code there if you have any.
 	
 	See also: #Init, #InitGraphics, #DeInit
 	End Rem

@@ -12,7 +12,6 @@ LTGUIProject^dwlab.frmwork.LTProject{
 .GUICamera:dwlab.frmwork.LTCamera&
 .Locked%&
 -New%()="_dwlab_gui_LTGUIProject_New"
--Delete%()="_dwlab_gui_LTGUIProject_Delete"
 -LoadWindow:LTWindow(World:dwlab.frmwork.LTWorld,Name$=$"",Class$=$"")="_dwlab_gui_LTGUIProject_LoadWindow"
 -InitWindowShape%(Window:LTWindow)="_dwlab_gui_LTGUIProject_InitWindowShape"
 -FindWindow:LTWindow(Name$=$"",Class$=$"")="_dwlab_gui_LTGUIProject_FindWindow"
@@ -25,7 +24,6 @@ LTWindow^dwlab.frmwork.LTLayer{
 .MouseOver:brl.map.TMap&
 .Modal%&
 -New%()="_dwlab_gui_LTWindow_New"
--Delete%()="_dwlab_gui_LTWindow_Delete"
 -Draw%()="_dwlab_gui_LTWindow_Draw"
 -Act%()="_dwlab_gui_LTWindow_Act"
 -GetTextFieldText$(Name$)="_dwlab_gui_LTWindow_GetTextFieldText"
@@ -39,7 +37,6 @@ LTWindow^dwlab.frmwork.LTLayer{
 }="dwlab_gui_LTWindow"
 LTCheckBox^LTButton{
 -New%()="_dwlab_gui_LTCheckBox_New"
--Delete%()="_dwlab_gui_LTCheckBox_Delete"
 -OnMouseOut%()="_dwlab_gui_LTCheckBox_OnMouseOut"
 -OnButtonPress%(ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTCheckBox_OnButtonPress"
 -OnButtonDown%(ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTCheckBox_OnButtonDown"
@@ -49,7 +46,6 @@ LTButton^LTLabel{
 .State%&
 .Focus%&
 -New%()="_dwlab_gui_LTButton_New"
--Delete%()="_dwlab_gui_LTButton_Delete"
 -Draw%()="_dwlab_gui_LTButton_Draw"
 -GetClassTitle$()="_dwlab_gui_LTButton_GetClassTitle"
 -OnMouseOver%()="_dwlab_gui_LTButton_OnMouseOver"
@@ -65,7 +61,6 @@ LTLabel^LTGadget{
 .DY!&
 .Align%&
 -New%()="_dwlab_gui_LTLabel_New"
--Delete%()="_dwlab_gui_LTLabel_Delete"
 -GetClassTitle$()="_dwlab_gui_LTLabel_GetClassTitle"
 -Init%()="_dwlab_gui_LTLabel_Init"
 -Draw%()="_dwlab_gui_LTLabel_Draw"
@@ -77,7 +72,6 @@ LTTextField^LTGadget{
 .LeftPart$&
 .RightPart$&
 -New%()="_dwlab_gui_LTTextField_New"
--Delete%()="_dwlab_gui_LTTextField_Delete"
 -Init%()="_dwlab_gui_LTTextField_Init"
 -Draw%()="_dwlab_gui_LTTextField_Draw"
 -GetClassTitle$()="_dwlab_gui_LTTextField_GetClassTitle"
@@ -89,7 +83,6 @@ LTListBox^LTGadget{
 .ItemSize!&
 .Shift!&
 -New%()="_dwlab_gui_LTListBox_New"
--Delete%()="_dwlab_gui_LTListBox_Delete"
 -GetClassTitle$()="_dwlab_gui_LTListBox_GetClassTitle"
 -Draw%()="_dwlab_gui_LTListBox_Draw"
 -GetItemSprite:dwlab.frmwork.LTSprite(Num%)="_dwlab_gui_LTListBox_GetItemSprite"
@@ -113,7 +106,6 @@ Filling%=1
 .ListBoxSize!&
 .ContentsSize!&
 -New%()="_dwlab_gui_LTSlider_New"
--Delete%()="_dwlab_gui_LTSlider_Delete"
 -GetClassTitle$()="_dwlab_gui_LTSlider_GetClassTitle"
 -Init%()="_dwlab_gui_LTSlider_Init"
 -Draw%()="_dwlab_gui_LTSlider_Draw"
@@ -123,7 +115,6 @@ Filling%=1
 }="dwlab_gui_LTSlider"
 LTGadget^dwlab.frmwork.LTSprite{
 -New%()="_dwlab_gui_LTGadget_New"
--Delete%()="_dwlab_gui_LTGadget_Delete"
 -Init%()="_dwlab_gui_LTGadget_Init"
 -OnMouseOver%()="_dwlab_gui_LTGadget_OnMouseOver"
 -OnMouseOut%()="_dwlab_gui_LTGadget_OnMouseOut"

@@ -29,7 +29,7 @@ Type TCheckLines
 		If Rows.IsEmpty() Then
 			If CreateBalls Then Game.CreateBalls()
 		Else
-			Game.ExplosionSound.Play()
+			L_PlaySound( Game.ExplosionSound )
 			Game.Score :+ Rows.Count() * ( Rows.Count() - 1 ) / 2
 		End If
 	End Function

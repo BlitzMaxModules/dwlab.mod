@@ -42,11 +42,10 @@ Type LTTextField Extends LTGadget
 	
 	
 	
-	Method OnClick( Button:Int )
-		If Button = 1 Then
-			L_ActiveTextField = Self
-			LeftPart = Text
-			RightPart = ""
-		End If
+	Method OnButtonPress( ButtonAction:LTButtonAction )
+		If ButtonAction <> L_ClickButton Then Return
+		L_ActiveTextField = Self
+		LeftPart = Text
+		RightPart = ""
 	End Method
 End Type

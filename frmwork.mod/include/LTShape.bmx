@@ -616,12 +616,22 @@ Type LTShape Extends LTObject
 	bbdoc: Sets the size of the shape.
 	about: It's better to use this method instead of equating Width and Height fields to new values.
 	
-	See also: #Width, #Height, #SetWidth, #SetHeight
+	See also: #Width, #Height, #SetWidth, #SetHeight, #SetSizeAs
 	End Rem
 	Method SetSize( NewWidth:Double, NewHeight:Double )
 		Width = NewWidth
 		Height = NewHeight
 		Update()
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Sets the size of the shape as of given shape.
+	about: See also: #Width, #Height, #SetWidth, #SetHeight, #SetSize
+	End Rem
+	Method SetSizeAs( Shape:LTShape )
+		SetSize( Shape.Width, Shape.Height )
 	End Method
 	
 	

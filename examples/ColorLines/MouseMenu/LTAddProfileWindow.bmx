@@ -12,11 +12,12 @@ Type LTAddProfileWindow Extends LTWindow
 	Method Save()
 		Local Name:String = LTTextField( FindShape( "ProfileName" ) ).Text
 		If Name Then
-			L_CurrentProfile = L_CurrentProfile.Clone()
-			L_CurrentProfile.Name = Name
-			L_CurrentProfile.Init()
-			L_CurrentProfile.Flush()
+			Local Profile:LTProfile = L_CurrentProfile.Clone()
+			Profile.Name = Name
+			Profile.Init()
+			Profile.Flush()
 			Menu.Profiles.AddLast( L_CurrentProfile )
+			Menu.SelectedProfile = L_CurrentProfile
 		End If
 	End Method
 End Type

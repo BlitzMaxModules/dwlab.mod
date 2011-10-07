@@ -86,40 +86,40 @@ Type LTSlider Extends LTGadget
 	
 	
 	
-	Method OnMouseDown( Button:Int )
-		If Button = 1 Then
-			Select SelectionType
-				Case Moving
-					If Dragging Then
-						Select SliderType
-							Case Horizontal
-								Position = L_LimitDouble( StartingPosition + ( L_Cursor.X - StartingX ) / Width / ( 1.0 - Size ), 0.0, 1.0 )
-							Case Vertical
-								Position = L_LimitDouble( StartingPosition + ( L_Cursor.Y - StartingY ) / Height / ( 1.0 - Size ), 0.0, 1.0 )
-						End Select
-						
-						If ListBox Then ListBox.Shift = Position * ( ContentsSize - ListBoxSize )'; DebugLog ContentsSize + "," + ListBoxSize + "," + ListBox.Shift
-					Else
-						Dragging = True
-						StartingX = L_Cursor.X
-						StartingY = L_Cursor.Y
-						StartingPosition = Position
-					End If
-				Case Filling
-					Position = 0.0
+	Method OnButtonDown( ButtonAction:LTButtonAction )
+		If ButtonAction <> L_ClickButton Then Return
+		Select SelectionType
+			Case Moving
+				If Dragging Then
 					Select SliderType
 						Case Horizontal
-							Size = L_LimitDouble( ( L_Cursor.X - LeftX() ) / Width, 0.0, 1.0 )
+							Position = L_LimitDouble( StartingPosition + ( L_Cursor.X - StartingX ) / Width / ( 1.0 - Size ), 0.0, 1.0 )
 						Case Vertical
-							Size = L_LimitDouble( ( L_Cursor.Y - TopY() ) / Height, 0.0, 1.0 )
+							Position = L_LimitDouble( StartingPosition + ( L_Cursor.Y - StartingY ) / Height / ( 1.0 - Size ), 0.0, 1.0 )
 					End Select
-			End Select
-		End If
+					
+					If ListBox Then ListBox.Shift = Position * ( ContentsSize - ListBoxSize )'; DebugLog ContentsSize + "," + ListBoxSize + "," + ListBox.Shift
+				Else
+					Dragging = True
+					StartingX = L_Cursor.X
+					StartingY = L_Cursor.Y
+					StartingPosition = Position
+				End If
+			Case Filling
+				Position = 0.0
+				Select SliderType
+					Case Horizontal
+						Size = L_LimitDouble( ( L_Cursor.X - LeftX() ) / Width, 0.0, 1.0 )
+					Case Vertical
+						Size = L_LimitDouble( ( L_Cursor.Y - TopY() ) / Height, 0.0, 1.0 )
+				End Select
+		End Select
 	EndMethod
 	
 	
 	
-	Method OnMouseUp( Button:Int )
-		If Button = 1 Then Dragging = False
+	Method OnButtonUnpress( ButtonAction:LTButtonAction )
+		If ButtonAction <> L_ClickButton Then Return
+		Dragging = False
 	EndMethod
 End Type

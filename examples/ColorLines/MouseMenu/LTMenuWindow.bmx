@@ -23,6 +23,13 @@ Type LTMenuWindow Extends LTWindow
 	
 	
 	
+	Method Draw()
+		If Y > -Panel.Height Then L_CurrentCamera.Darken( 0.5 * ( Y + Panel.Height ) / Panel.Height )
+		Super.Draw()
+	End Method
+	
+	
+	
 	Method OnButtonPress( Gadget:LTGadget, ButtonAction:LTButtonAction )
 		If ButtonAction <> L_ClickButton Then Return
 		Select Gadget.GetParameter( "action" )

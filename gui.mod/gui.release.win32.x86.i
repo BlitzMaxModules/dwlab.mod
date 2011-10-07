@@ -2,7 +2,7 @@ ModuleInfo "Version: 1.0"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
-ModuleInfo "History: v1.0 (28.06.11)"
+ModuleInfo "History: v1.0 (07.10.11)"
 ModuleInfo "History: &nbsp; &nbsp; Initial release."
 import brl.blitz
 import dwlab.frmwork
@@ -14,6 +14,7 @@ LTGUIProject^dwlab.frmwork.LTProject{
 -New%()="_dwlab_gui_LTGUIProject_New"
 -Delete%()="_dwlab_gui_LTGUIProject_Delete"
 -LoadWindow:LTWindow(World:dwlab.frmwork.LTWorld,Name$=$"",Class$=$"")="_dwlab_gui_LTGUIProject_LoadWindow"
+-InitWindowShape%(Window:LTWindow)="_dwlab_gui_LTGUIProject_InitWindowShape"
 -FindWindow:LTWindow(Name$=$"",Class$=$"")="_dwlab_gui_LTGUIProject_FindWindow"
 -CloseWindow%(Window:LTWindow="bbNullObject")="_dwlab_gui_LTGUIProject_CloseWindow"
 -Execute%()="_dwlab_gui_LTGUIProject_Execute"
@@ -39,11 +40,10 @@ LTWindow^dwlab.frmwork.LTLayer{
 LTCheckBox^LTButton{
 -New%()="_dwlab_gui_LTCheckBox_New"
 -Delete%()="_dwlab_gui_LTCheckBox_Delete"
--GetValue$()="_dwlab_gui_LTCheckBox_GetValue"
--SetValue%(Value$)="_dwlab_gui_LTCheckBox_SetValue"
--OnClick%(Button%)="_dwlab_gui_LTCheckBox_OnClick"
--OnMouseDown%(Button%)="_dwlab_gui_LTCheckBox_OnMouseDown"
--OnMouseUp%(Button%)="_dwlab_gui_LTCheckBox_OnMouseUp"
+-OnMouseOut%()="_dwlab_gui_LTCheckBox_OnMouseOut"
+-OnButtonPress%(ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTCheckBox_OnButtonPress"
+-OnButtonDown%(ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTCheckBox_OnButtonDown"
+-OnButtonUp%(ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTCheckBox_OnButtonUp"
 }="dwlab_gui_LTCheckBox"
 LTButton^LTLabel{
 .State%&
@@ -81,7 +81,7 @@ LTTextField^LTGadget{
 -Init%()="_dwlab_gui_LTTextField_Init"
 -Draw%()="_dwlab_gui_LTTextField_Draw"
 -GetClassTitle$()="_dwlab_gui_LTTextField_GetClassTitle"
--OnClick%(Button%)="_dwlab_gui_LTTextField_OnClick"
+-OnButtonPress%(ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTTextField_OnButtonPress"
 }="dwlab_gui_LTTextField"
 LTListBox^LTGadget{
 .ListType%&
@@ -118,15 +118,13 @@ Filling%=1
 -Init%()="_dwlab_gui_LTSlider_Init"
 -Draw%()="_dwlab_gui_LTSlider_Draw"
 -Act%()="_dwlab_gui_LTSlider_Act"
--OnMouseDown%(Button%)="_dwlab_gui_LTSlider_OnMouseDown"
--OnMouseUp%(Button%)="_dwlab_gui_LTSlider_OnMouseUp"
+-OnButtonDown%(ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTSlider_OnButtonDown"
+-OnButtonUnpress%(ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTSlider_OnButtonUnpress"
 }="dwlab_gui_LTSlider"
 LTGadget^dwlab.frmwork.LTSprite{
 -New%()="_dwlab_gui_LTGadget_New"
 -Delete%()="_dwlab_gui_LTGadget_Delete"
 -Init%()="_dwlab_gui_LTGadget_Init"
--GetValue$()="_dwlab_gui_LTGadget_GetValue"
--SetValue%(Value$)="_dwlab_gui_LTGadget_SetValue"
 -OnMouseOver%()="_dwlab_gui_LTGadget_OnMouseOver"
 -OnMouseOut%()="_dwlab_gui_LTGadget_OnMouseOut"
 -OnButtonPress%(ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTGadget_OnButtonPress"

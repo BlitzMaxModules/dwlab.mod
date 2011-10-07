@@ -11,6 +11,7 @@
 Type TGameProfile Extends LTProfile
 	Field GameField:LTTileMap
 	Field Balls:LTTileMap
+	Field NextBalls:Int[] = New Int[ 3 ]
 	
 	Method Init()
 		Keys.AddLast( LTButtonAction.Create( LTKeyboardKey.Create( Key_Escape ), "Exit to menu" ) )

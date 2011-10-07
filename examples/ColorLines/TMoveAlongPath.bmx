@@ -23,7 +23,7 @@ Type TMoveAlongPath Extends LTBehaviorModel
 		Game.Selected = Null
 		Game.Locked = True
 		Game.TileToSprite( Model, Position.X, Position.Y )
-		Game.RushSound.Play()
+		L_PlaySound( Game.RushSound )
 	End Function
 	
 	Method ApplyTo( Shape:LTShape )
@@ -73,7 +73,7 @@ Type TMoveAlongPath Extends LTBehaviorModel
 		Game.Balls.SetTile( Position.X, Position.Y, LTSprite( Shape ).Frame )
 		Game.Objects.Remove( Shape )
 		Game.Locked = False
-		Game.StopSound.Play()
+		L_PlaySound( Game.StopSound )
 		TCheckLines.Execute()
 	End Method
 End Type

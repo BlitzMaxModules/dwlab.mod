@@ -57,7 +57,7 @@ Type TGame Extends LTGUIProject
 		'debugstop
 		L_CurrentProfile.Load()
 	End Method
-	
+
 	Method LoadLevel( Profile:TGameProfile )
 		Local Layer:LTLayer = Null
 		LoadAndInitLayer( Layer, LTLayer( World.FindShapeWithParameter( "level_num", "1" ) ) )
@@ -70,6 +70,7 @@ Type TGame Extends LTGUIProject
 				Local Y:Int = Rand( 0, Profile.GameField.YQuantity - 1 )
 				If Profile.GameField.Value[ X, Y ] = Plate And Profile.Balls.Value[ X, Y ] = NoBall Then
 					Profile.Balls.Value[ X, Y ] = Rand( 1, 7 )
+					Profile.NextBalls[ N - 1 ] = Rand( 1, 7 )
 					Exit
 				End If
 			Forever
@@ -85,6 +86,11 @@ Type TGame Extends LTGUIProject
 		Background.SetSize( L_CurrentCamera.Width, L_CurrentCamera.Height )
 		
 		PathFinder.Map = GameField
+	End Method
+	
+	Method InitGraphics()
+		L_CurrentProfile.InitCamera( L_CurrentCamera )
+		L_CurrentProfile.InitCamera( GUICamera )
 	End Method
 	
 	Method InitSound()

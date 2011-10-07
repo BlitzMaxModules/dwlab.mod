@@ -11,7 +11,7 @@
 Rem
 bbdoc: Global variable for current camera.
 End Rem
-Global L_CurrentCamera:LTCamera = LTCamera.Create( 800, 600, 25.0 )
+Global L_CurrentCamera:LTCamera = LTCamera.Create()
 
 Rem
 bbdoc: Global flag for discrete graphics.
@@ -249,12 +249,40 @@ Type LTCamera Extends LTSprite
 		ApplyColor( Intensity, 0.0, 0.0, 0.0 )
 	End Method
 	
+	' ==================== Other ====================	
+	
+	Method Clone:LTShape()
+		Local NewSprite:LTSprite = New LTSprite
+		CopyTo( NewSprite )
+		Return NewSprite
+	End Method
+
+	
+	
+	Method CopyTo( Shape:LTShape )
+		Super.CopyTo( Shape )
+		Local Camera:LTCamera = LTCamera( Shape )
+		
+		?debug
+		If Not Camera Then L_Error( "Trying to copy camera ~q" + Shape.GetTitle() + "~q data to non-camera" )
+		?
+		
+		Camera.Viewport = Viewport.Clone()
+		Camera.ViewportClipping = ViewportClipping
+		Camera.Isometric = Isometric
+		Camera.VX1 = VX1
+		Camera.VY1 = VY1
+		Camera.VX2 = VX2
+		Camera.VY2 = VY2
+		Camera.Update()
+	End Method
+	
 	
 	Rem
 	bbdoc: Creates new camera object.
 	returns: New camera object.
 	End Rem
-	Function Create:LTCamera( Width:Double, Height:Double, UnitSize:Double )
+	Function Create:LTCamera( Width:Double = 800.0, Height:Double = 600.0, UnitSize:Double = 25.0 )
 		Local Camera:LTCamera = New LTCamera
 		Camera.Viewport.SetCoords( 0.5 * Width, 0.5 * Height )
 		Camera.Viewport.SetSize( Width, Height )

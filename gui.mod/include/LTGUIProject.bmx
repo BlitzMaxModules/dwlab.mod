@@ -18,7 +18,7 @@ bbdoc: Class for GUI project and subprojects.
 End Rem
 Type LTGUIProject Extends LTProject
 	Field Windows:TList = New TList 
-	Field GUICamera:LTCamera
+	Field GUICamera:LTCamera = LTCamera.Create()
 	Field Locked:Int
 
 	' ==================== Loading layers and windows ===================	
@@ -30,23 +30,8 @@ Type LTGUIProject Extends LTProject
 		Else
 			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShape( Name ) ) ) )
 		End If
-		
-		Local Screen:LTShape = L_Window.Bounds
-		If Screen Then
-			If GUICamera Then
-				Local DWidth:Double = GUICamera.Width / Screen.Width
-				Local DHeight:Double = GUICamera.Height / Screen.Height
-				For Local Shape:LTShape = Eachin L_Window.Children
-					Shape.SetCoords( GUICamera.X + ( Shape.X - Screen.X ) * DWidth, GUICamera.Y + ( Shape.Y - Screen.Y ) * DHeight )
-					Shape.SetSize( Shape.Width * DWidth, Shape.Height * DHeight )
-				Next
-			Else
-				GUICamera = New LTCamera
-				GUICamera.Viewport = L_CurrentCamera.Viewport.Clone()
-				GUICamera.SetCoords( Screen.X, Screen.Y )
-				GUICamera.SetSize( Screen.Width, Screen.Height )
-			End If
-		End If
+
+		InitWindowShape( L_Window )
 		
 		L_Window.Modal = ( L_Window.GetParameter( "modal" ) = "true" )
 		L_Window.World = World
@@ -59,6 +44,26 @@ Type LTGUIProject Extends LTProject
 		End If
 		Windows.AddLast( L_Window )
 		Return L_Window
+	End Method
+
+	
+	
+	Method InitWindowShape( Window:LTWindow )
+		Local Screen:LTShape = Window.Bounds
+		If Screen Then
+			If Windows.IsEmpty() Then
+				GUICamera.JumpTo( Screen )
+				GUICamera.SetSizeAs( Screen )
+				GUICamera.Update()
+			Else
+				Local DWidth:Double = GUICamera.Width / Screen.Width
+				Local DHeight:Double = GUICamera.Height / Screen.Height
+				For Local Shape:LTShape = Eachin Window.Children
+					Shape.SetCoords( GUICamera.X + ( Shape.X - Screen.X ) * DWidth, GUICamera.Y + ( Shape.Y - Screen.Y ) * DHeight )
+					Shape.SetSize( Shape.Width * DWidth, Shape.Height * DHeight )
+				Next
+			End If
+		End If
 	End Method
 	
 	
@@ -144,15 +149,17 @@ Type LTGUIProject Extends LTProject
 				L_TilesDisplayed = 0
 				?
 				
+				L_CurrentCamera.SetCameraViewport()
 				Render()
 				
-				Local MainCamera:LTCamera = L_CurrentCamera
+				Local OldCamera:LTCamera = L_CurrentCamera
 				L_CurrentCamera = GUICamera
+				L_CurrentCamera.SetCameraViewport()
 				L_Cursor.SetMouseCoords()
 				For Local Window:LTWindow = Eachin Windows
 					Window.Draw()
 				Next
-				L_CurrentCamera = MainCamera
+				L_CurrentCamera = OldCamera
 				
 				If Flipping Then Flip( False )
 		      

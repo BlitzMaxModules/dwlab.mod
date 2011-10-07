@@ -19,6 +19,7 @@ Import brl.freetypefont
 
 Import dwlab.frmwork
 Import dwlab.gui
+Import dwlab.profiles
 Import dwlab.sound
 
 Include "TGame.bmx"
@@ -40,6 +41,8 @@ Incbin "explosion.ogg"
 Incbin "select.ogg"
 Incbin "swap.ogg"
 Include "levels_incbin.bmx"
+
+AppTitle = "Color Lines 1.0 beta"
 
 Global Game:TGame = New TGame
 Game.Execute()

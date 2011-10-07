@@ -9,6 +9,20 @@
 '
 
 Type THUD Extends LTWindow
+	Method Draw()
+		Super.Draw()
+		Local Ball:LTSprite = LTSprite( FindShape( "Ball" ) )
+		Local NextBalls:Int[] = TGameProfile( L_CurrentProfile ).NextBalls
+		Local StartingX:Double = FindShape( "TimePanel" ).X - 0.25 * ( NextBalls.Dimensions()[ 0 ] - 1 )
+		Local N:Int = 0
+		For Local BallNum:Int = Eachin NextBalls
+			Ball.SetX( StartingX + N * 0.5 )
+			Ball.Frame = BallNum
+			Ball.Draw()
+			N :+ 1
+		Next
+	End Method
+	
 	Method Act()
 		Super.Act()
 		LTLabel( FindShape( "Score" ) ).Text = Game.Score

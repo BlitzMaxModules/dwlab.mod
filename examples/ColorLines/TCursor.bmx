@@ -9,11 +9,14 @@
 '
 
 Type TCursor Extends LTSprite
+	Field LeftMouse:LTButtonAction = LTButtonAction.Create( LTMouseButton.Create( 1 ), "Click" )
+	Field RightMouse:LTButtonAction = LTButtonAction.Create( LTMouseButton.Create( 2 ), "Swap" )
+
 	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int = 0 )
 		Local TileNum:Int = TileMap.GetTile( TileX, TileY )
 		Local BallNum:Int = Game.Balls.GetTile( TileX, TileY )
 		'If KeyHit( Key_E ) Then TExplosion.Create( TileX, TileY )
-		If MouseHit( 1 ) Then
+		If LeftMouse.WasPressed() Then
 			'DebugStop
 			If Game.Selected Then Game.Selected.Remove( Null )
 			If TileNum = Game.Void Then Return
@@ -22,14 +25,14 @@ Type TCursor Extends LTSprite
 				TMoveAlongPath.Create( Game.PathFinder.FindPath( Game.Selected.X, Game.Selected.Y, TileX, TileY ) )
 			Else
 				Game.Selected = TSelected.Create( TileX, TileY )
-				Game.SelectSound.Play()
+				L_PlaySound( Game.SelectSound )
 			End If
-		ElseIf MouseHit( 2 ) And Game.Selected Then
+		ElseIf RightMouse.WasPressed() And Game.Selected Then
 			If Game.Selected Then Game.Selected.Remove( Null )
 			If Abs( Game.Selected.X - TileX ) + Abs( Game.Selected.Y - TileY ) = 1 Then
 				TMoveBall.Create( Game.Selected.X, Game.Selected.Y, TileX - Game.Selected.X, TileY - Game.Selected.Y, False )
 				TMoveBall.Create( TileX, TileY, Game.Selected.X - TileX, Game.Selected.Y - TileY, True )
-				Game.SwapSound.Play()
+				L_PlaySound( Game.SwapSound )
 			End If
 		End If
 	End Method

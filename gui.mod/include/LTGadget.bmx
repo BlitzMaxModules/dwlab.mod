@@ -16,12 +16,6 @@ Include "LTSlider.bmx"
 Type LTGadget Extends LTSprite
 	Method Init()
 	End Method
-	
-	Method GetValue:String()
-	End Method
-	
-	Method SetValue( Value:String )
-	End Method
 
 	Method OnMouseOver()
 	End Method
