@@ -56,8 +56,8 @@ End Type
 
 
 Function L_Boss()
+	Local Image:TImage = LoadImage( "incbin::images\calculator.png" )
 	EndGraphics()
-	Local Image:TImage = LoadImage( "incbin::images/calculator.png" )
 	Local OldAppTitle:String = AppTitle
 	AppTitle = LocalizeString( "{{Calculator}}" )
 	Graphics( Image.Width, Image.Height )

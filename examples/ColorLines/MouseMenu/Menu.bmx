@@ -28,7 +28,7 @@ Include "menu_incbin.bmx"
 Incbin "russian.lng"
 Incbin "english.lng"
 Incbin "OpenSans-Regular.ttf"
-Incbin "images/calculator.png"
+Incbin "images\calculator.png"
 
 Global Menu:LTMenu = New LTMenu
 
@@ -59,10 +59,10 @@ Type LTMenu Extends LTGUIProject
 		End If
 		L_CurrentProfile.Apply( [ Project, LTGUIProject( Self ) ] )
 		
-		ChangeDir( "MouseMenu" )
+		'ChangeDir( "MouseMenu" )
 		World = LTWorld.FromFile( "menu.lw" )
 		LoadWindow( World, , "LTLanguageSelectionWindow" )
-		ChangeDir( ".." )
+		'ChangeDir( ".." )
 		
 		SetLocalizationLanguage( LTProfile.GetLanguage( L_CurrentProfile.Language ) )
 		

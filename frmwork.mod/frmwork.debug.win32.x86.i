@@ -1,13 +1,16 @@
-ModuleInfo "Version: 1.3.1"
+ModuleInfo "Version: 1.3.2"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.2 (07.10.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added possibility to bind multiple buttons to the button action."
 ModuleInfo "History: v1.3.1 (07.10.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added SetSizeAs() method to the LTShape."
 ModuleInfo "History: v1.3 (06.10.11)"
 ModuleInfo "History: &nbsp; &nbsp; Implemented controllers system."
 ModuleInfo "History: &nbsp; &nbsp; Added Contour() and SetAsViewport() methods to the LTShape."
+ModuleInfo "History: &nbsp; &nbsp; FindShapeWithParameter() parameters are rearranged."
 ModuleInfo "History: v1.2.7 (03.10.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added PrintText() method to the LTShape."
 ModuleInfo "History: &nbsp; &nbsp; Fixed bug in LTCamera.SetCameraViewport() method."
@@ -111,7 +114,7 @@ import brl.d3d9max2d
 import brl.random
 import brl.reflection
 import brl.retro
-L_Version$=$"1.3.1"
+L_Version$=$"1.3.2"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"

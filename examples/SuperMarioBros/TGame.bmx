@@ -96,7 +96,7 @@ Type TGame Extends LTProject
 		Mario.Init()
 		
 		For Local N:Int = 0 Until LevelsQuantity
-			Local Layer:LTLayer = LTLayer( World.FindShapeWithParameter( "LTLayer", "num", N ) )
+			Local Layer:LTLayer = LTLayer( World.FindShapeWithParameter( "num", N, "LTLayer" ) )
 			LoadAndInitLayer( Levels[ N ], Layer )
 			Levels[ N ].AddLast( Mario )
 			Levels[ N ].AttachModel( TimeModel )
@@ -119,7 +119,7 @@ Type TGame Extends LTProject
 		Level = Levels[ Num ]
 		TileMap = LTTileMap( Level.FindShapeWithType( "TTiles" ) )
 		MovingObjects = SpriteMaps[ Num ]
-		Mario.JumpTo( Level.FindShapeWithParameter( "TStart", "num", PointNum ) )
+		Mario.JumpTo( Level.FindShapeWithParameter( "num", PointNum, "TStart" ) )
 		StartMusic()
 	End Method
 	
