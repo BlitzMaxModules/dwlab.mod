@@ -99,8 +99,11 @@ Type LTImage Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: Draws image using given coordinates and size.
+	End Rem
 	Method Draw( X:Double, Y:Double, Width:Double, Height:Double, Frame:Int )
-		SetScale( Width/ ImageWidth( BMaxImage ), Height / ImageHeight( BMaxImage ) )
+		SetScale( Width / ImageWidth( BMaxImage ), Height / ImageHeight( BMaxImage ) )
 		DrawImage( BMaxImage, X, Y, Frame )
 	End Method
 	

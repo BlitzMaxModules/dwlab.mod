@@ -11,10 +11,31 @@
 Type LTMouseButton Extends LTPushable
 	Field Num:Int
 	
+	
+	
+	Method GetName:String()
+		Select Num
+			Case 1
+				Return "Left mouse button"
+			Case 2
+				Return "Right mouse button"
+			Case 3
+				Return "Middle mouse button"
+		End Select
+	End Method
+	
+	
+	
 	Method IsDown:Int()
 		Return MouseDown( Num )
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Creates mouse button object.
+	returns: New object of mouse button with given number.
+	End Rem	
 	Function Create:LTMouseButton( Num:Int )
 		If Num <= 0 Or Num > 3 Then L_Error( "Invalid mouse button number" )
 		
@@ -28,16 +49,7 @@ Type LTMouseButton Extends LTPushable
 		Return Button
 	End Function
 	
-	Method GetName:String()
-		Select Num
-			Case 1
-				Return "Left mouse button"
-			Case 2
-				Return "Right mouse button"
-			Case 3
-				Return "Middle mouse button"
-		End Select
-	End Method
+	
 	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )

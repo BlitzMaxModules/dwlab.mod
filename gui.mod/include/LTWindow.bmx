@@ -8,6 +8,9 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: Class for GUI window.
+End Rem
 Type LTWindow Extends LTLayer
 	Field World:LTWorld
 	Field Project:LTGUIProject
@@ -87,14 +90,34 @@ Type LTWindow Extends LTLayer
 		
 		Super.Act()
 	End Method
-
 	
 	
-	Method GetTextFieldText:String( Name:String )
+	
+	Rem
+	bbdoc: Button pressing event method.
+	about: Called when button just being pressed on window's gadget.
+	
+	See also: #OnButtonUnpress, #OnButtonDown, #OnButtonUp, #OnMouseOver, #OnMouseOut
+	End Rem
+	Method OnButtonPress( Gadget:LTGadget, ButtonAction:LTButtonAction )
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: Button unpressing event method
+	about: Called when button just being unpressed on window's gadget.
+	Some standard commands are available (can be set in editor in "action" parameter):
+	<ul><li>"save" - executes window's Save() method. Intended for saving data changed by window.
+	<lI>"close" - closes the window.
+	<li>"end" - forces exit from current project.
+	<li>"window" - opens a window with given name
+	<li>"window_class" - opens a window of given class
+	<li>"save_and_close" - performs "save" and "close" actions
+	<li>"save_and_end" - performs "save" and "end" actions</ul>
+	
+	See also: #OnButtonPress, #OnButtonDown, #OnButtonUp, #OnMouseOver, #OnMouseOut
+	End Rem
 	Method OnButtonUnpress( Gadget:LTGadget, ButtonAction:LTButtonAction )
 		Select Gadget.GetParameter( "action" )
 			Case "save"
@@ -115,28 +138,64 @@ Type LTWindow Extends LTLayer
 		If Name Then
 			Project.LoadWindow( World, Name ) 
 		Else
-			Local Class:String = Gadget.GetParameter( "windowclass" )
+			Local Class:String = Gadget.GetParameter( "window_class" )
 			If Class Then Project.LoadWindow( World, , Class ) 
 		End If
 	End Method
 	
 	
 	
-	Method OnButtonPress( Gadget:LTGadget, ButtonAction:LTButtonAction )
-	End Method
+	Rem
+	bbdoc: Button down event method.
+	about: Called when button is currently pressed and cursor is over window's gadget.
 	
+	See also: #OnButtonPress, #OnButtonUnpress, #OnButtonUp, #OnMouseOver, #OnMouseOut
+	End Rem
 	Method OnButtonDown( Gadget:LTGadget, ButtonAction:LTButtonAction )
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Button up event method.
+	about: Called when button is currently released and cursor is over window's gadget.
+	
+	See also: #OnButtonPress, #OnButtonUnpress, #OnButtonUp, #OnMouseOver, #OnMouseOut
+	End Rem
 	Method OnButtonUp( Gadget:LTGadget, ButtonAction:LTButtonAction )
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Mouse cursor entering gadget event method.
+	about: Called when mouse is just entered window's gadget area.
+	
+	See also: #OnButtonPress, #OnButtonUnpress, #OnButtonDown, #OnButtonUp, #OnMouseOut
+	End Rem
 	Method OnMouseOver( Gadget:LTGadget )
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Mouse cursor leaving gadget event method.
+	about: Called when mouse is just left window's gadget area.
+	
+	See also: #OnButtonPress, #OnButtonUnpress, #OnButtonDown, #OnButtonUp, #OnMouseOver
+	End Rem
 	Method OnMouseOut( Gadget:LTGadget )
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Window data saving method.
+	about: Can be executed via window gadget using standard command.
+	Usually being executed before closing of the window.
+	
+	See also: #OnButtonUnpress
+	End Rem
 	Method Save()
 	End Method
 End Type

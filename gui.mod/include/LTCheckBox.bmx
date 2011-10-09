@@ -8,6 +8,11 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: Class for button gadgets.
+about: Checkbox is the button which state changes anoter way: when user clicks checkbox first time, its state will be set to True.
+When user clicks checkbox second time, state returns to False and so on.
+End Rem
 Type LTCheckBox Extends LTButton
 	Method OnMouseOut()
 		Focus = False

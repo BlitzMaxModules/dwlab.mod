@@ -47,6 +47,10 @@ Type LTCamera Extends LTSprite
 	bbdoc: Isometric view flag.
 	End Rem
 	Field Isometric:Int
+	
+	Rem
+	bbdoc: Elements of vectors V1 and V2 for Isometric view.
+	End Rem
 	Field VX1:Double, VY1:Double, VX2:Double, VY2:Double, VK:Double, AVK:Double
 	
 	
@@ -114,6 +118,9 @@ Type LTCamera Extends LTSprite
 
 	
 	
+	Rem
+	bbdoc: Same as FieldToScreen, but for Floats.
+	End Rem
 	Method FieldToScreenFloat( FieldX:Double, FieldY:Double, ScreenX:Float Var, ScreenY:Float Var )
 		If Isometric Then
 			ScreenX = ( ( FieldX + DX ) * VX1 + ( FieldY + DY ) * VX2 ) * K
@@ -230,6 +237,11 @@ Type LTCamera Extends LTSprite
 	
 	
 	
+	Rem
+	bbdoc: Applies color with given intensity to the whole viewport.
+	about: Red color for example will make picture more "reddish".
+	If you use intensity 0.0, it will give no effect and intensity 1.0 will make whole viewport solid red.
+	End Rem
 	Method ApplyColor( Intensity:Double, Red:Double, Green:Double, Blue:Double )
 		SetAlpha( Intensity )
 		SetColor( 255.0 * Red, 255.0 * Green, 255.0 * Blue )
@@ -239,12 +251,20 @@ Type LTCamera Extends LTSprite
 	
 	
 	
+	Rem
+	bbdoc: Lightens current camera viewport.
+	about: 0.0 intensity will give no effect, 1.0 intensity will turn viewport to solid white.
+	End Rem
 	Method Lighten( Intensity:Double )
 		ApplyColor( Intensity, 1.0, 1.0, 1.0 )
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: Darkens current camera viewport.
+	about: 0.0 intensity will give no effect, 1.0 intensity will turn viewport to solid black.
+	End Rem
 	Method Darken( Intensity:Double )
 		ApplyColor( Intensity, 0.0, 0.0, 0.0 )
 	End Method

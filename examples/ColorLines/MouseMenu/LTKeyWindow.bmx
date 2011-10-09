@@ -13,26 +13,28 @@ Type LTKeyWindow Extends LTWindow
 	
 	Method Init()
 		Super.Init()
+		FlushKeys()
+		FlushMouse()
 		Z = MouseZ()
 	End Method
 
 	Method Act()
 		For Local Code:Int = 1 To 255
 			If KeyHit( Code ) Then
-				L_CurrentButtonAction.Button = LTKeyboardKey.Create( Code )
+				L_CurrentButtonAction.AddButton( LTKeyboardKey.Create( Code ) )
 				Menu.Project.CloseWindow( Self )
 			End If
 		Next
 		
 		For Local Num:Int = 1 To 3
 			If MouseHit( Num ) Then
-				L_CurrentButtonAction.Button = LTMouseButton.Create( Num )
+				L_CurrentButtonAction.AddButton( LTMouseButton.Create( Num ) )
 				Menu.Project.CloseWindow( Self )
 			End If
 		Next
 		
 		If Z <> MouseZ() Then
-			L_CurrentButtonAction.Button = LTMouseWheelAction.Create( Sgn( MouseZ() - Z ) )
+			L_CurrentButtonAction.AddButton( LTMouseWheelAction.Create( Sgn( MouseZ() - Z ) ) )
 			Menu.Project.CloseWindow( Self )
 		End If
 	End Method

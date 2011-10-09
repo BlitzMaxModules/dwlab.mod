@@ -27,7 +27,7 @@ Type LTGameOverWindow Extends LTWindow
 		LTMenuWindow( Menu.Project.FindWindow( , "LTMenuWindow" ) ).DestinationY = 0
 		Menu.Project.LoadWindow( Menu.World, , "LTScoresWindow" )
 		
-		L_CurrentProfile.Flush()
+		L_CurrentProfile.Reset()
 		L_CurrentProfile.Load()
 	End Method
 End Type

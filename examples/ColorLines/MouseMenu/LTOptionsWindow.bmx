@@ -27,21 +27,23 @@ Type LTOptionsWindow Extends LTWindow
 	End Method
 	
 	Method OnButtonPress( Gadget:LTGadget, ButtonAction:LTButtonAction )
-		If ButtonAction <> L_ClickButton Then Return
+		If ButtonAction <> L_LeftMouseButton Then Return
 		Select Gadget.GetName()
-			Case "Fullscreen"
-				L_CurrentProfile.FullScreen = Not L_CurrentProfile.FullScreen
-				L_CurrentProfile.Apply( [ Menu.Project, LTGUIProject( Menu ) ], True )
 			Case "SoundOn"
 				L_CurrentProfile.SoundOn = Not L_CurrentProfile.SoundOn
 			Case "MusicOn"
 				L_CurrentProfile.MusicOn = Not L_CurrentProfile.MusicOn
+			Case "Fullscreen"
+				L_CurrentProfile.FullScreen = Not L_CurrentProfile.FullScreen
+				L_CurrentProfile.Apply( [ Menu.Project, LTGUIProject( Menu ) ], True )
+			Case "Boss"
+				L_Boss()
 		End Select
 	End Method
 	
 	Method OnButtonDown( Gadget:LTGadget, ButtonAction:LTButtonAction )
 		Super.OnButtonDown( Gadget, ButtonAction )
-		If ButtonAction <> L_ClickButton Then Return
+		If ButtonAction <> L_LeftMouseButton Then Return
 		Select Gadget.GetName()
 			Case "SoundVolume"
 				L_CurrentProfile.SoundVolume = LTSlider( Gadget ).Size
@@ -50,3 +52,30 @@ Type LTOptionsWindow Extends LTWindow
 		End Select
 	End Method
 End Type
+
+
+
+Function L_Boss()
+	EndGraphics()
+	Local Image:TImage = LoadImage( "incbin::images/calculator.png" )
+	Local OldAppTitle:String = AppTitle
+	AppTitle = LocalizeString( "{{Calculator}}" )
+	Graphics( Image.Width, Image.Height )
+	Repeat
+		If AppTerminate() Then
+			Menu.Project.DeInit()
+			End
+		End If
+		
+		For Local Num:Int = 1 To 3
+			If MouseDown( Num ) Or BossKey.IsDown() Then
+				L_CurrentProfile.Apply( [ LTProject( Menu ), LTProject( Menu.Project ) ] )
+				AppTitle = OldAppTitle
+				Return
+			End If
+		Next
+		
+		DrawImage( Image, 0, 0 )
+		Flip
+	Forever
+End Function

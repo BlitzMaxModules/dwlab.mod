@@ -8,33 +8,115 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: Current profile.
+End Rem
 Global L_CurrentProfile:LTProfile
+
 Global L_Profiles:TList = New TList
 Global L_Languages:TList = New TList
-Global L_AudioDrivers:TList
+Global L_AudioDrivers:TList = New TList
 
+Rem
+bbdoc: Width of screen grain.
+End Rem
 Global L_ScreenWidthGrain:Int = 80
+
+Rem
+bbdoc: Height of screen grain.
+End Rem
 Global L_ScreenHeightGrain:Int = 60
+
 Global L_DesktopAreaWidth:Int = DesktopWidth()
 Global L_DesktopAreaHeight:Int = DesktopHeight() - 86
 
+Rem
+bbdoc: Head class for profiles.
+End Rem
 Type LTProfile Extends LTObject
+	Rem
+	bbdoc: Name of the profile.
+	End Rem
 	Field Name:String
+	
+	Rem
+	bbdoc: Quantity of points earned by the player.
+	End Rem
 	Field Score:Int
+	
+	Rem
+	bbdoc: Name of MaxGUI language.
+	End Rem
 	Field Language:String
+	
+	Rem
+	bbdoc: Name of the audio driver.
+	End Rem
 	Field AudioDriver:String
+	
+	Rem
+	bbdoc: Name of the video driver.
+	End Rem
 	Field VideoDriver:String
+	
+	Rem
+	bbdoc: Full screen flag (false means windowed mode).
+	End Rem
 	Field FullScreen:Int
+	
+	Rem
+	bbdoc: Width of screen resolution.
+	End Rem
 	Field ScreenWidth:Int
+	
+	Rem
+	bbdoc: Height of screen resolution.
+	End Rem
 	Field ScreenHeight:Int
+	
+	Rem
+	bbdoc: Screen color depth.
+	End Rem
 	Field ColorDepth:Int
+	
+	Rem
+	bbdoc: Display refreshing frequency.
+	End Rem
 	Field Frequency:Int
+	
+	Rem
+	bbdoc: List of changeable keys (button actions).
+	End Rem
 	Field Keys:TList = New TList
+	
+	Rem
+	bbdoc: Sound flag.
+	about: True means sound is on, False means off.
+	End Rem
 	Field SoundOn:Int = True
+	
+	Rem
+	bbdoc: Sound volume ( 0.0 - 1.0 ).
+	End Rem
 	Field SoundVolume:Double = 1.0
+	
+	Rem
+	bbdoc: Music flag.
+	about: True means sound is on, False means off.
+	End Rem
 	Field MusicOn:Int = True
+	
+	Rem
+	bbdoc: Music volume ( 0.0 - 1.0 ).
+	End Rem
 	Field MusicVolume:Double = 1.0
 	
+	
+	
+	Rem
+	bbdoc: Profile system initialization function.
+	about: Fills lists of available graphic modes, graphic and audio drivers.
+	End Rem
 	Function InitSystem()
 		For Local Mode:TGraphicsMode = Eachin GraphicsModes()
 			If Mode.Width >= 640 And Mode.Width > Mode.Height Then 
@@ -66,34 +148,50 @@ Type LTProfile Extends LTObject
 			End If
 		Next
 		
-		L_AudioDrivers = TList.FromArray( AudioDrivers() )
+		For Local Driver:String = Eachin AudioDrivers()
+			L_AudioDrivers.AddLast( Driver )
+		Next
 	End Function
 	
-	Function CreateDefault( ProfileTypeID:TTypeID )
-		L_CurrentProfile = LTProfile( ProfileTypeID.NewObject() )
-		L_CurrentProfile.Name = "{{P_Player}}"
+	
+	
+	Rem
+	bbdoc: Default profile creation function.
+	returns: New default profile.
+	about: Creates profile, sets its parameters to default values and initializes profile.
+	End Rem
+	Function CreateDefault:LTProfile( ProfileTypeID:TTypeID )
+		Local Profile:LTProfile = LTProfile( ProfileTypeID.NewObject() )
+		Profile.Name = "{{P_Player}}"
 		
 		Local TypeID:TTypeId = TTypeId.ForObject( GetGraphicsDriver() )
 		For Local Driver:LTVideoDriver = Eachin L_VideoDrivers
-			If TTypeID.ForObject( Driver.Driver ) = TypeID Then L_CurrentProfile.VideoDriver = Driver.Name
+			If TTypeID.ForObject( Driver.Driver ) = TypeID Then Profile.VideoDriver = Driver.Name
 		Next
 		
 		Local Resolution:LTScreenResolution = LTScreenResolution.Get()
-		L_CurrentProfile.ScreenWidth = Resolution.Width
-		L_CurrentProfile.ScreenHeight = Resolution.Height
+		Profile.ScreenWidth = Resolution.Width
+		Profile.ScreenHeight = Resolution.Height
 		Local ColorDepth:LTColorDepth = LTColorDepth.Get( Resolution )
-		L_CurrentProfile.ColorDepth = ColorDepth.Bits
-		L_CurrentProfile.Frequency = LTFrequency.Get( ColorDepth ).Hertz
+		Profile.ColorDepth = ColorDepth.Bits
+		Profile.Frequency = LTFrequency.Get( ColorDepth ).Hertz
 		
 		?win32
-		If AudioDriverExists( "DirectSound" ) Then L_CurrentProfile.AudioDriver = "DirectSound"
+		If AudioDriverExists( "DirectSound" ) Then Profile.AudioDriver = "DirectSound"
 		?
-		If Not L_CurrentProfile.AudioDriver And AudioDrivers() Then L_CurrentProfile.AudioDriver = AudioDrivers()[ 0 ]
+		If Not Profile.AudioDriver And AudioDrivers() Then Profile.AudioDriver = AudioDrivers()[ 0 ]
 		
-		L_CurrentProfile.Init()
-		L_CurrentProfile.Flush()
+		Profile.Init()
+		Profile.Reset()
+		Return Profile
 	End Function
 	
+	
+	
+	Rem
+	bbdoc: Finds language with given name.
+	returns: Language with given name from languages list.
+	End Rem
 	Function GetLanguage:TMaxGuiLanguage( Name:String )
 		For Local Language:TMaxGuiLanguage = Eachin L_Languages
 			If Language.GetName() = Name Then Return Language
@@ -101,6 +199,12 @@ Type LTProfile Extends LTObject
 		Return TMaxGuiLanguage( L_Languages.First() )
 	End Function
 	
+	
+	
+	Rem
+	bbdoc: Applies profile.
+	about: You can specify an array of projects which should been initialized after changing drivers or screen resolution.
+	End Rem
 	Method Apply( Projects:LTProject[] = Null, NewScreen:Int = True, NewVideoDriver:Int = True, NewAudioDriver:Int = True )
 		SetLocalizationLanguage( GetLanguage( Language ) )
 		
@@ -129,6 +233,8 @@ Type LTProfile Extends LTObject
 		End If
 	End Method
 	
+	
+	
 	Method GetBlockSize:Double()
 		Local Width:Int, Height:Int 
 		If FullScreen Then
@@ -143,6 +249,12 @@ Type LTProfile Extends LTObject
 		Return Min( Floor( Width / L_ScreenWidthGrain ), Floor( Height / L_ScreenHeightGrain ) )
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Initializes given camera according to profile's resolution.
+	about: Fixes camera height and sets viewport to corresponding shape according screen grain.
+	End Rem
 	Method InitCamera( Camera:LTCamera )
 		Local BlockSize:Int = GetBlockSize()
 		Local Width:Int = L_ScreenWidthGrain * BlockSize
@@ -153,6 +265,12 @@ Type LTProfile Extends LTObject
 		Camera.Update()
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Clones the profile
+	returns: Profile which is exact copy of given.
+	End Rem
 	Method Clone:LTProfile()
 		Local Profile:LTProfile = New Self
 		Profile.Name = Name
@@ -167,17 +285,46 @@ Type LTProfile Extends LTObject
 		Return Profile
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Profile initialization method.
+	about: Fill it with code which should be executed at profile's creation.
+	End Rem
 	Method Init()
 	End Method
 	
-	Method Flush()
+	
+	
+	Rem
+	bbdoc: Profile resetting method.
+	about: Fill it with code which should be executed at profile's creation and after game over.
+	End Rem
+	Method Reset()
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Profile loading method.
+	about: Will be executed at start and after switching to this profile.
+	Fill it with code which transfers data from the profile to the game objects.
+	End Rem
 	Method Load()
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Profile saving method.
+	about: Will be executed before switching profiles and before exit.
+	Fill it with code which transfers data from the game objects to the profile.
+	End Rem
 	Method Save()
 	End Method
+	
+	
+	
 	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )

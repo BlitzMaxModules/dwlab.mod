@@ -15,7 +15,7 @@ Type LTAddProfileWindow Extends LTWindow
 			Local Profile:LTProfile = L_CurrentProfile.Clone()
 			Profile.Name = Name
 			Profile.Init()
-			Profile.Flush()
+			Profile.Reset()
 			Menu.Profiles.AddLast( L_CurrentProfile )
 			Menu.SelectedProfile = L_CurrentProfile
 		End If

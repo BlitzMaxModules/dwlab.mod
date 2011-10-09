@@ -8,36 +8,107 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: Class for action which can be triggered by activating pushable object (presing a key, mouse button, etc).
+about: Key can be binded to several actions and several keys can be binded to one action.
+End Rem	
 Type LTButtonAction Extends LTObject
 	Field Name:String
-	Field Button:LTPushable
+	Field ButtonList:TList = New TList
 	
+	Rem
+	bbdoc: Maximum quantity of buttons in button list (0 means unlimited).
+	End Rem	
+	Field MaxButtons:Int = 3
+	
+	
+	
+	Method GetButtonNames:String( WithBrackets:Int = False )
+		Local Names:String = ""
+		For Local Button:LTPushable = Eachin ButtonList
+			If Names Then Names :+ ", "
+			If WithBrackets Then
+				Names :+ "{{" + Button.GetName() + "}}"
+			Else
+				Names :+ Button.GetName()
+			End If
+		Next
+		Return Names
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Creates button action with given pushable object (button) and name (optional).
+	returns: New button action with one pushable object (button).
+	End Rem
 	Function Create:LTButtonAction( Button:LTPushable, Name:String = "" )
 		Local ButtonAction:LTButtonAction = New LTButtonAction
 		ButtonAction.Name = Name
-		ButtonAction.Button = Button
+		ButtonAction.ButtonList.AddLast( Button )
 		Return ButtonAction
 	End Function
 	
-	Method GetButtonName:String()
-		Return Button.GetName()
+	
+	
+	Rem
+	bbdoc: Adds given pushable object (button) to the button action button list.
+	End Rem
+	Method AddButton( Button:LTPushable )
+		ButtonList.AddLast( Button )
+		If MaxButtons > 0 Then If ButtonList.Count() > MaxButtons Then ButtonList.RemoveFirst()
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Removes all pushable objects (buttons) of the button action.
+	End Rem
+	Method Clear()
+		ButtonList.Clear()
+	End Method	
+	
+	
+	
+	Rem
+	bbdoc: Function which checks button action pressing state.
+	returns: True if one of pushable objects (buttons) of this action is currently pressed.
+	End Rem
 	Method IsDown:Int()
-		Return Button.IsDown()
+		For Local Button:LTPushable = Eachin ButtonList
+			If Button.IsDown() Then Return True
+		Next
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Function which checks button action just-pressing state.
+	returns: True if one of pushable objects (buttons) of this action was pressed in current project cycle.
+	End Rem
 	Method WasPressed:Int()
-		Return Button.WasPressed()
+		For Local Button:LTPushable = Eachin ButtonList
+			If Button.WasPressed() Then Return True
+		Next
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Function which checks button action just-unpressing state.
+	returns: True if one of pushable objects (buttons) of this action was unpressed in current project cycle.
+	End Rem	
 	Method WasUnpressed:Int()
-		Return Button.WasUnpressed()
+		For Local Button:LTPushable = Eachin ButtonList
+			If Button.WasUnpressed() Then Return True
+		Next
 	End Method
+	
+	
 	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		XMLObject.ManageStringAttribute( "name", Name )
-		Button = LTPushable( XMLObject.ManageObjectField( "button", Button ) )
+		XMLObject.ManageChildList( ButtonList )
 	End Method
 End Type

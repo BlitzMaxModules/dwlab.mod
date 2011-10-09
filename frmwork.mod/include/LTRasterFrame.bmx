@@ -9,21 +9,41 @@
 '
 
 Rem
-bbdoc: Special image class to display raster frame.
-about: After creating this visualizer you have to load image. This image should consist of 9 images aligned by 3x3 grid.
+bbdoc: Special image subclass to display raster frame.
+about: After creating this LTImage sub-class you have to load image. This image should consist of 9 images aligned by 3x3 grid.
 When raster frame have been drawn as the rectangular shape which represents sprite on the screen, this shape will be constructed following
 way: corner images will be put in corners of the shape, side images will be stretched horizontaly or vertically to fit side bars between them and center
 image will be stretched in both direction to fully cover remaining center rectangle.
 End Rem
 Type LTRasterFrame Extends LTImage
 	Field Images:TImage[ , , ]
+	
+	Rem
+	bbdoc: Width of the left column of 3x3 grid part which will be used for left frame side.
+	End Rem
 	Field LeftBorder:Int = 1
+	
+	Rem
+	bbdoc: Width of the right column of 3x3 grid which will be used for right frame side.
+	End Rem
 	Field RightBorder:Int = 1
+	
+	Rem
+	bbdoc: Width of the top row of 3x3 grid which will be used for frame's top.
+	End Rem
 	Field TopBorder:Int = 1
+	
+	Rem
+	bbdoc: Width of the bottom row of 3x3 grid which will be used for frame's bottom.
+	End Rem
 	Field BottomBorder:Int = 1
 	
 	
 	
+	Rem
+	bbdoc: Initialization function.
+	about: Main image will be splitted into 9 images and put into array for using.
+	End Rem
 	Method Init()
 		Super.Init()
 		Local Quantity:Int = BMaxImage.pixmaps.Dimensions()[ 0 ]

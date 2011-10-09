@@ -11,20 +11,7 @@
 Type LTKeyboardKey Extends LTPushable
 	Field Code:Int
 	
-	Method IsDown:Int()
-		Return KeyDown( Code )
-	End Method
 	
-	Function Create:LTKeyboardKey( Code:Int )
-		For Local Key:LTKeyboardKey = Eachin L_Controllers
-			If Key.Code = Code Then Return Key
-		Next
-		
-		Local Key:LTKeyboardKey = New LTKeyboardKey
-		Key.Code = Code
-		L_Controllers.AddLast( Key )
-		Return Key
-	End Function
 	
 	Method GetName:String()
 		Select Code
@@ -229,6 +216,31 @@ Type LTKeyboardKey Extends LTPushable
 				Return "Right Alt"
 		End Select
 	End Method
+	
+	
+	
+	Method IsDown:Int()
+		Return KeyDown( Code )
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Creates keyboard key object.
+	returns: New object of keyboard key with given code.
+	End Rem	
+	Function Create:LTKeyboardKey( Code:Int )
+		For Local Key:LTKeyboardKey = Eachin L_Controllers
+			If Key.Code = Code Then Return Key
+		Next
+		
+		Local Key:LTKeyboardKey = New LTKeyboardKey
+		Key.Code = Code
+		L_Controllers.AddLast( Key )
+		Return Key
+	End Function
+	
+	
 	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )

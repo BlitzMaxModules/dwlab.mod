@@ -17,12 +17,28 @@ Rem
 bbdoc: Class for GUI project and subprojects.
 End Rem
 Type LTGUIProject Extends LTProject
+	Rem
+	bbdoc: List of windows.
+	End Rem
 	Field Windows:TList = New TList 
+	
+	Rem
+	bbdoc: Camera for displaying windows.
+	End Rem
 	Field GUICamera:LTCamera = LTCamera.Create()
+	
+	Rem
+	bbdoc: Flag for locking project controls.
+	End Rem
 	Field Locked:Int
 
 	' ==================== Loading layers and windows ===================	
 	
+	Rem
+	bbdoc: Window loading function.
+	about: Window should be loaded from Lab world file, as layer of the root and has unique class or name (among other layers of root).
+	Modal parameter (can be set in editor) set to True forces all existing windows to be inactive while this window is not closed.
+	End Rem
 	Method LoadWindow:LTWindow( World:LTWorld, Name:String = "", Class:String = "" )
 		L_ActiveTextField = Null
 		If Class Then
@@ -31,7 +47,21 @@ Type LTGUIProject Extends LTProject
 			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShape( Name ) ) ) )
 		End If
 
-		InitWindowShape( L_Window )
+		Local Screen:LTShape = L_Window.Bounds
+		If Screen Then
+			If Windows.IsEmpty() Then
+				GUICamera.JumpTo( Screen )
+				GUICamera.SetSizeAs( Screen )
+				GUICamera.Update()
+			Else
+				Local DWidth:Double = GUICamera.Width / Screen.Width
+				Local DHeight:Double = GUICamera.Height / Screen.Height
+				For Local Shape:LTShape = Eachin L_Window.Children
+					Shape.SetCoords( GUICamera.X + ( Shape.X - Screen.X ) * DWidth, GUICamera.Y + ( Shape.Y - Screen.Y ) * DHeight )
+					Shape.SetSize( Shape.Width * DWidth, Shape.Height * DHeight )
+				Next
+			End If
+		End If
 		
 		L_Window.Modal = ( L_Window.GetParameter( "modal" ) = "true" )
 		L_Window.World = World
@@ -48,26 +78,10 @@ Type LTGUIProject Extends LTProject
 
 	
 	
-	Method InitWindowShape( Window:LTWindow )
-		Local Screen:LTShape = Window.Bounds
-		If Screen Then
-			If Windows.IsEmpty() Then
-				GUICamera.JumpTo( Screen )
-				GUICamera.SetSizeAs( Screen )
-				GUICamera.Update()
-			Else
-				Local DWidth:Double = GUICamera.Width / Screen.Width
-				Local DHeight:Double = GUICamera.Height / Screen.Height
-				For Local Shape:LTShape = Eachin Window.Children
-					Shape.SetCoords( GUICamera.X + ( Shape.X - Screen.X ) * DWidth, GUICamera.Y + ( Shape.Y - Screen.Y ) * DHeight )
-					Shape.SetSize( Shape.Width * DWidth, Shape.Height * DHeight )
-				Next
-			End If
-		End If
-	End Method
-	
-	
-	
+	Rem
+	bbdoc: Function which finds a window in opened windows by given name or class.
+	returns: Found window.
+	End Rem
 	Method FindWindow:LTWindow( Name:String = "", Class:String = "" )
 		For Local Window:LTWindow = Eachin Windows
 			If Name Then If Window.GetName() = Name Then Return Window
@@ -77,6 +91,10 @@ Type LTGUIProject Extends LTProject
 	
 	
 	
+	Rem
+	bbdoc: Closes given window
+	about: Method removes the window from project's windows list.
+	End Rem
 	Method CloseWindow( Window:LTWindow = Null )
 		If Window = Null Then Window = LTWindow( Windows.Last() )
 		Windows.Remove( Window )
@@ -135,7 +153,7 @@ Type LTGUIProject Extends LTProject
 			If Exiting Then Exit
 			
 			For Local Controller:LTPushable = Eachin L_Controllers
-				Controller.Flush()
+				Controller.Reset()
 			Next
 		
 			Repeat

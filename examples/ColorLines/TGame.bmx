@@ -9,8 +9,6 @@
 '
 
 Type TGame Extends LTGUIProject
-	Const BallsPerTurn:Int = 3
-	
 	Const Void:Int = 0
 	Const Plate:Int = 1
 	
@@ -64,17 +62,17 @@ Type TGame Extends LTGUIProject
 		Profile.GameField = LTTileMap( Layer.FindShape( "Field" ) )
 		Profile.Balls = LTTileMap( Layer.FindShape( "Balls" ) )
 		
-		For Local N:Int = 1 To 3
+		For Local N:Int = 1 To Profile.BallsPerTurn
 			Repeat
 				Local X:Int = Rand( 0, Profile.GameField.XQuantity - 1 )
 				Local Y:Int = Rand( 0, Profile.GameField.YQuantity - 1 )
 				If Profile.GameField.Value[ X, Y ] = Plate And Profile.Balls.Value[ X, Y ] = NoBall Then
 					Profile.Balls.Value[ X, Y ] = Rand( 1, 7 )
-					Profile.NextBalls[ N - 1 ] = Rand( 1, 7 )
 					Exit
 				End If
 			Forever
 		Next
+		FillNextBalls( Profile )
 		
 		Locked = True
 	End Method
@@ -112,8 +110,11 @@ Type TGame Extends LTGUIProject
 	Method Logic()
 		Cursor.SetMouseCoords()
 		If Not Locked Then Cursor.CollisionsWithTileMap( GameField )
+		If ExitToMenu.WasPressed() Then LTMenuWindow( FindWindow( , "LTMenuWindow" ) ).Switch()
+		If BossKey.WasPressed() Then L_Boss
 		Objects.Act()
 		Particles.Act()
+		L_ClearSoundMaps()
 	End Method
 	
 	Method DeInit()
@@ -122,15 +123,23 @@ Type TGame Extends LTGUIProject
 	End Method
 	
 	Method CreateBalls()
+		Local Profile:TGameProfile = TGameProfile( L_CurrentProfile )
 		RefreshEmptyCells()
-		If EmptyCells.Count() < 3 Then
+		If EmptyCells.Count() < Profile.BallsPerTurn Then
 			Menu.LoadGameOverWindow()
 			Locked = True
 			Return
 		End If
-		For Local N:Int = 0 Until BallsPerTurn
+		For Local BallNum:Int = Eachin Profile.NextBalls
 			Local Cell:TCell = TCell.PopFrom( EmptyCells )
-			TPopUpBall.Create( Cell.X, Cell.Y, Rand( 1, 7 ) )
+			TPopUpBall.Create( Cell.X, Cell.Y, BallNum )
+		Next
+		FillNextBalls( Profile )
+	End Method
+	
+	Method FillNextBalls( Profile:TGameProfile )
+		For Local N:Int = 0 Until Profile.BallsPerTurn
+			Profile.NextBalls[ N ] = Rand( 1, 7 )
 		Next
 	End Method
 	

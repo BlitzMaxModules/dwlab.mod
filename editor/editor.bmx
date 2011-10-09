@@ -52,7 +52,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.7.3"
+	Const Version:String = "1.7.5"
 	Const INIVersion:Int = 3
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 8
@@ -1537,9 +1537,7 @@ Type LTEditor Extends LTProject
 			End If
 			
 			SetColor( 255, 0, 0 )
-			SetLineWidth( 3.0 )
-			If CurrentViewLayer.Bounds Then CurrentViewLayer.Bounds.DrawContour()
-			SetLineWidth( 1.0 )
+			If CurrentViewLayer.Bounds Then CurrentViewLayer.Bounds.DrawContour( 3.0 )
 			SetColor( 255, 255, 255 )
 		End If
 		

@@ -211,7 +211,9 @@ Type LTXMLObject Extends LTObject
 	End Rem
 	Method ManageIntArrayAttribute( AttrName:String, IntArray:Int[] Var )
 		If L_XMLMode = L_XMLGet Then
-			Local Values:String[] = GetAttribute( AttrName ).Split( "," )
+			Local Attr:String = GetAttribute( AttrName )
+			If Not Attr Then Return
+			Local Values:String[] = Attr.Split( "," )
 			Local Quantity:Int = Values.Dimensions()[ 0 ]
 			IntArray = New Int[ Quantity ]
 			For Local N:Int = 0 Until Quantity

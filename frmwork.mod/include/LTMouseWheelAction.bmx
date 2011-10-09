@@ -12,19 +12,42 @@ Type LTMouseWheelAction Extends LTPushable
 	Field Z:Int
 	Field Direction:Int
 	
+	
+	
+	Method GetName:String()
+		Select Direction
+			Case -1
+				Return "Mouse wheel up"
+			Case 1
+				Return "Mouse wheel down"
+		End Select
+	End Method
+	
+	
+	
 	Method Prepare()
 		If Direction * ( MouseZ() - Z ) > 0 Then State = JustPressed
 	End Method
 	
-	Method Flush()
+	
+	
+	Method Reset()
 		State = Unpressed
-		Z = MouseZ()
+		Z :+ Sgn( MouseZ() - Z )
 	End Method
+	
+	
 	
 	Method IsDown:Int()
 		Return State = JustPressed
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Creates mouse wheel roll action object.
+	returns: New object of mouse wheel roll action of given direction.
+	End Rem	
 	Function Create:LTMouseWheelAction( Direction:Int )
 		If Abs( Direction ) <> 1 Then L_Error( "Invalid mouse wheel direction" )
 		
@@ -38,14 +61,7 @@ Type LTMouseWheelAction Extends LTPushable
 		Return WheelAction
 	End Function
 	
-	Method GetName:String()
-		Select Direction
-			Case -1
-				Return "Mouse wheel up"
-			Case 1
-				Return "Mouse wheel down"
-		End Select
-	End Method
+	
 	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )

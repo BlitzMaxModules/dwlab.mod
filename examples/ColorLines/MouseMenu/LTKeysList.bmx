@@ -25,12 +25,16 @@ Type LTKeysList Extends LTListBox
 		SetColor( 0, 0, 0 )
 		Local ButtonAction:LTButtonAction = LTButtonAction( Item )
 		Sprite.PrintText( LocalizeString( "{{" + ButtonAction.Name + "}}" ), LTAlign.ToLeft, , 0.25 )
-		Sprite.PrintText( LocalizeString( "{{" + ButtonAction.GetButtonName() + "}}" ), LTAlign.ToRight, , -0.25 )
+		Sprite.PrintText( LocalizeString( ButtonAction.GetButtonNames( True ) ), LTAlign.ToRight, , -0.25 )
 		LTVisualizer.ResetColor()
 	End Method
 	
 	Method OnButtonPressOnItem( ButtonAction:LTButtonAction, Item:Object, Num:Int )
 		L_CurrentButtonAction = LTButtonAction( Item )
-		Menu.Project.LoadWindow( Menu.World, , "LTKeyWindow" )
+		If ButtonAction = L_LeftMouseButton Then
+			Menu.Project.LoadWindow( Menu.World, , "LTKeyWindow" )
+		ElseIf ButtonAction = L_RightMouseButton Then	
+			L_CurrentButtonAction.Clear()
+		End If
 	End Method
 End Type

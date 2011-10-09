@@ -13,10 +13,10 @@ Type THUD Extends LTWindow
 		Super.Draw()
 		Local Ball:LTSprite = LTSprite( FindShape( "Ball" ) )
 		Local NextBalls:Int[] = TGameProfile( L_CurrentProfile ).NextBalls
-		Local StartingX:Double = FindShape( "TimePanel" ).X - 0.25 * ( NextBalls.Dimensions()[ 0 ] - 1 )
+		Local StartingX:Double = FindShape( "TimePanel" ).X - 0.4 * ( NextBalls.Dimensions()[ 0 ] - 1 )
 		Local N:Int = 0
 		For Local BallNum:Int = Eachin NextBalls
-			Ball.SetX( StartingX + N * 0.5 )
+			Ball.SetX( StartingX + N * 0.8 )
 			Ball.Frame = BallNum
 			Ball.Draw()
 			N :+ 1

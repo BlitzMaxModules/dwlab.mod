@@ -8,17 +8,22 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Global BossKey:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Z ), "Boss key" )
+Global ExitToMenu:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Escape ), "Exit to menu" )
+
 Type TGameProfile Extends LTProfile
+	Const BallsPerTurn:Int = 3
+	
 	Field GameField:LTTileMap
 	Field Balls:LTTileMap
-	Field NextBalls:Int[] = New Int[ 3 ]
+	Field NextBalls:Int[] = New Int[ BallsPerTurn ]
 	
 	Method Init()
-		Keys.AddLast( LTButtonAction.Create( LTKeyboardKey.Create( Key_Escape ), "Exit to menu" ) )
-		Keys.AddLast( LTButtonAction.Create( LTKeyboardKey.Create( Key_Z ), "Boss key" ) )
+		Keys.AddLast( ExitToMenu )
+		Keys.AddLast( BossKey )
 	End Method
 	
-	Method Flush()
+	Method Reset()
 		Score = 0
 		Game.LoadLevel( Self )
 	End Method
@@ -40,5 +45,7 @@ Type TGameProfile Extends LTProfile
 		Super.XMLIO( XMLObject )
 		GameField = LTTileMap( XMLObject.ManageObjectField( "field", GameField ) )
 		Balls = LTTileMap( XMLObject.ManageObjectField( "balls", Balls ) )
+		XMLObject.ManageIntArrayAttribute( "nextballs", NextBalls )
+		If NextBalls[ 0 ] = 0 Then Game.FillNextBalls( Self )
 	End Method
 End Type

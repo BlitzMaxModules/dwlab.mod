@@ -14,6 +14,9 @@ Include "LTMouseWheelAction.bmx"
 
 Global L_Controllers:TList = New TList
 
+Rem
+bbdoc: Common class for keys, buttons and mouse wheel rolls.
+End Rem
 Type LTPushable Extends LTObject
 	Const JustPressed:Int = 0
 	Const Pressed:Int = 1
@@ -22,9 +25,21 @@ Type LTPushable Extends LTObject
 	
 	Field State:Int = Unpressed
 	
+	
+	
+	Rem
+	bbdoc: Name of pushable object.
+	returns: Name of object.
+	about: You can use LocalizeString to get name in current language.
+	End Rem
 	Method GetName:String()
 	End Method
+
 	
+		
+	Rem
+	bbdoc: Function which prepares pushable object for project cycle.
+	End Rem
 	Method Prepare()
 		If IsDown() Then
 			If State = Unpressed Then State = JustPressed
@@ -33,17 +48,40 @@ Type LTPushable Extends LTObject
 		End If
 	End Method
 	
-	Method Flush()
+	
+	
+	Rem
+	bbdoc: Function which resets pushable object after project cycle.
+	End Rem
+	Method Reset()
 		If IsDown() Then State = Pressed Else State = Unpressed
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Function which checks is the object pressed.
+	returns: True if pushable object is currently pressed.
+	End Rem
 	Method IsDown:Int()
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Function which checks was the object pressed.
+	returns: True if pushable object was presed during this project cycle.
+	End Rem
 	Method WasPressed:Int()
 		Return State = JustPressed
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Function which checks was the object unpressed.
+	returns: True if pushable object was unpresed during this project cycle.
+	End Rem
 	Method WasUnpressed:Int()
 		Return State = JustUnpressed
 	End Method

@@ -167,7 +167,7 @@ Path is basically a sequence of pivots.
 Class for main project and subprojects.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTRasterFrame>LTRasterFrame</a></td><td class=docright>
-Special image class to display raster frame.
+Special image subclass to display raster frame.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTRevoluteJoint>LTRevoluteJoint</a></td><td class=docright>
 Revolute joint moves angular sprite if parent pivot moves or rotates, but the sprite can be rotated freely.
@@ -629,9 +629,17 @@ extension and same name as image file.</td></tr>
 <a href=#Viewport>Viewport</a>
 , 
 <a href=#ViewportClipping>ViewportClipping</a>
+, 
+<a href=#VX1>VX1</a>
 </td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTCamera_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#ApplyColor>ApplyColor</a></td><td class=docright>
+Applies color with given intensity to the whole viewport.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Darken>Darken</a></td><td class=docright>
+Darkens current camera viewport.
+</td></tr>
 <tr><td class=docleft width=1%><a href=#DistFieldToScreen>DistFieldToScreen</a></td><td class=docright>
 Transforms field distance to the screen distance.
 </td></tr>
@@ -640,6 +648,12 @@ Transforms distance from the screen to field coordinate system.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#FieldToScreen>FieldToScreen</a></td><td class=docright>
 Transforms game field coordinates to the screen coordinates.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#FieldToScreenFloat>FieldToScreenFloat</a></td><td class=docright>
+Same as FieldToScreen, but for Floats.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Lighten>Lighten</a></td><td class=docright>
+Lightens current camera viewport.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#ResetViewport>ResetViewport</a></td><td class=docright>
 Resets viewport to whole screen.
@@ -678,6 +692,21 @@ Creates new camera object.
 <p>
 See also: <a href=#Viewport>Viewport</a>, <a href=#SetCameraViewport>SetCameraViewport</a>, <a href=#ResetViewport>ResetViewport</a>.</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=VX1>
+<tr><td class=doctop colspan=2>Field VX1:Double, VY1:Double, VX2:Double, VY2:Double, VK:Double, AVK:Double</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Elements of vectors V1 and V2 for Isometric view.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=ApplyColor>
+<tr><td class=doctop colspan=2>Method ApplyColor( Intensity:Double, Red:Double, Green:Double, Blue:Double )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Applies color with given intensity to the whole viewport.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Red color for example will make picture more "reddish".
+If you use intensity 0.0, it will give no effect and intensity 1.0 will make whole viewport solid red.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Darken>
+<tr><td class=doctop colspan=2>Method Darken( Intensity:Double )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Darkens current camera viewport.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>0.0 intensity will give no effect, 1.0 intensity will turn viewport to solid black.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=DistFieldToScreen>
 <tr><td class=doctop colspan=2>Method DistFieldToScreen:Double( ScreenDist:Double )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Transforms field distance to the screen distance.</td></tr>
@@ -692,6 +721,15 @@ See also: <a href=#Viewport>Viewport</a>, <a href=#SetCameraViewport>SetCameraVi
 <tr><td class=doctop colspan=2>Method FieldToScreen( FieldX:Double, FieldY:Double, ScreenX:Double Var, ScreenY:Double Var )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Transforms game field coordinates to the screen coordinates.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#ScreenToField>ScreenToField</a>, <a href=#SizeScreenToField>SizeScreenToField</a>, <a href=#DistScreenToField>DistScreenToField</a>, <a href=#SizeFieldToScreen>SizeFieldToScreen</a>, <a href=#DistFieldToScreen>DistFieldToScreen</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=FieldToScreenFloat>
+<tr><td class=doctop colspan=2>Method FieldToScreenFloat( FieldX:Double, FieldY:Double, ScreenX:Float Var, ScreenY:Float Var )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Same as FieldToScreen, but for Floats.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Lighten>
+<tr><td class=doctop colspan=2>Method Lighten( Intensity:Double )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Lightens current camera viewport.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>0.0 intensity will give no effect, 1.0 intensity will turn viewport to solid white.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=ResetViewport>
 <tr><td class=doctop colspan=2>Method ResetViewport()</td></tr>
@@ -721,7 +759,7 @@ See also: <a href=#Viewport>Viewport</a>, <a href=#ViewportClipping>ViewportClip
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#ScreenToField>ScreenToField</a>, <a href=#DistScreenToField>DistScreenToField</a>, <a href=#FieldToScreen>FieldToScreen</a>, <a href=#SizeFieldToScreen>SizeFieldToScreen</a>, <a href=#DistFieldToScreen>DistFieldToScreen</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Create>
-<tr><td class=doctop colspan=2>Function Create:LTCamera( Width:Double, Height:Double, UnitSize:Double )</td></tr>
+<tr><td class=doctop colspan=2>Function Create:LTCamera( Width:Double = 800.0, Height:Double = 600.0, UnitSize:Double = 25.0 )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>New camera object.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Creates new camera object.</td></tr>
 </table>
@@ -1180,6 +1218,9 @@ Initialization method.
 <tr><td class=docleft width=1%>Description</td><td class=docright>Image class.</td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTImage_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Draw>Draw</a></td><td class=docright>
+Draws image using given coordinates and size.
+</td></tr>
 <tr><td class=docleft width=1%><a href=#FramesQuantity>FramesQuantity</a></td><td class=docright>
 Returns frames quantity of given image.
 </td></tr>
@@ -1200,6 +1241,10 @@ Returns width of image.
 <tr><td class=docleft width=1%><a href=#FromFile>FromFile</a></td><td class=docright>
 Creates new image from file with specified cell quantities for splitting.
 </td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Draw>
+<tr><td class=doctop colspan=2>Method Draw( X:Double, Y:Double, Width:Double, Height:Double, Frame:Int )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Draws image using given coordinates and size.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=FramesQuantity>
 <tr><td class=doctop colspan=2>Method FramesQuantity:Int()</td></tr>
@@ -1296,7 +1341,7 @@ If this layer contains sprites or other layers they will not be drawn.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=FindShapeWithParameter>
-<tr><td class=doctop colspan=2>Method FindShapeWithParameter:LTShape( ShapeType:String, ParameterName:String, ParameterValue:String, IgnoreError:Int = False )</td></tr>
+<tr><td class=doctop colspan=2>Method FindShapeWithParameter:LTShape( ParameterName:String, ParameterValue:String, ShapeType:String = "", IgnoreError:Int = False )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>First found layer shape of class with given name and parameter with given name and value.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Finds shape of class with given name with parameter with given name and value.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.</td></tr>
@@ -1498,6 +1543,8 @@ Finds a path from one point to another inside graph.
 , 
 <a href=#Pass>Pass</a>
 , 
+<a href=#Paused>Paused</a>
+, 
 <a href=#Time>Time</a>
 </td></tr>
 </table>
@@ -1567,6 +1614,11 @@ See also: <a href=#Render>Render</a>.</td></tr>
 <tr><td class=doctop colspan=2>Field Pass:Int</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Current logic frame number.</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=Paused>
+<tr><td class=doctop colspan=2>Field Paused:Int = False</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Pause flag.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>If set to True then Logic() method will not be executed.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=Time>
 <tr><td class=doctop colspan=2>Field Time:Double</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Current game time in seconds (starts from 0).</td></tr>
@@ -1593,14 +1645,14 @@ See also: <a href=#InitGraphics>InitGraphics</a>, <a href=#InitSound>InitSound</
 <table class=doc width=100% cellspacing=3 id=InitGraphics>
 <tr><td class=doctop colspan=2>Method InitGraphics()</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Graphics initialization method.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>It will be relaunched after changing graphics driver. You should put font loading code there if you have any.
+<tr><td class=docleft width=1%>Information</td><td class=docright>It will be relaunched after changing graphics driver (via profiles). You should put font loading code there if you have any.
 <p>
 See also: <a href=#Init>Init</a>, <a href=#InitSound>InitSound</a>, <a href=#DeInit>DeInit</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=InitSound>
 <tr><td class=doctop colspan=2>Method InitSound()</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Sound initialization method.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>It will be relaunched after changing sound driver. You should put sound loading code there if you have any.
+<tr><td class=docleft width=1%>Information</td><td class=docright>It will be relaunched after changing sound driver (via profiles). You should put sound loading code there if you have any.
 <p>
 See also: <a href=#Init>Init</a>, <a href=#InitGraphics>InitGraphics</a>, <a href=#DeInit>DeInit</a>.</td></tr>
 </table>
@@ -1639,11 +1691,47 @@ See also: <a href=#MinFPS>MinFPS</a>, <a href=#FPS>FPS</a>.</td></tr>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTRasterFrame>
 <tr><td class=doctop colspan=2>Type LTRasterFrame Extends LTImage</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Special image class to display raster frame.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>After creating this visualizer you have to load image. This image should consist of 9 images aligned by 3x3 grid.
+<tr><td class=docleft width=1%>Description</td><td class=docright>Special image subclass to display raster frame.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>After creating this LTImage sub-class you have to load image. This image should consist of 9 images aligned by 3x3 grid.
 When raster frame have been drawn as the rectangular shape which represents sprite on the screen, this shape will be constructed following
 way: corner images will be put in corners of the shape, side images will be stretched horizontaly or vertically to fit side bars between them and center
 image will be stretched in both direction to fully cover remaining center rectangle.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTRasterFrame_fields></a>Fields Summary</th></tr><tr><td colspan=2>
+<a href=#BottomBorder>BottomBorder</a>
+, 
+<a href=#LeftBorder>LeftBorder</a>
+, 
+<a href=#RightBorder>RightBorder</a>
+, 
+<a href=#TopBorder>TopBorder</a>
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTRasterFrame_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Init>Init</a></td><td class=docright>
+Initialization function.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=BottomBorder>
+<tr><td class=doctop colspan=2>Field BottomBorder:Int = 1</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Width of the bottom row of 3x3 grid which will be used for frame's bottom.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=LeftBorder>
+<tr><td class=doctop colspan=2>Field LeftBorder:Int = 1</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Width of the left column of 3x3 grid part which will be used for left frame side.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=RightBorder>
+<tr><td class=doctop colspan=2>Field RightBorder:Int = 1</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Width of the right column of 3x3 grid which will be used for right frame side.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=TopBorder>
+<tr><td class=doctop colspan=2>Field TopBorder:Int = 1</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Width of the top row of 3x3 grid which will be used for frame's top.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Init>
+<tr><td class=doctop colspan=2>Method Init()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Initialization function.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Main image will be splitted into 9 images and put into array for using.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTRevoluteJoint>
@@ -1738,6 +1826,9 @@ Distance to point.
 <tr><td class=docleft width=1%><a href=#Draw>Draw</a></td><td class=docright>
 Draws the shape.
 </td></tr>
+<tr><td class=docleft width=1%><a href=#DrawContour>DrawContour</a></td><td class=docright>
+Draws the contour of the shape.
+</td></tr>
 <tr><td class=docleft width=1%><a href=#DrawUsingVisualizer>DrawUsingVisualizer</a></td><td class=docright>
 Draws the shape using another visualizer.
 </td></tr>
@@ -1819,6 +1910,12 @@ Applies parallax effect for shape depending on current camera size and position 
 <tr><td class=docleft width=1%><a href=#PlaceBetween>PlaceBetween</a></td><td class=docright>
 Places the shape between two another shapes.
 </td></tr>
+<tr><td class=docleft width=1%><a href=#PositionOnTileMap>PositionOnTileMap</a></td><td class=docright>
+Position shape using coordinates in tilemap's coordinate system.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#PrintText>PrintText</a></td><td class=docright>
+Prints text inside the shape.
+</td></tr>
 <tr><td class=docleft width=1%><a href=#RemoveModel>RemoveModel</a></td><td class=docright>
 Removes all shape behavior models of class with given name.
 </td></tr>
@@ -1827,6 +1924,9 @@ Removes window limit.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#RightX>RightX</a></td><td class=docright>
 Right side of the shape.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetAsViewport>SetAsViewport</a></td><td class=docright>
+Sets shape's rectangle as viewport.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#SetCoords>SetCoords</a></td><td class=docright>
 Sets coordinates of the shape.
@@ -1848,6 +1948,9 @@ Moves shape to mouse position.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#SetSize>SetSize</a></td><td class=docright>
 Sets the size of the shape.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetSizeAs>SetSizeAs</a></td><td class=docright>
+Sets the size of the shape as of given shape.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#SetWidth>SetWidth</a></td><td class=docright>
 Sets the width of the shape.
@@ -2038,6 +2141,11 @@ See also: <a href=#LTBehaviorModel>LTBehaviorModel</a>, <a href=#Deactivate>Deac
 <p>
 See also: <a href=#DrawUsingVisualizer>DrawUsingVisualizer</a>, <a href=#LTVisualizer>LTVisualizer</a>, <a href=#Visible>Visible</a>.</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=DrawContour>
+<tr><td class=doctop colspan=2>Method DrawContour( LineWidth:Double = 1.0 )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Draws the contour of the shape.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#Draw>Draw</a>.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=DrawUsingVisualizer>
 <tr><td class=doctop colspan=2>Method DrawUsingVisualizer( Vis:LTVisualizer )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Draws the shape using another visualizer.</td></tr>
@@ -2209,6 +2317,16 @@ See also: <a href=#LimitHorizontallyWith>LimitHorizontallyWith</a>, <a href=#Lim
 <li> 0.5 shifts shape to the middle between given shapes centers.
 </ul></td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=PositionOnTileMap>
+<tr><td class=doctop colspan=2>Method PositionOnTileMap( TileMap:LTTileMap, TileX:Double, TileY:Double )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Position shape using coordinates in tilemap's coordinate system.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Integer TileX and TileY sets shape position to the center of given tilemap's cooresponding tile.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=PrintText>
+<tr><td class=doctop colspan=2>Method PrintText( Text:String, HorizontalAlign:Int = LTAlign.ToCenter, VerticalAlign:Int = LTAlign.ToCenter, HorizontalShift:Double = 0, VerticalShift:Double = 0 )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Prints text inside the shape.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Current ImageFont is used. You can specify horizontal and vertical alignment and also horizontal and vertical shift in units.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=RemoveModel>
 <tr><td class=doctop colspan=2>Method RemoveModel( TypeName:String )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Removes all shape behavior models of class with given name.</td></tr>
@@ -2228,6 +2346,10 @@ See also: <a href=#LimitByWindow>LimitByWindow</a>, <a href=#LimitByWindowShape>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>X coordinate of right shape side in units.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Right side of the shape.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#X>X</a>, <a href=#Width>Width</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetAsViewport>
+<tr><td class=doctop colspan=2>Method SetAsViewport()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets shape's rectangle as viewport.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=SetCoords>
 <tr><td class=doctop colspan=2>Method SetCoords( NewX:Double, NewY:Double )</td></tr>
@@ -2273,7 +2395,12 @@ See also: <a href=#SetCoords>SetCoords</a>.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Sets the size of the shape.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>It's better to use this method instead of equating Width and Height fields to new values.
 <p>
-See also: <a href=#Width>Width</a>, <a href=#Height>Height</a>, <a href=#SetWidth>SetWidth</a>, <a href=#SetHeight>SetHeight</a>.</td></tr>
+See also: <a href=#Width>Width</a>, <a href=#Height>Height</a>, <a href=#SetWidth>SetWidth</a>, <a href=#SetHeight>SetHeight</a>, <a href=#SetSizeAs>SetSizeAs</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetSizeAs>
+<tr><td class=doctop colspan=2>Method SetSizeAs( Shape:LTShape )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the size of the shape as of given shape.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#Width>Width</a>, <a href=#Height>Height</a>, <a href=#SetWidth>SetWidth</a>, <a href=#SetHeight>SetHeight</a>, <a href=#SetSize>SetSize</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=SetWidth>
 <tr><td class=doctop colspan=2>Method SetWidth( NewWidth:Double )</td></tr>
@@ -3345,13 +3472,18 @@ See also: <a href=#ManageIntAttribute>ManageIntAttribute</a>, <a href=#ManageDou
 <br>
 <h2 id=modinfo>Module Information</h2>
 <table width=100%>
-<tr><th width=1%>Version</th><td>1.2.7</td></tr>
+<tr><th width=1%>Version</th><td>1.3.1</td></tr>
 <tr><th width=1%>Author</th><td>Matt Merkulov</td></tr>
 <tr><th width=1%>License</th><td>Artistic License 2.0</td></tr>
 <tr><th width=1%>Modserver</th><td>DWLAB</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp;</td></tr>
+<tr><th width=1%>History</th><td>v1.3.1 (07.10.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added SetSizeAs() method to the LTShape.</td></tr>
+<tr><th width=1%>History</th><td>v1.3 (06.10.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Implemented controllers system.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added Contour() and SetAsViewport() methods to the LTShape.</td></tr>
 <tr><th width=1%>History</th><td>v1.2.7 (03.10.11)</td></tr>
-<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added PrintText module to the LTShape.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added PrintText() method to the LTShape.</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed bug in LTCamera.SetCameraViewport() method.</td></tr>
 <tr><th width=1%>History</th><td>v1.2.6 (02.10.11)</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; LTSprite is merged with LTSprite and LTVectorSprite is cleaned of unuseful code.</td></tr>

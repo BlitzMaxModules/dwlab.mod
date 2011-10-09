@@ -2,7 +2,7 @@ ModuleInfo "Version: 1.0"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
-ModuleInfo "History: v1.0 (07.10.11)"
+ModuleInfo "History: v1.0 (09.10.11)"
 ModuleInfo "History: &nbsp; &nbsp; Initial release."
 import brl.blitz
 import dwlab.frmwork
@@ -13,7 +13,6 @@ LTGUIProject^dwlab.frmwork.LTProject{
 .Locked%&
 -New%()="_dwlab_gui_LTGUIProject_New"
 -LoadWindow:LTWindow(World:dwlab.frmwork.LTWorld,Name$=$"",Class$=$"")="_dwlab_gui_LTGUIProject_LoadWindow"
--InitWindowShape%(Window:LTWindow)="_dwlab_gui_LTGUIProject_InitWindowShape"
 -FindWindow:LTWindow(Name$=$"",Class$=$"")="_dwlab_gui_LTGUIProject_FindWindow"
 -CloseWindow%(Window:LTWindow="bbNullObject")="_dwlab_gui_LTGUIProject_CloseWindow"
 -Execute%()="_dwlab_gui_LTGUIProject_Execute"
@@ -26,9 +25,8 @@ LTWindow^dwlab.frmwork.LTLayer{
 -New%()="_dwlab_gui_LTWindow_New"
 -Draw%()="_dwlab_gui_LTWindow_Draw"
 -Act%()="_dwlab_gui_LTWindow_Act"
--GetTextFieldText$(Name$)="_dwlab_gui_LTWindow_GetTextFieldText"
--OnButtonUnpress%(Gadget:LTGadget,ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTWindow_OnButtonUnpress"
 -OnButtonPress%(Gadget:LTGadget,ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTWindow_OnButtonPress"
+-OnButtonUnpress%(Gadget:LTGadget,ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTWindow_OnButtonUnpress"
 -OnButtonDown%(Gadget:LTGadget,ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTWindow_OnButtonDown"
 -OnButtonUp%(Gadget:LTGadget,ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTWindow_OnButtonUp"
 -OnMouseOver%(Gadget:LTGadget)="_dwlab_gui_LTWindow_OnMouseOver"
@@ -93,12 +91,12 @@ LTListBox^LTGadget{
 LTSlider^LTGadget{
 Moving%=0
 Filling%=1
-.ListBox:LTListBox&
-.Slider:dwlab.frmwork.LTShape&
 .Position!&
+.Size!&
 .SliderType%&
 .SelectionType%&
-.Size!&
+.ListBox:LTListBox&
+.Slider:dwlab.frmwork.LTShape&
 .Dragging%&
 .StartingX!&
 .StartingY!&
@@ -116,17 +114,19 @@ Filling%=1
 LTGadget^dwlab.frmwork.LTSprite{
 -New%()="_dwlab_gui_LTGadget_New"
 -Init%()="_dwlab_gui_LTGadget_Init"
--OnMouseOver%()="_dwlab_gui_LTGadget_OnMouseOver"
--OnMouseOut%()="_dwlab_gui_LTGadget_OnMouseOut"
 -OnButtonPress%(ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTGadget_OnButtonPress"
 -OnButtonUnpress%(ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTGadget_OnButtonUnpress"
 -OnButtonDown%(ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTGadget_OnButtonDown"
 -OnButtonUp%(ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTGadget_OnButtonUp"
+-OnMouseOver%()="_dwlab_gui_LTGadget_OnMouseOver"
+-OnMouseOut%()="_dwlab_gui_LTGadget_OnMouseOut"
 }="dwlab_gui_LTGadget"
 L_Window:LTWindow&=mem:p("dwlab_gui_L_Window")
 L_ActiveTextField:LTTextField&=mem:p("dwlab_gui_L_ActiveTextField")
 L_Cursor:dwlab.frmwork.LTSprite&=mem:p("dwlab_gui_L_Cursor")
-L_ClickButton:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_ClickButton")
+L_LeftMouseButton:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_LeftMouseButton")
+L_RightMouseButton:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_RightMouseButton")
+L_MiddleMouseButton:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_MiddleMouseButton")
 L_CharacterLeft:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_CharacterLeft")
 L_CharacterRight:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_CharacterRight")
 L_DeletePreviousCharacter:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_DeletePreviousCharacter")

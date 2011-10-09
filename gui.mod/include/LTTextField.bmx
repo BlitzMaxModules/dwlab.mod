@@ -8,6 +8,10 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: Class for text fields for entering text.
+about: If window has text fields, one will be set as active. User can select active text field by clicking on another text field.
+End Rem
 Type LTTextField Extends LTGadget
 	Field Text:String
 	Field LeftPart:String
@@ -43,7 +47,7 @@ Type LTTextField Extends LTGadget
 	
 	
 	Method OnButtonPress( ButtonAction:LTButtonAction )
-		If ButtonAction <> L_ClickButton Then Return
+		If ButtonAction <> L_LeftMouseButton Then Return
 		L_ActiveTextField = Self
 		LeftPart = Text
 		RightPart = ""

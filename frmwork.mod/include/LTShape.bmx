@@ -123,15 +123,23 @@ Type LTShape Extends LTObject
 	bbdoc: Draws the contour of the shape.
 	about: See also: #Draw
 	End Rem
-	Method DrawContour()
+	Method DrawContour( LineWidth:Double = 1.0 )
 		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
 		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
 		L_CurrentCamera.SizeFieldToScreen( Width, Height, SWidth, SHeight )
+		
+		Local OldLineWidth:Double = GetLineWidth()
+		SetLineWidth( LineWidth )
 		L_DrawEmptyRect( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
+		SetLineWidth( OldLineWidth )
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: Prints text inside the shape.
+	about: Current ImageFont is used. You can specify horizontal and vertical alignment and also horizontal and vertical shift in units.
+	End Rem
 	Method PrintText( Text:String, HorizontalAlign:Int = LTAlign.ToCenter, VerticalAlign:Int = LTAlign.ToCenter, HorizontalShift:Double = 0, VerticalShift:Double = 0 )
 		Local XX:Double, YY:Double
 		Select HorizontalAlign
@@ -174,6 +182,9 @@ Type LTShape Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: Sets shape's rectangle as viewport.
+	End Rem
 	Method SetAsViewport()
 		Local VX:Double, VY:Double, VWidth:Double, VHeight:Double
 		L_CurrentCamera.FieldToScreen( LeftX(), TopY(), VX, VY )
@@ -369,6 +380,10 @@ Type LTShape Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: Position shape using coordinates in tilemap's coordinate system
+	about: Integer TileX and TileY sets shape position to the center of given tilemap's cooresponding tile
+	End Rem
 	Method PositionOnTileMap( TileMap:LTTileMap, TileX:Double, TileY:Double )
 		X = TileMap.LeftX() + ( TileX + 0.5 ) * TileMap.GetTileWidth()
 		Y = TileMap.TopY() + ( TileY + 0.5 ) * TileMap.GetTileHeight()

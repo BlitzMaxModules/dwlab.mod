@@ -10,8 +10,24 @@
 
 Include "LTCheckBox.bmx"
 
+Rem
+bbdoc: Class for button gadgets.
+about: If button visualizer's image have more than 1 frames, they will be used following way:
+<ul><li>2 frames: first frame will be used for normal button, second - for pressed button.
+<li>4 or more frames: same as above, but 3rd frame will be used for normal button with focus.
+and 4th - for pressed button with focus</ul>
+End Rem
 Type LTButton Extends LTLabel
+	Rem
+	bbdoc: State of button
+	about: State is changed to True when users press left mouse button on the button.
+	End Rem
 	Field State:Int
+	
+	Rem
+	bbdoc: Focus of button
+	about: Focus is changed to True when mouse cursor is over the button.
+	End Rem
 	Field Focus:Int
 	
 	
@@ -51,12 +67,12 @@ Type LTButton Extends LTLabel
 	
 	
 	Method OnButtonDown( ButtonAction:LTButtonAction )
-		If ButtonAction = L_ClickButton Then State = True
+		If ButtonAction = L_LeftMouseButton Then State = True
 	End Method
 	
 	
 	
 	Method OnButtonUp( ButtonAction:LTButtonAction )
-		If ButtonAction = L_ClickButton Then State = False
+		If ButtonAction = L_LeftMouseButton Then State = False
 	End Method
 End Type

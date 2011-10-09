@@ -31,7 +31,7 @@ Type LTLanguageSelectionWindow Extends LTWindow
 	End Method
 	
 	Method OnButtonUnpress( Gadget:LTGadget, ButtonAction:LTButtonAction )
-		If ButtonAction <> L_ClickButton Then Return
+		If ButtonAction <> L_LeftMouseButton Then Return
 		If LTButton( Gadget ) Then
 			Local Language:TMaxGuiLanguage = TMaxGuiLanguage( LanguageMap.ValueForKey( Gadget ) )
 			SetLocalizationLanguage( Language )

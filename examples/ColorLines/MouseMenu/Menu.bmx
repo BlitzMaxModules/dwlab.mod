@@ -28,6 +28,7 @@ Include "menu_incbin.bmx"
 Incbin "russian.lng"
 Incbin "english.lng"
 Incbin "OpenSans-Regular.ttf"
+Incbin "images/calculator.png"
 
 Global Menu:LTMenu = New LTMenu
 
@@ -53,7 +54,7 @@ Type LTMenu Extends LTGUIProject
 	Method Init()
 		LTProfile.InitSystem()
 		If Not L_CurrentProfile Then
-			LTProfile.CreateDefault( ProfileTypeID )
+			L_CurrentProfile = LTProfile.CreateDefault( ProfileTypeID )
 			Profiles.AddLast( L_CurrentProfile )
 		End If
 		L_CurrentProfile.Apply( [ Project, LTGUIProject( Self ) ] )

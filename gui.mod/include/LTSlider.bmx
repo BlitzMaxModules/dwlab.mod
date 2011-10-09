@@ -8,16 +8,43 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: Class for slider gadget.
+about: Sliders can act as scroll bars, volume selection bars, progress bars, etc.
+End Rem
 Type LTSlider Extends LTGadget
+	Rem
+	bbdoc: Constant for moving behavior of slider (for scroll bars).
+	End Rem
 	Const Moving:Int = 0
+	
+	Rem
+	bbdoc: Constant for filling behavior of slider (for progress bars).
+	End Rem
 	Const Filling:Int = 1
+	
+	Rem
+	bbdoc: Position of the moving part on the slider field ( 0.0 - 1.0 ).
+	End Rem
+	Field Position:Double
+	
+	Rem
+	bbdoc: Size of the moving part relative to slider field ( 0.0 - 1.0 ).
+	End Rem
+	Field Size:Double = 1.0
+	
+	Rem
+	bbdoc: Type of the slider - Vertical or Horizontal.
+	End Rem
+	Field SliderType:Int 
+	
+	Rem
+	bbdoc: Slider behavior - Moving or Filling.
+	End Rem
+	Field SelectionType:Int
 	
 	Field ListBox:LTListBox
 	Field Slider:LTShape
-	Field Position:Double
-	Field SliderType:Int 
-	Field SelectionType:Int
-	Field Size:Double = 1.0
 	Field Dragging:Int
 	Field StartingX:Double
 	Field StartingY:Double
@@ -33,6 +60,16 @@ Type LTSlider Extends LTGadget
 
 	
 	
+	Rem
+	bbdoc: Slider initialization method.
+	about: You can set different slider properties using object parameters in editor:
+	<ul><li>"type" - sets slider type ( "vertical" or "horizontal" )
+	<li>"selection" - sets slider behavior ( "moving" or "filling" )</ul>
+	You can also attach sprite (which should be inside same window) as slider moving part to the slider by naming silder and
+	set "slider_name" parameter of the sprite to slider name.
+	And you can attach a list box (which should be inside same window) to scroll its contents with the slider by naming list box and
+	set "list_box_name" parameter of the slider to list box name.
+		End Rem		
 	Method Init()
 		Local Name:String = GetName()
 		If Name Then
@@ -87,7 +124,7 @@ Type LTSlider Extends LTGadget
 	
 	
 	Method OnButtonDown( ButtonAction:LTButtonAction )
-		If ButtonAction <> L_ClickButton Then Return
+		If ButtonAction <> L_LeftMouseButton Then Return
 		Select SelectionType
 			Case Moving
 				If Dragging Then
@@ -119,7 +156,7 @@ Type LTSlider Extends LTGadget
 	
 	
 	Method OnButtonUnpress( ButtonAction:LTButtonAction )
-		If ButtonAction <> L_ClickButton Then Return
+		If ButtonAction <> L_LeftMouseButton Then Return
 		Dragging = False
 	EndMethod
 End Type

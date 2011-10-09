@@ -8,9 +8,25 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: Class for list box gadget.
+End Rem
 Type LTListBox Extends LTGadget
+	Rem
+	bbdoc: List type.
+	about: Can be Vertical or Horizontal.
+	End Rem
 	Field ListType:Int = Vertical
+	
+	Rem
+	bbdoc: List which contains list box items.
+	End Rem
 	Field Items:TList
+	
+	Rem
+	bbdoc: List item size.
+	about: Height for vertical lists, width for horizontal lists in units.
+	End Rem
 	Field ItemSize:Double = 1.0
 	Field Shift:Double
 	
@@ -52,6 +68,10 @@ Type LTListBox Extends LTGadget
 	
 	
 	
+	Rem
+	bbdoc: Method for drawing list box item.
+	about: Fill this method with code which displays given item. You also can use its number in list and shape which it occupies in list box.
+	End Rem
 	Method DrawItem( Item:Object, Num:Int, Sprite:LTSprite )
 	End Method
 	
@@ -71,6 +91,10 @@ Type LTListBox Extends LTGadget
 	
 	
 	
+	Rem
+	bbdoc: Pressing button on list box item.
+	about: Fill this method with code of reaction to user's button press on item (selection via click for example).
+	End Rem
 	Method OnButtonPressOnItem( ButtonAction:LTButtonAction, Item:Object, Num:Int )
 	End Method
 End Type

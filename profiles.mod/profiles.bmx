@@ -10,7 +10,7 @@ ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
-ModuleInfo "History: v1.0 (07.10.11)"
+ModuleInfo "History: v1.0 (09.10.11)"
 ModuleInfo "History: &nbsp; &nbsp; Initial release."
 
 Import dwlab.frmwork

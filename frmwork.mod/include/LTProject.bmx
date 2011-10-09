@@ -63,6 +63,10 @@ Type LTProject Extends LTObject
 	End Rem
 	Field Flipping:Int = True
 	
+	Rem
+	bbdoc: Pause flag.
+	about: If set to True then Logic() method will not be executed.
+	End Rem
 	Field Paused:Int = False
 
 	' ==================== Loading layers and windows ===================	

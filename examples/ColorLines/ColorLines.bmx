@@ -16,6 +16,9 @@ Import brl.jpgloader
 Import brl.pngloader
 Import brl.oggloader
 Import brl.freetypefont
+Import brl.freeaudioaudio
+Import brl.openalaudio
+Import brl.glmax2d
 
 Import dwlab.frmwork
 Import dwlab.gui
@@ -43,6 +46,8 @@ Incbin "swap.ogg"
 Include "levels_incbin.bmx"
 
 AppTitle = "Color Lines 1.0 beta"
+
+EnableOpenALAudio()
 
 Global Game:TGame = New TGame
 Game.Execute()

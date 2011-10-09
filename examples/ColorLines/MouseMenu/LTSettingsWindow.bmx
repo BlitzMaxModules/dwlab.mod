@@ -49,7 +49,7 @@ Type LTSettingsWindow Extends LTWindow
 	End Method
 	
 	Method OnButtonPress( Gadget:LTGadget, ButtonAction:LTButtonAction )
-		If ButtonAction <> L_ClickButton Then Return
+		If ButtonAction <> L_LeftMouseButton Then Return
 		Select Gadget.GetParameter( "action" )
 			Case "scroll_up"
 				ChangeListItem( Gadget, -1 )
@@ -93,10 +93,11 @@ Type LTSettingsWindow Extends LTWindow
 					If Link.Value() = Link Then Link = Link._succ
 				End If
 				Item = Link.Value()
-				Exit
+				Return
 			End If
 			Link = Link.NextLink()
 		WEnd
+		Item = List.First()
 	End Method
 	
 	Method Save()

@@ -27,7 +27,7 @@ Type LTProfilesList Extends LTListBox
 	End Method
 	
 	Method OnButtonPressOnItem( ButtonAction:LTButtonAction, Item:Object, Num:Int )
-		If ButtonAction <> L_ClickButton Then Return
+		If ButtonAction <> L_LeftMouseButton Then Return
 		Menu.SelectedProfile = LTProfile( Item )
 	End Method
 End Type

@@ -10,11 +10,23 @@
 
 Include "LTButton.bmx"
 
+Rem
+bbdoc: Class for label gadgets.
+End Rem
 Type LTLabel Extends LTGadget
 	Field Text:String
 	Field Icon:LTShape
+	
+	Rem
+	bbdoc: Visualizer for button text.
+	End Rem	
 	Field TextVisualizer:LTVisualizer = New LTVisualizer
+	
+	Rem
+	bbdoc: Horizontal and vertical shift of button contens.
+	End Rem	
 	Field DX:Double, DY:Double
+	
 	Field Align:Int = LTAlign.ToCenter
 	
 	
@@ -25,6 +37,13 @@ Type LTLabel Extends LTGadget
 	
 	
 	
+	Rem
+	bbdoc: Label initialization method.
+	about: You can set different properties using object parameters in editor:
+	<ul><li>"text" - sets button text
+	<li>"align" - sets align of button contents ("left", "center" or "right")</ul>
+	You can also set a name of the label and set "gadget_name" parameter to this name for any sprite inside window layer to load it as label icon.
+	End Rem	
 	Method Init()
 		Local Name:String = GetName()
 		If Name Then Icon = L_Window.FindShapeWithParameter( "gadget_name", GetName(), "", True )
@@ -77,6 +96,9 @@ Type LTLabel Extends LTGadget
 	
 	
 	
+	Rem
+	bbdoc: Activates the label and also restores visualizer parameters.
+	End Rem	
 	Method Activate()
 		Active = True
 		Visualizer.Alpha = 1.0
@@ -86,6 +108,9 @@ Type LTLabel Extends LTGadget
 	
 	
 	
+	Rem
+	bbdoc: Deactivates the label and also makes it half-transparent.
+	End Rem	
 	Method Deactivate()
 		Active = False
 		Visualizer.Alpha = 0.5
