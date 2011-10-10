@@ -1,32 +1,329 @@
-<LTWorld dwlab_version="1.2">
+<LTWorld dwlab_version="1.3.2">
 	<LTVisualizer field="visualizer" id="1"/>
 	<TList field="images">
-		<Object id="45"/>
-		<Object id="8"/>
+		<Object id="174"/>
+		<Object id="134"/>
+		<Object id="9"/>
 	</TList>
 	<TList field="tilesets">
-		<Object id="44"/>
-		<Object id="7"/>
+		<Object id="173"/>
+		<Object id="133"/>
+		<Object id="8"/>
 	</TList>
-	<LTCamera field="camera" x="15.9014" y="8.1266" width="42.592" height="35.9581" shape="2" viewport-clipping="1">
+	<LTCamera field="camera" x="8" y="8" width="24.042" height="20.3689" shape="2" viewport-clipping="1">
 		<Object field="visualizer" id="1"/>
-		<LTShape field="viewport" x="504" y="425.5" width="1008" height="851">
+		<LTShape field="viewport" x="504" y="427" width="1008" height="854">
 			<Object field="visualizer" id="1"/>
 		</LTShape>
 	</LTCamera>
 	<TList field="definitions"/>
 	<LTLayer>
 		<TList field="parameters">
-			<LTParameter name="name" value="LTLayer"/>
+			<LTParameter name="name" value="CurvedAreas"/>
+		</TList>
+		<LTVisualizer field="visualizer" id="4"/>
+		<LTShape field="bounds" x="16" y="16" width="32" height="32">
+			<LTVisualizer field="visualizer" id="127"/>
+		</LTShape>
+		<LTTileMap x="16" y="16" width="32" height="32" xquantity="32" yquantity="32" tiles-quantity="90">
+			<TList field="parameters">
+				<LTParameter name="name" value="CurvedAreas"/>
+			</TList>
+			<LTVisualizer field="visualizer"/>
+			<LTTileSet field="tileset" id="8" name="CurvedAreas" tiles-quantity="90" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+				<LTImage field="image" id="9" filename="curved_areas.png" xcells="9" ycells="10"/>
+				<ShapeArray field="collision-shapes">
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+				</ShapeArray>
+				<LTTileCategory name="White">
+					<LTTileRule tilenums="69">
+						<LTTilePos dx="-1" tilenum="8"/>
+						<LTTilePos dy="-1" tilenum="8"/>
+						<LTTilePos dx="-1" dy="1" tilenum="8"/>
+						<LTTilePos dx="1" dy="-1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="70">
+						<LTTilePos dx="-1" dy="-1" tilenum="8"/>
+						<LTTilePos dy="-1" tilenum="8"/>
+						<LTTilePos dx="1" tilenum="8"/>
+						<LTTilePos dx="1" dy="1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="79">
+						<LTTilePos dx="1" tilenum="8"/>
+						<LTTilePos dx="1" dy="-1" tilenum="8"/>
+						<LTTilePos dy="1" tilenum="8"/>
+						<LTTilePos dx="-1" dy="1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="78">
+						<LTTilePos dx="-1" tilenum="8"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="8"/>
+						<LTTilePos dy="1" tilenum="8"/>
+						<LTTilePos dx="1" dy="1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="46">
+						<LTTilePos dx="-1" tilenum="8"/>
+						<LTTilePos dy="-1" tilenum="8"/>
+						<LTTilePos dx="1" dy="-1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="48">
+						<LTTilePos dx="1" tilenum="8"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="8"/>
+						<LTTilePos dy="-1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="58">
+						<LTTilePos dy="-1" tilenum="8"/>
+						<LTTilePos dx="1" tilenum="8"/>
+						<LTTilePos dx="1" dy="1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="76">
+						<LTTilePos dy="1" tilenum="8"/>
+						<LTTilePos dx="1" tilenum="8"/>
+						<LTTilePos dx="1" dy="-1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="84">
+						<LTTilePos dx="1" tilenum="8"/>
+						<LTTilePos dy="1" tilenum="8"/>
+						<LTTilePos dx="-1" dy="1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="82">
+						<LTTilePos dx="-1" tilenum="8"/>
+						<LTTilePos dy="1" tilenum="8"/>
+						<LTTilePos dx="1" dy="1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="72">
+						<LTTilePos dx="-1" dy="-1" tilenum="81"/>
+						<LTTilePos dx="-1" tilenum="81"/>
+						<LTTilePos dy="1" tilenum="81"/>
+					</LTTileRule>
+					<LTTileRule tilenums="54">
+						<LTTilePos dy="-1" tilenum="45"/>
+						<LTTilePos dx="-1" dy="1" tilenum="45"/>
+						<LTTilePos dx="-1" tilenum="45"/>
+					</LTTileRule>
+					<LTTileRule tilenums="47">
+						<LTTilePos dy="-1" tilenum="8"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="8"/>
+						<LTTilePos dx="1" dy="-1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="67">
+						<LTTilePos dx="1" dy="-1" tilenum="8"/>
+						<LTTilePos dx="1" tilenum="8"/>
+						<LTTilePos dx="1" dy="1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="83">
+						<LTTilePos dy="1" tilenum="8"/>
+						<LTTilePos dx="-1" dy="1" tilenum="8"/>
+						<LTTilePos dx="1" dy="1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="63">
+						<LTTilePos dx="-1" dy="-1" tilenum="8"/>
+						<LTTilePos dx="-1" tilenum="8"/>
+						<LTTilePos dx="-1" dy="1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="30">
+						<LTTilePos dy="-1" tilenum="8"/>
+						<LTTilePos dx="-1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="12">
+						<LTTilePos dx="-1" tilenum="8"/>
+						<LTTilePos dy="1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="10">
+						<LTTilePos dx="1" tilenum="8"/>
+						<LTTilePos dy="1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="28">
+						<LTTilePos dy="-1" tilenum="8"/>
+						<LTTilePos dx="1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="77">
+						<LTTilePos dx="1" tilenum="8"/>
+						<LTTilePos dx="1" dy="-1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="68">
+						<LTTilePos dx="1" tilenum="8"/>
+						<LTTilePos dx="1" dy="1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="60">
+						<LTTilePos dy="1" tilenum="8"/>
+						<LTTilePos dx="1" dy="1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="61">
+						<LTTilePos dy="1" tilenum="8"/>
+						<LTTilePos dx="-1" dy="1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="71">
+						<LTTilePos dx="-1" dy="1" tilenum="8"/>
+						<LTTilePos dx="-1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="80">
+						<LTTilePos dx="-1" tilenum="8"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="88">
+						<LTTilePos dx="-1" dy="-1" tilenum="8"/>
+						<LTTilePos dy="-1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="87">
+						<LTTilePos dy="-1" tilenum="8"/>
+						<LTTilePos dx="1" dy="-1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="2">
+						<LTTilePos dy="1" tilenum="11"/>
+					</LTTileRule>
+					<LTTileRule tilenums="18">
+						<LTTilePos dx="1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="22">
+						<LTTilePos dx="-1" tilenum="8"/>
+					</LTTileRule>
+					<LTTileRule tilenums="38">
+						<LTTilePos dy="-1" tilenum="29"/>
+					</LTTileRule>
+					<LTTileRule tilenums="0"/>
+				</LTTileCategory>
+				<LTTileCategory name="Blue">
+					<LTTileRule tilenums="8,29,19,20,11,21,81,85,49,45"/>
+				</LTTileCategory>
+			</LTTileSet>
+			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,60,61,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,18,29,12,0,0,0,0,0,0,0,0,0,0,0,0,0,68,19,20,71,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,28,21,12,0,0,0,0,0,0,0,0,0,0,0,0,77,81,45,80,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,58,21,12,0,0,0,0,0,0,0,0,0,0,0,0,87,88,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,67,81,85,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,76,85,30,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,10,20,30,0,0,0,0,0,0,0,10,29,71,0,0,0,0,0,0,0,2,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,18,81,30,0,0,0,2,0,0,0,10,81,85,78,83,61,0,0,0,0,18,20,22,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,38,0,0,0,18,20,82,83,84,20,29,21,45,21,8,71,0,0,0,0,38,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,0,58,11,21,81,29,11,81,19,85,8,80,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,0,76,8,29,45,20,21,11,85,21,54,0,2,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,10,11,85,46,47,70,20,29,45,81,78,84,29,22,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,60,84,49,85,30,0,0,76,8,45,19,81,8,19,54,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,10,29,45,46,88,0,0,68,45,21,20,8,85,11,45,72,0,0,0,0,2,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,68,8,49,30,0,0,0,0,77,21,49,46,47,48,8,29,21,22,0,0,10,21,12,0,0,0,0"/>
+			<Row data="0,0,0,0,0,76,11,54,0,0,0,0,0,0,87,88,0,0,0,87,47,88,0,0,18,81,20,29,22,0,0,0"/>
+			<Row data="0,0,0,0,68,21,49,63,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,28,45,30,0,0,0,0"/>
+			<Row data="0,0,0,0,67,49,45,63,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,38,0,0,0,0,0"/>
+			<Row data="0,0,0,0,67,19,29,63,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,77,49,8,63,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,58,11,72,0,0,0,0,0,0,0,0,0,60,83,83,61,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,77,45,11,82,61,0,0,0,0,0,0,10,8,81,81,8,22,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,87,48,29,81,82,61,0,0,0,10,49,85,8,81,54,0,60,83,83,83,83,83,61,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,28,85,81,19,82,83,84,85,45,29,20,81,78,84,11,81,19,21,81,81,29,22,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,87,47,48,20,19,21,21,49,21,19,8,20,29,46,47,47,47,47,47,88,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,87,47,47,47,47,47,47,47,47,88,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+		</LTTileMap>
+	</LTLayer>
+	<LTLayer>
+		<TList field="parameters">
+			<LTParameter name="name" value="Areas"/>
 		</TList>
 		<Object field="visualizer" id="1"/>
+		<LTShape field="bounds" x="8" y="8" width="16" height="16">
+			<Object field="visualizer" id="127"/>
+		</LTShape>
 		<LTTileMap x="8" y="8" width="16" height="16" xquantity="16" yquantity="16" tiles-quantity="15">
 			<TList field="parameters">
 				<LTParameter name="name" value="Areas"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
-			<LTTileSet field="tileset" id="7" name="Areas" tiles-quantity="15" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
-				<LTImage field="image" id="8" filename="areas.png" xcells="5" ycells="3"/>
+			<LTTileSet field="tileset" id="133" name="Areas" tiles-quantity="15" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+				<LTImage field="image" id="134" filename="areas.png" xcells="5" ycells="3"/>
 				<ShapeArray field="collision-shapes">
 					<Null/>
 					<Null/>
@@ -108,13 +405,22 @@
 			<Row data="0,0,10,12,7,7,7,13,0,0,0,0,0,0,0,0"/>
 			<Row data="0,0,0,10,11,11,11,9,0,0,0,0,0,0,0,0"/>
 		</LTTileMap>
+	</LTLayer>
+	<LTLayer>
+		<TList field="parameters">
+			<LTParameter name="name" value="Walls"/>
+		</TList>
+		<Object field="visualizer" id="4"/>
+		<LTShape field="bounds" x="25" y="8" width="16" height="16">
+			<Object field="visualizer" id="127"/>
+		</LTShape>
 		<LTTileMap x="25" y="8" width="16" height="16" xquantity="16" yquantity="16" tiles-quantity="20">
 			<TList field="parameters">
 				<LTParameter name="name" value="Walls"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
-			<LTTileSet field="tileset" id="44" name="Walls" tiles-quantity="20" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
-				<LTImage field="image" id="45" filename="walls.png" xcells="4" ycells="5"/>
+			<LTTileSet field="tileset" id="173" name="Walls" tiles-quantity="20" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+				<LTImage field="image" id="174" filename="walls.png" xcells="4" ycells="5"/>
 				<ShapeArray field="collision-shapes">
 					<Null/>
 					<Null/>

@@ -118,9 +118,5 @@ Type LTSettingsWindow Extends LTWindow
 		L_CurrentProfile.AudioDriver = AudioDriver
 		
 		L_CurrentProfile.Apply( [ Project, LTGUIProject( Menu ) ], NewScreen, NewVideoDriver, NewAudioDriver )
-		
-		Project.Windows.Clear()
-		Project.LoadWindow( World, , "LTMenuWindow" )
-		Project.LoadWindow( World, , "LTOptionsWindow" )
 	End Method
 End Type

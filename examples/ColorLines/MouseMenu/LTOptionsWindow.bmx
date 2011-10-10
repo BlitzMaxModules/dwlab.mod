@@ -35,7 +35,7 @@ Type LTOptionsWindow Extends LTWindow
 				L_CurrentProfile.MusicOn = Not L_CurrentProfile.MusicOn
 			Case "Fullscreen"
 				L_CurrentProfile.FullScreen = Not L_CurrentProfile.FullScreen
-				L_CurrentProfile.Apply( [ Menu.Project, LTGUIProject( Menu ) ], True )
+				L_CurrentProfile.Apply( [ Menu.Project, LTGUIProject( Menu ) ], True, False, False )
 			Case "Boss"
 				L_Boss()
 		End Select
@@ -69,7 +69,7 @@ Function L_Boss()
 		
 		For Local Num:Int = 1 To 3
 			If MouseDown( Num ) Or BossKey.IsDown() Then
-				L_CurrentProfile.Apply( [ LTProject( Menu ), LTProject( Menu.Project ) ] )
+				L_CurrentProfile.Apply( [ LTProject( Menu ), LTProject( Menu.Project ) ], True, False, True )
 				AppTitle = OldAppTitle
 				Return
 			End If

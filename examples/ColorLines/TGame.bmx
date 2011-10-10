@@ -110,7 +110,8 @@ Type TGame Extends LTGUIProject
 	Method Logic()
 		Cursor.SetMouseCoords()
 		If Not Locked Then Cursor.CollisionsWithTileMap( GameField )
-		If ExitToMenu.WasPressed() Then LTMenuWindow( FindWindow( , "LTMenuWindow" ) ).Switch()
+		Local MenuWindow:LTMenuWindow = LTMenuWindow( FindWindow( , "LTMenuWindow" ) )
+		If ExitToMenu.WasPressed() And MenuWindow.Active Then MenuWindow.Switch()
 		If BossKey.WasPressed() Then L_Boss
 		Objects.Act()
 		Particles.Act()

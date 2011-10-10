@@ -208,10 +208,9 @@ Type LTProfile Extends LTObject
 	Method Apply( Projects:LTProject[] = Null, NewScreen:Int = True, NewVideoDriver:Int = True, NewAudioDriver:Int = True )
 		SetLocalizationLanguage( GetLanguage( Language ) )
 		
-		If NewVideoDriver Then SetGraphicsDriver( LTVideoDriver.Get( VideoDriver ).Driver ); 
+		If NewVideoDriver Then SetGraphicsDriver( LTVideoDriver.Get( VideoDriver ).Driver )
 		
 		If NewScreen Or NewVideoDriver Then
-			NewAudioDriver = True
 			Local BlockSize:Int = GetBlockSize()
 			EndGraphics()
 			If FullScreen Then
@@ -223,7 +222,15 @@ Type LTProfile Extends LTObject
 			SetBlend( AlphaBlend )
 		End If
 		
-		If NewAudioDriver Then SetAudioDriver( AudioDriver )
+		If NewAudioDriver Then
+			For Local Channel:TChannel = Eachin L_ChannelsList
+				Channel.Stop()
+			Next
+			SetAudioDriver( AudioDriver )
+			L_SoundChannels.Clear()
+			L_MusicChannels.Clear()
+			L_ChannelsList.Clear()
+		End If
 		
 		If Projects Then
 			For Local Project:LTProject = Eachin Projects
