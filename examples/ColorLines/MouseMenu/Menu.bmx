@@ -11,6 +11,7 @@
 Include "LTLanguageSelectionWindow.bmx"
 Include "LTMenuWindow.bmx"
 Include "LTOptionsWindow.bmx"
+Include "LTRestartWindow.bmx"
 Include "LTSelectProfileWindow.bmx"
 Include "LTProfilesList.bmx"
 Include "LTAddProfileWindow.bmx"
@@ -81,8 +82,12 @@ Type LTMenu Extends LTGUIProject
 	End Method
 	
 	Method InitGraphics()
-		SetImageFont( LoadImageFont( "incbin::OpenSans-Regular.ttf", Floor( L_CurrentCamera.Viewport.Width / 80 ) ) )
 		L_CurrentProfile.InitCamera( GUICamera )
+		SetImageFont( LoadImageFont( "incbin::OpenSans-Regular.ttf", Floor( GUICamera.Viewport.Width / 80 ) ) )
+	End Method
+	
+	Method DeInit()
+		Windows.Clear()
 	End Method
 	
 	Method AddPanels()

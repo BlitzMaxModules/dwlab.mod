@@ -15,6 +15,7 @@ ModuleInfo "History: &nbsp; &nbsp; Initial release."
 
 Import dwlab.frmwork
 Import maxgui.localization
+Import maxgui.drivers
 Import brl.audio
 Import brl.graphics
 

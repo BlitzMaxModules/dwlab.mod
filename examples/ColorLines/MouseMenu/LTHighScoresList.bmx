@@ -11,7 +11,7 @@
 Type LTHighScoresList Extends LTListBox
 	Method Init()
 		Super.Init()
-		ItemSize = 0.3
+		ItemSize = 0.7
 		Items = Menu.HighScores
 	End Method
 	

@@ -23,6 +23,7 @@ Type LTSelectProfileWindow Extends LTWindow
 	End Method
 	
 	Method Save()
+		If L_CurrentProfile = Menu.SelectedProfile Then Return
 		L_CurrentProfile.Save()
 		L_CurrentProfile = Menu.SelectedProfile
 		L_CurrentProfile.Load()

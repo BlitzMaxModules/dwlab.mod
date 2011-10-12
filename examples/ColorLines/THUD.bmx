@@ -9,14 +9,20 @@
 '
 
 Type THUD Extends LTWindow
+	Method Init()
+		Super.Init()
+		Game.Background = FindShape( "Background" )
+		Remove( Game.Background )
+	End Method
+
 	Method Draw()
 		Super.Draw()
 		Local Ball:LTSprite = LTSprite( FindShape( "Ball" ) )
 		Local NextBalls:Int[] = TGameProfile( L_CurrentProfile ).NextBalls
-		Local StartingX:Double = FindShape( "TimePanel" ).X - 0.4 * ( NextBalls.Dimensions()[ 0 ] - 1 )
+		Local StartingX:Double = FindShape( "TimePanel" ).X - 0.8 * ( NextBalls.Dimensions()[ 0 ] - 1 )
 		Local N:Int = 0
 		For Local BallNum:Int = Eachin NextBalls
-			Ball.SetX( StartingX + N * 0.8 )
+			Ball.SetX( StartingX + N * 1.6 )
 			Ball.Frame = BallNum
 			Ball.Draw()
 			N :+ 1

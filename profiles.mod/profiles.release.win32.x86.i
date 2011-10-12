@@ -7,6 +7,7 @@ ModuleInfo "History: &nbsp; &nbsp; Initial release."
 import brl.blitz
 import dwlab.frmwork
 import maxgui.localization
+import maxgui.drivers
 import brl.audio
 LTProfile^dwlab.frmwork.LTObject{
 .Name$&
@@ -29,8 +30,7 @@ LTProfile^dwlab.frmwork.LTObject{
 +InitSystem%()="_dwlab_profiles_LTProfile_InitSystem"
 +CreateDefault:LTProfile(ProfileTypeID:brl.reflection.TTypeID)="_dwlab_profiles_LTProfile_CreateDefault"
 +GetLanguage:maxgui.localization.TMaxGuiLanguage(Name$)="_dwlab_profiles_LTProfile_GetLanguage"
--Apply%(Projects:dwlab.frmwork.LTProject&[]="bbEmptyArray",NewScreen%=1,NewVideoDriver%=1,NewAudioDriver%=1)="_dwlab_profiles_LTProfile_Apply"
--GetBlockSize!()="_dwlab_profiles_LTProfile_GetBlockSize"
+-Apply%(Projects:dwlab.frmwork.LTProject&[]="bbEmptyArray",NewScreen%=1,NewVideoDriver%=1,NewAudioDriver%=1,NewLanguage%=1)="_dwlab_profiles_LTProfile_Apply"
 -InitCamera%(Camera:dwlab.frmwork.LTCamera)="_dwlab_profiles_LTProfile_InitCamera"
 -Clone:LTProfile()="_dwlab_profiles_LTProfile_Clone"
 -Init%()="_dwlab_profiles_LTProfile_Init"
@@ -79,13 +79,11 @@ LTScreenResolution^brl.blitz.Object{
 +Get:LTScreenResolution(Width%=0,Height%=0)="_dwlab_profiles_LTScreenResolution_Get"
 }="dwlab_profiles_LTScreenResolution"
 L_CurrentProfile:LTProfile&=mem:p("dwlab_profiles_L_CurrentProfile")
+L_ProjectWindow:maxgui.maxgui.TGadget&=mem:p("dwlab_profiles_L_ProjectWindow")
+L_CameraWidth!&=mem:d("dwlab_profiles_L_CameraWidth")
 L_Profiles:brl.linkedlist.TList&=mem:p("dwlab_profiles_L_Profiles")
 L_Languages:brl.linkedlist.TList&=mem:p("dwlab_profiles_L_Languages")
 L_AudioDrivers:brl.linkedlist.TList&=mem:p("dwlab_profiles_L_AudioDrivers")
-L_ScreenWidthGrain%&=mem("dwlab_profiles_L_ScreenWidthGrain")
-L_ScreenHeightGrain%&=mem("dwlab_profiles_L_ScreenHeightGrain")
-L_DesktopAreaWidth%&=mem("dwlab_profiles_L_DesktopAreaWidth")
-L_DesktopAreaHeight%&=mem("dwlab_profiles_L_DesktopAreaHeight")
 L_SoundChannels:brl.map.TMap&=mem:p("dwlab_profiles_L_SoundChannels")
 L_MusicChannels:brl.map.TMap&=mem:p("dwlab_profiles_L_MusicChannels")
 L_ChannelsList:brl.linkedlist.TList&=mem:p("dwlab_profiles_L_ChannelsList")

@@ -44,6 +44,13 @@ Type LTMouseWheelAction Extends LTPushable
 	
 	
 	
+	Method IsEqualTo:Int( Pushable:LTPushable )
+		Local Wheel:LTMouseWheelAction = LTMouseWheelAction( Pushable )
+		If Wheel Then Return Direction = Wheel.Direction
+	End Method
+	
+	
+	
 	Rem
 	bbdoc: Creates mouse wheel roll action object.
 	returns: New object of mouse wheel roll action of given direction.

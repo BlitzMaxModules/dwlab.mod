@@ -5,11 +5,16 @@ bbdoc: Digital Wizard's Lab framework GUI module
 End Rem
 Module dwlab.gui
 
-ModuleInfo "Version: 1.0"
+ModuleInfo "Version: 1.0.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
+ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.1 (12.10.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added optional percentage showing to the slider."
+ModuleInfo "History: &nbsp; &nbsp; Rewrote gadget positioning in different-sized screens system."
+ModuleInfo "History: &nbsp; &nbsp; Added parameter to align top, bottom or center of window bounds to corresponding side of the camera."
 ModuleInfo "History: v1.0 (09.10.11)"
 ModuleInfo "History: &nbsp; &nbsp; Initial release."
 

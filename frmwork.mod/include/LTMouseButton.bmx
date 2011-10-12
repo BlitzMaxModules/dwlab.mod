@@ -32,6 +32,13 @@ Type LTMouseButton Extends LTPushable
 	
 	
 	
+	Method IsEqualTo:Int( Pushable:LTPushable )
+		Local Button:LTMouseButton = LTMouseButton( Pushable )
+		If Button Then Return Num = Button.Num
+	End Method
+	
+	
+	
 	Rem
 	bbdoc: Creates mouse button object.
 	returns: New object of mouse button with given number.

@@ -258,6 +258,9 @@ Type LTProject Extends LTObject
 	
 	' ==================== Other ===================	
 	
+	Method ReloadWindows()
+	End Method
+	
 	Rem
 	bbdoc: Converts value second to value per logic frame.
 	returns: Value for logic frame using given per second value.

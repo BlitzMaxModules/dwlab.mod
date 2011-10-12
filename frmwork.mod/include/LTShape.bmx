@@ -51,7 +51,7 @@ Type LTShape Extends LTObject
 	bbdoc: Shape visualizer (object which displays this shape).
 	about: See also: #LTVisualizer, #L_DefaultVisualizer, #LTDebugVisualizer, #L_DebugVisualizer
 	End Rem
-	Field Visualizer:LTVisualizer = L_DefaultVisualizer
+	Field Visualizer:LTVisualizer = New LTVisualizer
 	
 	Rem
 	bbdoc: Visibility flag.

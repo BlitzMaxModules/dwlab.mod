@@ -13,22 +13,12 @@ bbdoc: Current profile.
 End Rem
 Global L_CurrentProfile:LTProfile
 
+Global L_ProjectWindow:TGadget 
+Global L_CameraWidth:Double = 16.0
+
 Global L_Profiles:TList = New TList
 Global L_Languages:TList = New TList
 Global L_AudioDrivers:TList = New TList
-
-Rem
-bbdoc: Width of screen grain.
-End Rem
-Global L_ScreenWidthGrain:Int = 80
-
-Rem
-bbdoc: Height of screen grain.
-End Rem
-Global L_ScreenHeightGrain:Int = 60
-
-Global L_DesktopAreaWidth:Int = DesktopWidth()
-Global L_DesktopAreaHeight:Int = DesktopHeight() - 86
 
 Rem
 bbdoc: Head class for profiles.
@@ -205,18 +195,29 @@ Type LTProfile Extends LTObject
 	bbdoc: Applies profile.
 	about: You can specify an array of projects which should been initialized after changing drivers or screen resolution.
 	End Rem
-	Method Apply( Projects:LTProject[] = Null, NewScreen:Int = True, NewVideoDriver:Int = True, NewAudioDriver:Int = True )
-		SetLocalizationLanguage( GetLanguage( Language ) )
+	Method Apply( Projects:LTProject[] = Null, NewScreen:Int = True, NewVideoDriver:Int = True, NewAudioDriver:Int = True, NewLanguage:Int = True )
+		If NewLanguage Then SetLocalizationLanguage( GetLanguage( Language ) )
 		
 		If NewVideoDriver Then SetGraphicsDriver( LTVideoDriver.Get( VideoDriver ).Driver )
 		
 		If NewScreen Or NewVideoDriver Then
-			Local BlockSize:Int = GetBlockSize()
 			EndGraphics()
+			If L_ProjectWindow Then
+				FreeGadget( L_ProjectWindow )
+				DisablePolledInput()
+			End If
 			If FullScreen Then
 				Graphics( ScreenWidth, ScreenHeight, ColorDepth, Frequency )
 			Else
-				Graphics( L_ScreenWidthGrain * BlockSize, L_ScreenHeightGrain * BlockSize, , Frequency )
+				L_ProjectWindow = CreateWindow( AppTitle, 0, 0, 640, 480, Null, Window_TItleBar | Window_Resizable )
+				MaximizeWindow( L_ProjectWindow )
+				SetMinWindowSize( L_ProjectWindow, GadgetWidth( L_ProjectWindow ), GadgetHeight( L_ProjectWindow ) )
+				SetMaxWindowSize( L_ProjectWindow, GadgetWidth( L_ProjectWindow ), GadgetHeight( L_ProjectWindow ) )
+				
+				Local Canvas:TGadget = CreateCanvas( 0, 0, ClientWidth( L_ProjectWindow ), ClientHeight( L_ProjectWindow ), L_ProjectWindow )
+				SetGraphics( CanvasGraphics( Canvas ) )
+				EnablePolledInput( Canvas )
+				ActivateGadget( Canvas )
 			End If
 			AutoImageFlags( FILTEREDIMAGE | DYNAMICIMAGE )
 			SetBlend( AlphaBlend )
@@ -235,25 +236,10 @@ Type LTProfile Extends LTObject
 		If Projects Then
 			For Local Project:LTProject = Eachin Projects
 				If NewVideoDriver Or NewScreen Then Project.InitGraphics()
+				If NewScreen Or NewLanguage Then Project.ReloadWindows()
 				If NewAudioDriver Then Project.InitSound()
 			Next
 		End If
-	End Method
-	
-	
-	
-	Method GetBlockSize:Double()
-		Local Width:Int, Height:Int 
-		If FullScreen Then
-			Width = ScreenWidth
-			Height = ScreenHeight
-		Else
-			Width = L_DesktopAreaWidth
-			Height = L_DesktopAreaHeight
-		End If
-		Width = Floor( Width / L_ScreenWidthGrain ) * L_ScreenWidthGrain
-		Height = Floor( Height / L_ScreenHeightGrain ) * L_ScreenHeightGrain
-		Return Min( Floor( Width / L_ScreenWidthGrain ), Floor( Height / L_ScreenHeightGrain ) )
 	End Method
 	
 	
@@ -263,12 +249,9 @@ Type LTProfile Extends LTObject
 	about: Fixes camera height and sets viewport to corresponding shape according screen grain.
 	End Rem
 	Method InitCamera( Camera:LTCamera )
-		Local BlockSize:Int = GetBlockSize()
-		Local Width:Int = L_ScreenWidthGrain * BlockSize
-		Local Height:Int = L_ScreenHeightGrain * BlockSize
-		Camera.SetSize( Camera.Width, Camera.Width / Width * Height )
+		Camera.SetSize( Camera.Width, Camera.Width / GraphicsWidth() * GraphicsHeight() )
 		Camera.Viewport.SetCoords( 0.5 * GraphicsWidth(), 0.5 * GraphicsHeight() )
-		Camera.Viewport.SetSize( Width, Height )
+		Camera.Viewport.SetSize( GraphicsWidth(), GraphicsHeight() )
 		Camera.Update()
 	End Method
 	

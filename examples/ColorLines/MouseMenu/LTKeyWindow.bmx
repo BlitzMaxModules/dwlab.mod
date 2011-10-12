@@ -16,6 +16,9 @@ Type LTKeyWindow Extends LTWindow
 		FlushKeys()
 		FlushMouse()
 		Z = MouseZ()
+		
+		Local Label:LTLabel = LTLabel( FindShapeWithParameter( "text", "PressKey" ) )
+		Label.Text = Label.Text.Replace( "*", "~q" + LocalizeString( "{{" + L_CurrentButtonAction.Name +"}}" ) + "~q" )
 	End Method
 
 	Method Act()

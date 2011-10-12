@@ -101,7 +101,9 @@ Type LTSettingsWindow Extends LTWindow
 	End Method
 	
 	Method Save()
-		Local NewScreen:Int, NewVideoDriver:Int, NewAudioDriver:Int
+		Local NewScreen:Int, NewVideoDriver:Int, NewAudioDriver:Int, NewLanguage:Int
+		
+		If L_CurrentProfile.Language <> Language.GetName() Then NewLanguage = True
 		L_CurrentProfile.Language = Language.GetName()
 		
 		If L_CurrentProfile.ScreenWidth <> Resolution.Width Or L_CurrentProfile.ScreenHeight <> Resolution.Height Or ..
@@ -117,6 +119,6 @@ Type LTSettingsWindow Extends LTWindow
 		If L_CurrentProfile.AudioDriver <> AudioDriver Then NewAudioDriver = True
 		L_CurrentProfile.AudioDriver = AudioDriver
 		
-		L_CurrentProfile.Apply( [ Project, LTGUIProject( Menu ) ], NewScreen, NewVideoDriver, NewAudioDriver )
+		L_CurrentProfile.Apply( [ LTGUIProject( Menu ), Project ], NewScreen, NewVideoDriver, NewAudioDriver, NewLanguage )
 	End Method
 End Type

@@ -8,8 +8,8 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Global BossKey:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Z ), "Boss key" )
-Global ExitToMenu:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Escape ), "Exit to menu" )
+Global BossKey:LTButtonAction
+Global ExitToMenu:LTButtonAction
 
 Type TGameProfile Extends LTProfile
 	Const BallsPerTurn:Int = 3
@@ -19,8 +19,8 @@ Type TGameProfile Extends LTProfile
 	Field NextBalls:Int[] = New Int[ BallsPerTurn ]
 	
 	Method Init()
-		Keys.AddLast( ExitToMenu )
-		Keys.AddLast( BossKey )
+		Keys.AddLast( LTButtonAction.Create( LTKeyboardKey.Create( Key_Z ), "Boss key" ) )
+		Keys.AddLast( LTButtonAction.Create( LTKeyboardKey.Create( Key_Escape ), "Exit to menu" ) )
 	End Method
 	
 	Method Reset()
@@ -32,6 +32,8 @@ Type TGameProfile Extends LTProfile
 		Game.GameField = GameField
 		Game.Balls = Balls
 		Game.Score = Score
+		BossKey = LTButtonAction.Find( Keys, "Boss key" )
+		ExitToMenu = LTButtonAction.Find( Keys, "Exit to menu" )
 		Game.InitLevel()
 	End Method
 	

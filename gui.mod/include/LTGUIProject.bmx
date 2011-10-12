@@ -39,30 +39,34 @@ Type LTGUIProject Extends LTProject
 	about: Window should be loaded from Lab world file, as layer of the root and has unique class or name (among other layers of root).
 	Modal parameter (can be set in editor) set to True forces all existing windows to be inactive while this window is not closed.
 	End Rem
-	Method LoadWindow:LTWindow( World:LTWorld, Name:String = "", Class:String = "" )
+	Method LoadWindow:LTWindow( World:LTWorld, Name:String = "", Class:String = "", Add:Int = True )
 		L_ActiveTextField = Null
 		If Class Then
 			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShapeWithParameter( "class", Class ) ) ) )
 		Else
 			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShape( Name ) ) ) )
 		End If
-
+		
 		Local Screen:LTShape = L_Window.Bounds
 		If Screen Then
-			If Windows.IsEmpty() Then
-				GUICamera.JumpTo( Screen )
-				GUICamera.SetSizeAs( Screen )
-				GUICamera.Update()
-			Else
-				Local DWidth:Double = GUICamera.Width / Screen.Width
-				Local DHeight:Double = GUICamera.Height / Screen.Height
-				For Local Shape:LTShape = Eachin L_Window.Children
-					Shape.SetCoords( GUICamera.X + ( Shape.X - Screen.X ) * DWidth, GUICamera.Y + ( Shape.Y - Screen.Y ) * DHeight )
-					Shape.SetSize( Shape.Width * DWidth, Shape.Height * DHeight )
-				Next
-			End If
+			Local DY:Double = 0.5 * ( GUICamera.Height - Screen.Height * GUICamera.Width / Screen.Width )
+			Select L_Window.GetParameter( "vertical" )
+				Case "top"
+					DY = -DY
+				Case "bottom"
+				Default 
+					DY = 0.0
+			End Select
+			Local K:Double = GUICamera.Width / Screen.Width
+			For Local Shape:LTShape = Eachin L_Window.Children	
+				Shape.SetCoords( GUICamera.X + ( Shape.X - Screen.X ) * K, GUICamera.Y + ( Shape.Y - Screen.Y ) * K + DY )
+				Shape.SetSize( Shape.Width * K, Shape.Height * K )
+			Next
+			Screen.JumpTo( GUICamera )
+			Screen.AlterCoords( 0.0, DY )
+			Screen.SetSize( GUICamera.Width, Screen.Height * GUICamera.Width / Screen.Width )
 		End If
-		
+
 		L_Window.Modal = ( L_Window.GetParameter( "modal" ) = "true" )
 		L_Window.World = World
 		L_Window.Project = Self
@@ -72,10 +76,21 @@ Type LTGUIProject Extends LTProject
 				Window.Active = False
 			Next
 		End If
-		Windows.AddLast( L_Window )
+		If Add Then Windows.AddLast( L_Window )
 		Return L_Window
 	End Method
-
+	
+	
+	
+	Method ReloadWindows()
+		Local Link:TLink = Windows.FirstLink()
+		While Link
+			Local Window:LTWindow = LTWindow( Link.Value() )
+			Link._value = LoadWindow( Window.World, Window.GetName(), TTypeID.ForObject( Window ).Name(), False )
+			Link = Link.NextLink()
+		Wend
+	End Method
+	
 	
 	
 	Rem

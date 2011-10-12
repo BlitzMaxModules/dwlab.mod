@@ -225,6 +225,13 @@ Type LTKeyboardKey Extends LTPushable
 	
 	
 	
+	Method IsEqualTo:Int( Pushable:LTPushable )
+		Local Key:LTKeyboardKey = LTKeyboardKey( Pushable )
+		If Key Then Return Code = Key.Code
+	End Method
+	
+	
+	
 	Rem
 	bbdoc: Creates keyboard key object.
 	returns: New object of keyboard key with given code.

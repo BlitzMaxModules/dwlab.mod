@@ -13,7 +13,7 @@ Global L_CurrentButtonAction:LTButtonAction
 Type LTKeysList Extends LTListBox
 	Method Init()
 		Super.Init()
-		ItemSize = 0.3
+		ItemSize = 0.7
 		Items = L_CurrentProfile.Keys
 	End Method
 	

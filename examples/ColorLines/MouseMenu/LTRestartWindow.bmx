@@ -8,16 +8,9 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTAddProfileWindow Extends LTWindow
+Type LTRestartWindow Extends LTWindow
 	Method Save()
-		Local Name:String = LTTextField( FindShape( "ProfileName" ) ).Text
-		If Name Then
-			Local Profile:LTProfile = L_CurrentProfile.Clone()
-			Profile.Name = Name
-			Profile.Init()
-			Profile.Reset()
-			Menu.Profiles.AddLast( Profile )
-			Menu.SelectedProfile = Profile
-		End If
+		Menu.LoadGameOverWindow()
+		Game.Locked = True
 	End Method
 End Type

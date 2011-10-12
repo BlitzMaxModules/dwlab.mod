@@ -58,6 +58,10 @@ End Type
 Function L_Boss()
 	Local Image:TImage = LoadImage( "incbin::images\calculator.png" )
 	EndGraphics()
+	If L_ProjectWindow Then
+		FreeGadget( L_ProjectWindow )
+		DisablePolledInput()
+	End If
 	Local OldAppTitle:String = AppTitle
 	AppTitle = LocalizeString( "{{Calculator}}" )
 	Graphics( Image.Width, Image.Height )
@@ -69,8 +73,8 @@ Function L_Boss()
 		
 		For Local Num:Int = 1 To 3
 			If MouseDown( Num ) Or BossKey.IsDown() Then
-				L_CurrentProfile.Apply( [ LTProject( Menu ), LTProject( Menu.Project ) ], True, False, True )
 				AppTitle = OldAppTitle
+				L_CurrentProfile.Apply( [ LTProject( Menu ), LTProject( Menu.Project ) ], True, False, True )
 				Return
 			End If
 		Next

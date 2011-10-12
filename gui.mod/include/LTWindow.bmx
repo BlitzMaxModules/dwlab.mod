@@ -119,14 +119,15 @@ Type LTWindow Extends LTLayer
 	See also: #OnButtonPress, #OnButtonDown, #OnButtonUp, #OnMouseOver, #OnMouseOut
 	End Rem
 	Method OnButtonUnpress( Gadget:LTGadget, ButtonAction:LTButtonAction )
+		Local Link:TLink = Project.Windows.FindLink( Self )
 		Select Gadget.GetParameter( "action" )
 			Case "save"
 				Save()
 			Case "save_and_close"
 				Save()
-				Project.CloseWindow( Self )
+				Project.CloseWindow( LTWindow( Link.Value() ) )
 			Case "close"
-				Project.CloseWindow( Self )
+				Project.CloseWindow( LTWindow( Link.Value() ) )
 			Case "save_and_end"
 				Save()
 				Project.Exiting = True

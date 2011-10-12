@@ -40,14 +40,9 @@ Type TGame Extends LTGUIProject
 	Method Init()
 		World = LTWorld.FromFile( "levels.lw" )
 	
-		L_ScreenWidthGrain = 76
-		L_ScreenHeightGrain = 57
-		'debugstop
 		Menu.ProfileTypeID = TTypeID.ForName( "TGameProfile" )
 		Menu.InitSystem( Self )
 		HUD = LoadWindow( World, , "THUD" )
-		Background = HUD.FindShape( "Background" )
-		HUD.Remove( Background )
 		Menu.AddPanels()
 		
 		Cursor.ShapeType = LTSprite.Pivot
@@ -78,17 +73,14 @@ Type TGame Extends LTGUIProject
 	End Method
 		
 	Method InitLevel()
-		L_CurrentCamera.JumpTo( GameField )
-		L_CurrentCamera.SetMagnification( L_CurrentCamera.Viewport.Width / L_ScreenWidthGrain * 3.0 )
-		Background.JumpTo( L_CurrentCamera )
-		Background.SetSize( L_CurrentCamera.Width, L_CurrentCamera.Height )
-		
 		PathFinder.Map = GameField
+		L_CurrentCamera.JumpTo( GameField )
 	End Method
 	
 	Method InitGraphics()
 		L_CurrentProfile.InitCamera( L_CurrentCamera )
 		L_CurrentProfile.InitCamera( GUICamera )
+		L_CurrentCamera.SetMagnification( Floor( L_CurrentCamera.Viewport.Height / 76.0 ) * 4 )
 	End Method
 	
 	Method InitSound()
@@ -100,6 +92,8 @@ Type TGame Extends LTGUIProject
 	End Method
 	
 	Method Render()
+		Background.JumpTo( L_CurrentCamera )
+		Background.SetSize( L_CurrentCamera.Width, 0.75 * L_CurrentCamera.Width )
 		Background.Draw()
 		GameField.Draw()
 		Balls.Draw()

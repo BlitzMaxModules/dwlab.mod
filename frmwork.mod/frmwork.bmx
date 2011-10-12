@@ -21,6 +21,8 @@ ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.2.1 (12.10.11)"
+ModuleInfo "History: &nbsp; &nbsp; Fixed bug with adding multiple equal keys to button action."
 ModuleInfo "History: v1.3.2 (07.10.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added possibility to bind multiple buttons to the button action."
 ModuleInfo "History: v1.3.1 (07.10.11)"

@@ -51,6 +51,7 @@ Type LTSlider Extends LTGadget
 	Field StartingPosition:Double
 	Field ListBoxSize:Double
 	Field ContentsSize:Double
+	Field ShowPercent:Int
 	
 	
 	
@@ -65,6 +66,7 @@ Type LTSlider Extends LTGadget
 	about: You can set different slider properties using object parameters in editor:
 	<ul><li>"type" - sets slider type ( "vertical" or "horizontal" )
 	<li>"selection" - sets slider behavior ( "moving" or "filling" )</ul>
+	<li>"percent" - sets showing slider position in percents </ul>
 	You can also attach sprite (which should be inside same window) as slider moving part to the slider by naming silder and
 	set "slider_name" parameter of the sprite to slider name.
 	And you can attach a list box (which should be inside same window) to scroll its contents with the slider by naming list box and
@@ -80,6 +82,7 @@ Type LTSlider Extends LTGadget
 		End If
 		If GetParameter( "type" ) = "vertical" Then SliderType = Vertical Else SliderType = Horizontal
 		If GetParameter( "selection" ) = "filling" Then SelectionType = Filling Else SelectionType = Moving
+		If GetParameter( "percent" ) = "true" Then ShowPercent = True
 	End Method
 	
 	
@@ -97,6 +100,16 @@ Type LTSlider Extends LTGadget
 					Slider.SetHeight( Height * Size )
 			End Select
 			Slider.Draw()
+			If ShowPercent Then
+				SetColor( 0, 0, 0 )
+				Select SelectionType
+					Case Moving
+						PrintText( Int( Ceil( 100 * Position ) ) + "%" )
+					Case Filling
+						PrintText( Int( Ceil( 100 * Size ) ) + "%" )
+				End Select
+				SetColor( 255, 255, 255 )
+			End If
 		End If
 	End Method
 	

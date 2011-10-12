@@ -1,7 +1,12 @@
-ModuleInfo "Version: 1.0"
+ModuleInfo "Version: 1.0.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
+ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.1 (12.10.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added optional percentage showing to the slider."
+ModuleInfo "History: &nbsp; &nbsp; Rewrote gadget positioning in different-sized screens system."
+ModuleInfo "History: &nbsp; &nbsp; Added parameter to align top, bottom or center of window bounds to corresponding side of the camera."
 ModuleInfo "History: v1.0 (09.10.11)"
 ModuleInfo "History: &nbsp; &nbsp; Initial release."
 import brl.blitz
@@ -13,7 +18,8 @@ LTGUIProject^dwlab.frmwork.LTProject{
 .Locked%&
 -New%()="_dwlab_gui_LTGUIProject_New"
 -Delete%()="_dwlab_gui_LTGUIProject_Delete"
--LoadWindow:LTWindow(World:dwlab.frmwork.LTWorld,Name$=$"",Class$=$"")="_dwlab_gui_LTGUIProject_LoadWindow"
+-LoadWindow:LTWindow(World:dwlab.frmwork.LTWorld,Name$=$"",Class$=$"",Add%=1)="_dwlab_gui_LTGUIProject_LoadWindow"
+-ReloadWindows%()="_dwlab_gui_LTGUIProject_ReloadWindows"
 -FindWindow:LTWindow(Name$=$"",Class$=$"")="_dwlab_gui_LTGUIProject_FindWindow"
 -CloseWindow%(Window:LTWindow="bbNullObject")="_dwlab_gui_LTGUIProject_CloseWindow"
 -Execute%()="_dwlab_gui_LTGUIProject_Execute"
@@ -110,6 +116,7 @@ Filling%=1
 .StartingPosition!&
 .ListBoxSize!&
 .ContentsSize!&
+.ShowPercent%&
 -New%()="_dwlab_gui_LTSlider_New"
 -Delete%()="_dwlab_gui_LTSlider_Delete"
 -GetClassTitle$()="_dwlab_gui_LTSlider_GetClassTitle"

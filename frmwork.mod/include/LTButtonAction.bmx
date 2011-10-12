@@ -55,6 +55,9 @@ Type LTButtonAction Extends LTObject
 	bbdoc: Adds given pushable object (button) to the button action button list.
 	End Rem
 	Method AddButton( Button:LTPushable )
+		For Local OldButton:LTPushable = Eachin ButtonList
+			If OldButton.IsEqualTo( Button ) Then Return
+		Next
 		ButtonList.AddLast( Button )
 		If MaxButtons > 0 Then If ButtonList.Count() > MaxButtons Then ButtonList.RemoveFirst()
 	End Method
@@ -103,6 +106,14 @@ Type LTButtonAction Extends LTObject
 			If Button.WasUnpressed() Then Return True
 		Next
 	End Method
+	
+	
+	
+	Function Find:LTButtonAction( Keys:TList, Name:String )
+		For Local ButtonAction:LTButtonAction = Eachin Keys
+			If ButtonAction.Name = Name Then Return ButtonAction
+		Next
+	End Function
 	
 	
 	

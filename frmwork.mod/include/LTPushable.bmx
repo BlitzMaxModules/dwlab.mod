@@ -68,6 +68,11 @@ Type LTPushable Extends LTObject
 	
 	
 	
+	Method IsEqualTo:Int( Pushable:LTPushable )
+	End Method
+	
+	
+	
 	Rem
 	bbdoc: Function which checks was the object pressed.
 	returns: True if pushable object was presed during this project cycle.

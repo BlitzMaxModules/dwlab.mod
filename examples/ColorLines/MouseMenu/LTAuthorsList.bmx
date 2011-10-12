@@ -13,7 +13,7 @@ Type LTAuthorsList Extends LTListBox
 	
 	Method Init()
 		Super.Init()
-		ItemSize = 0.5
+		ItemSize = 1.0
 		Items = TList.FromArray( LocalizeString( "{{AuthorsList}}" ).Split( "|" ) )
 		Shift = -Height
 		Speed = GetParameter( "speed" ).ToDouble()
