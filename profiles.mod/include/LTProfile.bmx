@@ -201,10 +201,12 @@ Type LTProfile Extends LTObject
 		If NewVideoDriver Then SetGraphicsDriver( LTVideoDriver.Get( VideoDriver ).Driver )
 		
 		If NewScreen Or NewVideoDriver Then
-			EndGraphics()
 			If L_ProjectWindow Then
-				FreeGadget( L_ProjectWindow )
 				DisablePolledInput()
+				FreeGadget( L_ProjectWindow )
+				L_ProjectWindow = Null
+			Else
+				EndGraphics()
 			End If
 			If FullScreen Then
 				Graphics( ScreenWidth, ScreenHeight, ColorDepth, Frequency )
