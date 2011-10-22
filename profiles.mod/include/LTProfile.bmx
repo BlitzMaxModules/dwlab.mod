@@ -118,12 +118,14 @@ Type LTProfile Extends LTObject
 		For Local DriverTypeID:TTypeId = Eachin TTypeID.ForName( "TMax2DDriver" ).DerivedTypes()
 			Local Driver:TMax2DDriver = Null
 			Local DriverName:String = ""
+			?win32
 			Select DriverTypeID.Name()
 				Case "TD3D7Max2DDriver"
 					Driver = D3D7Max2DDriver()
 				Case "TD3D9Max2DDriver"
 					Driver = D3D9Max2DDriver()
 			End Select
+			?
 			Local DriverObject:Object = DriverTypeID.NewObject()
 			For Local TheMethod:TMethod = Eachin DriverTypeID.EnumMethods()
 				Local Name:String = TheMethod.Name().ToLower()
