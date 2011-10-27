@@ -75,12 +75,18 @@ Type TGame Extends LTGUIProject
 	Method InitLevel()
 		PathFinder.Map = GameField
 		L_CurrentCamera.JumpTo( GameField )
+		SetFieldMagnification()
 	End Method
 	
 	Method InitGraphics()
 		L_CurrentProfile.InitCamera( L_CurrentCamera )
 		L_CurrentProfile.InitCamera( GUICamera )
-		L_CurrentCamera.SetMagnification( Floor( L_CurrentCamera.Viewport.Height / 76.0 ) * 4 )
+		If GameField Then SetFieldMagnification()
+	End Method
+	
+	Method SetFieldMagnification()
+		L_CurrentCamera.SetMagnification( Min( Floor( L_CurrentCamera.Viewport.Height / 3 / GameField.YQuantity ) * 3, ..
+				Floor( L_CurrentCamera.Viewport.Width / 4 / GameField.XQuantity ) * 4 ) * ( 1.1 ^ MouseZ() ) )
 	End Method
 	
 	Method InitSound()
@@ -92,6 +98,7 @@ Type TGame Extends LTGUIProject
 	End Method
 	
 	Method Render()
+		SetFieldMagnification()
 		Background.JumpTo( L_CurrentCamera )
 		Background.SetSize( L_CurrentCamera.Width, 0.75 * L_CurrentCamera.Width )
 		Background.Draw()
