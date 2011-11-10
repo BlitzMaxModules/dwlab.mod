@@ -86,7 +86,10 @@ Type LTTileSet Extends LTObject
 			Next
 			
 			If Passed Then
-				TileMap.Value[ X, Y ] = Rule.TileNums[ Rand( 0, Rule.TileNums.Dimensions()[ 0 ] - 1 ) ]
+				For Local TileNum:Int = Eachin Rule.TileNums
+					If TileNum = TileMap.Value[ X, Y ] Then Return
+				Next
+				TileMap.Value[ X, Y ] = Rule.TileNums[ 0 ]
 				Return
 			End If
 		Next
