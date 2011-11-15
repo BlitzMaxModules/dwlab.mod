@@ -403,14 +403,14 @@ Type LTSprite Extends LTShape
 	
 	Rem
 	bbdoc: Wedges off sprite with given sprite.
-	about: Pushes sprites from each other until they stops colliding. More the mass, less the sprite will be moved.
+	about: Pushes sprites from each other until they stops colliding. More the moving resistance, less the sprite will be moved.
 	<ul>
-	<li> If each sprite's mass is zero, or each sprite's mass is less than 0 then sprites will be moved on same distance.
-	<li> If one of the sprite has zero mass and other's mass is non-zero, only zero-mass sprite will be moved
-	<li> If one of the sprite has mass less than 0 and other has mass less or equal to 0, then only zero-or-more-mass sprite will be moved.
+	<li> If each sprite's moving resistance is zero, or each sprite's moving resistance is less than 0 then sprites will be moved on same distance.
+	<li> If one of the sprite has zero moving resistance and other's moving resistance is non-zero, only zero-moving-resistance sprite will be moved
+	<li> If one of the sprite has moving resistance less than 0 and other has moving resistance more or equal to 0, then only zero-or-more-moving-resistance sprite will be moved.
 	</ul>
 	End Rem
-	Method WedgeOffWithSprite( Sprite:LTSprite, SelfMass:Double, SpriteMass:Double )
+	Method WedgeOffWithSprite( Sprite:LTSprite, SelfMovingResistance:Double, SpriteMovingResistance:Double )
 		Local DX:Double, DY:Double
 		Select ShapeType
 			Case Pivot
@@ -437,13 +437,13 @@ Type LTSprite Extends LTShape
 						L_WedgingValuesOfRectangleAndRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, 0, 0, DX, DY )
 					Case Oval
 						L_WedgingValuesOfOvalAndRectangle( Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, X, Y, Width, Height, DX, DY )
-						L_Separate( Sprite, Self, DX, DY, SpriteMass, SelfMass )
+						L_Separate( Sprite, Self, DX, DY, SpriteMovingResistance, SelfMovingResistance )
 						Return
 					Case Rectangle
 						L_WedgingValuesOfRectangleAndRectangle( X, Y, Width, Height, Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height, DX, DY )
 				End Select
 		End Select
-		L_Separate( Self, Sprite, DX, DY, SelfMass, SpriteMass )
+		L_Separate( Self, Sprite, DX, DY, SelfMovingResistance, SpriteMovingResistance )
 	End Method
 	
 	

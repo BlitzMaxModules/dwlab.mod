@@ -52,9 +52,9 @@ Type LTSettingsWindow Extends LTWindow
 		If ButtonAction <> L_LeftMouseButton Then Return
 		Select Gadget.GetParameter( "action" )
 			Case "scroll_up"
-				ChangeListItem( Gadget, -1 )
-			Case "scroll_down"
 				ChangeListItem( Gadget, +1 )
+			Case "scroll_down"
+				ChangeListItem( Gadget, -1 )
 			Default
 				Super.OnButtonPress( Gadget, ButtonAction )
 		End Select

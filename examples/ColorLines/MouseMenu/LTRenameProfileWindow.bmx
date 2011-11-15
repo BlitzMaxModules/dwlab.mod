@@ -11,11 +11,11 @@
 Type LTRenameProfileWindow Extends LTWindow
 	Method Init()
 		Super.Init()
-		LTTextField( FindShape( "ProfileName" ) ).LeftPart = LocalizeString( L_CurrentProfile.Name )
+		LTTextField( FindShape( "ProfileName" ) ).LeftPart = LocalizeString( Menu.SelectedProfile.Name )
 	End Method
 
 	Method Save()
 		Local Name:String = LTTextField( FindShape( "ProfileName" ) ).Text
-		If Name Then L_CurrentProfile.Name = Name
+		If Name Then Menu.SelectedProfile.Name = Name
 	End Method
 End Type

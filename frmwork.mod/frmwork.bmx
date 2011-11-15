@@ -15,12 +15,14 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.3.2"
+ModuleInfo "Version: 1.3.4"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.4 (14.11.11)"
+ModuleInfo "History: &nbsp; &nbsp; XML now supports quotes and UTF symbols in text attribute strings."
 ModuleInfo "History: v1.3.3 (09.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Tile enframing system now always sets tile number to first number from tile number array of tile rule (previously it chose one of them randomly) and only if current tile number is not in this array." 
 ModuleInfo "History: &nbsp; &nbsp; This allows to place differend kinds of tile of same type as existent on enframed area."
@@ -145,7 +147,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.3.2"
+Const L_Version:String = "1.3.4"
 
 SeedRnd( MilliSecs() )
 

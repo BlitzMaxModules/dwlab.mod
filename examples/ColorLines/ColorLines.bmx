@@ -19,6 +19,7 @@ Import brl.freetypefont
 Import brl.freeaudioaudio
 Import brl.openalaudio
 Import brl.glmax2d
+Import brl.eventqueue
 
 Import dwlab.frmwork
 Import dwlab.gui

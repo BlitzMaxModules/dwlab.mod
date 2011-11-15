@@ -419,3 +419,19 @@ Function L_GetEscribedRectangle( LeftMargin:Double, RightMargin:Double, TopMargi
 	MaxX = Max( Max( X00 - LeftMargin, X10 + RightMargin ), Max( X01 - LeftMargin, X11 + RightMargin ) )
 	MaxY = Max( Max( Y00 - TopMargin, Y10 - TopMargin ), Max( Y01 + BottomMargin, Y11 + BottomMargin ) )
 End Function
+
+
+
+
+
+Function L_UTFToASCII:String( CharNum:Int )
+	Return Chr( 48 + ( CharNum Mod 64 ) ) + Chr( 48 + ( Floor( CharNum / 64 ) Mod 64 ) ) + Chr( 48 + ( Floor( CharNum / 4096 ) Mod 64 ) )
+End Function
+
+
+
+
+
+Function L_ASCIIToUTF:String( Chars:String )
+	Return Chr( ( Chars[ 0 ] - 48 ) + ( Chars[ 1 ] - 48 ) * 64 + ( Chars[ 2 ] - 48 ) * 4096 )
+End Function

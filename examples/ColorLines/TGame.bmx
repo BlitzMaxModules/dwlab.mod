@@ -114,6 +114,14 @@ Type TGame Extends LTGUIProject
 		Local MenuWindow:LTMenuWindow = LTMenuWindow( FindWindow( , "LTMenuWindow" ) )
 		If ExitToMenu.WasPressed() And MenuWindow.Active Then MenuWindow.Switch()
 		If BossKey.WasPressed() Then L_Boss
+		Repeat
+			Select PollEvent()
+				Case EVENT_WINDOWCLOSE
+					LoadWindow( Menu.World, , "LTExitWindow" )
+				Case 0
+					Exit
+			End Select
+		Forever
 		Objects.Act()
 		Particles.Act()
 		L_ClearSoundMaps()

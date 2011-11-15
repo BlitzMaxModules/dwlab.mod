@@ -35,7 +35,9 @@ Type LTScreenResolution
 	Function Get:LTScreenResolution( Width:Int = 0, Height:Int = 0 )
 		Local MaxResolution:LTScreenResolution = Null
 		For Local Resolution:LTScreenResolution = Eachin L_ScreenResolutions
-			If Resolution.Width = L_CurrentProfile.ScreenWidth And Resolution.Height = L_CurrentProfile.ScreenHeight Then Return Resolution
+			If Width Then
+				If Resolution.Width = L_CurrentProfile.ScreenWidth And Resolution.Height = L_CurrentProfile.ScreenHeight Then Return Resolution
+			End If
 			If Not MaxResolution Then
 				MaxResolution = Resolution
 			ElseIf Resolution.Width >= MaxResolution.Width And Resolution.Height >= MaxResolution.Height Then

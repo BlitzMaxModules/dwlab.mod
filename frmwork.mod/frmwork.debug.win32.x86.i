@@ -1,8 +1,10 @@
-ModuleInfo "Version: 1.3.2"
+ModuleInfo "Version: 1.3.4"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.4 (14.11.11)"
+ModuleInfo "History: &nbsp; &nbsp; XML now supports quotes and UTF symbols in text attribute strings."
 ModuleInfo "History: v1.3.3 (09.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Tile enframing system now always sets tile number to first number from tile number array of tile rule (previously it chose one of them randomly) and only if current tile number is not in this array."
 ModuleInfo "History: &nbsp; &nbsp; This allows to place differend kinds of tile of same type as existent on enframed area."
@@ -119,7 +121,7 @@ import brl.d3d9max2d
 import brl.random
 import brl.reflection
 import brl.retro
-L_Version$=$"1.3.2"
+L_Version$=$"1.3.4"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
@@ -175,6 +177,8 @@ LTLayer^LTGroup{
 -FindShapeWithParameter:LTShape(ParameterName$,ParameterValue$,ShapeType$=$"",IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShapeWithParameter"
 -FindShapeWithParameterID:LTShape(ParameterName$,ParameterValue$,ShapeTypeID:brl.reflection.TTypeID,IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShapeWithParameterID"
 -Remove%(Shape:LTShape)="_dwlab_frmwork_LTLayer_Remove"
+-RemoveAllOfType%(TypeName$)="_dwlab_frmwork_LTLayer_RemoveAllOfType"
+-RemoveAllOfTypeID%(TypeID:brl.reflection.TTypeID)="_dwlab_frmwork_LTLayer_RemoveAllOfTypeID"
 -SetBounds%(Shape:LTShape)="_dwlab_frmwork_LTLayer_SetBounds"
 -CountSprites%()="_dwlab_frmwork_LTLayer_CountSprites"
 -ShowModels%(Y%=0,Shift$=$"")="_dwlab_frmwork_LTLayer_ShowModels"
@@ -502,12 +506,20 @@ LTLine^LTShape{
 .Pivot:LTSprite&[]&
 -New%()="_dwlab_frmwork_LTLine_New"
 -Delete%()="_dwlab_frmwork_LTLine_Delete"
--Create:LTLine(Pivot1:LTSprite,Pivot2:LTSprite)="_dwlab_frmwork_LTLine_Create"
++Create:LTLine(Pivot1:LTSprite,Pivot2:LTSprite)="_dwlab_frmwork_LTLine_Create"
 -Draw%()="_dwlab_frmwork_LTLine_Draw"
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTLine_DrawUsingVisualizer"
 -SpriteGroupCollisions%(Sprite:LTSprite,CollisionType%)="_dwlab_frmwork_LTLine_SpriteGroupCollisions"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTLine_XMLIO"
 }="dwlab_frmwork_LTLine"
+LTHinge^LTShape{
+.Sprites:LTSprite&[]&
+.AngleFromSprite!&[]&
+.DistanceFromSprite!&[]&
+.Fixed%&
+-New%()="_dwlab_frmwork_LTHinge_New"
+-Delete%()="_dwlab_frmwork_LTHinge_Delete"
+}="dwlab_frmwork_LTHinge"
 LTPath^LTObject{
 .Pivots:brl.linkedlist.TList&
 -New%()="_dwlab_frmwork_LTPath_New"
@@ -802,6 +814,8 @@ LTFixedJoint^LTBehaviorModel{
 .Angle!&
 .Distance!&
 .DAngle!&
+.FixedAngle%&
+.FixedParentAngle%&
 -New%()="_dwlab_frmwork_LTFixedJoint_New"
 -Delete%()="_dwlab_frmwork_LTFixedJoint_Delete"
 +Create:LTFixedJoint(ParentPivot:LTSprite)="_dwlab_frmwork_LTFixedJoint_Create"
@@ -1014,6 +1028,8 @@ L_IntInLimits%(Value%,FromValue%,ToValue%)="dwlab_frmwork_L_IntInLimits"
 L_GetTypeID:brl.reflection.TTypeId(TypeName$)="dwlab_frmwork_L_GetTypeID"
 L_ToPowerOf2%(Value%)="dwlab_frmwork_L_ToPowerOf2"
 L_GetEscribedRectangle%(LeftMargin!,RightMargin!,TopMargin!,BottomMargin!,MinX! Var,MinY! Var,MaxX! Var,MaxY! Var)="dwlab_frmwork_L_GetEscribedRectangle"
+L_UTFToASCII$(CharNum%)="dwlab_frmwork_L_UTFToASCII"
+L_ASCIIToUTF$(Chars$)="dwlab_frmwork_L_ASCIIToUTF"
 L_Error%(Text$)="dwlab_frmwork_L_Error"
 L_SetIncbin%(Value%)="dwlab_frmwork_L_SetIncbin"
 L_IDMap:brl.map.TMap&=mem:p("dwlab_frmwork_L_IDMap")

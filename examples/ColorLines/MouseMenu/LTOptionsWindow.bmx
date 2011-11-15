@@ -17,11 +17,13 @@ Type LTOptionsWindow Extends LTWindow
 
 	Method Act()
 		Super.Act()
+		Local Label:LTLabel = LTLabel( FindShape( "Fullscreen" ) )
 		If L_CurrentProfile.FullScreen Then
-			LTLabel( FindShape( "Fullscreen" ) ).Text = LocalizeString( "{{Fullscreen}}" )
+			Label.Text = LocalizeString( "{{Windowed}}" )
 		Else
-			LTLabel( FindShape( "Fullscreen" ) ).Text = LocalizeString( "{{Windowed}}" )
+			Label.Text = LocalizeString( "{{Fullscreen}}" )
 		End If
+		LTSprite( Label.Icon ).Frame = 6 + L_CurrentProfile.FullScreen
 		LTButton( FindShape( "SoundOn" ) ).State = L_CurrentProfile.SoundOn
 		LTButton( FindShape( "MusicOn" ) ).State = L_CurrentProfile.MusicOn
 	End Method

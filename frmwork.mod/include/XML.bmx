@@ -507,7 +507,21 @@ Type LTXMLObject Extends LTObject
 	Method WriteObject( File:TStream, Indent:String = "" )
 		Local St:String = Indent + "<" + Name
 		For Local Attr:LTXMLAttribute = EachIn Attributes
-			St :+ " " + Attr.Name + "=~q" +Attr.Value + "~q"
+			Local NewValue:String = ""
+			For Local Num:Int = 0 Until Len( Attr.Value )
+				Local CharNum:Int = Attr.Value[ Num ]
+				Select CharNum
+					Case Asc( "~q" ), Asc( "\" )
+						NewValue :+ "\" + Chr( CharNum )
+					Default
+						If CharNum >= 256 Then 
+							NewValue :+ "\#" + L_UTFToASCII( CharNum )
+						Else
+							NewValue :+ Chr( CharNum )
+						End If
+				End Select
+			Next
+			St :+ " " + Attr.Name + "=~q" +NewValue + "~q"
 		Next
 		If Children.IsEmpty() And Fields.IsEmpty() Then
 			WriteLine( File, St + "/>" )
@@ -545,15 +559,22 @@ Type LTXMLObject Extends LTObject
 					Quotes = False
 					Attr.Value = Txt[ ChunkBegin..N ]
 					
-						If Attr.Name = "field" Then
-							FieldName = Attr.Value
-						Else
-							If Attr.Name = "id" Then L_IDNum = Max( L_IDNum, Attr.Value.ToInt() )
-							Attributes.AddLast( Attr )
-						End If
+					If Attr.Name = "field" Then
+						FieldName = Attr.Value
+					Else
+						If Attr.Name = "id" Then L_IDNum = Max( L_IDNum, Attr.Value.ToInt() )
+						Attributes.AddLast( Attr )
+					End If
 					
 					ReadingValue = False
 					ChunkBegin = -1
+				ElseIf Txt[ N ] = Asc( "\" ) Then
+					Select Txt[ N + 1 ]
+						Case Asc( "~q" ), Asc( "\" )
+							Txt = Txt[ ..N ] + Txt[ N + 1.. ]
+						Case Asc( "#" )
+							Txt = Txt[ ..N ] + L_ASCIIToUTF( Txt[ N + 2..N + 5 ] ) + Txt[ N + 5.. ]
+					End Select
 				End If
 			Else
 				If Txt[ N ] = Asc( "'" ) Or Txt[ N ] = Asc( "~q" ) Then

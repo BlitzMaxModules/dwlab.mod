@@ -12,6 +12,7 @@ Include "LTGroup.bmx"
 Include "LTSprite.bmx"
 Include "LTMap.bmx"
 Include "LTLine.bmx"
+Include "LTHinge.bmx"
 Include "LTGraph.bmx"
 Include "LTVisualizer.bmx"
 

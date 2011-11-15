@@ -5,11 +5,13 @@ bbdoc: Digital Wizard's Lab framework profiling module
 End Rem
 Module dwlab.profiles
 
-ModuleInfo "Version: 1.0"
+ModuleInfo "Version: 1.0.0.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
+ModuleInfo "History: v1.0.0.1 (14.11.11)"
+ModuleInfo "History: &nbsp; &nbsp; Fixed bug in LTScreenResolution.Get()."
 ModuleInfo "History: v1.0 (09.10.11)"
 ModuleInfo "History: &nbsp; &nbsp; Initial release."
 

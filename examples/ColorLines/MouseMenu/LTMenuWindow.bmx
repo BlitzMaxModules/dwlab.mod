@@ -43,13 +43,14 @@ Type LTMenuWindow Extends LTWindow
 	
 	
 	Method Act()
-		If AppTerminate() Then Project.LoadWindow( World, , "LTExitWindow" )
+		'If AppTerminate() Then Project.LoadWindow( World, , "LTExitWindow" )
 		
 		If DestinationY = Y Then
 		ElseIf Abs( DestinationY - Y ) < 0.01 Then
 			Active = True
 			Y = DestinationY
 			If DestinationY < 0 Then Project.Locked = False
+			LTSprite( LTLabel( FindShapeWithParameter( "text", "Menu" ) ).Icon ).Frame = 19 - ( DestinationY < 0 )
 		Else
 			SetY( DestinationY + ( Y - DestinationY ) * ( 1.0 - Project.PerSecond( Speed ) ) )
 		End If

@@ -155,14 +155,43 @@ Type LTLayer Extends LTGroup
 		Local Link:TLink = Children.FirstLink()
 		While Link <> Null
 			Local Value:Object = Link.Value()
-			Local Layer:LTLayer = LTLayer( Value )
-			If Layer Then
-				Layer.Remove( Shape )
-			ElseIf Sprite Then
-				Local SpriteMap:LTSpriteMap = LTSpriteMap( Value )
-				If SpriteMap Then SpriteMap.RemoveSprite( Sprite )
+			If Value = Shape Then
+				Link.Remove()
+			Else
+				Local Layer:LTLayer = LTLayer( Value )
+				If Layer Then
+					Layer.Remove( Shape )
+				ElseIf Sprite Then
+					Local SpriteMap:LTSpriteMap = LTSpriteMap( Value )
+					If SpriteMap Then SpriteMap.RemoveSprite( Sprite )
+				End If
 			End If
-			If Value = Shape Then Link.Remove()
+			Link = Link.NextLink()
+		Wend
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Removes all shapes of class with given name from layer.
+	about: Included layers will be also checked.
+	End Rem
+	Method RemoveAllOfType( TypeName:String )
+		RemoveAllOfTypeID( L_GetTypeID( TypeName ) )
+	End Method 
+	
+	
+	
+	Method RemoveAllOfTypeID( TypeID:TTypeID )
+		Local Link:TLink = Children.FirstLink()
+		While Link <> Null
+			Local Value:Object = Link.Value()
+			If TTypeId.ForObject( Value ) = TypeID Then
+				Link.Remove()
+			Else
+				Local Layer:LTLayer = LTLayer( Value )
+				If Layer Then Layer.RemoveAllOfTypeID( TypeID )
+			End If
 			Link = Link.NextLink()
 		Wend
 	End Method

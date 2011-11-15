@@ -37,13 +37,6 @@ Type TMario Extends LTVectorSprite
   
   
   
-  Method Draw()
-    Super.Draw()
-
-  End Method
-  
-  
-  
   Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
     If TBonus( Sprite ) Then
       Game.MovingObjects.RemoveSprite( Sprite )

@@ -77,6 +77,7 @@ Type LTGUIProject Extends LTProject
 			Next
 		End If
 		If Add Then Windows.AddLast( L_Window )
+		FlushKeys
 		Return L_Window
 	End Method
 	
@@ -122,6 +123,7 @@ Type LTGUIProject Extends LTProject
 				Link = Link.PrevLink()
 			Wend
 		End If
+		FlushKeys
 	End Method
 	
 	

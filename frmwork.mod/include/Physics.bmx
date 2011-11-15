@@ -74,25 +74,25 @@ End Function
 
 
 
-Function L_Separate( Pivot1:LTSprite, Pivot2:LTSprite, DX:Double, DY:Double, Mass1:Double, Mass2:Double )
+Function L_Separate( Pivot1:LTSprite, Pivot2:LTSprite, DX:Double, DY:Double, Pivot1MovingResistance:Double, Pivot2MovingResistance:Double )
 	'debugstop
 	Local K1:Double, K2:Double
 	
-	If Mass1 < 0 then
-		If Mass2 < 0 Then
+	If Pivot1MovingResistance < 0 then
+		If Pivot2MovingResistance < 0 Then
 			Return
 		End If
-		Mass1 = 1.0
-		Mass2 = 0.0
-	ElseIf Mass2 < 0 Then
-		Mass1 = 0.0
-		Mass2 = 1.0		
+		Pivot1MovingResistance = 1.0
+		Pivot1MovingResistance = 0.0
+	ElseIf Pivot2MovingResistance < 0 Then
+		Pivot1MovingResistance = 0.0
+		Pivot2MovingResistance = 1.0		
 	End If
 	
-	Local MassSum:Double = Mass1 + Mass2
-	If MassSum Then
-		K1 = Mass2 / MassSum
-		K2 = Mass1 / MassSum
+	Local MovingResistanceSum:Double = Pivot1MovingResistance + Pivot2MovingResistance
+	If MovingResistanceSum Then
+		K1 = Pivot2MovingResistance / MovingResistanceSum
+		K2 = Pivot1MovingResistance / MovingResistanceSum
 	Else
 		K1 = 0.5
 		K2 = 0.5

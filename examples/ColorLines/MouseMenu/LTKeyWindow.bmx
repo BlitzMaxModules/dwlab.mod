@@ -22,6 +22,7 @@ Type LTKeyWindow Extends LTWindow
 	End Method
 
 	Method Act()
+		Super.Act()
 		For Local Code:Int = 1 To 255
 			If KeyHit( Code ) Then
 				L_CurrentButtonAction.AddButton( LTKeyboardKey.Create( Code ) )
@@ -29,7 +30,7 @@ Type LTKeyWindow Extends LTWindow
 			End If
 		Next
 		
-		For Local Num:Int = 1 To 3
+		For Local Num:Int = 2 To 3
 			If MouseHit( Num ) Then
 				L_CurrentButtonAction.AddButton( LTMouseButton.Create( Num ) )
 				Menu.Project.CloseWindow( Self )
@@ -38,6 +39,13 @@ Type LTKeyWindow Extends LTWindow
 		
 		If Z <> MouseZ() Then
 			L_CurrentButtonAction.AddButton( LTMouseWheelAction.Create( Sgn( MouseZ() - Z ) ) )
+			Menu.Project.CloseWindow( Self )
+		End If
+	End Method
+	
+	Method OnButtonDown( Gadget:LTGadget, ButtonAction:LTButtonAction )
+		If Gadget.GetParameter( "action" ) <> "close" And ButtonAction = L_LeftMouseButton Then
+			L_CurrentButtonAction.AddButton( LTMouseButton.Create( 1 ) )
 			Menu.Project.CloseWindow( Self )
 		End If
 	End Method
