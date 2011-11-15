@@ -14,7 +14,6 @@ about: See also: #LTFixedJoint
 End Rem
 Type LTRevoluteJoint Extends LTBehaviorModel
 	Field ParentPivot:LTSprite
-	Field Pivot:LTSprite
 	Field Angle:Double
 	Field Distance:Double
 	
@@ -43,7 +42,6 @@ Type LTRevoluteJoint Extends LTBehaviorModel
 	
 	Method ApplyTo( Shape:LTShape )
 		Local Sprite:LTSprite = LTSprite( Shape )
-		Sprite.X = ParentPivot.X + Cos( Angle + ParentPivot.Angle ) * Distance
-		Sprite.Y = ParentPivot.Y + Sin( Angle + ParentPivot.Angle ) * Distance
+		Sprite.SetCoords( ParentPivot.X + Cos( Angle + ParentPivot.Angle ) * Distance, ParentPivot.Y + Sin( Angle + ParentPivot.Angle ) * Distance )
 	End Method
 End Type

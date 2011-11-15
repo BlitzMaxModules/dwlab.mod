@@ -265,7 +265,7 @@ L_GetOvalDiameter!(OvalX! Var,OvalY! Var,OvalWidth!,OvalHeight!,X!,Y!)="dwlab_fr
 L_WedgingValuesOfOvalAndOval%(Oval1X!,Oval1Y!,Oval1Width!,Oval1Height!,Oval2X!,Oval2Y!,Oval2Width!,Oval2Height!,DX! Var,DY! Var)="dwlab_frmwork_L_WedgingValuesOfOvalAndOval"
 L_WedgingValuesOfOvalAndRectangle%(OvalX!,OvalY!,OvalWidth!,OvalHeight!,RectangleX!,RectangleY!,RectangleWidth!,RectangleHeight!,DX! Var,DY! Var)="dwlab_frmwork_L_WedgingValuesOfOvalAndRectangle"
 L_WedgingValuesOfRectangleAndRectangle%(Rectangle1X!,Rectangle1Y!,Rectangle1Width!,Rectangle1Height!,Rectangle2X!,Rectangle2Y!,Rectangle2Width!,Rectangle2Height!,DX! Var,DY! Var)="dwlab_frmwork_L_WedgingValuesOfRectangleAndRectangle"
-L_Separate%(Pivot1:LTSprite,Pivot2:LTSprite,DX!,DY!,Mass1!,Mass2!)="dwlab_frmwork_L_Separate"
+L_Separate%(Pivot1:LTSprite,Pivot2:LTSprite,DX!,DY!,Pivot1MovingResistance!,Pivot2MovingResistance!)="dwlab_frmwork_L_Separate"
 LTSprite^LTShape{
 Pivot%=0
 Circle%=1
@@ -295,7 +295,7 @@ Rectangle%=2
 -HandleCollisionWithSprite%(Sprite:LTSprite,CollisionType%=0)="_dwlab_frmwork_LTSprite_HandleCollisionWithSprite"
 -HandleCollisionWithTile%(TileMap:LTTileMap,TileX%,TileY%,CollisionType%=0)="_dwlab_frmwork_LTSprite_HandleCollisionWithTile"
 -HandleCollisionWithLine%(Line:LTLine,CollisionType%)="_dwlab_frmwork_LTSprite_HandleCollisionWithLine"
--WedgeOffWithSprite%(Sprite:LTSprite,SelfMass!,SpriteMass!)="_dwlab_frmwork_LTSprite_WedgeOffWithSprite"
+-WedgeOffWithSprite%(Sprite:LTSprite,SelfMovingResistance!,SpriteMovingResistance!)="_dwlab_frmwork_LTSprite_WedgeOffWithSprite"
 -PushFromSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTSprite_PushFromSprite"
 -PushFromTile%(TileMap:LTTileMap,TileX%,TileY%)="_dwlab_frmwork_LTSprite_PushFromTile"
 -PushFromTileSprite%(TileSprite:LTSprite,DX!,DY!,XScale!,YScale!)="_dwlab_frmwork_LTSprite_PushFromTileSprite"
@@ -513,12 +513,17 @@ LTLine^LTShape{
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTLine_XMLIO"
 }="dwlab_frmwork_LTLine"
 LTHinge^LTShape{
-.Sprites:LTSprite&[]&
-.AngleFromSprite!&[]&
-.DistanceFromSprite!&[]&
+.Sprite:LTSprite&[]&
+.AngleToSprite!&[]&
+.DistanceToSprite!&[]&
+.SpriteAttachedAngle!&[]&
+.SpriteMovingResistance!&[]&
+.SpriteRotatingResistance!&[]&
 .Fixed%&
 -New%()="_dwlab_frmwork_LTHinge_New"
 -Delete%()="_dwlab_frmwork_LTHinge_Delete"
++Create:LTHinge(X!,Y!,Sprite1:LTSprite,Sprite2:LTSprite="bbNullObject",Sprite1MovingResistance!=1!,Sprite2MovingResistance!=1!,Sprite1RotatingResistance!=1!,Sprite2RotatingResistance!=1!)="_dwlab_frmwork_LTHinge_Create"
+-Act%()="_dwlab_frmwork_LTHinge_Act"
 }="dwlab_frmwork_LTHinge"
 LTPath^LTObject{
 .Pivots:brl.linkedlist.TList&
@@ -814,8 +819,6 @@ LTFixedJoint^LTBehaviorModel{
 .Angle!&
 .Distance!&
 .DAngle!&
-.FixedAngle%&
-.FixedParentAngle%&
 -New%()="_dwlab_frmwork_LTFixedJoint_New"
 -Delete%()="_dwlab_frmwork_LTFixedJoint_Delete"
 +Create:LTFixedJoint(ParentPivot:LTSprite)="_dwlab_frmwork_LTFixedJoint_Create"
@@ -824,7 +827,6 @@ LTFixedJoint^LTBehaviorModel{
 }="dwlab_frmwork_LTFixedJoint"
 LTRevoluteJoint^LTBehaviorModel{
 .ParentPivot:LTSprite&
-.Pivot:LTSprite&
 .Angle!&
 .Distance!&
 -New%()="_dwlab_frmwork_LTRevoluteJoint_New"
@@ -833,6 +835,15 @@ LTRevoluteJoint^LTBehaviorModel{
 -Init%(Shape:LTShape)="_dwlab_frmwork_LTRevoluteJoint_Init"
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTRevoluteJoint_ApplyTo"
 }="dwlab_frmwork_LTRevoluteJoint"
+LTDistanceJoint^LTBehaviorModel{
+.ParentPivot:LTSprite&
+.Distance!&
+-New%()="_dwlab_frmwork_LTDistanceJoint_New"
+-Delete%()="_dwlab_frmwork_LTDistanceJoint_Delete"
++Create:LTDistanceJoint(ParentPivot:LTSprite)="_dwlab_frmwork_LTDistanceJoint_Create"
+-Init%(Shape:LTShape)="_dwlab_frmwork_LTDistanceJoint_Init"
+-ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTDistanceJoint_ApplyTo"
+}="dwlab_frmwork_LTDistanceJoint"
 LTBehaviorModel^LTObject{
 .Active%&
 .Link:brl.linkedlist.TLink&

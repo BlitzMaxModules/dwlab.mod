@@ -19,31 +19,27 @@ Type LTHinge Extends LTShape
 	
 	
 	
-	Function Create:LTHinge( Sprite1:LTSprite, Sprite2:LTSprite, X:Double, Y:Double, Fixed:Int = False, Sprite1AttachedAngle:Int = True, ..
-			Sprite2AttachedAngle:Int = True, Sprite1MovingResistance:Double = 1.0, Sprite2MovingResistance:Double = 1.0, ..
-			Sprite1RotatingResistance:Double = 1.0, Sprite2RotatingResistance:Double = 1.0 )
+	Function Create:LTHinge( X:Double, Y:Double, Sprite1:LTSprite, Sprite2:LTSprite = Null, Sprite1MovingResistance:Double = 1.0, ..
+			Sprite2MovingResistance:Double = 1.0, Sprite1RotatingResistance:Double = 1.0, Sprite2RotatingResistance:Double = 1.0 )
 		Local Hinge:LTHinge = New LTHinge
 		Hinge.X = X
 		Hinge.Y = Y
 		Hinge.Sprite[ 0 ] = Sprite1
 		Hinge.Sprite[ 1 ] = Sprite2
-		Hinge.AngleFromSprite[ 0 ] = Hinge.DirectionTo( Sprite1 )
-		Hinge.AngleFromSprite[ 1 ] = Hinge.DirectionTo( Sprite2 )
-		Hinge.DistanceFromSprite[ 0 ] = Hinge.DistanceTo( Sprite1 )
-		Hinge.DistanceFromSprite[ 1 ] = Hinge.DistanceTo( Sprite2 )
+		Hinge.AngleToSprite[ 0 ] = Hinge.DirectionTo( Sprite1 )
+		Hinge.AngleToSprite[ 1 ] = Hinge.DirectionTo( Sprite2 )
+		Hinge.DistanceToSprite[ 0 ] = Hinge.DistanceTo( Sprite1 )
+		Hinge.DistanceToSprite[ 1 ] = Hinge.DistanceTo( Sprite2 )
 		Return Hinge
 	End Function
 	
 	
 	
 	Method Act()
-		If Fixed Then
+		If Sprite[ 1 ] Then
+		Else
 			Local Angle:Double = DirectionTo( Sprite[ 0 ] )
 			Sprite[ 0 ].SetCoords( DistanceToSprite[ 0 ] * Cos( Angle ), DistanceToSprite[ 0 ] * Sin( Angle ) )
-			Angle = DirectionTo( Sprite[ 1 ] )
-			Sprite[ 1 ].SetCoords( DistanceToSprite[ 1 ] * Cos( Angle ), DistanceToSprite[ 1 ] * Sin( Angle ) )
-		Else
-			
 		End If
 	End Method
 End Type

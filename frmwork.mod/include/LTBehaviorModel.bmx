@@ -10,6 +10,7 @@
 
 Include "LTFixedJoint.bmx"
 Include "LTRevoluteJoint.bmx"
+Include "LTDistanceJoint.bmx"
 
 Rem
 bbdoc: Behavior model is the object which can be attached to the shape and affect its state.
