@@ -1,8 +1,10 @@
-ModuleInfo "Version: 1.3.4"
+ModuleInfo "Version: 1.3.5"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.5 (16.11.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added LTDistanceJoint class."
 ModuleInfo "History: v1.3.4 (14.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; XML now supports quotes and UTF symbols in text attribute strings."
 ModuleInfo "History: v1.3.3 (09.11.11)"
@@ -121,7 +123,7 @@ import brl.d3d9max2d
 import brl.random
 import brl.reflection
 import brl.retro
-L_Version$=$"1.3.4"
+L_Version$=$"1.3.5"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
@@ -512,19 +514,6 @@ LTLine^LTShape{
 -SpriteGroupCollisions%(Sprite:LTSprite,CollisionType%)="_dwlab_frmwork_LTLine_SpriteGroupCollisions"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTLine_XMLIO"
 }="dwlab_frmwork_LTLine"
-LTHinge^LTShape{
-.Sprite:LTSprite&[]&
-.AngleToSprite!&[]&
-.DistanceToSprite!&[]&
-.SpriteAttachedAngle!&[]&
-.SpriteMovingResistance!&[]&
-.SpriteRotatingResistance!&[]&
-.Fixed%&
--New%()="_dwlab_frmwork_LTHinge_New"
--Delete%()="_dwlab_frmwork_LTHinge_Delete"
-+Create:LTHinge(X!,Y!,Sprite1:LTSprite,Sprite2:LTSprite="bbNullObject",Sprite1MovingResistance!=1!,Sprite2MovingResistance!=1!,Sprite1RotatingResistance!=1!,Sprite2RotatingResistance!=1!)="_dwlab_frmwork_LTHinge_Create"
--Act%()="_dwlab_frmwork_LTHinge_Act"
-}="dwlab_frmwork_LTHinge"
 LTPath^LTObject{
 .Pivots:brl.linkedlist.TList&
 -New%()="_dwlab_frmwork_LTPath_New"

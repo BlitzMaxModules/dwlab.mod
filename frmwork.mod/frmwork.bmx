@@ -15,12 +15,14 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.3.4"
+ModuleInfo "Version: 1.3.5"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.5 (16.11.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added LTDistanceJoint class."
 ModuleInfo "History: v1.3.4 (14.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; XML now supports quotes and UTF symbols in text attribute strings."
 ModuleInfo "History: v1.3.3 (09.11.11)"
@@ -147,7 +149,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.3.4"
+Const L_Version:String = "1.3.5"
 
 SeedRnd( MilliSecs() )
 
