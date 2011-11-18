@@ -115,11 +115,17 @@ Behavior model is the object which can be attached to the shape and affect its s
 <tr><td class=docleft width=1%><a href=#LTBitmapFont>LTBitmapFont</a></td><td class=docright>
 Bitmap font class.
 </td></tr>
+<tr><td class=docleft width=1%><a href=#LTButtonAction>LTButtonAction</a></td><td class=docright>
+Class for action which can be triggered by activating pushable object (presing a key, mouse button, etc).
+</td></tr>
 <tr><td class=docleft width=1%><a href=#LTCamera>LTCamera</a></td><td class=docright>
 Camera for displaying game objects.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTDebugVisualizer>LTDebugVisualizer</a></td><td class=docright>
 This visualizer can draw collision shape, vector and name of the shape with this shape itself.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#LTDistanceJoint>LTDistanceJoint</a></td><td class=docright>
+Distance joint keeps fixed distance between parent pivot and given shape.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTDoubleMap>LTDoubleMap</a></td><td class=docright>
 DoubleMap is basicaly a heightmap.
@@ -145,6 +151,9 @@ Image class.
 <tr><td class=docleft width=1%><a href=#LTIntMap>LTIntMap</a></td><td class=docright>
 IntMap is basically a 2d int array.
 </td></tr>
+<tr><td class=docleft width=1%><a href=#LTKeyboardKey>LTKeyboardKey</a></td><td class=docright>
+&nbsp;
+</td></tr>
 <tr><td class=docleft width=1%><a href=#LTLayer>LTLayer</a></td><td class=docright>
 Layer is the group of sprites which have bounds.
 </td></tr>
@@ -157,6 +166,12 @@ Common object for maps.
 <tr><td class=docleft width=1%><a href=#LTMarchingAnts>LTMarchingAnts</a></td><td class=docright>
 This visualizer draws rectangular animated dashed frame around the shape.
 </td></tr>
+<tr><td class=docleft width=1%><a href=#LTMouseButton>LTMouseButton</a></td><td class=docright>
+&nbsp;
+</td></tr>
+<tr><td class=docleft width=1%><a href=#LTMouseWheelAction>LTMouseWheelAction</a></td><td class=docright>
+&nbsp;
+</td></tr>
 <tr><td class=docleft width=1%><a href=#LTObject>LTObject</a></td><td class=docright>
 Global object class.
 </td></tr>
@@ -165,6 +180,9 @@ Path is basically a sequence of pivots.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTProject>LTProject</a></td><td class=docright>
 Class for main project and subprojects.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#LTPushable>LTPushable</a></td><td class=docright>
+Common class for keys, buttons and mouse wheel rolls.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTRasterFrame>LTRasterFrame</a></td><td class=docright>
 Special image subclass to display raster frame.
@@ -345,7 +363,7 @@ See also: <a href=#L_LimitDouble>L_LimitDouble</a>, <a href=#L_IntInLimits>L_Int
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=L_Round>
-<tr><td class=doctop colspan=2>Function L_Round:Double( Value:Double )</td></tr>
+<tr><td class=doctop colspan=2>Function L_Round:Int( Value:Double )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>Rounded value.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Rounds double value to nearest integer.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Faster than Int().</td></tr>
@@ -618,6 +636,70 @@ VariableLength flag should be set to true if you want to use letters with variab
 extension and same name as image file.</td></tr>
 </table>
 <br>
+<table class=doc width=100% cellspacing=3 id=LTButtonAction>
+<tr><td class=doctop colspan=2>Type LTButtonAction Extends LTObject</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Class for action which can be triggered by activating pushable object (presing a key, mouse button, etc).</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Key can be binded to several actions and several keys can be binded to one action.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTButtonAction_fields></a>Fields Summary</th></tr><tr><td colspan=2>
+<a href=#MaxButtons>MaxButtons</a>
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTButtonAction_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#AddButton>AddButton</a></td><td class=docright>
+Adds given pushable object (button) to the button action button list.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Clear>Clear</a></td><td class=docright>
+Removes all pushable objects (buttons) of the button action.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#IsDown>IsDown</a></td><td class=docright>
+Function which checks button action pressing state.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#WasPressed>WasPressed</a></td><td class=docright>
+Function which checks button action just-pressing state.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#WasUnpressed>WasUnpressed</a></td><td class=docright>
+Function which checks button action just-unpressing state.
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTButtonAction_functions></a>Functions Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+Creates button action with given pushable object (button) and name (optional).
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=MaxButtons>
+<tr><td class=doctop colspan=2>Field MaxButtons:Int = 3</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Maximum quantity of buttons in button list (0 means unlimited).</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=AddButton>
+<tr><td class=doctop colspan=2>Method AddButton( Button:LTPushable )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Adds given pushable object (button) to the button action button list.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Clear>
+<tr><td class=doctop colspan=2>Method Clear()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Removes all pushable objects (buttons) of the button action.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=IsDown>
+<tr><td class=doctop colspan=2>Method IsDown:Int()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>True if one of pushable objects (buttons) of this action is currently pressed.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Function which checks button action pressing state.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=WasPressed>
+<tr><td class=doctop colspan=2>Method WasPressed:Int()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>True if one of pushable objects (buttons) of this action was pressed in current project cycle.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Function which checks button action just-pressing state.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=WasUnpressed>
+<tr><td class=doctop colspan=2>Method WasUnpressed:Int()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>True if one of pushable objects (buttons) of this action was unpressed in current project cycle.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Function which checks button action just-unpressing state.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Function Create:LTButtonAction( Button:LTPushable, Name:String = "" )</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>New button action with one pushable object (button).</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates button action with given pushable object (button) and name (optional).</td></tr>
+</table>
+<br>
 <table class=doc width=100% cellspacing=3 id=LTCamera>
 <tr><td class=doctop colspan=2>Type LTCamera Extends LTSprite</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Camera for displaying game objects.</td></tr>
@@ -767,6 +849,20 @@ See also: <a href=#Viewport>Viewport</a>, <a href=#ViewportClipping>ViewportClip
 <table class=doc width=100% cellspacing=3 id=LTDebugVisualizer>
 <tr><td class=doctop colspan=2>Type LTDebugVisualizer Extends LTVisualizer</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>This visualizer can draw collision shape, vector and name of the shape with this shape itself.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=LTDistanceJoint>
+<tr><td class=doctop colspan=2>Type LTDistanceJoint Extends LTBehaviorModel</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Distance joint keeps fixed distance between parent pivot and given shape.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTDistanceJoint_functions></a>Functions Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+Creates distance joint for specified parent pivot using current pivots position.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Function Create:LTDistanceJoint( ParentPivot:LTSprite )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates distance joint for specified parent pivot using current pivots position.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTDoubleMap>
@@ -1282,6 +1378,20 @@ Creates new image from file with specified cell quantities for splitting.
 <tr><td class=docleft width=1%>Description</td><td class=docright>IntMap is basically a 2d int array.</td></tr>
 </table>
 <br>
+<table class=doc width=100% cellspacing=3 id=LTKeyboardKey>
+<tr><td class=doctop colspan=2>Type LTKeyboardKey Extends LTPushable</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTKeyboardKey_functions></a>Functions Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+Creates keyboard key object.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Function Create:LTKeyboardKey( Code:Int )</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>New object of keyboard key with given code.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates keyboard key object.</td></tr>
+</table>
+<br>
 <table class=doc width=100% cellspacing=3 id=LTLayer>
 <tr><td class=doctop colspan=2>Type LTLayer Extends LTGroup</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Layer is the group of sprites which have bounds.</td></tr>
@@ -1307,6 +1417,9 @@ Finds shape of class with given name.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#Remove>Remove</a></td><td class=docright>
 Removes the shape from layer.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#RemoveAllOfType>RemoveAllOfType</a></td><td class=docright>
+Removes all shapes of class with given name from layer.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#SetBounds>SetBounds</a></td><td class=docright>
 Sets the bounds of layer to given shape.
@@ -1358,6 +1471,11 @@ You can specify optional Name parameter to check only shapes with this name.</td
 <tr><td class=docleft width=1%>Description</td><td class=docright>Removes the shape from layer.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Included layers and sprite maps will be also checked.</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=RemoveAllOfType>
+<tr><td class=doctop colspan=2>Method RemoveAllOfType( TypeName:String )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Removes all shapes of class with given name from layer.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Included layers will be also checked.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=SetBounds>
 <tr><td class=doctop colspan=2>Method SetBounds( Shape:LTShape )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Sets the bounds of layer to given shape.</td></tr>
@@ -1375,7 +1493,7 @@ You can specify optional Name parameter to check only shapes with this name.</td
 <a href=#Pivot>Pivot</a>
 </td></tr>
 </table>
-<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTLine_methods></a>Methods Summary</th></tr>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTLine_functions></a>Functions Summary</th></tr>
 <tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
 Creates line section between two pivots.
 </td></tr>
@@ -1385,7 +1503,7 @@ Creates line section between two pivots.
 <tr><td class=docleft width=1%>Description</td><td class=docright>Pivots array.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Create>
-<tr><td class=doctop colspan=2>Method Create:LTLine( Pivot1:LTSprite, Pivot2:LTSprite )</td></tr>
+<tr><td class=doctop colspan=2>Function Create:LTLine( Pivot1:LTSprite, Pivot2:LTSprite )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>New line.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Creates line section between two pivots.</td></tr>
 </table>
@@ -1462,6 +1580,34 @@ Creates marching ants line.
 <table class=doc width=100% cellspacing=3 id=MakeMALine>
 <tr><td class=doctop colspan=2>Function MakeMALine:TImage( Width:Int, Pos:Int Var )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Creates marching ants line.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=LTMouseButton>
+<tr><td class=doctop colspan=2>Type LTMouseButton Extends LTPushable</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTMouseButton_functions></a>Functions Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+Creates mouse button object.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Function Create:LTMouseButton( Num:Int )</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>New object of mouse button with given number.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates mouse button object.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=LTMouseWheelAction>
+<tr><td class=doctop colspan=2>Type LTMouseWheelAction Extends LTPushable</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTMouseWheelAction_functions></a>Functions Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+Creates mouse wheel roll action object.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Function Create:LTMouseWheelAction( Direction:Int )</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>New object of mouse wheel roll action of given direction.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates mouse wheel roll action object.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTObject>
@@ -1689,6 +1835,60 @@ See also: <a href=#MinFPS>MinFPS</a>, <a href=#FPS>FPS</a>.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Draws various debugging information on screen.</td></tr>
 </table>
 <br>
+<table class=doc width=100% cellspacing=3 id=LTPushable>
+<tr><td class=doctop colspan=2>Type LTPushable Extends LTObject</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Common class for keys, buttons and mouse wheel rolls.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTPushable_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#GetName>GetName</a></td><td class=docright>
+Name of pushable object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#IsDown>IsDown</a></td><td class=docright>
+Function which checks is the object pressed.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Prepare>Prepare</a></td><td class=docright>
+Function which prepares pushable object for project cycle.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Reset>Reset</a></td><td class=docright>
+Function which resets pushable object after project cycle.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#WasPressed>WasPressed</a></td><td class=docright>
+Function which checks was the object pressed.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#WasUnpressed>WasUnpressed</a></td><td class=docright>
+Function which checks was the object unpressed.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetName>
+<tr><td class=doctop colspan=2>Method GetName:String()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>Name of object.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Name of pushable object.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>You can use LocalizeString to get name in current language.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=IsDown>
+<tr><td class=doctop colspan=2>Method IsDown:Int()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>True if pushable object is currently pressed.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Function which checks is the object pressed.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Prepare>
+<tr><td class=doctop colspan=2>Method Prepare()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Function which prepares pushable object for project cycle.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Reset>
+<tr><td class=doctop colspan=2>Method Reset()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Function which resets pushable object after project cycle.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=WasPressed>
+<tr><td class=doctop colspan=2>Method WasPressed:Int()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>True if pushable object was presed during this project cycle.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Function which checks was the object pressed.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=WasUnpressed>
+<tr><td class=doctop colspan=2>Method WasUnpressed:Int()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>True if pushable object was unpresed during this project cycle.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Function which checks was the object unpressed.</td></tr>
+</table>
+<br>
 <table class=doc width=100% cellspacing=3 id=LTRasterFrame>
 <tr><td class=doctop colspan=2>Type LTRasterFrame Extends LTImage</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Special image subclass to display raster frame.</td></tr>
@@ -1752,6 +1952,7 @@ Creates revolute joint for specified parent pivot using current pivots position.
 <table class=doc width=100% cellspacing=3 id=LTShape>
 <tr><td class=doctop colspan=2>Type LTShape Extends LTObject</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Common object for item of game field.</td></tr>
+<tr><td class=docleft width=1%><a href=LTShape.bmx class=small>Example</a></td><td class=docright><pre>Koo!</pre></td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTShape_consts></a>Constants Summary</th></tr><tr><td colspan=2>
 <a href=#Horizontal>Horizontal</a>
@@ -2017,7 +2218,7 @@ See also: <a href=#LTBehaviorModel>LTBehaviorModel</a>.</td></tr>
 See also: <a href=#Draw>Draw</a>, <a href=#DrawUsingVisualizer>DrawUsingVisualizer</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Visualizer>
-<tr><td class=doctop colspan=2>Field Visualizer:LTVisualizer = L_DefaultVisualizer</td></tr>
+<tr><td class=doctop colspan=2>Field Visualizer:LTVisualizer = New LTVisualizer</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Shape visualizer (object which displays this shape).</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#LTVisualizer>LTVisualizer</a>, <a href=#L_DefaultVisualizer>L_DefaultVisualizer</a>, <a href=#LTDebugVisualizer>LTDebugVisualizer</a>, <a href=#L_DebugVisualizer>L_DebugVisualizer</a>.</td></tr>
 </table>
@@ -2676,13 +2877,13 @@ See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#Collisi
 <tr><td class=docleft width=1%>Information</td><td class=docright>Turns the sprite with given speed per second.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=WedgeOffWithSprite>
-<tr><td class=doctop colspan=2>Method WedgeOffWithSprite( Sprite:LTSprite, SelfMass:Double, SpriteMass:Double )</td></tr>
+<tr><td class=doctop colspan=2>Method WedgeOffWithSprite( Sprite:LTSprite, SelfMovingResistance:Double, SpriteMovingResistance:Double )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Wedges off sprite with given sprite.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Pushes sprites from each other until they stops colliding. More the mass, less the sprite will be moved.
+<tr><td class=docleft width=1%>Information</td><td class=docright>Pushes sprites from each other until they stops colliding. More the moving resistance, less the sprite will be moved.
 <ul>
-<li> If each sprite's mass is zero, or each sprite's mass is less than 0 then sprites will be moved on same distance.
-<li> If one of the sprite has zero mass and other's mass is non-zero, only zero-mass sprite will be moved
-<li> If one of the sprite has mass less than 0 and other has mass less or equal to 0, then only zero-or-more-mass sprite will be moved.
+<li> If each sprite's moving resistance is zero, or each sprite's moving resistance is less than 0 then sprites will be moved on same distance.
+<li> If one of the sprite has zero moving resistance and other's moving resistance is non-zero, only zero-moving-resistance sprite will be moved
+<li> If one of the sprite has moving resistance less than 0 and other has moving resistance more or equal to 0, then only zero-or-more-moving-resistance sprite will be moved.
 </ul></td></tr>
 </table>
 <br>
@@ -3472,16 +3673,30 @@ See also: <a href=#ManageIntAttribute>ManageIntAttribute</a>, <a href=#ManageDou
 <br>
 <h2 id=modinfo>Module Information</h2>
 <table width=100%>
-<tr><th width=1%>Version</th><td>1.3.1</td></tr>
+<tr><th width=1%>Version</th><td>1.3.5.1</td></tr>
 <tr><th width=1%>Author</th><td>Matt Merkulov</td></tr>
 <tr><th width=1%>License</th><td>Artistic License 2.0</td></tr>
 <tr><th width=1%>Modserver</th><td>DWLAB</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp;</td></tr>
+<tr><th width=1%>History</th><td>v1.3.5.1 (17.11.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed bugs in mouse wheel action names.</td></tr>
+<tr><th width=1%>History</th><td>v1.3.5 (16.11.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added LTDistanceJoint class.</td></tr>
+<tr><th width=1%>History</th><td>v1.3.4 (14.11.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; XML now supports quotes and UTF symbols in text attribute strings.</td></tr>
+<tr><th width=1%>History</th><td>v1.3.3 (09.11.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Tile enframing system now always sets tile number to first number from tile number array of tile rule (previously it chose one of them randomly) and only if current tile number is not in this array.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; This allows to place differend kinds of tile of same type as existent on enframed area.</td></tr>
+<tr><th width=1%>History</th><td>v1.3.2.1 (12.10.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed bug with adding multiple equal keys to button action.</td></tr>
+<tr><th width=1%>History</th><td>v1.3.2 (07.10.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added possibility to bind multiple buttons to the button action.</td></tr>
 <tr><th width=1%>History</th><td>v1.3.1 (07.10.11)</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Added SetSizeAs() method to the LTShape.</td></tr>
 <tr><th width=1%>History</th><td>v1.3 (06.10.11)</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Implemented controllers system.</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Added Contour() and SetAsViewport() methods to the LTShape.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; FindShapeWithParameter() parameters are rearranged.</td></tr>
 <tr><th width=1%>History</th><td>v1.2.7 (03.10.11)</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Added PrintText() method to the LTShape.</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed bug in LTCamera.SetCameraViewport() method.</td></tr>

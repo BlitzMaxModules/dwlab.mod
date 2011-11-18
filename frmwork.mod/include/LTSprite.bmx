@@ -66,6 +66,18 @@ Type LTSprite Extends LTShape
 		Return "Sprite"
 	End Method
 	
+	' ==================== Creating ===================	
+	
+	Function FromShape:LTSprite( X:Double, Y:Double, Width:Double = 1.0, Height:Double = 1.0, ShapeType:Int = Rectangle, Angle:Double = 0.0, Velocity:Double = 1.0 )
+		Local Sprite:LTSprite = New LTSprite
+		Sprite.SetCoords( X, Y )
+		Sprite.SetSize( Width, Height )
+		Sprite.ShapeType = ShapeType
+		Sprite.Angle = Angle
+		Sprite.Velocity = Velocity
+		Return Sprite
+	End Function
+	
 	' ==================== Drawing ===================	
 	
 	Method Draw()
@@ -647,12 +659,4 @@ Type LTSprite Extends LTShape
 		XMLObject.ManageDoubleAttribute( "velocity", Velocity, 1.0 )
 		XMLObject.ManageIntAttribute( "frame", Frame )
 	End Method
-End Type
-
-
-
-
-
-'Deprecated
-Type LTAngularSprite Extends LTSprite
 End Type

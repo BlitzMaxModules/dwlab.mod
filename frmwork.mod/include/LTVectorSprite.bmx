@@ -27,15 +27,40 @@ Type LTVectorSprite Extends LTSprite
 	
 	
 	
+	Function FromShapeAndVector:LTVectorSprite( X:Double, Y:Double, Width:Double = 1.0, Height:Double = 1.0, ShapeType:Int = LTSprite.Rectangle, DX:Double = 0.0, DY:Double = 0.0 )
+		Local Sprite:LTVectorSprite = New LTVectorSprite
+		Sprite.SetCoords( X, Y )
+		Sprite.SetSize( Width, Height )
+		Sprite.ShapeType = ShapeType
+		Sprite.DX = DY
+		Sprite.DX = DY
+		Return Sprite
+	End Function
+	
+	
+	
 	Method GetClassTitle:String()
 		Return "Vector sprite"
 	End Method
 	
 	
 	
-	Method Init()
+	Method Init()	
+		UpdateFromAngularModel()
+	End Method
+
+	
+	
+	Method UpdateFromAngularModel()
 		DX = Cos( Angle ) * Velocity
 		DY = Sin( Angle ) * Velocity
+	End Method
+	
+	
+	
+	Method UpdateAngularModel()
+		Angle = ATan2( DY, DX )
+		Velocity = L_Distance( DX, DY )
 	End Method
 
 	

@@ -8,4 +8,6 @@ Incbin "player.png"
 Incbin "clock.png"
 Incbin "background.jpg"
 Incbin "infinity.png"
+Incbin "MouseMenu\frames\button.png"
+Incbin "MouseMenu\images\icons.png"
 L_SetIncbin( True )

@@ -125,9 +125,9 @@ Type LTWindow Extends LTLayer
 				Save()
 			Case "save_and_close"
 				Save()
-				Project.CloseWindow( LTWindow( Link.Value() ) )
+				If Link Then Project.CloseWindow( LTWindow( Link.Value() ) )
 			Case "close"
-				Project.CloseWindow( LTWindow( Link.Value() ) )
+				If Link Then Project.CloseWindow( LTWindow( Link.Value() ) )
 			Case "save_and_end"
 				Save()
 				Project.Exiting = True

@@ -11,6 +11,7 @@
 Type LTGameOverWindow Extends LTWindow
 	Method Init()
 		Super.Init()
+		LTLabel( FindShape( "ProfileName" ) ).Text = L_CurrentProfile.Name
 		LTLabel( FindShape( "YourScore" ) ).Text = LocalizeString( "{{YourScore}}" ).Replace( "*", Game.Score )
 		If L_CurrentProfile.Name = "{{P_Player}}" And Game.Score Then
 			LTTextField( FindShape( "Name" ) ).Text = LocalizeString( "{{Player}}" )
@@ -18,6 +19,15 @@ Type LTGameOverWindow Extends LTWindow
 			FindShapeWithParameter( "text", "Enter your name" ).Hide()
 			FindShape( "Name" ).Hide()
 		End If
+		
+		Repeat
+			If Not Game.Score Then Exit
+			If Menu.HighScores.Count() = Menu.MaxHighScores Then
+				If LTHighScore( Menu.HighScores.Last() ).Score <= Game.Score Then Exit
+			End If
+			LTLabel( FindShapeWithParameter( "text", "Game over" ) ).Icon.Frame = 20
+		 	Exit
+		Forever
 	End Method
 	
 	Method Save()

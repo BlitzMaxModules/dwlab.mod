@@ -14,6 +14,7 @@ End Rem
 Type LTDistanceJoint Extends LTBehaviorModel
 	Field ParentPivot:LTSprite
 	Field Distance:Double
+	Field OldAngle:Double
 	
 	
 	
@@ -32,6 +33,7 @@ Type LTDistanceJoint Extends LTBehaviorModel
 	
 	Method Init( Shape:LTShape )
 		Distance = ParentPivot.DistanceTo( Shape )
+		OldAngle = ParentPivot.DirectionTo( Shape )
 	End Method
 	
 	
@@ -43,6 +45,15 @@ Type LTDistanceJoint Extends LTBehaviorModel
 		Else
 			Local K:Double = Distance / NewDistance
 			Shape.SetCoords( ParentPivot.X + ( Shape.X - ParentPivot.X ) * K, ParentPivot.Y + ( Shape.Y - ParentPivot.Y ) * K )
+			
+			Local VectorSprite:LTVectorSprite = LTVectorSprite( Shape )
+			If VectorSprite Then
+				VectorSprite.DX :+ ( Shape.X - ( ParentPivot.X + Distance * Cos( OldAngle ) ) ) * L_DeltaTime
+				VectorSprite.DY :+ ( Shape.Y - ( ParentPivot.Y + Distance * Sin( OldAngle ) ) ) * L_DeltaTime
+				VectorSprite.UpdateAngularModel()
+			End If
+			
+			OldAngle = ParentPivot.DirectionTo( Shape )
 		End If
 	End Method
 End Type

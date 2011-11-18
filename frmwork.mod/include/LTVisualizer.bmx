@@ -9,9 +9,8 @@
 '
 
 Include "LTImage.bmx"
-Include "LTRasterFrameVisualizer.bmx"
 Include "LTAnimatedTileMapVisualizer.bmx"
-Include "LTEmptyPrimitive.bmx"
+Include "LTContourVisualizer.bmx"
 Include "LTMarchingAnts.bmx"
 Include "LTWindowedVisualizer.bmx"
 Include "LTDebugVisualizer.bmx"
@@ -98,9 +97,9 @@ Type LTVisualizer Extends LTObject
 	' ==================== Creating ====================
 	
 	Rem
-	bbdoc: Creates new image visualizer from image file.
+	bbdoc: Creates new visualizer from image file.
 	returns: New visualizer.
-	about: See also: #FromImage
+	about: See also: #FromImage, #FromColor
 	End Rem
 	Function FromFile:LTVisualizer( Filename:String, XCells:Int = 1, YCells:Int = 1 )
 		Local Visualizer:LTVisualizer = New LTVisualizer
@@ -111,9 +110,9 @@ Type LTVisualizer Extends LTObject
 	
 	
 	Rem
-	bbdoc: Creates new image visualizer from existing image (LTImage).
+	bbdoc: Creates new visualizer from existing image (LTImage).
 	returns: New visualizer.
-	about: See also: #FromFile
+	about: See also: #FromFile, #FromColor
 	End Rem
 	Function FromImage:LTVisualizer( Image:LTImage )
 		Local Visualizer:LTVisualizer = New LTVisualizer
@@ -121,6 +120,20 @@ Type LTVisualizer Extends LTObject
 		Return Visualizer
 	End Function
 
+	
+	
+	Rem
+	bbdoc: Creates new visualizer using given color and transparency (LTImage).
+	returns: New visualizer.
+	about: See also: #FromFile, #FromImage
+	End Rem
+	Function FromColor:LTVisualizer( Red:Double, Green:Double, Blue:Double, Alpha:Double = 1.0 )
+		Local Visualizer:LTVisualizer = New LTVisualizer
+		Visualizer.SetColorFromRGB( Red, Green, Blue )
+		Visualizer.Alpha = Alpha
+		Return Visualizer
+	End Function
+	
 	' ==================== Parameters ====================
 	
 	Rem
@@ -540,11 +553,3 @@ Type LTVisualizer Extends LTObject
 		Image = LTImage( XMLObject.ManageObjectField( "image", Image ) )
 	End Method
 End Type
-
-
-
-
-
-' Deprecated
-Type LTImageVisualizer Extends LTVisualizer
-End type

@@ -42,7 +42,7 @@ Type LTMenu Extends LTGUIProject
 	Field SelectedProfile:LTProfile
 	
 	Field HighScores:TList = New TList
-	Field MaxHighScores:Int = 20
+	Field MaxHighScores:Int = 10
 	
 	Field GameState:LTObject
 	

@@ -15,12 +15,17 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.3.5"
+ModuleInfo "Version: 1.3.5.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.6 (18.11.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added creation methods for LTSprite and LTVectorSprite."
+ModuleInfo "History: v1.3.5.1 (17.11.11)"
+ModuleInfo "History: &nbsp; &nbsp; Fixed bugs in mouse wheel action names."
+ModuleInfo "History: &nbsp; &nbsp; LTEmptyPrimitve renamed to LTContourVisualizer."
 ModuleInfo "History: v1.3.5 (16.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added LTDistanceJoint class."
 ModuleInfo "History: v1.3.4 (14.11.11)"
@@ -149,7 +154,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.3.5"
+Const L_Version:String = "1.3.5.1"
 
 SeedRnd( MilliSecs() )
 
@@ -163,6 +168,7 @@ Include "include\LTDrag.bmx"
 Include "include\LTAction.bmx"
 Include "include\XML.bmx"
 Include "include\Service.bmx"
+Include "include\Deprecated.bmx"
 
 
 

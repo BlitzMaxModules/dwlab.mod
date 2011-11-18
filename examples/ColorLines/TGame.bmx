@@ -27,6 +27,7 @@ Type TGame Extends LTGUIProject
 	Field EmptyCells:TList = New TList
 	Field PathFinder:TPathFinder = New TPathFinder
 	Field Score:Int
+	Field TotalBalls:Int
 	Field GameOver:Int
 	
 	Field Font:LTBitmapFont

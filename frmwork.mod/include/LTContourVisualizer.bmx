@@ -11,13 +11,32 @@
 Rem
 bbdoc: This visualizer draws contours of the shape.
 End Rem
-Type LTEmptyPrimitive Extends LTVisualizer
+Type LTContourVisualizer Extends LTVisualizer
 	Rem
 	bbdoc: Width of contour lines.
 	End Rem
 	Field LineWidth:Double = 1.0
+	Field DrawPivot1:Int = True
+	Field DrawPivot2:Int = True
+	Field PivotScale:Double = 1.0
 	
 	
+	
+	Rem
+	bbdoc: Creates new contour visualizer using given color and transparency (LTImage).
+	returns: New visualizer.
+	about: See also: #FromFile, #FromImage
+	End Rem
+	Function FromWidthAndColor:LTVisualizer( Width:Double, Red:Double = 1.0, Green:Double = 1.0, Blue:Double = 1.0, Alpha:Double = 1.0, PivotScale:Double = 1.0 )
+		Local Visualizer:LTContourVisualizer = New LTContourVisualizer
+		Visualizer.SetColorFromRGB( Red, Green, Blue )
+		Visualizer.Alpha = Alpha
+		Visualizer.LineWidth = Width
+		Visualizer.PivotScale = PivotScale
+		Return Visualizer
+	End Function
+	
+		
 	
 	Method DrawUsingSprite( Sprite:LTSprite )
 		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
@@ -46,6 +65,10 @@ Type LTEmptyPrimitive Extends LTVisualizer
 		L_CurrentCamera.FieldToScreen( Line.Pivot[ 1 ].X, Line.Pivot[ 1 ].Y, SX2, SY2 )
 		DrawLine( SX1, SY1, SX2, SY2 )
 		
+		Local Radius:Double = L_CurrentCamera.DistFieldToScreen( LineWidth ) * PivotScale
+		If DrawPivot1 Then DrawOval( SX1 - 0.5 * Radius, SY1 - 0.5 * Radius, Radius, Radius )
+		If DrawPivot2 Then DrawOval( SX2 - 0.5 * Radius, SY2 - 0.5 * Radius, Radius, Radius )
+		
 		SetLineWidth( 1.0 )
 		SetColor( 255, 255, 255 )
 		SetAlpha( 1.0 )
@@ -55,7 +78,7 @@ Type LTEmptyPrimitive Extends LTVisualizer
 	
 	Method SetProperLineWidth()
 		If Scaling Then
-			SetLineWidth( L_CurrentCamera.DistScreenToField( LineWidth ) )
+			SetLineWidth( L_CurrentCamera.DistFieldToScreen( LineWidth ) )
 		Else
 			SetLineWidth( LineWidth )
 		End If

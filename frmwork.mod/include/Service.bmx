@@ -265,7 +265,7 @@ bbdoc: Rounds double value to nearest integer.
 returns: Rounded value.
 about: Faster than Int().
 End Rem
-Function L_Round:Double( Value:Double )
+Function L_Round:Int( Value:Double )
 	Return Int( Value + 0.5 * Sgn( Value ) )
 End Function
 

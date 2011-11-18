@@ -43,6 +43,11 @@ Type LTSlider Extends LTGadget
 	End Rem
 	Field SelectionType:Int
 	
+	Rem
+	bbdoc: Value by which position will change if user roll mouse wheel button on slider.
+	End Rem
+	Field MouseWheelValue:Double = 0.1
+	
 	Field ListBox:LTListBox
 	Field Slider:LTShape
 	Field Dragging:Int
@@ -93,20 +98,20 @@ Type LTSlider Extends LTGadget
 		If Slider Then
 			Select SliderType
 				Case Horizontal
-					Slider.SetCornerCoords( LeftX() + Width * Position * ( 1.0 - Size ), TopY() )
 					Slider.SetWidth( Width * Size )
+					Slider.SetCornerCoords( LeftX() + Width * Position * ( 1.0 - Size ), TopY() )
 				Case Vertical
-					Slider.SetCornerCoords( LeftX(), TopY() + Height * Position * ( 1.0 - Size ) )
 					Slider.SetHeight( Height * Size )
+					Slider.SetCornerCoords( LeftX(), TopY() + Height * Position * ( 1.0 - Size ) )
 			End Select
 			Slider.Draw()
 			If ShowPercent Then
 				SetColor( 0, 0, 0 )
 				Select SelectionType
 					Case Moving
-						PrintText( Int( Ceil( 100 * Position ) ) + "%" )
+						PrintText( L_Round( 100 * Position ) + "%" )
 					Case Filling
-						PrintText( Int( Ceil( 100 * Size ) ) + "%" )
+						PrintText( L_Round( 100 * Size ) + "%" )
 				End Select
 				SetColor( 255, 255, 255 )
 			End If
@@ -137,33 +142,46 @@ Type LTSlider Extends LTGadget
 	
 	
 	Method OnButtonDown( ButtonAction:LTButtonAction )
-		If ButtonAction <> L_LeftMouseButton Then Return
-		Select SelectionType
-			Case Moving
-				If Dragging Then
+		If ButtonAction = L_LeftMouseButton Then
+			Select SelectionType
+				Case Moving
+					If Dragging Then
+						Select SliderType
+							Case Horizontal
+								Position = L_LimitDouble( StartingPosition + ( L_Cursor.X - StartingX ) / Width / ( 1.0 - Size ), 0.0, 1.0 )
+							Case Vertical
+								Position = L_LimitDouble( StartingPosition + ( L_Cursor.Y - StartingY ) / Height / ( 1.0 - Size ), 0.0, 1.0 )
+						End Select
+						
+						If ListBox Then ListBox.Shift = Position * ( ContentsSize - ListBoxSize )'; DebugLog ContentsSize + "," + ListBoxSize + "," + ListBox.Shift
+					Else
+						Dragging = True
+						StartingX = L_Cursor.X
+						StartingY = L_Cursor.Y
+						StartingPosition = Position
+					End If
+				Case Filling
+					Position = 0.0
 					Select SliderType
 						Case Horizontal
-							Position = L_LimitDouble( StartingPosition + ( L_Cursor.X - StartingX ) / Width / ( 1.0 - Size ), 0.0, 1.0 )
+							Size = L_LimitDouble( ( L_Cursor.X - LeftX() ) / Width, 0.0, 1.0 )
 						Case Vertical
-							Position = L_LimitDouble( StartingPosition + ( L_Cursor.Y - StartingY ) / Height / ( 1.0 - Size ), 0.0, 1.0 )
+							Size = L_LimitDouble( ( L_Cursor.Y - TopY() ) / Height, 0.0, 1.0 )
 					End Select
-					
-					If ListBox Then ListBox.Shift = Position * ( ContentsSize - ListBoxSize )'; DebugLog ContentsSize + "," + ListBoxSize + "," + ListBox.Shift
-				Else
-					Dragging = True
-					StartingX = L_Cursor.X
-					StartingY = L_Cursor.Y
-					StartingPosition = Position
-				End If
-			Case Filling
-				Position = 0.0
-				Select SliderType
-					Case Horizontal
-						Size = L_LimitDouble( ( L_Cursor.X - LeftX() ) / Width, 0.0, 1.0 )
-					Case Vertical
-						Size = L_LimitDouble( ( L_Cursor.Y - TopY() ) / Height, 0.0, 1.0 )
+			End Select
+		Else
+			Local DValue:Double = 0
+			If ButtonAction = L_MouseWheelUp Then DValue = -MouseWheelValue
+			If ButtonAction = L_MouseWheelDown Then DValue = MouseWheelValue
+			If DValue Then
+				Select SelectionType
+					Case Moving
+						Position = L_LimitDouble( Size + DValue, 0.0, 1.0 )
+					Case Filling
+						Size = L_LimitDouble( Size + DValue, 0.0, 1.0 )
 				End Select
-		End Select
+			End If
+		End If
 	EndMethod
 	
 	

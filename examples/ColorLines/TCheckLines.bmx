@@ -10,6 +10,8 @@
 
 Type TCheckLines
 	Function Execute( CreateBalls:Int = True )
+		Game.TotalBalls = 0
+		
 		Local Rows:TList = New TList
 		For Local Y:Int = 0 Until Game.GameField.YQuantity
 			For Local X:Int = 0 Until Game.GameField.XQuantity
@@ -30,7 +32,7 @@ Type TCheckLines
 			If CreateBalls Then Game.CreateBalls()
 		Else
 			L_PlaySound( Game.ExplosionSound )
-			Game.Score :+ Rows.Count() * ( Rows.Count() - 1 ) / 2
+			Game.Score :+ ( Game.TotalBalls - 7 ) * Game.TotalBalls / 2 + 10
 		End If
 	End Function
 	

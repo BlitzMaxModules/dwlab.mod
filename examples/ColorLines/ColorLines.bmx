@@ -46,7 +46,7 @@ Incbin "select.ogg"
 Incbin "swap.ogg"
 Include "levels_incbin.bmx"
 
-AppTitle = "Color Lines 1.0 beta"
+AppTitle = "Color Lines 1.0 beta 2"
 
 EnableOpenALAudio()
 

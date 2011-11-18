@@ -12,10 +12,6 @@
 <h1>Digital Wizard's Lab framework profiling module</h1>
 <h2><a name=globals></a>Globals Summary</h2><table class=doc width=100%><tr><td colspan=2>
 <a href=#L_CurrentProfile>L_CurrentProfile</a>
-, 
-<a href=#L_ScreenHeightGrain>L_ScreenHeightGrain</a>
-, 
-<a href=#L_ScreenWidthGrain>L_ScreenWidthGrain</a>
 </td></tr>
 </table>
 <h2><a name=functions></a>Functions Summary</h2><table class=doc width=100%>
@@ -52,16 +48,6 @@ Head class for profiles.
 <table class=doc width=100% cellspacing=3 id=L_CurrentProfile>
 <tr><td class=doctop colspan=2>Global L_CurrentProfile:LTProfile</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Current profile.</td></tr>
-</table>
-<br>
-<table class=doc width=100% cellspacing=3 id=L_ScreenHeightGrain>
-<tr><td class=doctop colspan=2>Global L_ScreenHeightGrain:Int</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Height of screen grain.</td></tr>
-</table>
-<br>
-<table class=doc width=100% cellspacing=3 id=L_ScreenWidthGrain>
-<tr><td class=doctop colspan=2>Global L_ScreenWidthGrain:Int</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Width of screen grain.</td></tr>
 </table>
 <br>
 <h2
@@ -248,7 +234,7 @@ Profile system initialization function.
 <tr><td class=docleft width=1%>Description</td><td class=docright>Name of the video driver.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Apply>
-<tr><td class=doctop colspan=2>Method Apply( Projects:LTProject[] = Null, NewScreen:Int = True, NewVideoDriver:Int = True, NewAudioDriver:Int = True )</td></tr>
+<tr><td class=doctop colspan=2>Method Apply( Projects:LTProject[] = Null, NewScreen:Int = True, NewVideoDriver:Int = True, NewAudioDriver:Int = True, NewLanguage:Int = True )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Applies profile.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>You can specify an array of projects which should been initialized after changing drivers or screen resolution.</td></tr>
 </table>
@@ -303,10 +289,12 @@ Fill it with code which transfers data from the game objects to the profile.</td
 <br>
 <h2 id=modinfo>Module Information</h2>
 <table width=100%>
-<tr><th width=1%>Version</th><td>1.0</td></tr>
+<tr><th width=1%>Version</th><td>1.0.0.1</td></tr>
 <tr><th width=1%>Author</th><td>Matt Merkulov</td></tr>
 <tr><th width=1%>License</th><td>Artistic License 2.0</td></tr>
 <tr><th width=1%>Modserver</th><td>DWLAB</td></tr>
-<tr><th width=1%>History</th><td>v1.0 (07.10.11)</td></tr>
+<tr><th width=1%>History</th><td>v1.0.0.1 (14.11.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed bug in LTScreenResolution.Get().</td></tr>
+<tr><th width=1%>History</th><td>v1.0 (09.10.11)</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Initial release.</td></tr>
 </body></html>

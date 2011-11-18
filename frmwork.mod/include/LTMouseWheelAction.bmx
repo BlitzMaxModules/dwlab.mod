@@ -17,9 +17,9 @@ Type LTMouseWheelAction Extends LTPushable
 	Method GetName:String()
 		Select Direction
 			Case -1
-				Return "Mouse wheel up"
-			Case 1
 				Return "Mouse wheel down"
+			Case 1
+				Return "Mouse wheel up"
 		End Select
 	End Method
 	

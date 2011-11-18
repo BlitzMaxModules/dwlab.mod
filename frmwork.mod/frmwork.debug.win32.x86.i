@@ -1,8 +1,11 @@
-ModuleInfo "Version: 1.3.5"
+ModuleInfo "Version: 1.3.5.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.5.1 (17.11.11)"
+ModuleInfo "History: &nbsp; &nbsp; Fixed bugs in mouse wheel action names."
+ModuleInfo "History: &nbsp; &nbsp; LTEmptyPrimitve renamed to LTContourVisualizer."
 ModuleInfo "History: v1.3.5 (16.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added LTDistanceJoint class."
 ModuleInfo "History: v1.3.4 (14.11.11)"
@@ -123,7 +126,7 @@ import brl.d3d9max2d
 import brl.random
 import brl.reflection
 import brl.retro
-L_Version$=$"1.3.5"
+L_Version$=$"1.3.5.1"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
@@ -212,8 +215,11 @@ LTVectorSprite^LTSprite{
 .DY!&
 -New%()="_dwlab_frmwork_LTVectorSprite_New"
 -Delete%()="_dwlab_frmwork_LTVectorSprite_Delete"
++FromShapeAndVector:LTVectorSprite(X!,Y!,Width!=1!,Height!=1!,ShapeType%=2,DX!=0!,DY!=0!)="_dwlab_frmwork_LTVectorSprite_FromShapeAndVector"
 -GetClassTitle$()="_dwlab_frmwork_LTVectorSprite_GetClassTitle"
 -Init%()="_dwlab_frmwork_LTVectorSprite_Init"
+-UpdateFromAngularModel%()="_dwlab_frmwork_LTVectorSprite_UpdateFromAngularModel"
+-UpdateAngularModel%()="_dwlab_frmwork_LTVectorSprite_UpdateAngularModel"
 -MoveForward%()="_dwlab_frmwork_LTVectorSprite_MoveForward"
 }="dwlab_frmwork_LTVectorSprite"
 LTCamera^LTSprite{
@@ -281,6 +287,7 @@ Rectangle%=2
 -New%()="_dwlab_frmwork_LTSprite_New"
 -Delete%()="_dwlab_frmwork_LTSprite_Delete"
 -GetClassTitle$()="_dwlab_frmwork_LTSprite_GetClassTitle"
++FromShape:LTSprite(X!,Y!,Width!=1!,Height!=1!,ShapeType%=2,Angle!=0!,Velocity!=1!)="_dwlab_frmwork_LTSprite_FromShape"
 -Draw%()="_dwlab_frmwork_LTSprite_Draw"
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTSprite_DrawUsingVisualizer"
 -TileShapeCollisionsWithSprite%(Sprite:LTSprite,DX!,DY!,XScale!,YScale!,TileMap:LTTileMap,TileX%,TileY%,CollisionType%)="_dwlab_frmwork_LTSprite_TileShapeCollisionsWithSprite"
@@ -313,10 +320,6 @@ Rectangle%=2
 -CopyTo%(Shape:LTShape)="_dwlab_frmwork_LTSprite_CopyTo"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTSprite_XMLIO"
 }="dwlab_frmwork_LTSprite"
-LTAngularSprite^LTSprite{
--New%()="_dwlab_frmwork_LTAngularSprite_New"
--Delete%()="_dwlab_frmwork_LTAngularSprite_Delete"
-}="dwlab_frmwork_LTAngularSprite"
 LTTileSet^LTObject{
 .Name$&
 .Image:LTImage&
@@ -371,12 +374,12 @@ LTTileMapPathFinder^LTObject{
 .Points:brl.map.TMap&
 -New%()="_dwlab_frmwork_LTTileMapPathFinder_New"
 -Delete%()="_dwlab_frmwork_LTTileMapPathFinder_Delete"
-+Create:LTTileMapPathFinder(TileMap:LTIntMap,AllowDiagonalMovement%=1)="_dwlab_frmwork_LTTileMapPathFinder_Create"
 -FindPath:LTTileMapPosition(StartingX%,StartingY%,FinalX%,FinalY%,Range%=0,MaxDistance%=1024)="_dwlab_frmwork_LTTileMapPathFinder_FindPath"
 -Passage!(X%,Y%)="_dwlab_frmwork_LTTileMapPathFinder_Passage"
 -GetPoint:Object(X%,Y%)="_dwlab_frmwork_LTTileMapPathFinder_GetPoint"
 -SetPoint%(X%,Y%,Position:LTTileMapPosition)="_dwlab_frmwork_LTTileMapPathFinder_SetPoint"
 }="dwlab_frmwork_LTTileMapPathFinder"
+L_CreateTileMapPathFinder:LTTileMapPathFinder(TileMap:LTIntMap,AllowDiagonalMovement%=1)="dwlab_frmwork_L_CreateTileMapPathFinder"
 LTTileMapPosition^brl.blitz.Object{
 .X%&
 .Y%&
@@ -508,7 +511,7 @@ LTLine^LTShape{
 .Pivot:LTSprite&[]&
 -New%()="_dwlab_frmwork_LTLine_New"
 -Delete%()="_dwlab_frmwork_LTLine_Delete"
-+Create:LTLine(Pivot1:LTSprite,Pivot2:LTSprite)="_dwlab_frmwork_LTLine_Create"
++FromPivots:LTLine(Pivot1:LTSprite,Pivot2:LTSprite)="_dwlab_frmwork_LTLine_FromPivots"
 -Draw%()="_dwlab_frmwork_LTLine_Draw"
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTLine_DrawUsingVisualizer"
 -SpriteGroupCollisions%(Sprite:LTSprite,CollisionType%)="_dwlab_frmwork_LTLine_SpriteGroupCollisions"
@@ -605,29 +608,24 @@ LTImage^LTObject{
 -Draw%(X!,Y!,Width!,Height!,Frame%)="_dwlab_frmwork_LTImage_Draw"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTImage_XMLIO"
 }="dwlab_frmwork_LTImage"
-LTRasterFrameVisualizer^LTVisualizer{
-.Images:brl.max2d.TImage&[,]&
-.ImageFile$&
--New%()="_dwlab_frmwork_LTRasterFrameVisualizer_New"
--Delete%()="_dwlab_frmwork_LTRasterFrameVisualizer_Delete"
-+GetFromFile:LTRasterFrameVisualizer(Filename$)="_dwlab_frmwork_LTRasterFrameVisualizer_GetFromFile"
-+FromPixmap:LTRasterFrameVisualizer(Pixmap:brl.pixmap.TPixmap)="_dwlab_frmwork_LTRasterFrameVisualizer_FromPixmap"
--DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTRasterFrameVisualizer_DrawUsingSprite"
-}="dwlab_frmwork_LTRasterFrameVisualizer"
 LTAnimatedTileMapVisualizer^LTVisualizer{
 .TileNum%&[]&
 -New%()="_dwlab_frmwork_LTAnimatedTileMapVisualizer_New"
 -Delete%()="_dwlab_frmwork_LTAnimatedTileMapVisualizer_Delete"
 -DrawTile%(TileMap:LTTileMap,X!,Y!,Width!,Height!,TileX%,TileY%)="_dwlab_frmwork_LTAnimatedTileMapVisualizer_DrawTile"
 }="dwlab_frmwork_LTAnimatedTileMapVisualizer"
-LTEmptyPrimitive^LTVisualizer{
+LTContourVisualizer^LTVisualizer{
 .LineWidth!&
--New%()="_dwlab_frmwork_LTEmptyPrimitive_New"
--Delete%()="_dwlab_frmwork_LTEmptyPrimitive_Delete"
--DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTEmptyPrimitive_DrawUsingSprite"
--DrawUsingLine%(Line:LTLine)="_dwlab_frmwork_LTEmptyPrimitive_DrawUsingLine"
--SetProperLineWidth%()="_dwlab_frmwork_LTEmptyPrimitive_SetProperLineWidth"
-}="dwlab_frmwork_LTEmptyPrimitive"
+.DrawPivot1%&
+.DrawPivot2%&
+.PivotScale!&
+-New%()="_dwlab_frmwork_LTContourVisualizer_New"
+-Delete%()="_dwlab_frmwork_LTContourVisualizer_Delete"
++FromWidthAndColor:LTVisualizer(Width!,Red!=1!,Green!=1!,Blue!=1!,Alpha!=1!,PivotScale!=1!)="_dwlab_frmwork_LTContourVisualizer_FromWidthAndColor"
+-DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTContourVisualizer_DrawUsingSprite"
+-DrawUsingLine%(Line:LTLine)="_dwlab_frmwork_LTContourVisualizer_DrawUsingLine"
+-SetProperLineWidth%()="_dwlab_frmwork_LTContourVisualizer_SetProperLineWidth"
+}="dwlab_frmwork_LTContourVisualizer"
 LTMarchingAnts^LTVisualizer{
 -New%()="_dwlab_frmwork_LTMarchingAnts_New"
 -Delete%()="_dwlab_frmwork_LTMarchingAnts_Delete"
@@ -675,6 +673,7 @@ LTVisualizer^LTObject{
 -Delete%()="_dwlab_frmwork_LTVisualizer_Delete"
 +FromFile:LTVisualizer(Filename$,XCells%=1,YCells%=1)="_dwlab_frmwork_LTVisualizer_FromFile"
 +FromImage:LTVisualizer(Image:LTImage)="_dwlab_frmwork_LTVisualizer_FromImage"
++FromColor:LTVisualizer(Red!,Green!,Blue!,Alpha!=1!)="_dwlab_frmwork_LTVisualizer_FromColor"
 -SetDXDY%(NewDX!,NewDY!)="_dwlab_frmwork_LTVisualizer_SetDXDY"
 -SetVisualizerScale%(NewXScale!,NewYScale!)="_dwlab_frmwork_LTVisualizer_SetVisualizerScale"
 -SetVisualizerScales%(NewScale!)="_dwlab_frmwork_LTVisualizer_SetVisualizerScales"
@@ -697,10 +696,6 @@ LTVisualizer^LTObject{
 -CopyTo%(Visualizer:LTVisualizer)="_dwlab_frmwork_LTVisualizer_CopyTo"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTVisualizer_XMLIO"
 }="dwlab_frmwork_LTVisualizer"
-LTImageVisualizer^LTVisualizer{
--New%()="_dwlab_frmwork_LTImageVisualizer_New"
--Delete%()="_dwlab_frmwork_LTImageVisualizer_Delete"
-}="dwlab_frmwork_LTImageVisualizer"
 LTShape^LTObject{
 Horizontal%=1
 Vertical%=2
@@ -827,6 +822,7 @@ LTRevoluteJoint^LTBehaviorModel{
 LTDistanceJoint^LTBehaviorModel{
 .ParentPivot:LTSprite&
 .Distance!&
+.OldAngle!&
 -New%()="_dwlab_frmwork_LTDistanceJoint_New"
 -Delete%()="_dwlab_frmwork_LTDistanceJoint_Delete"
 +Create:LTDistanceJoint(ParentPivot:LTSprite)="_dwlab_frmwork_LTDistanceJoint_Create"
@@ -1019,7 +1015,7 @@ L_WrapInt2%(Value%,FromValue%,ToValue%)="dwlab_frmwork_L_WrapInt2"
 L_WrapDouble!(Value!,Size!)="dwlab_frmwork_L_WrapDouble"
 L_TryExtensions$(Filename$,Extensions$&[])="dwlab_frmwork_L_TryExtensions"
 L_ClearPixmap%(Pixmap:brl.pixmap.TPixmap,Red!=0!,Green!=0!,Blue!=0!,Alpha!=1!)="dwlab_frmwork_L_ClearPixmap"
-L_Round!(Value!)="dwlab_frmwork_L_Round"
+L_Round%(Value!)="dwlab_frmwork_L_Round"
 L_Distance!(DX!,DY!)="dwlab_frmwork_L_Distance"
 L_ChopFilename$(Filename$)="dwlab_frmwork_L_ChopFilename"
 L_AddItemToIntArray%(Array%&[] Var,Item%)="dwlab_frmwork_L_AddItemToIntArray"
@@ -1030,6 +1026,23 @@ L_ToPowerOf2%(Value%)="dwlab_frmwork_L_ToPowerOf2"
 L_GetEscribedRectangle%(LeftMargin!,RightMargin!,TopMargin!,BottomMargin!,MinX! Var,MinY! Var,MaxX! Var,MaxY! Var)="dwlab_frmwork_L_GetEscribedRectangle"
 L_UTFToASCII$(CharNum%)="dwlab_frmwork_L_UTFToASCII"
 L_ASCIIToUTF$(Chars$)="dwlab_frmwork_L_ASCIIToUTF"
+LTRasterFrameVisualizer^LTVisualizer{
+.Images:brl.max2d.TImage&[,]&
+.ImageFile$&
+-New%()="_dwlab_frmwork_LTRasterFrameVisualizer_New"
+-Delete%()="_dwlab_frmwork_LTRasterFrameVisualizer_Delete"
++GetFromFile:LTRasterFrameVisualizer(Filename$)="_dwlab_frmwork_LTRasterFrameVisualizer_GetFromFile"
++FromPixmap:LTRasterFrameVisualizer(Pixmap:brl.pixmap.TPixmap)="_dwlab_frmwork_LTRasterFrameVisualizer_FromPixmap"
+-DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTRasterFrameVisualizer_DrawUsingSprite"
+}="dwlab_frmwork_LTRasterFrameVisualizer"
+LTImageVisualizer^LTVisualizer{
+-New%()="_dwlab_frmwork_LTImageVisualizer_New"
+-Delete%()="_dwlab_frmwork_LTImageVisualizer_Delete"
+}="dwlab_frmwork_LTImageVisualizer"
+LTEmptyPrimitive^LTContourVisualizer{
+-New%()="_dwlab_frmwork_LTEmptyPrimitive_New"
+-Delete%()="_dwlab_frmwork_LTEmptyPrimitive_Delete"
+}="dwlab_frmwork_LTEmptyPrimitive"
 L_Error%(Text$)="dwlab_frmwork_L_Error"
 L_SetIncbin%(Value%)="dwlab_frmwork_L_SetIncbin"
 L_IDMap:brl.map.TMap&=mem:p("dwlab_frmwork_L_IDMap")

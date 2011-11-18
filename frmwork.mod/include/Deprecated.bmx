@@ -8,7 +8,6 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-'Deprecated
 Type LTRasterFrameVisualizer Extends LTVisualizer
 	Field Images:TImage[ 3, 3 ]
 	Field ImageFile:String
@@ -77,4 +76,18 @@ Type LTRasterFrameVisualizer Extends LTVisualizer
 		Next
 		SetScale 1, 1
 	End Method 	
+End Type
+
+
+
+
+
+Type LTImageVisualizer Extends LTVisualizer
+End type
+
+
+
+
+
+Type LTEmptyPrimitive Extends LTContourVisualizer
 End Type

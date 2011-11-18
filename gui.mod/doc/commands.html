@@ -192,7 +192,7 @@ Window loading function.
 <tr><td class=docleft width=1%>Description</td><td class=docright>Function which finds a window in opened windows by given name or class.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=LoadWindow>
-<tr><td class=doctop colspan=2>Method LoadWindow:LTWindow( World:LTWorld, Name:String = "", Class:String = "" )</td></tr>
+<tr><td class=doctop colspan=2>Method LoadWindow:LTWindow( World:LTWorld, Name:String = "", Class:String = "", Add:Int = True )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Window loading function.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Window should be loaded from Lab world file, as layer of the root and has unique class or name (among other layers of root).
 Modal parameter (can be set in editor) set to True forces all existing windows to be inactive while this window is not closed.</td></tr>
@@ -241,7 +241,7 @@ Label initialization method.
 <tr><td class=docleft width=1%>Information</td><td class=docright>You can set different properties using object parameters in editor:
 <ul><li>"text" - sets button text
 <li>"align" - sets align of button contents ("left", "center" or "right")</ul>
-You can also set a name of the label and set "gadget_name" parameter to htis name for any sprite inside window layer to load it as label icon.</td></tr>
+You can also set a name of the label and set "gadget_name" parameter to this name for any sprite inside window layer to load it as label icon.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTListBox>
@@ -301,6 +301,8 @@ Pressing button on list box item.
 </td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTSlider_fields></a>Fields Summary</th></tr><tr><td colspan=2>
+<a href=#MouseWheelValue>MouseWheelValue</a>
+, 
 <a href=#Position>Position</a>
 , 
 <a href=#SelectionType>SelectionType</a>
@@ -323,6 +325,10 @@ Slider initialization method.
 <tr><td class=doctop colspan=2>Const Moving:Int</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Constant for moving behavior of slider (for scroll bars).</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=MouseWheelValue>
+<tr><td class=doctop colspan=2>Field MouseWheelValue:Double = 0.1</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Value by which position will change if user roll mouse wheel button on slider.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=Position>
 <tr><td class=doctop colspan=2>Field Position:Double</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Position of the moving part on the slider field ( 0.0 - 1.0 ).</td></tr>
@@ -344,7 +350,8 @@ Slider initialization method.
 <tr><td class=docleft width=1%>Description</td><td class=docright>Slider initialization method.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>You can set different slider properties using object parameters in editor:
 <ul><li>"type" - sets slider type ( "vertical" or "horizontal" )
-<li>"selection" - sets slider behavior ( "moving" or "filling" )
+<li>"selection" - sets slider behavior ( "moving" or "filling" )</ul>
+<li>"percent" - sets showing slider position in percents </ul>
 You can also attach sprite (which should be inside same window) as slider moving part to the slider by naming silder and
 set "slider_name" parameter of the sprite to slider name.
 And you can attach a list box (which should be inside same window) to scroll its contents with the slider by naming list box and
@@ -354,7 +361,7 @@ set "list_box_name" parameter of the slider to list box name.</td></tr>
 <table class=doc width=100% cellspacing=3 id=LTTextField>
 <tr><td class=doctop colspan=2>Type LTTextField Extends LTGadget</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Class for text fields for entering text.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>If window has a text fiels, it will be set as active. User can select active text field by clicking on another text field.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>If window has text fields, one will be set as active. User can select active text field by clicking on another text field.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTWindow>
@@ -445,10 +452,21 @@ See also: <a href=#OnButtonUnpress>OnButtonUnpress</a>.</td></tr>
 <br>
 <h2 id=modinfo>Module Information</h2>
 <table width=100%>
-<tr><th width=1%>Version</th><td>1.0</td></tr>
+<tr><th width=1%>Version</th><td>1.0.3</td></tr>
 <tr><th width=1%>Author</th><td>Matt Merkulov</td></tr>
 <tr><th width=1%>License</th><td>Artistic License 2.0</td></tr>
 <tr><th width=1%>Modserver</th><td>DWLAB</td></tr>
-<tr><th width=1%>History</th><td>v1.0 (07.10.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp;</td></tr>
+<tr><th width=1%>History</th><td>v1.0.3 (14.11.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added mouse wheel actions to GUI buttons list.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Sliders now can be moved by mouse wheel.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Label icon class changed to LTSprite.</td></tr>
+<tr><th width=1%>History</th><td>v1.0.2 (14.11.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added keys flushing while loading or closing window.</td></tr>
+<tr><th width=1%>History</th><td>v1.0.1 (12.10.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added optional percentage showing to the slider.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Rewrote gadget positioning in different-sized screens system.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added parameter to align top, bottom or center of window bounds to corresponding side of the camera.</td></tr>
+<tr><th width=1%>History</th><td>v1.0 (09.10.11)</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Initial release.</td></tr>
 </body></html>

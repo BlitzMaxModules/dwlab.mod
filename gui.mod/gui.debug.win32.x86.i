@@ -1,8 +1,12 @@
-ModuleInfo "Version: 1.0.2"
+ModuleInfo "Version: 1.0.3"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.3 (14.11.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added mouse wheel actions to GUI buttons list."
+ModuleInfo "History: &nbsp; &nbsp; Sliders now can be moved by mouse wheel."
+ModuleInfo "History: &nbsp; &nbsp; Label icon class is changed to LTSprite."
 ModuleInfo "History: v1.0.2 (14.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added keys flushing while loading or closing window."
 ModuleInfo "History: v1.0.1 (12.10.11)"
@@ -65,7 +69,7 @@ LTButton^LTLabel{
 }="dwlab_gui_LTButton"
 LTLabel^LTGadget{
 .Text$&
-.Icon:dwlab.frmwork.LTShape&
+.Icon:dwlab.frmwork.LTSprite&
 .TextVisualizer:dwlab.frmwork.LTVisualizer&
 .DX!&
 .DY!&
@@ -110,6 +114,7 @@ Filling%=1
 .Size!&
 .SliderType%&
 .SelectionType%&
+.MouseWheelValue!&
 .ListBox:LTListBox&
 .Slider:dwlab.frmwork.LTShape&
 .Dragging%&
@@ -145,6 +150,8 @@ L_Cursor:dwlab.frmwork.LTSprite&=mem:p("dwlab_gui_L_Cursor")
 L_LeftMouseButton:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_LeftMouseButton")
 L_RightMouseButton:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_RightMouseButton")
 L_MiddleMouseButton:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_MiddleMouseButton")
+L_MouseWheelDown:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_MouseWheelDown")
+L_MouseWheelUp:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_MouseWheelUp")
 L_CharacterLeft:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_CharacterLeft")
 L_CharacterRight:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_CharacterRight")
 L_DeletePreviousCharacter:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_DeletePreviousCharacter")

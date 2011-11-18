@@ -39,7 +39,7 @@ Type TExplosion
 			WEnd
 		Next
 		Game.Balls.SetTile( X, Y, Game.NoBall )
-		Game.Score :+ 1
+		Game.TotalBalls :+ 1
 	End Function
 End Type
 

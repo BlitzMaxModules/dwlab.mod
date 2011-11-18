@@ -49,19 +49,23 @@ Type LTSettingsWindow Extends LTWindow
 	End Method
 	
 	Method OnButtonPress( Gadget:LTGadget, ButtonAction:LTButtonAction )
-		If ButtonAction <> L_LeftMouseButton Then Return
-		Select Gadget.GetParameter( "action" )
-			Case "scroll_up"
-				ChangeListItem( Gadget, +1 )
-			Case "scroll_down"
-				ChangeListItem( Gadget, -1 )
-			Default
-				Super.OnButtonPress( Gadget, ButtonAction )
-		End Select
+		If ButtonAction = L_LeftMouseButton Then
+			Select Gadget.GetParameter( "action" )
+				Case "scroll_up"
+					ChangeListItem( Gadget, Gadget.GetParameter( "value_name" ), +1 )
+				Case "scroll_down"
+					ChangeListItem( Gadget, Gadget.GetParameter( "value_name" ), -1 )
+				Default
+					Super.OnButtonPress( Gadget, ButtonAction )
+			End Select
+		ElseIf ButtonAction = L_MouseWheelUp Then
+			ChangeListItem( Gadget, Gadget.GetName(), +1 )
+		ElseIf ButtonAction = L_MouseWheelDown Then
+			ChangeListItem( Gadget, Gadget.GetName(), -1 )
+		End If
 	End Method
 	
-	Method ChangeListItem( Gadget:LTGadget, Direction:Int = 0 )
-		Local Name:String = Gadget.GetParameter( "value_name" )
+	Method ChangeListItem( Gadget:LTGadget, Name:String, Direction:Int = 0 )
 		Select Name
 			Case "Language"
 				SwitchListItem( L_Languages, Language, Direction )
