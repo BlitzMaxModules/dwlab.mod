@@ -121,6 +121,9 @@ Class for action which can be triggered by activating pushable object (presing a
 <tr><td class=docleft width=1%><a href=#LTCamera>LTCamera</a></td><td class=docright>
 Camera for displaying game objects.
 </td></tr>
+<tr><td class=docleft width=1%><a href=#LTContourVisualizer>LTContourVisualizer</a></td><td class=docright>
+This visualizer draws contours of the shape.
+</td></tr>
 <tr><td class=docleft width=1%><a href=#LTDebugVisualizer>LTDebugVisualizer</a></td><td class=docright>
 This visualizer can draw collision shape, vector and name of the shape with this shape itself.
 </td></tr>
@@ -132,9 +135,6 @@ DoubleMap is basicaly a heightmap.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTDrag>LTDrag</a></td><td class=docright>
 Class for implementing dragging operations.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#LTEmptyPrimitive>LTEmptyPrimitive</a></td><td class=docright>
-This visualizer draws contours of the shape.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTFixedJoint>LTFixedJoint</a></td><td class=docright>
 Fixed joint moves and rotates angular sprite as parent angular sprite moves or rotates.
@@ -846,6 +846,30 @@ See also: <a href=#Viewport>Viewport</a>, <a href=#ViewportClipping>ViewportClip
 <tr><td class=docleft width=1%>Description</td><td class=docright>Creates new camera object.</td></tr>
 </table>
 <br>
+<table class=doc width=100% cellspacing=3 id=LTContourVisualizer>
+<tr><td class=doctop colspan=2>Type LTContourVisualizer Extends LTVisualizer</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>This visualizer draws contours of the shape.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTContourVisualizer_fields></a>Fields Summary</th></tr><tr><td colspan=2>
+<a href=#LineWidth>LineWidth</a>
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTContourVisualizer_functions></a>Functions Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#FromWidthAndColor>FromWidthAndColor</a></td><td class=docright>
+Creates new contour visualizer using given color and transparency (LTImage).
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=LineWidth>
+<tr><td class=doctop colspan=2>Field LineWidth:Double = 1.0</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Width of contour lines.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=FromWidthAndColor>
+<tr><td class=doctop colspan=2>Function FromWidthAndColor:LTVisualizer( Width:Double, Red:Double = 1.0, Green:Double = 1.0, Blue:Double = 1.0, Alpha:Double = 1.0, PivotScale:Double = 1.0 )</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>New visualizer.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates new contour visualizer using given color and transparency (LTImage).</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#FromFile>FromFile</a>, <a href=#FromImage>FromImage</a>.</td></tr>
+</table>
+<br>
 <table class=doc width=100% cellspacing=3 id=LTDebugVisualizer>
 <tr><td class=doctop colspan=2>Type LTDebugVisualizer Extends LTVisualizer</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>This visualizer can draw collision shape, vector and name of the shape with this shape itself.</td></tr>
@@ -854,6 +878,41 @@ See also: <a href=#Viewport>Viewport</a>, <a href=#ViewportClipping>ViewportClip
 <table class=doc width=100% cellspacing=3 id=LTDistanceJoint>
 <tr><td class=doctop colspan=2>Type LTDistanceJoint Extends LTBehaviorModel</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Distance joint keeps fixed distance between parent pivot and given shape.</td></tr>
+<tr><td class=docleft width=1%><a href=LTDistanceJoint.bmx class=small>Example</a></td><td class=docright><pre>SuperStrict
+
+Framework brl.basic
+
+Import dwlab.frmwork
+
+Local Example:TExample = New TExample
+Example.Execute()
+
+Type TExample Extends LTProject
+	Field Hinge:LTSprite = LTSprite.FromShape( 0, -8, 1, 1, LTSprite.Oval )
+	Field Weight:LTVectorSprite = LTVectorSprite.FromShapeAndVector( -8, -6, 3, 3, LTSprite.Oval )
+	Field Rope:LTLine = LTLine.FromPivots( Hinge, Weight )
+	
+	Method Init()
+		L_InitGraphics()
+		Hinge.Visualizer = LTVisualizer.FromColor( 1.0, 0.0, 0.0 )
+		Weight.Visualizer = LTVisualizer.FromColor( 0.0, 1.0, 0.0 )
+		Rope.Visualizer = LTContourVisualizer.FromWidthAndColor( 0.25, 0.0, 0.0, 1.0, 1.0, 2.0 )
+		Weight.AttachModel( LTDistanceJoint.Create( Hinge ) )
+	End Method
+
+	Method Render()
+		Hinge.Draw()
+		Weight.Draw()
+		Rope.Draw()
+	End Method
+	
+	Method Logic()
+		If AppTerminate() Then Exiting = True
+		Weight.Act()
+		Weight.DY :+ PerSecond( 1.0 )
+		Weight.MoveForward()
+	End Method	
+End Type</pre></td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTDistanceJoint_functions></a>Functions Summary</th></tr>
 <tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
@@ -1114,18 +1173,6 @@ Fill it with dragging operation finalization commands.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Dragging starting method.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Will be executed once when all dragging conditions are met and dragging key has been pressed.
 Fill it with dragging system initialization commands.</td></tr>
-</table>
-<br>
-<table class=doc width=100% cellspacing=3 id=LTEmptyPrimitive>
-<tr><td class=doctop colspan=2>Type LTEmptyPrimitive Extends LTVisualizer</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>This visualizer draws contours of the shape.</td></tr>
-</table>
-<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTEmptyPrimitive_fields></a>Fields Summary</th></tr><tr><td colspan=2>
-<a href=#LineWidth>LineWidth</a>
-</table>
-<table class=doc width=100% cellspacing=3 id=LineWidth>
-<tr><td class=doctop colspan=2>Field LineWidth:Double = 1.0</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Width of contour lines.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTFixedJoint>
@@ -1494,7 +1541,7 @@ You can specify optional Name parameter to check only shapes with this name.</td
 </td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTLine_functions></a>Functions Summary</th></tr>
-<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+<tr><td class=docleft width=1%><a href=#FromPivots>FromPivots</a></td><td class=docright>
 Creates line section between two pivots.
 </td></tr>
 </table>
@@ -1502,8 +1549,8 @@ Creates line section between two pivots.
 <tr><td class=doctop colspan=2>Field Pivot:LTSprite[] = New LTSprite[ 2 ]</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Pivots array.</td></tr>
 </table>
-<table class=doc width=100% cellspacing=3 id=Create>
-<tr><td class=doctop colspan=2>Function Create:LTLine( Pivot1:LTSprite, Pivot2:LTSprite )</td></tr>
+<table class=doc width=100% cellspacing=3 id=FromPivots>
+<tr><td class=doctop colspan=2>Function FromPivots:LTLine( Pivot1:LTSprite, Pivot2:LTSprite )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>New line.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Creates line section between two pivots.</td></tr>
 </table>
@@ -1952,7 +1999,6 @@ Creates revolute joint for specified parent pivot using current pivots position.
 <table class=doc width=100% cellspacing=3 id=LTShape>
 <tr><td class=doctop colspan=2>Type LTShape Extends LTObject</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Common object for item of game field.</td></tr>
-<tr><td class=docleft width=1%><a href=LTShape.bmx class=small>Example</a></td><td class=docright><pre>Koo!</pre></td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTShape_consts></a>Constants Summary</th></tr><tr><td colspan=2>
 <a href=#Horizontal>Horizontal</a>
@@ -3345,11 +3391,14 @@ Sets scalings of the visualizer to one value.
 </td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTVisualizer_functions></a>Functions Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#FromColor>FromColor</a></td><td class=docright>
+Creates new visualizer using given color and transparency (LTImage).
+</td></tr>
 <tr><td class=docleft width=1%><a href=#FromFile>FromFile</a></td><td class=docright>
-Creates new image visualizer from image file.
+Creates new visualizer from image file.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#FromImage>FromImage</a></td><td class=docright>
-Creates new image visualizer from existing image (LTImage).
+Creates new visualizer from existing image (LTImage).
 </td></tr>
 <tr><td class=docleft width=1%><a href=#ResetColor>ResetColor</a></td><td class=docright>
 Resets drawing color to white.
@@ -3488,17 +3537,23 @@ See also: <a href=#SetColorFromHex>SetColorFromHex</a>, <a href=#AlterColor>Alte
 <tr><td class=docleft width=1%>Description</td><td class=docright>Sets scalings of the visualizer to one value.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Works only with images.</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=FromColor>
+<tr><td class=doctop colspan=2>Function FromColor:LTVisualizer( Red:Double, Green:Double, Blue:Double, Alpha:Double = 1.0 )</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>New visualizer.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates new visualizer using given color and transparency (LTImage).</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#FromFile>FromFile</a>, <a href=#FromImage>FromImage</a>.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=FromFile>
 <tr><td class=doctop colspan=2>Function FromFile:LTVisualizer( Filename:String, XCells:Int = 1, YCells:Int = 1 )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>New visualizer.</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Creates new image visualizer from image file.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#FromImage>FromImage</a>.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates new visualizer from image file.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#FromImage>FromImage</a>, <a href=#FromColor>FromColor</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=FromImage>
 <tr><td class=doctop colspan=2>Function FromImage:LTVisualizer( Image:LTImage )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>New visualizer.</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Creates new image visualizer from existing image (LTImage).</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#FromFile>FromFile</a>.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates new visualizer from existing image (LTImage).</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#FromFile>FromFile</a>, <a href=#FromColor>FromColor</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=ResetColor>
 <tr><td class=doctop colspan=2>Function ResetColor()</td></tr>
@@ -3678,8 +3733,11 @@ See also: <a href=#ManageIntAttribute>ManageIntAttribute</a>, <a href=#ManageDou
 <tr><th width=1%>License</th><td>Artistic License 2.0</td></tr>
 <tr><th width=1%>Modserver</th><td>DWLAB</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp;</td></tr>
+<tr><th width=1%>History</th><td>v1.3.6 (18.11.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added creation methods for LTSprite and LTVectorSprite.</td></tr>
 <tr><th width=1%>History</th><td>v1.3.5.1 (17.11.11)</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed bugs in mouse wheel action names.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; LTEmptyPrimitve renamed to LTContourVisualizer.</td></tr>
 <tr><th width=1%>History</th><td>v1.3.5 (16.11.11)</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Added LTDistanceJoint class.</td></tr>
 <tr><th width=1%>History</th><td>v1.3.4 (14.11.11)</td></tr>

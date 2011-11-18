@@ -3,6 +3,8 @@ ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.6 (18.11.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added creation methods for LTSprite and LTVectorSprite."
 ModuleInfo "History: v1.3.5.1 (17.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Fixed bugs in mouse wheel action names."
 ModuleInfo "History: &nbsp; &nbsp; LTEmptyPrimitve renamed to LTContourVisualizer."
@@ -374,12 +376,12 @@ LTTileMapPathFinder^LTObject{
 .Points:brl.map.TMap&
 -New%()="_dwlab_frmwork_LTTileMapPathFinder_New"
 -Delete%()="_dwlab_frmwork_LTTileMapPathFinder_Delete"
++Create:LTTileMapPathFinder(TileMap:LTIntMap,AllowDiagonalMovement%=1)="_dwlab_frmwork_LTTileMapPathFinder_Create"
 -FindPath:LTTileMapPosition(StartingX%,StartingY%,FinalX%,FinalY%,Range%=0,MaxDistance%=1024)="_dwlab_frmwork_LTTileMapPathFinder_FindPath"
 -Passage!(X%,Y%)="_dwlab_frmwork_LTTileMapPathFinder_Passage"
 -GetPoint:Object(X%,Y%)="_dwlab_frmwork_LTTileMapPathFinder_GetPoint"
 -SetPoint%(X%,Y%,Position:LTTileMapPosition)="_dwlab_frmwork_LTTileMapPathFinder_SetPoint"
 }="dwlab_frmwork_LTTileMapPathFinder"
-L_CreateTileMapPathFinder:LTTileMapPathFinder(TileMap:LTIntMap,AllowDiagonalMovement%=1)="dwlab_frmwork_L_CreateTileMapPathFinder"
 LTTileMapPosition^brl.blitz.Object{
 .X%&
 .Y%&

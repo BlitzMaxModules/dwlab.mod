@@ -22,14 +22,14 @@ Type TExample Extends LTProject
 
 	Method Render()
 		Hinge.Draw()
-		Weight.Draw()
+		L_DebugVisualizer.DrawUsingSprite( Weight )
 		Rope.Draw()
 	End Method
 	
 	Method Logic()
 		If AppTerminate() Then Exiting = True
 		Weight.Act()
-		Weight.DY :+ PerSecond( 1.0 )
+		Weight.DY :+ PerSecond( 2.0 )
 		Weight.MoveForward()
 	End Method	
 End Type

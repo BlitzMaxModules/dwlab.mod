@@ -44,16 +44,14 @@ Type LTDistanceJoint Extends LTBehaviorModel
 			Shape.SetCoords( ParentPivot.X + Distance, ParentPivot.Y )
 		Else
 			Local K:Double = Distance / NewDistance
-			Shape.SetCoords( ParentPivot.X + ( Shape.X - ParentPivot.X ) * K, ParentPivot.Y + ( Shape.Y - ParentPivot.Y ) * K )
-			
 			Local VectorSprite:LTVectorSprite = LTVectorSprite( Shape )
 			If VectorSprite Then
-				VectorSprite.DX :+ ( Shape.X - ( ParentPivot.X + Distance * Cos( OldAngle ) ) ) * L_DeltaTime
-				VectorSprite.DY :+ ( Shape.Y - ( ParentPivot.Y + Distance * Sin( OldAngle ) ) ) * L_DeltaTime
+				Local DDistance:Double = NewDistance - Distance
+				VectorSprite.DX :+ ( ParentPivot.X - Shape.X ) * DDistance
+				VectorSprite.DY :+ ( ParentPivot.Y - Shape.Y ) * DDistance
 				VectorSprite.UpdateAngularModel()
 			End If
-			
-			OldAngle = ParentPivot.DirectionTo( Shape )
+			Shape.SetCoords( ParentPivot.X + ( Shape.X - ParentPivot.X ) * K, ParentPivot.Y + ( Shape.Y - ParentPivot.Y ) * K )
 		End If
 	End Method
 End Type
