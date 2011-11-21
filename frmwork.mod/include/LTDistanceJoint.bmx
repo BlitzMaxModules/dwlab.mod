@@ -14,7 +14,6 @@ End Rem
 Type LTDistanceJoint Extends LTBehaviorModel
 	Field ParentPivot:LTSprite
 	Field Distance:Double
-	Field OldAngle:Double
 	
 	
 	
@@ -33,7 +32,6 @@ Type LTDistanceJoint Extends LTBehaviorModel
 	
 	Method Init( Shape:LTShape )
 		Distance = ParentPivot.DistanceTo( Shape )
-		OldAngle = ParentPivot.DirectionTo( Shape )
 	End Method
 	
 	

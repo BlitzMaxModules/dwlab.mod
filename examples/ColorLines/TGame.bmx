@@ -112,9 +112,9 @@ Type TGame Extends LTGUIProject
 	Method Logic()
 		Cursor.SetMouseCoords()
 		If Not Locked Then Cursor.CollisionsWithTileMap( GameField )
+		FindWindow( , "THUD" ).Active = Not Locked
 		Local MenuWindow:LTMenuWindow = LTMenuWindow( FindWindow( , "LTMenuWindow" ) )
 		If ExitToMenu.WasPressed() And MenuWindow.Active Then MenuWindow.Switch()
-		If BossKey.WasPressed() Then L_Boss
 		Repeat
 			Select PollEvent()
 				Case EVENT_WINDOWCLOSE

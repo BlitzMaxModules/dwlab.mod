@@ -73,24 +73,34 @@ Type LTLabel Extends LTGadget
 		Super.Draw()
 		
 		Local HorizontalShift:Double = 0
+		Local Chunks:String[] = Text.Split( "|" )
+		Local MaxLength:Double = 0
+		For Local Chunk:String = Eachin Chunks
+			MaxLength = Max( MaxLength, L_CurrentCamera.DistScreenToField( TextWidth( " " + Chunk ) ) )
+		Next
+		
 		If Icon Then
-			Local FWidth:Double = L_CurrentCamera.DistScreenToField( TextWidth( " " + Text ) )
 			Select Align
 				Case LTAlign.ToLeft
 					HorizontalShift = Height
 					Icon.SetCoords( LeftX() + 0.5 * Height + DX, Y + DY )
 				Case LTAlign.ToCenter
 					HorizontalShift = 0.5 * Icon.Width
-					Icon.SetCoords( X - 0.5 * FWidth + DX, Y + DY )
+					Icon.SetCoords( X - 0.5 * MaxLength + DX, Y + DY )
 				Case LTAlign.ToRight
 					HorizontalShift = -0.5 * ( Height - Icon.Height )
-					Icon.SetCoords( RightX() - FWidth - 0.5 * Height + DX, Y + DY )
+					Icon.SetCoords( RightX() - MaxLength - 0.5 * Height + DX, Y + DY )
 			End Select
 			Icon.Draw()
 		End If
 		
 		TextVisualizer.ApplyColor()
-		PrintText( " " + Text, Align, , HorizontalShift + DX, DY )
+		Local ChunkHeight:Double = L_CurrentCamera.DistScreenToField( TextHeight( "M" ) )
+		Local ChunkY:Double = DY - 0.5 * ( Chunks.Dimensions()[ 0 ] - 1 ) * ChunkHeight
+		For Local Chunk:String = Eachin Chunks
+			PrintText( " " + Chunk, Align, , HorizontalShift + DX, ChunkY )
+			ChunkY :+ ChunkHeight
+		Next
 		TextVisualizer.ResetColor()
 	End Method
 	

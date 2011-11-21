@@ -26,6 +26,7 @@ Type LTOptionsWindow Extends LTWindow
 		LTSprite( Label.Icon ).Frame = 6 + L_CurrentProfile.FullScreen
 		LTButton( FindShape( "SoundOn" ) ).State = L_CurrentProfile.SoundOn
 		LTButton( FindShape( "MusicOn" ) ).State = L_CurrentProfile.MusicOn
+		If BossKey.WasPressed() Then L_Boss
 	End Method
 	
 	Method OnButtonPress( Gadget:LTGadget, ButtonAction:LTButtonAction )

@@ -3,6 +3,8 @@ ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.4 (21.11.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added multi-line labels support."
 ModuleInfo "History: v1.0.3 (14.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added mouse wheel actions to GUI buttons list."
 ModuleInfo "History: &nbsp; &nbsp; Sliders now can be moved by mouse wheel."
@@ -46,6 +48,7 @@ LTWindow^dwlab.frmwork.LTLayer{
 -OnMouseOver%(Gadget:LTGadget)="_dwlab_gui_LTWindow_OnMouseOver"
 -OnMouseOut%(Gadget:LTGadget)="_dwlab_gui_LTWindow_OnMouseOut"
 -Save%()="_dwlab_gui_LTWindow_Save"
+-DeInit%()="_dwlab_gui_LTWindow_DeInit"
 }="dwlab_gui_LTWindow"
 LTCheckBox^LTButton{
 -New%()="_dwlab_gui_LTCheckBox_New"
@@ -86,6 +89,7 @@ LTTextField^LTGadget{
 .Text$&
 .LeftPart$&
 .RightPart$&
+.MaxSymbols%&
 -New%()="_dwlab_gui_LTTextField_New"
 -Delete%()="_dwlab_gui_LTTextField_Delete"
 -Init%()="_dwlab_gui_LTTextField_Init"

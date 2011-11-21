@@ -83,7 +83,9 @@ Type LTWindow Extends LTLayer
 					If L_DeleteNextCharacter.WasPressed() Then L_ActiveTextField.RightPart = RightPart[ 1.. ]
 				End If
 				Local Key:Int = GetChar()
-				If Key >= 32 Then L_ActiveTextField.LeftPart :+ Chr( Key )
+				If Key >= 32 And ( L_ActiveTextField.MaxSymbols = 0 Or Len( L_ActiveTextField.LeftPart + L_ActiveTextField.RightPart ) < L_ActiveTextField.MaxSymbols ) Then
+					L_ActiveTextField.LeftPart :+ Chr( Key )
+				End If
 				L_ActiveTextField.Text = L_ActiveTextField.LeftPart + L_ActiveTextField.RightPart
 			End If
 		End If
@@ -198,5 +200,10 @@ Type LTWindow Extends LTLayer
 	See also: #OnButtonUnpress
 	End Rem
 	Method Save()
+	End Method
+	
+	
+	
+	Method DeInit()
 	End Method
 End Type

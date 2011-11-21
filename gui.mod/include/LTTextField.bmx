@@ -16,12 +16,14 @@ Type LTTextField Extends LTGadget
 	Field Text:String
 	Field LeftPart:String
 	Field RightPart:String
+	Field MaxSymbols:Int = 0
 	
 	
 	
 	Method Init()
 		Super.Init()
 		L_ActiveTextField = Self
+		MaxSymbols = GetParameter( "max" ).ToInt()
 	End Method
 	
 	

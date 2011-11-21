@@ -23,7 +23,7 @@ Type LTLine Extends LTShape
 	bbdoc: Creates line section between two pivots.
 	returns: New line.
 	End Rem
-	Function FromPivots:LTLine( Pivot1:LTSprite, Pivot2:LTSprite )
+	Function Create:LTLine( Pivot1:LTSprite, Pivot2:LTSprite )
 		Local Line:LTLine = New LTLine
 		Line.Pivot[ 0 ] = Pivot1
 		Line.Pivot[ 1 ] = Pivot2

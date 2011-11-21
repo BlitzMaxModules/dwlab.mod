@@ -99,10 +99,12 @@ Type LTGUIProject Extends LTProject
 	returns: Found window.
 	End Rem
 	Method FindWindow:LTWindow( Name:String = "", Class:String = "" )
+		Local TypeID:TTypeId = L_GetTypeID( Class )
 		For Local Window:LTWindow = Eachin Windows
 			If Name Then If Window.GetName() = Name Then Return Window
-			If Class Then If TTypeID.ForObject( Window ).Name() = Class Then Return Window
+			If Class Then If TTypeID.ForObject( Window ) = TypeID Then Return Window
 		Next
+		L_Error( "Window with name ~q" + Name + "~q and class ~q" + Class + "~q is not found." )
 	End Method
 	
 	
@@ -123,6 +125,7 @@ Type LTGUIProject Extends LTProject
 				Link = Link.PrevLink()
 			Wend
 		End If
+		Window.DeInit()
 		FlushKeys
 	End Method
 	
@@ -165,7 +168,7 @@ Type LTGUIProject Extends LTProject
 			
 			If Not Paused Then Logic()
 			For Local Window:LTWindow = Eachin Windows
-				Window.Act()
+				If Window.Active Then Window.Act()
 			Next
 			If Exiting Then Exit
 			
@@ -192,7 +195,7 @@ Type LTGUIProject Extends LTProject
 				L_CurrentCamera.SetCameraViewport()
 				L_Cursor.SetMouseCoords()
 				For Local Window:LTWindow = Eachin Windows
-					Window.Draw()
+					If Window.Visible Then Window.Draw()
 				Next
 				L_CurrentCamera = OldCamera
 				

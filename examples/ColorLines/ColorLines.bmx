@@ -38,6 +38,7 @@ Include "TCheckLines.bmx"
 Include "TMoveBall.bmx"
 Include "TExplosion.bmx"
 Include "MouseMenu/Menu.bmx"
+Include "TRestartButton.bmx"
 
 Incbin "stop.ogg"
 Incbin "rush.ogg"

@@ -11,6 +11,8 @@ ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.4 (21.11.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added multi-line labels support."
 ModuleInfo "History: v1.0.3 (14.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added mouse wheel actions to GUI buttons list."
 ModuleInfo "History: &nbsp; &nbsp; Sliders now can be moved by mouse wheel."

@@ -61,5 +61,6 @@ Type LTMouseButton Extends LTPushable
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		XMLObject.ManageIntAttribute( "num", Num )
+		If L_XMLMode = L_XMLGet Then L_Controllers.AddLast( Self )
 	End Method
 End Type

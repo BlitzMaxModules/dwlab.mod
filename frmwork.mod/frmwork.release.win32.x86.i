@@ -1,4 +1,4 @@
-ModuleInfo "Version: 1.3.5.1"
+ModuleInfo "Version: 1.3.6"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
@@ -513,7 +513,7 @@ LTLine^LTShape{
 .Pivot:LTSprite&[]&
 -New%()="_dwlab_frmwork_LTLine_New"
 -Delete%()="_dwlab_frmwork_LTLine_Delete"
-+FromPivots:LTLine(Pivot1:LTSprite,Pivot2:LTSprite)="_dwlab_frmwork_LTLine_FromPivots"
++Create:LTLine(Pivot1:LTSprite,Pivot2:LTSprite)="_dwlab_frmwork_LTLine_Create"
 -Draw%()="_dwlab_frmwork_LTLine_Draw"
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTLine_DrawUsingVisualizer"
 -SpriteGroupCollisions%(Sprite:LTSprite,CollisionType%)="_dwlab_frmwork_LTLine_SpriteGroupCollisions"
@@ -824,7 +824,6 @@ LTRevoluteJoint^LTBehaviorModel{
 LTDistanceJoint^LTBehaviorModel{
 .ParentPivot:LTSprite&
 .Distance!&
-.OldAngle!&
 -New%()="_dwlab_frmwork_LTDistanceJoint_New"
 -Delete%()="_dwlab_frmwork_LTDistanceJoint_Delete"
 +Create:LTDistanceJoint(ParentPivot:LTSprite)="_dwlab_frmwork_LTDistanceJoint_Create"

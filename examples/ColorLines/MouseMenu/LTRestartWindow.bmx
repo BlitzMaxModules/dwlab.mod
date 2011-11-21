@@ -9,8 +9,22 @@
 '
 
 Type LTRestartWindow Extends LTWindow
+	Method Init()
+		Project.Locked = True
+		Super.Init()
+	End Method
+	
+	
+	
 	Method Save()
 		Menu.LoadGameOverWindow()
 		Game.Locked = True
+	End Method
+
+	
+		
+	Method DeInit()
+		Project.Locked = False
+		Super.DeInit()
 	End Method
 End Type

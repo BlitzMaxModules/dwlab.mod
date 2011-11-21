@@ -44,28 +44,26 @@ Type LTMenuWindow Extends LTWindow
 	
 	Method Act()
 		'If AppTerminate() Then Project.LoadWindow( World, , "LTExitWindow" )
+		LTLabel( FindShape( "Profile" ) ).Text = LocalizeString( "{{Profile}}|" + L_CurrentProfile.Name )
 		
 		If DestinationY = Y Then
+			Super.Act()
 		ElseIf Abs( DestinationY - Y ) < 0.01 Then
-			Active = True
 			Y = DestinationY
 			If DestinationY < 0 Then Project.Locked = False
 			LTSprite( LTLabel( FindShapeWithParameter( "text", "Menu" ) ).Icon ).Frame = 19 - ( DestinationY < 0 )
 		Else
 			SetY( DestinationY + ( Y - DestinationY ) * ( 1.0 - Project.PerSecond( Speed ) ) )
 		End If
-		Super.Act()
 	End Method
 	
 	
 	
 	Method Switch()
 		If Y < 0 Then
-			Active = False
 			DestinationY = 0
 			Project.Locked = True
 		Else
-			Active = False
 			DestinationY = -Panel.Height
 		End If
 	End Method
