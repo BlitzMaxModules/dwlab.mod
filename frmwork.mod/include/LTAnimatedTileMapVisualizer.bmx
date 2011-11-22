@@ -18,27 +18,8 @@ Type LTAnimatedTileMapVisualizer Extends LTVisualizer
 	Field TileNum:Int[]
 	
 	
-	
-	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, Width:Double, Height:Double, TileX:Int, TileY:Int )
-		ApplyColor()
-		
-		Local TileSet:LTTileSet =Tilemap.TileSet
-		Local TileValue:Int = TileMap.Value[ TileMap.WrapX( TileX ), TileMap.WrapY( TileY ) ]
-		If TileValue = TileSet.EmptyTile Then Return
-		
-		Local Image:TImage = TileSet.Image.BMaxImage
-		If Not Image Then Return
-		
-		Local SX:Double, SY:Double
-		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
-		
-		Local Visualizer:LTVisualizer = TileMap.Visualizer
-		SetScale( Width / ImageWidth( Image ), Height / ImageHeight( Image ) )
-		
-		DrawImage( Image, SX + Visualizer.DX * Width, SY + Visualizer.DY * Height, TileValue )
-		
-		?debug
-		L_TilesDisplayed :+ 1
-		?
+
+	Method GetTileValue:Int( TileMap:LTTileMap, TileX:Int, TileY:Int )
+		Return TileNum[ TileMap.Value[ TileMap.WrapX( TileX ), TileMap.WrapY( TileY ) ] ]
 	End Method
 End Type

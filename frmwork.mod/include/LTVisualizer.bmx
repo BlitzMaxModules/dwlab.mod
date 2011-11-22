@@ -408,7 +408,7 @@ Type LTVisualizer Extends LTObject
 		ApplyColor()
 		
 		Local TileSet:LTTileSet =Tilemap.TileSet
-		Local TileValue:Int = TileMap.Value[ TileMap.WrapX( TileX ), TileMap.WrapY( TileY ) ]
+		Local TileValue:Int = GetTileValue:Int( TileMap, TileX, TileY )
 		If TileValue = TileSet.EmptyTile Then Return
 		
 		Local Image:LTImage = TileSet.Image
@@ -426,6 +426,16 @@ Type LTVisualizer Extends LTObject
 		?debug
 		L_TilesDisplayed :+ 1
 		?
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Function which defines which tile to draw.
+	returns: Tile number for given tilemap and tile coordinates.
+	End Rem
+	Method GetTileValue:Int( TileMap:LTTileMap, TileX:Int, TileY:Int )
+		Return TileMap.Value[ TileMap.WrapX( TileX ), TileMap.WrapY( TileY ) ]
 	End Method
 	
 	

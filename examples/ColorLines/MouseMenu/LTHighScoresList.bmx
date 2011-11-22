@@ -9,16 +9,29 @@
 '
 
 Type LTHighScoresList Extends LTListBox
+	Field ContourVisualizer:LTContourVisualizer = LTContourVisualizer.FromWidthAndColor( 0.1, 1.0, 0.0, 0.0, 0.5 ) 
+
 	Method Init()
 		Super.Init()
-		ItemSize = 0.7
+		ItemSize = 0.6
 		Items = Menu.HighScores
 	End Method
 	
 	Method DrawItem( Item:Object, Num:Int, Sprite:LTSprite )
-		Sprite.Visualizer.SetColorFromRGB( 0.0, 0.0, 0.0 )
-		Sprite.Visualizer.Alpha = 0.1 + 0.1 * ( Num Mod 2 )
+		Sprite.Visualizer.Alpha = 0.5
+		Select Num
+			Case 0
+				Sprite.Visualizer.SetColorFromHex( "FFD700" )
+			Case 1
+				Sprite.Visualizer.SetColorFromHex( "C0C0C0" )
+			Case 2
+				Sprite.Visualizer.SetColorFromHex( "CD7F32" )
+			Default
+				Sprite.Visualizer.SetColorFromHex( "7F7FFF" )
+				Sprite.Visualizer.Alpha = 0.1 + 0.2 * ( Num Mod 2 )
+		End Select
 		Sprite.Draw()
+		If Num = Menu.NewHighScore Then Sprite.DrawUsingVisualizer( ContourVisualizer )
 		
 		SetColor( 0, 0, 0 )
 		Local HighScore:LTHighScore = LTHighScore( Item )

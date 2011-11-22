@@ -22,7 +22,7 @@ Type TCursor Extends LTSprite
 			If TileNum = Game.Void Then Return
 			If BallNum = Game.NoBall
 				If Not Game.Selected Then Return
-				TMoveAlongPath.Create( Game.PathFinder.FindPath( Game.Selected.X, Game.Selected.Y, TileX, TileY ) )
+				TMoveAlongPath.Create( Game.PathFinder.FindPath( Game.Selected.X, Game.Selected.Y, TileX, TileY ), TileX, TileY )
 			Else
 				Game.Selected = TSelected.Create( TileX, TileY )
 				L_PlaySound( Game.SelectSound )

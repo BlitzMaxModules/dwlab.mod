@@ -31,7 +31,7 @@ Type TSelected Extends LTBehaviorModel
 	End Method
 	
 	Method Deactivate( Shape:LTShape )
-		Game.Balls.SetTile( X, Y, Sprite.Frame )
+		Game.HiddenBalls[ X, Y ] = False
 		Game.Objects.Remove( Sprite )
 	End Method
 End Type

@@ -43,6 +43,7 @@ Type LTMenu Extends LTGUIProject
 	
 	Field HighScores:TList = New TList
 	Field MaxHighScores:Int = 10
+	Field NewHighScore:Int = -1
 	
 	Field GameState:LTObject
 	
@@ -98,6 +99,7 @@ Type LTMenu Extends LTGUIProject
 	
 	Method AddHighScore( Name:String, Score:Int, Achievements:TList = Null )
 		Local Link:TLink = HighScores.FirstLink()
+		NewHighScore = 0
 		While Link <> Null
 			If LTHighScore( Link.Value() ).Score <= Score Then
 				HighScores.InsertBeforeLink( LTHighScore.Create( Name, Score, Achievements ), Link )
@@ -105,6 +107,7 @@ Type LTMenu Extends LTGUIProject
 				Return
 			End If
 			Link = Link.NextLink()
+			NewHighScore :+ 1
 		WEnd
 		If HighScores.Count() < MaxHighScores Then HighScores.AddLast( LTHighScore.Create( Name, Score, Achievements ) )
 	End Method
@@ -124,6 +127,9 @@ End Type
 
 
 Type LTScoresWindow Extends LTWindow
+	Method DeInit()
+		Menu.NewHighScore = -1
+	End Method
 End Type
 
 

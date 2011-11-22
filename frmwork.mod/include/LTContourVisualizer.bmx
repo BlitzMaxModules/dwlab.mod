@@ -23,11 +23,11 @@ Type LTContourVisualizer Extends LTVisualizer
 	
 	
 	Rem
-	bbdoc: Creates new contour visualizer using given color and transparency (LTImage).
+	bbdoc: Creates new contour visualizer using given line width, color, transparency and pivot scale.
 	returns: New visualizer.
 	about: See also: #FromFile, #FromImage
 	End Rem
-	Function FromWidthAndColor:LTVisualizer( Width:Double, Red:Double = 1.0, Green:Double = 1.0, Blue:Double = 1.0, Alpha:Double = 1.0, PivotScale:Double = 1.0 )
+	Function FromWidthAndColor:LTContourVisualizer( Width:Double, Red:Double = 1.0, Green:Double = 1.0, Blue:Double = 1.0, Alpha:Double = 1.0, PivotScale:Double = 1.0 )
 		Local Visualizer:LTContourVisualizer = New LTContourVisualizer
 		Visualizer.SetColorFromRGB( Red, Green, Blue )
 		Visualizer.Alpha = Alpha

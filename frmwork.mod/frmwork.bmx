@@ -15,12 +15,15 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.3.6"
+ModuleInfo "Version: 1.3.7"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.7 (22.11.11)"
+ModuleInfo "History: &nbsp; &nbsp; Tile number retrieving method is extracted from tile drawing method in LTVisualizer"
+ModuleInfo "History: &nbsp; &nbsp; Added AddParameter() method to the LTShape."
 ModuleInfo "History: v1.3.6 (18.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added creation methods for LTSprite and LTVectorSprite."
 ModuleInfo "History: v1.3.5.1 (17.11.11)"
@@ -154,7 +157,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.3.5.1"
+Const L_Version:String = "1.3.7"
 
 SeedRnd( MilliSecs() )
 

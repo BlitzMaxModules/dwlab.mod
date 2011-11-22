@@ -17,6 +17,7 @@ Type TGame Extends LTGUIProject
 	Field World:LTWorld
 	Field GameField:LTTileMap
 	Field Balls:LTTileMap
+	Field HiddenBalls:Int[,]
 	Field HUD:LTWindow
 	Field Background:LTShape
 	Field Objects:LTLayer = New LTLayer
@@ -57,6 +58,8 @@ Type TGame Extends LTGUIProject
 		LoadAndInitLayer( Layer, LTLayer( World.FindShapeWithParameter( "level_num", "1" ) ) )
 		Profile.GameField = LTTileMap( Layer.FindShape( "Field" ) )
 		Profile.Balls = LTTileMap( Layer.FindShape( "Balls" ) )
+		Profile.Balls.Visualizer = TBallTileMapVisualizer.Create( Profile.Balls.Visualizer )
+		HiddenBalls = New Int[ Profile.Balls.XQuantity, Profile.Balls.YQuantity ]
 		
 		For Local N:Int = 1 To Profile.BallsPerTurn
 			Repeat
@@ -165,12 +168,16 @@ Type TGame Extends LTGUIProject
 		Next
 	End Method
 	
-	Method TileToSprite:LTSprite( Model:LTBehaviorModel, X:Int, Y:Int )
+	Method TileToSprite:LTSprite( Model:LTBehaviorModel, X:Int, Y:Int, EraseBall:Int = False )
 		Local Sprite:LTSprite = New LTSprite
-		Sprite.SetAsTile( Game.Balls, X, Y )
-		Game.Objects.AddLast( Sprite )
+		Sprite.SetAsTile( Balls, X, Y )
+		Objects.AddLast( Sprite )
 		Sprite.AttachModel( Model )
-		Game.Balls.SetTile( X, Y, NoBall )
+		If EraseBall Then
+			Balls.SetTile( X, Y, NoBall )
+		Else
+			HiddenBalls[ X, Y ] = True
+		End If
 		Return Sprite
 	End Method
 End Type

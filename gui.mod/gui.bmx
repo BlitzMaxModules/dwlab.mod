@@ -39,6 +39,9 @@ Global L_MiddleMouseButton:LTButtonAction = LTButtonAction.Create( LTMouseButton
 Global L_MouseWheelDown:LTButtonAction = LTButtonAction.Create( LTMouseWheelAction.Create( -1 ) )
 Global L_MouseWheelUp:LTButtonAction = LTButtonAction.Create( LTMouseWheelAction.Create( 1 ) )
 
+Global L_Enter:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Enter ) )
+Global L_Esc:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Escape ) )
+
 Global L_CharacterLeft:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Left ) )
 Global L_CharacterRight:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Right ) )
 Global L_DeletePreviousCharacter:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Backspace ) )

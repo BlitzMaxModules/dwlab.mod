@@ -63,6 +63,16 @@ Type LTWindow Extends LTLayer
 				MouseOver.Remove( Gadget )
 			End If
 		Next
+		
+		If L_Enter.WasPressed() Then
+			For Local Gadget:LTGadget = Eachin Children
+				If Gadget.GetParameter( "action" ) = "save_and_close" Then OnButtonUnpress( Gadget, L_LeftMouseButton )
+			Next
+		ElseIf L_Esc.WasPressed() Then
+			For Local Gadget:LTGadget = Eachin Children
+				If Gadget.GetParameter( "action" ) = "close" Then OnButtonUnpress( Gadget, L_LeftMouseButton )
+			Next
+		End If
 	
 		If L_ActiveTextField Then
 			If L_ActiveTextField.Active Then

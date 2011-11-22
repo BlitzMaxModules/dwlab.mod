@@ -5,22 +5,22 @@
 		<LTRasterFrame filename="MouseMenu\\frames\\volume.png"/>
 		<Object id="8"/>
 		<Object id="15"/>
-		<Object id="37"/>
-		<Object id="46"/>
-		<Object id="32"/>
-		<Object id="24"/>
 		<Object id="29"/>
-		<Object id="63"/>
-		<Object id="67"/>
+		<Object id="38"/>
+		<LTImage filename="clock.png"/>
+		<Object id="24"/>
+		<LTImage filename="infinity.png"/>
+		<Object id="55"/>
+		<Object id="59"/>
 	</TList>
 	<TList field="tilesets">
 		<Object id="7"/>
 		<Object id="14"/>
 	</TList>
 	<LTCamera field="camera" x="8" y="5" width="16.421" height="13.9122" viewport-clipping="1" x1="2" y1="1" x2="-2" y2="1">
-		<LTVisualizer field="visualizer" id="73"/>
+		<LTVisualizer field="visualizer" id="67"/>
 		<LTShape field="viewport" x="504" y="427" width="1008" height="854">
-			<Object field="visualizer" id="73"/>
+			<Object field="visualizer" id="67"/>
 		</LTShape>
 	</LTCamera>
 	<TList field="definitions"/>
@@ -114,40 +114,26 @@
 				<LTImage field="image" id="24" filename="background.jpg"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="8" y="-0.1875" width="0.75" height="0.375" shape="2">
-			<TList field="parameters">
-				<LTParameter name="name" value="TurnTime"/>
-				<LTParameter name="class" value="LTLabel"/>
-			</TList>
-			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="29" filename="infinity.png"/>
-			</LTVisualizer>
-		</LTSprite>
-		<LTSprite x="8" y="-0.6875" width="0.625" height="0.625" shape="2">
-			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="32" filename="clock.png"/>
-			</LTVisualizer>
-		</LTSprite>
-		<LTSprite x="11.5625" y="-0.5" width="5.625" shape="2">
+		<LTSprite x="11.25" y="-0.5" width="6.25" shape="2">
 			<TList field="parameters">
 				<LTParameter name="class" value="LTLabel"/>
 				<LTParameter name="text" value="Advice"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="37" left="9" right="9" top="9" bottom="9" filename="MouseMenu\\frames\\panel.png"/>
+				<LTRasterFrame field="image" id="29" left="9" right="9" top="9" bottom="9" filename="MouseMenu\\frames\\panel.png"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="1.625" y="-0.5" width="3.25" shape="2">
 			<LTVisualizer field="visualizer">
-				<Object field="image" id="37"/>
+				<Object field="image" id="29"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="5.375" y="-0.5" width="3.75" shape="2">
+		<LTSprite x="5.6875" y="-0.5" width="4.375" shape="2">
 			<TList field="parameters">
 				<LTParameter name="name" value="TimePanel"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<Object field="image" id="37"/>
+				<Object field="image" id="29"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="0.3125" y="-0.6875" width="0.375" height="0.375" shape="2">
@@ -155,7 +141,7 @@
 				<LTParameter name="gadget_name" value="CurrentProfile"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="46" filename="player.png"/>
+				<LTImage field="image" id="38" filename="player.png"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="1.625" y="-0.3125" width="3" height="0.375" shape="2">
@@ -187,7 +173,7 @@
 				<LTParameter name="text" value="Restart"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="63" left="2" right="2" top="2" bottom="2" filename="MouseMenu\\frames\\button.png" xcells="2"/>
+				<LTRasterFrame field="image" id="55" left="2" right="2" top="2" bottom="2" filename="MouseMenu\\frames\\button.png" xcells="2"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="14.75" y="-0.25" width="0.4" height="0.4" shape="2" frame="17">
@@ -195,7 +181,7 @@
 				<LTParameter name="gadget_text" value="Restart"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="67" filename="MouseMenu\\images\\icons.png" xcells="8" ycells="4"/>
+				<LTImage field="image" id="59" filename="MouseMenu\\images\\icons.png" xcells="8" ycells="4"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>

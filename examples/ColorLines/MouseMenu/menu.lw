@@ -19,7 +19,7 @@
 		<Object id="498"/>
 		<Object id="504"/>
 	</TList>
-	<LTCamera field="camera" x="31" y="47" width="16.421" height="13.9122" shape="2" viewport-clipping="1">
+	<LTCamera field="camera" x="38" y="50" width="16.421" height="13.9122" shape="2" viewport-clipping="1">
 		<Object field="visualizer" id="1"/>
 		<LTShape field="viewport" x="504" y="427" width="1008" height="854">
 			<Object field="visualizer" id="1"/>
@@ -1399,6 +1399,7 @@
 	<LTLayer>
 		<TList field="parameters">
 			<LTParameter name="class" value="LTGameOverWindow"/>
+			<LTParameter name="modal" value="true"/>
 		</TList>
 		<LTVisualizer field="visualizer"/>
 		<LTShape field="bounds" x="38" y="50" width="16" height="12">

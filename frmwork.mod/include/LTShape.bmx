@@ -942,6 +942,7 @@ Type LTShape Extends LTObject
 	End Method
 	
 	
+	
 	Rem
 	bbdoc: Retrieves name of object.
 	returns: Value of object's parameter "name".
@@ -951,6 +952,21 @@ Type LTShape Extends LTObject
 		Return GetParameter( "name" )
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Adds parameter to the shape.
+	about: Recommended to use it only if you build your own world via code.
+	
+	See also: #GetParameter
+	End Rem
+	Method AddParameter( Name:String, Value:String )
+		Local Parameter:LTParameter = New LTParameter
+		Parameter.Name = Name
+		Parameter.Value = Value
+		If Not Parameters Then Parameters = New TList
+		Parameters.AddLast( Parameter )
+	End Method
 	' ==================== Cloning ===================
 	
 	Rem

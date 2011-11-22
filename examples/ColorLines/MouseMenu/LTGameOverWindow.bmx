@@ -10,6 +10,7 @@
 
 Type LTGameOverWindow Extends LTWindow
 	Method Init()
+		Project.Locked = True
 		Super.Init()
 		LTLabel( FindShape( "ProfileName" ) ).Text = L_CurrentProfile.Name
 		LTLabel( FindShape( "YourScore" ) ).Text = LocalizeString( "{{YourScore}}" ).Replace( "*", Game.Score )

@@ -3,6 +3,8 @@ ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.7 (22.11.11)"
+ModuleInfo "History: &nbsp; &nbsp; Tile number retrieving method is extracted from tile drawing method in LTVisualizer"
 ModuleInfo "History: v1.3.6 (18.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added creation methods for LTSprite and LTVectorSprite."
 ModuleInfo "History: v1.3.5.1 (17.11.11)"
@@ -614,7 +616,7 @@ LTAnimatedTileMapVisualizer^LTVisualizer{
 .TileNum%&[]&
 -New%()="_dwlab_frmwork_LTAnimatedTileMapVisualizer_New"
 -Delete%()="_dwlab_frmwork_LTAnimatedTileMapVisualizer_Delete"
--DrawTile%(TileMap:LTTileMap,X!,Y!,Width!,Height!,TileX%,TileY%)="_dwlab_frmwork_LTAnimatedTileMapVisualizer_DrawTile"
+-GetTileValue%(TileMap:LTTileMap,TileX%,TileY%)="_dwlab_frmwork_LTAnimatedTileMapVisualizer_GetTileValue"
 }="dwlab_frmwork_LTAnimatedTileMapVisualizer"
 LTContourVisualizer^LTVisualizer{
 .LineWidth!&
@@ -623,7 +625,7 @@ LTContourVisualizer^LTVisualizer{
 .PivotScale!&
 -New%()="_dwlab_frmwork_LTContourVisualizer_New"
 -Delete%()="_dwlab_frmwork_LTContourVisualizer_Delete"
-+FromWidthAndColor:LTVisualizer(Width!,Red!=1!,Green!=1!,Blue!=1!,Alpha!=1!,PivotScale!=1!)="_dwlab_frmwork_LTContourVisualizer_FromWidthAndColor"
++FromWidthAndColor:LTContourVisualizer(Width!,Red!=1!,Green!=1!,Blue!=1!,Alpha!=1!,PivotScale!=1!)="_dwlab_frmwork_LTContourVisualizer_FromWidthAndColor"
 -DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTContourVisualizer_DrawUsingSprite"
 -DrawUsingLine%(Line:LTLine)="_dwlab_frmwork_LTContourVisualizer_DrawUsingLine"
 -SetProperLineWidth%()="_dwlab_frmwork_LTContourVisualizer_SetProperLineWidth"
@@ -688,6 +690,7 @@ LTVisualizer^LTObject{
 -DrawUsingLine%(Line:LTLine)="_dwlab_frmwork_LTVisualizer_DrawUsingLine"
 -DrawUsingTileMap%(TileMap:LTTileMap,Shapes:brl.linkedlist.TList="bbNullObject")="_dwlab_frmwork_LTVisualizer_DrawUsingTileMap"
 -DrawTile%(TileMap:LTTileMap,X!,Y!,Width!,Height!,TileX%,TileY%)="_dwlab_frmwork_LTVisualizer_DrawTile"
+-GetTileValue%(TileMap:LTTileMap,TileX%,TileY%)="_dwlab_frmwork_LTVisualizer_GetTileValue"
 -DrawSpriteMapTile%(SpriteMap:LTSpriteMap,X!,Y!)="_dwlab_frmwork_LTVisualizer_DrawSpriteMapTile"
 -SetColorFromHex%(S$)="_dwlab_frmwork_LTVisualizer_SetColorFromHex"
 -SetColorFromRGB%(NewRed!,NewGreen!,NewBlue!)="_dwlab_frmwork_LTVisualizer_SetColorFromRGB"
@@ -779,6 +782,7 @@ RightFacing!=1!
 -GetTitle$()="_dwlab_frmwork_LTShape_GetTitle"
 -GetClassTitle$()="_dwlab_frmwork_LTShape_GetClassTitle"
 -GetName$()="_dwlab_frmwork_LTShape_GetName"
+-AddParameter%(Name$,Value$)="_dwlab_frmwork_LTShape_AddParameter"
 -Clone:LTShape()="_dwlab_frmwork_LTShape_Clone"
 -CopyTo%(Shape:LTShape)="_dwlab_frmwork_LTShape_CopyTo"
 -Init%()="_dwlab_frmwork_LTShape_Init"

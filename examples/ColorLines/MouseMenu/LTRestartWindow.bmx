@@ -18,7 +18,6 @@ Type LTRestartWindow Extends LTWindow
 	
 	Method Save()
 		Menu.LoadGameOverWindow()
-		Game.Locked = True
 	End Method
 
 	

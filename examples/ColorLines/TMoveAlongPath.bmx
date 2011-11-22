@@ -15,14 +15,16 @@ Type TMoveAlongPath Extends LTBehaviorModel
 	Field Position:LTTileMapPosition
 	Field Pos:Double
 
-	Function Create( Position:LTTileMapPosition )
+	Function Create( Position:LTTileMapPosition, TileX:Int, TileY:Int )
 		If Position = Null Then Return
 		Local Model:TMoveAlongPath = New TMoveAlongPath
 		Model.StartingTime = Game.Time
 		Model.Position = Position
-		Game.Selected = Null
 		Game.Locked = True
-		Game.TileToSprite( Model, Position.X, Position.Y )
+		Game.Balls.SetTile( TileX, TileY, Game.Balls.Value[ Game.Selected.X, Game.Selected.Y ] )
+		Game.HiddenBalls[ TileX, TileY ] = True
+		Game.TileToSprite( Model, Position.X, Position.Y, True )
+		Game.Selected = Null
 		L_PlaySound( Game.RushSound )
 	End Function
 	
@@ -70,7 +72,7 @@ Type TMoveAlongPath Extends LTBehaviorModel
 	End Method
 	
 	Method Deactivate( Shape:LTShape )
-		Game.Balls.SetTile( Position.X, Position.Y, LTSprite( Shape ).Frame )
+		Game.HiddenBalls[ Position.X, Position.Y ] = False
 		Game.Objects.Remove( Shape )
 		Game.Locked = False
 		L_PlaySound( Game.StopSound )

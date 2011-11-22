@@ -29,6 +29,7 @@ Import dwlab.sound
 Include "TGame.bmx"
 Include "THUD.bmx"
 Include "TGameProfile.bmx"
+Include "TBallTileMapVisualizer.bmx"
 Include "TPathFinder.bmx"
 Include "TPopUpBall.bmx"
 Include "TCursor.bmx"
