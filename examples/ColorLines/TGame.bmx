@@ -41,7 +41,8 @@ Type TGame Extends LTGUIProject
 	
 	Method Init()
 		World = LTWorld.FromFile( "levels.lw" )
-	
+		SetGraphicsDriver( D3D7Max2DDriver() )
+
 		Menu.ProfileTypeID = TTypeID.ForName( "TGameProfile" )
 		Menu.InitSystem( Self )
 		HUD = LoadWindow( World, , "THUD" )
@@ -90,7 +91,7 @@ Type TGame Extends LTGUIProject
 	
 	Method SetFieldMagnification()
 		L_CurrentCamera.SetMagnification( Min( Floor( L_CurrentCamera.Viewport.Height / 3 / GameField.YQuantity ) * 3, ..
-				Floor( L_CurrentCamera.Viewport.Width / 4 / GameField.XQuantity ) * 4 ) * ( 1.1 ^ MouseZ() ) )
+				Floor( L_CurrentCamera.Viewport.Width / 4 / GameField.XQuantity ) * 4 ) )
 	End Method
 	
 	Method InitSound()

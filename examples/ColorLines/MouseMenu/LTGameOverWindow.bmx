@@ -12,10 +12,10 @@ Type LTGameOverWindow Extends LTWindow
 	Method Init()
 		Project.Locked = True
 		Super.Init()
-		LTLabel( FindShape( "ProfileName" ) ).Text = L_CurrentProfile.Name
+		LTLabel( FindShape( "ProfileName" ) ).Text = LocalizeString( L_CurrentProfile.Name )
 		LTLabel( FindShape( "YourScore" ) ).Text = LocalizeString( "{{YourScore}}" ).Replace( "*", Game.Score )
 		If L_CurrentProfile.Name = "{{P_Player}}" And Game.Score Then
-			LTTextField( FindShape( "Name" ) ).Text = LocalizeString( "{{Player}}" )
+			LTTextField( FindShape( "Name" ) ).Text = LocalizeString( "{{P_Player}}" )
 		Else
 			FindShapeWithParameter( "text", "Enter your name" ).Hide()
 			FindShape( "Name" ).Hide()

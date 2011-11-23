@@ -241,6 +241,8 @@ Type LTCamera Extends LTSprite
 	bbdoc: Applies color with given intensity to the whole viewport.
 	about: Red color for example will make picture more "reddish".
 	If you use intensity 0.0, it will give no effect and intensity 1.0 will make whole viewport solid red.
+	
+	See also: #Lighten, #Darken
 	End Rem
 	Method ApplyColor( Intensity:Double, Red:Double, Green:Double, Blue:Double )
 		SetAlpha( Intensity )
@@ -254,6 +256,8 @@ Type LTCamera Extends LTSprite
 	Rem
 	bbdoc: Lightens current camera viewport.
 	about: 0.0 intensity will give no effect, 1.0 intensity will turn viewport to solid white.
+	
+	See also: #ApplyColor, #Darken
 	End Rem
 	Method Lighten( Intensity:Double )
 		ApplyColor( Intensity, 1.0, 1.0, 1.0 )
@@ -264,6 +268,8 @@ Type LTCamera Extends LTSprite
 	Rem
 	bbdoc: Darkens current camera viewport.
 	about: 0.0 intensity will give no effect, 1.0 intensity will turn viewport to solid black.
+	
+	See also: #ApplyColor, #Lighten
 	End Rem
 	Method Darken( Intensity:Double )
 		ApplyColor( Intensity, 0.0, 0.0, 0.0 )

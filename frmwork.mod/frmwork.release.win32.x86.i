@@ -1,10 +1,11 @@
-ModuleInfo "Version: 1.3.6"
+ModuleInfo "Version: 1.3.7"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
 ModuleInfo "History: v1.3.7 (22.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Tile number retrieving method is extracted from tile drawing method in LTVisualizer"
+ModuleInfo "History: &nbsp; &nbsp; Added AddParameter() method to the LTShape."
 ModuleInfo "History: v1.3.6 (18.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added creation methods for LTSprite and LTVectorSprite."
 ModuleInfo "History: v1.3.5.1 (17.11.11)"
@@ -130,7 +131,7 @@ import brl.d3d9max2d
 import brl.random
 import brl.reflection
 import brl.retro
-L_Version$=$"1.3.5.1"
+L_Version$=$"1.3.7"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
@@ -846,6 +847,7 @@ LTBehaviorModel^LTObject{
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_ApplyTo"
 -HandleCollisionWithSprite%(Sprite1:LTSprite,Sprite2:LTSprite,CollisionType%)="_dwlab_frmwork_LTBehaviorModel_HandleCollisionWithSprite"
 -HandleCollisionWithTile%(Sprite:LTSprite,TileMap:LTTileMap,TileX%,TileY%,CollisionType%)="_dwlab_frmwork_LTBehaviorModel_HandleCollisionWithTile"
+-HandleCollisionWithLine%(Sprite:LTSprite,Line:LTLine,CollisionType%)="_dwlab_frmwork_LTBehaviorModel_HandleCollisionWithLine"
 -ActivateModel%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_ActivateModel"
 -DeactivateModel%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_DeactivateModel"
 -Remove%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_Remove"
@@ -1010,7 +1012,7 @@ L_HexToInt%(HexString$)="dwlab_frmwork_L_HexToInt"
 L_DrawEmptyRect%(X!,Y!,Width!,Height!)="dwlab_frmwork_L_DrawEmptyRect"
 L_DeleteList%(List:brl.linkedlist.TList)="dwlab_frmwork_L_DeleteList"
 L_TrimDouble$(Val!)="dwlab_frmwork_L_TrimDouble"
-L_FirstZeroes$(Value%,TotalSymbols%)="dwlab_frmwork_L_FirstZeroes"
+L_FirstZeroes$(Value%,TotalDigits%)="dwlab_frmwork_L_FirstZeroes"
 L_Symbols$(Symbol$,Times%)="dwlab_frmwork_L_Symbols"
 L_LimitDouble!(Value!,FromValue!,ToValue!)="dwlab_frmwork_L_LimitDouble"
 L_LimitInt%(Value%,FromValue%,ToValue%)="dwlab_frmwork_L_LimitInt"

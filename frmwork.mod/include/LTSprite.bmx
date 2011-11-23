@@ -409,6 +409,11 @@ Type LTSprite Extends LTShape
 	about: Will be executed for every collision of this sprite with line found by the collision checks.
 	End Rem
 	Method HandleCollisionWithLine( Line:LTLine, CollisionType:Int )
+		If Active Then
+			For Local Model:LTBehaviorModel = EachIn BehaviorModels
+				If Model.Active Then Model.HandleCollisionWithLine( Self, Line, CollisionType )
+			Next
+		End If
 	End Method
 	
 	' ==================== Wedging off ====================

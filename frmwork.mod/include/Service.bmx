@@ -82,11 +82,11 @@ Rem
 bbdoc: Adds zeroes to Int value to make resulting string length equal to given.
 returns: String with zeroes equal to Int value.
 End Rem
-Function L_FirstZeroes:String( Value:Int, TotalSymbols:Int )
+Function L_FirstZeroes:String( Value:Int, TotalDigits:Int )
 	Local StringValue:String = Value
 	Local Length:Int = Len( StringValue )
-	If Length < TotalSymbols Then
-		Return L_Symbols( "0", TotalSymbols - Length ) + StringValue
+	If Length < TotalDigits Then
+		Return L_Symbols( "0", TotalDigits - Length ) + StringValue
 	Else
 		Return StringValue
 	End If
@@ -207,8 +207,7 @@ See also: #L_WrapInt, #L_WrapDouble
 End Rem
 Function L_WrapInt2:Int( Value:Int, FromValue:Int, ToValue:Int )
 	Local Size:Int = ToValue - FromValue
-	If Value >= ToValue Then Return Value - Floor( 1.0 * ( Value - FromValue ) / Size ) * Size
-	Return Value
+	Return Value - Floor( 1.0 * ( Value - FromValue ) / Size ) * Size
 End Function
 
 

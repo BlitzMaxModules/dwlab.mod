@@ -217,7 +217,6 @@ Type LTLayer Extends LTGroup
 	Rem
 	bbdoc: Counts quantity of sprites inside the layer.
 	returns: Quantity of sprites inside layer and included layers.
-	about: 
 	End Rem
 	Method CountSprites:Int()
 		Local Count:Int = 0
@@ -235,6 +234,7 @@ Type LTLayer Extends LTGroup
 	
 	Rem
 	bbdoc: Shows all behavior models attached to shape with their status.
+	about: See also #LTBehaviorModel
 	End Rem
 	Method ShowModels:Int( Y:Int = 0, Shift:String = "" )
 		If BehaviorModels.IsEmpty() Then 

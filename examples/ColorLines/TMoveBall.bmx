@@ -25,6 +25,7 @@ Type TMoveBall Extends LTBehaviorModel
 		Model.StartingTime = Game.Time
 		Model.CheckLines = CheckLines
 		Game.TileToSprite( Model, X, Y )
+		Game.HiddenBalls[ X, Y ] = True
 		Game.Locked = True
 	End Function
 	
@@ -39,7 +40,7 @@ Type TMoveBall Extends LTBehaviorModel
 	End Method
 	
 	Method Deactivate( Shape:LTShape )
-		Game.Balls.SetTile( X + DX, Y + DY, LTSprite( Shape ).Frame )
+		Game.HiddenBalls[ X + DX, Y + DY ] = False
 		Game.Objects.Remove( Shape )
 		Game.Locked = False
 		Game.Selected = Null

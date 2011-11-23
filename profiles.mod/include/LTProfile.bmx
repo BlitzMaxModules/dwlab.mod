@@ -155,7 +155,6 @@ Type LTProfile Extends LTObject
 	Function CreateDefault:LTProfile( ProfileTypeID:TTypeID )
 		Local Profile:LTProfile = LTProfile( ProfileTypeID.NewObject() )
 		Profile.Name = "{{P_Player}}"
-		
 		Local TypeID:TTypeId = TTypeId.ForObject( GetGraphicsDriver() )
 		For Local Driver:LTVideoDriver = Eachin L_VideoDrivers
 			If TTypeID.ForObject( Driver.Driver ) = TypeID Then Profile.VideoDriver = Driver.Name

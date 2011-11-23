@@ -856,7 +856,7 @@ See also: <a href=#Viewport>Viewport</a>, <a href=#ViewportClipping>ViewportClip
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTContourVisualizer_functions></a>Functions Summary</th></tr>
 <tr><td class=docleft width=1%><a href=#FromWidthAndColor>FromWidthAndColor</a></td><td class=docright>
-Creates new contour visualizer using given color and transparency (LTImage).
+Creates new contour visualizer using given line width, color, transparency and pivot scale.
 </td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=LineWidth>
@@ -864,9 +864,9 @@ Creates new contour visualizer using given color and transparency (LTImage).
 <tr><td class=docleft width=1%>Description</td><td class=docright>Width of contour lines.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=FromWidthAndColor>
-<tr><td class=doctop colspan=2>Function FromWidthAndColor:LTVisualizer( Width:Double, Red:Double = 1.0, Green:Double = 1.0, Blue:Double = 1.0, Alpha:Double = 1.0, PivotScale:Double = 1.0 )</td></tr>
+<tr><td class=doctop colspan=2>Function FromWidthAndColor:LTContourVisualizer( Width:Double, Red:Double = 1.0, Green:Double = 1.0, Blue:Double = 1.0, Alpha:Double = 1.0, PivotScale:Double = 1.0 )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>New visualizer.</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Creates new contour visualizer using given color and transparency (LTImage).</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates new contour visualizer using given line width, color, transparency and pivot scale.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#FromFile>FromFile</a>, <a href=#FromImage>FromImage</a>.</td></tr>
 </table>
 <br>
@@ -889,28 +889,38 @@ Example.Execute()
 
 Type TExample Extends LTProject
 	Field Hinge:LTSprite = LTSprite.FromShape( 0, -8, 1, 1, LTSprite.Oval )
-	Field Weight:LTVectorSprite = LTVectorSprite.FromShapeAndVector( -8, -6, 3, 3, LTSprite.Oval )
-	Field Rope:LTLine = LTLine.FromPivots( Hinge, Weight )
+	Field Weight1:LTVectorSprite = LTVectorSprite.FromShapeAndVector( -8, -6, 3, 3, LTSprite.Oval )
+	Field Weight2:LTVectorSprite = LTVectorSprite.FromShapeAndVector( -12, -9, 3, 3, LTSprite.Oval )
+	Field Rope1:LTLine = LTLine.FromPivots( Hinge, Weight1 )
+	Field Rope2:LTLine = LTLine.FromPivots( Weight1, Weight2 )
 	
 	Method Init()
 		L_InitGraphics()
 		Hinge.Visualizer = LTVisualizer.FromColor( 1.0, 0.0, 0.0 )
-		Weight.Visualizer = LTVisualizer.FromColor( 0.0, 1.0, 0.0 )
-		Rope.Visualizer = LTContourVisualizer.FromWidthAndColor( 0.25, 0.0, 0.0, 1.0, 1.0, 2.0 )
-		Weight.AttachModel( LTDistanceJoint.Create( Hinge ) )
+		Weight1.Visualizer = LTVisualizer.FromColor( 0.0, 1.0, 0.0 )
+		Weight2.Visualizer = LTVisualizer.FromColor( 1.0, 1.0, 0.0 )
+		Rope1.Visualizer = LTContourVisualizer.FromWidthAndColor( 0.25, 0.0, 0.0, 1.0, 1.0, 2.0 )
+		Rope2.Visualizer = Rope1.Visualizer
+		Weight1.AttachModel( LTDistanceJoint.Create( Hinge ) )
+		Weight2.AttachModel( LTDistanceJoint.Create( Weight1 ) )
 	End Method
 
 	Method Render()
 		Hinge.Draw()
-		Weight.Draw()
-		Rope.Draw()
+		Weight1.Draw()
+		Weight2.Draw()
+		Rope1.Draw()
+		Rope2.Draw()
 	End Method
 	
 	Method Logic()
-		If AppTerminate() Then Exiting = True
-		Weight.Act()
-		Weight.DY :+ PerSecond( 1.0 )
-		Weight.MoveForward()
+		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
+		Weight1.Act()
+		Weight1.DY :+ PerSecond( 2.0 )
+		Weight1.MoveForward()
+		Weight2.Act()
+		Weight2.DY :+ PerSecond( 2.0 )
+		Weight2.MoveForward()
 	End Method	
 End Type</pre></td></tr>
 </table>
@@ -1541,7 +1551,7 @@ You can specify optional Name parameter to check only shapes with this name.</td
 </td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTLine_functions></a>Functions Summary</th></tr>
-<tr><td class=docleft width=1%><a href=#FromPivots>FromPivots</a></td><td class=docright>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
 Creates line section between two pivots.
 </td></tr>
 </table>
@@ -1549,8 +1559,8 @@ Creates line section between two pivots.
 <tr><td class=doctop colspan=2>Field Pivot:LTSprite[] = New LTSprite[ 2 ]</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Pivots array.</td></tr>
 </table>
-<table class=doc width=100% cellspacing=3 id=FromPivots>
-<tr><td class=doctop colspan=2>Function FromPivots:LTLine( Pivot1:LTSprite, Pivot2:LTSprite )</td></tr>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Function Create:LTLine( Pivot1:LTSprite, Pivot2:LTSprite )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>New line.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Creates line section between two pivots.</td></tr>
 </table>
@@ -1795,6 +1805,7 @@ Draws various debugging information on screen.
 <tr><td class=doctop colspan=2>Field LogicFPS:Double = 75</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Quantity of logic frames per second.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#Logic>Logic</a>.</td></tr>
+<tr><td class=docleft width=1%><a href=LogicFPS.bmx class=small>Example</a></td><td class=docright><pre>Koo!</pre></td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=MinFPS>
 <tr><td class=doctop colspan=2>Field MinFPS:Double = 15</td></tr>
@@ -2033,6 +2044,9 @@ Activates all behavior models of the shape.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#ActivateModel>ActivateModel</a></td><td class=docright>
 Activates shape behavior models of class with given name.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#AddParameter>AddParameter</a></td><td class=docright>
+Adds parameter to the shape.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#AlterCoords>AlterCoords</a></td><td class=docright>
 Alter coordinates of the shape.
@@ -2305,6 +2319,13 @@ See also: <a href=#LTBehaviorModel>LTBehaviorModel</a>, <a href=#Activate>Activa
 <tr><td class=docleft width=1%>Information</td><td class=docright>Executes Activate() method of all inactive models of class with given name and set their Active field to True.
 <p>
 See also: <a href=#LTBehaviorModel>LTBehaviorModel</a>, <a href=#Activate>Activate</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=AddParameter>
+<tr><td class=doctop colspan=2>Method AddParameter( Name:String, Value:String )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Adds parameter to the shape.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Recommended to use it only if you build your own world via code.
+<p>
+See also: <a href=#GetParameter>GetParameter</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=AlterCoords>
 <tr><td class=doctop colspan=2>Method AlterCoords( DX:Double, DY:Double )</td></tr>
@@ -3374,6 +3395,9 @@ Draws given sprite using this visualizer.
 <tr><td class=docleft width=1%><a href=#DrawUsingTileMap>DrawUsingTileMap</a></td><td class=docright>
 Draws given tilemap using this visualizer.
 </td></tr>
+<tr><td class=docleft width=1%><a href=#GetTileValue>GetTileValue</a></td><td class=docright>
+Function which defines which tile to draw.
+</td></tr>
 <tr><td class=docleft width=1%><a href=#SetColorFromHex>SetColorFromHex</a></td><td class=docright>
 Applies color given in hex string to visualizer.
 </td></tr>
@@ -3509,6 +3533,11 @@ See also: <a href=#DrawUsingTileMap>DrawUsingTileMap</a>.</td></tr>
 <tr><td class=doctop colspan=2>Method DrawUsingTileMap( TileMap:LTTileMap, Shapes:TList = Null )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Draws given tilemap using this visualizer.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Change this method if you are making your own visualizer.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetTileValue>
+<tr><td class=doctop colspan=2>Method GetTileValue:Int( TileMap:LTTileMap, TileX:Int, TileY:Int )</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>Tile number for given tilemap and tile coordinates.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Function which defines which tile to draw.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=SetColorFromHex>
 <tr><td class=doctop colspan=2>Method SetColorFromHex( S:String )</td></tr>
@@ -3728,11 +3757,14 @@ See also: <a href=#ManageIntAttribute>ManageIntAttribute</a>, <a href=#ManageDou
 <br>
 <h2 id=modinfo>Module Information</h2>
 <table width=100%>
-<tr><th width=1%>Version</th><td>1.3.5.1</td></tr>
+<tr><th width=1%>Version</th><td>1.3.7</td></tr>
 <tr><th width=1%>Author</th><td>Matt Merkulov</td></tr>
 <tr><th width=1%>License</th><td>Artistic License 2.0</td></tr>
 <tr><th width=1%>Modserver</th><td>DWLAB</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp;</td></tr>
+<tr><th width=1%>History</th><td>v1.3.7 (22.11.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Tile number retrieving method is extracted from tile drawing method in LTVisualizer</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added AddParameter() method to the LTShape.</td></tr>
 <tr><th width=1%>History</th><td>v1.3.6 (18.11.11)</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Added creation methods for LTSprite and LTVectorSprite.</td></tr>
 <tr><th width=1%>History</th><td>v1.3.5.1 (17.11.11)</td></tr>

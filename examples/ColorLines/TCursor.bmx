@@ -30,6 +30,11 @@ Type TCursor Extends LTSprite
 		ElseIf RightMouse.WasPressed() And Game.Selected Then
 			If Game.Selected Then Game.Selected.Remove( Null )
 			If Abs( Game.Selected.X - TileX ) + Abs( Game.Selected.Y - TileY ) = 1 Then
+				
+				Local Z:Int = Game.Balls.GetTile( TileX, TileY )
+				Game.Balls.SetTile( TileX, TileY, Game.Balls.GetTile( Game.Selected.X, Game.Selected.Y ) )
+				Game.Balls.SetTile( Game.Selected.X, Game.Selected.Y, Z )
+				
 				TMoveBall.Create( Game.Selected.X, Game.Selected.Y, TileX - Game.Selected.X, TileY - Game.Selected.Y, False )
 				TMoveBall.Create( TileX, TileY, Game.Selected.X - TileX, Game.Selected.Y - TileY, True )
 				L_PlaySound( Game.SwapSound )

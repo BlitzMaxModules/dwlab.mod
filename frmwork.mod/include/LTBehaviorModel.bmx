@@ -81,6 +81,8 @@ Type LTBehaviorModel Extends LTObject
 	bbdoc: Collision with sprite handling method.
 	about: It will be executed by default HandleCollisionWithSprite method if this model will be active.
 	Fill it with sprite collision reaction commands which are need to be executed when the model is active.
+	
+	See also: #HandleCollisionWithTile, #HandleCollisionWithLine
 	End Rem
 	Method HandleCollisionWithSprite( Sprite1:LTSprite, Sprite2:LTSprite, CollisionType:Int )
 	End Method
@@ -88,13 +90,27 @@ Type LTBehaviorModel Extends LTObject
 	
 	
 	Rem
-	bbdoc: Collision with sprite handleing method.
+	bbdoc: Collision with tile handling method.
 	about: It will be executed by default HandleCollisionWithTile method if this model will be active.
 	Fill it with tile collision reaction commands which are need to be executed when the model is active.
+	
+	See also: #HandleCollisionWithSprite, #HandleCollisionWithLine
 	End Rem
 	Method HandleCollisionWithTile( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
 	End Method
 
+	
+	
+	Rem
+	bbdoc: Collision with line handling method.
+	about: It will be executed by default HandleCollisionWithLine method if this model will be active.
+	Fill it with tile collision reaction commands which are need to be executed when the model is active.
+	
+	See also: #HandleCollisionWithSprite, #HandleCollisionWithTile
+	End Rem
+	Method HandleCollisionWithLine( Sprite:LTSprite, Line:LTLine, CollisionType:Int )
+	End Method
+	
 	
 	
 	Rem

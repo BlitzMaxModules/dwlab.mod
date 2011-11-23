@@ -207,7 +207,7 @@ Type LTShape Extends LTObject
 	Rem
 	bbdoc: Left side of the shape.
 	returns: X coordinate of left shape side in units.
-	about: See also: #X, #Width
+	about: See also: RightX#, TopY#, BottomY#, #X, #Width
 	End Rem
 	Method LeftX:Double()
  		Return X - 0.5 * Width
@@ -218,7 +218,7 @@ Type LTShape Extends LTObject
 	Rem
 	bbdoc: Top of the shape.
 	returns: Y coordinate of shape top in units.
-	about: See also: #Y, #Height
+	about: See also: LeftX#, RightX#, BottomY#, #Y, #Height
 	End Rem
 	Method TopY:Double()
  		Return Y - 0.5 * Height
@@ -229,7 +229,7 @@ Type LTShape Extends LTObject
 	Rem
 	bbdoc: Right side of the shape.
 	returns: X coordinate of right shape side in units.
-	about: See also: #X, #Width
+	about: See also: LeftX#, TopY#, BottomY#, #X, #Width
 	End Rem
 	Method RightX:Double()
  		Return X + 0.5 * Width
@@ -240,7 +240,7 @@ Type LTShape Extends LTObject
 	Rem
 	bbdoc: Bottom of the shape
 	returns: Y coordinate of shape bottom in units.
-	about: See also: #Y, #Height
+	about: See also: LeftX#, RightX#, TopY#, #Y, #Height
 	End Rem
 	Method BottomY:Double()
  		Return Y + 0.5 * Height
@@ -289,7 +289,7 @@ Type LTShape Extends LTObject
 	bbdoc: Sets X coordinate of the shape.
 	about: It's better to use this method instead of equating X field to new value.
 	
-	See also: #X
+	See also: #X, SetY#
 	End Rem
 	Method SetX( NewX:Double )
 		SetCoords( NewX, Y )
@@ -301,7 +301,7 @@ Type LTShape Extends LTObject
 	bbdoc: Sets X coordinate of the shape.
 	about: It's better to use this method instead of equating X field to new value.
 	
-	See also: #Y
+	See also: #Y, SetX#
 	End Rem
 	Method SetY( NewY:Double )
 		SetCoords( X, NewY )
@@ -752,7 +752,7 @@ Type LTShape Extends LTObject
 	bbdoc: Activates all behavior models of the shape.
 	about: Executes Activate() method of all deactivated models and set their Active field to True.
 	
-	See also: #LTBehaviorModel, #Activate
+	See also: #DeactivateAllModels, #LTBehaviorModel, #Activate
 	End Rem
 	Method ActivateAllModels()
 		For Local Model:LTBehaviorModel = EachIn BehaviorModels
@@ -769,7 +769,7 @@ Type LTShape Extends LTObject
 	bbdoc: Deactivates all behavior models of the shape.
 	about: Executes Deactivate() method of all activated models and set their Active field to False.
 	
-	See also: #LTBehaviorModel, #Deactivate
+	See also: #ActivateAllModels, #LTBehaviorModel, #Deactivate
 	End Rem
 	Method DeactivateAllModels()
 		For Local Model:LTBehaviorModel = EachIn BehaviorModels
@@ -786,7 +786,7 @@ Type LTShape Extends LTObject
 	bbdoc: Activates shape behavior models of class with given name.
 	about: Executes Activate() method of all inactive models of class with given name and set their Active field to True.
 	
-	See also: #LTBehaviorModel, #Activate
+	See also: #DeactivateModel, #ToggleModel, #LTBehaviorModel, #Activate
 	End Rem
 	Method ActivateModel( TypeName:String )
 		Local TypeID:TTypeId = L_GetTypeID( TypeName )
@@ -804,7 +804,7 @@ Type LTShape Extends LTObject
 	bbdoc: Deactivates shape behavior models of class with given name.
 	about: Executes Deactivate() method of all active models of class with given name and set their Active field to False.
 	
-	See also: #LTBehaviorModel, #Deactivate
+	See also: #ActivateModel, #ToggleModel, #LTBehaviorModel, #Deactivate
 	End Rem
 	Method DeactivateModel( TypeName:String )
 		Local TypeID:TTypeId = L_GetTypeID( TypeName )
@@ -822,7 +822,7 @@ Type LTShape Extends LTObject
 	bbdoc: Toggles activity of shape behavior models of class with given name.
 	about: Executes Activate() method of all inactive and Deactivate() method of all active models of class with given name and toggles their Active field.
 	
-	See also: #LTBehaviorModel, #Activate, #Deactivate
+	See also: #ActivateModel, #DeactivateModel, #LTBehaviorModel, #Activate, #Deactivate
 	End Rem
 	Method ToggleModel( TypeName:String )
 		Local TypeID:TTypeId = L_GetTypeID( TypeName )
@@ -967,6 +967,7 @@ Type LTShape Extends LTObject
 		If Not Parameters Then Parameters = New TList
 		Parameters.AddLast( Parameter )
 	End Method
+	
 	' ==================== Cloning ===================
 	
 	Rem

@@ -211,8 +211,6 @@ Type LTProject Extends LTObject
 		Local FPSCount:Int
 		Local FPSTime:Int
 		
-		L_DeltaTime = 1.0 / LogicFPS
-	    
 		Repeat
 			Time :+  1.0 / LogicFPS
 			
@@ -221,6 +219,7 @@ Type LTProject Extends LTObject
 			L_SpritesActed = 0
 			?
 			
+			L_DeltaTime = 1.0 / LogicFPS
 			If Not Paused Then Logic()
 			If Exiting Then Exit
 		
@@ -265,6 +264,8 @@ Type LTProject Extends LTObject
 	bbdoc: Converts value second to value per logic frame.
 	returns: Value for logic frame using given per second value.
 	about: For example, can return coordinate increment for speed per second.
+	
+	See also: #LogicFPS
 	End Rem
 	Method PerSecond:Double( Value:Double )
 		Return Value * L_DeltaTime
