@@ -9,7 +9,7 @@
 '
 
 Type LTHighScoresList Extends LTListBox
-	Field ContourVisualizer:LTContourVisualizer = LTContourVisualizer.FromWidthAndColor( 0.1, 1.0, 0.0, 0.0, 0.5 ) 
+	Field ContourVisualizer:LTContourVisualizer = LTContourVisualizer.FromWidthAndHexColor( 0.1, "FF0000", 0.5 ) 
 
 	Method Init()
 		Super.Init()

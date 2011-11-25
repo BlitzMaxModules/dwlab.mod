@@ -277,7 +277,7 @@ Type LTShape Extends LTObject
 	Rem
 	bbdoc: Checks if the shape is at position of another shape.
 	returns: True if shape center has same coordinates as another shape center. 
-	about: See also: #X, #Y
+	about: See also: #X, #Y, #SetMouseCoords example
 	End Rem
 	Method IsAtPositionOf:Int( Shape:LTShape )
 		If Shape.X = X And Shape.Y = Y Then Return True
@@ -403,7 +403,7 @@ Type LTShape Extends LTObject
 	
 	Rem
 	bbdoc: Moves the shape with given velocity towards shape.
-	about: See also: #MoveForward
+	about: See also: #MoveForward, #MoveBackward, #SetMouseCoords example
 	End Rem
 	Method MoveTowards( Shape:LTShape, Velocity:Double )
 		MoveTowardsPoint( Shape.X, Shape.Y, Velocity )

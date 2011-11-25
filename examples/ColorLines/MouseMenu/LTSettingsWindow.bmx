@@ -58,10 +58,12 @@ Type LTSettingsWindow Extends LTWindow
 				Default
 					Super.OnButtonPress( Gadget, ButtonAction )
 			End Select
-		ElseIf ButtonAction = L_MouseWheelUp Then
-			ChangeListItem( Gadget, Gadget.GetName(), +1 )
-		ElseIf ButtonAction = L_MouseWheelDown Then
-			ChangeListItem( Gadget, Gadget.GetName(), -1 )
+		ElseIf Gadget.GetName() Then
+			If ButtonAction = L_MouseWheelUp Then
+				ChangeListItem( Gadget, Gadget.GetName(), +1 )
+			ElseIf ButtonAction = L_MouseWheelDown Then
+				ChangeListItem( Gadget, Gadget.GetName(), -1 )
+			End If
 		End If
 	End Method
 	

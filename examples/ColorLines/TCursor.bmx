@@ -13,6 +13,8 @@ Type TCursor Extends LTSprite
 	Field RightMouse:LTButtonAction = LTButtonAction.Create( LTMouseButton.Create( 2 ), "Swap" )
 
 	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int = 0 )
+		Game.SelectedTileX = TileX
+		Game.SelectedTileY = TileY
 		Local TileNum:Int = TileMap.GetTile( TileX, TileY )
 		Local BallNum:Int = Game.Balls.GetTile( TileX, TileY )
 		'If KeyHit( Key_E ) Then TExplosion.Create( TileX, TileY )

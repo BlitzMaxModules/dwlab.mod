@@ -28,7 +28,7 @@ Include "menu_incbin.bmx"
 
 Incbin "russian.lng"
 Incbin "english.lng"
-Incbin "OpenSans-Regular.ttf"
+Incbin "font.ttf"
 Incbin "images\calculator.png"
 
 Global Menu:LTMenu = New LTMenu
@@ -84,7 +84,7 @@ Type LTMenu Extends LTGUIProject
 	
 	Method InitGraphics()
 		L_CurrentProfile.InitCamera( GUICamera )
-		SetImageFont( LoadImageFont( "incbin::OpenSans-Regular.ttf", Floor( GUICamera.Viewport.Width / 80 ) ) )
+		SetImageFont( LoadImageFont( L_Incbin + "font.ttf", Floor( GUICamera.Viewport.Width / 80 ) ) )
 	End Method
 	
 	Method DeInit()

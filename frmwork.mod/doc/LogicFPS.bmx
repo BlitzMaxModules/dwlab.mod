@@ -16,8 +16,8 @@ Type TExample Extends LTProject
 
 	Method Init()
 		L_InitGraphics()
-		Sprite1.Visualizer = LTVisualizer.FromColor( 1, 1, 0 )
-		Sprite2.Visualizer = LTVisualizer.FromColor( 0, 0.5, 1 )
+		Sprite1.Visualizer = LTVisualizer.FromRGBColor( 1, 1, 0 )
+		Sprite2.Visualizer = LTVisualizer.FromRGBColor( 0, 0.5, 1 )
 		LogicFPS = 100
 	End Method
 	

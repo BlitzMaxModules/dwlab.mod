@@ -24,6 +24,8 @@ Type TGame Extends LTGUIProject
 	Field Particles:LTLayer = New LTLayer
 	
 	Field Cursor:TCursor = New TCursor
+	Field SelectedTileX:Int = -1
+	Field SelectedTileY:Int
 	Field Selected:TSelected
 	Field EmptyCells:TList = New TList
 	Field PathFinder:TPathFinder = New TPathFinder
@@ -95,11 +97,11 @@ Type TGame Extends LTGUIProject
 	End Method
 	
 	Method InitSound()
-		SwapSound = TSound.Load( "incbin::swap.ogg", False )
-		RushSound = TSound.Load( "incbin::rush.ogg", False )
-		StopSound = TSound.Load( "incbin::stop.ogg", False )
-		SelectSound = TSound.Load( "incbin::select.ogg", False )
-		ExplosionSound = TSound.Load( "incbin::explosion.ogg", False )
+		SwapSound = TSound.Load( L_Incbin + "swap.ogg", False )
+		RushSound = TSound.Load( L_Incbin + "rush.ogg", False )
+		StopSound = TSound.Load( L_Incbin + "stop.ogg", False )
+		SelectSound = TSound.Load( L_Incbin + "select.ogg", False )
+		ExplosionSound = TSound.Load( L_Incbin + "explosion.ogg", False )
 	End Method
 	
 	Method Render()
@@ -107,7 +109,9 @@ Type TGame Extends LTGUIProject
 		Background.JumpTo( L_CurrentCamera )
 		Background.SetSize( L_CurrentCamera.Width, 0.75 * L_CurrentCamera.Width )
 		Background.Draw()
+		If Game.SelectedTileX >= 0 Then GameField.SetTile( SelectedTileX, SelectedTileY, 2 )
 		GameField.Draw()
+		If Game.SelectedTileX >= 0 Then GameField.SetTile( SelectedTileX, SelectedTileY, 1 )
 		Balls.Draw()
 		Objects.Draw()
 		Particles.Draw()
@@ -115,7 +119,10 @@ Type TGame Extends LTGUIProject
 	
 	Method Logic()
 		Cursor.SetMouseCoords()
-		If Not Locked Then Cursor.CollisionsWithTileMap( GameField )
+		If Not Locked Then
+			Game.SelectedTileX = -1
+			Cursor.CollisionsWithTileMap( GameField )
+		End If
 		FindWindow( , "THUD" ).Active = Not Locked
 		Local MenuWindow:LTMenuWindow = LTMenuWindow( FindWindow( , "LTMenuWindow" ) )
 		If ExitToMenu.WasPressed() And MenuWindow.Active Then MenuWindow.Switch()

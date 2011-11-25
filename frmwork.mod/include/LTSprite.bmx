@@ -534,6 +534,35 @@ Type LTSprite Extends LTShape
 		End Select
 		L_Separate( Self, TileSprite, PushingDX, PushingDY, 0.0, 1.0 )
 	End Method
+	
+	
+	
+	Method BounceInside( Shape:LTShape, LeftSide:Int = True, TopSide:Int = True, RightSide:Int = True, BottomSide:Int = True )
+		If LeftSide Then
+			If LeftX() < Shape.LeftX() Then
+				X = Shape.LeftX() + 0.5 * Width
+				Angle = 180 - Angle
+			End If
+		End If
+		If TopSide Then
+			If TopY() < Shape.TopY() Then
+				Y = Shape.TopY() + 0.5 * Height
+				Angle = -Angle
+			End If
+		End If
+		If RightSide Then
+			If RightX() > Shape.RightX() Then
+				X = Shape.RightX() - 0.5 * Width
+				Angle = 180 - Angle
+			End If
+		End If
+		If BottomSide Then
+			If BottomY() > Shape.BottomY() Then
+				Y = Shape.BottomY() - 0.5 * Height
+				Angle = -Angle
+			End If
+		End If
+	End Method
 
 	' ==================== Position and size ====================
 	
@@ -551,10 +580,20 @@ Type LTSprite Extends LTShape
 	
 	Rem
 	bbdoc: Moves sprite forward.
-	about: See also: #Move
+	about: See also: #Move, #MoveBackward, #Turn example
 	End Rem
 	Method MoveForward()
 		SetCoords( X + Cos( Angle ) * Velocity * L_DeltaTime, Y + Sin( Angle ) * Velocity * L_DeltaTime )
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Moves sprite backward.
+	about: See also: #Move, #MoveForward, #Turn example
+	End Rem
+	Method MoveBackward()
+		SetCoords( X - Cos( Angle ) * Velocity * L_DeltaTime, Y - Sin( Angle ) * Velocity * L_DeltaTime )
 	End Method
 	
 	

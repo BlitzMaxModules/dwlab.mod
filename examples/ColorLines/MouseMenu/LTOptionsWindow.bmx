@@ -59,7 +59,7 @@ End Type
 
 
 Function L_Boss()
-	Local Image:TImage = LoadImage( "incbin::images\calculator.png" )
+	Local Image:TImage = LoadImage( L_Incbin + "images\calculator.png" )
 	EndGraphics()
 	If L_ProjectWindow Then
 		FreeGadget( L_ProjectWindow )
@@ -77,6 +77,8 @@ Function L_Boss()
 		For Local Num:Int = 1 To 3
 			If MouseDown( Num ) Or BossKey.IsDown() Then
 				AppTitle = OldAppTitle
+				Menu.Project.Locked = True
+				EndGraphics()
 				L_CurrentProfile.Apply( [ LTProject( Menu ), LTProject( Menu.Project ) ], True, False, True )
 				Return
 			End If
