@@ -99,7 +99,7 @@ Type LTVisualizer Extends LTObject
 	Rem
 	bbdoc: Creates new visualizer from image file.
 	returns: New visualizer.
-	about: See also: #FromImage, #FromRGBColor, #FromHexColor
+	about: See also: #FromImage, #FromColor, #FromHexColor
 	End Rem
 	Function FromFile:LTVisualizer( Filename:String, XCells:Int = 1, YCells:Int = 1 )
 		Local Visualizer:LTVisualizer = New LTVisualizer
@@ -123,9 +123,9 @@ Type LTVisualizer Extends LTObject
 	
 	
 	Rem
-	bbdoc: Creates new visualizer using given color in RGB values and transparency (LTImage).
+	bbdoc: Creates new visualizer using given color RGB components and transparency.
 	returns: New visualizer.
-	about: See also: #FromFile, #FromImage, #FromHexColor, #LogicFPS example
+	about: See also: #FromFile, #FromImage, #FromHexColor
 	End Rem
 	Function FromRGBColor:LTVisualizer( Red:Double, Green:Double, Blue:Double, Alpha:Double = 1.0 )
 		Local Visualizer:LTVisualizer = New LTVisualizer
@@ -137,11 +137,11 @@ Type LTVisualizer Extends LTObject
 	
 	
 	Rem
-	bbdoc: Creates new visualizer using given color in hex value and transparency (LTImage).
+	bbdoc: Creates new visualizer using given hexadecimal color representation and transparency.
 	returns: New visualizer.
-	about: See also: #FromFile, #FromImage, #FromRGBColor, #SetMouseCoords example
+	about: See also: #FromFile, #FromImage, #FromRGBColor
 	End Rem
-	Function FromHexColor:LTVisualizer( HexColor:String, Alpha:Double = 1.0 )
+	Function FromHexColor:LTVisualizer( HexColor:String = "FFFFFF", Alpha:Double = 1.0 )
 		Local Visualizer:LTVisualizer = New LTVisualizer
 		Visualizer.SetColorFromHex( HexColor )
 		Visualizer.Alpha = Alpha
@@ -422,7 +422,7 @@ Type LTVisualizer Extends LTObject
 		ApplyColor()
 		
 		Local TileSet:LTTileSet =Tilemap.TileSet
-		Local TileValue:Int = GetTileValue:Int( TileMap, TileX, TileY )
+		Local TileValue:Int = TileMap.Value[ TileMap.WrapX( TileX ), TileMap.WrapY( TileY ) ]
 		If TileValue = TileSet.EmptyTile Then Return
 		
 		Local Image:LTImage = TileSet.Image
@@ -440,16 +440,6 @@ Type LTVisualizer Extends LTObject
 		?debug
 		L_TilesDisplayed :+ 1
 		?
-	End Method
-	
-	
-	
-	Rem
-	bbdoc: Function which defines which tile to draw.
-	returns: Tile number for given tilemap and tile coordinates.
-	End Rem
-	Method GetTileValue:Int( TileMap:LTTileMap, TileX:Int, TileY:Int )
-		Return TileMap.Value[ TileMap.WrapX( TileX ), TileMap.WrapY( TileY ) ]
 	End Method
 	
 	
@@ -491,6 +481,16 @@ Type LTVisualizer Extends LTObject
 		Red = NewRed
 		Green = NewGreen
 		Blue = NewBlue
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Sets random color.
+	about: Each component is in [ 0.5, 1.0 ] range.
+	End Rem
+	Method SetRandomColor()
+		SetColorFromRGB( Rnd( 0.5, 1 ), Rnd( 0.5, 1 ), Rnd( 0.5, 1 ) )
 	End Method
 	
 	

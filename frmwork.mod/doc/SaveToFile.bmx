@@ -16,9 +16,9 @@ Type TExample Extends LTProject
 
 	Method Init()
 		For Local N:Int = 1 To SpritesQuantity
-			Local Size:Double = Rnd( 0.5, 1.5 )
-			OldSprite = LTSprite.FromShape( Rnd( -15, 15 ), Rnd( -11, 11 ), Size, Size, LTSprite.Oval, Rnd( 360 ), 5 )
-			OldSprite.Visualizer = LTVisualizer.FromRGBColor( Rnd( 0.25, 1.0 ), Rnd( 0.25, 1.0 ), Rnd( 0.25, 1.0 ) )
+			OldSprite = LTSprite.FromShape( Rnd( -15, 15 ), Rnd( -11, 11 ), , , LTSprite.Oval, Rnd( 360 ), 5 )
+			OldSprite.SetDiameter( Rnd( 0.5, 1.5 ) )
+			OldSprite.Visualizer.SetRandomColor()
 			World.AddLast( OldSprite )
 		Next
 		L_InitGraphics()

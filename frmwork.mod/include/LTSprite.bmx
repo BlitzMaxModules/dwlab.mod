@@ -68,7 +68,7 @@ Type LTSprite Extends LTShape
 	
 	' ==================== Creating ===================	
 	
-	Function FromShape:LTSprite( X:Double, Y:Double, Width:Double = 1.0, Height:Double = 1.0, ShapeType:Int = Rectangle, Angle:Double = 0.0, Velocity:Double = 1.0 )
+	Function FromShape:LTSprite( X:Double = 0.0, Y:Double = 0.0, Width:Double = 1.0, Height:Double = 1.0, ShapeType:Int = Rectangle, Angle:Double = 0.0, Velocity:Double = 1.0 )
 		Local Sprite:LTSprite = New LTSprite
 		Sprite.SetCoords( X, Y )
 		Sprite.SetSize( Width, Height )
@@ -580,7 +580,7 @@ Type LTSprite Extends LTShape
 	
 	Rem
 	bbdoc: Moves sprite forward.
-	about: See also: #Move, #MoveBackward, #Turn example
+	about: See also: #Move
 	End Rem
 	Method MoveForward()
 		SetCoords( X + Cos( Angle ) * Velocity * L_DeltaTime, Y + Sin( Angle ) * Velocity * L_DeltaTime )

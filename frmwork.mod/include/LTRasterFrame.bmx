@@ -41,6 +41,23 @@ Type LTRasterFrame Extends LTImage
 	
 	
 	Rem
+	bbdoc: Raster frame creation function.
+	about: You should provide image file name and 4 values for borders (optional, 1 by default).
+	End Rem
+	Function FromFileAndBorders:LTRasterFrame( FileName:String, LeftBorder:Int = 1, TopBorder:Int = 1, RightBorder:Int = 1, BottomBorder:Int = 1 )
+		Local Frame:LTRasterFrame = New LTRasterFrame
+		Frame.Filename = FileName
+		Frame.LeftBorder = LeftBorder
+		Frame.TopBorder = TopBorder
+		Frame.RightBorder = RightBorder
+		Frame.BottomBorder = BottomBorder
+		Frame.Init()
+		Return Frame
+	End Function
+	
+	
+	
+	Rem
 	bbdoc: Initialization function.
 	about: Main image will be splitted into 9 images and put into array for using.
 	End Rem
