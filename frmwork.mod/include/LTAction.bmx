@@ -24,6 +24,7 @@ Type LTAction Extends LTObject
 	Also it can be executed automatically when you will execute L_Redo function.
 	End Rem
 	Method Do()
+		L_CurrentUndoList.AddFirst( Self )
 	End Method
 	
 	
@@ -34,6 +35,7 @@ Type LTAction Extends LTObject
 	Can be executed automatically when you will execute L_Undo function.
 	End Rem
 	Method Undo()
+		L_CurrentRedoList.AddFirst( Self )
 	End Method
 End Type
 

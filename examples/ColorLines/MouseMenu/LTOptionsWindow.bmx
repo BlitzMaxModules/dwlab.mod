@@ -59,7 +59,7 @@ End Type
 
 
 Function L_Boss()
-	Local Image:TImage = LoadImage( L_Incbin + "images\calculator.png" )
+	Local Image:TImage = LoadImage( L_MenuPath + "images\calculator.png" )
 	EndGraphics()
 	If L_ProjectWindow Then
 		FreeGadget( L_ProjectWindow )

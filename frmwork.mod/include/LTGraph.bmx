@@ -257,14 +257,14 @@ Type LTAddPivotToGraph Extends LTAction
 	
 	Method Do()
 		Graph.AddPivot( Pivot )
-		L_CurrentUndoList.AddFirst( Self )
+		Super.Do()
 	End Method
 	
 	
 	
 	Method Undo()
 		Graph.RemovePivot( Pivot )
-		L_CurrentRedoList.AddFirst( Self )
+		Super.Undo()
 	End Method
 End Type
 
@@ -289,14 +289,14 @@ Type LTAddLineToGraph Extends LTAction
 	
 	Method Do()
 		Graph.AddLine( Line )
-		L_CurrentUndoList.AddFirst( Self )
+		Super.Do()
 	End Method
 	
 	
 	
 	Method Undo()
 		Graph.RemoveLine( Line )
-		L_CurrentRedoList.AddFirst( Self )
+		Super.Undo()
 	End Method
 End Type
 
@@ -326,7 +326,7 @@ Type LTRemovePivotFromGraph Extends LTAction
 	Method Do()
 		Lines = TList( Graph.Pivots.ValueForKey( Pivot ) ).Copy()
 		Graph.RemovePivot( Pivot )
-		L_CurrentUndoList.AddFirst( Self )
+		Super.Undo()
 	End Method
 	
 	
@@ -336,7 +336,7 @@ Type LTRemovePivotFromGraph Extends LTAction
 		For Local Line:LTLine = Eachin Lines
 			Graph.AddLine( Line )
 		Next
-		L_CurrentRedoList.AddFirst( Self )
+		Super.Do()
 	End Method
 End Type
 

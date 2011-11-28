@@ -15,12 +15,18 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.3.7"
+ModuleInfo "Version: 1.3.9"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.9 (28.11.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added GetTileForPoint() method for LTTileMap."
+ModuleInfo "History: &nbsp; &nbsp; Added FirstCollidedSpriteOfGroup() method to LTSprite."
+ModuleInfo "History: &nbsp; &nbsp; Added AlterSize method to LTShape."
+ModuleInfo "History: &nbsp; &nbsp; Forms.mod module is merged into world editor and removed from modules directory."
+ModuleInfo "History: &nbsp; &nbsp; Sound.mod module is merged into MindStorm example and removed from modules directory."
 ModuleInfo "History: v1.3.8 (27.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; LTVisualizer now have FromRGBColor and FromHexColor creation functions."
 ModuleInfo "History: &nbsp; &nbsp; LTContourVisualizer now have FromWidthAndRGBColor and FromWidthAndHexColor creation functions."
@@ -162,7 +168,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.3.7"
+Const L_Version:String = "1.3.9"
 
 SeedRnd( MilliSecs() )
 

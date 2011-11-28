@@ -24,12 +24,23 @@ Include "LTHighScoresList.bmx"
 Include "LTAuthorsList.bmx"
 Include "LTGameOverWindow.bmx"
 
+Global L_OldIncbin:String = L_Incbin
+Global L_MenuPath:String
+
+Rem
 Include "menu_incbin.bmx"
 
 Incbin "russian.lng"
 Incbin "english.lng"
 Incbin "font.ttf"
 Incbin "images\calculator.png"
+EndRem
+
+If L_Incbin Then
+	L_MenuPath = L_Incbin
+Else
+	L_MenuPath = "MouseMenu\"
+End If
 
 Global Menu:LTMenu = New LTMenu
 
@@ -61,11 +72,13 @@ Type LTMenu Extends LTGUIProject
 		End If
 		L_CurrentProfile.Apply( [ Project, LTGUIProject( Self ) ] )
 		
-		'ChangeDir( "MouseMenu" )
+		If Not L_Incbin Then ChangeDir( "MouseMenu" )
 		World = LTWorld.FromFile( "menu.lw" )
-		LoadWindow( World, , "LTLanguageSelectionWindow" )
-		'ChangeDir( ".." )
+		If Not L_Incbin Then ChangeDir( ".." )
+		L_Incbin = L_OldIncbin
 		
+		DebugLog CurrentDir()
+		LoadWindow( World, , "LTLanguageSelectionWindow" )
 		SetLocalizationLanguage( LTProfile.GetLanguage( L_CurrentProfile.Language ) )
 		
 		Rem
@@ -84,7 +97,7 @@ Type LTMenu Extends LTGUIProject
 	
 	Method InitGraphics()
 		L_CurrentProfile.InitCamera( GUICamera )
-		SetImageFont( LoadImageFont( L_Incbin + "font.ttf", Floor( GUICamera.Viewport.Width / 80 ) ) )
+		SetImageFont( LoadImageFont( L_MenuPath + "font.ttf", Floor( GUICamera.Viewport.Width / 80 ) ) )
 	End Method
 	
 	Method DeInit()

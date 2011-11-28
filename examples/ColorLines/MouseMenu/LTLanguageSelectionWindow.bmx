@@ -16,7 +16,7 @@ Type LTLanguageSelectionWindow Extends LTWindow
 			Local LanguageFile:String = Button.GetParameter( "file" )
 			If LanguageFile Then
 				SetLocalizationMode( Localization_On )
-				Local Language:TMaxGuiLanguage = LoadLanguage( L_Incbin + LanguageFile )
+				Local Language:TMaxGuiLanguage = LoadLanguage( L_MenuPath + LanguageFile )
 				SetLanguageName( Language, Button.GetParameter( "text" ) )
 				If Button.GetParameter( "default" ) Then SetLocalizationLanguage( Language )
 				LanguageMap.Insert( Button, Language )

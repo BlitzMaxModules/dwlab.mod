@@ -194,6 +194,11 @@ Type LTShape Extends LTObject
 	
 	' ==================== Collisions ===================
 	
+	Method GroupFirstSpriteCollision:LTSprite( Sprite:LTSprite, CollisionType:Int )
+	End Method
+	
+	
+	
 	Method SpriteGroupCollisions( Sprite:LTSprite, CollisionType:Int )
 	End Method
 	
@@ -607,7 +612,7 @@ Type LTShape Extends LTObject
 	bbdoc: Sets the width of the shape.
 	about: It's better to use this method instead of equating Width field to new value.
 	
-	See also: #Width, #GetDiameter, #SetDiameter, #SetHeight, #SetSize
+	See also: #Width, #GetDiameter, #SetDiameter, #SetHeight, #SetSize, #AlterSize
 	End Rem
 	Method SetWidth( NewWidth:Double )	
 		SetSize( NewWidth, Height )
@@ -619,7 +624,7 @@ Type LTShape Extends LTObject
 	bbdoc: Sets the height of the shape.
 	about: It's better to use this method instead of equating Height field to new value.
 	
-	See also: #Height, #SetWidth, #SetSize
+	See also: #Height, #SetWidth, #SetSize, #AlterSize
 	End Rem
 	Method SetHeight( NewHeight:Double )	
 		SetSize( Width, NewHeight )
@@ -631,7 +636,7 @@ Type LTShape Extends LTObject
 	bbdoc: Sets the size of the shape.
 	about: It's better to use this method instead of equating Width and Height fields to new values.
 	
-	See also: #Width, #Height, #SetWidth, #SetHeight, #SetSizeAs
+	See also: #Width, #Height, #SetWidth, #SetHeight, #SetSizeAs, #AlterSize
 	End Rem
 	Method SetSize( NewWidth:Double, NewHeight:Double )
 		Width = NewWidth
@@ -643,7 +648,7 @@ Type LTShape Extends LTObject
 	
 	Rem
 	bbdoc: Sets the size of the shape as of given shape.
-	about: See also: #Width, #Height, #SetWidth, #SetHeight, #SetSize
+	about: See also: #Width, #Height, #SetWidth, #SetHeight, #SetSize, #AlterSize
 	End Rem
 	Method SetSizeAs( Shape:LTShape )
 		SetSize( Shape.Width, Shape.Height )
@@ -651,6 +656,20 @@ Type LTShape Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: Alters the size of the shape.
+	about: It's better to use this method instead of equating Width and Height fields to new values.
+	
+	See also: #Width, #Height, #SetWidth, #SetHeight, #SetSize, #SetSizeAs
+	End Rem
+	Method AlterSize( DWidth:Double, DHeight:Double )
+		Width :* DWidth
+		Height :* DHeight
+		Update()
+	End Method
+	
+	
+		
 	Rem
 	bbdoc: Returns diameter of circular shape.
 	returns: Width field of the shape.

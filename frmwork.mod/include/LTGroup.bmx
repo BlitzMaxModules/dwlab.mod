@@ -98,6 +98,12 @@ Type LTGroup Extends LTShape
 	
 	' ==================== Collisions ===================
 	
+	Method GroupFirstSpriteCollision:LTSprite( Sprite:LTSprite, CollisionType:Int )
+		Return Sprite.FirstCollidedSpriteOfGroup( Self, CollisionType )
+	End Method
+	
+	
+	
 	Method SpriteGroupCollisions( Sprite:LTSprite, CollisionType:Int )
 		Sprite.CollisionsWithGroup( Self, CollisionType )
 	End Method
@@ -114,6 +120,13 @@ Type LTGroup Extends LTShape
 	End Method
 		
 	' ==================== List methods ====================
+	
+	Method AddFirst:TLink( Shape:LTShape )
+		Return Children.AddFirst( Shape )
+	End Method
+	
+	
+	
 	
 	Method AddLast:TLink( Shape:LTShape )
 		Return Children.AddLast( Shape )

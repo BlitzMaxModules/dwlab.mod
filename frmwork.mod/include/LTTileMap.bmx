@@ -90,6 +90,13 @@ Type LTTileMap Extends LTIntMap
 	
 	
 	
+	Method GetTileForPoint( X:Double, Y:Double, TileX:Int Var, TileY:Int Var )
+		TileX = Floor( ( X - LeftX() ) / GetTileWidth() )
+		TileY = Floor( ( Y - TopY() ) / GetTileHeight() )
+	End Method
+	
+	
+	
 	Method GetClassTitle:String()
 		Return "Tile map"
 	End Method

@@ -235,6 +235,28 @@ Type LTSprite Extends LTShape
 	
 	
 	Rem
+	bbdoc: Searches the group for first sprite which collides with given.
+	Returns: First found sprite which collides with given.
+	about: Included groups will be also checked.
+	End Rem	
+	Method FirstCollidedSpriteOfGroup:LTSprite( Group:LTGroup, CollisionType:Int = 0 )
+		For Local Shape:LTShape = EachIn Group
+			If Shape <> Self Then
+				Local Collided:LTSprite = Shape.GroupFirstSpriteCollision( Self, CollisionType )
+				If Collided Then Return Collided
+			End If
+		Next
+	End Method
+	
+	
+	
+	Method GroupFirstSpriteCollision:LTSprite( Sprite:LTSprite, CollisionType:Int )
+		If CollidesWithSprite( Sprite ) Then Return Self
+	End Method
+	
+	
+	
+	Rem
 	bbdoc: Executes reaction for collision of sprite with shapes in given group.
 	about: For every collided shape collision handling method will be executed and corresponding parameters will be passed to this method.
 	You can specify collision type which will be passed to this method too.
@@ -243,8 +265,14 @@ Type LTSprite Extends LTShape
 	End Rem
 	Method CollisionsWithGroup( Group:LTGroup, CollisionType:Int = 0 )
 		For Local Shape:LTShape = EachIn Group
-			Shape.SpriteGroupCollisions( Self, CollisionType )
+			If Shape <> Self Then Shape.SpriteGroupCollisions( Self, CollisionType )
 		Next
+	End Method
+	
+	
+	
+	Method SpriteGroupCollisions( Sprite:LTSprite, CollisionType:Int = 0 )
+		If Sprite.CollidesWithSprite( Self ) Then Sprite.HandleCollisionWithSprite( Self, CollisionType )
 	End Method
 	
 	
@@ -366,12 +394,6 @@ Type LTSprite Extends LTShape
 					Next
 				Next
 		End Select
-	End Method
-	
-	
-	
-	Method SpriteGroupCollisions( Sprite:LTSprite, CollisionType:Int = 0 )
-		If Sprite.CollidesWithSprite( Self ) Then Sprite.HandleCollisionWithSprite( Self, CollisionType )
 	End Method
 	
 	

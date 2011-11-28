@@ -16,7 +16,20 @@ Import brl.jpgloader
 Import brl.bmploader
 
 Import dwlab.frmwork
-Import dwlab.forms
+
+Import brl.eventqueue
+?win32
+Import maxgui.win32maxguiex
+?linux
+Import maxgui.fltkmaxgui
+?macos
+Import maxgui.cocoamaxgui
+?
+
+Include "LTForm.bmx"
+Include "LTFormGadget.bmx"
+Include "LTHorizontalList.bmx"
+Include "LTMenuSwitch.bmx"
 
 Include "TPan.bmx"
 Include "TSelectShapes.bmx"

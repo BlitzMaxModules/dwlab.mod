@@ -15,8 +15,15 @@ Import brl.pngloader
 Import brl.oggloader
 
 Import dwlab.frmwork
-Import dwlab.sound
+?win32
+Import brl.directsoundaudio
+?linux
+Import brl.freeaudioaudio
+?macos
+Import brl.freeaudioaudio
+?
 
+Include "LTChannelPack.bmx"
 Include "TGame.bmx"
 Include "TTiles.bmx"
 Include "TPlayer.bmx"

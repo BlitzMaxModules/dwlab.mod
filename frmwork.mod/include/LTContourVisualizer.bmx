@@ -27,7 +27,7 @@ Type LTContourVisualizer Extends LTVisualizer
 	returns: New visualizer.
 	about: See also: #FromFile, #FromImage
 	End Rem
-	Function FromWidthAndRGBColor:LTVisualizer( Width:Double, Red:Double = 1.0, Green:Double = 1.0, Blue:Double = 1.0, Alpha:Double = 1.0, PivotScale:Double = 1.0 )
+	Function FromWidthAndRGBColor:LTContourVisualizer( Width:Double, Red:Double = 1.0, Green:Double = 1.0, Blue:Double = 1.0, Alpha:Double = 1.0, PivotScale:Double = 1.0 )
 		Local Visualizer:LTContourVisualizer = New LTContourVisualizer
 		Visualizer.SetColorFromRGB( Red, Green, Blue )
 		Visualizer.Alpha = Alpha
@@ -43,7 +43,7 @@ Type LTContourVisualizer Extends LTVisualizer
 	returns: New visualizer.
 	about: See also: #FromFile, #FromImage
 	End Rem
-	Function FromWidthAndHexColor:LTVisualizer( Width:Double, HexColor:String = "FFFFFF", Alpha:Double = 1.0, PivotScale:Double = 1.0 )
+	Function FromWidthAndHexColor:LTContourVisualizer( Width:Double, HexColor:String = "FFFFFF", Alpha:Double = 1.0, PivotScale:Double = 1.0 )
 		Local Visualizer:LTContourVisualizer = New LTContourVisualizer
 		Visualizer.SetColorFromHex( HexColor )
 		Visualizer.Alpha = Alpha

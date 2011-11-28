@@ -15,6 +15,7 @@ Framework brl.basic
 Import brl.jpgloader
 Import brl.pngloader
 Import brl.oggloader
+Import brl.audio
 Import brl.freetypefont
 Import brl.freeaudioaudio
 Import brl.openalaudio
@@ -24,7 +25,6 @@ Import brl.eventqueue
 Import dwlab.frmwork
 Import dwlab.gui
 Import dwlab.profiles
-Import dwlab.sound
 
 Include "TGame.bmx"
 Include "THUD.bmx"
@@ -41,12 +41,14 @@ Include "TExplosion.bmx"
 Include "MouseMenu/Menu.bmx"
 Include "TRestartButton.bmx"
 
+Rem
 Incbin "stop.ogg"
 Incbin "rush.ogg"
 Incbin "explosion.ogg"
 Incbin "select.ogg"
 Incbin "swap.ogg"
 Include "levels_incbin.bmx"
+EndRem
 
 AppTitle = "Color Lines 1.0 beta 3"
 

@@ -41,6 +41,6 @@ Type TExample Extends LTProject
 		For Local N:Int = 0 To 6
 			Ball[ N ].Draw()
 		Next
-		DrawText( "", 0, 0 )
+		DrawText( "Move cursor to see how the balls are limited in movement", 0, 0 )
 	End Method
 End Type
