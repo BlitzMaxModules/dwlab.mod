@@ -21,6 +21,8 @@ ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.10 (29.11.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added L_PrintText function."
 ModuleInfo "History: v1.3.9 (28.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added GetTileForPoint() method for LTTileMap."
 ModuleInfo "History: &nbsp; &nbsp; Added FirstCollidedSpriteOfGroup() method to LTSprite."

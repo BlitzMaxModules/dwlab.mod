@@ -47,6 +47,12 @@ Type LTLine Extends LTShape
 	Method SpriteGroupCollisions( Sprite:LTSprite, CollisionType:Int )
 		Sprite.CollisionsWithLine( Self, CollisionType )
 	End Method
+	
+	
+	
+	Method Length:Double()
+		Return Pivot[ 0 ].DistanceTo( Pivot[ 1 ] )
+	End Method
 
 	' ==================== Other ====================
 

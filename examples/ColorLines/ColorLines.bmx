@@ -16,6 +16,7 @@ Import brl.jpgloader
 Import brl.pngloader
 Import brl.oggloader
 Import brl.audio
+Import brl.directsoundaudio
 Import brl.freetypefont
 Import brl.freeaudioaudio
 Import brl.openalaudio

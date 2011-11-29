@@ -28,9 +28,9 @@ Type LTImage Extends LTObject
 	returns: New image (LTImage).
 	End Rem
 	Function FromFile:LTImage( Filename:String, XCells:Int = 1, YCells:Int = 1 )
-		?debug
-		If XCells <= 0 Or YCells <= 0 Then L_Error( "Cells quantity must be 1 or more" )
-		?
+		'?debug
+		'If XCells <= 0 Or YCells <= 0 Then L_Error( "Cells quantity must be 1 or more" )
+		'?
 		
 		Local Image:LTImage = New LTImage
 		Image.Filename = Filename
@@ -50,9 +50,11 @@ Type LTImage Extends LTObject
 	Method Init()
 		Local Pixmap:TPixmap = LoadPixmap( L_Incbin + Filename )
 		If Not Pixmap Then L_Error( L_Incbin + Filename + " cannot be loaded or not found." )
-		?debug
+		'?debug
 		'If PixmapWidth( BMaxImage ) Mod XCells <> 0 Or PixmapHeight( BMaxImage ) Mod YCells <> 0 Then L_Error( "Incorrect cells quantity for splitting" )
-		?
+		'?
+		If XCells < 0 Then XCells = PixmapWidth( Pixmap ) / -XCells
+		If YCells < 0 Then YCells = PixmapHeight( Pixmap ) / -YCells
 		BMaxImage = LoadAnimImage( Pixmap, PixmapWidth( Pixmap ) / XCells, PixmapHeight( Pixmap ) / YCells, 0, XCells * YCells )
 		MidHandleImage( BMaxImage )
 	End Method

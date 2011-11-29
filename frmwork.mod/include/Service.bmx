@@ -434,3 +434,31 @@ End Function
 Function L_ASCIIToUTF:String( Chars:String )
 	Return Chr( ( Chars[ 0 ] - 48 ) + ( Chars[ 1 ] - 48 ) * 64 + ( Chars[ 2 ] - 48 ) * 4096 )
 End Function
+
+
+
+
+
+Function L_PrintText( Text:String, X:Double, Y:Double, HorizontalAlign:Int = LTAlign.ToCenter, VerticalAlign:Int = LTAlign.ToCenter )
+	Local SX:Double, SY:Double
+	L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
+
+	Local Width:Double = TextWidth( Text )
+	Local Height:Double = TextHeight( Text )
+	
+	Select HorizontalAlign
+		Case LTAlign.ToCenter
+			SX :- 0.5 * Width
+		Case LTAlign.ToRight
+			SX :- Width
+	End Select
+	
+	Select VerticalAlign
+		Case LTAlign.ToCenter
+			SY :- 0.5 * Height
+		Case LTAlign.ToBottom
+			SY :- Height
+	End Select
+	
+	DrawText( Text, SX, SY )
+End Function

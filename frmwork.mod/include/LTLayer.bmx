@@ -46,6 +46,8 @@ Type LTLayer Extends LTGroup
 	
 	
 	Method DrawUsingVisualizer( Vis:LTVisualizer )
+		If Not Visible Then Return
+		
 		If MixContent Then
 			Local Shapes:TList = New TList
 			Local MainTileMap:LTTileMap

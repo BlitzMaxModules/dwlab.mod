@@ -171,8 +171,8 @@ Type LTSlider Extends LTGadget
 			End Select
 		Else
 			Local DValue:Double = 0
-			If ButtonAction = L_MouseWheelUp Then DValue = -MouseWheelValue
-			If ButtonAction = L_MouseWheelDown Then DValue = MouseWheelValue
+			If ButtonAction = L_MouseWheelDown Then DValue = -MouseWheelValue
+			If ButtonAction = L_MouseWheelUp Then DValue = MouseWheelValue
 			If DValue Then
 				Select SelectionType
 					Case Moving
