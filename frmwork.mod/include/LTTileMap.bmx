@@ -186,7 +186,6 @@ Type LTTileMap Extends LTIntMap
 		TileMap.SetResolution( XQuantity, YQuantity )
 		TileMap.TileSet = TileSet
 		If TileSet Then TileMap.TilesQuantity = TileSet.TilesQuantity
-		TileMap.Visualizer = New LTVisualizer
 		Return TileMap
 	End Function
 	

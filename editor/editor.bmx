@@ -65,7 +65,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.7.6"
+	Const Version:String = "1.7.7"
 	Const INIVersion:Int = 3
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 8
@@ -188,6 +188,7 @@ Type LTEditor Extends LTProject
 	Const MenuOpen:Int = 1
 	Const MenuSave:Int = 2
 	Const MenuSaveAs:Int = 3
+	Const MenuMerge:Int = 64
 	Const MenuRecentFile:Int = 100
 	Const MenuShowCollisionShapes:Int = 5
 	Const MenuShowVectors:Int = 6
@@ -604,14 +605,18 @@ Type LTEditor Extends LTProject
 			InitParameterNames()
 			AddParameterNames( World )
 			
-			Changed = False
 			SetIncbin()
+			Changed = False
 			
 			SetTitle()
 			RefreshProjectManager()
 		End If
 	End Method
+
 	
+	
+	Method InitWorld()
+	End Method
 	
 	
 	Method SaveWorld:Int( SaveAs:Int = False )
@@ -641,6 +646,36 @@ Type LTEditor Extends LTProject
 			
 			Return True
 		End If
+	End Method
+	
+	
+	
+	Method MergeWithWorld( Filename:String )
+		If Not Filename Then Return
+		
+		Local OldDir:String = CurrentDir()
+		ChangeDir( ExtractDir( Filename ) )
+		Local NewWorld:LTWorld = LTWorld.FromFile( Filename )
+		
+		For Local Image:LTImage = Eachin NewWorld.Images
+			World.Images.AddLast( Image )
+			RealPathsForImages.Insert( Image, RealPath( Image.Filename ) )
+			BigImages.Insert( Image, LoadImage( Image.Filename ) )
+		Next
+		
+		ChangeDir( OldDir )
+		
+		For Local TileSet:LTTileSet = Eachin NewWorld.Tilesets
+			World.Tilesets.AddLast( TileSet )
+		Next
+		
+		For Local Layer:LTLayer = Eachin NewWorld
+			World.AddLast( Layer )
+		Next
+		
+		AddParameterNames( NewWorld )
+		
+		RefreshProjectManager()
 	End Method
 	
 	
@@ -739,7 +774,7 @@ Type LTEditor Extends LTProject
 							SelectedParameter = New LTParameter
 							ParameterProperties.Execute()
 							If ParameterProperties.Succesful Then
-								AddParameter( ShapeForParameters, SelectedParameter.Name, SelectedParameter.Value )
+								ShapeForParameters.AddParameter( SelectedParameter.Name, SelectedParameter.Value )
 							End If
 						End If
 						If ParameterProperties.Succesful Then RefreshParametersListBox()
@@ -854,7 +889,7 @@ Type LTEditor Extends LTProject
 							Local Name:String = SelectedShape.GetName()
 							If EnterString( LocalizeString( "{{D_EnterClassNameOfObject}}" ), Name ) Then
 								For Local Shape:LTShape = Eachin SelectedShapes
-									SetParameter( Shape, "class", Name )
+									Shape.SetParameter( "class", Name )
 								Next
 								RefreshParametersListBox()
 								SetChanged()
@@ -865,7 +900,7 @@ Type LTEditor Extends LTProject
 							Local Name:String = SelectedShape.GetName()
 							If EnterString( LocalizeString( "{{D_EnterNameOfObject}}" ), Name ) Then
 								For Local Shape:LTShape = Eachin SelectedShapes
-									SetParameter( Shape, "name", Name )
+									Shape.SetParameter( "name", Name )
 								Next
 								RefreshParametersListBox()
 								SetChanged()
@@ -877,7 +912,7 @@ Type LTEditor Extends LTProject
 							ParameterProperties.Execute()
 							If ParameterProperties.Succesful Then
 								For Local Shape:LTShape = Eachin SelectedShapes
-									AddParameter( Shape, SelectedParameter.Name, SelectedParameter.Value )
+									Shape.AddParameter( SelectedParameter.Name, SelectedParameter.Value )
 								Next
 								RefreshParametersListBox()
 								SetChanged()
@@ -922,14 +957,14 @@ Type LTEditor Extends LTProject
 					Case MenuRename
 						Local Name:String = SelectedShape.GetName()
 						If EnterString( LocalizeString( "{{D_EnterNameOfObject}}" ), Name ) Then
-							SetParameter( SelectedShape, "name", Name )
+							SelectedShape.SetParameter( "name", Name )
 							RefreshParametersListBox()
 							SetChanged()
 						End If
 					Case MenuSetClass
 						Local Class:String = SelectedShape.GetParameter( "class" )
 						If EnterString( LocalizeString( "{{D_EnterClassNameOfObject}}" ), Class ) Then
-							SetParameter( SelectedShape, "class", Class )
+							SelectedShape.SetParameter( "class", Class )
 							RefreshParametersListBox()
 							SetChanged()
 						End If
@@ -966,6 +1001,8 @@ Type LTEditor Extends LTProject
 						SaveWorld()
 					Case MenuSaveAs
 						SaveWorld( True )
+					Case MenuMerge
+						MergeWithWorld( RequestFile( LocalizeString( "{{D_SelectFileNameToMerge}}" ), "DWLab world file:lw" ) )
 					Case MenuExit
 						ExitEditor()
 						
@@ -1014,7 +1051,7 @@ Type LTEditor Extends LTProject
 						Local LayerName:String = ""
 						If EnterString( "{{D_EnterNameOfLayer}}", LayerName ) Then
 							CurrentViewLayer = New LTLayer
-							SetParameter( CurrentViewLayer, "name", LayerName )
+							CurrentViewLayer.SetParameter( "name", LayerName )
 							LTLayer( SelectedShape ).AddLast( CurrentViewLayer )
 							SetChanged()
 							RefreshProjectManager()
@@ -1026,7 +1063,7 @@ Type LTEditor Extends LTProject
 							Local YQuantity:Int = 16
 							If ChooseParameter( XQuantity, YQuantity, "{{W_ChooseTilemapSize}}", "{{L_WidthInTiles}}", "{{L_HeightInTiles}}" ) Then
 								Local Tilemap:LTTileMap = LTTilemap.Create( Null, XQuantity, YQuantity )
-								SetParameter( Tilemap, "name", Name )
+								Tilemap.SetParameter( "name", Name )
 								If SelectImageOrTileset( Tilemap ) Then
 									Local Layer:LTLayer = LTLayer( SelectedShape )
 									InitTileMap( Tilemap )
@@ -1056,7 +1093,7 @@ Type LTEditor Extends LTProject
 								Local CellSize:Double = TextCellSize.ToDouble()
 								If CellSize > 0.0 Then
 									Local SpriteMap:LTSpriteMap = New LTSpriteMap
-									SetParameter( SpriteMap, "name", Name )
+									SpriteMap.SetParameter( "name", Name )
 									SpriteMap.CellWidth = CellSize
 									SpriteMap.CellHeight = CellSize
 									
@@ -1545,6 +1582,7 @@ Type LTEditor Extends LTProject
 						DrawRect( X - 3, Y - 3, 7, 7 )
 						SetColor( 0, 0, 0 )
 						DrawRect( X - 2, Y - 2, 5, 5 )
+						SetColor( 255, 255, 255 )
 					Next
 				End If
 			End If
@@ -1772,7 +1810,7 @@ Type LTEditor Extends LTProject
 	
 	Method AddLayer:LTLayer( LayerName:String )
 		Local Layer:LTLayer = New LTLayer
-		SetParameter( Layer, "name", LayerName )
+		Layer.SetParameter( "name", LayerName )
 		World.AddLast( Layer )
 		Return Layer
 	End Method
@@ -1885,6 +1923,7 @@ Type LTEditor Extends LTProject
 		CreateMenu( "{{M_Open}}", MenuOpen, FileMenu )
 		CreateMenu( "{{M_Save}}", MenuSave, FileMenu )
 		CreateMenu( "{{M_SaveAs}}", MenuSaveAs, FileMenu )
+		CreateMenu( "{{M_Merge}}", MenuMerge, FileMenu )
 		CreateMenu( "", 0, FileMenu )
 		
 		Local ItemExists:Int = False
@@ -1946,30 +1985,6 @@ Type LTEditor Extends LTProject
 		End If
 		RefreshProjectManager()
 		RefreshTilemap()
-	End Method
-	
-	
-	
-	Method SetParameter( Shape:LTShape, Name:String, Value:String )
-		If Shape.Parameters Then
-			For Local Parameter:LTParameter = Eachin Shape.Parameters
-				If Parameter.Name = Name Then
-					Parameter.Value = Value
-					Return
-				End If
-			Next
-		End If
-		AddParameter( Shape, Name, Value )
-	End Method
-	
-	
-	
-	Method AddParameter:String( Shape:LTShape, Name:String, Value:String )
-		Local Parameter:LTParameter = New LTParameter
-		Parameter.Name = Name
-		Parameter.Value = Value
-		If Not Shape.Parameters Then Shape.Parameters = New TList
-		Shape.Parameters.AddLast( Parameter )
 	End Method
 	
 	

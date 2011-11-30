@@ -78,6 +78,14 @@ Type LTDoubleMap Extends LTMap
 	bbdoc: 2D array of heightmap values.
 	End Rem
 	Field Value:Double[ , ] = New Double[ 1, 1 ]
+	
+	' ==================== Creating ===================
+	
+	Function Create:LTDoubleMap( XQuantity:Int, YQuantity:Int )
+		Local DoubleMap:LTDoubleMap = New LTDoubleMap
+		DoubleMap.SetResolution( XQuantity, YQuantity )
+		Return DoubleMap
+	End Function
 
 	' ==================== Parameters ====================
 	

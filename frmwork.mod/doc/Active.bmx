@@ -11,14 +11,14 @@ Type TExample Extends LTProject
 	Const SpritesQuantity:Int = 50
 	
 	Field Layer:LTLayer = New LTLayer
-	Field Shape:LTShape = LTSprite.FromShape( 0, 0, 30, 20 )
+	Field Rectangle:LTShape = LTSprite.FromShape( 0, 0, 30, 20 )
 	Field Cursor:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
 	
 	Method Init()
 		For Local N:Int = 1 To SpritesQuantity
 			TBall.Create()
 		Next
-		Shape.Visualizer = LTContourVisualizer.FromWidthAndHexColor( 0.1, "FF0000" )
+		Rectangle.Visualizer = LTContourVisualizer.FromWidthAndHexColor( 0.1, "FF0000" )
 		L_InitGraphics()
 	End Method
 	
@@ -36,7 +36,7 @@ Type TExample Extends LTProject
 
 	Method Render()
 		Layer.Draw()
-		Shape.Draw()
+		Rectangle.Draw()
 		DrawText( "Press left mouse button on circle to make it inactive, right button to make it invisible, space to restore all back.", 0, 0 )
 	End Method
 End Type
@@ -49,14 +49,14 @@ Type TBall Extends LTSprite
 		Ball.Angle = Rnd( 360 )
 		Ball.Velocity = Rnd( 3, 7 )
 		Ball.ShapeType = LTSprite.Oval
-		Ball.Visualizer = LTVisualizer.FromRGBColor( Rnd( 0.25, 1.0 ), Rnd( 0.25, 1.0 ), Rnd( 0.25, 1.0 ) )
+		Ball.Visualizer.SetRandomColor()
 		Example.Layer.AddLast( Ball )
 		Return Ball
 	End Function
 	
 	Method Act()
 		MoveForward()
-		BounceInside( Example.Shape )
+		BounceInside( Example.Rectangle )
 		CollisionsWithSprite( Example.Cursor )
 	End Method
 	

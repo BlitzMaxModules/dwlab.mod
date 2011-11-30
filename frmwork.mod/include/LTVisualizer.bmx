@@ -245,6 +245,10 @@ Type LTVisualizer Extends LTObject
 	
 	
 	
+	Rem
+	bbdoc: Draws sprite shape.
+	about: Isometric camera deformations are also applied.
+	End Rem
 	Method DrawSpriteShape( Sprite:LTSprite )
 		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
 		If Sprite.ShapeType = LTSprite.Pivot Then
@@ -499,7 +503,7 @@ Type LTVisualizer Extends LTObject
 	about: Each component is in [ 0.5, 1.0 ] range.
 	End Rem
 	Method SetRandomColor()
-		SetColorFromRGB( Rnd( 0.5, 1 ), Rnd( 0.5, 1 ), Rnd( 0.5, 1 ) )
+		SetColorFromRGB( Rnd( 0.25, 1 ), Rnd( 0.25, 1 ), Rnd( 0.25, 1 ) )
 	End Method
 	
 	

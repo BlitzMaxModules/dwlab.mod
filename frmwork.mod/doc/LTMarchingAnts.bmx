@@ -8,24 +8,21 @@ Global Example:TExample = New TExample
 Example.Execute()
 
 Type TExample Extends LTProject
-	Const KoloboksQuantity:Int = 50
+	Const SpritesQuantity:Int = 50
 	
 	Field Layer:LTLayer = New LTLayer
 	Field Cursor:TCursor = New TCursor
-	Field KolobokImage:LTImage = LTImage.FromFile( "kolobok.png" )
+	Field SpriteImage:LTImage = LTImage.FromFile( "kolobok.png" )
 	Field Selected:LTSprite
 	Field MarchingAnts:LTMarchingAnts = New LTMarchingAnts
 	
 	Method Init()
-		For Local N:Int = 1 To KoloboksQuantity
-			Local Kolobok:LTSprite = New LTSprite
-			Kolobok.SetCoords( Rnd( -15, 15 ), Rnd( -11, 11 ) )
-			Kolobok.SetDiameter( Rnd( 1, 3 ) )
-			Kolobok.ShapeType = LTSprite.Oval
-			Kolobok.Angle = Rnd( 360 )
-			Kolobok.Visualizer.SetRandomColor()
-			Kolobok.Visualizer.Image = KolobokImage
-			Layer.AddLast( Kolobok )
+		For Local N:Int = 1 To SpritesQuantity
+			Local Sprite:LTSprite = LTSprite.FromShape( Rnd( -15, 15 ), Rnd( -11, 11 ), , , LTSprite.Oval, Rnd( 360 ) )
+			Sprite.SetDiameter( Rnd( 1, 3 ) )
+			Sprite.Visualizer.SetRandomColor()
+			Sprite.Visualizer.Image = SpriteImage
+			Layer.AddLast( Sprite )
 		Next
 		
 		Cursor.SetDiameter( 0.5 )
@@ -40,7 +37,7 @@ Type TExample Extends LTProject
 	Method Render()
 		Layer.Draw()
 		If Selected Then Selected.DrawUsingVisualizer( Example.MarchingAnts )
-		DrawText( "Select kolobok by left-clicking on it", 0, 0 )
+		DrawText( "Select Sprite by left-clicking on it", 0, 0 )
 	End Method
 End Type
 

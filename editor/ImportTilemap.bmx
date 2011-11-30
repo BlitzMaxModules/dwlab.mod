@@ -100,7 +100,7 @@ Function TilemapImportDialog:LTTileMap( Multiple:Int = False )
 				
 				If TilemapWidth Mod TileWidth = 0 And TilemapHeight Mod TileHeight = 0 Then
 					Local Layer:LTLayer = New LTLayer
-					Editor.SetParameter( Layer, "name", "Level " + Num )
+					Layer.SetParameter( "name", "Level " + Num )
 					Editor.World.AddLast( Layer )
 					
 					TileMap = ImportTilemap( TileWidth, TileHeight, TilemapPixmap, TileSet )

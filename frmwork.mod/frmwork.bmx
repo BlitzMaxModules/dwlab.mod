@@ -15,12 +15,14 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.3.9"
+ModuleInfo "Version: 1.3.10"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.11 (30.11.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added SetParameter() and RemoveParameter() methods to LTShape."
 ModuleInfo "History: v1.3.10 (29.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added L_PrintText function."
 ModuleInfo "History: v1.3.9 (28.11.11)"
@@ -170,7 +172,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.3.9"
+Const L_Version:String = "1.3.10"
 
 SeedRnd( MilliSecs() )
 

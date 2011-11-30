@@ -189,6 +189,14 @@ Type LTShape Extends LTObject
 		Local VX:Double, VY:Double, VWidth:Double, VHeight:Double
 		L_CurrentCamera.FieldToScreen( LeftX(), TopY(), VX, VY )
 		L_CurrentCamera.SizeFieldToScreen( Width, Height, VWidth, VHeight )
+		If VX < 0 Then 
+			VWidth :+ VX
+			VX = 0
+		End If
+		If VY < 0 Then 
+			VHeight :+ VY
+			VY = 0
+		End If
 		SetViewport( VX, VY, VWidth, VHeight )
 	End Method
 	
@@ -974,7 +982,27 @@ Type LTShape Extends LTObject
 	
 	
 	Rem
-	bbdoc: Adds parameter to the shape.
+	bbdoc: Sets shape parameter  with given name and value.
+	about: Recommended to use it only if you build your own world via code.
+	
+	See also: #GetParameter
+	End Rem
+	Method SetParameter( Name:String, Value:String )
+		If Parameters Then
+			For Local Parameter:LTParameter = Eachin Parameters
+				If Parameter.Name = Name Then
+					Parameter.Value = Value
+					Return
+				End If
+			Next
+		End If
+		AddParameter( Name, Value )
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Adds parameter with given name and value to the shape.
 	about: Recommended to use it only if you build your own world via code.
 	
 	See also: #GetParameter
@@ -985,6 +1013,24 @@ Type LTShape Extends LTObject
 		Parameter.Value = Value
 		If Not Parameters Then Parameters = New TList
 		Parameters.AddLast( Parameter )
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Removes parameter with given name from the shape.
+	about: Recommended to use it only if you build your own world via code.
+	
+	See also: #GetParameter
+	End Rem
+	Method RemoveParameter( Name:String )
+		If Not Parameters Then Return
+		Local Link:TLink = Parameters.FirstLink()
+		While Link
+			If LTParameter( Link.Value() ).Name = Name Then Link.Remove()
+			Link = Link.NextLink() 
+		WEnd
+		If Parameters.IsEmpty() Then Parameters = Null
 	End Method
 	
 	' ==================== Cloning ===================
