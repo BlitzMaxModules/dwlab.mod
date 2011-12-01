@@ -264,7 +264,7 @@ Type LTEditor Extends LTProject
 		SetLocalizationLanguage( EnglishLanguage )
 		AppTitle = LocalizeString( "{{Title}}" + Version )
 	
-		Window  = CreateWindow( "{{Title}}", 0, 0, 640, 480 )
+		Window  = CreateWindow( "{{Title}}", 0, 0, 640, 480, Null, WINDOW_TITLEBAR | WINDOW_RESIZABLE | WINDOW_MENU )
 		MaximizeWindow( Window )
 		
 		Toolbar = CreateToolBar( "incbin::toolbar.png", 0, 0, 0, 0, Window )

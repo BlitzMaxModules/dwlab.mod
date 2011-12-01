@@ -34,5 +34,6 @@ Type TGame Extends LTProject
     Ground.Draw()
     Grid.Draw()
     Clouds.Draw()
+	DrawText( "Move camera with arrow keys", 0, 0 )
   End Method
 End Type
