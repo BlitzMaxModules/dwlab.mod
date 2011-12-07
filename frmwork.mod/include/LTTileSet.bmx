@@ -165,12 +165,13 @@ Type LTTileSet Extends LTObject
 	
 	
 	Rem
-	bbdoc: Creates tileset with given image.
+	bbdoc: Creates tileset with given image and empty tile number.
 	returns: Created tileset.
 	End Rem
-	Function Create:LTTileSet( Image:LTImage )
+	Function Create:LTTileSet( Image:LTImage, EmptyTile:Int = -1 )
 		Local TileSet:LTTileSet = New LTTileSet
 		TileSet.Image = Image
+		TileSet.EmptyTile = EmptyTile
 		TileSet.RefreshTilesQuantity()
 		Return TileSet
 	End Function

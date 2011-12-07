@@ -14,6 +14,7 @@ End Rem
 Type LTDistanceJoint Extends LTBehaviorModel
 	Field ParentPivot:LTSprite
 	Field Distance:Double
+	Field FixedAngle:Int = True
 	
 	
 	
@@ -22,9 +23,10 @@ Type LTDistanceJoint Extends LTBehaviorModel
 	returns: 
 	about: 
 	End Rem
-	Function Create:LTDistanceJoint( ParentPivot:LTSprite )
+	Function Create:LTDistanceJoint( ParentPivot:LTSprite, FixedAngle:Int = True )
 		Local Joint:LTDistanceJoint = New LTDistanceJoint
 		Joint.ParentPivot = ParentPivot
+		Joint.FixedAngle = FixedAngle
 		Return Joint
 	End Function
 	
@@ -43,7 +45,7 @@ Type LTDistanceJoint Extends LTBehaviorModel
 		Else
 			Local K:Double = Distance / NewDistance
 			Local VectorSprite:LTVectorSprite = LTVectorSprite( Shape )
-			If VectorSprite Then
+			If VectorSprite And FixedAngle Then
 				Local DDistance:Double = NewDistance - Distance
 				VectorSprite.DX :+ ( ParentPivot.X - Shape.X ) * DDistance
 				VectorSprite.DY :+ ( ParentPivot.Y - Shape.Y ) * DDistance

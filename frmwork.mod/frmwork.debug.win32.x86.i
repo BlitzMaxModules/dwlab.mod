@@ -362,7 +362,7 @@ LTTileSet^LTObject{
 -Enframe%(TileMap:LTTileMap,X%,Y%)="_dwlab_frmwork_LTTileSet_Enframe"
 -GetTileCategory%(TileMap:LTTileMap,X%,Y%)="_dwlab_frmwork_LTTileSet_GetTileCategory"
 -Update%()="_dwlab_frmwork_LTTileSet_Update"
-+Create:LTTileSet(Image:LTImage)="_dwlab_frmwork_LTTileSet_Create"
++Create:LTTileSet(Image:LTImage,EmptyTile%=-1)="_dwlab_frmwork_LTTileSet_Create"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTTileSet_XMLIO"
 }="dwlab_frmwork_LTTileSet"
 LTTileCategory^LTObject{
@@ -861,9 +861,10 @@ LTRevoluteJoint^LTBehaviorModel{
 LTDistanceJoint^LTBehaviorModel{
 .ParentPivot:LTSprite&
 .Distance!&
+.FixedAngle%&
 -New%()="_dwlab_frmwork_LTDistanceJoint_New"
 -Delete%()="_dwlab_frmwork_LTDistanceJoint_Delete"
-+Create:LTDistanceJoint(ParentPivot:LTSprite)="_dwlab_frmwork_LTDistanceJoint_Create"
++Create:LTDistanceJoint(ParentPivot:LTSprite,FixedAngle%=1)="_dwlab_frmwork_LTDistanceJoint_Create"
 -Init%(Shape:LTShape)="_dwlab_frmwork_LTDistanceJoint_Init"
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTDistanceJoint_ApplyTo"
 }="dwlab_frmwork_LTDistanceJoint"
