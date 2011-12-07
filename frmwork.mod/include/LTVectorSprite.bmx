@@ -48,6 +48,35 @@ Type LTVectorSprite Extends LTSprite
 	Method Init()	
 		UpdateFromAngularModel()
 	End Method
+	
+	
+	
+	Method BounceInside( Shape:LTShape, LeftSide:Int = True, TopSide:Int = True, RightSide:Int = True, BottomSide:Int = True )
+		If LeftSide Then
+			If LeftX() < Shape.LeftX() Then
+				X = Shape.LeftX() + 0.5 * Width
+				DX = Abs( DX )
+			End If
+		End If
+		If TopSide Then
+			If TopY() < Shape.TopY() Then
+				Y = Shape.TopY() + 0.5 * Height
+				DY = Abs( DY )
+			End If
+		End If
+		If RightSide Then
+			If RightX() > Shape.RightX() Then
+				X = Shape.RightX() - 0.5 * Width
+				DX = -Abs( DX )
+			End If
+		End If
+		If BottomSide Then
+			If BottomY() > Shape.BottomY() Then
+				Y = Shape.BottomY() - 0.5 * Height
+				DY = -Abs( DY )
+			End If
+		End If
+	End Method
 
 	
 	

@@ -45,11 +45,11 @@ Type LTDistanceJoint Extends LTBehaviorModel
 		Else
 			Local K:Double = Distance / NewDistance
 			Local VectorSprite:LTVectorSprite = LTVectorSprite( Shape )
-			If VectorSprite And FixedAngle Then
+			If VectorSprite Then
 				Local DDistance:Double = NewDistance - Distance
 				VectorSprite.DX :+ ( ParentPivot.X - Shape.X ) * DDistance
 				VectorSprite.DY :+ ( ParentPivot.Y - Shape.Y ) * DDistance
-				VectorSprite.UpdateAngularModel()
+				If FixedAngle Then VectorSprite.UpdateAngularModel()
 			End If
 			Shape.SetCoords( ParentPivot.X + ( Shape.X - ParentPivot.X ) * K, ParentPivot.Y + ( Shape.Y - ParentPivot.Y ) * K )
 		End If

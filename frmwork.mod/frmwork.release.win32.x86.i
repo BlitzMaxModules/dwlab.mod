@@ -240,6 +240,7 @@ LTVectorSprite^LTSprite{
 +FromShapeAndVector:LTVectorSprite(X!,Y!,Width!=1!,Height!=1!,ShapeType%=2,DX!=0!,DY!=0!)="_dwlab_frmwork_LTVectorSprite_FromShapeAndVector"
 -GetClassTitle$()="_dwlab_frmwork_LTVectorSprite_GetClassTitle"
 -Init%()="_dwlab_frmwork_LTVectorSprite_Init"
+-BounceInside%(Shape:LTShape,LeftSide%=1,TopSide%=1,RightSide%=1,BottomSide%=1)="_dwlab_frmwork_LTVectorSprite_BounceInside"
 -UpdateFromAngularModel%()="_dwlab_frmwork_LTVectorSprite_UpdateFromAngularModel"
 -UpdateAngularModel%()="_dwlab_frmwork_LTVectorSprite_UpdateAngularModel"
 -MoveForward%()="_dwlab_frmwork_LTVectorSprite_MoveForward"
@@ -535,6 +536,14 @@ LTMap^LTShape{
 -Stretch:LTMap(XMultiplier%,YMultiplier%)="_dwlab_frmwork_LTMap_Stretch"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTMap_XMLIO"
 }="dwlab_frmwork_LTMap"
+LTBone^LTLine{
+.MovingResistance!&[]&
+.Distance!&
+-New%()="_dwlab_frmwork_LTBone_New"
+-Delete%()="_dwlab_frmwork_LTBone_Delete"
++FromPivotsAndResistances:LTBone(Pivot1:LTSprite,Pivot2:LTSprite,Pivot1MovingResistance!=0.5!,Pivot2MovingResistance!=0.5!)="_dwlab_frmwork_LTBone_FromPivotsAndResistances"
+-Act%()="_dwlab_frmwork_LTBone_Act"
+}="dwlab_frmwork_LTBone"
 LTLine^LTShape{
 .Pivot:LTSprite&[]&
 -New%()="_dwlab_frmwork_LTLine_New"
