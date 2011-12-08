@@ -700,6 +700,18 @@ Type LTShape Extends LTObject
 	
 	
 	Rem
+	bbdoc: Alters both sizes of the shape (pretending they are equal).
+	about: It's better to use this method instead of equating Width and Height fields to new values.
+	End Rem
+	Method AlterDiameter( D:Double )
+		Width :* D
+		Height :* D
+		Update()
+	End Method
+	
+	
+	
+	Rem
 	bbdoc: Corrects height to display shape image with no distortion.
 	about: After this operation ratio of width to height will be the same as ratio of image width to image height.
 	

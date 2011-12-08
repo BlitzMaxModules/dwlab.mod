@@ -1,23 +1,36 @@
-ModuleInfo "Version: 1.3.10"
+ModuleInfo "Version: 1.3.13"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.13 (08.12.11)"
+ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.12 (07.12.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added FixedAngle parameter to LTDistanceJoint."
+ModuleInfo "History: &nbsp; &nbsp; Created different BounceInside() method for LTVectorSprite."
 ModuleInfo "History: v1.3.11 (30.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added SetParameter() and RemoveParameter() methods to LTShape."
+ModuleInfo "History: &nbsp; &nbsp; Added creation function to LTDoubleMap."
+ModuleInfo "History: &nbsp; &nbsp; Fixed a bug in LTShape SetAsViewport() method."
 ModuleInfo "History: v1.3.10 (29.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added L_PrintText function."
+ModuleInfo "History: &nbsp; &nbsp; Added Length function to LTLine."
 ModuleInfo "History: v1.3.9 (28.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added GetTileForPoint() method for LTTileMap."
 ModuleInfo "History: &nbsp; &nbsp; Added FirstCollidedSpriteOfGroup() method to LTSprite."
 ModuleInfo "History: &nbsp; &nbsp; Added AlterSize method to LTShape."
 ModuleInfo "History: &nbsp; &nbsp; Forms.mod module is merged into world editor and removed from modules directory."
 ModuleInfo "History: &nbsp; &nbsp; Sound.mod module is merged into MindStorm example and removed from modules directory."
+ModuleInfo "History: &nbsp; &nbsp; Added AlterSize() method to the LTShape."
+ModuleInfo "History: &nbsp; &nbsp; Added FirstCollidedSpriteOfGroup() method to LTSprite."
+ModuleInfo "History: &nbsp; &nbsp; Added GetTileForPoint() method to LTTileMap."
 ModuleInfo "History: v1.3.8 (27.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; LTVisualizer now have FromRGBColor and FromHexColor creation functions."
 ModuleInfo "History: &nbsp; &nbsp; LTContourVisualizer now have FromWidthAndRGBColor and FromWidthAndHexColor creation functions."
 ModuleInfo "History: &nbsp; &nbsp; Added MoveBackwards() and BounseInside() methods to LTSprite."
 ModuleInfo "History: &nbsp; &nbsp; LTLine's creation function renamed to FromPivots()."
+ModuleInfo "History: &nbsp; &nbsp; Added FromFileAndBorders() creation function to LTRasterFrame."
+ModuleInfo "History: &nbsp; &nbsp; Added SetRandomColor() method to LTVisualizer."
 ModuleInfo "History: v1.3.7 (22.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Tile number retrieving method is extracted from tile drawing method in LTVisualizer"
 ModuleInfo "History: &nbsp; &nbsp; Added AddParameter() method to the LTShape."
@@ -146,7 +159,7 @@ import brl.d3d9max2d
 import brl.random
 import brl.reflection
 import brl.retro
-L_Version$=$"1.3.10"
+L_Version$=$"1.3.13"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
@@ -245,7 +258,7 @@ LTVectorSprite^LTSprite{
 -UpdateAngularModel%()="_dwlab_frmwork_LTVectorSprite_UpdateAngularModel"
 -MoveForward%()="_dwlab_frmwork_LTVectorSprite_MoveForward"
 }="dwlab_frmwork_LTVectorSprite"
-LTCamera^LTSprite{
+LTCamera^LTVectorSprite{
 .Viewport:LTShape&
 .K!&
 .DX!&
@@ -258,6 +271,7 @@ LTCamera^LTSprite{
 .VY2!&
 .VK!&
 .AVK!&
+.Acceleration!&
 -New%()="_dwlab_frmwork_LTCamera_New"
 -Delete%()="_dwlab_frmwork_LTCamera_Delete"
 -ScreenToField%(ScreenX!,ScreenY!,FieldX! Var,FieldY! Var)="_dwlab_frmwork_LTCamera_ScreenToField"
@@ -273,6 +287,7 @@ LTCamera^LTSprite{
 -ShiftCameraToPoint%(NewX!,NewY!)="_dwlab_frmwork_LTCamera_ShiftCameraToPoint"
 -AlterCameraMagnification%(NewK!)="_dwlab_frmwork_LTCamera_AlterCameraMagnification"
 -Update%()="_dwlab_frmwork_LTCamera_Update"
+-FollowPoint%(X!,Y!)="_dwlab_frmwork_LTCamera_FollowPoint"
 -ApplyColor%(Intensity!,Red!,Green!,Blue!)="_dwlab_frmwork_LTCamera_ApplyColor"
 -Lighten%(Intensity!)="_dwlab_frmwork_LTCamera_Lighten"
 -Darken%(Intensity!)="_dwlab_frmwork_LTCamera_Darken"
@@ -329,7 +344,7 @@ Rectangle%=2
 -HandleCollisionWithSprite%(Sprite:LTSprite,CollisionType%=0)="_dwlab_frmwork_LTSprite_HandleCollisionWithSprite"
 -HandleCollisionWithTile%(TileMap:LTTileMap,TileX%,TileY%,CollisionType%=0)="_dwlab_frmwork_LTSprite_HandleCollisionWithTile"
 -HandleCollisionWithLine%(Line:LTLine,CollisionType%)="_dwlab_frmwork_LTSprite_HandleCollisionWithLine"
--WedgeOffWithSprite%(Sprite:LTSprite,SelfMovingResistance!,SpriteMovingResistance!)="_dwlab_frmwork_LTSprite_WedgeOffWithSprite"
+-WedgeOffWithSprite%(Sprite:LTSprite,SelfMovingResistance!=0.5!,SpriteMovingResistance!=0.5!)="_dwlab_frmwork_LTSprite_WedgeOffWithSprite"
 -PushFromSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTSprite_PushFromSprite"
 -PushFromTile%(TileMap:LTTileMap,TileX%,TileY%)="_dwlab_frmwork_LTSprite_PushFromTile"
 -PushFromTileSprite%(TileSprite:LTSprite,DX!,DY!,XScale!,YScale!)="_dwlab_frmwork_LTSprite_PushFromTileSprite"
@@ -342,6 +357,7 @@ Rectangle%=2
 -DirectAs%(Sprite:LTSprite)="_dwlab_frmwork_LTSprite_DirectAs"
 -Turn%(TurningSpeed!)="_dwlab_frmwork_LTSprite_Turn"
 -DirectTo%(Shape:LTShape)="_dwlab_frmwork_LTSprite_DirectTo"
+-AlterAngle%(DAngle!)="_dwlab_frmwork_LTSprite_AlterAngle"
 -Animate%(Project:LTProject,Speed!,FramesQuantity%=0,FrameStart%=0,StartingTime!=0!,PingPong%=0)="_dwlab_frmwork_LTSprite_Animate"
 -Clone:LTShape()="_dwlab_frmwork_LTSprite_Clone"
 -CopyTo%(Shape:LTShape)="_dwlab_frmwork_LTSprite_CopyTo"
@@ -478,7 +494,7 @@ CircleBound!=0.707107!
 -ToNewPixmap:brl.pixmap.TPixmap(Channel%=4)="_dwlab_frmwork_LTDoubleMap_ToNewPixmap"
 -PasteToImage%(Image:LTImage,XShift%=0,YShift%=0,Frame%=0,Channel%=4)="_dwlab_frmwork_LTDoubleMap_PasteToImage"
 -PasteToPixmap%(Pixmap:brl.pixmap.TPixmap,XShift%=0,YShift%=0,Channel%=4)="_dwlab_frmwork_LTDoubleMap_PasteToPixmap"
--Paste%(SourceMap:LTDoubleMap,X%,Y%,Mode%=0)="_dwlab_frmwork_LTDoubleMap_Paste"
+-Paste%(SourceMap:LTDoubleMap,X%=0,Y%=0,Mode%=0)="_dwlab_frmwork_LTDoubleMap_Paste"
 -ExtractTo%(TileMap:LTIntMap,VFrom!,VTo!,TileNum%)="_dwlab_frmwork_LTDoubleMap_ExtractTo"
 -Blur%()="_dwlab_frmwork_LTDoubleMap_Blur"
 -PerlinNoise%(StartingXFrequency%,StartingYFrequency!,StartingAmplitude!,DAmplitude!,LayersQuantity%)="_dwlab_frmwork_LTDoubleMap_PerlinNoise"
@@ -536,14 +552,6 @@ LTMap^LTShape{
 -Stretch:LTMap(XMultiplier%,YMultiplier%)="_dwlab_frmwork_LTMap_Stretch"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTMap_XMLIO"
 }="dwlab_frmwork_LTMap"
-LTBone^LTLine{
-.MovingResistance!&[]&
-.Distance!&
--New%()="_dwlab_frmwork_LTBone_New"
--Delete%()="_dwlab_frmwork_LTBone_Delete"
-+FromPivotsAndResistances:LTBone(Pivot1:LTSprite,Pivot2:LTSprite,Pivot1MovingResistance!=0.5!,Pivot2MovingResistance!=0.5!)="_dwlab_frmwork_LTBone_FromPivotsAndResistances"
--Act%()="_dwlab_frmwork_LTBone_Act"
-}="dwlab_frmwork_LTBone"
 LTLine^LTShape{
 .Pivot:LTSprite&[]&
 -New%()="_dwlab_frmwork_LTLine_New"
@@ -803,6 +811,7 @@ RightFacing!=1!
 -AlterSize%(DWidth!,DHeight!)="_dwlab_frmwork_LTShape_AlterSize"
 -GetDiameter!()="_dwlab_frmwork_LTShape_GetDiameter"
 -SetDiameter%(NewDiameter!)="_dwlab_frmwork_LTShape_SetDiameter"
+-AlterDiameter%(D!)="_dwlab_frmwork_LTShape_AlterDiameter"
 -CorrectHeight%()="_dwlab_frmwork_LTShape_CorrectHeight"
 -GetFacing!()="_dwlab_frmwork_LTShape_GetFacing"
 -SetFacing%(NewFacing!)="_dwlab_frmwork_LTShape_SetFacing"

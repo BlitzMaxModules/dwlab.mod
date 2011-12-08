@@ -109,7 +109,7 @@ Type LTDoubleMap Extends LTMap
 		MidHandleImage( Image.BMaxImage )
 		
 		Local Pixmap:TPixmap = LockImage( Image.BMaxImage )
-		Pixmap.ClearPixels( $FFFFFFFF )
+		Pixmap.ClearPixels( $FF000000 )
 		PasteToPixmap( Pixmap, 0, 0, Channel )
 		
 		UnlockImage( Image.BMaxImage )
@@ -127,7 +127,7 @@ Type LTDoubleMap Extends LTMap
 	End Rem
 	Method ToNewPixmap:TPixmap( Channel:Int = RGB )
 		Local Pixmap:TPixmap = CreatePixmap( XQuantity, YQuantity, PF_RGBA8888 )
-		Pixmap.ClearPixels( $FFFFFFFF )
+		Pixmap.ClearPixels( $FF000000 )
 		PasteToPixmap( Pixmap, 0, 0, Channel )
 		Return Pixmap
 	End Method
@@ -174,11 +174,11 @@ Type LTDoubleMap Extends LTMap
 						WritePixel( Pixmap, XX, YY, ( Col * $010101 ) | ( Pixel & $FF000000 )  )
 					Case Alpha
 						WritePixel( Pixmap, XX, YY, ( Col Shl 24 ) | ( Pixel & $00FFFFFF )  )
-					Case Red
+					Case Blue
 						WritePixel( Pixmap, XX, YY, Col | ( Pixel & $FFFFFF00 )  )
 					Case Green
 						WritePixel( Pixmap, XX, YY, ( Col Shl 8 ) | ( Pixel & $FFFF00FF )  )
-					Case Blue
+					Case Red
 						WritePixel( Pixmap, XX, YY, ( Col Shl 16 ) | ( Pixel & $FF00FFFF )  )
 				End Select
 			Next
@@ -194,7 +194,7 @@ Type LTDoubleMap Extends LTMap
 	
 	See also: #Overwrite, #Add, #Multiply, #Maximum, #Minimum, #Paste
 	End Rem
-	Method Paste( SourceMap:LTDoubleMap, X:Int, Y:Int, Mode:Int = Overwrite )
+	Method Paste( SourceMap:LTDoubleMap, X:Int = 0, Y:Int = 0, Mode:Int = Overwrite )
 		For Local Y0:Int = 0 Until SourceMap.YQuantity
 			For Local X0:Int = 0 Until SourceMap.XQuantity
 				Local XX:Int, YY:Int

@@ -449,7 +449,7 @@ Type LTSprite Extends LTShape
 	<li> If one of the sprite has moving resistance less than 0 and other has moving resistance more or equal to 0, then only zero-or-more-moving-resistance sprite will be moved.
 	</ul>
 	End Rem
-	Method WedgeOffWithSprite( Sprite:LTSprite, SelfMovingResistance:Double, SpriteMovingResistance:Double )
+	Method WedgeOffWithSprite( Sprite:LTSprite, SelfMovingResistance:Double = 0.5, SpriteMovingResistance:Double = 0.5 )
 		Local DX:Double, DY:Double
 		Select ShapeType
 			Case Pivot
@@ -674,6 +674,15 @@ Type LTSprite Extends LTShape
 	End Rem
 	Method DirectTo( Shape:LTShape )
 		Angle = ATan2( Shape.Y - Y, Shape.X - X )
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Alters angle by given value.
+	End Rem
+	Method AlterAngle( DAngle:Double )
+		Angle :+ DAngle
 	End Method
 	
 	' ==================== Animation ====================

@@ -15,27 +15,41 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.3.10"
+ModuleInfo "Version: 1.3.13"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.13 (08.12.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added AlterDiameter() method to the LTShape."
+ModuleInfo "History: &nbsp; &nbsp; Added AlterAngle() method to the LTSprite."
+ModuleInfo "History: v1.3.12 (07.12.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added FixedAngle parameter to LTDistanceJoint."
+ModuleInfo "History: &nbsp; &nbsp; Created different BounceInside() method for LTVectorSprite."
 ModuleInfo "History: v1.3.11 (30.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added SetParameter() and RemoveParameter() methods to LTShape."
+ModuleInfo "History: &nbsp; &nbsp; Added creation function to LTDoubleMap."
+ModuleInfo "History: &nbsp; &nbsp; Fixed a bug in LTShape SetAsViewport() method."
 ModuleInfo "History: v1.3.10 (29.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added L_PrintText function."
+ModuleInfo "History: &nbsp; &nbsp; Added Length function to LTLine."
 ModuleInfo "History: v1.3.9 (28.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added GetTileForPoint() method for LTTileMap."
 ModuleInfo "History: &nbsp; &nbsp; Added FirstCollidedSpriteOfGroup() method to LTSprite."
 ModuleInfo "History: &nbsp; &nbsp; Added AlterSize method to LTShape."
 ModuleInfo "History: &nbsp; &nbsp; Forms.mod module is merged into world editor and removed from modules directory."
 ModuleInfo "History: &nbsp; &nbsp; Sound.mod module is merged into MindStorm example and removed from modules directory."
+ModuleInfo "History: &nbsp; &nbsp; Added AlterSize() method to the LTShape."
+ModuleInfo "History: &nbsp; &nbsp; Added FirstCollidedSpriteOfGroup() method to LTSprite."
+ModuleInfo "History: &nbsp; &nbsp; Added GetTileForPoint() method to LTTileMap."
 ModuleInfo "History: v1.3.8 (27.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; LTVisualizer now have FromRGBColor and FromHexColor creation functions."
 ModuleInfo "History: &nbsp; &nbsp; LTContourVisualizer now have FromWidthAndRGBColor and FromWidthAndHexColor creation functions."
 ModuleInfo "History: &nbsp; &nbsp; Added MoveBackwards() and BounseInside() methods to LTSprite."
 ModuleInfo "History: &nbsp; &nbsp; LTLine's creation function renamed to FromPivots()."
+ModuleInfo "History: &nbsp; &nbsp; Added FromFileAndBorders() creation function to LTRasterFrame."
+ModuleInfo "History: &nbsp; &nbsp; Added SetRandomColor() method to LTVisualizer."
 ModuleInfo "History: v1.3.7 (22.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Tile number retrieving method is extracted from tile drawing method in LTVisualizer"
 ModuleInfo "History: &nbsp; &nbsp; Added AddParameter() method to the LTShape."
@@ -172,7 +186,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.3.10"
+Const L_Version:String = "1.3.13"
 
 SeedRnd( MilliSecs() )
 

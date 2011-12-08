@@ -8,8 +8,6 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTBone.bmx"
-
 Rem
 bbdoc: It's line section between 2 pivots (sprites centers).
 End Rem

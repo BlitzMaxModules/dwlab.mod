@@ -25,7 +25,7 @@ Rem
 bbdoc: Camera for displaying game objects.
 about: Camera sprite defines rectangular area on game field which will be projected to the defined viewport rectangle.
 End Rem
-Type LTCamera Extends LTSprite
+Type LTCamera Extends LTVectorSprite
 	Rem
 	bbdoc: Viewport rectangular shape.
 	about: See also: #ViewportClipping, #SetCameraViewport, #ResetViewport
@@ -53,6 +53,8 @@ Type LTCamera Extends LTSprite
 	End Rem
 	Field VX1:Double, VY1:Double, VX2:Double, VY2:Double, VK:Double, AVK:Double
 	
+	
+	Field Acceleration:Double = 1.0
 	
 	
 	Rem
@@ -234,6 +236,13 @@ Type LTCamera Extends LTSprite
 			DY = Viewport.Y/ K - Y
 		End If
 	End Method
+	
+	
+	
+	Method FollowPoint( X:Double, Y:Double )
+		
+	End Method
+	
 	
 	
 	
