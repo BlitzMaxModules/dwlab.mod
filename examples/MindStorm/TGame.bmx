@@ -59,10 +59,10 @@ Type TGame Extends LTProject
 		
 		If MouseZ() + DZ > MaxMouseZ Then DZ = MaxMouseZ - MouseZ()
 		If MouseZ() + DZ < MinMouseZ Then DZ = MinMouseZ - MouseZ()
-		Local NewD:Double = L_CurrentCamera.Viewport.Width / 16 * ( 1.1 ^ ( MouseZ() + DZ ) )
-		L_CurrentCamera.AlterCameraMagnification( NewD )
+		Local NewD:Double = L_CurrentCamera.Viewport.Width / 16 * 1.1 ^ ( MouseZ() + DZ )
+		L_CurrentCamera.AlterCameraMagnification( NewD, 1.0 )
 		
-	    L_CurrentCamera.LimitWith( Game.Level.Bounds )
+	    L_CurrentCamera.LimitWith( Game.Level.Bounds, True )
 
 		Level.Act()
 		BulletLayer.Act()
@@ -81,6 +81,9 @@ Type TGame Extends LTProject
 	Method Render()
 		Level.Draw()
 		ShowDebugInfo()
+		Local SX:Double, SY:Double
+		L_CurrentCamera.FieldToScreen( ( 2.0 * Player.X + Target.X ) / 3.0, ( 2.0 * Player.Y + Target.Y ) / 3.0, SX, SY )
+		DrawOval( SX - 2, SY - 2, 5, 5 )
 		DrawText( "Move mouse to aim, use WSAD to move, use left mouse button to fire", 0, 704 )
 	End Method
 End Type

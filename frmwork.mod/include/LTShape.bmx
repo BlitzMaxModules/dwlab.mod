@@ -514,10 +514,9 @@ Type LTShape Extends LTObject
 	
 	See also: #LimitHorizontallyWith, #LimitVerticallyWith, #LimitLeftWith, #LimitRightWith, #LimitTopWith, #LimitBottomWith
 	End Rem
-	Method LimitWith( Rectangle:LTShape )
-		LimitHorizontallyWith( Rectangle )
-		LimitVerticallyWith( Rectangle )
-		Update()
+	Method LimitWith( Rectangle:LTShape, AlterVelocity:Int = False )
+		LimitHorizontallyWith( Rectangle, AlterVelocity )
+		LimitVerticallyWith( Rectangle, AlterVelocity )
 	End Method
 	
 	
@@ -528,7 +527,7 @@ Type LTShape Extends LTObject
 	
 	See also: #LimitWith, #LimitHorizontallyWith, #LimitVerticallyWith, #LimitRightWith, #LimitTopWith, #LimitBottomWith
 	End Rem
-	Method LimitLeftWith( Rectangle:LTShape )
+	Method LimitLeftWith( Rectangle:LTShape, AlterVelocity:Int = False )
 		If LeftX() < Rectangle.LeftX() Then SetX( Rectangle.LeftX() + 0.5 * Width )
 	End Method
 	
@@ -540,8 +539,8 @@ Type LTShape Extends LTObject
 	
 	See also: #LimitWith, #LimitHorizontallyWith, #LimitVerticallyWith, #LimitLeftWith, #LimitRightWith, #LimitBottomWith
 	End Rem
-	Method LimitTopWith( Rectangle:LTShape )
-		If TopY() < Rectangle.TopY() Then SetY( Rectangle.TopY() + 0.5 * Width )
+	Method LimitTopWith( Rectangle:LTShape, AlterVelocity:Int = False )
+		If TopY() < Rectangle.TopY() Then SetY( Rectangle.TopY() + 0.5 * Height )
 	End Method
 	
 	
@@ -552,7 +551,7 @@ Type LTShape Extends LTObject
 	
 	See also: #LimitWith, #LimitHorizontallyWith, #LimitVerticallyWith, #LimitLeftWith, #LimitTopWith, #LimitBottomWith
 	End Rem
-	Method LimitRightWith( Rectangle:LTShape )
+	Method LimitRightWith( Rectangle:LTShape, AlterVelocity:Int = False )
 		If RightX() > Rectangle.RightX() Then SetX( Rectangle.RightX() - 0.5 * Width )
 	End Method
 	
@@ -564,8 +563,8 @@ Type LTShape Extends LTObject
 	
 	See also: #LimitWith, #LimitHorizontallyWith, #LimitVerticallyWith, #LimitLeftWith, #LimitRightWith, #LimitTopWith
 	End Rem
-	Method LimitBottomWith( Rectangle:LTShape )
-		If BottomY() > Rectangle.BottomY() Then SetY( Rectangle.BottomY() - 0.5 * Width )
+	Method LimitBottomWith( Rectangle:LTShape, AlterVelocity:Int = False )
+		If BottomY() > Rectangle.BottomY() Then SetY( Rectangle.BottomY() - 0.5 * Height )
 	End Method
 	
 	
@@ -574,10 +573,9 @@ Type LTShape Extends LTObject
 	bbdoc: Keeps shape within limits of given shape horizontally.
 	about: See also: #LimitWith, #LimitVerticallyWith, #LimitLeftWith, #LimitRightWith, #LimitTopWith, #LimitBottomWith
 	End Rem
-	Method LimitHorizontallyWith( Rectangle:LTShape )
-		Local X1:Double = Min( Rectangle.X, Rectangle.LeftX() + 0.5 * Width )
-		Local X2:Double = Max( Rectangle.X, Rectangle.RightX() - 0.5 * Width )
-		SetX( L_LimitDouble( X, X1, X2 ) )
+	Method LimitHorizontallyWith( Rectangle:LTShape, AlterVelocity:Int = False )
+		LimitLeftWith( Rectangle, AlterVelocity )
+		LimitRightWith( Rectangle, AlterVelocity )
 	End Method
 	
 	
@@ -586,11 +584,10 @@ Type LTShape Extends LTObject
 	bbdoc: Keeps shape within limits of given shape vertically.
 	about: See also: #LimitWith, #LimitHorizontallyWith, #LimitLeftWith, #LimitRightWith, #LimitTopWith, #LimitBottomWith
 	End Rem
-	Method LimitVerticallyWith( Rectangle:LTShape )
-		Local Y1:Double = Min( Rectangle.Y, Rectangle.TopY() + 0.5 * Height )
-		Local Y2:Double = Max( Rectangle.Y, Rectangle.BottomY() - 0.5 * Height )
-		SetY( L_LimitDouble( Y, Y1, Y2 ) )
-	End Method
+	Method LimitVerticallyWith( Rectangle:LTShape, AlterVelocity:Int = False )
+		LimitTopWith( Rectangle, AlterVelocity )
+		LimitBottomWith( Rectangle, AlterVelocity )
+	End Method	
 	
 	' ==================== Angle ====================
 	

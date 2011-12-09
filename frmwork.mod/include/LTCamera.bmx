@@ -32,8 +32,8 @@ Type LTCamera Extends LTVectorSprite
 	End Rem
 	Field Viewport:LTShape = New LTShape
 	
-	Field K:Double = 1.0
-	Field DX:Double, DY:Double
+	Field K:Double = 1.0, DK:Double
+	Field VDX:Double, VDY:Double
 	
 	Rem
 	bbdoc: Viewport clipping flag.
@@ -54,20 +54,17 @@ Type LTCamera Extends LTVectorSprite
 	Field VX1:Double, VY1:Double, VX2:Double, VY2:Double, VK:Double, AVK:Double
 	
 	
-	Field Acceleration:Double = 1.0
-	
-	
 	Rem
 	bbdoc: Transforms screen coordinates to game field coordinates.
 	about: See also: #SizeScreenToField, #DistScreenToField, #FieldToScreen, #SizeFieldToScreen, #DistFieldToScreen
 	End Rem
 	Method ScreenToField( ScreenX:Double, ScreenY:Double, FieldX:Double Var, FieldY:Double Var )
 		If Isometric Then
-			FieldX = ( ScreenX * VY2 - ScreenY * VX2 ) / VK - DX
-			FieldY = ( ScreenY * VX1 - ScreenX * VY1 ) / VK  - DY
+			FieldX = ( ScreenX * VY2 - ScreenY * VX2 ) / VK - VDX
+			FieldY = ( ScreenY * VX1 - ScreenX * VY1 ) / VK  - VDY
 		Else
-			FieldX = ScreenX / K - DX
-			FieldY = ScreenY / K - DY
+			FieldX = ScreenX / K - VDX
+			FieldY = ScreenY / K - VDY
 		End If
 	End Method
 
@@ -105,11 +102,11 @@ Type LTCamera Extends LTVectorSprite
 	End Rem
 	Method FieldToScreen( FieldX:Double, FieldY:Double, ScreenX:Double Var, ScreenY:Double Var )
 		If Isometric Then
-			ScreenX = ( ( FieldX + DX ) * VX1 + ( FieldY + DY ) * VX2 ) * K
-			ScreenY = ( ( FieldX + DX ) * VY1 + ( FieldY + DY ) * VY2 ) * K
+			ScreenX = ( ( FieldX + VDX ) * VX1 + ( FieldY + VDY ) * VX2 ) * K
+			ScreenY = ( ( FieldX + VDX ) * VY1 + ( FieldY + VDY ) * VY2 ) * K
 		Else
-			ScreenX = ( FieldX + DX ) * K
-			ScreenY = ( FieldY + DY ) * K
+			ScreenX = ( FieldX + VDX ) * K
+			ScreenY = ( FieldY + VDY ) * K
 		End If
 		
 		If L_DiscreteGraphics Then
@@ -125,11 +122,11 @@ Type LTCamera Extends LTVectorSprite
 	End Rem
 	Method FieldToScreenFloat( FieldX:Double, FieldY:Double, ScreenX:Float Var, ScreenY:Float Var )
 		If Isometric Then
-			ScreenX = ( ( FieldX + DX ) * VX1 + ( FieldY + DY ) * VX2 ) * K
-			ScreenY = ( ( FieldX + DX ) * VY1 + ( FieldY + DY ) * VY2 ) * K
+			ScreenX = ( ( FieldX + VDX ) * VX1 + ( FieldY + VDY ) * VX2 ) * K
+			ScreenY = ( ( FieldX + VDX ) * VY1 + ( FieldY + VDY ) * VY2 ) * K
 		Else
-			ScreenX = ( FieldX + DX ) * K
-			ScreenY = ( FieldY + DY ) * K
+			ScreenX = ( FieldX + VDX ) * K
+			ScreenY = ( FieldY + VDY ) * K
 		End If
 		
 		If L_DiscreteGraphics Then
@@ -206,16 +203,31 @@ Type LTCamera Extends LTVectorSprite
 	
 	
 	
-	Method ShiftCameraToPoint( NewX:Double, NewY:Double )
-		X :+ L_CameraSpeed * L_DeltaTime * ( NewX - X )
-		Y :+ L_CameraSpeed * L_DeltaTime * ( NewY - Y )
+	Method ShiftCameraToPoint( NewX:Double, NewY:Double, Acceleration:Double = 6.0 )
+		ApplyAcceleration( X, NewX, DX, Acceleration )
+		ApplyAcceleration( Y, NewY, DY, Acceleration )
+		MoveForward()
 		Update()
 	End Method
 	
 	
 	
-	Method AlterCameraMagnification( NewK:Double )
-		SetMagnification( K + L_CameraMagnificationSpeed * L_DeltaTime * ( NewK - K ) )
+	Method ApplyAcceleration:Double( X:Double, NewX:Double, DX:Double Var, Acceleration:Double )
+		Local A:Double = L_DeltaTime * Acceleration * Sgn( NewX - X )
+		If ( NewX - X ) * DX < 0 Then
+			DX :+ A
+		ElseIf Sgn( DX ) * DX * DX / 2 / Acceleration < Abs( NewX - X ) Then
+			DX :+ A
+		Else
+			DX :- A
+		End If
+	End Method
+	
+	
+	
+	Method AlterCameraMagnification( NewK:Double, Acceleration:Double )
+		ApplyAcceleration( K, NewK, DK, Acceleration )
+		SetMagnification( K + DK )
 	End Method
 	
 	
@@ -227,22 +239,15 @@ Type LTCamera Extends LTVectorSprite
 			K = Min( Viewport.Width / DWidth / Width, Viewport.Height / DHeight / Height )
 			VK = ( VX1 * VY2 - VY1 * VX2 ) * K
 			AVK = ( Abs( VX1 * VY2 ) - Abs( VY1 * VX2 ) ) * K
-			DX = ( Viewport.X * VY2 - Viewport.Y * VX2 ) / VK - X
-			DY = ( Viewport.Y * VX1 - Viewport.X * VY1 ) / VK - Y
+			VDX = ( Viewport.X * VY2 - Viewport.Y * VX2 ) / VK - X
+			VDY = ( Viewport.Y * VX1 - Viewport.X * VY1 ) / VK - Y
 		Else
 			K = Viewport.Width / Width
 			Height = Viewport.Height / K
-			DX = Viewport.X / K - X
-			DY = Viewport.Y/ K - Y
+			VDX = Viewport.X / K - X
+			VDY = Viewport.Y/ K - Y
 		End If
 	End Method
-	
-	
-	
-	Method FollowPoint( X:Double, Y:Double )
-		
-	End Method
-	
 	
 	
 	

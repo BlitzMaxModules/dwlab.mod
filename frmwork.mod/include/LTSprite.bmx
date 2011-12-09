@@ -646,6 +646,42 @@ Type LTSprite Extends LTShape
 		Frame = TileMap.GetTile( TileX, TileY )
 	End Method
 
+	' ==================== Limiting ====================
+	
+	Method LimitLeftWith( Rectangle:LTShape, AlterVelocity:Int = False )
+		If LeftX() < Rectangle.LeftX() Then
+			SetX( Rectangle.LeftX() + 0.5 * Width )
+			If AlterVelocity Then Velocity = 0.0
+		End If
+	End Method
+	
+	
+	
+	Method LimitTopWith( Rectangle:LTShape, AlterVelocity:Int = False )
+		If TopY() < Rectangle.TopY() Then
+			SetY( Rectangle.TopY() + 0.5 * Height )
+			If AlterVelocity Then Velocity = 0.0
+		End If
+	End Method
+	
+	
+	
+	Method LimitRightWith( Rectangle:LTShape, AlterVelocity:Int = False )
+		If RightX() > Rectangle.RightX() Then
+			SetX( Rectangle.RightX() - 0.5 * Width )
+			If AlterVelocity Then Velocity = 0.0
+		End If
+	End Method
+	
+	
+	
+	Method LimitBottomWith( Rectangle:LTShape, AlterVelocity:Int = False )
+		If BottomY() > Rectangle.BottomY() Then
+			SetY( Rectangle.BottomY() - 0.5 * Height )
+			If AlterVelocity Then Velocity = 0.0
+		End If
+	End Method
+	
 	' ==================== Angle ====================
 	
 	Rem

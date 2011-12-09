@@ -4,7 +4,8 @@ ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
 ModuleInfo "History: v1.3.13 (08.12.11)"
-ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: &nbsp; &nbsp; Added AlterDiameter() method to the LTShape."
+ModuleInfo "History: &nbsp; &nbsp; Added AlterAngle() method to the LTSprite."
 ModuleInfo "History: v1.3.12 (07.12.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added FixedAngle parameter to LTDistanceJoint."
 ModuleInfo "History: &nbsp; &nbsp; Created different BounceInside() method for LTVectorSprite."
@@ -253,6 +254,10 @@ LTVectorSprite^LTSprite{
 +FromShapeAndVector:LTVectorSprite(X!,Y!,Width!=1!,Height!=1!,ShapeType%=2,DX!=0!,DY!=0!)="_dwlab_frmwork_LTVectorSprite_FromShapeAndVector"
 -GetClassTitle$()="_dwlab_frmwork_LTVectorSprite_GetClassTitle"
 -Init%()="_dwlab_frmwork_LTVectorSprite_Init"
+-LimitLeftWith%(Rectangle:LTShape,AlterVelocity%=0)="_dwlab_frmwork_LTVectorSprite_LimitLeftWith"
+-LimitTopWith%(Rectangle:LTShape,AlterVelocity%=0)="_dwlab_frmwork_LTVectorSprite_LimitTopWith"
+-LimitRightWith%(Rectangle:LTShape,AlterVelocity%=0)="_dwlab_frmwork_LTVectorSprite_LimitRightWith"
+-LimitBottomWith%(Rectangle:LTShape,AlterVelocity%=0)="_dwlab_frmwork_LTVectorSprite_LimitBottomWith"
 -BounceInside%(Shape:LTShape,LeftSide%=1,TopSide%=1,RightSide%=1,BottomSide%=1)="_dwlab_frmwork_LTVectorSprite_BounceInside"
 -UpdateFromAngularModel%()="_dwlab_frmwork_LTVectorSprite_UpdateFromAngularModel"
 -UpdateAngularModel%()="_dwlab_frmwork_LTVectorSprite_UpdateAngularModel"
@@ -261,8 +266,9 @@ LTVectorSprite^LTSprite{
 LTCamera^LTVectorSprite{
 .Viewport:LTShape&
 .K!&
-.DX!&
-.DY!&
+.DK!&
+.VDX!&
+.VDY!&
 .ViewportClipping%&
 .Isometric%&
 .VX1!&
@@ -271,7 +277,6 @@ LTCamera^LTVectorSprite{
 .VY2!&
 .VK!&
 .AVK!&
-.Acceleration!&
 -New%()="_dwlab_frmwork_LTCamera_New"
 -Delete%()="_dwlab_frmwork_LTCamera_Delete"
 -ScreenToField%(ScreenX!,ScreenY!,FieldX! Var,FieldY! Var)="_dwlab_frmwork_LTCamera_ScreenToField"
@@ -284,10 +289,10 @@ LTCamera^LTVectorSprite{
 -SetCameraViewport%()="_dwlab_frmwork_LTCamera_SetCameraViewport"
 -ResetViewport%()="_dwlab_frmwork_LTCamera_ResetViewport"
 -SetMagnification%(NewK!)="_dwlab_frmwork_LTCamera_SetMagnification"
--ShiftCameraToPoint%(NewX!,NewY!)="_dwlab_frmwork_LTCamera_ShiftCameraToPoint"
--AlterCameraMagnification%(NewK!)="_dwlab_frmwork_LTCamera_AlterCameraMagnification"
+-ShiftCameraToPoint%(NewX!,NewY!,Acceleration!=6!)="_dwlab_frmwork_LTCamera_ShiftCameraToPoint"
+-ApplyAcceleration!(X!,NewX!,DX! Var,Acceleration!)="_dwlab_frmwork_LTCamera_ApplyAcceleration"
+-AlterCameraMagnification%(NewK!,Acceleration!)="_dwlab_frmwork_LTCamera_AlterCameraMagnification"
 -Update%()="_dwlab_frmwork_LTCamera_Update"
--FollowPoint%(X!,Y!)="_dwlab_frmwork_LTCamera_FollowPoint"
 -ApplyColor%(Intensity!,Red!,Green!,Blue!)="_dwlab_frmwork_LTCamera_ApplyColor"
 -Lighten%(Intensity!)="_dwlab_frmwork_LTCamera_Lighten"
 -Darken%(Intensity!)="_dwlab_frmwork_LTCamera_Darken"
@@ -354,6 +359,10 @@ Rectangle%=2
 -MoveBackward%()="_dwlab_frmwork_LTSprite_MoveBackward"
 -SetSize%(NewWidth!,NewHeight!)="_dwlab_frmwork_LTSprite_SetSize"
 -SetAsTile%(TileMap:LTTileMap,TileX%,TileY%)="_dwlab_frmwork_LTSprite_SetAsTile"
+-LimitLeftWith%(Rectangle:LTShape,AlterVelocity%=0)="_dwlab_frmwork_LTSprite_LimitLeftWith"
+-LimitTopWith%(Rectangle:LTShape,AlterVelocity%=0)="_dwlab_frmwork_LTSprite_LimitTopWith"
+-LimitRightWith%(Rectangle:LTShape,AlterVelocity%=0)="_dwlab_frmwork_LTSprite_LimitRightWith"
+-LimitBottomWith%(Rectangle:LTShape,AlterVelocity%=0)="_dwlab_frmwork_LTSprite_LimitBottomWith"
 -DirectAs%(Sprite:LTSprite)="_dwlab_frmwork_LTSprite_DirectAs"
 -Turn%(TurningSpeed!)="_dwlab_frmwork_LTSprite_Turn"
 -DirectTo%(Shape:LTShape)="_dwlab_frmwork_LTSprite_DirectTo"
@@ -795,13 +804,13 @@ RightFacing!=1!
 -MoveUsingArrows%(Velocity!)="_dwlab_frmwork_LTShape_MoveUsingArrows"
 -MoveUsingKeys%(KUp%,KDown%,KLeft%,KRight%,Velocity!)="_dwlab_frmwork_LTShape_MoveUsingKeys"
 -Parallax%(Shape:LTShape)="_dwlab_frmwork_LTShape_Parallax"
--LimitWith%(Rectangle:LTShape)="_dwlab_frmwork_LTShape_LimitWith"
--LimitLeftWith%(Rectangle:LTShape)="_dwlab_frmwork_LTShape_LimitLeftWith"
--LimitTopWith%(Rectangle:LTShape)="_dwlab_frmwork_LTShape_LimitTopWith"
--LimitRightWith%(Rectangle:LTShape)="_dwlab_frmwork_LTShape_LimitRightWith"
--LimitBottomWith%(Rectangle:LTShape)="_dwlab_frmwork_LTShape_LimitBottomWith"
--LimitHorizontallyWith%(Rectangle:LTShape)="_dwlab_frmwork_LTShape_LimitHorizontallyWith"
--LimitVerticallyWith%(Rectangle:LTShape)="_dwlab_frmwork_LTShape_LimitVerticallyWith"
+-LimitWith%(Rectangle:LTShape,AlterVelocity%=0)="_dwlab_frmwork_LTShape_LimitWith"
+-LimitLeftWith%(Rectangle:LTShape,AlterVelocity%=0)="_dwlab_frmwork_LTShape_LimitLeftWith"
+-LimitTopWith%(Rectangle:LTShape,AlterVelocity%=0)="_dwlab_frmwork_LTShape_LimitTopWith"
+-LimitRightWith%(Rectangle:LTShape,AlterVelocity%=0)="_dwlab_frmwork_LTShape_LimitRightWith"
+-LimitBottomWith%(Rectangle:LTShape,AlterVelocity%=0)="_dwlab_frmwork_LTShape_LimitBottomWith"
+-LimitHorizontallyWith%(Rectangle:LTShape,AlterVelocity%=0)="_dwlab_frmwork_LTShape_LimitHorizontallyWith"
+-LimitVerticallyWith%(Rectangle:LTShape,AlterVelocity%=0)="_dwlab_frmwork_LTShape_LimitVerticallyWith"
 -DirectionToPoint!(PointX!,PointY!)="_dwlab_frmwork_LTShape_DirectionToPoint"
 -DirectionTo!(Shape:LTShape)="_dwlab_frmwork_LTShape_DirectionTo"
 -SetWidth%(NewWidth!)="_dwlab_frmwork_LTShape_SetWidth"
