@@ -50,6 +50,7 @@ Type LTProject Extends LTObject
 	about: See also: #PerSecond
 	End Rem
 	Field Time:Double
+	Field StartTime:Int
 	
 	Rem
 	bbdoc: Exit flag.
@@ -64,10 +65,10 @@ Type LTProject Extends LTObject
 	Field Flipping:Int = True
 	
 	Rem
-	bbdoc: Pause flag.
-	about: If set to True then Logic() method will not be executed.
+	bbdoc: Pause project.
+	about: If you set this field to another project, that project Logic() method will be executed and current project will be paused.
 	End Rem
-	Field Paused:Int = False
+	Field Pause:LTProject = Null
 
 	' ==================== Loading layers and windows ===================	
 	
@@ -176,6 +177,7 @@ Type LTProject Extends LTObject
 	End Method
 	
 	
+	
 	Rem
 	bbdoc: Deinitialization method.
 	about: It will be executed before exit.
@@ -203,7 +205,7 @@ Type LTProject Extends LTObject
 		InitSound()
 		
 		Time = 0.0
-		Local StartTime:Int = MilliSecs()
+		StartTime = MilliSecs()
 		
 		Local RealTime:Double = 0
 		Local LastRenderTime:Double = 0
@@ -212,7 +214,7 @@ Type LTProject Extends LTObject
 		Local FPSTime:Int
 		
 		Repeat
-			Time :+  1.0 / LogicFPS
+			Time :+ 1.0 / LogicFPS
 			
 			?debug
 			L_CollisionChecks = 0
@@ -220,7 +222,7 @@ Type LTProject Extends LTObject
 			?
 			
 			L_DeltaTime = 1.0 / LogicFPS
-			If Not Paused Then Logic()
+			If Pause Then Pause.Logic() Else Logic()
 			If Exiting Then Exit
 		
 			Repeat
@@ -235,6 +237,7 @@ Type LTProject Extends LTObject
 				?
 				
 				Render()
+				If Pause Then Pause.Render()
 				
 				If Flipping Then Flip( False )
 		      
@@ -260,6 +263,8 @@ Type LTProject Extends LTObject
 	Method ReloadWindows()
 	End Method
 	
+	
+	
 	Rem
 	bbdoc: Converts value second to value per logic frame.
 	returns: Value for logic frame using given per second value.
@@ -270,7 +275,6 @@ Type LTProject Extends LTObject
 	Method PerSecond:Double( Value:Double )
 		Return Value * L_DeltaTime
 	End Method
-	
 	
 	
 	Rem

@@ -2,11 +2,8 @@ SuperStrict
 
 Framework brl.basic
 Import dwlab.frmwork
-Import brl.pngloader
-Import brl.oggloader
-Import brl.audio
-Import brl.directsoundaudio
-Import brl.freeaudioaudio
+Import dwlab.graphicsdrivers
+Import dwlab.audiodrivers
 
 Global Example:TExample = New TExample
 Example.Execute()

@@ -1,8 +1,13 @@
-ModuleInfo "Version: 1.3.13"
+ModuleInfo "Version: 1.3.14"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.14 (12.12.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added graphicsdrivers.mod, audiodrivers.mod and alldrivers.mod to the modules list."
+ModuleInfo "History: &nbsp; &nbsp; Removed driver addition from the frmwork.mod."
+ModuleInfo "History: &nbsp; &nbsp; LTPath is changed to simple TList and path finding method is moved to LTGraph."
+ModuleInfo "History: &nbsp; &nbsp; Added methods for managing sets in LTXMLObject class."
 ModuleInfo "History: v1.3.13 (08.12.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added AlterDiameter() method to the LTShape."
 ModuleInfo "History: &nbsp; &nbsp; Added AlterAngle() method to the LTSprite."
@@ -156,11 +161,11 @@ ModuleInfo "History: &nbsp; &nbsp; Fixed bug of ChopFilename() function under Ma
 ModuleInfo "History: v1.0 (28.06.11)"
 ModuleInfo "History: &nbsp; &nbsp; Initial release."
 import brl.blitz
-import brl.d3d9max2d
 import brl.random
 import brl.reflection
 import brl.retro
-L_Version$=$"1.3.13"
+import brl.max2d
+L_Version$=$"1.3.14"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
@@ -174,9 +179,10 @@ LTProject^LTObject{
 .FPS%&
 .Pass%&
 .Time!&
+.StartTime%&
 .Exiting%&
 .Flipping%&
-.Paused%&
+.Pause:LTProject&
 -New%()="_dwlab_frmwork_LTProject_New"
 -Delete%()="_dwlab_frmwork_LTProject_Delete"
 -LoadAndInitLayer%(NewLayer:LTLayer Var,Layer:LTLayer)="_dwlab_frmwork_LTProject_LoadAndInitLayer"
@@ -266,9 +272,11 @@ LTVectorSprite^LTSprite{
 LTCamera^LTVectorSprite{
 .Viewport:LTShape&
 .K!&
-.DK!&
 .VDX!&
 .VDY!&
+.Z!&
+.DZ!&
+.ZK!&
 .ViewportClipping%&
 .Isometric%&
 .VX1!&
@@ -290,8 +298,9 @@ LTCamera^LTVectorSprite{
 -ResetViewport%()="_dwlab_frmwork_LTCamera_ResetViewport"
 -SetMagnification%(NewK!)="_dwlab_frmwork_LTCamera_SetMagnification"
 -ShiftCameraToPoint%(NewX!,NewY!,Acceleration!=6!)="_dwlab_frmwork_LTCamera_ShiftCameraToPoint"
+-ShiftCameraToShape%(Shape:LTShape,Acceleration!=6!)="_dwlab_frmwork_LTCamera_ShiftCameraToShape"
 -ApplyAcceleration!(X!,NewX!,DX! Var,Acceleration!)="_dwlab_frmwork_LTCamera_ApplyAcceleration"
--AlterCameraMagnification%(NewK!,Acceleration!)="_dwlab_frmwork_LTCamera_AlterCameraMagnification"
+-AlterCameraMagnification%(NewZ!,OldK!,Acceleration!)="_dwlab_frmwork_LTCamera_AlterCameraMagnification"
 -Update%()="_dwlab_frmwork_LTCamera_Update"
 -ApplyColor%(Intensity!,Red!,Green!,Blue!)="_dwlab_frmwork_LTCamera_ApplyColor"
 -Lighten%(Intensity!)="_dwlab_frmwork_LTCamera_Lighten"
@@ -570,32 +579,33 @@ LTLine^LTShape{
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTLine_DrawUsingVisualizer"
 -SpriteGroupCollisions%(Sprite:LTSprite,CollisionType%)="_dwlab_frmwork_LTLine_SpriteGroupCollisions"
 -Length!()="_dwlab_frmwork_LTLine_Length"
+-CollidesWithLine%(Line:LTLine,IncludingPivots%=1)="_dwlab_frmwork_LTLine_CollidesWithLine"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTLine_XMLIO"
 }="dwlab_frmwork_LTLine"
-LTPath^LTObject{
-.Pivots:brl.linkedlist.TList&
--New%()="_dwlab_frmwork_LTPath_New"
--Delete%()="_dwlab_frmwork_LTPath_Delete"
-+Find:LTPath(FromPivot:LTSprite,ToPivot:LTSprite,Graph:LTGraph)="_dwlab_frmwork_LTPath_Find"
-}="dwlab_frmwork_LTPath"
 LTGraph^LTShape{
 .Pivots:brl.map.TMap&
 .Lines:brl.map.TMap&
+.MaxLength!&
+.LengthMap:brl.map.TMap&
+.ShortestPath:brl.linkedlist.TList&
 -New%()="_dwlab_frmwork_LTGraph_New"
 -Delete%()="_dwlab_frmwork_LTGraph_Delete"
 -Draw%()="_dwlab_frmwork_LTGraph_Draw"
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTGraph_DrawUsingVisualizer"
 -DrawPivotsUsing%(Visualizer:LTVisualizer)="_dwlab_frmwork_LTGraph_DrawPivotsUsing"
 -DrawLinesUsing%(Visualizer:LTVisualizer)="_dwlab_frmwork_LTGraph_DrawLinesUsing"
++DrawPath%(Path:brl.linkedlist.TList,Visualizer:LTVisualizer)="_dwlab_frmwork_LTGraph_DrawPath"
 -AddPivot:brl.linkedlist.TList(Pivot:LTSprite)="_dwlab_frmwork_LTGraph_AddPivot"
--AddLine%(Line:LTLine)="_dwlab_frmwork_LTGraph_AddLine"
+-AddLine%(Line:LTLine,StopOnErrors%=1)="_dwlab_frmwork_LTGraph_AddLine"
 -RemovePivot%(Pivot:LTSprite)="_dwlab_frmwork_LTGraph_RemovePivot"
 -RemoveLine%(Line:LTLine)="_dwlab_frmwork_LTGraph_RemoveLine"
--FindPivotCollidingWith:LTSprite(Sprite:LTSprite)="_dwlab_frmwork_LTGraph_FindPivotCollidingWith"
--FindLineCollidingWith:LTLine(Sprite:LTSprite)="_dwlab_frmwork_LTGraph_FindLineCollidingWith"
+-FindPivotCollidingWithSprite:LTSprite(Sprite:LTSprite)="_dwlab_frmwork_LTGraph_FindPivotCollidingWithSprite"
+-FindLineCollidingWithSprite:LTLine(Sprite:LTSprite)="_dwlab_frmwork_LTGraph_FindLineCollidingWithSprite"
 -ContainsPivot%(Pivot:LTSprite)="_dwlab_frmwork_LTGraph_ContainsPivot"
 -ContainsLine%(Line:LTLine)="_dwlab_frmwork_LTGraph_ContainsLine"
 -FindLine:LTLine(Pivot1:LTSprite,Pivot2:LTSprite)="_dwlab_frmwork_LTGraph_FindLine"
+-FindPath:brl.linkedlist.TList(FromPivot:LTSprite,ToPivot:LTSprite)="_dwlab_frmwork_LTGraph_FindPath"
+-Spread:brl.linkedlist.TList(Path:brl.linkedlist.TList,FromPivot:LTSprite,ToPivot:LTSprite,Length!)="_dwlab_frmwork_LTGraph_Spread"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTGraph_XMLIO"
 }="dwlab_frmwork_LTGraph"
 LTAddPivotToGraph^LTAction{
@@ -994,6 +1004,7 @@ LTButtonAction^LTObject{
 -GetButtonNames$(WithBrackets%=0)="_dwlab_frmwork_LTButtonAction_GetButtonNames"
 +Create:LTButtonAction(Button:LTPushable,Name$=$"")="_dwlab_frmwork_LTButtonAction_Create"
 -AddButton%(Button:LTPushable)="_dwlab_frmwork_LTButtonAction_AddButton"
+-Define%()="_dwlab_frmwork_LTButtonAction_Define"
 -Clear%()="_dwlab_frmwork_LTButtonAction_Clear"
 -IsDown%()="_dwlab_frmwork_LTButtonAction_IsDown"
 -WasPressed%()="_dwlab_frmwork_LTButtonAction_WasPressed"
@@ -1045,10 +1056,12 @@ LTXMLObject^LTObject{
 -ManageListField%(FieldName$,List:brl.linkedlist.TList Var)="_dwlab_frmwork_LTXMLObject_ManageListField"
 -ManageObjectArrayField%(FieldName$,Array:LTObject&[] Var)="_dwlab_frmwork_LTXMLObject_ManageObjectArrayField"
 -ManageObjectMapField%(FieldName$,Map:brl.map.TMap Var)="_dwlab_frmwork_LTXMLObject_ManageObjectMapField"
+-ManageObjectSetField%(FieldName$,Map:brl.map.TMap Var)="_dwlab_frmwork_LTXMLObject_ManageObjectSetField"
 -ManageObject:LTObject(Obj:LTObject)="_dwlab_frmwork_LTXMLObject_ManageObject"
 -ManageChildList%(List:brl.linkedlist.TList Var)="_dwlab_frmwork_LTXMLObject_ManageChildList"
 -ManageChildArray%(ChildArray:LTObject&[] Var)="_dwlab_frmwork_LTXMLObject_ManageChildArray"
 -ManageChildMap%(Map:brl.map.TMap Var)="_dwlab_frmwork_LTXMLObject_ManageChildMap"
+-ManageChildSet%(Map:brl.map.TMap Var)="_dwlab_frmwork_LTXMLObject_ManageChildSet"
 +ReadFromFile:LTXMLObject(Filename$)="_dwlab_frmwork_LTXMLObject_ReadFromFile"
 -WriteToFile%(Filename$)="_dwlab_frmwork_LTXMLObject_WriteToFile"
 +ReadObject:LTXMLObject(Txt$ Var,N% Var,FieldName$ Var)="_dwlab_frmwork_LTXMLObject_ReadObject"
@@ -1088,6 +1101,7 @@ L_ChopFilename$(Filename$)="dwlab_frmwork_L_ChopFilename"
 L_AddItemToIntArray%(Array%&[] Var,Item%)="dwlab_frmwork_L_AddItemToIntArray"
 L_RemoveItemFromIntArray%(Array%&[] Var,Index%)="dwlab_frmwork_L_RemoveItemFromIntArray"
 L_IntInLimits%(Value%,FromValue%,ToValue%)="dwlab_frmwork_L_IntInLimits"
+L_DoubleInLimits!(Value!,FromValue!,ToValue!)="dwlab_frmwork_L_DoubleInLimits"
 L_GetTypeID:brl.reflection.TTypeId(TypeName$)="dwlab_frmwork_L_GetTypeID"
 L_ToPowerOf2%(Value%)="dwlab_frmwork_L_ToPowerOf2"
 L_GetEscribedRectangle%(LeftMargin!,RightMargin!,TopMargin!,BottomMargin!,MinX! Var,MinY! Var,MaxX! Var,MaxY! Var)="dwlab_frmwork_L_GetEscribedRectangle"

@@ -64,6 +64,31 @@ Type LTButtonAction Extends LTObject
 	
 	
 	
+	
+	Method Define:Int()
+		For Local Code:Int = 1 To 255
+			If KeyHit( Code ) Then
+				AddButton( LTKeyboardKey.Create( Code ) )
+				Return True
+			End If
+		Next
+		
+		For Local Num:Int = 1 To 3
+			If MouseHit( Num ) Then
+				AddButton( LTMouseButton.Create( Num ) )
+				Return True
+			End If
+		Next
+		
+		If MouseZ() Then
+			AddButton( LTMouseWheelAction.Create( Sgn( MouseZ() ) ) )
+			FlushMouse()
+			Return True
+		End If
+	End Method
+	
+	
+	
 	Rem
 	bbdoc: Removes all pushable objects (buttons) of the button action.
 	End Rem

@@ -120,10 +120,8 @@ Type LTProfile Extends LTObject
 			Local DriverName:String = ""
 			?win32
 			Select DriverTypeID.Name()
-				Case "TD3D7Max2DDriver"
-					Driver = D3D7Max2DDriver()
-				Case "TD3D9Max2DDriver"
-					Driver = D3D9Max2DDriver()
+				Case "TD3D7Max2DDriver", "TD3D9Max2DDriver"
+					Driver = TMax2DDriver( DriverTypeID.NewObject() )
 			End Select
 			?
 			Local DriverObject:Object = DriverTypeID.NewObject()

@@ -2,20 +2,16 @@ SuperStrict
 
 Framework brl.basic
 Import dwlab.frmwork
+Import dwlab.graphicsdrivers
 
-Global Example:TExample = New TExample
-Example.Execute()
+Local Font:LTBitmapFont = LTBitmapFont.FromFile( "font.png", 32,127, 16, True )
+L_InitGraphics()
 
-Type TExample Extends LTProject
-	Method Init()
-		L_InitGraphics()
-	End Method
-	
-	Method Logic()
-		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
-	End Method
+SetClsColor 0, 128, 0
+Cls
 
-	Method Render()
-		DrawText( "", 0, 0 )
-	End Method
-End Type
+Repeat
+	If AppTerminate() Or KeyHit( Key_Escape ) Then Exit
+	Font.Print( "Hello!", Rnd( -15, 15 ), Rand( -11, 11 ), Rnd( 0.5, 2.0 ), Rand( 0, 2 ), Rand( 0, 2 ) )
+	Flip
+Forever

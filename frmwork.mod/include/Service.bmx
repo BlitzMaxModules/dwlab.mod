@@ -367,6 +367,19 @@ End Function
 
 
 
+
+Rem
+bbdoc: Checks if Double value is in the interval between FromValue and ToValue.
+returns: True if Value is in FromValue...ToValue interval.
+about: See also: #L_IntInLimits
+End Rem
+Function L_DoubleInLimits:Double( Value:Double, FromValue:Double, ToValue:Double)
+	If Value >= FromValue And Value <= ToValue Then Return True
+End Function
+
+
+
+
 Rem
 bbdoc: Returns TypeID for given class name.
 returns: TypeID for given class name.

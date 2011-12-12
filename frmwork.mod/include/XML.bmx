@@ -103,7 +103,7 @@ Type LTXMLObject Extends LTObject
 	
 	
 	Rem
-	bbdoc: Transfers data between XMLObject attribute and framework object parameter with Int type.
+	bbdoc: Transfers data between XMLObject attribute and framework object field with Int type.
 	about: See also: #ManageDoubleAttribute, #ManageStringAttribute, #ManageObjectAttribute, #ManageIntArrayAttribute
 	End Rem
 	Method ManageIntAttribute( AttrName:String, AttrVariable:Int Var, DefaultValue:Int = 0 )
@@ -123,7 +123,7 @@ Type LTXMLObject Extends LTObject
 	
 	
 	Rem
-	bbdoc: Transfers data between XMLObject attribute and framework object parameter with Double type.
+	bbdoc: Transfers data between XMLObject attribute and framework object field with Double type.
 	about: See also: #ManageIntAttribute, #ManageStringAttribute, #ManageObjectAttribute
 	End Rem
 	Method ManageDoubleAttribute( AttrName:String, AttrVariable:Double Var, DefaultValue:Double = 0.0 )
@@ -143,7 +143,7 @@ Type LTXMLObject Extends LTObject
 	
 	
 	Rem
-	bbdoc: Transfers data between XMLObject attribute and framework object parameter with String type.
+	bbdoc: Transfers data between XMLObject attribute and framework object field with String type.
 	about: See also: #ManageIntAttribute, #ManageDoubleAttribute, #ManageObjectAttribute
 	End Rem
 	Method ManageStringAttribute( AttrName:String, AttrVariable:String Var )
@@ -162,7 +162,7 @@ Type LTXMLObject Extends LTObject
 	
 	
 	Rem
-	bbdoc: Transfers data between XMLObject attribute and framework object parameter with LTObject type.
+	bbdoc: Transfers data between XMLObject attribute and framework object field wit LTObject type.
 	returns: Loaded object or same object for saving mode.
 	about: Use "ObjField = ObjFieldType( ManageObjectAttribute( FieldName, ObjField ) )" command syntax.
 	
@@ -206,7 +206,7 @@ Type LTXMLObject Extends LTObject
 	
 	
 	Rem
-	bbdoc: Transfers data between XMLObject attribute and framework object parameter with Int[] type.
+	bbdoc: Transfers data between XMLObject attribute and framework object field with Int[] type.
 	about: See also: #ManageIntAttribute
 	End Rem
 	Method ManageIntArrayAttribute( AttrName:String, IntArray:Int[] Var )
@@ -232,7 +232,7 @@ Type LTXMLObject Extends LTObject
 	
 	
 	Rem
-	bbdoc: Transfers data between XMLObject field and framework object parameter with LTObject type.
+	bbdoc: Transfers data between XMLObject field and framework object field with LTObject type.
 	End Rem
 	Method ManageObjectField:LTObject( FieldName:String, FieldObject:LTObject)
 		If L_XMLMode = L_XMLGet Then
@@ -256,7 +256,7 @@ Type LTXMLObject Extends LTObject
 	
 	
 	Rem
-	bbdoc: Transfers data between XMLObject contents and framework object parameter with TList type.
+	bbdoc: Transfers data between XMLObject contents and framework object field with TList type.
 	about: See also: #ManageChildList
 	End Rem
 	Method ManageListField( FieldName:String, List:TList Var )
@@ -276,7 +276,7 @@ Type LTXMLObject Extends LTObject
 	
 	
 	Rem
-	bbdoc: Transfers data between XMLObject contents and framework object parameter with LTObject[] type.
+	bbdoc: Transfers data between XMLObject contents and framework object field with LTObject[] type.
 	about: See also: #ManageObjectAttribute, #ManageObjectField, #ManageObjectMapField
 	End Rem
 	Method ManageObjectArrayField( FieldName:String, Array:LTObject[] Var )
@@ -295,7 +295,7 @@ Type LTXMLObject Extends LTObject
 	
 	
 	Rem
-	bbdoc: Transfers data between XMLObject field and framework object parameter with TMap type filled with LTObject-LTObject pairs.
+	bbdoc: Transfers data between XMLObject field and framework object field with TMap type filled with LTObject-LTObject pairs.
 	about: See also: #ManageObjectAttribute, #ManageObjectField, #ManageObjectArrayField
 	End Rem
 	Method ManageObjectMapField( FieldName:String, Map:TMap Var )
@@ -308,6 +308,26 @@ Type LTXMLObject Extends LTObject
 			Local XMLMap:LTXMLObject = New LTXMLObject
 			XMLMap.Name = "Map"
 			XMLMap.ManageChildMap( Map )
+			SetField( FieldName, XMLMap )
+		End If
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Transfers data between XMLObject field and framework object field with TMap type filled with LTObject-LTObject pairs.
+	about: See also: #ManageObjectAttribute, #ManageObjectField, #ManageObjectArrayField
+	End Rem
+	Method ManageObjectSetField( FieldName:String, Map:TMap Var )
+		If L_XMLMode = L_XMLGet Then
+			Local XMLMap:LTXMLObject = GetField( FieldName )
+			If Not XMLMap Then Return
+			If XMLMap Then XMLMap.ManageChildSet( Map )
+		ElseIf Map Then
+			If Map.IsEmpty() Then Return
+			Local XMLMap:LTXMLObject = New LTXMLObject
+			XMLMap.Name = "Set"
+			XMLMap.ManageChildSet( Map )
 			SetField( FieldName, XMLMap )
 		End If
 	End Method
@@ -378,7 +398,7 @@ Type LTXMLObject Extends LTObject
 	
 	
 	Rem
-	bbdoc: Transfers data between XMLObject contents and framework object parameter with TList type.
+	bbdoc: Transfers data between XMLObject contents and framework object field with TList type.
 	about: See also: #ManageListField, #ManageChildArray
 	End Rem
 	Method ManageChildList( List:TList Var )
@@ -425,11 +445,12 @@ Type LTXMLObject Extends LTObject
 	
 	
 	Rem
-	bbdoc: Transfers data between XMLObject field and framework object parameter with TMap type filled with LTObject-LTObject pairs.
+	bbdoc: Transfers data between XMLObject contents and framework object field with TMap type filled with LTObject-LTObject pairs.
 	about: See also: #ManageObjectAttribute, #ManageObjectField, #ManageObjectArrayField
 	End Rem
 	Method ManageChildMap( Map:TMap Var )
 		If L_XMLMode = L_XMLGet Then
+			Map = New TMap
 			For Local XMLObject:LTXMLObject = Eachin Children
 				Local Key:LTObject = Null
 				XMLObject.ManageObjectAttribute( "key", Key )
@@ -440,6 +461,27 @@ Type LTXMLObject Extends LTObject
 				Local XMLValue:LTXMLObject = New LTXMLObject
 				XMLValue.ManageObject( LTObject( KeyValue.Value() ) )
 				XMLValue.ManageObjectAttribute( "key", LTObject( KeyValue.Value() ) )
+				Children.AddLast( XMLValue )
+			Next
+		End If
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Transfers data between XMLObject contents and framework object field with TMap type filled with LTObject keys.
+	about: See also: #ManageObjectAttribute, #ManageObjectField, #ManageObjectArrayField
+	End Rem
+	Method ManageChildSet( Map:TMap Var )
+		If L_XMLMode = L_XMLGet Then
+			Map = New TMap
+			For Local XMLObject:LTXMLObject = Eachin Children
+				Map.Insert( XMLObject.ManageObject( Null ), Null )
+			Next
+		Else
+			For Local Obj:LTObject = Eachin Map.Keys()
+				Local XMLValue:LTXMLObject = New LTXMLObject
+				XMLValue.ManageObject( Obj )
 				Children.AddLast( XMLValue )
 			Next
 		End If

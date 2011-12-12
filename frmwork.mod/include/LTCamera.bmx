@@ -32,8 +32,10 @@ Type LTCamera Extends LTVectorSprite
 	End Rem
 	Field Viewport:LTShape = New LTShape
 	
-	Field K:Double = 1.0, DK:Double
+	Field K:Double = 1.0
 	Field VDX:Double, VDY:Double
+	
+	Field Z:Double, DZ:Double, ZK:Double = 1.1
 	
 	Rem
 	bbdoc: Viewport clipping flag.
@@ -196,9 +198,7 @@ Type LTCamera Extends LTVectorSprite
 	
 	Method SetMagnification( NewK:Double )
 		K = NewK
-		Width = Viewport.Width / K
-		Height = Viewport.Height / K
-		Update()
+		SetSize( Viewport.Width / K, Viewport.Height / K )
 	End Method
 	
 	
@@ -207,7 +207,13 @@ Type LTCamera Extends LTVectorSprite
 		ApplyAcceleration( X, NewX, DX, Acceleration )
 		ApplyAcceleration( Y, NewY, DY, Acceleration )
 		MoveForward()
-		Update()
+	End Method
+	
+	
+	
+	
+	Method ShiftCameraToShape( Shape:LTShape, Acceleration:Double = 6.0 )
+		ShiftCameraToPoint( Shape.X, Shape.Y, Acceleration )
 	End Method
 	
 	
@@ -216,7 +222,7 @@ Type LTCamera Extends LTVectorSprite
 		Local A:Double = L_DeltaTime * Acceleration * Sgn( NewX - X )
 		If ( NewX - X ) * DX < 0 Then
 			DX :+ A
-		ElseIf Sgn( DX ) * DX * DX / 2 / Acceleration < Abs( NewX - X ) Then
+		ElseIf DX * DX / 2.0 / Acceleration < Abs( NewX - X ) Then
 			DX :+ A
 		Else
 			DX :- A
@@ -225,9 +231,11 @@ Type LTCamera Extends LTVectorSprite
 	
 	
 	
-	Method AlterCameraMagnification( NewK:Double, Acceleration:Double )
-		ApplyAcceleration( K, NewK, DK, Acceleration )
-		SetMagnification( K + DK )
+	Method AlterCameraMagnification( NewZ:Double, OldK:Double, Acceleration:Double )
+		ApplyAcceleration( Z, NewZ, DZ, Acceleration )
+		'If Abs( NewZ - Z ) > Abs( DZ ) Then DZ = NewZ - Z
+		Z :+ L_DeltaTime * DZ
+		SetMagnification( OldK * ZK ^ Z )
 	End Method
 	
 	

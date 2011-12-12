@@ -53,6 +53,37 @@ Type LTLine Extends LTShape
 	Method Length:Double()
 		Return Pivot[ 0 ].DistanceTo( Pivot[ 1 ] )
 	End Method
+	
+	
+	
+	Method CollidesWithLine:Int( Line:LTLine, IncludingPivots:Int = True )
+		if Pivot[ 0 ] = Line.Pivot[ 0 ] Or Pivot[ 0 ] = Line.Pivot[ 1 ] Or Pivot[ 1 ] = Line.Pivot[ 0 ] Or Pivot[ 1 ] = Line.Pivot[ 1 ] Then
+			If IncludingPivots Then Return True Else Return False
+		End If
+		
+		Local X1:Double = Pivot[ 0 ].X
+		Local Y1:Double = Pivot[ 0 ].Y
+		Local X2:Double = Pivot[ 1 ].X
+		Local Y2:Double = Pivot[ 1 ].Y
+		Local X3:Double = Line.Pivot[ 0 ].X
+		Local Y3:Double = Line.Pivot[ 0 ].Y
+		Local X4:Double = Line.Pivot[ 1 ].X
+		Local Y4:Double = Line.Pivot[ 1 ].Y
+		Local DX1:Double = X2 - X1
+		Local DY1:Double = Y2 - Y1
+		Local DX3:Double = X4 - X3
+		Local DY3:Double = Y4 - Y3
+		Local D:Double = DX3 * DY1 - DY3 * DX1
+		If D = 0 Then Return False
+		
+		Local N:Double = ( DY1 * ( X1 - X3 ) + DX1 * ( Y3 - Y1 ) ) / D
+		Local M:Double = ( DX3 * ( Y3 - Y1 ) + DY3 * ( X1 - X3 ) ) / D
+		If IncludingPivots Then
+			If N >= 0.0 And N <= 1.0 And M >= 0.0 And M <= 1.0 Then Return True
+		Else
+			If N > 0.0 And N < 1.0 And M > 0.0 And M < 1.0 Then Return True
+		End If
+	End Method
 
 	' ==================== Other ====================
 

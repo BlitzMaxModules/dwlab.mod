@@ -15,12 +15,23 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.3.13"
+ModuleInfo "Version: 1.3.14"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.14 (12.12.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added graphicsdrivers.mod, audiodrivers.mod and alldrivers.mod to the modules list."
+ModuleInfo "History: &nbsp; &nbsp; Removed driver addition from the frmwork.mod."
+ModuleInfo "History: &nbsp; &nbsp; LTPath is changed to simple TList and path finding method is moved to LTGraph."
+ModuleInfo "History: &nbsp; &nbsp; Added methods for managing sets in LTXMLObject class."
+ModuleInfo "History: &nbsp; &nbsp; Added CollidesWithLine method to LTLine."
+ModuleInfo "History: &nbsp; &nbsp; Rewrote FindPath method of LTGraph."
+ModuleInfo "History: &nbsp; &nbsp; Added Define() method to LTButtonAction."
+ModuleInfo "History: &nbsp; &nbsp; Added Drawpath() function to LTGraph."
+ModuleInfo "History: &nbsp; &nbsp; Replaced pause flag by pause project in the LTProject"
+ModuleInfo "History: &nbsp; &nbsp; Addded L_DoubleInLimits() function."
 ModuleInfo "History: v1.3.13 (08.12.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added AlterDiameter() method to the LTShape."
 ModuleInfo "History: &nbsp; &nbsp; Added AlterAngle() method to the LTSprite."
@@ -174,19 +185,13 @@ ModuleInfo "History: &nbsp; &nbsp; Fixed bug of ChopFilename() function under Ma
 ModuleInfo "History: v1.0 (28.06.11)"
 ModuleInfo "History: &nbsp; &nbsp; Initial release."
 
-?win32
-Import brl.d3d9max2d
-?Not win32
-Import brl.glmax2d
-?
-
 Import brl.random
 Import brl.reflection
 Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.3.13"
+Const L_Version:String = "1.3.14"
 
 SeedRnd( MilliSecs() )
 

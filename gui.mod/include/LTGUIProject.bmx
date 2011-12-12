@@ -166,7 +166,7 @@ Type LTGUIProject Extends LTProject
 				Controller.Prepare()
 			Next
 			
-			If Not Paused Then Logic()
+			If Pause Then Pause.Logic() Else Logic()
 			For Local Window:LTWindow = Eachin Windows
 				If Window.Active Then Window.Act()
 			Next
@@ -189,6 +189,7 @@ Type LTGUIProject Extends LTProject
 				
 				L_CurrentCamera.SetCameraViewport()
 				Render()
+				If Pause Then Pause.Render()
 				
 				Local OldCamera:LTCamera = L_CurrentCamera
 				L_CurrentCamera = GUICamera

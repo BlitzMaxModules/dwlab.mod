@@ -8,8 +8,6 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTPath.bmx"
-
 Rem
 bbdoc: Graph is a collection of pivots and line segments between them.
 End Rem
@@ -68,6 +66,19 @@ Type LTGraph Extends LTShape
 		Next
 	End Method
 	
+	
+	
+	Function DrawPath( Path:TList, Visualizer:LTVisualizer )
+		if Not Path Then Return
+		Local OldPivot:LTSprite = Null
+		For Local Pivot:LTSprite = Eachin Path
+			If OldPivot Then
+				LTLine.FromPivots( Pivot, OldPivot ).DrawUsingVisualizer( Visualizer )
+			End If
+			OldPivot = Pivot
+		Next
+	End Function
+	
 	' ==================== Add / Remove items ===================	
 	
 	Rem
@@ -92,10 +103,29 @@ Type LTGraph Extends LTShape
 	
 	See also: #RemoveLine, #FindLineCollidingWith, #ContainsLine, #FindLine
 	End Rem
-	Method AddLine( Line:LTLine )
-		?debug
-		If Line.Pivot[ 0 ] = Line.Pivot[ 1 ] Then L_Error( "Cannot add line with equal starting and ending points to the graph" )
-		If Lines.ValueForKey( Line ) Then L_Error( "Line already exists in the graph" )
+	Method AddLine( Line:LTLine, StopOnErrors:Int = True )
+		If Line.Pivot[ 0 ] = Line.Pivot[ 1 ] Then 
+			?debug
+			If StopOnErrors Then L_Error( "Cannot add line with equal starting and ending points to the graph" )
+			?
+			Return
+		End If
+		If Lines.ValueForKey( Line ) Then
+			?debug
+			If StopOnErrors Then L_Error( "This line already exists in the graph" )
+			?
+			Return
+		End If
+		For Local OtherLine:LTLine = EachIn TList( Pivots.ValueForKey( Line.Pivot[ 0 ] ) )
+			If OtherLine.Pivot[ 0 ] = Line.Pivot[ 0 ] Or OtherLine.Pivot[ 0 ] = Line.Pivot[ 1 ] Then
+				If OtherLine.Pivot[ 1 ] = Line.Pivot[ 0 ] Or OtherLine.Pivot[ 1 ] = Line.Pivot[ 1 ] Then
+					?debug
+					If StopOnErrors Then L_Error( "Line with same pivots already exists in the graph" )
+					?
+					Return
+				End If
+			End If 
+		Next
 		?
 		
 		For local N:Int = 0 To 1
@@ -147,7 +177,7 @@ Type LTGraph Extends LTShape
 	bbdoc: Finds pivot which collides with given sprite.
 	about: See also: #AddPivot, #RemovePivot, #ContainsPivot
 	End Rem
-	Method FindPivotCollidingWith:LTSprite( Sprite:LTSprite )
+	Method FindPivotCollidingWithSprite:LTSprite( Sprite:LTSprite )
 		For Local Pivot:LTSprite = Eachin Pivots.Keys()
 			If Sprite.CollidesWithSprite( Pivot ) Then Return Pivot
 		Next
@@ -159,7 +189,7 @@ Type LTGraph Extends LTShape
 	bbdoc: Finds line which collides with given sprite.
 	See also: #AddLine, #RemoveLine, #ContainsLine, #FindLine
 	End Rem
-	Method FindLineCollidingWith:LTLine( Sprite:LTSprite )
+	Method FindLineCollidingWithSprite:LTLine( Sprite:LTSprite )
 		For Local Line:LTLine = Eachin Lines.Keys()
 			If Sprite.CollidesWithLine( Line ) Then Return Line
 		Next
@@ -207,31 +237,63 @@ Type LTGraph Extends LTShape
 
 	' ==================== Other ====================
 	
+	Field MaxLength:Double
+	Field LengthMap:TMap
+	Field ShortestPath:TList
+	
+	Method FindPath:TList( FromPivot:LTSprite, ToPivot:LTSprite )
+		ShortestPath = Null
+		MaxLength = 999999
+		LengthMap = New TMap
+		Local Path:TList = New TList
+		Path.AddLast( FromPivot )
+		Spread( Path, FromPivot, ToPivot, 0 )
+		Return ShortestPath
+	End Method
+	
+	
+	
+	Method Spread:TList( Path:TList, FromPivot:LTSprite, ToPivot:LTSprite, Length:Double )
+		For Local Line:LTLine = Eachin TList( Pivots.ValueForKey( FromPivot ) )
+			Local OtherPivot:LTSprite = Line.Pivot[ Line.Pivot[ 0 ] = FromPivot ]
+			Local NewLength:Double = Length + FromPivot.DistanceTo( OtherPivot )
+			If NewLength + OtherPivot.DistanceTo( ToPivot ) > MaxLength Then Continue
+			Repeat
+				If LengthMap.Contains( OtherPivot ) Then
+					If String( LengthMap.ValueForKey( OtherPivot ) ).ToDouble() < NewLength Then Exit
+				End If
+				Local NewPath:TList = Path.Copy()
+				NewPath.AddLast( OtherPivot )
+				LengthMap.Insert( OtherPivot, String( NewLength ) )
+				If OtherPivot = ToPivot Then
+					ShortestPath = NewPath
+					MaxLength = NewLength
+				Else
+					Spread( NewPath, OtherPivot, ToPivot, NewLength )
+				End If
+				Exit
+			Forever
+		Next
+	End Method
+	
+	
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
-		Local List:TList
+		Local Map:TMap = Null
 		If L_XMLMode = L_XMLGet Then
-			XMLObject.ManageListField( "pivots", List )
-			For Local Piv:LTSprite = Eachin List
+			XMLObject.ManageObjectSetField( "pivots", Map )
+			For Local Piv:LTSprite = Eachin Map.Keys()
 				AddPivot( Piv )
 			Next
 			
-			XMLObject.ManageListField( "lines", List )
-			For Local Line:LTLine = Eachin List
+			XMLObject.ManageObjectSetField( "lines", Map )
+			For Local Line:LTLine = Eachin Map.Keys()
 				AddLine( Line )
 			Next
 		Else
-			List = New TList
-			For Local Piv:LTSprite = Eachin Pivots.Keys()
-				List.AddLast( Piv )
-			Next
-			XMLObject.ManageListField( "pivots", List )
-			
-			List = New TList
-			For Local Line:LTLine = Eachin Lines.Keys()
-				List.AddLast( Line )
-			Next
-			XMLObject.ManageListField( "lines", List )
+			XMLObject.ManageObjectSetField( "pivots", Pivots )
+			XMLObject.ManageObjectSetField( "lines", Lines )
 		End If
 	End Method
 End Type
@@ -374,3 +436,5 @@ Type LTRemoveLineFromGraph Extends LTAction
 		L_CurrentRedoList.AddFirst( Self )
 	End Method
 End Type
+
+

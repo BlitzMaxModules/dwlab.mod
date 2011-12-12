@@ -3,6 +3,7 @@ SuperStrict
 Framework brl.basic
 
 Import dwlab.frmwork
+Import dwlab.graphicsdrivers
 
 Local Example:TExample = New TExample
 Example.Execute()
@@ -11,8 +12,8 @@ Type TExample Extends LTProject
 	Field Hinge:LTSprite = LTSprite.FromShape( 0, -8, 1, 1, LTSprite.Oval )
 	Field Weight1:LTVectorSprite = LTVectorSprite.FromShapeAndVector( -8, -6, 3, 3, LTSprite.Oval )
 	Field Weight2:LTVectorSprite = LTVectorSprite.FromShapeAndVector( -12, -9, 3, 3, LTSprite.Oval )
-	Field Rope1:LTLine = LTLine.Create( Hinge, Weight1 )
-	Field Rope2:LTLine = LTLine.Create( Weight1, Weight2 )
+	Field Rope1:LTLine = LTLine.FromPivots( Hinge, Weight1 )
+	Field Rope2:LTLine = LTLine.FromPivots( Weight1, Weight2 )
 	
 	Method Init()
 		L_InitGraphics()

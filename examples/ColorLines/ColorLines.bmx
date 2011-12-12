@@ -12,20 +12,13 @@ SuperStrict
 
 Framework brl.basic
 
-Import brl.jpgloader
-Import brl.pngloader
-Import brl.oggloader
-Import brl.audio
-Import brl.directsoundaudio
 Import brl.freetypefont
-Import brl.freeaudioaudio
-Import brl.openalaudio
-Import brl.glmax2d
 Import brl.eventqueue
 
 Import dwlab.frmwork
 Import dwlab.gui
 Import dwlab.profiles
+Import dwlab.alldrivers
 
 Include "TGame.bmx"
 Include "THUD.bmx"

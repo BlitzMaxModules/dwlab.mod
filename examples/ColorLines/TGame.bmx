@@ -42,8 +42,8 @@ Type TGame Extends LTGUIProject
 	Field ExplosionSound:TSound
 	
 	Method Init()
-		World = LTWorld.FromFile( "levels.lw" )
 		SetGraphicsDriver( D3D7Max2DDriver() )
+		World = LTWorld.FromFile( "levels.lw" )
 
 		Menu.ProfileTypeID = TTypeID.ForName( "TGameProfile" )
 		Menu.InitSystem( Self )
