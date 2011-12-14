@@ -612,11 +612,7 @@ Type LTEditor Extends LTProject
 			RefreshProjectManager()
 		End If
 	End Method
-
 	
-	
-	Method InitWorld()
-	End Method
 	
 	
 	Method SaveWorld:Int( SaveAs:Int = False )

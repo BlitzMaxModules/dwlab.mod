@@ -3,11 +3,19 @@ ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.15 (14.12.11)"
+ModuleInfo "History: &nbsp; &nbsp; Extended LTRevoluteJoint, now you can define hinge point inside child sprite other than its center."
 ModuleInfo "History: v1.3.14 (12.12.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added graphicsdrivers.mod, audiodrivers.mod and alldrivers.mod to the modules list."
 ModuleInfo "History: &nbsp; &nbsp; Removed driver addition from the frmwork.mod."
 ModuleInfo "History: &nbsp; &nbsp; LTPath is changed to simple TList and path finding method is moved to LTGraph."
 ModuleInfo "History: &nbsp; &nbsp; Added methods for managing sets in LTXMLObject class."
+ModuleInfo "History: &nbsp; &nbsp; Added CollidesWithLine method to LTLine."
+ModuleInfo "History: &nbsp; &nbsp; Rewrote FindPath method of LTGraph."
+ModuleInfo "History: &nbsp; &nbsp; Added Define() method to LTButtonAction."
+ModuleInfo "History: &nbsp; &nbsp; Added Drawpath() function to LTGraph."
+ModuleInfo "History: &nbsp; &nbsp; Replaced pause flag by pause project in the LTProject"
+ModuleInfo "History: &nbsp; &nbsp; Addded L_DoubleInLimits() function."
 ModuleInfo "History: v1.3.13 (08.12.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added AlterDiameter() method to the LTShape."
 ModuleInfo "History: &nbsp; &nbsp; Added AlterAngle() method to the LTSprite."
@@ -174,15 +182,11 @@ LTObject^brl.blitz.Object{
 -SaveToFile%(FileName$)="_dwlab_frmwork_LTObject_SaveToFile"
 }="dwlab_frmwork_LTObject"
 LTProject^LTObject{
-.LogicFPS!&
-.MinFPS!&
-.FPS%&
 .Pass%&
 .Time!&
-.StartTime%&
+.StartingTime%&
+.FreezingTime%&
 .Exiting%&
-.Flipping%&
-.Pause:LTProject&
 -New%()="_dwlab_frmwork_LTProject_New"
 -Delete%()="_dwlab_frmwork_LTProject_Delete"
 -LoadAndInitLayer%(NewLayer:LTLayer Var,Layer:LTLayer)="_dwlab_frmwork_LTProject_LoadAndInitLayer"
@@ -194,11 +198,14 @@ LTProject^LTObject{
 -Render%()="_dwlab_frmwork_LTProject_Render"
 -Logic%()="_dwlab_frmwork_LTProject_Logic"
 -DeInit%()="_dwlab_frmwork_LTProject_DeInit"
+-Insert%()="_dwlab_frmwork_LTProject_Insert"
 -Execute%()="_dwlab_frmwork_LTProject_Execute"
 -ReloadWindows%()="_dwlab_frmwork_LTProject_ReloadWindows"
 -PerSecond!(Value!)="_dwlab_frmwork_LTProject_PerSecond"
 -ShowDebugInfo%()="_dwlab_frmwork_LTProject_ShowDebugInfo"
 }="dwlab_frmwork_LTProject"
+L_PerSecond!(Value!)="dwlab_frmwork_L_PerSecond"
+L_ShowDebugInfo%()="dwlab_frmwork_L_ShowDebugInfo"
 LTWorld^LTLayer{
 .Images:brl.linkedlist.TList&
 .Tilesets:brl.linkedlist.TList&
@@ -889,9 +896,11 @@ LTRevoluteJoint^LTBehaviorModel{
 .ParentPivot:LTSprite&
 .Angle!&
 .Distance!&
+.DX!&
+.DY!&
 -New%()="_dwlab_frmwork_LTRevoluteJoint_New"
 -Delete%()="_dwlab_frmwork_LTRevoluteJoint_Delete"
-+Create:LTRevoluteJoint(ParentPivot:LTSprite)="_dwlab_frmwork_LTRevoluteJoint_Create"
++Create:LTRevoluteJoint(ParentPivot:LTSprite,DX!,DY!)="_dwlab_frmwork_LTRevoluteJoint_Create"
 -Init%(Shape:LTShape)="_dwlab_frmwork_LTRevoluteJoint_Init"
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTRevoluteJoint_ApplyTo"
 }="dwlab_frmwork_LTRevoluteJoint"
@@ -905,16 +914,27 @@ LTDistanceJoint^LTBehaviorModel{
 -Init%(Shape:LTShape)="_dwlab_frmwork_LTDistanceJoint_Init"
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTDistanceJoint_ApplyTo"
 }="dwlab_frmwork_LTDistanceJoint"
+LTTemporaryModel^LTBehaviorModel{
+.StartingTime!&
+-New%()="_dwlab_frmwork_LTTemporaryModel_New"
+-Delete%()="_dwlab_frmwork_LTTemporaryModel_Delete"
+-DefaultInit%(Shape:LTShape)="_dwlab_frmwork_LTTemporaryModel_DefaultInit"
+}="dwlab_frmwork_LTTemporaryModel"
 LTBehaviorModel^LTObject{
 .Active%&
 .Link:brl.linkedlist.TLink&
 -New%()="_dwlab_frmwork_LTBehaviorModel_New"
 -Delete%()="_dwlab_frmwork_LTBehaviorModel_Delete"
 -Init%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_Init"
+-DefaultInit%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_DefaultInit"
 -Activate%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_Activate"
+-DefaultActivate%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_DefaultActivate"
 -Deactivate%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_Deactivate"
+-DefaultDeactivate%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_DefaultDeactivate"
 -Watch%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_Watch"
+-DefaultWatch%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_DefaultWatch"
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_ApplyTo"
+-DefaultApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_DefaultApplyTo"
 -HandleCollisionWithSprite%(Sprite1:LTSprite,Sprite2:LTSprite,CollisionType%)="_dwlab_frmwork_LTBehaviorModel_HandleCollisionWithSprite"
 -HandleCollisionWithTile%(Sprite:LTSprite,TileMap:LTTileMap,TileX%,TileY%,CollisionType%)="_dwlab_frmwork_LTBehaviorModel_HandleCollisionWithTile"
 -HandleCollisionWithLine%(Sprite:LTSprite,Line:LTLine,CollisionType%)="_dwlab_frmwork_LTBehaviorModel_HandleCollisionWithLine"
@@ -1084,7 +1104,7 @@ LTXMLObjectField^brl.blitz.Object{
 L_HexToInt%(HexString$)="dwlab_frmwork_L_HexToInt"
 L_DrawEmptyRect%(X!,Y!,Width!,Height!)="dwlab_frmwork_L_DrawEmptyRect"
 L_DeleteList%(List:brl.linkedlist.TList)="dwlab_frmwork_L_DeleteList"
-L_TrimDouble$(Val!)="dwlab_frmwork_L_TrimDouble"
+L_TrimDouble$(Val!,DigitsAfterDot%=4)="dwlab_frmwork_L_TrimDouble"
 L_FirstZeroes$(Value%,TotalDigits%)="dwlab_frmwork_L_FirstZeroes"
 L_Symbols$(Symbol$,Times%)="dwlab_frmwork_L_Symbols"
 L_LimitDouble!(Value!,FromValue!,ToValue!)="dwlab_frmwork_L_LimitDouble"
@@ -1139,7 +1159,13 @@ L_TilesDisplayed%&=mem("dwlab_frmwork_L_TilesDisplayed")
 L_SpritesDisplayed%&=mem("dwlab_frmwork_L_SpritesDisplayed")
 L_SpritesActed%&=mem("dwlab_frmwork_L_SpritesActed")
 L_SpriteActed%&=mem("dwlab_frmwork_L_SpriteActed")
+L_CurrentProject:LTProject&=mem:p("dwlab_frmwork_L_CurrentProject")
+L_ProjectsList:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_ProjectsList")
+L_LogicFPS!&=mem:d("dwlab_frmwork_L_LogicFPS")
 L_DeltaTime!&=mem:d("dwlab_frmwork_L_DeltaTime")
+L_MinFPS!&=mem:d("dwlab_frmwork_L_MinFPS")
+L_FPS%&=mem("dwlab_frmwork_L_FPS")
+L_Flipping%&=mem("dwlab_frmwork_L_Flipping")
 L_CurrentCamera:LTCamera&=mem:p("dwlab_frmwork_L_CurrentCamera")
 L_DiscreteGraphics%&=mem("dwlab_frmwork_L_DiscreteGraphics")
 L_CameraSpeed!&=mem:d("dwlab_frmwork_L_CameraSpeed")

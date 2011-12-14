@@ -59,9 +59,9 @@ End Function
 Rem
 bbdoc: Trims trailing zeroes of Double value and cuts all digits after 4 after point.
 End Rem
-Function L_TrimDouble:String ( Val:Double )
+Function L_TrimDouble:String ( Val:Double, DigitsAfterDot:Int = 4 )
 	Local StrVal:String = Val + "0000"
-	Local N:Int = StrVal.Find( "." ) + 5
+	Local N:Int = StrVal.Find( "." ) + 1 + DigitsAfterDot
 	'If N < 3 then N = Len( StrVal )
 	Repeat
 		N = N - 1

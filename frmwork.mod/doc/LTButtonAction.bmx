@@ -43,8 +43,7 @@ Type TExample Extends LTProject
 		If KeyDown( Key_LControl ) Or KeyDown( Key_RControl ) Then If KeyDown( Key_D ) Then
 			Local DefineKeys:TDefineKeys = New TDefineKeys
 			DefineKeys.Actions = Actions
-			DefineKeys.Init()
-			Pause = DefineKeys
+			DefineKeys.Insert()
 		End If
 		
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
@@ -92,11 +91,7 @@ Type TDefineKeys Extends LTProject
 	Method Logic()
 		If Actions[ ActionNum ].Define() Then
 			ActionNum :+ 1
-			If ActionNum = Actions.Dimensions()[ 0 ] Then
-				Example.Pause = Null
-				FlushKeys()
-				FlushMouse()
-			End If
+			If ActionNum = Actions.Dimensions()[ 0 ] Then Exiting = True
 		End If
 	End Method
 	

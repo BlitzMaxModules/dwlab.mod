@@ -14,32 +14,41 @@ Global L_SpritesDisplayed:Int
 Global L_SpritesActed:Int
 Global L_SpriteActed:Int
 
+Global L_CurrentProject:LTProject
+
+Global L_ProjectsList:TList = New TList
+
+Rem
+bbdoc: Quantity of logic frames per second.
+about: See also: #Logic
+End Rem
+Global L_LogicFPS:Double = 75
 Global L_DeltaTime:Double
+
+Rem
+bbdoc: Minimal frames per second
+about: Game will start to go slower if this threshold will be reached.
+
+See also: #Render
+End Rem
+Global L_MinFPS:Double = 15
+
+Rem
+bbdoc: Current frames per second quantity.
+about: See also: #Render
+End Rem
+Global L_FPS:Int
+
+Rem
+bbdoc: Flipping flag.
+about: If set to True then Cls will be performed before Render() and Flip will be performed after Render().
+End Rem
+Global L_Flipping:Int = True
 
 Rem
 bbdoc: Class for main project and subprojects.
 End Rem
 Type LTProject Extends LTObject
-	Rem
-	bbdoc: Quantity of logic frames per second.
-	about: See also: #Logic
-	End Rem
-	Field LogicFPS:Double = 75
-	
-	Rem
-	bbdoc: Minimal frames per second
-	about: Game will start to go slower if this threshold will be reached.
-	
-	See also: #Render
-	End Rem
-	Field MinFPS:Double = 15
-	
-	Rem
-	bbdoc: Current frames per second quantity.
-	about: See also: #Render
-	End Rem
-	Field FPS:Int
-	
 	Rem
 	bbdoc: Current logic frame number.
 	End Rem
@@ -49,26 +58,15 @@ Type LTProject Extends LTObject
 	bbdoc: Current game time in seconds (starts from 0).
 	about: See also: #PerSecond
 	End Rem
-	Field Time:Double
-	Field StartTime:Int
+	Field Time:Double = 0.0
+	Field StartingTime:Int
+	Field FreezingTime:Int
 	
 	Rem
 	bbdoc: Exit flag.
 	about: Set it to True to exit project.
 	End Rem
 	Field Exiting:Int
-
-	Rem
-	bbdoc: Flipping flag.
-	about: If set to True then Cls will be performed before Render() and Flip will be performed after Render().
-	End Rem
-	Field Flipping:Int = True
-	
-	Rem
-	bbdoc: Pause project.
-	about: If you set this field to another project, that project Logic() method will be executed and current project will be paused.
-	End Rem
-	Field Pause:LTProject = Null
 
 	' ==================== Loading layers and windows ===================	
 	
@@ -180,7 +178,7 @@ Type LTProject Extends LTObject
 	
 	Rem
 	bbdoc: Deinitialization method.
-	about: It will be executed before exit.
+	about: It will be executed before exit from the project.
 	
 	See also: #Init, #InitGraphics, #InitSound
 	End Rem
@@ -190,63 +188,87 @@ Type LTProject Extends LTObject
 	
 	
 	Rem
-	bbdoc: Executes the project.
+	bbdoc: Method for executing projects after first
+	about: Only new project's Logic() method will be executed in cycle instead of old project's, so old projects will be frozen until
+	exit from this project will be performed.
+	
+	See also: #Init, #InitGraphics, #InitSound
 	End Rem
-	Method Execute()
+	Method Insert()
+		If Not L_ProjectsList.IsEmpty() Then LTProject( L_ProjectsList.Last() ).FreezingTime = MilliSecs()
+	
+		L_ProjectsList.AddLast( Self )
+		
 		FlushKeys
 		FlushMouse
 	    
 		Exiting = False
-		Pass = 1
-		L_DeltaTime = 0
 				
 		Init()
 		InitGraphics()
 		InitSound()
 		
 		Time = 0.0
-		StartTime = MilliSecs()
+		StartingTime = MilliSecs()
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Executes the project.
+	about: You cannot use this method to execute more projects if the project is already running, use Insert() method instead.
+	End Rem
+	Method Execute()
+		Insert()
 		
 		Local RealTime:Double = 0
 		Local LastRenderTime:Double = 0
-		Local MaxRenderPeriod:Double = 1.0 / MinFPS
+		Local MaxRenderPeriod:Double = 1.0 / L_MinFPS
 		Local FPSCount:Int
 		Local FPSTime:Int
 		
 		Repeat
-			Time :+ 1.0 / LogicFPS
 			
 			?debug
 			L_CollisionChecks = 0
 			L_SpritesActed = 0
 			?
 			
-			L_DeltaTime = 1.0 / LogicFPS
-			If Pause Then Pause.Logic() Else Logic()
-			If Exiting Then Exit
+			L_CurrentProject = LTProject( L_ProjectsList.Last() )
+			L_DeltaTime = 1.0 / L_LogicFPS
+			L_CurrentProject.Time :+ L_DeltaTime
+			L_CurrentProject.Logic()
+			
+			If L_CurrentProject.Exiting Then
+				L_CurrentProject.DeInit()
+				L_ProjectsList.RemoveLast()
+				If L_ProjectsList.IsEmpty() Then Exit
+				LTProject( L_ProjectsList.Last() ).StartingTime :+ MilliSecs() - FreezingTime
+			End If
 		
 			Repeat
-				RealTime = 0.001 * ( Millisecs() - StartTime )
+				RealTime = 0.001 * ( Millisecs() - StartingTime )
 				If RealTime >= Time And ( RealTime - LastRenderTime ) < MaxRenderPeriod Then Exit
 				
-				If Flipping Then Cls
+				If L_Flipping Then Cls
 				
 				?debug
 				L_SpritesDisplayed = 0
 				L_TilesDisplayed = 0
 				?
 				
-				Render()
-				If Pause Then Pause.Render()
+				For L_CurrentProject = Eachin L_ProjectsList
+					L_CurrentProject.Render()
+				Next
 				
-				If Flipping Then Flip( False )
+				If L_Flipping Then Flip( False )
 		      
-				LastRenderTime = 0.001 * ( Millisecs() - StartTime )
+				LastRenderTime = 0.001 * ( Millisecs() - StartingTime )
 				FPSCount :+ 1
 			Forever
 	      
 			If Millisecs() >= 1000 + FPSTime Then
-				FPS = FPSCount
+				L_FPS = FPSCount
 				FPSCount = 0
 				FPSTime = Millisecs()
 			End If
@@ -254,8 +276,6 @@ Type LTProject Extends LTObject
 			PollSystem()
 			Pass :+ 1
 		Forever
-		
-		DeInit()
 	End Method
 	
 	' ==================== Other ===================	
@@ -265,30 +285,45 @@ Type LTProject Extends LTObject
 	
 	
 	
-	Rem
-	bbdoc: Converts value second to value per logic frame.
-	returns: Value for logic frame using given per second value.
-	about: For example, can return coordinate increment for speed per second.
-	
-	See also: #LogicFPS
-	End Rem
+	'Deprecated
 	Method PerSecond:Double( Value:Double )
 		Return Value * L_DeltaTime
 	End Method
 	
-	
-	Rem
-	bbdoc: Draws various debugging information on screen.
-	End Rem
 	Method ShowDebugInfo()
-		DrawText( "FPS: " + FPS, 0, 0 )
-		DrawText( "Memory: " + Int( GCMemAlloced() / 1024 ) + "kb", 0, 16 )
-		
-		?debug
-		DrawText( "Collision checks: " + L_CollisionChecks, 0, 32 )
-		DrawText( "Tiles displayed: " + L_TilesDisplayed, 0, 48 )
-		DrawText( "Sprites displayed: " + L_SpritesDisplayed, 0, 64 )
-		DrawText( "Sprites acted: " + L_SpritesActed, 0, 80 )
-		?
+		L_ShowDebugInfo()
 	End Method
 End Type
+
+
+
+
+
+Rem
+bbdoc: Converts value second to value per logic frame.
+returns: Value for logic frame using given per second value.
+about: For example, can return coordinate increment for speed per second.
+
+See also: #L_LogicFPS
+End Rem
+Function L_PerSecond:Double( Value:Double )
+	Return Value * L_DeltaTime
+End Function
+
+
+
+
+Rem
+bbdoc: Draws various debugging information on screen.
+End Rem
+Function L_ShowDebugInfo()
+	DrawText( "FPS: " + L_FPS, 0, 0 )
+	DrawText( "Memory: " + Int( GCMemAlloced() / 1024 ) + "kb", 0, 16 )
+	
+	?debug
+	DrawText( "Collision checks: " + L_CollisionChecks, 0, 32 )
+	DrawText( "Tiles displayed: " + L_TilesDisplayed, 0, 48 )
+	DrawText( "Sprites displayed: " + L_SpritesDisplayed, 0, 64 )
+	DrawText( "Sprites acted: " + L_SpritesActed, 0, 80 )
+	?
+End Function

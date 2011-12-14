@@ -8,6 +8,8 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "LTTemporaryModel.bmx"
+Include "LTWaitingModel.bmx"
 Include "LTFixedJoint.bmx"
 Include "LTRevoluteJoint.bmx"
 Include "LTDistanceJoint.bmx"
@@ -28,7 +30,10 @@ Type LTBehaviorModel Extends LTObject
 	End Rem
 	Method Init( Shape:LTShape )
 	End Method
-
+	
+	Method DefaultInit( Shape:LTShape )
+	End Method
+	
 	
 	
 	Rem
@@ -40,6 +45,9 @@ Type LTBehaviorModel Extends LTObject
 	Method Activate( Shape:LTShape )
 	End Method
 	
+	Method DefaultActivate( Shape:LTShape )
+	End Method
+	
 	
 	
 	Rem
@@ -49,6 +57,9 @@ Type LTBehaviorModel Extends LTObject
 	See also: #Activate, #ActivateAllModels, #DeactivateAllModels, #ActivateModel, #DeactivateModel
 	End Rem
 	Method Deactivate( Shape:LTShape )
+	End Method
+	
+	Method DefaultDeactivate( Shape:LTShape )
 	End Method
 	
 	
@@ -63,6 +74,9 @@ Type LTBehaviorModel Extends LTObject
 	Method Watch( Shape:LTShape )
 	End Method
 	
+	Method DefaultWatch( Shape:LTShape )
+	End Method
+	
 	
 	
 	Rem
@@ -75,6 +89,8 @@ Type LTBehaviorModel Extends LTObject
 	Method ApplyTo( Shape:LTShape )
 	End Method
 	
+	Method DefaultApplyTo( Shape:LTShape )
+	End Method
 	
 	
 	Rem

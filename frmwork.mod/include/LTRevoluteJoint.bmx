@@ -16,6 +16,7 @@ Type LTRevoluteJoint Extends LTBehaviorModel
 	Field ParentPivot:LTSprite
 	Field Angle:Double
 	Field Distance:Double
+	Field DX:Double, DY:Double
 	
 	
 	
@@ -24,9 +25,11 @@ Type LTRevoluteJoint Extends LTBehaviorModel
 	returns: 
 	about: 
 	End Rem
-	Function Create:LTRevoluteJoint( ParentPivot:LTSprite )
+	Function Create:LTRevoluteJoint( ParentPivot:LTSprite, DX:Double, DY:Double )
 		Local Joint:LTRevoluteJoint = New LTRevoluteJoint
 		Joint.ParentPivot = ParentPivot
+		Joint.DX = DX
+		Joint.DY = DY
 		Return Joint
 	End Function
 	
@@ -34,14 +37,22 @@ Type LTRevoluteJoint Extends LTBehaviorModel
 	
 	Method Init( Shape:LTShape )
 		Local Sprite:LTSprite = LTSprite( Shape )
-		Angle = ParentPivot.DirectionTo( Sprite ) - ParentPivot.Angle
-		Distance = ParentPivot.DistanceTo( Sprite )
+		Local Angle2:Double = ATan2( DY, DX )
+		Local Distance2:Double = L_Distance( DX * Sprite.Width, DY * Sprite.Height )
+		Local X:Double = Sprite.X + Cos( Angle2 + Sprite.Angle ) * Distance2
+		Local Y:Double = Sprite.Y + Sin( Angle2 + Sprite.Angle ) * Distance2
+		Angle = ParentPivot.DirectionToPoint( X, Y ) - ParentPivot.Angle
+		Distance = ParentPivot.DistanceToPoint( X, Y )
 	End Method
 	
 	
 	
 	Method ApplyTo( Shape:LTShape )
 		Local Sprite:LTSprite = LTSprite( Shape )
-		Sprite.SetCoords( ParentPivot.X + Cos( Angle + ParentPivot.Angle ) * Distance, ParentPivot.Y + Sin( Angle + ParentPivot.Angle ) * Distance )
+		Local Angle2:Double = ATan2( DY, DX )
+		Local Distance2:Double = L_Distance( DX * Sprite.Width, DY * Sprite.Height )
+		Local DDX:Double = Cos( Angle2 + Sprite.Angle ) * Distance2
+		Local DDY:Double = Sin( Angle2 + Sprite.Angle ) * Distance2
+		Sprite.SetCoords( ParentPivot.X + Cos( Angle + ParentPivot.Angle ) * Distance - DDX, ParentPivot.Y + Sin( Angle + ParentPivot.Angle ) * Distance - DDY )
 	End Method
 End Type

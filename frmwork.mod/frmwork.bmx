@@ -15,12 +15,15 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.3.14"
+ModuleInfo "Version: 1.3.15"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.15 (14.12.11)"
+ModuleInfo "History: &nbsp; &nbsp; Extended LTRevoluteJoint, now you can define hinge point inside child sprite other than its center."
+ModuleInfo "History: &nbsp; &nbsp; Project execution system was rewritten allowing to insert new project on top of project stack and freeze other projects."
 ModuleInfo "History: v1.3.14 (12.12.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added graphicsdrivers.mod, audiodrivers.mod and alldrivers.mod to the modules list."
 ModuleInfo "History: &nbsp; &nbsp; Removed driver addition from the frmwork.mod."
@@ -191,7 +194,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.3.14"
+Const L_Version:String = "1.3.15"
 
 SeedRnd( MilliSecs() )
 

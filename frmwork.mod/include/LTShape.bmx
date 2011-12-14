@@ -574,8 +574,9 @@ Type LTShape Extends LTObject
 	about: See also: #LimitWith, #LimitVerticallyWith, #LimitLeftWith, #LimitRightWith, #LimitTopWith, #LimitBottomWith
 	End Rem
 	Method LimitHorizontallyWith( Rectangle:LTShape, AlterVelocity:Int = False )
-		LimitLeftWith( Rectangle, AlterVelocity )
-		LimitRightWith( Rectangle, AlterVelocity )
+		Local X1:Double = Min( Rectangle.X, Rectangle.LeftX() + 0.5 * Width )
+		Local X2:Double = Max( Rectangle.X, Rectangle.RightX() - 0.5 * Width )
+		SetX( L_LimitDouble( X, X1, X2 ) )
 	End Method
 	
 	
@@ -585,8 +586,9 @@ Type LTShape Extends LTObject
 	about: See also: #LimitWith, #LimitHorizontallyWith, #LimitLeftWith, #LimitRightWith, #LimitTopWith, #LimitBottomWith
 	End Rem
 	Method LimitVerticallyWith( Rectangle:LTShape, AlterVelocity:Int = False )
-		LimitTopWith( Rectangle, AlterVelocity )
-		LimitBottomWith( Rectangle, AlterVelocity )
+		Local Y1:Double = Min( Rectangle.Y, Rectangle.TopY() + 0.5 * Height )
+		Local Y2:Double = Max( Rectangle.Y, Rectangle.BottomY() - 0.5 * Height )
+		SetY( L_LimitDouble( Y, Y1, Y2 ) )
 	End Method	
 	
 	' ==================== Angle ====================
@@ -760,9 +762,11 @@ Type LTShape Extends LTObject
 	See also: #LTBehaviorModel, #Activate
 	End Rem
 	Method AttachModel( Model:LTBehaviorModel, Activated:Int = True )
+		Model.DefaultInit( Self )
 		Model.Init( Self )
 		Model.Link = BehaviorModels.AddLast( Model )
 		If Activated Then
+			Model.DefaultActivate( Self )
 			Model.Activate( Self )
 			Model.Active = True
 		End If
@@ -793,6 +797,7 @@ Type LTShape Extends LTObject
 	Method ActivateAllModels()
 		For Local Model:LTBehaviorModel = EachIn BehaviorModels
 			If Not Model.Active Then
+				Model.DefaultActivate( Self )
 				Model.Activate( Self )
 				Model.Active = True
 			End If
@@ -810,6 +815,7 @@ Type LTShape Extends LTObject
 	Method DeactivateAllModels()
 		For Local Model:LTBehaviorModel = EachIn BehaviorModels
 			If Model.Active Then
+				Model.DefaultDeactivate( Self )
 				Model.Deactivate( Self )
 				Model.Active = False
 			End If
@@ -828,6 +834,7 @@ Type LTShape Extends LTObject
 		Local TypeID:TTypeId = L_GetTypeID( TypeName )
 		For Local Model:LTBehaviorModel = EachIn BehaviorModels
 			If TTypeId.ForObject( Model ) = TypeID And Not Model.Active Then
+				Model.DefaultActivate( Self )
 				Model.Activate( Self )
 				Model.Active = True
 			End If
@@ -846,6 +853,7 @@ Type LTShape Extends LTObject
 		Local TypeID:TTypeId = L_GetTypeID( TypeName )
 		For Local Model:LTBehaviorModel = EachIn BehaviorModels
 			If TTypeId.ForObject( Model ) = TypeID And Model.Active Then
+				Model.DefaultDeactivate( Self )
 				Model.Deactivate( Self )
 				Model.Active = False
 			End If
@@ -865,9 +873,11 @@ Type LTShape Extends LTObject
 		For Local Model:LTBehaviorModel = EachIn BehaviorModels
 			If TTypeId.ForObject( Model ) = TypeID Then
 				If Model.Active Then
+					Model.DefaultDeactivate( Self )
 					Model.Deactivate( Self )
 					Model.Active = False
 				Else
+					Model.DefaultActivate( Self )
 					Model.Activate( Self )
 					Model.Active = True
 				End If
@@ -1098,8 +1108,10 @@ Type LTShape Extends LTObject
 		If Active Then
 			For Local Model:LTBehaviorModel = EachIn BehaviorModels
 				If Model.Active Then
+					Model.DefaultApplyTo( Self )
 					Model.ApplyTo( Self )
 				Else
+					Model.DefaultWatch( Self )
 					Model.Watch( Self )
 				End If
 			Next
