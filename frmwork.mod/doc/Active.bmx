@@ -2,8 +2,8 @@ SuperStrict
 
 Framework brl.basic
 Import dwlab.frmwork
+Import dwlab.graphicsdrivers
 
-SeedRnd( MilliSecs() )
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -37,7 +37,8 @@ Type TExample Extends LTProject
 	Method Render()
 		Layer.Draw()
 		Rectangle.Draw()
-		DrawText( "Press left mouse button on circle to make it inactive, right button to make it invisible, space to restore all back.", 0, 0 )
+		DrawText( "Press left mouse button on circle to make it inactive, right button to make it invisible.", 0, 0 )
+		DrawText( "Press space to restore all back.", 0, 16 )
 	End Method
 End Type
 

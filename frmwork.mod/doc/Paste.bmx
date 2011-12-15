@@ -2,6 +2,7 @@ SuperStrict
 
 Framework brl.basic
 Import dwlab.frmwork
+Import dwlab.graphicsdrivers
 
 Const MapSize:Int = 128
 
@@ -33,7 +34,7 @@ DoubleMap.Paste( TargetMap )
 DoubleMap.Paste( SourceMap, 0, 0, LTDoubleMap.Minimum )
 Draw( DoubleMap.ToNewImage(), "Minimum of source map and target map" )
 
-SetScale ( 4.0, 4.0 )
+SetScale( 4.0, 4.0 )
 Local Image:LTImage = SourceMap.ToNewImage( LTDoubleMap.Red )
 TargetMap.PasteToImage( Image, 0, 0, 0, LTDoubleMap.Green )
 Draw( Image, "Pasting maps to different color channels" )

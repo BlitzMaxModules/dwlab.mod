@@ -40,8 +40,6 @@ Type TCameraProperties Extends LTProject
 		SetGadgetText( X2TextField, L_TrimDouble( L_CurrentCamera.VX2 ) )
 		SetGadgetText( Y2TextField, L_TrimDouble( L_CurrentCamera.VY2 ) )
 		SetButtonState( IsometricCheckBox, L_CurrentCamera.Isometric )
-		
-		Flipping = False
 	End Method
 	
 	
@@ -74,12 +72,6 @@ Type TCameraProperties Extends LTProject
 			Case Event_WindowClose
 				Exiting = True
 		End Select
-	End Method
-	
-	
-	
-	Method Render()
-		Editor.Render()
 	End Method
 	
 	

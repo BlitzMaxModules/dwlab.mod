@@ -33,9 +33,9 @@ Type TExample Extends LTProject
 		Cursor.MoveUsingArrows( 10.0 )
 		L_CurrentCamera.ShiftCameraToShape( Cursor, 10.0 )
 		
-		If KeyDown( Key_A ) Then Z :+ L_DeltaTime * 8.0
-		If KeyDown( Key_Z ) Then Z :- L_DeltaTime * 8.0
-		L_CurrentCamera.AlterCameraMagnification( Z, BaseK, 2.0 )
+		If KeyDown( Key_A ) Then Z :+ L_PerSecond( 8.0 )
+		If KeyDown( Key_Z ) Then Z :- L_PerSecond( 8.0 )
+		L_CurrentCamera.AlterCameraMagnification( Z, BaseK, 8.0 )
 		
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
 	End Method

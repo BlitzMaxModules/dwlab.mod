@@ -2,8 +2,8 @@ SuperStrict
 
 Framework brl.basic
 Import dwlab.frmwork
+Import dwlab.graphicsdrivers
 
-SeedRnd( MilliSecs() )
 Global Example:TExample = New TExample
 Example.Execute()
 

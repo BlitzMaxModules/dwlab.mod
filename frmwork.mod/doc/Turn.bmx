@@ -2,7 +2,7 @@ SuperStrict
 
 Framework brl.basic
 Import dwlab.frmwork
-Import brl.pngloader
+Import dwlab.graphicsdrivers
 
 Global Example:TExample = New TExample
 Example.Execute()

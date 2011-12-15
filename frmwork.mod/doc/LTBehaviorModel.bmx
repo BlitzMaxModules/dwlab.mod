@@ -2,6 +2,7 @@ SuperStrict
 
 Framework brl.basic
 Import dwlab.frmwork
+Import dwlab.graphicsdrivers
 
 Global Example:TExample = New TExample
 Example.Execute()
@@ -9,15 +10,18 @@ Example.Execute()
 Type TExample Extends LTProject
 	Const BallsQuanity:Int = 20
 	
-	Field Layer:LTLayer = New LTLayer
-	Field Rectangle:LTSprite = LTSprite.FromShape( 0, 0, 30, 22 )
-	Field Contour:LTContourVisualizer = LTContourVisualizer.FromWidthAndHexColor( 2.0, "FF0000" )
+	Field World:LTWorld = LTWorld.FromFile( "game.lw" )
+	Field Layer:LTLayer
+	Field TileMap:LTTileMap
 	
 	Method Init()
-		For Local N:Int = 0 Until BallsQuanity
-			TBall.Create()
-		Next
 		L_InitGraphics()
+		InitLevel()
+	End Method
+	
+	Method InitLevel()
+		LoadAndInitLayer( Layer, LTLayer( World.FindShape( "Level" ) ) )
+		TileMap = LTTileMap( Layer.FindShapeWithType( "LTTileMap" ) )
 	End Method
 	
 	Method Logic()
@@ -26,8 +30,6 @@ Type TExample Extends LTProject
 	End Method
 
 	Method Render()
-		Rectangle.Draw()
-		Rectangle.DrawUsingVisualizer( Contour )
 		Layer.Draw()
 	End Method
 End Type
@@ -42,14 +44,16 @@ Type TBall Extends LTVectorSprite
 	Method Act()
 		CollisionsWithGroup( Example.Layer )
 		
+		OnLand = False
 		DY :+ Example.PerSecond( Gravity )
 		Sprite.Move( 0, DY )
-		If BottomY() > Rectangle.BottomY() Then
-			Y = Rectangle.BottomY() - 0.5 * Height
+		CollisionsWithTileMap( Exmple.TileMap, Vertical )
+	End Method
+	
+	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int = 0 )
+		If CollisionType = Vertical Then
+			If DY > 0 Then OnLand = True
 			DY = 0
-			OnLand = True
-		Else
-			OnLand = False
 		End If
 	End Method
 End Type

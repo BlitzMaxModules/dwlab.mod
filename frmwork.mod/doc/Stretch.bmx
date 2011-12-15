@@ -2,7 +2,7 @@ SuperStrict
 
 Framework brl.basic
 Import dwlab.frmwork
-Import brl.pngloader
+Import dwlab.graphicsdrivers
 
 Const TileMapWidth:Int = 4
 Const TileMapHeight:Int = 3

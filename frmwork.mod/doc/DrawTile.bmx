@@ -53,8 +53,6 @@ Type TShakingVisualizer Extends LTVisualizer
 	Const DCoord:Double = 0.2
 	
 	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, Width:Double, Height:Double, TileX:Int, TileY:Int )
-		ApplyColor()
-		
 		Local TileSet:LTTileSet =Tilemap.TileSet
 		Local TileValue:Int = GetTileValue( TileMap, TileX, TileY )
 		If TileValue = TileSet.EmptyTile Then Return

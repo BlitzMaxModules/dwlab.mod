@@ -3,6 +3,7 @@ SuperStrict
 Framework brl.basic
 
 Import dwlab.frmwork
+Import dwlab.graphicsdrivers
 
 Global Example:TExample = New TExample
 Example.Execute()
@@ -28,7 +29,7 @@ Type TExample Extends LTProject
 		Ang = 1500 * Sin( 7 * Time )
 		For Local Sprite:LTSprite = Eachin Layer
 			OldSprite.DirectTo( Sprite )
-			OldSprite.Angle :+ PerSecond( Ang ) + Rnd( -45, 45 )
+			OldSprite.Angle :+ L_PerSecond( Ang ) + Rnd( -45, 45 )
 			Sprite.MoveForward()
 			OldSprite = Sprite
 		Next

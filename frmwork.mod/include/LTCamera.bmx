@@ -18,9 +18,6 @@ bbdoc: Global flag for discrete graphics.
 End Rem
 Global L_DiscreteGraphics:Int = False
 
-Global L_CameraSpeed:Double = 2.0
-Global L_CameraMagnificationSpeed:Double = 2.0
-
 Rem
 bbdoc: Camera for displaying game objects.
 about: Camera sprite defines rectangular area on game field which will be projected to the defined viewport rectangle.

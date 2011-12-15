@@ -2,6 +2,7 @@ SuperStrict
 
 Framework brl.basic
 Import dwlab.frmwork
+Import dwlab.graphicsdrivers
 
 L_InitGraphics()
 
@@ -14,7 +15,6 @@ Local Frequency:Int = 16
 Local Amplitude:Double = 0.25
 Local DAmplitude:Double = 0.5
 Local Layers:Int = 4
-Local Blur:Int = False
 
 Repeat
 	Cls

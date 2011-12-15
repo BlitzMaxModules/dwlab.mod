@@ -2,6 +2,7 @@ SuperStrict
 
 Framework brl.basic
 Import dwlab.frmwork
+Import dwlab.graphicsdrivers
 
 Global Example:TExample = New TExample
 Example.Execute()
@@ -25,6 +26,5 @@ Type TExample Extends LTProject
 		SetColor( 255, 255, 255 )
 		DrawText( MouseX() + " is " + Word + "in limits of [ 200, 600 ]", 0, 0 )
 		DrawOval( MouseX() - 2, MouseY() - 2, 5, 5 )
-		
 	End Method
 End Type

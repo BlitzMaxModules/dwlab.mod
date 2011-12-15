@@ -2,12 +2,14 @@ SuperStrict
 
 Framework brl.basic
 Import dwlab.frmwork
+Import dwlab.graphicsdrivers
 
 Global Example:TExample = New TExample
 Example.Execute()
 
 Type TExample Extends LTProject
 	Field Lines:LTLayer = New LTLayer
+	
 	Method Init()
 		L_InitGraphics( 800, 600, 75 )
 		Local Visualizer:TBlazing = New TBlazing

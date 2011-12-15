@@ -1,10 +1,12 @@
-ModuleInfo "Version: 1.3.14"
+ModuleInfo "Version: 1.3.15"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
 ModuleInfo "History: v1.3.15 (14.12.11)"
 ModuleInfo "History: &nbsp; &nbsp; Extended LTRevoluteJoint, now you can define hinge point inside child sprite other than its center."
+ModuleInfo "History: &nbsp; &nbsp; Project execution system was rewritten allowing to insert new project on top of project stack and freeze other projects."
+ModuleInfo "History: &nbsp; &nbsp; Made extension of LTBehavior model and new behavior model templates."
 ModuleInfo "History: v1.3.14 (12.12.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added graphicsdrivers.mod, audiodrivers.mod and alldrivers.mod to the modules list."
 ModuleInfo "History: &nbsp; &nbsp; Removed driver addition from the frmwork.mod."
@@ -173,7 +175,7 @@ import brl.random
 import brl.reflection
 import brl.retro
 import brl.max2d
-L_Version$=$"1.3.14"
+L_Version$=$"1.3.15"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
@@ -881,6 +883,20 @@ LTTitleGenerator^brl.blitz.Object{
 -Delete%()="_dwlab_frmwork_LTTitleGenerator_Delete"
 -GetTitle$(Shape:LTShape)="_dwlab_frmwork_LTTitleGenerator_GetTitle"
 }="dwlab_frmwork_LTTitleGenerator"
+LTTemporaryModel^LTBehaviorModel{
+.StartingTime!&
+.Period!&
+.NextModel:LTBehaviorModel&
+-New%()="_dwlab_frmwork_LTTemporaryModel_New"
+-Delete%()="_dwlab_frmwork_LTTemporaryModel_Delete"
+-DefaultInit%(Shape:LTShape)="_dwlab_frmwork_LTTemporaryModel_DefaultInit"
+-DefaultApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTTemporaryModel_DefaultApplyTo"
+}="dwlab_frmwork_LTTemporaryModel"
+LTWaitingModel^LTTemporaryModel{
+-New%()="_dwlab_frmwork_LTWaitingModel_New"
+-Delete%()="_dwlab_frmwork_LTWaitingModel_Delete"
++Create:LTWaitingModel(Time!,NextModel:LTBehaviorModel)="_dwlab_frmwork_LTWaitingModel_Create"
+}="dwlab_frmwork_LTWaitingModel"
 LTFixedJoint^LTBehaviorModel{
 .ParentPivot:LTSprite&
 .Angle!&
@@ -914,12 +930,6 @@ LTDistanceJoint^LTBehaviorModel{
 -Init%(Shape:LTShape)="_dwlab_frmwork_LTDistanceJoint_Init"
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTDistanceJoint_ApplyTo"
 }="dwlab_frmwork_LTDistanceJoint"
-LTTemporaryModel^LTBehaviorModel{
-.StartingTime!&
--New%()="_dwlab_frmwork_LTTemporaryModel_New"
--Delete%()="_dwlab_frmwork_LTTemporaryModel_Delete"
--DefaultInit%(Shape:LTShape)="_dwlab_frmwork_LTTemporaryModel_DefaultInit"
-}="dwlab_frmwork_LTTemporaryModel"
 LTBehaviorModel^LTObject{
 .Active%&
 .Link:brl.linkedlist.TLink&
@@ -1104,7 +1114,7 @@ LTXMLObjectField^brl.blitz.Object{
 L_HexToInt%(HexString$)="dwlab_frmwork_L_HexToInt"
 L_DrawEmptyRect%(X!,Y!,Width!,Height!)="dwlab_frmwork_L_DrawEmptyRect"
 L_DeleteList%(List:brl.linkedlist.TList)="dwlab_frmwork_L_DeleteList"
-L_TrimDouble$(Val!,DigitsAfterDot%=4)="dwlab_frmwork_L_TrimDouble"
+L_TrimDouble$(Val!,DigitsAfterDot%=2)="dwlab_frmwork_L_TrimDouble"
 L_FirstZeroes$(Value%,TotalDigits%)="dwlab_frmwork_L_FirstZeroes"
 L_Symbols$(Symbol$,Times%)="dwlab_frmwork_L_Symbols"
 L_LimitDouble!(Value!,FromValue!,ToValue!)="dwlab_frmwork_L_LimitDouble"
@@ -1168,8 +1178,6 @@ L_FPS%&=mem("dwlab_frmwork_L_FPS")
 L_Flipping%&=mem("dwlab_frmwork_L_Flipping")
 L_CurrentCamera:LTCamera&=mem:p("dwlab_frmwork_L_CurrentCamera")
 L_DiscreteGraphics%&=mem("dwlab_frmwork_L_DiscreteGraphics")
-L_CameraSpeed!&=mem:d("dwlab_frmwork_L_CameraSpeed")
-L_CameraMagnificationSpeed!&=mem:d("dwlab_frmwork_L_CameraMagnificationSpeed")
 L_ProlongTiles%&=mem("dwlab_frmwork_L_ProlongTiles")
 L_SpreadingDirections%&[]&=mem:p("dwlab_frmwork_L_SpreadingDirections")
 L_LoadImages%&=mem("dwlab_frmwork_L_LoadImages")

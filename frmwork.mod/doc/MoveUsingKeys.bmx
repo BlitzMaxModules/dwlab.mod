@@ -2,6 +2,7 @@ SuperStrict
 
 Framework brl.basic
 Import dwlab.frmwork
+Import dwlab.graphicsdrivers
 
 Global Example:TExample = New TExample
 Example.Execute()
@@ -21,7 +22,7 @@ Type TExample Extends LTProject
 	Method Logic()
 		Ball1.MoveUsingWSAD( Ball1.Velocity )
 		Ball2.MoveUsingArrows( Ball2.Velocity )
-		Ball3.MoveUsingKeys( Key_I, Key_K, Key_J, Key_L, Ball3.Velocity  )
+		Ball3.MoveUsingKeys( Key_I, Key_K, Key_J, Key_L, Ball3.Velocity )
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
 	End Method
 

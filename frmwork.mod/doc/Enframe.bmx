@@ -2,7 +2,7 @@ SuperStrict
 
 Framework brl.basic
 Import dwlab.frmwork
-Import brl.pngloader
+Import dwlab.graphicsdrivers
 
 L_InitGraphics()
 SetClsColor( 64, 128, 0 )

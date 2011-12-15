@@ -11,11 +11,9 @@
 
 SuperStrict
 
-Import brl.pngloader
-Import brl.jpgloader
-Import brl.bmploader
-
 Import dwlab.frmwork
+Import dwlab.graphicsdrivers
+Import brl.bmploader
 
 Import brl.eventqueue
 ?win32
@@ -256,6 +254,8 @@ Type LTEditor Extends LTProject
 	
 	
 	Method Init()
+		 L_Flipping = False
+		
 		AutoImageFlags( FILTEREDIMAGE | DYNAMICIMAGE )
 		
 		SetLocalizationMode( Localization_On | Localization_Override )
@@ -421,8 +421,6 @@ Type LTEditor Extends LTProject
 		L_DebugVisualizer.Alpha = 0.5
 		
 		SelectedTile.Visualizer = New LTMarchingAnts
-		
-		Flipping = False
 		
 		EditorPath = CurrentDir()
 		CurrentViewLayer = AddLayer( "LTLayer" )
@@ -765,10 +763,10 @@ Type LTEditor Extends LTProject
 					Case ParametersListBox
 						SelectedParameter = LTParameter( EventExtra() )
 						If SelectedParameter Then
-							ParameterProperties.Execute()
+							ParameterProperties.Insert()
 						Else
 							SelectedParameter = New LTParameter
-							ParameterProperties.Execute()
+							ParameterProperties.Insert()
 							If ParameterProperties.Succesful Then
 								ShapeForParameters.AddParameter( SelectedParameter.Name, SelectedParameter.Value )
 							End If
@@ -905,7 +903,7 @@ Type LTEditor Extends LTProject
 					Case Key_P
 						If Not SelectedShapes.IsEmpty() Then
 							SelectedParameter = New LTParameter
-							ParameterProperties.Execute()
+							ParameterProperties.Insert()
 							If ParameterProperties.Succesful Then
 								For Local Shape:LTShape = Eachin SelectedShapes
 									Shape.AddParameter( SelectedParameter.Name, SelectedParameter.Value )
@@ -1021,7 +1019,7 @@ Type LTEditor Extends LTProject
 					Case MenuProlongTiles
 						L_ProlongTiles = LTMenuSwitch.Find( MenuProlongTiles ).Toggle()
 					Case MenuCameraProperties
-						CameraProperties.Execute()
+						CameraProperties.Insert()
 					Case MenuIncbin
 						World.IncbinValue = 1 - World.IncbinValue
 						SetIncbin()
@@ -1154,7 +1152,7 @@ Type LTEditor Extends LTProject
 						GenerateRules( LTTileMap( SelectedShape ), 2 )
 					Case MenuTileMapProperties
 						TileMapProperties.TileMap = LTTileMap( SelectedShape )
-						TileMapProperties.Execute()
+						TileMapProperties.Insert()
 
 					' ============================= Sprite map menu ==================================
 					
@@ -1164,7 +1162,7 @@ Type LTEditor Extends LTProject
 					' ============================= Parameter menu ==================================
 					
 					Case MenuModifyParameter
-						ParameterProperties.Execute()
+						ParameterProperties.Insert()
 						If ParameterProperties.Succesful Then RefreshParametersListBox()
 					Case MenuRemoveParameter
 						ShapeForParameters.Parameters.Remove( SelectedParameter )

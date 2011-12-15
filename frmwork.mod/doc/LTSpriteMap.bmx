@@ -2,6 +2,7 @@ SuperStrict
 
 Framework brl.basic
 Import dwlab.frmwork
+Import dwlab.graphicsdrivers
 
 SeedRnd( MilliSecs() )
 Global Example:TExample = New TExample
@@ -22,10 +23,14 @@ Type TExample Extends LTProject
 		Next
 		Rectangle.Visualizer = LTContourVisualizer.FromWidthAndHexColor( 0.1, "FF0000" )
 		L_InitGraphics()
+		L_CurrentCamera.DX = 4
+		L_CurrentCamera.DY = 4
 	End Method
 	
 	Method Logic()
 		SpriteMap.Act()
+		L_CurrentCamera.MoveForward()
+		L_CurrentCamera.BounceInside( Rectangle )
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
 	End Method
 
@@ -51,8 +56,7 @@ Type TBall Extends LTSprite
 	End Function
 	
 	Method Act()
-		Cursor.SetMouseCoords()
-		L_CurrentCamera.Follow( Cursor )
+		L_CurrentCamera.BounceInside( Example.Rectangle )
 		MoveForward()
 		BounceInside( Example.Rectangle )
 		CollisionsWithSpriteMap( Example.SpriteMap )

@@ -132,7 +132,7 @@ Type TSpriteMapProperties Extends LTProject
 	
 	Method Set:Int( NewSpriteMap:LTSpriteMap )
 		SpriteMap = NewSpriteMap
-		Execute()
+		Insert()
 		Return Succeeded
 	End Method
 End Type

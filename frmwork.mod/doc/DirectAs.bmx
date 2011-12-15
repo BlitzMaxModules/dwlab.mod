@@ -2,7 +2,7 @@ SuperStrict
 
 Framework brl.basic
 Import dwlab.frmwork
-Import brl.pngloader
+Import dwlab.graphicsdrivers
 
 Global Example:TExample = New TExample
 Example.Execute()
@@ -14,7 +14,6 @@ Type TExample Extends LTProject
 	Field Cursor:TCursor = New TCursor
 	Field SpriteImage:LTImage = LTImage.FromFile( "kolobok.png" )
 	Field Selected:LTSprite
-	Field MarchingAnts:LTMarchingAnts = New LTMarchingAnts
 	
 	Method Init()
 		For Local N:Int = 1 To SpritesQuantity

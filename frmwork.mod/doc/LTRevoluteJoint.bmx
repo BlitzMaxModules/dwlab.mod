@@ -40,7 +40,6 @@ Type TExample Extends LTProject
 	End Method
 	
 	Method Logic()
-
 		Local Angle:Double = 360 / Period * Time
 		Body.Y = -Sin( Angle * 2 + 240 ) * 0.25 - 5.5
 			

@@ -3,11 +3,12 @@ SuperStrict
 Framework brl.basic
 Import brl.pngloader
 Import dwlab.frmwork
+Import dwlab.graphicsdrivers
 
-Global Game:TGame = New TGame
-Game.Execute()
+Global Example:TExample = New TExample
+Example.Execute()
 
-Type TGame Extends LTProject
+Type TExample Extends LTProject
   Field Ground:LTTileMap
   Field Grid:LTTileMap
   Field Clouds:LTTileMap

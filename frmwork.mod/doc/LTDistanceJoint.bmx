@@ -37,10 +37,10 @@ Type TExample Extends LTProject
 	Method Logic()
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
 		Weight1.Act()
-		Weight1.DY :+ PerSecond( 2.0 )
+		Weight1.DY :+ L_PerSecond( 2.0 )
 		Weight1.MoveForward()
 		Weight2.Act()
-		Weight2.DY :+ PerSecond( 2.0 )
+		Weight2.DY :+ L_PerSecond( 2.0 )
 		Weight2.MoveForward()
 	End Method	
 End Type

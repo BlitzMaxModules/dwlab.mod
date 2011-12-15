@@ -5,7 +5,7 @@ Import dwlab.frmwork
 
 Print 16.125:Double
 Print "Too much digits, eh?"
-Print L_TrimDouble( 16.125:Double )
+Print L_TrimDouble( 16.125:Double, 3 )
 Print "Now it's OK!"
 
 Rem output
