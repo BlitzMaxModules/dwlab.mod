@@ -29,7 +29,6 @@ ModuleInfo "History: &nbsp; &nbsp; Initial release."
 Import dwlab.frmwork
 Import maxgui.localization
 
-Include "include\LTGUIProject.bmx"
 Include "include\LTWindow.bmx"
 Include "include\LTGadget.bmx"
 

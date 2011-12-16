@@ -75,7 +75,7 @@ Type LTProject Extends LTObject
 	Rem
 	bbdoc: Flag for disabling every previously added project.
 	End Rem
-	Field Modal:Int = True
+	Field Modal:Int
 	
 	Rem
 	bbdoc: Flag for disabling/enabling Render() execution of the project.
@@ -190,11 +190,22 @@ Type LTProject Extends LTObject
 	
 	Rem
 	bbdoc: Logic method. 
-	about: Fill it with project mechanics commands. Will be executed "LogicFPS" times per second.
+	about: Fill it with project mechanics commands. Will be executed "LogicFPS" times per second if project is not frozen.
 	
 	See also: #LogicFPS
 	End Rem
 	Method Logic()
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Permanent logic method.
+	about: It will be executed no matter is project frozen or not.
+	
+	See also: #Logic
+	End Rem
+	Method PermanentLogic()
 	End Method
 	
 	
@@ -217,11 +228,11 @@ Type LTProject Extends LTObject
 	
 	See also: #Init, #InitGraphics, #InitSound
 	End Rem
-	Method Add( NewCamera:LTCamera = Null )
+	Method Add( NewModal:Int = True, NewCamera:LTCamera = Null )
 		If NewCamera Then Camera = NewCamera ElseIf Not Camera Then Camera:LTCamera = LTCamera.Create()
 		L_CurrentCamera = Camera
 	
-		If Modal Then
+		If NewModal Then
 			Local Link:TLink = L_Projects.LastLink()
 			While Link
 				L_CurrentProject = LTProject( Link.Value() )
@@ -268,6 +279,7 @@ Type LTProject Extends LTObject
 			L_SpritesActed = 0
 			?
 			Local Link:TLink = L_Projects.LastLink()
+			Local OnlyPermanent:Int = False
 			While Link
 				L_CurrentProject = LTProject( Link.Value() )
 				If Not L_CurrentProject.Frozen Then
@@ -275,6 +287,7 @@ Type LTProject Extends LTObject
 					L_CurrentProject.Time :+ L_DeltaTime
 					L_CurrentCamera = Camera
 					L_Cursor.SetMouseCoords()
+					L_CurrentProject.PermanentLogic()
 					L_CurrentProject.Logic()
 					If L_CurrentProject.Exiting Then
 						L_CurrentProject.DeInit()
@@ -290,7 +303,7 @@ Type LTProject Extends LTObject
 						End If
 					End If
 				End If
-				If L_CurrentProject.Modal Then Exit
+				If L_CurrentProject.Modal Then OnlyPermanent = True
 				Link = Link.PrevLink()
 			WEnd
 			

@@ -10,6 +10,7 @@
 
 Global L_Window:LTWindow
 Global L_ActiveTextField:LTTextField
+Global L_GUICamera:LTCamera = LTCamera.Create()
 
 Rem
 bbdoc: Class for GUI window.
@@ -39,22 +40,24 @@ Type LTWindow Extends LTProject
 	Function Load:LTWindow( World:LTWorld, Class:String, Camera:LTCamera = Null )
 		L_ActiveTextField = Null
 		L_Window = New LTWindow
+		If Not Camera Then Camera = L_GUICamera
 		
-		L_Window.Layer = LTLayer( LoadLayer( LTLayer( World.FindShapeWithParameter( "class", Class ) ) ) )
+		L_Window.Layer = LTLayer( L_Window.LoadLayer( LTLayer( World.FindShapeWithParameter( "class", Class ) ) ) )
+		Local Layer:LTLayer = L_Window.Layer
 		
-		Local Screen:LTShape = L_Window.Layer.Bounds
+		Local Screen:LTShape = Layer.Bounds
 		If Screen Then
-			Local DY:Double = 0.5 * ( GUICamera.Height - Screen.Height * Camera.Width / Screen.Width )
-			Select L_Window.GetParameter( "vertical" )
+			Local DY:Double = 0.5 * ( Camera.Height - Screen.Height * Camera.Width / Screen.Width )
+			Select Layer.GetParameter( "vertical" )
 				Case "top"
 					DY = -DY
 				Case "bottom"
 				Default 
 					DY = 0.0
 			End Select
-			Local K:Double = GUICamera.Width / Screen.Width
-			For Local Shape:LTShape = Eachin L_Window.Layer.Children	
-				Shape.SetCoords( Camera.X + ( Shape.X - Screen.X ) * K, GUICamera.Y + ( Shape.Y - Screen.Y ) * K + DY )
+			Local K:Double = Camera.Width / Screen.Width
+			For Local Shape:LTShape = Eachin Layer.Children	
+				Shape.SetCoords( Camera.X + ( Shape.X - Screen.X ) * K, Camera.Y + ( Shape.Y - Screen.Y ) * K + DY )
 				Shape.SetSize( Shape.Width * K, Shape.Height * K )
 			Next
 			Screen.JumpTo( Camera )
@@ -62,7 +65,7 @@ Type LTWindow Extends LTProject
 			Screen.SetSize( Camera.Width, Screen.Height * Camera.Width / Screen.Width )
 		End If
 
-		L_Window.Modal = ( L_Window.GetParameter( "modal" ) = "true" )
+		L_Window.Modal = ( Layer.GetParameter( "modal" ) = "true" )
 		L_Window.World = World
 		L_Window.Init()
 		
@@ -73,9 +76,7 @@ Type LTWindow Extends LTProject
 	
 	
 	
-	Method Act()
-		If Not Active Then Return
-		
+	Method Logic()
 		For Local Gadget:LTGadget = Eachin Layer.Children
 			If Not Gadget.Active Then Continue
 			
@@ -111,11 +112,11 @@ Type LTWindow Extends LTProject
 		Next
 		
 		If L_Enter.WasPressed() Then
-			For Local Gadget:LTGadget = Eachin Children
+			For Local Gadget:LTGadget = Eachin Layer.Children
 				If Gadget.GetParameter( "action" ) = "save_and_close" Then OnButtonUnpress( Gadget, L_LeftMouseButton )
 			Next
 		ElseIf L_Esc.WasPressed() Then
-			For Local Gadget:LTGadget = Eachin Children
+			For Local Gadget:LTGadget = Eachin Layer.Children
 				If Gadget.GetParameter( "action" ) = "close" Then OnButtonUnpress( Gadget, L_LeftMouseButton )
 			Next
 		End If
@@ -145,8 +146,6 @@ Type LTWindow Extends LTProject
 				L_ActiveTextField.Text = L_ActiveTextField.LeftPart + L_ActiveTextField.RightPart
 			End If
 		End If
-		
-		Super.Act()
 	End Method
 	
 	
@@ -176,29 +175,23 @@ Type LTWindow Extends LTProject
 	See also: #OnButtonPress, #OnButtonDown, #OnButtonUp, #OnMouseOver, #OnMouseOut
 	End Rem
 	Method OnButtonUnpress( Gadget:LTGadget, ButtonAction:LTButtonAction )
-		Local Link:TLink = Project.Windows.FindLink( Self )
 		Select Gadget.GetParameter( "action" )
 			Case "save"
 				Save()
 			Case "save_and_close"
 				Save()
-				If Link Then Project.CloseWindow( LTWindow( Link.Value() ) )
+				Exiting = True
 			Case "close"
-				If Link Then Project.CloseWindow( LTWindow( Link.Value() ) )
+				Exiting = True
 			Case "save_and_end"
 				Save()
-				Project.Exiting = True
+				End
 			Case "end"
-				Project.Exiting = True
+				End
 		End Select
 		
-		Local Name:String = Gadget.GetParameter( "window" )
-		If Name Then
-			Project.LoadWindow( World, Name ) 
-		Else
-			Local Class:String = Gadget.GetParameter( "window_class" )
-			If Class Then Project.LoadWindow( World, , Class ) 
-		End If
+		Local Class:String = Gadget.GetParameter( "window_class" )
+		If Class Then LTWindow.Load( World, Class ) 
 	End Method
 	
 	
@@ -266,7 +259,7 @@ Function L_ReloadWindows()
 	Local Link:TLink = L_Projects.FirstLink()
 	While Link
 		Local Window:LTWindow = LTWindow( Link.Value() )
-		If Window Then Link._value = LoadWindow( Window.World, Window.GetName(), TTypeID.ForObject( Window ).Name(), False )
+		If Window Then Link._value = LTWindow.Load( Window.World, TTypeID.ForObject( Window ).Name(), Window.Camera )
 		Link = Link.NextLink()
 	Wend
 End Function

@@ -80,10 +80,10 @@ Type LTSlider Extends LTGadget
 	Method Init()
 		Local Name:String = GetName()
 		If Name Then
-			Slider = L_Window.FindShapeWithParameter( "slider_name", Name, "", True )
-			ListBox = LTListBox( L_Window.FindShape( GetParameter( "list_box_name" ), True ) )
+			Slider = L_Window.Layer.FindShapeWithParameter( "slider_name", Name, "", True )
+			ListBox = LTListBox( L_Window.Layer.FindShape( GetParameter( "list_box_name" ), True ) )
 			'debugstop
-			If Slider Then L_Window.Remove( Slider )
+			If Slider Then L_Window.Layer.Remove( Slider )
 		End If
 		If GetParameter( "type" ) = "vertical" Then SliderType = Vertical Else SliderType = Horizontal
 		If GetParameter( "selection" ) = "filling" Then SelectionType = Filling Else SelectionType = Moving

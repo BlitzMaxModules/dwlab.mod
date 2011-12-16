@@ -44,8 +44,8 @@ End If
 
 Global Menu:LTMenu = New LTMenu
 
-Type LTMenu Extends LTGUIProject
-	Field Project:LTGUIProject
+Type LTMenu Extends LTProject
+	Field Project:LTProject
 	Field World:LTWorld
 	
 	Field ProfileTypeID:TTypeId = TTypeId.ForName( "LTProfile" )
@@ -58,7 +58,7 @@ Type LTMenu Extends LTGUIProject
 	
 	Field GameState:LTObject
 	
-	Function InitSystem( MainProject:LTGUIProject )
+	Function InitSystem( MainProject:LTProject )
 		If FileType( "settings.xml" ) = 1 Then Menu.LoadFromFile( "settings.xml", False )
 		Menu.Project = MainProject
 		Menu.Execute()

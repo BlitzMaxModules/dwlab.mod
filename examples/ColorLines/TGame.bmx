@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TGame Extends LTGUIProject
+Type TGame Extends LTProject
 	Const Void:Int = 0
 	Const Plate:Int = 1
 	
@@ -47,7 +47,7 @@ Type TGame Extends LTGUIProject
 
 		Menu.ProfileTypeID = TTypeID.ForName( "TGameProfile" )
 		Menu.InitSystem( Self )
-		HUD = LoadWindow( World, , "THUD" )
+		HUD = LTWindow.Load( World, "THUD" )
 		Menu.AddPanels()
 		
 		Cursor.ShapeType = LTSprite.Pivot
@@ -76,7 +76,7 @@ Type TGame Extends LTGUIProject
 		Next
 		FillNextBalls( Profile )
 		
-		Locked = True
+		Freeze()
 	End Method
 		
 	Method InitLevel()
@@ -86,8 +86,8 @@ Type TGame Extends LTGUIProject
 	End Method
 	
 	Method InitGraphics()
-		L_CurrentProfile.InitCamera( L_CurrentCamera )
-		L_CurrentProfile.InitCamera( GUICamera )
+		L_CurrentProfile.InitCamera( Camera )
+		L_CurrentProfile.InitCamera( L_GUICamera )
 		If GameField Then SetFieldMagnification()
 	End Method
 	
