@@ -186,12 +186,13 @@ LTObject^brl.blitz.Object{
 LTProject^LTObject{
 .Pass%&
 .Time!&
-.StartingTime%&
-.FreezingTime%&
 .Exiting%&
 .Modal%&
-.Frozen%&
+.Visible%&
 .Camera:LTCamera&
+.StartingTime%&
+.FreezingTime%&
+.Frozen%&
 -New%()="_dwlab_frmwork_LTProject_New"
 -Delete%()="_dwlab_frmwork_LTProject_Delete"
 -LoadAndInitLayer%(NewLayer:LTLayer Var,Layer:LTLayer)="_dwlab_frmwork_LTProject_LoadAndInitLayer"
@@ -205,7 +206,8 @@ LTProject^LTObject{
 -DeInit%()="_dwlab_frmwork_LTProject_DeInit"
 -Add%(NewCamera:LTCamera="bbNullObject")="_dwlab_frmwork_LTProject_Add"
 -Execute%()="_dwlab_frmwork_LTProject_Execute"
--ReloadWindows%()="_dwlab_frmwork_LTProject_ReloadWindows"
+-Freeze%(Mode%=1)="_dwlab_frmwork_LTProject_Freeze"
+-UnFreeze%()="_dwlab_frmwork_LTProject_UnFreeze"
 -PerSecond!(Value!)="_dwlab_frmwork_LTProject_PerSecond"
 -ShowDebugInfo%()="_dwlab_frmwork_LTProject_ShowDebugInfo"
 }="dwlab_frmwork_LTProject"
@@ -1173,7 +1175,8 @@ L_SpritesDisplayed%&=mem("dwlab_frmwork_L_SpritesDisplayed")
 L_SpritesActed%&=mem("dwlab_frmwork_L_SpritesActed")
 L_SpriteActed%&=mem("dwlab_frmwork_L_SpriteActed")
 L_CurrentProject:LTProject&=mem:p("dwlab_frmwork_L_CurrentProject")
-L_ProjectsList:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_ProjectsList")
+L_Projects:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_Projects")
+L_Cursor:LTSprite&=mem:p("dwlab_frmwork_L_Cursor")
 L_LogicFPS!&=mem:d("dwlab_frmwork_L_LogicFPS")
 L_DeltaTime!&=mem:d("dwlab_frmwork_L_DeltaTime")
 L_MinFPS!&=mem:d("dwlab_frmwork_L_MinFPS")

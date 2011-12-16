@@ -16,7 +16,13 @@ Global L_SpriteActed:Int
 
 Global L_CurrentProject:LTProject
 
-Global L_ProjectsList:TList = New TList
+Global L_Projects:TList = New TList
+
+Rem
+bbdoc: Cursor object.
+about: It is always on mouse position translated to current project's camera coordinates.
+End Rem
+Global L_Cursor:LTSprite = New LTSprite
 
 Rem
 bbdoc: Quantity of logic frames per second.
@@ -59,8 +65,6 @@ Type LTProject Extends LTObject
 	about: See also: #PerSecond
 	End Rem
 	Field Time:Double = 0.0
-	Field StartingTime:Int
-	Field FreezingTime:Int
 	
 	Rem
 	bbdoc: Exit flag.
@@ -73,10 +77,20 @@ Type LTProject Extends LTObject
 	End Rem
 	Field Modal:Int = True
 	
-	Field Frozen:Int
+	Rem
+	bbdoc: Flag for disabling/enabling Render() execution of the project.
+	End Rem
+	Field Visible:Int = True
 	
+	Rem
+	bbdoc: Camera of the project.
+	End Rem
 	Field Camera:LTCamera
 
+	Field StartingTime:Int
+	Field FreezingTime:Int
+	Field Frozen:Int
+	
 	' ==================== Loading layers and windows ===================	
 	
 	Rem
@@ -207,9 +221,17 @@ Type LTProject Extends LTObject
 		If NewCamera Then Camera = NewCamera ElseIf Not Camera Then Camera:LTCamera = LTCamera.Create()
 		L_CurrentCamera = Camera
 	
-		If Not L_ProjectsList.IsEmpty() Then LTProject( L_ProjectsList.Last() ).FreezingTime = MilliSecs()
+		If Modal Then
+			Local Link:TLink = L_Projects.LastLink()
+			While Link
+				L_CurrentProject = LTProject( Link.Value() )
+				L_CurrentProject.Freeze( 2 )
+				If L_CurrentProject.Modal Then Exit
+				Link = Link.PrevLink()
+			WEnd
+		End If
 	
-		L_ProjectsList.AddLast( Self )
+		L_Projects.AddLast( Self )
 		
 		FlushKeys
 		FlushMouse
@@ -245,26 +267,34 @@ Type LTProject Extends LTObject
 			L_CollisionChecks = 0
 			L_SpritesActed = 0
 			?
-			
-			Local Link:TLink = L_ProjectsList.LastLink()
+			Local Link:TLink = L_Projects.LastLink()
 			While Link
 				L_CurrentProject = LTProject( Link.Value() )
 				If Not L_CurrentProject.Frozen Then
 					L_DeltaTime = 1.0 / L_LogicFPS
 					L_CurrentProject.Time :+ L_DeltaTime
 					L_CurrentCamera = Camera
+					L_Cursor.SetMouseCoords()
 					L_CurrentProject.Logic()
+					If L_CurrentProject.Exiting Then
+						L_CurrentProject.DeInit()
+						Local Link2:TLink = Link.PrevLink()
+						Link.Remove()
+						If L_CurrentProject.Modal And L_CurrentProject.Frozen < 2 Then
+							While Link2
+								Local Project:LTProject = LTProject( Link2.Value() )
+								Project.UnFreeze()
+								If Project.Modal Then Exit
+								Link2 = Link2.PrevLink()
+							WEnd
+						End If
+					End If
 				End If
 				If L_CurrentProject.Modal Then Exit
 				Link = Link.PrevLink()
 			WEnd
 			
-			If L_CurrentProject.Exiting Then
-				L_CurrentProject.DeInit()
-				L_ProjectsList.RemoveLast()
-				If L_ProjectsList.IsEmpty() Then Exit
-				LTProject( L_ProjectsList.Last() ).StartingTime :+ MilliSecs() - FreezingTime
-			End If
+			If L_Projects.IsEmpty() Then Exit
 		
 			Repeat
 				RealTime = 0.001 * ( Millisecs() - StartingTime )
@@ -277,9 +307,12 @@ Type LTProject Extends LTObject
 				L_TilesDisplayed = 0
 				?
 				
-				For L_CurrentProject = Eachin L_ProjectsList
-					L_CurrentCamera = L_CurrentProject.Camera
-					L_CurrentProject.Render()
+				For L_CurrentProject = Eachin L_Projects
+					If L_CurrentProject.Visible Then
+						L_CurrentCamera = L_CurrentProject.Camera
+						L_Cursor.SetMouseCoords()
+						L_CurrentProject.Render()
+					End If
 				Next
 				
 				If L_Flipping Then Flip( False )
@@ -301,7 +334,27 @@ Type LTProject Extends LTObject
 	
 	' ==================== Other ===================	
 	
-	Method ReloadWindows()
+	Method Freeze( Mode:Int = 1 )
+		If Frozen Then Return
+		FreezingTime = MilliSecs()
+		Frozen = Mode
+	End Method
+	
+	
+	
+	Method UnFreeze()
+		Local Link:TLink = L_Projects.LastLink()
+		While Link
+			L_CurrentProject = LTProject( Link.Value() )
+			If L_CurrentProject = Self Then
+				Frozen = False
+				StartingTime :+ MilliSecs() - FreezingTime
+				Return
+			End If
+			If L_CurrentProject.Modal Then Return
+			Link = Link.PrevLink()
+		WEnd
+		L_Error( "This project is not in the projects list" )
 	End Method
 	
 	

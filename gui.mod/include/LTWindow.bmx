@@ -8,29 +8,75 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Global L_Window:LTWindow
+Global L_ActiveTextField:LTTextField
+
 Rem
 bbdoc: Class for GUI window.
 End Rem
-Type LTWindow Extends LTLayer
+
+Type LTWindow Extends LTProject
 	Field World:LTWorld
-	Field Project:LTGUIProject
+	Field Layer:LTLayer
 	Field MouseOver:TMap = New TMap
-	Field Modal:Int
 	
 	
 	
-	Method Draw()
-		If Not Visible Then Return
-		If Modal Then L_CurrentCamera.Darken( 0.3 )
-		Super.Draw()
+	Method GetName:String()
+		Return Layer.GetName()
 	End Method
+	
+	
+	
+	Method Render()
+		If Not Layer.Visible Then Return
+		If Modal Then L_CurrentCamera.Darken( 0.3 )
+		Layer.Draw()
+	End Method
+	
+	
+	
+	Function Load:LTWindow( World:LTWorld, Class:String, Camera:LTCamera = Null )
+		L_ActiveTextField = Null
+		L_Window = New LTWindow
+		
+		L_Window.Layer = LTLayer( LoadLayer( LTLayer( World.FindShapeWithParameter( "class", Class ) ) ) )
+		
+		Local Screen:LTShape = L_Window.Layer.Bounds
+		If Screen Then
+			Local DY:Double = 0.5 * ( GUICamera.Height - Screen.Height * Camera.Width / Screen.Width )
+			Select L_Window.GetParameter( "vertical" )
+				Case "top"
+					DY = -DY
+				Case "bottom"
+				Default 
+					DY = 0.0
+			End Select
+			Local K:Double = GUICamera.Width / Screen.Width
+			For Local Shape:LTShape = Eachin L_Window.Layer.Children	
+				Shape.SetCoords( Camera.X + ( Shape.X - Screen.X ) * K, GUICamera.Y + ( Shape.Y - Screen.Y ) * K + DY )
+				Shape.SetSize( Shape.Width * K, Shape.Height * K )
+			Next
+			Screen.JumpTo( Camera )
+			Screen.AlterCoords( 0.0, DY )
+			Screen.SetSize( Camera.Width, Screen.Height * Camera.Width / Screen.Width )
+		End If
+
+		L_Window.Modal = ( L_Window.GetParameter( "modal" ) = "true" )
+		L_Window.World = World
+		L_Window.Init()
+		
+		FlushKeys
+		
+		Return L_Window
+	End Function
 	
 	
 	
 	Method Act()
 		If Not Active Then Return
 		
-		For Local Gadget:LTGadget = Eachin Children
+		For Local Gadget:LTGadget = Eachin Layer.Children
 			If Not Gadget.Active Then Continue
 			
 			If Gadget.CollidesWithSprite( L_Cursor ) Then
@@ -102,7 +148,6 @@ Type LTWindow Extends LTLayer
 		
 		Super.Act()
 	End Method
-	
 	
 	
 	Rem
@@ -211,9 +256,33 @@ Type LTWindow Extends LTLayer
 	End Rem
 	Method Save()
 	End Method
-	
-	
-	
-	Method DeInit()
-	End Method
 End Type
+
+
+
+
+
+Function L_ReloadWindows()
+	Local Link:TLink = L_Projects.FirstLink()
+	While Link
+		Local Window:LTWindow = LTWindow( Link.Value() )
+		If Window Then Link._value = LoadWindow( Window.World, Window.GetName(), TTypeID.ForObject( Window ).Name(), False )
+		Link = Link.NextLink()
+	Wend
+End Function
+
+
+
+
+
+Rem
+bbdoc: Function which finds a window in opened windows by given name or class.
+returns: Found window.
+End Rem
+Function L_FindWindow:LTWindow( Class:String = "" )
+	Local TypeID:TTypeId = L_GetTypeID( Class )
+	For Local Window:LTWindow = Eachin L_Projects
+		If TTypeID.ForObject( Window.Layer ) = TypeID Then Return Window
+	Next
+	L_Error( "Window with class ~q" + Class + "~q is not found." )
+End Function

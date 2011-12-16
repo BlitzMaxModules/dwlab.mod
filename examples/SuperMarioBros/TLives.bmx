@@ -23,7 +23,6 @@ Type TLives Extends LTProject
 	
 	
 	Method Render()
-		L_CurrentCamera = Game.HUDCamera
 		Game.HUD.Draw()
 		Game.Mario.Draw()
 		
@@ -34,6 +33,13 @@ Type TLives Extends LTProject
 		Game.Font.Print( "Press down arrow to sit while big", X - 10.0, Y + 6.0, 0.5 )
 		Game.Font.Print( "Press ~qA~q key to jump", X - 10.0, Y + 6.5, 0.5 )
 		Game.Font.Print( "Press ~qS~q key to run and fire", X - 10.0, Y + 7.0, 0.5 )
-		L_CurrentCamera = Game.LevelCamera
+	End Method
+	
+	
+	
+	Method DeInit()
+		Game.SwitchToLevel( 0 )
+		Game.TimeModel.Init( Null )
+		Game.Visible = True
 	End Method
 End Type

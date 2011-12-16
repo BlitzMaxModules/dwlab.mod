@@ -77,6 +77,7 @@ Type TGame Extends LTProject
 		L_DiscreteGraphics = True
 		World = LTWorld.FromFile( "world.lw" )
 		LoadAndInitLayer( HUD, LTLayer( LTWorld.FromFile( "hud.lw" ).FindShapeWithType( "LTLayer" ) ) )
+		Camera = LevelCamera
 		InitLevel()
 	End Method
 	
@@ -107,9 +108,8 @@ Type TGame Extends LTProject
 			Music[ N ]  = LoadSound( "media\Music" + MusicNum + ".ogg" )
 		Next
 		
-		LivesScreen.Execute()
-		SwitchToLevel( 0 )
-		TimeModel.Init( Null )
+		Visible = False
+		LivesScreen.Add( HUDCamera )
 	End Method
 	
 	
