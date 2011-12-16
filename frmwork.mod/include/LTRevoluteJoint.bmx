@@ -25,7 +25,7 @@ Type LTRevoluteJoint Extends LTBehaviorModel
 	returns: 
 	about: 
 	End Rem
-	Function Create:LTRevoluteJoint( ParentPivot:LTSprite, DX:Double, DY:Double )
+	Function Create:LTRevoluteJoint( ParentPivot:LTSprite, DX:Double = 0, DY:Double = 0 )
 		Local Joint:LTRevoluteJoint = New LTRevoluteJoint
 		Joint.ParentPivot = ParentPivot
 		Joint.DX = DX

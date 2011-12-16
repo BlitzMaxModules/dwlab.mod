@@ -67,6 +67,15 @@ Type LTProject Extends LTObject
 	about: Set it to True to exit project.
 	End Rem
 	Field Exiting:Int
+	
+	Rem
+	bbdoc: Flag for disabling every previously added project.
+	End Rem
+	Field Modal:Int = True
+	
+	Field Frozen:Int
+	
+	Field Camera:LTCamera
 
 	' ==================== Loading layers and windows ===================	
 	
@@ -194,7 +203,10 @@ Type LTProject Extends LTObject
 	
 	See also: #Init, #InitGraphics, #InitSound
 	End Rem
-	Method Insert()
+	Method Add( NewCamera:LTCamera = Null )
+		If NewCamera Then Camera = NewCamera ElseIf Not Camera Then Camera:LTCamera = LTCamera.Create()
+		L_CurrentCamera = Camera
+	
 		If Not L_ProjectsList.IsEmpty() Then LTProject( L_ProjectsList.Last() ).FreezingTime = MilliSecs()
 	
 		L_ProjectsList.AddLast( Self )
@@ -219,7 +231,7 @@ Type LTProject Extends LTObject
 	about: You cannot use this method to execute more projects if the project is already running, use Insert() method instead.
 	End Rem
 	Method Execute()
-		Insert()
+		Add()
 		
 		Local RealTime:Double = 0
 		Local LastRenderTime:Double = 0
@@ -234,10 +246,18 @@ Type LTProject Extends LTObject
 			L_SpritesActed = 0
 			?
 			
-			L_CurrentProject = LTProject( L_ProjectsList.Last() )
-			L_DeltaTime = 1.0 / L_LogicFPS
-			L_CurrentProject.Time :+ L_DeltaTime
-			L_CurrentProject.Logic()
+			Local Link:TLink = L_ProjectsList.LastLink()
+			While Link
+				L_CurrentProject = LTProject( Link.Value() )
+				If Not L_CurrentProject.Frozen Then
+					L_DeltaTime = 1.0 / L_LogicFPS
+					L_CurrentProject.Time :+ L_DeltaTime
+					L_CurrentCamera = Camera
+					L_CurrentProject.Logic()
+				End If
+				If L_CurrentProject.Modal Then Exit
+				Link = Link.PrevLink()
+			WEnd
 			
 			If L_CurrentProject.Exiting Then
 				L_CurrentProject.DeInit()
@@ -258,6 +278,7 @@ Type LTProject Extends LTObject
 				?
 				
 				For L_CurrentProject = Eachin L_ProjectsList
+					L_CurrentCamera = L_CurrentProject.Camera
 					L_CurrentProject.Render()
 				Next
 				

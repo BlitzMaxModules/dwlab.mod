@@ -763,10 +763,10 @@ Type LTEditor Extends LTProject
 					Case ParametersListBox
 						SelectedParameter = LTParameter( EventExtra() )
 						If SelectedParameter Then
-							ParameterProperties.Insert()
+							ParameterProperties.Add()
 						Else
 							SelectedParameter = New LTParameter
-							ParameterProperties.Insert()
+							ParameterProperties.Add()
 							If ParameterProperties.Succesful Then
 								ShapeForParameters.AddParameter( SelectedParameter.Name, SelectedParameter.Value )
 							End If
@@ -903,7 +903,7 @@ Type LTEditor Extends LTProject
 					Case Key_P
 						If Not SelectedShapes.IsEmpty() Then
 							SelectedParameter = New LTParameter
-							ParameterProperties.Insert()
+							ParameterProperties.Add()
 							If ParameterProperties.Succesful Then
 								For Local Shape:LTShape = Eachin SelectedShapes
 									Shape.AddParameter( SelectedParameter.Name, SelectedParameter.Value )
@@ -1019,7 +1019,7 @@ Type LTEditor Extends LTProject
 					Case MenuProlongTiles
 						L_ProlongTiles = LTMenuSwitch.Find( MenuProlongTiles ).Toggle()
 					Case MenuCameraProperties
-						CameraProperties.Insert()
+						CameraProperties.Add()
 					Case MenuIncbin
 						World.IncbinValue = 1 - World.IncbinValue
 						SetIncbin()
@@ -1152,7 +1152,7 @@ Type LTEditor Extends LTProject
 						GenerateRules( LTTileMap( SelectedShape ), 2 )
 					Case MenuTileMapProperties
 						TileMapProperties.TileMap = LTTileMap( SelectedShape )
-						TileMapProperties.Insert()
+						TileMapProperties.Add()
 
 					' ============================= Sprite map menu ==================================
 					
@@ -1162,7 +1162,7 @@ Type LTEditor Extends LTProject
 					' ============================= Parameter menu ==================================
 					
 					Case MenuModifyParameter
-						ParameterProperties.Insert()
+						ParameterProperties.Add()
 						If ParameterProperties.Succesful Then RefreshParametersListBox()
 					Case MenuRemoveParameter
 						ShapeForParameters.Parameters.Remove( SelectedParameter )

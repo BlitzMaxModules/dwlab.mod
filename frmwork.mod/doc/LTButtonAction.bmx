@@ -43,7 +43,7 @@ Type TExample Extends LTProject
 		If KeyDown( Key_LControl ) Or KeyDown( Key_RControl ) Then If KeyDown( Key_D ) Then
 			Local DefineKeys:TDefineKeys = New TDefineKeys
 			DefineKeys.Actions = Actions
-			DefineKeys.Insert()
+			DefineKeys.Add()
 		End If
 		
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True

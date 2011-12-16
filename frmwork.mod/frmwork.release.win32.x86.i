@@ -189,6 +189,9 @@ LTProject^LTObject{
 .StartingTime%&
 .FreezingTime%&
 .Exiting%&
+.Modal%&
+.Frozen%&
+.Camera:LTCamera&
 -New%()="_dwlab_frmwork_LTProject_New"
 -Delete%()="_dwlab_frmwork_LTProject_Delete"
 -LoadAndInitLayer%(NewLayer:LTLayer Var,Layer:LTLayer)="_dwlab_frmwork_LTProject_LoadAndInitLayer"
@@ -200,7 +203,7 @@ LTProject^LTObject{
 -Render%()="_dwlab_frmwork_LTProject_Render"
 -Logic%()="_dwlab_frmwork_LTProject_Logic"
 -DeInit%()="_dwlab_frmwork_LTProject_DeInit"
--Insert%()="_dwlab_frmwork_LTProject_Insert"
+-Add%(NewCamera:LTCamera="bbNullObject")="_dwlab_frmwork_LTProject_Add"
 -Execute%()="_dwlab_frmwork_LTProject_Execute"
 -ReloadWindows%()="_dwlab_frmwork_LTProject_ReloadWindows"
 -PerSecond!(Value!)="_dwlab_frmwork_LTProject_PerSecond"
@@ -916,7 +919,7 @@ LTRevoluteJoint^LTBehaviorModel{
 .DY!&
 -New%()="_dwlab_frmwork_LTRevoluteJoint_New"
 -Delete%()="_dwlab_frmwork_LTRevoluteJoint_Delete"
-+Create:LTRevoluteJoint(ParentPivot:LTSprite,DX!,DY!)="_dwlab_frmwork_LTRevoluteJoint_Create"
++Create:LTRevoluteJoint(ParentPivot:LTSprite,DX!=0!,DY!=0!)="_dwlab_frmwork_LTRevoluteJoint_Create"
 -Init%(Shape:LTShape)="_dwlab_frmwork_LTRevoluteJoint_Init"
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTRevoluteJoint_ApplyTo"
 }="dwlab_frmwork_LTRevoluteJoint"
