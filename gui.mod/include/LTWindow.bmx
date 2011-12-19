@@ -8,76 +8,29 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Global L_Window:LTWindow
-Global L_ActiveTextField:LTTextField
-Global L_GUICamera:LTCamera = LTCamera.Create()
-
 Rem
 bbdoc: Class for GUI window.
 End Rem
-
-Type LTWindow Extends LTProject
+Type LTWindow Extends LTLayer
 	Field World:LTWorld
-	Field Layer:LTLayer
+	Field Project:LTGUIProject
 	Field MouseOver:TMap = New TMap
+	Field Modal:Int
 	
 	
 	
-	Method GetName:String()
-		Return Layer.GetName()
-	End Method
-	
-	
-	
-	Method Render()
-		If Not Layer.Visible Then Return
+	Method Draw()
+		If Not Visible Then Return
 		If Modal Then L_CurrentCamera.Darken( 0.3 )
-		Layer.Draw()
+		Super.Draw()
 	End Method
 	
 	
 	
-	Function Load:LTWindow( World:LTWorld, Class:String, Camera:LTCamera = Null )
-		L_ActiveTextField = Null
-		L_Window = New LTWindow
-		If Not Camera Then Camera = L_GUICamera
+	Method Act()
+		If Not Active Then Return
 		
-		L_Window.Layer = LTLayer( L_Window.LoadLayer( LTLayer( World.FindShapeWithParameter( "class", Class ) ) ) )
-		Local Layer:LTLayer = L_Window.Layer
-		
-		Local Screen:LTShape = Layer.Bounds
-		If Screen Then
-			Local DY:Double = 0.5 * ( Camera.Height - Screen.Height * Camera.Width / Screen.Width )
-			Select Layer.GetParameter( "vertical" )
-				Case "top"
-					DY = -DY
-				Case "bottom"
-				Default 
-					DY = 0.0
-			End Select
-			Local K:Double = Camera.Width / Screen.Width
-			For Local Shape:LTShape = Eachin Layer.Children	
-				Shape.SetCoords( Camera.X + ( Shape.X - Screen.X ) * K, Camera.Y + ( Shape.Y - Screen.Y ) * K + DY )
-				Shape.SetSize( Shape.Width * K, Shape.Height * K )
-			Next
-			Screen.JumpTo( Camera )
-			Screen.AlterCoords( 0.0, DY )
-			Screen.SetSize( Camera.Width, Screen.Height * Camera.Width / Screen.Width )
-		End If
-
-		L_Window.Modal = ( Layer.GetParameter( "modal" ) = "true" )
-		L_Window.World = World
-		L_Window.Init()
-		
-		FlushKeys
-		
-		Return L_Window
-	End Function
-	
-	
-	
-	Method Logic()
-		For Local Gadget:LTGadget = Eachin Layer.Children
+		For Local Gadget:LTGadget = Eachin Children
 			If Not Gadget.Active Then Continue
 			
 			If Gadget.CollidesWithSprite( L_Cursor ) Then
@@ -112,11 +65,11 @@ Type LTWindow Extends LTProject
 		Next
 		
 		If L_Enter.WasPressed() Then
-			For Local Gadget:LTGadget = Eachin Layer.Children
+			For Local Gadget:LTGadget = Eachin Children
 				If Gadget.GetParameter( "action" ) = "save_and_close" Then OnButtonUnpress( Gadget, L_LeftMouseButton )
 			Next
 		ElseIf L_Esc.WasPressed() Then
-			For Local Gadget:LTGadget = Eachin Layer.Children
+			For Local Gadget:LTGadget = Eachin Children
 				If Gadget.GetParameter( "action" ) = "close" Then OnButtonUnpress( Gadget, L_LeftMouseButton )
 			Next
 		End If
@@ -146,7 +99,10 @@ Type LTWindow Extends LTProject
 				L_ActiveTextField.Text = L_ActiveTextField.LeftPart + L_ActiveTextField.RightPart
 			End If
 		End If
+		
+		Super.Act()
 	End Method
+	
 	
 	
 	Rem
@@ -175,23 +131,29 @@ Type LTWindow Extends LTProject
 	See also: #OnButtonPress, #OnButtonDown, #OnButtonUp, #OnMouseOver, #OnMouseOut
 	End Rem
 	Method OnButtonUnpress( Gadget:LTGadget, ButtonAction:LTButtonAction )
+		Local Link:TLink = Project.Windows.FindLink( Self )
 		Select Gadget.GetParameter( "action" )
 			Case "save"
 				Save()
 			Case "save_and_close"
 				Save()
-				Exiting = True
+				If Link Then Project.CloseWindow( LTWindow( Link.Value() ) )
 			Case "close"
-				Exiting = True
+				If Link Then Project.CloseWindow( LTWindow( Link.Value() ) )
 			Case "save_and_end"
 				Save()
-				End
+				Project.Exiting = True
 			Case "end"
-				End
+				Project.Exiting = True
 		End Select
 		
-		Local Class:String = Gadget.GetParameter( "window_class" )
-		If Class Then LTWindow.Load( World, Class ) 
+		Local Name:String = Gadget.GetParameter( "window" )
+		If Name Then
+			Project.LoadWindow( World, Name ) 
+		Else
+			Local Class:String = Gadget.GetParameter( "window_class" )
+			If Class Then Project.LoadWindow( World, , Class ) 
+		End If
 	End Method
 	
 	
@@ -249,33 +211,9 @@ Type LTWindow Extends LTProject
 	End Rem
 	Method Save()
 	End Method
+	
+	
+	
+	Method DeInit()
+	End Method
 End Type
-
-
-
-
-
-Function L_ReloadWindows()
-	Local Link:TLink = L_Projects.FirstLink()
-	While Link
-		Local Window:LTWindow = LTWindow( Link.Value() )
-		If Window Then Link._value = LTWindow.Load( Window.World, TTypeID.ForObject( Window ).Name(), Window.Camera )
-		Link = Link.NextLink()
-	Wend
-End Function
-
-
-
-
-
-Rem
-bbdoc: Function which finds a window in opened windows by given name or class.
-returns: Found window.
-End Rem
-Function L_FindWindow:LTWindow( Class:String = "" )
-	Local TypeID:TTypeId = L_GetTypeID( Class )
-	For Local Window:LTWindow = Eachin L_Projects
-		If TTypeID.ForObject( Window.Layer ) = TypeID Then Return Window
-	Next
-	L_Error( "Window with class ~q" + Class + "~q is not found." )
-End Function

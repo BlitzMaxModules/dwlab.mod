@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TZombie Extends LTAngularSprite
+Type TZombie Extends LTSprite
   Const RotationSpeed:Double = 360.0
   
   Field NewAngle:Double

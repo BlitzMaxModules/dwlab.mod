@@ -20,16 +20,26 @@ ModuleInfo "History: &nbsp; &nbsp; Initial release."
 import brl.blitz
 import dwlab.frmwork
 import maxgui.localization
-LTWindow^dwlab.frmwork.LTProject{
+LTGUIProject^dwlab.frmwork.LTProject{
+.Windows:brl.linkedlist.TList&
+.Locked%&
+-New%()="_dwlab_gui_LTGUIProject_New"
+-Delete%()="_dwlab_gui_LTGUIProject_Delete"
+-LoadWindow:LTWindow(World:dwlab.frmwork.LTWorld,Name$=$"",Class$=$"",Add%=1)="_dwlab_gui_LTGUIProject_LoadWindow"
+-ReloadWindows%()="_dwlab_gui_LTGUIProject_ReloadWindows"
+-FindWindow:LTWindow(Name$=$"",Class$=$"")="_dwlab_gui_LTGUIProject_FindWindow"
+-CloseWindow%(Window:LTWindow="bbNullObject")="_dwlab_gui_LTGUIProject_CloseWindow"
+-Execute%()="_dwlab_gui_LTGUIProject_Execute"
+}="dwlab_gui_LTGUIProject"
+LTWindow^dwlab.frmwork.LTLayer{
 .World:dwlab.frmwork.LTWorld&
-.Layer:dwlab.frmwork.LTLayer&
+.Project:LTGUIProject&
 .MouseOver:brl.map.TMap&
+.Modal%&
 -New%()="_dwlab_gui_LTWindow_New"
 -Delete%()="_dwlab_gui_LTWindow_Delete"
--GetName$()="_dwlab_gui_LTWindow_GetName"
--Render%()="_dwlab_gui_LTWindow_Render"
-+Load:LTWindow(World:dwlab.frmwork.LTWorld,Class$,Camera:dwlab.frmwork.LTCamera="bbNullObject")="_dwlab_gui_LTWindow_Load"
--Logic%()="_dwlab_gui_LTWindow_Logic"
+-Draw%()="_dwlab_gui_LTWindow_Draw"
+-Act%()="_dwlab_gui_LTWindow_Act"
 -OnButtonPress%(Gadget:LTGadget,ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTWindow_OnButtonPress"
 -OnButtonUnpress%(Gadget:LTGadget,ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTWindow_OnButtonUnpress"
 -OnButtonDown%(Gadget:LTGadget,ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTWindow_OnButtonDown"
@@ -37,9 +47,8 @@ LTWindow^dwlab.frmwork.LTProject{
 -OnMouseOver%(Gadget:LTGadget)="_dwlab_gui_LTWindow_OnMouseOver"
 -OnMouseOut%(Gadget:LTGadget)="_dwlab_gui_LTWindow_OnMouseOut"
 -Save%()="_dwlab_gui_LTWindow_Save"
+-DeInit%()="_dwlab_gui_LTWindow_DeInit"
 }="dwlab_gui_LTWindow"
-L_ReloadWindows%()="dwlab_gui_L_ReloadWindows"
-L_FindWindow:LTWindow(Class$=$"")="dwlab_gui_L_FindWindow"
 LTCheckBox^LTButton{
 -New%()="_dwlab_gui_LTCheckBox_New"
 -Delete%()="_dwlab_gui_LTCheckBox_Delete"
@@ -140,6 +149,7 @@ LTGadget^dwlab.frmwork.LTSprite{
 }="dwlab_gui_LTGadget"
 L_Window:LTWindow&=mem:p("dwlab_gui_L_Window")
 L_ActiveTextField:LTTextField&=mem:p("dwlab_gui_L_ActiveTextField")
+L_Cursor:dwlab.frmwork.LTSprite&=mem:p("dwlab_gui_L_Cursor")
 L_GUICamera:dwlab.frmwork.LTCamera&=mem:p("dwlab_gui_L_GUICamera")
 L_LeftMouseButton:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_LeftMouseButton")
 L_RightMouseButton:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_RightMouseButton")

@@ -186,9 +186,8 @@ LTObject^brl.blitz.Object{
 LTProject^LTObject{
 .Pass%&
 .Time!&
-.StartingTime%&
-.FreezingTime%&
 .Exiting%&
+.StartingTime%&
 -New%()="_dwlab_frmwork_LTProject_New"
 -Delete%()="_dwlab_frmwork_LTProject_Delete"
 -LoadAndInitLayer%(NewLayer:LTLayer Var,Layer:LTLayer)="_dwlab_frmwork_LTProject_LoadAndInitLayer"
@@ -1154,6 +1153,10 @@ LTEmptyPrimitive^LTContourVisualizer{
 -New%()="_dwlab_frmwork_LTEmptyPrimitive_New"
 -Delete%()="_dwlab_frmwork_LTEmptyPrimitive_Delete"
 }="dwlab_frmwork_LTEmptyPrimitive"
+LTAngularSprite^LTSprite{
+-New%()="_dwlab_frmwork_LTAngularSprite_New"
+-Delete%()="_dwlab_frmwork_LTAngularSprite_Delete"
+}="dwlab_frmwork_LTAngularSprite"
 L_Error%(Text$)="dwlab_frmwork_L_Error"
 L_SetIncbin%(Value%)="dwlab_frmwork_L_SetIncbin"
 L_IDMap:brl.map.TMap&=mem:p("dwlab_frmwork_L_IDMap")
@@ -1169,6 +1172,7 @@ L_SpritesDisplayed%&=mem("dwlab_frmwork_L_SpritesDisplayed")
 L_SpritesActed%&=mem("dwlab_frmwork_L_SpritesActed")
 L_SpriteActed%&=mem("dwlab_frmwork_L_SpriteActed")
 L_CurrentProject:LTProject&=mem:p("dwlab_frmwork_L_CurrentProject")
+L_ProjectsList:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_ProjectsList")
 L_LogicFPS!&=mem:d("dwlab_frmwork_L_LogicFPS")
 L_DeltaTime!&=mem:d("dwlab_frmwork_L_DeltaTime")
 L_MinFPS!&=mem:d("dwlab_frmwork_L_MinFPS")

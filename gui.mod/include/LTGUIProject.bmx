@@ -14,6 +14,11 @@ Global L_Cursor:LTSprite = New LTSprite
 L_Cursor.ShapeType = LTSprite.Pivot
 
 Rem
+bbdoc: Camera for displaying windows.
+End Rem
+Global L_GUICamera:LTCamera = LTCamera.Create()
+
+Rem
 bbdoc: Class for GUI project and subprojects.
 End Rem
 Type LTGUIProject Extends LTProject
@@ -21,11 +26,6 @@ Type LTGUIProject Extends LTProject
 	bbdoc: List of windows.
 	End Rem
 	Field Windows:TList = New TList 
-	
-	Rem
-	bbdoc: Camera for displaying windows.
-	End Rem
-	Field GUICamera:LTCamera = LTCamera.Create()
 	
 	Rem
 	bbdoc: Flag for locking project controls.
@@ -49,7 +49,7 @@ Type LTGUIProject Extends LTProject
 		
 		Local Screen:LTShape = L_Window.Bounds
 		If Screen Then
-			Local DY:Double = 0.5 * ( GUICamera.Height - Screen.Height * GUICamera.Width / Screen.Width )
+			Local DY:Double = 0.5 * ( L_GUICamera.Height - Screen.Height * L_GUICamera.Width / Screen.Width )
 			Select L_Window.GetParameter( "vertical" )
 				Case "top"
 					DY = -DY
@@ -57,14 +57,14 @@ Type LTGUIProject Extends LTProject
 				Default 
 					DY = 0.0
 			End Select
-			Local K:Double = GUICamera.Width / Screen.Width
+			Local K:Double = L_GUICamera.Width / Screen.Width
 			For Local Shape:LTShape = Eachin L_Window.Children	
-				Shape.SetCoords( GUICamera.X + ( Shape.X - Screen.X ) * K, GUICamera.Y + ( Shape.Y - Screen.Y ) * K + DY )
+				Shape.SetCoords( L_GUICamera.X + ( Shape.X - Screen.X ) * K, L_GUICamera.Y + ( Shape.Y - Screen.Y ) * K + DY )
 				Shape.SetSize( Shape.Width * K, Shape.Height * K )
 			Next
-			Screen.JumpTo( GUICamera )
+			Screen.JumpTo( L_GUICamera )
 			Screen.AlterCoords( 0.0, DY )
-			Screen.SetSize( GUICamera.Width, Screen.Height * GUICamera.Width / Screen.Width )
+			Screen.SetSize( L_GUICamera.Width, Screen.Height * L_GUICamera.Width / Screen.Width )
 		End If
 
 		L_Window.Modal = ( L_Window.GetParameter( "modal" ) = "true" )
@@ -155,7 +155,7 @@ Type LTGUIProject Extends LTProject
 		L_DeltaTime = 1.0 / L_LogicFPS
 	    
 		Repeat
-			Time :+  1.0 / L_LogicFPS
+			Time :+  L_DeltaTime
 			
 			?debug
 			L_CollisionChecks = 0
@@ -166,10 +166,15 @@ Type LTGUIProject Extends LTProject
 				Controller.Prepare()
 			Next
 			
+			Logic()
 			For Local Window:LTWindow = Eachin Windows
 				If Window.Active Then Window.Act()
 			Next
-			If Exiting Then Exit
+			
+			If Exiting Then
+				DeInit()
+				Exit
+			End If
 			
 			For Local Controller:LTPushable = Eachin L_Controllers
 				Controller.Reset()
@@ -190,7 +195,7 @@ Type LTGUIProject Extends LTProject
 				Render()
 				
 				Local OldCamera:LTCamera = L_CurrentCamera
-				L_CurrentCamera = GUICamera
+				L_CurrentCamera = L_GUICamera
 				L_CurrentCamera.SetCameraViewport()
 				L_Cursor.SetMouseCoords()
 				For Local Window:LTWindow = Eachin Windows

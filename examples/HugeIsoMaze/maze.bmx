@@ -12,9 +12,8 @@ SuperStrict
 
 Framework brl.basic
 
-Import brl.pngloader
-
 Import dwlab.frmwork
+Import dwlab.graphicsdrivers
 
 Include "TGame.bmx"
 Include "TMazeGenerator.bmx"

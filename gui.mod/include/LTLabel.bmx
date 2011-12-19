@@ -46,12 +46,12 @@ Type LTLabel Extends LTGadget
 	End Rem	
 	Method Init()
 		Local Name:String = GetName()
-		If Name Then Icon = LTSprite( L_Window.Layer.FindShapeWithParameter( "gadget_name", GetName(), "", True ) )
+		If Name Then Icon = LTSprite( L_Window.FindShapeWithParameter( "gadget_name", GetName(), "", True ) )
 		
 		TextVisualizer.SetColorFromRGB( 0.0, 0.0, 0.0 )
 		If Not Text Then Text = GetParameter( "text" )
 		If Text Then
-			If Not Icon Then Icon = LTSprite( L_Window.Layer.FindShapeWithParameter( "gadget_text", Text, "", True ) )
+			If Not Icon Then Icon = LTSprite( L_Window.FindShapeWithParameter( "gadget_text", Text, "", True ) )
 			Text = LocalizeString( "{{" + Text + "}}" )
 			Select GetParameter( "align" )
 				Case "left"
@@ -63,7 +63,7 @@ Type LTLabel Extends LTGadget
 			End Select
 		End If
 		
-		If Icon Then L_Window.Layer.Remove( Icon )
+		If Icon Then L_Window.Remove( Icon )
 	End Method
 	
 	

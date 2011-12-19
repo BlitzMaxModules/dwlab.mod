@@ -10,6 +10,15 @@
 
 SuperStrict
 
+' Setting framework
+?win32
+Framework brl.d3d7max2d
+?linux
+Framework brl.glmax2d
+?macos
+Framework brl.glmax2d
+?
+
 Import dwlab.frmwork' DWLab framework import
 Import dwlab.graphicsdrivers
 Import dwlab.audiodrivers' DWLab framework sound import

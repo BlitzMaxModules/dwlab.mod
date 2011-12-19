@@ -16,6 +16,8 @@ Global L_SpriteActed:Int
 
 Global L_CurrentProject:LTProject
 
+Global L_ProjectsList:TList = New TList
+
 Rem
 bbdoc: Quantity of logic frames per second.
 about: See also: #Logic
@@ -57,8 +59,6 @@ Type LTProject Extends LTObject
 	about: See also: #PerSecond
 	End Rem
 	Field Time:Double = 0.0
-	Field StartingTime:Int
-	Field FreezingTime:Int
 	
 	Rem
 	bbdoc: Exit flag.
@@ -66,6 +66,8 @@ Type LTProject Extends LTObject
 	End Rem
 	Field Exiting:Int
 
+	Field StartingTime:Int
+	
 	' ==================== Loading layers and windows ===================	
 	
 	Rem
@@ -190,12 +192,12 @@ Type LTProject Extends LTObject
 	about: You cannot use this method to execute more projects if the project is already running, use Insert() method instead.
 	End Rem
 	Method Execute()
-		L_CurrentProject = Self
-		
 		FlushKeys
 		FlushMouse
 	    
 		Exiting = False
+		Pass = 1
+		L_DeltaTime = 0
 				
 		Init()
 		InitGraphics()
@@ -210,21 +212,30 @@ Type LTProject Extends LTObject
 		Local FPSCount:Int
 		Local FPSTime:Int
 		
+		L_DeltaTime = 1.0 / L_LogicFPS
+		
 		Repeat
+			Time :+ L_DeltaTime
 			
 			?debug
 			L_CollisionChecks = 0
 			L_SpritesActed = 0
 			?
 			
-			L_DeltaTime = 1.0 / L_LogicFPS
-			Time :+ L_DeltaTime
+			For Local Controller:LTPushable = Eachin L_Controllers
+				Controller.Prepare()
+			Next
+			
 			Logic()
 			
 			If Exiting Then
 				DeInit()
 				Exit
 			End If
+			
+			For Local Controller:LTPushable = Eachin L_Controllers
+				Controller.Reset()
+			Next
 		
 			Repeat
 				RealTime = 0.001 * ( Millisecs() - StartingTime )

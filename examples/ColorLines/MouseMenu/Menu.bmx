@@ -44,8 +44,8 @@ End If
 
 Global Menu:LTMenu = New LTMenu
 
-Type LTMenu Extends LTProject
-	Field Project:LTProject
+Type LTMenu Extends LTGUIProject
+	Field Project:LTGUIProject
 	Field World:LTWorld
 	
 	Field ProfileTypeID:TTypeId = TTypeId.ForName( "LTProfile" )
@@ -58,7 +58,7 @@ Type LTMenu Extends LTProject
 	
 	Field GameState:LTObject
 	
-	Function InitSystem( MainProject:LTProject )
+	Function InitSystem( MainProject:LTGUIProject )
 		If FileType( "settings.xml" ) = 1 Then Menu.LoadFromFile( "settings.xml", False )
 		Menu.Project = MainProject
 		Menu.Execute()
@@ -96,8 +96,8 @@ Type LTMenu Extends LTProject
 	End Method
 	
 	Method InitGraphics()
-		L_CurrentProfile.InitCamera( GUICamera )
-		SetImageFont( LoadImageFont( L_MenuPath + "font.ttf", Floor( GUICamera.Viewport.Width / 80 ) ) )
+		L_CurrentProfile.InitCamera( L_GUICamera )
+		SetImageFont( LoadImageFont( L_MenuPath + "font.ttf", Floor( L_GUICamera.Viewport.Width / 80 ) ) )
 	End Method
 	
 	Method DeInit()

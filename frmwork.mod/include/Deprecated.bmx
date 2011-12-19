@@ -91,3 +91,11 @@ End type
 
 Type LTEmptyPrimitive Extends LTContourVisualizer
 End Type
+
+
+
+
+
+
+Type LTAngularSprite Extends LTSprite
+End Type
