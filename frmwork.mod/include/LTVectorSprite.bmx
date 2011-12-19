@@ -8,6 +8,8 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 	
+Include "LTCamera.bmx"
+
 Rem
 bbdoc: Vector sprite has horizontal and vertical velocities forming velocity vector.
 about: Handy for projects with gravity, platformers for example.

@@ -9,7 +9,6 @@
 '
 
 Include "LTVectorSprite.bmx"
-Include "LTCamera.bmx"
 Include "Collisions.bmx"
 Include "Physics.bmx"
 

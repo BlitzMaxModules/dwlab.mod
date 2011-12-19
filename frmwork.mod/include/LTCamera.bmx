@@ -11,7 +11,7 @@
 Rem
 bbdoc: Global variable for current camera.
 End Rem
-Global L_CurrentCamera:LTCamera
+Global L_CurrentCamera:LTCamera = LTCamera.Create()
 
 Rem
 bbdoc: Global flag for discrete graphics.
