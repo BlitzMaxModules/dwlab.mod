@@ -16,11 +16,6 @@ Include "LTWindowedVisualizer.bmx"
 Include "LTDebugVisualizer.bmx"
 
 Rem
-bbdoc: Global variable for default visualizer.
-End Rem
-Global L_DefaultVisualizer:LTVisualizer = New LTVisualizer
-
-Rem
 bbdoc: Visualizer is object which contains parameters for drawing the shape.
 End Rem
 Type LTVisualizer Extends LTObject
@@ -135,11 +130,11 @@ Type LTVisualizer Extends LTObject
 	End Function
 
 	
-	
+
 	Rem
 	bbdoc: Creates new visualizer using given hexadecimal color representation and transparency.
 	returns: New visualizer.
-	about: See also: #FromFile, #FromImage, #FromRGBColor
+	about: See also: #FromFile, #FromImage, #FromRGBColor, #Overlaps example.
 	End Rem
 	Function FromHexColor:LTVisualizer( HexColor:String = "FFFFFF", Alpha:Double = 1.0 )
 		Local Visualizer:LTVisualizer = New LTVisualizer
@@ -164,6 +159,8 @@ Type LTVisualizer Extends LTObject
 	Rem
 	bbdoc: Sets vertical and horizontal scaling of the visualizer
 	about: Works only with images.
+	
+	See also: #Clone example
 	End Rem
 	Method SetVisualizerScale( NewXScale:Double, NewYScale:Double )
 		XScale = NewXScale

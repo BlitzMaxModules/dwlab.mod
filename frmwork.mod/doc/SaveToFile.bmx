@@ -43,5 +43,6 @@ Type TExample Extends LTProject
 	Method Render()
 		Layer.Draw()
 		DrawText( "Press F2 to save and F3 to load position of sprites", 0, 0 )
+		L_PrintText( "LoadFromFile, SaveToFile example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

@@ -4,6 +4,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "kolobok.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -12,7 +14,7 @@ Type TExample Extends LTProject
 	
 	Field Layer:LTLayer = New LTLayer
 	Field Cursor:TCursor = New TCursor
-	Field SpriteImage:LTImage = LTImage.FromFile( "kolobok.png" )
+	Field SpriteImage:LTImage = LTImage.FromFile( "incbin::kolobok.png" )
 	Field Selected:LTSprite
 	
 	Method Init()
@@ -39,6 +41,7 @@ Type TExample Extends LTProject
 		Cursor.Draw()
 		DrawText( "Click left mouse button on sprite to direct cursor sprite as it", 0, 0 )
 		DrawText( "and right button to set size equal to sprite's", 0, 16 )
+		L_PrintText( "DirectAs, SetSizeAs example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type
 
@@ -47,8 +50,8 @@ End Type
 Type TCursor Extends LTSprite
 	Method Act()
 		SetMouseCoords()
-		If MouseHit( 1 ) Then CollisionsWithGroup( Example.Layer, 0 )
-		If MouseHit( 2 ) Then CollisionsWithGroup( Example.Layer, 1 )
+		If MouseHit( 1 ) Then CollisionsWithLayer( Example.Layer, 0 )
+		If MouseHit( 2 ) Then CollisionsWithLayer( Example.Layer, 1 )
 	End Method
 	
 	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )

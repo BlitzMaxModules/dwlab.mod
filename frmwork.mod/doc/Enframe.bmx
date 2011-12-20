@@ -4,12 +4,15 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
-L_InitGraphics()
-SetClsColor( 64, 128, 0 )
-
 Const MapSize:Int = 64
 Const MapScale:Double = 8
 Const FilledTileNum:Int = 20
+
+Incbin "tileset.lw"
+Incbin "curved_areas.png"
+
+L_InitGraphics()
+SetClsColor( 64, 128, 0 )
 
 Cls
 Local DoubleMap:LTDoubleMap = New LTDoubleMap
@@ -27,7 +30,9 @@ Flip
 Waitkey
 
 Cls
+L_SetIncbin( True )
 Local World:LTWorld = LTWorld.FromFile( "tileset.lw" )
+L_SetIncbin( False )
 Local TileSet:LTTileSet = LTTileSet( World.Tilesets.First() )
 Local TileMap:LTTileMap = LTTileMap.Create( TileSet, MapSize, MapSize )
 TileMap.SetSize( MapSize * MapScale / 25.0, MapSize * MapScale / 25.0 )
@@ -43,6 +48,7 @@ DoubleMap.ExtractTo( TileMap, 0.5, 1.0, FilledTileNum )
 DrawText( "Step 4: setting tiles number of tilemap to FilledTileNum", 0, 0 )
 DrawText( "if corresponding value of Double map is higher than 0.5", 0, 16 )
 TileMap.Draw()
+DrawSignature()
 Flip
 Waitkey
 
@@ -54,6 +60,7 @@ For Local Y:Int = 0 Until MapSize
 Next
 DrawText( "Step 5: preparing tilemap by fixing some unmanaged cell positions", 0, 0 )
 TileMap.Draw()
+DrawSignature()
 Flip
 Waitkey
 
@@ -61,6 +68,7 @@ Cls
 TileMap.Enframe()
 DrawText( "Step 6a: enframing tile map", 0, 0 )
 TileMap.Draw()
+DrawSignature()
 Flip
 Waitkey
 
@@ -70,6 +78,7 @@ L_ProlongTiles = False
 TileMap.Enframe() 
 DrawText( "Step 6b: enframing tile map with prolonging tiles off", 0, 0 )
 TileMap.Draw()
+DrawSignature()
 Flip
 Waitkey
 
@@ -84,6 +93,13 @@ Function DrawDoubleMap( Map:LTDoubleMap )
 	SetScale( MapScale, MapScale )
 	DrawImage( Image, 400 - 0.5 * MapScale * MapSize, 300 - 0.5 * MapScale * MapSize )
 	SetScale( 1, 1 )
+	DrawSignature()
+End Function
+
+
+
+Function DrawSignature()
+	L_PrintText( "PerlinNoise, ExtractTo, Enframe, L_ProlongTiles, example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 End Function
 
 

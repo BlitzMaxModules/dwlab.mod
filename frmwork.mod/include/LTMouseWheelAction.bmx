@@ -8,6 +8,9 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: Class for mouse wheel rollings.
+End Rem
 Type LTMouseWheelAction Extends LTPushable
 	Field Z:Int
 	Field Direction:Int

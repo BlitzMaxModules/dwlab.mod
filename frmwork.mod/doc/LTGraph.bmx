@@ -13,7 +13,6 @@ Type TExample Extends LTProject
 	Const MinDistance:Double = 1.0
 	
 	Field Graph:LTGraph = New LTGraph
-	Field Cursor:LTSprite = LTSprite.FromShape( 0, 0, 0.5, 0.5, LTSprite.Oval )
 	Field SelectedPivot:LTSprite
 	Field Path:TList
 	Field PivotVisualizer:LTVisualizer = LTVisualizer.FromHexColor( "4F4FFF" )
@@ -22,6 +21,7 @@ Type TExample Extends LTProject
 	
 	Method Init()
 		L_InitGraphics()
+		L_Cursor = LTSprite.FromShape( 0, 0, 0.5, 0.5, LTSprite.Oval )
 		For Local N:Int = 0 Until PivotsQuantity
 			Repeat
 				Local X:Double = Rnd( -15,15 )
@@ -57,13 +57,12 @@ Type TExample Extends LTProject
 	End Method
 	
 	Method Logic()
-		Cursor.SetMouseCoords()
 		If MouseHit( 1 ) Then
-			SelectedPivot = Graph.FindPivotCollidingWithSprite( Cursor )
+			SelectedPivot = Graph.FindPivotCollidingWithSprite( L_Cursor )
 			Path = Null
 		End If
 		If MouseHit( 2 ) And SelectedPivot Then
-			Local SelectedPivot2:LTSprite = Graph.FindPivotCollidingWithSprite( Cursor )
+			Local SelectedPivot2:LTSprite = Graph.FindPivotCollidingWithSprite( L_Cursor )
 			If SelectedPivot2 Then Path = Graph.FindPath( SelectedPivot, SelectedPivot2 )
 		End If
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
@@ -75,5 +74,6 @@ Type TExample Extends LTProject
 		Graph.DrawPivotsUsing( PivotVisualizer )
 		If SelectedPivot Then SelectedPivot.DrawUsingVisualizer( PathVisualizer )
 		DrawText( "Select first pivot with left mouse button and second with right one", 0, 0 )
+		L_PrintText( "LTGraph, FindPath, CollidesWithLine example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

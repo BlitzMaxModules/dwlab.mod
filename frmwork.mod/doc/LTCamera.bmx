@@ -4,16 +4,16 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "tiles.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
 Type TExample Extends LTProject
 	Const TileMapWidth:Int = 64
 	Const TileMapHeight:Int = 64
-	Const ShakingPeriod:Double = 1.0
-	Const PeriodBetweenShakes:Double = 3.0
 	
-	Field TileMap:LTTileMap = LTTileMap.Create( LTTileSet.Create( LTImage.FromFile( "tiles.png", 8, 4 ) ), TileMapWidth, TileMapHeight )
+	Field TileMap:LTTileMap = LTTileMap.Create( LTTileSet.Create( LTImage.FromFile( "incbin::tiles.png", 8, 4 ) ), TileMapWidth, TileMapHeight )
 	Field Cursor:LTSprite = LTSprite.FromShape( 0, 0, 0.5, 0.5, LTSprite.Oval )
 	Field Z:Double, BaseK:Double
 	
@@ -44,5 +44,6 @@ Type TExample Extends LTProject
 		TileMap.Draw()
 		Cursor.Draw()
 		DrawText( "Shift cursor by arrow keys and alter magnigication by A and Z keys.", 0, 0 )
+		L_PrintText( "LTCamera, AlterCameraMagnification, ShiftCameraToShape example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

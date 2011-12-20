@@ -17,5 +17,6 @@ Repeat
 	SetAlpha( 0.04 )
 	DrawRect( 0, 0, 800, 600 )
 	LTVisualizer.ResetColor() 
+	L_PrintText( "L_DrawEmptyRect example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	Flip
 Forever

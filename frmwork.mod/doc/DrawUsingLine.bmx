@@ -28,6 +28,7 @@ Type TExample Extends LTProject
 	Method Render()
 		Lines.Draw()
 		DrawText( "Free Software Forever!", 0, 0 )
+		L_PrintText( "DrawUsingLine example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type
 

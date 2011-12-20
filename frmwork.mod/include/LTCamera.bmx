@@ -185,7 +185,7 @@ Type LTCamera Extends LTVectorSprite
 	
 	Rem
 	bbdoc: Resets viewport to whole screen.
-	about: See also: #Viewport, #ViewportClipping, #SetCameraViewport
+	about: See also: #Viewport, #ViewportClipping, #SetCameraViewport, #SetAsViewport example
 	End Rem
 	Method ResetViewport()
 		SetViewport( 0, 0, GraphicsWidth(), GraphicsHeight() )
@@ -199,7 +199,10 @@ Type LTCamera Extends LTVectorSprite
 	End Method
 	
 	
-	
+	Rem
+	bbdoc: Smoothly shifts camera to the given point.
+	about: See also: #LTCamera example
+	End Rem
 	Method ShiftCameraToPoint( NewX:Double, NewY:Double, Acceleration:Double = 6.0 )
 		ApplyAcceleration( X, NewX, DX, Acceleration )
 		ApplyAcceleration( Y, NewY, DY, Acceleration )
@@ -209,6 +212,9 @@ Type LTCamera Extends LTVectorSprite
 	
 	
 	
+	Rem
+	bbdoc: Smoothly shifts camera to the given shape center.
+	End Rem
 	Method ShiftCameraToShape( Shape:LTShape, Acceleration:Double = 6.0 )
 		ShiftCameraToPoint( Shape.X, Shape.Y, Acceleration )
 	End Method
@@ -228,6 +234,10 @@ Type LTCamera Extends LTVectorSprite
 	
 	
 	
+	Rem
+	bbdoc: Smoothly alterts camera magnification to the given one.
+	about: See also: #LTCamera example
+	End Rem
 	Method AlterCameraMagnification( NewZ:Double, OldK:Double, Acceleration:Double )
 		ApplyAcceleration( Z, NewZ, DZ, Acceleration )
 		'If Abs( NewZ - Z ) > Abs( DZ ) Then DZ = NewZ - Z
@@ -324,7 +334,7 @@ Type LTCamera Extends LTVectorSprite
 	
 	
 	Rem
-	bbdoc: Creates new camera object.
+	bbdoc: Creates new camera object using given screen resolution and unit size in pixels.
 	returns: New camera object.
 	End Rem
 	Function Create:LTCamera( Width:Double = 800.0, Height:Double = 600.0, UnitSize:Double = 25.0 )
@@ -357,6 +367,8 @@ End Type
 Rem
 bbdoc: Sets graphics mode.
 about: Provide width and height of screen in pixels and unit size in pixels for camera.
+
+See also: #Parallax example
 End Rem
 Function L_InitGraphics( Width:Int = 800, Height:Int = 600, UnitSize:Double = 25.0, ColorDepth:Int = 0, Frequency:Int = 60 )
 	Graphics( Width, Height, ColorDepth, Frequency )

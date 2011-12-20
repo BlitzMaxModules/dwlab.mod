@@ -8,6 +8,9 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: Class for mouse buttons.
+End Rem
 Type LTMouseButton Extends LTPushable
 	Field Num:Int
 	

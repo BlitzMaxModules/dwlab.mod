@@ -4,6 +4,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "kolobok.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -11,8 +13,7 @@ Type TExample Extends LTProject
 	Const KoloboksQuantity:Int = 50
 	
 	Field Layer:LTLayer = New LTLayer
-	Field Cursor:LTSprite = New LTSprite
-	Field KolobokImage:LTImage = LTImage.FromFile( "kolobok.png" )
+	Field KolobokImage:LTImage = LTImage.FromFile( "incbin::kolobok.png" )
 	
 	Method Init()
 		For Local N:Int = 1 To KoloboksQuantity
@@ -24,21 +25,17 @@ Type TExample Extends LTProject
 			Kolobok.Visualizer.Image = KolobokImage
 			Layer.AddLast( Kolobok )
 		Next
-		Cursor.SetDiameter( 0.5 )
-		Cursor.Visualizer.SetColorFromHex( "FF0000" )
 		L_InitGraphics()
 	End Method
 	
 	Method Logic()
-		Cursor.SetMouseCoords()
 		Layer.Act()
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
 	End Method
 
 	Method Render()
 		Layer.Draw()
-		Cursor.Draw()
-		DrawText( "", 0, 0 )
+		L_PrintText( "DirectTo example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type
 
@@ -46,6 +43,6 @@ End Type
 
 Type TKolobok Extends LTSprite
 	Method Act()
-		DirectTo( Example.Cursor )
+		DirectTo( L_Cursor )
 	End Method
 End Type

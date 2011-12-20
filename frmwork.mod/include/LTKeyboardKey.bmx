@@ -8,6 +8,9 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: Class for keyboard keys.
+End Rem
 Type LTKeyboardKey Extends LTPushable
 	Field Code:Int
 	

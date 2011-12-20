@@ -17,6 +17,7 @@ L_DebugVisualizer.Alpha = 0.5
 
 Rem
 bbdoc: This visualizer can draw collision shape, vector and name of the shape with this shape itself.
+about: See also #WedgeOffWithSprite example
 End Rem
 Type LTDebugVisualizer Extends LTVisualizer
 	Field ShowCollisionShapes:Int = True

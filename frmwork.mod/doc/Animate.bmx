@@ -4,6 +4,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "mario.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -13,7 +15,7 @@ Type TExample Extends LTProject
 	Field PingPong:Int
 	
 	Method Init()
-		Player.Visualizer.Image = LTImage.FromFile( "mario.png", 4 )
+		Player.Visualizer.Image = LTImage.FromFile( "incbin::mario.png", 4 )
 		L_InitGraphics()
 	End Method
 	
@@ -32,5 +34,6 @@ Type TExample Extends LTProject
 	Method Render()
 		Player.Draw()
 		DrawText( "Press space to animate sprite, P to toggle ping-pong animation (now it's " + PingPong + ")", 0, 0 )
+		L_PrintText( "Animate example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

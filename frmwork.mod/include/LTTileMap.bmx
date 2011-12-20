@@ -135,7 +135,7 @@ Type LTTileMap Extends LTIntMap
 	Rem
 	bbdoc: Returns tile index for given coordinates.
 	returns: Tile index for given tile coordinates.
-	about: See also: #SetTile
+	about: See also: #SetTile, #SetAsTile example
 	End Rem
 	Method GetTile:Int( TileX:Int, TileY:Int )
 		?debug
@@ -149,7 +149,7 @@ Type LTTileMap Extends LTIntMap
 	
 	Rem
 	bbdoc: Sets tile index for given tile coordinates.
-	about: See also: #GetTile
+	about: See also: #GetTile, #GetTileForPoint example, #Stretch example
 	End Rem
 	Method SetTile( TileX:Int, TileY:Int, TileNum:Int )
 		?debug

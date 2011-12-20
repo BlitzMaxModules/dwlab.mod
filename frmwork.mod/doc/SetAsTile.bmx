@@ -4,6 +4,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "tiles.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -11,10 +13,9 @@ Type TExample Extends LTProject
 	Const TileMapWidth:Int = 16
 	Const TileMapHeight:Int = 12
 	
-	Field TileSet:LTTileSet = LTTileSet.Create( LTImage.FromFile( "tiles.png", 8, 4 ) )
+	Field TileSet:LTTileSet = LTTileSet.Create( LTImage.FromFile( "incbin::tiles.png", 8, 4 ) )
 	Field TileMap:LTTileMap = LTTileMap.Create( TileSet, TileMapWidth, TileMapHeight )
 	Field Pieces:LTLayer = New LTLayer
-	Field Cursor:LTSprite = New LTSprite
 	
 	Method Init()
 		L_InitGraphics()
@@ -27,10 +28,9 @@ Type TExample Extends LTProject
 	End Method
 	
 	Method Logic()
-		Cursor.SetMouseCoords()
 		If MouseHit( 1 ) Then 
 			Local TileX:Int, TileY:Int
-			TileMap.GetTileForPoint( Cursor.X, Cursor.Y, TileX, TileY )
+			TileMap.GetTileForPoint( L_Cursor.X, L_Cursor.Y, TileX, TileY )
 			If TileMap.GetTile( TileX, TileY ) > 0 Then
 				Local Piece:TPiece = TPiece.Create()
 				Piece.SetAsTile( TileMap, TileX, TileY )
@@ -45,6 +45,7 @@ Type TExample Extends LTProject
 		TileMap.Draw()
 		Pieces.Draw()
 		DrawText( "Click on tiles to make them fall", 0, 0 )
+		L_PrintText( "SetAsTile example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type
 
@@ -67,7 +68,7 @@ Type TPiece Extends LTVectorSprite
 	Method Act()
 		MoveForward()
 		Angle = ( Example.Time - StartingTime ) * 45 * AngularDirection
-		DY :+ Example.PerSecond( Gravity )
+		DY :+ L_PerSecond( Gravity )
 		If TopY() > Example.TileMap.BottomY() Then Example.Pieces.Remove( Self )
 	End Method
 End Type

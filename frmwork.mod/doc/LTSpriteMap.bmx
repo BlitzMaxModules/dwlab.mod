@@ -4,14 +4,13 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
-SeedRnd( MilliSecs() )
 Global Example:TExample = New TExample
 Example.Execute()
 
 Const MapSize:Int = 192
 
 Type TExample Extends LTProject
-	Const SpritesQuantity:Int = 1000
+	Const SpritesQuantity:Int = 800
 	
 	Field Rectangle:LTShape = LTSprite.FromShape( 0, 0, MapSize, MapSize )
 	Field Cursor:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
@@ -23,20 +22,21 @@ Type TExample Extends LTProject
 		Next
 		Rectangle.Visualizer = LTContourVisualizer.FromWidthAndHexColor( 0.1, "FF0000" )
 		L_InitGraphics()
-		L_CurrentCamera.DX = 4
-		L_CurrentCamera.DY = 4
 	End Method
 	
 	Method Logic()
+		L_CurrentCamera.Move( 0.1 * ( MouseX() - 400 ), 0.1 * ( MouseY() - 300 ) )
 		SpriteMap.Act()
-		L_CurrentCamera.MoveForward()
-		L_CurrentCamera.BounceInside( Rectangle )
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
 	End Method
 
 	Method Render()
 		SpriteMap.Draw()
 		Rectangle.Draw()
+		DrawOval( 398, 298, 5, 5 )
+		L_Cursor.Draw()
+		L_PrintText( "LTSpriteMap, CollisionsWithSpriteMap example", L_CurrentCamera.X, L_CurrentCamera.Y + 12, LTAlign.ToCenter, LTAlign.ToBottom )
+		ShowDebugInfo()
 	End Method
 End Type
 
@@ -56,6 +56,7 @@ Type TBall Extends LTSprite
 	End Function
 	
 	Method Act()
+		Super.Act()
 		L_CurrentCamera.BounceInside( Example.Rectangle )
 		MoveForward()
 		BounceInside( Example.Rectangle )
@@ -63,7 +64,7 @@ Type TBall Extends LTSprite
 	End Method
 	
 	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
-		If  TParticleArea( Sprite ) Then Return
+		If TParticleArea( Sprite ) Then Return
 		PushFromSprite( Sprite )
 		Angle = Sprite.DirectionTo( Self )
 		Sprite.Angle = DirectionTo( Sprite )
@@ -100,9 +101,7 @@ Type TParticleArea Extends LTSprite
 	
 	Method Draw()
 		Local A:Double = 1.0 - ( Example.Time - StartingTime ) / FadingTime
-		If A < 0 Then
-			Example.SpriteMap.RemoveSprite( Self )
-		Else
+		If A >= 0 Then
 			SetAlpha( A )
 			SetColor( 255, 192, 0 )
 			For Local Sprite:LTSprite = Eachin Particles
@@ -119,6 +118,8 @@ Type TParticleArea Extends LTSprite
 	End Method
 	
 	Method Act()
+		If Example.Time > StartingTime + FadingTime Then Example.SpriteMap.RemoveSprite( Self )
+
 		If CollidesWithSprite( L_CurrentCamera ) Then
 			For Local Sprite:LTSprite = Eachin Particles
 				Sprite.MoveForward()

@@ -23,6 +23,7 @@ Type LTWorld Extends LTLayer
 	Rem
 	bbdoc: Loads a world from file.
 	returns: Loaded world.
+	about: See also: #Parallax example
 	End Rem
 	Function FromFile:LTWorld( Filename:String )
 		Return LTWorld( LoadFromFile( Filename ) )

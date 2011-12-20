@@ -24,5 +24,6 @@ Type TExample Extends LTProject
 		Local X:Int = L_LimitInt( MouseX(), 200, 600 )
 		DrawOval( X - 2, MouseY() - 2, 5, 5 )
 		DrawText( "LimitInt(MouseX(),200,600) = " + X, 0, 0 )
+		L_PrintText( "L_LimitInt example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

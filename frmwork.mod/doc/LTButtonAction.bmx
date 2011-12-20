@@ -19,19 +19,15 @@ Type TExample Extends LTProject
 	Field Fire:LTButtonAction = LTButtonAction.Create( LTMouseButton.Create( 1 ), "fire" )
 	Field Actions:LTButtonAction[] = [ MoveLeft, MoveRight, MoveUp, MoveDown, Fire ]
 	
-	Field Cursor:LTSprite = LTSprite.FromShape( 0, 0, 0.5, 0.5, LTSprite.Oval )
 	Field Player:LTSprite = LTSprite.FromShape( 0, 0, 1, 1, LTSprite.Oval )
 	Field Bullets:LTLayer = New LTLayer
 	
 	Method Init()
 		L_InitGraphics()
-		Cursor.Visualizer.SetColorFromHex( "FFBF7F" )
 		Player.Visualizer.SetColorFromHex( "7FBFFF" )
 	End Method
 	
 	Method Logic()
-		Cursor.SetMouseCoords()
-	
 		If MoveLeft.IsDown() Then Player.Move( -Velocity, 0 )
 		If MoveRight.IsDown() Then Player.Move( Velocity, 0 )
 		If MoveUp.IsDown() Then Player.Move( 0, -Velocity )
@@ -40,11 +36,7 @@ Type TExample Extends LTProject
 		
 		Bullets.Act()
 		
-		If KeyDown( Key_LControl ) Or KeyDown( Key_RControl ) Then If KeyDown( Key_D ) Then
-			Local DefineKeys:TDefineKeys = New TDefineKeys
-			DefineKeys.Actions = Actions
-			DefineKeys.Add()
-		End If
+		If KeyDown( Key_LControl ) Or KeyDown( Key_RControl ) Then If KeyDown( Key_D ) Then SwitchTo( New TDefineKeys )
 		
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
 	End Method
@@ -52,8 +44,8 @@ Type TExample Extends LTProject
 	Method Render()
 		Bullets.Draw()
 		Player.Draw()
-		Cursor.Draw()
 		DrawText( "Press Ctrl-D to define keys", 0, 0 )
+		L_PrintText( "LTButtonAction, SwitchTo, Move example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type
 
@@ -65,7 +57,7 @@ Type TBullet Extends LTSprite
 		Bullet.SetCoords( Example.Player.X, Example.Player.Y )
 		Bullet.SetDiameter( 0.25 )
 		Bullet.ShapeType = LTSprite.Oval
-		Bullet.Angle = Example.Player.DirectionTo( Example.Cursor )
+		Bullet.Angle = Example.Player.DirectionTo( L_Cursor )
 		Bullet.Velocity = Example.BulletVelocity
 		Bullet.Visualizer.SetColorFromHex( "7FFFBF" )
 		Example.Bullets.AddLast( Bullet )
@@ -79,7 +71,6 @@ End Type
 
 
 Type TDefineKeys Extends LTProject
-	Field Actions:LTButtonAction[]
 	Field ActionNum:Int = 0
 	Field Z:Int
 	
@@ -89,13 +80,14 @@ Type TDefineKeys Extends LTProject
 	End Method
 	
 	Method Logic()
-		If Actions[ ActionNum ].Define() Then
+		If Example.Actions[ ActionNum ].Define() Then
 			ActionNum :+ 1
-			If ActionNum = Actions.Dimensions()[ 0 ] Then Exiting = True
+			If ActionNum = Example.Actions.Dimensions()[ 0 ] Then Exiting = True
 		End If
 	End Method
 	
 	Method Render()
-		DrawText( "Press key for " + Actions[ ActionNum ].Name, 0, 16 )
+		Example.Render()
+		DrawText( "Press key for " + Example.Actions[ ActionNum ].Name, 0, 16 )
 	End Method
 End Type

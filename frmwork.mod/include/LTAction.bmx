@@ -45,6 +45,7 @@ End Type
 
 Rem
 bbdoc: Function for finalizing current action list as single step and pushing it to Undo stack.
+about: See also: #LTAction example
 End Rem
 Function L_PushActionsList()
 	If Not L_CurrentUndoList.IsEmpty() Then
@@ -60,6 +61,8 @@ End Function
 Rem
 bbdoc: Function for performing single step of Undo.
 about: Executes all Undo() methods for every action in head action list of Undo stack and moves this list to Redo stack.
+
+See also: #LTAction example
 End Rem
 Function L_Undo()
 	If L_UndoStack.IsEmpty() Then Return
@@ -78,6 +81,8 @@ End Function
 Rem
 bbdoc: Function for performing single step of Redo.
 about: Executes all Redo() methods for every action in head action list of Redo stack and moves this list to Undo stack.
+
+See also: #LTAction example
 End Rem
 Function L_Redo()
 	If L_RedoStack.IsEmpty() Then Return

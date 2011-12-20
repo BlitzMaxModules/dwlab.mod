@@ -45,6 +45,7 @@ Function Draw( Image:LTImage, Text:String )
 	DrawImage( Image.BMaxImage, 400, 300 )
 	SetScale( 1.0, 1.0 )
 	DrawText( Text, 0, 0 )
+	L_PrintText( "Paste example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	Flip
 	Waitkey
 	Cls

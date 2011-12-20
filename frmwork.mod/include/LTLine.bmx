@@ -22,6 +22,7 @@ Type LTLine Extends LTShape
 	Rem
 	bbdoc: Creates line section between two pivots.
 	returns: New line.
+	about: See also: #PlaceBetween example
 	End Rem
 	Function FromPivots:LTLine( Pivot1:LTSprite, Pivot2:LTSprite )
 		Local Line:LTLine = New LTLine
@@ -44,18 +45,19 @@ Type LTLine Extends LTShape
 	
 	' ==================== Collisions ===================
 	
-	Method SpriteGroupCollisions( Sprite:LTSprite, CollisionType:Int )
-		Sprite.CollisionsWithLine( Self, CollisionType )
-	End Method
-	
-	
-	
 	Method Length:Double()
 		Return Pivot[ 0 ].DistanceTo( Pivot[ 1 ] )
 	End Method
 	
 	
 	
+	Rem
+	bbdoc: Checks if the line section collides with given line.
+	returns: True if the line section collides with given line, otherwise false.
+	about: You can specify are pivots needs to be checked for collision too (e. g. line sections have common pivot).
+	
+	See also: #LTGraph example
+	End Rem
 	Method CollidesWithLine:Int( Line:LTLine, IncludingPivots:Int = True )
 		if Pivot[ 0 ] = Line.Pivot[ 0 ] Or Pivot[ 0 ] = Line.Pivot[ 1 ] Or Pivot[ 1 ] = Line.Pivot[ 0 ] Or Pivot[ 1 ] = Line.Pivot[ 1 ] Then
 			If IncludingPivots Then Return True Else Return False

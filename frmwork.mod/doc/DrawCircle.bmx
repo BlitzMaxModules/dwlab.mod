@@ -36,5 +36,6 @@ Type TExample Extends LTProject
 		DrawImage( DoubleMap.ToNewImage().BMaxImage, 400, 300 )
 		SetScale( 1, 1 )
 		DrawText( "Press space to blur map", 0, 0 )
+		L_PrintText( "DrawCircle, Blur example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

@@ -257,7 +257,7 @@ Type LTEditor Extends LTProject
 	
 	Method Init()
 		L_Flipping = False
-		AutoImageFlags( FILTEREDIMAGE | DYNAMICIMAGE )
+		AutoImageFlags( FILTEREDIMAGE | DYNAMICIMAGE | MIPMAPPEDIMAGE )
 		
 		SetLocalizationMode( Localization_On | Localization_Override )
 		EnglishLanguage = LoadLanguage( "incbin::english.lng" )
@@ -720,7 +720,7 @@ Type LTEditor Extends LTProject
 	
 	Method Logic()
 		PollEvent()
-	
+
 		If ActiveGadget() <> Panel Then CurrentTextField = ActiveGadget()
 		
 		Local EvID:Int = EventID()
@@ -1590,7 +1590,6 @@ Type LTEditor Extends LTProject
 			If CurrentViewLayer.Bounds Then CurrentViewLayer.Bounds.DrawContour( 3.0 )
 			SetColor( 255, 255, 255 )
 		End If
-		
 		
 		Flip( False )
 		'EndGraphics

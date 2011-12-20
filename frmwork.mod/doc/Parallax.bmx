@@ -5,6 +5,11 @@ Import brl.pngloader
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "parallax.lw"
+Incbin "water_and_snow.png"
+Incbin "grid.png"
+Incbin "clouds.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -16,7 +21,9 @@ Type TExample Extends LTProject
   Method Init()
     L_InitGraphics( 512, 512, 64 )
     
+	L_SetIncbin( True )
     Local Layer:LTLayer = LoadLayer( LTLayer( LTWorld.FromFile( "parallax.lw" ).FindShapeWithType( "LTLayer" ) ) )
+	L_SetIncbin( False )
   
     Ground = LTTileMap( Layer.FindShape( "Ground" ) )
     Grid = LTTileMap( Layer.FindShape( "Grid" ) )
@@ -28,7 +35,7 @@ Type TExample Extends LTProject
     L_CurrentCamera.LimitWith( Grid )
     Ground.Parallax( Grid )
     Clouds.Parallax( Grid )
-    If KeyHit( Key_Escape ) Then End
+    If KeyHit( Key_Escape ) Then Exiting = True
   End Method
   
   Method Render()
@@ -36,5 +43,6 @@ Type TExample Extends LTProject
     Grid.Draw()
     Clouds.Draw()
 	DrawText( "Move camera with arrow keys", 0, 0 )
+	L_PrintText( "Parallax example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
   End Method
 End Type

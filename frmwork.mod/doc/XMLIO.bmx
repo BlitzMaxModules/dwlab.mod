@@ -44,6 +44,7 @@ Type TExample Extends LTProject
 					L_TrimDouble( Worker.Weight, 1 ) + " kg, " + Worker.Profession.Name , 0, Y )
 			Y :+ 16
 		Next
+		L_PrintText( "XMLIO, Manage... example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 	
 	Method XMLIO( XMLObject:LTXMLObject )

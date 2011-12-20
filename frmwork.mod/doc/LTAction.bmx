@@ -2,7 +2,9 @@ SuperStrict
 
 Framework brl.basic
 Import dwlab.frmwork
-Import brl.pngloader
+Import dwlab.graphicsdrivers
+
+Incbin "kolobok.png"
 
 Global Example:TExample = New TExample
 Example.Execute()
@@ -11,8 +13,7 @@ Type TExample Extends LTProject
 	Const SpritesQuantity:Int = 50
 	
 	Field Sprites:LTLayer = New LTLayer
-	Field Cursor:LTSprite = New LTSprite
-	Field SpriteImage:LTImage = LTImage.FromFile( "kolobok.png" )
+	Field SpriteImage:LTImage = LTImage.FromFile( "incbin::kolobok.png" )
 	Field Drag:TMoveDrag = New TMoveDrag
 	
 	Method Init()
@@ -25,14 +26,10 @@ Type TExample Extends LTProject
 			Sprite.Visualizer.SetVisualizerScales( 1.3 )
 			Sprites.AddLast( Sprite )
 		Next
-		Cursor.SetDiameter( 0.5 )
-		Cursor.ShapeType = LTSprite.Oval
-		Cursor.Visualizer.SetColorFromHex( "FF0000" )
 		L_InitGraphics()
 	End Method
 	
 	Method Logic()
-		Cursor.SetMouseCoords()
 		Drag.Execute()
 		
 		L_PushActionsList()
@@ -50,6 +47,7 @@ Type TExample Extends LTProject
 	Method Render()
 		Sprites.Draw()
 		DrawText( "Drag sprites with left mouse button, press CTRL-Z to undo, CTRL-Y to redo, F2 to save, F3 to load", 0, 0 )
+		L_PrintText( "LTAction, L_Undo, L_Redo, L_PushActionsList, LTDrag example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type
 
@@ -65,18 +63,18 @@ Type TMoveDrag Extends LTDrag
 	End Method
 
 	Method StartDragging()
-		Shape = Example.Cursor.FirstCollidedSpriteOfGroup( Example.Sprites )
+		Shape = L_Cursor.FirstCollidedSpriteOfLayer( Example.Sprites )
 		If Shape Then
 			Action = TMoveAction.Create( Shape )
-			DX = Shape.X - Example.Cursor.X
-			DY = Shape.Y - Example.Cursor.Y
+			DX = Shape.X - L_Cursor.X
+			DY = Shape.Y - L_Cursor.Y
 		Else
 			DraggingState = False
 		End If
 	End Method
 
 	Method Dragging()
-		Shape.SetCoords( Example.Cursor.X + DX, Example.Cursor.Y + DY )
+		Shape.SetCoords( L_Cursor.X + DX, L_Cursor.Y + DY )
 	End Method
 
 	Method EndDragging()

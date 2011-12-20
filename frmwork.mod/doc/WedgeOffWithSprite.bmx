@@ -4,6 +4,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "kolobok.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -11,7 +13,7 @@ Type TExample Extends LTProject
 	Const KoloboksQuantity:Int = 50
 	
 	Field Koloboks:LTLayer = New LTLayer
-	Field KolobokImage:LTImage = LTImage.FromFile( "kolobok.png" )
+	Field KolobokImage:LTImage = LTImage.FromFile( "incbin::kolobok.png" )
 	Field Player:TKolobok
 	Field DebugMode:Int
 	
@@ -43,6 +45,7 @@ Type TExample Extends LTProject
 		Else
 			Koloboks.Draw()
 			DrawText( "Move white kolobok with arrow keys and push other koloboks and press D for debug mode", 0, 0 )
+			L_PrintText( "WedgeOffWithSprite example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 		End If
 	End Method
 End Type
@@ -78,7 +81,7 @@ Type TKolobok Extends LTSprite
 	End Function
 	
 	Method Act()
-		CollisionsWithGroup( Example.Koloboks )
+		CollisionsWithLayer( Example.Koloboks )
 	End Method
 	
 	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )

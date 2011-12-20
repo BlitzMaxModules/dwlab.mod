@@ -53,7 +53,7 @@ Type LTSprite Extends LTShape
 	
 	Rem
 	bbdoc: Frame of the sprite image.
-	about: Can be used with image visualizer only.
+	about: Can only be used with visualizer which have images.
 	End Rem
 	Field Frame:Int
 	
@@ -67,6 +67,11 @@ Type LTSprite Extends LTShape
 	
 	' ==================== Creating ===================	
 	
+	Rem
+	bbdoc: Creates sprite using given coordinates, size, shape type, angle and velocity.
+	returns: Created sprite.
+	about: See also #Overlaps example.
+	End Rem
 	Function FromShape:LTSprite( X:Double = 0.0, Y:Double = 0.0, Width:Double = 1.0, Height:Double = 1.0, ShapeType:Int = Rectangle, Angle:Double = 0.0, Velocity:Double = 1.0 )
 		Local Sprite:LTSprite = New LTSprite
 		Sprite.SetCoords( X, Y )
@@ -237,11 +242,13 @@ Type LTSprite Extends LTShape
 	bbdoc: Searches the group for first sprite which collides with given.
 	Returns: First found sprite which collides with given.
 	about: Included groups will be also checked.
+	
+	See also: #Clone example
 	End Rem	
-	Method FirstCollidedSpriteOfGroup:LTSprite( Group:LTGroup, CollisionType:Int = 0 )
-		For Local Shape:LTShape = EachIn Group
+	Method FirstCollidedSpriteOfLayer:LTSprite( Layer:LTLayer, CollisionType:Int = 0 )
+		For Local Shape:LTShape = EachIn Layer
 			If Shape <> Self Then
-				Local Collided:LTSprite = Shape.GroupFirstSpriteCollision( Self, CollisionType )
+				Local Collided:LTSprite = Shape.LayerFirstSpriteCollision( Self, CollisionType )
 				If Collided Then Return Collided
 			End If
 		Next
@@ -249,8 +256,21 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Method GroupFirstSpriteCollision:LTSprite( Sprite:LTSprite, CollisionType:Int )
+	Method LayerFirstSpriteCollision:LTSprite( Sprite:LTSprite, CollisionType:Int )
 		If CollidesWithSprite( Sprite ) Then Return Self
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Executes reaction for collision of sprite with given sprite.
+	about: If sprites collide then HandleCollisionWithSprite() method will be executed and given sprite will be passed to this method.
+	You can specify collision type which will be passed to this method too.
+	
+	See also: #CollisionsWithLayer, #CollisionsWithTileMap, #CollisionsWithLine, #CollisionsWithSpriteMap, #Horizontal, #Vertical
+	End Rem
+	Method CollisionsWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
+		If CollidesWithSprite( Sprite ) Then HandleCollisionWithSprite( Sprite, CollisionType )
 	End Method
 	
 	
@@ -262,29 +282,29 @@ Type LTSprite Extends LTShape
 	
 	See also: #CollisionsWithSprite, #CollisionsWithTileMap, #CollisionsWithLine, #CollisionsWithSpriteMap, #Horizontal, #Vertical
 	End Rem
-	Method CollisionsWithGroup( Group:LTGroup, CollisionType:Int = 0 )
-		For Local Shape:LTShape = EachIn Group
-			If Shape <> Self Then Shape.SpriteGroupCollisions( Self, CollisionType )
+	Method CollisionsWithLayer( Layer:LTLayer, CollisionType:Int = 0 )
+		For Local Shape:LTShape = EachIn Layer
+			If Shape <> Self Then Shape.SpriteLayerCollisions( Self, CollisionType )
 		Next
 	End Method
 	
 	
 	
-	Method SpriteGroupCollisions( Sprite:LTSprite, CollisionType:Int = 0 )
+	Method SpriteLayerCollisions( Sprite:LTSprite, CollisionType:Int = 0 )
 		If Sprite.CollidesWithSprite( Self ) Then Sprite.HandleCollisionWithSprite( Self, CollisionType )
 	End Method
 	
 	
 	
 	Rem
-	bbdoc: Executes reaction for collision of sprite with given sprite.
-	about: If sprites collide then HandleCollisionWithSprite() method will be executed and given sprite will be passed to this method.
+	bbdoc: Executes reaction for collision of sprite with given line.
+	about: If sprite collides with line then HandleCollisionWithLine() method will be executed and line will be passed to this method.
 	You can specify collision type which will be passed to this method too.
 	
-	See also: #CollisionsWithGroup, #CollisionsWithTileMap, #CollisionsWithLine, #CollisionsWithSpriteMap, #Horizontal, #Vertical
+	See also: #CollisionsWithLayer, #CollisionsWithSprite, #CollisionsWithTileMap, #CollisionsWithSpriteMap, #Horizontal, #Vertical
 	End Rem
-	Method CollisionsWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
-		If CollidesWithSprite( Sprite ) Then HandleCollisionWithSprite( Sprite, CollisionType )
+	Method CollisionsWithLine( Line:LTLine, CollisionType:Int = 0 )
+		If CollidesWithLine( Line ) Then HandleCollisionWithLine( Line, CollisionType )
 	End Method
 
 	
@@ -295,7 +315,7 @@ Type LTSprite Extends LTShape
 	about: For every collided tile HandleCollisionWithTile() method will be executed and tilemap with tile indexes will be passed to this method.
 	You can specify collision type which will be passed to this method too.
 	
-	See also: #CollisionsWithGroup, #CollisionsWithSprite, #CollisionsWithLine, #CollisionsWithSpriteMap, #Horizontal, #Vertical
+	See also: #CollisionsWithLayer, #CollisionsWithSprite, #CollisionsWithLine, #CollisionsWithSpriteMap, #Horizontal, #Vertical, #LTVectorSprite example
 	End Rem
 	Method CollisionsWithTileMap( TileMap:LTTileMap, CollisionType:Int = 0 )
 		Local X0:Double = TileMap.LeftX()
@@ -340,25 +360,12 @@ Type LTSprite Extends LTShape
 	
 	
 	Rem
-	bbdoc: Executes reaction for collision of sprite with given line.
-	about: If sprite collides with line then HandleCollisionWithLine() method will be executed and line will be passed to this method.
-	You can specify collision type which will be passed to this method too.
-	
-	See also: #CollisionsWithGroup, #CollisionsWithSprite, #CollisionsWithTileMap, #CollisionsWithSpriteMap, #Horizontal, #Vertical
-	End Rem
-	Method CollisionsWithLine( Line:LTLine, CollisionType:Int = 0 )
-		If CollidesWithLine( Line ) Then HandleCollisionWithLine( Line, CollisionType )
-	End Method
-	
-	
-	
-	Rem
 	bbdoc: Executes reaction for collision of sprite with sprites in sprite map.
 	about: For every collided sprite HandleCollisionWithSprite() method will be executed and collided srite will be passed to this method.
 	You can specify collision type which will be passed to this method too.
 	Map parameter allows you to specify map to where collided sprites will be added as keys.
 	
-	See also: #CollisionsWithGroup, #CollisionsWithSprite, #CollisionsWithTileMap, #CollisionsWithLine, #Horizontal, #Vertical
+	See also: #CollisionsWithGroup, #CollisionsWithSprite, #CollisionsWithTileMap, #CollisionsWithLine, #Horizontal, #Vertical, #LTSpriteMap example
 	End Rem
 	Method CollisionsWithSpriteMap( SpriteMap:LTSpriteMap, CollisionType:Int = 0, Map:TMap = Null )
 		If Not Map Then Map = New TMap
@@ -400,6 +407,8 @@ Type LTSprite Extends LTShape
 	Rem
 	bbdoc: Sprite collision handling method.
 	about: Will be executed for every collision of this sprite with another sprite found by the collision checks.
+	
+	See also: #Active example
 	End Rem
 	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
 		If Active Then
@@ -414,6 +423,7 @@ Type LTSprite Extends LTShape
 	Rem
 	bbdoc: Tile collision handling method.
 	about: Will be executed for every collision of this sprite with tile found by the collision checks for this sprite with tilemaps.
+	See also: #LTVectorSprite example
 	End Rem
 	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int = 0 )
 		If Active Then
@@ -558,6 +568,10 @@ Type LTSprite Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc: Forces sprite to bounce off the inner bounds of the shape.
+	about: See also: #Active example
+	End Rem
 	Method BounceInside( Shape:LTShape, LeftSide:Int = True, TopSide:Int = True, RightSide:Int = True, BottomSide:Int = True )
 		If LeftSide Then
 			If LeftX() < Shape.LeftX() Then
@@ -601,7 +615,7 @@ Type LTSprite Extends LTShape
 	
 	Rem
 	bbdoc: Moves sprite forward.
-	about: See also: #Move
+	about: See also: #Move, #MoveBackward, #Turn example
 	End Rem
 	Method MoveForward()
 		SetCoords( X + Cos( Angle ) * Velocity * L_DeltaTime, Y + Sin( Angle ) * Velocity * L_DeltaTime )
@@ -634,6 +648,8 @@ Type LTSprite Extends LTShape
 	Rem
 	bbdoc: Sets the sprite as a tile.
 	about: Position, size, visualizer and frame will be changed. This method can be used to cover other shapes with the tile or voluntary moving the tile.
+	
+	See also: #GetTileForPoint example
 	End Rem
 	Method SetAsTile( TileMap:LTTileMap, TileX:Int, TileY:Int )
 		Width = TileMap.GetTileWidth()
@@ -715,6 +731,7 @@ Type LTSprite Extends LTShape
 	
 	Rem
 	bbdoc: Alters angle by given value.
+	about: See also: #Clone example
 	End Rem
 	Method AlterAngle( DAngle:Double )
 		Angle :+ DAngle
@@ -724,7 +741,6 @@ Type LTSprite Extends LTShape
 	
 	Rem
 	bbdoc: Animates the sprite.
-	about: 
 	End Rem
 	Method Animate( Project:LTProject, Speed:Double, FramesQuantity:Int = 0, FrameStart:Int = 0, StartingTime:Double = 0.0, PingPong:Int = False )
 		If FramesQuantity = 0 Then FramesQuantity = Visualizer.GetImage().FramesQuantity()

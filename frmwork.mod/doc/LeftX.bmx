@@ -32,5 +32,6 @@ Type TExample Extends LTProject
 		Ball.Draw()
 		Ball.SetCoords( Rectangle.X, Rectangle.BottomY() )
 		Ball.Draw()
+		L_PrintText( "LeftX, TopY, RightX, BottomY example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

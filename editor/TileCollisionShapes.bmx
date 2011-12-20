@@ -313,7 +313,7 @@ Type TCreateCollisionShape Extends LTDrag
 			TileCollisionShapes.CollisionGroup.AddLast( CollisionShape )
 		ElseIf TileCollisionShapes.CollisionShape Then
 			Local Group:LTGroup = New LTGroup
-			Group.AddLast( TileCollisionShapes.CollisionShape )
+			Group.AddLast( LTSprite( TileCollisionShapes.CollisionShape ) )
 			Group.AddLast( CollisionShape )
 			TileCollisionShapes.TileSet.CollisionShape[ TileCollisionShapes.TileNum ] = Group
 		Else

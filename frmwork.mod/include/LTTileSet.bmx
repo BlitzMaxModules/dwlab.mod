@@ -11,6 +11,8 @@
 Rem
 bbdoc: Prolonging tiles flag.
 about: Defines the method of recognizing tiles outside tilemap for tile replacing/enframing algorythm.
+
+See also: #Enframe example
 End Rem
 Global L_ProlongTiles:Int = True
 

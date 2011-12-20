@@ -12,7 +12,6 @@ Type TExample Extends LTProject
 	
 	Field Layer:LTLayer = New LTLayer
 	Field Rectangle:LTShape = LTSprite.FromShape( 0, 0, 30, 20 )
-	Field Cursor:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
 	
 	Method Init()
 		For Local N:Int = 1 To SpritesQuantity
@@ -23,7 +22,6 @@ Type TExample Extends LTProject
 	End Method
 	
 	Method Logic()
-		Cursor.SetMouseCoords()
 		Layer.Act()
 		If KeyHit( Key_Space ) Then
 			For Local Sprite:LTSprite = Eachin Layer
@@ -39,6 +37,7 @@ Type TExample Extends LTProject
 		Rectangle.Draw()
 		DrawText( "Press left mouse button on circle to make it inactive, right button to make it invisible.", 0, 0 )
 		DrawText( "Press space to restore all back.", 0, 16 )
+		L_PrintText( "Active, BounceInside, CollisionsWisthSprite, HandleCollisionWithSprite, Visible example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type
 
@@ -58,7 +57,7 @@ Type TBall Extends LTSprite
 	Method Act()
 		MoveForward()
 		BounceInside( Example.Rectangle )
-		CollisionsWithSprite( Example.Cursor )
+		CollisionsWithSprite( L_Cursor )
 	End Method
 	
 	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )

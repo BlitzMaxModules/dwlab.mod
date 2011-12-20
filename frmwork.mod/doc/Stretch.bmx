@@ -4,10 +4,12 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "tiles.png"
+
 Const TileMapWidth:Int = 4
 Const TileMapHeight:Int = 3
 
-Local TileSet:LTTileSet = LTTileSet.Create( LTImage.FromFile( "tiles.png", 8, 4 ) )
+Local TileSet:LTTileSet = LTTileSet.Create( LTImage.FromFile( "incbin::tiles.png", 8, 4 ) )
 Local TileMap:LTTileMap = LTTileMap.Create( TileSet, TileMapWidth, TileMapHeight )
 
 L_InitGraphics()
@@ -22,6 +24,7 @@ For Local N:Int = 1 To 3
 	Cls
 	TileMap.Draw()
 	DrawText( "Press any key to stretch tilemap by 2 times", 0, 0 )
+	L_PrintText( "Stretch example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	Flip
 	WaitKey
 	TileMap.Stretch( 2, 2 )

@@ -4,14 +4,17 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "human.lw"
+Incbin "part.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
 Type TExample Extends LTProject
 	Const Period:Double = 2.0
-	Field World:LTWorld = LTWorld.FromFile( "human.lw" )
-	Field Layer:LTLayer = LTLayer( World.FindShapeWithType( "LTLayer" ) )
-	Field Body:LTSprite = LTSprite( Layer.FindShape( "body" ) )
+	Field World:LTWorld
+	Field Layer:LTLayer
+	Field Body:LTSprite
 	Field UpperArm:LTSprite[] = New LTSprite[ 2 ]
 	Field LowerArm:LTSprite[] = New LTSprite[ 2 ]
 	Field UpperLeg:LTSprite[] = New LTSprite[ 2 ]
@@ -19,6 +22,11 @@ Type TExample Extends LTProject
 	Field Foot:LTSprite[] = New LTSprite[ 2 ]
 
 	Method Init()
+		L_SetIncbin( True )
+		World = LTWorld.FromFile( "human.lw" )
+		L_SetIncbin( False )
+		Layer = LTLayer( World.FindShapeWithType( "LTLayer" ) )
+		Body = LTSprite( Layer.FindShape( "body" ) )
 		Layer.FindShape( "head" ).AttachModel( LTFixedJoint.Create( Body ) )
 		For local N:Int = 0 To 1
 			Local Prefix:String = [ "inner_", "outer_" ][ N ]
@@ -59,5 +67,6 @@ Type TExample Extends LTProject
 
 	Method Render()
 		Layer.Draw()
+		L_PrintText( "LTFixedJoint, LTRevoluteJoint example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

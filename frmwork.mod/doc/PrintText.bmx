@@ -30,6 +30,6 @@ Type TExample Extends LTProject
 		Rectangle.PrintText( "bottomleft corner", LTAlign.ToLeft, LTAlign.ToBottom )
 		Rectangle.PrintText( "bottom", LTAlign.ToCenter, LTAlign.ToBottom )
 		Rectangle.PrintText( "bottomright corner", LTAlign.ToRight, LTAlign.ToBottom )
-		DrawText( "", 0, 0 )
+		L_PrintText( "PrintText example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

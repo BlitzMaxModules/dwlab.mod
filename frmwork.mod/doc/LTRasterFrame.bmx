@@ -4,14 +4,14 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
-Print FileType( "border.png" )
+Incbin "border.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
 Type TExample Extends LTProject
 	Field Frame:LTSprite
-	Field FrameImage:LTRasterFrame = LTRasterFrame.FromFileAndBorders( "border.png", 8, 8, 8, 8 )
-	Field Cursor:LTSprite = LTSprite.FromShape()
+	Field FrameImage:LTRasterFrame = LTRasterFrame.FromFileAndBorders( "incbin::border.png", 8, 8, 8, 8 )
 	Field Layer:LTLayer = New LTLayer
 	Field CreateFrame:TCreateFrame = New TCreateFrame
 	
@@ -20,7 +20,6 @@ Type TExample Extends LTProject
 	End Method
 	
 	Method Logic()
-		Cursor.SetMouseCoords()
 		CreateFrame.Execute()
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
 	End Method
@@ -29,21 +28,22 @@ Type TExample Extends LTProject
 		Layer.Draw()
 		If Frame Then Frame.Draw()
 		DrawText( "Drag left mouse button to create frames", 0, 0 )
+		L_PrintText( "LTRasterFrame, LTDrag example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type
 
 
 
 Type TCreateFrame Extends LTDrag
-	Field StartingX:Int, StartingY:Int
+	Field StartingX:Double, StartingY:Double
 	
 	Method DragKey:Int()
 		Return MouseDown( 1 )
 	End Method
 
 	Method StartDragging()
-		StartingX = Example.Cursor.X
-		StartingY = Example.Cursor.Y
+		StartingX = L_Cursor.X
+		StartingY = L_Cursor.Y
 		Example.Frame = LTSprite.FromShape()
 		Example.Frame.Visualizer.SetRandomColor()
 		Example.Frame.Visualizer.Image = Example.FrameImage
@@ -51,9 +51,9 @@ Type TCreateFrame Extends LTDrag
 
 	Method Dragging()
 		Local CornerX:Double, CornerY:Double
-		If StartingX < Example.Cursor.X Then CornerX = StartingX Else CornerX = Example.Cursor.X
-		If StartingY < Example.Cursor.Y Then CornerY = StartingY Else CornerY = Example.Cursor.Y
-		Example.Frame.SetSize( Abs( StartingX - Example.Cursor.X ), Abs( StartingY - Example.Cursor.Y ) )
+		If StartingX < L_Cursor.X Then CornerX = StartingX Else CornerX = L_Cursor.X
+		If StartingY < L_Cursor.Y Then CornerY = StartingY Else CornerY = L_Cursor.Y
+		Example.Frame.SetSize( Abs( StartingX - L_Cursor.X ), Abs( StartingY - L_Cursor.Y ) )
 		Example.Frame.SetCornerCoords( CornerX, CornerY )
 	End Method
 	

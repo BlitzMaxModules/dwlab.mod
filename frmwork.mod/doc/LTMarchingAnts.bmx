@@ -4,6 +4,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "kolobok.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -12,7 +14,7 @@ Type TExample Extends LTProject
 	
 	Field Layer:LTLayer = New LTLayer
 	Field Cursor:TCursor = New TCursor
-	Field SpriteImage:LTImage = LTImage.FromFile( "kolobok.png" )
+	Field SpriteImage:LTImage = LTImage.FromFile( "incbin::kolobok.png" )
 	Field Selected:LTSprite
 	Field MarchingAnts:LTMarchingAnts = New LTMarchingAnts
 	
@@ -38,6 +40,7 @@ Type TExample Extends LTProject
 		Layer.Draw()
 		If Selected Then Selected.DrawUsingVisualizer( Example.MarchingAnts )
 		DrawText( "Select Sprite by left-clicking on it", 0, 0 )
+		L_PrintText( "LTMarchingAnts example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type
 
@@ -48,7 +51,7 @@ Type TCursor Extends LTSprite
 		SetMouseCoords()
 		If MouseHit( 1 ) Then
 			Example.Selected = Null
-			CollisionsWithGroup( Example.Layer )
+			CollisionsWithLayer( Example.Layer )
 		End If
 	End Method
 	

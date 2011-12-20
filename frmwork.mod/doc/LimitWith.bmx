@@ -42,5 +42,6 @@ Type TExample Extends LTProject
 			Ball[ N ].Draw()
 		Next
 		DrawText( "Move cursor to see how the balls are limited in movement", 0, 0 )
+		L_PrintText( "Limit...With example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

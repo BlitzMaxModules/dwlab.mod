@@ -27,5 +27,6 @@ Type TExample Extends LTProject
 		DrawOval( X - 2, Y - 2, 5, 5 )
 		DrawLine( X, Y, MouseX(), MouseY() )
 		DrawText( "Distance is " + L_TrimDouble( L_Distance( Y - MouseY(), X - MouseX() ) ) + " pixels", 0, 0 )
+		L_PrintText( "L_Distance example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

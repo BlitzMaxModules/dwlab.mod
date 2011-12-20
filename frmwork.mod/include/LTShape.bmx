@@ -9,6 +9,7 @@
 '
 
 Include "LTGroup.bmx"
+Include "LTLayer.bmx"
 Include "LTSprite.bmx"
 Include "LTMap.bmx"
 Include "LTLine.bmx"
@@ -49,7 +50,7 @@ Type LTShape Extends LTObject
 	
 	Rem
 	bbdoc: Shape visualizer (object which displays this shape).
-	about: See also: #LTVisualizer, #L_DefaultVisualizer, #LTDebugVisualizer, #L_DebugVisualizer
+	about: See also: #LTVisualizer, #LTDebugVisualizer, #L_DebugVisualizer
 	End Rem
 	Field Visualizer:LTVisualizer = New LTVisualizer
 	
@@ -57,7 +58,7 @@ Type LTShape Extends LTObject
 	bbdoc: Visibility flag.
 	about: If False then shape will not be drawn.
 	
-	See also: #Draw, #DrawUsingVisualizer
+	See also: #Draw, #DrawUsingVisualizer, #Active example
 	End Rem
 	Field Visible:Int = True
 	
@@ -121,7 +122,7 @@ Type LTShape Extends LTObject
 	
 	Rem
 	bbdoc: Draws the contour of the shape.
-	about: See also: #Draw
+	about: See also: #Draw, #SetAsViewport example
 	End Rem
 	Method DrawContour( LineWidth:Double = 1.0 )
 		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
@@ -202,12 +203,12 @@ Type LTShape Extends LTObject
 	
 	' ==================== Collisions ===================
 	
-	Method GroupFirstSpriteCollision:LTSprite( Sprite:LTSprite, CollisionType:Int )
+	Method LayerFirstSpriteCollision:LTSprite( Sprite:LTSprite, CollisionType:Int )
 	End Method
 	
 	
 	
-	Method SpriteGroupCollisions( Sprite:LTSprite, CollisionType:Int )
+	Method SpriteLayerCollisions( Sprite:LTSprite, CollisionType:Int )
 	End Method
 	
 	
@@ -242,7 +243,7 @@ Type LTShape Extends LTObject
 	Rem
 	bbdoc: Right side of the shape.
 	returns: X coordinate of right shape side in units.
-	about: See also: LeftX#, TopY#, BottomY#, #X, #Width
+	about: See also: #LeftX, #TopY, #BottomY, #X, #Width
 	End Rem
 	Method RightX:Double()
  		Return X + 0.5 * Width
@@ -277,7 +278,7 @@ Type LTShape Extends LTObject
 	Rem
 	bbdoc: Distance to shape.
 	returns: Distance from the shape center to center of another shape.
-	about: See also: #DistanceToPoint
+	about: See also: #DistanceToPoint, #DistanceToPoint example
 	End Rem
 	Method DistanceTo:Double( Shape:LTShape )
 		Local DX:Double = X - Shape.X
@@ -290,7 +291,7 @@ Type LTShape Extends LTObject
 	Rem
 	bbdoc: Checks if the shape is at position of another shape.
 	returns: True if shape center has same coordinates as another shape center. 
-	about: See also: #X, #Y, #SetMouseCoords example
+	about: See also: #X, #Y, #MoveTowards example
 	End Rem
 	Method IsAtPositionOf:Int( Shape:LTShape )
 		If Shape.X = X And Shape.Y = Y Then Return True
@@ -339,7 +340,7 @@ Type LTShape Extends LTObject
 	bbdoc: Alter coordinates of the shape.
 	about: Given values will be added to the coordinates. It's better to use this method instead of incrementing X and Y fields manually.
 	
-	See also: #SetCoords, #SetCornerCoords, #SetMouseCoords
+	See also: #SetCoords, #SetCornerCoords, #SetMouseCoords, #Clone example
 	End Rem
 	Method AlterCoords( DX:Double, DY:Double )
 		SetCoords( X + DX, Y + DY )
@@ -375,7 +376,7 @@ Type LTShape Extends LTObject
 	bbdoc: Moves shape to mouse position.
 	about: Mouse coordinates will be transformed to field coordinates using current camera. Then shape coordinates will be equated to these.
 	
-	See also: #SetCoords
+	See also: #SetCoords, #PlaceBetween example
 	End Rem
 	Method SetMouseCoords()
 		Local NewX:Double, NewY:Double
@@ -407,6 +408,8 @@ Type LTShape Extends LTObject
 	Rem
 	bbdoc: Moves the shape.
 	about: The shape will be moved with given horizontal and vertical speed per second.
+	
+	See also: #LTButtonAction example
 	End Rem
 	Method Move( DX:Double, DY:Double )
 		SetCoords( X + DX * L_DeltaTime, Y + DY * L_DeltaTime )
@@ -416,7 +419,7 @@ Type LTShape Extends LTObject
 	
 	Rem
 	bbdoc: Moves the shape with given velocity towards shape.
-	about: See also: #MoveForward, #MoveBackward, #SetMouseCoords example
+	about: See also: #MoveForward, #MoveBackward
 	End Rem
 	Method MoveTowards( Shape:LTShape, Velocity:Double )
 		MoveTowardsPoint( Shape.X, Shape.Y, Velocity )
@@ -596,7 +599,7 @@ Type LTShape Extends LTObject
 	Rem
 	bbdoc: Direction to the point.
 	returns: Angle between vector from the center of the shape to the point with given coordinates and X axis.
-	about: See also: #DirectionTo
+	about: See also: #DirectionTo, #DistanceToPoint example
 	End Rem
 	Method DirectionToPoint:Double( PointX:Double, PointY:Double )
 		Return ATan2( PointY - Y, PointX - X )
@@ -607,7 +610,7 @@ Type LTShape Extends LTObject
 	Rem
 	bbdoc: Direction to shape.
 	returns: Angle between vector from the center of this shape to center of given shape and X axis.
-	about: See also: #DirectionToPoint
+	about: See also: #DirectionToPoint, #DistanceToPoint example
 	End Rem
 	Method DirectionTo:Double( Shape:LTShape )
 		Return ATan2( Shape.Y - Y, Shape.X - X )
@@ -655,7 +658,7 @@ Type LTShape Extends LTObject
 	
 	Rem
 	bbdoc: Sets the size of the shape as of given shape.
-	about: See also: #Width, #Height, #SetWidth, #SetHeight, #SetSize, #AlterSize
+	about: See also: #Width, #Height, #SetWidth, #SetHeight, #SetSize, #AlterSize, #DirectAs example
 	End Rem
 	Method SetSizeAs( Shape:LTShape )
 		SetSize( Shape.Width, Shape.Height )
@@ -667,7 +670,7 @@ Type LTShape Extends LTObject
 	bbdoc: Alters the size of the shape.
 	about: It's better to use this method instead of equating Width and Height fields to new values.
 	
-	See also: #Width, #Height, #SetWidth, #SetHeight, #SetSize, #SetSizeAs
+	See also: #Width, #Height, #SetWidth, #SetHeight, #SetSize, #SetSizeAs, #Stretch example
 	End Rem
 	Method AlterSize( DWidth:Double, DHeight:Double )
 		Width :* DWidth
@@ -701,6 +704,8 @@ Type LTShape Extends LTObject
 	Rem
 	bbdoc: Alters both sizes of the shape (pretending they are equal).
 	about: It's better to use this method instead of equating Width and Height fields to new values.
+	
+	See also: #Clone example
 	End Rem
 	Method AlterDiameter( D:Double )
 		Width :* D

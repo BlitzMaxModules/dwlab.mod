@@ -4,6 +4,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "tiles.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -11,8 +13,7 @@ Type TExample Extends LTProject
 	Const TileMapWidth:Int = 16
 	Const TileMapHeight:Int = 12
 	
-	Field TileMap:LTTileMap = LTTileMap.Create( LTTileSet.Create( LTImage.FromFile( "tiles.png", 8, 4 ) ), TileMapWidth, TileMapHeight )
-	Field Cursor:LTSprite = New LTSprite
+	Field TileMap:LTTileMap = LTTileMap.Create( LTTileSet.Create( LTImage.FromFile( "incbin::tiles.png", 8, 4 ) ), TileMapWidth, TileMapHeight )
 	
 	Method Init()
 		L_InitGraphics()
@@ -21,12 +22,12 @@ Type TExample Extends LTProject
 	End Method
 	
 	Method Logic()
-		Cursor.SetMouseCoords()
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
 	End Method
 
 	Method Render()
 		TileMap.Draw()
+		L_PrintText( "GetTileValue example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type
 
@@ -35,7 +36,7 @@ Type TLighntingVisualizer Extends LTVisualizer
 	
 	Method GetTileValue:Int( TileMap:LTTileMap, TileX:Int, TileY:Int )
 		Local X0:Int, Y0:Int
-		TileMap.GetTileForPoint( Example.Cursor.X, Example.Cursor.Y, X0, Y0 )
+		TileMap.GetTileForPoint( L_Cursor.X, L_Cursor.Y, X0, Y0 )
 		If L_Distance( TileX - X0, TileY - Y0 ) <= Radius Then Return 18 Else Return 26
 	End Method
 End Type

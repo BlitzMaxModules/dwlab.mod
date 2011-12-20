@@ -31,5 +31,6 @@ Type TExample Extends LTProject
 		Ball1.Draw()
 		Ball2.Draw()
 		DrawText( "Move cursor to see how ball is limited by rectangle", 0, 0 )
+		L_PrintText( "LimitByWindowShape example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

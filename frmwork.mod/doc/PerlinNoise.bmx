@@ -4,9 +4,9 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
-L_InitGraphics()
-
 Const MapSize:Int = 256
+
+L_InitGraphics()
 
 Local DoubleMap:LTDoubleMap = New LTDoubleMap
 DoubleMap.SetResolution( MapSize, MapSize )
@@ -25,6 +25,7 @@ Repeat
 	DrawText( "Starting amplitude: " + L_TrimDouble( Amplitude ) + " ( left / right arrow to change )", 0, 16 )
 	DrawText( "Starting amplitude increment: " + L_TrimDouble( DAmplitude ) + " ( up / down arrow to change )", 0, 32 )
 	DrawText( "Layers quantity: " + Layers + " ( page up / page down arrow to change )", 0, 48 )
+	L_PrintText( "PerlinNoise example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	Flip
 
 	Repeat

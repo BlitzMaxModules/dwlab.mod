@@ -26,5 +26,6 @@ Type TExample Extends LTProject
 		SetColor( 255, 255, 255 )
 		DrawText( MouseX() + " is " + Word + "in limits of [ 200, 600 ]", 0, 0 )
 		DrawOval( MouseX() - 2, MouseY() - 2, 5, 5 )
+		L_PrintText( "L_IntInLimits example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

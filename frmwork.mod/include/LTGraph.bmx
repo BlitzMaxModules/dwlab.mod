@@ -68,6 +68,9 @@ Type LTGraph Extends LTShape
 	
 	
 	
+	Rem
+	bbdoc: Draws path (given as list of pivots) using given visualizer.
+	End Rem
 	Function DrawPath( Path:TList, Visualizer:LTVisualizer )
 		if Not Path Then Return
 		Local OldPivot:LTSprite = Null
@@ -241,6 +244,12 @@ Type LTGraph Extends LTShape
 	Field LengthMap:TMap
 	Field ShortestPath:TList
 	
+	
+	Rem
+	bbdoc: Finds a path  between 2 given pivots of the graph.
+	returns: List of pivots forming path between 2 give pivots if it's possible, otherwise null.
+	See also: #LTGraph example
+	End Rem
 	Method FindPath:TList( FromPivot:LTSprite, ToPivot:LTSprite )
 		ShortestPath = Null
 		MaxLength = 999999

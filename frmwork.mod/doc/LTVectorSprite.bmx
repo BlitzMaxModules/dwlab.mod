@@ -4,6 +4,9 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "tileset.png"
+Incbin "mario.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -19,7 +22,7 @@ Type TExample Extends LTProject
 	Const Coin:Int = 2
 	
 	Field Player:TPlayer = TPlayer.Create()
-	Field TileMap:LTTileMap = LTTileMap.Create( LTTileSet.Create( LTImage.FromFile( "tileset.png", 3, 1 ), 0 ), MapSize, MapSize )
+	Field TileMap:LTTileMap = LTTileMap.Create( LTTileSet.Create( LTImage.FromFile( "incbin::tileset.png", 3, 1 ), 0 ), MapSize, MapSize )
 	Field Coins:Int
 	
 	Method Init()
@@ -59,6 +62,7 @@ Type TExample Extends LTProject
 		Player.Draw()
 		DrawText( "Move player with arrow keys", 0, 0 )
 		DrawText( "Coins: " + Coins, 0, 16 )
+		L_PrintText( "LTVectorSprite, CollisionsWithTileMap, HandleCollisionWithTile example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type
 
@@ -76,7 +80,7 @@ Type TPlayer Extends LTVectorSprite
 		Local Player:TPlayer = New TPlayer
 		Player.SetSize( 0.8, 1.8 )
 		Player.SetCoords( 0, 2 -0.5 * Example.MapSize )
-		Player.Visualizer.Image = LTImage.FromFile( "mario.png", 4 )
+		Player.Visualizer.Image = LTImage.FromFile( "incbin::mario.png", 4 )
 		Return Player
 	End Function
 	

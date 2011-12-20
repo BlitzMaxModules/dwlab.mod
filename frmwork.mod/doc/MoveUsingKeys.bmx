@@ -33,5 +33,6 @@ Type TExample Extends LTProject
 		Ball1.Draw()
 		Ball2.Draw()
 		Ball3.Draw()
+		L_PrintText( "MoveUsingKeys example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

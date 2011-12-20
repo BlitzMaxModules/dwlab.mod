@@ -81,6 +81,11 @@ Type LTDoubleMap Extends LTMap
 	
 	' ==================== Creating ===================
 	
+	Rem
+	bbdoc: Creates double map using given resolution.
+	returns: Created double map.
+	about: See also: #Paste example
+	End Rem
 	Function Create:LTDoubleMap( XQuantity:Int, YQuantity:Int )
 		Local DoubleMap:LTDoubleMap = New LTDoubleMap
 		DoubleMap.SetResolution( XQuantity, YQuantity )
@@ -101,7 +106,7 @@ Type LTDoubleMap Extends LTMap
 	returns: New image.
 	about: By default every color channel will be filled by heightmap values, but you can specify another channel filling mode.
 	
-	See also: #ToNewPixmap, #PasteToImage, #PasteToPixmap
+	See also: #ToNewPixmap, #PasteToImage, #PasteToPixmap, #Paste example
 	End Rem
 	Method ToNewImage:LTImage( Channel:Int = RGB )
 		Local Image:LTImage = New LTImage
@@ -123,7 +128,7 @@ Type LTDoubleMap Extends LTMap
 	returns: New pixmap.
 	about: By default every color channel will be filled by heightmap values, but you can specify another channel filling mode.
 	
-	See also: #ToNewImage, #PasteToImage, #PasteToPixmap
+	See also: #ToNewImage, #PasteToImage, #PasteToPixmap, #PerlinNoise example
 	End Rem
 	Method ToNewPixmap:TPixmap( Channel:Int = RGB )
 		Local Pixmap:TPixmap = CreatePixmap( XQuantity, YQuantity, PF_RGBA8888 )
@@ -138,7 +143,7 @@ Type LTDoubleMap Extends LTMap
 	bbdoc: Pastes heightmap to existing image frame with given shift.
 	about: By default every color channel will be filled by heightmap values, but you can specify another channel filling mode.
 	
-	See also: #ToNewImage, #ToNewPixmap, #PasteToPixmap
+	See also: #ToNewImage, #ToNewPixmap, #PasteToPixmap, #Paste example
 	End Rem
 	Method PasteToImage( Image:LTImage, XShift:Int = 0, YShift:Int = 0, Frame:Int = 0, Channel:Int = RGB )
 		PasteToPixmap( LockImage( Image.BMaxImage, Frame ), XShift, YShift, Channel )
@@ -192,7 +197,7 @@ Type LTDoubleMap Extends LTMap
 	about: You can change coordinate shift and pasting mode.
 	All parts of source heightmap which will be outside destination pixmap will be wrapped around destination pixmap.
 	
-	See also: #Overwrite, #Add, #Multiply, #Maximum, #Minimum, #Paste
+	See also: #Overwrite, #Add, #Multiply, #Maximum, #Minimum
 	End Rem
 	Method Paste( SourceMap:LTDoubleMap, X:Int = 0, Y:Int = 0, Mode:Int = Overwrite )
 		For Local Y0:Int = 0 Until SourceMap.YQuantity
@@ -229,6 +234,8 @@ Type LTDoubleMap Extends LTMap
 	bbdoc: Extracts slice of heightmap to the tilemap.
 	about: Areas of Tilemap with corresponding heightmap values between VFrom and VTo will be filled with TileNum tile index.
 	Tilemap and heightmap must have same resolution.
+	
+	about: See also: #Enframe example
 	End Rem
 	Method ExtractTo( TileMap:LTIntMap, VFrom:Double, VTo:Double, TileNum:Int )
 		?debug
@@ -246,7 +253,7 @@ Type LTDoubleMap Extends LTMap
 	
 	Rem
 	bbdoc: Blurs the heightmap with simple 3x3 filter.
-	about: See also: #PerlinNoise
+	about: See also: #PerlinNoise, #DrawCircle example
 	End Rem
 	Method Blur()
 		Local NewArray:Double[ XQuantity, YQuantity ]
@@ -273,7 +280,7 @@ Type LTDoubleMap Extends LTMap
 	
 	Rem
 	bbdoc: Fills heightmap with perlin noise.
-	about: See also: #Blur
+	about: See also: #Blur, #Enframe example
 	End Rem
 	Method PerlinNoise( StartingXFrequency:Int, StartingYFrequency:Double, StartingAmplitude:Double, DAmplitude:Double, LayersQuantity:Int )
 		Local XFrequency:Int = StartingXFrequency
@@ -338,6 +345,8 @@ Type LTDoubleMap Extends LTMap
 	Rem
 	bbdoc: Draws anti-aliased circle on the heightmap.
 	about: Parts of circle which will be ouside the heightmap, will be wrapped around.
+	
+	See also: #Paste example
 	End Rem
 	Method DrawCircle( XCenter:Double, YCenter:Double, Radius:Double, Color:Double = 1.0 )
 		For Local Y:Int = Floor( YCenter - Radius ) To Ceil( YCenter + Radius )
@@ -375,6 +384,8 @@ Type LTDoubleMap Extends LTMap
 	returns:  
 	about: This method will force heighmap values to be in 0.0...1.0 interval.
 	Use this method after applying unsafe operations on heightmap, for example adding another heightmap to it.
+	
+	See also: #Paste example
 	End Rem
 	Method Limit()
 		For Local X:Int = 0 Until XQuantity

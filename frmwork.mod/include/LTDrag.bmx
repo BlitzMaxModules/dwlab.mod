@@ -10,7 +10,7 @@
 
 Rem
 bbdoc: Class for implementing dragging operations.
-about: See also #LTRasterFrame example
+about: See also #LTRasterFrame example, #LTAction example
 End Rem
 Type LTDrag Extends LTObject
 	Rem

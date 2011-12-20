@@ -1,4 +1,4 @@
-SuperStrict
+SuperStrict ' Skip
 
 Framework brl.basic
 Import dwlab.frmwork

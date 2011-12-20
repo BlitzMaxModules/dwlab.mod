@@ -5,6 +5,9 @@ Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 Import dwlab.audiodrivers
 
+Incbin "tiles.png"
+Incbin "hit.ogg"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -14,8 +17,8 @@ Type TExample Extends LTProject
 	Const ShakingPeriod:Double = 1.0
 	Const PeriodBetweenShakes:Double = 3.0
 	
-	Field TileMap:LTTileMap = LTTileMap.Create( LTTileSet.Create( LTImage.FromFile( "tiles.png", 8, 4 ) ), TileMapWidth, TileMapHeight )
-	Field HitSound:TSound = TSound.Load( "hit.ogg", False )
+	Field TileMap:LTTileMap = LTTileMap.Create( LTTileSet.Create( LTImage.FromFile( "incbin::tiles.png", 8, 4 ) ), TileMapWidth, TileMapHeight )
+	Field HitSound:TSound = TSound.Load( "incbin::hit.ogg", False )
 	Field ShakingK:Double
 	Field LastShakingTime:Double = -100
 	
@@ -45,6 +48,7 @@ Type TExample Extends LTProject
 
 	Method Render()
 		TileMap.Draw()
+		L_PrintText( "DrawTile example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type
 

@@ -38,5 +38,6 @@ Type TExample Extends LTProject
 		Sprite1.Draw()
 		Sprite2.Draw()
 		DrawText( "Logic FPS: " + L_TrimDouble( L_LogicFPS ) + ", press num+ / num- to change", 0, 0 )
+		L_PrintText( "L_LogicFPS example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

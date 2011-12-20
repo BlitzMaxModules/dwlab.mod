@@ -9,8 +9,8 @@ Example.Execute()
 
 Type TExample Extends LTProject
 	Const FlowersQuantity:Int = 12
-	Const FlowerCircleDiameter:Double = 10
-	Const FlowerDiameter:Double = 2.0
+	Const FlowerCircleDiameter:Double = 9
+	Const FlowerDiameter:Double = 1.8
 	
 	Field Flowers:LTSprite[] = New LTSprite[ FlowersQuantity ]
 	Field FlowerVisualizer:TFlowerVisualizer = New TFlowerVisualizer
@@ -36,7 +36,7 @@ Type TExample Extends LTProject
 		For Local N:Int = 0 Until FlowersQuantity
 			Flowers[ N ].DrawUsingVisualizer( FlowerVisualizer )
 		Next
-		DrawText( "", 0, 0 )
+		L_PrintText( "DrawUsingSprite example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type
 

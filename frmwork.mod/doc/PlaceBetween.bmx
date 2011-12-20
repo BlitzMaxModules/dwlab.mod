@@ -32,6 +32,6 @@ Type TExample Extends LTProject
 		Line.Draw()
 		Oval1.Draw()
 		Oval2.Draw()
-		DrawText( "", 0, 0 )
+		L_PrintText( "PlaceBetween example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

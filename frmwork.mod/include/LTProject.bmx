@@ -15,8 +15,7 @@ Global L_SpritesActed:Int
 Global L_SpriteActed:Int
 
 Global L_CurrentProject:LTProject
-
-Global L_ProjectsList:TList = New TList
+Global L_Cursor:LTSprite = LTSprite.FromShape( , , , , LTSprite.Pivot )
 
 Rem
 bbdoc: Quantity of logic frames per second.
@@ -208,13 +207,12 @@ Type LTProject Extends LTObject
 		
 		Local RealTime:Double = 0
 		Local LastRenderTime:Double = 0
-		Local MaxRenderPeriod:Double = 1.0 / L_MinFPS
 		Local FPSCount:Int
 		Local FPSTime:Int
 		
-		L_DeltaTime = 1.0 / L_LogicFPS
-		
 		Repeat
+			Local MaxRenderPeriod:Double = 1.0 / L_MinFPS
+			L_DeltaTime = 1.0 / L_LogicFPS
 			Time :+ L_DeltaTime
 			
 			?debug
@@ -226,6 +224,7 @@ Type LTProject Extends LTObject
 				Controller.Prepare()
 			Next
 			
+			L_Cursor.SetMouseCoords()
 			Logic()
 			
 			If Exiting Then
@@ -233,10 +232,6 @@ Type LTProject Extends LTObject
 				Exit
 			End If
 			
-			For Local Controller:LTPushable = Eachin L_Controllers
-				Controller.Reset()
-			Next
-		
 			Repeat
 				RealTime = 0.001 * ( Millisecs() - StartingTime )
 				If RealTime >= Time And ( RealTime - LastRenderTime ) < MaxRenderPeriod Then Exit
@@ -248,6 +243,7 @@ Type LTProject Extends LTObject
 				L_TilesDisplayed = 0
 				?
 				
+				L_Cursor.SetMouseCoords()
 				Render()
 				
 				If L_Flipping Then Flip( False )
@@ -264,10 +260,28 @@ Type LTProject Extends LTObject
 			
 			PollSystem()
 			Pass :+ 1
+			
+			For Local Controller:LTPushable = Eachin L_Controllers
+				Controller.Reset()
+			Next
 		Forever
 	End Method
 	
 	' ==================== Other ===================	
+	
+	Rem
+	bbdoc: Switches the project execution to given.
+	about: Use this command instead of calling another Execute() method.
+	
+	See also: #LTButtonAction example
+	End Rem
+	Method SwitchTo( Project:LTProject )
+		Local FreezingTime:Int = MilliSecs()
+		Project.Execute()
+		StartingTime :+ MilliSecs() - FreezingTime
+	End Method
+	
+	
 	
 	Method ReloadWindows()
 	End Method
@@ -293,7 +307,7 @@ bbdoc: Converts value second to value per logic frame.
 returns: Value for logic frame using given per second value.
 about: For example, can return coordinate increment for speed per second.
 
-See also: #L_LogicFPS
+See also: #L_LogicFPS, #SetAsTile example
 End Rem
 Function L_PerSecond:Double( Value:Double )
 	Return Value * L_DeltaTime
@@ -304,6 +318,7 @@ End Function
 
 Rem
 bbdoc: Draws various debugging information on screen.
+about: See also #WedgeOffWithSprite example
 End Rem
 Function L_ShowDebugInfo()
 	DrawText( "FPS: " + L_FPS, 0, 0 )

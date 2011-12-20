@@ -14,7 +14,12 @@ Rem
 bbdoc: Layer is the group of sprites which have bounds.
 about: See also #DirectTo example.
 End Rem
-Type LTLayer Extends LTGroup
+Type LTLayer Extends LTShape
+	Rem
+	bbdoc: List of shapes.
+	End Rem
+	Field Children:TList = New TList
+	
 	Rem
 	bbdoc: Rectangular shape of layer bounds.
 	End Rem
@@ -70,10 +75,63 @@ Type LTLayer Extends LTGroup
 		End If
 		
 		If Vis = Visualizer Then
-			Super.Draw()
+			For Local Shape:LTShape = Eachin Children
+				Shape.Draw()
+			Next
 		Else
-			Super.DrawUsingVisualizer( Vis )
+			For Local Shape:LTShape = Eachin Children
+				Shape.DrawUsingVisualizer( Vis )
+			Next
 		End If
+	End Method
+	
+	' ==================== Managing ===================
+	
+	Rem
+	bbdoc: Initialization method.
+	about: Every child shape will be initialized by default.
+	End Rem
+	Method Init()
+		For Local Obj:LTShape = Eachin Children
+			Obj.Init()
+		Next
+	End Method
+	
+	
+
+	Rem
+	bbdoc: Acting method.
+	about: Every child shape will be acted.
+	End Rem
+	Method Act()
+		If Active Then
+			Super.Act()
+			For Local Obj:LTShape = Eachin Children
+				If Obj.Active Then
+					?debug
+					L_SpriteActed = False
+					?
+					
+					Obj.Act()
+					
+					?debug
+					If LTSprite( Obj ) And Not L_SpriteActed Then L_SpritesActed :+ 1
+					?
+				End If
+			Next
+		End If
+	End Method
+	
+	' ==================== Collisions ===================
+	
+	Method LayerFirstSpriteCollision:LTSprite( Sprite:LTSprite, CollisionType:Int )
+		Return Sprite.FirstCollidedSpriteOfLayer( Self, CollisionType )
+	End Method
+	
+	
+	
+	Method SpriteLayerCollisions( Sprite:LTSprite, CollisionType:Int )
+		Sprite.CollisionsWithLayer( Self, CollisionType )
 	End Method
 	
 	' ==================== Shape management ===================	
@@ -82,6 +140,8 @@ Type LTLayer Extends LTGroup
 	bbdoc: Finds shape with given name.
 	returns: First found shape with given name.
 	about: IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
+	
+	See also: #Parallax example
 	End Rem
 	Method FindShape:LTShape( Name:String, IgnoreError:Int = False )
 		Return FindShapeWithParameterID( "name", Name, Null, IgnoreError )
@@ -94,6 +154,8 @@ Type LTLayer Extends LTGroup
 	returns: First found shape of class of class with given name.
 	about: IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
 	You can specify optional Name parameter to check only shapes with this name.
+	
+	See also: #Parallax example
 	End Rem
 	Method FindShapeWithType:LTShape( ShapeType:String, Name:String = "", IgnoreError:Int = False )
 		If Name Then
@@ -200,7 +262,18 @@ Type LTLayer Extends LTGroup
 	End Method
 	
 	' ==================== Other ===================	
+
+	Method SetCoords( NewX:Double, NewY:Double )
+		For Local Shape:LTShape = Eachin Children
+			Shape.SetCoords( Shape.X + NewX - X, Shape.Y + NewY - Y )
+		Next
+		X = NewX
+		Y = NewY
+		Update()
+	End Method
 	
+	
+		
 	Rem
 	bbdoc: Sets the bounds of layer to given shape.
 	End Rem
@@ -252,6 +325,37 @@ Type LTLayer Extends LTGroup
 		Next
 		Return Y
 	End Method
+		
+	' ==================== List wrapping methods ====================
+	
+	Method AddFirst:TLink( Shape:LTShape )
+		Return Children.AddFirst( Shape )
+	End Method
+	
+	
+	
+	
+	Method AddLast:TLink( Shape:LTShape )
+		Return Children.AddLast( Shape )
+	End Method
+	
+	
+	
+	Method Clear()
+		Children.Clear()
+	End Method
+	
+	
+	
+	Method ValueAtIndex:LTShape( Index:Int )
+		Return LTShape( Children.ValueAtIndex( Index ) )
+	End Method
+	
+	
+	
+	Method ObjectEnumerator:TListEnum()
+		Return Children.ObjectEnumerator()
+	End Method
 	
 	' ==================== Cloning ===================	
 	
@@ -286,6 +390,7 @@ Type LTLayer Extends LTGroup
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
+		XMLObject.ManageChildList( Children )
 		Bounds = LTShape( XMLObject.ManageObjectField( "bounds", Bounds ) )
 		XMLObject.ManageIntAttribute( "mix-content", MixContent )
 	End Method

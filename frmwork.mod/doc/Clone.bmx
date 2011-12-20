@@ -4,6 +4,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "kolobok.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -11,8 +13,7 @@ Type TExample Extends LTProject
 	Const SpritesQuantity:Int = 50
 	
 	Field Sprites:LTLayer = New LTLayer
-	Field Cursor:LTSprite = New LTSprite
-	Field SpriteImage:LTImage = LTImage.FromFile( "kolobok.png" )
+	Field SpriteImage:LTImage = LTImage.FromFile( "incbin::kolobok.png" )
 	
 	Method Init()
 		For Local N:Int = 1 To SpritesQuantity
@@ -24,16 +25,12 @@ Type TExample Extends LTProject
 			Sprite.Visualizer.SetVisualizerScales( 1.3 )
 			Sprites.AddLast( Sprite )
 		Next
-		Cursor.SetDiameter( 0.5 )
-		Cursor.ShapeType = LTSprite.Oval
-		Cursor.Visualizer.SetColorFromHex( "FF0000" )
 		L_InitGraphics()
 	End Method
 	
 	Method Logic()
-		Cursor.SetMouseCoords()
 		If MouseHit( 1 ) Then
-			Local Sprite:LTSprite = Cursor.FirstCollidedSpriteOfGroup( Sprites )
+			Local Sprite:LTSprite = L_Cursor.FirstCollidedSpriteOfLayer( Sprites )
 			If Sprite Then
 				Local NewSprite:LTSprite = LTSprite( Sprite.Clone() )
 				NewSprite.AlterCoords( Rnd( -2, 2 ), Rnd( -2, 2 ) )
@@ -49,5 +46,6 @@ Type TExample Extends LTProject
 	Method Render()
 		Sprites.Draw()
 		DrawText( "Clone sprites with left mouse button", 0, 0 )
+		L_PrintText( "AlterAngle, AlterCoords, AlterDiameter, Clone example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

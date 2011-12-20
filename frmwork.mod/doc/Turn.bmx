@@ -4,6 +4,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "tank.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -14,7 +16,7 @@ Type TExample Extends LTProject
 	
 	Method Init()
 		L_InitGraphics()
-		Tank.Visualizer = LTVisualizer.FromFile( "tank.png" )
+		Tank.Visualizer = LTVisualizer.FromFile( "incbin::tank.png" )
 	End Method
 	
 	Method Logic()
@@ -28,5 +30,6 @@ Type TExample Extends LTProject
 	Method Render()
 		Tank.Draw()
 		DrawText( "Press arrow keys to move tank", 0, 0 )
+		L_PrintText( "Turn, MoveForward, MoveBackward example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

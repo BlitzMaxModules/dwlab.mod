@@ -11,7 +11,6 @@ Type TExample Extends LTProject
 	Const SpritesQuantity:Int = 20
 	
 	Field Layer:LTLayer = New LTLayer
-	Field Cursor:LTSprite = LTSprite.FromShape( 0, 0, 0.5, 0.5, LTSprite.Oval )
 	Field Line:LTLine = New LTLine
 	Field MinSprite:LTSprite
 
@@ -23,18 +22,17 @@ Type TExample Extends LTProject
 			Sprite.Visualizer.SetRandomColor()
 			Layer.AddLast( Sprite )
 		Next
-		Line.Pivot[ 0 ] = Cursor
+		L_Cursor = LTSprite.FromShape( 0, 0, 0.5, 0.5, LTSprite.Oval )
+		Line.Pivot[ 0 ] = L_Cursor
 	End Method
 	
 	Method Logic()
-		Cursor.SetMouseCoords()
-		
 		MinSprite = Null
 		Local MinDistance:Double
 		For Local Sprite:LTSprite = Eachin Layer
-			If Cursor.DistanceTo( Sprite ) < MinDistance Or Not MinSprite Then
+			If L_Cursor.DistanceTo( Sprite ) < MinDistance Or Not MinSprite Then
 				MinSprite = Sprite
-				MinDistance = Cursor.DistanceTo( Sprite )
+				MinDistance = L_Cursor.DistanceTo( Sprite )
 			End If
 		Next
 		Line.Pivot[ 1 ] = MinSprite
@@ -46,14 +44,15 @@ Type TExample Extends LTProject
 		Layer.Draw()
 		
 		Line.Draw()
-		L_PrintText( L_TrimDouble( Cursor.DistanceTo( MinSprite ) ), 0.5 * ( Cursor.X + MinSprite.X ), 0.5 * ( Cursor.Y + MinSprite.Y ) )
+		L_PrintText( L_TrimDouble( L_Cursor.DistanceTo( MinSprite ) ), 0.5 * ( L_Cursor.X + MinSprite.X ), 0.5 * ( L_Cursor.Y + MinSprite.Y ) )
 		
 		Local SX:Double, SY:Double
-		L_CurrentCamera.FieldToScreen( Cursor.X, Cursor.Y, SX, SY )
+		L_CurrentCamera.FieldToScreen( L_Cursor.X, L_Cursor.Y, SX, SY )
 		DrawLine( SX, SY, 400, 300 )
-		L_PrintText( L_TrimDouble( Cursor.DistanceToPoint( 0, 0 ) ), 0.5 * Cursor.X, 0.5 * Cursor.Y )
+		L_PrintText( L_TrimDouble( L_Cursor.DistanceToPoint( 0, 0 ) ), 0.5 * L_Cursor.X, 0.5 * L_Cursor.Y )
 		
-		DrawText( "Direction to field center is " + L_TrimDouble( Cursor.DirectionToPoint( 0, 0 ) ), 0, 0 )
-		DrawText( "Direction to nearest sprite is " + L_TrimDouble( Cursor.DirectionTo( MinSprite ) ), 0, 16 )
+		DrawText( "Direction to field center is " + L_TrimDouble( L_Cursor.DirectionToPoint( 0, 0 ) ), 0, 0 )
+		DrawText( "Direction to nearest sprite is " + L_TrimDouble( L_Cursor.DirectionTo( MinSprite ) ), 0, 16 )
+		L_PrintText( "DirectionTo, DirectionToPoint, DistanceTo, DistanceToPoint example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

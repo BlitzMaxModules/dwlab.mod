@@ -32,6 +32,7 @@ Type TExample Extends LTProject
 		Weight2.Draw()
 		Rope1.Draw()
 		Rope2.Draw()
+		L_PrintText( "LTDistanceJoint example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 	
 	Method Logic()

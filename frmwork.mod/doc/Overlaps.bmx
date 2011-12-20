@@ -38,5 +38,6 @@ Type TExample Extends LTProject
 		Sprite3.Draw()
 		Cursor.Draw()
 		DrawText( "Cursor rectangle fully overlaps " + Text[ 2.. ], 0, 0 )
+		L_PrintText( "Overlaps example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type
