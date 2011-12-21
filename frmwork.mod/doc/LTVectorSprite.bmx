@@ -62,7 +62,7 @@ Type TExample Extends LTProject
 		Player.Draw()
 		DrawText( "Move player with arrow keys", 0, 0 )
 		DrawText( "Coins: " + Coins, 0, 16 )
-		L_PrintText( "LTVectorSprite, CollisionsWithTileMap, HandleCollisionWithTile example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
+		L_PrintText( "LTVectorSprite, CollisionsWithTileMap, HandleCollisionWithTile example", L_CurrentCamera.X, L_CurrentCamera.Y + 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type
 

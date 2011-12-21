@@ -13,7 +13,7 @@ WriteLine( All, "Import dwlab.frmwork" )
 WriteLine( All, "Import dwlab.graphicsdrivers" )
 WriteLine( All, "Import dwlab.audiodrivers" )
 WriteLine( All, "L_InitGraphics()" )
-WriteLine( All, "L_PrintText( ~qPress ESC to start~q, 0, 0, LTAlign.ToCenter, LTAlign.ToCenter )" )
+WriteLine( All, "L_PrintText( ~qPress ESC to switch examples~q, 0, 0, LTAlign.ToCenter, LTAlign.ToCenter )" )
 WriteLine( All, "Flip" )
 WriteLine( All, "Waitkey" )
 WriteLine( All, "EndGraphics()" )
@@ -27,7 +27,7 @@ Repeat
 	If Not FileName Then Exit
 	
 	If ExtractExt( FileName ) <> "bmx" Then Continue
-	If TList.FromArray( [ "packer.bmx", ".bmx", "LTBehaviorModel.bmx", "LTSpring.bmx", "all.bmx" ] ).Contains( FileName ) Then Continue
+	If TList.FromArray( [ "packer.bmx", ".bmx", "LTBehaviorModel.bmx", "all.bmx" ] ).Contains( FileName ) Then Continue
 	
 	Local File:TStream = ReadFile( FileName )
 	Local TypeArea:Int = -1

@@ -44,7 +44,7 @@ Type TCreateFrame Extends LTDrag
 	Method StartDragging()
 		StartingX = L_Cursor.X
 		StartingY = L_Cursor.Y
-		Example.Frame = LTSprite.FromShape()
+		Example.Frame = LTSprite.FromShape( L_Cursor.X, L_Cursor.Y, 0, 0 )
 		Example.Frame.Visualizer.SetRandomColor()
 		Example.Frame.Visualizer.Image = Example.FrameImage
 	End Method

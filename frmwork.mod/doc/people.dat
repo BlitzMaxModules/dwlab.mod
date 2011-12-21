@@ -1,47 +1,47 @@
-<TExample dwlab_version="1.3.14">
+<TExample52 dwlab_version="1.3.16">
 	<TList field="professions">
 		<TProfession name="director"/>
-		<TProfession name="engineer"/>
+		<TProfession id="2" name="engineer"/>
 		<TProfession id="3" name="dispatcher"/>
 		<TProfession id="4" name="driver"/>
 		<TProfession id="5" name="secretary"/>
-		<TProfession id="6" name="bookkeeper"/>
-		<TProfession name="supply agent"/>
-		<TProfession name="bookkeeper chief"/>
+		<TProfession name="bookkeeper"/>
+		<TProfession id="7" name="supply agent"/>
+		<TProfession id="8" name="bookkeeper chief"/>
 		<TProfession name="lawyer"/>
 		<TProfession id="10" name="programmer"/>
 		<TProfession name="administrator"/>
-		<TProfession name="courier"/>
+		<TProfession id="12" name="courier"/>
 	</TList>
 	<TList field="definitions"/>
-	<TWorker first-name="Jaroslav" last-name="Mikhailov" age="40" height="171.8939" weight="66.965">
-		<Object field="profession" id="6"/>
-	</TWorker>
-	<TWorker first-name="Ian" last-name="Semenov" age="33" height="174.6703" weight="76.2439">
-		<Object field="profession" id="4"/>
-	</TWorker>
-	<TWorker first-name="Feodor" last-name="Stepanov" age="23" height="160.8978" weight="71.8641">
-		<Object field="profession" id="5"/>
-	</TWorker>
-	<TWorker first-name="Ian" last-name="Mikhailov" age="24" height="161.0772" weight="76.9706">
-		<Object field="profession" id="6"/>
-	</TWorker>
-	<TWorker first-name="Vadim" last-name="Kuznetsov" age="50" height="172.2991" weight="69.3149">
-		<Object field="profession" id="6"/>
-	</TWorker>
-	<TWorker first-name="Yury" last-name="Stepanov" age="21" height="165.8827" weight="74.307">
-		<Object field="profession" id="6"/>
-	</TWorker>
-	<TWorker first-name="Nikita" last-name="Nikolaev" age="45" height="169.0583" weight="85.7996">
-		<Object field="profession" id="10"/>
-	</TWorker>
-	<TWorker first-name="George" last-name="Alekseev" age="30" height="179.1268" weight="55.2375">
-		<Object field="profession" id="10"/>
-	</TWorker>
-	<TWorker first-name="Paul" last-name="Alekseev" age="21" height="158.8869" weight="70.8918">
-		<Object field="profession" id="10"/>
-	</TWorker>
-	<TWorker first-name="Ilya" last-name="Novikov" age="47" height="175.3766" weight="75.3026">
+	<TWorker first-name="Vitaly" last-name="Smirnov" age="33" height="162.49" weight="65.34">
 		<Object field="profession" id="3"/>
 	</TWorker>
-</TExample>
+	<TWorker first-name="Vyacheslav" last-name="Stepanov" age="28" height="162.47" weight="71.75">
+		<Object field="profession" id="10"/>
+	</TWorker>
+	<TWorker first-name="Gennady" last-name="Egorov" age="21" height="177" weight="53.79">
+		<Object field="profession" id="8"/>
+	</TWorker>
+	<TWorker first-name="Michael" last-name="Mikhailov" age="42" height="166.28" weight="68.99">
+		<Object field="profession" id="4"/>
+	</TWorker>
+	<TWorker first-name="Egor" last-name="Fedorov" age="30" height="159.69" weight="85.36">
+		<Object field="profession" id="5"/>
+	</TWorker>
+	<TWorker first-name="Nicholas" last-name="Mikhailov" age="39" height="174.5" weight="59.97">
+		<Object field="profession" id="10"/>
+	</TWorker>
+	<TWorker first-name="Peter" last-name="Makarov" age="35" height="169.21" weight="83.29">
+		<Object field="profession" id="2"/>
+	</TWorker>
+	<TWorker first-name="Vladislav" last-name="Novikov" age="24" height="167.9" weight="67.43">
+		<Object field="profession" id="10"/>
+	</TWorker>
+	<TWorker first-name="Gennady" last-name="Kozlov" age="40" height="164.67" weight="81.2">
+		<Object field="profession" id="7"/>
+	</TWorker>
+	<TWorker first-name="Vadim" last-name="Smirnov" age="50" height="176.88" weight="58.2">
+		<Object field="profession" id="12"/>
+	</TWorker>
+</TExample52>

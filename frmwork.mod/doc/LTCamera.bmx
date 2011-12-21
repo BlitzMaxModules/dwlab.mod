@@ -44,6 +44,7 @@ Type TExample Extends LTProject
 		TileMap.Draw()
 		Cursor.Draw()
 		DrawText( "Shift cursor by arrow keys and alter magnigication by A and Z keys.", 0, 0 )
-		L_PrintText( "LTCamera, AlterCameraMagnification, ShiftCameraToShape example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
+		Local Message:String = "LTCamera, AlterCameraMagnification, ShiftCameraToShape example"
+		DrawText( Message, 400 - 4 * Len( Message ), 584 )
 	End Method
 End Type
