@@ -102,11 +102,8 @@ Type THazardous Extends LTBehaviorModel
 
 	Method HandleCollisionWithSprite( Sprite1:LTSprite, Sprite2:LTSprite, CollisionType:Int )
 		Sprite2.AttachModel( new LTHurt )
-		Local Angle:Double = Sprite1.DirectionTo( Sprite2 )
-		Sprite1.Angle = Angle + 180
-		LTVectorSprite( Sprite1 ).UpdateFromAngularModel()
-		Sprite2.Angle = Angle
-		LTVectorSprite( Sprite2 ).UpdateFromAngularModel()
+		Sprite2.DirectTo( Sprite1 )
+		Sprite2.ReverseDirection()
 	End Method
 EndType
 

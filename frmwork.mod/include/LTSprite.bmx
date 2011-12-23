@@ -729,6 +729,12 @@ Type LTSprite Extends LTShape
 	
 	
 	
+	Method ReverseDirection()
+		Angle = Angle + 180
+	End Method
+	
+	
+	
 	Rem
 	bbdoc: Alters angle by given value.
 	about: See also: #Clone example

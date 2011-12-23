@@ -333,6 +333,7 @@ Type LTCamera Extends LTVectorSprite
 	End Method
 	
 	
+	
 	Rem
 	bbdoc: Creates new camera object using given screen resolution and unit size in pixels.
 	returns: New camera object.
@@ -372,7 +373,7 @@ See also: #Parallax example
 End Rem
 Function L_InitGraphics( Width:Int = 800, Height:Int = 600, UnitSize:Double = 25.0, ColorDepth:Int = 0, Frequency:Int = 60 )
 	Graphics( Width, Height, ColorDepth, Frequency )
-	AutoImageFlags( FILTEREDIMAGE | DYNAMICIMAGE )
+	AutoImageFlags( FILTEREDIMAGE | DYNAMICIMAGE | MIPMAPPEDIMAGE )
 	SetBlend( AlphaBlend )
 	
 	L_CurrentCamera.Viewport.SetSize( Width, Height )

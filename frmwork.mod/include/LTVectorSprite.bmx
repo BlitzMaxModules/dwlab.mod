@@ -135,4 +135,26 @@ Type LTVectorSprite Extends LTSprite
 	Method MoveForward()
 		SetCoords( X + DX * L_DeltaTime, Y + DY * L_DeltaTime )
 	End Method
+	
+	
+	
+	Method DirectTo( Shape:LTShape )
+		Local VectorLength:Double = L_Distance( DX, DY )
+		DX = Shape.X - X
+		DY = Shape.Y - Y
+		If VectorLength Then
+			Local NewVectorLength:Double = L_Distance( DX, DY )
+			If NewVectorLength Then
+				DX :* VectorLength / NewVectorLength
+				DY :* VectorLength / NewVectorLength
+			End If
+		End If
+	End Method
+	
+	
+	
+	Method ReverseDirection()
+		DX = -DX
+		DY = -DY
+	End Method
 End Type
