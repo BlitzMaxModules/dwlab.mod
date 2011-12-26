@@ -22,7 +22,7 @@ Type TExample Extends LTProject
 	Const Coin:Int = 2
 	
 	Field Player:TPlayer = TPlayer.Create()
-	Field TileMap:LTTileMap = LTTileMap.Create( LTTileSet.Create( LTImage.FromFile( "incbin::tileset.png", 3, 1 ), 0 ), MapSize, MapSize )
+	Field TileMap:LTTileMap = LTTileMap.Create( LTTileSet.Create( LTImage.FromFile( "incbin::tileset.png", 4, 1 ), 0 ), MapSize, MapSize )
 	Field Coins:Int
 	
 	Method Init()

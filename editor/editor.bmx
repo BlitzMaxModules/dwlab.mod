@@ -65,7 +65,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.7.7"
+	Const Version:String = "1.7.8"
 	Const INIVersion:Int = 3
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 8
@@ -922,6 +922,13 @@ Type LTEditor Extends LTProject
 							Grid.Snap( Cursor.X, Cursor.Y )
 							For Local Sprite:LTSprite = Eachin SelectedShapes
 								Sprite.DirectTo( Cursor )
+							Next
+							SetChanged()
+						End If
+					Case Key_F
+						If Not SelectedShapes.IsEmpty() Then
+							For Local Sprite:LTSprite = Eachin SelectedShapes
+								Sprite.SetFacing( -Sprite.GetFacing() )
 							Next
 							SetChanged()
 						End If

@@ -27,7 +27,7 @@ Repeat
 	If Not FileName Then Exit
 	
 	If ExtractExt( FileName ) <> "bmx" Then Continue
-	If TList.FromArray( [ "packer.bmx", ".bmx", "LTBehaviorModel.bmx", "all.bmx" ] ).Contains( FileName ) Then Continue
+	If TList.FromArray( [ "packer.bmx", ".bmx", "LTBehaviorModel.bmx", "LTSpring.bmx", "all.bmx" ] ).Contains( FileName ) Then Continue
 	
 	Local File:TStream = ReadFile( FileName )
 	Local TypeArea:Int = -1

@@ -8,11 +8,20 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTWaitingModel Extends LTTemporaryModel
-	Function Create:LTWaitingModel( Time:Double, NextModel:LTBehaviorModel )
-		Local Model:LTWaitingModel = New LTWaitingModel
-		Model.Period = Time
-		Model.NextModel = NextModel
-		Return Model
+Type LTModelActivator Extends LTCommandModel
+	Field Model:LTBehaviorModel
+
+	
+	
+	Function Create:LTModelActivator( Model:LTBehaviorModel )
+		Local Activator:LTModelActivator = New LTModelActivator
+		Activator.Model = Model
+		Return Activator
 	End Function
+	
+	
+	
+	Method Init( Shape:LTShape )
+		Model.Activate( Shape )
+	End Method
 End Type

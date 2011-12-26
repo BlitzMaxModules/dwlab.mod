@@ -767,16 +767,24 @@ Type LTShape Extends LTObject
 	See also: #LTBehaviorModel, #Activate
 	End Rem
 	Method AttachModel( Model:LTBehaviorModel, Activated:Int = True )
-		Model.DefaultInit( Self )
 		Model.Init( Self )
 		Model.Link = BehaviorModels.AddLast( Model )
 		If Activated Then
-			Model.DefaultActivate( Self )
 			Model.Activate( Self )
 			Model.Active = True
 		End If
 	End Method
 	
+	
+	
+	Rem
+	bbdoc: Attaches list of behavior model to the shape.
+	End Rem
+	Method AttachModels( Models:TList, Activated:Int = True )
+		For Local Model:LTBehaviorModel = Eachin Models
+			AttachModel( Model, Activated )
+		Next
+	End Method
 	
 	
 	Rem
@@ -802,7 +810,6 @@ Type LTShape Extends LTObject
 	Method ActivateAllModels()
 		For Local Model:LTBehaviorModel = EachIn BehaviorModels
 			If Not Model.Active Then
-				Model.DefaultActivate( Self )
 				Model.Activate( Self )
 				Model.Active = True
 			End If
@@ -820,7 +827,6 @@ Type LTShape Extends LTObject
 	Method DeactivateAllModels()
 		For Local Model:LTBehaviorModel = EachIn BehaviorModels
 			If Model.Active Then
-				Model.DefaultDeactivate( Self )
 				Model.Deactivate( Self )
 				Model.Active = False
 			End If
@@ -839,7 +845,6 @@ Type LTShape Extends LTObject
 		Local TypeID:TTypeId = L_GetTypeID( TypeName )
 		For Local Model:LTBehaviorModel = EachIn BehaviorModels
 			If TTypeId.ForObject( Model ) = TypeID And Not Model.Active Then
-				Model.DefaultActivate( Self )
 				Model.Activate( Self )
 				Model.Active = True
 			End If
@@ -858,7 +863,6 @@ Type LTShape Extends LTObject
 		Local TypeID:TTypeId = L_GetTypeID( TypeName )
 		For Local Model:LTBehaviorModel = EachIn BehaviorModels
 			If TTypeId.ForObject( Model ) = TypeID And Model.Active Then
-				Model.DefaultDeactivate( Self )
 				Model.Deactivate( Self )
 				Model.Active = False
 			End If
@@ -878,11 +882,9 @@ Type LTShape Extends LTObject
 		For Local Model:LTBehaviorModel = EachIn BehaviorModels
 			If TTypeId.ForObject( Model ) = TypeID Then
 				If Model.Active Then
-					Model.DefaultDeactivate( Self )
 					Model.Deactivate( Self )
 					Model.Active = False
 				Else
-					Model.DefaultActivate( Self )
 					Model.Activate( Self )
 					Model.Active = True
 				End If
@@ -1113,10 +1115,8 @@ Type LTShape Extends LTObject
 		If Active Then
 			For Local Model:LTBehaviorModel = EachIn BehaviorModels
 				If Model.Active Then
-					Model.DefaultApplyTo( Self )
 					Model.ApplyTo( Self )
 				Else
-					Model.DefaultWatch( Self )
 					Model.Watch( Self )
 				End If
 			Next

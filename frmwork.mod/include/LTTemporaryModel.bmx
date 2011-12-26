@@ -8,23 +8,26 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "LTFixedWaitingModel.bmx"
+Include "LTRandomWaitingModel.bmx"
+
 Type LTTemporaryModel Extends LTBehaviorModel
 	Field StartingTime:Double
 	Field Period:Double
-	Field NextModel:LTBehaviorModel = Null
+	Field NextModels:TList = New TList
 	
 	
 	
-	Method DefaultInit( Shape:LTShape )
+	Method Init( Shape:LTShape )
 		StartingTime = L_CurrentProject.Time
 	End Method
 	
 	
 	
-	Method DefaultApplyTo( Shape:LTShape )
+	Method ApplyTo( Shape:LTShape )
 		If L_CurrentProject.Time > StartingTime + Period Then
 			Remove( Shape )
-			If NextModel Then Shape.AttachModel( NextModel )
+			Shape.AttachModels( NextModels )
 		End If
 	End Method
 End Type

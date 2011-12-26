@@ -748,11 +748,11 @@ Type LTSprite Extends LTShape
 	Rem
 	bbdoc: Animates the sprite.
 	End Rem
-	Method Animate( Project:LTProject, Speed:Double, FramesQuantity:Int = 0, FrameStart:Int = 0, StartingTime:Double = 0.0, PingPong:Int = False )
+	Method Animate( Speed:Double, FramesQuantity:Int = 0, FrameStart:Int = 0, StartingTime:Double = 0.0, PingPong:Int = False )
 		If FramesQuantity = 0 Then FramesQuantity = Visualizer.GetImage().FramesQuantity()
 		Local ModFactor:Int = FramesQuantity
 		If PingPong Then ModFactor = FramesQuantity * 2 - 2
-		Frame = Floor( ( Project.Time - StartingTime ) / Speed ) Mod ModFactor
+		Frame = Floor( ( L_CurrentProject.Time - StartingTime ) / Speed ) Mod ModFactor
 		If PingPong And Frame >= FramesQuantity Then Frame = ModFactor - Frame
 		Frame :+ FrameStart
 	End Method

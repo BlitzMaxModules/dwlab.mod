@@ -15,12 +15,17 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.3.16"
+ModuleInfo "Version: 1.3.17"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.17 (26.12.11)"
+ModuleInfo "History: &nbsp; &nbsp; Seriously complemented behavior model system - added a lot of standard classes."
+ModuleInfo "History: &nbsp; &nbsp; Removed Default...() methods from LTBehaviorModel."
+ModuleInfo "History: &nbsp; &nbsp; Project parameter is removed from Animate() method."
+ModuleInfo "History: &nbsp; &nbsp; Added AttachModels() method to LTShape."
 ModuleInfo "History: v1.3.16 (20.12.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added L_Cursor to the LTProject which will be always at mouse coords."
 ModuleInfo "History: &nbsp; &nbsp; Added SwitchTo() method to LTProject."
@@ -197,7 +202,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.3.16"
+Const L_Version:String = "1.3.17"
 
 SeedRnd( MilliSecs() )
 
