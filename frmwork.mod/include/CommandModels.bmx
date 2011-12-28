@@ -1,4 +1,4 @@
-'
+
 ' Digital Wizard's Lab - game development framework
 ' Copyright (C) 2010, Matt Merkulov
 '
@@ -10,9 +10,3 @@
 
 Include "LTModelActivator.bmx"
 Include "LTModelDeactivator.bmx"
-
-Type LTCommandModel Extends LTBehaviorModel
-	Method DefaultInit( Shape:LTShape )
-		Remove( Shape )
-	End Method
-End Type

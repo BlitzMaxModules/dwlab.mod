@@ -31,19 +31,26 @@ Type LTAnimationModel Extends LTBehaviorModel
 	
 	
 	
-	Method Init( Shape:LTShape )
+	Method Activate( Shape:LTShape )
 		StartingTime = L_CurrentProject.Time
 	End Method
 	
 	
 	
 	Method ApplyTo( Shape:LTShape )
-		LTSprite( Shape ).Animate( Speed, FramesQuantity, FrameStart, StartingTime, PingPong )
 		If Not Looped Then
 			If L_CurrentProject.Time > StartingTime + Speed * ( FramesQuantity + ( FramesQuantity - 2 ) * PingPong ) Then
-				Remove( Shape )
+				DeactivateModel( Shape )
 				Shape.AttachModels( NextModels )
+				Return
 			End If
 		End If
+		LTSprite( Shape ).Animate( Speed, FramesQuantity, FrameStart, StartingTime, PingPong )
+	End Method
+	
+	
+	
+	Method Info:String( Shape:LTShape )
+		Return LTSprite( Shape ).Frame
 	End Method
 End Type

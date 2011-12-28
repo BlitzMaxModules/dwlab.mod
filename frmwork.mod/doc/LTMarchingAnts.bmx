@@ -47,15 +47,21 @@ End Type
 
 
 Type TCursor Extends LTSprite
+	Field Handler:TSelectionHandler = New TSelectionHandler
+	
 	Method Act()
 		SetMouseCoords()
 		If MouseHit( 1 ) Then
 			Example.Selected = Null
-			CollisionsWithLayer( Example.Layer )
+			CollisionsWithLayer( Example.Layer, Handler )
 		End If
 	End Method
-	
-	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
-		Example.Selected = Sprite
+End Type
+
+
+
+Type TSelectionHandler Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		Example.Selected = Sprite2
 	End Method
 End Type

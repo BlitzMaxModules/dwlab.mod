@@ -8,21 +8,20 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTIsModelActivated Extends LTConditionalModel
-	Field Model:LTBehaviorModel
+Type LTIsButtonActionDown Extends LTConditionalModel
+	Field ButtonAction:LTButtonAction
 	
 	
 	
-	Function Create:LTIsModelActivated( Model:LTBehaviorModel )
-		Local BehaviorModel:LTIsModelActivated = New LTIsModelActivated
-		BehaviorModel.Model = Model
+	Function Create:LTIsButtonActionDown( ButtonAction:LTButtonAction )
+		Local BehaviorModel:LTIsButtonActionDown = New LTIsButtonActionDown
+		BehaviorModel.ButtonAction = ButtonAction
 		Return BehaviorModel
 	End Function
 	
 	
 	
 	Method Condition:Int( Shape:LTShape )
-		If Model Then Return Model.Active 
-		Return False
+		Return ButtonAction.IsDown()
 	End Method
 End Type

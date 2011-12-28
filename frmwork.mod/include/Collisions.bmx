@@ -8,9 +8,51 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-' Collision functions and detection modules
+' Collision handlers, functions and detection modules
 
+Rem
+bbdoc: Constant for dealing with inaccuracy of double type operations.
+End Rem
 Const L_Inaccuracy:Double = 0.000001
+
+Rem
+bbdoc: Sprite collision handling class.
+about: Sprite collision check method with specified collision handler will execute this handler's method on collision one sprite with another.
+
+See also: #Active example
+End Rem
+Type LTSpriteCollisionHandler Extends LTObject
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+	End Method
+End Type
+
+
+
+Rem
+bbdoc: Sprite and tile collision handling class.
+about: Collision check method with specified collision handler will execute this handler's method on collision sprite with tile.
+
+See also: #Active example
+End Rem
+Type LTSpriteAndTileCollisionHandler Extends LTObject
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+	End Method
+End Type
+
+
+
+Rem
+bbdoc: Sprite and line collision handling class.
+about: Collision check method with specified collision handler will execute this handler's method on collision sprite with line.
+
+See also: #Active example
+End Rem
+Type LTSpriteAndLineCollisionHandler Extends LTObject
+	Method HandleCollision( Sprite:LTSprite, Line:LTLine )
+	End Method
+End Type
+
+
 
 Function L_PivotWithPivot:Int( Pivot1X:Double, Pivot1Y:Double, Pivot2X:Double, Pivot2Y:Double )
 	If Pivot1X = Pivot2X And Pivot1Y = Pivot2Y Then Return True

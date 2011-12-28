@@ -15,12 +15,19 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.3.17"
+ModuleInfo "Version: 1.3.18"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.19 (28.12.11)"
+ModuleInfo "History: &nbsp; &nbsp; Behavior models now doesn't activate/deacivate if they already did."
+ModuleInfo "History: &nbsp; &nbsp; Fixed bug in animation behavior model."
+ModuleInfo "History: &nbsp; &nbsp; Added Info() method for behavior models for more info in ShowModels method."
+ModuleInfo "History: &nbsp; &nbsp; Added Permanent flag to LTModelActivator / LTModelDeactivator."
+ModuleInfo "History: v1.3.18 (27.12.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added collision handlers and rewrote collision methods to support them, CollisionType is removed."
 ModuleInfo "History: v1.3.17 (26.12.11)"
 ModuleInfo "History: &nbsp; &nbsp; Seriously complemented behavior model system - added a lot of standard classes."
 ModuleInfo "History: &nbsp; &nbsp; Removed Default...() methods from LTBehaviorModel."
@@ -202,7 +209,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.3.17"
+Const L_Version:String = "1.3.18"
 
 SeedRnd( MilliSecs() )
 

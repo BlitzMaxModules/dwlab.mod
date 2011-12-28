@@ -9,6 +9,7 @@
 '
 
 Include "LTIsModelActivated.bmx"
+Include "LTIsButtonActionDown.bmx"
 
 Type LTConditionalModel Extends LTBehaviorModel
 	Field TrueModels:TList = New TList
@@ -21,12 +22,12 @@ Type LTConditionalModel Extends LTBehaviorModel
 	
 	
 	
-	Method Init( Shape:LTShape )
+	Method ApplyTo( Shape:LTShape )
+		Remove( Shape )
 		If Condition( Shape ) Then
 			Shape.AttachModels( TrueModels )
 		Else
 			Shape.AttachModels( FalseModels )
 		End If
-		Remove( Shape )
 	End Method
 End Type

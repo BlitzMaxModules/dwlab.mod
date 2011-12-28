@@ -16,6 +16,7 @@ Type TExample Extends LTProject
 	Field KolobokImage:LTImage = LTImage.FromFile( "incbin::kolobok.png" )
 	Field Player:TKolobok
 	Field DebugMode:Int
+	Field CollisionHandler:TCollisionHandler = New TCollisionHandler
 	
 	Method Init()
 		For Local N:Int = 1 To KoloboksQuantity
@@ -81,10 +82,14 @@ Type TKolobok Extends LTSprite
 	End Function
 	
 	Method Act()
-		CollisionsWithLayer( Example.Koloboks )
+		CollisionsWithLayer( Example.Koloboks, Example.CollisionHandler )
 	End Method
-	
-	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
-		WedgeOffWithSprite( Sprite, Width ^ 2, Sprite.Width ^ 2 )
+End Type
+
+
+
+Type TCollisionHandler Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		Sprite1.WedgeOffWithSprite( Sprite2, Sprite1.Width ^ 2, Sprite2.Width ^ 2 )
 	End Method
 End Type

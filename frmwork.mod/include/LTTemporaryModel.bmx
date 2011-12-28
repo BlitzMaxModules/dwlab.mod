@@ -30,4 +30,10 @@ Type LTTemporaryModel Extends LTBehaviorModel
 			Shape.AttachModels( NextModels )
 		End If
 	End Method
+	
+	
+	
+	Method Info:String( Shape:LTShape )
+		Return "" + L_TrimDouble( L_CurrentProject.Time - StartingTime ) + " of " + L_TrimDouble( Period )
+	End Method
 End Type

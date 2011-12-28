@@ -69,7 +69,7 @@ Type TSelectShapes Extends LTDrag
 				Local SpriteMap:LTSpriteMap = LTSpriteMap( Shape )
 				If SpriteMap Then
 					Local Map:TMap = New TMap
-					Frame.CollisionsWithSpriteMap( SpriteMap, , Map )
+					Frame.CollisionsWithSpriteMap( SpriteMap, Editor.EmptyHandler, Map )
 					For Sprite = EachIn Map.Keys()
 						If Frame.Overlaps( Sprite ) Then Editor.SelectedShapes.AddLast( Sprite )
 					Next
@@ -80,4 +80,9 @@ Type TSelectShapes Extends LTDrag
 			End If
 		Next
 	End Method
+End Type
+
+
+
+Type TEmptyHandler Extends LTSpriteCollisionHandler
 End Type

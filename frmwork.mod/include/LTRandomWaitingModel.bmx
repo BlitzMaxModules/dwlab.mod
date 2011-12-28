@@ -19,6 +19,7 @@ Type LTRandomWaitingModel Extends LTTemporaryModel
 	End Function
 	
 	Method Init( Shape:LTShape )
+		Super.Init( Shape )
 		Period = Rnd( TimeFrom, TimeTo )
 	End Method
 End Type

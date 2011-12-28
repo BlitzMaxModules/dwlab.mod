@@ -78,24 +78,6 @@ Type LTShape Extends LTObject
 	End Rem
 	Field BehaviorModels:TList = New TList
 	
-	Rem
-	bbdoc: Constant for horizontal collision type.
-	about: See tutorial for additional info.
-	
-	See also: #CollisionsWithGroup, #CollisionsWithSprite, #CollisionsWithTileMap, #CollisionsWithSpriteMap, #CollisionsWithLine
-	#HandleCollisionWithSprite, #HandleCollisionWithTile
-	End Rem
-	Const Horizontal:Int = 1
-	
-	Rem
-	bbdoc: Constant for vertical collision type.
-	about: See tutorial for additional info.
-	
-	See also: #CollisionsWithGroup, #CollisionsWithSprite, #CollisionsWithTileMap, #CollisionsWithSpriteMap, #CollisionsWithLine
-	#HandleCollisionWithSprite, #HandleCollisionWithTile
-	End Rem
-	Const Vertical:Int = 2
-	
 	' ==================== Drawing ===================
 	
 	Rem
@@ -203,17 +185,17 @@ Type LTShape Extends LTObject
 	
 	' ==================== Collisions ===================
 	
-	Method LayerFirstSpriteCollision:LTSprite( Sprite:LTSprite, CollisionType:Int )
+	Method LayerFirstSpriteCollision:LTSprite( Sprite:LTSprite )
 	End Method
 	
 	
 	
-	Method SpriteLayerCollisions( Sprite:LTSprite, CollisionType:Int )
+	Method SpriteLayerCollisions( Sprite:LTSprite, Handler:LTSpriteCollisionHandler )
 	End Method
 	
 	
 	
-	Method TileShapeCollisionsWithSprite( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
+	Method TileShapeCollisionsWithSprite( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double, TileMap:LTTileMap, TileX:Int, TileY:Int, Handler:LTSpriteAndTileCollisionHandler )
 	End Method
 	
 	' ==================== Position ====================
@@ -919,8 +901,10 @@ Type LTShape Extends LTObject
 		DrawText( Shift + GetTitle() + ":", 0, Y )
 	    Y :+ 16
 	    For Local Model:LTBehaviorModel = Eachin BehaviorModels
-	      DrawText( Shift + TTypeID.ForObject( Model ).Name() + ": " + Model.Active, 8, Y )
-	      Y :+ 16
+			Local ActiveString:String
+			If Model.Active Then ActiveString = "active" Else ActiveString = "inactive"
+	    	DrawText( Shift + TTypeID.ForObject( Model ).Name() + ": " + ActiveString + ", " + Model.Info( Self ), 8, Y )
+			Y :+ 16
 	    Next
 		Return Y
 	End Method
@@ -1113,13 +1097,17 @@ Type LTShape Extends LTObject
 	End Rem
 	Method Act()
 		If Active Then
+			Local LastModel:LTBehaviorModel = New  LTBehaviorModel
+			Local Link:TLink = BehaviorModels.AddLast( LastModel )
 			For Local Model:LTBehaviorModel = EachIn BehaviorModels
+				If Model = LastModel Then Exit
 				If Model.Active Then
 					Model.ApplyTo( Self )
 				Else
 					Model.Watch( Self )
 				End If
 			Next
+			Link.Remove()
 			
 			?debug
 			If LTSprite( Self )

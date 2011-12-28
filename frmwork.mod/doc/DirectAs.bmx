@@ -48,17 +48,28 @@ End Type
 
 
 Type TCursor Extends LTSprite
+	Field SizeHandler:TSizeCollisionHandler = New TSizeCollisionHandler
+	Field DirectionHandler:TDirectionCollisionHandler = new TDirectionCollisionHandler
+	
 	Method Act()
 		SetMouseCoords()
-		If MouseHit( 1 ) Then CollisionsWithLayer( Example.Layer, 0 )
-		If MouseHit( 2 ) Then CollisionsWithLayer( Example.Layer, 1 )
+		If MouseHit( 1 ) Then CollisionsWithLayer( Example.Layer, SizeHandler )
+		If MouseHit( 2 ) Then CollisionsWithLayer( Example.Layer, DirectionHandler )
 	End Method
-	
-	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
-		If CollisionType Then
-			SetSizeAs( Sprite )
-		Else
-			DirectAs( Sprite )
-		End If
+End Type
+
+
+
+Type TSizeCollisionHandler Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		Sprite1.SetSizeAs( Sprite2 )
+	End Method
+End Type
+
+
+
+Type TDirectionCollisionHandler Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		Sprite1.DirectAs( Sprite2 )
 	End Method
 End Type

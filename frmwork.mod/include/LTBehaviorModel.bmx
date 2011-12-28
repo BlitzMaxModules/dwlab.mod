@@ -9,7 +9,7 @@
 '
 
 Include "LTTemporaryModel.bmx"
-Include "LTCommandModel.bmx"
+Include "CommandModels.bmx"
 Include "LTModelStack.bmx"
 Include "LTAnimationModel.bmx"
 Include "LTConditionalModel.bmx"
@@ -79,41 +79,6 @@ Type LTBehaviorModel Extends LTObject
 	End Method
 	
 	
-	Rem
-	bbdoc: Collision with sprite handling method.
-	about: It will be executed by default HandleCollisionWithSprite method if this model will be active.
-	Fill it with sprite collision reaction commands which are need to be executed when the model is active.
-	
-	See also: #HandleCollisionWithTile, #HandleCollisionWithLine
-	End Rem
-	Method HandleCollisionWithSprite( Sprite1:LTSprite, Sprite2:LTSprite, CollisionType:Int )
-	End Method
-
-	
-	
-	Rem
-	bbdoc: Collision with tile handling method.
-	about: It will be executed by default HandleCollisionWithTile method if this model will be active.
-	Fill it with tile collision reaction commands which are need to be executed when the model is active.
-	
-	See also: #HandleCollisionWithSprite, #HandleCollisionWithLine
-	End Rem
-	Method HandleCollisionWithTile( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
-	End Method
-
-	
-	
-	Rem
-	bbdoc: Collision with line handling method.
-	about: It will be executed by default HandleCollisionWithLine method if this model will be active.
-	Fill it with tile collision reaction commands which are need to be executed when the model is active.
-	
-	See also: #HandleCollisionWithSprite, #HandleCollisionWithTile
-	End Rem
-	Method HandleCollisionWithLine( Sprite:LTSprite, Line:LTLine, CollisionType:Int )
-	End Method
-	
-	
 	
 	Rem
 	bbdoc: Activates behavior model.
@@ -122,8 +87,10 @@ Type LTBehaviorModel Extends LTObject
 	See also: #Activate, #Deactivate, #ActivateAllModels, #DeactivateAllModels, #DeactivateModel
 	End Rem
 	Method ActivateModel( Shape:LTShape )
-		Activate( Shape )
-		Active = True
+		If Not Active Then
+			Activate( Shape )
+			Active = True
+		End If
 	End Method
 	
 	
@@ -135,8 +102,10 @@ Type LTBehaviorModel Extends LTObject
 	See also: #Activate, #Deactivate, #ActivateAllModels, #DeactivateAllModels, #ActivateModel
 	End Rem
 	Method DeactivateModel( Shape:LTShape )
-		Deactivate( Shape )
-		Active = False
+		If Active Then
+			Deactivate( Shape )
+			Active = False
+		End If
 	End Method
 	
 	
@@ -163,5 +132,10 @@ Type LTBehaviorModel Extends LTObject
 		For Local Model:LTBehaviorModel = Eachin Shape.BehaviorModels
 			If TTypeId.ForObject( Model ) = TypeID And Model <> Self Then Model.Remove( Shape )
 		Next
+	End Method
+	
+	
+	
+	Method Info:String( Shape:LTShape )
 	End Method
 End Type

@@ -191,6 +191,9 @@ Type LTProject Extends LTObject
 	about: You cannot use this method to execute more projects if the project is already running, use Insert() method instead.
 	End Rem
 	Method Execute()
+		Local OldProject:LTProject = L_CurrentProject
+		L_CurrentProject = Self
+	
 		FlushKeys
 		FlushMouse
 	    
@@ -265,6 +268,8 @@ Type LTProject Extends LTObject
 				Controller.Reset()
 			Next
 		Forever
+		
+		L_CurrentProject = OldProject
 	End Method
 	
 	' ==================== Other ===================	

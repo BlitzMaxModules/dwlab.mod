@@ -42,6 +42,8 @@ Type TExample Extends LTProject
 End Type
 
 Type TBall Extends LTSprite
+	Field Handler:TCollisionHandler = New TCollisionHandler
+
 	Function Create:TBall()
 		Local Ball:TBall = New TBall
 		Ball.SetCoords( Rnd( -13, 13 ), Rnd( -8, 8 ) )
@@ -57,11 +59,13 @@ Type TBall Extends LTSprite
 	Method Act()
 		MoveForward()
 		BounceInside( Example.Rectangle )
-		CollisionsWithSprite( L_Cursor )
+		CollisionsWithSprite( L_Cursor, Handler )
 	End Method
-	
-	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
-		If MouseDown( 1 ) Then Active = False
-		If MouseDown( 2 ) Then Visible = False
+End Type
+
+Type TCollisionHandler Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		If MouseDown( 1 ) Then Sprite1.Active = False
+		If MouseDown( 2 ) Then Sprite1.Visible = False
 	End Method
 End Type

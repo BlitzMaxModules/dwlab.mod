@@ -181,7 +181,8 @@ Type LTEditor Extends LTProject
 	Field SetTile:TSetTile = New TSetTile
 	Field Grid:TGrid = New TGrid
 	Field MarchingAnts:LTMarchingAnts = New LTMarchingAnts
-	
+	Field EmptyHandler:TEmptyHandler = New TEmptyHandler
+
 	
 	
 	Const MenuNew:Int = 0
@@ -1480,7 +1481,7 @@ Type LTEditor Extends LTProject
 				Local SpriteMap:LTSpriteMap = LTSpriteMap( Shape )
 				if SpriteMap Then
 					Local Map:TMap = New TMap
-					Cursor.CollisionsWithSpriteMap( SpriteMap, , Map )
+					Cursor.CollisionsWithSpriteMap( SpriteMap, EmptyHandler, Map )
 					For Sprite = Eachin Map.Keys()
 						ShapeUnderCursor = Sprite
 					Next

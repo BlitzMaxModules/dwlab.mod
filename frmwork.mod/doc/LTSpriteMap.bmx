@@ -15,6 +15,7 @@ Type TExample Extends LTProject
 	Field Rectangle:LTShape = LTSprite.FromShape( 0, 0, MapSize, MapSize )
 	Field Cursor:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
 	Field SpriteMap:LTSpriteMap = LTSpriteMap.CreateForShape( Rectangle, 2.0 )
+	Field CollisionHandler:TCollisionHandler = New TCollisionHandler
 	
 	Method Init()
 		For Local N:Int = 1 To SpritesQuantity
@@ -60,15 +61,19 @@ Type TBall Extends LTSprite
 		L_CurrentCamera.BounceInside( Example.Rectangle )
 		MoveForward()
 		BounceInside( Example.Rectangle )
-		CollisionsWithSpriteMap( Example.SpriteMap )
+		CollisionsWithSpriteMap( Example.SpriteMap, Example.CollisionHandler )
 	End Method
-	
-	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
-		If TParticleArea( Sprite ) Then Return
-		PushFromSprite( Sprite )
-		Angle = Sprite.DirectionTo( Self )
-		Sprite.Angle = DirectionTo( Sprite )
-		TParticleArea.Create( Self, Sprite )
+End Type
+
+
+
+Type TCollisionHandler Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		If TParticleArea( Sprite2 ) Then Return
+		Sprite1.PushFromSprite( Sprite2 )
+		Sprite1.Angle = Sprite2.DirectionTo( Sprite1 )
+		Sprite2.Angle = Sprite1.DirectionTo( Sprite2 )
+		TParticleArea.Create( Sprite1, Sprite2 )
 	End Method
 End Type
 

@@ -124,14 +124,14 @@ Type LTLayer Extends LTShape
 	
 	' ==================== Collisions ===================
 	
-	Method LayerFirstSpriteCollision:LTSprite( Sprite:LTSprite, CollisionType:Int )
-		Return Sprite.FirstCollidedSpriteOfLayer( Self, CollisionType )
+	Method LayerFirstSpriteCollision:LTSprite( Sprite:LTSprite )
+		Return Sprite.FirstCollidedSpriteOfLayer( Self )
 	End Method
 	
 	
 	
-	Method SpriteLayerCollisions( Sprite:LTSprite, CollisionType:Int )
-		Sprite.CollisionsWithLayer( Self, CollisionType )
+	Method SpriteLayerCollisions( Sprite:LTSprite, Handler:LTSpriteCollisionHandler )
+		Sprite.CollisionsWithLayer( Self, Handler )
 	End Method
 	
 	' ==================== Shape management ===================	

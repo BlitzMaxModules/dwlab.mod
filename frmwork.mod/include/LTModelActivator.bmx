@@ -8,20 +8,29 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTModelActivator Extends LTCommandModel
+Type LTModelActivator Extends LTBehaviorModel
 	Field Model:LTBehaviorModel
+	Field Permanent:Int
 
 	
 	
-	Function Create:LTModelActivator( Model:LTBehaviorModel )
+	Function Create:LTModelActivator( Model:LTBehaviorModel, Permanent:Int = False )
 		Local Activator:LTModelActivator = New LTModelActivator
 		Activator.Model = Model
+		Activator.Permanent = Permanent
 		Return Activator
 	End Function
 	
 	
 	
-	Method Init( Shape:LTShape )
-		Model.Activate( Shape )
+	Method ApplyTo( Shape:LTShape )
+		Model.ActivateModel( Shape )
+		If Not Permanent Then Remove( Shape )
+	End Method
+	
+	
+	
+	Method Info:String( Shape:LTShape )
+		If Model Then Return "activate " + TTypeID.ForObject( Model ).Name()
 	End Method
 End Type

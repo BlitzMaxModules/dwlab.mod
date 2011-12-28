@@ -8,20 +8,29 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTModelDeactivator Extends LTCommandModel Final
+Type LTModelDeactivator Extends LTBehaviorModel
 	Field Model:LTBehaviorModel
+	Field Permanent:Int
 
 	
 	
-	Function Create:LTModelDeactivator( Model:LTBehaviorModel )
+	Function Create:LTModelDeactivator( Model:LTBehaviorModel, Permanent:Int = False )
 		Local Deactivator:LTModelDeactivator = New LTModelDeactivator
 		Deactivator.Model = Model
+		Deactivator.Permanent = Permanent
 		Return Deactivator
 	End Function
 	
 	
 	
-	Method Init( Shape:LTShape )
-		Model.Deactivate( Shape )
+	Method ApplyTo( Shape:LTShape )
+		Model.DeactivateModel( Shape )
+		If Not Permanent Then Remove( Shape )
+	End Method
+	
+	
+	
+	Method Info:String( Shape:LTShape )
+		If Model Then Return "deactivate " + TTypeID.ForObject( Model ).Name()
 	End Method
 End Type

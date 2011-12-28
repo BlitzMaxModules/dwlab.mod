@@ -1,12 +1,17 @@
-ModuleInfo "Version: 1.3.16"
+ModuleInfo "Version: 1.3.18"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.3.19 (28.12.11)"
+ModuleInfo "History: &nbsp; &nbsp; Behavior models now doesn't activate/deacivate if they already did."
+ModuleInfo "History: v1.3.18 (27.12.11)"
+ModuleInfo "History: &nbsp; &nbsp; Added collision handlers and rewrote collision methods to support them, CollisionType is removed."
 ModuleInfo "History: v1.3.17 (26.12.11)"
 ModuleInfo "History: &nbsp; &nbsp; Seriously complemented behavior model system - added a lot of standard classes."
 ModuleInfo "History: &nbsp; &nbsp; Removed Default...() methods from LTBehaviorModel."
 ModuleInfo "History: &nbsp; &nbsp; Project parameter is removed from Animate() method."
+ModuleInfo "History: &nbsp; &nbsp; Added AttachModels() method to LTShape."
 ModuleInfo "History: v1.3.16 (20.12.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added L_Cursor to the LTProject which will be always at mouse coords."
 ModuleInfo "History: &nbsp; &nbsp; Added SwitchTo() method to LTProject."
@@ -181,7 +186,7 @@ import brl.random
 import brl.reflection
 import brl.retro
 import brl.max2d
-L_Version$=$"1.3.16"
+L_Version$=$"1.3.18"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
@@ -219,7 +224,7 @@ LTGroup^LTShape{
 -Delete%()="_dwlab_frmwork_LTGroup_Delete"
 -Draw%()="_dwlab_frmwork_LTGroup_Draw"
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTGroup_DrawUsingVisualizer"
--TileShapeCollisionsWithSprite%(Sprite:LTSprite,DX!,DY!,XScale!,YScale!,TileMap:LTTileMap,TileX%,TileY%,CollisionType%)="_dwlab_frmwork_LTGroup_TileShapeCollisionsWithSprite"
+-TileShapeCollisionsWithSprite%(Sprite:LTSprite,DX!,DY!,XScale!,YScale!,TileMap:LTTileMap,TileX%,TileY%,Handler:LTSpriteAndTileCollisionHandler)="_dwlab_frmwork_LTGroup_TileShapeCollisionsWithSprite"
 -AddFirst:brl.linkedlist.TLink(Sprite:LTShape)="_dwlab_frmwork_LTGroup_AddFirst"
 -AddLast:brl.linkedlist.TLink(Sprite:LTSprite)="_dwlab_frmwork_LTGroup_AddLast"
 -Clear%()="_dwlab_frmwork_LTGroup_Clear"
@@ -250,8 +255,8 @@ LTLayer^LTShape{
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTLayer_DrawUsingVisualizer"
 -Init%()="_dwlab_frmwork_LTLayer_Init"
 -Act%()="_dwlab_frmwork_LTLayer_Act"
--LayerFirstSpriteCollision:LTSprite(Sprite:LTSprite,CollisionType%)="_dwlab_frmwork_LTLayer_LayerFirstSpriteCollision"
--SpriteLayerCollisions%(Sprite:LTSprite,CollisionType%)="_dwlab_frmwork_LTLayer_SpriteLayerCollisions"
+-LayerFirstSpriteCollision:LTSprite(Sprite:LTSprite)="_dwlab_frmwork_LTLayer_LayerFirstSpriteCollision"
+-SpriteLayerCollisions%(Sprite:LTSprite,Handler:LTSpriteCollisionHandler)="_dwlab_frmwork_LTLayer_SpriteLayerCollisions"
 -FindShape:LTShape(Name$,IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShape"
 -FindShapeWithType:LTShape(ShapeType$,Name$=$"",IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShapeWithType"
 -FindShapeWithParameter:LTShape(ParameterName$,ParameterValue$,ShapeType$=$"",IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShapeWithParameter"
@@ -334,6 +339,21 @@ LTVectorSprite^LTSprite{
 -ReverseDirection%()="_dwlab_frmwork_LTVectorSprite_ReverseDirection"
 }="dwlab_frmwork_LTVectorSprite"
 L_Inaccuracy!=1e-006!
+LTSpriteCollisionHandler^LTObject{
+-New%()="_dwlab_frmwork_LTSpriteCollisionHandler_New"
+-Delete%()="_dwlab_frmwork_LTSpriteCollisionHandler_Delete"
+-HandleCollision%(Sprite1:LTSprite,Sprite2:LTSprite)="_dwlab_frmwork_LTSpriteCollisionHandler_HandleCollision"
+}="dwlab_frmwork_LTSpriteCollisionHandler"
+LTSpriteAndTileCollisionHandler^LTObject{
+-New%()="_dwlab_frmwork_LTSpriteAndTileCollisionHandler_New"
+-Delete%()="_dwlab_frmwork_LTSpriteAndTileCollisionHandler_Delete"
+-HandleCollision%(Sprite:LTSprite,TileMap:LTTileMap,TileX%,TileY%)="_dwlab_frmwork_LTSpriteAndTileCollisionHandler_HandleCollision"
+}="dwlab_frmwork_LTSpriteAndTileCollisionHandler"
+LTSpriteAndLineCollisionHandler^LTObject{
+-New%()="_dwlab_frmwork_LTSpriteAndLineCollisionHandler_New"
+-Delete%()="_dwlab_frmwork_LTSpriteAndLineCollisionHandler_Delete"
+-HandleCollision%(Sprite:LTSprite,Line:LTLine)="_dwlab_frmwork_LTSpriteAndLineCollisionHandler_HandleCollision"
+}="dwlab_frmwork_LTSpriteAndLineCollisionHandler"
 L_PivotWithPivot%(Pivot1X!,Pivot1Y!,Pivot2X!,Pivot2Y!)="dwlab_frmwork_L_PivotWithPivot"
 L_PivotWithOval%(PivotX!,PivotY!,OvalX!,OvalY!,OvalWidth!,OvalHeight!)="dwlab_frmwork_L_PivotWithOval"
 L_PivotWithRectangle%(PivotX!,PivotY!,RectangleX!,RectangleY!,RectangleWidth!,RectangleHeight!)="dwlab_frmwork_L_PivotWithRectangle"
@@ -364,22 +384,19 @@ Rectangle%=2
 +FromShape:LTSprite(X!=0!,Y!=0!,Width!=1!,Height!=1!,ShapeType%=2,Angle!=0!,Velocity!=1!)="_dwlab_frmwork_LTSprite_FromShape"
 -Draw%()="_dwlab_frmwork_LTSprite_Draw"
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTSprite_DrawUsingVisualizer"
--TileShapeCollisionsWithSprite%(Sprite:LTSprite,DX!,DY!,XScale!,YScale!,TileMap:LTTileMap,TileX%,TileY%,CollisionType%)="_dwlab_frmwork_LTSprite_TileShapeCollisionsWithSprite"
+-TileShapeCollisionsWithSprite%(Sprite:LTSprite,DX!,DY!,XScale!,YScale!,TileMap:LTTileMap,TileX%,TileY%,Handler:LTSpriteAndTileCollisionHandler)="_dwlab_frmwork_LTSprite_TileShapeCollisionsWithSprite"
 -CollidesWithSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTSprite_CollidesWithSprite"
 -CollidesWithLine%(Line:LTLine)="_dwlab_frmwork_LTSprite_CollidesWithLine"
 -TileSpriteCollidesWithSprite%(Sprite:LTSprite,DX!,DY!,XScale!,YScale!)="_dwlab_frmwork_LTSprite_TileSpriteCollidesWithSprite"
 -Overlaps%(Sprite:LTSprite)="_dwlab_frmwork_LTSprite_Overlaps"
--FirstCollidedSpriteOfLayer:LTSprite(Layer:LTLayer,CollisionType%=0)="_dwlab_frmwork_LTSprite_FirstCollidedSpriteOfLayer"
--LayerFirstSpriteCollision:LTSprite(Sprite:LTSprite,CollisionType%)="_dwlab_frmwork_LTSprite_LayerFirstSpriteCollision"
--CollisionsWithSprite%(Sprite:LTSprite,CollisionType%=0)="_dwlab_frmwork_LTSprite_CollisionsWithSprite"
--CollisionsWithLayer%(Layer:LTLayer,CollisionType%=0)="_dwlab_frmwork_LTSprite_CollisionsWithLayer"
--SpriteLayerCollisions%(Sprite:LTSprite,CollisionType%=0)="_dwlab_frmwork_LTSprite_SpriteLayerCollisions"
--CollisionsWithLine%(Line:LTLine,CollisionType%=0)="_dwlab_frmwork_LTSprite_CollisionsWithLine"
--CollisionsWithTileMap%(TileMap:LTTileMap,CollisionType%=0)="_dwlab_frmwork_LTSprite_CollisionsWithTileMap"
--CollisionsWithSpriteMap%(SpriteMap:LTSpriteMap,CollisionType%=0,Map:brl.map.TMap="bbNullObject")="_dwlab_frmwork_LTSprite_CollisionsWithSpriteMap"
--HandleCollisionWithSprite%(Sprite:LTSprite,CollisionType%=0)="_dwlab_frmwork_LTSprite_HandleCollisionWithSprite"
--HandleCollisionWithTile%(TileMap:LTTileMap,TileX%,TileY%,CollisionType%=0)="_dwlab_frmwork_LTSprite_HandleCollisionWithTile"
--HandleCollisionWithLine%(Line:LTLine,CollisionType%)="_dwlab_frmwork_LTSprite_HandleCollisionWithLine"
+-FirstCollidedSpriteOfLayer:LTSprite(Layer:LTLayer)="_dwlab_frmwork_LTSprite_FirstCollidedSpriteOfLayer"
+-LayerFirstSpriteCollision:LTSprite(Sprite:LTSprite)="_dwlab_frmwork_LTSprite_LayerFirstSpriteCollision"
+-CollisionsWithSprite%(Sprite:LTSprite,Handler:LTSpriteCollisionHandler)="_dwlab_frmwork_LTSprite_CollisionsWithSprite"
+-CollisionsWithLayer%(Layer:LTLayer,Handler:LTSpriteCollisionHandler)="_dwlab_frmwork_LTSprite_CollisionsWithLayer"
+-SpriteLayerCollisions%(Sprite:LTSprite,Handler:LTSpriteCollisionHandler)="_dwlab_frmwork_LTSprite_SpriteLayerCollisions"
+-CollisionsWithLine%(Line:LTLine,Handler:LTSpriteAndLineCollisionHandler)="_dwlab_frmwork_LTSprite_CollisionsWithLine"
+-CollisionsWithTileMap%(TileMap:LTTileMap,Handler:LTSpriteAndTileCollisionHandler)="_dwlab_frmwork_LTSprite_CollisionsWithTileMap"
+-CollisionsWithSpriteMap%(SpriteMap:LTSpriteMap,Handler:LTSpriteCollisionHandler,Map:brl.map.TMap="bbNullObject")="_dwlab_frmwork_LTSprite_CollisionsWithSpriteMap"
 -WedgeOffWithSprite%(Sprite:LTSprite,SelfMovingResistance!=0.5!,SpriteMovingResistance!=0.5!)="_dwlab_frmwork_LTSprite_WedgeOffWithSprite"
 -PushFromSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTSprite_PushFromSprite"
 -PushFromTile%(TileMap:LTTileMap,TileX%,TileY%)="_dwlab_frmwork_LTSprite_PushFromTile"
@@ -402,6 +419,7 @@ Rectangle%=2
 -Animate%(Speed!,FramesQuantity%=0,FrameStart%=0,StartingTime!=0!,PingPong%=0)="_dwlab_frmwork_LTSprite_Animate"
 -Clone:LTShape()="_dwlab_frmwork_LTSprite_Clone"
 -CopyTo%(Shape:LTShape)="_dwlab_frmwork_LTSprite_CopyTo"
+-UpdateFromAngularModel%()="_dwlab_frmwork_LTSprite_UpdateFromAngularModel"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTSprite_XMLIO"
 }="dwlab_frmwork_LTSprite"
 LTTileSet^LTObject{
@@ -789,8 +807,6 @@ LTVisualizer^LTObject{
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTVisualizer_XMLIO"
 }="dwlab_frmwork_LTVisualizer"
 LTShape^LTObject{
-Horizontal%=1
-Vertical%=2
 LeftFacing!=-1!
 RightFacing!=1!
 .Parameters:brl.linkedlist.TList&
@@ -809,9 +825,9 @@ RightFacing!=1!
 -DrawContour%(LineWidth!=1!)="_dwlab_frmwork_LTShape_DrawContour"
 -PrintText%(Text$,HorizontalAlign%=1,VerticalAlign%=1,HorizontalShift!=0!,VerticalShift!=0!)="_dwlab_frmwork_LTShape_PrintText"
 -SetAsViewport%()="_dwlab_frmwork_LTShape_SetAsViewport"
--LayerFirstSpriteCollision:LTSprite(Sprite:LTSprite,CollisionType%)="_dwlab_frmwork_LTShape_LayerFirstSpriteCollision"
--SpriteLayerCollisions%(Sprite:LTSprite,CollisionType%)="_dwlab_frmwork_LTShape_SpriteLayerCollisions"
--TileShapeCollisionsWithSprite%(Sprite:LTSprite,DX!,DY!,XScale!,YScale!,TileMap:LTTileMap,TileX%,TileY%,CollisionType%)="_dwlab_frmwork_LTShape_TileShapeCollisionsWithSprite"
+-LayerFirstSpriteCollision:LTSprite(Sprite:LTSprite)="_dwlab_frmwork_LTShape_LayerFirstSpriteCollision"
+-SpriteLayerCollisions%(Sprite:LTSprite,Handler:LTSpriteCollisionHandler)="_dwlab_frmwork_LTShape_SpriteLayerCollisions"
+-TileShapeCollisionsWithSprite%(Sprite:LTSprite,DX!,DY!,XScale!,YScale!,TileMap:LTTileMap,TileX%,TileY%,Handler:LTSpriteAndTileCollisionHandler)="_dwlab_frmwork_LTShape_TileShapeCollisionsWithSprite"
 -LeftX!()="_dwlab_frmwork_LTShape_LeftX"
 -TopY!()="_dwlab_frmwork_LTShape_TopY"
 -RightX!()="_dwlab_frmwork_LTShape_RightX"
@@ -918,31 +934,33 @@ LTTemporaryModel^LTBehaviorModel{
 -Delete%()="_dwlab_frmwork_LTTemporaryModel_Delete"
 -Init%(Shape:LTShape)="_dwlab_frmwork_LTTemporaryModel_Init"
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTTemporaryModel_ApplyTo"
+-Info$(Shape:LTShape)="_dwlab_frmwork_LTTemporaryModel_Info"
 }="dwlab_frmwork_LTTemporaryModel"
-LTModelActivator^LTCommandModel{
+LTModelActivator^LTBehaviorModel{
 .Model:LTBehaviorModel&
+.Permanent%&
 -New%()="_dwlab_frmwork_LTModelActivator_New"
 -Delete%()="_dwlab_frmwork_LTModelActivator_Delete"
-+Create:LTModelActivator(Model:LTBehaviorModel)="_dwlab_frmwork_LTModelActivator_Create"
--Init%(Shape:LTShape)="_dwlab_frmwork_LTModelActivator_Init"
++Create:LTModelActivator(Model:LTBehaviorModel,Permanent%=0)="_dwlab_frmwork_LTModelActivator_Create"
+-ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTModelActivator_ApplyTo"
+-Info$(Shape:LTShape)="_dwlab_frmwork_LTModelActivator_Info"
 }="dwlab_frmwork_LTModelActivator"
-LTModelDeactivator^LTCommandModel{
+LTModelDeactivator^LTBehaviorModel{
 .Model:LTBehaviorModel&
+.Permanent%&
 -New%()="_dwlab_frmwork_LTModelDeactivator_New"
 -Delete%()="_dwlab_frmwork_LTModelDeactivator_Delete"
-+Create:LTModelDeactivator(Model:LTBehaviorModel)="_dwlab_frmwork_LTModelDeactivator_Create"
--Init%(Shape:LTShape)F="_dwlab_frmwork_LTModelDeactivator_Init"
-}F="dwlab_frmwork_LTModelDeactivator"
-LTCommandModel^LTBehaviorModel{
--New%()="_dwlab_frmwork_LTCommandModel_New"
--Delete%()="_dwlab_frmwork_LTCommandModel_Delete"
--DefaultInit%(Shape:LTShape)="_dwlab_frmwork_LTCommandModel_DefaultInit"
-}="dwlab_frmwork_LTCommandModel"
++Create:LTModelDeactivator(Model:LTBehaviorModel,Permanent%=0)="_dwlab_frmwork_LTModelDeactivator_Create"
+-ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTModelDeactivator_ApplyTo"
+-Info$(Shape:LTShape)="_dwlab_frmwork_LTModelDeactivator_Info"
+}="dwlab_frmwork_LTModelDeactivator"
 LTModelStack^LTBehaviorModel{
 .Models:brl.linkedlist.TList&
 -New%()="_dwlab_frmwork_LTModelStack_New"
 -Delete%()="_dwlab_frmwork_LTModelStack_Delete"
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTModelStack_ApplyTo"
+-Add%(Model:LTBehaviorModel,Activated%=1)="_dwlab_frmwork_LTModelStack_Add"
+-Info$(Shape:LTShape)="_dwlab_frmwork_LTModelStack_Info"
 }="dwlab_frmwork_LTModelStack"
 LTAnimationModel^LTBehaviorModel{
 .StartingTime!&
@@ -955,24 +973,31 @@ LTAnimationModel^LTBehaviorModel{
 -New%()="_dwlab_frmwork_LTAnimationModel_New"
 -Delete%()="_dwlab_frmwork_LTAnimationModel_Delete"
 +Create:LTAnimationModel(Looped%=1,Speed!,FramesQuantity%=0,FrameStart%=0,PingPong%=0)="_dwlab_frmwork_LTAnimationModel_Create"
--Init%(Shape:LTShape)="_dwlab_frmwork_LTAnimationModel_Init"
+-Activate%(Shape:LTShape)="_dwlab_frmwork_LTAnimationModel_Activate"
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTAnimationModel_ApplyTo"
+-Info$(Shape:LTShape)="_dwlab_frmwork_LTAnimationModel_Info"
 }="dwlab_frmwork_LTAnimationModel"
 LTIsModelActivated^LTConditionalModel{
 .Model:LTBehaviorModel&
-.ModelType$&
 -New%()="_dwlab_frmwork_LTIsModelActivated_New"
 -Delete%()="_dwlab_frmwork_LTIsModelActivated_Delete"
--Create:LTIsModelActivated(Model:LTBehaviorModel)="_dwlab_frmwork_LTIsModelActivated_Create"
++Create:LTIsModelActivated(Model:LTBehaviorModel)="_dwlab_frmwork_LTIsModelActivated_Create"
 -Condition%(Shape:LTShape)="_dwlab_frmwork_LTIsModelActivated_Condition"
 }="dwlab_frmwork_LTIsModelActivated"
+LTIsButtonActionDown^LTConditionalModel{
+.ButtonAction:LTButtonAction&
+-New%()="_dwlab_frmwork_LTIsButtonActionDown_New"
+-Delete%()="_dwlab_frmwork_LTIsButtonActionDown_Delete"
++Create:LTIsButtonActionDown(ButtonAction:LTButtonAction)="_dwlab_frmwork_LTIsButtonActionDown_Create"
+-Condition%(Shape:LTShape)="_dwlab_frmwork_LTIsButtonActionDown_Condition"
+}="dwlab_frmwork_LTIsButtonActionDown"
 LTConditionalModel^LTBehaviorModel{
 .TrueModels:brl.linkedlist.TList&
 .FalseModels:brl.linkedlist.TList&
 -New%()="_dwlab_frmwork_LTConditionalModel_New"
 -Delete%()="_dwlab_frmwork_LTConditionalModel_Delete"
 -Condition%(Shape:LTShape)="_dwlab_frmwork_LTConditionalModel_Condition"
--Init%(Shape:LTShape)="_dwlab_frmwork_LTConditionalModel_Init"
+-ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTConditionalModel_ApplyTo"
 }="dwlab_frmwork_LTConditionalModel"
 LTFixedJoint^LTBehaviorModel{
 .ParentPivot:LTSprite&
@@ -1017,13 +1042,11 @@ LTBehaviorModel^LTObject{
 -Deactivate%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_Deactivate"
 -Watch%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_Watch"
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_ApplyTo"
--HandleCollisionWithSprite%(Sprite1:LTSprite,Sprite2:LTSprite,CollisionType%)="_dwlab_frmwork_LTBehaviorModel_HandleCollisionWithSprite"
--HandleCollisionWithTile%(Sprite:LTSprite,TileMap:LTTileMap,TileX%,TileY%,CollisionType%)="_dwlab_frmwork_LTBehaviorModel_HandleCollisionWithTile"
--HandleCollisionWithLine%(Sprite:LTSprite,Line:LTLine,CollisionType%)="_dwlab_frmwork_LTBehaviorModel_HandleCollisionWithLine"
 -ActivateModel%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_ActivateModel"
 -DeactivateModel%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_DeactivateModel"
 -Remove%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_Remove"
 -RemoveSame%(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_RemoveSame"
+-Info$(Shape:LTShape)="_dwlab_frmwork_LTBehaviorModel_Info"
 }="dwlab_frmwork_LTBehaviorModel"
 LTAlign^brl.blitz.Object{
 ToRight%=0

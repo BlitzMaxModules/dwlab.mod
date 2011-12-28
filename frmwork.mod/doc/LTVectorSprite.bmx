@@ -75,6 +75,8 @@ Type TPlayer Extends LTVectorSprite
 	Const JumpStrength:Double = 15.0
 	
 	Field OnLand:Int
+	Field HorizontalCollisionHandler:THorizontalCollisionHandler = New THorizontalCollisionHandler
+	Field VerticalCollisionHandler:TVerticalCollisionHandler = New TVerticalCollisionHandler
 	
 	Function Create:TPlayer()
 		Local Player:TPlayer = New TPlayer
@@ -86,11 +88,13 @@ Type TPlayer Extends LTVectorSprite
 	
 	Method Act()
 		Move( DX, 0 )
-		CollisionsWithTileMap( Example.TileMap, Horizontal )
+		CollisionsWithTileMap( Example.TileMap, HorizontalCollisionHandler )
+		
 		OnLand = False
 		Move( 0, DY )
 		DY = DY + Example.PerSecond( Gravity )
-		CollisionsWithTileMap( Example.TileMap, Vertical )
+		CollisionsWithTileMap( Example.TileMap, VerticalCollisionHandler )
+		
 		DX = 0.0
 		If KeyDown( Key_Left ) Then
 			DX = -HorizontalSpeed
@@ -99,20 +103,41 @@ Type TPlayer Extends LTVectorSprite
 			DX = HorizontalSpeed
 			SetFacing( RightFacing )
 		End If 
+		
 		If OnLand Then If KeyDown( Key_Up ) Then DY = -JumpStrength
 	End Method
-	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int = 0 )
-		Local TileNum:Int = TileMap.GetTile( TileX, TileY )
-		If TileNum = Example.Coin Then
-			TileMap.Value[ TileX, TileY ] = Example.Void
-			Example.Coins :+ 1
-		ElseIf TileNum = Example.Bricks Then
-			PushFromTile( TileMap, TileX, TileY )
-			If CollisionType = Vertical Then
-				If DY > 0 Then OnLand = True
-				DY = 0
-			End If
+End Type
+
+
+
+Type THorizontalCollisionHandler Extends LTSpriteAndTileCollisionHandler
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+		If Bricks( TileMap, TileX, TileY ) Then Sprite.PushFromTile( TileMap, TileX, TileY )
+	End Method
+End Type
+
+
+
+Type TVerticalCollisionHandler Extends LTSpriteAndTileCollisionHandler
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+		If Bricks( TileMap, TileX, TileY ) Then 
+			Sprite.PushFromTile( TileMap, TileX, TileY )
+			Local Player:TPlayer = TPlayer( Sprite )
+			If Player.DY > 0 Then Player.OnLand = True
+			Player.DY = 0
 		End If
 	End Method
 End Type
+
+
+
+Function Bricks:Int( TileMap:LTTileMap, TileX:Int, TileY:Int )
+	Local TileNum:Int = TileMap.GetTile( TileX, TileY )
+	If TileNum = Example.Coin Then
+		TileMap.Value[ TileX, TileY ] = Example.Void
+		Example.Coins :+ 1
+	ElseIf TileNum = Example.Bricks Then
+		Return True
+	End If
+	Return False
+End Function
