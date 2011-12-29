@@ -5,12 +5,14 @@ bbdoc: Digital Wizard's Lab framework GUI module
 End Rem
 Module dwlab.gui
 
-ModuleInfo "Version: 1.0.3"
+ModuleInfo "Version: 1.0.4.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.4.1 (29.12.11)"
+ModuleInfo "History: &nbsp; &nbsp; Switched Name and Class parameters in FindWindow() and LoadWindow() methods."
 ModuleInfo "History: v1.0.4 (21.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added multi-line labels support."
 ModuleInfo "History: v1.0.3 (14.11.11)"

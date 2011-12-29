@@ -13,7 +13,7 @@ AppTitle = "Graph editor"
 Type TEditor Extends LTProject
 	Field GameMap:TGameMap
 	Field CurrentLine:LTLine
-	Field CurrentLineVisualizer:LTEmptyPrimitive = New LTEmptyPrimitive
+	Field CurrentLineVisualizer:LTContourVisualizer = LTContourVisualizer.FromWidthAndHexColor( 0.2, "FFBF7F", , 2.0 )
 	Field MovePivot:TMovePivot = New TMovePivot
 	Field MakeLine:TMakeLine = New TMakeLine
 	
@@ -22,10 +22,6 @@ Type TEditor Extends LTProject
 	
 	Method Init()
 		Game.Init()
-		
-		CurrentLineVisualizer.LineWidth = 3.0
-		CurrentLineVisualizer.Scaling = False
-		CurrentLineVisualizer.SetColorFromHex( "FFBF7F" )
 	End Method
 	
 	
@@ -40,6 +36,7 @@ Type TEditor Extends LTProject
 		
 		If MouseHit( 1 ) And Not Game.CurrentPivot Then
 			Local NewPivot:LTSprite = New LTSprite
+			NewPivot.ShapeType = LTSprite.Pivot
 			LTAddPivotToGraph.Create( Game.Map, NewPivot ).Do()
 			NewPivot.SetMouseCoords()
 		End If
@@ -51,7 +48,7 @@ Type TEditor Extends LTProject
 		MakeLine.Execute()
 		
 		CurrentLine = Null
-		If Not Game.CurrentPivot Then CurrentLine = Game.Map.FindLineCollidingWith( Game.Cursor )
+		If Not Game.CurrentPivot Then CurrentLine = Game.Map.FindLineCollidingWithSprite( Game.Cursor )
 		
 		If KeyHit( Key_Delete ) Then
 			If Game.CurrentPivot Then LTRemovePivotFromGraph.Create( Game.Map, Game.CurrentPivot ).Do()

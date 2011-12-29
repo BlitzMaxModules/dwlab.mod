@@ -3,6 +3,7 @@
 </head><body>
 <table width=100% cellspacing=0><tr align=center><td class=small>&nbsp;</td>
 <td class=small width=1%><b>dwlab.frmwork:</b></td>
+<td class=small width=1%><a href=#consts class=small>Constants</a></td>
 <td class=small width=1%><a href=#globals class=small>Globals</a></td>
 <td class=small width=1%><a href=#functions class=small>Functions</a></td>
 <td class=small width=1%><a href=#types class=small>Types</a></td>
@@ -10,12 +11,14 @@
 <td class=small width=1%><a href='../../../../mod/dwlab.mod/frmwork.mod/frmwork.bmx' class=small>Source</a></td>
 <td class=small>&nbsp;</td></tr></table>
 <h1>Digital Wizard's Lab Framework</h1>
+<h2><a name=consts></a>Constants Summary</h2><table class=doc width=100%><tr><td colspan=2>
+<a href=#L_Inaccuracy>L_Inaccuracy</a>
+</td></tr>
+</table>
 <h2><a name=globals></a>Globals Summary</h2><table class=doc width=100%><tr><td colspan=2>
 <a href=#L_CurrentCamera>L_CurrentCamera</a>
 , 
 <a href=#L_DebugVisualizer>L_DebugVisualizer</a>
-, 
-<a href=#L_DefaultVisualizer>L_DefaultVisualizer</a>
 , 
 <a href=#L_DiscreteGraphics>L_DiscreteGraphics</a>
 , 
@@ -169,7 +172,7 @@ Image class.
 IntMap is basically a 2d int array.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTKeyboardKey>LTKeyboardKey</a></td><td class=docright>
-&nbsp;
+Class for keyboard keys.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTLayer>LTLayer</a></td><td class=docright>
 Layer is the group of sprites which have bounds.
@@ -184,10 +187,10 @@ Common object for maps.
 This visualizer draws rectangular animated dashed frame around the shape.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTMouseButton>LTMouseButton</a></td><td class=docright>
-&nbsp;
+Class for mouse buttons.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTMouseWheelAction>LTMouseWheelAction</a></td><td class=docright>
-&nbsp;
+Class for mouse wheel rollings.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTObject>LTObject</a></td><td class=docright>
 Global object class.
@@ -209,6 +212,15 @@ Common object for item of game field.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTSprite>LTSprite</a></td><td class=docright>
 Sprite is the main basic shape of the framework to draw, move and check collisions.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#LTSpriteAndLineCollisionHandler>LTSpriteAndLineCollisionHandler</a></td><td class=docright>
+Sprite and line collision handling class.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#LTSpriteAndTileCollisionHandler>LTSpriteAndTileCollisionHandler</a></td><td class=docright>
+Sprite and tile collision handling class.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#LTSpriteCollisionHandler>LTSpriteCollisionHandler</a></td><td class=docright>
+Sprite collision handling class.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#LTSpriteMap>LTSpriteMap</a></td><td class=docright>
 Sprite map is a structure which can contain sprites, draw and perform collision checks between them and other shapes.
@@ -239,6 +251,14 @@ Class for intermediate objects to save/load objects from XML file.
 </td></tr>
 </table>
 <h2
+ id=constsdet>Constants
+</h2>
+<table class=doc width=100% cellspacing=3 id=L_Inaccuracy>
+<tr><td class=doctop colspan=2>Const L_Inaccuracy:Double</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Constant for dealing with inaccuracy of double type operations.</td></tr>
+</table>
+<br>
+<h2
  id=globalsdet>Globals
 </h2>
 <table class=doc width=100% cellspacing=3 id=L_CurrentCamera>
@@ -249,11 +269,6 @@ Class for intermediate objects to save/load objects from XML file.
 <table class=doc width=100% cellspacing=3 id=L_DebugVisualizer>
 <tr><td class=doctop colspan=2>Global L_DebugVisualizer:LTDebugVisualizer</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Global variable for debug visualizer.</td></tr>
-</table>
-<br>
-<table class=doc width=100% cellspacing=3 id=L_DefaultVisualizer>
-<tr><td class=doctop colspan=2>Global L_DefaultVisualizer:LTVisualizer</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Global variable for default visualizer.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=L_DiscreteGraphics>
@@ -452,6 +467,7 @@ EndRem</pre></td></tr>
 <tr><td class=doctop colspan=2>Function L_InitGraphics( Width:Int = 800, Height:Int = 600, UnitSize:Double = 25.0, ColorDepth:Int = 0, Frequency:Int = 60 )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Sets graphics mode.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Provide width and height of screen in pixels and unit size in pixels for camera.
+<p>
 See also: <a href=#Parallax>Parallax</a> example.</td></tr>
 </table>
 <br>
@@ -592,6 +608,7 @@ See also: <a href=#L_LogicFPS>L_LogicFPS</a>, <a href=#SetAsTile>SetAsTile</a> e
 <table class=doc width=100% cellspacing=3 id=L_PushActionsList>
 <tr><td class=doctop colspan=2>Function L_PushActionsList()</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Function for finalizing current action list as single step and pushing it to Undo stack.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#LTAction>LTAction</a> example.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=L_Redo>
@@ -599,7 +616,7 @@ See also: <a href=#L_LogicFPS>L_LogicFPS</a>, <a href=#SetAsTile>SetAsTile</a> e
 <tr><td class=docleft width=1%>Description</td><td class=docright>Function for performing single step of Redo.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Executes all Redo() methods for every action in head action list of Redo stack and moves this list to Undo stack.
 <p>
-See also: LTAction example.</td></tr>
+See also: <a href=#LTAction>LTAction</a> example.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=L_RemoveItemFromIntArray>
@@ -724,7 +741,7 @@ EndRem</pre></td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Function for performing single step of Undo.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Executes all Undo() methods for every action in head action list of Undo stack and moves this list to Redo stack.
 <p>
-See also: LTAction example.</td></tr>
+See also: <a href=#LTAction>LTAction</a> example.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=L_WrapDouble>
@@ -799,6 +816,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "kolobok.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -806,7 +825,7 @@ Type TExample Extends LTProject
 	Const SpritesQuantity:Int = 50
 	
 	Field Sprites:LTLayer = New LTLayer
-	Field SpriteImage:LTImage = LTImage.FromFile( "kolobok.png" )
+	Field SpriteImage:LTImage = LTImage.FromFile( "incbin::kolobok.png" )
 	Field Drag:TMoveDrag = New TMoveDrag
 	
 	Method Init()
@@ -956,11 +975,22 @@ Global Example:TExample = New TExample
 Example.Execute()
 
 Type TExample Extends LTProject
-	Const BallsQuanity:Int = 20
+	Const Bricks:Int = 1
+	Const DeathPeriod:Double = 1.0
 	
-	Field World:LTWorld = LTWorld.FromFile( "game.lw" )
+	Field World:LTWorld = LTWorld.FromFile( "jellys.lw" )
 	Field Layer:LTLayer
 	Field TileMap:LTTileMap
+	Field SelectedSprite:LTSprite
+	Field MarchingAnts:LTMarchingAnts = New LTMarchingAnts
+	
+	Field BumpingWalls:TBumpingWalls = New TBumpingWalls
+	Field PushFromWalls:TPushFromWalls = New TPushFromWalls
+	Field DestroyBullet:TDestroyBullet = New TDestroyBullet
+	Field AwPossumHurtingCollision:TAwPossumHurtingCollision = New TAwPossumHurtingCollision
+	Field AwPossumHitCollision:TAwPossumHitCollision = New TAwPossumHitCollision
+	
+	'Field HitArea:LTSprite
 	
 	Method Init()
 		L_InitGraphics()
@@ -969,100 +999,703 @@ Type TExample Extends LTProject
 	
 	Method InitLevel()
 		LoadAndInitLayer( Layer, LTLayer( World.FindShape( "Level" ) ) )
-		TileMap = LTTileMap( Layer.FindShapeWithType( "LTTileMap" ) )
+		TileMap = LTTileMap( Layer.FindShape( "Field" ) )
 	End Method
 	
 	Method Logic()
+		L_CurrentCamera.JumpTo( TileMap )
+		If MouseHit( 1 ) Then SelectedSprite = L_Cursor.FirstCollidedSpriteOfLayer( Layer )
 		Layer.Act()
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
 	End Method
 
 	Method Render()
 		Layer.Draw()
+		If SelectedSprite Then
+			SelectedSprite.ShowModels( 100 )
+			SelectedSprite.DrawUsingVisualizer( MarchingAnts )
+		End If
+		'If HitArea Then HitArea.Draw()
+		ShowDebugInfo()
+		L_PrintText( "Guide AwesomePossum to exit from maze using arrow and space keys", 16, -12, LTAlign.ToRight, LTAlign.ToTop )
+		L_PrintText( "You can select sprite to see its behavior models", 1, -1, LTAlign.ToRight, LTAlign.ToTop )
 	End Method
 End Type
 
 
 
-Type TBall Extends LTVectorSprite
+Type TGameObject Extends LTVectorSprite
+	Field OnLand:TOnLand = New TOnLand
+	Field Gravity:TGravity = New TGravity
+	Field JumpingAnimation:LTAnimationModel
+	Field FallingAnimation:LTAnimationModel
+	
+	Field Health:Double = 100.0
+End Type
+
+
+
+Type TJelly Extends TGameObject
+	Const JumpingAnimationSpeed:Double = 0.2
+	Const FiringAnimationSpeed:Double = 0.1
+	Const WalkingAnimationSpeed:Double = 0.2
+	Const IdleAnimationSpeed:Double = 0.4
+	Const MinAttack:Double = 10.0
+	Const MaxAttack:Double = 20.0
+	Const HurtingTime:Double = 0.2
+	
+	Const JumpingPause:Double = JumpingAnimationSpeed * 2.0
+	Const BulletPause:Double = FiringAnimationSpeed * 5.0
+	
+	Field Score:Int = 100
+
+	Method Init()
+		AttachModel( Gravity )
+
+		Local AnimationStack:LTModelStack = New LTModelStack
+		AttachModel( AnimationStack )
+		
+		JumpingAnimation = LTAnimationModel.Create( False, JumpingAnimationSpeed, 8, 8 )
+		FallingAnimation = LTAnimationModel.Create( True, JumpingAnimationSpeed, 3, 13, True )
+		Local FiringAnimation:LTAnimationModel = LTAnimationModel.Create( False, FiringAnimationSpeed, 8, 16 )
+		
+		
+		Local HorizontalMovement:THorizontalMovement = THorizontalMovement.Create( Example.BumpingWalls )
+		
+				
+		Local Jumping:String = GetParameter( "jumping" )
+		If Jumping Then
+			Local Parameters:String[] = Jumping.Split( "-" )
+			Local WaitingForJump:LTRandomWaitingModel = LTRandomWaitingModel.Create( Parameters[ 0 ].ToDouble(), Parameters[ 1 ].ToDouble() )
+			AttachModel( WaitingForJump )
+			
+			Local OnLandCondition:LTIsModelActive = LTIsModelActive.Create( OnLand )
+			WaitingForJump.NextModels.AddLast( OnLandCondition )
+			
+			Local AnimationActive:LTIsModelActive = LTIsModelActive.Create( FiringAnimation )
+			OnLandCondition.TrueModels.AddLast( AnimationActive )
+			OnLandCondition.FalseModels.AddLast( WaitingForJump )
+			
+			AnimationActive.TrueModels.AddLast( WaitingForJump )
+			AnimationActive.FalseModels.AddLast( LTModelActivator.Create( JumpingAnimation ) )
+			AnimationActive.FalseModels.AddLast( LTModelDeactivator.Create( HorizontalMovement ) )
+			AnimationActive.FalseModels.AddLast( LTModelDeactivator.Create( Gravity ) )
+			
+			JumpingAnimation.NextModels.AddLast( LTModelActivator.Create( FallingAnimation ) )
+			
+			Parameters = GetParameter( "jumping_strength" ).Split( "-" )
+			Local PauseBeforeJump:LTFixedWaitingModel = LTFixedWaitingModel.Create( JumpingPause )
+			PauseBeforeJump.NextModels.AddLast( TJump.Create( Parameters[ 0 ].ToDouble(), Parameters[ 1 ].ToDouble() ) )
+			PauseBeforeJump.NextModels.AddLast( LTModelActivator.Create( HorizontalMovement ) )
+			PauseBeforeJump.NextModels.AddLast( LTModelActivator.Create( Gravity ) )
+			PauseBeforeJump.NextModels.AddLast( WaitingForJump )
+			AnimationActive.FalseModels.AddLast( PauseBeforeJump )
+			
+			AnimationStack.Add( JumpingAnimation, False )
+			Score :+ 200
+		End If
+		
+		
+		AnimationStack.Add( FallingAnimation )
+		
+		
+		Local Firing:String = GetParameter( "firing" )
+		If Firing Then
+			Local Parameters:String[] = Firing.Split( "-" )
+			Local WaitingForFire:LTRandomWaitingModel = LTRandomWaitingModel.Create( Parameters[ 0 ].ToDouble(), Parameters[ 1 ].ToDouble() )
+			AttachModel( WaitingForFire )
+			
+			Local OnLandCondition:LTIsModelActive = LTIsModelActive.Create( OnLand )
+			WaitingForFire.NextModels.AddLast( OnLandCondition )
+			
+			Local AnimationActive:LTIsModelActive = LTIsModelActive.Create( JumpingAnimation )
+			OnLandCondition.TrueModels.AddLast( AnimationActive )
+			OnLandCondition.FalseModels.AddLast( WaitingForFire )
+			
+			AnimationActive.TrueModels.AddLast( WaitingForFire )
+			AnimationActive.FalseModels.AddLast( LTModelActivator.Create( FiringAnimation ) )
+			AnimationActive.FalseModels.AddLast( LTModelDeactivator.Create( HorizontalMovement ) )
+
+			FiringAnimation.NextModels.AddLast( LTModelActivator.Create( HorizontalMovement ) )
+			
+			Parameters = GetParameter( "firing_speed" ).Split( "-" )
+			Local PauseBeforeBullet:LTFixedWaitingModel = LTFixedWaitingModel.Create( BulletPause )
+			PauseBeforeBullet.NextModels.AddLast( TCreateBullet.Create( Parameters[ 0 ].ToDouble(), Parameters[ 1 ].ToDouble() ) )
+			PauseBeforeBullet.NextModels.AddLast( WaitingForFire )
+			AnimationActive.FalseModels.AddLast( PauseBeforeBullet )
+			
+			AnimationStack.Add( FiringAnimation, False )
+			Score :+ 300
+		End If
+		
+		Local MovementAnimation:LTAnimationModel = LTAnimationModel.Create( True, WalkingAnimationSpeed, 3, 3, True )
+		Local Moving:String = GetParameter( "moving" )
+		If Moving Then
+			Local Parameters:String[] = GetParameter( "moving" ).Split( "-" )
+			DX :* Rnd( Parameters[ 0 ].ToDouble(), Parameters[ 1 ].ToDouble() )
+			AttachModel( HorizontalMovement )
+			AnimationStack.Add( MovementAnimation )
+			Score :+ 100
+		End If
+		
+		
+		AttachModel( LTModelDeactivator.Create( OnLand, True ) )
+		AttachModel( TVerticalMovement.Create( False ) )
+		
+		
+		Local StandingAnimation:LTAnimationModel = LTAnimationModel.Create( True, IdleAnimationSpeed, 3, 0, True )
+		AnimationStack.Add( StandingAnimation )
+		
+		Local ScoreParameter:String = GetParameter( "score" )
+		If ScoreParameter Then Score = ScoreParameter.ToInt()
+		
+		Local HealthParameter:String = GetParameter( "health" )
+		If HealthParameter Then Health = HealthParameter.ToDouble()
+	End Method
+End Type
+
+
+
+Type TAwPossum Extends TGameObject
+	Const JumpingAnimationSpeed:Double = 0.2
+	Const WalkingAnimationSpeed:Double = 0.2
+	Const IdleAnimationSpeed:Double = 0.4
+	
+	Const JumpingPause:Double = JumpingAnimationSpeed
+	Const JumpingStrength:Double = 6.0
+	Const WalkingSpeed:Double = 5.0
+	
+	Const MinAttack:Double = 20.0
+	Const MaxAttack:Double = 35.0
+	Const MinHealthGain:Double = 3.0
+	Const MaxHealthGain:Double = 6.0
+	
+	Const KnockOutPeriod:Double = 0.3
+	Const ImmortalPeriod:Double = 1.5
+	Const HitPeriod:Double = 0.2
+	Const KnockOutStrength:Double = 2.0
+	Const HitPauseTime:Double = 0.5
+	
+	Field MovementAnimation:LTAnimationModel = LTAnimationModel.Create( True, WalkingAnimationSpeed, 4, 4 )
+	Field HurtingAnimation:LTAnimationModel = LTAnimationModel.Create( False, KnockOutPeriod, 1, 14 )
+	Field PunchingAnimation:LTAnimationModel = LTAnimationModel.Create( False, HitPeriod, 1, 15 )
+	Field KickingAnimation:LTAnimationModel = LTAnimationModel.Create( False, HitPeriod, 1, 11 )
+	
+	Field MovementControl:TMovementControl = New TMovementControl
+	Field HitPause:LTFixedWaitingModel = LTFixedWaitingModel.Create( HitPauseTime )
+	
+	Field MoveLeftKey:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Left ), "Move left" )
+	Field MoveRightKey:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Right ), "Move right" )
+	Field JumpKey:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Up ), "Jump" )
+	Field HitKey:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Space ), "Hit" )
+	
+	Method Init()
+		AttachModel( Gravity )
+
+		
+		Local AnimationStack:LTModelStack = New LTModelStack
+		AttachModel( AnimationStack )
+		
+		AnimationStack.Add( HurtingAnimation, False )
+		AnimationStack.Add( PunchingAnimation, False )
+		AnimationStack.Add( KickingAnimation, False )
+		
+		JumpingAnimation = LTAnimationModel.Create( False, JumpingAnimationSpeed, 3, 8 )
+		AnimationStack.Add( JumpingAnimation )
+		
+		FallingAnimation = LTAnimationModel.Create( True, JumpingAnimationSpeed, 1, 10 )
+		JumpingAnimation.NextModels.AddLast( LTModelActivator.Create( FallingAnimation ) )
+		AnimationStack.Add( FallingAnimation )
+
+		AnimationStack.Add( MovementAnimation )
+
+		
+		AttachModel( MovementControl )
+		
+		
+		Local JumpKeyDown:LTIsButtonActionDown = LTIsButtonActionDown.Create( JumpKey )
+		AttachModel( JumpKeyDown )
+		JumpKeyDown.FalseModels.AddLast( JumpKeyDown )
+		
+		Local OnLandCondition:LTIsModelActive = LTIsModelActive.Create( OnLand )
+		JumpKeyDown.TrueModels.AddLast( OnLandCondition )
+		
+		OnLandCondition.TrueModels.AddLast( LTModelActivator.Create( JumpingAnimation ) )
+		OnLandCondition.TrueModels.AddLast( LTModelDeactivator.Create( Gravity ) )
+		OnLandCondition.FalseModels.AddLast( JumpKeyDown )
+		
+		Local PauseBeforeJump:LTFixedWaitingModel = LTFixedWaitingModel.Create( JumpingPause )
+		PauseBeforeJump.NextModels.AddLast( TJump.Create( JumpingStrength, JumpingStrength ) )
+		PauseBeforeJump.NextModels.AddLast( LTModelActivator.Create( Gravity ) )
+		PauseBeforeJump.NextModels.AddLast( JumpKeyDown )
+		OnLandCondition.TrueModels.AddLast( PauseBeforeJump )
+		
+		AnimationStack.Add( JumpingAnimation, False )
+
+		
+		Local HitKeyDown:LTIsButtonActionDown = LTIsButtonActionDown.Create( HitKey )
+		AttachModel( HitKeyDown )
+		HitKeyDown.FalseModels.AddLast( HitKeyDown )
+		
+		Local HitPauseCondition:LTIsModelActive = LTIsModelActive.Create( HitPause )
+		HitPauseCondition.FalseModels.AddLast( HitPause )
+		HitPauseCondition.TrueModels.AddLast( HitKeyDown )
+		HitKeyDown.TrueModels.AddLast( HitPauseCondition )
+				
+		Local OnLandCondition2:LTIsModelActive = LTIsModelActive.Create( OnLand )
+		OnLandCondition2.TrueModels.AddLast( LTModelActivator.Create( PunchingAnimation ) )
+		OnLandCondition2.TrueModels.AddLast( THittingArea.Create2( True ) )
+		OnLandCondition2.TrueModels.AddLast( HitKeyDown )
+		OnLandCondition2.FalseModels.AddLast( LTModelActivator.Create( KickingAnimation ) )
+		OnLandCondition2.FalseModels.AddLast( THittingArea.Create2( False ) )
+		OnLandCondition2.FalseModels.AddLast( HitKeyDown )
+		HitPauseCondition.FalseModels.AddLast( OnLandCondition2 )
+		
+		
+		AttachModel( THorizontalMovement.Create( Example.PushFromWalls ) )
+		
+		
+		AttachModel( LTModelDeactivator.Create( OnLand, True ) )
+		AttachModel( TVerticalMovement.Create( True ) )
+		
+		
+		Local StandingAnimation:LTAnimationModel = LTAnimationModel.Create( True, IdleAnimationSpeed, 4, 0, True )
+		AnimationStack.Add( StandingAnimation )
+	End Method
+	
+	Method Act()
+		CollisionsWithLayer( Example.Layer, Example.AwPossumHurtingCollision )
+		Super.Act()
+	End Method
+	
+	Method Draw()
+		Super.Draw()
+		L_DrawEmptyRect( 5, 580, 104, 15 )
+		If Health >= 50.0 Then
+			SetColor( ( 100.0 - Health ) * 255.0 / 50.0 , 255, 0 )
+		Else
+			SetColor( 255, Health * 255.0 / 50.0, 0 )
+		End If
+		DrawRect( 7, 582, Health, 11 )
+		LTVisualizer.ResetColor()
+	End Method
+End Type
+
+
+
+Type TOnLand Extends LTBehaviorModel
+End Type
+
+
+
+Type TGravity Extends LTBehaviorModel
 	Const Gravity:Double = 8.0
 	
-	Field OnLand:Int
-	
-	Method Act()
-		CollisionsWithGroup( Example.Layer )
-		
-		OnLand = False
-		DY :+ Example.PerSecond( Gravity )
-		Sprite.Move( 0, DY )
-		CollisionsWithTileMap( Exmple.TileMap, Vertical )
-	End Method
-	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int = 0 )
-		If CollisionType = Vertical Then
-			If DY > 0 Then OnLand = True
-			DY = 0
-		End If
+	Method ApplyTo( Shape:LTShape )
+		LTVectorSprite( Shape ).DY :+ L_PerSecond( Gravity )
 	End Method
 End Type
 
 
 
-Type TBullet Extends LTSprite
+Type THorizontalMovement Extends LTBehaviorModel
+	Field CollisionHandler:LTSpriteAndTileCollisionHandler
+
+	Function Create:THorizontalMovement( CollisionHandler:LTSpriteAndTileCollisionHandler )
+		Local HorizontalMovement:THorizontalMovement = New THorizontalMovement
+		HorizontalMovement.CollisionHandler = CollisionHandler
+		Return HorizontalMovement
+	End Function
+	
+	Method ApplyTo( Shape:LTShape )
+		Local Sprite:LTVectorSprite = LTVectorSprite( Shape )
+		Sprite.Move( Sprite.DX, 0 )
+		Sprite.CollisionsWithTileMap( Example.TileMap, CollisionHandler )
+	End Method
+	
+	Method Info:String( Shape:LTShape )
+		Return L_TrimDouble( LTVectorSprite( Shape ).DX )
+	End Method
+End Type
+
+
+
+Type TBumpingWalls Extends LTSpriteAndTileCollisionHandler
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+		Sprite.PushFromTile( TileMap, TileX, TileY )
+		LTVectorSprite( Sprite ).DX :* -1
+		Sprite.Visualizer.XScale :* -1
+	End Method
+End Type
+
+
+
+Type TPushFromWalls Extends LTSpriteAndTileCollisionHandler
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+		If TileMap.GetTile( TileX, TileY ) = Example.Bricks Then Sprite.PushFromTile( TileMap, TileX, TileY )
+	End Method
+End Type
+
+
+
+Type TVerticalMovement Extends LTBehaviorModel
+	Field Handler:TVerticalCollisionHandler = New TVerticalCollisionHandler
+
+	Function Create:TVerticalMovement( ForPlayer:Int )
+		Local VerticalMovement:TVerticalMovement = New TVerticalMovement
+		VerticalMovement.Handler.ForPlayer = ForPlayer
+		Return VerticalMovement
+	End Function
+	
+	Method ApplyTo( Shape:LTShape )
+		Local Sprite:LTVectorSprite = LTVectorSprite( Shape )
+		Sprite.Move( 0, Sprite.DY )
+		Sprite.CollisionsWithTileMap( Example.TileMap, Handler )
+	End Method
+	
+	Method Info:String( Shape:LTShape )
+		Return L_TrimDouble( LTVectorSprite( Shape ).DY )
+	End Method
+End Type
+
+
+
+Type TVerticalCollisionHandler Extends LTSpriteAndTileCollisionHandler
+	Field ForPlayer:Int
+	
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+		If ForPlayer Then If TileMap.GetTile( TileX, TileY ) <> Example.Bricks Then Return
+		Local GameObject:TGameObject = TGameObject( Sprite )
+		GameObject.PushFromTile( TileMap, TileX, TileY )
+		If GameObject.DY > 0 Then
+			GameObject.OnLand.ActivateModel( Sprite )
+			GameObject.FallingAnimation.DeactivateModel( Sprite )
+			GameObject.JumpingAnimation.DeactivateModel( Sprite )
+		End If
+		GameObject.DY = 0
+	End Method
+End Type
+
+
+
+Type TJump Extends LTBehaviorModel
+	Field FromStrength:Double, ToStrength:Double
+	
+	Function Create:TJump( FromStrength:Double, ToStrength:Double )
+		Local Jump:TJump = New TJump
+		Jump.FromStrength = FromStrength
+		Jump.ToStrength = ToStrength
+		Return Jump
+	End Function
+	
+	Method ApplyTo( Shape:LTShape )
+		LTVectorSprite( Shape ).DY = -Rnd( FromStrength, ToStrength )
+		Remove( Shape )
+	End Method
+End Type
+
+
+
+Type TCreateBullet Extends LTBehaviorModel
+	Field FromSpeed:Double, ToSpeed:Double
+	
+	Function Create:TCreateBullet( FromSpeed:Double, ToSpeed:Double )
+		Local CreateBullet:TCreateBullet = New TCreateBullet
+		CreateBullet.FromSpeed = FromSpeed
+		CreateBullet.ToSpeed = ToSpeed
+		Return CreateBullet
+	End Function
+	
+	Method ApplyTo( Shape:LTShape )
+		TBullet.Create( LTVectorSprite( Shape ), Rnd( FromSpeed, ToSpeed ) )
+		Remove( Shape )
+	End Method
+End Type
+
+
+
+Type TBullet Extends LTVectorSprite
+	Const MinAttack:Double = 5.0
+	Const MaxAttack:Double = 10.0
+	
+	Field Collisions:Int = True
+	
+	Function Create( Jelly:LTVectorSprite, Speed:Double )
+		Local Bullet:TBullet = New TBullet
+		Bullet.SetCoords( Jelly.X + Sgn( Jelly.DX ) * Jelly.Width * 2.2, Jelly.Y - 0.15 * Jelly.Height )
+		Bullet.SetSize( 0.45 * Jelly.Width, 0.45 * Jelly.Width )
+		Bullet.ShapeType = LTSprite.Oval
+		Bullet.DX = Sgn( Jelly.DX ) * Speed
+		Bullet.Visualizer.SetVisualizerScale( 12, 4 )
+		Bullet.Visualizer.Image = Jelly.Visualizer.Image
+		Bullet.Frame = 6
+		Example.Layer.AddLast( Bullet )
+	End Function
+	
 	Method Act()
 		MoveForward()
-		CollisionsWithGroup( Example.Layer )
+		If Collisions Then CollisionsWithTileMap( Example.TileMap, Example.DestroyBullet )
+		Super.Act()
 	End Method
 	
-	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
-		Local Ball:TBall = LTBall( Sprite )
-		If Ball Then
-			Ball.AttachModel( New THurt )
+	Function Disable( Sprite:LTSprite )
+		Local Bullet:TBullet = TBullet( Sprite )
+		if Bullet.Collisions Then 
+			Bullet.AttachModel( New TDeath )
+			Bullet.AttachModel( New TGravity )
+			Bullet.ReverseDirection()
+			Bullet.Collisions = False
+			Bullet.DX :* 0.25
+		End If
+	End Function
+End Type
+
+
+
+Type TDestroyBullet Extends LTSpriteAndTileCollisionHandler
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+		If TileMap.GetTile( TileX, TileY ) = Example.Bricks Then TBullet.Disable( Sprite )
+	End Method
+End Type
+
+
+
+Type TMovementControl Extends LTBehaviorModel
+	Method ApplyTo( Shape:LTShape )
+		Local AwPossum:TAwPossum = TAwPossum( Shape )
+		If AwPossum.Gravity.Active Then
+			If AwPossum.MoveLeftKey.IsDown() Then
+				AwPossum.SetFacing( LTSprite.LeftFacing )
+				AwPossum.DX = -AwPossum.WalkingSpeed
+			ElseIf AwPossum.MoveRightKey.IsDown() Then
+				AwPossum.SetFacing( LTSprite.RightFacing )
+				AwPossum.DX = AwPossum.WalkingSpeed
+			Else
+				AwPossum.DX = 0
+			End If
+		Else
+			AwPossum.DX = 0
+		End If
+		
+		If AwPossum.DX And AwPossum.OnLand.Active Then
+			AwPossum.MovementAnimation.ActivateModel( Shape )
+		Else
+			AwPossum.MovementAnimation.DeactivateModel( Shape )
 		End If
 	End Method
 End Type
 
 
 
-Type TMoving Extends LTBehaviorModel
-	Method ApplyTo( Shape:LTShape )
-		Shape.Move( Shape.DX, 0 )
+
+Type TAwPossumHurtingCollision Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		If Sprite1.FindModel( "TImmortality" ) Then Return
+		If Sprite2.FindModel( "TDeath" ) Then Return
+		
+		Local Damage:Double = 0
+		If TJelly( Sprite2 ) Then Damage = Rnd( TJelly.MinAttack, TJelly.MaxAttack )
+		Local Bullet:TBullet = TBullet( Sprite2 )
+		If Bullet Then
+			If Bullet.Collisions Then
+				Damage = Rnd( TBullet.MinAttack, TBullet.MaxAttack )
+				Example.Layer.Remove( Sprite2 )
+			End If
+		End If
+		If Damage Then
+			Local AwPossum:TAwPossum = TAwPossum( Sprite1 )
+			AwPossum.Health :- Damage
+			If AwPossum.Health > 0.0 Then
+				Sprite1.AttachModel( New TImmortality )
+				Sprite1.AttachModel( New TKnockOut )
+			ElseIf Not Sprite1.FindModel( "TDeath" ) Then
+				Sprite1.BehaviorModels.Clear()
+				Sprite1.AttachModel( New TDeath )
+			End If
+		End If
 	End Method
 End Type
 
 
 
-Type TJumping Extends LTBehaviorModel
-	Field LastJumpTime:Double
-	Field Period:Double
-	Field JumpStrength:Double
+Type TImmortality Extends LTFixedWaitingModel
+	Const BlinkingSpeed:Double = 0.05
+	
+	Method Init( Shape:LTShape )
+		Period = TAwPossum.ImmortalPeriod
+	End Method
 	
 	Method ApplyTo( Shape:LTShape )
-		Local Sprite:LTSprite = TBall( Shape )
-		If Sprite.OnLand Then If LastJumpTime + Period < Example.Time Then Sprite.DY = -JumpStrength
+		Shape.Visible = Floor( L_CurrentProject.Time / BlinkingSpeed ) Mod 2
+		Super.ApplyTo( Shape )
+	End Method
+	
+	Method Deactivate( Shape:LTShape )
+		Shape.Visible = True
 	End Method
 End Type
 
 
 
-Type THazardous Extends LTBehaviorModel
-	Const Push:Double = 2.0
-
-	Method HandleCollisionWithSprite( Sprite1:LTSprite, Sprite2:LTSprite, CollisionType:Int )
-		Sprite2.AttachModel( new LTHurt )
-		Local Angle:Double = Sprite1.DirectionTo( Sprite2 )
-		Sprite1.Angle = Angle + 180
-		LTVectorSprite( Sprite1 ).UpdateFromAngularModel()
-		Sprite2.Angle = Angle
-		LTVectorSprite( Sprite2 ).UpdateFromAngularModel()
-	End Method
-EndType
-
-
-
-Type THurt Extends LTTemporaryModel
+Type TKnockOut Extends LTFixedWaitingModel
 	Method Init( Shape:LTShape )
-		TBall( Shape ).Health :- 1
+		Local AwPossum:TAwPossum = TAwPossum( Shape )
+		Period = AwPossum.KnockOutPeriod
+		AwPossum.DX = -AwPossum.GetFacing() * AwPossum.KnockOutStrength
+		AwPossum.MovementControl.DeactivateModel( Shape )
+		AwPossum.HurtingAnimation.ActivateModel( Shape )
+	End Method
+	
+	Method ApplyTo( Shape:LTShape )
+		LTVectorSprite( Shape ).DX :* 0.9
+		Super.ApplyTo( Shape )
+	End Method
+	
+	Method Deactivate( Shape:LTShape )
+		Local AwPossum:TAwPossum = TAwPossum( Shape )
+		AwPossum.HurtingAnimation.DeactivateModel( Shape )
+		AwPossum.MovementControl.ActivateModel( Shape )
+	End Method
+End Type
+
+
+
+Type THittingArea Extends LTFixedWaitingModel
+	Field Area:LTSprite
+	Field Punch:Int
+	
+	Function Create2:THittingArea( Punch:Int )
+		Local Area:THittingArea = New THittingArea
+		Area.Punch = Punch
+		Return Area
+	End Function
+	
+	Method Init( Shape:LTShape )
+		Area = New LTSprite
+		Area.ShapeType = LTSprite.Oval
+		Area.SetDiameter( 0.3 )
+		Period = TAwPossum.HitPeriod
+		Example.AwPossumHitCollision.Collided = False
+	End Method
+	
+	Method ApplyTo( Shape:LTShape )
+		If Punch then
+			Area.SetCoords( Shape.X + Shape.GetFacing() * 0.95, Shape.Y + 0.15 )
+		Else
+			Area.SetCoords( Shape.X + Shape.GetFacing() * 0.95, Shape.Y - 0.1 )
+		End If
+		'Example.HitArea = Area
+		Area.CollisionsWithLayer( Example.Layer, Example.AwPossumHitCollision )
+		If Example.AwPossumHitCollision.Collided Then Remove( Shape )
+		Super.ApplyTo( Shape )
+	End Method
+	
+	'Method Deactivate( Shape:LTShape )
+	'	Example.HitArea = Null
+	'End Method
+End Type
+
+
+
+Type TAwPossumHitCollision Extends LTSpriteCollisionHandler
+	Field Collided:Int 
+	
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		Local Jelly:TJelly = TJelly( Sprite2 )
+		If Jelly Then
+			Jelly.Health :- Rnd( TAwPossum.MinAttack, TAwPossum.MaxAttack )
+			If Jelly.Health > 0 Then
+				Jelly.AttachModel( New TJellyHurt )
+			ElseIf Not Jelly.FindModel( "TDeath" ) Then
+				TScore.Create( Jelly, Jelly.Score )
+				
+				Local AwPossum:TAwPossum = TAwPossum( Example.Layer.FindShapeWithType( "TAwPossum" ) )
+				AwPossum.Health = Min( AwPossum.Health + Rnd( TAwPossum.MinHealthGain, TAwPossum.MaxHealthGain ), 100.0 )
+				
+				Jelly.BehaviorModels.Clear()
+				Jelly.AttachModel( New TDeath )
+			End If
+			Collided = True
+		ElseIf TBullet( Sprite2 )
+			If Not Sprite2.FindModel( "TDeath" ) Then
+				TBullet.Disable( Sprite2 )
+				TScore.Create( Sprite2, 50 )
+			End If
+		End If
+	End Method
+End Type
+
+
+
+Type TJellyHurt Extends LTFixedWaitingModel
+	Method Init( Shape:LTShape )
+		Period = TJelly.HurtingTime
+		Shape.DeactivateModel( "THorizontalMovement" )
+	End Method
+
+	Method ApplyTo( Shape:LTShape )
+		Super.ApplyTo( Shape )
+		Local Intensity:Double = ( L_CurrentProject.Time - StartingTime ) / Period
+		If Intensity <= 1.0 Then Shape.Visualizer.SetColorFromRGB( 1.0, Intensity, Intensity )
+	End Method
+	
+	Method Deactivate( Shape:LTShape )
+		Shape.ActivateModel( "THorizontalMovement" )
+		Shape.Visualizer.SetColorFromHex( "FFFFFF" )
+	End Method
+End Type
+
+
+
+Type TDeath Extends LTFixedWaitingModel
+	Method Init( Shape:LTShape )
+		Period = Example.DeathPeriod
+	End Method
+
+	Method ApplyTo( Shape:LTShape )
+		Super.ApplyTo( Shape )
+		Local Alpha:Double = 1.0 - ( L_CurrentProject.Time - StartingTime ) / Period
+		If Alpha >= 0.0 Then Shape.Visualizer.Alpha = Alpha
+	End Method
+	
+	Method Deactivate( Shape:LTShape )
+		Example.Layer.Remove( Shape )
+	End Method
+End Type
+
+
+
+Type TScore Extends LTSprite
+	Const Speed:Double = 2.0
+	Const Period:Double = 3.0
+	
+	Field Amount:Int
+	Field StartingTime:Double
+	
+	Function Create( Sprite:LTSprite, Amount:Int )
+		Local Score:TScore = New TScore
+		Score.SetCoords( Sprite.X, Sprite.TopY() )
+		Score.Amount = Amount
+		Score.SetDiameter( 0 )
+		Score.StartingTime = L_CurrentProject.Time
+		Example.Layer.AddLast( Score )
+	End Function
+	
+	Method Act()
+		Move( 0, -Speed )
+		If L_CurrentProject.Time > StartingTime + Period Then Example.Layer.Remove( Self )
+	End Method
+	
+	Method Draw()
+		SetColor( 0, 0, 0 )
+		Local Dist:Double = L_CurrentCamera.DistScreenToField( 1.0 )
+		For Local DY:Int = -1 To 1
+			For Local DX:Int = Abs( DY ) - 1 To 1 - Abs( DY )
+				PrintText( "+" + Amount, , LTAlign.ToBottom, Dist * DX, Dist * DY )
+			Next
+		Next
+		LTVisualizer.ResetColor()
+		PrintText( "+" + Amount, , LTAlign.ToBottom )
 	End Method
 End Type</pre></td></tr>
 </table>
@@ -1081,15 +1714,6 @@ Deactivation method.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#DeactivateModel>DeactivateModel</a></td><td class=docright>
 Deactivates behavior model.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#HandleCollisionWithLine>HandleCollisionWithLine</a></td><td class=docright>
-Collision with line handling method.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#HandleCollisionWithSprite>HandleCollisionWithSprite</a></td><td class=docright>
-Collision with sprite handling method.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#HandleCollisionWithTile>HandleCollisionWithTile</a></td><td class=docright>
-Collision with tile handling method.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#Init>Init</a></td><td class=docright>
 Initialization method.
@@ -1140,30 +1764,6 @@ See also: <a href=#Activate>Activate</a>, <a href=#ActivateAllModels>ActivateAll
 <p>
 See also: <a href=#Activate>Activate</a>, <a href=#Deactivate>Deactivate</a>, <a href=#ActivateAllModels>ActivateAllModels</a>, <a href=#DeactivateAllModels>DeactivateAllModels</a>, <a href=#ActivateModel>ActivateModel</a>.</td></tr>
 </table>
-<table class=doc width=100% cellspacing=3 id=HandleCollisionWithLine>
-<tr><td class=doctop colspan=2>Method HandleCollisionWithLine( Sprite:LTSprite, Line:LTLine, CollisionType:Int )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Collision with line handling method.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>It will be executed by default HandleCollisionWithLine method if this model will be active.
-Fill it with tile collision reaction commands which are need to be executed when the model is active.
-<p>
-See also: <a href=#HandleCollisionWithSprite>HandleCollisionWithSprite</a>, <a href=#HandleCollisionWithTile>HandleCollisionWithTile</a>.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=HandleCollisionWithSprite>
-<tr><td class=doctop colspan=2>Method HandleCollisionWithSprite( Sprite1:LTSprite, Sprite2:LTSprite, CollisionType:Int )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Collision with sprite handling method.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>It will be executed by default HandleCollisionWithSprite method if this model will be active.
-Fill it with sprite collision reaction commands which are need to be executed when the model is active.
-<p>
-See also: <a href=#HandleCollisionWithTile>HandleCollisionWithTile</a>, <a href=#HandleCollisionWithLine>HandleCollisionWithLine</a>.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=HandleCollisionWithTile>
-<tr><td class=doctop colspan=2>Method HandleCollisionWithTile( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Collision with tile handling method.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>It will be executed by default HandleCollisionWithTile method if this model will be active.
-Fill it with tile collision reaction commands which are need to be executed when the model is active.
-<p>
-See also: <a href=#HandleCollisionWithSprite>HandleCollisionWithSprite</a>, <a href=#HandleCollisionWithLine>HandleCollisionWithLine</a>.</td></tr>
-</table>
 <table class=doc width=100% cellspacing=3 id=Init>
 <tr><td class=doctop colspan=2>Method Init( Shape:LTShape )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Initialization method.</td></tr>
@@ -1200,8 +1800,11 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
-Local Font:LTBitmapFont = LTBitmapFont.FromFile( "font.png", 32,127, 16, True )
+Incbin "font.png"
+Incbin "font.lfn"
+
 L_InitGraphics()
+Local Font:LTBitmapFont = LTBitmapFont.FromFile( "incbin::font.png", 32,127, 16, True )
 
 SetClsColor 0, 128, 0
 Cls
@@ -1424,6 +2027,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "tiles.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -1431,7 +2036,7 @@ Type TExample Extends LTProject
 	Const TileMapWidth:Int = 64
 	Const TileMapHeight:Int = 64
 	
-	Field TileMap:LTTileMap = LTTileMap.Create( LTTileSet.Create( LTImage.FromFile( "tiles.png", 8, 4 ) ), TileMapWidth, TileMapHeight )
+	Field TileMap:LTTileMap = LTTileMap.Create( LTTileSet.Create( LTImage.FromFile( "incbin::tiles.png", 8, 4 ) ), TileMapWidth, TileMapHeight )
 	Field Cursor:LTSprite = LTSprite.FromShape( 0, 0, 0.5, 0.5, LTSprite.Oval )
 	Field Z:Double, BaseK:Double
 	
@@ -1462,7 +2067,8 @@ Type TExample Extends LTProject
 		TileMap.Draw()
 		Cursor.Draw()
 		DrawText( "Shift cursor by arrow keys and alter magnigication by A and Z keys.", 0, 0 )
-		L_PrintText( "LTCamera, AlterCameraMagnification, ShiftCameraToShape example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
+		Local Message:String = "LTCamera, AlterCameraMagnification, ShiftCameraToShape example"
+		DrawText( Message, 400 - 4 * Len( Message ), 584 )
 	End Method
 End Type</pre></td></tr>
 </table>
@@ -1514,7 +2120,7 @@ Set viewport cliiping for camera.
 Smoothly shifts camera to the given point.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#ShiftCameraToShape>ShiftCameraToShape</a></td><td class=docright>
-Smoothly shifts camera to the given shape.
+Smoothly shifts camera to the given shape center.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#SizeFieldToScreen>SizeFieldToScreen</a></td><td class=docright>
 Transforms size of the object on the field in units to size of this object on screen in pixels.
@@ -1525,7 +2131,7 @@ Transforms size of the object on the screen in pixels to size of this object on 
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTCamera_functions></a>Functions Summary</th></tr>
 <tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
-Creates new camera object.
+Creates new camera object using given screen resolution and unit size in pixels.
 </td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Isometric>
@@ -1551,7 +2157,7 @@ See also: <a href=#Viewport>Viewport</a>, <a href=#SetCameraViewport>SetCameraVi
 <table class=doc width=100% cellspacing=3 id=AlterCameraMagnification>
 <tr><td class=doctop colspan=2>Method AlterCameraMagnification( NewZ:Double, OldK:Double, Acceleration:Double )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Smoothly alterts camera magnification to the given one.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: LTCamera example.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#LTCamera>LTCamera</a> example.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=ApplyColor>
 <tr><td class=doctop colspan=2>Method ApplyColor( Intensity:Double, Red:Double, Green:Double, Blue:Double )</td></tr>
@@ -1614,11 +2220,11 @@ See also: <a href=#Viewport>Viewport</a>, <a href=#ViewportClipping>ViewportClip
 <table class=doc width=100% cellspacing=3 id=ShiftCameraToPoint>
 <tr><td class=doctop colspan=2>Method ShiftCameraToPoint( NewX:Double, NewY:Double, Acceleration:Double = 6.0 )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Smoothly shifts camera to the given point.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: LTCamera example.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#LTCamera>LTCamera</a> example.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=ShiftCameraToShape>
 <tr><td class=doctop colspan=2>Method ShiftCameraToShape( Shape:LTShape, Acceleration:Double = 6.0 )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Smoothly shifts camera to the given shape.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Smoothly shifts camera to the given shape center.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=SizeFieldToScreen>
 <tr><td class=doctop colspan=2>Method SizeFieldToScreen( FieldWidth:Double, FieldHeight:Double, ScreenWidth:Double Var, ScreenHeight:Double Var )</td></tr>
@@ -1633,7 +2239,7 @@ See also: <a href=#Viewport>Viewport</a>, <a href=#ViewportClipping>ViewportClip
 <table class=doc width=100% cellspacing=3 id=Create>
 <tr><td class=doctop colspan=2>Function Create:LTCamera( Width:Double = 800.0, Height:Double = 600.0, UnitSize:Double = 25.0 )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>New camera object.</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Creates new camera object.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates new camera object using given screen resolution and unit size in pixels.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTContourVisualizer>
@@ -1933,7 +2539,7 @@ See also: <a href=#Paste>Paste</a> example.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>You can change coordinate shift and pasting mode.
 All parts of source heightmap which will be outside destination pixmap will be wrapped around destination pixmap.
 <p>
-See also: <a href=#Overwrite>Overwrite</a>, <a href=#Add>Add</a>, <a href=#Multiply>Multiply</a>, <a href=#Maximum>Maximum</a>, <a href=#Minimum>Minimum</a>, <a href=#Paste>Paste</a>.</td></tr>
+See also: <a href=#Overwrite>Overwrite</a>, <a href=#Add>Add</a>, <a href=#Multiply>Multiply</a>, <a href=#Maximum>Maximum</a>, <a href=#Minimum>Minimum</a>.</td></tr>
 <tr><td class=docleft width=1%><a href=Paste.bmx class=small>Example</a></td><td class=docright><pre>SuperStrict
 
 Framework brl.basic
@@ -1992,7 +2598,7 @@ End Function</pre></td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Pastes heightmap to existing image frame with given shift.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>By default every color channel will be filled by heightmap values, but you can specify another channel filling mode.
 <p>
-See also: <a href=#ToNewImage>ToNewImage</a>, <a href=#ToNewPixmap>ToNewPixmap</a>, <a href=#PasteToPixmap>PasteToPixmap</a>.</td></tr>
+See also: <a href=#ToNewImage>ToNewImage</a>, <a href=#ToNewPixmap>ToNewPixmap</a>, <a href=#PasteToPixmap>PasteToPixmap</a>, <a href=#Paste>Paste</a> example.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=PasteToPixmap>
 <tr><td class=doctop colspan=2>Method PasteToPixmap( Pixmap:TPixmap, XShift:Int = 0, YShift:Int = 0, Channel:Int = RGB )</td></tr>
@@ -2011,9 +2617,9 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
-L_InitGraphics()
-
 Const MapSize:Int = 256
+
+L_InitGraphics()
 
 Local DoubleMap:LTDoubleMap = New LTDoubleMap
 DoubleMap.SetResolution( MapSize, MapSize )
@@ -2469,6 +3075,7 @@ Creates new image from file with specified cell quantities for splitting.
 <br>
 <table class=doc width=100% cellspacing=3 id=LTKeyboardKey>
 <tr><td class=doctop colspan=2>Type LTKeyboardKey Extends LTPushable</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Class for keyboard keys.</td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTKeyboardKey_functions></a>Functions Summary</th></tr>
 <tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
@@ -2679,10 +3286,12 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "tiles.png"
+
 Const TileMapWidth:Int = 4
 Const TileMapHeight:Int = 3
 
-Local TileSet:LTTileSet = LTTileSet.Create( LTImage.FromFile( "tiles.png", 8, 4 ) )
+Local TileSet:LTTileSet = LTTileSet.Create( LTImage.FromFile( "incbin::tiles.png", 8, 4 ) )
 Local TileMap:LTTileMap = LTTileMap.Create( TileSet, TileMapWidth, TileMapHeight )
 
 L_InitGraphics()
@@ -2730,6 +3339,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "kolobok.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -2738,7 +3349,7 @@ Type TExample Extends LTProject
 	
 	Field Layer:LTLayer = New LTLayer
 	Field Cursor:TCursor = New TCursor
-	Field SpriteImage:LTImage = LTImage.FromFile( "kolobok.png" )
+	Field SpriteImage:LTImage = LTImage.FromFile( "incbin::kolobok.png" )
 	Field Selected:LTSprite
 	Field MarchingAnts:LTMarchingAnts = New LTMarchingAnts
 	
@@ -2771,16 +3382,22 @@ End Type
 
 
 Type TCursor Extends LTSprite
+	Field Handler:TSelectionHandler = New TSelectionHandler
+	
 	Method Act()
 		SetMouseCoords()
 		If MouseHit( 1 ) Then
 			Example.Selected = Null
-			CollisionsWithLayer( Example.Layer )
+			CollisionsWithLayer( Example.Layer, Handler )
 		End If
 	End Method
-	
-	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
-		Example.Selected = Sprite
+End Type
+
+
+
+Type TSelectionHandler Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		Example.Selected = Sprite2
 	End Method
 End Type</pre></td></tr>
 </table>
@@ -2803,6 +3420,7 @@ Creates marching ants line.
 <br>
 <table class=doc width=100% cellspacing=3 id=LTMouseButton>
 <tr><td class=doctop colspan=2>Type LTMouseButton Extends LTPushable</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Class for mouse buttons.</td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTMouseButton_functions></a>Functions Summary</th></tr>
 <tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
@@ -2817,6 +3435,7 @@ Creates mouse button object.
 <br>
 <table class=doc width=100% cellspacing=3 id=LTMouseWheelAction>
 <tr><td class=doctop colspan=2>Type LTMouseWheelAction Extends LTPushable</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Class for mouse wheel rollings.</td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTMouseWheelAction_functions></a>Functions Summary</th></tr>
 <tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
@@ -3222,13 +3841,14 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
-Print FileType( "border.png" )
+Incbin "border.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
 Type TExample Extends LTProject
 	Field Frame:LTSprite
-	Field FrameImage:LTRasterFrame = LTRasterFrame.FromFileAndBorders( "border.png", 8, 8, 8, 8 )
+	Field FrameImage:LTRasterFrame = LTRasterFrame.FromFileAndBorders( "incbin::border.png", 8, 8, 8, 8 )
 	Field Layer:LTLayer = New LTLayer
 	Field CreateFrame:TCreateFrame = New TCreateFrame
 	
@@ -3261,7 +3881,7 @@ Type TCreateFrame Extends LTDrag
 	Method StartDragging()
 		StartingX = L_Cursor.X
 		StartingY = L_Cursor.Y
-		Example.Frame = LTSprite.FromShape()
+		Example.Frame = LTSprite.FromShape( L_Cursor.X, L_Cursor.Y, 0, 0 )
 		Example.Frame.Visualizer.SetRandomColor()
 		Example.Frame.Visualizer.Image = Example.FrameImage
 	End Method
@@ -3337,14 +3957,17 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "human.lw"
+Incbin "part.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
 Type TExample Extends LTProject
 	Const Period:Double = 2.0
-	Field World:LTWorld = LTWorld.FromFile( "human.lw" )
-	Field Layer:LTLayer = LTLayer( World.FindShapeWithType( "LTLayer" ) )
-	Field Body:LTSprite = LTSprite( Layer.FindShape( "body" ) )
+	Field World:LTWorld
+	Field Layer:LTLayer
+	Field Body:LTSprite
 	Field UpperArm:LTSprite[] = New LTSprite[ 2 ]
 	Field LowerArm:LTSprite[] = New LTSprite[ 2 ]
 	Field UpperLeg:LTSprite[] = New LTSprite[ 2 ]
@@ -3352,6 +3975,11 @@ Type TExample Extends LTProject
 	Field Foot:LTSprite[] = New LTSprite[ 2 ]
 
 	Method Init()
+		L_SetIncbin( True )
+		World = LTWorld.FromFile( "human.lw" )
+		L_SetIncbin( False )
+		Layer = LTLayer( World.FindShapeWithType( "LTLayer" ) )
+		Body = LTSprite( Layer.FindShape( "body" ) )
 		Layer.FindShape( "head" ).AttachModel( LTFixedJoint.Create( Body ) )
 		For local N:Int = 0 To 1
 			Local Prefix:String = [ "inner_", "outer_" ][ N ]
@@ -3410,12 +4038,6 @@ Creates revolute joint for specified parent pivot using current pivots position.
 <tr><td class=doctop colspan=2>Type LTShape Extends LTObject</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Common object for item of game field.</td></tr>
 </table>
-<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTShape_consts></a>Constants Summary</th></tr><tr><td colspan=2>
-<a href=#Horizontal>Horizontal</a>
-, 
-<a href=#Vertical>Vertical</a>
-</td></tr>
-</table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTShape_fields></a>Fields Summary</th></tr><tr><td colspan=2>
 <a href=#Active>Active</a>
 , 
@@ -3458,6 +4080,9 @@ Alters the size of the shape.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#AttachModel>AttachModel</a></td><td class=docright>
 Attaches behavior model to the shape.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#AttachModels>AttachModels</a></td><td class=docright>
+Attaches list of behavior model to the shape.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#BottomY>BottomY</a></td><td class=docright>
 Bottom of the shape.
@@ -3646,22 +4271,6 @@ Top of the shape.
 Method for updating shape.
 </td></tr>
 </table>
-<table class=doc width=100% cellspacing=3 id=Horizontal>
-<tr><td class=doctop colspan=2>Const Horizontal:Int</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Constant for horizontal collision type.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See tutorial for additional info.
-<p>
-See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithTileMap>CollisionsWithTileMap</a>, <a href=#CollisionsWithSpriteMap>CollisionsWithSpriteMap</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>
-<a href=#HandleCollisionWithSprite>HandleCollisionWithSprite</a>, <a href=#HandleCollisionWithTile>HandleCollisionWithTile</a>.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=Vertical>
-<tr><td class=doctop colspan=2>Const Vertical:Int</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Constant for vertical collision type.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See tutorial for additional info.
-<p>
-See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithTileMap>CollisionsWithTileMap</a>, <a href=#CollisionsWithSpriteMap>CollisionsWithSpriteMap</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>
-<a href=#HandleCollisionWithSprite>HandleCollisionWithSprite</a>, <a href=#HandleCollisionWithTile>HandleCollisionWithTile</a>.</td></tr>
-</table>
 <table class=doc width=100% cellspacing=3 id=Active>
 <tr><td class=doctop colspan=2>Field Active:Int = True</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Activity flag.</td></tr>
@@ -3712,6 +4321,8 @@ Type TExample Extends LTProject
 End Type
 
 Type TBall Extends LTSprite
+	Field Handler:TCollisionHandler = New TCollisionHandler
+
 	Function Create:TBall()
 		Local Ball:TBall = New TBall
 		Ball.SetCoords( Rnd( -13, 13 ), Rnd( -8, 8 ) )
@@ -3727,12 +4338,14 @@ Type TBall Extends LTSprite
 	Method Act()
 		MoveForward()
 		BounceInside( Example.Rectangle )
-		CollisionsWithSprite( L_Cursor )
+		CollisionsWithSprite( L_Cursor, Handler )
 	End Method
-	
-	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
-		If MouseDown( 1 ) Then Active = False
-		If MouseDown( 2 ) Then Visible = False
+End Type
+
+Type TCollisionHandler Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		If MouseDown( 1 ) Then Sprite1.Active = False
+		If MouseDown( 2 ) Then Sprite1.Visible = False
 	End Method
 End Type</pre></td></tr>
 </table>
@@ -3758,7 +4371,7 @@ See also: <a href=#Draw>Draw</a>, <a href=#DrawUsingVisualizer>DrawUsingVisualiz
 <table class=doc width=100% cellspacing=3 id=Visualizer>
 <tr><td class=doctop colspan=2>Field Visualizer:LTVisualizer = New LTVisualizer</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Shape visualizer (object which displays this shape).</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#LTVisualizer>LTVisualizer</a>, <a href=#L_DefaultVisualizer>L_DefaultVisualizer</a>, <a href=#LTDebugVisualizer>LTDebugVisualizer</a>, <a href=#L_DebugVisualizer>L_DebugVisualizer</a>.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#LTVisualizer>LTVisualizer</a>, <a href=#LTDebugVisualizer>LTDebugVisualizer</a>, <a href=#L_DebugVisualizer>L_DebugVisualizer</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Width>
 <tr><td class=doctop colspan=2>Field Width:Double = 1.0</td></tr>
@@ -3833,6 +4446,10 @@ See also: <a href=#Width>Width</a>, <a href=#Height>Height</a>, <a href=#SetWidt
 <p>
 See also: <a href=#LTBehaviorModel>LTBehaviorModel</a>, <a href=#Activate>Activate</a>.</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=AttachModels>
+<tr><td class=doctop colspan=2>Method AttachModels( Models:TList, Activated:Int = True )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Attaches list of behavior model to the shape.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=BottomY>
 <tr><td class=doctop colspan=2>Method BottomY:Double()</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>Y coordinate of shape bottom in units.</td></tr>
@@ -3849,6 +4466,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "kolobok.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -3856,7 +4475,7 @@ Type TExample Extends LTProject
 	Const SpritesQuantity:Int = 50
 	
 	Field Sprites:LTLayer = New LTLayer
-	Field SpriteImage:LTImage = LTImage.FromFile( "kolobok.png" )
+	Field SpriteImage:LTImage = LTImage.FromFile( "incbin::kolobok.png" )
 	
 	Method Init()
 		For Local N:Int = 1 To SpritesQuantity
@@ -3905,6 +4524,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "mario.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -3915,7 +4536,7 @@ Type TExample Extends LTProject
 	
 	Method Init()
 		L_InitGraphics()
-		Local SpriteVisualizer:LTVisualizer = LTVisualizer.FromFile( "mario.png", 4 )
+		Local SpriteVisualizer:LTVisualizer = LTVisualizer.FromFile( "incbin::mario.png", 4 )
 		For Local N:Int = 1 To SpritesQuantity
 			Local Sprite:LTSprite = LTSprite.FromShape( Rnd( -15, 15 ), Rnd( -11, 11 ), Rnd( 0.5, 2 ), Rnd( 0.5, 2 ) )
 			Sprite.Visualizer = SpriteVisualizer
@@ -4410,6 +5031,11 @@ Import brl.pngloader
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "parallax.lw"
+Incbin "water_and_snow.png"
+Incbin "grid.png"
+Incbin "clouds.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -4421,7 +5047,9 @@ Type TExample Extends LTProject
   Method Init()
     L_InitGraphics( 512, 512, 64 )
     
+	L_SetIncbin( True )
     Local Layer:LTLayer = LoadLayer( LTLayer( LTWorld.FromFile( "parallax.lw" ).FindShapeWithType( "LTLayer" ) ) )
+	L_SetIncbin( False )
   
     Ground = LTTileMap( Layer.FindShape( "Ground" ) )
     Grid = LTTileMap( Layer.FindShape( "Grid" ) )
@@ -4433,7 +5061,7 @@ Type TExample Extends LTProject
     L_CurrentCamera.LimitWith( Grid )
     Ground.Parallax( Grid )
     Clouds.Parallax( Grid )
-    If KeyHit( Key_Escape ) Then End
+    If KeyHit( Key_Escape ) Then Exiting = True
   End Method
   
   Method Render()
@@ -4562,7 +5190,7 @@ See also: <a href=#LimitByWindow>LimitByWindow</a>, <a href=#LimitByWindowShape>
 <tr><td class=doctop colspan=2>Method RightX:Double()</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>X coordinate of right shape side in units.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Right side of the shape.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>See also: LeftX#, TopY#, BottomY#, #X, #Width.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#LeftX>LeftX</a>, <a href=#TopY>TopY</a>, <a href=#BottomY>BottomY</a>, <a href=#X>X</a>, <a href=#Width>Width</a>.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=SetAsViewport>
 <tr><td class=doctop colspan=2>Method SetAsViewport()</td></tr>
@@ -4666,6 +5294,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "kolobok.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -4674,7 +5304,7 @@ Type TExample Extends LTProject
 	
 	Method Init()
 		L_InitGraphics()
-		Sprite.Visualizer.Image = LTImage.FromFile( "kolobok.png" )
+		Sprite.Visualizer.Image = LTImage.FromFile( "incbin::kolobok.png" )
 	End Method
 	
 	Method Logic()
@@ -4807,13 +5437,19 @@ Checks if the sprite collides with given line.
 Checks if this sprite collides with given sprite.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#CollisionsWithLayer>CollisionsWithLayer</a></td><td class=docright>
-Executes reaction for collision of sprite with shapes in given group.
+Executes given collision handler for collision of sprite with shapes in given group.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#CollisionsWithLine>CollisionsWithLine</a></td><td class=docright>
+Executes given collision handler for collision of sprite with given line.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#CollisionsWithSprite>CollisionsWithSprite</a></td><td class=docright>
+Executes given collision handler for collision of sprite with given sprite.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#CollisionsWithSpriteMap>CollisionsWithSpriteMap</a></td><td class=docright>
 Executes reaction for collision of sprite with sprites in sprite map.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#CollisionsWithTileMap>CollisionsWithTileMap</a></td><td class=docright>
-Executes reaction for collision of sprite with tiles in given tilemap.
+Executes given collision handler for collision of sprite with tiles in given tilemap.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#DirectAs>DirectAs</a></td><td class=docright>
 Directs sprite as given angular sprite.
@@ -4823,15 +5459,6 @@ Direct the sprite to center of the given shape.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#FirstCollidedSpriteOfLayer>FirstCollidedSpriteOfLayer</a></td><td class=docright>
 Searches the group for first sprite which collides with given.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#HandleCollisionWithLine>HandleCollisionWithLine</a></td><td class=docright>
-Line collision handling method.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#HandleCollisionWithSprite>HandleCollisionWithSprite</a></td><td class=docright>
-Sprite collision handling method.
-</td></tr>
-<tr><td class=docleft width=1%><a href=#HandleCollisionWithTile>HandleCollisionWithTile</a></td><td class=docright>
-Tile collision handling method.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#MoveBackward>MoveBackward</a></td><td class=docright>
 Moves sprite backward.
@@ -4883,7 +5510,7 @@ Creates sprite using given coordinates, size, shape type, angle and velocity.
 <table class=doc width=100% cellspacing=3 id=Frame>
 <tr><td class=doctop colspan=2>Field Frame:Int</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Frame of the sprite image.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Can be used with image visualizer only.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Can only be used with visualizer which have images.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=ShapeType>
 <tr><td class=doctop colspan=2>Field ShapeType:Int = Rectangle</td></tr>
@@ -4901,13 +5528,15 @@ Creates sprite using given coordinates, size, shape type, angle and velocity.
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also: <a href=#Clone>Clone</a> example.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=Animate>
-<tr><td class=doctop colspan=2>Method Animate( Project:LTProject, Speed:Double, FramesQuantity:Int = 0, FrameStart:Int = 0, StartingTime:Double = 0.0, PingPong:Int = False )</td></tr>
+<tr><td class=doctop colspan=2>Method Animate( Speed:Double, FramesQuantity:Int = 0, FrameStart:Int = 0, StartingTime:Double = 0.0, PingPong:Int = False )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Animates the sprite.</td></tr>
 <tr><td class=docleft width=1%><a href=Animate.bmx class=small>Example</a></td><td class=docright><pre>SuperStrict
 
 Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
+
+Incbin "mario.png"
 
 Global Example:TExample = New TExample
 Example.Execute()
@@ -4918,7 +5547,7 @@ Type TExample Extends LTProject
 	Field PingPong:Int
 	
 	Method Init()
-		Player.Visualizer.Image = LTImage.FromFile( "mario.png", 4 )
+		Player.Visualizer.Image = LTImage.FromFile( "incbin::mario.png", 4 )
 		L_InitGraphics()
 	End Method
 	
@@ -4958,15 +5587,31 @@ End Type</pre></td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Checks if this sprite collides with given sprite.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=CollisionsWithLayer>
-<tr><td class=doctop colspan=2>Method CollisionsWithLayer( Layer:LTLayer, CollisionType:Int = 0 )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Executes reaction for collision of sprite with shapes in given group.</td></tr>
+<tr><td class=doctop colspan=2>Method CollisionsWithLayer( Layer:LTLayer, Handler:LTSpriteCollisionHandler )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Executes given collision handler for collision of sprite with shapes in given group.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>For every collided shape collision handling method will be executed and corresponding parameters will be passed to this method.
 You can specify collision type which will be passed to this method too.
 <p>
 See also: <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithTileMap>CollisionsWithTileMap</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>, <a href=#CollisionsWithSpriteMap>CollisionsWithSpriteMap</a>, <a href=#Horizontal>Horizontal</a>, <a href=#Vertical>Vertical</a>.</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=CollisionsWithLine>
+<tr><td class=doctop colspan=2>Method CollisionsWithLine( Line:LTLine, Handler:LTSpriteAndLineCollisionHandler )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Executes given collision handler for collision of sprite with given line.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>If sprite collides with line then HandleCollisionWithLine() method will be executed and line will be passed to this method.
+You can specify collision type which will be passed to this method too.
+<p>
+See also: <a href=#CollisionsWithLayer>CollisionsWithLayer</a>, <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithTileMap>CollisionsWithTileMap</a>, <a href=#CollisionsWithSpriteMap>CollisionsWithSpriteMap</a>, <a href=#Horizontal>Horizontal</a>, <a href=#Vertical>Vertical</a>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=CollisionsWithSprite>
+<tr><td class=doctop colspan=2>Method CollisionsWithSprite( Sprite:LTSprite, Handler:LTSpriteCollisionHandler )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Executes given collision handler for collision of sprite with given sprite.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>If sprites collide then HandleCollisionWithSprite() method will be executed and given sprite will be passed to this method.
+You can specify collision type which will be passed to this method too.
+<p>
+See also: <a href=#CollisionsWithLayer>CollisionsWithLayer</a>, <a href=#CollisionsWithTileMap>CollisionsWithTileMap</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>, <a href=#CollisionsWithSpriteMap>CollisionsWithSpriteMap</a>, <a href=#Horizontal>Horizontal</a>, <a href=#Vertical>Vertical</a>.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=CollisionsWithSpriteMap>
-<tr><td class=doctop colspan=2>Method CollisionsWithSpriteMap( SpriteMap:LTSpriteMap, CollisionType:Int = 0, Map:TMap = Null )</td></tr>
+<tr><td class=doctop colspan=2>Method CollisionsWithSpriteMap( SpriteMap:LTSpriteMap, Handler:LTSpriteCollisionHandler, Map:TMap = Null )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Executes reaction for collision of sprite with sprites in sprite map.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>For every collided sprite HandleCollisionWithSprite() method will be executed and collided srite will be passed to this method.
 You can specify collision type which will be passed to this method too.
@@ -4975,12 +5620,12 @@ Map parameter allows you to specify map to where collided sprites will be added 
 See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithTileMap>CollisionsWithTileMap</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>, <a href=#Horizontal>Horizontal</a>, <a href=#Vertical>Vertical</a>, <a href=#LTSpriteMap>LTSpriteMap</a> example.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=CollisionsWithTileMap>
-<tr><td class=doctop colspan=2>Method CollisionsWithTileMap( TileMap:LTTileMap, CollisionType:Int = 0 )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Executes reaction for collision of sprite with tiles in given tilemap.</td></tr>
+<tr><td class=doctop colspan=2>Method CollisionsWithTileMap( TileMap:LTTileMap, Handler:LTSpriteAndTileCollisionHandler )</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Executes given collision handler for collision of sprite with tiles in given tilemap.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>For every collided tile HandleCollisionWithTile() method will be executed and tilemap with tile indexes will be passed to this method.
 You can specify collision type which will be passed to this method too.
 <p>
-See also: <a href=#CollisionsWithGroup>CollisionsWithGroup</a>, <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>, <a href=#CollisionsWithSpriteMap>CollisionsWithSpriteMap</a>, <a href=#Horizontal>Horizontal</a>, <a href=#Vertical>Vertical</a>, <a href=#LTVectorSprite>LTVectorSprite</a> example.</td></tr>
+See also: <a href=#CollisionsWithLayer>CollisionsWithLayer</a>, <a href=#CollisionsWithSprite>CollisionsWithSprite</a>, <a href=#CollisionsWithLine>CollisionsWithLine</a>, <a href=#CollisionsWithSpriteMap>CollisionsWithSpriteMap</a>, <a href=#Horizontal>Horizontal</a>, <a href=#Vertical>Vertical</a>, <a href=#LTVectorSprite>LTVectorSprite</a> example.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=DirectAs>
 <tr><td class=doctop colspan=2>Method DirectAs( Sprite:LTSprite )</td></tr>
@@ -4992,6 +5637,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "kolobok.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -5000,7 +5647,7 @@ Type TExample Extends LTProject
 	
 	Field Layer:LTLayer = New LTLayer
 	Field Cursor:TCursor = New TCursor
-	Field SpriteImage:LTImage = LTImage.FromFile( "kolobok.png" )
+	Field SpriteImage:LTImage = LTImage.FromFile( "incbin::kolobok.png" )
 	Field Selected:LTSprite
 	
 	Method Init()
@@ -5034,18 +5681,29 @@ End Type
 
 
 Type TCursor Extends LTSprite
+	Field SizeHandler:TSizeCollisionHandler = New TSizeCollisionHandler
+	Field DirectionHandler:TDirectionCollisionHandler = new TDirectionCollisionHandler
+	
 	Method Act()
 		SetMouseCoords()
-		If MouseHit( 1 ) Then CollisionsWithLayer( Example.Layer, 0 )
-		If MouseHit( 2 ) Then CollisionsWithLayer( Example.Layer, 1 )
+		If MouseHit( 1 ) Then CollisionsWithLayer( Example.Layer, SizeHandler )
+		If MouseHit( 2 ) Then CollisionsWithLayer( Example.Layer, DirectionHandler )
 	End Method
-	
-	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
-		If CollisionType Then
-			SetSizeAs( Sprite )
-		Else
-			DirectAs( Sprite )
-		End If
+End Type
+
+
+
+Type TSizeCollisionHandler Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		Sprite1.SetSizeAs( Sprite2 )
+	End Method
+End Type
+
+
+
+Type TDirectionCollisionHandler Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		Sprite1.DirectAs( Sprite2 )
 	End Method
 End Type</pre></td></tr>
 </table>
@@ -5059,6 +5717,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "kolobok.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -5066,7 +5726,7 @@ Type TExample Extends LTProject
 	Const KoloboksQuantity:Int = 50
 	
 	Field Layer:LTLayer = New LTLayer
-	Field KolobokImage:LTImage = LTImage.FromFile( "kolobok.png" )
+	Field KolobokImage:LTImage = LTImage.FromFile( "incbin::kolobok.png" )
 	
 	Method Init()
 		For Local N:Int = 1 To KoloboksQuantity
@@ -5101,26 +5761,8 @@ Type TKolobok Extends LTSprite
 End Type</pre></td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=FirstCollidedSpriteOfLayer>
-<tr><td class=doctop colspan=2>Method FirstCollidedSpriteOfLayer:LTSprite( Layer:LTLayer, CollisionType:Int = 0 )</td></tr>
+<tr><td class=doctop colspan=2>Method FirstCollidedSpriteOfLayer:LTSprite( Layer:LTLayer )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Searches the group for first sprite which collides with given.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=HandleCollisionWithLine>
-<tr><td class=doctop colspan=2>Method HandleCollisionWithLine( Line:LTLine, CollisionType:Int )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Line collision handling method.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Will be executed for every collision of this sprite with line found by the collision checks.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=HandleCollisionWithSprite>
-<tr><td class=doctop colspan=2>Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Sprite collision handling method.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Will be executed for every collision of this sprite with another sprite found by the collision checks.
-<p>
-See also: <a href=#Active>Active</a> example.</td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=HandleCollisionWithTile>
-<tr><td class=doctop colspan=2>Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int = 0 )</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Tile collision handling method.</td></tr>
-<tr><td class=docleft width=1%>Information</td><td class=docright>Will be executed for every collision of this sprite with tile found by the collision checks for this sprite with tilemaps.
-See also: <a href=#LTVectorSprite>LTVectorSprite</a> example.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=MoveBackward>
 <tr><td class=doctop colspan=2>Method MoveBackward()</td></tr>
@@ -5203,6 +5845,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "tiles.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -5210,7 +5854,7 @@ Type TExample Extends LTProject
 	Const TileMapWidth:Int = 16
 	Const TileMapHeight:Int = 12
 	
-	Field TileSet:LTTileSet = LTTileSet.Create( LTImage.FromFile( "tiles.png", 8, 4 ) )
+	Field TileSet:LTTileSet = LTTileSet.Create( LTImage.FromFile( "incbin::tiles.png", 8, 4 ) )
 	Field TileMap:LTTileMap = LTTileMap.Create( TileSet, TileMapWidth, TileMapHeight )
 	Field Pieces:LTLayer = New LTLayer
 	
@@ -5280,6 +5924,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "tank.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -5290,7 +5936,7 @@ Type TExample Extends LTProject
 	
 	Method Init()
 		L_InitGraphics()
-		Tank.Visualizer = LTVisualizer.FromFile( "tank.png" )
+		Tank.Visualizer = LTVisualizer.FromFile( "incbin::tank.png" )
 	End Method
 	
 	Method Logic()
@@ -5323,6 +5969,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "kolobok.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -5330,9 +5978,10 @@ Type TExample Extends LTProject
 	Const KoloboksQuantity:Int = 50
 	
 	Field Koloboks:LTLayer = New LTLayer
-	Field KolobokImage:LTImage = LTImage.FromFile( "kolobok.png" )
+	Field KolobokImage:LTImage = LTImage.FromFile( "incbin::kolobok.png" )
 	Field Player:TKolobok
 	Field DebugMode:Int
+	Field CollisionHandler:TCollisionHandler = New TCollisionHandler
 	
 	Method Init()
 		For Local N:Int = 1 To KoloboksQuantity
@@ -5398,11 +6047,15 @@ Type TKolobok Extends LTSprite
 	End Function
 	
 	Method Act()
-		CollisionsWithLayer( Example.Koloboks )
+		CollisionsWithLayer( Example.Koloboks, Example.CollisionHandler )
 	End Method
-	
-	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
-		WedgeOffWithSprite( Sprite, Width ^ 2, Sprite.Width ^ 2 )
+End Type
+
+
+
+Type TCollisionHandler Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		Sprite1.WedgeOffWithSprite( Sprite2, Sprite1.Width ^ 2, Sprite2.Width ^ 2 )
 	End Method
 End Type</pre></td></tr>
 </table>
@@ -5411,6 +6064,30 @@ End Type</pre></td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>Created sprite.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Creates sprite using given coordinates, size, shape type, angle and velocity.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>See also <a href=#Overlaps>Overlaps</a> example.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=LTSpriteAndLineCollisionHandler>
+<tr><td class=doctop colspan=2>Type LTSpriteAndLineCollisionHandler Extends LTObject</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sprite and line collision handling class.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Collision check method with specified collision handler will execute this handler's method on collision sprite with line.
+<p>
+See also: <a href=#Active>Active</a> example.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=LTSpriteAndTileCollisionHandler>
+<tr><td class=doctop colspan=2>Type LTSpriteAndTileCollisionHandler Extends LTObject</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sprite and tile collision handling class.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Collision check method with specified collision handler will execute this handler's method on collision sprite with tile.
+<p>
+See also: <a href=#Active>Active</a> example.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=LTSpriteCollisionHandler>
+<tr><td class=doctop colspan=2>Type LTSpriteCollisionHandler Extends LTObject</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sprite collision handling class.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Sprite collision check method with specified collision handler will execute this handler's method on collision one sprite with another.
+<p>
+See also: <a href=#Active>Active</a> example.</td></tr>
 </table>
 <br>
 <table class=doc width=100% cellspacing=3 id=LTSpriteMap>
@@ -5423,7 +6100,6 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
-SeedRnd( MilliSecs() )
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -5435,6 +6111,7 @@ Type TExample Extends LTProject
 	Field Rectangle:LTShape = LTSprite.FromShape( 0, 0, MapSize, MapSize )
 	Field Cursor:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
 	Field SpriteMap:LTSpriteMap = LTSpriteMap.CreateForShape( Rectangle, 2.0 )
+	Field CollisionHandler:TCollisionHandler = New TCollisionHandler
 	
 	Method Init()
 		For Local N:Int = 1 To SpritesQuantity
@@ -5480,15 +6157,19 @@ Type TBall Extends LTSprite
 		L_CurrentCamera.BounceInside( Example.Rectangle )
 		MoveForward()
 		BounceInside( Example.Rectangle )
-		CollisionsWithSpriteMap( Example.SpriteMap )
+		CollisionsWithSpriteMap( Example.SpriteMap, Example.CollisionHandler )
 	End Method
-	
-	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int = 0 )
-		If TParticleArea( Sprite ) Then Return
-		PushFromSprite( Sprite )
-		Angle = Sprite.DirectionTo( Self )
-		Sprite.Angle = DirectionTo( Sprite )
-		TParticleArea.Create( Self, Sprite )
+End Type
+
+
+
+Type TCollisionHandler Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		If TParticleArea( Sprite2 ) Then Return
+		Sprite1.PushFromSprite( Sprite2 )
+		Sprite1.Angle = Sprite2.DirectionTo( Sprite1 )
+		Sprite2.Angle = Sprite1.DirectionTo( Sprite2 )
+		TParticleArea.Create( Sprite1, Sprite2 )
 	End Method
 End Type
 
@@ -5749,12 +6430,15 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
-L_InitGraphics()
-SetClsColor( 64, 128, 0 )
-
 Const MapSize:Int = 64
 Const MapScale:Double = 8
 Const FilledTileNum:Int = 20
+
+Incbin "tileset.lw"
+Incbin "curved_areas.png"
+
+L_InitGraphics()
+SetClsColor( 64, 128, 0 )
 
 Cls
 Local DoubleMap:LTDoubleMap = New LTDoubleMap
@@ -5772,7 +6456,9 @@ Flip
 Waitkey
 
 Cls
+L_SetIncbin( True )
 Local World:LTWorld = LTWorld.FromFile( "tileset.lw" )
+L_SetIncbin( False )
 Local TileSet:LTTileSet = LTTileSet( World.Tilesets.First() )
 Local TileMap:LTTileMap = LTTileMap.Create( TileSet, MapSize, MapSize )
 TileMap.SetSize( MapSize * MapScale / 25.0, MapSize * MapScale / 25.0 )
@@ -6025,12 +6711,15 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
-L_InitGraphics()
-SetClsColor( 64, 128, 0 )
-
 Const MapSize:Int = 64
 Const MapScale:Double = 8
 Const FilledTileNum:Int = 20
+
+Incbin "tileset.lw"
+Incbin "curved_areas.png"
+
+L_InitGraphics()
+SetClsColor( 64, 128, 0 )
 
 Cls
 Local DoubleMap:LTDoubleMap = New LTDoubleMap
@@ -6048,7 +6737,9 @@ Flip
 Waitkey
 
 Cls
+L_SetIncbin( True )
 Local World:LTWorld = LTWorld.FromFile( "tileset.lw" )
+L_SetIncbin( False )
 Local TileSet:LTTileSet = LTTileSet( World.Tilesets.First() )
 Local TileMap:LTTileMap = LTTileMap.Create( TileSet, MapSize, MapSize )
 TileMap.SetSize( MapSize * MapScale / 25.0, MapSize * MapScale / 25.0 )
@@ -6179,6 +6870,9 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "tileset.png"
+Incbin "mario.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -6194,7 +6888,7 @@ Type TExample Extends LTProject
 	Const Coin:Int = 2
 	
 	Field Player:TPlayer = TPlayer.Create()
-	Field TileMap:LTTileMap = LTTileMap.Create( LTTileSet.Create( LTImage.FromFile( "tileset.png", 3, 1 ), 0 ), MapSize, MapSize )
+	Field TileMap:LTTileMap = LTTileMap.Create( LTTileSet.Create( LTImage.FromFile( "incbin::tileset.png", 4, 1 ), 0 ), MapSize, MapSize )
 	Field Coins:Int
 	
 	Method Init()
@@ -6234,7 +6928,7 @@ Type TExample Extends LTProject
 		Player.Draw()
 		DrawText( "Move player with arrow keys", 0, 0 )
 		DrawText( "Coins: " + Coins, 0, 16 )
-		L_PrintText( "LTVectorSprite, CollisionsWithTileMap, HandleCollisionWithTile example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
+		L_PrintText( "LTVectorSprite, CollisionsWithTileMap, HandleCollisionWithTile example", L_CurrentCamera.X, L_CurrentCamera.Y + 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type
 
@@ -6247,22 +6941,26 @@ Type TPlayer Extends LTVectorSprite
 	Const JumpStrength:Double = 15.0
 	
 	Field OnLand:Int
+	Field HorizontalCollisionHandler:THorizontalCollisionHandler = New THorizontalCollisionHandler
+	Field VerticalCollisionHandler:TVerticalCollisionHandler = New TVerticalCollisionHandler
 	
 	Function Create:TPlayer()
 		Local Player:TPlayer = New TPlayer
 		Player.SetSize( 0.8, 1.8 )
 		Player.SetCoords( 0, 2 -0.5 * Example.MapSize )
-		Player.Visualizer.Image = LTImage.FromFile( "mario.png", 4 )
+		Player.Visualizer.Image = LTImage.FromFile( "incbin::mario.png", 4 )
 		Return Player
 	End Function
 	
 	Method Act()
 		Move( DX, 0 )
-		CollisionsWithTileMap( Example.TileMap, Horizontal )
+		CollisionsWithTileMap( Example.TileMap, HorizontalCollisionHandler )
+		
 		OnLand = False
 		Move( 0, DY )
 		DY = DY + Example.PerSecond( Gravity )
-		CollisionsWithTileMap( Example.TileMap, Vertical )
+		CollisionsWithTileMap( Example.TileMap, VerticalCollisionHandler )
+		
 		DX = 0.0
 		If KeyDown( Key_Left ) Then
 			DX = -HorizontalSpeed
@@ -6271,23 +6969,44 @@ Type TPlayer Extends LTVectorSprite
 			DX = HorizontalSpeed
 			SetFacing( RightFacing )
 		End If 
+		
 		If OnLand Then If KeyDown( Key_Up ) Then DY = -JumpStrength
 	End Method
-	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int = 0 )
-		Local TileNum:Int = TileMap.GetTile( TileX, TileY )
-		If TileNum = Example.Coin Then
-			TileMap.Value[ TileX, TileY ] = Example.Void
-			Example.Coins :+ 1
-		ElseIf TileNum = Example.Bricks Then
-			PushFromTile( TileMap, TileX, TileY )
-			If CollisionType = Vertical Then
-				If DY > 0 Then OnLand = True
-				DY = 0
-			End If
+End Type
+
+
+
+Type THorizontalCollisionHandler Extends LTSpriteAndTileCollisionHandler
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+		If Bricks( TileMap, TileX, TileY ) Then Sprite.PushFromTile( TileMap, TileX, TileY )
+	End Method
+End Type
+
+
+
+Type TVerticalCollisionHandler Extends LTSpriteAndTileCollisionHandler
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+		If Bricks( TileMap, TileX, TileY ) Then 
+			Sprite.PushFromTile( TileMap, TileX, TileY )
+			Local Player:TPlayer = TPlayer( Sprite )
+			If Player.DY > 0 Then Player.OnLand = True
+			Player.DY = 0
 		End If
 	End Method
-End Type</pre></td></tr>
+End Type
+
+
+
+Function Bricks:Int( TileMap:LTTileMap, TileX:Int, TileY:Int )
+	Local TileNum:Int = TileMap.GetTile( TileX, TileY )
+	If TileNum = Example.Coin Then
+		TileMap.Value[ TileX, TileY ] = Example.Void
+		Example.Coins :+ 1
+	ElseIf TileNum = Example.Bricks Then
+		Return True
+	End If
+	Return False
+End Function</pre></td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTVectorSprite_fields></a>Fields Summary</th></tr><tr><td colspan=2>
 <a href=#DX>DX</a>
@@ -6483,6 +7202,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "kolobok.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -6490,7 +7211,7 @@ Type TExample Extends LTProject
 	Const SpritesQuantity:Int = 50
 	
 	Field Sprites:LTLayer = New LTLayer
-	Field SpriteImage:LTImage = LTImage.FromFile( "kolobok.png" )
+	Field SpriteImage:LTImage = LTImage.FromFile( "incbin::kolobok.png" )
 	
 	Method Init()
 		For Local N:Int = 1 To SpritesQuantity
@@ -6554,6 +7275,9 @@ Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 Import dwlab.audiodrivers
 
+Incbin "tiles.png"
+Incbin "hit.ogg"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -6563,8 +7287,8 @@ Type TExample Extends LTProject
 	Const ShakingPeriod:Double = 1.0
 	Const PeriodBetweenShakes:Double = 3.0
 	
-	Field TileMap:LTTileMap = LTTileMap.Create( LTTileSet.Create( LTImage.FromFile( "tiles.png", 8, 4 ) ), TileMapWidth, TileMapHeight )
-	Field HitSound:TSound = TSound.Load( "hit.ogg", False )
+	Field TileMap:LTTileMap = LTTileMap.Create( LTTileSet.Create( LTImage.FromFile( "incbin::tiles.png", 8, 4 ) ), TileMapWidth, TileMapHeight )
+	Field HitSound:TSound = TSound.Load( "incbin::hit.ogg", False )
 	Field ShakingK:Double
 	Field LastShakingTime:Double = -100
 	
@@ -6778,6 +7502,8 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "tiles.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
@@ -6785,7 +7511,7 @@ Type TExample Extends LTProject
 	Const TileMapWidth:Int = 16
 	Const TileMapHeight:Int = 12
 	
-	Field TileMap:LTTileMap = LTTileMap.Create( LTTileSet.Create( LTImage.FromFile( "tiles.png", 8, 4 ) ), TileMapWidth, TileMapHeight )
+	Field TileMap:LTTileMap = LTTileMap.Create( LTTileSet.Create( LTImage.FromFile( "incbin::tiles.png", 8, 4 ) ), TileMapWidth, TileMapHeight )
 	
 	Method Init()
 		L_InitGraphics()
@@ -7062,15 +7788,26 @@ See also: <a href=#ManageIntAttribute>ManageIntAttribute</a>, <a href=#ManageDou
 <br>
 <h2 id=modinfo>Module Information</h2>
 <table width=100%>
-<tr><th width=1%>Version</th><td>1.3.16</td></tr>
+<tr><th width=1%>Version</th><td>1.3.18</td></tr>
 <tr><th width=1%>Author</th><td>Matt Merkulov</td></tr>
 <tr><th width=1%>License</th><td>Artistic License 2.0</td></tr>
 <tr><th width=1%>Modserver</th><td>DWLAB</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp;</td></tr>
+<tr><th width=1%>History</th><td>v1.3.19 (28.12.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Behavior models now doesn't activate/deacivate if they already did.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Fixed bug in animation behavior model.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added Info() method for behavior models for more info in ShowModels method.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added Permanent flag to LTModelActivator / LTModelDeactivator.</td></tr>
+<tr><th width=1%>History</th><td>v1.3.18 (27.12.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added collision handlers and rewrote collision methods to support them, CollisionType is removed.</td></tr>
+<tr><th width=1%>History</th><td>v1.3.17 (26.12.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Seriously complemented behavior model system - added a lot of standard classes.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Removed Default...() methods from LTBehaviorModel.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Project parameter is removed from Animate() method.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added AttachModels() method to LTShape.</td></tr>
 <tr><th width=1%>History</th><td>v1.3.16 (20.12.11)</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Added L_Cursor to the LTProject which will be always at mouse coords.</td></tr>
-<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added Freeze() and UnFreeze() methods to LTProject.</td></tr>
-<tr><th width=1%>History</th><td>&nbsp; &nbsp; Removed CollisionsWithSprite() and CollisionsWithLine() method from LTSprite.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added SwitchTo() method to LTProject.</td></tr>
 <tr><th width=1%>History</th><td>v1.3.15 (14.12.11)</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Extended LTRevoluteJoint, now you can define hinge point inside child sprite other than its center.</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Made extension of LTBehavior model and new behavior model templates.</td></tr>

@@ -24,4 +24,10 @@ Type LTIsButtonActionDown Extends LTConditionalModel
 	Method Condition:Int( Shape:LTShape )
 		Return ButtonAction.IsDown()
 	End Method
+	
+	
+	
+	Method Info:String( Shape:LTShape )
+		Return ButtonAction.Name
+	End Method
 End Type

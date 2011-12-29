@@ -2,8 +2,8 @@
 	<LTVisualizer field="visualizer"/>
 	<TList field="images">
 		<Object id="9"/>
-		<Object id="22"/>
-		<Object id="93"/>
+		<Object id="24"/>
+		<Object id="95"/>
 	</TList>
 	<TList field="tilesets">
 		<Object id="8"/>
@@ -74,9 +74,11 @@
 				<LTParameter name="class" value="TJelly"/>
 				<LTParameter name="jumping_strength" value="3-5"/>
 				<LTParameter name="firing_speed" value="2-4"/>
+				<LTParameter name="health" value="300"/>
+				<LTParameter name="score" value="1500"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="-6" rotating="0">
-				<LTImage field="image" id="22" filename="superjelly.png" xcells="8" ycells="3"/>
+				<LTImage field="image" id="24" filename="superjelly.png" xcells="8" ycells="3"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="6.87" y="12.25" width="0.75" height="1.5" shape="2">
@@ -86,7 +88,7 @@
 				<LTParameter name="firing_speed" value="4-6"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="6">
-				<Object field="image" id="22"/>
+				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="24.37" y="6.25" width="0.75" height="1.5" shape="2" angle="-180">
@@ -99,7 +101,7 @@
 				<LTParameter name="firing_speed" value="6-9"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="-6" rotating="0">
-				<Object field="image" id="22"/>
+				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="19.37" y="6.25" width="0.75" height="1.5" shape="2" angle="-180">
@@ -112,10 +114,10 @@
 				<LTParameter name="firing_speed" value="2-3"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="-6" rotating="0">
-				<Object field="image" id="22"/>
+				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="8.35" y="7.25" width="0.75" height="1.5" shape="2">
+		<LTSprite x="8.33" y="7.25" width="0.75" height="1.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="moving" value="1.5-4"/>
 				<LTParameter name="jumping" value="1-2"/>
@@ -125,7 +127,7 @@
 				<LTParameter name="firing_speed" value="3-4"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="6" rotating="0">
-				<Object field="image" id="22"/>
+				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="4.87" y="11.25" width="0.75" height="1.5" shape="2">
@@ -135,17 +137,17 @@
 				<LTParameter name="firing_speed" value="5-8"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="6">
-				<Object field="image" id="22"/>
+				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="8.85" y="13.25" width="0.75" height="1.5" shape="2">
+		<LTSprite x="8.83" y="13.25" width="0.75" height="1.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="firing" value="1-7"/>
 				<LTParameter name="class" value="TJelly"/>
 				<LTParameter name="firing_speed" value="2-5"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="6">
-				<Object field="image" id="22"/>
+				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="14.85" y="13.25" width="0.75" height="1.5" shape="2">
@@ -156,7 +158,7 @@
 				<LTParameter name="jumping_strength" value="3-8"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="6">
-				<Object field="image" id="22"/>
+				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="24.37" y="19.25" width="0.75" height="1.5" shape="2" angle="-180">
@@ -167,7 +169,7 @@
 				<LTParameter name="jumping_strength" value="3-6"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="-6" rotating="0">
-				<Object field="image" id="22"/>
+				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="20.62" y="20.25" width="0.75" height="1.5" shape="2" angle="-180">
@@ -178,7 +180,7 @@
 				<LTParameter name="jumping_strength" value="6-10"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="-6" rotating="0">
-				<Object field="image" id="22"/>
+				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="15.6" y="21.25" width="0.75" height="1.5" shape="2" angle="-180">
@@ -187,15 +189,15 @@
 				<LTParameter name="class" value="TJelly"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="-6" rotating="0">
-				<Object field="image" id="22"/>
+				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="9.85" y="22.25" width="0.75" height="1.5" shape="2" angle="-180">
+		<LTSprite x="9.83" y="22.25" width="0.75" height="1.5" shape="2" angle="-180">
 			<TList field="parameters">
 				<LTParameter name="class" value="TJelly"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="-6" rotating="0">
-				<Object field="image" id="22"/>
+				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="6.12" y="22.25" width="0.75" height="1.5" shape="2" angle="-180">
@@ -203,15 +205,15 @@
 				<LTParameter name="class" value="TJelly"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="-6" rotating="0">
-				<Object field="image" id="22"/>
+				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="2.62" y="22.12" width="0.75" height="1.75" shape="1">
+		<LTSprite x="2.62" y="22.12" width="0.75" height="1.74" shape="1">
 			<TList field="parameters">
 				<LTParameter name="class" value="TAwPossum"/>
 			</TList>
-			<LTVisualizer field="visualizer" dy="-0.2" xscale="4" yscale="1.8">
-				<LTImage field="image" id="93" filename="awpossum.png" xcells="8" ycells="2"/>
+			<LTVisualizer field="visualizer" dy="-0.14" xscale="3.6" yscale="1.6">
+				<LTImage field="image" id="95" filename="awpossum.png" xcells="8" ycells="2"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>

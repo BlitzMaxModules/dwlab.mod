@@ -250,7 +250,7 @@ Type LTVisualizer Extends LTObject
 		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
 		If Sprite.ShapeType = LTSprite.Pivot Then
 			L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX, SY )
-			DrawOval( SX - 2, SY - 2, 5, 5 )
+			DrawOval( SX - 2.5 * XScale + 0.5, SY - 2.5 * YScale + 0.5, 5 * XScale, 5 * YScale )
 		Else If L_CurrentCamera.Isometric Then
 			Select Sprite.ShapeType
 				Case LTSprite.Circle

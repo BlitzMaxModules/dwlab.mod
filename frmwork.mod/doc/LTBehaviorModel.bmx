@@ -4,25 +4,52 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
+Incbin "jellys.lw"
+Incbin "tileset.png"
+Incbin "superjelly.png"
+Incbin "awpossum.png"
+Incbin "scheme1.png"
+Incbin "scheme2.png"
+
 Global Example:TExample = New TExample
 Example.Execute()
 
 Type TExample Extends LTProject
-	Const BallsQuanity:Int = 20
 	Const Bricks:Int = 1
+	Const DeathPeriod:Double = 1.0
 	
-	Field World:LTWorld = LTWorld.FromFile( "jellys.lw" )
+	Field World:LTWorld
 	Field Layer:LTLayer
 	Field TileMap:LTTileMap
 	Field SelectedSprite:LTSprite
 	Field MarchingAnts:LTMarchingAnts = New LTMarchingAnts
+	
 	Field BumpingWalls:TBumpingWalls = New TBumpingWalls
 	Field PushFromWalls:TPushFromWalls = New TPushFromWalls
 	Field DestroyBullet:TDestroyBullet = New TDestroyBullet
-	Field HurtingCollision:THurtingCollision = New THurtingCollision
+	Field AwPossumHurtingCollision:TAwPossumHurtingCollision = New TAwPossumHurtingCollision
+	Field AwPossumHitCollision:TAwPossumHitCollision = New TAwPossumHitCollision
+	
+	'Field HitArea:LTSprite
+	Field Score:Int
 	
 	Method Init()
+		L_SetIncbin( True )
+	 	World = LTWorld.FromFile( "jellys.lw" )
+	 	L_SetIncbin( False )
+		
 		L_InitGraphics()
+		
+		Repeat
+			DrawImage( LoadImage( "incbin::scheme2.png" ), 0, 0 )
+			Flip
+		Until KeyHit( Key_Escape )
+		
+		Repeat
+			DrawImage( LoadImage( "incbin::scheme1.png" ), 0, 0 )
+			Flip
+		Until KeyHit( Key_Escape )
+		
 		InitLevel()
 	End Method
 	
@@ -44,7 +71,11 @@ Type TExample Extends LTProject
 			SelectedSprite.ShowModels( 100 )
 			SelectedSprite.DrawUsingVisualizer( MarchingAnts )
 		End If
+		'If HitArea Then HitArea.Draw()
 		ShowDebugInfo()
+		L_PrintText( "Guide AwesomePossum to exit from maze using arrow and space keys", TileMap.X + 16, TileMap.Y - 12, LTAlign.ToRight, LTAlign.ToTop )
+		L_PrintText( "You can view sprite behavior models by clicking left mouse button on it", TileMap.X + 16, TileMap.Y - 11.5, LTAlign.ToRight, LTAlign.ToTop )
+		L_PrintText( "Score: " + L_FirstZeroes( Score, 6 ), TileMap.X + 15.9, TileMap.Y + 11.9, LTAlign.ToRight, LTAlign.ToBottom, True )
 	End Method
 End Type
 
@@ -66,13 +97,15 @@ Type TJelly Extends TGameObject
 	Const FiringAnimationSpeed:Double = 0.1
 	Const WalkingAnimationSpeed:Double = 0.2
 	Const IdleAnimationSpeed:Double = 0.4
-	Const MinAttack:Double = 7.0
-	Const MaxAttack:Double = 15.0
+	Const MinAttack:Double = 10.0
+	Const MaxAttack:Double = 20.0
+	Const HurtingTime:Double = 0.2
 	
 	Const JumpingPause:Double = JumpingAnimationSpeed * 2.0
 	Const BulletPause:Double = FiringAnimationSpeed * 5.0
 	
-		
+	Field Score:Int = 100
+
 	Method Init()
 		AttachModel( Gravity )
 
@@ -83,7 +116,9 @@ Type TJelly Extends TGameObject
 		FallingAnimation = LTAnimationModel.Create( True, JumpingAnimationSpeed, 3, 13, True )
 		Local FiringAnimation:LTAnimationModel = LTAnimationModel.Create( False, FiringAnimationSpeed, 8, 16 )
 		
+		
 		Local HorizontalMovement:THorizontalMovement = THorizontalMovement.Create( Example.BumpingWalls )
+		
 				
 		Local Jumping:String = GetParameter( "jumping" )
 		If Jumping Then
@@ -91,10 +126,10 @@ Type TJelly Extends TGameObject
 			Local WaitingForJump:LTRandomWaitingModel = LTRandomWaitingModel.Create( Parameters[ 0 ].ToDouble(), Parameters[ 1 ].ToDouble() )
 			AttachModel( WaitingForJump )
 			
-			Local OnLandCondition:LTIsModelActivated = LTIsModelActivated.Create( OnLand )
+			Local OnLandCondition:LTIsModelActive = LTIsModelActive.Create( OnLand )
 			WaitingForJump.NextModels.AddLast( OnLandCondition )
 			
-			Local AnimationActive:LTIsModelActivated = LTIsModelActivated.Create( FiringAnimation )
+			Local AnimationActive:LTIsModelActive = LTIsModelActive.Create( FiringAnimation )
 			OnLandCondition.TrueModels.AddLast( AnimationActive )
 			OnLandCondition.FalseModels.AddLast( WaitingForJump )
 			
@@ -114,9 +149,12 @@ Type TJelly Extends TGameObject
 			AnimationActive.FalseModels.AddLast( PauseBeforeJump )
 			
 			AnimationStack.Add( JumpingAnimation, False )
+			Score :+ 200
 		End If
 		
+		
 		AnimationStack.Add( FallingAnimation )
+		
 		
 		Local Firing:String = GetParameter( "firing" )
 		If Firing Then
@@ -124,10 +162,10 @@ Type TJelly Extends TGameObject
 			Local WaitingForFire:LTRandomWaitingModel = LTRandomWaitingModel.Create( Parameters[ 0 ].ToDouble(), Parameters[ 1 ].ToDouble() )
 			AttachModel( WaitingForFire )
 			
-			Local OnLandCondition:LTIsModelActivated = LTIsModelActivated.Create( OnLand )
+			Local OnLandCondition:LTIsModelActive = LTIsModelActive.Create( OnLand )
 			WaitingForFire.NextModels.AddLast( OnLandCondition )
 			
-			Local AnimationActive:LTIsModelActivated = LTIsModelActivated.Create( JumpingAnimation )
+			Local AnimationActive:LTIsModelActive = LTIsModelActive.Create( JumpingAnimation )
 			OnLandCondition.TrueModels.AddLast( AnimationActive )
 			OnLandCondition.FalseModels.AddLast( WaitingForFire )
 			
@@ -144,6 +182,7 @@ Type TJelly Extends TGameObject
 			AnimationActive.FalseModels.AddLast( PauseBeforeBullet )
 			
 			AnimationStack.Add( FiringAnimation, False )
+			Score :+ 300
 		End If
 		
 		Local MovementAnimation:LTAnimationModel = LTAnimationModel.Create( True, WalkingAnimationSpeed, 3, 3, True )
@@ -153,14 +192,22 @@ Type TJelly Extends TGameObject
 			DX :* Rnd( Parameters[ 0 ].ToDouble(), Parameters[ 1 ].ToDouble() )
 			AttachModel( HorizontalMovement )
 			AnimationStack.Add( MovementAnimation )
+			Score :+ 100
 		End If
 		
-		AttachModel( LTModelDeactivator.Create( OnLand, True ) )
 		
+		AttachModel( LTModelDeactivator.Create( OnLand, True ) )
 		AttachModel( TVerticalMovement.Create( False ) )
+		
 		
 		Local StandingAnimation:LTAnimationModel = LTAnimationModel.Create( True, IdleAnimationSpeed, 3, 0, True )
 		AnimationStack.Add( StandingAnimation )
+		
+		Local ScoreParameter:String = GetParameter( "score" )
+		If ScoreParameter Then Score = ScoreParameter.ToInt()
+		
+		Local HealthParameter:String = GetParameter( "health" )
+		If HealthParameter Then Health = HealthParameter.ToDouble()
 	End Method
 End Type
 
@@ -177,28 +224,38 @@ Type TAwPossum Extends TGameObject
 	
 	Const MinAttack:Double = 20.0
 	Const MaxAttack:Double = 35.0
+	Const MinHealthGain:Double = 3.0
+	Const MaxHealthGain:Double = 6.0
 	
 	Const KnockOutPeriod:Double = 0.3
 	Const ImmortalPeriod:Double = 1.5
+	Const HitPeriod:Double = 0.2
 	Const KnockOutStrength:Double = 2.0
+	Const HitPauseTime:Double = 0.5
 	
-	Field MovementAnimation:LTAnimationModel
-	Field HurtingAnimation:LTAnimationModel
+	Field MovementAnimation:LTAnimationModel = LTAnimationModel.Create( True, WalkingAnimationSpeed, 4, 4 )
+	Field HurtingAnimation:LTAnimationModel = LTAnimationModel.Create( False, KnockOutPeriod, 1, 14 )
+	Field PunchingAnimation:LTAnimationModel = LTAnimationModel.Create( False, HitPeriod, 1, 15 )
+	Field KickingAnimation:LTAnimationModel = LTAnimationModel.Create( False, HitPeriod, 1, 11 )
+	
 	Field MovementControl:TMovementControl = New TMovementControl
+	Field HitPause:LTFixedWaitingModel = LTFixedWaitingModel.Create( HitPauseTime )
 	
-	Field MoveLeftKey:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Left ) )
-	Field MoveRightKey:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Right ) )
-	Field JumpKey:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Up ) )
-	Field HitKey:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Space ) )
+	Field MoveLeftKey:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Left ), "Move left" )
+	Field MoveRightKey:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Right ), "Move right" )
+	Field JumpKey:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Up ), "Jump" )
+	Field HitKey:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Space ), "Hit" )
 	
 	Method Init()
 		AttachModel( Gravity )
 
+		
 		Local AnimationStack:LTModelStack = New LTModelStack
 		AttachModel( AnimationStack )
 		
-		HurtingAnimation = LTAnimationModel.Create( False, KnockOutPeriod, 1, 14 )
 		AnimationStack.Add( HurtingAnimation, False )
+		AnimationStack.Add( PunchingAnimation, False )
+		AnimationStack.Add( KickingAnimation, False )
 		
 		JumpingAnimation = LTAnimationModel.Create( False, JumpingAnimationSpeed, 3, 8 )
 		AnimationStack.Add( JumpingAnimation )
@@ -207,19 +264,17 @@ Type TAwPossum Extends TGameObject
 		JumpingAnimation.NextModels.AddLast( LTModelActivator.Create( FallingAnimation ) )
 		AnimationStack.Add( FallingAnimation )
 
-		MovementAnimation = LTAnimationModel.Create( True, WalkingAnimationSpeed, 4, 4 )
 		AnimationStack.Add( MovementAnimation )
 
-		Local IsGravityActive:LTIsModelActivated = LTIsModelActivated.Create( Gravity )
-		AttachModel( IsGravityActive )
 		
 		AttachModel( MovementControl )
+		
 		
 		Local JumpKeyDown:LTIsButtonActionDown = LTIsButtonActionDown.Create( JumpKey )
 		AttachModel( JumpKeyDown )
 		JumpKeyDown.FalseModels.AddLast( JumpKeyDown )
 		
-		Local OnLandCondition:LTIsModelActivated = LTIsModelActivated.Create( OnLand )
+		Local OnLandCondition:LTIsModelActive = LTIsModelActive.Create( OnLand )
 		JumpKeyDown.TrueModels.AddLast( OnLandCondition )
 		
 		OnLandCondition.TrueModels.AddLast( LTModelActivator.Create( JumpingAnimation ) )
@@ -233,20 +288,54 @@ Type TAwPossum Extends TGameObject
 		OnLandCondition.TrueModels.AddLast( PauseBeforeJump )
 		
 		AnimationStack.Add( JumpingAnimation, False )
+
+		
+		Local HitKeyDown:LTIsButtonActionDown = LTIsButtonActionDown.Create( HitKey )
+		AttachModel( HitKeyDown )
+		HitKeyDown.FalseModels.AddLast( HitKeyDown )
+		
+		Local HitPauseCondition:LTIsModelActive = LTIsModelActive.Create( HitPause )
+		HitPauseCondition.FalseModels.AddLast( HitPause )
+		HitPauseCondition.TrueModels.AddLast( HitKeyDown )
+		HitKeyDown.TrueModels.AddLast( HitPauseCondition )
+				
+		Local OnLandCondition2:LTIsModelActive = LTIsModelActive.Create( OnLand )
+		OnLandCondition2.TrueModels.AddLast( LTModelActivator.Create( PunchingAnimation ) )
+		OnLandCondition2.TrueModels.AddLast( THittingArea.Create2( True ) )
+		OnLandCondition2.TrueModels.AddLast( HitKeyDown )
+		OnLandCondition2.FalseModels.AddLast( LTModelActivator.Create( KickingAnimation ) )
+		OnLandCondition2.FalseModels.AddLast( THittingArea.Create2( False ) )
+		OnLandCondition2.FalseModels.AddLast( HitKeyDown )
+		HitPauseCondition.FalseModels.AddLast( OnLandCondition2 )
+		
 		
 		AttachModel( THorizontalMovement.Create( Example.PushFromWalls ) )
 		
-		AttachModel( LTModelDeactivator.Create( OnLand, True ) )
 		
+		AttachModel( LTModelDeactivator.Create( OnLand, True ) )
 		AttachModel( TVerticalMovement.Create( True ) )
+		
 		
 		Local StandingAnimation:LTAnimationModel = LTAnimationModel.Create( True, IdleAnimationSpeed, 4, 0, True )
 		AnimationStack.Add( StandingAnimation )
 	End Method
 	
 	Method Act()
-		CollisionsWithLayer( Example.Layer, Example.HurtingCollision )
 		Super.Act()
+		CollisionsWithLayer( Example.Layer, Example.AwPossumHurtingCollision )
+		If X > Example.TileMap.RightX() Then Example.SwitchTo( New TRestart )
+	End Method
+	
+	Method Draw()
+		Super.Draw()
+		L_DrawEmptyRect( 5, 580, 104, 15 )
+		If Health >= 50.0 Then
+			SetColor( ( 100.0 - Health ) * 255.0 / 50.0 , 255, 0 )
+		Else
+			SetColor( 255, Health * 255.0 / 50.0, 0 )
+		End If
+		DrawRect( 7, 582, Health, 11 )
+		LTVisualizer.ResetColor()
 	End Method
 End Type
 
@@ -387,6 +476,8 @@ Type TBullet Extends LTVectorSprite
 	Const MinAttack:Double = 5.0
 	Const MaxAttack:Double = 10.0
 	
+	Field Collisions:Int = True
+	
 	Function Create( Jelly:LTVectorSprite, Speed:Double )
 		Local Bullet:TBullet = New TBullet
 		Bullet.SetCoords( Jelly.X + Sgn( Jelly.DX ) * Jelly.Width * 2.2, Jelly.Y - 0.15 * Jelly.Height )
@@ -401,15 +492,27 @@ Type TBullet Extends LTVectorSprite
 	
 	Method Act()
 		MoveForward()
-		CollisionsWithTileMap( Example.TileMap, Example.DestroyBullet )
+		If Collisions Then CollisionsWithTileMap( Example.TileMap, Example.DestroyBullet )
+		Super.Act()
 	End Method
+	
+	Function Disable( Sprite:LTSprite )
+		Local Bullet:TBullet = TBullet( Sprite )
+		if Bullet.Collisions Then 
+			Bullet.AttachModel( New TDeath )
+			Bullet.AttachModel( New TGravity )
+			Bullet.ReverseDirection()
+			Bullet.Collisions = False
+			Bullet.DX :* 0.25
+		End If
+	End Function
 End Type
 
 
 
 Type TDestroyBullet Extends LTSpriteAndTileCollisionHandler
 	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
-		If TileMap.GetTile( TileX, TileY ) = Example.Bricks Then Example.Layer.Remove( Sprite )
+		If TileMap.GetTile( TileX, TileY ) = Example.Bricks Then TBullet.Disable( Sprite )
 	End Method
 End Type
 
@@ -443,14 +546,19 @@ End Type
 
 
 
-Type THurtingCollision Extends LTSpriteCollisionHandler
+Type TAwPossumHurtingCollision Extends LTSpriteCollisionHandler
 	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
 		If Sprite1.FindModel( "TImmortality" ) Then Return
+		If Sprite2.FindModel( "TDeath" ) Then Return
+		
 		Local Damage:Double = 0
 		If TJelly( Sprite2 ) Then Damage = Rnd( TJelly.MinAttack, TJelly.MaxAttack )
-		If TBullet( Sprite2 ) Then
-			Damage = Rnd( TBullet.MinAttack, TBullet.MaxAttack )
-			Example.Layer.Remove( Sprite2 )
+		Local Bullet:TBullet = TBullet( Sprite2 )
+		If Bullet Then
+			If Bullet.Collisions Then
+				Damage = Rnd( TBullet.MinAttack, TBullet.MaxAttack ) * Sprite2.GetDiameter() / 0.45
+				Example.Layer.Remove( Sprite2 )
+			End If
 		End If
 		If Damage Then
 			Local AwPossum:TAwPossum = TAwPossum( Sprite1 )
@@ -458,7 +566,9 @@ Type THurtingCollision Extends LTSpriteCollisionHandler
 			If AwPossum.Health > 0.0 Then
 				Sprite1.AttachModel( New TImmortality )
 				Sprite1.AttachModel( New TKnockOut )
-			Else
+			ElseIf Not Sprite1.FindModel( "TDeath" ) Then
+				Sprite1.BehaviorModels.Clear()
+				Sprite1.AttachModel( New TDeath )
 			End If
 		End If
 	End Method
@@ -469,7 +579,7 @@ End Type
 Type TImmortality Extends LTFixedWaitingModel
 	Const BlinkingSpeed:Double = 0.05
 	
-	Method Activate( Shape:LTShape )
+	Method Init( Shape:LTShape )
 		Period = TAwPossum.ImmortalPeriod
 	End Method
 	
@@ -486,7 +596,7 @@ End Type
 
 
 Type TKnockOut Extends LTFixedWaitingModel
-	Method Activate( Shape:LTShape )
+	Method Init( Shape:LTShape )
 		Local AwPossum:TAwPossum = TAwPossum( Shape )
 		Period = AwPossum.KnockOutPeriod
 		AwPossum.DX = -AwPossum.GetFacing() * AwPossum.KnockOutStrength
@@ -503,5 +613,162 @@ Type TKnockOut Extends LTFixedWaitingModel
 		Local AwPossum:TAwPossum = TAwPossum( Shape )
 		AwPossum.HurtingAnimation.DeactivateModel( Shape )
 		AwPossum.MovementControl.ActivateModel( Shape )
+	End Method
+End Type
+
+
+
+Type THittingArea Extends LTFixedWaitingModel
+	Field Area:LTSprite
+	Field Punch:Int
+	
+	Function Create2:THittingArea( Punch:Int )
+		Local Area:THittingArea = New THittingArea
+		Area.Punch = Punch
+		Return Area
+	End Function
+	
+	Method Init( Shape:LTShape )
+		Area = New LTSprite
+		Area.ShapeType = LTSprite.Oval
+		Area.SetDiameter( 0.3 )
+		Period = TAwPossum.HitPeriod
+		Example.AwPossumHitCollision.Collided = False
+	End Method
+	
+	Method ApplyTo( Shape:LTShape )
+		If Punch then
+			Area.SetCoords( Shape.X + Shape.GetFacing() * 0.95, Shape.Y + 0.15 )
+		Else
+			Area.SetCoords( Shape.X + Shape.GetFacing() * 0.95, Shape.Y - 0.1 )
+		End If
+		'Example.HitArea = Area
+		Area.CollisionsWithLayer( Example.Layer, Example.AwPossumHitCollision )
+		If Example.AwPossumHitCollision.Collided Then Remove( Shape )
+		Super.ApplyTo( Shape )
+	End Method
+	
+	'Method Deactivate( Shape:LTShape )
+	'	Example.HitArea = Null
+	'End Method
+End Type
+
+
+
+Type TAwPossumHitCollision Extends LTSpriteCollisionHandler
+	Field Collided:Int 
+	
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		Local Jelly:TJelly = TJelly( Sprite2 )
+		If Jelly Then
+			Jelly.Health :- Rnd( TAwPossum.MinAttack, TAwPossum.MaxAttack )
+			If Jelly.Health > 0 Then
+				Jelly.AttachModel( New TJellyHurt )
+			ElseIf Not Jelly.FindModel( "TDeath" ) Then
+				TScore.Create( Jelly, Jelly.Score )
+				
+				Local AwPossum:TAwPossum = TAwPossum( Example.Layer.FindShapeWithType( "TAwPossum" ) )
+				AwPossum.Health = Min( AwPossum.Health + Rnd( TAwPossum.MinHealthGain, TAwPossum.MaxHealthGain ), 100.0 )
+				
+				Jelly.BehaviorModels.Clear()
+				Jelly.AttachModel( New TDeath )
+			End If
+			Collided = True
+		ElseIf TBullet( Sprite2 )
+			If Not Sprite2.FindModel( "TDeath" ) Then
+				TBullet.Disable( Sprite2 )
+				TScore.Create( Sprite2, 50 )
+			End If
+		End If
+	End Method
+End Type
+
+
+
+Type TJellyHurt Extends LTFixedWaitingModel
+	Method Init( Shape:LTShape )
+		Period = TJelly.HurtingTime
+		Shape.DeactivateModel( "THorizontalMovement" )
+	End Method
+
+	Method ApplyTo( Shape:LTShape )
+		Super.ApplyTo( Shape )
+		Local Intensity:Double = ( L_CurrentProject.Time - StartingTime ) / Period
+		If Intensity <= 1.0 Then Shape.Visualizer.SetColorFromRGB( 1.0, Intensity, Intensity )
+	End Method
+	
+	Method Deactivate( Shape:LTShape )
+		Shape.ActivateModel( "THorizontalMovement" )
+		Shape.Visualizer.SetColorFromHex( "FFFFFF" )
+	End Method
+End Type
+
+
+
+Type TDeath Extends LTFixedWaitingModel
+	Method Init( Shape:LTShape )
+		Period = Example.DeathPeriod
+	End Method
+
+	Method ApplyTo( Shape:LTShape )
+		Super.ApplyTo( Shape )
+		Local Alpha:Double = 1.0 - ( L_CurrentProject.Time - StartingTime ) / Period
+		If Alpha >= 0.0 Then Shape.Visualizer.Alpha = Alpha
+	End Method
+	
+	Method Deactivate( Shape:LTShape )
+		Example.Layer.Remove( Shape )
+	End Method
+End Type
+
+
+
+Type TScore Extends LTSprite
+	Const Speed:Double = 2.0
+	Const Period:Double = 3.0
+	
+	Field Amount:Int
+	Field StartingTime:Double
+	
+	Function Create( Sprite:LTSprite, Amount:Int )
+		Local Score:TScore = New TScore
+		Score.SetCoords( Sprite.X, Sprite.TopY() )
+		Score.Amount = Amount
+		Score.SetDiameter( 0 )
+		Score.StartingTime = L_CurrentProject.Time
+		Example.Score :+ Amount
+		Example.Layer.AddLast( Score )
+	End Function
+	
+	Method Act()
+		Move( 0, -Speed )
+		If L_CurrentProject.Time > StartingTime + Period Then Example.Layer.Remove( Self )
+	End Method
+	
+	Method Draw()
+		PrintText( "+" + Amount, , LTAlign.ToBottom, , , True )
+	End Method
+End Type
+
+
+
+Type TRestart Extends LTProject
+	Field StartingTime:Int = Millisecs()
+	Field Initialized:Int
+	
+	Method Render()
+		If Millisecs() < StartingTime + 2000 Then
+			Example.Render()
+			L_CurrentCamera.Darken( 0.0005 * ( Millisecs() - StartingTime ) )
+		ElseIf Millisecs() < StartingTime + 4000
+			If Not Initialized Then
+				Example.InitLevel()
+				Initialized = True
+			End If
+			Example.Render()
+			L_CurrentCamera.Darken( 0.0005 * ( 4000 - Millisecs() + StartingTime ) )
+		Else
+			Exiting = True
+		End If
 	End Method
 End Type

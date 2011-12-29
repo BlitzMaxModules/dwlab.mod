@@ -5,6 +5,9 @@ ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
 ModuleInfo "History: v1.3.19 (28.12.11)"
 ModuleInfo "History: &nbsp; &nbsp; Behavior models now doesn't activate/deacivate if they already did."
+ModuleInfo "History: &nbsp; &nbsp; Fixed bug in animation behavior model."
+ModuleInfo "History: &nbsp; &nbsp; Added Info() method for behavior models for more info in ShowModels method."
+ModuleInfo "History: &nbsp; &nbsp; Added Permanent flag to LTModelActivator / LTModelDeactivator."
 ModuleInfo "History: v1.3.18 (27.12.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added collision handlers and rewrote collision methods to support them, CollisionType is removed."
 ModuleInfo "History: v1.3.17 (26.12.11)"
@@ -823,7 +826,7 @@ RightFacing!=1!
 -Draw%()="_dwlab_frmwork_LTShape_Draw"
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTShape_DrawUsingVisualizer"
 -DrawContour%(LineWidth!=1!)="_dwlab_frmwork_LTShape_DrawContour"
--PrintText%(Text$,HorizontalAlign%=1,VerticalAlign%=1,HorizontalShift!=0!,VerticalShift!=0!)="_dwlab_frmwork_LTShape_PrintText"
+-PrintText%(Text$,HorizontalAlign%=1,VerticalAlign%=1,HorizontalShift!=0!,VerticalShift!=0!,Contour%=0)="_dwlab_frmwork_LTShape_PrintText"
 -SetAsViewport%()="_dwlab_frmwork_LTShape_SetAsViewport"
 -LayerFirstSpriteCollision:LTSprite(Sprite:LTSprite)="_dwlab_frmwork_LTShape_LayerFirstSpriteCollision"
 -SpriteLayerCollisions%(Sprite:LTSprite,Handler:LTSpriteCollisionHandler)="_dwlab_frmwork_LTShape_SpriteLayerCollisions"
@@ -932,7 +935,7 @@ LTTemporaryModel^LTBehaviorModel{
 .NextModels:brl.linkedlist.TList&
 -New%()="_dwlab_frmwork_LTTemporaryModel_New"
 -Delete%()="_dwlab_frmwork_LTTemporaryModel_Delete"
--Init%(Shape:LTShape)="_dwlab_frmwork_LTTemporaryModel_Init"
+-Activate%(Shape:LTShape)="_dwlab_frmwork_LTTemporaryModel_Activate"
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTTemporaryModel_ApplyTo"
 -Info$(Shape:LTShape)="_dwlab_frmwork_LTTemporaryModel_Info"
 }="dwlab_frmwork_LTTemporaryModel"
@@ -977,19 +980,20 @@ LTAnimationModel^LTBehaviorModel{
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTAnimationModel_ApplyTo"
 -Info$(Shape:LTShape)="_dwlab_frmwork_LTAnimationModel_Info"
 }="dwlab_frmwork_LTAnimationModel"
-LTIsModelActivated^LTConditionalModel{
+LTIsModelActive^LTConditionalModel{
 .Model:LTBehaviorModel&
--New%()="_dwlab_frmwork_LTIsModelActivated_New"
--Delete%()="_dwlab_frmwork_LTIsModelActivated_Delete"
-+Create:LTIsModelActivated(Model:LTBehaviorModel)="_dwlab_frmwork_LTIsModelActivated_Create"
--Condition%(Shape:LTShape)="_dwlab_frmwork_LTIsModelActivated_Condition"
-}="dwlab_frmwork_LTIsModelActivated"
+-New%()="_dwlab_frmwork_LTIsModelActive_New"
+-Delete%()="_dwlab_frmwork_LTIsModelActive_Delete"
++Create:LTIsModelActive(Model:LTBehaviorModel)="_dwlab_frmwork_LTIsModelActive_Create"
+-Condition%(Shape:LTShape)="_dwlab_frmwork_LTIsModelActive_Condition"
+}="dwlab_frmwork_LTIsModelActive"
 LTIsButtonActionDown^LTConditionalModel{
 .ButtonAction:LTButtonAction&
 -New%()="_dwlab_frmwork_LTIsButtonActionDown_New"
 -Delete%()="_dwlab_frmwork_LTIsButtonActionDown_Delete"
 +Create:LTIsButtonActionDown(ButtonAction:LTButtonAction)="_dwlab_frmwork_LTIsButtonActionDown_Create"
 -Condition%(Shape:LTShape)="_dwlab_frmwork_LTIsButtonActionDown_Condition"
+-Info$(Shape:LTShape)="_dwlab_frmwork_LTIsButtonActionDown_Info"
 }="dwlab_frmwork_LTIsButtonActionDown"
 LTConditionalModel^LTBehaviorModel{
 .TrueModels:brl.linkedlist.TList&
@@ -1232,7 +1236,8 @@ L_ToPowerOf2%(Value%)="dwlab_frmwork_L_ToPowerOf2"
 L_GetEscribedRectangle%(LeftMargin!,RightMargin!,TopMargin!,BottomMargin!,MinX! Var,MinY! Var,MaxX! Var,MaxY! Var)="dwlab_frmwork_L_GetEscribedRectangle"
 L_UTFToASCII$(CharNum%)="dwlab_frmwork_L_UTFToASCII"
 L_ASCIIToUTF$(Chars$)="dwlab_frmwork_L_ASCIIToUTF"
-L_PrintText%(Text$,X!,Y!,HorizontalAlign%=1,VerticalAlign%=1)="dwlab_frmwork_L_PrintText"
+L_PrintText%(Text$,X!,Y!,HorizontalAlign%=1,VerticalAlign%=1,Contour%=0)="dwlab_frmwork_L_PrintText"
+L_DrawTextWithContour%(Text$,SX%,SY%)="dwlab_frmwork_L_DrawTextWithContour"
 LTRasterFrameVisualizer^LTVisualizer{
 .Images:brl.max2d.TImage&[,]&
 .ImageFile$&
@@ -1262,7 +1267,6 @@ L_DefinitionsMap:brl.map.TMap&=mem:p("dwlab_frmwork_L_DefinitionsMap")
 L_Definitions:LTXMLObject&=mem:p("dwlab_frmwork_L_Definitions")
 L_IDNum%&=mem("dwlab_frmwork_L_IDNum")
 L_IDArray:LTObject&[]&=mem:p("dwlab_frmwork_L_IDArray")
-LayerName$&=mem:p("dwlab_frmwork_LayerName")
 L_CollisionChecks%&=mem("dwlab_frmwork_L_CollisionChecks")
 L_TilesDisplayed%&=mem("dwlab_frmwork_L_TilesDisplayed")
 L_SpritesDisplayed%&=mem("dwlab_frmwork_L_SpritesDisplayed")

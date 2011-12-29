@@ -118,7 +118,7 @@ Type LTBehaviorModel Extends LTObject
 	End Rem
 	Method Remove( Shape:LTShape )
 		If Active Then DeactivateModel( Shape )
-		Link.Remove()
+		If Link Then Link.Remove()
 	End Method
 	
 	

@@ -8,13 +8,13 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTIsModelActivated Extends LTConditionalModel
+Type LTIsModelActive Extends LTConditionalModel
 	Field Model:LTBehaviorModel
 	
 	
 	
-	Function Create:LTIsModelActivated( Model:LTBehaviorModel )
-		Local BehaviorModel:LTIsModelActivated = New LTIsModelActivated
+	Function Create:LTIsModelActive( Model:LTBehaviorModel )
+		Local BehaviorModel:LTIsModelActive = New LTIsModelActive
 		BehaviorModel.Model = Model
 		Return BehaviorModel
 	End Function

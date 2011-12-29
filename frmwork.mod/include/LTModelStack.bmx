@@ -39,7 +39,7 @@ Type LTModelStack Extends LTBehaviorModel
 		Local N:Int = 1
 		For Local Model:LTBehaviorModel = EachIn Models
 			If Model.Active Then
-				Return "" + N + "th of " + Models.Count() + " models is active"
+				Return "" + N + "th of " + Models.Count() + " models is active: " + Model.Info( Shape )
 				Exit
 			End If
 			N :+ 1

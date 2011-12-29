@@ -19,3 +19,5 @@ Repeat
 	L_PrintText( "LTBitmapFont example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	Flip
 Forever
+
+SetClsColor 0, 0, 0

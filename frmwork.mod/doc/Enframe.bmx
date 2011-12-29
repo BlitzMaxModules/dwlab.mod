@@ -82,6 +82,8 @@ DrawSignature()
 Flip
 Waitkey
 
+
+SetClsColor( 0, 0, 0 )
     
 
 Function DrawDoubleMap( Map:LTDoubleMap )

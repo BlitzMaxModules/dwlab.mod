@@ -16,19 +16,19 @@ Type TGame Extends LTProject
 	Field Player:LTAngularSprite = New LTAngularSprite
 	Field PlayerVisualizer:LTVisualizer = LTVisualizer.FromFile( "media/footman.png", 5, 13 )
 	Field Cursor:LTSprite = New LTSprite
-	Field PivotVisualizer:LTVisualizer = New LTVisualizer
-	Field LineVisualizer:LTEmptyPrimitive = New LTEmptyPrimitive
+	Field PivotVisualizer:LTVisualizer = LTVisualizer.FromHexColor( "FF007F" )
+	Field LineVisualizer:LTContourVisualizer = LTContourVisualizer.FromWidthAndHexColor( 0.1, "FF7F00" )
 	Field CurrentPivot:LTSprite
-	Field CurrentPivotVisualizer:LTVisualizer = New LTVisualizer
+	Field CurrentPivotVisualizer:LTVisualizer = LTVisualizer.FromHexColor( "FFBF7F" )
 	Field Map:TGameMap = New TGameMap
 	Field Background:LTSprite = New LTSprite
-	Field Path:LTPath = New LTPath
+	Field Path:TList = New TList
 	Field Font:LTBitmapFont = LTBitmapFont.FromFile( "media/font.png", , , , True )
 	
 	
 	
 	Method Init()
-		L_InitGraphics( , , 25.0 )
+		L_InitGraphics()
 		Map = TGameMap( LoadFromFile( "map.gra" ) )
 		
 		Player.Velocity = 2.0
@@ -39,32 +39,27 @@ Type TGame Extends LTProject
 		PlayerVisualizer.Rotating = False
 		Player.Visualizer = PlayerVisualizer
 		
+		PivotVisualizer.SetVisualizerScales( 1.5 )
+		
 		Cursor.ShapeType = LTSprite.Circle
 		Cursor.SetDiameter( 0.2 )
-		
-		PivotVisualizer.SetVisualizerScale( 0.25, 0.25 )
-		PivotVisualizer.SetColorFromHex( "FF7F00" )
-		
-		LineVisualizer.Scaling = False
-		LineVisualizer.SetColorFromHex( "FF7F00" )
 		
 		Background.Width = 32
 		Background.Height = 24
 		Background.Visualizer = LTVisualizer.FromFile( "media/world-map.jpg" )
 		
-		CurrentPivotVisualizer.SetVisualizerScale( 0.35, 0.35 )
-		CurrentPivotVisualizer.SetColorFromHex( "FFBF7F" )
+		CurrentPivotVisualizer.SetVisualizerScale( 2, 2 )
 	End Method
 	
 	
 	
 	Method Logic()
 		Cursor.SetMouseCoords()
-		CurrentPivot = Map.FindPivotCollidingWith( Cursor )
+		CurrentPivot = Map.FindPivotCollidingWithSprite( Cursor )
 		
 		If KeyHit( Key_Space ) And CurrentPivot Then
 			If Map.PlayerPivot Then
-				Path = LTPath.Find( Map.PlayerPivot, CurrentPivot, Map )
+				Path = Map.FindPath( Map.PlayerPivot, CurrentPivot )
 			Else
 				Player.JumpTo( CurrentPivot )
 				Map.PlayerPivot = CurrentPivot
@@ -81,10 +76,10 @@ Type TGame Extends LTProject
 		End If
 		
 		If Map.PlayerPivot Then
-			If Player.IsAtPositionOf( Map.PlayerPivot ) And Not Path.Pivots.IsEmpty() Then
-				Map.PlayerPivot = LTSprite( Path.Pivots.First() )
+			If Player.IsAtPositionOf( Map.PlayerPivot ) And Not Path.IsEmpty() Then
+				Map.PlayerPivot = LTSprite( Path.First() )
 				Player.DirectTo( Map.PlayerPivot )
-				Path.Pivots.RemoveFirst()
+				Path.RemoveFirst()
 			Else
 				Player.MoveTowards( Map.PlayerPivot, Player.Velocity )
 			End If

@@ -10,7 +10,7 @@
 
 Type TRestartButton Extends LTButton
 	Method OnButtonDown( ButtonAction:LTButtonAction )
-		If ButtonAction = L_LeftMouseButton Then Game.LoadWindow( Menu.World, "", "LTRestartWindow" )
+		If ButtonAction = L_LeftMouseButton Then Game.LoadWindow( Menu.World, "LTRestartWindow" )
 		Super.OnButtonDown( ButtonAction )
 	End Method
 End Type

@@ -43,7 +43,7 @@ Type LTMenuWindow Extends LTWindow
 	
 	
 	Method Act()
-		'If AppTerminate() Then Project.LoadWindow( World, , "LTExitWindow" )
+		'If AppTerminate() Then Project.LoadWindow( World, "LTExitWindow" )
 		LTLabel( FindShape( "Profile" ) ).Text = LocalizeString( "{{Profile}}|" + L_CurrentProfile.Name )
 		
 		If DestinationY = Y Then

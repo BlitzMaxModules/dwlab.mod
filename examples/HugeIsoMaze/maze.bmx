@@ -17,7 +17,8 @@ Import dwlab.graphicsdrivers
 
 Include "TGame.bmx"
 Include "TMazeGenerator.bmx"
-Include "Objects.bmx"
+Include "TZombie.bmx"
+Include "CollisionHandlers.bmx"
 Include "PleaseWait.bmx"
 
 Global Game:TGame = New TGame

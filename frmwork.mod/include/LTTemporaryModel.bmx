@@ -18,7 +18,7 @@ Type LTTemporaryModel Extends LTBehaviorModel
 	
 	
 	
-	Method Init( Shape:LTShape )
+	Method Activate( Shape:LTShape )
 		StartingTime = L_CurrentProject.Time
 	End Method
 	

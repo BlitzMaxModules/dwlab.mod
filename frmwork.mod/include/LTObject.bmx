@@ -14,7 +14,6 @@ Global L_DefinitionsMap:TMap
 Global L_Definitions:LTXMLObject
 Global L_IDNum:Int
 Global L_IDArray:LTObject[]
-Global LayerName:String
 
 Rem
 bbdoc: Global object class

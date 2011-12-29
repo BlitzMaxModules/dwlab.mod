@@ -19,7 +19,7 @@ Type LTKeyWindow Extends LTWindow
 		
 		Local Label:LTLabel = LTLabel( FindShapeWithParameter( "text", "PressKey" ) )
 		Label.Text = Label.Text.Replace( "*", "~q" + LocalizeString( "{{" + L_CurrentButtonAction.Name +"}}" ) + "~q" )
-		Menu.Project.FindWindow( "", "LTOptionsWindow" ).Active = False
+		Menu.Project.FindWindow( "LTOptionsWindow" ).Active = False
 	End Method
 
 	Method Act()
@@ -56,6 +56,6 @@ Type LTKeyWindow Extends LTWindow
 	End Method	
 	
 	Method DeInit()
-		Menu.Project.FindWindow( "", "LTOptionsWindow" ).Active = True
+		Menu.Project.FindWindow( "LTOptionsWindow" ).Active = True
 	End Method
 End Type

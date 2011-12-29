@@ -10,7 +10,6 @@
 
 Global L_Window:LTWindow
 Global L_ActiveTextField:LTTextField
-Global L_Cursor:LTSprite = New LTSprite
 L_Cursor.ShapeType = LTSprite.Pivot
 
 Rem
@@ -39,7 +38,7 @@ Type LTGUIProject Extends LTProject
 	about: Window should be loaded from Lab world file, as layer of the root and has unique class or name (among other layers of root).
 	Modal parameter (can be set in editor) set to True forces all existing windows to be inactive while this window is not closed.
 	End Rem
-	Method LoadWindow:LTWindow( World:LTWorld, Name:String = "", Class:String = "", Add:Int = True )
+	Method LoadWindow:LTWindow( World:LTWorld, Class:String = "", Name:String = "", Add:Int = True )
 		L_ActiveTextField = Null
 		If Class Then
 			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShapeWithParameter( "class", Class ) ) ) )
@@ -87,7 +86,7 @@ Type LTGUIProject Extends LTProject
 		Local Link:TLink = Windows.FirstLink()
 		While Link
 			Local Window:LTWindow = LTWindow( Link.Value() )
-			Link._value = LoadWindow( Window.World, Window.GetName(), TTypeID.ForObject( Window ).Name(), False )
+			Link._value = LoadWindow( Window.World, TTypeID.ForObject( Window ).Name(), Window.GetName(), False )
 			Link = Link.NextLink()
 		Wend
 	End Method
@@ -98,7 +97,7 @@ Type LTGUIProject Extends LTProject
 	bbdoc: Function which finds a window in opened windows by given name or class.
 	returns: Found window.
 	End Rem
-	Method FindWindow:LTWindow( Name:String = "", Class:String = "" )
+	Method FindWindow:LTWindow( Class:String = "", Name:String = "" )
 		Local TypeID:TTypeId = L_GetTypeID( Class )
 		For Local Window:LTWindow = Eachin Windows
 			If Name Then If Window.GetName() = Name Then Return Window
@@ -166,10 +165,16 @@ Type LTGUIProject Extends LTProject
 				Controller.Prepare()
 			Next
 			
+			L_Cursor.SetMouseCoords()
 			Logic()
+			
+			Local OldCamera:LTCamera = L_CurrentCamera
+			L_CurrentCamera = L_GUICamera
+			L_Cursor.SetMouseCoords()
 			For Local Window:LTWindow = Eachin Windows
 				If Window.Active Then Window.Act()
 			Next
+			L_CurrentCamera = OldCamera
 			
 			If Exiting Then
 				DeInit()
@@ -194,7 +199,7 @@ Type LTGUIProject Extends LTProject
 				L_CurrentCamera.SetCameraViewport()
 				Render()
 				
-				Local OldCamera:LTCamera = L_CurrentCamera
+				OldCamera = L_CurrentCamera
 				L_CurrentCamera = L_GUICamera
 				L_CurrentCamera.SetCameraViewport()
 				L_Cursor.SetMouseCoords()

@@ -38,4 +38,8 @@ Type TExample Extends LTProject
 		DrawText( "Press space to blur map", 0, 0 )
 		L_PrintText( "DrawCircle, Blur example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
+	
+	Method DeInit()
+		SetClsColor( 0, 0, 0 )
+	End Method
 End Type

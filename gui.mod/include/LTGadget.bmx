@@ -17,6 +17,11 @@ Rem
 bbdoc: Class for GUI gagdet for placing on window.
 End Rem
 Type LTGadget Extends LTSprite
+	Const Horizontal:Int = 0
+	Const Vertical:Int = 1
+	
+	
+	
 	Rem
 	bbdoc: Gadget initialization method.
 	about: Called after loading window with this gadget.

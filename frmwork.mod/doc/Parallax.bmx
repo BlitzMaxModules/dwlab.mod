@@ -19,7 +19,8 @@ Type TExample Extends LTProject
   Field Clouds:LTTileMap
   
   Method Init()
-    L_InitGraphics( 512, 512, 64 )
+    L_InitGraphics()
+	L_CurrentCamera.SetMagnification( 32.0 )
     
 	L_SetIncbin( True )
     Local Layer:LTLayer = LoadLayer( LTLayer( LTWorld.FromFile( "parallax.lw" ).FindShapeWithType( "LTLayer" ) ) )
@@ -37,12 +38,12 @@ Type TExample Extends LTProject
     Clouds.Parallax( Grid )
     If KeyHit( Key_Escape ) Then Exiting = True
   End Method
-  
+
   Method Render()
     Ground.Draw()
     Grid.Draw()
     Clouds.Draw()
 	DrawText( "Move camera with arrow keys", 0, 0 )
-	L_PrintText( "Parallax example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
+	L_PrintText( "Parallax example", L_CurrentCamera.X, L_CurrentCamera.Y + 9, LTAlign.ToCenter, LTAlign.ToBottom )
   End Method
 End Type

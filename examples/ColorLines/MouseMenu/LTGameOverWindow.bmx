@@ -37,8 +37,8 @@ Type LTGameOverWindow Extends LTWindow
 			If L_CurrentProfile.Name Then Menu.AddHighScore( L_CurrentProfile.Name, Game.Score )
 		End If
 		
-		LTMenuWindow( Menu.Project.FindWindow( , "LTMenuWindow" ) ).DestinationY = 0
-		Menu.Project.LoadWindow( Menu.World, , "LTScoresWindow" )
+		LTMenuWindow( Menu.Project.FindWindow( "LTMenuWindow" ) ).DestinationY = 0
+		Menu.Project.LoadWindow( Menu.World, "LTScoresWindow" )
 		
 		L_CurrentProfile.Reset()
 		L_CurrentProfile.Load()

@@ -1,8 +1,10 @@
-ModuleInfo "Version: 1.0.3"
+ModuleInfo "Version: 1.0.4.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.4.1 (29.12.11)"
+ModuleInfo "History: &nbsp; &nbsp; Switched Name and Class parameters in FindWindow() and LoadWindow() methods."
 ModuleInfo "History: v1.0.4 (21.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Added multi-line labels support."
 ModuleInfo "History: v1.0.3 (14.11.11)"
@@ -25,9 +27,9 @@ LTGUIProject^dwlab.frmwork.LTProject{
 .Locked%&
 -New%()="_dwlab_gui_LTGUIProject_New"
 -Delete%()="_dwlab_gui_LTGUIProject_Delete"
--LoadWindow:LTWindow(World:dwlab.frmwork.LTWorld,Name$=$"",Class$=$"",Add%=1)="_dwlab_gui_LTGUIProject_LoadWindow"
+-LoadWindow:LTWindow(World:dwlab.frmwork.LTWorld,Class$=$"",Name$=$"",Add%=1)="_dwlab_gui_LTGUIProject_LoadWindow"
 -ReloadWindows%()="_dwlab_gui_LTGUIProject_ReloadWindows"
--FindWindow:LTWindow(Name$=$"",Class$=$"")="_dwlab_gui_LTGUIProject_FindWindow"
+-FindWindow:LTWindow(Class$=$"",Name$=$"")="_dwlab_gui_LTGUIProject_FindWindow"
 -CloseWindow%(Window:LTWindow="bbNullObject")="_dwlab_gui_LTGUIProject_CloseWindow"
 -Execute%()="_dwlab_gui_LTGUIProject_Execute"
 }="dwlab_gui_LTGUIProject"
@@ -137,6 +139,8 @@ Filling%=1
 -OnButtonUnpress%(ButtonAction:dwlab.frmwork.LTButtonAction)="_dwlab_gui_LTSlider_OnButtonUnpress"
 }="dwlab_gui_LTSlider"
 LTGadget^dwlab.frmwork.LTSprite{
+Horizontal%=0
+Vertical%=1
 -New%()="_dwlab_gui_LTGadget_New"
 -Delete%()="_dwlab_gui_LTGadget_Delete"
 -Init%()="_dwlab_gui_LTGadget_Init"
@@ -149,7 +153,6 @@ LTGadget^dwlab.frmwork.LTSprite{
 }="dwlab_gui_LTGadget"
 L_Window:LTWindow&=mem:p("dwlab_gui_L_Window")
 L_ActiveTextField:LTTextField&=mem:p("dwlab_gui_L_ActiveTextField")
-L_Cursor:dwlab.frmwork.LTSprite&=mem:p("dwlab_gui_L_Cursor")
 L_GUICamera:dwlab.frmwork.LTCamera&=mem:p("dwlab_gui_L_GUICamera")
 L_LeftMouseButton:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_LeftMouseButton")
 L_RightMouseButton:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_RightMouseButton")

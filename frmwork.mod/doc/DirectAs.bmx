@@ -53,8 +53,8 @@ Type TCursor Extends LTSprite
 	
 	Method Act()
 		SetMouseCoords()
-		If MouseHit( 1 ) Then CollisionsWithLayer( Example.Layer, SizeHandler )
-		If MouseHit( 2 ) Then CollisionsWithLayer( Example.Layer, DirectionHandler )
+		If MouseHit( 1 ) Then CollisionsWithLayer( Example.Layer, DirectionHandler )
+		If MouseHit( 2 ) Then CollisionsWithLayer( Example.Layer, SizeHandler )
 	End Method
 End Type
 

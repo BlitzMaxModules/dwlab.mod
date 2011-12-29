@@ -4,7 +4,7 @@ Framework brl.basic
 Import brl.stream
 Import brl.retro
 
-Local EqualNames:String[] = [ "Example", "TCursor", "TBall", "TKolobok" ]
+Local EqualNames:String[] = [ "Example", "TCursor", "TBall", "TKolobok", "TCollisionHandler", "TBullet", "TVerticalCollisionHandler" ]
 
 Local All:TStream = WriteFile( "all.bmx" )
 WriteLine( All, "SuperStrict" )
@@ -16,7 +16,6 @@ WriteLine( All, "L_InitGraphics()" )
 WriteLine( All, "L_PrintText( ~qPress ESC to switch examples~q, 0, 0, LTAlign.ToCenter, LTAlign.ToCenter )" )
 WriteLine( All, "Flip" )
 WriteLine( All, "Waitkey" )
-WriteLine( All, "EndGraphics()" )
 
 
 Local Dir:Int = ReadDir( CurrentDir() )
@@ -27,7 +26,7 @@ Repeat
 	If Not FileName Then Exit
 	
 	If ExtractExt( FileName ) <> "bmx" Then Continue
-	If TList.FromArray( [ "packer.bmx", ".bmx", "LTBehaviorModel.bmx", "LTSpring.bmx", "all.bmx" ] ).Contains( FileName ) Then Continue
+	If TList.FromArray( [ "packer.bmx", ".bmx", "LTSpring.bmx", "all.bmx" ] ).Contains( FileName ) Then Continue
 	
 	Local File:TStream = ReadFile( FileName )
 	Local TypeArea:Int = -1
@@ -54,6 +53,8 @@ Repeat
 			WriteLine( All, Line )
 			Continue
 		End If
+		
+		Line = Line.Replace( "L_InitGraphics()", "L_CurrentCamera = LTCamera.Create()" )
 		
 		If Trim( Line ) And Not Line.StartsWith( "'" ) Then
 			If TypeArea = -1 Then
@@ -83,11 +84,10 @@ Repeat
 		WriteLine( All, Line )
 	WEnd
 	CloseFile( File )
-	If TypeArea >= 0 WriteLine( All, "EndGraphics()" ); Num :+ 1
 	If TypeArea = 0 Then WriteLine( All, "End Function" )
+	If TypeArea >= 0 WriteLine( All, "Cls" ); Num :+ 1
 Forever
 
-WriteLine( All, "L_InitGraphics()" )
 WriteLine( All, "L_PrintText( ~qPress ESC to end~q, 0, 0, LTAlign.ToCenter, LTAlign.ToCenter )" )
 WriteLine( All, "Flip" )
 WriteLine( All, "Waitkey" )

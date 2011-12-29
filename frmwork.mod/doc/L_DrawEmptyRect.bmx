@@ -4,7 +4,7 @@ Framework brl.basic
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
 
-L_InitGraphics
+L_InitGraphics()
 Repeat
 	If AppTerminate() Or KeyHit( Key_Escape ) Then Exit
 	For Local N:Int = 1 To 10

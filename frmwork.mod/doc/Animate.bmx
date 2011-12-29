@@ -22,7 +22,7 @@ Type TExample Extends LTProject
 	Method Logic()
 		If KeyDown( Key_Space ) Then
 			If StartingTime = 0 Then StartingTime = Time
-			Player.Animate( Self, 0.1, 3, 1, StartingTime, PingPong )
+			Player.Animate( 0.1, 3, 1, StartingTime, PingPong )
 		Else
 			Player.Frame = 0
 			StartingTime = 0

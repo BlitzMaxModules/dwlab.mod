@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTIsModelActivated.bmx"
+Include "LTIsModelActive.bmx"
 Include "LTIsButtonActionDown.bmx"
 
 Type LTConditionalModel Extends LTBehaviorModel

@@ -33,6 +33,8 @@ bbdoc: Draws empty rectangle.
 about: See also: #DrawMARect
 End Rem
 Function L_DrawEmptyRect( X:Double, Y:Double, Width:Double, Height:Double )
+	Width :- 1
+	Height :- 1
 	DrawLine( X, Y, X + Width, Y )
 	DrawLine( X, Y, X, Y + Height )
 	DrawLine( X + Width, Y, X + Width, Y + Height )
@@ -452,7 +454,7 @@ End Function
 
 
 
-Function L_PrintText( Text:String, X:Double, Y:Double, HorizontalAlign:Int = LTAlign.ToCenter, VerticalAlign:Int = LTAlign.ToCenter )
+Function L_PrintText( Text:String, X:Double, Y:Double, HorizontalAlign:Int = LTAlign.ToCenter, VerticalAlign:Int = LTAlign.ToCenter, Contour:Int = False )
 	Local SX:Double, SY:Double
 	L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
 
@@ -473,5 +475,24 @@ Function L_PrintText( Text:String, X:Double, Y:Double, HorizontalAlign:Int = LTA
 			SY :- Height
 	End Select
 	
+	If Contour Then
+		L_DrawTextWithContour( Text, SX, SY )
+	Else
+		DrawText( Text, SX, SY )
+	End If
+End Function
+
+
+
+
+
+Function L_DrawTextWithContour( Text:String, SX:Int, SY:Int )
+	SetColor( 0, 0, 0 )
+	For Local DY:Int = -1 To 1
+		For Local DX:Int = Abs( DY ) - 1 To 1 - Abs( DY )
+			DrawText( Text, SX + DX, SY + DY )
+		Next
+	Next
+	LTVisualizer.ResetColor()
 	DrawText( Text, SX, SY )
 End Function

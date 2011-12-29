@@ -23,7 +23,6 @@ Type TGame Extends LTGUIProject
 	Field Objects:LTLayer = New LTLayer
 	Field Particles:LTLayer = New LTLayer
 	
-	Field Cursor:TCursor = New TCursor
 	Field SelectedTileX:Int = -1
 	Field SelectedTileY:Int
 	Field Selected:TSelected
@@ -34,6 +33,7 @@ Type TGame Extends LTGUIProject
 	Field GameOver:Int
 	
 	Field Font:LTBitmapFont
+	Field TileSelectionHandler:TTileSelectionHandler = New TTileSelectionHandler
 
 	Field SwapSound:TSound
 	Field RushSound:TSound
@@ -47,12 +47,9 @@ Type TGame Extends LTGUIProject
 
 		Menu.ProfileTypeID = TTypeID.ForName( "TGameProfile" )
 		Menu.InitSystem( Self )
-		HUD = LoadWindow( World, , "THUD" )
+		HUD = LoadWindow( World, "THUD" )
 		Menu.AddPanels()
 		
-		Cursor.ShapeType = LTSprite.Pivot
-		Cursor.SetDiameter( 0.1 )
-		'debugstop
 		L_CurrentProfile.Load()
 	End Method
 
@@ -118,18 +115,17 @@ Type TGame Extends LTGUIProject
 	End Method
 	
 	Method Logic()
-		Cursor.SetMouseCoords()
 		If Not Locked Then
 			Game.SelectedTileX = -1
-			Cursor.CollisionsWithTileMap( GameField )
+			L_Cursor.CollisionsWithTileMap( GameField, TileSelectionHandler )
 		End If
-		FindWindow( , "THUD" ).Active = Not Locked
-		Local MenuWindow:LTMenuWindow = LTMenuWindow( FindWindow( , "LTMenuWindow" ) )
+		FindWindow( "THUD" ).Active = Not Locked
+		Local MenuWindow:LTMenuWindow = LTMenuWindow( FindWindow( "LTMenuWindow" ) )
 		If ExitToMenu.WasPressed() And MenuWindow.Active Then MenuWindow.Switch()
 		Repeat
 			Select PollEvent()
 				Case EVENT_WINDOWCLOSE
-					LoadWindow( Menu.World, , "LTExitWindow" )
+					LoadWindow( Menu.World, "LTExitWindow" )
 				Case 0
 					Exit
 			End Select

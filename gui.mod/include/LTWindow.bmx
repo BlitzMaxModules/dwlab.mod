@@ -66,7 +66,7 @@ Type LTWindow Extends LTLayer
 		
 		If L_Enter.WasPressed() Then
 			For Local Gadget:LTGadget = Eachin Children
-				If Gadget.GetParameter( "action" ) = "save_and_close" Then OnButtonUnpress( Gadget, L_LeftMouseButton )
+				If Gadget.GetParameter( "action" )[ ..4 ] = "save" Then OnButtonUnpress( Gadget, L_LeftMouseButton )
 			Next
 		ElseIf L_Esc.WasPressed() Then
 			For Local Gadget:LTGadget = Eachin Children
@@ -149,10 +149,10 @@ Type LTWindow Extends LTLayer
 		
 		Local Name:String = Gadget.GetParameter( "window" )
 		If Name Then
-			Project.LoadWindow( World, Name ) 
+			Project.LoadWindow( World, , Name ) 
 		Else
 			Local Class:String = Gadget.GetParameter( "window_class" )
-			If Class Then Project.LoadWindow( World, , Class ) 
+			If Class Then Project.LoadWindow( World, Class ) 
 		End If
 	End Method
 	

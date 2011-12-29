@@ -78,7 +78,7 @@ Type LTMenu Extends LTGUIProject
 		L_Incbin = L_OldIncbin
 		
 		DebugLog CurrentDir()
-		LoadWindow( World, , "LTLanguageSelectionWindow" )
+		LoadWindow( World, "LTLanguageSelectionWindow" )
 		SetLocalizationLanguage( LTProfile.GetLanguage( L_CurrentProfile.Language ) )
 		
 		Rem
@@ -105,8 +105,8 @@ Type LTMenu Extends LTGUIProject
 	End Method
 	
 	Method AddPanels()
-		Project.LoadWindow( World, , "LTMenuWindow" )
-		Project.LoadWindow( World, , "LTOptionsWindow" )
+		Project.LoadWindow( World, "LTMenuWindow" )
+		Project.LoadWindow( World, "LTOptionsWindow" )
 		Project.Locked = True
 	End Method
 	
@@ -126,7 +126,7 @@ Type LTMenu Extends LTGUIProject
 	End Method
 	
 	Method LoadGameOverWindow()
-		Project.LoadWindow( World, , "LTGameOverWindow" )
+		Project.LoadWindow( World, "LTGameOverWindow" )
 	End Method
 	
 	Method XMLIO( XMLObject:LTXMLObject )
