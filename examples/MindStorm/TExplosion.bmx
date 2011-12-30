@@ -34,7 +34,7 @@ Type TExplosion Extends LTSprite
 	
 	
 	Method Act()
-		Animate( Game, AnimationSpeed, , , StartingTime )
+		Animate( AnimationSpeed, , , StartingTime )
 		If Game.Time > StartingTime + AnimationSpeed * Visualizer.GetImage().FramesQuantity() Then
 			Game.Bullets.RemoveSprite( Self )
 			Game.BulletLayer.Remove( Self )

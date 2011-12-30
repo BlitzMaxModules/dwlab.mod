@@ -21,21 +21,6 @@ Type TChaingunBullet Extends LTVectorSprite
 	Field CreatingTime:Int
 	Field FadingPeriod:Double
 	Field FlyingPeriod:Double
-  
-	
-	
-	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
-		Local Block:TBlock = TBlock( Sprite )
-		If Block Then
-			Block.DX :+ DX * Power / Block.Width / Block.Height
-			Block.DY :+ DY * Power / Block.Width / Block.Height
-			Game.ActingMap.Insert( Block, Null )
-		End If
-		Local Explosion:TExplosion = New TExplosion
-		Explosion.JumpTo( Self )
-		Explosion.Init()
-		Destroy()
-	End Method
 	
 	
   
@@ -68,8 +53,8 @@ Type TChaingunBullet Extends LTVectorSprite
 		ElseIf Game.Time > CreatingTime + FlyingPeriod
 			Visualizer.Alpha = 1.0 * ( CreatingTime + FlyingPeriod + FadingPeriod - Game.Time ) / FadingPeriod
 		End If
-		CollisionsWithSpriteMap( Game.Blocks )
-		CollisionsWithSpriteMap( Game.Trees )
+		CollisionsWithSpriteMap( Game.Blocks, BulletCollisionWithBlock )
+		CollisionsWithSpriteMap( Game.Trees, BulletCollisionWithTree )
 	End Method
 	
 	
@@ -77,5 +62,32 @@ Type TChaingunBullet Extends LTVectorSprite
 	Method Destroy()
 		Game.BulletLayer.Remove( Self )
 		Game.Bullets.RemoveSprite( Self )
+	End Method
+End Type
+
+
+
+Global BulletCollisionWithBlock:TBulletCollisionWithBlock = New TBulletCollisionWithBlock
+Type TBulletCollisionWithBlock Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		Local Bullet:TChaingunBullet = TChaingunBullet( Sprite1 )
+		Local Block:TBlock = TBlock( Sprite2 )
+		Block.DX :+ Bullet.DX * Bullet.Power / Block.Width / Block.Height
+		Block.DY :+ Bullet.DY * Bullet.Power / Block.Width / Block.Height
+		Game.ActingMap.Insert( Block, Null )
+		BulletCollisionWithTree.HandleCollision( Sprite1, Sprite2 )
+	End Method
+End Type
+
+
+
+
+Global BulletCollisionWithTree:TBulletCollisionWithTree = New TBulletCollisionWithTree
+Type TBulletCollisionWithTree Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		Local Explosion:TExplosion = New TExplosion
+		Explosion.JumpTo( Sprite1 )
+		Explosion.Init()
+		Sprite1.Destroy()
 	End Method
 End Type

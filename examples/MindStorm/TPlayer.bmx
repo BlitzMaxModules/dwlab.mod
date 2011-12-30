@@ -20,17 +20,6 @@ Type TPlayer Extends LTSprite
 	
 	
 	
-	Method HandleCollisionWithSprite( Sprite:LTSprite, CollisionType:Int )
-		If TTree( Sprite ) Then
-			PushFromSprite( Sprite )
-		Else
-			WedgeOffWithSprite( Sprite, 6.0, Sprite.Height * Sprite.Width )
-			Game.ActingMap.Insert( Sprite, Null )
-		End If
-	End Method
-	
-	
-	
 	Method Init()
 		Game.Player = Self
 		Visor = LTSprite( Game.Level.FindShape( "Visor" ) )
@@ -50,7 +39,26 @@ Type TPlayer Extends LTSprite
 		
 	    LimitWith( Game.Level.Bounds )
 		
-		CollisionsWithSpriteMap( Game.Blocks )
-		CollisionsWithSpriteMap( Game.Trees )
+		CollisionsWithSpriteMap( Game.Blocks, PlayerCollisionWithBlock )
+		CollisionsWithSpriteMap( Game.Trees, PlayerCollisionWithTree )
+	End Method
+End Type
+
+
+
+Global PlayerCollisionWithBlock:TPlayerCollisionWithBlock = New TPlayerCollisionWithBlock
+Type TPlayerCollisionWithBlock Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		Sprite1.WedgeOffWithSprite( Sprite2, 6.0, Sprite2.Height * Sprite2.Width )
+		Game.ActingMap.Insert( Sprite2, Null )
+	End Method
+End Type
+
+
+
+Global PlayerCollisionWithTree:TPlayerCollisionWithTree = New TPlayerCollisionWithTree
+Type TPlayerCollisionWithTree Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		Sprite1.PushFromSprite( Sprite2 )
 	End Method
 End Type

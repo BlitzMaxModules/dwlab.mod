@@ -73,9 +73,10 @@ Type TExample Extends LTProject
 		End If
 		'If HitArea Then HitArea.Draw()
 		ShowDebugInfo()
-		L_PrintText( "Guide AwesomePossum to exit from maze using arrow and space keys", TileMap.X + 16, TileMap.Y - 12, LTAlign.ToRight, LTAlign.ToTop )
-		L_PrintText( "You can view sprite behavior models by clicking left mouse button on it", TileMap.X + 16, TileMap.Y - 11.5, LTAlign.ToRight, LTAlign.ToTop )
-		L_PrintText( "Score: " + L_FirstZeroes( Score, 6 ), TileMap.X + 15.9, TileMap.Y + 11.9, LTAlign.ToRight, LTAlign.ToBottom, True )
+		L_PrintText( "Guide AwesomePossum to exit from maze using arrow and space keys", TileMap.RightX(), TileMap.TopY() - 12, LTAlign.ToRight, LTAlign.ToTop )
+		L_PrintText( "You can view sprite behavior models by clicking left mouse button on it", TileMap.RightX(), TileMap.TopY() - 0.5, LTAlign.ToRight, LTAlign.ToTop )
+		L_PrintText( "Score: " + L_FirstZeroes( Score, 6 ), TileMap.RightX() - 0.1, TileMap.BottomY() - 0.1, LTAlign.ToRight, LTAlign.ToBottom, True )
+		L_PrintText( "LTBehaviorModel example", TileMap.X, TileMap.BottomY(), LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type
 

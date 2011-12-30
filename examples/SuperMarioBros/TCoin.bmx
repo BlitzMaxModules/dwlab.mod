@@ -31,7 +31,7 @@ Type TCoin Extends LTVectorSprite
 	
 	
 	Method Act()
-		Animate( Game, 0.1, 4 )
+		Animate( 0.1, 4 )
 		DY :+ Game.PerSecond( Gravity )
 		MoveForward()
 		If Y > LowestY Then

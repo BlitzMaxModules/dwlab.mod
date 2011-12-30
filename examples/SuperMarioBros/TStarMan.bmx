@@ -41,6 +41,6 @@ Type TStarMan Extends TBonus
 	
 	Method Collect()
 		TScore.FromSprite( Self, TScore.s1000 )
-		Game.Mario.AttachModel( New TInvulnerable )
+		Mario.AttachModel( New TInvulnerable )
 	End Method
 End Type

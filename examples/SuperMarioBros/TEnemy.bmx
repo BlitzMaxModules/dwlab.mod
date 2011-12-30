@@ -15,3 +15,27 @@ Type TEnemy Extends LTVectorSprite
 	Method Stomp()
 	End Method
 End Type
+
+
+
+Global BumpingWalls:TBumpingWalls = New TBumpingWalls
+Type TBumpingWalls Extends LTSpriteAndTileCollisionHandler
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+		Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite )
+		VectorSprite.PushFromTile( TileMap, TileX, TileY )
+		VectorSprite.DX = -VectorSprite.DX
+		If TKoopaTroopa( Sprite ) Then Game.Bump.Play()
+	End Method
+End Type
+
+
+
+Global BumpingSprites:TBumpingSprites = New TBumpingSprites
+Type TBumpingSprites Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite1 )
+		If TBonus( Sprite2 ) Then Return
+		Sprite1.PushFromSprite( Sprite2 )
+		VectorSprite.DX = -VectorSprite.DX
+	End Method
+End Type

@@ -8,33 +8,45 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TCollisions Extends LTBehaviorModel
-	Field CheckCollisionsWithTilemap:Int = True
-	Field CheckCollisionsWithSprites:Int = True
-
+Type THorizontalMovement Extends LTBehaviorModel
+	Field SpriteCollisionHandler:LTSpriteCollisionHandler
+	Field TileCollisionHandler:LTSpriteAndTileCollisionHandler
 	
+	Function Create:THorizontalMovement( SpriteCollisionHandler:LTSpriteCollisionHandler, TileCollisionHandler:LTSpriteAndTileCollisionHandler )
+		Local Movement:THorizontalMovement = New THorizontalMovement
+		Movement.SpriteCollisionHandler = SpriteCollisionHandler
+		Movement.TileCollisionHandler = TileCollisionHandler
+		Return Movement
+	End Function
 	
 	Method ApplyTo( Shape:LTShape )
-		Local VectorSprite:LTVectorSprite = LTVectorSprite( Shape )
-	
-		VectorSprite.Move( VectorSprite.DX, 0.0 )
-		If CheckCollisionsWithTilemap Then VectorSprite.CollisionsWithTilemap( Game.Tilemap, LTSprite.Horizontal )
-		If CheckCollisionsWithSprites Then VectorSprite.CollisionsWithSpriteMap( Game.MovingObjects, LTSprite.Horizontal )
-
-		VectorSprite.Move( 0.0, VectorSprite.DY )
-		If CheckCollisionsWithTilemap Then VectorSprite.CollisionsWithTilemap( Game.Tilemap, LTSprite.Vertical )
-		If CheckCollisionsWithSprites Then VectorSprite.CollisionsWithSpriteMap( Game.MovingObjects, LTSprite.Vertical )
-	End Method
-	
-	
-	
-	Method SetCollisions( WithTilemap:Int, WithSprites:Int )
-		CheckCollisionsWithTilemap:Int = WithTilemap
-		CheckCollisionsWithSprites:Int = WithSprites
+		Local Sprite:LTVectorSprite = LTVectorSprite( Shape )
+		Sprite.Move( Sprite.DX, 0.0 )
+		Sprite.CollisionsWithSpriteMap( Game.MovingObjects, SpriteCollisionHandler )
+		Sprite.CollisionsWithTilemap( Game.Tilemap, TileCollisionHandler )
 	End Method
 End Type
 
 
+
+Type TVerticalMovement Extends LTBehaviorModel
+	Field SpriteCollisionHandler:LTSpriteCollisionHandler
+	Field TileCollisionHandler:LTSpriteAndTileCollisionHandler
+	
+	Function Create:TVerticalMovement( SpriteCollisionHandler:LTSpriteCollisionHandler, TileCollisionHandler:LTSpriteAndTileCollisionHandler )
+		Local Movement:TVerticalMovement = New TVerticalMovement
+		Movement.SpriteCollisionHandler = SpriteCollisionHandler
+		Movement.TileCollisionHandler = TileCollisionHandler
+		Return Movement
+	End Function
+	
+	Method ApplyTo( Shape:LTShape )
+		Local Sprite:LTVectorSprite = LTVectorSprite( Shape )
+		Sprite.Move( 0.0, Sprite.DY )
+		Sprite.CollisionsWithSpriteMap( Game.MovingObjects, SpriteCollisionHandler )
+		Sprite.CollisionsWithTilemap( Game.Tilemap, TileCollisionHandler )
+	End Method
+End Type
 
 
 
@@ -43,42 +55,6 @@ Type TGravity Extends LTBehaviorModel
 		LTVectorSprite( Shape ).DY :+ Game.PerSecond( Game.Gravity )
 	End Method
 End Type
-
-
-
-
-
-Type TBumpingTiles Extends LTBehaviorModel
-	Method HandleCollisionWithTile( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
-		Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite )
-		VectorSprite.PushFromTile( TileMap, TileX, TileY )
-		If CollisionType = LTSprite.Vertical Then
-			VectorSprite.DY = 0
-		Else
-			VectorSprite.DX = -VectorSprite.DX
-			If TKoopaTroopa( Sprite ) Then Game.Bump.Play()
-		End If
-	End Method
-End Type
-
-
-
-
-
-Type TBumpingSprites Extends LTBehaviorModel
-	Method HandleCollisionWithSprite( Sprite1:LTSprite, Sprite2:LTSprite, CollisionType:Int )
-		Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite1 )
-		If TBonus( Sprite2 ) Then Return
-		Sprite1.PushFromSprite( Sprite2 )
-		If CollisionType = LTSprite.Vertical Then
-			VectorSprite.DY = 0
-		Else
-			VectorSprite.DX = -VectorSprite.DX
-		End If
-	End Method
-End Type
-
-
 
 
 

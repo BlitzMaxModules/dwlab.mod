@@ -14,6 +14,8 @@ Include "TFireFlower.bmx"
 Include "TStarMan.bmx"
 
 Type TBonus Extends LTVectorSprite
+	Const Impulse:Double = 8.0
+	
 	Method Collect()
 	End Method
 End Type

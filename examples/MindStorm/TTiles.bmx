@@ -54,9 +54,9 @@ Type TTiles Extends LTTileMap
 			NewObject.SetCoords( Rnd( 0.0, FieldSize ), Rnd( 0.0, FieldSize ) )
 			NewObject.SetDiameter( Rnd( MinTreeSize, MaxTreeSize ) )
 			
-			NewObject.CollisionsWithSpriteMap( Game.Trees )
+			NewObject.CollisionsWithSpriteMap( Game.Trees, CollisionOfTreeAndSprite )
 			If Not NewObject.Bad Then
-				NewObject.CollisionsWithTileMap( Self )
+				NewObject.CollisionsWithTileMap( Self, CollisionOfTreeAndTile )
 				If Not NewObject.Bad Then
 					Local NewTree:TTree = New TTree
 					NewTree.SetCoords( NewObject.X, NewObject.Y )
@@ -93,9 +93,9 @@ Type TTiles Extends LTTileMap
 					NewObject.ShapeType = LTSprite.Rectangle
 			End Select
 			
-			NewObject.CollisionsWithSpriteMap( Game.Blocks )
+			NewObject.CollisionsWithSpriteMap( Game.Blocks, CollisionOfTreeAndSprite )
 			If Not NewObject.Bad Then
-				NewObject.CollisionsWithTileMap( Self )
+				NewObject.CollisionsWithTileMap( Self, CollisionOfTreeAndTile )
 				If Not NewObject.Bad Then
 					Local NewBlock:TBlock = New TBlock
 					NewBlock.SetCoords( NewObject.X, NewObject.Y )
@@ -114,5 +114,23 @@ Type TTiles Extends LTTileMap
 				End If
 			End If
 		Next
+	End Method
+End Type
+
+
+
+Global CollisionOfTreeAndSprite:TCollisionOfTreeAndSprite = New TCollisionOfTreeAndSprite
+Type TCollisionOfTreeAndSprite Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		TGameObject( Sprite1 ).Bad = True
+	End Method
+End Type
+
+
+
+Global CollisionOfTreeAndTile:TCollisionOfTreeAndTile = New TCollisionOfTreeAndTile
+Type TCollisionOfTreeAndTile Extends LTSpriteAndTileCollisionHandler
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+		TGameObject( Sprite ).Bad = True
 	End Method
 End Type

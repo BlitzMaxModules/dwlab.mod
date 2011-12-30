@@ -26,7 +26,6 @@ Type TGame Extends LTProject
 	Field Font:LTBitmapFont = LTBitmapFont.FromFile( "media/font.png", 32, 127, 16 )
 	Field Levels:LTLayer[]
 	Field SpriteMaps:LTSpriteMap[]
-	Field Mario:TMario
 	Field LivesScreen:TLives = New TLives
 	Field TimeModel:TTime = New TTime
 	
@@ -104,7 +103,7 @@ Type TGame Extends LTProject
 			
 			Local MusicNum:Int = Layer.GetParameter( "music" ).ToInt()
 			Intro[ N ] = LoadSound( "media\Music" + MusicNum + "intro.ogg" )
-			Music[ N ]  = LoadSound( "media\Music" + MusicNum + ".ogg" )
+			Music[ N ]	= LoadSound( "media\Music" + MusicNum + ".ogg" )
 		Next
 		
 		LivesScreen.Execute()

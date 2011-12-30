@@ -10,8 +10,8 @@
 
 Type TLives Extends LTProject
 	Method Init()
-		Game.Mario.JumpTo( Game.HUD.FindShapeWithType( "TBackground" ) )
-		Game.Mario.AlterCoords( -0.5, 0.0 )
+		Mario.JumpTo( Game.HUD.FindShapeWithType( "TBackground" ) )
+		Mario.AlterCoords( -0.5, 0.0 )
 	End Method
 	
 	
@@ -25,10 +25,10 @@ Type TLives Extends LTProject
 	Method Render()
 		L_CurrentCamera = Game.HUDCamera
 		Game.HUD.Draw()
-		Game.Mario.Draw()
+		Mario.Draw()
 		
-		Local X:Double = Game.Mario.RightX()
-		Local Y:Double = Game.Mario.Y
+		Local X:Double = Mario.RightX()
+		Local Y:Double = Mario.Y
 		Game.Font.Print( "X" + Game.Lives, X, Y, 0.5, LTAlign.ToLeft, LTAlign.ToCenter )		
 		Game.Font.Print( "Press left and right arrows to walk", X - 10.0, Y + 5.5, 0.5 )
 		Game.Font.Print( "Press down arrow to sit while big", X - 10.0, Y + 6.0, 0.5 )

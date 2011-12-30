@@ -14,7 +14,7 @@ Type TTrigger Extends LTVectorSprite
 			Local Group:String = GetParameter( "group" )
 			For Local Sprite:LTVectorSprite = Eachin Game.MovingObjects
 				If Sprite.GetParameter( "group" ) = Group Then
-					Sprite.DX = Abs( Sprite.DX ) * Sgn( Game.Mario.X - Sprite.X )
+					Sprite.DX = Abs( Sprite.DX ) * Sgn( Mario.X - Sprite.X )
 					Sprite.Active = True
 				End If
 			Next

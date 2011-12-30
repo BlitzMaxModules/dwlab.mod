@@ -10,11 +10,11 @@
 
 Type TExit Extends LTVectorSprite
 	Method Act()
-		If Overlaps( Game.Mario ) And Game.Mario.OnLand Then 
+		If Overlaps( Mario ) And Mario.OnLand Then 
 			If DY > 0.0 Then
-				If KeyDown( Key_Down ) Then Game.Mario.AttachModel( TEnteringVerticalPipe.Create( Self ) )
+				If KeyDown( Key_Down ) Then Mario.AttachModel( TEnteringVerticalPipe.Create( Self ) )
 			Else
-				Game.Mario.AttachModel( TEnteringHorizontalPipe.Create( Self ) )
+				Mario.AttachModel( TEnteringHorizontalPipe.Create( Self ) )
 			End If
 		End If
 	End Method
@@ -44,7 +44,7 @@ Type TEnteringVerticalPipe Extends LTBehaviorModel
 		Game.Level.Active = False
 		Shape.LimitByWindowShape( ExitSprite )
 		Game.Pipe.Play()
-		If Game.Mario.FindModel( "TBig" ) Then Game.Mario.Frame = TMario.Sitting
+		If Mario.FindModel( "TBig" ) Then Mario.Frame = TMario.Sitting
 	End Method
 	
 	
@@ -57,7 +57,7 @@ Type TEnteringVerticalPipe Extends LTBehaviorModel
 	
 	
 	Method Deactivate( Shape:LTShape )
-		Game.Mario.Frame = TMario.Jumping
+		Mario.Frame = TMario.Jumping
 		Shape.RemoveWindowLimit()
 		Shape.ActivateAllModels()
 		Game.Level.Active = True
@@ -96,14 +96,14 @@ Type TEnteringHorizontalPipe Extends LTBehaviorModel
 	
 	Method ApplyTo( Shape:LTShape )
 		Shape.Move( ExitSprite.DX * Speed, 0.0 )
-		Game.Mario.Animate( Game, AnimationSpeed, 3, 1 )
+		Mario.Animate( AnimationSpeed, 3, 1 )
 		If ( ExitSprite.DX > 0.0 And Shape.X >= ExitSprite.X + 1.0 ) Or ( ExitSprite.DX < 0.0 And Shape.X <= ExitSprite.X - 1.0 ) Then Remove( Shape )
 	End Method
 	
 	
 	
 	Method Deactivate( Shape:LTShape )
-		Game.Mario.Frame = TMario.Jumping
+		Mario.Frame = TMario.Jumping
 		Shape.RemoveWindowLimit()
 		Shape.ActivateAllModels()
 		Game.Level.Active = True

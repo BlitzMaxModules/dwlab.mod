@@ -55,7 +55,7 @@ Type TStanding Extends LTBehaviorModel
 	End Method
 	
 	Method ApplyTo( Shape:LTShape )
-		LTSprite( Shape ).Animate( Game, AnimationSpeed, AnimationSize, AnimationStart, StartingTime, True )
+		LTSprite( Shape ).Animate( AnimationSpeed, AnimationSize, AnimationStart, StartingTime, True )
 	End Method
 End Type
 
@@ -104,7 +104,7 @@ Type TMovingAlongPath Extends LTBehaviorModel
 				Person.Phase = ( 5 + L_Round( Person.DirectionToPoint( PosX, PosY ) / 45.0 ) ) Mod 8
 				Person.MoveTowardsPoint( PosX, PosY, Person.Velocity )
 			End If
-			Person.Animate( Game, Person.WalkingAnimationSpeed / Person.Velocity, AnimationSize, AnimationStart, StartingTime )
+			Person.Animate( Person.WalkingAnimationSpeed / Person.Velocity, AnimationSize, AnimationStart, StartingTime )
 		Else
 			Remove( Shape )
 		End If
@@ -183,7 +183,7 @@ Type TFight Extends LTBehaviorModel
 		Local Person:TPerson = TPerson( Shape )
 		If Person.IsNear( Opponent ) Then
 			Person.Phase = ( 5 + L_Round( Person.DirectionToPoint( Opponent.X, Opponent.Y ) / 45.0 ) ) Mod 8
-			Person.Animate( Game, AnimationSpeed, AnimationSize, AnimationStart, StartingTime, True )
+			Person.Animate( AnimationSpeed, AnimationSize, AnimationStart, StartingTime, True )
 			If Game.Time > NextHitTime Then
 				TMessage.ApplyDamage( Opponent )
 				If Opponent = Game.Player Then If Not Opponent.FindModel( "TFight" ) Then Opponent.AttachModel( TFight.Create( Person ) )
@@ -226,7 +226,7 @@ Type TDeath Extends LTBehaviorModel
 	
 	Method ApplyTo( Shape:LTShape )
 		Local Person:TPerson = TPerson( Shape )
-		Person.Animate( Game, AnimationSpeed, AnimationSize, AnimationStart, StartingTime )
+		Person.Animate( AnimationSpeed, AnimationSize, AnimationStart, StartingTime )
 		If Person.Frame = AnimationStart + AnimationSize - 1 Then DeactivateModel( Shape )
 	End Method
 	

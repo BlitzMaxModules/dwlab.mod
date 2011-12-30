@@ -30,7 +30,7 @@ Type TKoopaTroopa Extends TEnemy
 		Game.Stomp.Play()
 		If FindModel( "TShell" ) Then
 			If DX = 0.0 Then
-				DX = ShellSpeed * Sgn( X - Game.Mario.X )
+				DX = ShellSpeed * Sgn( X - Mario.X )
 			Else
 				DX = 0.0
 			End If

@@ -10,6 +10,6 @@
 
 Type TPole Extends LTVectorSprite
 	Method Act()
-		If CollidesWithSprite( Game.Mario ) Then Game.Mario.AttachModel( New TFinalSequence )
+		If CollidesWithSprite( Mario ) Then Mario.AttachModel( New TFinalSequence )
 	End Method
 End Type

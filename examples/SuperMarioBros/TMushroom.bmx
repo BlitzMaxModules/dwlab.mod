@@ -25,7 +25,7 @@ Type TMushroom Extends TBonus
 	
 	Method Collect()
 		TScore.FromSprite( Self, TScore.s1000 )
-		Game.Mario.AttachModel( New TGrowing )
+		Mario.AttachModel( New TGrowing )
 	End Method
 End Type
 
@@ -64,11 +64,9 @@ Type TAppearing Extends LTBehaviorModel
 	
 	Method Deactivate( Shape:LTShape )
 		Shape.RemoveWindowLimit()
-		Local Collisions:TCollisions = New TCollisions
-		Collisions.SetCollisions( True, False )
-		Shape.AttachModel( Collisions )
 		Shape.AttachModel( New TGravity )
-		Shape.AttachModel( New TBumpingTiles )
+		Shape.AttachModel( THorizontalMovement.Create(  )
+		Shape.AttachModel( TVerticalMovement.Create( ,  )
 		Shape.AttachModel( New TRemoveIfOutside )
 		Game.Level.Remove( Shape )
 		Game.MovingObjects.InsertSprite( LTSprite( Shape ) )
