@@ -9,17 +9,17 @@
 '
 
 Type TKoopaTroopa Extends TEnemy
+	Const WalkingAnimationSpeed:Double = 0.3
 	Const Shell:Int = 2
 	
 	Const ShellSpeed:Double = 15.0
 	
 	
 	Method Init()
-		AttachModel( New TEnemyWalkingAnimation )
-		AttachModel( New TCollisions )
+		AttachModel( New LTAnimationModel.Create( True, WalkingAnimationSpeed, 2 ) )
 		AttachModel( New TGravity )
-		AttachModel( New TBumpingTiles )
-		AttachModel( New TBumpingSprites )
+		AttachModel( New THorizontalMovement.Create( BumpingSprites, BumpingWalls ) )
+		AttachModel( New TVerticalMovement.Create( BumpingSprites, PushFromFloor ) )
 		AttachModel( New TRemoveIfOutside )
 		Super.Init()
 	End Method
@@ -49,17 +49,21 @@ Type TShell Extends LTBehaviorModel
 		Local Sprite:LTVectorSprite = LTVectorSprite( Shape )
 		Sprite.Frame = TKoopaTroopa.Shell
 		Sprite.DX = 0.0
-		Sprite.DeactivateModel( "TEnemyWalkingAnimation" )
-		Sprite.DeactivateModel( "TBumpingSprites" )
+		Sprite.RemoveModel( "LTAnimationModel" )
+		Sprite.RemoveModel( "THorizontalMovement" )
+		Sprite.AttachModel( New THorizontalMovement.Create( DemolishSprites, BumpingWalls ) )
 	End Method
-	
-	
-	
-	Method HandleCollisionWithSprite( Sprite1:LTSprite, Sprite2:LTSprite, CollisionType:Int )
+End Type
+
+
+
+Global DemolishSprites:TDemolishSprites = New TDemolishSprites
+Type TDemolishSprites Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
 		If TEnemy( Sprite2 ) Then
 			TEnemy( Sprite2 ).AttachModel( New TKicked )
 		Elseif TMario( Sprite2 )
-			TMario( Sprite2 ).Damage()
+			Mario.Damage()
 		End If
 	End Method
 End Type

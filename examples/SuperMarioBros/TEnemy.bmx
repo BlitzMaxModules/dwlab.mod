@@ -39,3 +39,22 @@ Type TBumpingSprites Extends LTSpriteCollisionHandler
 		VectorSprite.DX = -VectorSprite.DX
 	End Method
 End Type
+
+
+
+Global PushFromSprites:TPushFromSprites = New TPushFromSprites
+Type TPushFromSprites Extends LTSpriteCollisionHandler
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+		Sprite1.PushFromSprite( Sprite2 )
+	End Method
+End Type
+
+
+
+Global PushFromFloor:TPushFromFloor = New TPushFromFloor
+Type TPushFromFloor Extends LTSpriteAndTileCollisionHandler
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+		Sprite.PushFromTile( TileMap, TileX, TileY )
+		LTVectorSprite( Sprite ).DY = 0
+	End Method
+End Type

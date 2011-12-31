@@ -20,6 +20,7 @@ Include "TMazeGenerator.bmx"
 Include "TZombie.bmx"
 Include "CollisionHandlers.bmx"
 Include "PleaseWait.bmx"
+Include "template_incbin.bmx"
 
 Global Game:TGame = New TGame
 Game.Execute()

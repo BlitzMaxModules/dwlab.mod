@@ -10,16 +10,13 @@
 
 SuperStrict
 
-Import brl.jpgloader
-Import brl.pngloader
-'Import brl.oggloader
-
 Import dwlab.frmwork
-'Import dwlab.sound
+Import dwlab.graphicsdrivers
 
 Include "TGame.bmx"
 Include "TPerson.bmx"
 Include "TMessage.bmx"
+Include "world_incbin.bmx"
 
 AppTitle = "Skeleton Slayer"
 

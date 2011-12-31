@@ -17,10 +17,9 @@ Type TGoomba Extends TEnemy
 	
 	Method Init()
 		AttachModel( New LTAnimationModel.Create( True, WalkingAnimationSpeed, 2 ) )
-		AttachModel( New TCollisions )
 		AttachModel( New TGravity )
 		AttachModel( New THorizontalMovement.Create( BumpingSprites, BumpingWalls ) )
-		AttachModel( New TVerticalMovement.Create( BumpingSprites, BumpingWalls ) )
+		AttachModel( New TVerticalMovement.Create( PushFromSprites, PushFromFloor ) )
 		AttachModel( New TRemoveIfOutside )
 		Super.Init()
 	End Method
@@ -76,8 +75,8 @@ Type TKicked Extends LTBehaviorModel
 		Sprite.DY = Strength
 		Sprite.DeactivateModel( "THorizontalMovement" )
 		Sprite.DeactivateModel( "TVerticalMovement" )
-		Sprite.DeactivateModel( "TEnemyWalkingAnimation" )
-		Sprite.ActivateModel( "TMovement" )
+		Sprite.DeactivateModel( "LTAnimationModel" )
+		Sprite.AttachModel( New TMovement )
 		Sprite.Visualizer.YScale :* -1.0
 		PlaySound( Game.Kick )
 		TScore.FromSprite( Sprite, TScore.s100 )

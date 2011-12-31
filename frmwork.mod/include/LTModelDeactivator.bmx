@@ -8,6 +8,10 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: This model deactivates another model.
+about: Same as LTModelActivator, but deactivates model.
+End Rem
 Type LTModelDeactivator Extends LTBehaviorModel
 	Field Model:LTBehaviorModel
 	Field Permanent:Int

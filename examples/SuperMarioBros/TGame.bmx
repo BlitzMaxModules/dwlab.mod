@@ -8,6 +8,45 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Incbin "media\font.png"
+Incbin "media\SmallMario.png"
+Incbin "media\SuperMario.png"
+Incbin "media\Growth.png"
+Incbin "media\Score.png"
+Incbin "media\FlippingCoin.png"
+Incbin "media\MagicMushroom.png"
+Incbin "media\Bricks.png"
+Incbin "media\Fireflower.png"
+Incbin "media\1upMushroom.png"
+Incbin "media\Starman.png"
+Incbin "media\Fireball.png"
+Incbin "media\Explosion.png"
+Incbin "media\FlagOnCastle.png"
+
+Incbin "media\Jump.ogg"
+Incbin "media\Stomp.ogg"
+Incbin "media\Bump.ogg"
+Incbin "media\Coin.ogg"
+Incbin "media\PowerupAppears.ogg"
+Incbin "media\Powerup.ogg"
+Incbin "media\BreakBlock.ogg"
+Incbin "media\Pipe.ogg"
+Incbin "media\1-up.ogg"
+Incbin "media\Kick.ogg"
+Incbin "media\Fireball.ogg"
+Incbin "media\FlagPole.ogg"
+Incbin "media\Fireworks.ogg"
+
+Incbin "media\MarioDie.ogg"
+Incbin "media\Invulnerability.ogg"
+Incbin "media\StageClear.ogg"
+Incbin "media\GameOver.ogg"
+Incbin "media\Warning.ogg"
+
+Incbin "media\Music1.ogg"
+Incbin "media\Music1intro.ogg"
+Incbin "media\Music2.ogg"
+	
 Type TGame Extends LTProject
 	Const Gravity:Double = 32.0
 
@@ -23,7 +62,7 @@ Type TGame Extends LTProject
 	Field HUD:LTLayer
 	Field LevelCamera:LTCamera = LTCamera.Create( 960, 720, 48.0 )
 	Field HUDCamera:LTCamera = LTCamera.Create( 960, 720, 48.0 )
-	Field Font:LTBitmapFont = LTBitmapFont.FromFile( "media/font.png", 32, 127, 16 )
+	Field Font:LTBitmapFont = LTBitmapFont.FromFile( "media\font.png", 32, 127, 16 )
 	Field Levels:LTLayer[]
 	Field SpriteMaps:LTSpriteMap[]
 	Field LivesScreen:TLives = New TLives
@@ -44,26 +83,26 @@ Type TGame Extends LTProject
 	Field Explosion:LTVisualizer = LTVisualizer.FromFile( "media\Explosion.png", 3 )
 	Field FlagOnCastle:LTVisualizer = LTVisualizer.FromFile( "media\FlagOnCastle.png" )
 
-	Field Jump:TSound = TSound.Load( "media\Jump.ogg", False )
-	Field Stomp:TSound = TSound.Load( "media\Stomp.ogg", False )
-	Field Bump:TSound = TSound.Load( "media\Bump.ogg", False )
-	Field CoinFlip:TSound = TSound.Load( "media\Coin.ogg", False )
-	Field PowerupAppears:TSound = TSound.Load( "media\PowerupAppears.ogg", False )
-	Field Powerup:TSound = TSound.Load( "media\Powerup.ogg", False )
-	Field BreakBlock:TSound = TSound.Load( "media\BreakBlock.ogg", False )
-	Field Pipe:TSound = TSound.Load( "media\Pipe.ogg", False )
-	Field OneUp:TSound = TSound.Load( "media\1-up.ogg", False )
-	Field Kick:TSound = TSound.Load( "media\Kick.ogg", False )
-	Field Firing:TSound = TSound.Load( "media\Fireball.ogg", False )
-	Field FlagPole:TSound = TSound.Load( "media\FlagPole.ogg", False )
-	Field Fireworks:TSound = TSound.Load( "media\Fireworks.ogg", False )
+	Field Jump:TSound = TSound.Load( L_Incbin + "media\Jump.ogg", False )
+	Field Stomp:TSound = TSound.Load( L_Incbin + "media\Stomp.ogg", False )
+	Field Bump:TSound = TSound.Load( L_Incbin + "media\Bump.ogg", False )
+	Field CoinFlip:TSound = TSound.Load( L_Incbin + "media\Coin.ogg", False )
+	Field PowerupAppears:TSound = TSound.Load( L_Incbin + "media\PowerupAppears.ogg", False )
+	Field Powerup:TSound = TSound.Load( L_Incbin + "media\Powerup.ogg", False )
+	Field BreakBlock:TSound = TSound.Load( L_Incbin + "media\BreakBlock.ogg", False )
+	Field Pipe:TSound = TSound.Load( L_Incbin + "media\Pipe.ogg", False )
+	Field OneUp:TSound = TSound.Load( L_Incbin + "media\1-up.ogg", False )
+	Field Kick:TSound = TSound.Load( L_Incbin + "media\Kick.ogg", False )
+	Field Firing:TSound = TSound.Load( L_Incbin + "media\Fireball.ogg", False )
+	Field FlagPole:TSound = TSound.Load( L_Incbin + "media\FlagPole.ogg", False )
+	Field Fireworks:TSound = TSound.Load( L_Incbin + "media\Fireworks.ogg", False )
 
 	Field MusicChannel:TChannel = New TChannel
-	Field MarioDie:TSound = TSound.Load( "media\MarioDie.ogg", False )
-	Field Invulnerability:TSound = TSound.Load( "media\Invulnerability.ogg", True )
-	Field StageClear:TSound = TSound.Load( "media\StageClear.ogg", False )
-	Field GameOver:TSound = TSound.Load( "media\GameOver.ogg", False )
-	Field Warning:TSound = TSound.Load( "media\Warning.ogg", False )
+	Field MarioDie:TSound = TSound.Load( L_Incbin + "media\MarioDie.ogg", False )
+	Field Invulnerability:TSound = TSound.Load( L_Incbin + "media\Invulnerability.ogg", True )
+	Field StageClear:TSound = TSound.Load( L_Incbin + "media\StageClear.ogg", False )
+	Field GameOver:TSound = TSound.Load( L_Incbin + "media\GameOver.ogg", False )
+	Field Warning:TSound = TSound.Load( L_Incbin + "media\Warning.ogg", False )
 	
 	Field Intro:TSound[]
 	Field Music:TSound[]
@@ -102,8 +141,8 @@ Type TGame Extends LTProject
 			SpriteMaps[ N ] = LTSpriteMap( Levels[ N ].FindShapeWithType( "LTSpriteMap" ) )
 			
 			Local MusicNum:Int = Layer.GetParameter( "music" ).ToInt()
-			Intro[ N ] = LoadSound( "media\Music" + MusicNum + "intro.ogg" )
-			Music[ N ]	= LoadSound( "media\Music" + MusicNum + ".ogg" )
+			Intro[ N ] = LoadSound( L_Incbin + "media\Music" + MusicNum + "intro.ogg" )
+			Music[ N ]	= LoadSound( L_Incbin + "media\Music" + MusicNum + ".ogg" )
 		Next
 		
 		LivesScreen.Execute()

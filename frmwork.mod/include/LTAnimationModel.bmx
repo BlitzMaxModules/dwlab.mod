@@ -8,6 +8,11 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: This model plays animation of the sprite.
+about: You can specify parameters from LTSprite's Animate() method and add models which will be executed after animation will end to the
+NextModels parameter. Though if animation is looped it will be played forever.
+End Rem
 Type LTAnimationModel Extends LTBehaviorModel
 	Field StartingTime:Double
 	Field Looped:Int

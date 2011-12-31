@@ -8,6 +8,15 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Incbin "media\fire.png"
+Incbin "media\bullet.png"
+Incbin "media\pyramid.png"
+Incbin "media\brain2.png"
+Incbin "media\tree.png"
+Incbin "media\explosion.png"
+Incbin "media\fire.ogg"
+Incbin "media\explosion.ogg"
+	
 Type TGame Extends LTProject
 	Const MinMouseZ:Int = -8
 	Const MaxMouseZ:Int = 8
@@ -34,8 +43,8 @@ Type TGame Extends LTProject
 	Field FireSounds:LTChannelPack = LTChannelPack.Create( 4 )
 	Field ExplosionSounds:LTChannelPack = LTChannelPack.Create( 4 )
 	
-	Field FireSound:TSound = LoadSound( "media\fire.ogg" )
-	Field ExplosionSound:TSound = LoadSound( "media\explosion.ogg" )
+	Field FireSound:TSound = LoadSound( L_Incbin + "media\fire.ogg" )
+	Field ExplosionSound:TSound = LoadSound( L_Incbin + "media\explosion.ogg" )
 	
 	
 	
@@ -82,8 +91,8 @@ Type TGame Extends LTProject
 		Level.Draw()
 		ShowDebugInfo()
 		Local SX:Double, SY:Double
-		L_CurrentCamera.FieldToScreen( ( 2.0 * Player.X + Target.X ) / 3.0, ( 2.0 * Player.Y + Target.Y ) / 3.0, SX, SY )
-		DrawOval( SX - 2, SY - 2, 5, 5 )
+		'L_CurrentCamera.FieldToScreen( ( 2.0 * Player.X + Target.X ) / 3.0, ( 2.0 * Player.Y + Target.Y ) / 3.0, SX, SY )
+		'DrawOval( SX - 2, SY - 2, 5, 5 )
 		DrawText( "Move mouse to aim, use WSAD to move, use left mouse button to fire", 0, 704 )
 	End Method
 End Type

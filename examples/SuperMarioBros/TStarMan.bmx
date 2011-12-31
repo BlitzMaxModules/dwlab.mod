@@ -25,15 +25,8 @@ Type TStarMan Extends TBonus
 	
 	
 	
-	Method HandleCollisionWithTile( TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionType:Int )
-		Super.HandleCollisionWithTile( TileMap, TileX, TileY, CollisionType )
-		If CollisionType = Vertical And DY >= 0.0 Then DY = -JumpStrength
-	End Method
-	
-	
-	
 	Method Act()
-		Animate( Game, AnimationSpeed )
+		Animate( AnimationSpeed )
 		Super.Act()
 	End Method
 	
@@ -42,5 +35,15 @@ Type TStarMan Extends TBonus
 	Method Collect()
 		TScore.FromSprite( Self, TScore.s1000 )
 		Mario.AttachModel( New TInvulnerable )
+	End Method
+End Type
+
+
+
+Global JumpFromFloor:TJumpFromFloor = New TJumpFromFloor
+Type TJumpFromFloor Extends LTSpriteAndTileCollisionHandler
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+		Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite )
+		If VectorSprite.DY >= 0.0 Then VectorSprite.DY = -TStarMan.JumpStrength Else VectorSprite.DY = 0
 	End Method
 End Type

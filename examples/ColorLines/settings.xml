@@ -1,4 +1,4 @@
-<LTMenu current_profile="1" dwlab_version="1.3.18">
+<LTMenu current_profile="1" dwlab_version="1.4">
 	<TList field="profiles">
 		<TGameProfile id="1" name="{{P_Player}}" score="405" language="Russian" audio="DirectSound" video="DirectX7" width="1280" height="1024" depth="32" frequency="75" nextballs="4,5,4">
 			<LTTileMap field="field" x="8.5" y="4.87" width="17" height="8.25" xquantity="17" yquantity="11" tiles-quantity="8">

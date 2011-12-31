@@ -10,11 +10,17 @@
 
 AppTitle = "Graph demo"
 
+Incbin "media\font.png"
+Incbin "media/font.lfn"
+Incbin "media\footman.png"
+Incbin "media\world-map.jpg"
+
+L_SetIncbin( True )
 Global Game:TGame = New TGame
 
 Type TGame Extends LTProject
 	Field Player:LTAngularSprite = New LTAngularSprite
-	Field PlayerVisualizer:LTVisualizer = LTVisualizer.FromFile( "media/footman.png", 5, 13 )
+	Field PlayerVisualizer:LTVisualizer = LTVisualizer.FromFile( "media\footman.png", 5, 13 )
 	Field Cursor:LTSprite = New LTSprite
 	Field PivotVisualizer:LTVisualizer = LTVisualizer.FromHexColor( "FF007F" )
 	Field LineVisualizer:LTContourVisualizer = LTContourVisualizer.FromWidthAndHexColor( 0.1, "FF7F00" )
@@ -23,13 +29,13 @@ Type TGame Extends LTProject
 	Field Map:TGameMap = New TGameMap
 	Field Background:LTSprite = New LTSprite
 	Field Path:TList = New TList
-	Field Font:LTBitmapFont = LTBitmapFont.FromFile( "media/font.png", , , , True )
+	Field Font:LTBitmapFont = LTBitmapFont.FromFile( "media\font.png", , , , True )
 	
 	
 	
 	Method Init()
 		L_InitGraphics()
-		Map = TGameMap( LoadFromFile( "map.gra" ) )
+		Map = TGameMap( LoadFromFile( "map.gra", False ) )
 		
 		Player.Velocity = 2.0
 		Player.SetSize( 72.0 / 25.0, 72.0 / 25.0 )
@@ -46,7 +52,7 @@ Type TGame Extends LTProject
 		
 		Background.Width = 32
 		Background.Height = 24
-		Background.Visualizer = LTVisualizer.FromFile( "media/world-map.jpg" )
+		Background.Visualizer = LTVisualizer.FromFile( "media\world-map.jpg" )
 		
 		CurrentPivotVisualizer.SetVisualizerScale( 2, 2 )
 	End Method

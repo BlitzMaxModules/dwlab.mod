@@ -1,8 +1,10 @@
-ModuleInfo "Version: 1.3.18"
+ModuleInfo "Version: 1.4"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4 (01.01.12)"
+ModuleInfo "History: &nbsp; &nbsp; Everything fixed and updated."
 ModuleInfo "History: v1.3.19 (28.12.11)"
 ModuleInfo "History: &nbsp; &nbsp; Behavior models now doesn't activate/deacivate if they already did."
 ModuleInfo "History: &nbsp; &nbsp; Fixed bug in animation behavior model."
@@ -189,7 +191,7 @@ import brl.random
 import brl.reflection
 import brl.retro
 import brl.max2d
-L_Version$=$"1.3.18"
+L_Version$=$"1.4"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"

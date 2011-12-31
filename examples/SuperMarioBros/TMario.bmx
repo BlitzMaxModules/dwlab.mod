@@ -499,7 +499,8 @@ Type TFinalSequence Extends LTBehaviorModel
 	Field LastTimeToScoreSwap:Double
 	
 	Method Activate( Shape:LTShape )
-		Shape.DeactivateModel( "TCollisions" )
+		Shape.DeactivateModel( "THorizontalMovement" )
+		Shape.DeactivateModel( "TVerticalMovement" )
 		Shape.DeactivateModel( "TGravity" )
 		Shape.DeactivateModel( "TMoving" )
 		Shape.DeactivateModel( "TJumping" )
@@ -561,7 +562,8 @@ Type TFinalSequence Extends LTBehaviorModel
 		Phase :+ 1
 		Select Phase
 			Case Walking
-				Shape.ActivateModel( "TCollisions" )
+				Shape.ActivateModel( "THorizontalMovement" )
+				Shape.ActivateModel( "TVerticalMovement" )
 				Shape.ActivateModel( "TGravity" )
 				Mario.SetFacing( LTSprite.RightFacing )
 				Mario.Frame = TMario.Jumping

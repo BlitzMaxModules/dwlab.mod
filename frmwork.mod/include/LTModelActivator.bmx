@@ -8,6 +8,10 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: This model activates another model.
+about: If you will set Permanent parameter to True, activator will not be instantly removed after doing its job.
+End Rem
 Type LTModelActivator Extends LTBehaviorModel
 	Field Model:LTBehaviorModel
 	Field Permanent:Int

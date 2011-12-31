@@ -24,7 +24,7 @@ Type TFireFlower Extends TBonus
 	
 	
 	Method Act()
-		Animate( Game, AnimationSpeed )
+		Animate( AnimationSpeed )
 		Super.Act()
 	End Method
 	

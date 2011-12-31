@@ -22,8 +22,8 @@ Type THorizontalMovement Extends LTBehaviorModel
 	Method ApplyTo( Shape:LTShape )
 		Local Sprite:LTVectorSprite = LTVectorSprite( Shape )
 		Sprite.Move( Sprite.DX, 0.0 )
-		Sprite.CollisionsWithSpriteMap( Game.MovingObjects, SpriteCollisionHandler )
-		Sprite.CollisionsWithTilemap( Game.Tilemap, TileCollisionHandler )
+		If SpriteCollisionHandler Then Sprite.CollisionsWithSpriteMap( Game.MovingObjects, SpriteCollisionHandler )
+		If TileCollisionHandler Then Sprite.CollisionsWithTilemap( Game.Tilemap, TileCollisionHandler )
 	End Method
 End Type
 
@@ -43,8 +43,8 @@ Type TVerticalMovement Extends LTBehaviorModel
 	Method ApplyTo( Shape:LTShape )
 		Local Sprite:LTVectorSprite = LTVectorSprite( Shape )
 		Sprite.Move( 0.0, Sprite.DY )
-		Sprite.CollisionsWithSpriteMap( Game.MovingObjects, SpriteCollisionHandler )
-		Sprite.CollisionsWithTilemap( Game.Tilemap, TileCollisionHandler )
+		If SpriteCollisionHandler Then Sprite.CollisionsWithSpriteMap( Game.MovingObjects, SpriteCollisionHandler )
+		If TileCollisionHandler Then Sprite.CollisionsWithTilemap( Game.Tilemap, TileCollisionHandler )
 	End Method
 End Type
 

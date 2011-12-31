@@ -8,6 +8,10 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: This model is for waiting given period of time.
+about: You can add behavior models which will be executed after this period of tme. Waiting model itself will be removed from the shape.
+End Rem
 Type LTFixedWaitingModel Extends LTTemporaryModel
 	Function Create:LTFixedWaitingModel( Time:Double )
 		Local Model:LTFixedWaitingModel = New LTFixedWaitingModel

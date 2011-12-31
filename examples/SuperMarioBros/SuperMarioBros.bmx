@@ -10,15 +10,6 @@
 
 SuperStrict
 
-' Setting framework
-?win32
-Framework brl.d3d7max2d
-?linux
-Framework brl.glmax2d
-?macos
-Framework brl.glmax2d
-?
-
 Import dwlab.frmwork' DWLab framework import
 Import dwlab.graphicsdrivers
 Import dwlab.audiodrivers' DWLab framework sound import
@@ -38,6 +29,8 @@ Include "TExit.bmx"
 Include "TBonus.bmx"
 Include "TEnemy.bmx"
 Include "TPole.bmx"
+Include "world_incbin.bmx"
+Include "hud_incbin.bmx"
 
 Global Game:TGame = New TGame
 Game.Execute()

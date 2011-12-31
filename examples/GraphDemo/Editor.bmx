@@ -10,10 +10,8 @@
 
 SuperStrict
 
-Import brl.jpgloader
-Import brl.pngloader
-
 Import dwlab.frmwork
+Import dwlab.graphicsdrivers
 
 Include "TEditor.bmx"
 Include "TMovePivot.bmx"

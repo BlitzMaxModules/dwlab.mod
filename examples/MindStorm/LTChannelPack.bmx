@@ -40,9 +40,10 @@ Type LTChannelPack
 	Method Play( Sound:TSound, Volume:Double = -1.0, Rate:Double = 1.0 )
 		For Local N:Int = 0 Until ChannelsQuantity
 			If Not Channel[ N ].Playing() Then
-				PlaySound( Sound, Channel[ N ] )
+				Channel[ N ] = CueSound( Sound )
 				If Volume >= 0.0 Then SetChannelVolume( Channel[ N ], Volume )
 				If Rate <> 1.0 Then SetChannelRate( Channel[ N ], Rate )
+				ResumeChannel( Channel[ N ] )
 				Exit
 			End If
 		Next

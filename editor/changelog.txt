@@ -1,3 +1,6 @@
+1.7.9
++ Bilinear filtering can be switched on or off.
+
 1.7.8
 + Key for change sprite facing (F).
 

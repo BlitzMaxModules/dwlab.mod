@@ -10,23 +10,18 @@
 
 SuperStrict
 
-Import brl.jpgloader
-Import brl.pngloader
-Import brl.oggloader
+Framework brl.basic
 
 Import dwlab.frmwork
-?win32
-Import brl.directsoundaudio
-?linux
-Import brl.freeaudioaudio
-?macos
-Import brl.freeaudioaudio
-?
+Import dwlab.graphicsdrivers
+Import dwlab.audiodrivers
 
 Include "LTChannelPack.bmx"
 Include "TGame.bmx"
 Include "TTiles.bmx"
 Include "TPlayer.bmx"
 Include "TGameObject.bmx"
+Include "world_incbin.bmx"
+
 Global Game:TGame = New TGame
 Game.Execute()

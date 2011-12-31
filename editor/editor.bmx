@@ -65,8 +65,8 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.7.8"
-	Const INIVersion:Int = 3
+	Const Version:String = "1.7.9"
+	Const INIVersion:Int = 4
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 8
 	
@@ -133,6 +133,7 @@ Type LTEditor Extends LTProject
 	Field ShowGrid:Int
 	Field SnapToGrid:Int
 	Field ReplacementOfTiles:Int
+	Field BilinearFiltering:Int
 	
 	Field IncbinMenu:TGadget
 	Field Russian:TGadget
@@ -202,6 +203,7 @@ Type LTEditor Extends LTProject
 	Const MenuProlongTiles:Int = 16
 	Const MenuCameraProperties:Int = 51
 	Const MenuIncbin:Int = 54
+	Const MenuBilinearFiltering:Int = 65
 	Const MenuExit:Int = 34
 	Const MenuRussian:Int = 32
 	Const MenuEnglish:Int = 33
@@ -337,12 +339,8 @@ Type LTEditor Extends LTProject
 		
 		
 		FileMenu = CreateMenu( "{{M_File}}", 0, WindowMenu( Window ) )
+		
 		Local EditMenu:TGadget = CreateMenu( "{{M_Edit}}", 0, WindowMenu( Window ) )
-		LTMenuSwitch.Create( "{{M_ShowCollisions}}", Toolbar, MenuShowCollisionShapes, EditMenu )
-		LTMenuSwitch.Create( "{{M_ShowVectors}}", Toolbar, MenuShowVectors, EditMenu )
-		LTMenuSwitch.Create( "{{M_ShowNames}}", Toolbar, MenuShowNames, EditMenu )
-		CreateMenu( "", 0, EditMenu )
-		LTMenuSwitch.Create( "{{M_ShowGrid}}", Toolbar, MenuShowGrid, EditMenu )
 		LTMenuSwitch.Create( "{{M_SnapToGrid}}", Toolbar, MenuSnapToGrid, EditMenu )
 		CreateMenu( "{{M_GridSettings}}", MenuGridSettings, EditMenu )
 		CreateMenu( "", 0, EditMenu )
@@ -353,6 +351,15 @@ Type LTEditor Extends LTProject
 		CreateMenu( "", 0, EditMenu )
 		CreateMenu( "{{M_CameraProperties}}", MenuCameraProperties, EditMenu )
 		IncbinMenu = CreateMenu( "{{M_Incbin}}", MenuIncbin, EditMenu )
+		
+		Local ViewMenu:TGadget = CreateMenu( "{{M_View}}", 0, WindowMenu( Window ) )
+		LTMenuSwitch.Create( "{{M_ShowCollisions}}", Toolbar, MenuShowCollisionShapes, ViewMenu )
+		LTMenuSwitch.Create( "{{M_ShowVectors}}", Toolbar, MenuShowVectors, ViewMenu )
+		LTMenuSwitch.Create( "{{M_ShowNames}}", Toolbar, MenuShowNames, ViewMenu )
+		CreateMenu( "", 0, ViewMenu )
+		LTMenuSwitch.Create( "{{M_ShowGrid}}", Toolbar, MenuShowGrid, ViewMenu )
+		CreateMenu( "", 0, ViewMenu )
+		LTMenuSwitch.Create( "{{M_BilinearFiltering}}", Null, MenuBilinearFiltering, ViewMenu )
 		
 		Local LanguageMenu:TGadget = CreateMenu( "{{M_Language}}", 0, WindowMenu( Window ) )
 		English = CreateMenu( "{{M_English}}", MenuEnglish, LanguageMenu )
@@ -437,6 +444,7 @@ Type LTEditor Extends LTProject
 		SnapToGrid = LTMenuSwitch.Find( MenuSnapToGrid ).Toggle()
 		ShowGrid = LTMenuSwitch.Find( MenuShowGrid ).Toggle()
 		ReplacementOfTiles = LTMenuSwitch.Find( MenuReplacementOfTiles ).Toggle()
+		ToggleBilinearFiltering()
 			
 		If FileType( "editor.ini" ) = 1 Then
 			Local IniFile:TStream = ReadFile( "editor.ini" )
@@ -451,6 +459,7 @@ Type LTEditor Extends LTProject
 				ShowGrid = LTMenuSwitch.Find( MenuShowGrid ).State()
 				L_ProlongTiles = LTMenuSwitch.Find( MenuProlongTiles ).State()
 				ReplacementOfTiles = LTMenuSwitch.Find( MenuReplacementOfTiles ).State()
+				BilinearFiltering = LTMenuSwitch.Find( MenuBilinearFiltering ).State()
 				
 				ReadLine( IniFile )
 				
@@ -617,6 +626,7 @@ Type LTEditor Extends LTProject
 	
 	Method InitWorld()
 	End Method
+	
 	
 	
 	Method SaveWorld:Int( SaveAs:Int = False )
@@ -1013,16 +1023,8 @@ Type LTEditor Extends LTProject
 					Case MenuExit
 						ExitEditor()
 						
-					Case MenuShowCollisionShapes
-						L_DebugVisualizer.ShowCollisionShapes = LTMenuSwitch.Find( MenuShowCollisionShapes ).Toggle()
-					Case MenuShowVectors
-						L_DebugVisualizer.ShowVectors = LTMenuSwitch.Find( MenuShowVectors ).Toggle()
-					Case MenuShowNames
-						L_DebugVisualizer.ShowNames = LTMenuSwitch.Find( MenuShowNames ).Toggle()
 					Case MenuSnapToGrid
 						SnapToGrid = LTMenuSwitch.Find( MenuSnapToGrid ).Toggle()
-					Case MenuShowGrid
-						ShowGrid = LTMenuSwitch.Find( MenuShowGrid ).Toggle()
 					Case MenuGridSettings
 						Grid.Settings()
 					Case MenuTileMapEditingMode
@@ -1036,6 +1038,21 @@ Type LTEditor Extends LTProject
 					Case MenuIncbin
 						World.IncbinValue = 1 - World.IncbinValue
 						SetIncbin()
+						
+					Case MenuShowCollisionShapes
+						L_DebugVisualizer.ShowCollisionShapes = LTMenuSwitch.Find( MenuShowCollisionShapes ).Toggle()
+					Case MenuShowVectors
+						L_DebugVisualizer.ShowVectors = LTMenuSwitch.Find( MenuShowVectors ).Toggle()
+					Case MenuShowNames
+						L_DebugVisualizer.ShowNames = LTMenuSwitch.Find( MenuShowNames ).Toggle()
+					Case MenuShowGrid
+						ShowGrid = LTMenuSwitch.Find( MenuShowGrid ).Toggle()
+					Case MenuBilinearFiltering
+						ToggleBilinearFiltering()
+						For Local Image:LTImage = Eachin World.Images
+							Image.Init()
+						Next
+						
 						
 					Case MenuEnglish
 						SetLanguage( EnglishNum )
@@ -2035,6 +2052,17 @@ Type LTEditor Extends LTProject
 			For Local ChildShape:LTShape = Eachin Layer.Children
 				AddParameterNames( ChildShape )
 			Next
+		End If
+	End Method
+	
+	
+	
+	Method ToggleBilinearFiltering()
+		BilinearFiltering = LTMenuSwitch.Find( MenuBilinearFiltering ).Toggle()
+		If BilinearFiltering Then
+			AutoImageFlags( FilteredImage | MipMappedImage )
+		Else
+			AutoImageFlags( 0 )
 		End If
 	End Method
 End Type

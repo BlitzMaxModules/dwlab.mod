@@ -20,6 +20,13 @@ Import dwlab.gui
 Import dwlab.profiles
 Import dwlab.alldrivers
 
+Incbin "stop.ogg"
+Incbin "rush.ogg"
+Incbin "explosion.ogg"
+Incbin "select.ogg"
+Incbin "swap.ogg"
+Include "levels_incbin.bmx"
+
 Include "TGame.bmx"
 Include "THUD.bmx"
 Include "TGameProfile.bmx"
@@ -35,16 +42,7 @@ Include "TExplosion.bmx"
 Include "MouseMenu/Menu.bmx"
 Include "TRestartButton.bmx"
 
-Rem
-Incbin "stop.ogg"
-Incbin "rush.ogg"
-Incbin "explosion.ogg"
-Incbin "select.ogg"
-Incbin "swap.ogg"
-Include "levels_incbin.bmx"
-EndRem
-
-AppTitle = "Color Lines 1.0 beta 3"
+AppTitle = "Color Lines 1.0 beta 4"
 
 EnableOpenALAudio()
 

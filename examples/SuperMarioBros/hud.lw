@@ -1,52 +1,51 @@
-<ltworld dwlab_version="1.1.2">
-	<ltvisualizer field="visualizer"/>
-	<tlist field="images">
-		<object id="12"/>
-	</tlist>
-	<ltcamera field="camera" x="17" y="8.5" width="32" height="27.0158" shape="2" viewport-clipping="1">
-		<ltvisualizer field="visualizer" id="18"/>
-		<ltshape field="viewport" x="504" y="425.5" width="1008" height="851">
-			<object field="visualizer" id="18"/>
-		</ltshape>
-	</ltcamera>
-	<tlist field="definitions"/>
-	<ltlayer>
-		<ltvisualizer field="visualizer"/>
-		<ltshape field="bounds" x="17" y="8.5" width="20" height="15">
-			<ltvisualizer field="visualizer"/>
-		</ltshape>
-		<list field="parameters"/>
-		<ltsprite x="17" y="8.5" width="20" height="15" shape="2" angle="0.00000000000000000" velocity="0.00000000000000000">
-			<ltvisualizer field="visualizer" red="0"/>
-			<list field="parameters">
-				<ltparameter name="class" value="TBackground"/>
-			</list>
-		</ltsprite>
-		<ltsprite x="10" y="2.25" width="4" height="0.5" shape="2" angle="0.00000000000000000" velocity="0.00000000000000000">
-			<ltvisualizer field="visualizer"/>
-			<list field="parameters">
-				<ltparameter name="class" value="TScoreBar"/>
-			</list>
-		</ltsprite>
-		<ltsprite x="24" y="2.25" width="4" height="0.5" shape="2" angle="0.00000000000000000" velocity="0.00000000000000000">
-			<ltvisualizer field="visualizer"/>
-			<list field="parameters">
-				<ltparameter name="class" value="TTimeBar"/>
-			</list>
-		</ltsprite>
-		<ltsprite x="16.25" y="2.25" width="0.5" height="0.5" angle="0.00000000000000000" velocity="0.00000000000000000">
-			<ltvisualizer field="visualizer">
-				<ltimage field="image" id="12" filename="media\SmallCoin.png" xcells="3"/>
-			</ltvisualizer>
-			<list field="parameters">
-				<ltparameter name="class" value="TSmallCoin"/>
-			</list>
-		</ltsprite>
-		<ltsprite x="17.25" y="2.25" width="1.5" height="0.5" shape="2" angle="0.00000000000000000" velocity="0.00000000000000000">
-			<ltvisualizer field="visualizer"/>
-			<list field="parameters">
-				<ltparameter name="class" value="TCoinsQuantity"/>
-			</list>
-		</ltsprite>
-	</ltlayer>
-</ltworld>
+<LTWorld incbin="1" dwlab_version="1.4">
+	<LTVisualizer field="visualizer"/>
+	<TList field="images">
+		<Object id="16"/>
+	</TList>
+	<LTCamera field="camera" x="17" y="8.5" width="32" height="27.74" shape="2" viewport-clipping="1">
+		<LTVisualizer field="visualizer" id="23"/>
+		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
+			<Object field="visualizer" id="23"/>
+		</LTShape>
+	</LTCamera>
+	<TList field="definitions"/>
+	<LTLayer>
+		<LTVisualizer field="visualizer"/>
+		<LTShape field="bounds" x="17" y="8.5" width="20" height="15">
+			<LTVisualizer field="visualizer"/>
+		</LTShape>
+		<LTSprite x="17" y="8.5" width="20" height="15" shape="2" velocity="0">
+			<TList field="parameters">
+				<LTParameter name="class" value="TBackground"/>
+			</TList>
+			<LTVisualizer field="visualizer" red="0"/>
+		</LTSprite>
+		<LTSprite x="10" y="2.25" width="4" height="0.5" shape="2" velocity="0">
+			<TList field="parameters">
+				<LTParameter name="class" value="TScoreBar"/>
+			</TList>
+			<LTVisualizer field="visualizer"/>
+		</LTSprite>
+		<LTSprite x="24" y="2.25" width="4" height="0.5" shape="2" velocity="0">
+			<TList field="parameters">
+				<LTParameter name="class" value="TTimeBar"/>
+			</TList>
+			<LTVisualizer field="visualizer"/>
+		</LTSprite>
+		<LTSprite x="16.25" y="2.25" width="0.5" height="0.5" velocity="0">
+			<TList field="parameters">
+				<LTParameter name="class" value="TSmallCoin"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<LTImage field="image" id="16" filename="media\\SmallCoin.png" xcells="3"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="17.25" y="2.25" width="1.5" height="0.5" shape="2" velocity="0">
+			<TList field="parameters">
+				<LTParameter name="class" value="TCoinsQuantity"/>
+			</TList>
+			<LTVisualizer field="visualizer"/>
+		</LTSprite>
+	</LTLayer>
+</LTWorld>

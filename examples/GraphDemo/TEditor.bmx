@@ -42,7 +42,7 @@ Type TEditor Extends LTProject
 		End If
 		
 		If KeyHit( Key_F2 ) Then Game.Map.SaveToFile( "map.gra" )
-		If KeyHit( Key_F3 ) Then Game.Map = TGameMap( LoadFromFile( "map.gra" ) )
+		If KeyHit( Key_F3 ) Then Game.Map = TGameMap( LoadFromFile( "map.gra", False ) )
 		
 		MovePivot.Execute()
 		MakeLine.Execute()

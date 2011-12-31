@@ -27,14 +27,14 @@ Include "LTGameOverWindow.bmx"
 Global L_OldIncbin:String = L_Incbin
 Global L_MenuPath:String
 
-Rem
+'Rem
 Include "menu_incbin.bmx"
 
 Incbin "russian.lng"
 Incbin "english.lng"
 Incbin "font.ttf"
 Incbin "images\calculator.png"
-EndRem
+'EndRem
 
 If L_Incbin Then
 	L_MenuPath = L_Incbin

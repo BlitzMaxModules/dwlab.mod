@@ -65,8 +65,12 @@ Type TAppearing Extends LTBehaviorModel
 	Method Deactivate( Shape:LTShape )
 		Shape.RemoveWindowLimit()
 		Shape.AttachModel( New TGravity )
-		Shape.AttachModel( THorizontalMovement.Create(  )
-		Shape.AttachModel( TVerticalMovement.Create( ,  )
+		Shape.AttachModel( THorizontalMovement.Create( Null, BumpingWalls ) )
+		If TStarMan( Shape ) Then
+			Shape.AttachModel( TVerticalMovement.Create( Null, JumpFromFloor ) )
+		Else
+			Shape.AttachModel( TVerticalMovement.Create( Null, PushFromFloor ) )
+		End If
 		Shape.AttachModel( New TRemoveIfOutside )
 		Game.Level.Remove( Shape )
 		Game.MovingObjects.InsertSprite( LTSprite( Shape ) )

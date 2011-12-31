@@ -94,11 +94,11 @@ Type TGame Extends LTGUIProject
 	End Method
 	
 	Method InitSound()
-		SwapSound = TSound.Load( L_Incbin + "swap.ogg", False )
-		RushSound = TSound.Load( L_Incbin + "rush.ogg", False )
-		StopSound = TSound.Load( L_Incbin + "stop.ogg", False )
-		SelectSound = TSound.Load( L_Incbin + "select.ogg", False )
-		ExplosionSound = TSound.Load( L_Incbin + "explosion.ogg", False )
+		SwapSound = LoadSound( L_Incbin + "swap.ogg" )
+		RushSound = LoadSound( L_Incbin + "rush.ogg" )
+		StopSound = LoadSound( L_Incbin + "stop.ogg" )
+		SelectSound = LoadSound( L_Incbin + "select.ogg" )
+		ExplosionSound = LoadSound( L_Incbin + "explosion.ogg" )
 	End Method
 	
 	Method Render()
