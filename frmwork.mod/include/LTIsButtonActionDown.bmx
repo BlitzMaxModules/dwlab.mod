@@ -8,6 +8,12 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: This model checks if button action is down and attaches corresponding lists of models to the shape.
+about: Same as LTIsModelActive, but TrueModels will be attached if button action is down and FalseModels otherwise.
+
+See also: #LTBehaviorModel example.
+End Rem
 Type LTIsButtonActionDown Extends LTConditionalModel
 	Field ButtonAction:LTButtonAction
 	

@@ -11,6 +11,8 @@
 Rem
 bbdoc: This model is for waiting random period of time in some interval.
 about: Same as LTFixedWaitingModel, but you can specify interval in which time period will be selected.
+
+See also: #FixedWaitingModel, #LTBehaviorModel example.
 End Rem
 Type LTRandomWaitingModel Extends LTTemporaryModel
 	Field TimeFrom:Double, TimeTo:Double

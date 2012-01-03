@@ -12,6 +12,8 @@ Rem
 bbdoc: Model stack consists of several models and executes first active model in list.
 about: Usually it is used for animation stack for shape because only one animation can be played for shape at every moment.
 This way you can set the priorities of animations. Use Add() method to add models to the stack.
+
+See also: #LTAnimationModel, #LTBehaviorModel example.
 End Rem
 Type LTModelStack Extends LTBehaviorModel
 	Field Models:TList = New TList

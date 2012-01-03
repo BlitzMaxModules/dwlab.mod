@@ -11,6 +11,8 @@
 Rem
 bbdoc: This model is for waiting given period of time.
 about: You can add behavior models which will be executed after this period of tme. Waiting model itself will be removed from the shape.
+
+See also: #RandomWaitingModel, #LTBehaviorModel example.
 End Rem
 Type LTFixedWaitingModel Extends LTTemporaryModel
 	Function Create:LTFixedWaitingModel( Time:Double )

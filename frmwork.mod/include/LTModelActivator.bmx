@@ -11,6 +11,8 @@
 Rem
 bbdoc: This model activates another model.
 about: If you will set Permanent parameter to True, activator will not be instantly removed after doing its job.
+
+See also: #LTModelDeactivator, #LTBehaviorModel example.
 End Rem
 Type LTModelActivator Extends LTBehaviorModel
 	Field Model:LTBehaviorModel

@@ -10,7 +10,9 @@
 
 Rem
 bbdoc: This model deactivates another model.
-about: Same as LTModelActivator, but deactivates model.
+about: If you will set Permanent parameter to True, deactivator will not be instantly removed after doing its job.
+
+See also: #LTModelActivator, #LTBehaviorModel example.
 End Rem
 Type LTModelDeactivator Extends LTBehaviorModel
 	Field Model:LTBehaviorModel

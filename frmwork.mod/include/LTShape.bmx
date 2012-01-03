@@ -962,7 +962,7 @@ Type LTShape Extends LTObject
 	Rem
 	bbdoc: Retrieves value of object's parameter with given name.
 	returns: Value of object's parameter with given name.
-	about: See also: #GetTitle, #GetName
+	about: See also: #GetTitle, #GetName, #LTBehaviorModel example.
 	End Rem
 	Method GetParameter:String( Name:String )
 		If Not Parameters Then Return ""

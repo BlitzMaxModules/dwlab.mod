@@ -8,6 +8,13 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Rem
+bbdoc: This model checks if model active and attaches corresponding lists of models to the shape.
+about: If model is active, models from TrueModels list will be attached to the shape, otherwise models from FalseModels list will be attached.
+This conditional model will be removed from shape instantly after doing its job.
+
+See also: #LTBehaviorModel example.
+End Rem
 Type LTIsModelActive Extends LTConditionalModel
 	Field Model:LTBehaviorModel
 	
