@@ -77,7 +77,6 @@ Type LTMenu Extends LTGUIProject
 		If Not L_Incbin Then ChangeDir( ".." )
 		L_Incbin = L_OldIncbin
 		
-		DebugLog CurrentDir()
 		LoadWindow( World, "LTLanguageSelectionWindow" )
 		SetLocalizationLanguage( LTProfile.GetLanguage( L_CurrentProfile.Language ) )
 		
@@ -91,8 +90,6 @@ Type LTMenu Extends LTGUIProject
 			Profiles.AddLast( L_CurrentProfile )
 		Next
 		EndRem
-		
-		If L_CurrentProfile.Language Then Exiting = True
 	End Method
 	
 	Method InitGraphics()
@@ -102,6 +99,10 @@ Type LTMenu Extends LTGUIProject
 	
 	Method DeInit()
 		Windows.Clear()
+	End Method
+	
+	Method Logic()
+		If L_CurrentProfile.Language Then Exiting = True
 	End Method
 	
 	Method AddPanels()

@@ -42,5 +42,6 @@ Type LTGameOverWindow Extends LTWindow
 		
 		L_CurrentProfile.Reset()
 		L_CurrentProfile.Load()
+		Game.LoadWindow( Game.World, "TLevelSelectionWindow" )
 	End Method
 End Type

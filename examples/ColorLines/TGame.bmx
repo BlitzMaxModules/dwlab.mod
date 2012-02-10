@@ -12,7 +12,16 @@ Type TGame Extends LTGUIProject
 	Const Void:Int = 0
 	Const Plate:Int = 1
 	
+	Const AnimShift:Int = 8
+	Const TileCursor:Int = AnimShift
+	Const Hole:Int = AnimShift + 1
+	Const HoleForeground:Int = AnimShift + 2
+	
 	Const NoBall:Int = 0
+	Const BlackBall:Int = 8
+	Const RandomBall:Int = 9
+	
+	Field TileIsPassable:Int[] = [ 0, 1, 1, 1, 1 ]
 	
 	Field World:LTWorld
 	Field GameField:LTTileMap
@@ -51,22 +60,29 @@ Type TGame Extends LTGUIProject
 		Menu.AddPanels()
 		
 		L_CurrentProfile.Load()
+		If Not GameField Then LoadWindow( World, "TLevelSelectionWindow" )
 	End Method
 
-	Method LoadLevel( Profile:TGameProfile )
+	Method LoadLevel( Profile:TGameProfile, Level:LTLayer )
 		Local Layer:LTLayer = Null
-		LoadAndInitLayer( Layer, LTLayer( World.FindShapeWithParameter( "level_num", "1" ) ) )
-		Profile.GameField = LTTileMap( Layer.FindShape( "Field" ) )
-		Profile.Balls = LTTileMap( Layer.FindShape( "Balls" ) )
-		Profile.Balls.Visualizer = TBallTileMapVisualizer.Create( Profile.Balls.Visualizer )
-		HiddenBalls = New Int[ Profile.Balls.XQuantity, Profile.Balls.YQuantity ]
+		LoadAndInitLayer( Layer, Level )
+		GameField = LTTileMap( Layer.FindShape( "Field" ) )
+		GameField.Visualizer = TFieldVisualizer.Create( GameField.Visualizer )
+		Balls = LTTileMap( Layer.FindShape( "Balls" ) )
+		Balls.Visible = False
 		
-		For Local N:Int = 1 To Profile.BallsPerTurn
+		For Local Y:Int = 0 Until GameField.YQuantity
+			For Local X:Int = 0 Until GameField.XQuantity
+				If Balls.GetTile( X, Y ) = RandomBall Then Balls.SetTile( X, Y, Rand( 1, 7 ) )
+			Next
+		Next
+			
+		For Local N:Int = 1 To 3
 			Repeat
-				Local X:Int = Rand( 0, Profile.GameField.XQuantity - 1 )
-				Local Y:Int = Rand( 0, Profile.GameField.YQuantity - 1 )
-				If Profile.GameField.Value[ X, Y ] = Plate And Profile.Balls.Value[ X, Y ] = NoBall Then
-					Profile.Balls.Value[ X, Y ] = Rand( 1, 7 )
+				Local X:Int = Rand( 0, GameField.XQuantity - 1 )
+				Local Y:Int = Rand( 0, GameField.YQuantity - 1 )
+				If GameField.Value[ X, Y ] = Plate And Balls.Value[ X, Y ] = NoBall Then
+					Balls.Value[ X, Y ] = Rand( 1, 7 )
 					Exit
 				End If
 			Forever
@@ -74,12 +90,15 @@ Type TGame Extends LTGUIProject
 		FillNextBalls( Profile )
 		
 		Locked = True
+		InitLevel()
 	End Method
 		
 	Method InitLevel()
+		If Not GameField Then Return
 		PathFinder.Map = GameField
-		L_CurrentCamera.JumpTo( GameField )
 		SetFieldMagnification()
+		L_CurrentCamera.JumpTo( GameField )
+		HiddenBalls = New Int[ Balls.XQuantity, Balls.YQuantity ]
 	End Method
 	
 	Method InitGraphics()
@@ -102,15 +121,13 @@ Type TGame Extends LTGUIProject
 	End Method
 	
 	Method Render()
-		SetFieldMagnification()
 		Background.JumpTo( L_CurrentCamera )
 		Background.SetSize( L_CurrentCamera.Width, 0.75 * L_CurrentCamera.Width )
 		Background.Draw()
-		If Game.SelectedTileX >= 0 Then GameField.SetTile( SelectedTileX, SelectedTileY, 2 )
-		GameField.Draw()
-		If Game.SelectedTileX >= 0 Then GameField.SetTile( SelectedTileX, SelectedTileY, 1 )
-		Balls.Draw()
-		Objects.Draw()
+		If GameField Then
+			SetFieldMagnification()
+			GameField.Draw()
+		End If
 		Particles.Draw()
 	End Method
 	
@@ -143,7 +160,7 @@ Type TGame Extends LTGUIProject
 	Method CreateBalls()
 		Local Profile:TGameProfile = TGameProfile( L_CurrentProfile )
 		RefreshEmptyCells()
-		If EmptyCells.Count() < Profile.BallsPerTurn Then
+		If EmptyCells.Count() < 3 Then
 			Menu.LoadGameOverWindow()
 			Locked = True
 			Return

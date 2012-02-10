@@ -20,17 +20,10 @@ Import dwlab.gui
 Import dwlab.profiles
 Import dwlab.alldrivers
 
-Incbin "stop.ogg"
-Incbin "rush.ogg"
-Incbin "explosion.ogg"
-Incbin "select.ogg"
-Incbin "swap.ogg"
-Include "levels_incbin.bmx"
-
 Include "TGame.bmx"
 Include "THUD.bmx"
 Include "TGameProfile.bmx"
-Include "TBallTileMapVisualizer.bmx"
+Include "TFieldVisualizer.bmx"
 Include "TPathFinder.bmx"
 Include "TPopUpBall.bmx"
 Include "TTileSelectionHandler.bmx"
@@ -39,10 +32,23 @@ Include "TMoveAlongPath.bmx"
 Include "TCheckLines.bmx"
 Include "TMoveBall.bmx"
 Include "TExplosion.bmx"
+Include "TFallIntoPocket.bmx"
 Include "MouseMenu/Menu.bmx"
 Include "TRestartButton.bmx"
+Include "TLevelsList.bmx"
+Include "TLevelSelectionWindow.bmx"
 
-AppTitle = "Color Lines 1.0 beta 4"
+
+Rem
+Incbin "stop.ogg"
+Incbin "rush.ogg"
+Incbin "explosion.ogg"
+Incbin "select.ogg"
+Incbin "swap.ogg"
+Include "levels_incbin.bmx"
+EndRem
+
+AppTitle = "World Of Spheres 0.1"
 
 EnableOpenALAudio()
 

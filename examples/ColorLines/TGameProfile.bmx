@@ -26,14 +26,12 @@ Type TGameProfile Extends LTProfile
 	Method Reset()
 		Score = 0
 		Game.Selected = Null
-		Game.LoadLevel( Self )
 		Game.Objects.Clear()
 	End Method
 
 	Method Load()
 		Game.GameField = GameField
 		Game.Balls = Balls
-		Game.HiddenBalls = New Int[ Balls.XQuantity, Balls.YQuantity ]
 		Game.Score = Score
 		BossKey = LTButtonAction.Find( Keys, "Boss key" )
 		ExitToMenu = LTButtonAction.Find( Keys, "Exit to menu" )

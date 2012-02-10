@@ -36,7 +36,6 @@ Type LTLanguageSelectionWindow Extends LTWindow
 			Local Language:TMaxGuiLanguage = TMaxGuiLanguage( LanguageMap.ValueForKey( Gadget ) )
 			SetLocalizationLanguage( Language )
 			L_CurrentProfile.Language = Language.GetName()
-			Project.Exiting = True
 		End If
 	End Method
 End Type

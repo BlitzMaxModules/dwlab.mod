@@ -86,7 +86,7 @@ Type LTBehaviorModel Extends LTObject
 	
 	See also: #Activate, #Deactivate, #ActivateAllModels, #DeactivateAllModels, #DeactivateModel
 	End Rem
-	Method ActivateModel( Shape:LTShape )
+	Method ActivateModel( Shape:LTShape ) Final
 		If Not Active Then
 			Activate( Shape )
 			Active = True
@@ -101,7 +101,7 @@ Type LTBehaviorModel Extends LTObject
 	
 	See also: #Activate, #Deactivate, #ActivateAllModels, #DeactivateAllModels, #ActivateModel
 	End Rem
-	Method DeactivateModel( Shape:LTShape )
+	Method DeactivateModel( Shape:LTShape ) Final
 		If Active Then
 			Deactivate( Shape )
 			Active = False
@@ -116,7 +116,7 @@ Type LTBehaviorModel Extends LTObject
 	
 	See also: #Deactivate
 	End Rem
-	Method Remove( Shape:LTShape )
+	Method Remove( Shape:LTShape ) Final
 		If Active Then DeactivateModel( Shape )
 		If Link Then Link.Remove()
 	End Method
@@ -127,7 +127,7 @@ Type LTBehaviorModel Extends LTObject
 	bbdoc: Removes every other behavior model of same type from shape's behavior models.
 	about: See also: #Remove
 	End Rem
-	Method RemoveSame( Shape:LTShape )
+	Method RemoveSame( Shape:LTShape ) Final
 		Local TypeID:TTypeId = TTypeId.ForObject( Self )
 		For Local Model:LTBehaviorModel = Eachin Shape.BehaviorModels
 			If TTypeId.ForObject( Model ) = TypeID And Model <> Self Then Model.Remove( Shape )

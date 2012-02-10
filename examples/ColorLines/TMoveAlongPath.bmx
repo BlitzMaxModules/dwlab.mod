@@ -68,14 +68,19 @@ Type TMoveAlongPath Extends LTBehaviorModel
 			Shape.PositionOnTileMap( Game.Balls, PrevPosition.X + ( NextPosition.X - PrevPosition.X ) * ( 0.5 * Pos + 0.25 ), ..
 					PrevPosition.Y+ ( NextPosition.Y- PrevPosition.Y) * ( 0.5 * Pos + 0.25 ) )
 		End If
-		If Not Position.NextPosition And Pos >= 0.5 Then Deactivate( Shape )
+		If Not Position.NextPosition And Pos >= 0.5 Then DeactivateModel( Shape )
 	End Method
 	
 	Method Deactivate( Shape:LTShape )
-		Game.HiddenBalls[ Position.X, Position.Y ] = False
-		Game.Objects.Remove( Shape )
 		Game.Locked = False
 		L_PlaySound( Game.StopSound )
-		TCheckLines.Execute()
+		
+		Game.HiddenBalls[ Position.X, Position.Y ] = False
+		If LTSprite( Shape ).Frame = Game.BlackBall Then 
+			Shape.AttachModel( TFallIntoPocket.Create( Position.X, Position.Y ) )
+		Else
+			Game.Objects.Remove( Shape )
+			TCheckLines.Execute()
+		End If
 	End Method
 End Type
