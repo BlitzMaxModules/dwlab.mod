@@ -23,13 +23,13 @@ Type TPopUpBall Extends LTBehaviorModel
 		Model.StartingTime = Game.Time
 		
 		Local Sprite:LTSprite = New LTSprite
-		Sprite.SetAsTile( Game.Balls, X, Y )
+		Sprite.SetAsTile( Profile.Balls, X, Y )
 		Sprite.Visualizer.SetVisualizerScales( 0.0 )
 		Sprite.Frame = TileNum
 		Sprite.AttachModel( Model )
 		
 		Game.Objects.AddLast( Sprite )
-		Game.Balls.SetTile( X, Y, Sprite.Frame )
+		Profile.Balls.SetTile( X, Y, Sprite.Frame )
 		Game.HiddenBalls[ X, Y ] = True
 		Game.Locked = True
 	End Function

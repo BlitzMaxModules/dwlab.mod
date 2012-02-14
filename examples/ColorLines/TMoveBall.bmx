@@ -24,7 +24,7 @@ Type TMoveBall Extends LTBehaviorModel
 		Model.DY = DY
 		Model.StartingTime = Game.Time
 		Model.CheckLines = CheckLines
-		Game.TileToSprite( Model, X, Y )
+		Profile.TileToSprite( Model, X, Y )
 		Game.HiddenBalls[ X, Y ] = True
 		Game.Locked = True
 	End Function
@@ -33,7 +33,7 @@ Type TMoveBall Extends LTBehaviorModel
 		If Game.Time > StartingTime + Period Then
 			Deactivate( Shape )
 		Else
-			Shape.PositionOnTileMap( Game.GameField, X, Y )
+			Shape.PositionOnTileMap( Profile.GameField, X, Y )
 			Local K:Double = ( Game.Time - StartingTime ) / Period
 			Shape.AlterCoords( DX * K + DY * Sin( K * 180 ) * Bump, DY * K + DX * Sin( K * 180 ) * Bump )
 		End If

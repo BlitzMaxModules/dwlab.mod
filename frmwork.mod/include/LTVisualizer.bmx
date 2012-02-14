@@ -233,8 +233,6 @@ Type LTVisualizer Extends LTObject
 			
 			SetScale( 1.0, 1.0 )
 			SetRotation( 0.0 )
-		Else
-			DrawSpriteShape( Sprite )
 		End If
 		
 		ResetColor()

@@ -16,26 +16,28 @@ Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
 		Game.SelectedTileX = TileX
 		Game.SelectedTileY = TileY
 		Local TileNum:Int = TileMap.GetTile( TileX, TileY )
-		Local BallNum:Int = Game.Balls.GetTile( TileX, TileY )
+		Local BallNum:Int = Profile.Balls.GetTile( TileX, TileY )
 		'If KeyHit( Key_E ) Then TExplosion.Create( TileX, TileY )
 		If LeftMouse.WasPressed() Then
 			'DebugStop
 			If Game.Selected Then Game.Selected.Remove( Null )
-			If TileNum = Game.Void Then Return
-			If BallNum = Game.NoBall
+			If TileNum = Profile.Void Then Return
+			If BallNum = Profile.NoBall
 				If Not Game.Selected Then Return
 				TMoveAlongPath.Create( Game.PathFinder.FindPath( Game.Selected.X, Game.Selected.Y, TileX, TileY ), TileX, TileY )
 			Else
+				If TileNum = Profile.Glue Then Return
 				Game.Selected = TSelected.Create( TileX, TileY )
 				L_PlaySound( Game.SelectSound )
 			End If
 		ElseIf RightMouse.WasPressed() And Game.Selected Then
 			If Game.Selected Then Game.Selected.Remove( Null )
 			If Abs( Game.Selected.X - TileX ) + Abs( Game.Selected.Y - TileY ) = 1 Then
+				If TileNum = Profile.Glue Then Return
 				
-				Local Z:Int = Game.Balls.GetTile( TileX, TileY )
-				Game.Balls.SetTile( TileX, TileY, Game.Balls.GetTile( Game.Selected.X, Game.Selected.Y ) )
-				Game.Balls.SetTile( Game.Selected.X, Game.Selected.Y, Z )
+				Local Z:Int = Profile.Balls.GetTile( TileX, TileY )
+				Profile.Balls.SetTile( TileX, TileY, Profile.Balls.GetTile( Game.Selected.X, Game.Selected.Y ) )
+				Profile.Balls.SetTile( Game.Selected.X, Game.Selected.Y, Z )
 				
 				TMoveBall.Create( Game.Selected.X, Game.Selected.Y, TileX - Game.Selected.X, TileY - Game.Selected.Y, False )
 				TMoveBall.Create( TileX, TileY, Game.Selected.X - TileX, Game.Selected.Y - TileY, True )

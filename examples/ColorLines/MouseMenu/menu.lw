@@ -1,4 +1,4 @@
-<LTWorld incbin="1" dwlab_version="1.3.18">
+<LTWorld incbin="1" dwlab_version="1.4">
 	<LTVisualizer field="visualizer" id="1"/>
 	<TList field="images">
 		<Object id="118"/>
@@ -19,7 +19,7 @@
 		<Object id="498"/>
 		<Object id="504"/>
 	</TList>
-	<LTCamera field="camera" x="31" y="47" width="18.06" height="15.66" shape="2" viewport-clipping="1">
+	<LTCamera field="camera" x="31" y="47" width="14.92" height="12.94" shape="2" viewport-clipping="1">
 		<Object field="visualizer" id="1"/>
 		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
 			<Object field="visualizer" id="1"/>
@@ -101,7 +101,7 @@
 			</TList>
 			<LTVisualizer field="visualizer" alpha="0"/>
 		</LTSprite>
-		<LTSprite x="31" y="41.61" width="16" height="1.25" shape="2">
+		<LTSprite x="31" y="41.6" width="16" height="1.25" shape="2">
 			<TList field="parameters">
 				<LTParameter name="name" value="Panel"/>
 			</TList>
@@ -109,7 +109,7 @@
 				<LTRasterFrame field="image" id="46" left="9" right="9" top="9" bottom="9" filename="frames\\panel.png"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="24.43" y="41.61" width="2.37" height="0.75" shape="2">
+		<LTSprite x="24.43" y="41.6" width="2.37" height="0.75" shape="2">
 			<TList field="parameters">
 				<LTParameter name="text" value="Play"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -119,7 +119,7 @@
 				<Object field="image" id="20"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="27.05" y="41.61" width="2.37" height="0.75" shape="2">
+		<LTSprite x="27.05" y="41.6" width="2.37" height="0.75" shape="2">
 			<TList field="parameters">
 				<LTParameter name="text" value="Profile"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -130,7 +130,7 @@
 				<Object field="image" id="20"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="29.68" y="41.61" width="2.37" height="0.75" shape="2">
+		<LTSprite x="29.68" y="41.6" width="2.37" height="0.75" shape="2">
 			<TList field="parameters">
 				<LTParameter name="text" value="Settings"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -140,7 +140,7 @@
 				<Object field="image" id="20"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="32.31" y="41.61" width="2.37" height="0.75" shape="2">
+		<LTSprite x="32.31" y="41.6" width="2.37" height="0.75" shape="2">
 			<TList field="parameters">
 				<LTParameter name="text" value="High scores"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -150,7 +150,7 @@
 				<Object field="image" id="20"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="34.93" y="41.61" width="2.37" height="0.75" shape="2">
+		<LTSprite x="34.93" y="41.6" width="2.37" height="0.75" shape="2">
 			<TList field="parameters">
 				<LTParameter name="text" value="Credits"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -170,7 +170,7 @@
 				<LTRasterFrame field="image" id="78" left="15" right="15" top="15" bottom="15" filename="frames\\menu_tab.png"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="23.64" y="41.61" width="0.4" height="0.4" shape="2" frame="8">
+		<LTSprite x="23.64" y="41.6" width="0.4" height="0.4" shape="2" frame="8">
 			<TList field="parameters">
 				<LTParameter name="gadget_text" value="Play"/>
 			</TList>
@@ -178,7 +178,7 @@
 				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="26.27" y="41.61" width="0.4" height="0.4" shape="2" frame="9">
+		<LTSprite x="26.27" y="41.6" width="0.4" height="0.4" shape="2" frame="9">
 			<TList field="parameters">
 				<LTParameter name="gadget_text" value="Profile"/>
 			</TList>
@@ -186,7 +186,7 @@
 				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="28.89" y="41.61" width="0.4" height="0.4" shape="2" frame="13">
+		<LTSprite x="28.89" y="41.6" width="0.4" height="0.4" shape="2" frame="13">
 			<TList field="parameters">
 				<LTParameter name="gadget_text" value="Settings"/>
 			</TList>
@@ -194,7 +194,7 @@
 				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="31.52" y="41.61" width="0.4" height="0.4" shape="2" frame="11">
+		<LTSprite x="31.52" y="41.6" width="0.4" height="0.4" shape="2" frame="11">
 			<TList field="parameters">
 				<LTParameter name="gadget_text" value="High scores"/>
 			</TList>
@@ -202,7 +202,7 @@
 				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="34.14" y="41.61" width="0.4" height="0.4" shape="2" frame="1">
+		<LTSprite x="34.14" y="41.6" width="0.4" height="0.4" shape="2" frame="1">
 			<TList field="parameters">
 				<LTParameter name="gadget_text" value="Credits"/>
 			</TList>
@@ -210,7 +210,7 @@
 				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="37.56" y="41.61" width="2.37" height="0.75" shape="2">
+		<LTSprite x="37.56" y="41.6" width="2.37" height="0.75" shape="2">
 			<TList field="parameters">
 				<LTParameter name="text" value="Exit"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -220,7 +220,7 @@
 				<Object field="image" id="20"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="36.77" y="41.61" width="0.4" height="0.4" shape="2" frame="5">
+		<LTSprite x="36.77" y="41.6" width="0.4" height="0.4" shape="2" frame="5">
 			<TList field="parameters">
 				<LTParameter name="gadget_text" value="Exit"/>
 			</TList>
@@ -228,7 +228,7 @@
 				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="37.75" y="42.36" width="0.4" height="0.4" shape="2" frame="19">
+		<LTSprite x="37.75" y="42.35" width="0.4" height="0.4" shape="2" frame="19">
 			<TList field="parameters">
 				<LTParameter name="gadget_text" value="Menu"/>
 			</TList>
@@ -413,7 +413,7 @@
 		<LTShape field="bounds" x="31" y="47" width="16" height="12">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTSprite x="31" y="46.11" width="8" height="0.5" shape="2">
+		<LTSprite x="31" y="46.12" width="8" height="0.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="class" value="LTLabel"/>
 				<LTParameter name="text" value="Restart"/>
@@ -428,7 +428,7 @@
 				<Object field="image" id="13"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="30.25" y="47.61" width="1.5" height="0.5" shape="2">
+		<LTSprite x="30.25" y="47.6" width="1.5" height="0.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="text" value="OK"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -438,7 +438,7 @@
 				<Object field="image" id="20"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="32" y="47.61" width="1.5" height="0.5" shape="2">
+		<LTSprite x="32" y="47.6" width="1.5" height="0.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="text" value="Cancel"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -448,14 +448,14 @@
 				<Object field="image" id="20"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="31" y="46.86" width="7.5" height="0.5" shape="2">
+		<LTSprite x="31" y="46.85" width="7.5" height="0.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="class" value="LTLabel"/>
 				<LTParameter name="text" value="SureRestart"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
 		</LTSprite>
-		<LTSprite x="29.75" y="47.61" width="0.4" height="0.4" shape="2" frame="4">
+		<LTSprite x="29.75" y="47.6" width="0.4" height="0.4" shape="2" frame="4">
 			<TList field="parameters">
 				<LTParameter name="gadget_text" value="OK"/>
 			</TList>
@@ -463,7 +463,7 @@
 				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="31.5" y="47.61" width="0.4" height="0.4" shape="2" frame="3">
+		<LTSprite x="31.5" y="47.6" width="0.4" height="0.4" shape="2" frame="3">
 			<TList field="parameters">
 				<LTParameter name="gadget_text" value="Cancel"/>
 			</TList>
@@ -471,7 +471,7 @@
 				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="27.25" y="46.11" width="0.4" height="0.4" shape="2" frame="17">
+		<LTSprite x="27.25" y="46.1" width="0.4" height="0.4" shape="2" frame="17">
 			<TList field="parameters">
 				<LTParameter name="gadget_text" value="Restart"/>
 			</TList>
@@ -500,12 +500,12 @@
 				<Object field="image" id="10"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="27.25" y="45.36" width="8" height="4.25" shape="2">
+		<LTSprite x="27.25" y="45.35" width="8" height="4.25" shape="2">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="13"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="29.75" y="43.86" width="2.5" height="0.75" shape="2">
+		<LTSprite x="29.75" y="43.85" width="2.5" height="0.75" shape="2">
 			<TList field="parameters">
 				<LTParameter name="text" value="Add"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -515,7 +515,7 @@
 				<Object field="image" id="20"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="29.75" y="45.86" width="2.5" height="0.75" shape="2">
+		<LTSprite x="29.75" y="45.85" width="2.5" height="0.75" shape="2">
 			<TList field="parameters">
 				<LTParameter name="text" value="Remove"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -525,7 +525,7 @@
 				<Object field="image" id="20"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="29.75" y="46.86" width="2.5" height="0.75" shape="2">
+		<LTSprite x="29.75" y="46.85" width="2.5" height="0.75" shape="2">
 			<TList field="parameters">
 				<LTParameter name="text" value="Select"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -535,7 +535,7 @@
 				<Object field="image" id="20"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="25.62" y="45.36" width="4.25" height="3.75" shape="2">
+		<LTSprite x="25.62" y="45.35" width="4.25" height="3.75" shape="2">
 			<TList field="parameters">
 				<LTParameter name="name" value="Profiles"/>
 				<LTParameter name="class" value="LTProfilesList"/>
@@ -553,7 +553,7 @@
 				<LTImage field="image" id="258" filename="images\\close.png"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="29" y="43.86" width="0.5" height="0.5" shape="2">
+		<LTSprite x="29" y="43.85" width="0.5" height="0.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="gadget_text" value="Add"/>
 			</TList>
@@ -561,7 +561,7 @@
 				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="29" y="45.86" width="0.5" height="0.5" shape="2" frame="10">
+		<LTSprite x="29" y="45.85" width="0.5" height="0.5" shape="2" frame="10">
 			<TList field="parameters">
 				<LTParameter name="gadget_text" value="Remove"/>
 			</TList>
@@ -569,7 +569,7 @@
 				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="29" y="46.86" width="0.5" height="0.5" shape="2" frame="4">
+		<LTSprite x="29" y="46.85" width="0.5" height="0.5" shape="2" frame="4">
 			<TList field="parameters">
 				<LTParameter name="gadget_text" value="Select"/>
 			</TList>
@@ -577,7 +577,7 @@
 				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="28" y="45.36" width="0.5" height="3.75" shape="2">
+		<LTSprite x="28" y="45.35" width="0.5" height="3.75" shape="2">
 			<TList field="parameters">
 				<LTParameter name="name" value="Profiles"/>
 				<LTParameter name="class" value="LTSlider"/>
@@ -604,7 +604,7 @@
 				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="29.75" y="44.86" width="2.5" height="0.75" shape="2">
+		<LTSprite x="29.75" y="44.85" width="2.5" height="0.75" shape="2">
 			<TList field="parameters">
 				<LTParameter name="text" value="Rename"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -614,7 +614,7 @@
 				<Object field="image" id="20"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="29" y="44.86" width="0.5" height="0.5" shape="2" frame="13">
+		<LTSprite x="29" y="44.85" width="0.5" height="0.5" shape="2" frame="13">
 			<TList field="parameters">
 				<LTParameter name="gadget_text" value="Rename"/>
 			</TList>
@@ -633,7 +633,7 @@
 		<LTShape field="bounds" x="31" y="47" width="16" height="12">
 			<Object field="visualizer" id="35"/>
 		</LTShape>
-		<LTSprite x="34.11" y="43" width="4.75" height="0.5" shape="2">
+		<LTSprite x="34.1" y="43" width="4.75" height="0.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="class" value="LTLabel"/>
 				<LTParameter name="text" value="Add profile"/>
@@ -643,7 +643,7 @@
 				<Object field="image" id="10"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="34.11" y="44.5" width="4.75" height="2.5" shape="2">
+		<LTSprite x="34.1" y="44.5" width="4.75" height="2.5" shape="2">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="13"/>
 			</LTVisualizer>
@@ -683,7 +683,7 @@
 				<Object field="image" id="113"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="34.11" y="43.75" width="4.25" height="0.5" shape="2">
+		<LTSprite x="34.1" y="43.75" width="4.25" height="0.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="class" value="LTLabel"/>
 				<LTParameter name="text" value="Enter profile name"/>
@@ -725,7 +725,7 @@
 		<LTShape field="bounds" x="31" y="47" width="16" height="12">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTSprite x="34.11" y="43" width="4.75" height="0.5" shape="2">
+		<LTSprite x="34.1" y="43" width="4.75" height="0.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="class" value="LTLabel"/>
 				<LTParameter name="text" value="Rename profile"/>
@@ -735,7 +735,7 @@
 				<Object field="image" id="10"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="34.11" y="44.5" width="4.75" height="2.5" shape="2">
+		<LTSprite x="34.1" y="44.5" width="4.75" height="2.5" shape="2">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="13"/>
 			</LTVisualizer>
@@ -775,7 +775,7 @@
 				<Object field="image" id="113"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="34.11" y="43.75" width="4.25" height="0.5" shape="2">
+		<LTSprite x="34.1" y="43.75" width="4.25" height="0.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="class" value="LTLabel"/>
 				<LTParameter name="text" value="Enter profile name"/>
@@ -827,7 +827,7 @@
 				<Object field="image" id="10"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="35.25" y="46.61" width="7" height="1.75" shape="2">
+		<LTSprite x="35.25" y="46.6" width="7" height="1.75" shape="2">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="13"/>
 			</LTVisualizer>
@@ -903,7 +903,7 @@
 				<Object field="image" id="10"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="31" y="47.11" width="8" height="6.25" shape="2">
+		<LTSprite x="31" y="47.1" width="8" height="6.25" shape="2">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="13"/>
 			</LTVisualizer>
@@ -933,7 +933,7 @@
 			</TList>
 			<LTVisualizer field="visualizer"/>
 		</LTSprite>
-		<LTSprite x="32.11" y="46.75" width="4.75" height="0.5" shape="2">
+		<LTSprite x="32.1" y="46.75" width="4.75" height="0.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="name" value="Language"/>
 				<LTParameter name="class" value="LTLabel"/>
@@ -942,7 +942,7 @@
 				<Object field="image" id="113"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="30.75" y="47.86" width="7" height="1.25" shape="2">
+		<LTSprite x="30.75" y="47.85" width="7" height="1.25" shape="2">
 			<TList field="parameters">
 				<LTParameter name="class" value="LTKeysList"/>
 				<LTParameter name="name" value="Keys"/>
@@ -951,7 +951,7 @@
 				<Object field="image" id="113"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="34.5" y="47.86" width="0.5" height="1.25" shape="2">
+		<LTSprite x="34.5" y="47.85" width="0.5" height="1.25" shape="2">
 			<TList field="parameters">
 				<LTParameter name="class" value="LTSlider"/>
 				<LTParameter name="name" value="Keys"/>
@@ -1031,7 +1031,7 @@
 			</TList>
 			<LTVisualizer field="visualizer"/>
 		</LTSprite>
-		<LTSprite x="32.11" y="45.25" width="4.75" height="0.5" shape="2">
+		<LTSprite x="32.1" y="45.25" width="4.75" height="0.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="name" value="VideoDriver"/>
 				<LTParameter name="class" value="LTLabel"/>
@@ -1048,7 +1048,7 @@
 			</TList>
 			<LTVisualizer field="visualizer"/>
 		</LTSprite>
-		<LTSprite x="32.11" y="46" width="4.75" height="0.5" shape="2">
+		<LTSprite x="32.1" y="46" width="4.75" height="0.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="name" value="AudioDriver"/>
 				<LTParameter name="class" value="LTLabel"/>
@@ -1057,7 +1057,7 @@
 				<Object field="image" id="113"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="31.62" y="44.36" width="0.25" height="0.25" shape="2">
+		<LTSprite x="31.62" y="44.35" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
 				<LTParameter name="value_name" value="Resolution"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -1067,7 +1067,7 @@
 				<LTImage field="image" id="498" filename="images\\up.png"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="31.62" y="44.61" width="0.25" height="0.25" shape="2">
+		<LTSprite x="31.62" y="44.6" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
 				<LTParameter name="value_name" value="Resolution"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -1077,7 +1077,7 @@
 				<LTImage field="image" id="504" filename="images\\down.png"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="34.61" y="45.11" width="0.25" height="0.25" shape="2">
+		<LTSprite x="34.6" y="45.1" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
 				<LTParameter name="value_name" value="VideoDriver"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -1087,7 +1087,7 @@
 				<Object field="image" id="498"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="34.61" y="45.36" width="0.25" height="0.25" shape="2">
+		<LTSprite x="34.6" y="45.35" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
 				<LTParameter name="value_name" value="VideoDriver"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -1097,7 +1097,7 @@
 				<Object field="image" id="504"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="34.61" y="45.86" width="0.25" height="0.25" shape="2">
+		<LTSprite x="34.6" y="45.85" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
 				<LTParameter name="value_name" value="AudioDriver"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -1107,7 +1107,7 @@
 				<Object field="image" id="498"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="34.61" y="46.11" width="0.25" height="0.25" shape="2">
+		<LTSprite x="34.6" y="46.1" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
 				<LTParameter name="value_name" value="AudioDriver"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -1117,7 +1117,7 @@
 				<Object field="image" id="504"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="34.61" y="46.61" width="0.25" height="0.25" shape="2">
+		<LTSprite x="34.6" y="46.6" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
 				<LTParameter name="value_name" value="Language"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -1127,7 +1127,7 @@
 				<Object field="image" id="498"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="34.61" y="46.86" width="0.25" height="0.25" shape="2">
+		<LTSprite x="34.6" y="46.85" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
 				<LTParameter name="value_name" value="Language"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -1137,7 +1137,7 @@
 				<Object field="image" id="504"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="33.11" y="44.36" width="0.25" height="0.25" shape="2">
+		<LTSprite x="33.1" y="44.35" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
 				<LTParameter name="value_name" value="Depth"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -1147,7 +1147,7 @@
 				<Object field="image" id="498"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="33.11" y="44.61" width="0.25" height="0.25" shape="2">
+		<LTSprite x="33.1" y="44.6" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
 				<LTParameter name="value_name" value="Depth"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -1157,7 +1157,7 @@
 				<Object field="image" id="504"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="34.61" y="44.36" width="0.25" height="0.25" shape="2">
+		<LTSprite x="34.6" y="44.35" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
 				<LTParameter name="value_name" value="Frequency"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -1167,7 +1167,7 @@
 				<Object field="image" id="498"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="34.61" y="44.61" width="0.25" height="0.25" shape="2">
+		<LTSprite x="34.6" y="44.6" width="0.25" height="0.25" shape="2">
 			<TList field="parameters">
 				<LTParameter name="value_name" value="Frequency"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -1219,7 +1219,7 @@
 				<Object field="image" id="10"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="31" y="47.36" width="8" height="4.25" shape="2">
+		<LTSprite x="31" y="47.35" width="8" height="4.25" shape="2">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="13"/>
 			</LTVisualizer>
@@ -1279,7 +1279,7 @@
 				<Object field="image" id="10"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="31" y="47.36" width="8" height="4.25" shape="2">
+		<LTSprite x="31" y="47.35" width="8" height="4.25" shape="2">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="13"/>
 			</LTVisualizer>
@@ -1339,7 +1339,7 @@
 				<Object field="image" id="10"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="31.12" y="47.36" width="4.75" height="1.75" shape="2">
+		<LTSprite x="31.12" y="47.35" width="4.75" height="1.75" shape="2">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="13"/>
 			</LTVisualizer>
@@ -1354,7 +1354,7 @@
 				<Object field="image" id="20"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="32.11" y="47.75" width="1.75" height="0.5" shape="2">
+		<LTSprite x="32.1" y="47.75" width="1.75" height="0.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="text" value="Cancel"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -1405,7 +1405,7 @@
 		<LTShape field="bounds" x="38" y="50" width="16" height="12">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTSprite x="38" y="50.36" width="4" height="3.25" shape="2">
+		<LTSprite x="38" y="50.35" width="4" height="3.25" shape="2">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="13"/>
 			</LTVisualizer>
@@ -1419,7 +1419,7 @@
 		</LTSprite>
 		<LTSprite x="38" y="48.5" width="4" height="0.5" shape="2">
 			<TList field="parameters">
-				<LTParameter name="text" value="Game over"/>
+				<LTParameter name="name" value="GameOver"/>
 				<LTParameter name="class" value="LTLabel"/>
 			</TList>
 			<LTVisualizer field="visualizer">
@@ -1470,7 +1470,7 @@
 				<Object field="image" id="20"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="38.36" y="51.5" width="0.5" height="0.5" shape="2" frame="3">
+		<LTSprite x="38.35" y="51.5" width="0.5" height="0.5" shape="2" frame="3">
 			<TList field="parameters">
 				<LTParameter name="gadget_text" value="Cancel"/>
 			</TList>
@@ -1487,7 +1487,7 @@
 		</LTSprite>
 		<LTSprite x="36.25" y="48.5" width="0.4" height="0.4" shape="2" frame="31">
 			<TList field="parameters">
-				<LTParameter name="gadget_text" value="Game over"/>
+				<LTParameter name="gadget_name" value="Game over"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="0.75" yscale="0.75">
 				<Object field="image" id="24"/>
@@ -1513,7 +1513,7 @@
 				<Object field="image" id="10"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="38" y="52.11" width="5" height="1.75" shape="2">
+		<LTSprite x="38" y="52.1" width="5" height="1.75" shape="2">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="13"/>
 			</LTVisualizer>

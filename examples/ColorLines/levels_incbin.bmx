@@ -10,4 +10,5 @@ Incbin "background.jpg"
 Incbin "infinity.png"
 Incbin "MouseMenu\frames\button.png"
 Incbin "MouseMenu\images\icons.png"
+Incbin "goals.png"
 L_SetIncbin( True )

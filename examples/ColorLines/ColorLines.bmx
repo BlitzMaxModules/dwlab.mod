@@ -33,6 +33,7 @@ Include "TCheckLines.bmx"
 Include "TMoveBall.bmx"
 Include "TExplosion.bmx"
 Include "TFallIntoPocket.bmx"
+Include "TGoal.bmx"
 Include "MouseMenu/Menu.bmx"
 Include "TRestartButton.bmx"
 Include "TLevelsList.bmx"
@@ -49,8 +50,6 @@ Include "levels_incbin.bmx"
 EndRem
 
 AppTitle = "World Of Spheres 0.1"
-
-EnableOpenALAudio()
 
 Global Game:TGame = New TGame
 Game.Execute()

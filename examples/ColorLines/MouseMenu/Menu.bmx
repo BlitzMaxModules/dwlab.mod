@@ -27,14 +27,14 @@ Include "LTGameOverWindow.bmx"
 Global L_OldIncbin:String = L_Incbin
 Global L_MenuPath:String
 
-'Rem
+Rem
 Include "menu_incbin.bmx"
 
 Incbin "russian.lng"
 Incbin "english.lng"
 Incbin "font.ttf"
 Incbin "images\calculator.png"
-'EndRem
+EndRem
 
 If L_Incbin Then
 	L_MenuPath = L_Incbin
@@ -70,6 +70,7 @@ Type LTMenu Extends LTGUIProject
 			L_CurrentProfile = LTProfile.CreateDefault( ProfileTypeID )
 			Profiles.AddLast( L_CurrentProfile )
 		End If
+		L_CurrentProfile.SetAsCurrent()
 		L_CurrentProfile.Apply( [ Project, LTGUIProject( Self ) ] )
 		
 		If Not L_Incbin Then ChangeDir( "MouseMenu" )
@@ -126,8 +127,9 @@ Type LTMenu Extends LTGUIProject
 		If HighScores.Count() < MaxHighScores Then HighScores.AddLast( LTHighScore.Create( Name, Score, Achievements ) )
 	End Method
 	
-	Method LoadGameOverWindow()
-		Project.LoadWindow( World, "LTGameOverWindow" )
+	Method LoadGameOverWindow( Title:String = "Game over" )
+		LTLabel( Project.LoadWindow( World, "LTGameOverWindow" ).FindShape( "GameOver" ) ).Text = LocalizeString( "{{" + Title + "}}" )
+		Project.Locked = True
 	End Method
 	
 	Method XMLIO( XMLObject:LTXMLObject )

@@ -13,10 +13,10 @@ Type TCheckLines
 		Game.TotalBalls = 0
 		
 		Local Rows:TList = New TList
-		For Local Y:Int = 0 Until Game.GameField.YQuantity
-			For Local X:Int = 0 Until Game.GameField.XQuantity
-				Local CurrentBall:Int = Game.Balls.GetTile( X, Y )
-				If CurrentBall = Game.NoBall Or CurrentBall > 7 Then Continue
+		For Local Y:Int = 0 Until Profile.GameField.YQuantity
+			For Local X:Int = 0 Until Profile.GameField.XQuantity
+				Local CurrentBall:Int = Profile.Balls.GetTile( X, Y )
+				If CurrentBall = Profile.NoBall Or CurrentBall > 7 Then Continue
 				CheckRow( CurrentBall, Rows, X, Y, 1, 0 )
 				CheckRow( CurrentBall, Rows, X, Y, 0, 1 )
 				CheckRow( CurrentBall, Rows, X, Y, 1, 1 )
@@ -29,18 +29,18 @@ Type TCheckLines
 		Next
 		
 		If Rows.IsEmpty() Then
-			If CreateBalls Then Game.CreateBalls()
+			If CreateBalls Then Profile.CreateBalls()
 		Else
 			L_PlaySound( Game.ExplosionSound )
-			Game.Score :+ ( Game.TotalBalls - 7 ) * Game.TotalBalls / 2 + 10
+			Profile.Score :+ ( Game.TotalBalls - 7 ) * Game.TotalBalls / 2 + 10
 		End If
 	End Function
 	
 	Function CheckRow( BallNum:Int, Rows:TList, X:Int, Y:Int, DX:Int, DY:Int )
 		Local K:Int = 0
-		While Game.Balls.GetTile( X + DX * K, Y + DY * K ) = BallNum
+		While Profile.Balls.GetTile( X + DX * K, Y + DY * K ) = BallNum
 			K :+ 1
-			If X + DX * K >= Game.GameField.XQuantity Or Y + DY * K >= Game.GameField.YQuantity Or X + DX * K < 0 Then Exit
+			If X + DX * K >= Profile.GameField.XQuantity Or Y + DY * K >= Profile.GameField.YQuantity Or X + DX * K < 0 Then Exit
 		Wend
 		K :- 1
 		If K >= 4 Then Rows.AddLast( TRow.Create( X, Y, DX, DY, K ) )

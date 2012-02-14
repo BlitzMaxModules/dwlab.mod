@@ -27,3 +27,5 @@ Import dwlab.graphicsdrivers
 Import brl.freeaudioaudio
 Import brl.openalaudio
 Import brl.glmax2d
+
+EnableOpenALAudio()

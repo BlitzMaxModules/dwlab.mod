@@ -18,11 +18,11 @@ Type TFallIntoPocket extends LTBehaviorModel
 		Local Model:TFallIntoPocket = New TFallIntoPocket
 		Model.TileX = TileX
 		Model.TileY = TileY
-		Model.Foreground.SetAsTile( Game.GameField, TileX, TileY )
-		Model.Foreground.Frame = Game.HoleForeground
+		Model.Foreground.SetAsTile( Profile.GameField, TileX, TileY )
+		Model.Foreground.Frame = Profile.PocketForeground
 		Game.Objects.AddLast( Model.Foreground )
-		Game.GameField.SetTile( TileX, TileY, Game.Hole )
-		Game.Balls.SetTile( TileX, TileY, Game.NoBall )
+		Profile.GameField.SetTile( TileX, TileY, Profile.Pocket )
+		Profile.Balls.SetTile( TileX, TileY, Profile.NoBall )
 		Return Model
 	End Function
 	
@@ -34,6 +34,9 @@ Type TFallIntoPocket extends LTBehaviorModel
 	Method Deactivate( Shape:LTShape )
 		Game.Objects.Remove( Foreground )
 		Game.Objects.Remove( Shape )
-		Game.GameField.SetTile( TileX, TileY, Game.Plate )
+		Profile.GameField.SetTile( TileX, TileY, Profile.Plate )
+		For Local Goal:TPutBallsInHoles = Eachin Profile.Goals
+			Goal.Count :- 1
+		Next
 	End Method
 End Type

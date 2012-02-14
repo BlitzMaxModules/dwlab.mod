@@ -19,7 +19,7 @@ Type TExplosion
 	Const ExplosionK:Double = 18.0
 	
 	Function Create( X:Int, Y:Int )
-		Local TileNum:Int = Game.Balls.GetTile( X, Y )
+		Local TileNum:Int = Profile.Balls.GetTile( X, Y )
 		If TileNum = 0 Then Return
 		For Local Radius:Double = 1 To MaxRadius
 			Local Angle:Double = 0
@@ -27,21 +27,24 @@ Type TExplosion
 				Local Sprite:LTVectorSprite = New LTVectorSprite
 				Local DX:Double = Radius * CircleWidth * Cos( Angle )
 				Local DY:Double = Radius * CircleWidth * Sin( Angle )
-				Sprite.PositionOnTilemap( Game.Balls, DX + X + Rnd( -Shift, Shift ), DY + Y + Rnd( -Shift, Shift ) )
+				Sprite.PositionOnTilemap( Profile.Balls, DX + X + Rnd( -Shift, Shift ), DY + Y + Rnd( -Shift, Shift ) )
 				Sprite.SetSize( ParticleSize + Rnd( -DSize, DSize ), 2.0 * ( ParticleSize + Rnd( -DSize, DSize ) ) )
 				Sprite.DX = ( DX + Rnd( -DShift, DShift ) ) * ExplosionK
 				Sprite.DY = ( DY + Rnd( -DShift, DShift ) ) * ExplosionK
 				Sprite.AttachModel( New TMoveParticle )
-				Sprite.Visualizer.Image = Game.Balls.TileSet.Image
+				Sprite.Visualizer.Image = Profile.Balls.TileSet.Image
 				Sprite.Frame = TileNum
 				Game.Particles.AddLast( Sprite )
 				Angle :+ 360.0 / ParticleDensity / Radius
 			WEnd
 		Next
-		Game.Balls.SetTile( X, Y, Game.NoBall )
+		Profile.Balls.SetTile( X, Y, Profile.NoBall )
+		If Profile.GameField.GetTile( X, Y ) = Profile.Glue Then Profile.GameField.SetTile( X, Y, Profile.Plate )
 		Game.TotalBalls :+ 1
 	End Function
 End Type
+
+
 
 Type TMoveParticle Extends LTBehaviorModel
 	Const Gravity:Double = 12.0
@@ -50,6 +53,6 @@ Type TMoveParticle Extends LTBehaviorModel
 		Local Particle:LTVectorSprite = LTVectorSprite( Shape )
 		Particle.DY :+ Game.PerSecond( Gravity )
 		Particle.MoveForward()
-		If Particle.TopY() > L_CurrentCamera.BottomY() Then Game.Particles.Remove( Shape )
+		If Particle.TopY() > GameCamera.BottomY() Then Game.Particles.Remove( Shape )
 	End Method
 End Type

@@ -22,26 +22,26 @@ Type TFieldVisualizer Extends LTVisualizer
 		ApplyColor()
 		
 		Local SX:Double, SY:Double
-		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
+		GameCamera.FieldToScreen( X, Y, SX, SY )
 		
-		Local TileValue:Int = GetTileValue( Game.GameField, TileX, TileY )
+		Local TileValue:Int = GetTileValue( Profile.GameField, TileX, TileY )
 		If TileValue > 0 Then
-			Local Visualizer:LTVisualizer = Game.GameField.Visualizer
-			Local NewWidth:Double =  Width * Visualizer.XScale
-			Local NewHeight:Double = Height * Visualizer.YScale
-			Game.GameField.TileSet.Image.Draw( SX + Visualizer.DX * NewWidth, SY + Visualizer.DY * NewHeight, ..
-					NewWidth, NewHeight, TileValue )
-			if( TileX = Game.SelectedTileX And TileY = Game.SelectedTileY ) Then Game.GameField.TileSet.Image.Draw( ..
-					SX + Visualizer.DX * NewWidth, SY + Visualizer.DY * NewHeight, NewWidth, NewHeight, Game.TileCursor )
+			Local TileVisualizer:LTVisualizer = Profile.GameField.Visualizer
+			Local TileWidth:Double =  Width * TileVisualizer.XScale
+			Local TileHeight:Double = Height * TileVisualizer.YScale
+			Profile.GameField.TileSet.Image.Draw( SX + TileVisualizer.DX * TileWidth, SY + TileVisualizer.DY * TileHeight, ..
+					TileWidth, TileHeight, TileValue )
+			if( TileX = Game.SelectedTileX And TileY = Game.SelectedTileY ) Then Profile.GameField.TileSet.Image.Draw( ..
+					SX + TileVisualizer.DX * TileWidth, SY + TileVisualizer.DY * TileHeight, TileWidth, TileHeight, Profile.TileCursor )
 		End If
 		
 		If Not Game.HiddenBalls[ TileX, TileY ] Then
-			TileValue = GetTileValue( Game.Balls, TileX, TileY )
-			If TileValue > 0 Then
-				Local Visualizer:LTVisualizer = Game.Balls.Visualizer
+			Local BallValue:Int = GetTileValue( Profile.Balls, TileX, TileY )
+			If BallValue > 0 Then
+				Local Visualizer:LTVisualizer = Profile.Balls.Visualizer
 				Local NewWidth:Double =  Width * Visualizer.XScale
 				Local NewHeight:Double = Height * Visualizer.YScale
-				Game.Balls.TileSet.Image.Draw( SX + Visualizer.DX * NewWidth, SY + Visualizer.DY * NewHeight, NewWidth, NewHeight, TileValue )
+				Profile.Balls.TileSet.Image.Draw( SX + Visualizer.DX * NewWidth, SY + Visualizer.DY * NewHeight, NewWidth, NewHeight, BallValue )
 			End If
 		End If
 		

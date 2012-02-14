@@ -12,11 +12,25 @@ Global BossKey:LTButtonAction
 Global ExitToMenu:LTButtonAction
 
 Type TGameProfile Extends LTProfile
-	Const BallsPerTurn:Int = 3
+	Const Void:Int = 0
+	Const Plate:Int = 1
+	Const Glue:Int = 4
+	
+	Const AnimShift:Int = 8
+	Const TileCursor:Int = AnimShift
+	Const Pocket:Int = AnimShift + 1
+	Const PocketForeground:Int = AnimShift + 2
+	
+	Const NoBall:Int = 0
+	Const BlackBall:Int = 8
+	Const RandomBall:Int = 9
 	
 	Field GameField:LTTileMap
 	Field Balls:LTTileMap
-	Field NextBalls:Int[] = New Int[ BallsPerTurn ]
+	Field NextBalls:Int[]
+	Field Goals:TList = New TList
+	Field Score:Int
+	Field BallsPerTurn:Int = 3
 	
 	Method Init()
 		Keys.AddLast( LTButtonAction.Create( LTKeyboardKey.Create( Key_Z ), "Boss key" ) )
@@ -29,26 +43,159 @@ Type TGameProfile Extends LTProfile
 		Game.Objects.Clear()
 	End Method
 
+	Method LoadLevel( Level:LTLayer )
+		Local Layer:LTLayer = Null
+		Game.LoadAndInitLayer( Layer, Level )
+		GameField = LTTileMap( Layer.FindShape( "Field" ) )
+		GameField.Visualizer = TFieldVisualizer.Create( GameField.Visualizer )
+		Balls = LTTileMap( Layer.FindShape( "Balls" ) )
+		Balls.Visible = False
+		
+		Goals = New TList
+		For Local Parameter:LTParameter = Eachin Level.Parameters
+			Select Parameter.Name
+				Case "put_balls_in_holes"
+					TPutBallsInHoles.Create( Parameter.Value.ToInt() )
+				Case "get_score"
+					TGetScore.Create( Parameter.Value.ToInt() )
+			End Select
+		Next
+		
+		For Local Y:Int = 0 Until GameField.YQuantity
+			For Local X:Int = 0 Until GameField.XQuantity
+				If Balls.GetTile( X, Y ) = RandomBall Then Balls.SetTile( X, Y, Rand( 1, 7 ) )
+			Next
+		Next
+			
+		For Local N:Int = 1 To 3
+			Repeat
+				Local X:Int = Rand( 0, GameField.XQuantity - 1 )
+				Local Y:Int = Rand( 0, GameField.YQuantity - 1 )
+				If GameField.Value[ X, Y ] = Plate And Balls.Value[ X, Y ] = NoBall Then
+					Balls.Value[ X, Y ] = Rand( 1, 7 )
+					Exit
+				End If
+			Forever
+		Next
+		
+		NextBalls = New Int[ BallsPerTurn ]
+		FillNextBalls()
+		Game.Locked = True
+		
+		InitLevel()
+	End Method
+		
+	Method InitLevel()
+		If Not GameField Then Return
+		Game.PathFinder.Map = GameField
+		SetFieldMagnification()
+		Game.HiddenBalls = New Int[ Balls.XQuantity, Balls.YQuantity ]
+		Game.EmptyCells = New TList
+		InitGraphics()
+	End Method
+	
+	Method SetFieldMagnification()
+		GameCamera.SetMagnification( Min( Floor( L_CurrentCamera.Viewport.Height / 3 / GameField.YQuantity ) * 3, ..
+				Floor( GameCamera.Viewport.Width / 4 / GameField.XQuantity ) * 4 ) )
+	End Method
+	
+	Method InitGraphics()
+		InitCamera( GameCamera )
+		InitCamera( L_GUICamera )
+		If GameField Then
+			SetFieldMagnification()
+			GameCamera.JumpTo( GameField )
+		End If
+	End Method
+	
+	Method CreateBalls()
+		RefreshEmptyCells()
+		If Game.EmptyCells.Count() < 3 Then
+			Menu.LoadGameOverWindow()
+		Else
+			For Local BallNum:Int = Eachin Profile.NextBalls
+				Local Cell:TCell = TCell.PopFrom( Game.EmptyCells )
+				TPopUpBall.Create( Cell.X, Cell.Y, BallNum )
+			Next
+			FillNextBalls()
+		End If
+	End Method
+	
+	Method RefreshEmptyCells()
+		Game.EmptyCells.Clear()
+		For Local Y:Int = 0 Until GameField.YQuantity
+			For Local X:Int = 0 Until GameField.XQuantity
+				If GameField.Value[ X, Y ] = Plate And Balls.Value[ X, Y ] = NoBall Then
+					Game.EmptyCells.AddLast( TCell.Create( X, Y ) )
+				End If
+			Next
+		Next
+	End Method
+	
+	Method FillNextBalls()
+		For Local N:Int = 0 Until BallsPerTurn
+			NextBalls[ N ] = Rand( 1, 7 )
+		Next
+	End Method
+	
+	Method TileToSprite:LTSprite( Model:LTBehaviorModel, X:Int, Y:Int, EraseBall:Int = False )
+		Local Sprite:LTSprite = New LTSprite
+		Sprite.SetAsTile( Profile.Balls, X, Y )
+		Game.Objects.AddLast( Sprite )
+		Sprite.AttachModel( Model )
+		If EraseBall Then
+			Profile.Balls.SetTile( X, Y, NoBall )
+		Else
+			Game.HiddenBalls[ X, Y ] = True
+		End If
+		Return Sprite
+	End Method
+	
 	Method Load()
-		Game.GameField = GameField
-		Game.Balls = Balls
-		Game.Score = Score
 		BossKey = LTButtonAction.Find( Keys, "Boss key" )
 		ExitToMenu = LTButtonAction.Find( Keys, "Exit to menu" )
-		Game.InitLevel()
+		InitLevel()
 	End Method
 	
 	Method Save()
-		GameField = Game.GameField
-		Balls = Game.Balls
-		Score = Game.Score
+	End Method
+	
+	Method SetAsCurrent()
+		Profile = Self
 	End Method
 	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		GameField = LTTileMap( XMLObject.ManageObjectField( "field", GameField ) )
 		Balls = LTTileMap( XMLObject.ManageObjectField( "balls", Balls ) )
-		XMLObject.ManageIntArrayAttribute( "nextballs", NextBalls )
-		If NextBalls[ 0 ] = 0 Then Game.FillNextBalls( Self )
+		XMLObject.ManageIntArrayAttribute( "next-balls", NextBalls )
+		XMLObject.ManageListField( "goals", Goals )
+		XMLObject.ManageIntAttribute( "score", Score )
+		XMLObject.ManageIntAttribute( "balls-per-turn", BallsPerTurn )
+		If Not NextBalls Then FillNextBalls()
 	End Method
+End Type
+
+
+
+Type TCell
+	Field X:Int, Y:Int
+	
+	Function Create:TCell( X:Int, Y:Int )
+		Local Cell:TCell = New TCell
+		Cell.X = X
+		Cell.Y = Y
+		Return Cell
+	End Function
+	
+	Function PopFrom:TCell( List:TList )
+		Local Num:Int = Rand( 0, List.Count() - 1 )
+		Local Link:TLink = List.FirstLink()
+		For Local N:Int = 1 To Num
+			Link = Link.NextLink()
+		Next
+		Local Cell:TCell = TCell( Link.Value() )
+		Link.Remove()
+		Return Cell
+	End Function
 End Type

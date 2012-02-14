@@ -316,12 +316,15 @@ Type LTProfile Extends LTObject
 	
 	
 	
+	Method SetAsCurrent()		
+	End Method
+	
+	
 	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
 		XMLObject.ManageStringAttribute( "name", Name )
-		XMLObject.ManageIntAttribute( "score", Score )
 		XMLObject.ManageStringAttribute( "language", Language )
 		XMLObject.ManageStringAttribute( "audio", AudioDriver )
 		XMLObject.ManageStringAttribute( "video", VideoDriver )

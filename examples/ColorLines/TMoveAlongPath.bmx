@@ -21,9 +21,9 @@ Type TMoveAlongPath Extends LTBehaviorModel
 		Model.StartingTime = Game.Time
 		Model.Position = Position
 		Game.Locked = True
-		Game.Balls.SetTile( TileX, TileY, Game.Balls.Value[ Game.Selected.X, Game.Selected.Y ] )
+		Profile.Balls.SetTile( TileX, TileY, Profile.Balls.Value[ Game.Selected.X, Game.Selected.Y ] )
 		Game.HiddenBalls[ TileX, TileY ] = True
-		Game.TileToSprite( Model, Position.X, Position.Y, True )
+		Profile.TileToSprite( Model, Position.X, Position.Y, True )
 		Game.Selected = Null
 		L_PlaySound( Game.RushSound )
 	End Function
@@ -47,10 +47,10 @@ Type TMoveAlongPath Extends LTBehaviorModel
 		Local PrevPosition:LTTileMapPosition = Position.PrevPosition
 		Local NextPosition:LTTileMapPosition = Position.NextPosition
 		If PrevPosition = Null Then
-			Shape.PositionOnTileMap( Game.Balls, Position.X + ( NextPosition.X - Position.X ) * ( Pos - 0.5 ), ..
+			Shape.PositionOnTileMap( Profile.Balls, Position.X + ( NextPosition.X - Position.X ) * ( Pos - 0.5 ), ..
 					Position.Y+ ( NextPosition.Y- Position.Y) * ( Pos - 0.5 ) )
 		ElseIf NextPosition = Null Then
-			Shape.PositionOnTileMap( Game.Balls, PrevPosition.X + ( Position.X - PrevPosition.X ) * ( Pos + 0.5 ), ..
+			Shape.PositionOnTileMap( Profile.Balls, PrevPosition.X + ( Position.X - PrevPosition.X ) * ( Pos + 0.5 ), ..
 					PrevPosition.Y+ ( Position.Y- PrevPosition.Y) * ( Pos + 0.5 ) )
 		ElseIf Abs( Position.PrevPosition.X - Position.NextPosition.X ) And Abs( Position.PrevPosition.Y - Position.NextPosition.Y ) Then
 			Local CenterX:Double = 0.5 * ( PrevPosition.X + NextPosition.X )
@@ -63,9 +63,9 @@ Type TMoveAlongPath Extends LTBehaviorModel
 				FinalAngle :+ 90 * Sgn( Position.X - PrevPosition.X ) * Sgn( NextPosition.Y - Position.Y )
 			End If
 			Local Angle:Double = StartingAngle + ( FinalAngle - StartingAngle ) * Pos
-			Shape.PositionOnTileMap( Game.Balls, CenterX + 0.5 * Cos( Angle ), CenterY + 0.5 * Sin( Angle ) )
+			Shape.PositionOnTileMap( Profile.Balls, CenterX + 0.5 * Cos( Angle ), CenterY + 0.5 * Sin( Angle ) )
 		Else
-			Shape.PositionOnTileMap( Game.Balls, PrevPosition.X + ( NextPosition.X - PrevPosition.X ) * ( 0.5 * Pos + 0.25 ), ..
+			Shape.PositionOnTileMap( Profile.Balls, PrevPosition.X + ( NextPosition.X - PrevPosition.X ) * ( 0.5 * Pos + 0.25 ), ..
 					PrevPosition.Y+ ( NextPosition.Y- PrevPosition.Y) * ( 0.5 * Pos + 0.25 ) )
 		End If
 		If Not Position.NextPosition And Pos >= 0.5 Then DeactivateModel( Shape )
@@ -76,7 +76,7 @@ Type TMoveAlongPath Extends LTBehaviorModel
 		L_PlaySound( Game.StopSound )
 		
 		Game.HiddenBalls[ Position.X, Position.Y ] = False
-		If LTSprite( Shape ).Frame = Game.BlackBall Then 
+		If LTSprite( Shape ).Frame = Profile.BlackBall Then 
 			Shape.AttachModel( TFallIntoPocket.Create( Position.X, Position.Y ) )
 		Else
 			Game.Objects.Remove( Shape )

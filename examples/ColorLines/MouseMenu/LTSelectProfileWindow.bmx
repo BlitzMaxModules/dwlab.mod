@@ -26,6 +26,7 @@ Type LTSelectProfileWindow Extends LTWindow
 		If L_CurrentProfile = Menu.SelectedProfile Then Return
 		L_CurrentProfile.Save()
 		L_CurrentProfile = Menu.SelectedProfile
+		L_CurrentProfile.SetAsCurrent()
 		L_CurrentProfile.Load()
 		L_CurrentProfile.Apply( [ Menu.Project, LTGUIProject( Menu ) ] )
 	End Method

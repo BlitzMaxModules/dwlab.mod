@@ -21,7 +21,7 @@ Type TSelected Extends LTBehaviorModel
 		Model.X = X
 		Model.Y = Y
 		Model.StartingTime = Game.Time
-		Model.Sprite = Game.TileToSprite( Model, X, Y )
+		Model.Sprite = Profile.TileToSprite( Model, X, Y )
 		Return Model
 	End Function
 	

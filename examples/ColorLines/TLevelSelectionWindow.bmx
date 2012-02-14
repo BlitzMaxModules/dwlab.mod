@@ -12,7 +12,7 @@ Type TLevelSelectionWindow Extends LTWindow
 	Method Save()
 		Local List:TLevelsList = TLevelsList( FindShapeWithType( "TLevelsList" ) )
 		If List.SelectedLevel Then
-			Game.LoadLevel( TGameProfile( L_CurrentProfile ), LTLayer( List.SelectedLevel ) )
+			Profile.LoadLevel( LTLayer( List.SelectedLevel ) )
 			Project.CloseWindow( Self )
 		End If
 	End Method

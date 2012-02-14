@@ -39,6 +39,7 @@ LTProfile^dwlab.frmwork.LTObject{
 -Reset%()="_dwlab_profiles_LTProfile_Reset"
 -Load%()="_dwlab_profiles_LTProfile_Load"
 -Save%()="_dwlab_profiles_LTProfile_Save"
+-SetAsCurrent%()="_dwlab_profiles_LTProfile_SetAsCurrent"
 -XMLIO%(XMLObject:dwlab.frmwork.LTXMLObject)="_dwlab_profiles_LTProfile_XMLIO"
 }="dwlab_profiles_LTProfile"
 L_PlaySound:brl.audio.TChannel(Sound:brl.audio.TSound,Temporary%=1,Volume!=1!,Rate!=1!,Pan!=0!,Depth!=0!)="dwlab_profiles_L_PlaySound"
