@@ -26,7 +26,7 @@ Type LTGameOverWindow Extends LTWindow
 			If Menu.HighScores.Count() = Menu.MaxHighScores Then
 				If LTHighScore( Menu.HighScores.Last() ).Score <= Profile.Score Then Exit
 			End If
-			LTLabel( FindShapeWithParameter( "text", "Game over" ) ).Icon.Frame = 20
+			LTLabel( FindShape( "GameOver" ) ).Icon.Frame = 20
 		 	Exit
 		Forever
 	End Method
@@ -42,6 +42,5 @@ Type LTGameOverWindow Extends LTWindow
 		
 		Profile.Reset()
 		Profile.Load()
-		Game.LoadWindow( Game.World, "TLevelSelectionWindow" )
 	End Method
 End Type

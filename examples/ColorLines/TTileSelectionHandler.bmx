@@ -30,7 +30,7 @@ Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
 				Game.Selected = TSelected.Create( TileX, TileY )
 				L_PlaySound( Game.SelectSound )
 			End If
-		ElseIf RightMouse.WasPressed() And Game.Selected Then
+		ElseIf RightMouse.WasPressed() And Game.Selected And Profile.Swap Then
 			If Game.Selected Then Game.Selected.Remove( Null )
 			If Abs( Game.Selected.X - TileX ) + Abs( Game.Selected.Y - TileY ) = 1 Then
 				If TileNum = Profile.Glue Then Return

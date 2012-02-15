@@ -33,8 +33,10 @@ Type TExample Extends LTProject
 		Cursor.SetMouseCoords()
 		Local TileX:Int, TileY:Int
 		TileMap.GetTileForPoint( Cursor.X, Cursor.Y, TileX, TileY )
-		if MouseDown( 1 ) Then TileMap.SetTile( TileX, TileY, Cursor.Frame )
-		If MouseHit( 2 ) Then Cursor.SetAsTile( TileMap, TileX, TileY )
+		If TileX >= 0 And TileY >= 0 And TileX < TileMap.XQuantity And TileY < TileMap.YQuantity Then
+			if MouseDown( 1 ) Then TileMap.SetTile( TileX, TileY, Cursor.Frame )
+			If MouseHit( 2 ) Then Cursor.SetAsTile( TileMap, TileX, TileY )
+		End If
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
 	End Method
 

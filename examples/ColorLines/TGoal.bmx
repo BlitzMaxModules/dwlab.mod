@@ -38,3 +38,30 @@ Type TGetScore Extends TGoal
 		Profile.Goals.AddLast( Goal )
 	End Function
 End Type
+
+
+
+Type TRemoveBalls Extends TGoal
+	Field BallType:Int
+	
+	Function Create( BallType:Int, Quantity:Int )
+		Local Goal:TRemoveBalls = New TRemoveBalls
+		Goal.BallType = BallType
+		Goal.Count = Quantity
+		Profile.Goals.AddLast( Goal )
+	End Function
+End Type
+
+
+
+Type TRemoveCombinations Extends TGoal
+	Field BallType:Int
+	Field LineBallsQuantity:Int
+	
+	Function Create( BallType:Int, LineBallsQuantity:Int, Quantity:Int )
+		Local Goal:TRemoveCombinations = New TRemoveCombinations
+		Goal.LineBallsQuantity = LineBallsQuantity
+		Goal.Count = Quantity
+		Profile.Goals.AddLast( Goal )
+	End Function
+End Type

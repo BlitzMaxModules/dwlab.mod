@@ -180,25 +180,17 @@ Type LTXMLObject Extends LTObject
 			If Obj = Null Then L_Error( "Object with id " + ID + " not found" )
 			?
 		ElseIf Obj Then
-			If Obj Then
-				Local ID:String = String( L_IDMap.ValueForKey( Obj ) )
-				
-				If Not ID Then
-					ID = String( L_IDNum )
-					L_IDMap.Insert( Obj, ID )
-					L_DefinitionsMap.Insert( Obj, ID )
-					L_IDNum :+ 1
-					
-					Local XMLObject:LTXMLObject = New LTXMLObject
-					XMLObject.Name = "Define"
-					XMLObject.SetAttribute( "object", TTypeId.ForObject( Obj ).Name() );
-					XMLObject.SetAttribute( "id", ID )
-					L_Definitions.Children.AddLast( XMLObject )
-				End If
-				L_RemoveIDMap.Remove( Obj )
+			Local ID:String = String( L_IDMap.ValueForKey( Obj ) )
 			
-				SetAttribute( AttrName, ID )
+			If Not ID Then
+				ID = String( L_MaxID )
+				L_IDMap.Insert( Obj, ID )
+				L_MaxID :+ 1
+				L_UndefinedObjects.Insert( Obj, Null )
 			End If
+			L_RemoveIDMap.Remove( Obj )
+		
+			SetAttribute( AttrName, ID )
 		End If
 		Return Obj
 	End Method
@@ -219,7 +211,7 @@ Type LTXMLObject Extends LTObject
 			For Local N:Int = 0 Until Quantity
 				IntArray[ N ] = Values[ N ].ToInt()
 			Next
-		Else
+		Elseif IntArray Then
 			Local Values:String = ""
 			For Local N:Int = 0 Until IntArray.Dimensions()[ 0 ]
 				If Values Then Values :+ ","
@@ -339,11 +331,7 @@ Type LTXMLObject Extends LTObject
 		If L_XMLMode = L_XMLGet Then
 			Local ID:Int = GetAttribute( "id" ).ToInt()
 				
-			If Name = "define" Then
-				'if GetAttribute( "object" ) = "SystemMethodTemplate" THen debugstop
-				Obj = LTObject( TTypeId.ForName( GetAttribute( "object" ) ).NewObject() )
-				L_IDArray[ ID ] = Obj
-			ElseIf Name = "object" Then
+			If Name = "object" Then
 				Obj = L_IDArray[ ID ]
 			Else
 				If ID And L_IDArray[ ID ] Then
@@ -357,8 +345,6 @@ Type LTXMLObject Extends LTObject
 					?
 					
 					Obj = LTObject( TypeID.NewObject() )
-					
-					L_IDArray[ ID ] = Obj
 				End If
 				Obj.XMLIO( Self )
 			End If
@@ -370,20 +356,17 @@ Type LTXMLObject Extends LTObject
 			Return Obj
 		ElseIf Obj Then
 			Local ID:String = String( L_IDMap.ValueForKey( Obj ) )
-			Local DefID:Object = L_DefinitionsMap.ValueForKey( Obj )
-			If ID And Not DefID Then
+			Local Undefined:Int = L_UndefinedObjects.Contains( Obj )
+			If ID And Not Undefined Then
 				L_RemoveIDMap.Remove( Obj )
 				Name = "Object"
 				SetAttribute( "id", ID )
 				Return Obj
 			Else
-				If DefID Then
-					L_DefinitionsMap.Remove( Obj )
-				ElseIf Not LTXMLObject( Obj ) Then
-					ID = String( L_IDNum )
+				If Not LTXMLObject( Obj ) And Not Undefined Then
+					ID = String( L_MaxID )
 					L_IDMap.Insert( Obj, ID )
-					
-					L_IDNum :+ 1
+					L_MaxID :+ 1
 					L_RemoveIDMap.Insert( Obj, Self )
 				End If
 				
@@ -605,7 +588,7 @@ Type LTXMLObject Extends LTObject
 					If Attr.Name = "field" Then
 						FieldName = Attr.Value
 					Else
-						If Attr.Name = "id" Then L_IDNum = Max( L_IDNum, Attr.Value.ToInt() )
+						If Attr.Name = "id" Then L_MaxID = Max( L_MaxID, Attr.Value.ToInt() )
 						Attributes.AddLast( Attr )
 					End If
 					
@@ -654,7 +637,7 @@ Type LTXMLObject Extends LTObject
 							If Attr.Name = "field" Then
 								FieldName = Attr.Value
 							Else
-								If Attr.Name = "id" Then L_IDNum = Max( L_IDNum, Attr.Value.ToInt() )
+								If Attr.Name = "id" Then L_MaxID = Max( L_MaxID, Attr.Value.ToInt() )
 								Attributes.AddLast( Attr )
 							End If
 							

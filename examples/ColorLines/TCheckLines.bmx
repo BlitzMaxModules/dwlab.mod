@@ -17,10 +17,14 @@ Type TCheckLines
 			For Local X:Int = 0 Until Profile.GameField.XQuantity
 				Local CurrentBall:Int = Profile.Balls.GetTile( X, Y )
 				If CurrentBall = Profile.NoBall Or CurrentBall > 7 Then Continue
-				CheckRow( CurrentBall, Rows, X, Y, 1, 0 )
-				CheckRow( CurrentBall, Rows, X, Y, 0, 1 )
-				CheckRow( CurrentBall, Rows, X, Y, 1, 1 )
-				CheckRow( CurrentBall, Rows, X, Y, -1, 1 )
+				If Profile.OrthogonalLines Then
+					CheckRow( CurrentBall, Rows, X, Y, 1, 0 )
+					CheckRow( CurrentBall, Rows, X, Y, 0, 1 )
+				End If
+				If Profile.DiagonalLines Then
+					CheckRow( CurrentBall, Rows, X, Y, 1, 1 )
+					CheckRow( CurrentBall, Rows, X, Y, -1, 1 )
+				End If
 			Next
 		Next
 		
@@ -38,12 +42,19 @@ Type TCheckLines
 	
 	Function CheckRow( BallNum:Int, Rows:TList, X:Int, Y:Int, DX:Int, DY:Int )
 		Local K:Int = 0
+		If X > 0 And Y > 0 And X < Profile.GameField.XQuantity - 1 And Y < Profile.GameField.YQuantity - 1 Then
+			If Profile.Balls.GetTile( X - DX, Y - DY ) = BallNum Then Return
+		End If
 		While Profile.Balls.GetTile( X + DX * K, Y + DY * K ) = BallNum
 			K :+ 1
 			If X + DX * K >= Profile.GameField.XQuantity Or Y + DY * K >= Profile.GameField.YQuantity Or X + DX * K < 0 Then Exit
 		Wend
-		K :- 1
-		If K >= 4 Then Rows.AddLast( TRow.Create( X, Y, DX, DY, K ) )
+		If K >= Profile.BallsInLine Then
+			Rows.AddLast( TRow.Create( X, Y, DX, DY, K - 1 ) )
+			For Local Goal:TRemoveCombinations = Eachin Profile.Goals
+				If ( Goal.BallType = BallNum Or Goal.BallType = Profile.RandomBall ) And K >= Goal.LineBallsQuantity Then Goal.Count :- 1
+			Next
+		End If
 	End Function
 End Type
 

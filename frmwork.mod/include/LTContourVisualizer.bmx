@@ -55,6 +55,8 @@ Type LTContourVisualizer Extends LTVisualizer
 		
 	
 	Method DrawUsingSprite( Sprite:LTSprite )
+		If Not Sprite.Visible Then Return
+		
 		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
 		SetAlpha( Alpha )
 		SetProperLineWidth()
@@ -72,6 +74,8 @@ Type LTContourVisualizer Extends LTVisualizer
 	
 	
 	Method DrawUsingLine( Line:LTLine )
+		If Not Line.Visible Then Return
+		
 		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
 		SetAlpha( Alpha )
 		SetProperLineWidth()

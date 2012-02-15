@@ -1,8 +1,10 @@
-ModuleInfo "Version: 1.4"
+ModuleInfo "Version: 1.4.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.1 (15.02.12)"
+ModuleInfo "History: &nbsp; &nbsp; DebugVisualizer now shows half-transparent invisible sprites."
 ModuleInfo "History: v1.4 (01.01.12)"
 ModuleInfo "History: &nbsp; &nbsp; Everything fixed, documented and updated."
 ModuleInfo "History: v1.3.19 (28.12.11)"
@@ -191,12 +193,13 @@ import brl.random
 import brl.reflection
 import brl.retro
 import brl.max2d
-L_Version$=$"1.4"
+L_Version$=$"1.4.1"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTObject_XMLIO"
 +LoadFromFile:LTObject(FileName$,UseIncbin%=-1)="_dwlab_frmwork_LTObject_LoadFromFile"
++FillIDArray%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTObject_FillIDArray"
 -SaveToFile%(FileName$)="_dwlab_frmwork_LTObject_SaveToFile"
 }="dwlab_frmwork_LTObject"
 LTProject^LTObject{
@@ -760,6 +763,7 @@ LTDebugVisualizer^LTVisualizer{
 .ShowCollisionShapes%&
 .ShowVectors%&
 .ShowNames%&
+.AlphaOfInvisible!&
 -New%()="_dwlab_frmwork_LTDebugVisualizer_New"
 -Delete%()="_dwlab_frmwork_LTDebugVisualizer_Delete"
 -DrawUsingSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTDebugVisualizer_DrawUsingSprite"
@@ -1265,10 +1269,9 @@ L_Error%(Text$)="dwlab_frmwork_L_Error"
 L_SetIncbin%(Value%)="dwlab_frmwork_L_SetIncbin"
 L_IDMap:brl.map.TMap&=mem:p("dwlab_frmwork_L_IDMap")
 L_RemoveIDMap:brl.map.TMap&=mem:p("dwlab_frmwork_L_RemoveIDMap")
-L_DefinitionsMap:brl.map.TMap&=mem:p("dwlab_frmwork_L_DefinitionsMap")
-L_Definitions:LTXMLObject&=mem:p("dwlab_frmwork_L_Definitions")
-L_IDNum%&=mem("dwlab_frmwork_L_IDNum")
+L_MaxID%&=mem("dwlab_frmwork_L_MaxID")
 L_IDArray:LTObject&[]&=mem:p("dwlab_frmwork_L_IDArray")
+L_UndefinedObjects:brl.map.TMap&=mem:p("dwlab_frmwork_L_UndefinedObjects")
 L_CollisionChecks%&=mem("dwlab_frmwork_L_CollisionChecks")
 L_TilesDisplayed%&=mem("dwlab_frmwork_L_TilesDisplayed")
 L_SpritesDisplayed%&=mem("dwlab_frmwork_L_SpritesDisplayed")

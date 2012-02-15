@@ -19,7 +19,7 @@
 		<Object id="498"/>
 		<Object id="504"/>
 	</TList>
-	<LTCamera field="camera" x="31" y="47" width="14.92" height="12.94" shape="2" viewport-clipping="1">
+	<LTCamera field="camera" x="37.46" y="50" width="14.92" height="12.94" shape="2" viewport-clipping="1">
 		<Object field="visualizer" id="1"/>
 		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
 			<Object field="visualizer" id="1"/>
@@ -413,7 +413,7 @@
 		<LTShape field="bounds" x="31" y="47" width="16" height="12">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTSprite x="31" y="46.12" width="8" height="0.5" shape="2">
+		<LTSprite x="31" y="46.11" width="8" height="0.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="class" value="LTLabel"/>
 				<LTParameter name="text" value="Restart"/>
@@ -1487,7 +1487,7 @@
 		</LTSprite>
 		<LTSprite x="36.25" y="48.5" width="0.4" height="0.4" shape="2" frame="31">
 			<TList field="parameters">
-				<LTParameter name="gadget_name" value="Game over"/>
+				<LTParameter name="gadget_name" value="GameOver"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="0.75" yscale="0.75">
 				<Object field="image" id="24"/>

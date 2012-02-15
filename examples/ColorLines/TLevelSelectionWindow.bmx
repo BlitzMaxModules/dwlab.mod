@@ -9,11 +9,20 @@
 '
 
 Type TLevelSelectionWindow Extends LTWindow
+	Method Init()
+		Super.Init()
+		LTMenuWindow( Project.FindWindow( "LTMenuWindow" ) ).DestinationY = 0
+	End Method
+	
+	
+	
 	Method Save()
 		Local List:TLevelsList = TLevelsList( FindShapeWithType( "TLevelsList" ) )
 		If List.SelectedLevel Then
 			Profile.LoadLevel( LTLayer( List.SelectedLevel ) )
-			Project.CloseWindow( Self )
+			Project.Locked = False
+			Local MenuWindow:LTMenuWindow = LTMenuWindow( Project.FindWindow( "LTMenuWindow" ) )
+			MenuWindow.DestinationY = -MenuWindow.Panel.Height
 		End If
 	End Method
 End Type

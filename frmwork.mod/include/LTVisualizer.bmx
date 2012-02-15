@@ -199,6 +199,8 @@ Type LTVisualizer Extends LTObject
 	about: Change this method if you are making your own visualizer.
 	End Rem
 	Method DrawUsingSprite( Sprite:LTSprite )
+		If Not Sprite.Visible Then Return
+		
 		?debug
 		L_SpritesDisplayed :+ 1
 		?
@@ -233,6 +235,8 @@ Type LTVisualizer Extends LTObject
 			
 			SetScale( 1.0, 1.0 )
 			SetRotation( 0.0 )
+		Else
+			DrawSpriteShape( Sprite )
 		End If
 		
 		ResetColor()
@@ -308,6 +312,8 @@ Type LTVisualizer Extends LTObject
 	about: Change this method if you are making your own visualizer.
 	End Rem
 	Method DrawUsingLine( Line:LTLine )
+		If Not Line.Visible Then Return
+		
 		ApplyColor()
 		
 		Local SX1:Double, SY1:Double, SX2:Double, SY2:Double
@@ -326,6 +332,8 @@ Type LTVisualizer Extends LTObject
 	about: Change this method if you are making your own visualizer.
 	End Rem
 	Method DrawUsingTileMap( TileMap:LTTileMap, Shapes:TList = Null )
+		If Not TileMap.Visible Then Return
+		
 		Local TileSet:LTTileSet = TileMap.TileSet
 		If Not TileSet Then Return
 		
@@ -453,6 +461,7 @@ Type LTVisualizer Extends LTObject
 	
 	
 	Method DrawSpriteMapTile( SpriteMap:LTSpriteMap, X:Double, Y:Double )
+		If Not SpriteMap.Visible Then Return
 		For Local Sprite:LTSprite = Eachin SpriteMap.Lists[ Int( Floor( X / SpriteMap.CellWidth ) ) & SpriteMap.XMask, ..
 				Int( Floor( Y / SpriteMap.CellHeight ) ) & SpriteMap.YMask ]
 			Sprite.Draw()

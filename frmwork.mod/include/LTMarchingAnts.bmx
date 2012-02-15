@@ -14,6 +14,7 @@ bbdoc: This visualizer draws rectangular animated dashed frame around the shape.
 End Rem
 Type LTMarchingAnts Extends LTVisualizer
 	Method DrawUsingSprite( Sprite:LTSprite )
+		If Not Sprite.Visible Then Return
 		ApplyColor()
 		
 		If L_CurrentCamera.Isometric Then
@@ -53,6 +54,7 @@ Type LTMarchingAnts Extends LTVisualizer
 	
 	
 	Method DrawUsingTileMap( TileMap:LTTileMap, Shapes:TList = Null )
+		If Not TileMap.Visible Then Return
 		Local Sprite:LTSprite = New LTSprite
 		Sprite.JumpTo( TileMap )
 		Sprite.SetSize( TileMap.Width, TileMap.Height )

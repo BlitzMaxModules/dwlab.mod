@@ -19,8 +19,8 @@ Type TExplosion
 	Const ExplosionK:Double = 18.0
 	
 	Function Create( X:Int, Y:Int )
-		Local TileNum:Int = Profile.Balls.GetTile( X, Y )
-		If TileNum = 0 Then Return
+		Local BallNum:Int = Profile.Balls.GetTile( X, Y )
+		If BallNum = 0 Then Return
 		For Local Radius:Double = 1 To MaxRadius
 			Local Angle:Double = 0
 			While Angle < 360.0
@@ -33,14 +33,21 @@ Type TExplosion
 				Sprite.DY = ( DY + Rnd( -DShift, DShift ) ) * ExplosionK
 				Sprite.AttachModel( New TMoveParticle )
 				Sprite.Visualizer.Image = Profile.Balls.TileSet.Image
-				Sprite.Frame = TileNum
+				Sprite.Frame = BallNum
 				Game.Particles.AddLast( Sprite )
 				Angle :+ 360.0 / ParticleDensity / Radius
 			WEnd
 		Next
 		Profile.Balls.SetTile( X, Y, Profile.NoBall )
-		If Profile.GameField.GetTile( X, Y ) = Profile.Glue Then Profile.GameField.SetTile( X, Y, Profile.Plate )
+		Local TileNum:Int = Profile.GameField.GetTile( X, Y )
+		Select TileNum
+			Case Profile.Glue, Profile.ColdGlue
+		 		Profile.GameField.SetTile( X, Y, TileNum - 1 )
+		End Select
 		Game.TotalBalls :+ 1
+		For Local Goal:TRemoveBalls = Eachin Profile.Goals
+			If ( Goal.BallType = TileNum Or Goal.BallType = Profile.RandomBall ) Then Goal.Count :- 1
+		Next
 	End Function
 End Type
 

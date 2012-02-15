@@ -128,6 +128,7 @@ Type LTMenu Extends LTGUIProject
 	End Method
 	
 	Method LoadGameOverWindow( Title:String = "Game over" )
+		Profile.GameField = Null
 		LTLabel( Project.LoadWindow( World, "LTGameOverWindow" ).FindShape( "GameOver" ) ).Text = LocalizeString( "{{" + Title + "}}" )
 		Project.Locked = True
 	End Method

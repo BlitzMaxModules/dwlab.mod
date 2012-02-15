@@ -90,6 +90,10 @@ Type LTTileMap Extends LTIntMap
 	
 	
 	
+	Rem
+	bbdoc: Returns tile coordinates for given field coordinates.
+	returns: Tile coordinates for given point.
+	End Rem	
 	Method GetTileForPoint( X:Double, Y:Double, TileX:Int Var, TileY:Int Var )
 		TileX = Floor( ( X - LeftX() ) / GetTileWidth() )
 		TileY = Floor( ( Y - TopY() ) / GetTileHeight() )

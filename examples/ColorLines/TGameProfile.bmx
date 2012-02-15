@@ -14,11 +14,14 @@ Global ExitToMenu:LTButtonAction
 Type TGameProfile Extends LTProfile
 	Const Void:Int = 0
 	Const Plate:Int = 1
-	Const Glue:Int = 4
+	Const Glue:Int = 2
+	Const ColdPlate:Int = 3
+	Const ColdGlue:Int = 4
+	Const ClosedPocket:Int = 5
 	
 	Const AnimShift:Int = 8
 	Const TileCursor:Int = AnimShift
-	Const Pocket:Int = AnimShift + 1
+	Const OpenedPocket:Int = AnimShift + 1
 	Const PocketForeground:Int = AnimShift + 2
 	
 	Const NoBall:Int = 0
@@ -30,7 +33,11 @@ Type TGameProfile Extends LTProfile
 	Field NextBalls:Int[]
 	Field Goals:TList = New TList
 	Field Score:Int
-	Field BallsPerTurn:Int = 3
+	Field BallsInLine:Int
+	Field BallsPerTurn:Int
+	Field Swap:Int
+	Field OrthogonalLines:Int
+	Field DiagonalLines:Int
 	
 	Method Init()
 		Keys.AddLast( LTButtonAction.Create( LTKeyboardKey.Create( Key_Z ), "Boss key" ) )
@@ -51,13 +58,35 @@ Type TGameProfile Extends LTProfile
 		Balls = LTTileMap( Layer.FindShape( "Balls" ) )
 		Balls.Visible = False
 		
+		BallsInLine = 5
+		BallsPerTurn = 3
+		Swap = 1
+		OrthogonalLines = 1
+		DiagonalLines = 1
+		
 		Goals = New TList
 		For Local Parameter:LTParameter = Eachin Level.Parameters
+			Local IntValue:Int = Parameter.Value.ToInt()
+			Local Parameters:String[] = Parameter.Value.Split( "," )
 			Select Parameter.Name
+				Case "new_balls"
+					BallsPerTurn = IntValue
+				Case "line_balls"
+					BallsInLine = IntValue
+				Case "no_swap"
+					Swap = 0
+				Case "no_orthogonal_lines"
+					OrthogonalLines = 0
+				Case "no_diagonal_lines"
+					DiagonalLines = 0
 				Case "put_balls_in_holes"
-					TPutBallsInHoles.Create( Parameter.Value.ToInt() )
+					TPutBallsInHoles.Create( IntValue )
 				Case "get_score"
-					TGetScore.Create( Parameter.Value.ToInt() )
+					TGetScore.Create( IntValue )
+				Case "remove_balls"
+					TRemoveBalls.Create( Parameters[ 0 ].ToInt(), Parameters[ 1 ].ToInt() )
+				Case "remove_combinations"
+					TRemoveCombinations.Create( Parameters[ 0 ].ToInt(), Parameters[ 1 ].ToInt(), Parameters[ 2 ].ToInt() )
 			End Select
 		Next
 		
@@ -171,7 +200,11 @@ Type TGameProfile Extends LTProfile
 		XMLObject.ManageIntArrayAttribute( "next-balls", NextBalls )
 		XMLObject.ManageListField( "goals", Goals )
 		XMLObject.ManageIntAttribute( "score", Score )
+		XMLObject.ManageIntAttribute( "balls-in-line", BallsInLine )
 		XMLObject.ManageIntAttribute( "balls-per-turn", BallsPerTurn )
+		XMLObject.ManageIntAttribute( "swap", Swap, 1 )
+		XMLObject.ManageIntAttribute( "orthogonal-lines", OrthogonalLines, 1 )
+		XMLObject.ManageIntAttribute( "diagonal-lines", DiagonalLines, 1 )
 		If Not NextBalls Then FillNextBalls()
 	End Method
 End Type

@@ -15,16 +15,20 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.4"
+ModuleInfo "Version: 1.4.2"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.2 (15.02.12)"
+ModuleInfo "History: &nbsp; &nbsp; XML loading system is now have 2 passes and don't need definitions list, so xml file size and complexity is reduced."
+ModuleInfo "History: v1.4.1 (15.02.12)"
+ModuleInfo "History: &nbsp; &nbsp; DebugVisualizer now shows half-transparent invisible sprites."
 ModuleInfo "History: v1.4 (01.01.12)"
-ModuleInfo "History: &nbsp; &nbsp; Everything fixed, documented and updated."
+ModuleInfo "History: &nbsp; &nbsp; Everything is fixed, documented and updated."
 ModuleInfo "History: v1.3.19 (28.12.11)"
-ModuleInfo "History: &nbsp; &nbsp; Behavior models now doesn't activate/deacivate if they already did."
+ModuleInfo "History: &nbsp; &nbsp; Behavior models now doesn't being activated/deacivated if they already did."
 ModuleInfo "History: &nbsp; &nbsp; Fixed bug in animation behavior model."
 ModuleInfo "History: &nbsp; &nbsp; Added Info() method for behavior models for more info in ShowModels method."
 ModuleInfo "History: &nbsp; &nbsp; Added Permanent flag to LTModelActivator / LTModelDeactivator."
@@ -211,7 +215,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.4"
+Const L_Version:String = "1.4.2"
 
 SeedRnd( MilliSecs() )
 

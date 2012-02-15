@@ -10,10 +10,9 @@
 
 Global L_IDMap:TMap
 Global L_RemoveIDMap:TMap
-Global L_DefinitionsMap:TMap
-Global L_Definitions:LTXMLObject
-Global L_IDNum:Int
+Global L_MaxID:Int
 Global L_IDArray:LTObject[]
+Global L_UndefinedObjects:TMap
 
 Rem
 bbdoc: Global object class
@@ -48,14 +47,11 @@ Type LTObject
 			Case 1; IncbinValue = "incbin::"
 		End Select
 		
-		L_IDNum = 0
+		L_MaxID = 0
 		Local XMLObject:LTXMLObject = LTXMLObject.ReadFromFile( IncbinValue + FileName )
 		
-		L_IDArray = New LTObject[ L_IDNum + 1 ]
-		
-		Local List:TList = New TList
-		XMLObject.ManageListField( "definitions", List )
-		
+		L_IDArray = New LTObject[ L_MaxID + 1 ]
+		FillIDArray( XMLObject )
 		Local Obj:LTObject = LTObject( TTypeId.ForName( XMLObject.Name ).NewObject() )
 		
 		L_XMLMode = L_XMLGet
@@ -64,6 +60,20 @@ Type LTObject
 		Return Obj
 	End Function
 
+	
+	
+	Function FillIDArray( XMLObject:LTXMLObject )
+		If XMLObject.Name = "object" Then Return
+		Local ID:Int = XMLObject.GetAttribute( "id" ).ToInt()
+		If ID Then L_IDArray[ ID ] = LTObject( TTypeId.ForName( XMLObject.Name ).NewObject() )
+		For Local Child:LTXMLObject = Eachin XMLObject.Children
+			FillIDArray( Child )
+		Next
+		For Local ObjectField:LTXMLObjectField = Eachin XMLObject.Fields
+			FillIDArray( ObjectField.Value )
+		Next
+	End Function
+	
 
 
 	Rem
@@ -73,22 +83,18 @@ Type LTObject
 	Method SaveToFile( FileName:String )
 		L_IDMap = New TMap
 		L_RemoveIDMap = New TMap
-		L_DefinitionsMap = New TMap
-		L_IDNum = 1
-		
-		L_Definitions = New LTXMLObject
-		L_Definitions.Name = "TList"
+		L_MaxID = 1
 		
 		L_XMLMode = L_XMLSet
 		Local XMLObject:LTXMLObject = New LTXMLObject
+		L_UndefinedObjects = New TMap
 		XMLIO( XMLObject )
 		
 		XMLObject.SetAttribute( "dwlab_version", L_Version )
-		XMLObject.SetField( "definitions", L_Definitions )
 				
-		For Local XMLObject:LTXMLObject = EachIn L_RemoveIDMap.Values()
-			For Local Attr:LTXMLAttribute = EachIn XMLObject.Attributes
-				If Attr.Name = "id" Then XMLObject.Attributes.Remove( Attr )
+		For Local XMLObject2:LTXMLObject = EachIn L_RemoveIDMap.Values()
+			For Local Attr:LTXMLAttribute = EachIn XMLObject2.Attributes
+				If Attr.Name = "id" Then XMLObject2.Attributes.Remove( Attr )
 			Next
 		Next
 		

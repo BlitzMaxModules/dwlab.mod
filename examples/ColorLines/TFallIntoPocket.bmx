@@ -21,7 +21,7 @@ Type TFallIntoPocket extends LTBehaviorModel
 		Model.Foreground.SetAsTile( Profile.GameField, TileX, TileY )
 		Model.Foreground.Frame = Profile.PocketForeground
 		Game.Objects.AddLast( Model.Foreground )
-		Profile.GameField.SetTile( TileX, TileY, Profile.Pocket )
+		Profile.GameField.SetTile( TileX, TileY, Profile.OpenedPocket )
 		Profile.Balls.SetTile( TileX, TileY, Profile.NoBall )
 		Return Model
 	End Function

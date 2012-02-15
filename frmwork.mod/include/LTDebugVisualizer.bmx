@@ -23,19 +23,30 @@ Type LTDebugVisualizer Extends LTVisualizer
 	Field ShowCollisionShapes:Int = True
 	Field ShowVectors:Int = True
 	Field ShowNames:Int = True
+	Field AlphaOfInvisible:Double = 0.5
 	
 	
 
 	Method DrawUsingSprite( Sprite:LTSprite )
+		Local OldAlpha:Double = -1
+		If Not Sprite.Visible Then
+			OldAlpha = Sprite.Visualizer.Alpha
+			Sprite.Visualizer.Alpha :* AlphaOfInvisible
+			Sprite.Visible = True
+		End If
 		Sprite.Visualizer.DrawUsingSprite( Sprite )
-		
 		ApplyColor()
+		If Not Sprite.Visible Then SetAlpha( AlphaOfInvisible )
 
 		Local SX1:Double, SY1:Double, SWidth:Double, SHeight:Double, Angle:Double
 		L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX1, SY1 )
 		L_CurrentCamera.SizeFieldToScreen( Sprite.Width, Sprite.Height, SWidth, SHeight )
 		
 		If ShowCollisionShapes Then DrawSpriteShape( Sprite )
+		If OldAlpha >= 0 Then
+			Sprite.Visualizer.Alpha = OldAlpha
+			Sprite.Visible = False
+		End If
 		
 		If ShowVectors Then
 			Local Size:Double = Max( SWidth, SHeight )

@@ -85,13 +85,13 @@ Type LTSprite Extends LTShape
 	' ==================== Drawing ===================	
 	
 	Method Draw()
-		If Visible Then Visualizer.DrawUsingSprite( Self )
+		Visualizer.DrawUsingSprite( Self )
 	End Method
 	
 	
 	
 	Method DrawUsingVisualizer( Vis:LTVisualizer )
-		If Visible Then Vis.DrawUsingSprite( Self )
+		Vis.DrawUsingSprite( Self )
 	End Method
 	
 	' ==================== Collisions ===================

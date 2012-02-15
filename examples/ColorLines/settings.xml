@@ -1,7 +1,7 @@
-<LTMenu current_profile="1" dwlab_version="1.4">
+<LTMenu current_profile="1" dwlab_version="1.4.1">
 	<TList field="profiles">
-		<TGameProfile id="1" name="erte" language="Russian" audio="DirectSound" video="DirectX7" width="2048" height="1536" depth="32" frequency="85" next-balls="5,7,3" balls-per-turn="3">
-			<LTTileMap field="field" x="8.5" y="7.87" width="11" height="12.75" xquantity="11" yquantity="17" tiles-quantity="16">
+		<TGameProfile id="1" name="Matt" language="Russian" audio="DirectSound" video="DirectX7" width="2048" height="1536" depth="32" frequency="85" next-balls="3,2,4" score="12" balls-in-line="4" balls-per-turn="3">
+			<LTTileMap field="field" x="8.5" y="6.87" width="11" height="11.25" xquantity="11" yquantity="15" tiles-quantity="16">
 				<TList field="parameters">
 					<LTParameter name="name" value="Field"/>
 				</TList>
@@ -43,23 +43,21 @@
 				</LTTileSet>
 				<Row data="1,1,1,1,1,1,1,1,1,0,0"/>
 				<Row data="1,1,1,1,1,1,1,1,1,0,0"/>
-				<Row data="1,1,1,1,1,1,1,1,1,0,0"/>
-				<Row data="1,1,1,1,1,1,1,1,1,0,0"/>
-				<Row data="1,1,1,1,1,1,1,1,1,3,3"/>
-				<Row data="1,1,1,1,1,1,1,1,1,0,3"/>
-				<Row data="1,1,1,1,1,1,1,1,1,0,3"/>
+				<Row data="1,1,1,1,1,1,1,1,2,0,0"/>
+				<Row data="1,1,1,1,1,1,1,2,2,0,0"/>
+				<Row data="1,1,1,1,1,1,2,2,2,3,3"/>
+				<Row data="1,1,1,1,1,1,1,2,2,0,3"/>
+				<Row data="1,1,1,1,1,1,1,1,2,0,3"/>
 				<Row data="1,1,1,1,1,1,1,1,1,0,3"/>
 				<Row data="1,1,1,1,1,1,1,1,1,0,3"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,3"/>
 				<Row data="0,0,4,3,3,3,4,0,0,0,3"/>
 				<Row data="0,0,3,0,0,0,3,0,0,0,3"/>
-				<Row data="0,0,3,0,0,0,3,0,0,0,3"/>
-				<Row data="2,3,4,0,0,0,4,3,3,3,3"/>
-				<Row data="0,0,3,0,0,0,3,0,0,0,0"/>
+				<Row data="5,3,4,0,0,0,4,3,3,3,3"/>
 				<Row data="0,0,3,0,0,0,3,0,0,0,0"/>
 				<Row data="0,0,4,3,3,3,4,0,0,0,0"/>
 			</LTTileMap>
-			<LTTileMap field="balls" x="8.5" y="7.87" width="11" height="12.75" visible="0" xquantity="11" yquantity="17" tiles-quantity="16">
+			<LTTileMap field="balls" x="8.5" y="6.87" width="11" height="11.25" visible="0" xquantity="11" yquantity="15" tiles-quantity="16">
 				<TList field="parameters">
 					<LTParameter name="name" value="Balls"/>
 				</TList>
@@ -85,23 +83,21 @@
 						<Null/>
 					</ShapeArray>
 				</LTTileSet>
+				<Row data="3,0,0,0,2,0,0,0,0,0,0"/>
+				<Row data="4,0,0,0,0,0,7,0,4,0,0"/>
+				<Row data="0,0,0,0,0,0,6,2,2,0,0"/>
+				<Row data="0,0,1,0,0,4,0,0,0,0,0"/>
+				<Row data="8,0,0,0,0,0,1,7,2,0,0"/>
+				<Row data="0,0,0,0,0,0,0,0,3,0,0"/>
+				<Row data="2,0,0,0,0,0,5,0,6,0,0"/>
+				<Row data="0,0,0,0,0,0,0,0,3,0,0"/>
+				<Row data="0,0,0,0,5,0,0,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,6,0,1,0,0"/>
-				<Row data="0,0,0,0,0,0,0,5,2,0,0"/>
-				<Row data="0,0,0,0,0,0,2,1,1,0,0"/>
-				<Row data="8,2,0,0,0,6,2,7,6,0,0"/>
-				<Row data="0,0,0,0,0,0,5,5,1,0,0"/>
-				<Row data="0,0,3,0,0,0,0,6,5,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,6,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0"/>
+				<Row data="0,0,7,0,0,0,3,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0"/>
 				<Row data="0,0,4,0,0,0,3,0,0,0,0"/>
 				<Row data="0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,6,0,0,0,2,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,2,0,0,0,7,0,0,0,0"/>
+				<Row data="0,0,4,0,0,0,4,0,0,0,0"/>
 			</LTTileMap>
 			<TList field="goals">
 				<TPutBallsInHoles count="1"/>
@@ -115,11 +111,10 @@
 		</TGameProfile>
 	</TList>
 	<TList field="high_scores">
-		<LTHighScore score="147" name="erte"/>
-		<LTHighScore score="117" name="erte"/>
-		<LTHighScore score="62" name="erte"/>
-	</TList>
-	<TList field="definitions">
-		<Define object="TGameProfile" id="1"/>
+		<LTHighScore score="109" name="Matt"/>
+		<LTHighScore score="69" name="Matt"/>
+		<LTHighScore score="20" name="Matt"/>
+		<LTHighScore score="16" name="Matt"/>
+		<LTHighScore score="10" name="Matt"/>
 	</TList>
 </LTMenu>

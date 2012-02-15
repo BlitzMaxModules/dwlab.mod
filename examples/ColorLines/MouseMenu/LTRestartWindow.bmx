@@ -17,6 +17,7 @@ Type LTRestartWindow Extends LTWindow
 	
 	
 	Method Save()
+		Profile.GameField = Null
 		Menu.LoadGameOverWindow()
 	End Method
 

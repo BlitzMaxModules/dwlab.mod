@@ -22,10 +22,10 @@ Type TGame Extends LTGUIProject
 	Field SelectedTileX:Int = -1
 	Field SelectedTileY:Int
 	Field Selected:TSelected
-	Field TotalBalls:Int
 	Field GameOver:Int
+	Field TotalBalls:Int
 	
-	Field TileIsPassable:Int[] = [ 0, 1, 1, 1, 1 ]
+	Field TileIsPassable:Int[] = [ 0, 1, 1, 1, 1, 0 ]
 	
 	Field EmptyCells:TList = New TList
 	Field PathFinder:TPathFinder = New TPathFinder
@@ -51,7 +51,6 @@ Type TGame Extends LTGUIProject
 		
 		Profile = TGameProfile( L_CurrentProfile )
 		Profile.Load()
-		If Not Profile.GameField Then LoadWindow( World, "TLevelSelectionWindow" )
 	End Method
 	
 	Method InitGraphics()
@@ -79,9 +78,16 @@ Type TGame Extends LTGUIProject
 	
 	Method Logic()
 		If Not Locked Then
-			Game.SelectedTileX = -1
-			L_Cursor.CollisionsWithTileMap( Profile.GameField, TileSelectionHandler )
+			If Not Profile.GameField Then
+				LoadWindow( World, "TLevelSelectionWindow" )
+				Locked = True
+			Else
+				Game.SelectedTileX = -1
+				L_Cursor.CollisionsWithTileMap( Profile.GameField, TileSelectionHandler )
+				If Profile.Goals.IsEmpty() Then Menu.LoadGameOverWindow( "Level completed" )
+			End If
 		End If
+		
 		FindWindow( "THUD" ).Active = Not Locked
 		Local MenuWindow:LTMenuWindow = LTMenuWindow( FindWindow( "LTMenuWindow" ) )
 		If ExitToMenu.WasPressed() And MenuWindow.Active Then MenuWindow.Switch()
@@ -93,6 +99,7 @@ Type TGame Extends LTGUIProject
 					Exit
 			End Select
 		Forever
+		
 		Objects.Act()
 		Particles.Act()
 		L_ClearSoundMaps()
@@ -100,7 +107,6 @@ Type TGame Extends LTGUIProject
 		For Local Goal:TGoal = Eachin Profile.Goals
 			If Goal.Count = 0 Then Profile.Goals.Remove( Goal )
 		Next
-		If Profile.Goals.IsEmpty() Then Menu.LoadGameOverWindow( "Level completed" )
 	End Method
 	
 	Method DeInit()

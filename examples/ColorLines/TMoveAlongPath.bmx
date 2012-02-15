@@ -76,7 +76,7 @@ Type TMoveAlongPath Extends LTBehaviorModel
 		L_PlaySound( Game.StopSound )
 		
 		Game.HiddenBalls[ Position.X, Position.Y ] = False
-		If LTSprite( Shape ).Frame = Profile.BlackBall Then 
+		If LTSprite( Shape ).Frame = Profile.BlackBall And Profile.GameField.GetTile( Position.X, Position.Y ) = Profile.ClosedPocket Then
 			Shape.AttachModel( TFallIntoPocket.Create( Position.X, Position.Y ) )
 		Else
 			Game.Objects.Remove( Shape )
