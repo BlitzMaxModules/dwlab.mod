@@ -13,8 +13,9 @@ bbdoc: Current profile.
 End Rem
 Global L_CurrentProfile:LTProfile
 
-Global L_ProjectWindow:TGadget 
-Global L_CameraWidth:Double = 16.0
+Global L_ProjectWindow:TGadget, L_ProjectCanvas:TGadget
+Global L_XResolution:Int, L_YResolution:Int
+Global L_ViewportCenterX:Int, L_ViewportCenterY:Int
 
 Global L_Profiles:TList = New TList
 Global L_Languages:TList = New TList
@@ -100,6 +101,11 @@ Type LTProfile Extends LTObject
 	bbdoc: Music volume ( 0.0 - 1.0 ).
 	End Rem
 	Field MusicVolume:Double = 1.0
+	
+	Field MinGrainSize:Int = 8
+	Field GrainXQuantity:Int = 64
+	Field MinGrainYQuantity:Int = 36
+	Field MaxGrainYQuantity:Int = 48
 	
 	
 	
@@ -200,25 +206,41 @@ Type LTProfile Extends LTObject
 		If NewVideoDriver Then SetGraphicsDriver( LTVideoDriver.Get( VideoDriver ).Driver )
 		
 		If NewScreen Or NewVideoDriver Then
-			If L_ProjectWindow Then
-				DisablePolledInput()
-				FreeGadget( L_ProjectWindow )
-				L_ProjectWindow = Null
-			Else
-				EndGraphics()
-			End If
 			If FullScreen Then
+				If L_ProjectWindow Then
+					DisablePolledInput()
+					FreeGadget( L_ProjectWindow )
+					L_ProjectWindow = Null
+				Else
+					EndGraphics()
+				End If
+				ChangeViewportResolution( ScreenWidth, ScreenHeight )
 				Graphics( ScreenWidth, ScreenHeight, ColorDepth, Frequency )
+				L_ViewportCenterX = 0.5 * ScreenWidth
+				L_ViewportCenterY = 0.5 * ScreenHeight
 			Else
-				L_ProjectWindow = CreateWindow( AppTitle, 0, 0, 640, 480, Null, Window_TItleBar | Window_Resizable )
-				MaximizeWindow( L_ProjectWindow )
-				SetMinWindowSize( L_ProjectWindow, GadgetWidth( L_ProjectWindow ), GadgetHeight( L_ProjectWindow ) )
-				SetMaxWindowSize( L_ProjectWindow, GadgetWidth( L_ProjectWindow ), GadgetHeight( L_ProjectWindow ) )
-				
-				Local Canvas:TGadget = CreateCanvas( 0, 0, ClientWidth( L_ProjectWindow ), ClientHeight( L_ProjectWindow ), L_ProjectWindow )
-				SetGraphics( CanvasGraphics( Canvas ) )
-				EnablePolledInput( Canvas )
-				ActivateGadget( Canvas )
+				If L_ProjectWindow Then
+					ChangeViewportResolution( ClientWidth( L_ProjectWindow ), ClientHeight( L_ProjectWindow ) )
+					SetGadgetShape( L_ProjectWindow, GadgetX( L_ProjectWindow ), GadgetY( L_ProjectWindow ), L_XResolution, L_YResolution )
+				Else
+					EndGraphics()
+					Local MaxXResolution:Int = ClientWidth( Desktop() ) - 8
+					Local MaxYResolution:Int = ClientHeight( Desktop() ) - 34
+					If L_XResolution < MinGrainSize * GrainXQuantity Or L_YResolution < MinGrainSize * MinGrainYQuantity Or ..
+							L_XResolution > MaxXResolution Or L_YResolution > MaxYResolution Then
+						ChangeViewportResolution( MaxXResolution, MaxYResolution )
+					End If
+					L_ProjectWindow = CreateWindow( AppTitle, 0.5 * ( ClientWidth( Desktop() ) - L_XResolution - 4 ), ..
+							0.5 * ( ClientHeight( Desktop() ) - L_YResolution - 13 ), L_XResolution, L_YResolution, Null, ..
+							Window_TItleBar | Window_Resizable | Window_ClientCoords )
+					L_ProjectCanvas = CreateCanvas( 0, 0, ClientWidth( L_ProjectWindow ), ClientHeight( L_ProjectWindow ), L_ProjectWindow )
+					SetGadgetLayout( L_ProjectCanvas, Edge_Aligned, Edge_Aligned, Edge_Aligned, Edge_Aligned )
+				End If
+				SetGraphics( CanvasGraphics( L_ProjectCanvas ) )
+				EnablePolledInput( L_ProjectCanvas )
+				ActivateGadget( L_ProjectCanvas )
+				L_ViewportCenterX = 0.5 * L_XResolution
+				L_ViewportCenterY = 0.5 * L_YResolution
 			End If
 			AutoImageFlags( FILTEREDIMAGE | DYNAMICIMAGE )
 			SetBlend( AlphaBlend )
@@ -245,14 +267,36 @@ Type LTProfile Extends LTObject
 	
 	
 	
+	Method ChangeViewportResolution( Width:Int, Height:Int )
+		debugstop
+		Local Grain:Int = Floor( Width / 64.0 )
+		If Height < MinGrainYQuantity * Grain Then
+			Grain = Floor( 1.0 * Height / MinGrainYQuantity )
+			L_YResolution = Grain * MinGrainYQuantity
+		ElseIf Height > MaxGrainYQuantity * Grain Then
+			Grain = Floor( 1.0 * Height / MaxGrainYQuantity )
+			L_YResolution = Grain * MaxGrainYQuantity
+		Else
+			L_YResolution = Height
+		End If
+		If Grain < MinGrainSize Then
+			L_XResolution = MinGrainSize * GrainXQuantity
+			L_YResolution = MinGrainSize * MinGrainYQuantity
+		Else
+			L_XResolution = Grain * GrainXQuantity
+		End If
+	End Method
+	
+	
+	
 	Rem
 	bbdoc: Initializes given camera according to profile's resolution.
 	about: Fixes camera height and sets viewport to corresponding shape according screen grain.
 	End Rem
 	Method InitCamera( Camera:LTCamera )
-		Camera.SetSize( Camera.Width, Camera.Width / GraphicsWidth() * GraphicsHeight() )
-		Camera.Viewport.SetCoords( 0.5 * GraphicsWidth(), 0.5 * GraphicsHeight() )
-		Camera.Viewport.SetSize( GraphicsWidth(), GraphicsHeight() )
+		Camera.SetSize( Camera.Width, Camera.Width / L_XResolution * L_YResolution )
+		Camera.Viewport.SetCoords( L_ViewportCenterX, L_ViewportCenterY )
+		Camera.Viewport.SetSize( L_XResolution, L_YResolution )
 		Camera.Update()
 	End Method
 	
@@ -338,5 +382,7 @@ Type LTProfile Extends LTObject
 		XMLObject.ManageDoubleAttribute( "sound_volume", SoundVolume, 1.0 )
 		XMLObject.ManageIntAttribute( "music_on", MusicOn, 1 )
 		XMLObject.ManageDoubleAttribute( "music_volume", MusicVolume, 1.0 )
+		XMLObject.ManageIntAttribute( "x_resolution", L_XResolution )
+		XMLObject.ManageIntAttribute( "y_resolution", L_YResolution )
 	End Method
 End Type

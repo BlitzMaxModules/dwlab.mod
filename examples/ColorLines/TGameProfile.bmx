@@ -87,6 +87,8 @@ Type TGameProfile Extends LTProfile
 					TRemoveBalls.Create( Parameters[ 0 ].ToInt(), Parameters[ 1 ].ToInt() )
 				Case "remove_combinations"
 					TRemoveCombinations.Create( Parameters[ 0 ].ToInt(), Parameters[ 1 ].ToInt(), Parameters[ 2 ].ToInt() )
+				Case "remove_glue"
+					TRemoveGlue.Create( IntValue )
 			End Select
 		Next
 		
@@ -124,8 +126,8 @@ Type TGameProfile Extends LTProfile
 	End Method
 	
 	Method SetFieldMagnification()
-		GameCamera.SetMagnification( Min( Floor( L_CurrentCamera.Viewport.Height / 3 / GameField.YQuantity ) * 3, ..
-				Floor( GameCamera.Viewport.Width / 4 / GameField.XQuantity ) * 4 ) )
+		GameCamera.SetMagnification( Min( Floor( L_XResolution / GameField.XQuantity ), ..
+				Floor( ( L_YResolution - L_XResolution / 16.0 ) / GameField.YQuantity ) ) )
 	End Method
 	
 	Method InitGraphics()

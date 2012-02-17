@@ -25,7 +25,7 @@ Type TGame Extends LTGUIProject
 	Field GameOver:Int
 	Field TotalBalls:Int
 	
-	Field TileIsPassable:Int[] = [ 0, 1, 1, 1, 1, 0 ]
+	Field TileIsPassable:Int[] = [ 0, 1, 1, 1, 1, 1 ]
 	
 	Field EmptyCells:TList = New TList
 	Field PathFinder:TPathFinder = New TPathFinder
@@ -93,8 +93,11 @@ Type TGame Extends LTGUIProject
 		If ExitToMenu.WasPressed() And MenuWindow.Active Then MenuWindow.Switch()
 		Repeat
 			Select PollEvent()
-				Case EVENT_WINDOWCLOSE
+				Case Event_WindowClose
+					Locked = True
 					LoadWindow( Menu.World, "LTExitWindow" )
+				Case Event_WindowSize
+					Profile.Apply( [ LTGUIProject( Self ), LTGUIProject( Menu ) ], True, False, False, False )
 				Case 0
 					Exit
 			End Select

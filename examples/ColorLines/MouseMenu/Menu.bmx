@@ -71,6 +71,7 @@ Type LTMenu Extends LTGUIProject
 			Profiles.AddLast( L_CurrentProfile )
 		End If
 		L_CurrentProfile.SetAsCurrent()
+
 		L_CurrentProfile.Apply( [ Project, LTGUIProject( Self ) ] )
 		
 		If Not L_Incbin Then ChangeDir( "MouseMenu" )

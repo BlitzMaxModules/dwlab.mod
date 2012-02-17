@@ -1,7 +1,7 @@
-<LTMenu current_profile="1" dwlab_version="1.4.1">
+<LTMenu current_profile="1" dwlab_version="1.4.2">
 	<TList field="profiles">
-		<TGameProfile id="1" name="Matt" language="Russian" audio="DirectSound" video="DirectX7" width="2048" height="1536" depth="32" frequency="85" next-balls="3,2,4" score="12" balls-in-line="4" balls-per-turn="3">
-			<LTTileMap field="field" x="8.5" y="6.87" width="11" height="11.25" xquantity="11" yquantity="15" tiles-quantity="16">
+		<TGameProfile id="1" name="Matt" language="Russian" audio="DirectSound" video="DirectX7" fullscreen="1" width="1280" height="768" depth="32" frequency="85" x_resolution="1280" y_resolution="768" next-balls="7,4,4" balls-in-line="5" balls-per-turn="3">
+			<LTTileMap field="field" x="8.5" y="4.87" width="13" height="9.75" xquantity="13" yquantity="13" tiles-quantity="16">
 				<TList field="parameters">
 					<LTParameter name="name" value="Field"/>
 				</TList>
@@ -41,23 +41,21 @@
 						<Null/>
 					</ShapeArray>
 				</LTTileSet>
-				<Row data="1,1,1,1,1,1,1,1,1,0,0"/>
-				<Row data="1,1,1,1,1,1,1,1,1,0,0"/>
-				<Row data="1,1,1,1,1,1,1,1,2,0,0"/>
-				<Row data="1,1,1,1,1,1,1,2,2,0,0"/>
-				<Row data="1,1,1,1,1,1,2,2,2,3,3"/>
-				<Row data="1,1,1,1,1,1,1,2,2,0,3"/>
-				<Row data="1,1,1,1,1,1,1,1,2,0,3"/>
-				<Row data="1,1,1,1,1,1,1,1,1,0,3"/>
-				<Row data="1,1,1,1,1,1,1,1,1,0,3"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,3"/>
-				<Row data="0,0,4,3,3,3,4,0,0,0,3"/>
-				<Row data="0,0,3,0,0,0,3,0,0,0,3"/>
-				<Row data="5,3,4,0,0,0,4,3,3,3,3"/>
-				<Row data="0,0,3,0,0,0,3,0,0,0,0"/>
-				<Row data="0,0,4,3,3,3,4,0,0,0,0"/>
+				<Row data="5,2,2,1,1,1,1,1,1,1,2,2,5"/>
+				<Row data="2,2,1,1,1,1,1,1,1,1,1,2,2"/>
+				<Row data="2,1,1,1,1,1,1,1,1,1,1,1,2"/>
+				<Row data="1,1,1,1,1,1,1,1,1,1,1,1,1"/>
+				<Row data="1,1,1,1,1,1,2,1,1,1,1,1,1"/>
+				<Row data="1,1,1,1,1,2,1,2,1,1,1,1,1"/>
+				<Row data="1,1,1,1,2,1,0,1,2,1,1,1,1"/>
+				<Row data="1,1,1,1,1,2,1,2,1,1,1,1,1"/>
+				<Row data="1,1,1,1,1,1,2,1,1,1,1,1,1"/>
+				<Row data="1,1,1,1,1,1,1,1,1,1,1,1,1"/>
+				<Row data="2,1,1,1,1,1,1,1,1,1,1,1,2"/>
+				<Row data="2,2,1,1,1,1,1,1,1,1,1,2,2"/>
+				<Row data="5,2,2,1,1,1,1,1,1,1,2,2,5"/>
 			</LTTileMap>
-			<LTTileMap field="balls" x="8.5" y="6.87" width="11" height="11.25" visible="0" xquantity="11" yquantity="15" tiles-quantity="16">
+			<LTTileMap field="balls" x="8.5" y="4.87" width="13" height="9.75" visible="0" xquantity="13" yquantity="13" tiles-quantity="16">
 				<TList field="parameters">
 					<LTParameter name="name" value="Balls"/>
 				</TList>
@@ -83,24 +81,22 @@
 						<Null/>
 					</ShapeArray>
 				</LTTileSet>
-				<Row data="3,0,0,0,2,0,0,0,0,0,0"/>
-				<Row data="4,0,0,0,0,0,7,0,4,0,0"/>
-				<Row data="0,0,0,0,0,0,6,2,2,0,0"/>
-				<Row data="0,0,1,0,0,4,0,0,0,0,0"/>
-				<Row data="8,0,0,0,0,0,1,7,2,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,3,0,0"/>
-				<Row data="2,0,0,0,0,0,5,0,6,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,3,0,0"/>
-				<Row data="0,0,0,0,5,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,7,0,0,0,3,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,4,0,0,0,3,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,4,0,0,0,4,0,0,0,0"/>
+				<Row data="0,4,1,1,0,0,0,0,0,3,6,1,0"/>
+				<Row data="4,3,1,0,0,0,0,0,0,0,3,6,7"/>
+				<Row data="3,6,0,7,0,0,0,0,0,0,0,7,6"/>
+				<Row data="4,0,0,0,0,0,0,0,0,0,0,0,6"/>
+				<Row data="0,0,0,0,0,7,3,6,0,0,0,0,0"/>
+				<Row data="0,0,0,0,7,2,8,7,3,0,0,0,0"/>
+				<Row data="0,0,0,0,4,8,0,8,1,0,0,0,0"/>
+				<Row data="0,0,0,0,7,7,8,7,4,0,0,0,0"/>
+				<Row data="0,0,0,6,0,3,4,2,0,0,0,0,0"/>
+				<Row data="1,0,0,0,0,0,0,0,0,0,0,5,2"/>
+				<Row data="3,5,0,0,0,0,0,0,0,0,0,7,5"/>
+				<Row data="6,1,2,0,0,0,0,0,0,0,1,2,2"/>
+				<Row data="0,3,4,4,0,0,0,0,0,7,6,1,0"/>
 			</LTTileMap>
 			<TList field="goals">
-				<TPutBallsInHoles count="1"/>
+				<TPutBallsInHoles count="4"/>
 			</TList>
 			<LTButtonAction name="Boss key">
 				<LTKeyboardKey code="90"/>
@@ -111,10 +107,15 @@
 		</TGameProfile>
 	</TList>
 	<TList field="high_scores">
+		<LTHighScore score="198" name="Matt"/>
+		<LTHighScore score="144" name="Matt"/>
 		<LTHighScore score="109" name="Matt"/>
+		<LTHighScore score="72" name="Matt"/>
 		<LTHighScore score="69" name="Matt"/>
+		<LTHighScore score="60" name="Matt"/>
+		<LTHighScore score="47" name="Matt"/>
+		<LTHighScore score="25" name="Matt"/>
 		<LTHighScore score="20" name="Matt"/>
 		<LTHighScore score="16" name="Matt"/>
-		<LTHighScore score="10" name="Matt"/>
 	</TList>
 </LTMenu>

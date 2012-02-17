@@ -26,15 +26,15 @@ Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
 				If Not Game.Selected Then Return
 				TMoveAlongPath.Create( Game.PathFinder.FindPath( Game.Selected.X, Game.Selected.Y, TileX, TileY ), TileX, TileY )
 			Else
-				If TileNum = Profile.Glue Then Return
+				If TileNum = Profile.Glue Or TileNum = Profile.ColdGlue Then Return
 				Game.Selected = TSelected.Create( TileX, TileY )
 				L_PlaySound( Game.SelectSound )
 			End If
 		ElseIf RightMouse.WasPressed() And Game.Selected And Profile.Swap Then
+			If BallNum = Profile.NoBall Then Return
+			If TileNum = Profile.Glue Or TileNum = Profile.ColdGlue Then Return
 			If Game.Selected Then Game.Selected.Remove( Null )
 			If Abs( Game.Selected.X - TileX ) + Abs( Game.Selected.Y - TileY ) = 1 Then
-				If TileNum = Profile.Glue Then Return
-				
 				Local Z:Int = Profile.Balls.GetTile( TileX, TileY )
 				Profile.Balls.SetTile( TileX, TileY, Profile.Balls.GetTile( Game.Selected.X, Game.Selected.Y ) )
 				Profile.Balls.SetTile( Game.Selected.X, Game.Selected.Y, Z )

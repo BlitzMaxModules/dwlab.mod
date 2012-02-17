@@ -65,3 +65,13 @@ Type TRemoveCombinations Extends TGoal
 		Profile.Goals.AddLast( Goal )
 	End Function
 End Type
+
+
+
+Type TRemoveGlue Extends TGoal
+	Function Create( Quantity:Int )
+		Local Goal:TRemoveGlue = New TRemoveGlue
+		Goal.Count = Quantity
+		Profile.Goals.AddLast( Goal )
+	End Function
+End Type

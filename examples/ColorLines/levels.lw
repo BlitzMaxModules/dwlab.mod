@@ -1,27 +1,27 @@
-<LTWorld incbin="1" dwlab_version="1.4.1">
+<LTWorld incbin="1" dwlab_version="1.4.2">
 	<LTVisualizer field="visualizer" id="1"/>
 	<TList field="images">
 		<LTRasterFrame filename="MouseMenu\\frames\\simple.png"/>
 		<LTRasterFrame filename="MouseMenu\\frames\\volume.png"/>
 		<Object id="9"/>
 		<Object id="28"/>
-		<Object id="55"/>
-		<Object id="64"/>
+		<Object id="79"/>
+		<Object id="88"/>
 		<LTImage filename="clock.png"/>
-		<Object id="50"/>
+		<Object id="74"/>
 		<LTImage filename="infinity.png"/>
-		<Object id="81"/>
-		<Object id="85"/>
-		<Object id="89"/>
+		<Object id="105"/>
+		<Object id="109"/>
+		<Object id="113"/>
 	</TList>
 	<TList field="tilesets">
 		<Object id="8"/>
 		<Object id="27"/>
 	</TList>
-	<LTCamera field="camera" x="8.5" y="6.87" width="16.42" height="14.23" viewport-clipping="1" x1="2" y1="1" x2="-2" y2="1">
-		<LTVisualizer field="visualizer" id="159"/>
+	<LTCamera field="camera" x="8.5" y="4.83" width="24.04" height="20.84" viewport-clipping="1" x1="2" y1="1" x2="-2" y2="1">
+		<LTVisualizer field="visualizer" id="183"/>
 		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
-			<Object field="visualizer" id="159"/>
+			<Object field="visualizer" id="183"/>
 		</LTShape>
 	</LTCamera>
 	<LTLayer>
@@ -185,6 +185,113 @@
 	</LTLayer>
 	<LTLayer>
 		<TList field="parameters">
+			<LTParameter name="name" value="Level: ball storage"/>
+			<LTParameter name="put_balls_in_holes" value="8"/>
+			<LTParameter name="line_balls" value="4"/>
+		</TList>
+		<LTVisualizer field="visualizer"/>
+		<LTShape field="bounds" x="12.5" y="8.83" width="19" height="14.25">
+			<LTVisualizer field="visualizer"/>
+		</LTShape>
+		<LTTileMap x="12.5" y="8.83" width="19" height="14.25" xquantity="19" yquantity="19" tiles-quantity="16">
+			<TList field="parameters">
+				<LTParameter name="name" value="Field"/>
+			</TList>
+			<LTVisualizer field="visualizer" xscale="1.25" yscale="2"/>
+			<Object field="tileset" id="8"/>
+			<Row data="0,0,0,0,0,0,0,0,5,4,5,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,1,2,4,2,1,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,1,2,1,1,1,2,1,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,1,2,1,1,1,1,1,2,1,0,0,0,0,0"/>
+			<Row data="0,0,0,0,1,2,1,1,1,1,1,1,1,2,1,0,0,0,0"/>
+			<Row data="0,0,0,1,2,1,1,1,1,1,1,1,1,1,2,1,0,0,0"/>
+			<Row data="5,0,0,2,1,1,1,1,1,1,1,1,1,1,1,2,0,0,5"/>
+			<Row data="4,4,4,4,1,1,1,1,1,1,1,1,1,1,1,4,4,4,4"/>
+			<Row data="5,0,0,2,1,1,1,1,1,1,1,1,1,1,1,2,0,0,5"/>
+			<Row data="0,0,0,1,2,1,1,1,1,1,1,1,1,1,2,1,0,0,0"/>
+			<Row data="0,0,0,0,1,2,1,1,1,1,1,1,1,2,1,0,0,0,0"/>
+			<Row data="0,0,0,0,0,1,2,1,1,1,1,1,2,1,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,1,2,1,1,1,2,1,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,1,2,4,2,1,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,5,4,5,0,0,0,0,0,0,0,0"/>
+		</LTTileMap>
+		<LTTileMap x="12.5" y="8.83" width="19" height="14.25" xquantity="19" yquantity="19" tiles-quantity="16">
+			<TList field="parameters">
+				<LTParameter name="name" value="Balls"/>
+			</TList>
+			<LTVisualizer field="visualizer" dy="-0.25" yscale="2.66"/>
+			<Object field="tileset" id="27"/>
+			<Row data="0,0,0,0,0,0,0,0,0,9,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,9,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,9,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,9,9,9,9,9,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,8,9,9,0,9,9,8,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,9,9,9,0,0,0,9,9,9,0,0,0,0,0"/>
+			<Row data="0,0,0,0,8,9,9,0,0,0,0,0,9,9,8,0,0,0,0"/>
+			<Row data="0,0,0,9,9,9,0,0,0,0,0,0,0,9,9,9,0,0,0"/>
+			<Row data="0,0,0,9,9,0,0,0,0,0,0,0,0,0,9,9,0,0,0"/>
+			<Row data="9,9,9,9,0,0,0,0,0,0,0,0,0,0,0,9,9,9,9"/>
+			<Row data="0,0,0,9,9,0,0,0,0,0,0,0,0,0,9,9,0,0,0"/>
+			<Row data="0,0,0,9,9,9,0,0,0,0,0,0,0,9,9,9,0,0,0"/>
+			<Row data="0,0,0,0,8,9,9,0,0,0,0,0,9,9,8,0,0,0,0"/>
+			<Row data="0,0,0,0,0,9,9,9,0,0,0,9,9,9,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,8,9,9,0,9,9,8,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,9,9,9,9,9,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,9,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,9,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0,0,0,0,0,0,0,0,0,9,0,0,0,0,0,0,0,0,0"/>
+		</LTTileMap>
+	</LTLayer>
+	<LTLayer>
+		<TList field="parameters">
+			<LTParameter name="name" value="Level: the wall"/>
+			<LTParameter name="put_balls_in_holes" value="1"/>
+		</TList>
+		<LTVisualizer field="visualizer"/>
+		<LTShape field="bounds" x="8.5" y="4.83" width="11" height="8.25"/>
+		<LTTileMap x="8.5" y="4.83" width="11" height="8.25" xquantity="11" yquantity="11" tiles-quantity="16">
+			<TList field="parameters">
+				<LTParameter name="name" value="Field"/>
+			</TList>
+			<LTVisualizer field="visualizer" xscale="1.25" yscale="2"/>
+			<Object field="tileset" id="8"/>
+			<Row data="1,1,1,1,2,2,2,1,1,1,1"/>
+			<Row data="1,1,1,1,2,2,2,1,1,1,1"/>
+			<Row data="1,1,1,1,2,2,2,1,1,1,1"/>
+			<Row data="1,1,1,1,2,2,2,1,1,1,1"/>
+			<Row data="1,1,1,1,2,2,2,1,1,1,1"/>
+			<Row data="1,1,1,1,2,2,2,1,1,1,5"/>
+			<Row data="1,1,1,1,2,2,2,1,1,1,1"/>
+			<Row data="1,1,1,1,2,2,2,1,1,1,1"/>
+			<Row data="1,1,1,1,2,2,2,1,1,1,1"/>
+			<Row data="1,1,1,1,2,2,2,1,1,1,1"/>
+			<Row data="1,1,1,1,2,2,2,1,1,1,1"/>
+		</LTTileMap>
+		<LTTileMap x="8.5" y="4.83" width="11" height="8.25" xquantity="11" yquantity="11" tiles-quantity="16">
+			<TList field="parameters">
+				<LTParameter name="name" value="Balls"/>
+			</TList>
+			<LTVisualizer field="visualizer" dy="-0.25" yscale="2.66"/>
+			<Object field="tileset" id="27"/>
+			<Row data="0,0,0,0,9,9,9,0,0,0,0"/>
+			<Row data="0,0,0,0,9,9,9,0,0,0,0"/>
+			<Row data="0,0,0,0,9,9,9,0,0,0,0"/>
+			<Row data="0,0,0,0,9,9,9,0,0,0,0"/>
+			<Row data="0,0,0,0,9,9,9,0,0,0,0"/>
+			<Row data="8,0,0,0,9,9,9,0,0,0,0"/>
+			<Row data="0,0,0,0,9,9,9,0,0,0,0"/>
+			<Row data="0,0,0,0,9,9,9,0,0,0,0"/>
+			<Row data="0,0,0,0,9,9,9,0,0,0,0"/>
+			<Row data="0,0,0,0,9,9,9,0,0,0,0"/>
+			<Row data="0,0,0,0,9,9,9,0,0,0,0"/>
+		</LTTileMap>
+	</LTLayer>
+	<LTLayer>
+		<TList field="parameters">
 			<LTParameter name="class" value="THUD"/>
 			<LTParameter name="vertical" value="top"/>
 		</TList>
@@ -197,7 +304,7 @@
 				<LTParameter name="name" value="Background"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="50" filename="background.jpg"/>
+				<LTImage field="image" id="74" filename="background.jpg"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="11.25" y="-0.5" width="6.25" shape="2">
@@ -206,12 +313,12 @@
 				<LTParameter name="name" value="Goals"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="55" left="9" right="9" top="9" bottom="9" filename="MouseMenu\\frames\\panel.png"/>
+				<LTRasterFrame field="image" id="79" left="9" right="9" top="9" bottom="9" filename="MouseMenu\\frames\\panel.png"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="1.62" y="-0.5" width="3.25" shape="2">
 			<LTVisualizer field="visualizer">
-				<Object field="image" id="55"/>
+				<Object field="image" id="79"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="5.66" y="-0.5" width="4.37" shape="2">
@@ -219,7 +326,7 @@
 				<LTParameter name="name" value="TimePanel"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<Object field="image" id="55"/>
+				<Object field="image" id="79"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="0.31" y="-0.68" width="0.37" height="0.37" shape="2">
@@ -227,7 +334,7 @@
 				<LTParameter name="gadget_name" value="CurrentProfile"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="64" filename="player.png"/>
+				<LTImage field="image" id="88" filename="player.png"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="1.62" y="-0.31" width="3" height="0.37" shape="2">
@@ -259,7 +366,7 @@
 				<LTParameter name="text" value="Restart"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="81" left="2" right="2" top="2" bottom="2" filename="MouseMenu\\frames\\button.png" xcells="2"/>
+				<LTRasterFrame field="image" id="105" left="2" right="2" top="2" bottom="2" filename="MouseMenu\\frames\\button.png" xcells="2"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="14.75" y="-0.25" width="0.4" height="0.4" shape="2" frame="17">
@@ -267,7 +374,7 @@
 				<LTParameter name="gadget_text" value="Restart"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="85" filename="MouseMenu\\images\\icons.png" xcells="8" ycells="4"/>
+				<LTImage field="image" id="109" filename="MouseMenu\\images\\icons.png" xcells="8" ycells="4"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="8.58" y="-0.5" width="0.75" height="0.75" shape="2">
@@ -275,7 +382,7 @@
 				<LTParameter name="name" value="GoalIcon"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="89" filename="goals.png"/>
+				<LTImage field="image" id="113" filename="goals.png"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="9.33" y="-0.5" width="0.75" height="0.5" shape="2">
@@ -319,7 +426,7 @@
 				<LTParameter name="action" value="save_and_close"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="116" left="2" right="2" top="2" bottom="2" filename="MouseMenu\\frames\\button.png" xcells="2"/>
+				<LTRasterFrame field="image" id="140" left="2" right="2" top="2" bottom="2" filename="MouseMenu\\frames\\button.png" xcells="2"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="30.75" y="45.35" width="7" height="3.75" shape="2">
@@ -328,7 +435,7 @@
 				<LTParameter name="class" value="TLevelsList"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="121" filename="MouseMenu\\frames\\simple.png"/>
+				<LTRasterFrame field="image" id="145" filename="MouseMenu\\frames\\simple.png"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="34.75" y="43" width="0.4" height="0.4" shape="2">
@@ -345,7 +452,7 @@
 				<LTParameter name="gadget_text" value="Select"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="130" filename="MouseMenu\\images\\icons.png" xcells="8" ycells="4"/>
+				<LTImage field="image" id="154" filename="MouseMenu\\images\\icons.png" xcells="8" ycells="4"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="34.5" y="45.35" width="0.5" height="3.75" shape="2">
@@ -356,7 +463,7 @@
 				<LTParameter name="type" value="vertical"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<Object field="image" id="121"/>
+				<Object field="image" id="145"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="34.5" y="45.35" width="0.5" height="2.75" shape="2">
@@ -374,7 +481,7 @@
 				<LTParameter name="action" value="close"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<Object field="image" id="116"/>
+				<Object field="image" id="140"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="31.75" y="47.85" width="0.5" height="0.5" shape="2" frame="3">
@@ -382,7 +489,7 @@
 				<LTParameter name="gadget_text" value="Select"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<Object field="image" id="130"/>
+				<Object field="image" id="154"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="27.25" y="43" width="0.4" height="0.4" shape="2" frame="8">
@@ -390,7 +497,7 @@
 				<LTParameter name="gadget_text" value="Select level"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<Object field="image" id="130"/>
+				<Object field="image" id="154"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>
