@@ -39,6 +39,7 @@ Type TExplosion
 			WEnd
 		Next
 		Profile.Balls.SetTile( X, Y, Profile.NoBall )
+		Profile.Modifiers.SetTile( X, Y, Profile.NoModifier )
 		Local TileNum:Int = Profile.GameField.GetTile( X, Y )
 		Select TileNum
 			Case Profile.Glue, Profile.ColdGlue

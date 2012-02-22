@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTOptionsWindow Extends LTWindow
+Type LTOptionsWindow Extends LTAudioWindow
 	Method Init()
 		Super.Init()
 		LTSlider( FindShape( "SoundVolume" ) ).Size = L_CurrentProfile.SoundVolume
@@ -34,12 +34,16 @@ Type LTOptionsWindow Extends LTWindow
 		Select Gadget.GetName()
 			Case "SoundOn"
 				L_CurrentProfile.SoundOn = Not L_CurrentProfile.SoundOn
+				If L_CurrentProfile.SoundOn Then Menu.SoundOn.Play()
 			Case "MusicOn"
 				L_CurrentProfile.MusicOn = Not L_CurrentProfile.MusicOn
+				If L_CurrentProfile.SoundOn Then Menu.ButtonClick.Play()
 			Case "Fullscreen"
+				If L_CurrentProfile.SoundOn Then Menu.ButtonClick.Play()
 				L_CurrentProfile.FullScreen = Not L_CurrentProfile.FullScreen
 				L_CurrentProfile.Apply( [ Menu.Project, LTGUIProject( Menu ) ], True, False, False )
 			Case "Boss"
+				If L_CurrentProfile.SoundOn Then Menu.Boss.Play()
 				L_Boss()
 		End Select
 	End Method
@@ -79,6 +83,7 @@ Function L_Boss()
 				AppTitle = OldAppTitle
 				Menu.Project.Locked = True
 				EndGraphics()
+				L_ProjectWindow = Null
 				L_CurrentProfile.Apply( [ LTProject( Menu ), LTProject( Menu.Project ) ], True, False, True )
 				Return
 			End If

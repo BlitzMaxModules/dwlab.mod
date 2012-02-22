@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTSettingsWindow Extends LTWindow
+Type LTSettingsWindow Extends LTAudioWindow
 	Field Language:TMaxGuiLanguage
 	Field Resolution:LTScreenResolution
 	Field ColorDepth:LTColorDepth

@@ -41,16 +41,19 @@ Type TFieldVisualizer Extends LTVisualizer
 				Local Visualizer:LTVisualizer = Profile.Balls.Visualizer
 				Local NewWidth:Double =  Width * Visualizer.XScale
 				Local NewHeight:Double = Height * Visualizer.YScale
-				Profile.Balls.TileSet.Image.Draw( SX + Visualizer.DX * NewWidth, SY + Visualizer.DY * NewHeight, NewWidth, NewHeight, BallValue )
+				Profile.Balls.TileSet.Image.Draw( SX + Visualizer.DX * NewWidth, SY + Visualizer.DY * NewHeight, ..
+						NewWidth, NewHeight, BallValue )
+				Local ModifierNum:Int = GetTileValue( Profile.Modifiers, TileX, TileY )
+				If ModifierNum > 0 Then Profile.Modifiers.TileSet.Image.Draw( SX + Visualizer.DX * NewWidth, ..
+						SY + Visualizer.DY * NewHeight, NewWidth, NewHeight, ModifierNum )
 			End If
 		End If
 		
 		Width = TileMap.GetTileWidth()
 		Height = TileMap.GetTileHeight()
 		For Local Sprite:LTSprite = Eachin Game.Objects
-			If L_DoubleInLimits( Sprite.X, X - 0.95 * Width, X + 0.05 * Width ) And L_DoubleInLimits( Sprite.Y, Y - 0.95 * Height, Y + 0.05 * Height ) Then
-				Sprite.Draw()
-			End If
+			If L_DoubleInLimits( Sprite.X, X - 0.95 * Width, X + 0.05 * Width ) And L_DoubleInLimits( Sprite.Y, Y - 0.95 * Height, ..
+					Y + 0.05 * Height ) Then Sprite.Draw()
 		Next
 	End Method
 End Type

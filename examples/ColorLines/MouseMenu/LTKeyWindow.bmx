@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTKeyWindow Extends LTWindow
+Type LTKeyWindow Extends LTAudioWindow
 	Field Z:Int
 	
 	Method Init()

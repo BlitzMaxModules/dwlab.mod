@@ -10,11 +10,14 @@
 
 Include "LTFixedWaitingModel.bmx"
 Include "LTRandomWaitingModel.bmx"
+Include "LTValueChangingModel.bmx"
+Include "LTColorChangingModel.bmx"
+Include "LTTimedMovementModel.bmx"
 
-Type LTTemporaryModel Extends LTBehaviorModel
+
+Type LTTemporaryModel Extends LTChainedModel
 	Field StartingTime:Double
 	Field Period:Double
-	Field NextModels:TList = New TList
 	
 	
 	
@@ -25,10 +28,7 @@ Type LTTemporaryModel Extends LTBehaviorModel
 	
 	
 	Method ApplyTo( Shape:LTShape )
-		If L_CurrentProject.Time > StartingTime + Period Then
-			Remove( Shape )
-			Shape.AttachModels( NextModels )
-		End If
+		If L_CurrentProject.Time > StartingTime + Period Then Remove( Shape )
 	End Method
 	
 	

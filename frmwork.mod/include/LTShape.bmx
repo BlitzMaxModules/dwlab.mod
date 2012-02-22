@@ -285,6 +285,12 @@ Type LTShape Extends LTObject
 	
 	
 	
+	Method IsAtPositionOfPoint:Int( PointX:Double, PointY:Double )
+		If PointX = X And PointY = Y Then Return True
+	End Method
+	
+	
+	
 	Rem
 	bbdoc: Sets X coordinate of the shape.
 	about: It's better to use this method instead of equating X field to new value.
@@ -991,6 +997,17 @@ Type LTShape Extends LTObject
 	End Rem
 	Method GetName:String()
 		Return GetParameter( "name" )
+	End Method
+	
+	
+	
+	Method ParameterExists:Int( Name:String )
+		If Parameters Then
+			For Local Parameter:LTParameter = Eachin Parameters
+				If Parameter.Name = Name Then Return True
+			Next
+		End If
+		Return False
 	End Method
 	
 	

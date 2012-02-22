@@ -8,10 +8,9 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTTemporaryModel.bmx"
+Include "LTChainedModel.bmx"
 Include "CommandModels.bmx"
 Include "LTModelStack.bmx"
-Include "LTAnimationModel.bmx"
 Include "LTConditionalModel.bmx"
 Include "Joints.bmx"
 

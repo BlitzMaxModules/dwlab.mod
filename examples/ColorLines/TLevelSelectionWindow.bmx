@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TLevelSelectionWindow Extends LTWindow
+Type TLevelSelectionWindow Extends LTAudioWindow
 	Method Init()
 		Super.Init()
 		LTMenuWindow( Project.FindWindow( "LTMenuWindow" ) ).DestinationY = 0

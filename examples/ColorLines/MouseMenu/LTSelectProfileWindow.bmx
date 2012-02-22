@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTSelectProfileWindow Extends LTWindow
+Type LTSelectProfileWindow Extends LTAudioWindow
 	Field RemoveProfileButton:LTButton
 	
 	Method Init()

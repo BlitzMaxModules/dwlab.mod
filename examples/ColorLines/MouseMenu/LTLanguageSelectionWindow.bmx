@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTLanguageSelectionWindow Extends LTWindow
+Type LTLanguageSelectionWindow Extends LTAudioWindow
 	Field LanguageMap:TMap = New TMap
 
 	Method Init()

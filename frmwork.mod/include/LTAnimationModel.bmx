@@ -15,14 +15,13 @@ NextModels parameter. Though if animation is looped it will be played forever.
 
 See also: #LTModelStack, #LTBehaviorModel example.
 End Rem
-Type LTAnimationModel Extends LTBehaviorModel
+Type LTAnimationModel Extends LTChainedModel
 	Field StartingTime:Double
 	Field Looped:Int
 	Field Speed:Double
 	Field FramesQuantity:Int
 	Field FrameStart:Int
 	Field PingPong:Int
-	Field NextModels:TList = New TList
 	
 	
 	
@@ -48,7 +47,6 @@ Type LTAnimationModel Extends LTBehaviorModel
 		If Not Looped Then
 			If L_CurrentProject.Time > StartingTime + Speed * ( FramesQuantity + ( FramesQuantity - 2 ) * PingPong ) Then
 				DeactivateModel( Shape )
-				Shape.AttachModels( NextModels )
 				Return
 			End If
 		End If

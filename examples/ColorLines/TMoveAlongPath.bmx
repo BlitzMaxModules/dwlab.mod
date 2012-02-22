@@ -16,14 +16,18 @@ Type TMoveAlongPath Extends LTBehaviorModel
 	Field Pos:Double
 
 	Function Create( Position:LTTileMapPosition, TileX:Int, TileY:Int )
-		If Position = Null Then Return
+		If Position = Null Then
+			If Profile.SoundOn Then L_PlaySound( Game.WrongTurnSound )
+			Return
+		End If
 		Local Model:TMoveAlongPath = New TMoveAlongPath
 		Model.StartingTime = Game.Time
 		Model.Position = Position
 		Game.Locked = True
-		Profile.Balls.SetTile( TileX, TileY, Profile.Balls.Value[ Game.Selected.X, Game.Selected.Y ] )
+		Profile.TileToSprite( Model, Position.X, Position.Y, False )
+		Profile.Balls.SwapTiles( TileX, TileY, Game.Selected.X, Game.Selected.Y )
+		Profile.Modifiers.SwapTiles( TileX, TileY, Game.Selected.X, Game.Selected.Y )
 		Game.HiddenBalls[ TileX, TileY ] = True
-		Profile.TileToSprite( Model, Position.X, Position.Y, True )
 		Game.Selected = Null
 		L_PlaySound( Game.RushSound )
 	End Function

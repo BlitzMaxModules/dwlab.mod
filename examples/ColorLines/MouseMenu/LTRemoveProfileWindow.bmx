@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTRemoveProfileWindow Extends LTWindow
+Type LTRemoveProfileWindow Extends LTAudioWindow
 	Method Init()
 		Super.Init()
 		Local Label:LTLabel = LTLabel( FindShapeWithParameter( "text", "SureRemoveProfile" ) )

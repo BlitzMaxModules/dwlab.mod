@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTAddProfileWindow Extends LTWindow
+Type LTAddProfileWindow Extends LTAudioWindow
 	Method Save()
 		Local Name:String = LTTextField( FindShape( "ProfileName" ) ).Text
 		If Name Then

@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTGameOverWindow Extends LTWindow
+Type LTGameOverWindow Extends LTAudioWindow
 	Method Init()
 		Project.Locked = True
 		Super.Init()

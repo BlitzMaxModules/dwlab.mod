@@ -39,6 +39,7 @@ Type TGame Extends LTGUIProject
 	Field StopSound:TSound
 	Field SelectSound:TSound
 	Field ExplosionSound:TSound
+	Field WrongTurnSound:TSound
 	
 	Method Init()
 		SetGraphicsDriver( D3D7Max2DDriver() )
@@ -63,6 +64,7 @@ Type TGame Extends LTGUIProject
 		StopSound = LoadSound( L_Incbin + "stop.ogg" )
 		SelectSound = LoadSound( L_Incbin + "select.ogg" )
 		ExplosionSound = LoadSound( L_Incbin + "explosion.ogg" )
+		WrongTurnSound = LoadSound( L_Incbin + "wrong_turn.ogg" )
 	End Method
 	
 	Method Render()

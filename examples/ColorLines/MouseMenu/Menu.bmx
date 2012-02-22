@@ -9,6 +9,7 @@
 '
 
 Include "LTLanguageSelectionWindow.bmx"
+Include "LTAudioWindow.bmx"
 Include "LTMenuWindow.bmx"
 Include "LTOptionsWindow.bmx"
 Include "LTRestartWindow.bmx"
@@ -34,6 +35,10 @@ Incbin "russian.lng"
 Incbin "english.lng"
 Incbin "font.ttf"
 Incbin "images\calculator.png"
+Incbin "sounds\boss.ogg"
+Incbin "sounds\button_click.ogg"
+Incbin "sounds\close.ogg"
+Incbin "sounds\sound_on.ogg"
 EndRem
 
 If L_Incbin Then
@@ -57,6 +62,11 @@ Type LTMenu Extends LTGUIProject
 	Field NewHighScore:Int = -1
 	
 	Field GameState:LTObject
+	
+	Field Boss:TSound
+	Field ButtonClick:TSound
+	Field Close:TSound
+	Field SoundOn:TSound
 	
 	Function InitSystem( MainProject:LTGUIProject )
 		If FileType( "settings.xml" ) = 1 Then Menu.LoadFromFile( "settings.xml", False )
@@ -99,6 +109,13 @@ Type LTMenu Extends LTGUIProject
 		SetImageFont( LoadImageFont( L_MenuPath + "font.ttf", Floor( L_GUICamera.Viewport.Width / 80 ) ) )
 	End Method
 	
+	Method InitSound()
+		Boss = TSound.Load( L_Incbin + "MouseMenu\sounds\boss.ogg", False )
+		ButtonClick = TSound.Load( L_Incbin + "MouseMenu\sounds\button_click.ogg", False )
+		Close = TSound.Load( L_Incbin + "MouseMenu\sounds\close.ogg", False )
+		SoundOn = TSound.Load( L_Incbin + "MouseMenu\sounds\sound_on.ogg", False )
+	End Method
+
 	Method DeInit()
 		Windows.Clear()
 	End Method
@@ -144,7 +161,7 @@ End Type
 
 
 
-Type LTScoresWindow Extends LTWindow
+Type LTScoresWindow Extends LTAudioWindow
 	Method DeInit()
 		Menu.NewHighScore = -1
 	End Method
@@ -152,10 +169,10 @@ End Type
 
 
 
-Type LTAuthorsWindow Extends LTWindow	
+Type LTAuthorsWindow Extends LTAudioWindow
 End Type
 
 
 
-Type LTExitWindow Extends LTWindow	
+Type LTExitWindow Extends LTAudioWindow
 End Type

@@ -27,9 +27,15 @@ Type TGameProfile Extends LTProfile
 	Const NoBall:Int = 0
 	Const BlackBall:Int = 8
 	Const RandomBall:Int = 9
+	Const Bomb:Int = 10
+	
+	Const NoModifier:Int = 0
+	Const Lights:Int = 1
+	Const AnyColor:Int = 2
 	
 	Field GameField:LTTileMap
 	Field Balls:LTTileMap
+	Field Modifiers:LTTileMap
 	Field NextBalls:Int[]
 	Field Goals:TList = New TList
 	Field Score:Int
@@ -57,6 +63,7 @@ Type TGameProfile Extends LTProfile
 		GameField.Visualizer = TFieldVisualizer.Create( GameField.Visualizer )
 		Balls = LTTileMap( Layer.FindShape( "Balls" ) )
 		Balls.Visible = False
+		Modifiers = LTTileMap( Layer.FindShape( "Modifiers" ) )
 		
 		BallsInLine = 5
 		BallsPerTurn = 3
@@ -140,7 +147,13 @@ Type TGameProfile Extends LTProfile
 	End Method
 	
 	Method CreateBalls()
-		RefreshEmptyCells()
+		Game.EmptyCells.Clear()
+		For Local Y:Int = 0 Until GameField.YQuantity
+			For Local X:Int = 0 Until GameField.XQuantity
+				If GameField.GetTile( X, Y ) = Plate And Balls.GetTile( X, Y ) = NoBall Then Game.EmptyCells.AddLast( TCell.Create( X, Y ) )
+				if Modifiers.GetTile( X, Y ) = Lights Then Balls.SetTile( X, Y, Rand( 1, 7 ) )
+			Next
+		Next
 		If Game.EmptyCells.Count() < 3 Then
 			Menu.LoadGameOverWindow()
 		Else
@@ -152,33 +165,19 @@ Type TGameProfile Extends LTProfile
 		End If
 	End Method
 	
-	Method RefreshEmptyCells()
-		Game.EmptyCells.Clear()
-		For Local Y:Int = 0 Until GameField.YQuantity
-			For Local X:Int = 0 Until GameField.XQuantity
-				If GameField.Value[ X, Y ] = Plate And Balls.Value[ X, Y ] = NoBall Then
-					Game.EmptyCells.AddLast( TCell.Create( X, Y ) )
-				End If
-			Next
-		Next
-	End Method
-	
 	Method FillNextBalls()
 		For Local N:Int = 0 Until BallsPerTurn
 			NextBalls[ N ] = Rand( 1, 7 )
 		Next
 	End Method
 	
-	Method TileToSprite:LTSprite( Model:LTBehaviorModel, X:Int, Y:Int, EraseBall:Int = False )
-		Local Sprite:LTSprite = New LTSprite
+	Method TileToSprite:LTSprite( Model:LTBehaviorModel, X:Int, Y:Int, HideBall:Int = True )
+		Local Sprite:TBall = New TBall
 		Sprite.SetAsTile( Profile.Balls, X, Y )
+		Sprite.Modifier = Profile.Modifiers.GetTile( X, Y )
 		Game.Objects.AddLast( Sprite )
 		Sprite.AttachModel( Model )
-		If EraseBall Then
-			Profile.Balls.SetTile( X, Y, NoBall )
-		Else
-			Game.HiddenBalls[ X, Y ] = True
-		End If
+		If HideBall Then Game.HiddenBalls[ X, Y ] = True
 		Return Sprite
 	End Method
 	
@@ -199,6 +198,7 @@ Type TGameProfile Extends LTProfile
 		Super.XMLIO( XMLObject )
 		GameField = LTTileMap( XMLObject.ManageObjectField( "field", GameField ) )
 		Balls = LTTileMap( XMLObject.ManageObjectField( "balls", Balls ) )
+		Modifiers = LTTileMap( XMLObject.ManageObjectField( "modifiers", Modifiers ) )
 		XMLObject.ManageIntArrayAttribute( "next-balls", NextBalls )
 		XMLObject.ManageListField( "goals", Goals )
 		XMLObject.ManageIntAttribute( "score", Score )
@@ -224,13 +224,8 @@ Type TCell
 	End Function
 	
 	Function PopFrom:TCell( List:TList )
-		Local Num:Int = Rand( 0, List.Count() - 1 )
-		Local Link:TLink = List.FirstLink()
-		For Local N:Int = 1 To Num
-			Link = Link.NextLink()
-		Next
-		Local Cell:TCell = TCell( Link.Value() )
-		Link.Remove()
+		Local Cell:TCell = TCell( List.ValueAtIndex( Rand( 0, List.Count() - 1 ) ) )
+		List.Remove( Cell )
 		Return Cell
 	End Function
 End Type

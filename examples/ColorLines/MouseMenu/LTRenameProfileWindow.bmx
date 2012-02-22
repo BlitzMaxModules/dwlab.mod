@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTRenameProfileWindow Extends LTWindow
+Type LTRenameProfileWindow Extends LTAudioWindow
 	Method Init()
 		Super.Init()
 		LTTextField( FindShape( "ProfileName" ) ).LeftPart = LocalizeString( Menu.SelectedProfile.Name )

@@ -1,8 +1,14 @@
-ModuleInfo "Version: 1.4.2"
+ModuleInfo "Version: 1.4.4"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.4 (22.02.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added ParameterExists() and IsAtPositionOfPoint() methods to the LTShape."
+ModuleInfo "History: &nbsp; &nbsp; Added LTChainedModel, LTValueChangingModel, LTResizingModel, LTAlphaChangingModel classes."
+ModuleInfo "History: &nbsp; &nbsp; Added LTColorChangingModel, LTTimedMovementModel, LTMovingModel, LTFollowingModel classes."
+ModuleInfo "History: v1.4.3 (21.02.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added SwapTiles() method to LTTileMap."
 ModuleInfo "History: v1.4.2 (15.02.12)"
 ModuleInfo "History: &nbsp; &nbsp; XML loading system is now have 2 passes and don't need definitions list, so xml file size and complexity is reduced."
 ModuleInfo "History: v1.4.1 (15.02.12)"
@@ -195,7 +201,7 @@ import brl.random
 import brl.reflection
 import brl.retro
 import brl.max2d
-L_Version$=$"1.4.2"
+L_Version$=$"1.4.4"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
@@ -527,6 +533,7 @@ LTTileMap^LTIntMap{
 -Enframe%(ByTileSet:LTTileset="bbNullObject")="_dwlab_frmwork_LTTileMap_Enframe"
 -GetTile%(TileX%,TileY%)="_dwlab_frmwork_LTTileMap_GetTile"
 -SetTile%(TileX%,TileY%,TileNum%)="_dwlab_frmwork_LTTileMap_SetTile"
+-SwapTiles%(TileX1%,TileY1%,TileX2%,TileY2%)="_dwlab_frmwork_LTTileMap_SwapTiles"
 -RefreshTilesQuantity%()="_dwlab_frmwork_LTTileMap_RefreshTilesQuantity"
 +Create:LTTileMap(TileSet:LTTileSet,XQuantity%,YQuantity%)="_dwlab_frmwork_LTTileMap_Create"
 -Clone:LTShape()="_dwlab_frmwork_LTTileMap_Clone"
@@ -846,6 +853,7 @@ RightFacing!=1!
 -DistanceToPoint!(PointX!,PointY!)="_dwlab_frmwork_LTShape_DistanceToPoint"
 -DistanceTo!(Shape:LTShape)="_dwlab_frmwork_LTShape_DistanceTo"
 -IsAtPositionOf%(Shape:LTShape)="_dwlab_frmwork_LTShape_IsAtPositionOf"
+-IsAtPositionOfPoint%(PointX!,PointY!)="_dwlab_frmwork_LTShape_IsAtPositionOfPoint"
 -SetX%(NewX!)="_dwlab_frmwork_LTShape_SetX"
 -SetY%(NewY!)="_dwlab_frmwork_LTShape_SetY"
 -SetCoords%(NewX!,NewY!)="_dwlab_frmwork_LTShape_SetCoords"
@@ -900,6 +908,7 @@ RightFacing!=1!
 -GetTitle$()="_dwlab_frmwork_LTShape_GetTitle"
 -GetClassTitle$()="_dwlab_frmwork_LTShape_GetClassTitle"
 -GetName$()="_dwlab_frmwork_LTShape_GetName"
+-ParameterExists%(Name$)="_dwlab_frmwork_LTShape_ParameterExists"
 -SetParameter%(Name$,Value$)="_dwlab_frmwork_LTShape_SetParameter"
 -AddParameter%(Name$,Value$)="_dwlab_frmwork_LTShape_AddParameter"
 -RemoveParameter%(Name$)="_dwlab_frmwork_LTShape_RemoveParameter"
@@ -937,16 +946,97 @@ LTRandomWaitingModel^LTTemporaryModel{
 +Create:LTRandomWaitingModel(TimeFrom!,TimeTo!)="_dwlab_frmwork_LTRandomWaitingModel_Create"
 -Init%(Shape:LTShape)="_dwlab_frmwork_LTRandomWaitingModel_Init"
 }="dwlab_frmwork_LTRandomWaitingModel"
-LTTemporaryModel^LTBehaviorModel{
+LTResizingModel^LTValueChangingModel{
+-New%()="_dwlab_frmwork_LTResizingModel_New"
+-Delete%()="_dwlab_frmwork_LTResizingModel_Delete"
++Create:LTResizingModel(Time!,DestinationSize!)="_dwlab_frmwork_LTResizingModel_Create"
+-Init%(Shape:LTShape)="_dwlab_frmwork_LTResizingModel_Init"
+-ChangeValue%(Shape:LTShape,NewValue!)="_dwlab_frmwork_LTResizingModel_ChangeValue"
+}="dwlab_frmwork_LTResizingModel"
+LTAlphaChangingModel^LTValueChangingModel{
+-New%()="_dwlab_frmwork_LTAlphaChangingModel_New"
+-Delete%()="_dwlab_frmwork_LTAlphaChangingModel_Delete"
++Create:LTAlphaChangingModel(Time!,DestinationAlpha!)="_dwlab_frmwork_LTAlphaChangingModel_Create"
+-Init%(Shape:LTShape)="_dwlab_frmwork_LTAlphaChangingModel_Init"
+-ChangeValue%(Shape:LTShape,NewValue!)="_dwlab_frmwork_LTAlphaChangingModel_ChangeValue"
+}="dwlab_frmwork_LTAlphaChangingModel"
+LTValueChangingModel^LTTemporaryModel{
+.InitialValue!&
+.DestinationValue!&
+-New%()="_dwlab_frmwork_LTValueChangingModel_New"
+-Delete%()="_dwlab_frmwork_LTValueChangingModel_Delete"
+-ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTValueChangingModel_ApplyTo"
+-ChangeValue%(Shape:LTShape,NewValue!)="_dwlab_frmwork_LTValueChangingModel_ChangeValue"
+}="dwlab_frmwork_LTValueChangingModel"
+LTColorChangingModel^LTTemporaryModel{
+.InitialRed!&
+.InitialGreen!&
+.InitialBlue!&
+.DestinationRed!&
+.DestinationGreen!&
+.DestinationBlue!&
+-New%()="_dwlab_frmwork_LTColorChangingModel_New"
+-Delete%()="_dwlab_frmwork_LTColorChangingModel_Delete"
++Create:LTColorChangingModel(Time!,DestinationRed!,DestinationGreen!,DestinationBlue!)="_dwlab_frmwork_LTColorChangingModel_Create"
+-Init%(Shape:LTShape)="_dwlab_frmwork_LTColorChangingModel_Init"
+-ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTColorChangingModel_ApplyTo"
+}="dwlab_frmwork_LTColorChangingModel"
+LTTimedMovementModel^LTTemporaryModel{
+.InitialX!&
+.InitialY!&
+.DestinationX!&
+.DestinationY!&
+-New%()="_dwlab_frmwork_LTTimedMovementModel_New"
+-Delete%()="_dwlab_frmwork_LTTimedMovementModel_Delete"
++Create:LTTimedMovementModel(Time!,DestinationX!,DestinationY!)="_dwlab_frmwork_LTTimedMovementModel_Create"
+-Init%(Shape:LTShape)="_dwlab_frmwork_LTTimedMovementModel_Init"
+-ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTTimedMovementModel_ApplyTo"
+}="dwlab_frmwork_LTTimedMovementModel"
+LTTemporaryModel^LTChainedModel{
 .StartingTime!&
 .Period!&
-.NextModels:brl.linkedlist.TList&
 -New%()="_dwlab_frmwork_LTTemporaryModel_New"
 -Delete%()="_dwlab_frmwork_LTTemporaryModel_Delete"
 -Activate%(Shape:LTShape)="_dwlab_frmwork_LTTemporaryModel_Activate"
 -ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTTemporaryModel_ApplyTo"
 -Info$(Shape:LTShape)="_dwlab_frmwork_LTTemporaryModel_Info"
 }="dwlab_frmwork_LTTemporaryModel"
+LTAnimationModel^LTChainedModel{
+.StartingTime!&
+.Looped%&
+.Speed!&
+.FramesQuantity%&
+.FrameStart%&
+.PingPong%&
+-New%()="_dwlab_frmwork_LTAnimationModel_New"
+-Delete%()="_dwlab_frmwork_LTAnimationModel_Delete"
++Create:LTAnimationModel(Looped%=1,Speed!,FramesQuantity%=0,FrameStart%=0,PingPong%=0)="_dwlab_frmwork_LTAnimationModel_Create"
+-Activate%(Shape:LTShape)="_dwlab_frmwork_LTAnimationModel_Activate"
+-ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTAnimationModel_ApplyTo"
+-Info$(Shape:LTShape)="_dwlab_frmwork_LTAnimationModel_Info"
+}="dwlab_frmwork_LTAnimationModel"
+LTMovingModel^LTChainedModel{
+.X!&
+.Y!&
+-New%()="_dwlab_frmwork_LTMovingModel_New"
+-Delete%()="_dwlab_frmwork_LTMovingModel_Delete"
++Create:LTMovingModel(X!,Y!)="_dwlab_frmwork_LTMovingModel_Create"
+-ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTMovingModel_ApplyTo"
+}="dwlab_frmwork_LTMovingModel"
+LTFollowingModel^LTChainedModel{
+.DestinationShape:LTShape&
+.RemoveWhenStop%&
+-New%()="_dwlab_frmwork_LTFollowingModel_New"
+-Delete%()="_dwlab_frmwork_LTFollowingModel_Delete"
++Create:LTFollowingModel(DestinationShape:LTShape,RemoveWhenStop%)="_dwlab_frmwork_LTFollowingModel_Create"
+-ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTFollowingModel_ApplyTo"
+}="dwlab_frmwork_LTFollowingModel"
+LTChainedModel^LTBehaviorModel{
+.NextModels:brl.linkedlist.TList&
+-New%()="_dwlab_frmwork_LTChainedModel_New"
+-Delete%()="_dwlab_frmwork_LTChainedModel_Delete"
+-Deactivate%(Shape:LTShape)="_dwlab_frmwork_LTChainedModel_Deactivate"
+}="dwlab_frmwork_LTChainedModel"
 LTModelActivator^LTBehaviorModel{
 .Model:LTBehaviorModel&
 .Permanent%&
@@ -973,21 +1063,6 @@ LTModelStack^LTBehaviorModel{
 -Add%(Model:LTBehaviorModel,Activated%=1)="_dwlab_frmwork_LTModelStack_Add"
 -Info$(Shape:LTShape)="_dwlab_frmwork_LTModelStack_Info"
 }="dwlab_frmwork_LTModelStack"
-LTAnimationModel^LTBehaviorModel{
-.StartingTime!&
-.Looped%&
-.Speed!&
-.FramesQuantity%&
-.FrameStart%&
-.PingPong%&
-.NextModels:brl.linkedlist.TList&
--New%()="_dwlab_frmwork_LTAnimationModel_New"
--Delete%()="_dwlab_frmwork_LTAnimationModel_Delete"
-+Create:LTAnimationModel(Looped%=1,Speed!,FramesQuantity%=0,FrameStart%=0,PingPong%=0)="_dwlab_frmwork_LTAnimationModel_Create"
--Activate%(Shape:LTShape)="_dwlab_frmwork_LTAnimationModel_Activate"
--ApplyTo%(Shape:LTShape)="_dwlab_frmwork_LTAnimationModel_ApplyTo"
--Info$(Shape:LTShape)="_dwlab_frmwork_LTAnimationModel_Info"
-}="dwlab_frmwork_LTAnimationModel"
 LTIsModelActive^LTConditionalModel{
 .Model:LTBehaviorModel&
 -New%()="_dwlab_frmwork_LTIsModelActive_New"

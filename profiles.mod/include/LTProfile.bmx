@@ -268,7 +268,6 @@ Type LTProfile Extends LTObject
 	
 	
 	Method ChangeViewportResolution( Width:Int, Height:Int )
-		debugstop
 		Local Grain:Int = Floor( Width / 64.0 )
 		If Height < MinGrainYQuantity * Grain Then
 			Grain = Floor( 1.0 * Height / MinGrainYQuantity )

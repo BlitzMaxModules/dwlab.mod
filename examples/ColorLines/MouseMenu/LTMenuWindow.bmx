@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTMenuWindow Extends LTWindow
+Type LTMenuWindow Extends LTAudioWindow
 	Const Speed:Double = 8.0
 	
 	Field Panel:LTShape

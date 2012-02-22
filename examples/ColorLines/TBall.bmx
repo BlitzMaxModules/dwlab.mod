@@ -8,10 +8,16 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TRestartButton Extends LTButton
-	Method OnButtonDown( ButtonAction:LTButtonAction )
-		If ButtonAction = L_LeftMouseButton Then Game.LoadWindow( Menu.World, "LTRestartWindow" )
-		Menu.ButtonClick.Play()
-		Super.OnButtonDown( ButtonAction )
+Type TBall Extends LTSprite
+	Field Modifier:Int
+	
+	Method Draw()
+		Super.Draw()
+		Local OldFrame:Int = Frame
+		Visualizer.Image = Profile.Modifiers.TileSet.Image
+		Frame = Modifier
+		Super.Draw()
+		Visualizer.Image = Profile.Balls.TileSet.Image
+		Frame = OldFrame
 	End Method
 End Type

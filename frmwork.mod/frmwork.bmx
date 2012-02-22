@@ -15,12 +15,18 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.4.2"
+ModuleInfo "Version: 1.4.4"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.4 (22.02.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added ParameterExists() and IsAtPositionOfPoint() methods to the LTShape."
+ModuleInfo "History: &nbsp; &nbsp; Added LTChainedModel, LTValueChangingModel, LTResizingModel, LTAlphaChangingModel classes."
+ModuleInfo "History: &nbsp; &nbsp; Added LTColorChangingModel, LTTimedMovementModel, LTMovingModel, LTFollowingModel classes."
+ModuleInfo "History: v1.4.3 (21.02.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added SwapTiles() method to LTTileMap."
 ModuleInfo "History: v1.4.2 (15.02.12)"
 ModuleInfo "History: &nbsp; &nbsp; XML loading system is now have 2 passes and don't need definitions list, so xml file size and complexity is reduced."
 ModuleInfo "History: v1.4.1 (15.02.12)"
@@ -215,7 +221,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.4.2"
+Const L_Version:String = "1.4.4"
 
 SeedRnd( MilliSecs() )
 

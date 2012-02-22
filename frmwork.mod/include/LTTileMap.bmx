@@ -166,6 +166,14 @@ Type LTTileMap Extends LTIntMap
 	
 	
 	
+	Method SwapTiles( TileX1:Int, TileY1:Int, TileX2:Int, TileY2:Int )
+		Local Z:Int = GetTile( TileX1, TileY1 )
+		SetTile( TileX1, TileY1, GetTile( TileX2, TileY2 ) )
+		SetTile( TileX2, TileY2, Z )
+	End Method
+	
+	
+	
 	Rem
 	bbdoc: Refreshes tile indexes of tilemap.
 	about: Execute this method after lowering tiles quantity of this tilemap or its tileset to avoid errors.
