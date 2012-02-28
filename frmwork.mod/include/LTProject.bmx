@@ -24,13 +24,7 @@ End Rem
 Global L_LogicFPS:Double = 75
 Global L_DeltaTime:Double
 
-Rem
-bbdoc: Minimal frames per second
-about: Game will start to go slower if this threshold will be reached.
-
-See also: #Render
-End Rem
-Global L_MinFPS:Double = 15
+Global L_MaxLogicStepsWithoutRender:Double = 6
 
 Rem
 bbdoc: Current frames per second quantity.
@@ -200,21 +194,25 @@ Type LTProject Extends LTObject
 		Exiting = False
 		Pass = 1
 		L_DeltaTime = 0
+		
+		Time = 0.0
+		StartingTime = MilliSecs()
 				
 		Init()
 		InitGraphics()
 		InitSound()
 		
-		Time = 0.0
-		StartingTime = MilliSecs()
-		
 		Local RealTime:Double = 0
-		Local LastRenderTime:Double = 0
 		Local FPSCount:Int
 		Local FPSTime:Int
 		
+		For Local Controller:LTPushable = Eachin L_Controllers
+			Controller.Reset()
+		Next
+		
+		Local LogicStepsWithoutRender:Int = 0
+		
 		Repeat
-			Local MaxRenderPeriod:Double = 1.0 / L_MinFPS
 			L_DeltaTime = 1.0 / L_LogicFPS
 			Time :+ L_DeltaTime
 			
@@ -230,14 +228,20 @@ Type LTProject Extends LTObject
 			L_Cursor.SetMouseCoords()
 			Logic()
 			
+			For Local Controller:LTPushable = Eachin L_Controllers
+				Controller.Reset()
+			Next
+			
 			If Exiting Then
 				DeInit()
 				Exit
 			End If
 			
+			LogicStepsWithoutRender :+ 1
+			
 			Repeat
 				RealTime = 0.001 * ( Millisecs() - StartingTime )
-				If RealTime >= Time And ( RealTime - LastRenderTime ) < MaxRenderPeriod Then Exit
+				If RealTime >= Time And LogicStepsWithoutRender <= L_MaxLogicStepsWithoutRender Then Exit
 				
 				If L_Flipping Then Cls
 				
@@ -251,7 +255,7 @@ Type LTProject Extends LTObject
 				
 				If L_Flipping Then Flip( False )
 		      
-				LastRenderTime = 0.001 * ( Millisecs() - StartingTime )
+				LogicStepsWithoutRender = 0
 				FPSCount :+ 1
 			Forever
 	      
@@ -263,10 +267,6 @@ Type LTProject Extends LTObject
 			
 			PollSystem()
 			Pass :+ 1
-			
-			For Local Controller:LTPushable = Eachin L_Controllers
-				Controller.Reset()
-			Next
 		Forever
 		
 		L_CurrentProject = OldProject
@@ -283,6 +283,7 @@ Type LTProject Extends LTObject
 	Method SwitchTo( Project:LTProject )
 		Local FreezingTime:Int = MilliSecs()
 		Project.Execute()
+		L_DeltaTime = 1.0 / L_LogicFPS
 		StartingTime :+ MilliSecs() - FreezingTime
 	End Method
 	
@@ -297,6 +298,8 @@ Type LTProject Extends LTObject
 	Method PerSecond:Double( Value:Double )
 		Return Value * L_DeltaTime
 	End Method
+	
+	
 	
 	Method ShowDebugInfo()
 		L_ShowDebugInfo()

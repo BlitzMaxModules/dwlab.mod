@@ -143,16 +143,20 @@ Type LTGUIProject Extends LTProject
 		InitSound()
 		
 		Time = 0.0
-		Local StartTime:Int = MilliSecs()
+		StartingTime = MilliSecs()
 		
 		Local RealTime:Double = 0
-		Local LastRenderTime:Double = 0
-		Local MaxRenderPeriod:Double = 1.0 / L_MinFPS
 		Local FPSCount:Int
 		Local FPSTime:Int
 		
 		L_DeltaTime = 1.0 / L_LogicFPS
 	    
+		For Local Controller:LTPushable = Eachin L_Controllers
+			Controller.Reset()
+		Next
+		
+		Local LogicStepsWithoutRender:Int = 0
+		
 		Repeat
 			Time :+  L_DeltaTime
 			
@@ -175,19 +179,21 @@ Type LTGUIProject Extends LTProject
 				If Window.Active Then Window.Act()
 			Next
 			L_CurrentCamera = OldCamera
+		
+			For Local Controller:LTPushable = Eachin L_Controllers
+				Controller.Reset()
+			Next
 			
 			If Exiting Then
 				DeInit()
 				Exit
 			End If
 			
-			For Local Controller:LTPushable = Eachin L_Controllers
-				Controller.Reset()
-			Next
-		
+			LogicStepsWithoutRender :+ 1
+			
 			Repeat
-				RealTime = 0.001 * ( Millisecs() - StartTime )
-				If RealTime >= Time And ( RealTime - LastRenderTime ) < MaxRenderPeriod Then Exit
+				RealTime = 0.001 * ( Millisecs() - StartingTime )
+				If RealTime >= Time And LogicStepsWithoutRender <= L_MaxLogicStepsWithoutRender Then Exit
 				
 				If L_Flipping Then Cls
 				
@@ -196,21 +202,11 @@ Type LTGUIProject Extends LTProject
 				L_TilesDisplayed = 0
 				?
 				
-				L_CurrentCamera.SetCameraViewport()
-				Render()
-				
-				OldCamera = L_CurrentCamera
-				L_CurrentCamera = L_GUICamera
-				L_CurrentCamera.SetCameraViewport()
-				L_Cursor.SetMouseCoords()
-				For Local Window:LTWindow = Eachin Windows
-					If Window.Visible Then Window.Draw()
-				Next
-				L_CurrentCamera = OldCamera
+				FullRender()
 				
 				If L_Flipping Then Flip( False )
 		      
-				LastRenderTime = 0.001 * ( Millisecs() - StartTime )
+				LogicStepsWithoutRender = 0
 				FPSCount :+ 1
 			Forever
 	      
@@ -225,5 +221,21 @@ Type LTGUIProject Extends LTProject
 		Forever
 		
 		DeInit()
+	End Method
+	
+	
+	
+	Method FullRender()
+		L_CurrentCamera.SetCameraViewport()
+		Render()
+		
+		Local OldCamera:LTCamera = L_CurrentCamera
+		L_CurrentCamera = L_GUICamera
+		L_CurrentCamera.SetCameraViewport()
+		L_Cursor.SetMouseCoords()
+		For Local Window:LTWindow = Eachin Windows
+			If Window.Visible Then Window.Draw()
+		Next
+		L_CurrentCamera = OldCamera
 	End Method
 End Type

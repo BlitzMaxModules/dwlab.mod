@@ -34,6 +34,9 @@ Type TGame Extends LTGUIProject
 	Field Font:LTBitmapFont
 	Field TileSelectionHandler:TTileSelectionHandler = New TTileSelectionHandler
 
+	Field LeftMouse:LTButtonAction = LTButtonAction.Create( LTMouseButton.Create( 1 ), "Click" )
+	Field RightMouse:LTButtonAction = LTButtonAction.Create( LTMouseButton.Create( 2 ), "Swap" )
+
 	Field SwapSound:TSound
 	Field RushSound:TSound
 	Field StopSound:TSound
@@ -67,17 +70,6 @@ Type TGame Extends LTGUIProject
 		WrongTurnSound = LoadSound( L_Incbin + "wrong_turn.ogg" )
 	End Method
 	
-	Method Render()
-		Background.JumpTo( GameCamera )
-		Background.SetSize( GameCamera.Width, 0.75 * GameCamera.Width )
-		Background.Draw()
-		If Profile.GameField Then
-			Profile.SetFieldMagnification()
-			Profile.GameField.Draw()
-		End If
-		Particles.Draw()
-	End Method
-	
 	Method Logic()
 		If Not Locked Then
 			If Not Profile.GameField Then
@@ -92,7 +84,7 @@ Type TGame Extends LTGUIProject
 		
 		FindWindow( "THUD" ).Active = Not Locked
 		Local MenuWindow:LTMenuWindow = LTMenuWindow( FindWindow( "LTMenuWindow" ) )
-		If ExitToMenu.WasPressed() And MenuWindow.Active Then MenuWindow.Switch()
+		If Profile.ExitToMenu.WasPressed() And MenuWindow.Active Then MenuWindow.Switch()
 		Repeat
 			Select PollEvent()
 				Case Event_WindowClose
@@ -112,6 +104,17 @@ Type TGame Extends LTGUIProject
 		For Local Goal:TGoal = Eachin Profile.Goals
 			If Goal.Count = 0 Then Profile.Goals.Remove( Goal )
 		Next
+	End Method
+	
+	Method Render()
+		Background.JumpTo( GameCamera )
+		Background.SetSize( GameCamera.Width, 0.75 * GameCamera.Width )
+		Background.Draw()
+		If Profile.GameField Then
+			Profile.SetFieldMagnification()
+			Profile.GameField.Draw()
+		End If
+		Particles.Draw()
 	End Method
 	
 	Method DeInit()

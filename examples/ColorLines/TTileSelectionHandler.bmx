@@ -9,9 +9,6 @@
 '
 
 Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
-	Field LeftMouse:LTButtonAction = LTButtonAction.Create( LTMouseButton.Create( 1 ), "Click" )
-	Field RightMouse:LTButtonAction = LTButtonAction.Create( LTMouseButton.Create( 2 ), "Swap" )
-
 	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
 		Game.SelectedTileX = TileX
 		Game.SelectedTileY = TileY
@@ -19,7 +16,7 @@ Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
 		Local BallNum:Int = Profile.Balls.GetTile( TileX, TileY )
 		Local ModifierNum:Int = Profile.Modifiers.GetTile( TileX, TileY )
 		'If KeyHit( Key_E ) Then TExplosion.Create( TileX, TileY )
-		If LeftMouse.WasPressed() Then
+		If Game.LeftMouse.WasPressed() Then
 			'DebugStop
 			If Game.Selected Then Game.Selected.Remove( Null )
 			If TileNum = Profile.Void Then Return
@@ -34,7 +31,7 @@ Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
 				Game.Selected = TSelected.Create( TileX, TileY )
 				L_PlaySound( Game.SelectSound )
 			End If
-		ElseIf RightMouse.WasPressed() 
+		ElseIf Game.RightMouse.WasPressed() 
 			if BallNum = Profile.Bomb Then
 				For Local DY:Int = - 1 To 1
 					For Local DX:Int = -1 To 1
@@ -46,16 +43,10 @@ Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
 					Next
 				Next
 			ElseIf ModifierNum = Profile.AnyColor Then
-				Game.LoadWindow( Game.World, , "Empty" )
-				For Local Angle:Int = 0 Until 360 Step 60
-					TNewColorBall.Create( TileX, TileY, Angle )
-					Local Sprite:LTSprite = LTSprite.FromShape( , , , , LTSprite.Circle )
-					Sprite.SetAsTile( Profile.Balls, TileX, TileY )
-					Sprite.SetDiameter( 0.0 )
-					Sprite.AttachModel( LTResizingModel.Create( 0.5, 1.0 ) )
-					Sprite.AttachModel( LTTimedMovementModel.Create( 0.5, Sprite.X + Cos( Angle ), Sprite.Y + Sin( Angle ) ) )
-					Game.Objects.AddLast( Sprite )
-				Next
+				Local Project:TColorSelection = New TColorSelection
+				Project.TileX = TileX
+				Project.TileY = TileY
+				Game.SwitchTo( Project )
 			Else If Game.Selected And Profile.Swap Then
 				If BallNum = Profile.NoBall Then Return
 				If TileNum = Profile.Glue Or TileNum = Profile.ColdGlue Then 
@@ -74,5 +65,46 @@ Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
 				End If
 			End If
 		End If
+	End Method
+End Type
+
+
+
+Type TColorSelection Extends LTProject
+	Field TileX:Int, TileY:Int
+	Field Balls:LTLayer = New LTLayer
+	
+	Method Init()
+		Local BallNum:Int = Profile.Balls.GetTile( TileX, TileY )
+		For Local N:Int = 1 To 7
+			Local Sprite:LTSprite = LTSprite.FromShape( , , , , LTSprite.Circle )
+			Sprite.SetAsTile( Profile.Balls, TileX, TileY )
+			Sprite.SetDiameter( 0.0 )
+			Sprite.Frame = N
+			Sprite.AttachModel( LTResizingModel.Create( 0.3, 1.0 ) )
+			If N <> BallNum Then
+				Local Angle:Double = 60.0 * ( N - ( N > BallNum ) - 1 )
+				Sprite.AttachModel( LTTimedMovementModel.Create( 0.3, Sprite.X + Cos( Angle ), Sprite.Y + Sin( Angle ) ) )
+			End If
+			Balls.AddLast( Sprite )
+		Next
+	End Method
+
+	Method Logic()
+		If Game.RightMouse.WasPressed() Or Profile.BossKey.WasPressed() Then Exiting = True
+		If Game.LeftMouse.WasPressed() Then
+			Local Ball:LTSprite = Balls.LayerFirstSpriteCollision( L_Cursor )
+			If Ball Then
+				Profile.Balls.SetTile( TileX, TileY, Ball.Frame )
+				Exiting = True
+			End If
+		End If
+		Balls.Act()
+	End Method
+
+	Method Render()
+		Game.FullRender()
+		L_CurrentCamera.Darken( 0.3 )
+		Balls.Draw()
 	End Method
 End Type

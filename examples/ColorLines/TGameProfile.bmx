@@ -8,9 +8,6 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Global BossKey:LTButtonAction
-Global ExitToMenu:LTButtonAction
-
 Type TGameProfile Extends LTProfile
 	Const Void:Int = 0
 	Const Plate:Int = 1
@@ -45,6 +42,9 @@ Type TGameProfile Extends LTProfile
 	Field OrthogonalLines:Int
 	Field DiagonalLines:Int
 	
+	Field BossKey:LTButtonAction
+	Field ExitToMenu:LTButtonAction
+
 	Method Init()
 		Keys.AddLast( LTButtonAction.Create( LTKeyboardKey.Create( Key_Z ), "Boss key" ) )
 		Keys.AddLast( LTButtonAction.Create( LTKeyboardKey.Create( Key_Escape ), "Exit to menu" ) )

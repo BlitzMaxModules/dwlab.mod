@@ -1,4 +1,4 @@
-<LTMenu current_profile="1" dwlab_version="1.4.2">
+<LTMenu current_profile="1" dwlab_version="1.4.4">
 	<TList field="profiles">
 		<TGameProfile id="1" name="Matt" language="Russian" audio="DirectSound" video="DirectX7" width="2048" height="1536" depth="32" frequency="85" sound_volume="0.5" music_volume="0.56" x_resolution="1216" y_resolution="912" next-balls="5,5,7" score="140" balls-in-line="5" balls-per-turn="3">
 			<LTTileMap field="field" x="8.5" y="4.87" width="13" height="9.75" xquantity="13" yquantity="13" tiles-quantity="16">
@@ -82,9 +82,9 @@
 					</ShapeArray>
 				</LTTileSet>
 				<Row data="0,4,4,3,0,2,5,6,2,4,7,5,0"/>
-				<Row data="7,2,7,4,7,5,2,6,7,3,0,3,1"/>
+				<Row data="7,2,7,4,7,5,2,6,7,3,0,1,1"/>
 				<Row data="6,4,0,2,2,3,2,6,0,5,5,7,4"/>
-				<Row data="0,1,3,1,0,0,0,6,0,4,1,2,7"/>
+				<Row data="0,1,3,1,0,0,0,6,0,4,1,2,5"/>
 				<Row data="0,3,0,1,7,7,0,7,1,0,0,7,5"/>
 				<Row data="0,0,2,0,4,4,8,0,1,4,6,1,5"/>
 				<Row data="3,0,4,4,6,0,0,8,4,1,7,1,1"/>

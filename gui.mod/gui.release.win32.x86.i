@@ -32,6 +32,7 @@ LTGUIProject^dwlab.frmwork.LTProject{
 -FindWindow:LTWindow(Class$=$"",Name$=$"")="_dwlab_gui_LTGUIProject_FindWindow"
 -CloseWindow%(Window:LTWindow="bbNullObject")="_dwlab_gui_LTGUIProject_CloseWindow"
 -Execute%()="_dwlab_gui_LTGUIProject_Execute"
+-FullRender%()="_dwlab_gui_LTGUIProject_FullRender"
 }="dwlab_gui_LTGUIProject"
 LTWindow^dwlab.frmwork.LTLayer{
 .World:dwlab.frmwork.LTWorld&

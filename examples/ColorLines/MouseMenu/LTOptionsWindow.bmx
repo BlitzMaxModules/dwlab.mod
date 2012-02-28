@@ -26,7 +26,7 @@ Type LTOptionsWindow Extends LTAudioWindow
 		LTSprite( Label.Icon ).Frame = 6 + L_CurrentProfile.FullScreen
 		LTButton( FindShape( "SoundOn" ) ).State = L_CurrentProfile.SoundOn
 		LTButton( FindShape( "MusicOn" ) ).State = L_CurrentProfile.MusicOn
-		If BossKey.WasPressed() Then L_Boss
+		If Profile.BossKey.WasPressed() Then L_Boss
 	End Method
 	
 	Method OnButtonPress( Gadget:LTGadget, ButtonAction:LTButtonAction )
@@ -79,7 +79,7 @@ Function L_Boss()
 		End If
 		
 		For Local Num:Int = 1 To 3
-			If MouseDown( Num ) Or BossKey.IsDown() Then
+			If MouseDown( Num ) Or Profile.BossKey.IsDown() Then
 				AppTitle = OldAppTitle
 				Menu.Project.Locked = True
 				EndGraphics()
