@@ -1215,12 +1215,14 @@ Type LTEditor Extends LTProject
 							End If
 						End If
 					Case HScroller
-						If CurrentViewLayer Then 
-							If CurrentViewLayer.Bounds Then MainCamera.X = SliderValue( HScroller ) * CurrentViewLayer.Bounds.Width / 10000.0 + 0.5 * MainCamera.Width
+						If CurrentViewLayer Then
+							Local Bounds:LTShape = CurrentViewLayer.Bounds
+							If Bounds Then MainCamera.X = Bounds.LeftX() + SliderValue( HScroller ) * Bounds.Width / 10000.0 + 0.5 * MainCamera.Width
 						End If
 					Case VScroller
-						If CurrentViewLayer Then 
-							If CurrentViewLayer.Bounds Then MainCamera.Y = SliderValue( VScroller ) * CurrentViewLayer.Bounds.Height / 10000.0 + 0.5 * MainCamera.Height
+						If CurrentViewLayer Then
+							Local Bounds:LTShape = CurrentViewLayer.Bounds
+							If Bounds Then MainCamera.Y = Bounds.TopY() + SliderValue( VScroller ) * Bounds.Height / 10000.0 + 0.5 * MainCamera.Height
 						End If
 				End Select
 				
@@ -1357,8 +1359,8 @@ Type LTEditor Extends LTProject
 		If Bounds Then
 			SetSliderRange( HScroller, Min( 10000.0, 10000.0 * MainCamera.Width / Bounds.Width ), 10000.0 )
 			SetSliderRange( VScroller, Min( 10000.0, 10000.0 * MainCamera.Height / Bounds.Height ), 10000.0 )
-			If MainCamera.Width < Bounds.Width Then SetSliderValue( HScroller, 10000.0 * MainCamera.LeftX() / Bounds.Width )
-			If MainCamera.Height < Bounds.Height Then SetSliderValue( VScroller, 10000.0 * MainCamera.TopY() / Bounds.Height )
+			If MainCamera.Width < Bounds.Width Then SetSliderValue( HScroller, 10000.0 * ( MainCamera.LeftX() - Bounds.LeftX() ) / Bounds.Width )
+			If MainCamera.Height < Bounds.Height Then SetSliderValue( VScroller, 10000.0 * ( MainCamera.TopY() - Bounds.TopY() ) / Bounds.Height )
 		Else
 			SetSliderRange( HScroller, 1, 1 )
 			SetSliderRange( VScroller, 1, 1 )

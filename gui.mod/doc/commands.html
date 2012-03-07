@@ -194,12 +194,12 @@ Window loading function.
 <tr><td class=docleft width=1%>Information</td><td class=docright>Method removes the window from project's windows list.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=FindWindow>
-<tr><td class=doctop colspan=2>Method FindWindow:LTWindow( Name:String = "", Class:String = "" )</td></tr>
+<tr><td class=doctop colspan=2>Method FindWindow:LTWindow( Class:String = "", Name:String = "" )</td></tr>
 <tr><td class=docleft width=1%>Returns</td><td class=docright>Found window.</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Function which finds a window in opened windows by given name or class.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=LoadWindow>
-<tr><td class=doctop colspan=2>Method LoadWindow:LTWindow( World:LTWorld, Name:String = "", Class:String = "", Add:Int = True )</td></tr>
+<tr><td class=doctop colspan=2>Method LoadWindow:LTWindow( World:LTWorld, Class:String = "", Name:String = "", Add:Int = True )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Window loading function.</td></tr>
 <tr><td class=docleft width=1%>Information</td><td class=docright>Window should be loaded from Lab world file, as layer of the root and has unique class or name (among other layers of root).
 Modal parameter (can be set in editor) set to True forces all existing windows to be inactive while this window is not closed.</td></tr>
@@ -459,11 +459,13 @@ See also: <a href=#OnButtonUnpress>OnButtonUnpress</a>.</td></tr>
 <br>
 <h2 id=modinfo>Module Information</h2>
 <table width=100%>
-<tr><th width=1%>Version</th><td>1.0.3</td></tr>
+<tr><th width=1%>Version</th><td>1.0.4.1</td></tr>
 <tr><th width=1%>Author</th><td>Matt Merkulov</td></tr>
 <tr><th width=1%>License</th><td>Artistic License 2.0</td></tr>
 <tr><th width=1%>Modserver</th><td>DWLAB</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp;</td></tr>
+<tr><th width=1%>History</th><td>v1.0.4.1 (29.12.11)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Switched Name and Class parameters in FindWindow() and LoadWindow() methods.</td></tr>
 <tr><th width=1%>History</th><td>v1.0.4 (21.11.11)</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Added multi-line labels support.</td></tr>
 <tr><th width=1%>History</th><td>v1.0.3 (14.11.11)</td></tr>
