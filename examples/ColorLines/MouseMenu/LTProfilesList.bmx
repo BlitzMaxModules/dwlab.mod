@@ -11,7 +11,7 @@
 Type LTProfilesList Extends LTListBox
 	Method Init()
 		Super.Init()
-		ItemSize = 1.0
+		ItemSize = 0.5
 		Items = Menu.Profiles
 	End Method
 	

@@ -15,12 +15,14 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.4.4"
+ModuleInfo "Version: 1.4.5"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.5 (22.03.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added another algorhytm of displaying raster frame."
 ModuleInfo "History: v1.4.4 (22.02.12)"
 ModuleInfo "History: &nbsp; &nbsp; Added ParameterExists() and IsAtPositionOfPoint() methods to the LTShape."
 ModuleInfo "History: &nbsp; &nbsp; Added LTChainedModel, LTValueChangingModel, LTResizingModel, LTAlphaChangingModel classes."
@@ -221,7 +223,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.4.4"
+Const L_Version:String = "1.4.5"
 
 SeedRnd( MilliSecs() )
 

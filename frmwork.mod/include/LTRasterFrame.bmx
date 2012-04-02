@@ -38,6 +38,10 @@ Type LTRasterFrame Extends LTImage
 	End Rem
 	Field BottomBorder:Int = 1
 	
+	Rem
+	bbdoc: Flag which switches to another frame displaying algorhytm.
+	End Rem
+	Field Proportional:Int
 	
 	
 	Rem
@@ -85,8 +89,8 @@ Type LTRasterFrame Extends LTImage
 						Case 1; Width = TotalWidth - LeftBorder - RightBorder
 						Case 2; Width = RightBorder
 					End Select
+					Images[ N, XN, YN ] = CreateImage( Width, Height )
 					If Width > 0 And Height > 0 Then
-						Images[ N, XN, YN ] = CreateImage( Width, Height )
 						If X + Width <= TotalWidth And Y + Height <= TotalHeight Then
 							Images[ N, XN, YN ].Pixmaps[ 0 ] = Pixmap.Window( X, Y, Width, Height )
 						End If
@@ -103,28 +107,56 @@ Type LTRasterFrame Extends LTImage
 	Method Draw( X:Double, Y:Double, TotalWidth:Double, TotalHeight:Double, Frame:Int )
 		SetRotation( 0.0 )
 		Local Width:Double, Height:Double
-		Local XX:Float = X - 0.5 * TotalWidth
-		For Local XN:Int = 0 To 2
-			Select XN
-				Case 0; Width = ImageWidth( Images[ Frame, 0, 0 ] )
-				Case 1; Width = TotalWidth - ImageWidth( Images[ Frame, 0, 0 ] ) - ImageWidth( Images[ Frame, 2, 2 ] )
-				Case 2; Width = ImageWidth( Images[ Frame, 2, 2 ] )
-			End Select
-			Local YY:Float = Y - 0.5 * TotalHeight
-			For Local YN:Int = 0 To 2
-				Select YN
-					Case 0; Height = ImageHeight( Images[ Frame, 0, 0 ] )
-					Case 1; Height = TotalHeight - ImageHeight( Images[ Frame, 0, 0 ] ) - ImageHeight( Images[ Frame, 2, 2 ] )
-					Case 2; Height = ImageHeight( Images[ Frame, 2, 2 ] )
+		Local StartX:Double = X - 0.5 * TotalWidth
+		Local StartY:Double = Y - 0.5 * TotalHeight
+		If Proportional Then
+			If ImageWidth( Images[ Frame, 0, 1 ] ) = 0 Then
+				Local Scale:Double = 1.0 * TotalWidth / ImageWidth( Images[ Frame, 1, 1 ] )
+				SetScale Scale, Scale
+				If Images[ Frame, 1, 0 ] Then DrawImage( Images[ Frame, 1, 0 ], StartX, StartY )
+				If Images[ Frame, 2, 2 ] Then DrawImage( Images[ Frame, 1, 2 ], StartX, StartY + TotalHeight - Scale * ImageHeight( Images[ Frame, 1, 2 ] ) )
+				SetScale Scale, 1.0 * ( TotalHeight - Scale * ( ImageHeight( Images[ Frame, 1, 0 ] ) + ImageHeight( Images[ Frame, 1, 2 ] ) ) ) / ..
+						ImageHeight( Images[ Frame, 1, 1 ] )
+				DrawImage( Images[ Frame, 1, 1 ], StartX, StartY + Scale * ImageHeight( Images[ Frame, 1, 0 ] ) )
+			Else
+				Local Scale:Double = 1.0 * TotalHeight / ImageHeight( Images[ Frame, 1, 1 ] )
+				SetScale Scale, Scale
+				If Images[ Frame, 0, 1 ] Then DrawImage( Images[ Frame, 0, 1 ], StartX, StartY )
+				If Images[ Frame, 2, 1 ] Then DrawImage( Images[ Frame, 2, 1 ], StartX + TotalWidth - Scale * ImageWidth( Images[ Frame, 2, 1 ] ), StartY )
+				SetScale ( TotalWidth - Scale * ( ImageWidth( Images[ Frame, 0, 1 ] ) + ImageWidth( Images[ Frame, 2, 1 ] ) ) ) / ..
+						ImageWidth( Images[ Frame, 1, 1 ] ), Scale
+				DrawImage( Images[ Frame, 1, 1 ], StartX + Scale * ImageWidth( Images[ Frame, 0, 1 ] ), StartY )
+			End If
+		Else
+			Local XX:Float = StartX
+			For Local XN:Int = 0 To 2
+				Select XN
+					Case 0; Width = ImageWidth( Images[ Frame, 0, 0 ] )
+					Case 1; Width = TotalWidth - ImageWidth( Images[ Frame, 0, 0 ] ) - ImageWidth( Images[ Frame, 2, 2 ] )
+					Case 2; Width = ImageWidth( Images[ Frame, 2, 2 ] )
 				End Select
 				
-				SetScale 1.0 * Width / ImageWidth( Images[ Frame, XN, YN ] ), 1.0 * Height / ImageHeight( Images[ Frame, XN, YN ] )
-				DrawImage( Images[ Frame, XN, YN ], XX, YY )
+				If Width = 0 Then Continue
 				
-				YY :+ Height
+				Local YY:Float = StartY
+				For Local YN:Int = 0 To 2
+					Select YN
+						Case 0; Height = ImageHeight( Images[ Frame, 0, 0 ] )
+						Case 1; Height = TotalHeight - ImageHeight( Images[ Frame, 0, 0 ] ) - ImageHeight( Images[ Frame, 2, 2 ] )
+						Case 2; Height = ImageHeight( Images[ Frame, 2, 2 ] )
+					End Select
+					
+					If Height = 0 Then Continue
+					
+					SetScale 1.0 * Width / ImageWidth( Images[ Frame, XN, YN ] ), 1.0 * Height / ImageHeight( Images[ Frame, XN, YN ] )
+					DrawImage( Images[ Frame, XN, YN ], XX, YY )
+					
+					YY :+ Height
+				Next
+				XX :+ Width
 			Next
-			XX :+ Width
-		Next
+		End If
+		SetScale 1.0, 1.0
 	End Method
 	
 	
@@ -134,6 +166,7 @@ Type LTRasterFrame Extends LTImage
 		XMLObject.ManageIntAttribute( "right", RightBorder, 1 )
 		XMLObject.ManageIntAttribute( "top", TopBorder, 1 )
 		XMLObject.ManageIntAttribute( "bottom", BottomBorder, 1 )
+		XMLObject.ManageIntAttribute( "proportional", Proportional )
 		
 		Super.XMLIO( XMLObject )
 	End Method

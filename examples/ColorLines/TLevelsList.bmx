@@ -15,7 +15,7 @@ Type TLevelsList Extends LTListBox
 	
 	Method Init()
 		Super.Init()
-		ItemSize = 1.0
+		ItemSize = 0.4
 		Items = New TList
 		For Local Layer:LTLayer = Eachin Game.World
 			If Layer.GetName().StartsWith( "Level" ) Then Items.AddLast( Layer )

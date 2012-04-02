@@ -1,3 +1,6 @@
+1.7.11
++ Support for another algorhytm of displaying raster frame
+
 1.7.10
 * Invisible sprites now shown semi-transparent.
 * World XML structure is sligthly changed (old projects are still compatible)

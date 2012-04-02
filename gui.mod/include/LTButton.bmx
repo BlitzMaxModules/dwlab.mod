@@ -30,20 +30,50 @@ Type LTButton Extends LTLabel
 	End Rem
 	Field Focus:Int
 	
+	Field PressingDX:Double, PressingDY:Double
+	
+	
+	
+	Method Init()
+		Super.Init()
+		
+		If ParameterExists( "pressingshift" ) Then
+			PressingDX = GetParameter( "pressingshift" ).ToDouble()
+			PressingDY = PressingDX
+		End If
+		
+		PressingDX = GetParameter( "pressingdx" ).ToDouble()
+		PressingDY = GetParameter( "pressingdy" ).ToDouble()
+	End Method
+	
 	
 	
 	Method Draw()
 		If Not Visible Then Return
-		If Visualizer.Image Then
-			Select Visualizer.Image.FramesQuantity()
-				Case 1; Frame = 0
-				Case 2; Frame = State
-				Case 4; Frame = State + Focus * 2
-			End Select
-		End If
-		L_CurrentCamera.SizeScreenToField( State, State, DX, DY )
+		SetFrame( Self )
+		'If Icon Then SetFrame( Icon.Visualizer )
 		Super.Draw()
 	End Method
+
+	Method SetFrame( Sprite:LTSprite )
+		If Not Sprite.Visualizer.Image Then Return
+		Local Quantity:Int = Sprite.Visualizer.Image.FramesQuantity()
+		if Quantity = 2 Then
+			Sprite.Frame = State
+		ElseIf Quantity >= 4 Then
+			Sprite.Frame = Int( Frame / 4 ) * 4 + State + Focus * 2
+		End If
+	End Method
+	
+	
+	
+	Method GetDX:Double()
+		Return State * PressingDX
+	End Method
+	
+	Method GetDY:Double()
+		Return State * PressingDY
+	End Method	
 	
 	
 	

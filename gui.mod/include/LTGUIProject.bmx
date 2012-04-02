@@ -46,8 +46,11 @@ Type LTGUIProject Extends LTProject
 			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShape( Name ) ) ) )
 		End If
 		
+		
 		Local Screen:LTShape = L_Window.Bounds
 		If Screen Then
+			If Windows.IsEmpty() Then L_GUICamera.SetSize( Screen.Width, Screen.Height )
+			
 			Local DY:Double = 0.5 * ( L_GUICamera.Height - Screen.Height * L_GUICamera.Width / Screen.Width )
 			Select L_Window.GetParameter( "vertical" )
 				Case "top"

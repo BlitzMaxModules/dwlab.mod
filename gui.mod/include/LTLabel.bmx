@@ -15,19 +15,17 @@ bbdoc: Class for label gadgets.
 End Rem
 Type LTLabel Extends LTGadget
 	Field Text:String
-	Field Icon:LTSprite
+	Field Icon:LTSprite, IconDX:Double, IconDY:Double
 	
 	Rem
 	bbdoc: Visualizer for button text.
 	End Rem	
 	Field TextVisualizer:LTVisualizer = New LTVisualizer
 	
-	Rem
-	bbdoc: Horizontal and vertical shift of button contens.
-	End Rem	
-	Field DX:Double, DY:Double
+	Field HAlign:Int = LTAlign.ToCenter
+	Field VAlign:Int = LTAlign.ToCenter
 	
-	Field Align:Int = LTAlign.ToCenter
+	Field TextDX:Double, TextDY:Double
 	
 	
 	
@@ -48,22 +46,48 @@ Type LTLabel Extends LTGadget
 		Local Name:String = GetName()
 		If Name Then Icon = LTSprite( L_Window.FindShapeWithParameter( "gadget_name", GetName(), "", True ) )
 		
-		TextVisualizer.SetColorFromRGB( 0.0, 0.0, 0.0 )
 		If Not Text Then Text = GetParameter( "text" )
 		If Text Then
 			If Not Icon Then Icon = LTSprite( L_Window.FindShapeWithParameter( "gadget_text", Text, "", True ) )
 			Text = LocalizeString( "{{" + Text + "}}" )
-			Select GetParameter( "align" )
-				Case "left"
-					Align = LTAlign.ToLeft
-				Case "center"
-					Align = LTAlign.ToCenter
-				Case "right"
-					Align = LTAlign.ToRight
-			End Select
 		End If
 		
-		If Icon Then L_Window.Remove( Icon )
+		Select GetParameter( "halign" )
+			Case "left"
+				HAlign = LTAlign.ToLeft
+			Case "center"
+				HAlign = LTAlign.ToCenter
+			Case "right"
+				HAlign = LTAlign.ToRight
+		End Select
+		Select GetParameter( "valign" )
+			Case "top"
+				VAlign = LTAlign.ToTop
+			Case "center"
+				VAlign = LTAlign.ToCenter
+			Case "bottom"
+				VAlign = LTAlign.ToBottom
+		End Select
+		
+		If ParameterExists( "textcolor" ) Then
+			TextVisualizer.SetColorFromHex( GetParameter( "textcolor" ) )
+		Else
+			TextVisualizer.SetColorFromRGB( 0.0, 0.0, 0.0 )
+		End If
+		
+		If ParameterExists( "textshift" ) Then
+			TextDX = GetParameter( "textshift" ).ToDouble()
+			TextDY = TextDX
+		End If
+
+		TextDX = GetParameter( "textdx" ).ToDouble()
+		TextDY = GetParameter( "textdy" ).ToDouble()
+		
+		If Icon Then
+			IconDX = Icon.X - X
+			IconDY = Icon.Y - Y
+			L_Window.Remove( Icon )
+		End If
 	End Method
 	
 	
@@ -72,36 +96,29 @@ Type LTLabel Extends LTGadget
 		If Not Visible Then Return
 		Super.Draw()
 		
-		Local HorizontalShift:Double = 0
-		Local Chunks:String[] = Text.Split( "|" )
-		Local MaxLength:Double = 0
-		For Local Chunk:String = Eachin Chunks
-			MaxLength = Max( MaxLength, L_CurrentCamera.DistScreenToField( TextWidth( " " + Chunk ) ) )
-		Next
-		
 		If Icon Then
-			Select Align
-				Case LTAlign.ToLeft
-					HorizontalShift = Height
-					Icon.SetCoords( LeftX() + 0.5 * Height + DX, Y + DY )
-				Case LTAlign.ToCenter
-					HorizontalShift = 0.5 * Icon.Width
-					Icon.SetCoords( X - 0.5 * MaxLength + DX, Y + DY )
-				Case LTAlign.ToRight
-					HorizontalShift = -0.5 * ( Height - Icon.Height )
-					Icon.SetCoords( RightX() - MaxLength - 0.5 * Height + DX, Y + DY )
-			End Select
+			Icon.X = X + IconDX + GetDX()
+			Icon.Y = Y + IconDY + GetDY()
 			Icon.Draw()
 		End If
 		
 		TextVisualizer.ApplyColor()
+		Local Chunks:String[] = Text.Split( "|" )
 		Local ChunkHeight:Double = L_CurrentCamera.DistScreenToField( TextHeight( "M" ) )
-		Local ChunkY:Double = DY - 0.5 * ( Chunks.Dimensions()[ 0 ] - 1 ) * ChunkHeight
+		Local ChunkY:Double = GetDY() - 0.5 * ( Chunks.Dimensions()[ 0 ] - 1 ) * ChunkHeight
 		For Local Chunk:String = Eachin Chunks
-			PrintText( " " + Chunk, Align, , HorizontalShift + DX, ChunkY )
+			PrintText( Chunk, HAlign, VAlign, TextDX + GetDX(), TextDY + ChunkY )
 			ChunkY :+ ChunkHeight
 		Next
 		TextVisualizer.ResetColor()
+	End Method
+	
+	Method GetDX:Double()
+		Return 0
+	End Method
+	
+	Method GetDY:Double()
+		Return 0
 	End Method
 	
 	

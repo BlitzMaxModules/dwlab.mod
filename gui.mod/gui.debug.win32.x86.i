@@ -3,6 +3,11 @@ ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.5 (30.03.12)"
+ModuleInfo "History: &nbsp; &nbsp; Now there's also vertical align parameter (valign), horizontal now 'halign'."
+ModuleInfo "History: &nbsp; &nbsp; Added textdx, textdy, textshift label parameters for shifting text from alignment point."
+ModuleInfo "History: &nbsp; &nbsp; Added pressingdx, pressingdy, pressingshift label parameters for defining of shifting button contents upon pressing."
+ModuleInfo "History: &nbsp; &nbsp; Added textcolor label parameter for specifying text color in hex form."
 ModuleInfo "History: v1.0.4.1 (29.12.11)"
 ModuleInfo "History: &nbsp; &nbsp; Switched Name and Class parameters in FindWindow() and LoadWindow() methods."
 ModuleInfo "History: v1.0.4 (21.11.11)"
@@ -63,9 +68,15 @@ LTCheckBox^LTButton{
 LTButton^LTLabel{
 .State%&
 .Focus%&
+.PressingDX!&
+.PressingDY!&
 -New%()="_dwlab_gui_LTButton_New"
 -Delete%()="_dwlab_gui_LTButton_Delete"
+-Init%()="_dwlab_gui_LTButton_Init"
 -Draw%()="_dwlab_gui_LTButton_Draw"
+-SetFrame%(Sprite:dwlab.frmwork.LTSprite)="_dwlab_gui_LTButton_SetFrame"
+-GetDX!()="_dwlab_gui_LTButton_GetDX"
+-GetDY!()="_dwlab_gui_LTButton_GetDY"
 -GetClassTitle$()="_dwlab_gui_LTButton_GetClassTitle"
 -OnMouseOver%()="_dwlab_gui_LTButton_OnMouseOver"
 -OnMouseOut%()="_dwlab_gui_LTButton_OnMouseOut"
@@ -75,15 +86,20 @@ LTButton^LTLabel{
 LTLabel^LTGadget{
 .Text$&
 .Icon:dwlab.frmwork.LTSprite&
+.IconDX!&
+.IconDY!&
 .TextVisualizer:dwlab.frmwork.LTVisualizer&
-.DX!&
-.DY!&
-.Align%&
+.HAlign%&
+.VAlign%&
+.TextDX!&
+.TextDY!&
 -New%()="_dwlab_gui_LTLabel_New"
 -Delete%()="_dwlab_gui_LTLabel_Delete"
 -GetClassTitle$()="_dwlab_gui_LTLabel_GetClassTitle"
 -Init%()="_dwlab_gui_LTLabel_Init"
 -Draw%()="_dwlab_gui_LTLabel_Draw"
+-GetDX!()="_dwlab_gui_LTLabel_GetDX"
+-GetDY!()="_dwlab_gui_LTLabel_GetDY"
 -Activate%()="_dwlab_gui_LTLabel_Activate"
 -Deactivate%()="_dwlab_gui_LTLabel_Deactivate"
 }="dwlab_gui_LTLabel"

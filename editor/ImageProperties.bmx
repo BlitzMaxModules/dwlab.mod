@@ -19,7 +19,7 @@ Function ImageProperties:Int( Image:LTImage )
 	Local YCellsTextField:TGadget = Form.AddTextField( "{{L_VerticalCellDivision}}", 165 )
 	Form.NewLine()
 	
-	Local LeftTextField:TGadget, TopTextField:TGadget, RightTextField:TGadget, BottomTextField:TGadget
+	Local LeftTextField:TGadget, TopTextField:TGadget, RightTextField:TGadget, BottomTextField:TGadget, ProportionalCheckBox:TGadget
 	If RasterFrame Then 
 		LeftTextField = Form.AddTextField( "{{L_LeftBorder}}", 120 )
 		TopTextField = Form.AddTextField( "{{L_TopBorder}}", 120 )
@@ -27,11 +27,14 @@ Function ImageProperties:Int( Image:LTImage )
 		RightTextField = Form.AddTextField( "{{L_RightBorder}}", 120 )
 		BottomTextField = Form.AddTextField( "{{L_BottomBorder}}", 120 )
 		Form.NewLine()
+		ProportionalCheckBox = Form.AddButton( "{{L_Proportional}}", 200, Button_CheckBox )
+		Form.NewLine()
 		
 		SetGadgetText( LeftTextField, RasterFrame.LeftBorder )
 		SetGadgetText( RightTextField, RasterFrame.RightBorder )
 		SetGadgetText( TopTextField, RasterFrame.TopBorder )
 		SetGadgetText( BottomTextField, RasterFrame.BottomBorder )
+		SetButtonState( ProportionalCheckBox, RasterFrame.Proportional )
 	End If
 	
 	Local ImageCanvas:TGadget = Form.AddCanvas( 480, 480 )
@@ -88,7 +91,7 @@ Function ImageProperties:Int( Image:LTImage )
 									Local RightBorder:Int = RightTextField.GetText().ToInt()
 									Local TopBorder:Int = TopTextField.GetText().ToInt()
 									Local BottomBorder:Int = BottomTextField.GetText().ToInt()
-									If LeftBorder <= 0 Or RightBorder <= 0 Or TopBorder <= 0 Or BottomBorder <= 0 Then Error = "LessThanZero"
+									If LeftBorder < 0 Or RightBorder < 0 Or TopBorder < 0 Or BottomBorder < 0 Then Error = "LessThanZero"
 									If LeftBorder + RightBorder >= BMaxImage.Width / XCells Or TopBorder + BottomBorder >= BMaxImage.Height / YCells Then
 										Error = "BordersAreTooLarge"
 									End If
@@ -99,6 +102,7 @@ Function ImageProperties:Int( Image:LTImage )
 										RasterFrame.RightBorder = RightBorder
 										RasterFrame.TopBorder = TopBorder
 										RasterFrame.BottomBorder = BottomBorder
+										RasterFrame.Proportional = ButtonState( ProportionalCheckBox )
 									End If
 								End If
 								

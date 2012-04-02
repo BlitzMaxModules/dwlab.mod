@@ -65,7 +65,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.7.10"
+	Const Version:String = "1.7.11"
 	Const INIVersion:Int = 4
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 8
@@ -1280,20 +1280,20 @@ Type LTEditor Extends LTProject
 									SetChanged()
 							End Select
 						Case RedSlider
-							Visualizer.Red = 0.01 * SliderValue( RedSlider )
-							SetGadgetText( RedField, Shape.Visualizer.Red )
+							Visualizer.Red = 0.01 * SliderValue( RedSlider ) + 0.0000001
+							SetGadgetText( RedField, L_TrimDouble( Shape.Visualizer.Red, 4 ) )
 							SetChanged()
 						Case GreenSlider
-							Visualizer.Green = 0.01 * SliderValue( GreenSlider )
-							SetGadgetText( GreenField, Shape.Visualizer.Green )
+							Visualizer.Green = 0.01 * SliderValue( GreenSlider ) + 0.0000001
+							SetGadgetText( GreenField, L_TrimDouble( Shape.Visualizer.Green, 4 ) )
 							SetChanged()
 						Case BlueSlider
-							Visualizer.Blue = 0.01 * SliderValue( BlueSlider )
-							SetGadgetText( BlueField, Shape.Visualizer.Blue )
+							Visualizer.Blue = 0.01 * SliderValue( BlueSlider ) + 0.0000001
+							SetGadgetText( BlueField, L_TrimDouble( Shape.Visualizer.Blue, 4 ) )
 							SetChanged()
 						Case AlphaSlider
-							Visualizer.Alpha = 0.01 * SliderValue( AlphaSlider )
-							SetGadgetText( AlphaField, Shape.Visualizer.Alpha )
+							Visualizer.Alpha = 0.01 * SliderValue( AlphaSlider ) + 0.0000001
+							SetGadgetText( AlphaField, L_TrimDouble( Shape.Visualizer.Alpha, 4 ) )
 							SetChanged()
 						Case ScalingCheckbox
 							Visualizer.Scaling = ButtonState( ScalingCheckbox )
@@ -1629,24 +1629,24 @@ Type LTEditor Extends LTProject
 	
 		Local Visualizer:LTVisualizer = CurrentShape.Visualizer
 		
-		SetGadgetText( XField, L_TrimDouble( CurrentShape.X ) )
-		SetGadgetText( YField ,L_TrimDouble( CurrentShape.Y ) )
-		SetGadgetText( WidthField, L_TrimDouble( CurrentShape.Width ) )
-		SetGadgetText( HeightField, L_TrimDouble( CurrentShape.Height ) )
-		SetGadgetText( RedField, L_TrimDouble( Visualizer.Red ) )
-		SetGadgetText( GreenField, L_TrimDouble( Visualizer.Green ) )
-		SetGadgetText( BlueField, L_TrimDouble( Visualizer.Blue ) )
-		SetGadgetText( AlphaField, L_TrimDouble( Visualizer.Alpha ) )
+		SetGadgetText( XField, L_TrimDouble( CurrentShape.X, 4 ) )
+		SetGadgetText( YField ,L_TrimDouble( CurrentShape.Y, 4 ) )
+		SetGadgetText( WidthField, L_TrimDouble( CurrentShape.Width, 4 ) )
+		SetGadgetText( HeightField, L_TrimDouble( CurrentShape.Height, 4 ) )
+		SetGadgetText( RedField, L_TrimDouble( Visualizer.Red, 4 ) )
+		SetGadgetText( GreenField, L_TrimDouble( Visualizer.Green, 4 ) )
+		SetGadgetText( BlueField, L_TrimDouble( Visualizer.Blue, 4 ) )
+		SetGadgetText( AlphaField, L_TrimDouble( Visualizer.Alpha, 4 ) )
 		
 		SetSliderValue( RedSlider, 100.0 * Visualizer.Red )
 		SetSliderValue( GreenSlider, 100.0 * Visualizer.Green )
 		SetSliderValue( BlueSlider, 100.0 * Visualizer.Blue )
 		SetSliderValue( AlphaSlider, 100.0 * Visualizer.Alpha )
 		
-		SetGadgetText( VisDXField, L_TrimDouble( Visualizer.DX ) )
-		SetGadgetText( VisDYField, L_TrimDouble( Visualizer.DY ) )
-		SetGadgetText( XScaleField, L_TrimDouble( Visualizer.XScale ) )
-		SetGadgetText( YScaleField, L_TrimDouble( Visualizer.YScale ) )
+		SetGadgetText( VisDXField, L_TrimDouble( Visualizer.DX, 4 ) )
+		SetGadgetText( VisDYField, L_TrimDouble( Visualizer.DY, 4 ) )
+		SetGadgetText( XScaleField, L_TrimDouble( Visualizer.XScale, 4 ) )
+		SetGadgetText( YScaleField, L_TrimDouble( Visualizer.YScale, 4 ) )
 		SetGadgetText( ImgAngleField, L_TrimDouble( Visualizer.Angle ) )
 		
 		SetButtonState( RotatingCheckbox, Visualizer.Rotating )

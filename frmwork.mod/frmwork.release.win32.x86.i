@@ -1,8 +1,10 @@
-ModuleInfo "Version: 1.4.4"
+ModuleInfo "Version: 1.4.5"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.5 (22.03.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added another algorhytm of displaying raster frame."
 ModuleInfo "History: v1.4.4 (22.02.12)"
 ModuleInfo "History: &nbsp; &nbsp; Added ParameterExists() and IsAtPositionOfPoint() methods to the LTShape."
 ModuleInfo "History: &nbsp; &nbsp; Added LTChainedModel, LTValueChangingModel, LTResizingModel, LTAlphaChangingModel classes."
@@ -201,7 +203,7 @@ import brl.random
 import brl.reflection
 import brl.retro
 import brl.max2d
-L_Version$=$"1.4.4"
+L_Version$=$"1.4.5"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
@@ -708,6 +710,7 @@ LTRasterFrame^LTImage{
 .RightBorder%&
 .TopBorder%&
 .BottomBorder%&
+.Proportional%&
 -New%()="_dwlab_frmwork_LTRasterFrame_New"
 -Delete%()="_dwlab_frmwork_LTRasterFrame_Delete"
 +FromFileAndBorders:LTRasterFrame(FileName$,LeftBorder%=1,TopBorder%=1,RightBorder%=1,BottomBorder%=1)="_dwlab_frmwork_LTRasterFrame_FromFileAndBorders"

@@ -62,16 +62,15 @@ Rem
 bbdoc: Trims trailing zeroes of Double value and cuts all digits after given quantity (2 by default) after point.
 End Rem
 Function L_TrimDouble:String ( Val:Double, DigitsAfterDot:Int = 2 )
-	Local StrVal:String = Val + "0000"
+	Local StrVal:String = String( Val + 0.000000001 * Sgn( Val ) ) + "000000000"
 	Local N:Int = StrVal.Find( "." ) + 1 + DigitsAfterDot
-	'If N < 3 then N = Len( StrVal )
 	Repeat
 		N = N - 1
 		Select StrVal[ N ]
 			Case 46 Return StrVal[ ..N ]
 			Case 48
 			Default
-				Return StrVal[ ..N% + 1 ]
+				Return StrVal[ ..N + 1 ]
 		End Select
 	Forever
 End Function
