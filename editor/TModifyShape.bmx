@@ -13,16 +13,12 @@ Type TModifyShape Extends LTDrag
 	Field StartX:Double
 	Field StartY:Double
 	Field Shape:LTShape
+	Field LeftX:Double, TopY:Double, RightX:Double, BottomY:Double
 	Field ModifierType:Int
 	Field MDX:Int, MDY:Int
-	Field LeftSide:Double, RightSide:Double
-	Field TopSide:Double, BottomSide:Double
-	Field NewLeftSide:Double, NewRightSide:Double
-	Field NewTopSide:Double, NewBottomSide:Double
 	
 	
 	
-	Const Move:Int = 0
 	Const ResizeHorizontally:Int = 1
 	Const ResizeVertically:Int = 2
 	Const Resize:Int = 3
@@ -47,11 +43,12 @@ Type TModifyShape Extends LTDrag
 		MDX = Sgn( Editor.SelectedModifier.X - Shape.X )
 		MDY = Sgn( Editor.SelectedModifier.Y - Shape.Y )
 		
+		LeftX = Shape.LeftX()
+		TopY = Shape.TopY()
+		RightX = Shape.RightX()
+		BottomY = Shape.BottomY()
+		
 		L_CurrentCamera.ScreenToField( MouseX(), MouseY(), StartX, StartY )
-		LeftSide = Shape.X - 0.5 * Shape.Width
-		RightSide = Shape.X + 0.5 * Shape.Width
-		TopSide = Shape.Y - 0.5 * Shape.Height
-		BottomSide = Shape.Y + 0.5 * Shape.Height
 	End Method
 	
 	
@@ -63,19 +60,7 @@ Type TModifyShape Extends LTDrag
 		DX = X - StartX
 		DY = Y - StartY
 		
-		NewLeftSide = LeftSide
-		NewRightSide = RightSide
-		NewTopSide = TopSide
-		NewBottomSide = BottomSide
-		
 		Select ModifierType
-			Case Move
-				NewLeftSide = LeftSide + DX
-				NewRightSide = RightSide + DX
-				NewTopSide = TopSide + DY
-				NewBottomSide = BottomSide + DY
-				Editor.Grid.SetSnaps( NewLeftSide, NewRightSide, 0 )
-				Editor.Grid.SetSnaps( NewTopSide, NewBottomSide, 1 )
 			Case ResizeHorizontally
 				HorizontalResize( DX )
 			Case ResizeVertically
@@ -84,20 +69,19 @@ Type TModifyShape Extends LTDrag
 				HorizontalResize( DX )
 				VerticalResize( DY )
 		End Select
-				
-		Shape.SetCoords( 0.5 * ( NewLeftSide + NewRightSide ), 0.5 * ( NewTopSide + NewBottomSide ) )
-		Shape.SetSize( NewRightSide - NewLeftSide, NewBottomSide - NewTopSide )
 	End Method
 	
 	
 	
-	Method HorizontalResize( DX:Double )
+	Method HorizontalResize( DX:Double Var )
 		If MDX < 0 Then
-			NewLeftSide = Editor.Grid.SnapX( LeftSide + DX )
-			If NewLeftSide > NewRightSide Then NewLeftSide = NewRightSide
+			Editor.Grid.SnapWidth( DX, LeftX, RightX )
+			Shape.SetWidth( RightX - LeftX - DX )
+			Shape.SetX( RightX - Shape.Width * 0.5 )
 		Else
-			NewRightSide = Editor.Grid.SnapX( RightSide + DX )
-			If NewRightSide < NewLeftSide Then NewRightSide = NewLeftSide
+			Editor.Grid.SnapWidth( DX, RightX, LeftX )
+			Shape.SetWidth( RightX - LeftX + DX )
+			Shape.SetX( LeftX + Shape.Width * 0.5 )
 		End If
 	End Method
 	
@@ -105,11 +89,13 @@ Type TModifyShape Extends LTDrag
 	
 	Method VerticalResize( DY:Double )
 		If MDY < 0 Then
-			NewTopSide = Editor.Grid.SnapY( TopSide + DY )
-			If NewTopSide > NewBottomSide Then NewTopSide = NewBottomSide
+			Editor.Grid.SnapHeight( DY, TopY, BottomY )
+			Shape.SetHeight( BottomY - TopY - DY )
+			Shape.SetY( BottomY - Shape.Height * 0.5 )
 		Else
-			NewBottomSide = Editor.Grid.SnapY( BottomSide + DY )
-			If NewBottomSide < NewTopSide Then NewBottomSide = NewTopSide
+			Editor.Grid.SnapHeight( DY, BottomY, TopY )
+			Shape.SetHeight( BottomY - TopY + DY )
+			Shape.SetY( TopY + Shape.Height * 0.5 )
 		End If
 	End Method
 	
@@ -117,10 +103,10 @@ Type TModifyShape Extends LTDrag
 	
 	Method EndDragging()
 		If Not Shape.Width Or Not Shape.Height Then
-			Shape.X = 0.5 * ( LeftSide + RightSide )
-			Shape.Y = 0.5 * ( TopSide + BottomSide )
-			Shape.Width = RightSide - LeftSide
-			Shape.Height = BottomSide - TopSide
+			Shape.X = 0.5 * ( LeftX + RightX )
+			Shape.Y = 0.5 * ( TopY + BottomY )
+			Shape.Width = RightX - LeftX
+			Shape.Height = BottomY - TopY
 		Else
 			Editor.SetChanged()
 		End If

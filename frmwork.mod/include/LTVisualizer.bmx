@@ -18,31 +18,7 @@ Include "LTDebugVisualizer.bmx"
 Rem
 bbdoc: Visualizer is object which contains parameters for drawing the shape.
 End Rem
-Type LTVisualizer Extends LTObject
-	Rem
-	bbdoc: Red color intensity for drawing.
-	about: See also: #SetColorFromHex, #SetColorFromRGB, #AlterColor, #ApplyColor, #ResetColor
-	End Rem
-	Field Red:Double = 1.0
-	
-	Rem
-	bbdoc: Green color intensity for drawing.
-	about: See also: #SetColorFromHex, #SetColorFromRGB, #AlterColor, #ApplyColor, #ResetColor
-	End Rem
-	Field Green:Double = 1.0
-	
-	Rem
-	bbdoc: Blue color intensity for drawing.
-	about: See also: #SetColorFromHex, #SetColorFromRGB, #AlterColor, #ApplyColor, #ResetColor
-	End Rem
-	Field Blue:Double = 1.0
-	
-	Rem
-	bbdoc: Alpha (transparency) value for drawing.
-	about: #ApplyColor, #ResetColor
-	End Rem
-	Field Alpha:Double = 1.0
-	
+Type LTVisualizer Extends LTColor
 	Rem
 	bbdoc: Horizontal shift of displaying image from the center of drawing shape in units .
 	about: See also: #SetDXDY
@@ -471,84 +447,6 @@ Type LTVisualizer Extends LTObject
 	' ==================== Other ====================
 	
 	Rem
-	bbdoc: Applies color given in hex string to visualizer.
-	about: See also: #SetColorFromRGB, #AlterColor, #ApplyColor, #ResetColor
-	End Rem
-	Method SetColorFromHex( S:String )
-		Red = 1.0 * L_HexToInt( S[ 0..2 ] ) / 255.0
-		Green = 1.0 * L_HexToInt( S[ 2..4 ] ) / 255.0
-		Blue = 1.0 * L_HexToInt( S[ 4..6 ] ) / 255.0
-	End Method
-	
-	
-	
-	Rem
-	bbdoc: Applies color given in color intensities to visualizer.
-	about: Every intensity should be in range from 0.0 to 1.0.
-	
-	See also: #SetColorFromHex, #AlterColor, #ApplyColor, #ResetColor
-	End Rem
-	Method SetColorFromRGB( NewRed:Double, NewGreen:Double, NewBlue:Double )
-		?debug
-		If NewRed < 0.0 Or NewRed > 1.0 Then L_Error( "Red component must be between 0.0 and 1.0 inclusive" )
-		If NewGreen < 0.0 Or NewGreen > 1.0 Then L_Error( "Green component must be between 0.0 and 1.0 inclusive" )
-		If NewBlue < 0.0 Or NewBlue > 1.0 Then L_Error( "Blue component must be between 0.0 and 1.0 inclusive" )
-		?
-		
-		Red = NewRed
-		Green = NewGreen
-		Blue = NewBlue
-	End Method
-	
-	
-	
-	Rem
-	bbdoc: Sets random color.
-	about: Each component is in [ 0.5, 1.0 ] range.
-	End Rem
-	Method SetRandomColor()
-		SetColorFromRGB( Rnd( 0.25, 1 ), Rnd( 0.25, 1 ), Rnd( 0.25, 1 ) )
-	End Method
-	
-	
-	
-	Rem
-	bbdoc: Alters color randomly with given increments.
-	about: Every color channel will be altered by random value in D1...D2 interval (value(s) can be negative).
-	
-	See also: #SetColorFromHex, #SetColorFromRGB, #ApplyColor, #ResetColor
-	End Rem
-	Method AlterColor( D1:Double, D2:Double )
-		Red = L_LimitDouble( Red + Rnd( D1, D2 ), 0.0, 1.0 )
-		Green = L_LimitDouble( Green + Rnd( D1, D2 ), 0.0, 1.0 )
-		Blue = L_LimitDouble( Blue + Rnd( D1, D2 ), 0.0, 1.0 )
-	End Method
-	
-	
-	
-	Rem
-	bbdoc: Sets the color of visualizer as drawing color.
-	about: See also: #SetColorFromHex, #SetColorFromRGB, #AlterColor, #ResetColor
-	End Rem
-	Method ApplyColor()
-		SetColor( 255.0 * Red, 255.0 * Green, 255.0 * Blue )
-		SetAlpha( Alpha )
-	End Method
-	
-	
-	
-	Rem
-	bbdoc: Resets drawing color to white.
-	about: See also: #SetColorFromHex, #SetColorFromRGB, #AlterColor, #ApplyColor
-	End Rem
-	Function ResetColor()
-		SetColor( 255, 255, 255 )
-		SetAlpha( 1.0 )
-	End Function
-	
-	
-	
-	Rem
 	bbdoc: Clones the visualizer.
 	returns: Clone of the visualizer.
 	End Rem
@@ -561,10 +459,7 @@ Type LTVisualizer Extends LTObject
 	
 	
 	Method CopyTo( Visualizer:LTVisualizer )
-		Visualizer.Red = Red
-		Visualizer.Green = Green
-		Visualizer.Blue = Blue
-		Visualizer.Alpha = Alpha
+		CopyColorTo( Visualizer )
 		Visualizer.DX = DX
 		Visualizer.DY = DY
 		Visualizer.Angle = Angle
@@ -580,10 +475,6 @@ Type LTVisualizer Extends LTObject
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
-		XMLObject.ManageDoubleAttribute( "red", Red, 1.0 )
-		XMLObject.ManageDoubleAttribute( "green", Green, 1.0 )
-		XMLObject.ManageDoubleAttribute( "blue", Blue, 1.0 )
-		XMLObject.ManageDoubleAttribute( "alpha", Alpha, 1.0 )
 		XMLObject.ManageDoubleAttribute( "dx", DX )
 		XMLObject.ManageDoubleAttribute( "dy", DY )
 		XMLObject.ManageDoubleAttribute( "xscale", XScale, 1.0 )

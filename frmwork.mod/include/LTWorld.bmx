@@ -8,15 +8,14 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "LTEditorData.bmx"
+
 Rem
 bbdoc: World is the root layer which can be created in the editor and loaded from file.
 about: 
 End Rem
 Type LTWorld Extends LTLayer
-	Field Images:TList = New TList
-	Field Tilesets:TList = New TList
 	Field Camera:LTCamera
-	Field IncbinValue:Int
 	
 	
 	
@@ -34,9 +33,7 @@ Type LTWorld Extends LTLayer
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
-		XMLObject.ManageIntAttribute( "incbin", IncbinValue )
-		XMLObject.ManageListField( "images", Images )
-		XMLObject.ManageListField( "tilesets", Tilesets )
+		If L_EditorData Then L_EditorData = LTEditorData( XMLObject.ManageObjectField( "editor_data", L_EditorData ) )
 		Camera = LTCamera( XMLObject.ManageObjectField( "camera", Camera ) )
 	End Method
 End Type

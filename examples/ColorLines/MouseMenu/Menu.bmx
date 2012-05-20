@@ -75,6 +75,8 @@ Type LTMenu Extends LTGUIProject
 	End Function
 	
 	Method Init()
+		L_TextSize = 0.3
+		
 		LTProfile.InitSystem()
 		If Not L_CurrentProfile Then
 			L_CurrentProfile = LTProfile.CreateDefault( ProfileTypeID )
@@ -105,8 +107,8 @@ Type LTMenu Extends LTGUIProject
 	End Method
 	
 	Method InitGraphics()
+		SetImageFont( LoadImageFont( L_MenuPath + "font.ttf", 36 ) )
 		L_CurrentProfile.InitCamera( L_GUICamera )
-		SetImageFont( LoadImageFont( L_MenuPath + "font.ttf", Floor( L_GUICamera.Viewport.Width / 80 ) ) )
 	End Method
 	
 	Method InitSound()

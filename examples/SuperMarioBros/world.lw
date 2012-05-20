@@ -1,21 +1,15 @@
-<LTWorld incbin="1" dwlab_version="1.4">
+<LTWorld dwlab_version="1.4.5">
 	<LTVisualizer field="visualizer" id="1"/>
-	<TList field="images">
-		<Object id="11"/>
-		<Object id="171"/>
-		<Object id="192"/>
-		<Object id="288"/>
-	</TList>
-	<TList field="tilesets">
-		<Object id="10"/>
-	</TList>
-	<LTCamera field="camera" x="28.34" y="7.5" width="56.68" height="49.15" shape="2" x1="20" y1="10" x2="-20" y2="10">
-		<LTVisualizer field="visualizer" id="320"/>
+	<LTEditorData field="editor_data" incbin="1" cell_width="1" x_div="2" y_div="2" coll_x_div="16" coll_y_div="16">
+		<LTColor field="background"/>
+		<LTColor field="grid_color" green="0" alpha="0.3"/>
+	</LTEditorData>
+	<LTCamera field="camera" x="50.21486708" y="7.5" width="35.20000076" height="30.52063558" shape="2" x1="20" y1="10" x2="-20" y2="10">
+		<LTVisualizer field="visualizer" id="323"/>
 		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
-			<Object field="visualizer" id="320"/>
+			<Object field="visualizer" id="323"/>
 		</LTShape>
 	</LTCamera>
-	<TList field="definitions"/>
 	<LTLayer>
 		<TList field="parameters">
 			<LTParameter name="num" value="0"/>
@@ -33,7 +27,7 @@
 			</TList>
 			<LTVisualizer field="visualizer"/>
 			<LTTileSet field="tileset" id="10" tiles-quantity="64" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
-				<LTImage field="image" id="11" filename="media\\tiles.png" xcells="16" ycells="4"/>
+				<LTImage field="image" filename="media\\tiles.png" xcells="16" ycells="4"/>
 				<ShapeArray field="collision-shapes">
 					<Null/>
 					<Null/>
@@ -337,84 +331,13 @@
 				<LTParameter name="name" value="Objects"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
-			<LTSprite x="22.5" y="12.5" shape="1" angle="180">
-				<TList field="parameters">
-					<LTParameter name="class" value="TGoomba"/>
-				</TList>
-				<LTVisualizer field="visualizer" rotating="0">
-					<LTImage field="image" id="171" filename="media\\LittleGoomba.png" xcells="3"/>
-				</LTVisualizer>
-			</LTSprite>
-			<LTSprite x="97.5" y="12.5" active="0" shape="1" angle="180">
-				<TList field="parameters">
-					<LTParameter name="class" value="TGoomba"/>
-					<LTParameter name="group" value="4"/>
-				</TList>
-				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="171"/>
-				</LTVisualizer>
-			</LTSprite>
-			<LTSprite x="116" y="12.5" active="0" shape="1" angle="180">
-				<TList field="parameters">
-					<LTParameter name="class" value="TGoomba"/>
-					<LTParameter name="group" value="6"/>
-				</TList>
-				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="171"/>
-				</LTVisualizer>
-			</LTSprite>
-			<LTSprite x="40.5" y="12.5" active="0" shape="1" angle="180">
-				<TList field="parameters">
-					<LTParameter name="class" value="TGoomba"/>
-					<LTParameter name="group" value="1"/>
-				</TList>
-				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="171"/>
-				</LTVisualizer>
-			</LTSprite>
 			<LTSprite x="176" y="12.5" active="0" shape="1" angle="180">
 				<TList field="parameters">
 					<LTParameter name="class" value="TGoomba"/>
 					<LTParameter name="group" value="8"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="171"/>
-				</LTVisualizer>
-			</LTSprite>
-			<LTSprite x="107.5" y="12.5" active="0" shape="1" angle="180">
-				<TList field="parameters">
-					<LTParameter name="class" value="TKoopaTroopa"/>
-					<LTParameter name="group" value="5"/>
-				</TList>
-				<LTVisualizer field="visualizer" xscale="-1" yscale="2" rotating="0">
-					<LTImage field="image" id="192" filename="media\\KoopaTroopa.png" xcells="3"/>
-				</LTVisualizer>
-			</LTSprite>
-			<LTSprite x="124.5" y="12.5" active="0" shape="1" angle="180">
-				<TList field="parameters">
-					<LTParameter name="class" value="TGoomba"/>
-					<LTParameter name="group" value="7"/>
-				</TList>
-				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="171"/>
-				</LTVisualizer>
-			</LTSprite>
-			<LTSprite x="82" y="4.5" active="0" shape="1" angle="180">
-				<TList field="parameters">
-					<LTParameter name="class" value="TGoomba"/>
-					<LTParameter name="group" value="3"/>
-				</TList>
-				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="171"/>
-				</LTVisualizer>
-			</LTSprite>
-			<LTSprite x="51.5" y="12.5" active="0" shape="1" angle="180">
-				<TList field="parameters">
-					<LTParameter name="class" value="TGoomba"/>
-					<LTParameter name="group" value="2"/>
-				</TList>
-				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="171"/>
+					<LTImage field="image" id="172" filename="media\\LittleGoomba.png" xcells="3"/>
 				</LTVisualizer>
 			</LTSprite>
 			<LTSprite x="80.5" y="4.5" active="0" shape="1" angle="180">
@@ -423,16 +346,15 @@
 					<LTParameter name="group" value="3"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="171"/>
+					<Object field="image" id="172"/>
 				</LTVisualizer>
 			</LTSprite>
-			<LTSprite x="128.5" y="12.5" active="0" shape="1" angle="180">
+			<LTSprite x="22.5" y="12.5" shape="1" angle="180">
 				<TList field="parameters">
 					<LTParameter name="class" value="TGoomba"/>
-					<LTParameter name="group" value="7"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="171"/>
+					<Object field="image" id="172"/>
 				</LTVisualizer>
 			</LTSprite>
 			<LTSprite x="130" y="12.5" active="0" shape="1" angle="180">
@@ -441,7 +363,70 @@
 					<LTParameter name="group" value="7"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="171"/>
+					<Object field="image" id="172"/>
+				</LTVisualizer>
+			</LTSprite>
+			<LTSprite x="40.5" y="12.5" active="0" shape="1" angle="180">
+				<TList field="parameters">
+					<LTParameter name="class" value="TGoomba"/>
+					<LTParameter name="group" value="1"/>
+				</TList>
+				<LTVisualizer field="visualizer" rotating="0">
+					<Object field="image" id="172"/>
+				</LTVisualizer>
+			</LTSprite>
+			<LTSprite x="82" y="4.5" active="0" shape="1" angle="180">
+				<TList field="parameters">
+					<LTParameter name="class" value="TGoomba"/>
+					<LTParameter name="group" value="3"/>
+				</TList>
+				<LTVisualizer field="visualizer" rotating="0">
+					<Object field="image" id="172"/>
+				</LTVisualizer>
+			</LTSprite>
+			<LTSprite x="116" y="12.5" active="0" shape="1" angle="180">
+				<TList field="parameters">
+					<LTParameter name="class" value="TGoomba"/>
+					<LTParameter name="group" value="6"/>
+				</TList>
+				<LTVisualizer field="visualizer" rotating="0">
+					<Object field="image" id="172"/>
+				</LTVisualizer>
+			</LTSprite>
+			<LTSprite x="97.5" y="12.5" active="0" shape="1" angle="180">
+				<TList field="parameters">
+					<LTParameter name="class" value="TGoomba"/>
+					<LTParameter name="group" value="4"/>
+				</TList>
+				<LTVisualizer field="visualizer" rotating="0">
+					<Object field="image" id="172"/>
+				</LTVisualizer>
+			</LTSprite>
+			<LTSprite x="124.5" y="12.5" active="0" shape="1" angle="180">
+				<TList field="parameters">
+					<LTParameter name="class" value="TGoomba"/>
+					<LTParameter name="group" value="7"/>
+				</TList>
+				<LTVisualizer field="visualizer" rotating="0">
+					<Object field="image" id="172"/>
+				</LTVisualizer>
+			</LTSprite>
+			<LTSprite x="107.5" y="12.5" active="0" shape="1" angle="180">
+				<TList field="parameters">
+					<LTParameter name="class" value="TKoopaTroopa"/>
+					<LTParameter name="group" value="5"/>
+				</TList>
+				<LTVisualizer field="visualizer" xscale="-1" yscale="2" rotating="0">
+					<LTImage field="image" filename="media\\KoopaTroopa.png" xcells="3"/>
+				</LTVisualizer>
+			</LTSprite>
+			<LTSprite x="51.5" y="12.5" active="0" shape="1" angle="180">
+				<TList field="parameters">
+					<LTParameter name="class" value="TGoomba"/>
+					<LTParameter name="group" value="2"/>
+				</TList>
+				<LTVisualizer field="visualizer" rotating="0">
+					<Object field="image" id="172"/>
 				</LTVisualizer>
 			</LTSprite>
 			<LTSprite x="126" y="12.5" active="0" shape="1" angle="180">
@@ -450,7 +435,16 @@
 					<LTParameter name="group" value="7"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="171"/>
+					<Object field="image" id="172"/>
+				</LTVisualizer>
+			</LTSprite>
+			<LTSprite x="128.5" y="12.5" active="0" shape="1" angle="180">
+				<TList field="parameters">
+					<LTParameter name="class" value="TGoomba"/>
+					<LTParameter name="group" value="7"/>
+				</TList>
+				<LTVisualizer field="visualizer" rotating="0">
+					<Object field="image" id="172"/>
 				</LTVisualizer>
 			</LTSprite>
 			<LTSprite x="53" y="12.5" active="0" shape="1" angle="180">
@@ -459,7 +453,7 @@
 					<LTParameter name="group" value="2"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="171"/>
+					<Object field="image" id="172"/>
 				</LTVisualizer>
 			</LTSprite>
 			<LTSprite x="114.5" y="12.5" active="0" shape="1" angle="180">
@@ -468,7 +462,7 @@
 					<LTParameter name="group" value="6"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="171"/>
+					<Object field="image" id="172"/>
 				</LTVisualizer>
 			</LTSprite>
 			<LTSprite x="99" y="12.5" active="0" shape="1" angle="180">
@@ -477,7 +471,7 @@
 					<LTParameter name="group" value="4"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="171"/>
+					<Object field="image" id="172"/>
 				</LTVisualizer>
 			</LTSprite>
 			<LTSprite x="174.5" y="12.5" active="0" shape="1" angle="180">
@@ -486,7 +480,7 @@
 					<LTParameter name="group" value="8"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="171"/>
+					<Object field="image" id="172"/>
 				</LTVisualizer>
 			</LTSprite>
 		</LTSpriteMap>
@@ -579,7 +573,7 @@
 				<LTParameter name="name" value="Flag"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="288" filename="media\\FlagFromPole.png"/>
+				<LTImage field="image" filename="media\\FlagFromPole.png"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="204.5" y="7.5" shape="2" velocity="0">

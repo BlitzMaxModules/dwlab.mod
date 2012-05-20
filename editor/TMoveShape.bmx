@@ -48,7 +48,15 @@ Type TMoveShape Extends LTDrag
 	Method Dragging()
 		Local DX:Double = Editor.Cursor.X - StartX
 		Local DY:Double = Editor.Cursor.Y - StartY
-		Editor.Grid.Snap( DX, DY )
+		
+		Local LeftX:Int, RightX:Int, TopY:Int, BottomY:Int
+		For Local Shape:LTShape = Eachin Editor.SelectedShapes
+			If LeftX > Shape.LeftX() Then LeftX = Shape.LeftX()
+			If RightX < Shape.RightX() Then RightX = Shape.RightX()
+			If TopY > Shape.TopY() Then TopY = Shape.TopY()
+			If BottomY < Shape.BottomY() Then BottomY = Shape.BottomY()
+		Next
+		Editor.Grid.SnapPosition( DX, DY, LeftX, RightX, TopY, BottomY )
 		
 		For Local Shape:LTShape = Eachin Editor.SelectedShapes
 			Shape.AlterCoords( DX - LastDX, DY - LastDY )

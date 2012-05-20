@@ -22,7 +22,7 @@ Type LTProfilesList Extends LTListBox
 			Sprite.Draw()
 		End If
 		SetColor( 0, 0, 0 )
-		Sprite.PrintText( LocalizeString( LTProfile( Item ).Name ) )
+		Sprite.PrintText( LocalizeString( LTProfile( Item ).Name ), TextSize )
 		LTVisualizer.ResetColor()
 	End Method
 	

@@ -10,13 +10,6 @@
 '
 
 Type TGrid Extends LTShape
-	Field CellWidth:Double = 1.0
-	Field CellHeight:Double = 1.0
-	Field CellXDiv:Int = 2
-	Field CellYDiv:Int = 2
-	
-	
-	
 	Method Draw()
 		L_DebugVisualizer.ApplyColor()
 		
@@ -24,20 +17,20 @@ Type TGrid Extends LTShape
 		L_GetEscribedRectangle( 0, 0, 0, 0, MinX, MinY, MaxX, MaxY )
 		Local SX1:Double, SY1:Double, SX2:Double, SY2:Double
 		
-		X = Floor( MinX / CellWidth ) * CellWidth
+		X = Floor( MinX / L_EditorData.GridCellWidth ) * L_EditorData.GridCellWidth
 		While X <= MaxX
 			L_CurrentCamera.FieldToScreen( X, MinY, SX1, SY1 )
 			L_CurrentCamera.FieldToScreen( X, MaxY, SX2, SY2 )
 			DrawLine( SX1, SY1, SX2, SY2 )
-			X :+ CellWidth
+			X :+ L_EditorData.GridCellWidth
 		WEnd
 		
-		Y = Floor( MinY / CellHeight ) * CellHeight
+		Y = Floor( MinY / L_EditorData.GridCellHeight ) * L_EditorData.GridCellHeight
 		While Y <= MaxY
 			L_CurrentCamera.FieldToScreen( MinX, Y, SX1, SY1 )
 			L_CurrentCamera.FieldToScreen( MaxX, Y, SX2, SY2 )
 			DrawLine( SX1, SY1, SX2, SY2 )
-			Y :+ CellHeight
+			Y :+ L_EditorData.GridCellHeight
 		WEnd
 		
 		SetColor( 255, 255, 255 )
@@ -45,80 +38,68 @@ Type TGrid Extends LTShape
 	
 	
 	
-	Method SnapX:Double( X:Double )
-		If Editor.SnapToGrid Then Return L_Round( X / CellWidth * CellXDiv ) * CellWidth / CellXDiv Else Return X
+	Method SnapCoords( X:Double Var, Y:Double Var )
+		Local XStep:Double = L_EditorData.GridCellWidth / L_EditorData.GridCellXDiv
+		X = XStep * L_Round( X / XStep )
+		Local YStep:Double = L_EditorData.GridCellHeight / L_EditorData.GridCellYDiv
+		Y = YStep * L_Round( Y / YStep )
 	End Method
 	
 	
 	
-	Method SnapY:Double( Y:Double )
-		If Editor.SnapToGrid Then Return L_Round( Y / CellHeight * CellYDiv ) * CellHeight / CellYDiv Else Return Y
-	End method
-	
-	
-	
-	Method Snap( X:Double Var, Y:Double Var )
-		X = SnapX( X )
-		Y = SnapY( Y )
+	Method SnapPosition( DX:Double Var, DY:Double Var, LeftX:Double, TopY:Double, RightX:Double, BottomY:Double )
+		SnapCoord( DX, LeftX, RightX, L_EditorData.GridCellWidth / L_EditorData.GridCellXDiv )
+		SnapCoord( DY, TopY, BottomY, L_EditorData.GridCellHeight / L_EditorData.GridCellYDiv )
 	End Method
 	
 	
 	
-	Method SetSnaps( Side1:Double Var, Side2:Double Var, Vertical:Int )
-		If Editor.SnapToGrid Then
-			Local Snap1:Double, Snap2:Double
-			If Vertical Then
-				Snap1 = DYSnap( Side1 )
-				Snap2 = DYSnap( Side2 )
-			Else
-				Snap1 = DXSnap( Side1 )
-				Snap2 = DXSnap( Side2 )
-			End If
-			
-			If Abs( Snap1 ) < Abs( Snap2 ) Then
-				Side1 :+ Snap1
-				Side2 :+ Snap1
-			Else
-				Side1 :+ Snap2
-				Side2 :+ Snap2
-			End If
-		End If
+	Method SnapCoord( DX:Double Var, X1:Double, X2:Double, XStep:Double )
+		If Not Editor.SnapToGrid Then Return 
+		Select L_EditorData.GridPositionSnappingMode
+			Case LTEditorData.EdgesSnapping
+				Local DX1:Double = XStep * L_Round( ( X1 + DX ) / XStep ) - X1
+				Local DX2:Double = XStep * L_Round( ( X2 + DX ) / XStep ) - X2
+				If Abs( DX - DX1 ) < Abs( DX - DX2 ) Then DX = DX1 Else DX = DX2
+			Case LTEditorData.CenterSnapping
+				Local CenterX:Double = 0.5 * ( X1 + X2 )
+				DX = XStep * L_Round( ( CenterX + DX ) / XStep ) - CenterX
+			Case LTEditorData.FixedShifting
+				DX = XStep * L_Round( DX / XStep )
+		End Select
 	End Method
 	
 	
 	
-	Method SetCornerSnaps( NewHorizontalSide:Double Var, NewVerticalSide:Double Var, HorizontalSide:Double Var,..
-	VerticalSide:Double Var, OppositeHorizontalSide:Double, OppositeVerticalSide:Double, X:Double, Y:Double )
+	Method SnapWidth( DX:Double Var, X1:Double, X2:Double )
+		SnapSize( DX, X1, X2, L_EditorData.GridCellWidth / L_EditorData.GridCellXDiv )
+	End Method
 	
-		Local Diagonal:Double = L_Distance( HorizontalSide - OppositeHorizontalSide, VerticalSide - OppositeVerticalSide )
-		Local R:Double = L_Distance( X - OppositeHorizontalSide, Y - OppositeVerticalSide )
+	
+	
+	Method SnapHeight( DY:Double Var, Y1:Double, Y2:Double )
+		SnapSize( DY, Y1, Y2, L_EditorData.GridCellHeight / L_EditorData.GridCellYDiv )
+	End Method
+	
+	
+	
+	Method SnapSize( DX:Double Var, X:Double, X2:Double, XStep:Double )
+		If Not Editor.SnapToGrid Then Return 
+		Select L_EditorData.GridResizingSnappingMode
+			Case LTEditorData.EdgesSnapping
+				DX = XStep * L_Round( ( X + DX ) / XStep ) - X
+			Case LTEditorData.SizeSnapping
+				Local Size:Double = Abs( X2 - X )
+				DX = XStep * L_Round( ( Size + DX ) / XStep ) - Size
+			Case LTEditorData.FixedResizing
+				DX = XStep * L_Round( DX / XStep )
+		End Select
 		
-		NewHorizontalSide = OppositeHorizontalSide + ( HorizontalSide - OppositeHorizontalSide ) * R / Diagonal
-		NewVerticalSide = OppositeVerticalSide + ( VerticalSide - OppositeVerticalSide ) * R / Diagonal
-		
-		If Editor.SnapToGrid Then
-			Local HorizontalSnap:Double = DXSnap( NewHorizontalSide )
-			Local VerticalSnap:Double = DYSnap( NewVerticalSide )
-			If Abs( HorizontalSnap ) < Abs( VerticalSnap ) Then
-				NewHorizontalSide = NewHorizontalSide + HorizontalSnap
-				NewVerticalSide = NewVerticalSide + HorizontalSnap * ( VerticalSide - OppositeVerticalSide ) / ( HorizontalSide - OppositeHorizontalSide )
-			Else
-				NewHorizontalSide = NewHorizontalSide + VerticalSnap * ( HorizontalSide - OppositeHorizontalSide ) / ( VerticalSide - OppositeVerticalSide )
-				NewVerticalSide = NewVerticalSide + VerticalSnap
-			End If
+		If X < X2 Then
+			If X + DX > X2 Then DX = X2 - X
+		Else
+			If X + DX < X2 Then DX = X2 - X
 		End If
-	End Method
-	
-	
-	
-	Method DXSnap:Double( Coord:Double )
-		Return CellWidth * L_Round( Coord / CellWidth * CellXDiv ) / CellXDiv - Coord
-	End Method
-	
-	
-	
-	Method DYSnap:Double( Coord:Double )
-		Return CellHeight * L_Round( Coord / CellHeight * CellYDiv  ) / CellYDiv - Coord
 	End Method
 	
 	
@@ -126,6 +107,10 @@ Type TGrid Extends LTShape
 	Method Settings()
 		Local GridSettingsWindow:TGadget = CreateWindow( "{{W_GridSettings}}", 0, 0, 0, 0, Editor.Window, Window_Titlebar | Window_ClientCoords )
 		Local Form:LTForm = LTForm.Create( GridSettingsWindow )
+		Form.NewLine()
+		Local PositionSnappingGadget:TGadget = Form.AddComboBox( "{{L_PositionSnapping}}", 250, 200 )
+		Form.NewLine()
+		Local ResizingSnappingGadget:TGadget = Form.AddComboBox( "{{L_ResizingSnapping}}", 250, 200 )
 		Form.NewLine()
 		Local CellWidthField:TGadget = Form.AddTextField( "{{L_CellWidth}}", 200 )
 		Form.NewLine()
@@ -135,14 +120,24 @@ Type TGrid Extends LTShape
 		Form.NewLine()
 		Local VerticalDivField:TGadget = Form.AddTextField( "{{L_VerticalCellDivision}}", 200 )
 		Form.NewLine()
-		Local SelectColorButton:TGadget = Form.AddButton( "{{B_SelectColor}}", 80 )
+		Local SelectColorButton:TGadget = Form.AddButton( "{{B_SelectColor}}", 100 )
 		Local OKButton:TGadget = Form.AddButton( "{{B_OK}}", 80, Button_OK )
 		Form.Finalize()
 		
-		SetGadgetText( CellWidthField, CellWidth )
-		SetGadgetText( CellHeightField, CellHeight )
-		SetGadgetText( HorizontalDivField, CellXDiv )
-		SetGadgetText( VerticalDivField, CellYDiv )
+		AddGadgetItem( PositionSnappingGadget, LocalizeString( "{{I_EdgeSnap}}" ) )
+		AddGadgetItem( PositionSnappingGadget, LocalizeString( "{{I_CenterSnap}}" ) )
+		AddGadgetItem( PositionSnappingGadget, LocalizeString( "{{I_FixedMovement}}" ) )
+		SelectGadgetItem( PositionSnappingGadget, L_EditorData.GridPositionSnappingMode )
+		
+		AddGadgetItem( ResizingSnappingGadget, LocalizeString( "{{I_EdgeSnap}}" ) )
+		AddGadgetItem( ResizingSnappingGadget, LocalizeString( "{{I_SizeSnap}}" ) )
+		AddGadgetItem( ResizingSnappingGadget, LocalizeString( "{{I_FixedResize}}" ) )
+		SelectGadgetItem( ResizingSnappingGadget, L_EditorData.GridResizingSnappingMode )
+		
+		SetGadgetText( CellWidthField, L_TrimDouble( L_EditorData.GridCellWidth ) )
+		SetGadgetText( CellHeightField, L_TrimDouble( L_EditorData.GridCellHeight ) )
+		SetGadgetText( HorizontalDivField, L_EditorData.GridCellXDiv )
+		SetGadgetText( VerticalDivField, L_EditorData.GridCellYDiv )
 		
 		Repeat
 			PollEvent()
@@ -150,10 +145,9 @@ Type TGrid Extends LTShape
 				Case Event_GadgetAction
 					Select EventSource()
 						Case SelectColorButton
-							RequestColor( 255.0 * L_DebugVisualizer.Red, 255.0 * L_DebugVisualizer.Green, 255.0 * L_DebugVisualizer.Blue )
-							L_DebugVisualizer.Red = RequestedRed() / 255.0
-							L_DebugVisualizer.Green = RequestedGreen() / 255.0
-							L_DebugVisualizer.Blue = RequestedBlue() / 255.0
+							SelectColor( L_EditorData.GridColor )
+							L_EditorData.GridColor.CopyColorTo( L_DebugVisualizer )
+							Editor.SetChanged()
 						Case OKButton
 							Local NewCellWidth:Double = TextFieldText( CellWidthField ).ToDouble()
 							Local NewCellHeight:Double = TextFieldText( CellHeightField ).ToDouble()
@@ -161,16 +155,19 @@ Type TGrid Extends LTShape
 							Local NewCellYDiv:Double = TextFieldText( VerticalDivField ).ToInt()
 							If NewCellWidth > 0 And NewCellHeight > 0 Then
 								If NewCellXDiv > 0 And NewCellYDiv > 0 Then
-									CellWidth = NewCellWidth
-									CellHeight = NewCellHeight
-									CellXDiv = NewCellXDiv
-									CellYDiv = NewCellYDiv
+									L_EditorData.GridCellWidth = NewCellWidth
+									L_EditorData.GridCellHeight = NewCellHeight
+									L_EditorData.GridCellXDiv = NewCellXDiv
+									L_EditorData.GridCellYDiv = NewCellYDiv
+									L_EditorData.GridPositionSnappingMode = SelectedGadgetItem( PositionSnappingGadget )
+									L_EditorData.GridResizingSnappingMode = SelectedGadgetItem( ResizingSnappingGadget )
+									Editor.SetChanged()
 									Exit
 								Else
-									Notify( "Cell divisions must be more than 0", True )
+									Notify( LocalizeString( "{{N_CellDivisionsMore}}" ), True )
 								End If
 							Else
-								Notify( "Cell width and height must be more than 0", True )
+								Notify( LocalizeString( "{{N_CellSizesMore}}" ), True )
 							End If
 					End Select
 				Case Event_WindowClose
@@ -180,3 +177,18 @@ Type TGrid Extends LTShape
 		FreeGadget( GridSettingsWindow )
 	End Method
 End Type
+
+
+
+Function SelectColor:Int( Color:LTColor, SelectAlpha:Int = True )
+	If Not RequestColor( 255.0 * Color.Red, 255.0 * Color.Green, 255.0 * Color.Blue ) Then Return False
+	If SelectAlpha Then
+		Local AlphaString:String = L_TrimDouble( Color.Alpha )
+		If Not EnterString( "{{W_EnterAlpha}} (0.0 - 1.0)", AlphaString ) Then Return False
+		Color.Alpha = AlphaString.ToDouble()
+	End If
+	Color.Red = RequestedRed() / 255.0
+	Color.Green = RequestedGreen() / 255.0
+	Color.Blue = RequestedBlue() / 255.0
+	Return True
+End Function

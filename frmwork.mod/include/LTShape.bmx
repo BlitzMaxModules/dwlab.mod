@@ -14,7 +14,6 @@ Include "LTSprite.bmx"
 Include "LTMap.bmx"
 Include "LTLine.bmx"
 Include "LTGraph.bmx"
-Include "LTVisualizer.bmx"
 
 Rem
 bbdoc: Common object for item of game field.
@@ -123,7 +122,11 @@ Type LTShape Extends LTObject
 	bbdoc: Prints text inside the shape.
 	about: Current ImageFont is used. You can specify horizontal and vertical alignment and also horizontal and vertical shift in units.
 	End Rem
-	Method PrintText( Text:String, HorizontalAlign:Int = LTAlign.ToCenter, VerticalAlign:Int = LTAlign.ToCenter, HorizontalShift:Double = 0, VerticalShift:Double = 0, Contour:Int = False )
+	Method PrintText( Text:String, Size:Double, HorizontalAlign:Int = LTAlign.ToCenter, VerticalAlign:Int = LTAlign.ToCenter, HorizontalShift:Double = 0, VerticalShift:Double = 0, Contour:Int = False )
+		Local SXSize:Double, SYSize:Double
+		L_CurrentCamera.SizeFieldToScreen( 0, Size, SXSize, SYSize )
+		Local K:Double = SYSize / TextHeight( Text )
+		
 		Local XX:Double, YY:Double
 		Select HorizontalAlign
 			Case LTAlign.ToLeft
@@ -148,23 +151,25 @@ Type LTShape Extends LTObject
 		
 		Select HorizontalAlign
 			Case LTAlign.ToCenter
-				SX :- 0.5 * TextWidth( Text )
+				SX :- 0.5 * TextWidth( Text ) * K
 			Case LTAlign.ToRight
-				SX :- TextWidth( Text )
+				SX :- TextWidth( Text ) * K
 		End Select
 		
 		Select VerticalAlign
 			Case LTAlign.ToCenter
-				SY :- 0.5 * TextHeight( Text )
+				SY :- 0.5 * TextHeight( Text ) * K
 			Case LTAlign.ToBottom
-				SY :- TextHeight( Text )
+				SY :- TextHeight( Text ) * K
 		End Select
 		
+		SetScale K, K
 		If Contour Then
 			L_DrawTextWithContour( Text, SX, SY )
 		Else
 			DrawText( Text, SX, SY )
 		End If
+		SetScale 1.0, 1.0
 	End Method
 	
 	

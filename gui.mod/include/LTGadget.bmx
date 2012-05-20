@@ -13,12 +13,15 @@ Include "LTTextField.bmx"
 Include "LTListBox.bmx"
 Include "LTSlider.bmx"
 
+Global L_TextSize:Double = 0.5
+
 Rem
 bbdoc: Class for GUI gagdet for placing on window.
 End Rem
 Type LTGadget Extends LTSprite
 	Const Horizontal:Int = 0
 	Const Vertical:Int = 1
+	Field TextSize:Double = L_TextSize
 	
 	
 	
@@ -27,6 +30,7 @@ Type LTGadget Extends LTSprite
 	about: Called after loading window with this gadget.
 	End Rem
 	Method Init()
+		If ParameterExists( "text_size" ) Then TextSize = GetParameter( "text_size" ).ToDouble()
 	End Method
 	
 	

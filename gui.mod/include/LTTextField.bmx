@@ -33,9 +33,9 @@ Type LTTextField Extends LTGadget
 		Super.Draw()
 		SetColor( 0, 0, 0 )
 		If L_ActiveTextField = Self Then
-			PrintText( " " + LeftPart + "_" + RightPart, LTAlign.ToLeft )
+			PrintText( " " + LeftPart + "_" + RightPart, TextSize, LTAlign.ToLeft )
 		Else
-			PrintText( " " + Text, LTAlign.ToLeft )
+			PrintText( " " + Text, TextSize, LTAlign.ToLeft )
 		End If
 		LTVisualizer.ResetColor()
 	End Method

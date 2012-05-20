@@ -29,9 +29,22 @@ Type LTXMLObject Extends LTObject
 	
 	
 	Rem
+	bbdoc: Cheks if attribute with specified name exists.
+	returns: True if attribute exists.
+	about: See also: #GetAttribute, #SetAttribute, #RemoveAttribulte
+	End Rem
+	Method AttributeExists:Int( AttrName:String )
+		For Local Attr:LTXMLAttribute = EachIn Attributes
+			If Attr.Name = AttrName Then Return True
+		Next
+	End Method
+	
+	
+	
+	Rem
 	bbdoc: Returns value of XMLObject attribute with given name.
 	returns: Attribute string value.
-	about: See also: #SetAttribute, #RemoveAttribulte
+	about: See also: #AttributeExists, #SetAttribute, #RemoveAttribulte
 	End Rem
 	Method GetAttribute:String( AttrName:String )
 		For Local Attr:LTXMLAttribute = EachIn Attributes
@@ -43,7 +56,7 @@ Type LTXMLObject Extends LTObject
 	
 	Rem
 	bbdoc: Sets value of XMLObject attribute with given name.
-	about: See also: #GetAttribute, #RemoveAttribulte
+	about: See also: #AttributeExists, #GetAttribute, #RemoveAttribulte
 	End Rem
 	Method SetAttribute( AttrName:String, AttrValue:String)
 		For Local Attr:LTXMLAttribute = EachIn Attributes
@@ -63,7 +76,7 @@ Type LTXMLObject Extends LTObject
 	
 	Rem
 	bbdoc: Removes attribute with given name of XMLObject.
-	about: See also: #GetAttribute, #SetAttribute
+	about: See also: #AttributeExists, #GetAttribute, #SetAttribute
 	End Rem
 	Method RemoveAttribute:String( AttrName:String )
 		Local Link:TLink = Attributes.FirstLink()
@@ -136,7 +149,7 @@ Type LTXMLObject Extends LTObject
 			Next
 			AttrVariable = DefaultValue
 		ElseIf AttrVariable <> DefaultValue Then
-			SetAttribute( AttrName, String( L_TrimDouble( AttrVariable ) ) )
+			SetAttribute( AttrName, String( L_TrimDouble( AttrVariable, 8 ) ) )
 		End If
 	End Method
 	

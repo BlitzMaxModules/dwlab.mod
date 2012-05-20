@@ -158,6 +158,7 @@ Filling%=1
 LTGadget^dwlab.frmwork.LTSprite{
 Horizontal%=0
 Vertical%=1
+.TextSize!&
 -New%()="_dwlab_gui_LTGadget_New"
 -Delete%()="_dwlab_gui_LTGadget_Delete"
 -Init%()="_dwlab_gui_LTGadget_Init"
@@ -171,6 +172,7 @@ Vertical%=1
 L_Window:LTWindow&=mem:p("dwlab_gui_L_Window")
 L_ActiveTextField:LTTextField&=mem:p("dwlab_gui_L_ActiveTextField")
 L_GUICamera:dwlab.frmwork.LTCamera&=mem:p("dwlab_gui_L_GUICamera")
+L_TextSize!&=mem:d("dwlab_gui_L_TextSize")
 L_LeftMouseButton:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_LeftMouseButton")
 L_RightMouseButton:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_RightMouseButton")
 L_MiddleMouseButton:dwlab.frmwork.LTButtonAction&=mem:p("dwlab_gui_L_MiddleMouseButton")

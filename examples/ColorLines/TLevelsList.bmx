@@ -29,7 +29,7 @@ Type TLevelsList Extends LTListBox
 			Sprite.Draw()
 		End If
 		SetColor( 0, 0, 0 )
-		Sprite.PrintText( LocalizeString( LTShape( Item ).GetName() ) )
+		Sprite.PrintText( LocalizeString( LTShape( Item ).GetName() ), TextSize )
 		LTVisualizer.ResetColor()
 	End Method
 	

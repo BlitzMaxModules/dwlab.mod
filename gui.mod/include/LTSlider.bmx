@@ -109,9 +109,9 @@ Type LTSlider Extends LTGadget
 				SetColor( 0, 0, 0 )
 				Select SelectionType
 					Case Moving
-						PrintText( L_Round( 100 * Position ) + "%" )
+						PrintText( L_Round( 100 * Position ) + "%", TextSize )
 					Case Filling
-						PrintText( L_Round( 100 * Size ) + "%" )
+						PrintText( L_Round( 100 * Size ) + "%", TextSize )
 				End Select
 				SetColor( 255, 255, 255 )
 			End If

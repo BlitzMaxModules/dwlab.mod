@@ -21,8 +21,6 @@ Type TTileCollisionShapes
 	Field TileSet:LTTileSet
 	Field TileNum:Int
 	Field Visualizer:LTVisualizer = New LTVisualizer
-	Field GridCellXDiv:Int = 16
-	Field GridCellYDiv:Int = 16
 	Field GridActive:Int = True
 
 	Field ShapeComboBox:TGadget
@@ -249,8 +247,8 @@ Type TTileCollisionShapes
 		Local OKButton:TGadget = Form.AddButton( "{{B_OK}}", 80, Button_OK )
 		Form.Finalize()
 		
-		SetGadgetText( VerticalDivField, GridCellXDiv )
-		SetGadgetText( HorizontalDivField, GridCellYDiv )
+		SetGadgetText( VerticalDivField, L_EditorData.GridCellXDiv )
+		SetGadgetText( HorizontalDivField, L_EditorData.GridCellYDiv )
 		SetButtonState( ActiveCheckBox, GridActive )
 		
 		Repeat
@@ -262,8 +260,8 @@ Type TTileCollisionShapes
 							Local NewCellXDiv:Double = TextFieldText( VerticalDivField ).ToInt()
 							Local NewCellYDiv:Double = TextFieldText( HorizontalDivField ).ToInt()
 							If NewCellXDiv > 0 And NewCellYDiv > 0 Then
-								GridCellXDiv = NewCellXDiv
-								GridCellYDiv = NewCellYDiv
+								L_EditorData.GridCellXDiv = NewCellXDiv
+								L_EditorData.GridCellYDiv = NewCellYDiv
 								GridActive = ButtonState( ActiveCheckBox )
 								Exit
 							Else
@@ -306,8 +304,8 @@ Type TCreateCollisionShape Extends LTDrag
 		CollisionShape.Visualizer = Null
 		CollisionShape.JumpTo( TileCollisionShapes.Cursor )
 		CollisionShape.SetSize( 0.0, 0.0 )
-		StartingX = 1.0 * Int( TileCollisionShapes.Cursor.X * TileCollisionShapes.GridCellXDiv ) / TileCollisionShapes.GridCellXDiv
-		StartingY = 1.0 * Int( TileCollisionShapes.Cursor.Y * TileCollisionShapes.GridCellYDiv ) / TileCollisionShapes.GridCellYDiv
+		StartingX = 1.0 * Int( TileCollisionShapes.Cursor.X * L_EditorData.GridCellXDiv ) / L_EditorData.GridCellXDiv
+		StartingY = 1.0 * Int( TileCollisionShapes.Cursor.Y * L_EditorData.GridCellYDiv ) / L_EditorData.GridCellYDiv
 		
 		If TileCollisionShapes.CollisionGroup Then
 			TileCollisionShapes.CollisionGroup.AddLast( CollisionShape )
@@ -330,8 +328,8 @@ Type TCreateCollisionShape Extends LTDrag
 		Local CursorX:Double = L_LimitDouble( TileCollisionShapes.Cursor.X, 0.0, 1.0 )
 		Local CursorY:Double = L_LimitDouble( TileCollisionShapes.Cursor.Y, 0.0, 1.0 )
 		If TileCollisionShapes.GridActive Then
-			CursorX = 1.0 * Int( CursorX * TileCollisionShapes.GridCellXDiv ) / TileCollisionShapes.GridCellXDiv
-			CursorY = 1.0 * Int( CursorY * TileCollisionShapes.GridCellYDiv ) / TileCollisionShapes.GridCellYDiv
+			CursorX = 1.0 * Int( CursorX * L_EditorData.GridCellXDiv ) / L_EditorData.GridCellXDiv
+			CursorY = 1.0 * Int( CursorY * L_EditorData.GridCellYDiv ) / L_EditorData.GridCellYDiv
 		End If
 		CollisionShape.SetSize( Abs( StartingX - CursorX ), Abs( StartingY - CursorY ) )
 		CollisionShape.SetCornerCoords( Min( StartingX, CursorX ), Min( StartingY, CursorY ) )
@@ -384,8 +382,8 @@ Type TMoveCollisionShape Extends LTDrag
 		If NewLeftX + CollisionShape.Width > 1.0 Then NewLeftX = 1.0 - CollisionShape.Width
 		If NewTopY + CollisionShape.Height > 1.0 Then NewTopY = 1.0 - CollisionShape.Height
 		If TileCollisionShapes.GridActive Then
-			NewLeftX = 1.0 * Int( NewLeftX * TileCollisionShapes.GridCellXDiv ) / TileCollisionShapes.GridCellXDiv
-			NewTopY = 1.0 * Int( NewTopY * TileCollisionShapes.GridCellYDiv ) / TileCollisionShapes.GridCellYDiv
+			NewLeftX = 1.0 * Int( NewLeftX * L_EditorData.GridCellXDiv ) / L_EditorData.GridCellXDiv
+			NewTopY = 1.0 * Int( NewTopY * L_EditorData.GridCellYDiv ) / L_EditorData.GridCellYDiv
 		End If
 		CollisionShape.SetCornerCoords( NewLeftX, NewTopY )
 		TileCollisionShapes.RefreshFields()
@@ -432,8 +430,8 @@ Type TResizeCollisionShape Extends LTDrag
 		If CollisionShape.LeftX() + NewWidth > 1.0 Then NewWidth = 1.0 - CollisionShape.LeftX()
 		If CollisionShape.TopY() + NewHeight > 1.0 Then NewHeight = 1.0 - CollisionShape.TopY()
 		If TileCollisionShapes.GridActive Then
-			NewWidth = 1.0 * Int( NewWidth * TileCollisionShapes.GridCellXDiv ) / TileCollisionShapes.GridCellXDiv
-			NewHeight = 1.0 * Int( NewHeight * TileCollisionShapes.GridCellYDiv ) / TileCollisionShapes.GridCellYDiv
+			NewWidth = 1.0 * Int( NewWidth * L_EditorData.GridCellXDiv ) / L_EditorData.GridCellXDiv
+			NewHeight = 1.0 * Int( NewHeight * L_EditorData.GridCellYDiv ) / L_EditorData.GridCellYDiv
 		End If
 		CollisionShape.SetCoords( CollisionShape.LeftX() + 0.5 * NewWidth, CollisionShape.TopY() + 0.5 * NewHeight )
 		CollisionShape.SetSize( NewWidth, NewHeight )

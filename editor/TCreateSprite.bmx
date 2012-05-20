@@ -31,7 +31,7 @@ Type TCreateSprite Extends LTDrag
 	Method StartDragging()
 		StartX = Editor.Cursor.X
 		StartY = Editor.Cursor.Y
-		Editor.Grid.Snap( StartX, StartY )
+		Editor.Grid.SnapCoords( StartX, StartY )
 		
 		Local CurrentSprite:LTSprite = LTSprite( Editor.CurrentShape )
 		If CurrentSprite Then
@@ -51,7 +51,7 @@ Type TCreateSprite Extends LTDrag
 	Method Dragging()
 		Local X:Double = Editor.Cursor.X
 		Local Y:Double = Editor.Cursor.Y
-		Editor.Grid.Snap( X, Y )
+		Editor.Grid.SnapCoords( X, Y )
 		Sprite.SetCoords( 0.5 * ( X + StartX ), 0.5 * ( Y + StartY ) )
 		Sprite.SetSize( Abs( X - StartX ), Abs( Y - StartY ) )
 	End Method

@@ -24,8 +24,8 @@ Type LTKeysList Extends LTListBox
 		
 		SetColor( 0, 0, 0 )
 		Local ButtonAction:LTButtonAction = LTButtonAction( Item )
-		Sprite.PrintText( LocalizeString( "{{" + ButtonAction.Name + "}}" ), LTAlign.ToLeft, , 0.25 )
-		Sprite.PrintText( LocalizeString( ButtonAction.GetButtonNames( True ) ), LTAlign.ToRight, , -0.25 )
+		Sprite.PrintText( LocalizeString( "{{" + ButtonAction.Name + "}}" ), TextSize, LTAlign.ToLeft, , 0.25 )
+		Sprite.PrintText( LocalizeString( ButtonAction.GetButtonNames( True ) ), TextSize, LTAlign.ToRight, , -0.25 )
 		LTVisualizer.ResetColor()
 	End Method
 	

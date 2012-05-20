@@ -10,7 +10,6 @@
 
 Global L_Window:LTWindow
 Global L_ActiveTextField:LTTextField
-L_Cursor.ShapeType = LTSprite.Pivot
 
 Rem
 bbdoc: Camera for displaying windows.

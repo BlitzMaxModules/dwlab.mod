@@ -16,7 +16,7 @@ Function TilemapImportDialog:LTTileMap( Multiple:Int = False )
 	
 	Local TileSet:LTTileSet
 	
-	If Not Editor.World.Tilesets.IsEmpty() Then
+	If Not L_EditorData.Tilesets.IsEmpty() Then
 		Local Window:TGadget =CreateWindow( "{{W_SelectTileSet}}", 0, 0, 0, 0, Editor.Window, Window_Titlebar | Window_ClientCoords )
 		Local Form:LTForm = LTForm.Create( Window )
 		Form.NewLine()
@@ -114,7 +114,7 @@ Function TilemapImportDialog:LTTileMap( Multiple:Int = False )
 	
 	If ImageInit Then
 		Editor.InitImage( TileSet.Image )
-		Editor.World.Tilesets.AddLast( TileSet )
+		L_EditorData.Tilesets.AddLast( TileSet )
 	Else
 		Editor.BigImages.Insert( TileSet.Image, LoadImage( TileSet.Image.Filename ) )
 	End If

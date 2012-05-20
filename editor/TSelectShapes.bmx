@@ -81,8 +81,3 @@ Type TSelectShapes Extends LTDrag
 		Next
 	End Method
 End Type
-
-
-
-Type TEmptyHandler Extends LTSpriteCollisionHandler
-End Type

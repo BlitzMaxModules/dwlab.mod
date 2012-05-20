@@ -89,7 +89,7 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 								Local NewTileSet:LTTileSet = New LTTileSet
 								NewTileSet.Name = Name
 								If SelectImageOrTileSet( NewTileSet ) Then
-									Editor.World.TileSets.AddLast( NewTileSet )
+									L_EditorData.TileSets.AddLast( NewTileSet )
 									NewObject = NewTileSet
 								End If
 							End If
@@ -142,7 +142,7 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 								End If
 								If Proceed Then
 									RemoveTileset( LTTileSet( SelectedObject ), Editor.World )
-									Editor.World.TileSets.Remove( SelectedObject )
+									L_EditorData.TileSets.Remove( SelectedObject )
 									FillComboBox( ComboBox, TileMap, SelectedObject )
 									SelectedObject = Null
 									Editor.SetChanged()
@@ -153,10 +153,10 @@ Function SelectImageOrTileset:LTObject( Obj:Object )
 								End If
 								If Proceed Then
 									RemoveImage( LTImage( SelectedObject ), Editor.World )
-									For Local TileSet:LTTileSet = Eachin Editor.World.TileSets
+									For Local TileSet:LTTileSet = Eachin L_EditorData.TileSets
 										If TileSet.Image = Image Then TileSet.Image = Null
 									Next
-									Editor.World.Images.Remove( SelectedObject )
+									L_EditorData.Images.Remove( SelectedObject )
 									FillComboBox( ComboBox, TileMap, SelectedObject )
 									SelectedObject = Null
 									Editor.SetChanged()
@@ -220,12 +220,12 @@ Function FillComboBox( ComboBox:TGadget, TileMap:LTTileMap, SelectedObject:Objec
 	AddGadgetItem( ComboBox, LocalizeString( "{{I_Null}}" ) )
 	SelectGadgetItem( ComboBox, 0 )
 	If TileMap Then
-		For Local TileSet:LTTileSet = Eachin Editor.World.TileSets
+		For Local TileSet:LTTileSet = Eachin L_EditorData.TileSets
 			AddGadgetItem( ComboBox, TileSet.Name, , , , TileSet )
 			If TileSet = SelectedObject Then SelectGadgetItem( ComboBox, CountGadgetItems( ComboBox ) - 1 )
 		Next
 	Else
-		For Local Image:LTImage = Eachin Editor.World.Images
+		For Local Image:LTImage = Eachin L_EditorData.Images
 			AddGadgetItem( ComboBox, StripDir( Image.Filename ), , , , Image )
 			If Image = SelectedObject Then SelectGadgetItem( ComboBox, CountGadgetItems( ComboBox ) - 1 )
 		Next
@@ -249,7 +249,7 @@ Function CheckImageUsage:Int( Image:LTImage, Layer:LTLayer = Null )
 			End If
 		Next
 	Else
-		For Local TileSet:LTTileSet = Eachin Editor.World.TileSets
+		For Local TileSet:LTTileSet = Eachin L_EditorData.TileSets
 			If TileSet.Image = Image Then Return True
 		Next
 		Return CheckImageUsage( Image, Editor.World )

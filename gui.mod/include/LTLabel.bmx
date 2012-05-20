@@ -43,6 +43,8 @@ Type LTLabel Extends LTGadget
 	You can also set a name of the label and set "gadget_name" parameter to this name for any sprite inside window layer to load it as label icon.
 	End Rem	
 	Method Init()
+		Super.Init()
+	
 		Local Name:String = GetName()
 		If Name Then Icon = LTSprite( L_Window.FindShapeWithParameter( "gadget_name", GetName(), "", True ) )
 		
@@ -104,11 +106,10 @@ Type LTLabel Extends LTGadget
 		
 		TextVisualizer.ApplyColor()
 		Local Chunks:String[] = Text.Split( "|" )
-		Local ChunkHeight:Double = L_CurrentCamera.DistScreenToField( TextHeight( "M" ) )
-		Local ChunkY:Double = GetDY() - 0.5 * ( Chunks.Dimensions()[ 0 ] - 1 ) * ChunkHeight
+		Local ChunkY:Double = GetDY() - 0.5 * ( Chunks.Dimensions()[ 0 ] - 1 ) * TextSize
 		For Local Chunk:String = Eachin Chunks
-			PrintText( Chunk, HAlign, VAlign, TextDX + GetDX(), TextDY + ChunkY )
-			ChunkY :+ ChunkHeight
+			PrintText( Chunk, TextSize, HAlign, VAlign, TextDX + GetDX(), TextDY + ChunkY )
+			ChunkY :+ TextSize
 		Next
 		TextVisualizer.ResetColor()
 	End Method

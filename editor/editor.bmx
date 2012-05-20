@@ -11,11 +11,9 @@
 
 SuperStrict
 
-Import brl.pngloader
-Import brl.jpgloader
-Import brl.bmploader
-
 Import dwlab.frmwork
+Import dwlab.graphicsdrivers
+Import brl.bmploader
 
 Import brl.eventqueue
 ?win32
@@ -65,8 +63,8 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.7.11"
-	Const INIVersion:Int = 4
+	Const Version:String = "1.7.12"
+	Const INIVersion:Int = 5
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 8
 	
@@ -182,7 +180,7 @@ Type LTEditor Extends LTProject
 	Field SetTile:TSetTile = New TSetTile
 	Field Grid:TGrid = New TGrid
 	Field MarchingAnts:LTMarchingAnts = New LTMarchingAnts
-	Field EmptyHandler:TEmptyHandler = New TEmptyHandler
+	Field EmptyHandler:LTSpriteCollisionHandler = New LTSpriteCollisionHandler
 
 	
 	
@@ -201,6 +199,7 @@ Type LTEditor Extends LTProject
 	Const MenuTilemapEditingMode:Int = 13
 	Const MenuReplacementOfTiles:Int = 15
 	Const MenuProlongTiles:Int = 16
+	Const MenuBackgroundColor:Int = 66
 	Const MenuCameraProperties:Int = 51
 	Const MenuIncbin:Int = 54
 	Const MenuBilinearFiltering:Int = 65
@@ -349,6 +348,7 @@ Type LTEditor Extends LTProject
 		LTMenuSwitch.Create( "{{M_ReplacementOfTiles}}", Toolbar, MenuReplacementOfTiles, EditMenu )
 		LTMenuSwitch.Create( "{{M_ProlongTiles}}", Toolbar, MenuProlongTiles, EditMenu )
 		CreateMenu( "", 0, EditMenu )
+		CreateMenu( "{{M_BackgroundColor}}", MenuBackgroundColor, EditMenu )
 		CreateMenu( "{{M_CameraProperties}}", MenuCameraProperties, EditMenu )
 		IncbinMenu = CreateMenu( "{{M_Incbin}}", MenuIncbin, EditMenu )
 		
@@ -426,8 +426,7 @@ Type LTEditor Extends LTProject
 		CreateMenu( "{{M_ModifyParameter}}", MenuModifyParameter, ParameterMenu )
 		CreateMenu( "{{M_RemoveParameter}}", MenuRemoveParameter, ParameterMenu )
 	
-		L_DebugVisualizer.SetColorFromHex( "FF00FF" )
-		L_DebugVisualizer.Alpha = 0.5
+		L_EditorData = New LTEditorData
 		
 		SelectedTile.Visualizer = New LTMarchingAnts
 		
@@ -460,22 +459,9 @@ Type LTEditor Extends LTProject
 				L_ProlongTiles = LTMenuSwitch.Find( MenuProlongTiles ).State()
 				ReplacementOfTiles = LTMenuSwitch.Find( MenuReplacementOfTiles ).State()
 				BilinearFiltering = LTMenuSwitch.Find( MenuBilinearFiltering ).State()
-				
-				ReadLine( IniFile )
+				TileCollisionShapes.GridActive = ReadLine( IniFile ).ToInt()
 				
 				SetLanguage( ReadLine( IniFile ).ToInt() )
-				
-				Grid.CellWidth = ReadLine( IniFile ).ToDouble()
-				Grid.CellHeight = ReadLine( IniFile ).ToDouble()
-				Grid.CellXDiv = ReadLine( IniFile ).ToInt()
-				Grid.CellYDiv = ReadLine( IniFile ).ToInt()
-				L_DebugVisualizer.Red = ReadLine( IniFile ).ToInt()
-				L_DebugVisualizer.Green = ReadLine( IniFile ).ToInt()
-				L_DebugVisualizer.Blue = ReadLine( IniFile ).ToInt()
-				
-				TileCollisionShapes.GridActive = ReadLine( IniFile ).ToInt()
-				TileCollisionShapes.GridCellXDiv = ReadLine( IniFile ).ToInt()
-				TileCollisionShapes.GridCellYDiv = ReadLine( IniFile ).ToInt()
 				
 				For Local N:Int = 0 Until RecentFilesQuantity
 					RecentFiles[ N ] = ReadLine( IniFile )
@@ -606,7 +592,7 @@ Type LTEditor Extends LTProject
 			
 			RealPathsForImages.Clear()
 			BigImages.Clear()
-			For Local Image:LTImage = Eachin World.Images
+			For Local Image:LTImage = Eachin L_EditorData.Images
 				RealPathsForImages.Insert( Image, RealPath( Image.Filename ) )
 				BigImages.Insert( Image, LoadImage( Image.Filename ) )
 			Next
@@ -637,7 +623,7 @@ Type LTEditor Extends LTProject
 			InsertToRecentFiles( Filename )
 			ChangeDir( ExtractDir( Filename ) )
 			
-			For Local Image:LTImage = Eachin World.Images
+			For Local Image:LTImage = Eachin L_EditorData.Images
 				Image.Filename = L_ChopFilename( String( RealPathsForImages.ValueForKey( Image ) ) )
 			Next
 			
@@ -645,10 +631,10 @@ Type LTEditor Extends LTProject
 			Changed = False
 			SetTitle()
 			
-			If World.IncbinValue Then
+			If L_EditorData.IncbinValue Then
 				Local File:TStream = WriteFile( StripAll( FileName ) + "_incbin.bmx" )
 				WriteLine( File, "Incbin ~q" + StripDir( FileName ) + "~q" )
-				For Local Image:LTImage = Eachin World.Images
+				For Local Image:LTImage = Eachin L_EditorData.Images
 					WriteLine( File, "Incbin ~q" + Image.Filename + "~q" )
 				Next
 				WriteLine( File, "L_SetIncbin( True )" )
@@ -665,19 +651,23 @@ Type LTEditor Extends LTProject
 		
 		Local OldDir:String = CurrentDir()
 		ChangeDir( ExtractDir( Filename ) )
+		
+		Local OldEditorData:LTEditorData = L_EditorData
 		Local NewWorld:LTWorld = LTWorld.FromFile( Filename )
 		
-		For Local Image:LTImage = Eachin NewWorld.Images
-			World.Images.AddLast( Image )
+		For Local Image:LTImage = Eachin L_EditorData.Images
+			OldEditorData.Images.AddLast( Image )
 			RealPathsForImages.Insert( Image, RealPath( Image.Filename ) )
 			BigImages.Insert( Image, LoadImage( Image.Filename ) )
 		Next
+		L_EditorData.Images = OldEditorData.Images
 		
 		ChangeDir( OldDir )
 		
-		For Local TileSet:LTTileSet = Eachin NewWorld.Tilesets
-			World.Tilesets.AddLast( TileSet )
+		For Local TileSet:LTTileSet = Eachin L_EditorData.Tilesets
+			OldEditorData.Tilesets.AddLast( TileSet )
 		Next
+		L_EditorData.Tilesets = OldEditorData.Tilesets
 		
 		For Local Layer:LTLayer = Eachin NewWorld
 			World.AddLast( Layer )
@@ -698,7 +688,7 @@ Type LTEditor Extends LTProject
 		WriteLine( IniFile, INIVersion )
 		WriteLine( IniFile, WorldFilename )
 		LTMenuSwitch.SaveSwicthes( IniFile )
-		WriteLine( IniFile, "" )
+		WriteLine( IniFile, TileCollisionShapes.GridActive )
 		
 		Select CurrentLanguage
 			Case EnglishLanguage
@@ -707,17 +697,6 @@ Type LTEditor Extends LTProject
 				WriteLine( IniFile, RussianNum )
 		End Select
 		
-		WriteLine( IniFile, Grid.CellWidth )
-		WriteLine( IniFile, Grid.CellHeight )
-		WriteLine( IniFile, Grid.CellXDiv )
-		WriteLine( IniFile, Grid.CellYDiv )
-		WriteLine( IniFile, L_DebugVisualizer.Red )
-		WriteLine( IniFile, L_DebugVisualizer.Green )
-		WriteLine( IniFile, L_DebugVisualizer.Blue )
-		WriteLine( IniFile, TileCollisionShapes.GridActive )
-		WriteLine( IniFile, TileCollisionShapes.GridCellXDiv )
-		WriteLine( IniFile, TileCollisionShapes.GridCellYDiv )
-
 		For Local N:Int = 0 Until RecentFilesQuantity
 			WriteLine( IniFile, RecentFiles[ N ] )
 		Next
@@ -930,7 +909,7 @@ Type LTEditor Extends LTProject
 						End If
 					Case Key_S
 						If Not SelectedShapes.IsEmpty() Then
-							Grid.Snap( Cursor.X, Cursor.Y )
+							Grid.SnapPosition( Cursor.X, Cursor.Y, 0, 0, 0, 0 )
 							For Local Sprite:LTSprite = Eachin SelectedShapes
 								Sprite.DirectTo( Cursor )
 							Next
@@ -1033,10 +1012,12 @@ Type LTEditor Extends LTProject
 						ReplacementOfTiles = LTMenuSwitch.Find( MenuReplacementOfTiles ).Toggle()
 					Case MenuProlongTiles
 						L_ProlongTiles = LTMenuSwitch.Find( MenuProlongTiles ).Toggle()
+					Case MenuBackgroundColor
+						If SelectColor( L_EditorData.BackgroundColor, False ) Then SetChanged()
 					Case MenuCameraProperties
 						CameraProperties.Execute()
 					Case MenuIncbin
-						World.IncbinValue = 1 - World.IncbinValue
+						L_EditorData.IncbinValue = Not L_EditorData.IncbinValue
 						SetIncbin()
 						
 					Case MenuShowCollisionShapes
@@ -1049,7 +1030,7 @@ Type LTEditor Extends LTProject
 						ShowGrid = LTMenuSwitch.Find( MenuShowGrid ).Toggle()
 					Case MenuBilinearFiltering
 						ToggleBilinearFiltering()
-						For Local Image:LTImage = Eachin World.Images
+						For Local Image:LTImage = Eachin L_EditorData.Images
 							Image.Init()
 						Next
 						
@@ -1568,7 +1549,7 @@ Type LTEditor Extends LTProject
 		
 		SetGraphics( CanvasGraphics( MainCanvas ) )
 		SetBlend( AlphaBlend )
-		SetClsColor( 255, 255, 255 )		
+		L_EditorData.BackgroundColor.ApplyClsColor()
 		Cls
 		
 		L_CurrentCamera = MainCamera
@@ -1866,8 +1847,8 @@ Type LTEditor Extends LTProject
 	
 	
 	Method InitImage( Image:LTImage )
+		L_EditorData.Images.AddLast( Image )
 		BigImages.Insert( Image, LoadImage( Image.Filename ) )
-		World.Images.AddLast( Image )
 		RealPathsForImages.Insert( Image, RealPath( Image.Filename ) )
 	End Method
 	
@@ -1988,7 +1969,7 @@ Type LTEditor Extends LTProject
 	
 	
 	Method SetIncbin()
-		If World.IncbinValue Then
+		If L_EditorData.IncbinValue Then
 			CheckMenu( IncbinMenu )
 		Else
 			UnCheckMenu( IncbinMenu )

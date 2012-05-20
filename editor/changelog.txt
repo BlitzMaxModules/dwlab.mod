@@ -1,5 +1,10 @@
+1.7.12
++ Grid position and resize snapping modes
++ Now it's possible to set background color and alpha of the grid
+* Grid settings are moved to the project file
+
 1.7.11
-+ Support for another algorhytm of displaying raster frame
++ Support for another algorithm of displaying raster frame
 
 1.7.10
 * Invisible sprites now shown semi-transparent.

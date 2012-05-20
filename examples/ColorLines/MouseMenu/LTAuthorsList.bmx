@@ -28,7 +28,7 @@ Type LTAuthorsList Extends LTListBox
 	Method DrawItem( Item:Object, Num:Int, Sprite:LTSprite )
 		SetColor( 0, 0, 0 )
 		Local Line:String = String( Item )
-		Sprite.PrintText( LocalizeString( Line ) )
+		Sprite.PrintText( LocalizeString( Line ), TextSize )
 		LTVisualizer.ResetColor()
 	End Method
 End Type
