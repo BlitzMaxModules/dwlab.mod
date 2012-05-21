@@ -35,7 +35,7 @@ about: Collision check method with specified collision handler will execute this
 See also: #Active example
 End Rem
 Type LTSpriteAndTileCollisionHandler Extends LTObject
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
 	End Method
 End Type
 

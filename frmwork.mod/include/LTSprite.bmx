@@ -97,7 +97,7 @@ Type LTSprite Extends LTShape
 	' ==================== Collisions ===================
 	
 	Method TileShapeCollisionsWithSprite( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double, TileMap:LTTileMap, TileX:Int, TileY:Int, Handler:LTSpriteAndTileCollisionHandler )
-		If TileSpriteCollidesWithSprite( Sprite, DX, DY, XScale, YScale ) Then Handler.HandleCollision( Sprite, TileMap, TileX, TileY )
+		If TileSpriteCollidesWithSprite( Sprite, DX, DY, XScale, YScale ) Then Handler.HandleCollision( Sprite, TileMap, TileX, TileY, Self )
 	End Method
 	
 	

@@ -77,6 +77,8 @@ Type LTShape Extends LTObject
 	End Rem
 	Field BehaviorModels:TList = New TList
 	
+	Field CollisionLayer:Int
+	
 	' ==================== Drawing ===================
 	
 	Rem

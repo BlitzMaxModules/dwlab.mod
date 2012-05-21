@@ -15,16 +15,19 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.4.5"
+ModuleInfo "Version: 1.4.6"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.7 (21.05.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added CollisionLayer LTShape parameter."
+ModuleInfo "History: &nbsp; &nbsp; Added CollisionShape variable to the HandleCollisionWithTile method."
 ModuleInfo "History: v1.4.6 (20.05.12)"
 ModuleInfo "History: &nbsp; &nbsp; Added AttributeExists XMLObject method."
 ModuleInfo "History: &nbsp; &nbsp; New class LTColor is splitted from LTVisualizer."
-ModuleInfo "History: &nbsp; &nbsp; Added EditorData class."
+ModuleInfo "History: &nbsp; &nbsp; Moved some LTWorld parameters related to the editor to the newly added LTEditorData class."
 ModuleInfo "History: v1.4.5 (22.03.12)"
 ModuleInfo "History: &nbsp; &nbsp; Added another algorhytm of displaying raster frame."
 ModuleInfo "History: v1.4.4 (22.02.12)"
@@ -227,7 +230,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.4.5"
+Const L_Version:String = "1.4.6"
 
 SeedRnd( MilliSecs() )
 
