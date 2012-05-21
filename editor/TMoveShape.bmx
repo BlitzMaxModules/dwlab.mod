@@ -12,7 +12,7 @@
 Type TMoveShape Extends LTDrag
 	Field StartX:Double, StartY:Double
 	Field LastDX:Double, LastDY:Double
-	
+	Field LeftX:Double, RightX:Double, TopY:Double, BottomY:Double
 	
 	
 	Method DragKey:Int()
@@ -31,6 +31,7 @@ Type TMoveShape Extends LTDrag
 	Method StartDragging()
 		StartX = Editor.Cursor.X
 		StartY = Editor.Cursor.Y
+		
 		LastDX = 0
 		LastDY = 0
 		
@@ -39,6 +40,14 @@ Type TMoveShape Extends LTDrag
 			Editor.ShapeForParameters = Editor.ShapeUnderCursor
 			Editor.RefreshParametersListBox()
 		End If
+		
+		For Local Shape:LTShape = Eachin Editor.SelectedShapes
+			Local First:Int = ( Shape = Editor.SelectedShapes.First() )
+			If LeftX > Shape.LeftX() Or First Then LeftX = Shape.LeftX()
+			If RightX < Shape.RightX() Or First Then RightX = Shape.RightX()
+			If TopY > Shape.TopY() Or First Then TopY = Shape.TopY()
+			If BottomY < Shape.BottomY() Or First Then BottomY = Shape.BottomY()
+		Next
 		
 		Editor.Modifiers.Clear()
 	End Method
@@ -49,14 +58,7 @@ Type TMoveShape Extends LTDrag
 		Local DX:Double = Editor.Cursor.X - StartX
 		Local DY:Double = Editor.Cursor.Y - StartY
 		
-		Local LeftX:Int, RightX:Int, TopY:Int, BottomY:Int
-		For Local Shape:LTShape = Eachin Editor.SelectedShapes
-			If LeftX > Shape.LeftX() Then LeftX = Shape.LeftX()
-			If RightX < Shape.RightX() Then RightX = Shape.RightX()
-			If TopY > Shape.TopY() Then TopY = Shape.TopY()
-			If BottomY < Shape.BottomY() Then BottomY = Shape.BottomY()
-		Next
-		Editor.Grid.SnapPosition( DX, DY, LeftX, RightX, TopY, BottomY )
+		Editor.Grid.SnapPosition( DX, DY, LeftX, TopY, RightX, BottomY )
 		
 		For Local Shape:LTShape = Eachin Editor.SelectedShapes
 			Shape.AlterCoords( DX - LastDX, DY - LastDY )
