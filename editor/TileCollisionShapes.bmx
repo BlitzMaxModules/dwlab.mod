@@ -20,10 +20,11 @@ Type TTileCollisionShapes
 	Field Cursor:LTSprite = New LTSprite
 	Field TileSet:LTTileSet
 	Field TileNum:Int
-	Field Visualizer:LTVisualizer = New LTVisualizer
 	Field GridActive:Int = True
 
 	Field ShapeComboBox:TGadget
+	Field LayerField:TGadget
+	Field LayerSlider:TGadget
 	Field XField:TGadget
 	Field YField:TGadget
 	Field WidthField:TGadget
@@ -52,6 +53,8 @@ Type TTileCollisionShapes
 		Local Form:LTForm = LTForm.Create( Window )
 		Form.NewLine()
 		ShapeComboBox = Form.AddComboBox( "{{L_Shape}}", Editor.LabelWidth, 200 )
+		Form.AddSliderWidthTextField( LayerSlider, LayerField, "{{L_CollisionLayer}}", 100, 150 )
+		SetSliderRange( LayerSlider, 0, L_MaxCollisionColor )
 		Form.NewLine()
 		XField = Form.AddTextField( "{{L_X}}", Editor.LabelWidth )
 		YField = Form.AddTextField( "{{L_Y}}", Editor.LabelWidth )
@@ -73,8 +76,8 @@ Type TTileCollisionShapes
 		Cursor.ShapeType = LTSprite.Circle
 		Cursor.SetSize( Size, Size )
 	
-		Visualizer.Alpha = 0.5
-		Visualizer.SetColorFromRGB( 1.0, 0.0, 1.0 )
+		Local TileMap:LTTileMap = LTTileMap.Create( TileSet, 1, 1 )
+		TileMap.SetCoords( 0.5, 0.5 )
 		
 		Local MouseIsOver:TGadget
 		TileNum = 0
@@ -93,7 +96,8 @@ Type TTileCollisionShapes
 			SetScale( 1.0, 1.0 )
 			
 			CollisionShape = TileSet.CollisionShape[ TileNum ]
-			If CollisionShape Then CollisionShape.DrawUsingVisualizer( Visualizer )
+			TileMap.SetTile( 0, 0, TileNum )
+			TileMap.DrawUsingVisualizer( L_DebugVisualizer )
 			If SelectedCollisionShape Then SelectedCollisionShape.DrawUsingVisualizer( Editor.MarchingAnts )
 			
 			Flip( False )
@@ -154,38 +158,39 @@ Type TTileCollisionShapes
 							MouseIsOver = TilesetCanvas
 					End Select
 				Case Event_GadgetAction
-					Select EventSource()
-						Case ShapeComboBox
-							If SelectedCollisionShape Then
+					If SelectedCollisionShape Then
+						Select EventSource()
+							Case ShapeComboBox
 								SelectedCollisionShape.ShapeType = SelectedGadgetItem( ShapeComboBox )
 								If SelectedCollisionShape.ShapeType <> LTSprite.Pivot Then
 									If SelectedCollisionShape.Width = 0.0 Or SelectedCollisionShape.Height = 0.0 Then DeleteShape()
 								End If
-							End If
-						Case XField
-							If SelectedCollisionShape Then
+							Case LayerField
+								SelectedCollisionShape.CollisionLayer = Abs( GadgetText( LayerField ).ToInt() )
+								SetSliderValue( LayerSlider, SelectedCollisionShape.CollisionLayer & L_MaxCollisionColor )
+							Case LayerSlider
+								SelectedCollisionShape.CollisionLayer = SliderValue( LayerSlider )
+								SetGadgetText( LayerField, SelectedCollisionShape.CollisionLayer )
+							Case XField
 								SelectedCollisionShape.X = GadgetText( XField ).ToDouble()
 								If SelectedCollisionShape.LeftX() < 0.0 Then SelectedCollisionShape.X = 0.5 * SelectedCollisionShape.Width
 								If SelectedCollisionShape.RightX() > 1.0 Then SelectedCollisionShape.X = 1.0 - 0.5 * SelectedCollisionShape.Width
-							End If
-						Case YField
-							If SelectedCollisionShape Then
+							Case YField
 								SelectedCollisionShape.Y = GadgetText( YField ).ToDouble()
 								If SelectedCollisionShape.TopY() < 0.0 Then SelectedCollisionShape.Y = 0.5 * SelectedCollisionShape.Height
 								If SelectedCollisionShape.BottomY() > 1.0 Then SelectedCollisionShape.Y = 1.0 - 0.5 * SelectedCollisionShape.Height
-							End If
-						Case WidthField
-							If SelectedCollisionShape Then
+							Case WidthField
 								SelectedCollisionShape.Width = GadgetText( WidthField ).ToDouble()
 								If SelectedCollisionShape.LeftX() < 0.0 Then SelectedCollisionShape.Width = 2.0 * SelectedCollisionShape.X
 								If SelectedCollisionShape.RightX() > 1.0 Then SelectedCollisionShape.Width = 2.0 * ( 1.0 - SelectedCollisionShape.X )
-							End If
-						Case HeightField
-							If SelectedCollisionShape Then
+							Case HeightField
 								SelectedCollisionShape.Height = GadgetText( HeightField ).ToDouble()
 								If SelectedCollisionShape.TopY() < 0.0 Then SelectedCollisionShape.Height = 2.0 * SelectedCollisionShape.Y
 								If SelectedCollisionShape.BottomY() > 1.0 Then SelectedCollisionShape.Height = 2.0 * ( 1.0 - SelectedCollisionShape.Y )
-							End If
+						End Select
+					End If
+					
+					Select EventSource()
 						Case GridSettingsButton
 							GridSettings()
 						Case CloseButton
@@ -220,6 +225,8 @@ Type TTileCollisionShapes
 		If SelectedCollisionShape Then
 			Editor.FillShapeComboBox( ShapeComboBox )
 			SelectGadgetItem( ShapeComboBox, SelectedCollisionShape.ShapeType )
+			SetGadgetText( LayerField, SelectedCollisionShape.CollisionLayer )
+			SetSliderValue( LayerSlider, SelectedCollisionShape.CollisionLayer & L_MaxCollisionColor )
 			SetGadgetText( XField, L_TrimDouble( SelectedCollisionShape.X ) )
 			SetGadgetText( YField, L_TrimDouble( SelectedCollisionShape.Y ) )
 			SetGadgetText( WidthField, L_TrimDouble( SelectedCollisionShape.Width ) )

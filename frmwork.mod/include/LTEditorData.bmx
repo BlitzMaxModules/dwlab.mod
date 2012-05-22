@@ -37,10 +37,10 @@ Type LTEditorData Extends LTObject
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
+		XMLObject.ManageIntAttribute( "incbin", IncbinValue )
 		XMLObject.ManageListField( "images", Images )
 		XMLObject.ManageListField( "tilesets", Tilesets )
 		
-		XMLObject.ManageIntAttribute( "incbin", IncbinValue )
 		BackgroundColor = LTColor( XMLObject.ManageObjectField( "background", BackgroundColor ) )
 		XMLObject.ManageDoubleAttribute( "cell_width", GridCellWidth )
 		XMLObject.ManageDoubleAttribute( "cell_width", GridCellHeight )

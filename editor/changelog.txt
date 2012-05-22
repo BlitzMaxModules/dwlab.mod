@@ -1,3 +1,7 @@
+1.7.13
++ Collision layer selection for sprites and tile collision shapes.
+* Angle and frame field on sprite panel now has sliders.
+
 1.7.12
 + Grid position and resize snapping modes
 + Now it's possible to set background color and alpha of the grid

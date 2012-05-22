@@ -98,8 +98,6 @@ Type LTEditor Extends LTProject
 	
 	Field ProjectManager:TGadget
 	Field Panel:TGadget
-	Field RedField:TGadget
-	Field RedSlider:TGadget
 	Field ShapeBox:TGadget
 	Field XField:TGadget
 	Field YField:TGadget
@@ -107,19 +105,18 @@ Type LTEditor Extends LTProject
 	Field HeightField:TGadget
 	Field DXField:TGadget
 	Field DYField:TGadget
-	Field AngleField:TGadget
 	Field VelocityField:TGadget
-	Field GreenSlider:TGadget
-	Field GreenField:TGadget
-	Field BlueSlider:TGadget
-	Field BlueField:TGadget
-	Field AlphaSlider:TGadget
-	Field AlphaField:TGadget
+	Field AngleSlider:TGadget, AngleField:TGadget
+	Field LayerSlider:TGadget, LayerField:TGadget
+	Field RedSlider:TGadget, RedField:TGadget
+	Field GreenSlider:TGadget, GreenField:TGadget
+	Field BlueSlider:TGadget, BlueField:TGadget
+	Field AlphaSlider:TGadget, AlphaField:TGadget
 	Field XScaleField:TGadget
 	Field YScaleField:TGadget
 	Field VisDXField:TGadget
 	Field VisDYField:TGadget
-	Field FrameField:TGadget
+	Field FrameSlider:TGadget, FrameField:TGadget
 	Field SelectImageButton:TGadget
 	Field RotatingCheckbox:TGadget
 	Field ScalingCheckbox:TGadget
@@ -250,7 +247,7 @@ Type LTEditor Extends LTProject
 	Const MenuModifyParameter:Int = 57
 	Const MenuRemoveParameter:Int = 58
 
-	Const PanelHeight:Int = 296
+	Const PanelHeight:Int = 344
 	Const BarWidth:Int = 256
 	Const LabelWidth:Int = 63
 	Const ListBoxHeight:Int = 62
@@ -304,9 +301,15 @@ Type LTEditor Extends LTProject
 		WidthField = PanelForm.AddTextField( "{{L_Width}}", LabelWidth )
 		HeightField = PanelForm.AddTextField( "{{L_Height}}", LabelWidth )
 		PanelForm.NewLine()
-		AngleField = PanelForm.AddTextField( "{{L_Angle}}", LabelWidth )
 		VelocityField = PanelForm.AddTextField( "{{L_Velocity}}", LabelWidth )
-		PanelForm.NewLine( LTAlign.Stretch )		
+		SelectImageButton = PanelForm.AddButton( "{{B_SelectImage}}", LabelWidth + 56 )
+		PanelForm.NewLine( LTAlign.Stretch )
+		PanelForm.AddSliderWidthTextField( FrameSlider, FrameField, "{{L_Frame}}", LabelWidth, 50 )
+		PanelForm.NewLine( LTAlign.Stretch )
+		PanelForm.AddSliderWidthTextField( AngleSlider, AngleField, "{{L_Angle}}", LabelWidth, 50 )
+		PanelForm.NewLine( LTAlign.Stretch )
+		PanelForm.AddSliderWidthTextField( LayerSlider, LayerField, "{{L_CollLayer}}", LabelWidth, 50 )
+		PanelForm.NewLine( LTAlign.Stretch )
 		PanelForm.AddSliderWidthTextField( RedSlider, RedField, "{{L_Red}}", LabelWidth, 50 )
 		PanelForm.NewLine( LTAlign.Stretch )		
 		PanelForm.AddSliderWidthTextField( GreenSlider, GreenField, "{{L_Green}}", LabelWidth, 50 )
@@ -320,14 +323,14 @@ Type LTEditor Extends LTProject
 		PanelForm.NewLine()
 		XScaleField = PanelForm.AddTextField( "{{L_XScale}}", LabelWidth )
 		YScaleField = PanelForm.AddTextField( "{{L_YScale}}", LabelWidth )
-		PanelForm.NewLine()
-		FrameField = PanelForm.AddTextField( "{{L_Frame}}", LabelWidth )
-		SelectImageButton = PanelForm.AddButton( "{{B_SelectImage}}", LabelWidth + 56 )
 		PanelForm.NewLine( LTAlign.Stretch )
 		RotatingCheckbox = PanelForm.AddButton( "{{CB_Rotation}}", 55, Button_Checkbox )
 		ScalingCheckbox = PanelForm.AddButton( "{{CB_Scaling}}", 55, Button_Checkbox )
 		ImgAngleField = PanelForm.AddTextField( "{{L_ImageAngle}}", LabelWidth + 4 )
 		PanelForm.Finalize( False, 6, 6 )
+		
+		SetSliderRange( AngleSlider, 0, 23 )
+		SetSliderRange( LayerSlider, 0, L_MaxCollisionColor )
 		
 		HiddenOKButton = CreateButton( "", 0, 0, 0, 0, Panel, Button_OK )
 		HideGadget( HiddenOKButton )
@@ -1190,7 +1193,9 @@ Type LTEditor Extends LTProject
 									If FirstSprite.Visualizer.Image Then
 										For Local Sprite:LTSprite = Eachin SelectedShapes
 											Sprite.Visualizer.Image = FirstSprite.Visualizer.Image
+											Sprite.Frame = L_LimitInt( Sprite.Frame, 0, Sprite.Visualizer.Image.FramesQuantity() - 1 )
 										Next
+										Editor.FillShapeFields()
 									End If
 								End If
 							End If
@@ -1287,13 +1292,21 @@ Type LTEditor Extends LTProject
 				
 				For Local Sprite:LTSprite = Eachin SelectedShapes
 					Select EventSource()
+						Case ShapeBox
+							Sprite.ShapeType = SelectedGadgetItem( ShapeBox )
+							SetChanged()
 						Case HiddenOKButton
 							Select CurrentTextField
-								Case AngleField
-									Sprite.Angle = TextFieldText( AngleField ).ToDouble()
-									SetChanged()
 								Case VelocityField
 									Sprite.Velocity = TextFieldText( VelocityField ).ToDouble()
+								Case AngleField
+									Sprite.Angle = TextFieldText( AngleField ).ToDouble()
+									SetSliderValue( AngleSlider, Abs( L_Round( Sprite.Angle / 15.0 ) ) Mod 24 )
+									SetChanged()
+								Case LayerField
+									Sprite.CollisionLayer = Abs( TextFieldText( LayerField ).ToInt() )
+									SetSliderValue( LayerSlider, Sprite.CollisionLayer & L_MaxCollisionColor )
+									SetChanged()
 								Case FrameField
 									Local Image:LTImage = Sprite.Visualizer.Image
 									If Image Then
@@ -1302,8 +1315,17 @@ Type LTEditor Extends LTProject
 										SetChanged()
 									End If
 							End Select
-						Case ShapeBox
-							Sprite.ShapeType = SelectedGadgetItem( ShapeBox )
+						Case FrameSlider
+							Sprite.Frame = SliderValue( FrameSlider )
+							SetGadgetText( FrameField, Sprite.Frame )
+							SetChanged()
+						Case AngleSlider
+							Sprite.Angle = SliderValue( AngleSlider ) * 15.0
+							SetGadgetText( AngleField, L_Round( Sprite.Angle ) )
+							SetChanged()
+						Case LayerSlider
+							Sprite.CollisionLayer = SliderValue( LayerSlider )
+							SetGadgetText( LayerField, Sprite.CollisionLayer )
 							SetChanged()
 					End Select
 				Next
@@ -1638,13 +1660,20 @@ Type LTEditor Extends LTProject
 		Local CurrentSprite:LTSprite = LTSprite( CurrentShape )
 		If Not CurrentSprite Then Return
 		
-		SetGadgetText( FrameField, CurrentSprite.Frame )
-		
 		FillShapeComboBox( ShapeBox )
 		SelectGadgetItem( ShapeBox, CurrentSprite.ShapeType )
 		
-		SetGadgetText( AngleField, L_TrimDouble( CurrentSprite.Angle ) )
+		SetGadgetText( FrameField, CurrentSprite.Frame )
 		SetGadgetText( VelocityField, L_TrimDouble( CurrentSprite.Velocity ) )
+		SetGadgetText( AngleField, L_TrimDouble( CurrentSprite.Angle ) )
+		SetGadgetText( LayerField, CurrentSprite.CollisionLayer )
+		
+		If Visualizer.Image Then
+			SetSliderRange( FrameSlider, 0, Visualizer.Image.FramesQuantity() - 1 )
+			SetSliderValue( FrameSlider, CurrentSprite.Frame )
+		End If
+		SetSliderValue( AngleSlider, L_Round( CurrentSprite.Angle / 15.0 ) )
+		SetSliderValue( LayerSlider, CurrentSprite.CollisionLayer & L_MaxCollisionColor )
 	End Method
 	
 	

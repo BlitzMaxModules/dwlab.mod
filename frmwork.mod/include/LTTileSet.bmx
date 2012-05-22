@@ -218,6 +218,8 @@ Type LTTileSet Extends LTObject
 				ArrayXMLObject.Children.AddLast( NewXMLObject )
 			Next
 		End If
+		
+		'If Not L_EditorData.Tilesets.Contains( Self ) L_EditorData.Tilesets.AddLast( Self )
 	End Method
 End Type
 

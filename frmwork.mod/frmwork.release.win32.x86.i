@@ -1,12 +1,17 @@
-ModuleInfo "Version: 1.4.5"
+ModuleInfo "Version: 1.4.6"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.8 (22.05.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added FieldExists and RemoveField XMLObject methods."
+ModuleInfo "History: v1.4.7 (21.05.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added CollisionLayer LTShape parameter."
+ModuleInfo "History: &nbsp; &nbsp; Added CollisionShape variable to the HandleCollisionWithTile method."
 ModuleInfo "History: v1.4.6 (20.05.12)"
 ModuleInfo "History: &nbsp; &nbsp; Added AttributeExists XMLObject method."
 ModuleInfo "History: &nbsp; &nbsp; New class LTColor is splitted from LTVisualizer."
-ModuleInfo "History: &nbsp; &nbsp; Added EditorData class."
+ModuleInfo "History: &nbsp; &nbsp; Moved some LTWorld parameters related to the editor to the newly added LTEditorData class."
 ModuleInfo "History: v1.4.5 (22.03.12)"
 ModuleInfo "History: &nbsp; &nbsp; Added another algorhytm of displaying raster frame."
 ModuleInfo "History: v1.4.4 (22.02.12)"
@@ -207,7 +212,7 @@ import brl.random
 import brl.reflection
 import brl.retro
 import brl.max2d
-L_Version$=$"1.4.5"
+L_Version$=$"1.4.6"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
@@ -389,7 +394,7 @@ LTSpriteCollisionHandler^LTObject{
 LTSpriteAndTileCollisionHandler^LTObject{
 -New%()="_dwlab_frmwork_LTSpriteAndTileCollisionHandler_New"
 -Delete%()="_dwlab_frmwork_LTSpriteAndTileCollisionHandler_Delete"
--HandleCollision%(Sprite:LTSprite,TileMap:LTTileMap,TileX%,TileY%)="_dwlab_frmwork_LTSpriteAndTileCollisionHandler_HandleCollision"
+-HandleCollision%(Sprite:LTSprite,TileMap:LTTileMap,TileX%,TileY%,CollisionSprite:LTSprite)="_dwlab_frmwork_LTSpriteAndTileCollisionHandler_HandleCollision"
 }="dwlab_frmwork_LTSpriteAndTileCollisionHandler"
 LTSpriteAndLineCollisionHandler^LTObject{
 -New%()="_dwlab_frmwork_LTSpriteAndLineCollisionHandler_New"
@@ -740,6 +745,7 @@ RightFacing!=1!
 .Visible%&
 .Active%&
 .BehaviorModels:brl.linkedlist.TList&
+.CollisionLayer%&
 -New%()="_dwlab_frmwork_LTShape_New"
 -Delete%()="_dwlab_frmwork_LTShape_Delete"
 -Draw%()="_dwlab_frmwork_LTShape_Draw"
@@ -1294,8 +1300,10 @@ LTXMLObject^LTObject{
 -GetAttribute$(AttrName$)="_dwlab_frmwork_LTXMLObject_GetAttribute"
 -SetAttribute%(AttrName$,AttrValue$)="_dwlab_frmwork_LTXMLObject_SetAttribute"
 -RemoveAttribute$(AttrName$)="_dwlab_frmwork_LTXMLObject_RemoveAttribute"
+-FieldExists%(FieldName$)="_dwlab_frmwork_LTXMLObject_FieldExists"
 -GetField:LTXMLObject(FieldName$)="_dwlab_frmwork_LTXMLObject_GetField"
 -SetField:LTXMLObjectField(FieldName$,XMLObject:LTXMLObject)="_dwlab_frmwork_LTXMLObject_SetField"
+-RemoveField$(FieldName$)="_dwlab_frmwork_LTXMLObject_RemoveField"
 -ManageIntAttribute%(AttrName$,AttrVariable% Var,DefaultValue%=0)="_dwlab_frmwork_LTXMLObject_ManageIntAttribute"
 -ManageDoubleAttribute%(AttrName$,AttrVariable! Var,DefaultValue!=0!)="_dwlab_frmwork_LTXMLObject_ManageDoubleAttribute"
 -ManageStringAttribute%(AttrName$,AttrVariable$ Var)="_dwlab_frmwork_LTXMLObject_ManageStringAttribute"
@@ -1406,6 +1414,8 @@ L_SpreadingDirections%&[]&=mem:p("dwlab_frmwork_L_SpreadingDirections")
 L_TitleGenerator:LTTitleGenerator&=mem:p("dwlab_frmwork_L_TitleGenerator")
 L_LoadImages%&=mem("dwlab_frmwork_L_LoadImages")
 L_DebugVisualizer:LTDebugVisualizer&=mem:p("dwlab_frmwork_L_DebugVisualizer")
+L_CollisionColors:LTColor&[]&=mem:p("dwlab_frmwork_L_CollisionColors")
+L_MaxCollisionColor%&=mem("dwlab_frmwork_L_MaxCollisionColor")
 L_Controllers:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_Controllers")
 L_UndoStack:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_UndoStack")
 L_CurrentUndoList:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_CurrentUndoList")

@@ -118,6 +118,8 @@ Type LTImage Extends LTObject
 		XMLObject.ManageIntAttribute( "xcells", XCells, 1 )
 		XMLObject.ManageIntAttribute( "ycells", YCells, 1 )
 		
+		'If Not L_EditorData.Images.Contains( Self ) L_EditorData.Images.AddLast( Self )
+		
 		If L_XMLMode = L_XMLGet And L_LoadImages Then Init()
 	End Method
 End Type

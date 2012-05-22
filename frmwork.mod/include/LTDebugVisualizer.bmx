@@ -12,8 +12,11 @@ Rem
 bbdoc: Global variable for debug visualizer.
 End Rem
 Global L_DebugVisualizer:LTDebugVisualizer = New LTDebugVisualizer
-L_DebugVisualizer.SetColorFromRGB( 1.0, 0.0, 1.0 )
-L_DebugVisualizer.Alpha = 0.5
+
+Global L_CollisionColors:LTColor[] = [ LTColor.FromHex( "FF007F", 0.5 ), LTColor.FromHex( "007FFF", 0.5 ), LTColor.FromHex( "00FF7F", 0.5 ), LTColor.FromHex( "7F00FF", 0.5 ), ..
+		LTColor.FromHex( "7FFF00", 0.5 ), LTColor.FromHex( "FF7F00", 0.5 ), LTColor.FromHex( "FFFFFF", 0.5 ), ..
+		LTColor.FromHex( "000000", 0.5 ) ]
+Global L_MaxCollisionColor:Int = L_CollisionColors.Length - 1
 
 Rem
 bbdoc: This visualizer can draw collision shape, vector and name of the shape with this shape itself.
@@ -28,25 +31,26 @@ Type LTDebugVisualizer Extends LTVisualizer
 	
 
 	Method DrawUsingSprite( Sprite:LTSprite )
-		Local OldAlpha:Double = -1
-		If Not Sprite.Visible Then
-			OldAlpha = Sprite.Visualizer.Alpha
+		If Sprite.Visible Then
+			Sprite.Visualizer.DrawUsingSprite( Sprite )
+		Else
+			Local OldAlpha:Double = Sprite.Visualizer.Alpha
 			Sprite.Visualizer.Alpha :* AlphaOfInvisible
 			Sprite.Visible = True
-		End If
-		Sprite.Visualizer.DrawUsingSprite( Sprite )
-		ApplyColor()
-		If Not Sprite.Visible Then SetAlpha( AlphaOfInvisible )
-
-		Local SX1:Double, SY1:Double, SWidth:Double, SHeight:Double, Angle:Double
-		L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX1, SY1 )
-		L_CurrentCamera.SizeFieldToScreen( Sprite.Width, Sprite.Height, SWidth, SHeight )
-		
-		If ShowCollisionShapes Then DrawSpriteShape( Sprite )
-		If OldAlpha >= 0 Then
+			
+			Sprite.Visualizer.DrawUsingSprite( Sprite )
+			
 			Sprite.Visualizer.Alpha = OldAlpha
 			Sprite.Visible = False
 		End If
+
+		Local SX1:Double, SY1:Double, SWidth:Double, SHeight:Double
+		L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX1, SY1 )
+		L_CurrentCamera.SizeFieldToScreen( Sprite.Width, Sprite.Height, SWidth, SHeight )
+		
+		L_CollisionColors[ Sprite.CollisionLayer & L_MaxCollisionColor ].ApplyColor()
+		
+		If ShowCollisionShapes Then	DrawSpriteShape( Sprite )
 		
 		If ShowVectors Then
 			Local Size:Double = Max( SWidth, SHeight )
@@ -89,7 +93,6 @@ Type LTDebugVisualizer Extends LTVisualizer
 		Local Shape:LTShape = TileMap.GetTileCollisionShape( TileMap.WrapX( TileX ), TileMap.WrapY( TileY ) )
 		If Not Shape Then Return
 		
-		ApplyColor()
 		SetScale( 1.0, 1.0 )
 		Local Sprite:LTSprite = LTSprite( Shape )
 		If Sprite Then
@@ -104,6 +107,8 @@ Type LTDebugVisualizer Extends LTVisualizer
 	
 	
 	Method DrawCollisionSprite( TileMap:LTTileMap, X:Double, Y:Double, Sprite:LTSprite )
+		L_CollisionColors[ Sprite.CollisionLayer & L_MaxCollisionColor ].ApplyColor()
+	
 		Local TileWidth:Double = TileMap.GetTileWidth()
 		Local TileHeight:Double = TileMap.GetTileHeight()
 		
@@ -146,6 +151,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 		SetScale( 1.0, 1.0 )
 		For Local Sprite:LTSprite = Eachin SpriteMap.Lists[ Int( Floor( X / SpriteMap.CellWidth ) ) & SpriteMap.XMask, ..
 				Int( Floor( Y / SpriteMap.CellHeight ) ) & SpriteMap.YMask ]
+			L_CollisionColors[ Sprite.CollisionLayer & L_MaxCollisionColor ].ApplyColor()
 			DrawSpriteShape( Sprite )
 		Next
 	End Method

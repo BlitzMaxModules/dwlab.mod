@@ -21,6 +21,8 @@ ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.8 (22.05.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added FieldExists and RemoveField XMLObject methods."
 ModuleInfo "History: v1.4.7 (21.05.12)"
 ModuleInfo "History: &nbsp; &nbsp; Added CollisionLayer LTShape parameter."
 ModuleInfo "History: &nbsp; &nbsp; Added CollisionShape variable to the HandleCollisionWithTile method."

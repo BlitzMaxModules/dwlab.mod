@@ -89,6 +89,17 @@ Type LTXMLObject Extends LTObject
 	
 	
 	Rem
+	bbdoc: Cheks if field with specified name exists.
+	returns: True if field exists.
+	about: See also: #GetField, #SetField, #RemoveField
+	End Rem
+	Method FieldExists:Int( FieldName:String )
+		Return GetField( FieldName ) <> Null
+	End Method
+	
+	
+	
+	Rem
 	bbdoc: Returns XMLObject which is the field with given name of current XMLObject.
 	returns: XMLObject representing a field.
 	about: See also: #SetField
@@ -111,6 +122,20 @@ Type LTXMLObject Extends LTObject
 		ObjectField.Value = XMLObject
 		Fields.AddLast( ObjectField )
 		Return ObjectField
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Removes field with given name of XMLObject.
+	about: See also: #FieldExists, #GetField, #SetField
+	End Rem
+	Method RemoveField:String( FieldName:String )
+		Local Link:TLink = Fields.FirstLink()
+		While Link
+			If LTXMLObjectField( Link.Value() ).Name = FieldName Then Link.Remove()
+			Link = Link.NextLink()
+		Wend
 	End Method
 	
 	

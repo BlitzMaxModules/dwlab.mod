@@ -31,9 +31,17 @@ Type LTWorld Extends LTLayer
 	
 	
 	Method XMLIO( XMLObject:LTXMLObject )
+		If L_EditorData Then
+			L_EditorData = LTEditorData( XMLObject.ManageObjectField( "editor_data", L_EditorData ) )
+			If XMLObject.FieldExists( "images" ) Then
+				XMLObject.ManageIntAttribute( "incbin", L_EditorData.IncbinValue )
+				XMLObject.ManageListField( "images", L_EditorData.Images )
+				XMLObject.ManageListField( "tilesets", L_EditorData.Tilesets )
+			End If
+		End If
+		
 		Super.XMLIO( XMLObject )
 		
-		If L_EditorData Then L_EditorData = LTEditorData( XMLObject.ManageObjectField( "editor_data", L_EditorData ) )
 		Camera = LTCamera( XMLObject.ManageObjectField( "camera", Camera ) )
 	End Method
 End Type
