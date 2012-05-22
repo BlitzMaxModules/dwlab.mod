@@ -9,7 +9,7 @@
 '
 
 Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
 		Game.SelectedTileX = TileX
 		Game.SelectedTileY = TileY
 		Local TileNum:Int = TileMap.GetTile( TileX, TileY )
