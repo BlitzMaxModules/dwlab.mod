@@ -1,25 +1,29 @@
-<LTWorld incbin="1" dwlab_version="1.4.5">
+<LTWorld dwlab_version="1.4.6">
 	<LTVisualizer field="visualizer" id="1"/>
-	<TList field="images">
-		<Object id="121"/>
-		<Object id="150"/>
-		<Object id="155"/>
-		<Object id="160"/>
-		<Object id="165"/>
-		<Object id="263"/>
-		<Object id="47"/>
-		<Object id="21"/>
-		<Object id="81"/>
-		<Object id="116"/>
-		<Object id="184"/>
-		<Object id="14"/>
-		<Object id="25"/>
-		<LTImage filename="images\\combo_box.png"/>
-		<Object id="11"/>
-		<Object id="503"/>
-		<Object id="509"/>
-		<LTRasterFrame left="52" right="52" top="0" bottom="0" proportional="1" filename="frames\\button2.png" xcells="4" ycells="2"/>
-	</TList>
+	<LTEditorData field="editor_data" incbin="1" cell_width="1" x_div="16" y_div="16" coll_x_div="16" coll_y_div="16">
+		<TList field="images">
+			<Object id="121"/>
+			<Object id="150"/>
+			<Object id="155"/>
+			<Object id="160"/>
+			<Object id="165"/>
+			<Object id="263"/>
+			<Object id="47"/>
+			<Object id="21"/>
+			<Object id="81"/>
+			<Object id="116"/>
+			<Object id="184"/>
+			<Object id="14"/>
+			<Object id="25"/>
+			<LTImage filename="images\\combo_box.png"/>
+			<Object id="11"/>
+			<Object id="503"/>
+			<Object id="509"/>
+			<LTRasterFrame left="52" right="52" top="0" bottom="0" proportional="1" filename="frames\\button2.png" xcells="4" ycells="2"/>
+		</TList>
+		<LTColor field="background"/>
+		<LTColor field="grid_color" green="0" alpha="0.5"/>
+	</LTEditorData>
 	<LTCamera field="camera" x="31" y="47" width="16.42105729" height="14.23809927" shape="2" viewport-clipping="1">
 		<Object field="visualizer" id="1"/>
 		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
@@ -231,9 +235,9 @@
 				<Object field="image" id="25"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="37.75" y="42.35" width="0.4" height="0.4" shape="2" frame="19">
+		<LTSprite x="37.7375" y="42.3625" width="0.4" height="0.4" shape="2" frame="19">
 			<TList field="parameters">
-				<LTParameter name="gadget_text" value="Menu"/>
+				<LTParameter name="name" value="Arrow"/>
 			</TList>
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="25"/>

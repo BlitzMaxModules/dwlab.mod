@@ -11,7 +11,7 @@
 Rem
 bbdoc: It's line section between 2 pivots (sprites centers).
 End Rem
-Type LTLine Extends LTShape
+Type LTLineSegment Extends LTShape
 	Rem
 	bbdoc: Pivots array.
 	End Rem
@@ -24,8 +24,8 @@ Type LTLine Extends LTShape
 	returns: New line.
 	about: See also: #PlaceBetween example
 	End Rem
-	Function FromPivots:LTLine( Pivot1:LTSprite, Pivot2:LTSprite )
-		Local Line:LTLine = New LTLine
+	Function FromPivots:LTLineSegment( Pivot1:LTSprite, Pivot2:LTSprite )
+		Local Line:LTLineSegment = New LTLineSegment
 		Line.Pivot[ 0 ] = Pivot1
 		Line.Pivot[ 1 ] = Pivot2
 		Return Line
@@ -58,7 +58,7 @@ Type LTLine Extends LTShape
 	
 	See also: #LTGraph example
 	End Rem
-	Method CollidesWithLine:Int( Line:LTLine, IncludingPivots:Int = True )
+	Method CollidesWithLine:Int( Line:LTLineSegment, IncludingPivots:Int = True )
 		if Pivot[ 0 ] = Line.Pivot[ 0 ] Or Pivot[ 0 ] = Line.Pivot[ 1 ] Or Pivot[ 1 ] = Line.Pivot[ 0 ] Or Pivot[ 1 ] = Line.Pivot[ 1 ] Then
 			If IncludingPivots Then Return True Else Return False
 		End If

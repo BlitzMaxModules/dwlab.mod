@@ -287,7 +287,7 @@ Type LTVisualizer Extends LTColor
 	bbdoc: Draws given line using this visualizer.
 	about: Change this method if you are making your own visualizer.
 	End Rem
-	Method DrawUsingLine( Line:LTLine )
+	Method DrawUsingLine( Line:LTLineSegment )
 		If Not Line.Visible Then Return
 		
 		ApplyColor()

@@ -11,7 +11,7 @@
 
 Type TGrid Extends LTShape
 	Method Draw()
-		L_DebugVisualizer.ApplyColor()
+		L_EditorData.GridColor.ApplyColor()
 		
 		Local MinX:Double, MinY:Double, MaxX:Double, MaxY:Double
 		L_GetEscribedRectangle( 0, 0, 0, 0, MinX, MinY, MaxX, MaxY )
@@ -33,7 +33,7 @@ Type TGrid Extends LTShape
 			Y :+ L_EditorData.GridCellHeight
 		WEnd
 		
-		SetColor( 255, 255, 255 )
+		LTColor.ResetColor()
 	End Method
 	
 	
@@ -146,7 +146,6 @@ Type TGrid Extends LTShape
 					Select EventSource()
 						Case SelectColorButton
 							SelectColor( L_EditorData.GridColor )
-							L_EditorData.GridColor.CopyColorTo( L_DebugVisualizer )
 							Editor.SetChanged()
 						Case OKButton
 							Local NewCellWidth:Double = TextFieldText( CellWidthField ).ToDouble()

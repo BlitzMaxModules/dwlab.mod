@@ -73,7 +73,7 @@ Type LTContourVisualizer Extends LTVisualizer
 	
 	
 	
-	Method DrawUsingLine( Line:LTLine )
+	Method DrawUsingLine( Line:LTLineSegment )
 		If Not Line.Visible Then Return
 		
 		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue

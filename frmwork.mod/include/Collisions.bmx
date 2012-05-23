@@ -15,6 +15,8 @@ bbdoc: Constant for dealing with inaccuracy of double type operations.
 End Rem
 Const L_Inaccuracy:Double = 0.000001
 
+' ------------------------------------------------ Handlers ---------------------------------------------------
+
 Rem
 bbdoc: Sprite collision handling class.
 about: Sprite collision check method with specified collision handler will execute this handler's method on collision one sprite with another.
@@ -48,129 +50,173 @@ about: Collision check method with specified collision handler will execute this
 See also: #Active example
 End Rem
 Type LTSpriteAndLineCollisionHandler Extends LTObject
-	Method HandleCollision( Sprite:LTSprite, Line:LTLine )
+	Method HandleCollision( Sprite:LTSprite, Line:LTLineSegment )
 	End Method
 End Type
 
+' ------------------------------------------------ Service sprites ---------------------------------------------------
 
+Global L_Pivot1:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
+Global L_Pivot2:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
+Global L_Oval1:LTSprite = LTSprite.FromShapeType( LTSprite.Oval )
+Global L_Oval2:LTSprite = LTSprite.FromShapeType( LTSprite.Oval )
+Global L_Rectangle1:LTSprite = LTSprite.FromShapeType( LTSprite.Rectangle )
+Global L_Rectangle2:LTSprite = LTSprite.FromShapeType( LTSprite.Rectangle )
+Global L_Triangle1:LTSprite = LTSprite.FromShapeType( LTSprite.TopLeftTriangle )
+Global L_Triangle2:LTSprite = LTSprite.FromShapeType( LTSprite.TopLeftTriangle )
 
-Function L_PivotWithPivot:Int( Pivot1X:Double, Pivot1Y:Double, Pivot2X:Double, Pivot2Y:Double )
-	If Pivot1X = Pivot2X And Pivot1Y = Pivot2Y Then Return True
+' ------------------------------------------------ Collision ---------------------------------------------------
+
+Function L_PivotWithPivot:Int( Pivot1:LTSprite, Pivot2:LTSprite )
+	If Pivot1.X = Pivot2.X And Pivot1.Y = Pivot2.Y Then Return True
 End Function
 
 
 
-Function L_PivotWithOval:Int( PivotX:Double, PivotY:Double, OvalX:Double, OvalY:Double, OvalWidth:Double, OvalHeight:Double )
-	Local OvalDiameter:Double
-	If OvalWidth = OvalHeight Then
-		OvalDiameter = OvalWidth
-	Else
-		OvalDiameter = L_GetOvalDiameter( OvalX, OvalY, OvalWidth, OvalHeight, PivotX, PivotY )
-	End If
-	If ( PivotX - OvalX ) * ( PivotX - OvalX ) + ( PivotY - OvalY ) * ( PivotY - OvalY ) < 0.25 * OvalDiameter * OvalDiameter Then Return True
+Function L_PivotWithOval:Int( Pivot:LTSprite, Oval:LTSprite )
+	Oval = Oval.ToCircle( L_Oval1, Pivot )
+	If ( Pivot.X - Oval.X ) * ( Pivot.X - Oval.X ) + ( Pivot.Y - Oval.Y ) * ( Pivot.Y - Oval.Y ) < 0.25 * Oval.Width * Oval.Width Then Return True
 End Function
 
 
 
-Function L_PivotWithRectangle:Int( PivotX:Double, PivotY:Double, RectangleX:Double, RectangleY:Double, RectangleWidth:Double, RectangleHeight:Double )
-	If 2.0 * Abs( PivotX - RectangleX ) < RectangleWidth - L_Inaccuracy And 2.0 * Abs( PivotY - RectangleY ) < RectangleHeight - L_Inaccuracy Then Return True
+Function L_PivotWithRectangle:Int( Pivot:LTSprite, Rectangle:LTSprite )
+	If 2.0 * Abs( Pivot.X - Rectangle.X ) < Rectangle.Width - L_Inaccuracy And 2.0 * Abs( Pivot.Y - Rectangle.Y ) < Rectangle.Height - L_Inaccuracy Then Return True
 End Function
 
 
 
-Function L_OvalWithOval:Int( Oval1X:Double, Oval1Y:Double, Oval1Width:Double, Oval1Height:Double, Oval2X:Double, Oval2Y:Double, Oval2Width:Double, Oval2Height:Double )
-	Local Oval1Diameter:Double, Oval2Diameter:Double
-	If Oval1Width = Oval1Height Then
-		Oval1Diameter = Oval1Width
-	Else
-		Oval1Diameter = L_GetOvalDiameter( Oval1X, Oval1Y, Oval1Width, Oval1Height, Oval2X, Oval2Y )
-	End If
-	If Oval2Width = Oval2Height Then
-		Oval2Diameter = Oval2Width
-	Else
-		Oval2Diameter = L_GetOvalDiameter( Oval2X, Oval2Y, Oval2Width, Oval2Height, Oval1X, Oval1Y )
-	End If
-	If 4.0 * ( ( Oval2X - Oval1X ) * ( Oval2X - Oval1X ) + ( Oval2Y - Oval1Y ) * ( Oval2Y - Oval1Y ) ) < ( Oval2Diameter + Oval1Diameter ) * ( Oval2Diameter + Oval1Diameter ) - L_Inaccuracy Then Return True
-End Function
-
-
-
-Function L_OvalWithRectangle:Int( OvalX:Double, OvalY:Double, OvalWidth:Double, OvalHeight:Double, RectangleX:Double, RectangleY:Double, RectangleWidth:Double, RectangleHeight:Double )
-	Local OvalDiameter:Double
-	If OvalWidth = OvalHeight Then
-		OvalDiameter = OvalWidth
-	Else
-		OvalDiameter = L_GetOvalDiameter( OvalX, OvalY, OvalWidth, OvalHeight, RectangleX, RectangleY )
-	End If
-	If ( RectangleX - RectangleWidth * 0.5 <= OvalX And OvalX <= RectangleX + RectangleWidth * 0.5 ) Or ( RectangleY - RectangleHeight * 0.5 <= OvalY And OvalY <= RectangleY + RectangleHeight * 0.5 ) Then
-		If 2.0 * Abs( OvalX - RectangleX ) < OvalDiameter + RectangleWidth - L_Inaccuracy And 2.0 * Abs( OvalY - RectangleY ) < OvalDiameter + RectangleHeight - L_Inaccuracy Then Return True
-	Else
-		Local DX:Double = Abs( RectangleX - OvalX ) - 0.5 * RectangleWidth
-		Local DY:Double = Abs( RectangleY - OvalY ) - 0.5 * RectangleHeight
-		If 4.0 * ( DX * DX + DY * DY ) < OvalDiameter * OvalDiameter - L_Inaccuracy Then Return True
+Function L_PivotWithTriangle:Int( Pivot:LTSprite, Triangle:LTSprite )
+	If L_PivotWithRectangle( Pivot, Triangle ) Then
+		Local K:Double = Sqr( Triangle.Width * Triangle.Width + Triangle.Height * Triangle.Height )
+		Select Triangle.ShapeType
+			Case LTSprite.TopLeftTriangle
+				If Triangle.Height * Pivot.X - Triangle.Width * Pivot.Y + Triangle.Width * Triangle.Y - Triangle.Height * Triangle.X > L_Inaccuracy * K Then Return True
+			Case LTSprite.TopRightTriangle
+				If Triangle.Height * Pivot.X + Triangle.Width * Pivot.Y + Triangle.Width * Triangle.Y + Triangle.Height * Triangle.X > L_Inaccuracy * K Then Return True
+			Case LTSprite.BottomLeftTriangle
+				If Triangle.Height * Pivot.X + Triangle.Width * Pivot.Y + Triangle.Width * Triangle.Y + Triangle.Height * Triangle.X < -L_Inaccuracy * K Then Return True
+			Case LTSprite.BottomRightTriangle
+				If Triangle.Height * Pivot.X - Triangle.Width * Pivot.Y + Triangle.Width * Triangle.Y - Triangle.Height * Triangle.X < -L_Inaccuracy * K Then Return True
+		End Select
 	End If
 End Function
 
 
 
-Function L_RectangleWithRectangle:Int( Rectangle1X:Double, Rectangle1Y:Double, Rectangle1Width:Double, Rectangle1Height:Double, Rectangle2X:Double, Rectangle2Y:Double, Rectangle2Width:Double, Rectangle2Height:Double )
-	If 2.0 * Abs( Rectangle1X - Rectangle2X ) < Rectangle1Width + Rectangle2Width - L_Inaccuracy And 2.0 * Abs( Rectangle1Y - Rectangle2Y ) < Rectangle1Height + Rectangle2Height - L_Inaccuracy Then Return True
+Function L_OvalWithOval:Int( Oval1:LTSprite, Oval2:LTSprite )
+	Oval1 = Oval1.ToCircle( L_Oval1, Oval2 )
+	Oval2 = Oval2.ToCircle( L_Oval2, Oval1 )
+	If 4.0 * ( ( Oval2.X - Oval1.X ) * ( Oval2.X - Oval1.X ) + ( Oval2.Y - Oval1.Y ) * ( Oval2.Y - Oval1.Y ) ) < ( Oval2.Width + Oval1.Width ) * ( Oval2.Width + Oval1.Width ) - L_Inaccuracy Then Return True
 End Function
 
 
 
-Function L_OvalWithLine:Int( OvalX:Double, OvalY:Double, OvalWidth:Double, OvalHeight:Double, LineX1:Double, LineY1:Double, LineX2:Double, LineY2:Double )
-	Local A:Double = LineY2 - LineY1
-	Local B:Double = LineX1 - LineX2
-	Local C1:Double = -A * LineX1 - B * LineY1
+Function L_OvalWithRectangle:Int( Oval:LTSprite, Rectangle:LTSprite )
+	Oval = Oval.ToCircle( L_Oval1, Rectangle )
+	If ( Rectangle.X - Rectangle.Width * 0.5 <= Oval.X And Oval.X <= Rectangle.X + Rectangle.Width * 0.5 ) Or ( Rectangle.Y - Rectangle.Height * 0.5 <= Oval.Y And Oval.Y <= Rectangle.Y + Rectangle.Height * 0.5 ) Then
+		If 2.0 * Abs( Oval.X - Rectangle.X ) < Oval.Width + Rectangle.Width - L_Inaccuracy And 2.0 * Abs( Oval.Y - Rectangle.Y ) < Oval.Width + Rectangle.Height - L_Inaccuracy Then Return True
+	Else
+		Local DX:Double = Abs( Rectangle.X - Oval.X ) - 0.5 * Rectangle.Width
+		Local DY:Double = Abs( Rectangle.Y - Oval.Y ) - 0.5 * Rectangle.Height
+		If 4.0 * ( DX * DX + DY * DY ) < Oval.Width * Oval.Width - L_Inaccuracy Then Return True
+	End If
+End Function
+
+
+
+Function L_OvalWithLine:Int( Oval:LTSprite, Line:LTLineSegment )
+	Local Pivot1:LTSprite = Line.Pivot[ 0 ]
+	Local Pivot2:LTSprite = Line.Pivot[ 1 ]
+	Local A:Double = Pivot2.Y - Pivot1.Y
+	Local B:Double = Pivot1.X - Pivot2.X
+	Local C1:Double = -A * Pivot1.X - B * Pivot1.Y
 	Local AABB:Double = A * A + B * B
-	Local D:Double = Abs( A * OvalX + B * OvalY + C1 ) / AABB
-	If D < 0.5 * Max( OvalWidth, OvalHeight ) Then
-		If L_PivotWithOval( LineX1, LineY1, OvalX, OvalY, OvalWidth, OvalHeight ) Then Return True
-		If L_PivotWithOval( LineX2, LineY2, OvalX, OvalY, OvalWidth, OvalHeight ) Then Return True
-		Local C2:Double = A * OvalY - B * OvalX
+	Local D:Double = Abs( A * Oval.X + B * Oval.Y + C1 ) / AABB
+	If D < 0.5 * Max( Oval.Width, Oval.Height ) Then
+		If L_PivotWithOval( Pivot1, Oval ) Then Return True
+		If L_PivotWithOval( Pivot2, Oval ) Then Return True
+		Local C2:Double = A * Oval.Y - B * Oval.X
 		Local X0:Double = -( A * C1 + B * C2 ) / AABB
 		Local Y0:Double = ( A * C2 - B * C1 ) / AABB
-		If LineX1 <> LineX2 Then
-			If Min( LineX1, LineX2 ) <= X0 And X0 <= Max( LineX1, LineX2 ) Then Return True
+		If Pivot1.X <> Pivot2.X Then
+			If Min( Pivot1.X, Pivot2.X ) <= X0 And X0 <= Max( Pivot1.X, Pivot2.X ) Then Return True
 		Else
-			If Min( LineY1, LineY2 ) <= Y0 And Y0 <= Max( LineY1, LineY2 ) Then Return True
+			If Min( Pivot1.Y, Pivot2.Y ) <= Y0 And Y0 <= Max( Pivot1.Y, Pivot2.Y ) Then Return True
 		End If
 	End If
 End Function
 
 
 
-Function L_OvalOverlapsOval:Int( Oval1X:Double, Oval1Y:Double, Oval1Width:Double, Oval1Height:Double, Oval2X:Double, Oval2Y:Double, Oval2Width:Double, Oval2Height:Double )
-	Local Oval1Diameter:Double, Oval2Diameter:Double
-	If Oval1Width = Oval1Height Then
-		Oval1Diameter = Oval1Width
-	Else
-		Oval1Diameter = L_GetOvalDiameter( Oval1X, Oval1Y, Oval1Width, Oval1Height, Oval2X, Oval2Y )
+Function L_OvalWithTriangle:Int( Oval:LTSprite, Triangle:LTSprite )
+	Oval = Oval.ToCircle( L_Oval1, Triangle )
+	If L_OvalWithRectangle( Oval, Triangle ) Then
+		
 	End If
-	If Oval2Width = Oval2Height Then
-		Oval2Diameter = Oval2Width
-	Else
-		Oval2Diameter = L_GetOvalDiameter( Oval2X, Oval2Y, Oval2Width, Oval2Height, Oval1X, Oval1Y )
-	End If
-	If 4.0 * ( ( Oval1X - Oval2X ) * ( Oval1X - Oval2X ) + ( Oval1Y - Oval2Y ) * ( Oval1Y - Oval2Y ) ) <= ( Oval1Diameter - Oval2Diameter ) * ( Oval1Diameter - Oval2Diameter ) Then Return True
 End Function
 
 
 
-Function L_RectangleOverlapsRectangle:Int( Rectangle1X:Double, Rectangle1Y:Double, Rectangle1Width:Double, Rectangle1Height:Double, Rectangle2X:Double, Rectangle2Y:Double, Rectangle2Width:Double, Rectangle2Height:Double )
-	If ( Rectangle1X - 0.5 * Rectangle1Width <= Rectangle2X - 0.5 * Rectangle2Width ) And ( Rectangle1Y - 0.5 * Rectangle1Height <= Rectangle2Y - 0.5 * Rectangle2Height ) And ..
-		( Rectangle1X + 0.5 * Rectangle1Width >= Rectangle2X + 0.5 * Rectangle2Width ) And ( Rectangle1Y + 0.5 * Rectangle1Height >= Rectangle2Y + 0.5 * Rectangle2Height ) Then Return True
+Function L_RectangleWithRectangle:Int( Rectangle1:LTSprite, Rectangle2:LTSprite )
+	If 2.0 * Abs( Rectangle1.X - Rectangle2.X ) < Rectangle1.Width + Rectangle2.Width - L_Inaccuracy And 2.0 * Abs( Rectangle1.Y - Rectangle2.Y ) < Rectangle1.Height + Rectangle2.Height - L_Inaccuracy Then Return True
 End Function
 
 
 
-Function L_GetOvalDiameter:Double( OvalX:Double Var, OvalY:Double Var, OvalWidth:Double, OvalHeight:Double, X:Double, Y:Double )
-	If OvalWidth > OvalHeight Then
-		OvalX = L_LimitDouble( X, OvalX - 0.5 * ( OvalWidth - OvalHeight ), OvalX + 0.5 * ( OvalWidth - OvalHeight ) )
-		Return OvalHeight
-	Else
-		OvalY = L_LimitDouble( Y, OvalY - 0.5 * ( OvalHeight - OvalWidth ), OvalY + 0.5 * ( OvalHeight - OvalWidth ) )
-		Return OvalWidth
+Function L_RectangleWithTriangle:Int( Rectangle:LTSprite, Triangle:LTSprite )
+End Function
+
+
+
+Function L_TriangleWithTriangle:Int( Triangle1:LTSprite, Triangle2:LTSprite )
+End Function
+
+' ------------------------------------------------ Overlapping ---------------------------------------------------
+
+Function L_OvalOverlapsPivot:Int( Oval:LTSprite, Pivot:LTSprite )
+	Oval = Oval.ToCircle( L_Oval1, Pivot )
+	If 4.0 * ( ( Oval.X - Pivot.X ) * ( Oval.X - Pivot.X ) + ( Oval.Y - Pivot.Y ) * ( Oval.Y - Pivot.Y ) ) <= Oval.Width * Oval.Width Then Return True
+End Function
+
+
+
+Function L_OvalOverlapsOval:Int( Oval1:LTSprite, Oval2:LTSprite )
+	Oval1 = Oval1.ToCircle( L_Oval1, Oval2 )
+	Oval2 = Oval2.ToCircle( L_Oval2, Oval1 )
+	If 4.0 * ( ( Oval1.X - Oval2.X ) * ( Oval1.X - Oval2.X ) + ( Oval1.Y - Oval2.Y ) * ( Oval1.Y - Oval2.Y ) ) <= ( Oval1.Width - Oval2.Width ) * ( Oval1.Width - Oval2.Width ) Then Return True
+End Function
+
+
+
+Function L_OvalOverlapsRectangle:Int( Oval:LTSprite, Rectangle:LTSprite )
+	If L_RectangleOverlapsRectangle( Oval, Rectangle ) Then
+		Local LeftX:Double = Rectangle.LeftX()
+		Local TopY:Double = Rectangle.TopY()
+		Local RightX:Double = Rectangle.RightX()
+		Local BottomY:Double = Rectangle.BottomY()
+		L_Pivot1.X = LeftX
+		L_Pivot1.Y = TopY
+		If Not L_OvalOverlapsPivot( Oval, L_Pivot1 ) Then Return False
+		L_Pivot1.X = RightX
+		If Not L_OvalOverlapsPivot( Oval, L_Pivot1 ) Then Return False
+		L_Pivot1.Y = BottomY
+		If Not L_OvalOverlapsPivot( Oval, L_Pivot1 ) Then Return False
+		L_Pivot1.X = LeftX
+		If L_OvalOverlapsPivot( Oval, L_Pivot1 ) Then Return True
 	End If
+End Function
+
+
+
+Function L_RectangleOverlapsPivot:Int( Rectangle:LTSprite, Pivot:LTSprite )
+	If ( Rectangle.X - 0.5 * Rectangle.Width <= Pivot.X ) And ( Rectangle.Y - 0.5 * Rectangle.Height <= Pivot.Y ) And ..
+			( Rectangle.X + 0.5 * Rectangle.Width >= Pivot.X ) And ( Rectangle.Y + 0.5 * Rectangle.Height >= Pivot.Y ) Then Return True
+End Function
+
+
+
+Function L_RectangleOverlapsRectangle:Int( Rectangle1:LTSprite, Rectangle2:LTSprite )
+	If ( Rectangle1.X - 0.5 * Rectangle1.Width <= Rectangle2.X - 0.5 * Rectangle2.Width ) And ( Rectangle1.Y - 0.5 * Rectangle1.Height <= Rectangle2.Y - 0.5 * Rectangle2.Height ) And ..
+		( Rectangle1.X + 0.5 * Rectangle1.Width >= Rectangle2.X + 0.5 * Rectangle2.Width ) And ( Rectangle1.Y + 0.5 * Rectangle1.Height >= Rectangle2.Y + 0.5 * Rectangle2.Height ) Then Return True
 End Function

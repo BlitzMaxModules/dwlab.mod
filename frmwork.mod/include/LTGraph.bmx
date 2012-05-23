@@ -61,7 +61,7 @@ Type LTGraph Extends LTShape
 	about: See also: #DrawPivotsUsing
 	End Rem
 	Method DrawLinesUsing( Visualizer:LTVisualizer )
-		For Local Line:LTLine = Eachin Lines.Keys()
+		For Local Line:LTLineSegment = Eachin Lines.Keys()
 			Line.DrawUsingVisualizer( Visualizer )
 		Next
 	End Method
@@ -76,7 +76,7 @@ Type LTGraph Extends LTShape
 		Local OldPivot:LTSprite = Null
 		For Local Pivot:LTSprite = Eachin Path
 			If OldPivot Then
-				LTLine.FromPivots( Pivot, OldPivot ).DrawUsingVisualizer( Visualizer )
+				LTLineSegment.FromPivots( Pivot, OldPivot ).DrawUsingVisualizer( Visualizer )
 			End If
 			OldPivot = Pivot
 		Next
@@ -106,7 +106,7 @@ Type LTGraph Extends LTShape
 	
 	See also: #RemoveLine, #FindLineCollidingWith, #ContainsLine, #FindLine
 	End Rem
-	Method AddLine( Line:LTLine, StopOnErrors:Int = True )
+	Method AddLine( Line:LTLineSegment, StopOnErrors:Int = True )
 		If Line.Pivot[ 0 ] = Line.Pivot[ 1 ] Then 
 			?debug
 			If StopOnErrors Then L_Error( "Cannot add line with equal starting and ending points to the graph" )
@@ -119,7 +119,7 @@ Type LTGraph Extends LTShape
 			?
 			Return
 		End If
-		For Local OtherLine:LTLine = EachIn TList( Pivots.ValueForKey( Line.Pivot[ 0 ] ) )
+		For Local OtherLine:LTLineSegment = EachIn TList( Pivots.ValueForKey( Line.Pivot[ 0 ] ) )
 			If OtherLine.Pivot[ 0 ] = Line.Pivot[ 0 ] Or OtherLine.Pivot[ 0 ] = Line.Pivot[ 1 ] Then
 				If OtherLine.Pivot[ 1 ] = Line.Pivot[ 0 ] Or OtherLine.Pivot[ 1 ] = Line.Pivot[ 1 ] Then
 					?debug
@@ -151,7 +151,7 @@ Type LTGraph Extends LTShape
 		If List = Null Then L_Error( "The deleting pivot doesn't belongs to the graph" )
 		?
 		
-		For Local Line:LTLine = Eachin List
+		For Local Line:LTLineSegment = Eachin List
 			RemoveLine( Line )
 		Next
 		Pivots.Remove( Pivot )
@@ -165,7 +165,7 @@ Type LTGraph Extends LTShape
 	
 	See also: #AddLine, #FindLineCollidingWith, #ContainsLine, #FindLine
 	End Rem
-	Method RemoveLine( Line:LTLine )
+	Method RemoveLine( Line:LTLineSegment )
 		?debug
 		If Not Lines.ValueForKey( Line ) Then L_Error( "The deleting line doesn't belongs to the graph" )
 		?
@@ -192,8 +192,8 @@ Type LTGraph Extends LTShape
 	bbdoc: Finds line which collides with given sprite.
 	See also: #AddLine, #RemoveLine, #ContainsLine, #FindLine
 	End Rem
-	Method FindLineCollidingWithSprite:LTLine( Sprite:LTSprite )
-		For Local Line:LTLine = Eachin Lines.Keys()
+	Method FindLineCollidingWithSprite:LTLineSegment( Sprite:LTSprite )
+		For Local Line:LTLineSegment = Eachin Lines.Keys()
 			If Sprite.CollidesWithLine( Line ) Then Return Line
 		Next
 	End Method
@@ -216,7 +216,7 @@ Type LTGraph Extends LTShape
 	returns: True if line is in the graph, otherwise False.
 	See also: #AddLine, #RemoveLine, #FindLineCollidingWith, #FindLine
 	End Rem
-	Method ContainsLine:Int( Line:LTLine )
+	Method ContainsLine:Int( Line:LTLineSegment )
 		If Lines.ValueForKey( Line ) Then Return True
 	End Method
 	
@@ -226,12 +226,12 @@ Type LTGraph Extends LTShape
 	bbdoc: Finds a line in the graph for given pivots.
 	See also: #AddLine, #RemoveLine, #FindLineCollidingWith, #ContainsLine
 	End Rem
-	Method FindLine:LTLine( Pivot1:LTSprite, Pivot2:LTSprite )
+	Method FindLine:LTLineSegment( Pivot1:LTSprite, Pivot2:LTSprite )
 		If Pivot1 = Pivot2 Then Return Null
 		
 		For Local KeyValue:TKeyValue = Eachin Pivots
 			If KeyValue.Key() = Pivot1 Then
-				For Local Line:LTLine = Eachin TList( KeyValue.Value() )
+				For Local Line:LTLineSegment = Eachin TList( KeyValue.Value() )
 					If Line.Pivot[ 0 ] = Pivot2 Or Line.Pivot[ 1 ] = Pivot2 Then Return Line
 				Next
 			End If
@@ -263,7 +263,7 @@ Type LTGraph Extends LTShape
 	
 	
 	Method Spread:TList( Path:TList, FromPivot:LTSprite, ToPivot:LTSprite, Length:Double )
-		For Local Line:LTLine = Eachin TList( Pivots.ValueForKey( FromPivot ) )
+		For Local Line:LTLineSegment = Eachin TList( Pivots.ValueForKey( FromPivot ) )
 			Local OtherPivot:LTSprite = Line.Pivot[ Line.Pivot[ 0 ] = FromPivot ]
 			Local NewLength:Double = Length + FromPivot.DistanceTo( OtherPivot )
 			If NewLength + OtherPivot.DistanceTo( ToPivot ) > MaxLength Then Continue
@@ -297,7 +297,7 @@ Type LTGraph Extends LTShape
 			Next
 			
 			XMLObject.ManageObjectSetField( "lines", Map )
-			For Local Line:LTLine = Eachin Map.Keys()
+			For Local Line:LTLineSegment = Eachin Map.Keys()
 				AddLine( Line )
 			Next
 		Else
@@ -345,11 +345,11 @@ End Type
 
 Type LTAddLineToGraph Extends LTAction
 	Field Graph:LTGraph
-	Field Line:LTLine
+	Field Line:LTLineSegment
 	
 	
 	
-	Function Create:LTAddLineToGraph( Graph:LTGraph, Line:LTLine )
+	Function Create:LTAddLineToGraph( Graph:LTGraph, Line:LTLineSegment )
 		Local Action:LTAddLineToGraph = New LTAddLineToGraph
 		Action.Graph = Graph
 		Action.Line = Line
@@ -404,7 +404,7 @@ Type LTRemovePivotFromGraph Extends LTAction
 	
 	Method Undo()
 		Graph.AddPivot( Pivot )
-		For Local Line:LTLine = Eachin Lines
+		For Local Line:LTLineSegment = Eachin Lines
 			Graph.AddLine( Line )
 		Next
 		Super.Do()
@@ -417,11 +417,11 @@ End Type
 
 Type LTRemoveLineFromGraph Extends LTAction
 	Field Graph:LTGraph
-	Field Line:LTLine
+	Field Line:LTLineSegment
 	
 	
 	
-	Function Create:LTRemoveLineFromGraph( Graph:LTGraph, Line:LTLine )
+	Function Create:LTRemoveLineFromGraph( Graph:LTGraph, Line:LTLineSegment )
 		?debug
 		If Not Graph.ContainsLine( Line ) Then L_Error( "Cannot find line in the graph" )
 		?

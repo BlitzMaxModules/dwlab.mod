@@ -13,11 +13,15 @@ Type LTMenuWindow Extends LTAudioWindow
 	
 	Field Panel:LTShape
 	Field DestinationY:Double
+	Field Arrow:LTSprite
+	Field ArrowFrame:Int
 
 	
 	
 	Method Init()
 		Panel = FindShape( "Panel" )
+		Arrow = LTSprite( FindShape( "Arrow" ) )
+		ArrowFrame = Arrow.Frame
 		Super.Init()
 	End Method
 	
@@ -51,7 +55,7 @@ Type LTMenuWindow Extends LTAudioWindow
 		ElseIf Abs( DestinationY - Y ) < 0.01 Then
 			Y = DestinationY
 			If DestinationY < 0 Then Project.Locked = False
-			LTSprite( LTLabel( FindShapeWithParameter( "text", "Menu" ) ).Icon ).Frame = 19 - ( DestinationY < 0 )
+			Arrow.Frame = ArrowFrame - ( DestinationY < 0 )
 		Else
 			SetY( DestinationY + ( Y - DestinationY ) * ( 1.0 - Project.PerSecond( Speed ) ) )
 		End If

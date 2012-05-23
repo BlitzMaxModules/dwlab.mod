@@ -49,7 +49,6 @@ Type LTEditorData Extends LTObject
 		XMLObject.ManageIntAttribute( "position_snap", GridPositionSnappingMode )
 		XMLObject.ManageIntAttribute( "resize_snap", GridResizingSnappingMode )
 		GridColor = LTColor( XMLObject.ManageObjectField( "grid_color", GridColor ) )
-		GridColor.CopyColorTo( L_DebugVisualizer )
 		XMLObject.ManageIntAttribute( "coll_x_div", CollisionGridCellXDiv )
 		XMLObject.ManageIntAttribute( "coll_y_div", CollisionGridCellYDiv )
 	End Method
