@@ -331,6 +331,10 @@ Type LTEditor Extends LTProject
 		
 		SetSliderRange( AngleSlider, 0, 23 )
 		SetSliderRange( LayerSlider, 0, L_MaxCollisionColor )
+		SetSliderRange( RedSlider, 0, 100 )
+		SetSliderRange( GreenSlider, 0, 100 )
+		SetSliderRange( BlueSlider, 0, 100 )
+		SetSliderRange( AlphaSlider, 0, 100 )
 		
 		HiddenOKButton = CreateButton( "", 0, 0, 0, 0, Panel, Button_OK )
 		HideGadget( HiddenOKButton )
@@ -1266,19 +1270,19 @@ Type LTEditor Extends LTProject
 									SetChanged()
 							End Select
 						Case RedSlider
-							Visualizer.Red = 0.01 * SliderValue( RedSlider ) + 0.0000001
+							Visualizer.Red = 0.01 * SliderValue( RedSlider ) + 0.000001
 							SetGadgetText( RedField, L_TrimDouble( Shape.Visualizer.Red, 4 ) )
 							SetChanged()
 						Case GreenSlider
-							Visualizer.Green = 0.01 * SliderValue( GreenSlider ) + 0.0000001
+							Visualizer.Green = 0.01 * SliderValue( GreenSlider ) + 0.000001
 							SetGadgetText( GreenField, L_TrimDouble( Shape.Visualizer.Green, 4 ) )
 							SetChanged()
 						Case BlueSlider
-							Visualizer.Blue = 0.01 * SliderValue( BlueSlider ) + 0.0000001
+							Visualizer.Blue = 0.01 * SliderValue( BlueSlider ) + 0.000001
 							SetGadgetText( BlueField, L_TrimDouble( Shape.Visualizer.Blue, 4 ) )
 							SetChanged()
 						Case AlphaSlider
-							Visualizer.Alpha = 0.01 * SliderValue( AlphaSlider ) + 0.0000001
+							Visualizer.Alpha = 0.01 * SliderValue( AlphaSlider ) + 0.000001
 							SetGadgetText( AlphaField, L_TrimDouble( Shape.Visualizer.Alpha, 4 ) )
 							SetChanged()
 						Case ScalingCheckbox
