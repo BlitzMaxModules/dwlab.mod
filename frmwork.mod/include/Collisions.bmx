@@ -64,6 +64,7 @@ Global L_Rectangle1:LTSprite = LTSprite.FromShapeType( LTSprite.Rectangle )
 Global L_Rectangle2:LTSprite = LTSprite.FromShapeType( LTSprite.Rectangle )
 Global L_Triangle1:LTSprite = LTSprite.FromShapeType( LTSprite.TopLeftTriangle )
 Global L_Triangle2:LTSprite = LTSprite.FromShapeType( LTSprite.TopLeftTriangle )
+Global L_Line:LTLine = New LTLine
 
 ' ------------------------------------------------ Collision ---------------------------------------------------
 
@@ -88,17 +89,14 @@ End Function
 
 Function L_PivotWithTriangle:Int( Pivot:LTSprite, Triangle:LTSprite )
 	If L_PivotWithRectangle( Pivot, Triangle ) Then
-		Local K:Double = Sqr( Triangle.Width * Triangle.Width + Triangle.Height * Triangle.Height )
+		Local Line:LTLine
 		Select Triangle.ShapeType
-			Case LTSprite.TopLeftTriangle
-				If Triangle.Height * Pivot.X - Triangle.Width * Pivot.Y + Triangle.Width * Triangle.Y - Triangle.Height * Triangle.X > L_Inaccuracy * K Then Return True
-			Case LTSprite.TopRightTriangle
-				If Triangle.Height * Pivot.X + Triangle.Width * Pivot.Y + Triangle.Width * Triangle.Y + Triangle.Height * Triangle.X > L_Inaccuracy * K Then Return True
-			Case LTSprite.BottomLeftTriangle
-				If Triangle.Height * Pivot.X + Triangle.Width * Pivot.Y + Triangle.Width * Triangle.Y + Triangle.Height * Triangle.X < -L_Inaccuracy * K Then Return True
-			Case LTSprite.BottomRightTriangle
-				If Triangle.Height * Pivot.X - Triangle.Width * Pivot.Y + Triangle.Width * Triangle.Y - Triangle.Height * Triangle.X < -L_Inaccuracy * K Then Return True
+			Case LTSprite.TopLeftTriangle, LTSprite.BottomRightTriangle
+				Line = LTLine.FromPoints( Triangle.X, Triangle.Y, Triangle.X + Triangle.Width, Triangle.Y + Triangle.Height )
+			Case LTSprite.TopRightTriangle, LTSprite.BottomLeftTriangle
+				Line = LTLine.FromPoints( Triangle.X, Triangle.Y, Triangle.X - Triangle.Width, Triangle.Y + Triangle.Height )
 		End Select
+		If Line.DistanceTo( Pivot ) > L_Inaccuracy Then Return True
 	End If
 End Function
 
@@ -125,24 +123,18 @@ End Function
 
 
 
-Function L_OvalWithLine:Int( Oval:LTSprite, Line:LTLineSegment )
+Function L_OvalWithLine:Int( Oval:LTSprite, LineSegment:LTLineSegment )
 	Local Pivot1:LTSprite = Line.Pivot[ 0 ]
 	Local Pivot2:LTSprite = Line.Pivot[ 1 ]
-	Local A:Double = Pivot2.Y - Pivot1.Y
-	Local B:Double = Pivot1.X - Pivot2.X
-	Local C1:Double = -A * Pivot1.X - B * Pivot1.Y
-	Local AABB:Double = A * A + B * B
-	Local D:Double = Abs( A * Oval.X + B * Oval.Y + C1 ) / AABB
-	If D < 0.5 * Max( Oval.Width, Oval.Height ) Then
-		If L_PivotWithOval( Pivot1, Oval ) Then Return True
-		If L_PivotWithOval( Pivot2, Oval ) Then Return True
-		Local C2:Double = A * Oval.Y - B * Oval.X
-		Local X0:Double = -( A * C1 + B * C2 ) / AABB
-		Local Y0:Double = ( A * C2 - B * C1 ) / AABB
-		If Pivot1.X <> Pivot2.X Then
-			If Min( Pivot1.X, Pivot2.X ) <= X0 And X0 <= Max( Pivot1.X, Pivot2.X ) Then Return True
-		Else
-			If Min( Pivot1.Y, Pivot2.Y ) <= Y0 And Y0 <= Max( Pivot1.Y, Pivot2.Y ) Then Return True
+	L_Oval1.X = 0.5 * ( Pivot1.X + Pivot2.X )
+	L_Oval1.Y = 0.5 * ( Pivot1.Y + Pivot2.Y )
+	L_Oval1.Width = 0.5 * Pivot1.DistanceTo( Pivot2 ) + L_Inaccuracy
+	If L_OvalWithOval( Oval, L_Oval1 ) Then
+		Line:LTLine = LineSegment.ToLine()
+		If Line.DistanceTo( Oval ) < 0.5 * Max( Oval.Width, Oval.Height ) Then
+			Line.PivotProjection( Oval, L_Pivot1 )
+			Oval.ToCircle( L_Oval2, L_Pivot1 )
+			If L_PivotWithOval( L_Pivot1, L_Oval1 ) And L_Pivot1.DistanceTo( L_Oval2 ) < L_Oval1.Width - L_Inaccuracy Then Return True
 		End If
 	End If
 End Function
@@ -150,7 +142,7 @@ End Function
 
 
 Function L_OvalWithTriangle:Int( Oval:LTSprite, Triangle:LTSprite )
-	Oval = Oval.ToCircle( L_Oval1, Triangle )
+	Oval.ToCircle( L_Oval1, Triangle )
 	If L_OvalWithRectangle( Oval, Triangle ) Then
 		
 	End If

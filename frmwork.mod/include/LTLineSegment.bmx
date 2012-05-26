@@ -24,12 +24,18 @@ Type LTLineSegment Extends LTShape
 	returns: New line.
 	about: See also: #PlaceBetween example
 	End Rem
-	Function FromPivots:LTLineSegment( Pivot1:LTSprite, Pivot2:LTSprite )
-		Local Line:LTLineSegment = New LTLineSegment
-		Line.Pivot[ 0 ] = Pivot1
-		Line.Pivot[ 1 ] = Pivot2
-		Return Line
+	Function FromPivots:LTLineSegment( Pivot1:LTSprite, Pivot2:LTSprite, Segment:LTLineSegment = Null )
+		If Not Segment Then Segment = New LTLineSegment
+		Segment.Pivot[ 0 ] = Pivot1
+		Segment.Pivot[ 1 ] = Pivot2
+		Return Segment
 	End Function
+	
+	
+	
+	Method ToLine:LTLine( Line:LTLine = Null )
+		LTLine.FromPivots( Pivot[ 0 ], Pivot[ 1 ], Line )
+	End Method
 	
 	' ==================== Drawing ===================	
 	
