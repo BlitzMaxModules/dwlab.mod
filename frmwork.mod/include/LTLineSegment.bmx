@@ -64,8 +64,8 @@ Type LTLineSegment Extends LTShape
 	
 	See also: #LTGraph example
 	End Rem
-	Method CollidesWithLine:Int( Line:LTLineSegment, IncludingPivots:Int = True )
-		if Pivot[ 0 ] = Line.Pivot[ 0 ] Or Pivot[ 0 ] = Line.Pivot[ 1 ] Or Pivot[ 1 ] = Line.Pivot[ 0 ] Or Pivot[ 1 ] = Line.Pivot[ 1 ] Then
+	Method CollidesWithLineSegment:Int( LineSegment:LTLineSegment, IncludingPivots:Int = True )
+		if Pivot[ 0 ] = LineSegment.Pivot[ 0 ] Or Pivot[ 0 ] = LineSegment.Pivot[ 1 ] Or Pivot[ 1 ] = LineSegment.Pivot[ 0 ] Or Pivot[ 1 ] = LineSegment.Pivot[ 1 ] Then
 			If IncludingPivots Then Return True Else Return False
 		End If
 		
@@ -73,10 +73,10 @@ Type LTLineSegment Extends LTShape
 		Local Y1:Double = Pivot[ 0 ].Y
 		Local X2:Double = Pivot[ 1 ].X
 		Local Y2:Double = Pivot[ 1 ].Y
-		Local X3:Double = Line.Pivot[ 0 ].X
-		Local Y3:Double = Line.Pivot[ 0 ].Y
-		Local X4:Double = Line.Pivot[ 1 ].X
-		Local Y4:Double = Line.Pivot[ 1 ].Y
+		Local X3:Double = LineSegment.Pivot[ 0 ].X
+		Local Y3:Double = LineSegment.Pivot[ 0 ].Y
+		Local X4:Double = LineSegment.Pivot[ 1 ].X
+		Local Y4:Double = LineSegment.Pivot[ 1 ].Y
 		Local DX1:Double = X2 - X1
 		Local DY1:Double = Y2 - Y1
 		Local DX3:Double = X4 - X3

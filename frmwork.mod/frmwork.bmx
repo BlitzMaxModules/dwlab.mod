@@ -15,12 +15,21 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.4.6"
+ModuleInfo "Version: 1.4.10"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.10 (27.05.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added Triangle type of the sprite."
+ModuleInfo "History: &nbsp; &nbsp; Added triangle collision functions."
+ModuleInfo "History: &nbsp; &nbsp; Rewrote oval overlapping function."
+ModuleInfo "History: &nbsp; &nbsp; Renamed LTLine to LTLineSegment."
+ModuleInfo "History: &nbsp; &nbsp; Created LTLine class."
+ModuleInfo "History: &nbsp; &nbsp; Added some service methods to LTSprite: GetBounds, ToCircle, ToCircleUsingLine."
+ModuleInfo "History: &nbsp; &nbsp; Added algebraic geometry methods for LTSprite: GetHypotenuse, GetRightAnglePivot."
+ModuleInfo "History: &nbsp; &nbsp; Added algebraic geometry methods for LTLine: DistanceTo, PivotProjection, IntersectionWith, PivotOrientation."
 ModuleInfo "History: v1.4.9 (22.05.12)"
 ModuleInfo "History: &nbsp; &nbsp; Rewrote collision and physics system to be faster and more flexible."
 ModuleInfo "History: v1.4.8 (22.05.12)"
@@ -234,7 +243,7 @@ Import brl.retro
 Import brl.map
 Import brl.max2d
 
-Const L_Version:String = "1.4.6"
+Const L_Version:String = "1.4.10"
 
 SeedRnd( MilliSecs() )
 

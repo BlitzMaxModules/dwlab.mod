@@ -149,6 +149,8 @@ Type LTSprite Extends LTShape
 						Return L_PivotWithOval( Self, Sprite )
 					Case Rectangle
 						Return L_PivotWithRectangle( Self, Sprite )
+					Case Ray
+					Case Raster
 					Default
 						Return L_PivotWithTriangle( Self, Sprite )
 				End Select
@@ -160,6 +162,8 @@ Type LTSprite Extends LTShape
 						Return L_OvalWithOval( Self, Sprite )
 					Case Rectangle
 						Return L_OvalWithRectangle( Self, Sprite )
+					Case Ray
+					Case Raster
 					Default
 						Return L_OvalWithTriangle( Self, Sprite )
 				End Select
@@ -171,6 +175,8 @@ Type LTSprite Extends LTShape
 						Return L_OvalWithRectangle( Sprite, Self )
 					Case Rectangle
 						Return L_RectangleWithRectangle( Self, Sprite )
+					Case Ray
+					Case Raster
 					Default
 						Return L_RectangleWithTriangle( Self, Sprite )
 				End Select
@@ -182,6 +188,8 @@ Type LTSprite Extends LTShape
 						Return L_OvalWithTriangle( Sprite, Self )
 					Case Rectangle
 						Return L_RectangleWithTriangle( Sprite, Self )
+					Case Ray
+					Case Raster
 					Default
 						Return L_TriangleWithTriangle( Self, Sprite )
 				End Select
@@ -201,15 +209,14 @@ Type LTSprite Extends LTShape
 		?
 		Select ShapeType
 			Case Pivot
-				L_Error( "Line with pivot collision is not yet implemented" )
-				'Return L_PivotWithLine( Self, Line )
+				Return L_PivotWithLine( Self, Line )
 			Case Oval
 				Return L_OvalWithLine( Self, Line )
-			Case Rectangle
-				L_Error( "Line with rectangle collision is not yet implemented" )
-				'Return L_RectangleWithLine( Self, Line )
+			Case Rectangle, Raster
+				Return L_RectangleWithLine( Self, Line )
+			Case Ray
 			Default
-				L_Error( "Line with triangle collision is not yet implemented" )
+				Return L_TriangleWithLine( Self, Line )
 		End Select
 	End Method
 	
@@ -228,8 +235,9 @@ Type LTSprite Extends LTShape
 						Return L_PivotWithPivot( L_Pivot1, Sprite )
 					Case Oval
 						Return L_PivotWithOval( L_Pivot1, Sprite )
-					Case Rectangle
+					Case Rectangle, Raster
 						Return L_PivotWithRectangle( L_Pivot1, Sprite )
+					Case Ray
 					Default
 						Return L_PivotWithTriangle( L_Oval1, Sprite )
 				End Select
@@ -243,12 +251,15 @@ Type LTSprite Extends LTShape
 						Return L_PivotWithOval( Sprite, L_Oval1 )
 					Case Oval
 						Return L_OvalWithOval( L_Oval1, Sprite )
-					Case Rectangle
+					Case Rectangle, Raster
 						Return L_OvalWithRectangle( L_Oval1, Sprite )
+					Case Ray
 					Default
 						Return L_OvalWithTriangle( L_Oval1, Sprite )
 				End Select
-			Case Rectangle
+			Case Rectangle, Raster
+				If ShapeType = Raster And Sprite.ShapeType = Raster Then Return L_RasterWithRaster( Self, Sprite )
+				
 				L_Rectangle1.X = X * XScale + DX
 				L_Rectangle1.Y = Y * YScale + DY
 				L_Rectangle1.Width = Width * XScale
@@ -258,11 +269,13 @@ Type LTSprite Extends LTShape
 						Return L_PivotWithRectangle( Sprite, L_Rectangle1 )
 					Case Oval
 						Return L_OvalWithRectangle( Sprite, L_Rectangle1 )
-					Case Rectangle
+					Case Rectangle, Raster
 						Return L_RectangleWithRectangle( L_Rectangle1, Sprite )
+					Case Ray
 					Default
 						Return L_RectangleWithTriangle( L_Rectangle1, Sprite )
 				End Select
+			Case Ray
 			Default
 				L_Triangle1.X = X * XScale + DX
 				L_Triangle1.Y = Y * YScale + DY
@@ -274,8 +287,9 @@ Type LTSprite Extends LTShape
 						Return L_PivotWithTriangle( Sprite, L_Triangle1 )
 					Case Oval
 						Return L_OvalWithTriangle( Sprite, L_Triangle1 )
-					Case Rectangle
+					Case Rectangle, Raster
 						Return L_RectangleWithTriangle( Sprite, L_Triangle1 )
+					Case Ray
 					Default
 						Return L_TriangleWithTriangle( L_Triangle1, Sprite )
 				End Select
@@ -294,24 +308,30 @@ Type LTSprite Extends LTShape
 		L_CollisionChecks :+ 1
 		?
 		Select ShapeType
-			Case Pivot
-				 L_Error( "Pivot overlapping is not supported" )
 			Case Oval
+				If Oval.Width <> Oval.Height Then L_Error( "Only circle supports overlapping." )
 				Select Sprite.ShapeType
 					Case Pivot
-						Return L_OvalOverlapsPivot( Self, Sprite )
+						Return L_CircleOverlapsPivot( Self, Sprite )
 					Case Oval
-						Return L_OvalOverlapsOval( Self, Sprite )
-					Case Rectangle
-						Return L_OvalOverlapsRectangle( Self, Sprite )
+						Return L_CircleOverlapsOval( Self, Sprite )
+					Case Rectangle, Raster
+						Return L_CircleOverlapsRectangle( Self, Sprite )
+					Case Ray
+						Return False
+					Case Raster
 				End Select
 			Case Rectangle
 				Select Sprite.ShapeType
 					Case Pivot
 						Return L_RectangleOverlapsPivot( Self, Sprite )
-					Case Oval, Rectangle
+					Case Ray
+						Return False
+					Default
 						Return L_RectangleOverlapsRectangle( Self, Sprite )
 				End Select
+			Default
+				L_Error( "Only Circle and Rectangle shapes supports overlapping." )
 		End Select
 	End Method
 	
@@ -414,7 +434,8 @@ Type LTSprite Extends LTShape
 					Local Shape:LTShape = Tileset.CollisionShape[ TileMap.Value[ TileX, TileY ] ]
 					If Shape Then Shape.TileShapeCollisionsWithSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, CellWidth, CellHeight, TileMap, TileX, TileY, Handler )
 				End If
-			Case Oval, Rectangle
+			Case Ray
+			Default
 				Local X1:Int = Floor( ( X - 0.5 * Width - X0 ) / CellWidth )
 				Local Y1:Int = Floor( ( Y - 0.5 * Height - Y0 ) / CellHeight )
 				Local X2:Int = Floor( ( X + 0.5 * Width - X0 - L_Inaccuracy ) / CellWidth )
@@ -459,6 +480,7 @@ Type LTSprite Extends LTShape
 						End If
 					End If
 				Next
+			Case Ray
 			Default
 				Local MapX1:Int = Floor( ( X - 0.5 * Width ) / SpriteMap.CellWidth )
 				Local MapY1:Int = Floor( ( Y - 0.5 * Height ) / SpriteMap.CellHeight )
@@ -811,28 +833,102 @@ Type LTSprite Extends LTShape
 		Frame :+ FrameStart
 	End Method
 	
-	' ==================== Other ====================	
+	' ==================== Methods for oval ====================	
 	
-	Method ToCircle:LTSprite( NewOval:LTSprite, Pivot:LTSprite )
-		If Width = Height Then
-			Return Self
+	Method ToCircle:LTSprite( Pivot:LTSprite, CircleSprite:LTSprite = Null )
+		If Not CircleSprite Then CircleSprite = New LTSprite.FromShapeType( Circle )
+		If Width = Height Then Return CircleSprite
+		If Width > Height Then
+			CircleSprite.X = L_LimitDouble( Pivot.X, X - 0.5 * ( Width - Height ), X + 0.5 * ( Width - Height ) )
+			CircleSprite.Y = Y
+			CircleSprite.Width = Height
+			CircleSprite.Height = Height
 		Else
-			If Width > Height Then
-				NewOval.X = L_LimitDouble( Pivot.X, X - 0.5 * ( Width - Height ), X + 0.5 * ( Width - Height ) )
-				NewOval.Y = Y
-				NewOval.Width = Height
-				NewOval.Height = Height
-			Else
-				NewOval.Y = X
-				NewOval.Y = L_LimitDouble( Pivot.Y, Y - 0.5 * ( Height - Width ), Y + 0.5 * ( Height - Width ) )
-				NewOval.Width = Width
-				NewOval.Height = Width
-			End If
-			Return NewOval
+			CircleSprite.Y = X
+			CircleSprite.Y = L_LimitDouble( Pivot.Y, Y - 0.5 * ( Height - Width ), Y + 0.5 * ( Height - Width ) )
+			CircleSprite.Width = Width
+			CircleSprite.Height = Width
 		End If
+		Return CircleSprite
+	End Method
+	
+	
+	
+	Method ToCircleUsingLine:LTSprite( Line:LTLine, CircleSprite:LTSprite = Null )
+		If Not CircleSprite Then CircleSprite = New LTSprite.FromShapeType( Circle )
+		If Width = Height Then Return CircleSprite
+		If Width > Height Then
+			Local DWidth:Double = 0.5 * ( Width - Height )
+			Local O1:Double = Line.A * ( X - DWidth ) + Line.B * Y + C
+			Local O2:Double = Line.A * ( X + DWidth ) + Line.B * Y + C
+			If Sgn( O1 ) <> Sgn( O2 ) Then
+				CircleSprite.X = -( Line.B * Y + C ) / Line.A
+			ElseIf Abs( O1 ) < Abs( O2 ) Then
+				CircleSprite.X = X - DWidth
+			Else
+				CircleSprite.X = X + DWidth
+			End If
+			CircleSprite.Y = Y
+		Else
+			Local DHeight:Double = 0.5 * ( Height - Width )
+			Local O1:Double = Line.A * X + Line.B * ( Y - DHeight ) + C
+			Local O2:Double = Line.A * X + Line.B * ( Y + DHeight ) + C
+			If Sgn( O1 ) <> Sgn( O2 ) Then
+				CircleSprite.X = -( Line.A * X + C ) / Line.B
+			ElseIf Abs( O1 ) < Abs( O2 ) Then
+				CircleSprite.Y = Y - DHeight
+			Else
+				CircleSprite.Y = Y + DHeight
+			End If
+			CircleSprite.X = X
+		End If
+		Return CircleSprite
 	End Method
 
+	' ==================== Methods for rectangle ====================	
 	
+	Method GetBounds( LeftX:Double Var, TopY:Double Var, RightX:Double Var, BottomY:Double Var )
+		Local DWidth = 0.5 * Width
+		Local DHeight = 0.5 * Hieght
+		LeftX = X - DWidth
+		TopY = Y - DHeight
+		RightX = X + DWidth
+		BottomY = Y + DHeight
+	End Method
+	
+	' ==================== Methods for triangle ====================	
+	
+	Method GetHypotenuse:LTLine( Line:LTLine )
+		If Not Line Then Line = New LTLine
+		Select Triangle.ShapeType
+			Case LTSprite.TopLeftTriangle, LTSprite.BottomRightTriangle
+				FromPoints( Triangle.X, Triangle.Y, Triangle.X + Triangle.Width, Triangle.Y + Triangle.Height, Line )
+			Case LTSprite.TopRightTriangle, LTSprite.BottomLeftTriangle
+				FromPoints( Triangle.X, Triangle.Y, Triangle.X - Triangle.Width, Triangle.Y + Triangle.Height, Line )
+		End Select
+		Return Line
+	End Method
+	
+	
+	
+	Method GetRightAnglePivot:LTPivot( Pivot:LTPivot )
+		If Not Pivot Then Pivot = New LTShape
+		Select Triangle.ShapeType
+			Case LTSprite.TopLeftTriangle, LTSprite.BottomLeftTriangle
+				Pivot.X = X - 0.5 * Width
+			Case LTSprite.BottomRightTriangle, LTSprite.TopRightTriangle
+				Pivot.X = X + 0.5 * Width
+		End Select
+		Select Triangle.ShapeType
+			Case LTSprite.TopLeftTriangle, LTSprite.TopRightTriangle
+				Pivot.Y = Y - 0.5 * Height
+			Case LTSprite.BottomRightTriangle, LTSprite.BottomRightTriangle
+				Pivot.Y = Y + 0.5 * Height
+		End Select
+		Return Pivot
+	End Method
+	
+	' ==================== Other ====================	
 	
 	Method Clone:LTShape()
 		Local NewSprite:LTSprite = New LTSprite

@@ -72,4 +72,16 @@ Type LTLine Extends LTShape
 		Pivot.X = ( C - B * Pivot.Y ) / A
 		Return Pivot
 	End Method
+	
+	
+	
+	Method PointOrientation( X:Double, Y:Double )
+		Return Sgn( A * X + B * Y + C )
+	End Method
+	
+	
+	
+	Method PivotOrientation( Pivot:LTShape )
+		Return Sgn( A * Pivot.X + B * Pivot.Y + C )
+	End Method
 End Type
