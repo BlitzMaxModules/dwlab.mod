@@ -9,7 +9,7 @@
 '
 
 Type TCheckLines
-	Function Execute( CreateBalls:Int = True )
+	Function Execute( BallNum:Int, CreateBalls:Int = True )
 		Game.TotalBalls = 0
 		
 		Local Rows:TList = New TList
@@ -37,6 +37,14 @@ Type TCheckLines
 		Else
 			L_PlaySound( Game.ExplosionSound )
 			Profile.Score :+ ( Game.TotalBalls - 7 ) * Game.TotalBalls / 2 + 10
+			For Local Goal:TRemoveCombinations = Eachin Profile.Goals
+				If ( Goal.BallType = BallNum Or Goal.BallType = Profile.RandomBall ) And Game.TotalBalls >= Goal.LineBallsQuantity Then
+					Goal.Count :- 1
+				End If
+			Next
+			For Local Goal:TRemoveBalls = Eachin Profile.Goals
+				If ( Goal.BallType = BallNum Or Goal.BallType = Profile.RandomBall ) Then Goal.Count :- Game.TotalBalls
+			Next
 		End If
 	End Function
 	
@@ -51,9 +59,6 @@ Type TCheckLines
 		Wend
 		If K >= Profile.BallsInLine Then
 			Rows.AddLast( TRow.Create( X, Y, DX, DY, K - 1 ) )
-			For Local Goal:TRemoveCombinations = Eachin Profile.Goals
-				If ( Goal.BallType = BallNum Or Goal.BallType = Profile.RandomBall ) And K >= Goal.LineBallsQuantity Then Goal.Count :- 1
-			Next
 		End If
 	End Function
 End Type

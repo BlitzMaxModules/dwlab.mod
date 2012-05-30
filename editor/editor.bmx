@@ -716,6 +716,7 @@ Type LTEditor Extends LTProject
 	
 	
 	Method Logic()
+		Delay 10
 		PollEvent()
 
 		If ActiveGadget() <> Panel Then CurrentTextField = ActiveGadget()
@@ -999,7 +1000,8 @@ Type LTEditor Extends LTProject
 					Case MenuNew
 						NewWorld()
 					Case MenuOpen
-						OpenWorld( RequestFile( LocalizeString( "{{D_SelectFileNameToOpen}}" ), "DWLab world file:lw" ) )
+						OpenWorld( RequestFile( LocalizeString( "{{D_SelectFileNameToOpen}}" ), "DWLab world file:lw", False, ..
+								ExtractDir( WorldFileName ) + "\" ) )
 					Case MenuSave
 						SaveWorld()
 					Case MenuSaveAs

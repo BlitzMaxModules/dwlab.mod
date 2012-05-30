@@ -309,7 +309,7 @@ Type LTSprite Extends LTShape
 		?
 		Select ShapeType
 			Case Oval
-				If Oval.Width <> Oval.Height Then L_Error( "Only circle supports overlapping." )
+				If Sprite.Width <> Sprite.Height Then L_Error( "Only circle supports overlapping." )
 				Select Sprite.ShapeType
 					Case Pivot
 						Return L_CircleOverlapsPivot( Self, Sprite )
@@ -859,10 +859,10 @@ Type LTSprite Extends LTShape
 		If Width = Height Then Return CircleSprite
 		If Width > Height Then
 			Local DWidth:Double = 0.5 * ( Width - Height )
-			Local O1:Double = Line.A * ( X - DWidth ) + Line.B * Y + C
-			Local O2:Double = Line.A * ( X + DWidth ) + Line.B * Y + C
+			Local O1:Double = Line.A * ( X - DWidth ) + Line.B * Y + Line.C
+			Local O2:Double = Line.A * ( X + DWidth ) + Line.B * Y + Line.C
 			If Sgn( O1 ) <> Sgn( O2 ) Then
-				CircleSprite.X = -( Line.B * Y + C ) / Line.A
+				CircleSprite.X = -( Line.B * Y + Line.C ) / Line.A
 			ElseIf Abs( O1 ) < Abs( O2 ) Then
 				CircleSprite.X = X - DWidth
 			Else
@@ -871,10 +871,10 @@ Type LTSprite Extends LTShape
 			CircleSprite.Y = Y
 		Else
 			Local DHeight:Double = 0.5 * ( Height - Width )
-			Local O1:Double = Line.A * X + Line.B * ( Y - DHeight ) + C
-			Local O2:Double = Line.A * X + Line.B * ( Y + DHeight ) + C
+			Local O1:Double = Line.A * X + Line.B * ( Y - DHeight ) + Line.C
+			Local O2:Double = Line.A * X + Line.B * ( Y + DHeight ) + Line.C
 			If Sgn( O1 ) <> Sgn( O2 ) Then
-				CircleSprite.X = -( Line.A * X + C ) / Line.B
+				CircleSprite.X = -( Line.A * X + Line.C ) / Line.B
 			ElseIf Abs( O1 ) < Abs( O2 ) Then
 				CircleSprite.Y = Y - DHeight
 			Else
@@ -888,8 +888,8 @@ Type LTSprite Extends LTShape
 	' ==================== Methods for rectangle ====================	
 	
 	Method GetBounds( LeftX:Double Var, TopY:Double Var, RightX:Double Var, BottomY:Double Var )
-		Local DWidth = 0.5 * Width
-		Local DHeight = 0.5 * Hieght
+		Local DWidth:Double = 0.5 * Width
+		Local DHeight:Double = 0.5 * Height
 		LeftX = X - DWidth
 		TopY = Y - DHeight
 		RightX = X + DWidth
@@ -900,26 +900,28 @@ Type LTSprite Extends LTShape
 	
 	Method GetHypotenuse:LTLine( Line:LTLine )
 		If Not Line Then Line = New LTLine
-		Select Triangle.ShapeType
+		Select ShapeType
 			Case LTSprite.TopLeftTriangle, LTSprite.BottomRightTriangle
-				FromPoints( Triangle.X, Triangle.Y, Triangle.X + Triangle.Width, Triangle.Y + Triangle.Height, Line )
+				LTLine.FromPoints( X, Y, X + Width, Y + Height, Line )
 			Case LTSprite.TopRightTriangle, LTSprite.BottomLeftTriangle
-				FromPoints( Triangle.X, Triangle.Y, Triangle.X - Triangle.Width, Triangle.Y + Triangle.Height, Line )
+				LTLine.FromPoints( X, Y, X - Width, Y + Height, Line )
+			Default
+				Return Null
 		End Select
 		Return Line
 	End Method
 	
 	
 	
-	Method GetRightAnglePivot:LTPivot( Pivot:LTPivot )
+	Method GetRightAnglePivot:LTShape( Pivot:LTShape )
 		If Not Pivot Then Pivot = New LTShape
-		Select Triangle.ShapeType
+		Select ShapeType
 			Case LTSprite.TopLeftTriangle, LTSprite.BottomLeftTriangle
 				Pivot.X = X - 0.5 * Width
 			Case LTSprite.BottomRightTriangle, LTSprite.TopRightTriangle
 				Pivot.X = X + 0.5 * Width
 		End Select
-		Select Triangle.ShapeType
+		Select ShapeType
 			Case LTSprite.TopLeftTriangle, LTSprite.TopRightTriangle
 				Pivot.Y = Y - 0.5 * Height
 			Case LTSprite.BottomRightTriangle, LTSprite.BottomRightTriangle

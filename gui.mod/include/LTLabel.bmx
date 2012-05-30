@@ -54,7 +54,7 @@ Type LTLabel Extends LTGadget
 			Text = LocalizeString( "{{" + Text + "}}" )
 		End If
 		
-		Select GetParameter( "halign" )
+		Select GetParameter( "texthalign" )
 			Case "left"
 				HAlign = LTAlign.ToLeft
 			Case "center"
@@ -62,7 +62,7 @@ Type LTLabel Extends LTGadget
 			Case "right"
 				HAlign = LTAlign.ToRight
 		End Select
-		Select GetParameter( "valign" )
+		Select GetParameter( "textvalign" )
 			Case "top"
 				VAlign = LTAlign.ToTop
 			Case "center"

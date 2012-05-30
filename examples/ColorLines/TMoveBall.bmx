@@ -44,6 +44,6 @@ Type TMoveBall Extends LTBehaviorModel
 		Game.Objects.Remove( Shape )
 		Game.Locked = False
 		Game.Selected = Null
-		If CheckLines Then TCheckLines.Execute()
+		If CheckLines Then TCheckLines.Execute( LTSprite( Shape ).Frame )
 	End Method
 End Type

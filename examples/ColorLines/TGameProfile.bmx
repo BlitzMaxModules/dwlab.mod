@@ -41,6 +41,7 @@ Type TGameProfile Extends LTProfile
 	Field Swap:Int
 	Field OrthogonalLines:Int
 	Field DiagonalLines:Int
+	Field Overflow:Int
 	
 	Field BossKey:LTButtonAction
 	Field ExitToMenu:LTButtonAction
@@ -67,9 +68,10 @@ Type TGameProfile Extends LTProfile
 		
 		BallsInLine = 5
 		BallsPerTurn = 3
-		Swap = 1
-		OrthogonalLines = 1
-		DiagonalLines = 1
+		Swap = True
+		OrthogonalLines = True
+		DiagonalLines = True
+		Overflow = True
 		
 		Goals = New TList
 		For Local Parameter:LTParameter = Eachin Level.Parameters
@@ -81,11 +83,13 @@ Type TGameProfile Extends LTProfile
 				Case "line_balls"
 					BallsInLine = IntValue
 				Case "no_swap"
-					Swap = 0
+					Swap = False
 				Case "no_orthogonal_lines"
-					OrthogonalLines = 0
+					OrthogonalLines = False
 				Case "no_diagonal_lines"
-					DiagonalLines = 0
+					DiagonalLines = False
+				Case "no_overflow"
+					Overflow = False
 				Case "put_balls_in_holes"
 					TPutBallsInHoles.Create( IntValue )
 				Case "get_score"
@@ -105,19 +109,9 @@ Type TGameProfile Extends LTProfile
 			Next
 		Next
 			
-		For Local N:Int = 1 To 3
-			Repeat
-				Local X:Int = Rand( 0, GameField.XQuantity - 1 )
-				Local Y:Int = Rand( 0, GameField.YQuantity - 1 )
-				If GameField.Value[ X, Y ] = Plate And Balls.Value[ X, Y ] = NoBall Then
-					Balls.Value[ X, Y ] = Rand( 1, 7 )
-					Exit
-				End If
-			Forever
-		Next
-		
 		NextBalls = New Int[ BallsPerTurn ]
 		FillNextBalls()
+		CreateBalls()
 		Game.Locked = True
 		
 		InitLevel()
@@ -154,15 +148,16 @@ Type TGameProfile Extends LTProfile
 				if Modifiers.GetTile( X, Y ) = Lights Then Balls.SetTile( X, Y, Rand( 1, 7 ) )
 			Next
 		Next
-		If Game.EmptyCells.Count() < 3 Then
-			Menu.LoadGameOverWindow()
-		Else
-			For Local BallNum:Int = Eachin Profile.NextBalls
-				Local Cell:TCell = TCell.PopFrom( Game.EmptyCells )
-				TPopUpBall.Create( Cell.X, Cell.Y, BallNum )
-			Next
-			FillNextBalls()
-		End If
+		
+		For Local BallNum:Int = Eachin Profile.NextBalls
+			If Game.EmptyCells.IsEmpty() Then
+				If Overflow Then Menu.LoadGameOverWindow()
+				Return
+			End If
+			Local Cell:TCell = TCell.PopFrom( Game.EmptyCells )
+			TPopUpBall.Create( Cell.X, Cell.Y, BallNum )
+		Next
+		FillNextBalls()
 	End Method
 	
 	Method FillNextBalls()

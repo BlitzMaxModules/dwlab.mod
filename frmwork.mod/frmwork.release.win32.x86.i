@@ -1,8 +1,17 @@
-ModuleInfo "Version: 1.4.6"
+ModuleInfo "Version: 1.4.10"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.10 (27.05.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added Triangle type of the sprite."
+ModuleInfo "History: &nbsp; &nbsp; Added triangle collision functions."
+ModuleInfo "History: &nbsp; &nbsp; Rewrote oval overlapping function."
+ModuleInfo "History: &nbsp; &nbsp; Renamed LTLine to LTLineSegment."
+ModuleInfo "History: &nbsp; &nbsp; Created LTLine class."
+ModuleInfo "History: &nbsp; &nbsp; Added some service methods to LTSprite: GetBounds, ToCircle, ToCircleUsingLine."
+ModuleInfo "History: &nbsp; &nbsp; Added algebraic geometry methods for LTSprite: GetHypotenuse, GetRightAnglePivot."
+ModuleInfo "History: &nbsp; &nbsp; Added algebraic geometry methods for LTLine: DistanceTo, PivotProjection, IntersectionWith, PivotOrientation."
 ModuleInfo "History: v1.4.9 (22.05.12)"
 ModuleInfo "History: &nbsp; &nbsp; Rewrote collision and physics system to be faster and more flexible."
 ModuleInfo "History: v1.4.8 (22.05.12)"
@@ -214,7 +223,7 @@ import brl.random
 import brl.reflection
 import brl.retro
 import brl.max2d
-L_Version$=$"1.4.6"
+L_Version$=$"1.4.10"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
@@ -407,16 +416,21 @@ L_PivotWithPivot%(Pivot1:LTSprite,Pivot2:LTSprite)="dwlab_frmwork_L_PivotWithPiv
 L_PivotWithOval%(Pivot:LTSprite,Oval:LTSprite)="dwlab_frmwork_L_PivotWithOval"
 L_PivotWithRectangle%(Pivot:LTSprite,Rectangle:LTSprite)="dwlab_frmwork_L_PivotWithRectangle"
 L_PivotWithTriangle%(Pivot:LTSprite,Triangle:LTSprite)="dwlab_frmwork_L_PivotWithTriangle"
+L_PivotWithLine%(Pivot:LTSprite,LineSegment:LTLineSegment)="dwlab_frmwork_L_PivotWithLine"
 L_OvalWithOval%(Oval1:LTSprite,Oval2:LTSprite)="dwlab_frmwork_L_OvalWithOval"
 L_OvalWithRectangle%(Oval:LTSprite,Rectangle:LTSprite)="dwlab_frmwork_L_OvalWithRectangle"
-L_OvalWithLine%(Oval:LTSprite,Line:LTLineSegment)="dwlab_frmwork_L_OvalWithLine"
+L_OvalWithLine%(Oval:LTSprite,LineSegment:LTLineSegment)="dwlab_frmwork_L_OvalWithLine"
 L_OvalWithTriangle%(Oval:LTSprite,Triangle:LTSprite)="dwlab_frmwork_L_OvalWithTriangle"
 L_RectangleWithRectangle%(Rectangle1:LTSprite,Rectangle2:LTSprite)="dwlab_frmwork_L_RectangleWithRectangle"
 L_RectangleWithTriangle%(Rectangle:LTSprite,Triangle:LTSprite)="dwlab_frmwork_L_RectangleWithTriangle"
+L_RectangleWithLine%(Rectangle:LTSprite,LineSegment:LTLineSegment)="dwlab_frmwork_L_RectangleWithLine"
 L_TriangleWithTriangle%(Triangle1:LTSprite,Triangle2:LTSprite)="dwlab_frmwork_L_TriangleWithTriangle"
-L_OvalOverlapsPivot%(Oval:LTSprite,Pivot:LTSprite)="dwlab_frmwork_L_OvalOverlapsPivot"
-L_OvalOverlapsOval%(Oval1:LTSprite,Oval2:LTSprite)="dwlab_frmwork_L_OvalOverlapsOval"
-L_OvalOverlapsRectangle%(Oval:LTSprite,Rectangle:LTSprite)="dwlab_frmwork_L_OvalOverlapsRectangle"
+L_TriangleWithLine%(Triangle1:LTSprite,LineSegment:LTLineSegment)="dwlab_frmwork_L_TriangleWithLine"
+L_RasterWithRaster%(Raster1:LTSprite,Raster2:LTSprite)="dwlab_frmwork_L_RasterWithRaster"
+L_CircleOverlapsPivot%(Circle:LTSprite,Pivot:LTSprite)="dwlab_frmwork_L_CircleOverlapsPivot"
+L_CircleOverlapsOval%(Circle:LTSprite,Oval:LTSprite)="dwlab_frmwork_L_CircleOverlapsOval"
+L_CircleOverlapsCircle%(Circle1:LTSprite,Circle2:LTSprite)="dwlab_frmwork_L_CircleOverlapsCircle"
+L_CircleOverlapsRectangle%(Circle:LTSprite,Rectangle:LTSprite)="dwlab_frmwork_L_CircleOverlapsRectangle"
 L_RectangleOverlapsPivot%(Rectangle:LTSprite,Pivot:LTSprite)="dwlab_frmwork_L_RectangleOverlapsPivot"
 L_RectangleOverlapsRectangle%(Rectangle1:LTSprite,Rectangle2:LTSprite)="dwlab_frmwork_L_RectangleOverlapsRectangle"
 L_WedgingValuesOfOvalAndOval%(Oval1:LTSprite,Oval2:LTSprite,DX! Var,DY! Var)="dwlab_frmwork_L_WedgingValuesOfOvalAndOval"
@@ -479,7 +493,11 @@ Raster%=8
 -ReverseDirection%()="_dwlab_frmwork_LTSprite_ReverseDirection"
 -AlterAngle%(DAngle!)="_dwlab_frmwork_LTSprite_AlterAngle"
 -Animate%(Speed!,FramesQuantity%=0,FrameStart%=0,StartingTime!=0!,PingPong%=0)="_dwlab_frmwork_LTSprite_Animate"
--ToCircle:LTSprite(NewOval:LTSprite,Pivot:LTSprite)="_dwlab_frmwork_LTSprite_ToCircle"
+-ToCircle:LTSprite(Pivot:LTSprite,CircleSprite:LTSprite="bbNullObject")="_dwlab_frmwork_LTSprite_ToCircle"
+-ToCircleUsingLine:LTSprite(Line:LTLine,CircleSprite:LTSprite="bbNullObject")="_dwlab_frmwork_LTSprite_ToCircleUsingLine"
+-GetBounds%(LeftX! Var,TopY! Var,RightX! Var,BottomY! Var)="_dwlab_frmwork_LTSprite_GetBounds"
+-GetHypotenuse:LTLine(Line:LTLine)="_dwlab_frmwork_LTSprite_GetHypotenuse"
+-GetRightAnglePivot:LTShape(Pivot:LTShape)="_dwlab_frmwork_LTSprite_GetRightAnglePivot"
 -Clone:LTShape()="_dwlab_frmwork_LTSprite_Clone"
 -CopyTo%(Shape:LTShape)="_dwlab_frmwork_LTSprite_CopyTo"
 -UpdateFromAngularModel%()="_dwlab_frmwork_LTSprite_UpdateFromAngularModel"
@@ -675,15 +693,33 @@ LTMap^LTShape{
 -Stretch:LTMap(XMultiplier%,YMultiplier%)="_dwlab_frmwork_LTMap_Stretch"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTMap_XMLIO"
 }="dwlab_frmwork_LTMap"
+LTLine^LTShape{
+.A!&
+.B!&
+.C!&
+.S!&
+-New%()="_dwlab_frmwork_LTLine_New"
+-Delete%()="_dwlab_frmwork_LTLine_Delete"
++FromPoints:LTLine(X1!,Y1!,X2!,Y2!,Line:LTLine="bbNullObject")="_dwlab_frmwork_LTLine_FromPoints"
++FromPivots:LTLine(Pivot1:LTShape,Pivot2:LTShape,Line:LTLine="bbNullObject")="_dwlab_frmwork_LTLine_FromPivots"
+-CalculateS!()="_dwlab_frmwork_LTLine_CalculateS"
+-DistanceTo!(Shape:LTShape)="_dwlab_frmwork_LTLine_DistanceTo"
+-DistanceToPoint!(PointX!,PointY!)="_dwlab_frmwork_LTLine_DistanceToPoint"
+-PivotProjection:LTShape(Pivot:LTShape,Projection:LTShape="bbNullObject")="_dwlab_frmwork_LTLine_PivotProjection"
+-IntersectionWith:LTShape(Line:LTLine,Pivot:LTShape="bbNullObject")="_dwlab_frmwork_LTLine_IntersectionWith"
+-PointOrientation%(X!,Y!)="_dwlab_frmwork_LTLine_PointOrientation"
+-PivotOrientation%(Pivot:LTShape)="_dwlab_frmwork_LTLine_PivotOrientation"
+}="dwlab_frmwork_LTLine"
 LTLineSegment^LTShape{
 .Pivot:LTSprite&[]&
 -New%()="_dwlab_frmwork_LTLineSegment_New"
 -Delete%()="_dwlab_frmwork_LTLineSegment_Delete"
-+FromPivots:LTLineSegment(Pivot1:LTSprite,Pivot2:LTSprite)="_dwlab_frmwork_LTLineSegment_FromPivots"
++FromPivots:LTLineSegment(Pivot1:LTSprite,Pivot2:LTSprite,Segment:LTLineSegment="bbNullObject")="_dwlab_frmwork_LTLineSegment_FromPivots"
+-ToLine:LTLine(Line:LTLine="bbNullObject")="_dwlab_frmwork_LTLineSegment_ToLine"
 -Draw%()="_dwlab_frmwork_LTLineSegment_Draw"
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTLineSegment_DrawUsingVisualizer"
 -Length!()="_dwlab_frmwork_LTLineSegment_Length"
--CollidesWithLine%(Line:LTLineSegment,IncludingPivots%=1)="_dwlab_frmwork_LTLineSegment_CollidesWithLine"
+-CollidesWithLineSegment%(LineSegment:LTLineSegment,IncludingPivots%=1)="_dwlab_frmwork_LTLineSegment_CollidesWithLineSegment"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTLineSegment_XMLIO"
 }="dwlab_frmwork_LTLineSegment"
 LTGraph^LTShape{
@@ -1427,12 +1463,15 @@ L_CurrentCamera:LTCamera&=mem:p("dwlab_frmwork_L_CurrentCamera")
 L_DiscreteGraphics%&=mem("dwlab_frmwork_L_DiscreteGraphics")
 L_Pivot1:LTSprite&=mem:p("dwlab_frmwork_L_Pivot1")
 L_Pivot2:LTSprite&=mem:p("dwlab_frmwork_L_Pivot2")
+L_Pivot3:LTSprite&=mem:p("dwlab_frmwork_L_Pivot3")
+L_Pivot4:LTSprite&=mem:p("dwlab_frmwork_L_Pivot4")
 L_Oval1:LTSprite&=mem:p("dwlab_frmwork_L_Oval1")
 L_Oval2:LTSprite&=mem:p("dwlab_frmwork_L_Oval2")
 L_Rectangle1:LTSprite&=mem:p("dwlab_frmwork_L_Rectangle1")
 L_Rectangle2:LTSprite&=mem:p("dwlab_frmwork_L_Rectangle2")
 L_Triangle1:LTSprite&=mem:p("dwlab_frmwork_L_Triangle1")
 L_Triangle2:LTSprite&=mem:p("dwlab_frmwork_L_Triangle2")
+L_Line:LTLine&=mem:p("dwlab_frmwork_L_Line")
 L_ProlongTiles%&=mem("dwlab_frmwork_L_ProlongTiles")
 L_SpreadingDirections%&[]&=mem:p("dwlab_frmwork_L_SpreadingDirections")
 L_TitleGenerator:LTTitleGenerator&=mem:p("dwlab_frmwork_L_TitleGenerator")

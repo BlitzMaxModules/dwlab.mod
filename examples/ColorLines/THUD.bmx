@@ -11,6 +11,9 @@
 Type THUD Extends LTWindow
 	Field Icon:LTSprite
 	Field Count:LTLabel
+	Field Ball:LTSprite
+	Field Goal1X:Double
+	Field GoalDX:Double
 	
 	Method Init()
 		Super.Init()
@@ -20,30 +23,29 @@ Type THUD Extends LTWindow
 		Remove( Icon )
 		Count = LTLabel( FindShape( "GoalCount" ) )
 		Remove( Count )
+		Ball = LTSprite( FindShape( "Ball" ) )
+		Remove( Ball )
+		Goal1X = FindShape( "Goal1" ).X
+		GoalDX = FindShape( "Goal2" ).X - Goal1X
 	End Method
 
 	Method Draw()
 		Super.Draw()
-		Local Ball:LTSprite = LTSprite( FindShape( "Ball" ) )
 		if Profile.NextBalls Then
-			Local StartingX:Double = FindShape( "TimePanel" ).X - 0.8 * ( Profile.NextBalls.Dimensions()[ 0 ] - 1 )
+			Local StartingX:Double = FindShape( "Balls" ).X - 0.35 * ( Profile.NextBalls.Dimensions()[ 0 ] - 1 )
 			Local N:Int = 0
 			For Local BallNum:Int = Eachin Profile.NextBalls
-				Ball.SetX( StartingX + N * 1.6 )
+				Ball.SetX( StartingX + N * 0.7 )
 				Ball.Frame = BallNum
 				Ball.Draw()
 				N :+ 1
 			Next
 		End If
 		
-		Local StartingX:Double = FindShape( "Goals" ).X - 1.5 * ( Profile.Goals.Count() - 1 )
+		Local GoalX:Double = Goal1X
 		For Local Goal:TGoal = Eachin Profile.Goals
-			Icon.SetX( StartingX - 0.75 )
-			Icon.Draw()
-			Count.SetX( StartingX + 0.75 )
-			Count.Text = "x" + Goal.Count
-			Count.Draw()
-			StartingX :+ 1.5
+			Goal.Draw( Goal1X, Icon, Ball, Count )
+			GoalX :+ GoalDX
 		Next
 	End Method
 	

@@ -32,20 +32,20 @@ Type LTLine Extends LTShape
 		If Not Line Then Line = New LTLine
 		Line.A = Pivot2.Y - Pivot1.Y
 		Line.B = Pivot1.X - Pivot2.X
-		Line.C = -Line.A * X1 - Line.B * Y1
+		Line.C = -Line.A * Pivot1.X - Line.B * Pivot1.Y
 		Line.CalculateS()
 		Return Line
 	End Function
 	
 	
 	
-	Method CalculateS()
+	Method CalculateS:Double()
 		S = Sqr( A * A + B * B )
 	End Method
 	
 	
 	
-	Method DistanceTo( Shape:LTShape )
+	Method DistanceTo:Double( Shape:LTShape )
 		Return Abs( A * Shape.X + B * Shape.Y ) / S
 	End Method
 	
@@ -57,7 +57,7 @@ Type LTLine Extends LTShape
 	
 	
 	
-	Method PivotProjection:LTPivot( Pivot:LTShape, Projection:LTShape = Null )
+	Method PivotProjection:LTShape( Pivot:LTShape, Projection:LTShape = Null )
 		If Not Projection Then Projection = New LTShape
 		Projection.Y = ( ( A * Pivot.Y - B * Pivot.X ) * A - C * B ) / ( S * S )
 		Projection.X = ( C - B * Pivot.Y ) / A
@@ -75,13 +75,13 @@ Type LTLine Extends LTShape
 	
 	
 	
-	Method PointOrientation( X:Double, Y:Double )
+	Method PointOrientation:Int( X:Double, Y:Double )
 		Return Sgn( A * X + B * Y + C )
 	End Method
 	
 	
 	
-	Method PivotOrientation( Pivot:LTShape )
+	Method PivotOrientation:Int( Pivot:LTShape )
 		Return Sgn( A * Pivot.X + B * Pivot.Y + C )
 	End Method
 End Type

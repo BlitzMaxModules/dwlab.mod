@@ -17,7 +17,6 @@ Type TGame Extends LTGUIProject
 	Field Background:LTShape
 	Field Objects:LTLayer = New LTLayer
 	Field Particles:LTLayer = New LTLayer
-	Field GoalImage:LTImage = LTImage.FromFile( "goals.png", -48, -48 )
 	
 	Field SelectedTileX:Int = -1
 	Field SelectedTileY:Int

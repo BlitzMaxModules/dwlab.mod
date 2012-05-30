@@ -84,7 +84,7 @@ Type TMoveAlongPath Extends LTBehaviorModel
 			Shape.AttachModel( TFallIntoPocket.Create( Position.X, Position.Y ) )
 		Else
 			Game.Objects.Remove( Shape )
-			TCheckLines.Execute()
+			TCheckLines.Execute( LTSprite( Shape ).Frame )
 		End If
 	End Method
 End Type

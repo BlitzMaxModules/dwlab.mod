@@ -99,6 +99,12 @@ End Function
 
 
 
+Function L_PivotWithLine:Int( Pivot:LTSprite, LineSegment:LTLineSegment )
+	
+End Function
+
+
+
 Function L_OvalWithOval:Int( Oval1:LTSprite, Oval2:LTSprite )
 	Oval1 = Oval1.ToCircle( Oval2, L_Oval1 )
 	Oval2 = Oval2.ToCircle( Oval1, L_Oval2 )
@@ -121,8 +127,8 @@ End Function
 
 
 Function L_OvalWithLine:Int( Oval:LTSprite, LineSegment:LTLineSegment )
-	Local Pivot1:LTSprite = Line.Pivot[ 0 ]
-	Local Pivot2:LTSprite = Line.Pivot[ 1 ]
+	Local Pivot1:LTSprite = LineSegment.Pivot[ 0 ]
+	Local Pivot2:LTSprite = LineSegment.Pivot[ 1 ]
 	L_Oval1.X = 0.5 * ( Pivot1.X + Pivot2.X )
 	L_Oval1.Y = 0.5 * ( Pivot1.Y + Pivot2.Y )
 	L_Oval1.Width = 0.5 * Pivot1.DistanceTo( Pivot2 ) + L_Inaccuracy
@@ -176,9 +182,14 @@ End Function
 
 
 
+Function L_RectangleWithLine:Int( Rectangle:LTSprite, LineSegment:LTLineSegment )
+	
+End Function
+
+
+
 Function L_TriangleWithTriangle:Int( Triangle1:LTSprite, Triangle2:LTSprite )
 	If L_RectangleWithRectangle( Triangle1, Triangle2 ) Then
-		Triangle.GetHypotenuse( L_Line )
 		Triangle1.GetRightAnglePivot( L_Pivot3 )
 		Triangle2.GetRightAnglePivot( L_Pivot4 )
 		
@@ -188,6 +199,7 @@ Function L_TriangleWithTriangle:Int( Triangle1:LTSprite, Triangle2:LTSprite )
 			Triangle1.GetBounds( L_Pivot1.X, L_Pivot2.Y, L_Pivot2.X, L_Pivot1.Y )
 		End If
 		
+		Triangle1.GetHypotenuse( L_Line )
 		If L_PivotWithRectangle( L_Pivot1, Triangle2 ) Then If L_Line.PivotOrientation( L_Pivot4 ) = L_Line.PivotOrientation( L_Pivot1 ) Then Return True
 		If L_PivotWithRectangle( L_Pivot2, Triangle2 ) Then If L_Line.PivotOrientation( L_Pivot4 ) = L_Line.PivotOrientation( L_Pivot2 ) Then Return True
 		If L_PivotWithRectangle( L_Pivot3, Triangle2 ) Then If L_Line.PivotOrientation( L_Pivot4 ) = L_Line.PivotOrientation( L_Pivot3 ) Then Return True
@@ -198,10 +210,17 @@ Function L_TriangleWithTriangle:Int( Triangle1:LTSprite, Triangle2:LTSprite )
 			Triangle2.GetBounds( L_Pivot1.X, L_Pivot2.Y, L_Pivot2.X, L_Pivot1.Y )
 		End If
 		
+		Triangle2.GetHypotenuse( L_Line )
 		If L_PivotWithRectangle( L_Pivot1, Triangle1 ) Then If L_Line.PivotOrientation( L_Pivot3 ) = L_Line.PivotOrientation( L_Pivot1 ) Then Return True
 		If L_PivotWithRectangle( L_Pivot2, Triangle1 ) Then If L_Line.PivotOrientation( L_Pivot3 ) = L_Line.PivotOrientation( L_Pivot2 ) Then Return True
 		If L_PivotWithRectangle( L_Pivot4, Triangle1 ) Then If L_Line.PivotOrientation( L_Pivot3 ) = L_Line.PivotOrientation( L_Pivot4 ) Then Return True
 	End If
+End Function
+
+
+
+Function L_TriangleWithLine:Int( Triangle1:LTSprite, LineSegment:LTLineSegment )
+	
 End Function
 
 
@@ -212,11 +231,12 @@ Function L_RasterWithRaster:Int( Raster1:LTSprite, Raster2:LTSprite )
 	Local Image1:LTImage = Visualizer1.Image
 	Local Image2:LTImage = Visualizer2.Image
 	If Not Image1 Or Not Image2 Then Return False
-	If Raster1.Angle = 0 And Raster2.Angle =0 And Raster1.Width * Image2.Width() = Raster2.Width * Image2.Width() And
+	If Raster1.Angle = 0 And Raster2.Angle =0 And Raster1.Width * Image2.Width() = Raster2.Width * Image2.Width() And ..
 			Raster1.Height * Image2.Height() = Raster2.Height * Image2.Height() Then
 		Local XScale:Double = Image1.Width() / Raster1.Width
 		Local YScale:Double = Image1.Height() / Raster1.Height
-		Return ImagesCollide( Image1.BMaxImage, Raster1.X * XScale, Raster1.Y * YScale, Image2.BMaxImage, Raster2.X * XScale, Raster2.Y * YScale )
+		Return ImagesCollide( Image1.BMaxImage, Raster1.X * XScale, Raster1.Y * YScale, Raster1.Frame, ..
+				Image2.BMaxImage, Raster2.X * XScale, Raster2.Y * YScale, Raster2.Frame )
 	Else
 		Local XScale1:Double = Image1.Width() / Raster1.Width
 		Local YScale1:Double = Image1.Height() / Raster1.Height
@@ -272,19 +292,19 @@ End Function
 
 
 
-Function L_OvalOverlapsRectangle:Int( Oval:LTSprite, Rectangle:LTSprite )
-	If L_RectangleOverlapsRectangle( Oval, Rectangle ) Then
+Function L_CircleOverlapsRectangle:Int( Circle:LTSprite, Rectangle:LTSprite )
+	If L_RectangleOverlapsRectangle( Circle, Rectangle ) Then
 		Local LeftX:Double, TopY:Double, RightX:Double, BottomY:Double
 		Rectangle.GetBounds( LeftX, TopY, RightX, BottomY )
 		L_Pivot1.X = LeftX
 		L_Pivot1.Y = TopY
-		If Not L_OvalOverlapsPivot( Oval, L_Pivot1 ) Then Return False
+		If Not L_CircleOverlapsPivot( Circle, L_Pivot1 ) Then Return False
 		L_Pivot1.X = RightX
-		If Not L_OvalOverlapsPivot( Oval, L_Pivot1 ) Then Return False
+		If Not L_CircleOverlapsPivot( Circle, L_Pivot1 ) Then Return False
 		L_Pivot1.Y = BottomY
-		If Not L_OvalOverlapsPivot( Oval, L_Pivot1 ) Then Return False
+		If Not L_CircleOverlapsPivot( Circle, L_Pivot1 ) Then Return False
 		L_Pivot1.X = LeftX
-		If L_OvalOverlapsPivot( Oval, L_Pivot1 ) Then Return True
+		If L_CircleOverlapsPivot( Circle, L_Pivot1 ) Then Return True
 	End If
 End Function
 

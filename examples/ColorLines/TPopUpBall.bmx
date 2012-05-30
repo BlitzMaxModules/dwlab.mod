@@ -45,6 +45,6 @@ Type TPopUpBall Extends LTBehaviorModel
 		Game.HiddenBalls[ X, Y ] = False
 		Game.Objects.Remove( Shape )
 		Game.Locked = False
-		TCheckLines.Execute( False )
+		TCheckLines.Execute( LTSprite( Shape ).Frame, False )
 	End Method
 End Type
