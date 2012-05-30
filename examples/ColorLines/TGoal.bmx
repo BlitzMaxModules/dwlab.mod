@@ -91,6 +91,7 @@ Type TRemoveCombinations Extends TGoal
 	
 	Method Draw( X:Double, IconShape:LTSprite, BallShape:LTSprite, CountShape:LTLabel )
 		Super.Draw( X, Null, Null, CountShape )
+		IconShape.SetX( X - 0.5 * IconShape.Width )
 		
 		BallShape.Frame = BallType
 		BallShape.SetDiameter( 0.3 )
@@ -98,11 +99,11 @@ Type TRemoveCombinations Extends TGoal
 			BallShape.SetCoords( IconShape.X + 0.2 * K, IconShape.Y + 0.2 * K )
 			BallShape.Draw()
 		Next
-		BallShape.SetDiameter( 0.75 )
+		BallShape.SetDiameter( 0.65 )
 		BallShape.SetCoords( IconShape.X, IconShape.Y )
 		
 		SetColor( 0, 0, 0 )
-		IconShape.PrintText( LineBallsQuantity, 0.3, LTAlign.ToRight, LTAlign.ToTop )
+		IconShape.PrintText( LineBallsQuantity, 0.3, LTAlign.ToLeft, LTAlign.ToBottom )
 		LTColor.ResetColor()
 	End Method
 	
