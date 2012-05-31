@@ -144,54 +144,54 @@ Type LTSprite Extends LTShape
 			Case Pivot
 				Select Sprite.ShapeType
 					Case Pivot
-						Return L_PivotWithPivot( Self, Sprite )
+						Return LTCollision.PivotWithPivot( Self, Sprite )
 					Case Oval
-						Return L_PivotWithOval( Self, Sprite )
+						Return LTCollision.PivotWithOval( Self, Sprite )
 					Case Rectangle
-						Return L_PivotWithRectangle( Self, Sprite )
+						Return LTCollision.PivotWithRectangle( Self, Sprite )
 					Case Ray
 					Case Raster
 					Default
-						Return L_PivotWithTriangle( Self, Sprite )
+						Return LTCollision.PivotWithTriangle( Self, Sprite )
 				End Select
 			Case Oval
 				Select Sprite.ShapeType
 					Case Pivot
-						Return L_PivotWithOval( Sprite, Self )
+						Return LTCollision.PivotWithOval( Sprite, Self )
 					Case Oval
-						Return L_OvalWithOval( Self, Sprite )
+						Return LTCollision.OvalWithOval( Self, Sprite )
 					Case Rectangle
-						Return L_OvalWithRectangle( Self, Sprite )
+						Return LTCollision.OvalWithRectangle( Self, Sprite )
 					Case Ray
 					Case Raster
 					Default
-						Return L_OvalWithTriangle( Self, Sprite )
+						Return LTCollision.OvalWithTriangle( Self, Sprite )
 				End Select
 			Case Rectangle
 				Select Sprite.ShapeType
 					Case Pivot
-						Return L_PivotWithRectangle( Sprite, Self )
+						Return LTCollision.PivotWithRectangle( Sprite, Self )
 					Case Oval
-						Return L_OvalWithRectangle( Sprite, Self )
+						Return LTCollision.OvalWithRectangle( Sprite, Self )
 					Case Rectangle
-						Return L_RectangleWithRectangle( Self, Sprite )
+						Return LTCollision.RectangleWithRectangle( Self, Sprite )
 					Case Ray
 					Case Raster
 					Default
-						Return L_RectangleWithTriangle( Self, Sprite )
+						Return LTCollision.RectangleWithTriangle( Self, Sprite )
 				End Select
 			Default
 				Select Sprite.ShapeType
 					Case Pivot
-						Return L_PivotWithTriangle( Sprite, Self )
+						Return LTCollision.PivotWithTriangle( Sprite, Self )
 					Case Oval
-						Return L_OvalWithTriangle( Sprite, Self )
+						Return LTCollision.OvalWithTriangle( Sprite, Self )
 					Case Rectangle
-						Return L_RectangleWithTriangle( Sprite, Self )
+						Return LTCollision.RectangleWithTriangle( Sprite, Self )
 					Case Ray
 					Case Raster
 					Default
-						Return L_TriangleWithTriangle( Self, Sprite )
+						Return LTCollision.TriangleWithTriangle( Self, Sprite )
 				End Select
 		End Select
 	End Method
@@ -209,14 +209,14 @@ Type LTSprite Extends LTShape
 		?
 		Select ShapeType
 			Case Pivot
-				Return L_PivotWithLine( Self, Line )
+				Return LTCollision.PivotWithLine( Self, Line )
 			Case Oval
-				Return L_OvalWithLine( Self, Line )
+				Return LTCollision.OvalWithLine( Self, Line )
 			Case Rectangle, Raster
-				Return L_RectangleWithLine( Self, Line )
+				Return LTCollision.RectangleWithLine( Self, Line )
 			Case Ray
 			Default
-				Return L_TriangleWithLine( Self, Line )
+				Return LTCollision.TriangleWithLine( Self, Line )
 		End Select
 	End Method
 	
@@ -232,14 +232,14 @@ Type LTSprite Extends LTShape
 				L_Pivot1.Y = Y * YScale + DY
 				Select Sprite.ShapeType
 					Case Pivot
-						Return L_PivotWithPivot( L_Pivot1, Sprite )
+						Return LTCollision.PivotWithPivot( L_Pivot1, Sprite )
 					Case Oval
-						Return L_PivotWithOval( L_Pivot1, Sprite )
+						Return LTCollision.PivotWithOval( L_Pivot1, Sprite )
 					Case Rectangle, Raster
-						Return L_PivotWithRectangle( L_Pivot1, Sprite )
+						Return LTCollision.PivotWithRectangle( L_Pivot1, Sprite )
 					Case Ray
 					Default
-						Return L_PivotWithTriangle( L_Oval1, Sprite )
+						Return LTCollision.PivotWithTriangle( L_Oval1, Sprite )
 				End Select
 			Case Oval
 				L_Oval1.X = X * XScale + DX
@@ -248,50 +248,50 @@ Type LTSprite Extends LTShape
 				L_Oval1.Height = Height * YScale
 				Select Sprite.ShapeType
 					Case Pivot
-						Return L_PivotWithOval( Sprite, L_Oval1 )
+						Return LTCollision.PivotWithOval( Sprite, L_Oval1 )
 					Case Oval
-						Return L_OvalWithOval( L_Oval1, Sprite )
+						Return LTCollision.OvalWithOval( L_Oval1, Sprite )
 					Case Rectangle, Raster
-						Return L_OvalWithRectangle( L_Oval1, Sprite )
+						Return LTCollision.OvalWithRectangle( L_Oval1, Sprite )
 					Case Ray
 					Default
-						Return L_OvalWithTriangle( L_Oval1, Sprite )
+						Return LTCollision.OvalWithTriangle( L_Oval1, Sprite )
 				End Select
 			Case Rectangle, Raster
-				If ShapeType = Raster And Sprite.ShapeType = Raster Then Return L_RasterWithRaster( Self, Sprite )
+				If ShapeType = Raster And Sprite.ShapeType = Raster Then Return LTCollision.RasterWithRaster( Self, Sprite )
 				
-				L_Rectangle1.X = X * XScale + DX
-				L_Rectangle1.Y = Y * YScale + DY
-				L_Rectangle1.Width = Width * XScale
-				L_Rectangle1.Height = Height * YScale
+				L_Rectangle.X = X * XScale + DX
+				L_Rectangle.Y = Y * YScale + DY
+				L_Rectangle.Width = Width * XScale
+				L_Rectangle.Height = Height * YScale
 				Select Sprite.ShapeType
 					Case Pivot
-						Return L_PivotWithRectangle( Sprite, L_Rectangle1 )
+						Return LTCollision.PivotWithRectangle( Sprite, L_Rectangle )
 					Case Oval
-						Return L_OvalWithRectangle( Sprite, L_Rectangle1 )
+						Return LTCollision.OvalWithRectangle( Sprite, L_Rectangle )
 					Case Rectangle, Raster
-						Return L_RectangleWithRectangle( L_Rectangle1, Sprite )
+						Return LTCollision.RectangleWithRectangle( L_Rectangle, Sprite )
 					Case Ray
 					Default
-						Return L_RectangleWithTriangle( L_Rectangle1, Sprite )
+						Return LTCollision.RectangleWithTriangle( L_Rectangle, Sprite )
 				End Select
 			Case Ray
 			Default
-				L_Triangle1.X = X * XScale + DX
-				L_Triangle1.Y = Y * YScale + DY
-				L_Triangle1.Width = Width * XScale
-				L_Triangle1.Height = Height * YScale
-				L_Triangle1.ShapeType = ShapeType
+				L_Triangle.X = X * XScale + DX
+				L_Triangle.Y = Y * YScale + DY
+				L_Triangle.Width = Width * XScale
+				L_Triangle.Height = Height * YScale
+				L_Triangle.ShapeType = ShapeType
 				Select Sprite.ShapeType
 					Case Pivot
-						Return L_PivotWithTriangle( Sprite, L_Triangle1 )
+						Return LTCollision.PivotWithTriangle( Sprite, L_Triangle )
 					Case Oval
-						Return L_OvalWithTriangle( Sprite, L_Triangle1 )
+						Return LTCollision.OvalWithTriangle( Sprite, L_Triangle )
 					Case Rectangle, Raster
-						Return L_RectangleWithTriangle( Sprite, L_Triangle1 )
+						Return LTCollision.RectangleWithTriangle( Sprite, L_Triangle )
 					Case Ray
 					Default
-						Return L_TriangleWithTriangle( L_Triangle1, Sprite )
+						Return LTCollision.TriangleWithTriangle( L_Triangle, Sprite )
 				End Select
 		End Select
 	End Method
@@ -312,11 +312,11 @@ Type LTSprite Extends LTShape
 				If Sprite.Width <> Sprite.Height Then L_Error( "Only circle supports overlapping." )
 				Select Sprite.ShapeType
 					Case Pivot
-						Return L_CircleOverlapsPivot( Self, Sprite )
+						Return LTOverlap.CircleAndPivot( Self, Sprite )
 					Case Oval
-						Return L_CircleOverlapsOval( Self, Sprite )
+						Return LTOverlap.CircleAndOval( Self, Sprite )
 					Case Rectangle, Raster
-						Return L_CircleOverlapsRectangle( Self, Sprite )
+						Return LTOverlap.CircleAndRectangle( Self, Sprite )
 					Case Ray
 						Return False
 					Case Raster
@@ -324,14 +324,14 @@ Type LTSprite Extends LTShape
 			Case Rectangle
 				Select Sprite.ShapeType
 					Case Pivot
-						Return L_RectangleOverlapsPivot( Self, Sprite )
+						Return LTOverlap.RectangleAndPivot( Self, Sprite )
 					Case Ray
 						Return False
 					Default
-						Return L_RectangleOverlapsRectangle( Self, Sprite )
+						Return LTOverlap.RectangleAndRectangle( Self, Sprite )
 				End Select
 			Default
-				L_Error( "Only Circle and Rectangle shapes supports overlapping." )
+				L_Error( "Only Circle And Rectangle shapes supports overlapping." )
 		End Select
 	End Method
 	
@@ -624,19 +624,19 @@ Type LTSprite Extends LTShape
 						Return
 				End Select
 			Case Rectangle
-				L_Rectangle1.X = TileSprite.X * XScale + DX
-				L_Rectangle1.Y = TileSprite.Y * YScale + DY
-				L_Rectangle1.Width = TileSprite.Width * XScale
-				L_Rectangle1.Height = TileSprite.Height * YScale
+				L_Rectangle.X = TileSprite.X * XScale + DX
+				L_Rectangle.Y = TileSprite.Y * YScale + DY
+				L_Rectangle.Width = TileSprite.Width * XScale
+				L_Rectangle.Height = TileSprite.Height * YScale
 				Select ShapeType
 					Case Pivot
 						L_Pivot1.X = X
 						L_Pivot1.Y = Y
-						L_WedgingValuesOfRectangleAndRectangle( L_Pivot1, L_Rectangle1, PushingDX, PushingDY )
+						L_WedgingValuesOfRectangleAndRectangle( L_Pivot1, L_Rectangle, PushingDX, PushingDY )
 					Case Oval
-						L_WedgingValuesOfOvalAndRectangle( Self, L_Rectangle1, PushingDX, PushingDY )
+						L_WedgingValuesOfOvalAndRectangle( Self, L_Rectangle, PushingDX, PushingDY )
 					Case Rectangle
-						L_WedgingValuesOfRectangleAndRectangle( Self, L_Rectangle1, PushingDX, PushingDY )
+						L_WedgingValuesOfRectangleAndRectangle( Self, L_Rectangle, PushingDX, PushingDY )
 				End Select
 		End Select
 		L_Separate( Self, TileSprite, PushingDX, PushingDY, 0.0, 1.0 )
