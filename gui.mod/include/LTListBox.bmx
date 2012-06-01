@@ -31,9 +31,15 @@ Type LTListBox Extends LTGadget
 	Field Shift:Double
 	
 	
-	
 	Method GetClassTitle:String()
 		Return "List box"
+	End Method
+	
+	
+	
+	Method Init()
+		Super.Init()
+		If ParameterExists( "item_size" ) Then ItemSize = GetParameter( "item_size" ).ToDouble()
 	End Method
 	
 	

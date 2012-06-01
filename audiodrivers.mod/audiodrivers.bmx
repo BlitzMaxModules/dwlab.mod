@@ -21,9 +21,24 @@ ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
+Import dwlab.frmwork
+
 ?win32
 Import brl.directsoundaudio
 ?Not win32
 Import brl.freeaudioaudio
 ?
 Import brl.oggloader
+
+
+
+incbin "error.ogg"
+
+Type TErrorSoundPlayer Extends TSoundPlayer
+	Method PlayErrorSound()
+		LoadSound( "incbin::error.ogg" ).Play()
+	End Method
+End Type
+L_ErrorSoundPlayer = New TErrorSoundPlayer
+		
+

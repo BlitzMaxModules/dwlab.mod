@@ -108,13 +108,13 @@ Type TGameProfile Extends LTProfile
 				If Balls.GetTile( X, Y ) = RandomBall Then Balls.SetTile( X, Y, Rand( 1, 7 ) )
 			Next
 		Next
+		
+		InitLevel()
 			
 		NextBalls = New Int[ BallsPerTurn ]
 		FillNextBalls()
 		CreateBalls()
 		Game.Locked = True
-		
-		InitLevel()
 	End Method
 		
 	Method InitLevel()

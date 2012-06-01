@@ -70,6 +70,8 @@ Type TGame Extends LTGUIProject
 	End Method
 	
 	Method Logic()
+		'Delay 10
+	
 		If Not Locked Then
 			If Not Profile.GameField Then
 				LoadWindow( World, "TLevelSelectionWindow" )
@@ -84,17 +86,8 @@ Type TGame Extends LTGUIProject
 		FindWindow( "THUD" ).Active = Not Locked
 		Local MenuWindow:LTMenuWindow = LTMenuWindow( FindWindow( "LTMenuWindow" ) )
 		If Profile.ExitToMenu.WasPressed() And MenuWindow.Active Then MenuWindow.Switch()
-		Repeat
-			Select PollEvent()
-				Case Event_WindowClose
-					Locked = True
-					LoadWindow( Menu.World, "LTExitWindow" )
-				Case Event_WindowSize
-					Profile.Apply( [ LTGUIProject( Self ), LTGUIProject( Menu ) ], True, False, False, False )
-				Case 0
-					Exit
-			End Select
-		Forever
+		
+		Events()
 		
 		Objects.Act()
 		Particles.Act()
@@ -103,6 +96,21 @@ Type TGame Extends LTGUIProject
 		For Local Goal:TGoal = Eachin Profile.Goals
 			If Goal.Count = 0 Then Profile.Goals.Remove( Goal )
 		Next
+	End Method
+	
+	Method Events:Int()
+		Repeat
+			Select PollEvent()
+				Case Event_WindowClose
+					If Not Menu.ExitWindow Then LoadWindow( Menu.World, "LTExitWindow" )
+					Menu.ExitWindow = True
+					Return True
+				Case Event_WindowSize
+					Profile.Apply( [ LTGUIProject( Self ), LTGUIProject( Menu ) ], True, False, False, False )
+				Case 0
+					Exit
+			End Select
+		Forever
 	End Method
 	
 	Method Render()

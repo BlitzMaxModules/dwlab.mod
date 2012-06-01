@@ -14,6 +14,7 @@ Include "LTMenuWindow.bmx"
 Include "LTOptionsWindow.bmx"
 Include "LTRestartWindow.bmx"
 Include "LTSelectProfileWindow.bmx"
+Include "LTMenuListBox.bmx"
 Include "LTProfilesList.bmx"
 Include "LTAddProfileWindow.bmx"
 Include "LTRenameProfileWindow.bmx"
@@ -24,6 +25,7 @@ Include "LTKeyWindow.bmx"
 Include "LTHighScoresList.bmx"
 Include "LTAuthorsList.bmx"
 Include "LTGameOverWindow.bmx"
+Include "LTExitWindow.bmx"
 
 Global L_OldIncbin:String = L_Incbin
 Global L_MenuPath:String
@@ -67,6 +69,8 @@ Type LTMenu Extends LTGUIProject
 	Field ButtonClick:TSound
 	Field Close:TSound
 	Field SoundOn:TSound
+	
+	Field ExitWindow:Int
 	
 	Function InitSystem( MainProject:LTGUIProject )
 		If FileType( "settings.xml" ) = 1 Then Menu.LoadFromFile( "settings.xml", False )
@@ -124,6 +128,7 @@ Type LTMenu Extends LTGUIProject
 	
 	Method Logic()
 		If L_CurrentProfile.Language Then Exiting = True
+		Game.Events()
 	End Method
 	
 	Method AddPanels()
@@ -172,9 +177,4 @@ End Type
 
 
 Type LTAuthorsWindow Extends LTAudioWindow
-End Type
-
-
-
-Type LTExitWindow Extends LTAudioWindow
 End Type

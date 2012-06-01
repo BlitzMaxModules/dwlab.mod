@@ -26,10 +26,6 @@ Type LTLanguageSelectionWindow Extends LTAudioWindow
 		Super.Init()
 	End Method
 	
-	Method Act()
-		Super.Act()
-	End Method
-	
 	Method OnButtonUnpress( Gadget:LTGadget, ButtonAction:LTButtonAction )
 		If ButtonAction <> L_LeftMouseButton Then Return
 		If LTButton( Gadget ) Then

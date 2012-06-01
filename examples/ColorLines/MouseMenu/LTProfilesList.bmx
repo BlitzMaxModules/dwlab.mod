@@ -8,22 +8,18 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTProfilesList Extends LTListBox
+Type LTProfilesList Extends LTMenuListBox
 	Method Init()
 		Super.Init()
-		ItemSize = 0.5
 		Items = Menu.Profiles
 	End Method
 	
 	Method DrawItem( Item:Object, Num:Int, Sprite:LTSprite )
-		Sprite.Visualizer.SetColorFromRGB( 0.0, 0.0, 0.0 )
-		If Item = Menu.SelectedProfile Then 
-			Sprite.Visualizer.Alpha = 0.2
-			Sprite.Draw()
-		End If
+		SetItemColor( Num, Sprite, Item = Menu.SelectedProfile )
+		Sprite.Draw()
 		SetColor( 0, 0, 0 )
 		Sprite.PrintText( LocalizeString( LTProfile( Item ).Name ), TextSize )
-		LTVisualizer.ResetColor()
+		LTColor.ResetColor()
 	End Method
 	
 	Method OnButtonPressOnItem( ButtonAction:LTButtonAction, Item:Object, Num:Int )

@@ -14,8 +14,6 @@ Type TLevelSelectionWindow Extends LTAudioWindow
 		LTMenuWindow( Project.FindWindow( "LTMenuWindow" ) ).DestinationY = 0
 	End Method
 	
-	
-	
 	Method Save()
 		Local List:TLevelsList = TLevelsList( FindShapeWithType( "TLevelsList" ) )
 		If List.SelectedLevel Then

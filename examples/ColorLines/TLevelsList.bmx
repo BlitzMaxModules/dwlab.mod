@@ -8,14 +8,13 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TLevelsList Extends LTListBox
+Type TLevelsList Extends LTMenuListBox
 	Field Speed:Double
 	
 	Field SelectedLevel:Object
 	
 	Method Init()
 		Super.Init()
-		ItemSize = 0.4
 		Items = New TList
 		For Local Layer:LTLayer = Eachin Game.World
 			If Layer.GetName().StartsWith( "Level" ) Then Items.AddLast( Layer )
@@ -23,11 +22,7 @@ Type TLevelsList Extends LTListBox
 	End Method
 	
 	Method DrawItem( Item:Object, Num:Int, Sprite:LTSprite )
-		Sprite.Visualizer.SetColorFromRGB( 0.0, 0.0, 0.0 )
-		If Item = SelectedLevel Then 
-			Sprite.Visualizer.Alpha = 0.2
-			Sprite.Draw()
-		End If
+		SetItemColor( Num, Sprite, Item = SelectedLevel )
 		SetColor( 0, 0, 0 )
 		Sprite.PrintText( LocalizeString( LTShape( Item ).GetName() ), TextSize )
 		LTVisualizer.ResetColor()

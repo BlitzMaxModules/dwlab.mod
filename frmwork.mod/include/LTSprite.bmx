@@ -338,9 +338,9 @@ Type LTSprite Extends LTShape
 	
 	
 	Rem
-	bbdoc: Searches the group for first sprite which collides with given.
+	bbdoc: Searches the layer for first sprite which collides with given.
 	Returns: First found sprite which collides with given.
-	about: Included groups will be also checked.
+	about: Included layers will be also checked.
 	
 	See also: #Clone example
 	End Rem	
@@ -837,7 +837,7 @@ Type LTSprite Extends LTShape
 	
 	Method ToCircle:LTSprite( Pivot:LTSprite, CircleSprite:LTSprite = Null )
 		If Not CircleSprite Then CircleSprite = New LTSprite.FromShapeType( Circle )
-		If Width = Height Then Return CircleSprite
+		If Width = Height Then Return Self
 		If Width > Height Then
 			CircleSprite.X = L_LimitDouble( Pivot.X, X - 0.5 * ( Width - Height ), X + 0.5 * ( Width - Height ) )
 			CircleSprite.Y = Y

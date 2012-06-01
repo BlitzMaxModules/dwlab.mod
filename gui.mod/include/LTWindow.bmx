@@ -21,7 +21,7 @@ Type LTWindow Extends LTLayer
 	
 	Method Draw()
 		If Not Visible Then Return
-		If Modal Then L_CurrentCamera.Darken( 0.3 )
+		If Modal Then L_CurrentCamera.Darken( 0.6 )
 		Super.Draw()
 	End Method
 	
@@ -137,13 +137,17 @@ Type LTWindow Extends LTLayer
 				Save()
 			Case "save_and_close"
 				Save()
+				OnClose()
 				If Link Then Project.CloseWindow( LTWindow( Link.Value() ) )
 			Case "close"
+				OnClose()
 				If Link Then Project.CloseWindow( LTWindow( Link.Value() ) )
 			Case "save_and_end"
 				Save()
+				OnClose()
 				Project.Exiting = True
 			Case "end"
+				OnClose()
 				Project.Exiting = True
 		End Select
 		
@@ -198,6 +202,15 @@ Type LTWindow Extends LTLayer
 	See also: #OnButtonPress, #OnButtonUnpress, #OnButtonDown, #OnButtonUp, #OnMouseOver
 	End Rem
 	Method OnMouseOut( Gadget:LTGadget )
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Window closing event method.
+	about: Called when window is closed.
+	End Rem
+	Method OnClose()
 	End Method
 	
 	

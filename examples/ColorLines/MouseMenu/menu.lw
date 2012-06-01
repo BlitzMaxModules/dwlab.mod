@@ -151,7 +151,7 @@
 				<LTParameter name="text" value="High scores"/>
 				<LTParameter name="class" value="LTButton"/>
 				<LTParameter name="window_class" value="LTScoresWindow"/>
-				<LTParameter name="pressingshift" value="0.03"/>
+				<LTParameter name="pressing_shift" value="0.03"/>
 			</TList>
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="21"/>
@@ -518,7 +518,7 @@
 				<LTParameter name="class" value="LTButton"/>
 				<LTParameter name="window_class" value="LTAddProfileWindow"/>
 				<LTParameter name="halign" value="left"/>
-				<LTParameter name="textdx" value="1.5"/>
+				<LTParameter name="text_dx" value="1.5"/>
 			</TList>
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="21"/>

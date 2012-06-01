@@ -58,8 +58,8 @@ Type LTColor Extends LTObject
 	End Rem
 	Function FromHex:LTColor( HexColor:String = "FFFFFF", Alpha:Double = 1.0 )
 		Local Color:LTColor = New LTColor
-		Color.SetColorFromHex( HexColor )
 		Color.Alpha = Alpha
+		Color.SetColorFromHex( HexColor )
 		Return Color
 	End Function
 	
@@ -70,6 +70,10 @@ Type LTColor Extends LTObject
 	about: See also: #SetColorFromRGB, #AlterColor, #ApplyColor, #ApplyClsColor, #ResetColor
 	End Rem
 	Method SetColorFromHex( S:String )
+		If S.Length = 8 Then
+			Alpha = L_HexToInt( S[ 0..2 ] )
+			S = S[ 2.. ]
+		End If
 		Red = 1.0 * L_HexToInt( S[ 0..2 ] ) / 255.0
 		Green = 1.0 * L_HexToInt( S[ 2..4 ] ) / 255.0
 		Blue = 1.0 * L_HexToInt( S[ 4..6 ] ) / 255.0

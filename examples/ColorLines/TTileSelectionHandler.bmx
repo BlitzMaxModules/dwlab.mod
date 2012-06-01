@@ -33,7 +33,7 @@ Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
 			End If
 		ElseIf Game.RightMouse.WasPressed() 
 			if BallNum = Profile.Bomb Then
-				For Local DY:Int = - 1 To 1
+				For Local DY:Int = -1 To 1
 					For Local DX:Int = -1 To 1
 						Local XDX:Int = TileX + DX
 						Local YDY:Int = TileY + DY
@@ -73,6 +73,7 @@ End Type
 Type TColorSelection Extends LTProject
 	Field TileX:Int, TileY:Int
 	Field Balls:LTLayer = New LTLayer
+	Field X:Double, Y:Double
 	
 	Method Init()
 		Local BallNum:Int = Profile.Balls.GetTile( TileX, TileY )
@@ -80,6 +81,8 @@ Type TColorSelection Extends LTProject
 			Local Sprite:LTSprite = LTSprite.FromShape( , , , , LTSprite.Circle )
 			Sprite.SetAsTile( Profile.Balls, TileX, TileY )
 			Sprite.SetDiameter( 0.0 )
+			Sprite.Visualizer.DY :+ 0.1
+			Sprite.Visualizer.YScale :* 0.75
 			Sprite.Frame = N
 			Sprite.AttachModel( LTResizingModel.Create( 0.3, 1.0 ) )
 			If N <> BallNum Then
@@ -91,20 +94,22 @@ Type TColorSelection Extends LTProject
 	End Method
 
 	Method Logic()
-		If Game.RightMouse.WasPressed() Or Profile.BossKey.WasPressed() Then Exiting = True
+		If Game.RightMouse.WasPressed() Or Profile.BossKey.WasPressed() Or Profile.ExitToMenu.WasPressed() Then Exiting = True
 		If Game.LeftMouse.WasPressed() Then
 			Local Ball:LTSprite = Balls.LayerFirstSpriteCollision( L_Cursor )
 			If Ball Then
 				Profile.Balls.SetTile( TileX, TileY, Ball.Frame )
+				TCheckLines.Execute( Ball.Frame, False )
 				Exiting = True
 			End If
 		End If
 		Balls.Act()
+		If Game.Events() Then Exiting = True
 	End Method
 
 	Method Render()
 		Game.FullRender()
-		L_CurrentCamera.Darken( 0.3 )
+		L_CurrentCamera.Darken( 0.6 )
 		Balls.Draw()
 	End Method
 End Type

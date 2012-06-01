@@ -54,7 +54,7 @@ Type LTLabel Extends LTGadget
 			Text = LocalizeString( "{{" + Text + "}}" )
 		End If
 		
-		Select GetParameter( "texthalign" )
+		Select GetParameter( "text_h_align" )
 			Case "left"
 				HAlign = LTAlign.ToLeft
 			Case "center"
@@ -62,7 +62,7 @@ Type LTLabel Extends LTGadget
 			Case "right"
 				HAlign = LTAlign.ToRight
 		End Select
-		Select GetParameter( "textvalign" )
+		Select GetParameter( "text_v_align" )
 			Case "top"
 				VAlign = LTAlign.ToTop
 			Case "center"
@@ -71,19 +71,19 @@ Type LTLabel Extends LTGadget
 				VAlign = LTAlign.ToBottom
 		End Select
 		
-		If ParameterExists( "textcolor" ) Then
-			TextVisualizer.SetColorFromHex( GetParameter( "textcolor" ) )
+		If ParameterExists( "text_color" ) Then
+			TextVisualizer.SetColorFromHex( GetParameter( "text_color" ) )
 		Else
 			TextVisualizer.SetColorFromRGB( 0.0, 0.0, 0.0 )
 		End If
 		
-		If ParameterExists( "textshift" ) Then
-			TextDX = GetParameter( "textshift" ).ToDouble()
+		If ParameterExists( "text_shift" ) Then
+			TextDX = GetParameter( "text_shift" ).ToDouble()
 			TextDY = TextDX
 		End If
 
-		TextDX = GetParameter( "textdx" ).ToDouble()
-		TextDY = GetParameter( "textdy" ).ToDouble()
+		TextDX = GetParameter( "text_dx" ).ToDouble()
+		TextDY = GetParameter( "text_dy" ).ToDouble()
 		
 		If Icon Then
 			IconDX = Icon.X - X

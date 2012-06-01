@@ -1447,6 +1447,11 @@ LTAngularSprite^LTSprite{
 -New%()="_dwlab_frmwork_LTAngularSprite_New"
 -Delete%()="_dwlab_frmwork_LTAngularSprite_Delete"
 }="dwlab_frmwork_LTAngularSprite"
+TSoundPlayer^brl.blitz.Object{
+-New%()="_dwlab_frmwork_TSoundPlayer_New"
+-Delete%()="_dwlab_frmwork_TSoundPlayer_Delete"
+-PlayErrorSound%()="_dwlab_frmwork_TSoundPlayer_PlayErrorSound"
+}="dwlab_frmwork_TSoundPlayer"
 L_Error%(Text$)="dwlab_frmwork_L_Error"
 L_SetIncbin%(Value%)="dwlab_frmwork_L_SetIncbin"
 L_IDMap:brl.map.TMap&=mem:p("dwlab_frmwork_L_IDMap")
@@ -1491,4 +1496,5 @@ L_CurrentUndoList:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_CurrentUndoList")
 L_RedoStack:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_RedoStack")
 L_CurrentRedoList:brl.linkedlist.TList&=mem:p("dwlab_frmwork_L_CurrentRedoList")
 L_XMLMode%&=mem("dwlab_frmwork_L_XMLMode")
+L_ErrorSoundPlayer:TSoundPlayer&=mem:p("dwlab_frmwork_L_ErrorSoundPlayer")
 L_Incbin$&=mem:p("dwlab_frmwork_L_Incbin")

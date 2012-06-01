@@ -35,7 +35,8 @@ End Type
 Type TPutBallsInHoles Extends TGoal
 	Method Draw( X:Double, IconShape:LTSprite, BallShape:LTSprite, CountShape:LTLabel )
 		Super.Draw( X, Null, Null, CountShape )
-		BallShape.SetX( IconShape.X )
+		BallShape.SetX( X - 0.5 * IconShape.Width )
+		BallShape.SetDiameter( IconShape.GetDiameter() )
 		BallShape.Frame = TGameProfile.BlackBall
 		BallShape.Draw()
 	End Method
@@ -65,7 +66,8 @@ Type TRemoveBalls Extends TGoal
 	
 	Method Draw( X:Double, IconShape:LTSprite, BallShape:LTSprite, CountShape:LTLabel )
 		Super.Draw( X, Null, Null, CountShape )
-		BallShape.SetX( IconShape.X )
+		BallShape.SetX( X - 0.5 * IconShape.Width )
+		BallShape.SetDiameter( IconShape.GetDiameter() )
 		BallShape.Frame = BallType
 		BallShape.Draw()
 	End Method

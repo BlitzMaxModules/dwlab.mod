@@ -10,23 +10,21 @@
 
 Global L_CurrentButtonAction:LTButtonAction
 
-Type LTKeysList Extends LTListBox
+Type LTKeysList Extends  LTMenuListBox
 	Method Init()
 		Super.Init()
-		ItemSize = 0.35
 		Items = L_CurrentProfile.Keys
 	End Method
 	
 	Method DrawItem( Item:Object, Num:Int, Sprite:LTSprite )
-		Sprite.Visualizer.SetColorFromRGB( 0.0, 0.0, 0.0 )
-		Sprite.Visualizer.Alpha = 0.1 + 0.1 * ( Num Mod 2 )
+		SetItemColor( Num, Sprite )
 		Sprite.Draw()
 		
 		SetColor( 0, 0, 0 )
 		Local ButtonAction:LTButtonAction = LTButtonAction( Item )
 		Sprite.PrintText( LocalizeString( "{{" + ButtonAction.Name + "}}" ), TextSize, LTAlign.ToLeft, , 0.25 )
 		Sprite.PrintText( LocalizeString( ButtonAction.GetButtonNames( True ) ), TextSize, LTAlign.ToRight, , -0.25 )
-		LTVisualizer.ResetColor()
+		LTColor.ResetColor()
 	End Method
 	
 	Method OnButtonPressOnItem( ButtonAction:LTButtonAction, Item:Object, Num:Int )

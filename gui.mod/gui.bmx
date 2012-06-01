@@ -5,12 +5,17 @@ bbdoc: Digital Wizard's Lab framework GUI module
 End Rem
 Module dwlab.gui
 
-ModuleInfo "Version: 1.0.4.1"
+ModuleInfo "Version: 1.0.6"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.6.1 (01.06.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added underlined spaces to parameters' names."
+ModuleInfo "History: v1.0.6 (31.05.12)"
+ModuleInfo "History: &nbsp; &nbsp; Changed halign/valign parameters to texthalign/textvalign."
+ModuleInfo "History: &nbsp; &nbsp; Added OnClose() event method to LTWindow."
 ModuleInfo "History: v1.0.5 (30.03.12)"
 ModuleInfo "History: &nbsp; &nbsp; Now there's also vertical align parameter (valign), horizontal now 'halign'."
 ModuleInfo "History: &nbsp; &nbsp; Added textdx, textdy, textshift label parameters for shifting text from alignment point."

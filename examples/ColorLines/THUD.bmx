@@ -12,6 +12,8 @@ Type THUD Extends LTWindow
 	Field Icon:LTSprite
 	Field Count:LTLabel
 	Field Ball:LTSprite
+	Field Size:Double
+	Field Distance:Double
 	Field Goal1X:Double
 	Field GoalDX:Double
 	
@@ -25,6 +27,8 @@ Type THUD Extends LTWindow
 		Remove( Count )
 		Ball = LTSprite( FindShape( "Ball" ) )
 		Remove( Ball )
+		Size = Ball.GetDiameter()
+		Distance = Ball.GetParameter( "distance" ).ToDouble()
 		Goal1X = FindShape( "Goal1" ).X
 		GoalDX = FindShape( "Goal2" ).X - Goal1X
 	End Method
@@ -32,10 +36,11 @@ Type THUD Extends LTWindow
 	Method Draw()
 		Super.Draw()
 		if Profile.NextBalls Then
-			Local StartingX:Double = FindShape( "Balls" ).X - 0.35 * ( Profile.NextBalls.Dimensions()[ 0 ] - 1 )
+			Local StartingX:Double = FindShape( "Balls" ).X - 0.5 * Distance * ( Profile.NextBalls.Dimensions()[ 0 ] - 1 )
 			Local N:Int = 0
+			Ball.SetDiameter( Size )
 			For Local BallNum:Int = Eachin Profile.NextBalls
-				Ball.SetX( StartingX + N * 0.7 )
+				Ball.SetX( StartingX + N * Distance )
 				Ball.Frame = BallNum
 				Ball.Draw()
 				N :+ 1

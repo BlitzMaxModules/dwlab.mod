@@ -263,11 +263,18 @@ Include "include\Deprecated.bmx"
 
 
 
+Global L_ErrorSoundPlayer:TSoundPlayer = New TSoundPlayer
+
+Type TSoundPlayer
+	Method PlayErrorSound()
+	End Method
+End Type
 
 Function L_Error( Text:String )
-  Notify( Text, True )
-  DebugStop
-  End
+	L_ErrorSoundPlayer.PlayErrorSound()
+	Notify( Text, True )
+	DebugStop
+	End
 End Function
 
 

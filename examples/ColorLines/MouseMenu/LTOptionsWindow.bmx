@@ -13,10 +13,10 @@ Type LTOptionsWindow Extends LTAudioWindow
 		Super.Init()
 		LTSlider( FindShape( "SoundVolume" ) ).Size = L_CurrentProfile.SoundVolume
 		LTSlider( FindShape( "MusicVolume" ) ).Size = L_CurrentProfile.MusicVolume
+		SetLabels()
 	End Method
 
-	Method Act()
-		Super.Act()
+	Method SetLabels()
 		Local Label:LTLabel = LTLabel( FindShape( "Fullscreen" ) )
 		If L_CurrentProfile.FullScreen Then
 			Label.Text = LocalizeString( "{{Windowed}}" )
@@ -26,6 +26,11 @@ Type LTOptionsWindow Extends LTAudioWindow
 		LTSprite( Label.Icon ).Frame = 6 + L_CurrentProfile.FullScreen
 		LTButton( FindShape( "SoundOn" ) ).State = L_CurrentProfile.SoundOn
 		LTButton( FindShape( "MusicOn" ) ).State = L_CurrentProfile.MusicOn
+	End Method
+	
+	Method Act()
+		Super.Act()
+		SetLabels()
 		If Profile.BossKey.WasPressed() Then L_Boss
 	End Method
 	

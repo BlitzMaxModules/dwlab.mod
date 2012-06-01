@@ -45,7 +45,6 @@ Type LTGUIProject Extends LTProject
 			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShape( Name ) ) ) )
 		End If
 		
-		
 		Local Screen:LTShape = L_Window.Bounds
 		If Screen Then
 			If Windows.IsEmpty() Then L_GUICamera.SetSize( Screen.Width, Screen.Height )
@@ -177,11 +176,13 @@ Type LTGUIProject Extends LTProject
 			Local OldCamera:LTCamera = L_CurrentCamera
 			L_CurrentCamera = L_GUICamera
 			L_Cursor.SetMouseCoords()
+			
 			For Local Window:LTWindow = Eachin Windows
 				If Window.Active Then Window.Act()
 			Next
+			
 			L_CurrentCamera = OldCamera
-		
+
 			For Local Controller:LTPushable = Eachin L_Controllers
 				Controller.Reset()
 			Next
@@ -229,6 +230,7 @@ Type LTGUIProject Extends LTProject
 	
 	Method FullRender()
 		L_CurrentCamera.SetCameraViewport()
+		L_Cursor.SetMouseCoords()
 		Render()
 		
 		Local OldCamera:LTCamera = L_CurrentCamera
@@ -238,6 +240,8 @@ Type LTGUIProject Extends LTProject
 		For Local Window:LTWindow = Eachin Windows
 			If Window.Visible Then Window.Draw()
 		Next
+		
 		L_CurrentCamera = OldCamera
+		L_Cursor.SetMouseCoords()
 	End Method
 End Type

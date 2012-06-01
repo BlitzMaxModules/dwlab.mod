@@ -8,27 +8,30 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTHighScoresList Extends LTListBox
+Type LTHighScoresList Extends LTMenuListBox
 	Field ContourVisualizer:LTContourVisualizer = LTContourVisualizer.FromWidthAndHexColor( 0.1, "FF0000", 0.5 ) 
+	Field TopColor1:LTColor = LTColor.FromHex( "FFFFFF" )
+	Field TopColor2:LTColor = LTColor.FromHex( "FFFFFF" )
+	Field TopColor3:LTColor = LTColor.FromHex( "FFFFFF" )
 
 	Method Init()
 		Super.Init()
-		ItemSize = 0.3
 		Items = Menu.HighScores
+		If ParameterExists( "top_color_1" ) Then TopColor1 = LTColor.FromHex( GetParameter( "top_color_1" ) )
+		If ParameterExists( "top_color_2" ) Then TopColor2 = LTColor.FromHex( GetParameter( "top_color_2" ) )
+		If ParameterExists( "top_color_3" ) Then TopColor3 = LTColor.FromHex( GetParameter( "top_color_3" ) )
 	End Method
 	
 	Method DrawItem( Item:Object, Num:Int, Sprite:LTSprite )
 		Sprite.Visualizer.Alpha = 0.5
+		SetItemColor( Num, Sprite, False, False )
 		Select Num
 			Case 0
-				Sprite.Visualizer.SetColorFromHex( "FFD700" )
+				TopColor1.CopyColorTo( Sprite.Visualizer )
 			Case 1
-				Sprite.Visualizer.SetColorFromHex( "C0C0C0" )
+				TopColor2.CopyColorTo( Sprite.Visualizer )
 			Case 2
-				Sprite.Visualizer.SetColorFromHex( "CD7F32" )
-			Default
-				Sprite.Visualizer.SetColorFromHex( "7F7FFF" )
-				Sprite.Visualizer.Alpha = 0.1 + 0.2 * ( Num Mod 2 )
+				TopColor3.CopyColorTo( Sprite.Visualizer )
 		End Select
 		Sprite.Draw()
 		If Num = Menu.NewHighScore Then Sprite.DrawUsingVisualizer( ContourVisualizer )

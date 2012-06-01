@@ -8,19 +8,8 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTRestartWindow Extends LTAudioWindow
-	Method Init()
-		Project.Locked = True
-		Super.Init()
-	End Method
-	
-	Method Save()
-		Profile.GameField = Null
-		Menu.LoadGameOverWindow()
-	End Method
-		
-	Method DeInit()
-		Project.Locked = False
-		Super.DeInit()
+Type LTExitWindow Extends LTAudioWindow
+	Method OnClose()
+		Menu.ExitWindow = False
 	End Method
 End Type
