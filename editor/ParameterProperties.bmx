@@ -39,7 +39,7 @@ Type TParameterProperties Extends LTProject
 	
 	
 	
-	Method Logic()
+	Method ProcessEvents()
 		PollEvent()
 		Select EventID()
 			Case Event_GadgetAction

@@ -222,15 +222,21 @@ Type LTKeyboardKey Extends LTPushable
 	
 	
 	
-	Method IsDown:Int()
-		Return KeyDown( Code )
+	Method IsEqualTo:Int( Pushable:LTPushable )
+		Local Key:LTKeyboardKey = LTKeyboardKey( Pushable )
+		If Key Then Return Code = Key.Code
 	End Method
 	
 	
 	
-	Method IsEqualTo:Int( Pushable:LTPushable )
-		Local Key:LTKeyboardKey = LTKeyboardKey( Pushable )
-		If Key Then Return Code = Key.Code
+	Method ProcessEvent( ID:Int )
+		If EventData() <> Code Then Return
+		Select ID
+			Case EVENT_KEYDOWN
+				State = JustPressed
+			Case EVENT_KEYUP
+				State = JustUnpressed
+		End Select
 	End Method
 	
 	

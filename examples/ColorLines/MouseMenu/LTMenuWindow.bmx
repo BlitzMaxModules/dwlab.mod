@@ -8,11 +8,12 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Global DestinationY:Double
+
 Type LTMenuWindow Extends LTAudioWindow
 	Const Speed:Double = 8.0
 	
 	Field Panel:LTShape
-	Field DestinationY:Double
 	Field Arrow:LTSprite
 	Field ArrowFrame:Int
 	

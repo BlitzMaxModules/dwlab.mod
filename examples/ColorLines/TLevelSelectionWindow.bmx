@@ -11,7 +11,7 @@
 Type TLevelSelectionWindow Extends LTAudioWindow
 	Method Init()
 		Super.Init()
-		LTMenuWindow( Project.FindWindow( "LTMenuWindow" ) ).DestinationY = 0
+		DestinationY = 0
 	End Method
 	
 	Method Save()
@@ -19,8 +19,7 @@ Type TLevelSelectionWindow Extends LTAudioWindow
 		If List.SelectedLevel Then
 			Profile.LoadLevel( LTLayer( List.SelectedLevel ) )
 			Project.Locked = False
-			Local MenuWindow:LTMenuWindow = LTMenuWindow( Project.FindWindow( "LTMenuWindow" ) )
-			MenuWindow.DestinationY = -MenuWindow.Panel.Height
+			DestinationY = -LTMenuWindow( Project.FindWindow( "LTMenuWindow" ) ).Panel.Height
 		End If
 	End Method
 End Type

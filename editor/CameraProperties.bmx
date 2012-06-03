@@ -44,7 +44,7 @@ Type TCameraProperties Extends LTProject
 	
 	
 	
-	Method Logic()
+	Method ProcessEvents()
 		PollEvent()
 		Select EventID()
 			Case Event_GadgetAction

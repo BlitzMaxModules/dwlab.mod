@@ -15,12 +15,15 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.4.10"
+ModuleInfo "Version: 1.4.11"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.11 (02.06.12)"
+ModuleInfo "History: &nbsp; &nbsp; Rearranged project class to write GUI project class more easily."
+ModuleInfo "History: &nbsp; &nbsp; Controllers system is rewritten and now is based on events."
 ModuleInfo "History: v1.4.10 (27.05.12)"
 ModuleInfo "History: &nbsp; &nbsp; Added Triangle type of the sprite."
 ModuleInfo "History: &nbsp; &nbsp; Added triangle collision functions."
@@ -242,8 +245,9 @@ Import brl.reflection
 Import brl.retro
 Import brl.map
 Import brl.max2d
+Import brl.eventqueue
 
-Const L_Version:String = "1.4.10"
+Const L_Version:String = "1.4.11"
 
 SeedRnd( MilliSecs() )
 

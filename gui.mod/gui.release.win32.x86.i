@@ -3,6 +3,9 @@ ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.6.2 (02.06.12)"
+ModuleInfo "History: &nbsp; &nbsp; LTGUIProject is rewritten to correspond changed structure of LTProject class and now contains no duplicated code."
+ModuleInfo "History: &nbsp; &nbsp; Slider is converted to the single gadget."
 ModuleInfo "History: v1.0.6.1 (01.06.12)"
 ModuleInfo "History: &nbsp; &nbsp; Added underlined spaces to parameters' names."
 ModuleInfo "History: v1.0.6 (31.05.12)"
@@ -41,8 +44,8 @@ LTGUIProject^dwlab.frmwork.LTProject{
 -ReloadWindows%()="_dwlab_gui_LTGUIProject_ReloadWindows"
 -FindWindow:LTWindow(Class$=$"",Name$=$"")="_dwlab_gui_LTGUIProject_FindWindow"
 -CloseWindow%(Window:LTWindow="bbNullObject")="_dwlab_gui_LTGUIProject_CloseWindow"
--Execute%()="_dwlab_gui_LTGUIProject_Execute"
--FullRender%()="_dwlab_gui_LTGUIProject_FullRender"
+-WindowsLogic%()="_dwlab_gui_LTGUIProject_WindowsLogic"
+-WindowsRender%()="_dwlab_gui_LTGUIProject_WindowsRender"
 }="dwlab_gui_LTGUIProject"
 LTWindow^dwlab.frmwork.LTLayer{
 .World:dwlab.frmwork.LTWorld&
@@ -145,7 +148,7 @@ Filling%=1
 .SelectionType%&
 .MouseWheelValue!&
 .ListBox:LTListBox&
-.Slider:dwlab.frmwork.LTShape&
+.Slider:dwlab.frmwork.LTSprite&
 .Dragging%&
 .StartingX!&
 .StartingY!&

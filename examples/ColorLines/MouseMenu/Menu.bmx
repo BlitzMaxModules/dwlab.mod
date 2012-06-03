@@ -121,16 +121,24 @@ Type LTMenu Extends LTGUIProject
 		Close = TSound.Load( L_Incbin + "MouseMenu\sounds\close.ogg", False )
 		SoundOn = TSound.Load( L_Incbin + "MouseMenu\sounds\sound_on.ogg", False )
 	End Method
+	
+	Method Logic()
+		If L_CurrentProfile.Language Then Exiting = True
+	End Method
+	
+	Method OnCloseButton()
+		If Not ExitWindow Then LoadWindow( Menu.World, "LTExitWindow" )
+		ExitWindow = True
+	End Method
+	
+	Method OnWindowResize()
+		Profile.Apply( [ Self ], True, False, False, False )
+	End Method
 
 	Method DeInit()
 		Windows.Clear()
 	End Method
-	
-	Method Logic()
-		If L_CurrentProfile.Language Then Exiting = True
-		Game.Events()
-	End Method
-	
+		
 	Method AddPanels()
 		Project.LoadWindow( World, "LTMenuWindow" )
 		Project.LoadWindow( World, "LTOptionsWindow" )

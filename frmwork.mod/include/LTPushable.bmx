@@ -34,27 +34,21 @@ Type LTPushable Extends LTObject
 	End Rem
 	Method GetName:String()
 	End Method
-
 	
-		
-	Rem
-	bbdoc: Function which prepares pushable object for project cycle.
-	End Rem
-	Method Prepare()
-		If IsDown() Then
-			If State = Unpressed Then State = JustPressed
-		Else
-			If State = Pressed Then State = JustUnpressed
-		End If
+	
+	
+	Method ProcessEvent( ID:Int )
 	End Method
 	
 	
 	
-	Rem
-	bbdoc: Function which resets pushable object after project cycle.
-	End Rem
 	Method Reset()
-		If IsDown() Then State = Pressed Else State = Unpressed
+		Select State
+			Case JustPressed
+				State = Pressed
+			Case JustUnpressed
+				State = Unpressed
+		End Select
 	End Method
 	
 	
@@ -64,6 +58,7 @@ Type LTPushable Extends LTObject
 	returns: True if pushable object is currently pressed.
 	End Rem
 	Method IsDown:Int()
+		Return State = JustPressed Or State = Pressed
 	End Method
 	
 	

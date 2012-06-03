@@ -13,7 +13,6 @@ SuperStrict
 Framework brl.basic
 
 Import brl.freetypefont
-Import brl.eventqueue
 
 Import dwlab.frmwork
 Import dwlab.gui

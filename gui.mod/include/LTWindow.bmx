@@ -66,11 +66,17 @@ Type LTWindow Extends LTLayer
 		
 		If L_Enter.WasPressed() Then
 			For Local Gadget:LTGadget = Eachin Children
-				If Gadget.GetParameter( "action" )[ ..4 ] = "save" Then OnButtonUnpress( Gadget, L_LeftMouseButton )
+				If Gadget.GetParameter( "action" )[ ..4 ] = "save" Then
+					OnButtonPress( Gadget, L_LeftMouseButton )
+					OnButtonUnpress( Gadget, L_LeftMouseButton )
+				End If
 			Next
 		ElseIf L_Esc.WasPressed() Then
 			For Local Gadget:LTGadget = Eachin Children
-				If Gadget.GetParameter( "action" ) = "close" Then OnButtonUnpress( Gadget, L_LeftMouseButton )
+				If Gadget.GetParameter( "action" ) = "close" Then
+					OnButtonPress( Gadget, L_LeftMouseButton )
+					OnButtonUnpress( Gadget, L_LeftMouseButton )
+				End If
 			Next
 		End If
 	

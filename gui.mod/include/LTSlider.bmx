@@ -49,7 +49,7 @@ Type LTSlider Extends LTGadget
 	Field MouseWheelValue:Double = 0.1
 	
 	Field ListBox:LTListBox
-	Field Slider:LTShape
+	Field Slider:LTSprite = New LTSprite
 	Field Dragging:Int
 	Field StartingX:Double
 	Field StartingY:Double
@@ -79,42 +79,35 @@ Type LTSlider Extends LTGadget
 		End Rem		
 	Method Init()
 		Local Name:String = GetName()
-		If Name Then
-			Slider = L_Window.FindShapeWithParameter( "slider_name", Name, "", True )
-			ListBox = LTListBox( L_Window.FindShape( GetParameter( "list_box_name" ), True ) )
-			'debugstop
-			If Slider Then L_Window.Remove( Slider )
-		End If
+		If Name Then ListBox = LTListBox( L_Window.FindShape( GetParameter( "list_box_name" ), True ) )
 		If GetParameter( "type" ) = "vertical" Then SliderType = Vertical Else SliderType = Horizontal
 		If GetParameter( "selection" ) = "filling" Then SelectionType = Filling Else SelectionType = Moving
 		If GetParameter( "percent" ) = "true" Then ShowPercent = True
+		CopyTo( Slider )
 	End Method
 	
 	
 	
 	Method Draw()
 		If Not Visible Then Return
-		Super.Draw()
-		If Slider Then
-			Select SliderType
-				Case Horizontal
-					Slider.SetWidth( Width * Size )
-					Slider.SetCornerCoords( LeftX() + Width * Position * ( 1.0 - Size ), TopY() )
-				Case Vertical
-					Slider.SetHeight( Height * Size )
-					Slider.SetCornerCoords( LeftX(), TopY() + Height * Position * ( 1.0 - Size ) )
+		Select SliderType
+			Case Horizontal
+				Slider.SetWidth( Width * Size )
+				Slider.SetCornerCoords( LeftX() + Width * Position * ( 1.0 - Size ), TopY() )
+			Case Vertical
+				Slider.SetHeight( Height * Size )
+				Slider.SetCornerCoords( LeftX(), TopY() + Height * Position * ( 1.0 - Size ) )
+		End Select
+		Slider.Draw()
+		If ShowPercent Then
+			SetColor( 0, 0, 0 )
+			Select SelectionType
+				Case Moving
+					PrintText( L_Round( 100 * Position ) + "%", TextSize )
+				Case Filling
+					PrintText( L_Round( 100 * Size ) + "%", TextSize )
 			End Select
-			Slider.Draw()
-			If ShowPercent Then
-				SetColor( 0, 0, 0 )
-				Select SelectionType
-					Case Moving
-						PrintText( L_Round( 100 * Position ) + "%", TextSize )
-					Case Filling
-						PrintText( L_Round( 100 * Size ) + "%", TextSize )
-				End Select
-				SetColor( 255, 255, 255 )
-			End If
+			SetColor( 255, 255, 255 )
 		End If
 	End Method
 	

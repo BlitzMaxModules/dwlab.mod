@@ -37,7 +37,7 @@ Type LTGameOverWindow Extends LTAudioWindow
 			If Profile.Name Then Menu.AddHighScore( Profile.Name, Profile.Score )
 		End If
 		
-		LTMenuWindow( Menu.Project.FindWindow( "LTMenuWindow" ) ).DestinationY = 0
+		DestinationY = 0
 		Menu.Project.LoadWindow( Menu.World, "LTScoresWindow" )
 		
 		Profile.Reset()

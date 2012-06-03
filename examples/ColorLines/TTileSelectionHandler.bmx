@@ -104,12 +104,21 @@ Type TColorSelection Extends LTProject
 			End If
 		End If
 		Balls.Act()
-		If Game.Events() Then Exiting = True
+		If Profile.ExitToMenu.WasPressed() Then Exiting = True
 	End Method
 
 	Method Render()
-		Game.FullRender()
+		Game.Render()
+		Game.WindowsRender()
 		L_CurrentCamera.Darken( 0.6 )
 		Balls.Draw()
+	End Method
+	
+	Method OnCloseButton()
+		Exiting = True
+	End Method
+	
+	Method OnWindowResize()
+		Game.OnWindowResize()
 	End Method
 End Type

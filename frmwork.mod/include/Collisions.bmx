@@ -70,14 +70,15 @@ Global L_Line:LTLine = New LTLine
 
 Type LTCollision
 	Function PivotWithPivot:Int( Pivot1:LTSprite, Pivot2:LTSprite )
-		If Pivot1.X = Pivot2.X And Pivot1.Y = Pivot2.Y Then Return True
+		If Pivot1.Distance2To( Pivot2 ) < L_Inaccuracy * L_Inaccuracy Then Return True
 	End Function
 	
 	
 	
 	Function PivotWithOval:Int( Pivot:LTSprite, Oval:LTSprite )
-		Oval = Oval.ToCircle( Pivot, L_Oval1 )
-		If ( Pivot.X - Oval.X ) * ( Pivot.X - Oval.X ) + ( Pivot.Y - Oval.Y ) * ( Pivot.Y - Oval.Y ) < 0.25 * Oval.Width * Oval.Width Then Return True
+		Oval.ToCircle( Pivot, L_Oval1 )
+		Local Radius:Double = 0.5 * L_Oval1.Width + L_Inaccuracy
+		If Pivot.Distance2To( L_Oval1 ) < Radius * Radius Then Return True
 	End Function
 	
 	

@@ -898,22 +898,20 @@ Type LTSprite Extends LTShape
 	
 	' ==================== Methods for triangle ====================	
 	
-	Method GetHypotenuse:LTLine( Line:LTLine )
+	Method GetHypotenuse:LTLine( Line:LTLine = Null )
 		If Not Line Then Line = New LTLine
 		Select ShapeType
 			Case LTSprite.TopLeftTriangle, LTSprite.BottomRightTriangle
 				LTLine.FromPoints( X, Y, X + Width, Y + Height, Line )
 			Case LTSprite.TopRightTriangle, LTSprite.BottomLeftTriangle
 				LTLine.FromPoints( X, Y, X - Width, Y + Height, Line )
-			Default
-				Return Null
 		End Select
 		Return Line
 	End Method
 	
 	
 	
-	Method GetRightAnglePivot:LTShape( Pivot:LTShape )
+	Method GetRightAnglePivot:LTShape( Pivot:LTShape = Null )
 		If Not Pivot Then Pivot = New LTShape
 		Select ShapeType
 			Case LTSprite.TopLeftTriangle, LTSprite.BottomLeftTriangle
@@ -924,7 +922,7 @@ Type LTSprite Extends LTShape
 		Select ShapeType
 			Case LTSprite.TopLeftTriangle, LTSprite.TopRightTriangle
 				Pivot.Y = Y - 0.5 * Height
-			Case LTSprite.BottomRightTriangle, LTSprite.BottomRightTriangle
+			Case LTSprite.BottomLeftTriangle, LTSprite.BottomRightTriangle
 				Pivot.Y = Y + 0.5 * Height
 		End Select
 		Return Pivot

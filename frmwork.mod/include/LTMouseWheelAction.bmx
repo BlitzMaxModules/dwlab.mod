@@ -28,21 +28,9 @@ Type LTMouseWheelAction Extends LTPushable
 	
 	
 	
-	Method Prepare()
-		If Direction * ( MouseZ() - Z ) > 0 Then State = JustPressed
-	End Method
-	
-	
-	
 	Method Reset()
-		State = Unpressed
+		If State = JustPressed Then State = JustUnpressed Else State = Unpressed
 		Z :+ Sgn( MouseZ() - Z )
-	End Method
-	
-	
-	
-	Method IsDown:Int()
-		Return State = JustPressed
 	End Method
 	
 	
@@ -50,6 +38,12 @@ Type LTMouseWheelAction Extends LTPushable
 	Method IsEqualTo:Int( Pushable:LTPushable )
 		Local Wheel:LTMouseWheelAction = LTMouseWheelAction( Pushable )
 		If Wheel Then Return Direction = Wheel.Direction
+	End Method
+	
+	
+	
+	Method ProcessEvent( ID:Int )
+		If Direction * ( MouseZ() - Z ) > 0 Then State = JustPressed
 	End Method
 	
 	

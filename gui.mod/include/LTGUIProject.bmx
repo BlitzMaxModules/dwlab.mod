@@ -131,108 +131,21 @@ Type LTGUIProject Extends LTProject
 	
 	
 	
-	Method Execute()
-		FlushKeys
-		FlushMouse
-	    
-		Exiting = False
-		Pass = 1
-		L_DeltaTime = 0
-				
-		Init()
-		InitGraphics()
-		InitSound()
+	Method WindowsLogic()
+		Local OldCamera:LTCamera = L_CurrentCamera
+		L_CurrentCamera = L_GUICamera
+		L_Cursor.SetMouseCoords()
 		
-		Time = 0.0
-		StartingTime = MilliSecs()
-		
-		Local RealTime:Double = 0
-		Local FPSCount:Int
-		Local FPSTime:Int
-		
-		L_DeltaTime = 1.0 / L_LogicFPS
-	    
-		For Local Controller:LTPushable = Eachin L_Controllers
-			Controller.Reset()
+		For Local Window:LTWindow = Eachin Windows
+			If Window.Active Then Window.Act()
 		Next
 		
-		Local LogicStepsWithoutRender:Int = 0
-		
-		Repeat
-			Time :+  L_DeltaTime
-			
-			?debug
-			L_CollisionChecks = 0
-			L_SpritesActed = 0
-			?
-			
-			For Local Controller:LTPushable = Eachin L_Controllers
-				Controller.Prepare()
-			Next
-			
-			L_Cursor.SetMouseCoords()
-			Logic()
-			
-			Local OldCamera:LTCamera = L_CurrentCamera
-			L_CurrentCamera = L_GUICamera
-			L_Cursor.SetMouseCoords()
-			
-			For Local Window:LTWindow = Eachin Windows
-				If Window.Active Then Window.Act()
-			Next
-			
-			L_CurrentCamera = OldCamera
-
-			For Local Controller:LTPushable = Eachin L_Controllers
-				Controller.Reset()
-			Next
-			
-			If Exiting Then
-				DeInit()
-				Exit
-			End If
-			
-			LogicStepsWithoutRender :+ 1
-			
-			Repeat
-				RealTime = 0.001 * ( Millisecs() - StartingTime )
-				If RealTime >= Time And LogicStepsWithoutRender <= L_MaxLogicStepsWithoutRender Then Exit
-				
-				If L_Flipping Then Cls
-				
-				?debug
-				L_SpritesDisplayed = 0
-				L_TilesDisplayed = 0
-				?
-				
-				FullRender()
-				
-				If L_Flipping Then Flip( False )
-		      
-				LogicStepsWithoutRender = 0
-				FPSCount :+ 1
-			Forever
-	      
-			If Millisecs() >= 1000 + FPSTime Then
-				L_FPS = FPSCount
-				FPSCount = 0
-				FPSTime = Millisecs()
-			End If
-			
-			PollSystem()
-			Pass :+ 1
-		Forever
-		
-		DeInit()
+		L_CurrentCamera = OldCamera
 	End Method
 	
 	
 	
-	Method FullRender()
-		L_CurrentCamera.SetCameraViewport()
-		L_Cursor.SetMouseCoords()
-		Render()
-		
+	Method WindowsRender()
 		Local OldCamera:LTCamera = L_CurrentCamera
 		L_CurrentCamera = L_GUICamera
 		L_CurrentCamera.SetCameraViewport()

@@ -174,6 +174,7 @@ Type LTCamera Extends LTVectorSprite
 	See also: #Viewport, #ViewportClipping, #ResetViewport
 	End Rem
 	Method SetCameraViewport()
+		If Not GraphicsWidth() Then Return
 		If ViewportClipping Then	
 			SetViewport( Viewport.X - 0.5 * Viewport.Width, Viewport.Y - 0.5 * Viewport.Height, Viewport.Width, Viewport.Height )
 		Else

@@ -282,6 +282,14 @@ Type LTShape Extends LTObject
 	
 	
 	
+	Method Distance2To:Double( Shape:LTShape )
+		Local DX:Double = X - Shape.X
+		Local DY:Double = Y - Shape.Y
+		Return DX * DX + DY * DY
+	End Method
+	
+	
+	
 	Rem
 	bbdoc: Checks if the shape is at position of another shape.
 	returns: True if shape center has same coordinates as another shape center. 

@@ -221,21 +221,18 @@ Type LTProject Extends LTObject
 			L_SpritesActed = 0
 			?
 			
-			For Local Controller:LTPushable = Eachin L_Controllers
-				Controller.Prepare()
-			Next
+			ProcessEvents()
 			
 			L_Cursor.SetMouseCoords()
 			Logic()
+			
+			WindowsLogic()
 			
 			For Local Controller:LTPushable = Eachin L_Controllers
 				Controller.Reset()
 			Next
 			
-			If Exiting Then
-				DeInit()
-				Exit
-			End If
+			If Exiting Then Exit
 			
 			LogicStepsWithoutRender :+ 1
 			
@@ -243,17 +240,20 @@ Type LTProject Extends LTObject
 				RealTime = 0.001 * ( Millisecs() - StartingTime )
 				If RealTime >= Time And LogicStepsWithoutRender <= L_MaxLogicStepsWithoutRender Then Exit
 				
-				If L_Flipping Then Cls
+				If L_Flipping And GraphicsWidth() Then Cls
 				
 				?debug
 				L_SpritesDisplayed = 0
 				L_TilesDisplayed = 0
 				?
 				
+				L_CurrentCamera.SetCameraViewport()
 				L_Cursor.SetMouseCoords()
 				Render()
 				
-				If L_Flipping Then Flip( False )
+				WindowsRender()
+				
+				If L_Flipping And GraphicsWidth() Then Flip( False )
 		      
 				LogicStepsWithoutRender = 0
 				FPSCount :+ 1
@@ -269,7 +269,58 @@ Type LTProject Extends LTObject
 			Pass :+ 1
 		Forever
 		
+		DeInit()
 		L_CurrentProject = OldProject
+	End Method
+	
+	' ==================== Events ===================		
+	
+	Method ProcessEvents()
+		Repeat
+			Local ID:Int = PollEvent()
+			For Local Controller:LTPushable = Eachin L_Controllers
+				Controller.ProcessEvent( ID )
+			Next
+			Select ID
+				Case Event_WindowClose
+					OnCloseButton()
+				Case Event_WindowSize
+					OnWindowResize()
+				Case 0
+					Exit
+			End Select
+			OnEvent( ID )
+		Forever
+	End Method
+	
+	
+	
+	Method OnEvent( ID:Int )
+	End Method
+	
+	
+	
+	Method OnCloseButton()
+	End Method
+	
+	
+	
+	Method OnWindowResize()
+	End Method
+	
+	' ==================== Dummies for GUI project ===================	
+	
+	Method WindowsLogic()
+	End Method
+	
+	
+	
+	Method WindowsRender()
+	End Method
+	
+	
+	
+	Method ReloadWindows()
 	End Method
 	
 	' ==================== Other ===================	
@@ -285,11 +336,6 @@ Type LTProject Extends LTObject
 		Project.Execute()
 		L_DeltaTime = 1.0 / L_LogicFPS
 		StartingTime :+ MilliSecs() - FreezingTime
-	End Method
-	
-	
-	
-	Method ReloadWindows()
 	End Method
 	
 	

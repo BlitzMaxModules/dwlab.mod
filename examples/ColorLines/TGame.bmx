@@ -87,8 +87,6 @@ Type TGame Extends LTGUIProject
 		Local MenuWindow:LTMenuWindow = LTMenuWindow( FindWindow( "LTMenuWindow" ) )
 		If Profile.ExitToMenu.WasPressed() And MenuWindow.Active Then MenuWindow.Switch()
 		
-		Events()
-		
 		Objects.Act()
 		Particles.Act()
 		L_ClearSoundMaps()
@@ -98,19 +96,12 @@ Type TGame Extends LTGUIProject
 		Next
 	End Method
 	
-	Method Events:Int()
-		Repeat
-			Select PollEvent()
-				Case Event_WindowClose
-					If Not Menu.ExitWindow Then LoadWindow( Menu.World, "LTExitWindow" )
-					Menu.ExitWindow = True
-					Return True
-				Case Event_WindowSize
-					Profile.Apply( [ LTGUIProject( Self ), LTGUIProject( Menu ) ], True, False, False, False )
-				Case 0
-					Exit
-			End Select
-		Forever
+	Method OnCloseButton()
+		Menu.OnCloseButton()
+	End Method
+	
+	Method OnWindowResize()
+		Profile.Apply( [ LTGUIProject( Self ), LTGUIProject( Menu ) ], True, False, False, False )
 	End Method
 	
 	Method Render()

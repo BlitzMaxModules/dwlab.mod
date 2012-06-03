@@ -715,7 +715,7 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method Logic()
+	Method ProcessEvents()
 		Delay 10
 		PollEvent()
 
@@ -1361,7 +1361,9 @@ Type LTEditor Extends LTProject
 					If SelectedParameter Then PopUpWindowMenu( Window, ParameterMenu )
 				End If
 		End Select
+	End Method
 		
+	Method Logic()
 		If Not CurrentViewLayer Then Return
 		
 		Local Bounds:LTShape = CurrentViewLayer.Bounds

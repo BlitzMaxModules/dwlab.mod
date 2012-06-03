@@ -29,15 +29,21 @@ Type LTMouseButton Extends LTPushable
 	
 	
 	
-	Method IsDown:Int()
-		Return MouseDown( Num )
+	Method IsEqualTo:Int( Pushable:LTPushable )
+		Local Button:LTMouseButton = LTMouseButton( Pushable )
+		If Button Then Return Num = Button.Num
 	End Method
 	
 	
 	
-	Method IsEqualTo:Int( Pushable:LTPushable )
-		Local Button:LTMouseButton = LTMouseButton( Pushable )
-		If Button Then Return Num = Button.Num
+	Method ProcessEvent( ID:Int )
+		If EventData() <> Num Then Return
+		Select ID
+			Case EVENT_MOUSEDOWN
+				State = JustPressed
+			Case EVENT_MOUSEUP
+				State = JustUnpressed
+		End Select
 	End Method
 	
 	

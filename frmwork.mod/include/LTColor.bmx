@@ -71,7 +71,7 @@ Type LTColor Extends LTObject
 	End Rem
 	Method SetColorFromHex( S:String )
 		If S.Length = 8 Then
-			Alpha = L_HexToInt( S[ 0..2 ] )
+			Alpha = L_HexToInt( S[ 0..2 ] ) / 255.0
 			S = S[ 2.. ]
 		End If
 		Red = 1.0 * L_HexToInt( S[ 0..2 ] ) / 255.0
