@@ -72,14 +72,11 @@ Type LTSlider Extends LTGadget
 	<ul><li>"type" - sets slider type ( "vertical" or "horizontal" )
 	<li>"selection" - sets slider behavior ( "moving" or "filling" )</ul>
 	<li>"percent" - sets showing slider position in percents </ul>
-	You can also attach sprite (which should be inside same window) as slider moving part to the slider by naming silder and
-	set "slider_name" parameter of the sprite to slider name.
 	And you can attach a list box (which should be inside same window) to scroll its contents with the slider by naming list box and
 	set "list_box_name" parameter of the slider to list box name.
-		End Rem		
+	End Rem		
 	Method Init()
-		Local Name:String = GetName()
-		If Name Then ListBox = LTListBox( L_Window.FindShape( GetParameter( "list_box_name" ), True ) )
+		ListBox = LTListBox( L_Window.FindShape( GetParameter( "list_box_name" ), True ) )
 		If GetParameter( "type" ) = "vertical" Then SliderType = Vertical Else SliderType = Horizontal
 		If GetParameter( "selection" ) = "filling" Then SelectionType = Filling Else SelectionType = Moving
 		If GetParameter( "percent" ) = "true" Then ShowPercent = True

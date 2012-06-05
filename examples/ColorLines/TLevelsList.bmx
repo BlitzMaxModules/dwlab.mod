@@ -23,6 +23,8 @@ Type TLevelsList Extends LTMenuListBox
 	
 	Method DrawItem( Item:Object, Num:Int, Sprite:LTSprite )
 		SetItemColor( Num, Sprite, Item = SelectedLevel )
+		Sprite.Draw()
+		
 		SetColor( 0, 0, 0 )
 		Sprite.PrintText( LocalizeString( LTShape( Item ).GetName() ), TextSize )
 		LTVisualizer.ResetColor()

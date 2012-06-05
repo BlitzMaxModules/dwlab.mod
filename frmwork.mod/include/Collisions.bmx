@@ -245,8 +245,8 @@ Type LTCollision
 			Local XScale:Double = Max( XScale1, XScale2 )
 			Local YScale:Double = Max( YScale1, YScale2 )
 			Return ImagesCollide2( Image1.BMaxImage, Raster1.X * XScale, Raster1.Y * YScale, Raster1.Frame, Raster1.Angle, ..
-					XScale / Image1.Width(), YScale1 / Image1.Height(), Image2.BMaxImage, Raster2.X * XScale, Raster2.Y * YScale, ..
-					Raster2.Frame, Raster2.Angle, XScale / Image2.Width(), YScale2 / Image1.Height() )
+					XScale / XScale1, YScale / YScale1, Image2.BMaxImage, Raster2.X * XScale, Raster2.Y * YScale, ..
+					Raster2.Frame, Raster2.Angle, XScale / XScale2, YScale / YScale2 )
 		End If
 	End Function
 End Type

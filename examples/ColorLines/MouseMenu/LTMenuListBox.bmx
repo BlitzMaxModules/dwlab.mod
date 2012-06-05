@@ -26,7 +26,6 @@ Type LTMenuListBox Extends LTListBox
 	End Method
 	
 	Method SetItemColor( Num:Int, Sprite:LTSprite, IsSelected:Int = False, ShowMouseCursor:Int = True )
-			
 		If Sprite.CollidesWithSprite( L_Cursor ) And ShowMouseCursor Then
 			If IsSelected Then
 				SelectedUnderMouseColor.CopyColorTo( Sprite.Visualizer )

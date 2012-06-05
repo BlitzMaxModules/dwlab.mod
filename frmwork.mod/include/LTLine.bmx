@@ -76,7 +76,9 @@ Type LTLine Extends LTShape
 	
 	Method IntersectionWith:LTShape( Line:LTLine, Pivot:LTShape = Null )
 		If Not Pivot Then Pivot = New LTShape
-		Pivot.Y = ( Line.C * A - C * Line.A ) / ( B * Line.A - A * Line.B )
+		Local K:Double = B * Line.A - A * Line.B
+		If K = 0.0 Then Return Null
+		Pivot.Y = ( Line.C * A - C * Line.A ) / K
 		Pivot.X = ( C - B * Pivot.Y ) / A
 		Return Pivot
 	End Method

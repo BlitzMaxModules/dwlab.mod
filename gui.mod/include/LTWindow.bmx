@@ -30,6 +30,8 @@ Type LTWindow Extends LTLayer
 	Method Act()
 		If Not Active Then Return
 		
+		L_Window = Self
+		
 		For Local Gadget:LTGadget = Eachin Children
 			If Not Gadget.Active Then Continue
 			

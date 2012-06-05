@@ -147,10 +147,9 @@ Type LTSprite Extends LTShape
 						Return LTCollision.PivotWithPivot( Self, Sprite )
 					Case Oval
 						Return LTCollision.PivotWithOval( Self, Sprite )
-					Case Rectangle
+					Case Rectangle, Raster
 						Return LTCollision.PivotWithRectangle( Self, Sprite )
 					Case Ray
-					Case Raster
 					Default
 						Return LTCollision.PivotWithTriangle( Self, Sprite )
 				End Select
@@ -160,36 +159,35 @@ Type LTSprite Extends LTShape
 						Return LTCollision.PivotWithOval( Sprite, Self )
 					Case Oval
 						Return LTCollision.OvalWithOval( Self, Sprite )
-					Case Rectangle
+					Case Rectangle, Raster
 						Return LTCollision.OvalWithRectangle( Self, Sprite )
 					Case Ray
-					Case Raster
 					Default
 						Return LTCollision.OvalWithTriangle( Self, Sprite )
 				End Select
-			Case Rectangle
+			Case Rectangle, Raster
 				Select Sprite.ShapeType
 					Case Pivot
 						Return LTCollision.PivotWithRectangle( Sprite, Self )
 					Case Oval
 						Return LTCollision.OvalWithRectangle( Sprite, Self )
-					Case Rectangle
+					Case Rectangle, Raster
+						If ShapeType = Raster Then Return LTCollision.RasterWithRaster( Self, Sprite )
 						Return LTCollision.RectangleWithRectangle( Self, Sprite )
 					Case Ray
-					Case Raster
 					Default
 						Return LTCollision.RectangleWithTriangle( Self, Sprite )
 				End Select
+			Case Ray
 			Default
 				Select Sprite.ShapeType
 					Case Pivot
 						Return LTCollision.PivotWithTriangle( Sprite, Self )
 					Case Oval
 						Return LTCollision.OvalWithTriangle( Sprite, Self )
-					Case Rectangle
+					Case Rectangle, Raster
 						Return LTCollision.RectangleWithTriangle( Sprite, Self )
 					Case Ray
-					Case Raster
 					Default
 						Return LTCollision.TriangleWithTriangle( Self, Sprite )
 				End Select
@@ -902,9 +900,9 @@ Type LTSprite Extends LTShape
 		If Not Line Then Line = New LTLine
 		Select ShapeType
 			Case LTSprite.TopLeftTriangle, LTSprite.BottomRightTriangle
-				LTLine.FromPoints( X, Y, X + Width, Y + Height, Line )
-			Case LTSprite.TopRightTriangle, LTSprite.BottomLeftTriangle
 				LTLine.FromPoints( X, Y, X - Width, Y + Height, Line )
+			Case LTSprite.TopRightTriangle, LTSprite.BottomLeftTriangle
+				LTLine.FromPoints( X, Y, X + Width, Y + Height, Line )
 		End Select
 		Return Line
 	End Method
