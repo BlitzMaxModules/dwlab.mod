@@ -13,7 +13,6 @@ Type LTSelectProfileWindow Extends LTAudioWindow
 	
 	Method Init()
 		RemoveProfileButton = LTButton( FindShapeWithParameter( "text", "Remove" ) )
-		Menu.SelectedProfile = L_CurrentProfile
 		Super.Init()
 	End Method
 	
@@ -23,7 +22,7 @@ Type LTSelectProfileWindow Extends LTAudioWindow
 	End Method
 	
 	Method Save()
-		If L_CurrentProfile = Menu.SelectedProfile Then Return
+		If L_CurrentProfile = Menu.SelectedProfile Or Not Menu.SelectedProfile Then Return
 		L_CurrentProfile.Save()
 		L_CurrentProfile = Menu.SelectedProfile
 		L_CurrentProfile.SetAsCurrent()

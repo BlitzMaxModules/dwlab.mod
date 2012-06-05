@@ -87,6 +87,7 @@ Type LTMenu Extends LTGUIProject
 			Profiles.AddLast( L_CurrentProfile )
 		End If
 		L_CurrentProfile.SetAsCurrent()
+		SelectedProfile = L_CurrentProfile
 
 		L_CurrentProfile.Apply( [ Project, LTGUIProject( Self ) ] )
 		

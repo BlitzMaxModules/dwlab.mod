@@ -1,11 +1,11 @@
 <LTMenu current_profile="1" dwlab_version="1.4.11">
 	<TList field="profiles">
-		<TGameProfile id="1" name="Matt" language="Russian" audio="DirectSound" video="OpenGL" width="1280" height="1024" depth="32" frequency="75" sound_volume="0.82500891" music_volume="0.79375891" x_resolution="1216" y_resolution="912" next-balls="5,4,4" balls-in-line="5" balls-per-turn="3">
-			<LTTileMap field="balls" x="8.50000297" y="4.87000297" width="13.00000297" height="9.75000297" visible="0" xquantity="13" yquantity="13" tiles-quantity="16">
+		<TGameProfile id="1" name="Matt" language="Russian" audio="DirectSound" video="OpenGL" width="1280" height="1024" depth="32" frequency="75" sound_volume="0.82501584" music_volume="0.79376584" x_resolution="1216" y_resolution="912" next-balls="5,4,4" balls-in-line="5" balls-per-turn="3">
+			<LTTileMap field="balls" x="8.5000099" y="4.8700099" width="13.0000099" height="9.7500099" visible="0" xquantity="13" yquantity="13" tiles-quantity="16">
 				<TList field="parameters">
 					<LTParameter name="name" value="Balls"/>
 				</TList>
-				<LTVisualizer field="visualizer" dy="-0.25000297" yscale="2.66000297"/>
+				<LTVisualizer field="visualizer" dy="-0.2500099" yscale="2.6600099"/>
 				<LTTileSet field="tileset" name="Balls" tiles-quantity="16" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" empty-tile="0">
 					<LTImage field="image" filename="balls.png" xcells="8" ycells="2"/>
 					<ShapeArray field="collision-shapes">
@@ -41,11 +41,11 @@
 				<Row data="0,7,6,5,0,0,1,1,0,0,0,0,2"/>
 				<Row data="0,2,4,4,3,0,0,1,0,1,7,7,0"/>
 			</LTTileMap>
-			<LTTileMap field="modifiers" x="8.50000297" y="4.87000297" width="13.00000297" height="9.75000297" xquantity="13" yquantity="13" tiles-quantity="4">
+			<LTTileMap field="modifiers" x="8.5000099" y="4.8700099" width="13.0000099" height="9.7500099" xquantity="13" yquantity="13" tiles-quantity="4">
 				<TList field="parameters">
 					<LTParameter name="name" value="Modifiers"/>
 				</TList>
-				<LTVisualizer field="visualizer" dy="-0.25000297" yscale="2.66000297"/>
+				<LTVisualizer field="visualizer" dy="-0.2500099" yscale="2.6600099"/>
 				<LTTileSet field="tileset" name="Modifiers" tiles-quantity="4" block-width="0,0,0,0" block-height="0,0,0,0">
 					<LTImage field="image" filename="modifiers.png" xcells="4"/>
 					<ShapeArray field="collision-shapes">
