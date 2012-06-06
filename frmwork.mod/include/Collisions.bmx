@@ -76,9 +76,9 @@ Type LTCollision
 	
 	
 	Function PivotWithOval:Int( Pivot:LTSprite, Oval:LTSprite )
-		Oval.ToCircle( Pivot, L_Oval1 )
-		Local Radius:Double = 0.5 * L_Oval1.Width + L_Inaccuracy
-		If Pivot.Distance2To( L_Oval1 ) < Radius * Radius Then Return True
+		Oval = Oval.ToCircle( Pivot, L_Oval1 )
+		Local Radius:Double = 0.5 * Oval.Width + L_Inaccuracy
+		If Pivot.Distance2To( Oval ) < Radius * Radius Then Return True
 	End Function
 	
 	
@@ -108,7 +108,8 @@ Type LTCollision
 	Function OvalWithOval:Int( Oval1:LTSprite, Oval2:LTSprite )
 		Oval1 = Oval1.ToCircle( Oval2, L_Oval1 )
 		Oval2 = Oval2.ToCircle( Oval1, L_Oval2 )
-		If 4.0 * ( ( Oval2.X - Oval1.X ) * ( Oval2.X - Oval1.X ) + ( Oval2.Y - Oval1.Y ) * ( Oval2.Y - Oval1.Y ) ) < ( Oval2.Width + Oval1.Width ) * ( Oval2.Width + Oval1.Width ) - L_Inaccuracy Then Return True
+		Local Radiuses:Double = 0.5 * ( Oval1.Width + Oval2.Width ) + L_Inaccuracy
+		If Oval1.Distance2To( Oval2 ) < Radiuses * Radiuses Then Return True
 	End Function
 	
 	
@@ -134,7 +135,7 @@ Type LTCollision
 		L_Oval1.Width = 0.5 * Pivot1.DistanceTo( Pivot2 ) + L_Inaccuracy
 		If OvalWithOval( Oval, L_Oval1 ) Then
 			LineSegment.ToLine( L_Line )
-			Oval.ToCircleUsingLine( L_Line, L_Oval2 )
+			Oval = Oval.ToCircleUsingLine( L_Line, L_Oval2 )
 			If L_Line.DistanceTo( Oval ) < 0.5 * Max( Oval.Width, Oval.Height ) Then
 				L_Line.PivotProjection( Oval, L_Pivot1 )
 				If PivotWithOval( L_Pivot1, L_Oval1 ) And L_Pivot1.DistanceTo( L_Oval2 ) < L_Oval1.Width - L_Inaccuracy Then Return True
@@ -147,7 +148,7 @@ Type LTCollision
 	Function OvalWithTriangle:Int( Oval:LTSprite, Triangle:LTSprite )
 		If OvalWithRectangle( Oval, Triangle ) Then
 			Triangle.GetHypotenuse( L_Line )
-			Oval.ToCircleUsingLine( L_Line )
+			Oval = Oval.ToCircleUsingLine( L_Line )
 			Triangle.GetRightAnglePivot( L_Pivot1 )
 			If L_Line.PivotOrientation( Oval ) = L_Line.PivotOrientation( L_Pivot1 ) Then Return True
 			If L_Line.DistanceTo( Oval ) < Oval.Width Then
@@ -199,7 +200,7 @@ Type LTCollision
 				Triangle1.GetBounds( L_Pivot1.X, L_Pivot2.Y, L_Pivot2.X, L_Pivot1.Y )
 			End If
 			
-			Triangle1.GetHypotenuse( L_Line )
+			Triangle2.GetHypotenuse( L_Line )
 			If PivotWithRectangle( L_Pivot1, Triangle2 ) Then If L_Line.PivotOrientation( L_Pivot4 ) = L_Line.PivotOrientation( L_Pivot1 ) Then Return True
 			If PivotWithRectangle( L_Pivot2, Triangle2 ) Then If L_Line.PivotOrientation( L_Pivot4 ) = L_Line.PivotOrientation( L_Pivot2 ) Then Return True
 			If PivotWithRectangle( L_Pivot3, Triangle2 ) Then If L_Line.PivotOrientation( L_Pivot4 ) = L_Line.PivotOrientation( L_Pivot3 ) Then Return True
@@ -210,7 +211,7 @@ Type LTCollision
 				Triangle2.GetBounds( L_Pivot1.X, L_Pivot2.Y, L_Pivot2.X, L_Pivot1.Y )
 			End If
 			
-			Triangle2.GetHypotenuse( L_Line )
+			Triangle1.GetHypotenuse( L_Line )
 			If PivotWithRectangle( L_Pivot1, Triangle1 ) Then If L_Line.PivotOrientation( L_Pivot3 ) = L_Line.PivotOrientation( L_Pivot1 ) Then Return True
 			If PivotWithRectangle( L_Pivot2, Triangle1 ) Then If L_Line.PivotOrientation( L_Pivot3 ) = L_Line.PivotOrientation( L_Pivot2 ) Then Return True
 			If PivotWithRectangle( L_Pivot4, Triangle1 ) Then If L_Line.PivotOrientation( L_Pivot3 ) = L_Line.PivotOrientation( L_Pivot4 ) Then Return True
@@ -255,9 +256,7 @@ End Type
 
 Type LTOverlap
 	Function CircleAndPivot:Int( Circle:LTSprite, Pivot:LTSprite )
-		Local DX:Double = Circle.X - Pivot.X
-		Local DY:Double = Circle.Y - Pivot.Y
-		If 4.0 * ( DX * DX + DY * DY ) <= Circle.Width * Circle.Width Then Return True
+		If 4.0 * Circle.Distance2To( Pivot ) <= Circle.Width * Circle.Width Then Return True
 	End Function
 	
 	
@@ -286,10 +285,8 @@ Type LTOverlap
 	
 	
 	Function CircleAndCircle:Int( Circle1:LTSprite, Circle2:LTSprite )
-		Local DX:Double = Circle1.X - Circle2.X
-		Local DY:Double = Circle1.Y - Circle2.Y
 		Local Diameters:Double = Circle1.Width + Circle2.Width
-		If 4.0 * ( DX * DX + DY * DY ) <= Diameters * Diameters Then Return True
+		If 4.0 * Circle1.Distance2To( Circle2 ) <= Diameters * Diameters Then Return True
 	End Function
 	
 	

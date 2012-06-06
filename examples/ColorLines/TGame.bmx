@@ -43,6 +43,8 @@ Type TGame Extends LTGUIProject
 	Field ExplosionSound:TSound
 	Field WrongTurnSound:TSound
 	
+	Field ExitWindow:Int
+	
 	Method Init()
 		SetGraphicsDriver( D3D7Max2DDriver() )
 		World = LTWorld.FromFile( "levels.lw" )
@@ -70,7 +72,7 @@ Type TGame Extends LTGUIProject
 	End Method
 	
 	Method Logic()
-		'Delay 10
+		Delay 8
 	
 		If Not Locked Then
 			If Not Profile.GameField Then
@@ -97,7 +99,8 @@ Type TGame Extends LTGUIProject
 	End Method
 	
 	Method OnCloseButton()
-		Menu.OnCloseButton()
+		If Not ExitWindow Then LoadWindow( Menu.World, "LTExitWindow" )
+		ExitWindow = True
 	End Method
 	
 	Method OnWindowResize()

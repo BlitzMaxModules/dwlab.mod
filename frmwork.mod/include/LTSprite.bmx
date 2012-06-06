@@ -834,15 +834,15 @@ Type LTSprite Extends LTShape
 	' ==================== Methods for oval ====================	
 	
 	Method ToCircle:LTSprite( Pivot:LTSprite, CircleSprite:LTSprite = Null )
-		If Not CircleSprite Then CircleSprite = New LTSprite.FromShapeType( Circle )
 		If Width = Height Then Return Self
+		If Not CircleSprite Then CircleSprite = New LTSprite.FromShapeType( Circle )
 		If Width > Height Then
 			CircleSprite.X = L_LimitDouble( Pivot.X, X - 0.5 * ( Width - Height ), X + 0.5 * ( Width - Height ) )
 			CircleSprite.Y = Y
 			CircleSprite.Width = Height
 			CircleSprite.Height = Height
 		Else
-			CircleSprite.Y = X
+			CircleSprite.X = X
 			CircleSprite.Y = L_LimitDouble( Pivot.Y, Y - 0.5 * ( Height - Width ), Y + 0.5 * ( Height - Width ) )
 			CircleSprite.Width = Width
 			CircleSprite.Height = Width
@@ -853,8 +853,8 @@ Type LTSprite Extends LTShape
 	
 	
 	Method ToCircleUsingLine:LTSprite( Line:LTLine, CircleSprite:LTSprite = Null )
-		If Not CircleSprite Then CircleSprite = New LTSprite.FromShapeType( Circle )
 		If Width = Height Then Return CircleSprite
+		If Not CircleSprite Then CircleSprite = New LTSprite.FromShapeType( Circle )
 		If Width > Height Then
 			Local DWidth:Double = 0.5 * ( Width - Height )
 			Local O1:Double = Line.A * ( X - DWidth ) + Line.B * Y + Line.C

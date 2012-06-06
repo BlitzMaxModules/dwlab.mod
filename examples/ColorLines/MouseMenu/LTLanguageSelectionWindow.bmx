@@ -27,11 +27,16 @@ Type LTLanguageSelectionWindow Extends LTAudioWindow
 	End Method
 	
 	Method OnButtonUnpress( Gadget:LTGadget, ButtonAction:LTButtonAction )
+		Super.OnButtonUnpress( Gadget, ButtonAction )
 		If ButtonAction <> L_LeftMouseButton Then Return
 		If LTButton( Gadget ) Then
 			Local Language:TMaxGuiLanguage = TMaxGuiLanguage( LanguageMap.ValueForKey( Gadget ) )
 			SetLocalizationLanguage( Language )
 			L_CurrentProfile.Language = Language.GetName()
 		End If
+	End Method
+	
+	Method OnClose()
+		End
 	End Method
 End Type

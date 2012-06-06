@@ -200,6 +200,7 @@ Type TGameProfile Extends LTProfile
 		XMLObject.ManageIntAttribute( "balls-in-line", BallsInLine )
 		XMLObject.ManageIntAttribute( "balls-per-turn", BallsPerTurn )
 		XMLObject.ManageIntAttribute( "swap", Swap, 1 )
+		XMLObject.ManageIntAttribute( "overflow", Overflow, 1 )
 		XMLObject.ManageIntAttribute( "orthogonal-lines", OrthogonalLines, 1 )
 		XMLObject.ManageIntAttribute( "diagonal-lines", DiagonalLines, 1 )
 		If Not NextBalls Then FillNextBalls()

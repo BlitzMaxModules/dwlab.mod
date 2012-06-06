@@ -10,6 +10,6 @@
 
 Type LTExitWindow Extends LTAudioWindow
 	Method OnClose()
-		Menu.ExitWindow = False
+		Game.ExitWindow = False
 	End Method
 End Type

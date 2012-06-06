@@ -380,7 +380,7 @@ Type LTLayer Extends LTShape
 		Local NewLayer:LTLayer = New LTLayer
 		CopyTo( NewLayer )
 		For Local Shape:LTShape = Eachin Children
-			NewLayer.Children.AddLast( Shape )
+			NewLayer.Children.AddLast( Shape.Clone() )
 		Next
 		Return NewLayer
 	End Method

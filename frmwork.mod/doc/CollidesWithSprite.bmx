@@ -43,6 +43,15 @@ Type TExample Extends LTProject
 	Method Render()
 		Sprites.Draw()
 		L_Cursor.Draw()
+		Local Triangle:LTSprite = LTSprite( Sprites.ValueAtIndex( 4 ) )
+		L_Oval1 = L_Cursor.ToCircle( Triangle, L_Oval1 )
+		L_Oval1.Draw()
+		L_Line = Triangle.GetHypotenuse()
+		L_Line.Draw()
+		L_Line.PivotProjection( L_Oval1, L_Pivot1 ).Draw()
+		
+		'Oval.ToCircle( L_Cursor, L_Oval2 ).Draw()
+
 		'LTSprite( Sprites.Children.ValueAtIndex( 7 ) ).GetHypotenuse().Draw()
 		L_PrintText( "ColldesWithSprite example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method

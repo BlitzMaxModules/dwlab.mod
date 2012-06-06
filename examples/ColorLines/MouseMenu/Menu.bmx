@@ -70,8 +70,6 @@ Type LTMenu Extends LTGUIProject
 	Field Close:TSound
 	Field SoundOn:TSound
 	
-	Field ExitWindow:Int
-	
 	Function InitSystem( MainProject:LTGUIProject )
 		If FileType( "settings.xml" ) = 1 Then Menu.LoadFromFile( "settings.xml", False )
 		Menu.Project = MainProject
@@ -128,8 +126,7 @@ Type LTMenu Extends LTGUIProject
 	End Method
 	
 	Method OnCloseButton()
-		If Not ExitWindow Then LoadWindow( Menu.World, "LTExitWindow" )
-		ExitWindow = True
+		End
 	End Method
 	
 	Method OnWindowResize()

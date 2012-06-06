@@ -63,7 +63,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.7.12"
+	Const Version:String = "1.7.13.1"
 	Const INIVersion:Int = 5
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 8
@@ -875,9 +875,14 @@ Type LTEditor Extends LTProject
 						SetChanged()
 					Case Key_D
 						If Not SelectedShapes.IsEmpty() Then
-							For Local Shape:LTShape = Eachin SelectedShapes
-								InsertIntoContainer( Shape.Clone(), Editor.CurrentContainer )
-							Next
+							Local Layer:LTLayer = LTLayer( SelectedShapes.First() )
+							If Layer Then
+								PutAfterLayer( LTLayer( Layer.Clone() ), Layer, World )
+							Else
+								For Local Shape:LTShape = Eachin SelectedShapes
+									InsertIntoContainer( Shape.Clone(), Editor.CurrentContainer )
+								Next
+							End If
 							RefreshProjectManager()
 							SetChanged()
 						End If
@@ -2084,6 +2089,22 @@ Type LTEditor Extends LTProject
 		Else
 			AutoImageFlags( 0 )
 		End If
+	End Method
+	
+	
+	
+	Method PutAfterLayer:Int( Layer:LTLayer, AfterLayer:LTLayer, FromLayer:LTLayer )
+		Local Link:TLink = FromLayer.Children.FirstLink()
+		While Link
+			Local ChildLayer:LTLayer = LTLayer( Link.Value() )
+			If ChildLayer = AfterLayer Then
+				FromLayer.Children.InsertAfterLink( Layer, Link )
+				Return True
+			ElseIf ChildLayer Then
+				If PutAfterLayer( Layer, AfterLayer, ChildLayer ) Then Return True
+			End If
+			Link = Link.NextLink()
+		WEnd
 	End Method
 End Type
 

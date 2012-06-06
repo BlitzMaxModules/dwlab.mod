@@ -101,8 +101,8 @@ Function ResizeTilemap( TileMap:LTTileMap )
 									Next
 								End If
 							Next
-							TileMap.X :+ 0.5 * ( NewXQuantity - XQuantity ) + X
-							TileMap.Y :+ 0.5 * ( NewYQuantity - YQuantity ) + Y
+							TileMap.X :+ ( 0.5 * ( NewXQuantity - XQuantity ) + X ) * TileMap.Width / XQuantity
+							TileMap.Y :+ ( 0.5 * ( NewYQuantity - YQuantity ) + Y ) * TileMap.Height / YQuantity
 							TileMap.Width :* 1.0 * NewXQuantity / XQuantity
 							TileMap.Height :* 1.0 * NewYQuantity / YQuantity
 							Editor.SetChanged()
