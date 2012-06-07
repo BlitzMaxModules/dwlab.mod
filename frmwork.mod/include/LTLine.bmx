@@ -13,7 +13,7 @@ bbdoc: Line is represented by A B and C values in Ax + Bx + C = 0 equation.
 End Rem
 Type LTLine Extends LTShape
 	Field A:Double = 1.0, B:Double, C:Double
-	Field S:Double
+	Field S:Double, S2:Double
 	
 	
 	
@@ -48,7 +48,19 @@ Type LTLine Extends LTShape
 	
 	
 	Method CalculateS:Double()
-		S = Sqr( A * A + B * B )
+		S2 = A * A + B * B
+		S = Sqr( S2 )
+	End Method	
+	
+	
+	Method GetX:Double( Y:Double )
+		Return ( -B * Y - C ) / A
+	End Method
+	
+	
+	
+	Method GetY:Double( X:Double )
+		Return ( -A * X - C ) / B
 	End Method
 	
 	
@@ -67,8 +79,8 @@ Type LTLine Extends LTShape
 	
 	Method PivotProjection:LTSprite( Pivot:LTSprite, Projection:LTSprite = Null )
 		If Not Projection Then Projection = New LTSprite
-		Projection.Y = ( ( A * Pivot.Y - B * Pivot.X ) * A - C * B ) / ( S * S )
-		Projection.X = ( C - B * Pivot.Y ) / A
+		Projection.Y = ( ( A * Pivot.Y - B * Pivot.X ) * A - C * B ) / S2
+		Projection.X = ( -C - B * Projection.Y ) / A
 		Return Projection
 	End Method
 	
@@ -91,20 +103,22 @@ Type LTLine Extends LTShape
 	
 	
 	
-	Method GetX:Double( Y:Double )
-		Return ( -B * Y - C ) / A
-	End Method
-	
-	
-	
-	Method GetY:Double( X:Double )
-		Return ( -A * X - C ) / B
-	End Method
-	
-	
-	
 	Method PivotOrientation:Int( Pivot:LTShape )
 		Return Sgn( A * Pivot.X + B * Pivot.Y + C )
+	End Method
+	
+	
+	
+	Method CollisionPointsWithCircle:Int( Circle:LTSprite, Pivot1:LTSprite, Pivot2:LTSprite )
+		Local D:Double = A * Circle.X + B * Circle.Y + C
+		Local K:Double = 0.25 * Circle.Width * Circle.Width * S2 - D * D
+		If K < 0 Then Return False
+		K = Sqr( K ) * A
+		Pivot1.Y = ( -B * D - K ) / S2 + Circle.Y
+		Pivot1.X = GetX( Pivot1.Y )
+		Pivot2.Y = ( -B * D + K ) / S2 + Circle.Y
+		Pivot2.X = GetX( Pivot2.Y )
+		Return True
 	End Method
 	
 	

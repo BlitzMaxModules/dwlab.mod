@@ -906,7 +906,7 @@ Type LTSprite Extends LTShape
 			Local O1:Double = Line.A * X + Line.B * ( Y - DHeight ) + Line.C
 			Local O2:Double = Line.A * X + Line.B * ( Y + DHeight ) + Line.C
 			If Sgn( O1 ) <> Sgn( O2 ) Then
-				CircleSprite.X = -( Line.A * X + Line.C ) / Line.B
+				CircleSprite.Y = -( Line.A * X + Line.C ) / Line.B
 			ElseIf Abs( O1 ) < Abs( O2 ) Then
 				CircleSprite.Y = Y - DHeight
 			Else

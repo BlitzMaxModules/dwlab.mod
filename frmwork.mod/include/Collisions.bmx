@@ -70,22 +70,21 @@ Global L_Line:LTLine = New LTLine
 
 Type LTCollision
 	Function PivotWithPivot:Int( Pivot1:LTSprite, Pivot2:LTSprite )
-		If Pivot1.Distance2To( Pivot2 ) < L_Inaccuracy * L_Inaccuracy Then Return True
+		If Pivot1.Distance2To( Pivot2 ) < 0 Then Return True
 	End Function
 	
 	
 	
 	Function PivotWithOval:Int( Pivot:LTSprite, Oval:LTSprite )
 		Oval = Oval.ToCircle( Pivot, L_Oval1 )
-		Local Radius:Double = 0.5 * Oval.Width + L_Inaccuracy
+		Local Radius:Double = 0.5 * Oval.Width - L_Inaccuracy
 		If Pivot.Distance2To( Oval ) < Radius * Radius Then Return True
 	End Function
 	
 	
 	
 	Function PivotWithRectangle:Int( Pivot:LTSprite, Rectangle:LTSprite )
-		If Abs( Pivot.X - Rectangle.X ) < 0.5 * Rectangle.Width - L_Inaccuracy And ..
-				Abs( Pivot.Y - Rectangle.Y ) < 0.5 * Rectangle.Height - L_Inaccuracy Then Return True
+		If 2.0 * Abs( Pivot.X - Rectangle.X ) < Rectangle.Width - L_Inaccuracy And 2.0 * Abs( Pivot.Y - Rectangle.Y ) < Rectangle.Height - L_Inaccuracy Then Return True
 	End Function
 	
 	
@@ -109,7 +108,7 @@ Type LTCollision
 	Function OvalWithOval:Int( Oval1:LTSprite, Oval2:LTSprite )
 		Oval1 = Oval1.ToCircle( Oval2, L_Oval1 )
 		Oval2 = Oval2.ToCircle( Oval1, L_Oval2 )
-		Local Radiuses:Double = 0.5 * ( Oval1.Width + Oval2.Width ) + L_Inaccuracy
+		Local Radiuses:Double = 0.5 * ( Oval1.Width + Oval2.Width ) - L_Inaccuracy
 		If Oval1.Distance2To( Oval2 ) < Radiuses * Radiuses Then Return True
 	End Function
 	
@@ -117,14 +116,12 @@ Type LTCollision
 	
 	Function OvalWithRectangle:Int( Oval:LTSprite, Rectangle:LTSprite )
 		Oval = Oval.ToCircle( Rectangle, L_Oval1 )
-		If ( Rectangle.X - Rectangle.Width * 0.5 <= Oval.X And Oval.X <= Rectangle.X + Rectangle.Width * 0.5 ) Or ..
-				( Rectangle.Y - Rectangle.Height * 0.5 <= Oval.Y And Oval.Y <= Rectangle.Y + Rectangle.Height * 0.5 ) Then
-			If Abs( Oval.X - Rectangle.X ) < 0.5 * ( Oval.Width + Rectangle.Width ) - L_Inaccuracy ..
-					And Abs( Oval.Y - Rectangle.Y ) < 0.5 * ( Oval.Width + Rectangle.Height ) - L_Inaccuracy Then Return True
+		If ( Rectangle.X - Rectangle.Width * 0.5 <= Oval.X And Oval.X <= Rectangle.X + Rectangle.Width * 0.5 ) Or ( Rectangle.Y - Rectangle.Height * 0.5 <= Oval.Y And Oval.Y <= Rectangle.Y + Rectangle.Height * 0.5 ) Then
+			If 2.0 * Abs( Oval.X - Rectangle.X ) < Oval.Width + Rectangle.Width - L_Inaccuracy And 2.0 * Abs( Oval.Y - Rectangle.Y ) < Oval.Width + Rectangle.Height - L_Inaccuracy Then Return True
 		Else
 			Local DX:Double = Abs( Rectangle.X - Oval.X ) - 0.5 * Rectangle.Width
 			Local DY:Double = Abs( Rectangle.Y - Oval.Y ) - 0.5 * Rectangle.Height
-			Local Radius:Double = 0.5 * Oval.Width + L_Inaccuracy
+			Local Radius:Double = 0.5 * Oval.Width - L_Inaccuracy
 			If DX * DX + DY * DY < Radius * Radius Then Return True
 		End If
 	End Function
@@ -136,11 +133,11 @@ Type LTCollision
 		Local Pivot2:LTSprite = LineSegment.Pivot[ 1 ]
 		L_Oval1.X = 0.5 * ( Pivot1.X + Pivot2.X )
 		L_Oval1.Y = 0.5 * ( Pivot1.Y + Pivot2.Y )
-		L_Oval1.Width = 0.5 * Pivot1.DistanceTo( Pivot2 ) + L_Inaccuracy
+		L_Oval1.Width = 0.5 * Pivot1.DistanceTo( Pivot2 )
 		If OvalWithOval( Oval, L_Oval1 ) Then
 			LineSegment.ToLine( L_Line )
 			Oval = Oval.ToCircleUsingLine( L_Line, L_Oval2 )
-			If L_Line.DistanceTo( Oval ) < 0.5 * Max( Oval.Width, Oval.Height ) Then
+			If L_Line.DistanceTo( Oval ) < 0.5 * Max( Oval.Width, Oval.Height ) - L_Inaccuracy Then
 				L_Line.PivotProjection( Oval, L_Pivot1 )
 				If PivotWithOval( L_Pivot1, L_Oval1 ) And L_Pivot1.DistanceTo( L_Oval2 ) < L_Oval1.Width - L_Inaccuracy Then Return True
 			End If
@@ -152,21 +149,18 @@ Type LTCollision
 	Function OvalWithTriangle:Int( Oval:LTSprite, Triangle:LTSprite )
 		If OvalWithRectangle( Oval, Triangle ) Then
 			Triangle.GetHypotenuse( L_Line )
-			Oval = Oval.ToCircleUsingLine( L_Line )
+			Oval = Oval.ToCircleUsingLine( L_Line, L_Oval1 )
 			Triangle.GetRightAngleVertex( L_Pivot1 )
 			If L_Line.PivotOrientation( Oval ) = L_Line.PivotOrientation( L_Pivot1 ) Then Return True
-			If L_Line.DistanceTo( Oval ) < Oval.Width Then
-				L_Line.PivotProjection( Oval, L_Pivot2 )
-				If PivotWithRectangle( L_Pivot2, Triangle ) Then Return True
-			End If
+			If Not L_Line.CollisionPointsWithCircle( Oval, L_Pivot1, L_Pivot2 ) Then Return False
+			If PivotWithRectangle( L_Pivot1, Triangle ) Or PivotWithRectangle( L_Pivot2, Triangle ) Then Return True
 		End If
 	End Function
 	
 	
 	
 	Function RectangleWithRectangle:Int( Rectangle1:LTSprite, Rectangle2:LTSprite )
-		If Abs( Rectangle1.X - Rectangle2.X ) < 0.5 * ( Rectangle1.Width + Rectangle2.Width ) - L_Inaccuracy ..
-				And Abs( Rectangle1.Y - Rectangle2.Y ) < 0.5 * ( Rectangle1.Height + Rectangle2.Height ) - L_Inaccuracy Then Return True
+		If 2.0 * Abs( Rectangle1.X - Rectangle2.X ) < Rectangle1.Width + Rectangle2.Width - L_Inaccuracy And 2.0 * Abs( Rectangle1.Y - Rectangle2.Y ) < Rectangle1.Height + Rectangle2.Height - L_Inaccuracy Then Return True
 	End Function
 	
 	
@@ -176,14 +170,12 @@ Type LTCollision
 			Triangle.GetHypotenuse( L_Line )
 			Triangle.GetRightAngleVertex( L_Pivot1 )
 			If L_Line.PivotOrientation( Rectangle ) = L_Line.PivotOrientation( L_Pivot1 ) Then Return True
-			
 			Local LeftX:Double, TopY:Double, RightX:Double, BottomY:Double
 			Rectangle.GetBounds( LeftX, TopY, RightX, BottomY )
 			Local O:Int = L_Line.PointOrientation( LeftX, TopY )
 			If O <> L_Line.PointOrientation( RightX, TopY ) Then Return True
 			If O <> L_Line.PointOrientation( LeftX, BottomY ) Then Return True
 			If O <> L_Line.PointOrientation( RightX, BottomY ) Then Return True
-			If O = L_Line.PivotOrientation( L_Pivot1 ) Then Return True
 		End If
 	End Function
 	
@@ -200,21 +192,27 @@ Type LTCollision
 			Triangle1.GetRightAngleVertex( L_Pivot3 )
 			Triangle2.GetRightAngleVertex( L_Pivot4 )
 			
-			Triangle1.GetOtherVertices( L_Pivot1, L_Pivot2 )
-			Triangle2.GetHypotenuse( L_Line )
-			Local O:Int = L_Line.PivotOrientation( L_Pivot1 )
-			If O = L_Line.PivotOrientation( L_Pivot2 ) Then
-				If O = L_Line.PivotOrientation( L_Pivot3 ) Then
-					If O <> L_Line.PivotOrientation( L_Pivot4 ) Then Return False
-				End If
+			If Triangle1.ShapeType = LTSprite.TopLeftTriangle Or Triangle1.ShapeType = LTSprite.TopLeftTriangle Then
+				Triangle1.GetBounds( L_Pivot1.X, L_Pivot1.Y, L_Pivot2.X, L_Pivot2.Y )
+			Else
+				Triangle1.GetBounds( L_Pivot1.X, L_Pivot2.Y, L_Pivot2.X, L_Pivot1.Y )
 			End If
 			
-			Triangle2.GetOtherVertices( L_Pivot1, L_Pivot2 )
+			Triangle2.GetHypotenuse( L_Line )
+			If PivotWithRectangle( L_Pivot1, Triangle2 ) Then If L_Line.PivotOrientation( L_Pivot4 ) = L_Line.PivotOrientation( L_Pivot1 ) Then Return True
+			If PivotWithRectangle( L_Pivot2, Triangle2 ) Then If L_Line.PivotOrientation( L_Pivot4 ) = L_Line.PivotOrientation( L_Pivot2 ) Then Return True
+			If PivotWithRectangle( L_Pivot3, Triangle2 ) Then If L_Line.PivotOrientation( L_Pivot4 ) = L_Line.PivotOrientation( L_Pivot3 ) Then Return True
+			
+			If Triangle2.ShapeType = LTSprite.TopLeftTriangle Or Triangle2.ShapeType = LTSprite.TopLeftTriangle Then
+				Triangle2.GetBounds( L_Pivot1.X, L_Pivot1.Y, L_Pivot2.X, L_Pivot2.Y )
+			Else
+				Triangle2.GetBounds( L_Pivot1.X, L_Pivot2.Y, L_Pivot2.X, L_Pivot1.Y )
+			End If
+			
 			Triangle1.GetHypotenuse( L_Line )
-			O = L_Line.PivotOrientation( L_Pivot1 )
-			If O <> L_Line.PivotOrientation( L_Pivot2 ) Then Return True
-			If O <> L_Line.PivotOrientation( L_Pivot4 ) Then Return True
-			If O = L_Line.PivotOrientation( L_Pivot3 ) Then Return True
+			If PivotWithRectangle( L_Pivot1, Triangle1 ) Then If L_Line.PivotOrientation( L_Pivot3 ) = L_Line.PivotOrientation( L_Pivot1 ) Then Return True
+			If PivotWithRectangle( L_Pivot2, Triangle1 ) Then If L_Line.PivotOrientation( L_Pivot3 ) = L_Line.PivotOrientation( L_Pivot2 ) Then Return True
+			If PivotWithRectangle( L_Pivot4, Triangle1 ) Then If L_Line.PivotOrientation( L_Pivot3 ) = L_Line.PivotOrientation( L_Pivot4 ) Then Return True
 		End If
 	End Function
 	
@@ -317,9 +315,7 @@ Type LTOverlap
 	
 	
 	Function RectangleAndRectangle:Int( Rectangle1:LTSprite, Rectangle2:LTSprite )
-		If ( Rectangle1.X - 0.5 * Rectangle1.Width <= Rectangle2.X - 0.5 * Rectangle2.Width ) And ..
-				( Rectangle1.Y - 0.5 * Rectangle1.Height <= Rectangle2.Y - 0.5 * Rectangle2.Height ) And ..
-				( Rectangle1.X + 0.5 * Rectangle1.Width >= Rectangle2.X + 0.5 * Rectangle2.Width ) And ..
-				( Rectangle1.Y + 0.5 * Rectangle1.Height >= Rectangle2.Y + 0.5 * Rectangle2.Height ) Then Return True
+		If ( Rectangle1.X - 0.5 * Rectangle1.Width <= Rectangle2.X - 0.5 * Rectangle2.Width ) And ( Rectangle1.Y - 0.5 * Rectangle1.Height <= Rectangle2.Y - 0.5 * Rectangle2.Height ) And ..
+			( Rectangle1.X + 0.5 * Rectangle1.Width >= Rectangle2.X + 0.5 * Rectangle2.Width ) And ( Rectangle1.Y + 0.5 * Rectangle1.Height >= Rectangle2.Y + 0.5 * Rectangle2.Height ) Then Return True
 	End Function
 End Type
