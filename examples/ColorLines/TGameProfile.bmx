@@ -12,14 +12,13 @@ Type TGameProfile Extends LTProfile
 	Const Void:Int = 0
 	Const Plate:Int = 1
 	Const Glue:Int = 2
-	Const ColdPlate:Int = 3
-	Const ColdGlue:Int = 4
-	Const ClosedPocket:Int = 5
+	Const ColdPlate:Int = 4
+	Const ColdGlue:Int = 5
+	Const ClosedPocket:Int = 7
 	
-	Const AnimShift:Int = 8
-	Const TileCursor:Int = AnimShift
-	Const OpenedPocket:Int = AnimShift + 1
-	Const PocketForeground:Int = AnimShift + 2
+	Const OpenedPocket:Int = 8
+	Const PocketForeground:Int = 9
+	Const TileCursor:Int = 10
 	
 	Const NoBall:Int = 0
 	Const BlackBall:Int = 8
@@ -27,8 +26,8 @@ Type TGameProfile Extends LTProfile
 	Const Bomb:Int = 10
 	
 	Const NoModifier:Int = 0
-	Const Lights:Int = 1
-	Const AnyColor:Int = 2
+	Const Lights:Int = 11
+	Const AnyColor:Int = 12
 	
 	Field GameField:LTTileMap
 	Field Balls:LTTileMap

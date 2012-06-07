@@ -26,13 +26,7 @@ Type TExample Extends LTProject
 	End Method
 	
 	Method Logic()
-		For Local Sprite:LTSprite = Eachin Sprites.Children
-			if L_Cursor.CollidesWithSprite( Sprite ) Then
-				Sprite.Visualizer.SetColorFromHex( "FF7F7F" )
-			Else
-				Sprite.Visualizer.SetColorFromHex( "7FFF7F" )
-			End If
-		Next
+
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
 		If MouseHit( 2 ) Then
 			L_Cursor.ShapeType = ( L_Cursor.ShapeType + 1 ) Mod 9
@@ -42,17 +36,29 @@ Type TExample Extends LTProject
 
 	Method Render()
 		Sprites.Draw()
+		For Local Sprite:LTSprite = Eachin Sprites.Children
+			if L_Cursor.CollidesWithSprite( Sprite ) Then
+				Sprite.Visualizer.SetColorFromHex( "FF7F7F" )
+				Local WedgedCursor:LTSprite = LTSprite( L_Cursor.Clone() )
+				WedgedCursor.WedgeOffWithSprite( Sprite, 0, 1 )
+				WedgedCursor.Visualizer.SetColorFromHex( "7F7FFFFF" )
+				WedgedCursor.Draw()
+			Else
+				Sprite.Visualizer.SetColorFromHex( "7FFF7F" )
+			End If
+		Next
 		L_Cursor.Draw()
-		Local Triangle:LTSprite = LTSprite( Sprites.ValueAtIndex( 4 ) )
-		L_Oval1 = L_Cursor.ToCircle( Triangle, L_Oval1 )
-		L_Oval1.Draw()
-		L_Line = Triangle.GetHypotenuse()
-		L_Line.Draw()
-		L_Line.PivotProjection( L_Oval1, L_Pivot1 ).Draw()
 		
-		'Oval.ToCircle( L_Cursor, L_Oval2 ).Draw()
-
-		'LTSprite( Sprites.Children.ValueAtIndex( 7 ) ).GetHypotenuse().Draw()
+		Local Triangle:LTSprite = LTSprite( Sprites.ValueAtIndex( 4 ) )
+		Triangle.GetHypotenuse( L_Line )
+		L_Oval1 = L_Cursor.ToCircle( Triangle.GetRightAngleVertex( L_Pivot3 ), L_Oval1 )
+		'L_Oval1.Draw()
+		L_Pivot1.X = L_Cursor.X
+		L_Pivot1.Y = L_Line.GetY( L_Oval1.X )
+		L_Pivot1.Draw()
+		L_Pivot1.Y = Triangle.BottomY()
+		L_Pivot1.Draw()
+		
 		L_PrintText( "ColldesWithSprite example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

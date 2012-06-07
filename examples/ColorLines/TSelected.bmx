@@ -10,7 +10,7 @@
 
 Type TSelected Extends LTBehaviorModel
 	Const Speed:Double = 2.0
-	Const Bump:Double = 0.3
+	Const Bump:Double = 0.2
 
 	Field X:Int, Y:Int
 	Field StartingTime:Double
@@ -27,7 +27,7 @@ Type TSelected Extends LTBehaviorModel
 	
 	Method ApplyTo( Shape:LTShape )
 		Local Angle:Double = ( Game.Time - StartingTime ) * 360.0 * Speed
-		Shape.Visualizer.SetVisualizerScale( 1.0 + Sin( Angle ) * Bump, 2.0 * ( 1.0 + Cos( Angle ) * Bump ) )
+		Shape.Visualizer.SetVisualizerScale( 0.8 + Sin( Angle ) * Bump, 1.2 + Cos( Angle ) * Bump )
 	End Method
 	
 	Method Deactivate( Shape:LTShape )

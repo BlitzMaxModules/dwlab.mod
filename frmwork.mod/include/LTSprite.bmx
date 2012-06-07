@@ -147,9 +147,10 @@ Type LTSprite Extends LTShape
 						Return LTCollision.PivotWithPivot( Self, Sprite )
 					Case Oval
 						Return LTCollision.PivotWithOval( Self, Sprite )
-					Case Rectangle, Raster
+					Case Rectangle
 						Return LTCollision.PivotWithRectangle( Self, Sprite )
 					Case Ray
+					Case Raster
 					Default
 						Return LTCollision.PivotWithTriangle( Self, Sprite )
 				End Select
@@ -159,26 +160,28 @@ Type LTSprite Extends LTShape
 						Return LTCollision.PivotWithOval( Sprite, Self )
 					Case Oval
 						Return LTCollision.OvalWithOval( Self, Sprite )
-					Case Rectangle, Raster
+					Case Rectangle
 						Return LTCollision.OvalWithRectangle( Self, Sprite )
 					Case Ray
+					Case Raster
 					Default
 						Return LTCollision.OvalWithTriangle( Self, Sprite )
 				End Select
-			Case Rectangle, Raster
+			Case Rectangle
 				Select Sprite.ShapeType
 					Case Pivot
 						Return LTCollision.PivotWithRectangle( Sprite, Self )
 					Case Oval
 						Return LTCollision.OvalWithRectangle( Sprite, Self )
-					Case Rectangle, Raster
-						If ShapeType = Raster Then Return LTCollision.RasterWithRaster( Self, Sprite )
+					Case Rectangle
 						Return LTCollision.RectangleWithRectangle( Self, Sprite )
 					Case Ray
 					Default
 						Return LTCollision.RectangleWithTriangle( Self, Sprite )
 				End Select
 			Case Ray
+			Case Raster
+				If Sprite.ShapeType = Raster Then Return LTCollision.RasterWithRaster( Self, Sprite )
 			Default
 				Select Sprite.ShapeType
 					Case Pivot
@@ -188,6 +191,7 @@ Type LTSprite Extends LTShape
 					Case Rectangle, Raster
 						Return LTCollision.RectangleWithTriangle( Sprite, Self )
 					Case Ray
+					Case Raster
 					Default
 						Return LTCollision.TriangleWithTriangle( Self, Sprite )
 				End Select
@@ -210,9 +214,10 @@ Type LTSprite Extends LTShape
 				Return LTCollision.PivotWithLine( Self, Line )
 			Case Oval
 				Return LTCollision.OvalWithLine( Self, Line )
-			Case Rectangle, Raster
+			Case Rectangle
 				Return LTCollision.RectangleWithLine( Self, Line )
 			Case Ray
+			Case Raster
 			Default
 				Return LTCollision.TriangleWithLine( Self, Line )
 		End Select
@@ -233,9 +238,10 @@ Type LTSprite Extends LTShape
 						Return LTCollision.PivotWithPivot( L_Pivot1, Sprite )
 					Case Oval
 						Return LTCollision.PivotWithOval( L_Pivot1, Sprite )
-					Case Rectangle, Raster
+					Case Rectangle
 						Return LTCollision.PivotWithRectangle( L_Pivot1, Sprite )
 					Case Ray
+					Case Raster
 					Default
 						Return LTCollision.PivotWithTriangle( L_Oval1, Sprite )
 				End Select
@@ -252,12 +258,11 @@ Type LTSprite Extends LTShape
 					Case Rectangle, Raster
 						Return LTCollision.OvalWithRectangle( L_Oval1, Sprite )
 					Case Ray
+					Case Raster
 					Default
 						Return LTCollision.OvalWithTriangle( L_Oval1, Sprite )
 				End Select
-			Case Rectangle, Raster
-				If ShapeType = Raster And Sprite.ShapeType = Raster Then Return LTCollision.RasterWithRaster( Self, Sprite )
-				
+			Case Rectangle
 				L_Rectangle.X = X * XScale + DX
 				L_Rectangle.Y = Y * YScale + DY
 				L_Rectangle.Width = Width * XScale
@@ -270,10 +275,13 @@ Type LTSprite Extends LTShape
 					Case Rectangle, Raster
 						Return LTCollision.RectangleWithRectangle( L_Rectangle, Sprite )
 					Case Ray
+					Case Raster
 					Default
 						Return LTCollision.RectangleWithTriangle( L_Rectangle, Sprite )
 				End Select
 			Case Ray
+			Case Raster
+				If Sprite.ShapeType = Raster Then Return LTCollision.RasterWithRaster( Self, Sprite )
 			Default
 				L_Triangle.X = X * XScale + DX
 				L_Triangle.Y = Y * YScale + DY
@@ -285,9 +293,10 @@ Type LTSprite Extends LTShape
 						Return LTCollision.PivotWithTriangle( Sprite, L_Triangle )
 					Case Oval
 						Return LTCollision.OvalWithTriangle( Sprite, L_Triangle )
-					Case Rectangle, Raster
+					Case Rectangle
 						Return LTCollision.RectangleWithTriangle( Sprite, L_Triangle )
 					Case Ray
+					Case Raster
 					Default
 						Return LTCollision.TriangleWithTriangle( L_Triangle, Sprite )
 				End Select
@@ -313,17 +322,16 @@ Type LTSprite Extends LTShape
 						Return LTOverlap.CircleAndPivot( Self, Sprite )
 					Case Oval
 						Return LTOverlap.CircleAndOval( Self, Sprite )
-					Case Rectangle, Raster
+					Case Rectangle
 						Return LTOverlap.CircleAndRectangle( Self, Sprite )
-					Case Ray
+					Case Ray, Raster
 						Return False
-					Case Raster
 				End Select
 			Case Rectangle
 				Select Sprite.ShapeType
 					Case Pivot
 						Return LTOverlap.RectangleAndPivot( Self, Sprite )
-					Case Ray
+					Case Ray, Raster
 						Return False
 					Default
 						Return LTOverlap.RectangleAndRectangle( Self, Sprite )
@@ -522,36 +530,62 @@ Type LTSprite Extends LTShape
 					Case Pivot
 						Return
 					Case Oval
-						L_WedgingValuesOfOvalAndOval( L_Pivot1, Sprite, DX, DY )
+						LTWedge.OvalAndOval( L_Pivot1, Sprite, DX, DY )
 					Case Rectangle
-						L_WedgingValuesOfRectangleAndRectangle( L_Pivot1, Sprite, DX, DY )
+						LTWedge.RectangleAndRectangle( L_Pivot1, Sprite, DX, DY )
+					Case Ray,Raster
+					Default
+						LTWedge.OvalAndTriangle( L_Pivot1, Sprite, DX, DY )
 				End Select
 			Case Oval
 				Select Sprite.ShapeType
 					Case Pivot
 						L_Pivot1.X = Sprite.X
 						L_Pivot1.Y = Sprite.Y
-						L_WedgingValuesOfOvalAndOval( Self, L_Pivot1, DX, DY )
+						LTWedge.OvalAndOval( Self, L_Pivot1, DX, DY )
 					Case Oval
-						L_WedgingValuesOfOvalAndOval( Self, Sprite, DX, DY )
+						LTWedge.OvalAndOval( Self, Sprite, DX, DY )
 					Case Rectangle
-						L_WedgingValuesOfOvalAndRectangle( Self, Sprite, DX, DY )
+						LTWedge.OvalAndRectangle( Self, Sprite, DX, DY )
+					Case Ray,Raster
+					Default
+						LTWedge.OvalAndTriangle( Self, Sprite, DX, DY )
 				End Select
 			Case Rectangle
 				Select Sprite.ShapeType
 					Case Pivot
 						L_Pivot1.X = Sprite.X
 						L_Pivot1.Y = Sprite.Y
-						L_WedgingValuesOfRectangleAndRectangle( Self, L_Pivot1, DX, DY )
+						LTWedge.RectangleAndRectangle( Self, L_Pivot1, DX, DY )
 					Case Oval
-						L_WedgingValuesOfOvalAndRectangle( Sprite, Self, DX, DY )
-						L_Separate( Sprite, Self, DX, DY, SpriteMovingResistance, SelfMovingResistance )
+						LTWedge.OvalAndRectangle( Sprite, Self, DX, DY )
+						LTWedge.Separate( Sprite, Self, DX, DY, SpriteMovingResistance, SelfMovingResistance )
 						Return
 					Case Rectangle
-						L_WedgingValuesOfRectangleAndRectangle( Self, Sprite, DX, DY )
+						LTWedge.RectangleAndRectangle( Self, Sprite, DX, DY )
+					Case Ray,Raster
+					Default
+						LTWedge.RectangleAndTriangle( Self, Sprite, DX, DY )
 				End Select
+			Case Ray,Raster
+			Default
+				Select Sprite.ShapeType
+					Case Pivot
+						L_Pivot1.X = Sprite.X
+						L_Pivot1.Y = Sprite.Y
+						LTWedge.OvalAndTriangle( L_Pivot1, Self, DX, DY )
+					Case Oval
+						LTWedge.OvalAndTriangle( Sprite, Self, DX, DY )
+					Case Rectangle
+						LTWedge.RectangleAndTriangle( Sprite, Self, DX, DY )
+					Case Ray,Raster
+					Default
+						LTWedge.TriangleAndTriangle( Sprite, Self, DX, DY )
+				End Select
+				LTWedge.Separate( Sprite, Self, DX, DY, SpriteMovingResistance, SelfMovingResistance )
+				Return
 		End Select
-		L_Separate( Self, Sprite, DX, DY, SelfMovingResistance, SpriteMovingResistance )
+		LTWedge.Separate( Self, Sprite, DX, DY, SelfMovingResistance, SpriteMovingResistance )
 	End Method
 	
 	
@@ -600,9 +634,9 @@ Type LTSprite Extends LTShape
 					Case Pivot
 						Return
 					Case Oval
-						L_WedgingValuesOfOvalAndOval( Self, L_Pivot1, PushingDX, PushingDY )
+						LTWedge.OvalAndOval( Self, L_Pivot1, PushingDX, PushingDY )
 					Case Rectangle
-						L_WedgingValuesOfRectangleAndRectangle( Self, L_Pivot1, PushingDX, PushingDY )
+						LTWedge.RectangleAndRectangle( Self, L_Pivot1, PushingDX, PushingDY )
 				End Select
 			Case Oval
 				L_Oval1.X = TileSprite.X * XScale + DX
@@ -613,12 +647,12 @@ Type LTSprite Extends LTShape
 					Case Pivot
 						L_Pivot1.X = X
 						L_Pivot1.Y = Y
-						L_WedgingValuesOfOvalAndOval( L_Pivot1, L_Oval1, PushingDX, PushingDY )
+						LTWedge.OvalAndOval( L_Pivot1, L_Oval1, PushingDX, PushingDY )
 					Case Oval
-						L_WedgingValuesOfOvalAndOval( Self, L_Oval1, PushingDX, PushingDY )
+						LTWedge.OvalAndOval( Self, L_Oval1, PushingDX, PushingDY )
 					Case Rectangle
-						L_WedgingValuesOfOvalAndRectangle( L_Oval1, Self, PushingDX, PushingDY )
-						L_Separate( L_Oval1, Self, PushingDX, PushingDY, 1.0, 0.0 )
+						LTWedge.OvalAndRectangle( L_Oval1, Self, PushingDX, PushingDY )
+						LTWedge.Separate( L_Oval1, Self, PushingDX, PushingDY, 1.0, 0.0 )
 						Return
 				End Select
 			Case Rectangle
@@ -630,14 +664,14 @@ Type LTSprite Extends LTShape
 					Case Pivot
 						L_Pivot1.X = X
 						L_Pivot1.Y = Y
-						L_WedgingValuesOfRectangleAndRectangle( L_Pivot1, L_Rectangle, PushingDX, PushingDY )
+						LTWedge.RectangleAndRectangle( L_Pivot1, L_Rectangle, PushingDX, PushingDY )
 					Case Oval
-						L_WedgingValuesOfOvalAndRectangle( Self, L_Rectangle, PushingDX, PushingDY )
+						LTWedge.OvalAndRectangle( Self, L_Rectangle, PushingDX, PushingDY )
 					Case Rectangle
-						L_WedgingValuesOfRectangleAndRectangle( Self, L_Rectangle, PushingDX, PushingDY )
+						LTWedge.RectangleAndRectangle( Self, L_Rectangle, PushingDX, PushingDY )
 				End Select
 		End Select
-		L_Separate( Self, TileSprite, PushingDX, PushingDY, 0.0, 1.0 )
+		LTWedge.Separate( Self, TileSprite, PushingDX, PushingDY, 0.0, 1.0 )
 	End Method
 	
 	
@@ -833,17 +867,17 @@ Type LTSprite Extends LTShape
 	
 	' ==================== Methods for oval ====================	
 	
-	Method ToCircle:LTSprite( Pivot:LTSprite, CircleSprite:LTSprite = Null )
+	Method ToCircle:LTSprite( Pivot1:LTSprite, CircleSprite:LTSprite = Null )
 		If Width = Height Then Return Self
 		If Not CircleSprite Then CircleSprite = New LTSprite.FromShapeType( Circle )
 		If Width > Height Then
-			CircleSprite.X = L_LimitDouble( Pivot.X, X - 0.5 * ( Width - Height ), X + 0.5 * ( Width - Height ) )
+			CircleSprite.X = L_LimitDouble( Pivot1.X, X - 0.5 * ( Width - Height ), X + 0.5 * ( Width - Height ) )
 			CircleSprite.Y = Y
 			CircleSprite.Width = Height
 			CircleSprite.Height = Height
 		Else
 			CircleSprite.X = X
-			CircleSprite.Y = L_LimitDouble( Pivot.Y, Y - 0.5 * ( Height - Width ), Y + 0.5 * ( Height - Width ) )
+			CircleSprite.Y = L_LimitDouble( Pivot1.Y, Y - 0.5 * ( Height - Width ), Y + 0.5 * ( Height - Width ) )
 			CircleSprite.Width = Width
 			CircleSprite.Height = Width
 		End If
@@ -896,6 +930,15 @@ Type LTSprite Extends LTShape
 	
 	' ==================== Methods for triangle ====================	
 	
+	Function GetMedium:LTSprite( Pivot1:LTSprite, Pivot2:LTSprite, ToPivot:LTSprite = Null )
+		If Not ToPivot Then ToPivot = New LTSprite.FromShape( 0, 0, 0, 0, Pivot )
+		ToPivot.X = 0.5 * ( Pivot1.X + Pivot2.X )
+		ToPivot.Y = 0.5 * ( Pivot1.Y + Pivot2.Y )
+		Return ToPivot
+	End Function
+	
+	
+	
 	Method GetHypotenuse:LTLine( Line:LTLine = Null )
 		If Not Line Then Line = New LTLine
 		Select ShapeType
@@ -909,21 +952,31 @@ Type LTSprite Extends LTShape
 	
 	
 	
-	Method GetRightAnglePivot:LTShape( Pivot:LTShape = Null )
-		If Not Pivot Then Pivot = New LTShape
+	Method GetRightAngleVertex:LTSprite( Vertex:LTSprite = Null )
+		If Not Vertex Then Vertex = New LTSprite.FromShape( 0, 0, 0, 0, Pivot )
 		Select ShapeType
 			Case LTSprite.TopLeftTriangle, LTSprite.BottomLeftTriangle
-				Pivot.X = X - 0.5 * Width
+				Vertex.X = X - 0.5 * Width
 			Case LTSprite.BottomRightTriangle, LTSprite.TopRightTriangle
-				Pivot.X = X + 0.5 * Width
+				Vertex.X = X + 0.5 * Width
 		End Select
 		Select ShapeType
 			Case LTSprite.TopLeftTriangle, LTSprite.TopRightTriangle
-				Pivot.Y = Y - 0.5 * Height
+				Vertex.Y = Y - 0.5 * Height
 			Case LTSprite.BottomLeftTriangle, LTSprite.BottomRightTriangle
-				Pivot.Y = Y + 0.5 * Height
+				Vertex.Y = Y + 0.5 * Height
 		End Select
-		Return Pivot
+		Return Vertex
+	End Method
+	
+	
+	
+	Method GetOtherVertices( Pivot1:LTSprite, Pivot2:LTSprite )
+		If ShapeType = LTSprite.TopRightTriangle Or ShapeType = LTSprite.BottomLeftTriangle Then
+			GetBounds( Pivot1.X, Pivot1.Y, Pivot2.X, Pivot2.Y )
+		Else
+			GetBounds( Pivot1.X, Pivot2.Y, Pivot2.X, Pivot1.Y )
+		End If
 	End Method
 	
 	' ==================== Other ====================	

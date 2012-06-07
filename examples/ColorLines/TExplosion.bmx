@@ -28,7 +28,7 @@ Type TExplosion
 				Local DX:Double = Radius * CircleWidth * Cos( Angle )
 				Local DY:Double = Radius * CircleWidth * Sin( Angle )
 				Sprite.PositionOnTilemap( Profile.Balls, DX + X + Rnd( -Shift, Shift ), DY + Y + Rnd( -Shift, Shift ) )
-				Sprite.SetSize( ParticleSize + Rnd( -DSize, DSize ), 2.0 * ( ParticleSize + Rnd( -DSize, DSize ) ) )
+				Sprite.SetSize( ParticleSize + Rnd( -DSize, DSize ), ParticleSize + Rnd( -DSize, DSize ) )
 				Sprite.DX = ( DX + Rnd( -DShift, DShift ) ) * ExplosionK
 				Sprite.DY = ( DY + Rnd( -DShift, DShift ) ) * ExplosionK
 				Sprite.AttachModel( New TMoveParticle )

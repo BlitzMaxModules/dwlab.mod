@@ -24,7 +24,7 @@ Type TGame Extends LTGUIProject
 	Field GameOver:Int
 	Field TotalBalls:Int
 	
-	Field TileIsPassable:Int[] = [ 0, 1, 1, 1, 1, 1 ]
+	Field TileIsPassable:Int[] = [ 0, 1, 0, 1, 1, 0, 1, 1 ]
 	
 	Field EmptyCells:TList = New TList
 	Field PathFinder:TPathFinder = New TPathFinder
@@ -72,7 +72,7 @@ Type TGame Extends LTGUIProject
 	End Method
 	
 	Method Logic()
-		Delay 8
+		Delay 5
 	
 		If Not Locked Then
 			If Not Profile.GameField Then

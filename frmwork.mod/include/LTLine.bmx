@@ -65,8 +65,8 @@ Type LTLine Extends LTShape
 	
 	
 	
-	Method PivotProjection:LTShape( Pivot:LTShape, Projection:LTShape = Null )
-		If Not Projection Then Projection = New LTShape
+	Method PivotProjection:LTSprite( Pivot:LTSprite, Projection:LTSprite = Null )
+		If Not Projection Then Projection = New LTSprite
 		Projection.Y = ( ( A * Pivot.Y - B * Pivot.X ) * A - C * B ) / ( S * S )
 		Projection.X = ( C - B * Pivot.Y ) / A
 		Return Projection
@@ -74,8 +74,8 @@ Type LTLine Extends LTShape
 	
 	
 	
-	Method IntersectionWith:LTShape( Line:LTLine, Pivot:LTShape = Null )
-		If Not Pivot Then Pivot = New LTShape
+	Method IntersectionWith:LTSprite( Line:LTLine, Pivot:LTSprite = Null )
+		If Not Pivot Then Pivot = New LTSprite
 		Local K:Double = B * Line.A - A * Line.B
 		If K = 0.0 Then Return Null
 		Pivot.Y = ( Line.C * A - C * Line.A ) / K
@@ -87,6 +87,18 @@ Type LTLine Extends LTShape
 	
 	Method PointOrientation:Int( X:Double, Y:Double )
 		Return Sgn( A * X + B * Y + C )
+	End Method
+	
+	
+	
+	Method GetX:Double( Y:Double )
+		Return ( -B * Y - C ) / A
+	End Method
+	
+	
+	
+	Method GetY:Double( X:Double )
+		Return ( -A * X - C ) / B
 	End Method
 	
 	
