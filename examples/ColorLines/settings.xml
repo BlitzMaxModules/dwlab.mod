@@ -1,34 +1,34 @@
 <LTMenu current_profile="1" dwlab_version="1.4.11">
 	<TList field="profiles">
 		<TGameProfile id="1" language="Russian" audio="DirectSound" video="DirectX7" width="1280" height="1024" depth="32" frequency="75" x_resolution="1216" y_resolution="912" next-balls="2,3,3" balls-in-line="5" balls-per-turn="3">
-			<LTTileMap field="field" x="8.50000792" y="4.87000792" width="13.00000792" height="9.75000792" xquantity="13" yquantity="13" tiles-quantity="11">
+			<LTTileMap field="field" x="8.50000891" y="4.87000891" width="13.00000891" height="9.75000891" xquantity="13" yquantity="13" tiles-quantity="11">
 				<TList field="parameters">
 					<LTParameter name="name" value="Field"/>
 				</TList>
-				<TFieldVisualizer field="visualizer" dy="0.10000594" yscale="1.25000594"/>
+				<TFieldVisualizer field="visualizer" dy="0.10000693" yscale="1.25000693"/>
 				<LTTileSet field="tileset" name="Default" tiles-quantity="11" block-width="0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0" empty-tile="0">
 					<LTImage field="image" filename="field.png" xcells="11"/>
 					<ShapeArray field="collision-shapes">
 						<Null/>
-						<LTSprite x="0.50000792" y="0.50000792" shape="2">
+						<LTSprite x="0.50000891" y="0.50000891" shape="2">
 							<LTVisualizer field="visualizer"/>
 						</LTSprite>
-						<LTSprite x="0.50000792" y="0.50000792" shape="2">
+						<LTSprite x="0.50000891" y="0.50000891" shape="2">
 							<LTVisualizer field="visualizer"/>
 						</LTSprite>
-						<LTSprite x="0.50000792" y="0.50000792" shape="2">
+						<LTSprite x="0.50000891" y="0.50000891" shape="2">
 							<LTVisualizer field="visualizer"/>
 						</LTSprite>
-						<LTSprite x="0.50000792" y="0.50000792" shape="2">
+						<LTSprite x="0.50000891" y="0.50000891" shape="2">
 							<LTVisualizer field="visualizer"/>
 						</LTSprite>
-						<LTSprite x="0.50000792" y="0.50000792" shape="2">
+						<LTSprite x="0.50000891" y="0.50000891" shape="2">
 							<LTVisualizer field="visualizer"/>
 						</LTSprite>
-						<LTSprite x="0.50000792" y="0.50000792" shape="2">
+						<LTSprite x="0.50000891" y="0.50000891" shape="2">
 							<LTVisualizer field="visualizer"/>
 						</LTSprite>
-						<LTSprite x="0.50000792" y="0.50000792" shape="2">
+						<LTSprite x="0.50000891" y="0.50000891" shape="2">
 							<LTVisualizer field="visualizer"/>
 						</LTSprite>
 						<Null/>
@@ -50,11 +50,11 @@
 				<Row data="2,2,1,1,1,1,1,1,1,1,1,2,2"/>
 				<Row data="7,2,2,1,1,1,1,1,1,1,2,2,7"/>
 			</LTTileMap>
-			<LTTileMap field="balls" x="8.50000792" y="4.87000792" width="13.00000792" height="9.75000792" visible="0" xquantity="13" yquantity="13" tiles-quantity="13">
+			<LTTileMap field="balls" x="8.50000891" y="4.87000891" width="13.00000891" height="9.75000891" visible="0" xquantity="13" yquantity="13" tiles-quantity="13">
 				<TList field="parameters">
 					<LTParameter name="name" value="Balls"/>
 				</TList>
-				<LTVisualizer field="visualizer" dy="-0.25000594" yscale="1.25000594"/>
+				<LTVisualizer field="visualizer" dy="-0.25000693" yscale="1.25000693"/>
 				<LTTileSet field="tileset" id="28" name="Balls" tiles-quantity="13" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0" empty-tile="0">
 					<LTImage field="image" filename="balls.png" xcells="13"/>
 					<ShapeArray field="collision-shapes">
@@ -87,11 +87,11 @@
 				<Row data="3,5,1,0,0,0,0,0,0,0,4,3,7"/>
 				<Row data="0,2,5,3,0,0,0,0,0,7,4,2,0"/>
 			</LTTileMap>
-			<LTTileMap field="modifiers" x="8.50000792" y="4.87000792" width="13.00000792" height="9.75000792" xquantity="13" yquantity="13" tiles-quantity="13">
+			<LTTileMap field="modifiers" x="8.50000891" y="4.87000891" width="13.00000891" height="9.75000891" xquantity="13" yquantity="13" tiles-quantity="13">
 				<TList field="parameters">
 					<LTParameter name="name" value="Modifiers"/>
 				</TList>
-				<LTVisualizer field="visualizer" dy="-0.25000792" yscale="1.25000594"/>
+				<LTVisualizer field="visualizer" dy="-0.25000891" yscale="1.25000693"/>
 				<Object field="tileset" id="28"/>
 				<Row data="0,0,0,11,0,0,0,0,0,12,0,0,0"/>
 				<Row data="0,0,11,0,0,0,0,0,0,0,12,0,0"/>

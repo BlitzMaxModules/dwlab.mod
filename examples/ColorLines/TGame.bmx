@@ -63,12 +63,12 @@ Type TGame Extends LTGUIProject
 	End Method
 	
 	Method InitSound()
-		SwapSound = LoadSound( L_Incbin + "swap.ogg" )
-		RushSound = LoadSound( L_Incbin + "rush.ogg" )
-		StopSound = LoadSound( L_Incbin + "stop.ogg" )
-		SelectSound = LoadSound( L_Incbin + "select.ogg" )
-		ExplosionSound = LoadSound( L_Incbin + "explosion.ogg" )
-		WrongTurnSound = LoadSound( L_Incbin + "wrong_turn.ogg" )
+		SwapSound = LoadSound( L_Incbin + "sound\swap.ogg" )
+		RushSound = LoadSound( L_Incbin + "sound\rush.ogg" )
+		StopSound = LoadSound( L_Incbin + "sound\stop.ogg" )
+		SelectSound = LoadSound( L_Incbin + "sound\select.ogg" )
+		ExplosionSound = LoadSound( L_Incbin + "sound\explosion.ogg" )
+		WrongTurnSound = LoadSound( L_Incbin + "sound\wrong_turn.ogg" )
 	End Method
 	
 	Method Logic()

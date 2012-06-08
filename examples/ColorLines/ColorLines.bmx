@@ -41,11 +41,12 @@ Include "TLevelSelectionWindow.bmx"
 
 
 Rem
-Incbin "stop.ogg"
-Incbin "rush.ogg"
-Incbin "explosion.ogg"
-Incbin "select.ogg"
-Incbin "swap.ogg"
+Incbin "sound\stop.ogg"
+Incbin "sound\rush.ogg"
+Incbin "sound\explosion.ogg"
+Incbin "sound\select.ogg"
+Incbin "sound\swap.ogg"
+Incbin "sound\wrong_turn.ogg"
 Include "levels_incbin.bmx"
 EndRem
 
