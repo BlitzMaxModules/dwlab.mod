@@ -63,7 +63,7 @@ Global L_Pivot4:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
 Global L_Oval1:LTSprite = LTSprite.FromShapeType( LTSprite.Oval )
 Global L_Oval2:LTSprite = LTSprite.FromShapeType( LTSprite.Oval )
 Global L_Rectangle:LTSprite = LTSprite.FromShapeType( LTSprite.Rectangle )
-Global L_Triangle:LTSprite = LTSprite.FromShapeType( LTSprite.TopLeftTriangle )
+Global L_Triangle:LTSprite = New LTSprite
 Global L_Line:LTLine = New LTLine
 
 ' ------------------------------------------------ Collision ---------------------------------------------------
@@ -192,27 +192,19 @@ Type LTCollision
 			Triangle1.GetRightAngleVertex( L_Pivot3 )
 			Triangle2.GetRightAngleVertex( L_Pivot4 )
 			
-			If Triangle1.ShapeType = LTSprite.TopLeftTriangle Or Triangle1.ShapeType = LTSprite.TopLeftTriangle Then
-				Triangle1.GetBounds( L_Pivot1.X, L_Pivot1.Y, L_Pivot2.X, L_Pivot2.Y )
-			Else
-				Triangle1.GetBounds( L_Pivot1.X, L_Pivot2.Y, L_Pivot2.X, L_Pivot1.Y )
-			End If
-			
+			Triangle1.GetOtherVertices( L_Pivot1, L_Pivot2 )
 			Triangle2.GetHypotenuse( L_Line )
-			If PivotWithRectangle( L_Pivot1, Triangle2 ) Then If L_Line.PivotOrientation( L_Pivot4 ) = L_Line.PivotOrientation( L_Pivot1 ) Then Return True
-			If PivotWithRectangle( L_Pivot2, Triangle2 ) Then If L_Line.PivotOrientation( L_Pivot4 ) = L_Line.PivotOrientation( L_Pivot2 ) Then Return True
-			If PivotWithRectangle( L_Pivot3, Triangle2 ) Then If L_Line.PivotOrientation( L_Pivot4 ) = L_Line.PivotOrientation( L_Pivot3 ) Then Return True
+			Local O:Int = L_Line.PivotOrientation( L_Pivot4 )
+			If PivotWithRectangle( L_Pivot1, Triangle2 ) Then If O = L_Line.PivotOrientation( L_Pivot1 ) Then Return True
+			If PivotWithRectangle( L_Pivot2, Triangle2 ) Then If O = L_Line.PivotOrientation( L_Pivot2 ) Then Return True
+			If PivotWithRectangle( L_Pivot3, Triangle2 ) Then If O = L_Line.PivotOrientation( L_Pivot3 ) Then Return True
 			
-			If Triangle2.ShapeType = LTSprite.TopLeftTriangle Or Triangle2.ShapeType = LTSprite.TopLeftTriangle Then
-				Triangle2.GetBounds( L_Pivot1.X, L_Pivot1.Y, L_Pivot2.X, L_Pivot2.Y )
-			Else
-				Triangle2.GetBounds( L_Pivot1.X, L_Pivot2.Y, L_Pivot2.X, L_Pivot1.Y )
-			End If
-			
+			Triangle2.GetOtherVertices( L_Pivot1, L_Pivot2 )
 			Triangle1.GetHypotenuse( L_Line )
-			If PivotWithRectangle( L_Pivot1, Triangle1 ) Then If L_Line.PivotOrientation( L_Pivot3 ) = L_Line.PivotOrientation( L_Pivot1 ) Then Return True
-			If PivotWithRectangle( L_Pivot2, Triangle1 ) Then If L_Line.PivotOrientation( L_Pivot3 ) = L_Line.PivotOrientation( L_Pivot2 ) Then Return True
-			If PivotWithRectangle( L_Pivot4, Triangle1 ) Then If L_Line.PivotOrientation( L_Pivot3 ) = L_Line.PivotOrientation( L_Pivot4 ) Then Return True
+			O = L_Line.PivotOrientation( L_Pivot3 )
+			If PivotWithRectangle( L_Pivot1, Triangle1 ) Then If O = L_Line.PivotOrientation( L_Pivot1 ) Then Return True
+			If PivotWithRectangle( L_Pivot2, Triangle1 ) Then If O = L_Line.PivotOrientation( L_Pivot2 ) Then Return True
+			If PivotWithRectangle( L_Pivot4, Triangle1 ) Then If O = L_Line.PivotOrientation( L_Pivot4 ) Then Return True
 		End If
 	End Function
 	

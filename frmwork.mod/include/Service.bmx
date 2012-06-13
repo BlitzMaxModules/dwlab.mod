@@ -278,9 +278,17 @@ Function L_Distance:Double( DX:Double, DY:Double )
 End Function
 
 
-	
-	
-	
+
+
+
+Function L_Cathetus:Double( AB:Double, BC:Double )
+	Return Sqr( AB * AB - BC * BC )
+End Function
+
+
+
+
+
 Rem
 bbdoc: Converts full path to path relative to current directory.
 End Rem

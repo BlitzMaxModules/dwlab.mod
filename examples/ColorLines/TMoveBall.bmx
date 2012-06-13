@@ -10,7 +10,7 @@
 
 Type TMoveBall Extends LTBehaviorModel
 	Const Period:Double = 0.3
-	Const Bump:Double = 0.25
+	Const Bump:Double = 0.4
 	
 	Field X:Int, Y:Int, DX:Int, DY:Int
 	Field StartingTime:Double

@@ -15,12 +15,18 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.4.11"
+ModuleInfo "Version: 1.4.12"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.12 (13.06.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added functions for wedging off pivot and oval / rectangle / triangle."
+ModuleInfo "History: &nbsp; &nbsp; Completed wedging off oval / rectangle and triangle."
+ModuleInfo "History: &nbsp; &nbsp; Added UsePoints and UsePivots methods to LTLine."
+ModuleInfo "History: &nbsp; &nbsp; Added ToLine and HasPoint methods for ray sprite."
+ModuleInfo "History: &nbsp; &nbsp; Added L_Cathetus service function."
 ModuleInfo "History: v1.4.11 (02.06.12)"
 ModuleInfo "History: &nbsp; &nbsp; Rearranged project class to write GUI project class more easily."
 ModuleInfo "History: &nbsp; &nbsp; Controllers system is rewritten and now is based on events."
@@ -247,7 +253,7 @@ Import brl.map
 Import brl.max2d
 Import brl.eventqueue
 
-Const L_Version:String = "1.4.11"
+Const L_Version:String = "1.4.12"
 
 SeedRnd( MilliSecs() )
 

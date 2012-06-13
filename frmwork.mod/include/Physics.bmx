@@ -12,6 +12,47 @@ Global L_Line2:LTLine = New LTLine
 Global L_Line3:LTLine = New LTLine 
 
 Type LTWedge
+	Function PivotAndOval( Pivot:LTSprite, Oval:LTSprite, DX:Double Var, DY:Double Var )
+		Oval = Oval.ToCircle( Pivot, L_Oval1 )
+		Local K:Double = 0.5 * Oval.Width / Oval.DistanceTo( Pivot ) - 1.0
+		DX = ( Pivot.X - Oval.X ) * K
+		DY = ( Pivot.Y - Oval.Y ) * K
+	End Function
+
+
+
+	Function PivotAndRectangle( Pivot:LTSprite, Rectangle:LTSprite, DX:Double Var, DY:Double Var )
+		if Abs( Pivot.Y - Rectangle.Y ) * Rectangle.Width >= Abs( Pivot.X - Rectangle.X ) * Rectangle.Height Then
+			DY = Rectangle.Y + 0.5 * Rectangle.Height * Sgn( Pivot.Y - Rectangle.Y ) - Pivot.Y
+		Else
+			DX = Rectangle.X + 0.5 * Rectangle.Width * Sgn( Pivot.X - Rectangle.X ) - Pivot.X
+		End If
+	End Function
+	
+	
+	
+	Function TriangleAsRectangle:Int( Pivot:LTSprite, Triangle:LTSprite )
+		Triangle.GetOtherVertices( L_Pivot1, L_Pivot2 )
+		Triangle.GetRightAngleVertex( L_Pivot3 )
+		Triangle.GetHypotenuse( L_Line )
+		LTLine.FromPivots( L_Pivot1, LTSprite.GetMedium( L_Pivot2, L_Pivot3, L_Pivot4 ), L_Line2 )
+		LTLine.FromPivots( L_Pivot2, LTSprite.GetMedium( L_Pivot1, L_Pivot3, L_Pivot4 ), L_Line3 )
+		If L_Line2.PivotOrientation( Pivot ) = L_Line2.PivotOrientation( L_Pivot3 ) Then Return True
+		If L_Line3.PivotOrientation( Pivot ) = L_Line3.PivotOrientation( L_Pivot3 ) Then Return True
+	End Function
+	
+	
+	
+	Function PivotAndTriangle( Pivot:LTSprite, Triangle:LTSprite, DX:Double Var, DY:Double Var )
+		If TriangleAsRectangle( Pivot, Triangle ) Then
+			PivotAndRectangle( Pivot, Triangle, DX, DY )
+		Else
+			DY = L_Line.GetY( Pivot.X ) - Pivot.Y
+		End If
+	End Function
+	
+	
+	
 	Function OvalAndOval( Oval1:LTSprite, Oval2:LTSprite, DX:Double Var, DY:Double Var )
 		Oval1 = Oval1.ToCircle( Oval2, L_Oval1 )
 		Oval2 = Oval2.ToCircle( Oval1, L_Oval2  )
@@ -31,25 +72,13 @@ Type LTWedge
 			DX = ( 0.5 * ( Rectangle.Width + Oval.Width ) - Abs( Rectangle.X - Oval.X ) ) * Sgn( Oval.X - Rectangle.X )
 			DY = 0
 		Else
-			L_Pivot1.X:Double = Rectangle.X + 0.5 * Rectangle.Width * Sgn( Oval.X - Rectangle.X )
-			L_Pivot1.Y:Double = Rectangle.Y + 0.5 * Rectangle.Height * Sgn( Oval.Y - Rectangle.Y )
-			Oval = Oval.ToCircle( L_Pivot1, L_Oval1 )
-			Local K:Double = 1.0 - 0.5 * Oval.Width / Oval.DistanceTo( L_Pivot1 )
-			DX = ( L_Pivot1.X - Oval.X ) * K
-			DY = ( L_Pivot1.Y - Oval.Y ) * K
+			L_Pivot4.X = Rectangle.X + 0.5 * Rectangle.Width * Sgn( Oval.X - Rectangle.X )
+			L_Pivot4.Y = Rectangle.Y + 0.5 * Rectangle.Height * Sgn( Oval.Y - Rectangle.Y )
+			Oval = Oval.ToCircle( L_Pivot4, L_Oval1 )
+			Local K:Double = 1.0 - 0.5 * Oval.Width / Oval.DistanceTo( L_Pivot4 )
+			DX = ( L_Pivot4.X - Oval.X ) * K
+			DY = ( L_Pivot4.Y - Oval.Y ) * K
 		End If
-	End Function
-	
-	
-	
-	Function TriangleAsRectangle:Int( Pivot:LTSprite, Triangle:LTSprite )
-		Triangle.GetOtherVertices( L_Pivot1, L_Pivot2 )
-		Triangle.GetRightAngleVertex( L_Pivot3 )
-		Triangle.GetHypotenuse( L_Line )
-		LTLine.FromPivots( L_Pivot1, LTSprite.GetMedium( L_Pivot2, L_Pivot3, L_Pivot4 ), L_Line2 )
-		LTLine.FromPivots( L_Pivot2, LTSprite.GetMedium( L_Pivot1, L_Pivot3, L_Pivot4 ), L_Line3 )
-		If L_Line2.PivotOrientation( Pivot ) = L_Line2.PivotOrientation( L_Pivot3 ) Then Return True
-		If L_Line3.PivotOrientation( Pivot ) = L_Line3.PivotOrientation( L_Pivot3 ) Then Return True
 	End Function
 	
 	
@@ -59,12 +88,18 @@ Type LTWedge
 			OvalAndRectangle( Oval, Triangle, DX, DY )
 		Else
 			L_Oval1 = Oval.ToCircle( L_Pivot3, L_Oval1 )
-			DX = 0
-			DY = 0.5 * ( L_Distance( Triangle.Width, Triangle.Height ) * L_Oval1.Width / Triangle.Width + Oval.Height - L_Oval1.Height )
-			If Triangle.ShapeType = LTSprite.BottomLeftTriangle Or Triangle.ShapeType = LTSprite.BottomRightTriangle Then
-				DY = L_Line.GetY( L_Oval1.X ) - DY - Oval.Y
+			Local VDistance:Double = 0.5 * L_Distance( Triangle.Width, Triangle.Height ) * L_Oval1.Width / Triangle.Width
+			Local DHeight:Double = 0.5 * ( Oval.Height - L_Oval1.Height )
+			Local DDX:Double = 0.5 * L_Oval1.Width / VDistance * L_Cathetus( VDistance, 0.5 * L_Oval1.Width )
+			Local Dir:Int = -1
+			If Triangle.ShapeType = LTSprite.BottomLeftTriangle Or Triangle.ShapeType = LTSprite.BottomRightTriangle Then Dir = 1
+			If Triangle.ShapeType = LTSprite.TopRightTriangle Or Triangle.ShapeType = LTSprite.BottomRightTriangle Then DDX = -DDX
+			If L_Oval1.X < Triangle.LeftX() + DDX Then
+				DY = L_Pivot1.Y - Dir * L_Cathetus( L_Oval1.Width * 0.5, L_Oval1.X - L_Pivot1.X ) - L_Oval1.Y
+			ElseIf L_Oval1.X > Triangle.RightX() + DDX Then
+				DY = L_Pivot2.Y - Dir * L_Cathetus( L_Oval1.Width * 0.5, L_Oval1.X - L_Pivot2.X ) - L_Oval1.Y
 			Else
-				DY = L_Line.GetY( L_Oval1.X ) + DY - Oval.Y
+				DY = L_Line.GetY( L_Oval1.X ) - Dir * ( VDistance + DHeight ) - Oval.Y
 			End If
 		End If
 	End Function
@@ -98,9 +133,9 @@ Type LTWedge
 			End If
 			DX = 0
 			If Triangle.ShapeType = LTSprite.TopLeftTriangle Or Triangle.ShapeType = LTSprite.TopRightTriangle
-				DY = Max( L_Line.GetY( X ), Triangle.TopY() ) - Rectangle.TopY()
+				DY = Min( L_Line.GetY( X ), Triangle.BottomY() ) - Rectangle.TopY()
 			Else
-				DY = Min( L_Line.GetY( X ), Triangle.BottomY() ) - Rectangle.BottomY()
+				DY = Max( L_Line.GetY( X ), Triangle.TopY() ) - Rectangle.BottomY()
 			End If
 		End If
 	End Function
@@ -108,7 +143,14 @@ Type LTWedge
 	
 	
 	Function TriangleAndTriangle( Triangle1:LTSprite, Triangle2:LTSprite, DX:Double Var, DY:Double Var )
-		
+		If TriangleAsRectangle( Triangle1, Triangle2 ) Then
+			RectangleAndTriangle( Triangle2, Triangle1, DX, DY )
+			DX = -DX
+			DY = -DY
+		ElseIf TriangleAsRectangle( Triangle2, Triangle1 ) Then
+			RectangleAndTriangle( Triangle1, Triangle2, DX, DY )
+		Else
+		End If
 	End Function
 	
 	

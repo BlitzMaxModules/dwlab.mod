@@ -7,9 +7,11 @@ Import dwlab.graphicsdrivers
 Global Example:TExample = New TExample
 Example.Execute()
 
+Incbin "spaceship.png"
+
 Type TExample Extends LTProject
 	Field Sprites:LTLayer = New LTLayer
-	Field Image:LTImage = LTImage.FromFile( "spaceship.png" )
+	Field Image:LTImage = LTImage.FromFile( "incbin::spaceship.png" )
 	
 	Method Init()
 		For Local N:Int = 0 Until 9
@@ -51,6 +53,7 @@ Type TExample Extends LTProject
 		Local Triangle:LTSprite = LTSprite( Sprites.ValueAtIndex( 5 ) )
 		Triangle.GetHypotenuse( L_Line )
 		
+		L_PrintText( "Press right mouse button to change shape", 0, -12, LTAlign.ToCenter, LTAlign.ToTop )
 		L_PrintText( "ColldesWithSprite example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

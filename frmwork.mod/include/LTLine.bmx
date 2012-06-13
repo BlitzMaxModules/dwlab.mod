@@ -23,10 +23,7 @@ Type LTLine Extends LTShape
 		?
 		
 		If Not Line Then Line = New LTLine
-		Line.A = Y2 - Y1
-		Line.B = X1 - X2
-		Line.C = -Line.A * X1 - Line.B * Y1
-		Line.CalculateS()
+		Line.UsePoints( X1, Y1, X2, Y2 )
 		Return Line
 	End Function
 	
@@ -38,12 +35,27 @@ Type LTLine Extends LTShape
 		?
 		
 		If Not Line Then Line = New LTLine
-		Line.A = Pivot2.Y - Pivot1.Y
-		Line.B = Pivot1.X - Pivot2.X
-		Line.C = -Line.A * Pivot1.X - Line.B * Pivot1.Y
-		Line.CalculateS()
+		Line.UsePivots( Pivot1, Pivot2 )
 		Return Line
 	End Function
+	
+	
+	
+	Method UsePoints( X1:Double, Y1:Double, X2:Double, Y2:Double )
+		A = Y2 - Y1
+		B = X1 - X2
+		C = -A * X1 - B * Y1
+		CalculateS()
+	End Method
+	
+	
+	
+	Method UsePivots( Pivot1:LTShape, Pivot2:LTShape )
+		A = Pivot2.Y - Pivot1.Y
+		B = Pivot1.X - Pivot2.X
+		C = -A * Pivot1.X - B * Pivot1.Y
+		CalculateS()
+	End Method
 	
 	
 	
