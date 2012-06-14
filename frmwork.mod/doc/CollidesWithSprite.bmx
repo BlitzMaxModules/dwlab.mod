@@ -38,6 +38,7 @@ Type TExample Extends LTProject
 	Method Render()
 		Sprites.Draw()
 		For Local Sprite:LTSprite = Eachin Sprites.Children
+			If Sprite.ShapeType < 4 Then Continue
 			if L_Cursor.CollidesWithSprite( Sprite ) Then
 				Sprite.Visualizer.SetColorFromHex( "FF7F7F" )
 				Local WedgedCursor:LTSprite = LTSprite( L_Cursor.Clone() )

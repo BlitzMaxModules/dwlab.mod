@@ -49,8 +49,8 @@ about: Collision check method with specified collision handler will execute this
 
 See also: #Active example
 End Rem
-Type LTSpriteAndLineCollisionHandler Extends LTObject
-	Method HandleCollision( Sprite:LTSprite, Line:LTLineSegment )
+Type LTSpriteAndLineSegmentCollisionHandler Extends LTObject
+	Method HandleCollision( Sprite:LTSprite, LineSegment:LTLineSegment )
 	End Method
 End Type
 
@@ -99,7 +99,7 @@ Type LTCollision
 	
 	
 	
-	Function PivotWithLine:Int( Pivot:LTSprite, LineSegment:LTLineSegment )
+	Function PivotWithLineSegment:Int( Pivot:LTSprite, LineSegment:LTLineSegment )
 		
 	End Function
 	
@@ -128,7 +128,7 @@ Type LTCollision
 	
 	
 	
-	Function OvalWithLine:Int( Oval:LTSprite, LineSegment:LTLineSegment )
+	Function OvalWithLineSegment:Int( Oval:LTSprite, LineSegment:LTLineSegment )
 		Local Pivot1:LTSprite = LineSegment.Pivot[ 0 ]
 		Local Pivot2:LTSprite = LineSegment.Pivot[ 1 ]
 		L_Oval1.X = 0.5 * ( Pivot1.X + Pivot2.X )
@@ -142,6 +142,15 @@ Type LTCollision
 				If PivotWithOval( L_Pivot1, L_Oval1 ) And L_Pivot1.DistanceTo( L_Oval2 ) < L_Oval1.Width - L_Inaccuracy Then Return True
 			End If
 		End If
+	End Function
+	
+	
+	
+	Function LineSegmentsCollide:Int( LS1Pivot1:LTSprite, LS1Pivot2:LTSprite, LS2Pivot1:LTSprite, LS2Pivot2:LTSprite )
+		LTLine.FromPivots( LS1Pivot1, LS1Pivot2, L_Line )
+		If L_Line.PivotOrientation( LS2Pivot1 ) = L_Line.PivotOrientation( LS2Pivot2 ) Then Return False
+		LTLine.FromPivots( LS2Pivot1, LS2Pivot2, L_Line )
+		If L_Line.PivotOrientation( LS1Pivot1 ) <> L_Line.PivotOrientation( LS1Pivot2 ) Then Return True
 	End Function
 	
 	
@@ -181,8 +190,15 @@ Type LTCollision
 	
 	
 	
-	Function RectangleWithLine:Int( Rectangle:LTSprite, LineSegment:LTLineSegment )
-		
+	Function RectangleWithLineSegment:Int( Rectangle:LTSprite, LineSegment:LTLineSegment )
+		For Local N:Int = 0 To 1
+			If PivotWithRectangle( LineSegment.Pivot[ N ], Rectangle ) Then Return True
+		Next
+		Rectangle.GetBounds( L_Pivots[ 0 ].X, L_Pivots[ 0 ].Y, L_Pivots[ 2 ].X, L_Pivots[ 2 ].Y )
+		Rectangle.GetBounds( L_Pivots[ 1 ].X, L_Pivots[ 3 ].Y, L_Pivots[ 3 ].X, L_Pivots[ 1 ].Y )
+		For Local N:Int = 0 To 3
+			If LineSegmentsCollide( L_Pivots[ N ], L_Pivots[ ( N + 1 ) Mod 4 ], LineSegment.Pivot[ 0 ], LineSegment.Pivot[ 1 ] ) Then Return True
+		Next
 	End Function
 	
 	
@@ -194,24 +210,40 @@ Type LTCollision
 			
 			Triangle1.GetOtherVertices( L_Pivot1, L_Pivot2 )
 			Triangle2.GetHypotenuse( L_Line )
-			Local O:Int = L_Line.PivotOrientation( L_Pivot4 )
-			If PivotWithRectangle( L_Pivot1, Triangle2 ) Then If O = L_Line.PivotOrientation( L_Pivot1 ) Then Return True
-			If PivotWithRectangle( L_Pivot2, Triangle2 ) Then If O = L_Line.PivotOrientation( L_Pivot2 ) Then Return True
-			If PivotWithRectangle( L_Pivot3, Triangle2 ) Then If O = L_Line.PivotOrientation( L_Pivot3 ) Then Return True
+			Local O1:Int = L_Line.PivotOrientation( L_Pivot4 )
+			If PivotWithRectangle( L_Pivot1, Triangle2 ) Then If O1 = L_Line.PivotOrientation( L_Pivot1 ) Then Return True
+			If PivotWithRectangle( L_Pivot2, Triangle2 ) Then If O1 = L_Line.PivotOrientation( L_Pivot2 ) Then Return True
+			If PivotWithRectangle( L_Pivot3, Triangle2 ) Then If O1 = L_Line.PivotOrientation( L_Pivot3 ) Then Return True
 			
-			Triangle2.GetOtherVertices( L_Pivot1, L_Pivot2 )
+			Triangle2.GetOtherVertices( L_Pivots[ 0 ], L_Pivots[ 1 ] )
 			Triangle1.GetHypotenuse( L_Line )
-			O = L_Line.PivotOrientation( L_Pivot3 )
-			If PivotWithRectangle( L_Pivot1, Triangle1 ) Then If O = L_Line.PivotOrientation( L_Pivot1 ) Then Return True
-			If PivotWithRectangle( L_Pivot2, Triangle1 ) Then If O = L_Line.PivotOrientation( L_Pivot2 ) Then Return True
-			If PivotWithRectangle( L_Pivot4, Triangle1 ) Then If O = L_Line.PivotOrientation( L_Pivot4 ) Then Return True
+			Local O2:Int = L_Line.PivotOrientation( L_Pivot3 )
+			If PivotWithRectangle( L_Pivots[ 0 ], Triangle1 ) Then If O2 = L_Line.PivotOrientation( L_Pivots[ 0 ] ) Then Return True
+			If PivotWithRectangle( L_Pivots[ 1 ], Triangle1 ) Then If O2 = L_Line.PivotOrientation( L_Pivots[ 1 ] ) Then Return True
+			If PivotWithRectangle( L_Pivot4, Triangle1 ) Then If O2 = L_Line.PivotOrientation( L_Pivot4 ) Then Return True
+			
+			If LineSegmentsCollide( L_Pivot1, L_Pivot2, L_Pivots[ 0 ], L_Pivots[ 1 ] ) Then Return True
+			If L_Line.PivotOrientation( L_Pivot4 ) <> L_Line.PivotOrientation( L_Pivots[ 1 ] ) Then Return True
 		End If
 	End Function
 	
 	
 	
-	Function TriangleWithLine:Int( Triangle1:LTSprite, LineSegment:LTLineSegment )
-		
+	Function TriangleWithLineSegment:Int( Triangle:LTSprite, LineSegment:LTLineSegment )
+		For Local N:Int = 0 To 1
+			If PivotWithTriangle( LineSegment.Pivot[ N ], Triangle ) Then Return True
+		Next
+		Triangle.GetOtherVertices( L_Pivots[ 0 ], L_Pivots[ 1 ] )
+		Triangle.GetRightAngleVertex( L_Pivots[ 2 ] )
+		For Local N:Int = 0 To 2
+			If LineSegmentsCollide( L_Pivots[ N ], L_Pivots[ ( N + 1 ) Mod 3 ], LineSegment.Pivot[ 0 ], LineSegment.Pivot[ 1 ] ) Then Return True
+		Next
+	End Function
+	
+	
+	
+	Function LineSegmentWithLineSegment:Int( LineSegment1:LTLineSegment, LineSegment2:LTLineSegment )
+		Return LineSegmentsCollide( LineSegment1.Pivot[ 0 ], LineSegment1.Pivot[ 1 ], LineSegment2.Pivot[ 0 ], LineSegment2.Pivot[ 1 ] )
 	End Function
 	
 	
@@ -241,7 +273,8 @@ Type LTCollision
 		End If
 	End Function
 End Type
-	
+
+
 ' ------------------------------------------------ Overlapping ---------------------------------------------------
 
 Type LTOverlap

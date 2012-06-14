@@ -211,21 +211,21 @@ Type LTSprite Extends LTShape
 	returns: True if the sprite collides with given line, otherwise false.
 	about: Only collision of line and Oval is yet implemented.
 	End Rem
-	Method CollidesWithLine:Int( Line:LTLineSegment )
+	Method CollidesWithLineSegment:Int( LineSegment:LTLineSegment )
 		?debug
 		L_CollisionChecks :+ 1
 		?
 		Select ShapeType
 			Case Pivot
-				Return LTCollision.PivotWithLine( Self, Line )
+				Return LTCollision.PivotWithLineSegment( Self, LineSegment )
 			Case Oval
-				Return LTCollision.OvalWithLine( Self, Line )
+				Return LTCollision.OvalWithLineSegment( Self, LineSegment )
 			Case Rectangle
-				Return LTCollision.RectangleWithLine( Self, Line )
+				Return LTCollision.RectangleWithLineSegment( Self, LineSegment )
 			Case Ray
 			Case Raster
 			Default
-				Return LTCollision.TriangleWithLine( Self, Line )
+				Return LTCollision.TriangleWithLineSegment( Self, LineSegment )
 		End Select
 	End Method
 	
@@ -414,8 +414,8 @@ Type LTSprite Extends LTShape
 	
 	See also: #CollisionsWithLayer, #CollisionsWithSprite, #CollisionsWithTileMap, #CollisionsWithSpriteMap, #Horizontal, #Vertical
 	End Rem
-	Method CollisionsWithLine( Line:LTLineSegment, Handler:LTSpriteAndLineCollisionHandler )
-		If CollidesWithLine( Line ) Then Handler.HandleCollision( Self, Line )
+	Method CollisionsWithLineSegment( LineSegment:LTLineSegment, Handler:LTSpriteAndLineSegmentCollisionHandler )
+		If CollidesWithLineSegment( LineSegment ) Then Handler.HandleCollision( Self, LineSegment )
 	End Method
 
 	

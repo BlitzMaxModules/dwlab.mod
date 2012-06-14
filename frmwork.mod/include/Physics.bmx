@@ -8,8 +8,12 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Global L_Line2:LTLine = New LTLine 
-Global L_Line3:LTLine = New LTLine 
+Global L_Lines:LTLine[] = New LTLine[ 2 ]
+Global L_Pivots:LTSprite[] = New LTSprite[ 4 ]
+For Local N:Int = 0 To 3
+	If N < 2 Then L_Lines[ N ] = New LTLine
+	L_Pivots[ N ] = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
+Next
 
 Type LTWedge
 	Function PivotAndOval( Pivot:LTSprite, Oval:LTSprite, DX:Double Var, DY:Double Var )
@@ -35,10 +39,11 @@ Type LTWedge
 		Triangle.GetOtherVertices( L_Pivot1, L_Pivot2 )
 		Triangle.GetRightAngleVertex( L_Pivot3 )
 		Triangle.GetHypotenuse( L_Line )
-		LTLine.FromPivots( L_Pivot1, LTSprite.GetMedium( L_Pivot2, L_Pivot3, L_Pivot4 ), L_Line2 )
-		LTLine.FromPivots( L_Pivot2, LTSprite.GetMedium( L_Pivot1, L_Pivot3, L_Pivot4 ), L_Line3 )
-		If L_Line2.PivotOrientation( Pivot ) = L_Line2.PivotOrientation( L_Pivot3 ) Then Return True
-		If L_Line3.PivotOrientation( Pivot ) = L_Line3.PivotOrientation( L_Pivot3 ) Then Return True
+		LTLine.FromPivots( L_Pivot1, LTSprite.GetMedium( L_Pivot2, L_Pivot3, L_Pivot4 ), L_Lines[ 0 ] )
+		LTLine.FromPivots( L_Pivot2, LTSprite.GetMedium( L_Pivot1, L_Pivot3, L_Pivot4 ), L_Lines[ 1 ] )
+		For Local LineNum:Int = 0 To 1
+			If L_Lines[ LineNum ].PivotOrientation( Pivot ) = L_Lines[ LineNum ].PivotOrientation( L_Pivot3 ) Then Return True
+		Next
 	End Function
 	
 	
@@ -142,12 +147,30 @@ Type LTWedge
 	
 	
 	
+	Function TriangleAsRectangle2:Int( Triangle1:LTSprite, Triangle2:LTSprite )
+		Triangle1.GetOtherVertices( L_Pivot1, L_Pivot2 )
+		Triangle1.GetRightAngleVertex( L_Pivot3 )
+		Triangle1.GetHypotenuse( L_Line )
+		LTLine.FromPivots( L_Pivot1, LTSprite.GetMedium( L_Pivot2, L_Pivot3, L_Pivot4 ), L_Lines[ 0 ] )
+		LTLine.FromPivots( L_Pivot2, LTSprite.GetMedium( L_Pivot1, L_Pivot3, L_Pivot4 ), L_Lines[ 1 ] )
+		Triangle2.GetOtherVertices( L_Pivots[ 0 ], L_Pivots[ 1 ] )
+		Triangle2.GetRightAngleVertex( L_Pivots[ 2 ] )
+		For Local LineNum:Int = 0 To 1
+			Local O:Int = L_Lines[ LineNum ].PivotOrientation( L_Pivot3 )
+			For Local PivotNum:Int = 0 To 2
+				If L_Lines[ LineNum ].PivotOrientation( L_Pivots[ PivotNum ] ) = O Then Return True
+			Next
+		Next
+	End Function
+	
+	
+	
 	Function TriangleAndTriangle( Triangle1:LTSprite, Triangle2:LTSprite, DX:Double Var, DY:Double Var )
-		If TriangleAsRectangle( Triangle1, Triangle2 ) Then
+		If TriangleAsRectangle2( Triangle2, Triangle1 ) Then
 			RectangleAndTriangle( Triangle2, Triangle1, DX, DY )
 			DX = -DX
 			DY = -DY
-		ElseIf TriangleAsRectangle( Triangle2, Triangle1 ) Then
+		ElseIf TriangleAsRectangle2( Triangle1, Triangle2 ) Then
 			RectangleAndTriangle( Triangle1, Triangle2, DX, DY )
 		Else
 		End If

@@ -1,8 +1,16 @@
-ModuleInfo "Version: 1.4.11"
+ModuleInfo "Version: 1.4.12"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.12.1 (14.06.12)"
+ModuleInfo "History: &nbsp; &nbsp; ..WithLine methods changed to ..WithLineSegment"
+ModuleInfo "History: v1.4.12 (13.06.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added functions for wedging off pivot and oval / rectangle / triangle."
+ModuleInfo "History: &nbsp; &nbsp; Completed wedging off oval / rectangle and triangle."
+ModuleInfo "History: &nbsp; &nbsp; Added UsePoints and UsePivots methods to LTLine."
+ModuleInfo "History: &nbsp; &nbsp; Added ToLine and HasPoint methods for ray sprite."
+ModuleInfo "History: &nbsp; &nbsp; Added L_Cathetus service function."
 ModuleInfo "History: v1.4.11 (02.06.12)"
 ModuleInfo "History: &nbsp; &nbsp; Rearranged project class to write GUI project class more easily."
 ModuleInfo "History: &nbsp; &nbsp; Controllers system is rewritten and now is based on events."
@@ -227,7 +235,7 @@ import brl.reflection
 import brl.retro
 import brl.max2d
 import brl.eventqueue
-L_Version$=$"1.4.11"
+L_Version$=$"1.4.12"
 LTObject^Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
@@ -417,11 +425,11 @@ LTSpriteAndTileCollisionHandler^LTObject{
 -Delete%()="_dwlab_frmwork_LTSpriteAndTileCollisionHandler_Delete"
 -HandleCollision%(Sprite:LTSprite,TileMap:LTTileMap,TileX%,TileY%,CollisionSprite:LTSprite)="_dwlab_frmwork_LTSpriteAndTileCollisionHandler_HandleCollision"
 }="dwlab_frmwork_LTSpriteAndTileCollisionHandler"
-LTSpriteAndLineCollisionHandler^LTObject{
--New%()="_dwlab_frmwork_LTSpriteAndLineCollisionHandler_New"
--Delete%()="_dwlab_frmwork_LTSpriteAndLineCollisionHandler_Delete"
--HandleCollision%(Sprite:LTSprite,Line:LTLineSegment)="_dwlab_frmwork_LTSpriteAndLineCollisionHandler_HandleCollision"
-}="dwlab_frmwork_LTSpriteAndLineCollisionHandler"
+LTSpriteAndLineSegmentCollisionHandler^LTObject{
+-New%()="_dwlab_frmwork_LTSpriteAndLineSegmentCollisionHandler_New"
+-Delete%()="_dwlab_frmwork_LTSpriteAndLineSegmentCollisionHandler_Delete"
+-HandleCollision%(Sprite:LTSprite,LineSegment:LTLineSegment)="_dwlab_frmwork_LTSpriteAndLineSegmentCollisionHandler_HandleCollision"
+}="dwlab_frmwork_LTSpriteAndLineSegmentCollisionHandler"
 LTCollision^Object{
 -New%()="_dwlab_frmwork_LTCollision_New"
 -Delete%()="_dwlab_frmwork_LTCollision_Delete"
@@ -429,16 +437,17 @@ LTCollision^Object{
 +PivotWithOval%(Pivot:LTSprite,Oval:LTSprite)="_dwlab_frmwork_LTCollision_PivotWithOval"
 +PivotWithRectangle%(Pivot:LTSprite,Rectangle:LTSprite)="_dwlab_frmwork_LTCollision_PivotWithRectangle"
 +PivotWithTriangle%(Pivot:LTSprite,Triangle:LTSprite)="_dwlab_frmwork_LTCollision_PivotWithTriangle"
-+PivotWithLine%(Pivot:LTSprite,LineSegment:LTLineSegment)="_dwlab_frmwork_LTCollision_PivotWithLine"
++PivotWithLineSegment%(Pivot:LTSprite,LineSegment:LTLineSegment)="_dwlab_frmwork_LTCollision_PivotWithLineSegment"
 +OvalWithOval%(Oval1:LTSprite,Oval2:LTSprite)="_dwlab_frmwork_LTCollision_OvalWithOval"
 +OvalWithRectangle%(Oval:LTSprite,Rectangle:LTSprite)="_dwlab_frmwork_LTCollision_OvalWithRectangle"
-+OvalWithLine%(Oval:LTSprite,LineSegment:LTLineSegment)="_dwlab_frmwork_LTCollision_OvalWithLine"
++OvalWithLineSegment%(Oval:LTSprite,LineSegment:LTLineSegment)="_dwlab_frmwork_LTCollision_OvalWithLineSegment"
++LineSegmentsCollide%(LS1Pivot1:LTSprite,LS1Pivot2:LTSprite,LS2Pivot1:LTSprite,LS2Pivot2:LTSprite)="_dwlab_frmwork_LTCollision_LineSegmentsCollide"
 +OvalWithTriangle%(Oval:LTSprite,Triangle:LTSprite)="_dwlab_frmwork_LTCollision_OvalWithTriangle"
 +RectangleWithRectangle%(Rectangle1:LTSprite,Rectangle2:LTSprite)="_dwlab_frmwork_LTCollision_RectangleWithRectangle"
 +RectangleWithTriangle%(Rectangle:LTSprite,Triangle:LTSprite)="_dwlab_frmwork_LTCollision_RectangleWithTriangle"
-+RectangleWithLine%(Rectangle:LTSprite,LineSegment:LTLineSegment)="_dwlab_frmwork_LTCollision_RectangleWithLine"
++RectangleWithLineSegment%(Rectangle:LTSprite,LineSegment:LTLineSegment)="_dwlab_frmwork_LTCollision_RectangleWithLineSegment"
 +TriangleWithTriangle%(Triangle1:LTSprite,Triangle2:LTSprite)="_dwlab_frmwork_LTCollision_TriangleWithTriangle"
-+TriangleWithLine%(Triangle1:LTSprite,LineSegment:LTLineSegment)="_dwlab_frmwork_LTCollision_TriangleWithLine"
++TriangleWithLineSegment%(Triangle1:LTSprite,LineSegment:LTLineSegment)="_dwlab_frmwork_LTCollision_TriangleWithLineSegment"
 +RasterWithRaster%(Raster1:LTSprite,Raster2:LTSprite)="_dwlab_frmwork_LTCollision_RasterWithRaster"
 }="dwlab_frmwork_LTCollision"
 LTOverlap^Object{
@@ -463,6 +472,7 @@ LTWedge^Object{
 +OvalAndTriangle%(Oval:LTSprite,Triangle:LTSprite,DX! Var,DY! Var)="_dwlab_frmwork_LTWedge_OvalAndTriangle"
 +RectangleAndRectangle%(Rectangle1:LTSprite,Rectangle2:LTSprite,DX! Var,DY! Var)="_dwlab_frmwork_LTWedge_RectangleAndRectangle"
 +RectangleAndTriangle%(Rectangle:LTSprite,Triangle:LTSprite,DX! Var,DY! Var)="_dwlab_frmwork_LTWedge_RectangleAndTriangle"
++TriangleAsRectangle2%(Triangle1:LTSprite,Triangle2:LTSprite)="_dwlab_frmwork_LTWedge_TriangleAsRectangle2"
 +TriangleAndTriangle%(Triangle1:LTSprite,Triangle2:LTSprite,DX! Var,DY! Var)="_dwlab_frmwork_LTWedge_TriangleAndTriangle"
 +Separate%(Pivot1:LTSprite,Pivot2:LTSprite,DX!,DY!,Pivot1MovingResistance!,Pivot2MovingResistance!)="_dwlab_frmwork_LTWedge_Separate"
 }="dwlab_frmwork_LTWedge"
@@ -491,7 +501,7 @@ Raster%=8
 -DrawUsingVisualizer%(Vis:LTVisualizer)="_dwlab_frmwork_LTSprite_DrawUsingVisualizer"
 -TileShapeCollisionsWithSprite%(Sprite:LTSprite,DX!,DY!,XScale!,YScale!,TileMap:LTTileMap,TileX%,TileY%,Handler:LTSpriteAndTileCollisionHandler)="_dwlab_frmwork_LTSprite_TileShapeCollisionsWithSprite"
 -CollidesWithSprite%(Sprite:LTSprite)="_dwlab_frmwork_LTSprite_CollidesWithSprite"
--CollidesWithLine%(Line:LTLineSegment)="_dwlab_frmwork_LTSprite_CollidesWithLine"
+-CollidesWithLineSegment%(LineSegment:LTLineSegment)="_dwlab_frmwork_LTSprite_CollidesWithLineSegment"
 -TileSpriteCollidesWithSprite%(Sprite:LTSprite,DX!,DY!,XScale!,YScale!)="_dwlab_frmwork_LTSprite_TileSpriteCollidesWithSprite"
 -Overlaps%(Sprite:LTSprite)="_dwlab_frmwork_LTSprite_Overlaps"
 -FirstCollidedSpriteOfLayer:LTSprite(Layer:LTLayer)="_dwlab_frmwork_LTSprite_FirstCollidedSpriteOfLayer"
@@ -499,7 +509,7 @@ Raster%=8
 -CollisionsWithSprite%(Sprite:LTSprite,Handler:LTSpriteCollisionHandler)="_dwlab_frmwork_LTSprite_CollisionsWithSprite"
 -CollisionsWithLayer%(Layer:LTLayer,Handler:LTSpriteCollisionHandler)="_dwlab_frmwork_LTSprite_CollisionsWithLayer"
 -SpriteLayerCollisions%(Sprite:LTSprite,Handler:LTSpriteCollisionHandler)="_dwlab_frmwork_LTSprite_SpriteLayerCollisions"
--CollisionsWithLine%(Line:LTLineSegment,Handler:LTSpriteAndLineCollisionHandler)="_dwlab_frmwork_LTSprite_CollisionsWithLine"
+-CollisionsWithLineSegment%(LineSegment:LTLineSegment,Handler:LTSpriteAndLineSegmentCollisionHandler)="_dwlab_frmwork_LTSprite_CollisionsWithLineSegment"
 -CollisionsWithTileMap%(TileMap:LTTileMap,Handler:LTSpriteAndTileCollisionHandler)="_dwlab_frmwork_LTSprite_CollisionsWithTileMap"
 -CollisionsWithSpriteMap%(SpriteMap:LTSpriteMap,Handler:LTSpriteCollisionHandler,Map:TMap="bbNullObject")="_dwlab_frmwork_LTSprite_CollisionsWithSpriteMap"
 -WedgeOffWithSprite%(Sprite:LTSprite,SelfMovingResistance!=0.5!,SpriteMovingResistance!=0.5!)="_dwlab_frmwork_LTSprite_WedgeOffWithSprite"
@@ -1516,8 +1526,8 @@ L_Oval2:LTSprite&=mem:p("dwlab_frmwork_L_Oval2")
 L_Rectangle:LTSprite&=mem:p("dwlab_frmwork_L_Rectangle")
 L_Triangle:LTSprite&=mem:p("dwlab_frmwork_L_Triangle")
 L_Line:LTLine&=mem:p("dwlab_frmwork_L_Line")
-L_Line2:LTLine&=mem:p("dwlab_frmwork_L_Line2")
-L_Line3:LTLine&=mem:p("dwlab_frmwork_L_Line3")
+L_Lines:LTLine&[]&=mem:p("dwlab_frmwork_L_Lines")
+L_Pivots:LTSprite&[]&=mem:p("dwlab_frmwork_L_Pivots")
 L_ServicePivot:LTSprite&=mem:p("dwlab_frmwork_L_ServicePivot")
 L_ServiceOval:LTSprite&=mem:p("dwlab_frmwork_L_ServiceOval")
 L_ServiceRectangle:LTSprite&=mem:p("dwlab_frmwork_L_ServiceRectangle")

@@ -193,8 +193,8 @@ Type LTGraph Extends LTShape
 	See also: #AddLine, #RemoveLine, #ContainsLine, #FindLine
 	End Rem
 	Method FindLineCollidingWithSprite:LTLineSegment( Sprite:LTSprite )
-		For Local Line:LTLineSegment = Eachin Lines.Keys()
-			If Sprite.CollidesWithLine( Line ) Then Return Line
+		For Local LineSegment:LTLineSegment = Eachin Lines.Keys()
+			If Sprite.CollidesWithLineSegment( LineSegment ) Then Return LineSegment
 		Next
 	End Method
 

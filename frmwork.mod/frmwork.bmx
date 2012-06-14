@@ -21,6 +21,8 @@ ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.12.1 (14.06.12)"
+ModuleInfo "History: &nbsp; &nbsp; ..WithLine methods changed to ..WithLineSegment"
 ModuleInfo "History: v1.4.12 (13.06.12)"
 ModuleInfo "History: &nbsp; &nbsp; Added functions for wedging off pivot and oval / rectangle / triangle."
 ModuleInfo "History: &nbsp; &nbsp; Completed wedging off oval / rectangle and triangle."
