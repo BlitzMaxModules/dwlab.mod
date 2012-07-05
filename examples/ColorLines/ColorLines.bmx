@@ -47,10 +47,14 @@ Incbin "sound\explosion.ogg"
 Incbin "sound\select.ogg"
 Incbin "sound\swap.ogg"
 Incbin "sound\wrong_turn.ogg"
+Include "interface_incbin.bmx"
 Include "levels_incbin.bmx"
 EndRem
 
-AppTitle = "World Of Spheres 0.1"
+Local Time:Int = FileTime( "ColorLines.exe" )
+Local TM:Int Ptr = Int Ptr( localtime_( Varptr( Time ) ) )
+AppTitle = "World Of Spheres 0.1 of " + L_FirstZeroes( TM[ 3 ], 2 ) + "-" + L_FirstZeroes( TM[ 4 ] + 1, 2 ) + "-" + ..
+		( TM[ 5 ] + 1900 ) + " " + L_FirstZeroes( TM[ 2 ], 2 ) + ":" + L_FirstZeroes( TM[ 1 ], 2 )
 
 Global Game:TGame = New TGame
 Game.Execute()

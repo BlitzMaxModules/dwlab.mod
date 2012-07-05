@@ -21,6 +21,8 @@ Type LTImage Extends LTObject
 	Field XCells:Int = 1
 	Field YCells:Int = 1
 	
+	Global Images:TMap = New TMap
+	
 	
 	
 	Rem
@@ -32,11 +34,15 @@ Type LTImage Extends LTObject
 		'If XCells <= 0 Or YCells <= 0 Then L_Error( "Cells quantity must be 1 or more" )
 		'?
 		
-		Local Image:LTImage = New LTImage
+		Local Image:LTImage = Images.ValueForKey( Filename )
+		If Image Then If Image.XCells = XCells And Image.YCells = YCells Then Return Image
+		
+		Image = New LTImage
 		Image.Filename = Filename
 		Image.XCells = XCells
 		Image.YCells = YCells
 		Image.Init()
+		Images.Insert( Filename, Image )
 		
 		Return Image
 	End Function

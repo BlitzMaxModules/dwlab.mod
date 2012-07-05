@@ -1,0 +1,261 @@
+<LTWorld dwlab_version="1.4.12">
+	<LTVisualizer field="visualizer"/>
+	<LTEditorData field="editor_data" incbin="1" cell_width="1.00000495" x_div="16" y_div="16" coll_x_div="16" coll_y_div="16">
+		<TList field="images">
+			<Object id="108"/>
+			<Object id="105"/>
+			<Object id="64"/>
+			<Object id="12"/>
+			<Object id="50"/>
+			<LTImage filename="C:\\Program Files\\BlitzMax\\mod\\dwlab.mod\\examples\\ColorLines\\clock.png"/>
+			<Object id="9"/>
+			<Object id="17"/>
+			<Object id="21"/>
+			<LTImage filename="C:\\Program Files\\BlitzMax\\mod\\dwlab.mod\\examples\\ColorLines\\goals.png"/>
+		</TList>
+		<LTColor field="background"/>
+		<LTColor field="grid_color" green="0" alpha="0.50000495"/>
+	</LTEditorData>
+	<LTCamera field="camera" x="8.00000495" y="5.00000495" width="16.42105829" height="14.23810027" viewport-clipping="1" x1="2.00000495" y1="1.00000495" x2="-2.00000495" y2="1.00000495">
+		<LTVisualizer field="visualizer" id="128"/>
+		<LTShape field="viewport" x="504.000001" y="437.000001" width="1008.000001" height="874.000001">
+			<Object field="visualizer" id="128"/>
+		</LTShape>
+	</LTCamera>
+	<LTLayer>
+		<TList field="parameters">
+			<LTParameter name="class" value="THUD"/>
+			<LTParameter name="vertical" value="top"/>
+		</TList>
+		<LTVisualizer field="visualizer"/>
+		<LTShape field="bounds" x="8.00000495" y="5.00000495" width="16.00000495" height="12.00000495">
+			<LTVisualizer field="visualizer"/>
+		</LTShape>
+		<LTSprite x="8.00000495" y="5.00000495" width="16.00000495" height="12.00000495" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Background"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<LTImage field="image" id="9" filename="C:\\Program Files\\BlitzMax\\mod\\dwlab.mod\\examples\\ColorLines\\background.jpg"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="7.96875495" y="-0.50000495" width="16.00000495" shape="2">
+			<LTVisualizer field="visualizer">
+				<LTRasterFrame field="image" id="12" left="9" right="9" top="9" bottom="9" filename="C:\\Program Files\\BlitzMax\\mod\\dwlab.mod\\examples\\ColorLines\\MouseMenu\\frames\\panel.png"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="15.25000495" y="-0.25000495" width="1.50000495" height="0.50000495" shape="2">
+			<TList field="parameters">
+				<LTParameter name="class" value="TRestartButton"/>
+				<LTParameter name="text" value="Restart"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<LTRasterFrame field="image" id="17" left="2" right="2" top="2" bottom="2" filename="C:\\Program Files\\BlitzMax\\mod\\dwlab.mod\\examples\\ColorLines\\MouseMenu\\frames\\button.png" xcells="2"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="14.75000495" y="-0.25000495" width="0.40000495" height="0.40000495" shape="2" frame="17">
+			<TList field="parameters">
+				<LTParameter name="gadget_text" value="Restart"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<LTImage field="image" id="21" filename="C:\\Program Files\\BlitzMax\\mod\\dwlab.mod\\examples\\ColorLines\\MouseMenu\\images\\icons.png" xcells="8" ycells="4"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="8.58750495" y="-0.50000495" width="2.20000495" height="0.75000495" shape="2">
+			<TList field="parameters">
+				<LTParameter name="class" value="LTLabel"/>
+				<LTParameter name="name" value="Goal1"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<Object field="image" id="17"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="1.35750495" y="-0.50000495" width="2.41000495" height="0.75000495" shape="2">
+			<LTVisualizer field="visualizer">
+				<Object field="image" id="17"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="1.77750495" y="-0.37500495" width="0.93000495" height="0.25000495" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Score"/>
+				<LTParameter name="class" value="LTLabel"/>
+			</TList>
+			<LTVisualizer field="visualizer" alpha="0">
+				<Object field="image" id="17"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="1.79875495" y="-0.62875495" width="1.27750495" height="0.25750495" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="CurrentProfile"/>
+				<LTParameter name="class" value="LTLabel"/>
+			</TList>
+			<LTVisualizer field="visualizer" alpha="0">
+				<Object field="image" id="17"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="3.85000495" y="-0.50000495" width="2.20000495" height="0.75000495" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Balls"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<Object field="image" id="17"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="10.96250495" y="-0.50000495" width="2.20000495" height="0.75000495" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Goal2"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<Object field="image" id="17"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="13.28750495" y="-0.50000495" width="2.20000495" height="0.75000495" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Goal3"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<Object field="image" id="17"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="6.24000495" y="-0.50000495" width="2.20000495" height="0.75000495" shape="2">
+			<LTVisualizer field="visualizer">
+				<Object field="image" id="17"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="0.62750495" y="-0.49750495" width="0.37000495" height="0.37000495" shape="2">
+			<TList field="parameters">
+				<LTParameter name="gadget_name" value="CurrentProfile"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<LTImage field="image" id="50" filename="C:\\Program Files\\BlitzMax\\mod\\dwlab.mod\\examples\\ColorLines\\player.png"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="8.00000495" y="-0.50000495" width="0.62500495" height="0.62500495" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="GoalIcon"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<LTImage field="image" filename="goals.png"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="8.68750495" y="-0.50000495" width="0.75000495" height="0.50000495" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="GoalCount"/>
+				<LTParameter name="class" value="LTLabel"/>
+				<LTParameter name="text_h_align" value="left"/>
+			</TList>
+			<LTVisualizer field="visualizer" alpha="0"/>
+		</LTSprite>
+		<LTSprite x="3.84376622" y="-0.51250421" width="0.43750273" height="0.40000495" shape="2" frame="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Ball"/>
+				<LTParameter name="distance" value="0.4"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<LTImage field="image" id="64" filename="C:\\Program Files\\BlitzMax\\mod\\dwlab.mod\\examples\\ColorLines\\balls.png" xcells="13"/>
+			</LTVisualizer>
+		</LTSprite>
+	</LTLayer>
+	<LTLayer>
+		<TList field="parameters">
+			<LTParameter name="class" value="TLevelSelectionWindow"/>
+			<LTParameter name="modal" value="true"/>
+		</TList>
+		<LTVisualizer field="visualizer"/>
+		<LTShape field="bounds" x="31.00000495" y="46.00000495" width="16.00000495" height="12.00000495">
+			<LTVisualizer field="visualizer"/>
+		</LTShape>
+		<LTSprite x="31.00000495" y="43.00000495" width="8.00000495" height="0.50000495" shape="2">
+			<TList field="parameters">
+				<LTParameter name="class" value="LTLabel"/>
+				<LTParameter name="text" value="Select level"/>
+				<LTParameter name="align" value="left"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<LTRasterFrame field="image" left="3" right="3" top="3" bottom="3" filename="MouseMenu\\frames\\window_title.png"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="31.00000495" y="45.85000496" width="8.00000495" height="5.25000495" shape="2">
+			<LTVisualizer field="visualizer">
+				<LTRasterFrame field="image" left="3" right="3" bottom="3" filename="MouseMenu\\frames\\window.png"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="29.62000495" y="47.85000496" width="2.25000495" height="0.75000495" shape="2">
+			<TList field="parameters">
+				<LTParameter name="text" value="OK"/>
+				<LTParameter name="class" value="LTButton"/>
+				<LTParameter name="action" value="save_and_close"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<LTRasterFrame field="image" id="85" left="2" right="2" top="2" bottom="2" filename="MouseMenu\\frames\\button.png" xcells="2"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="30.71878438" y="45.37504753" width="6.93751083" height="3.75000495" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Levels"/>
+				<LTParameter name="class" value="TLevelsList"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<LTRasterFrame field="image" filename="MouseMenu\\frames\\simple.png"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="34.75000495" y="43.00000495" width="0.40000495" height="0.40000495" shape="2">
+			<TList field="parameters">
+				<LTParameter name="action" value="close"/>
+				<LTParameter name="class" value="LTButton"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<LTImage field="image" filename="MouseMenu\\images\\close.png"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="29.00000495" y="47.85000496" width="0.50000495" height="0.50000495" shape="2" frame="4">
+			<TList field="parameters">
+				<LTParameter name="gadget_text" value="Select"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<LTImage field="image" id="99" filename="MouseMenu\\images\\icons.png" xcells="8" ycells="4"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="34.50003788" y="45.37504753" width="0.50000495" height="3.75000495" shape="2">
+			<TList field="parameters">
+				<LTParameter name="class" value="LTSlider"/>
+				<LTParameter name="list_box_name" value="Levels"/>
+				<LTParameter name="type" value="vertical"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<LTRasterFrame field="image" id="105" filename="C:\\Program Files\\BlitzMax\\mod\\dwlab.mod\\examples\\ColorLines\\MouseMenu\\frames\\volume.png"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="34.50000495" y="45.37500495" width="0.50000495" height="3.75000495" shape="2">
+			<LTVisualizer field="visualizer">
+				<LTRasterFrame field="image" id="108" filename="C:\\Program Files\\BlitzMax\\mod\\dwlab.mod\\examples\\ColorLines\\MouseMenu\\frames\\simple.png"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="32.50000495" y="47.85000496" width="2.50000495" height="0.75000495" shape="2">
+			<TList field="parameters">
+				<LTParameter name="text" value="Cancel"/>
+				<LTParameter name="class" value="LTButton"/>
+				<LTParameter name="action" value="close"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<Object field="image" id="85"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="31.75000495" y="47.85000496" width="0.50000495" height="0.50000495" shape="2" frame="3">
+			<TList field="parameters">
+				<LTParameter name="gadget_text" value="Select"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<Object field="image" id="99"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="27.25000495" y="43.00000495" width="0.40000495" height="0.40000495" shape="2" frame="8">
+			<TList field="parameters">
+				<LTParameter name="gadget_text" value="Select level"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<Object field="image" id="99"/>
+			</LTVisualizer>
+		</LTSprite>
+	</LTLayer>
+</LTWorld>

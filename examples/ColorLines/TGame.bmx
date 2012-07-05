@@ -12,7 +12,9 @@ Global Profile:TGameProfile
 Global GameCamera:LTCamera = L_CurrentCamera
 
 Type TGame Extends LTGUIProject
-	Field World:LTWorld
+	Field Levels:LTWorld
+	Field Interface:LTWorld
+	
 	Field HUD:LTWindow
 	Field Background:LTShape
 	Field Objects:LTLayer = New LTLayer
@@ -47,11 +49,12 @@ Type TGame Extends LTGUIProject
 	
 	Method Init()
 		SetGraphicsDriver( D3D7Max2DDriver() )
-		World = LTWorld.FromFile( "levels.lw" )
+		Interface = LTWorld.FromFile( "interface.lw" )
+		Levels = LTWorld.FromFile( "levels.lw" )
 
 		Menu.ProfileTypeID = TTypeID.ForName( "TGameProfile" )
 		Menu.InitSystem( Self )
-		HUD = LoadWindow( World, "THUD" )
+		HUD = LoadWindow( Interface, "THUD" )
 		Menu.AddPanels()
 		
 		Profile = TGameProfile( L_CurrentProfile )
@@ -76,7 +79,7 @@ Type TGame Extends LTGUIProject
 	
 		If Not Locked Then
 			If Not Profile.GameField Then
-				LoadWindow( World, "TLevelSelectionWindow" )
+				LoadWindow( Interface, "TLevelSelectionWindow" )
 				Locked = True
 			Else
 				Game.SelectedTileX = -1
