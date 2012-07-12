@@ -144,6 +144,22 @@ Type LTWedge
 	
 	
 	
+	Function PopAngle( Triangle1:LTSprite, Triangle2:LTSprite, DY:Double Var )
+		Triangle2.GetRightAngleVertex( L_Pivots[ 0 ] )
+		Triangle2.GetHypotenuse( L_Line )
+		Triangle1.GetOtherVertices( L_Pivots[ 1 ], L_Pivots[ 2 ] )
+		Local O:Int = L_Line.PivotOrientation( L_Pivots[ 0 ] )
+		For Local N:Int = 1 To 2
+			If O = L_Line.PivotOrientation( L_Pivots[ N ] ) Then
+				If L_DoubleInLimits( L_Pivots[ N ].X, Triangle2.LeftX(), Triangle2.RightX() ) Then
+					DY = Max( DY, Abs( L_Line.GetY( L_Pivots[ N ].X ) - L_Pivots[ N ].Y ) )
+				End If
+			End If
+		Next
+	End Function
+	
+	
+	
 	Function TriangleAndTriangle( Triangle1:LTSprite, Triangle2:LTSprite, DX:Double Var, DY:Double Var )
 		Local DX1:Double, DY1:Double
 		RectangleAndTriangle( Triangle1, Triangle2, DX1, DY1 )
@@ -152,6 +168,35 @@ Type LTWedge
 		Local DX2:Double, DY2:Double
 		RectangleAndTriangle( Triangle2, Triangle1, DX2, DY2 )
 		Local D2:Double = L_Distance2( DX2, DY2 )
+		
+		Repeat
+			Select Triangle1.ShapeType
+				Case LTSprite.TopLeftTriangle
+					if Triangle2.ShapeType <> LTSprite.BottomRightTriangle Then Exit
+				Case LTSprite.TopRightTriangle
+					if Triangle2.ShapeType <> LTSprite.BottomLeftTriangle Then Exit
+				Case LTSprite.BottomLeftTriangle
+					if Triangle2.ShapeType <> LTSprite.TopRightTriangle Then Exit
+				Case LTSprite.BottomRightTriangle
+					if Triangle2.ShapeType <> LTSprite.TopLeftTriangle Then Exit
+			End Select
+		
+			Local DY3:Double = 0
+			PopAngle( Triangle1, Triangle2, DY3 )
+			PopAngle( Triangle2, Triangle1, DY3 )
+			If DY3 = 0 Then Exit
+			
+			Local DY32:Double = DY3 * DY3
+			If DY32 < D1 And DY32 < D2 Then
+				Triangle1.GetRightAngleVertex( L_Pivots[ 0 ] )
+				Triangle2.GetRightAngleVertex( L_Pivots[ 1 ] )
+				DX = 0
+				DY = DY3 * Sgn( L_Pivots[ 0 ].Y - L_Pivots[ 1 ].Y )
+				Return
+			Else
+				Exit
+			End If
+		Forever
 		
 		If D1 < D2 Then
 			DX = DX1

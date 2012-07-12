@@ -15,12 +15,15 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.4.12"
+ModuleInfo "Version: 1.4.13"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.13 (13.07.12)"
+ModuleInfo "History: &nbsp; &nbsp; Completed wedging off 2 triangles."
+ModuleInfo "History: &nbsp; &nbsp; Implemented image path/object map to exclude loading same image from different worlds twice."
 ModuleInfo "History: v1.4.12.1 (14.06.12)"
 ModuleInfo "History: &nbsp; &nbsp; ..WithLine methods changed to ..WithLineSegment"
 ModuleInfo "History: v1.4.12 (13.06.12)"
@@ -255,7 +258,7 @@ Import brl.map
 Import brl.max2d
 Import brl.eventqueue
 
-Const L_Version:String = "1.4.12"
+Const L_Version:String = "1.4.13"
 
 SeedRnd( MilliSecs() )
 

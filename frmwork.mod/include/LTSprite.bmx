@@ -581,7 +581,7 @@ Type LTSprite Extends LTShape
 						LTWedge.RectangleAndTriangle( Sprite, Self, DX, DY )
 					Case Ray,Raster
 					Default
-						LTWedge.RectangleAndTriangle( Sprite, Self, DX, DY )
+						LTWedge.TriangleAndTriangle( Sprite, Self, DX, DY )
 				End Select
 		End Select
 		If Swap Then
