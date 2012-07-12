@@ -13,7 +13,7 @@
 Rem
 bbdoc: Constant for dealing with inaccuracy of double type operations.
 End Rem
-Const L_Inaccuracy:Double = 0.000001
+Global L_Inaccuracy:Double = 0.000001
 
 ' ------------------------------------------------ Handlers ---------------------------------------------------
 
@@ -214,6 +214,7 @@ Type LTCollision
 			If PivotWithRectangle( L_Pivot1, Triangle2 ) Then If O1 = L_Line.PivotOrientation( L_Pivot1 ) Then Return True
 			If PivotWithRectangle( L_Pivot2, Triangle2 ) Then If O1 = L_Line.PivotOrientation( L_Pivot2 ) Then Return True
 			If PivotWithRectangle( L_Pivot3, Triangle2 ) Then If O1 = L_Line.PivotOrientation( L_Pivot3 ) Then Return True
+			Local O3:Int = ( L_Line.PivotOrientation( L_Pivot3 ) <> L_Line.PivotOrientation( L_Pivot1 ) )
 			
 			Triangle2.GetOtherVertices( L_Pivots[ 0 ], L_Pivots[ 1 ] )
 			Triangle1.GetHypotenuse( L_Line )
@@ -223,7 +224,7 @@ Type LTCollision
 			If PivotWithRectangle( L_Pivot4, Triangle1 ) Then If O2 = L_Line.PivotOrientation( L_Pivot4 ) Then Return True
 			
 			If LineSegmentsCollide( L_Pivot1, L_Pivot2, L_Pivots[ 0 ], L_Pivots[ 1 ] ) Then Return True
-			If L_Line.PivotOrientation( L_Pivot4 ) <> L_Line.PivotOrientation( L_Pivots[ 1 ] ) Then Return True
+			if O3 Then If L_Line.PivotOrientation( L_Pivot4 ) <> L_Line.PivotOrientation( L_Pivots[ 0 ] ) Then Return True
 		End If
 	End Function
 	

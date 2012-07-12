@@ -280,6 +280,13 @@ End Function
 
 
 
+Function L_Distance2:Double( DX:Double, DY:Double )
+	Return DX * DX + DY * DY
+End Function
+
+
+
+
 
 Function L_Cathetus:Double( AB:Double, BC:Double )
 	Return Sqr( AB * AB - BC * BC )

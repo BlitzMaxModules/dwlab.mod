@@ -35,24 +35,14 @@ Type LTWedge
 	
 	
 	
-	Function TriangleAsRectangle:Int( Pivot:LTSprite, Triangle:LTSprite )
-		Triangle.GetOtherVertices( L_Pivot1, L_Pivot2 )
-		Triangle.GetRightAngleVertex( L_Pivot3 )
-		Triangle.GetHypotenuse( L_Line )
-		LTLine.FromPivots( L_Pivot1, LTSprite.GetMedium( L_Pivot2, L_Pivot3, L_Pivot4 ), L_Lines[ 0 ] )
-		LTLine.FromPivots( L_Pivot2, LTSprite.GetMedium( L_Pivot1, L_Pivot3, L_Pivot4 ), L_Lines[ 1 ] )
-		For Local LineNum:Int = 0 To 1
-			If L_Lines[ LineNum ].PivotOrientation( Pivot ) = L_Lines[ LineNum ].PivotOrientation( L_Pivot3 ) Then Return True
-		Next
-	End Function
-	
-	
-	
 	Function PivotAndTriangle( Pivot:LTSprite, Triangle:LTSprite, DX:Double Var, DY:Double Var )
-		If TriangleAsRectangle( Pivot, Triangle ) Then
-			PivotAndRectangle( Pivot, Triangle, DX, DY )
-		Else
-			DY = L_Line.GetY( Pivot.X ) - Pivot.Y
+		DY = L_Line.GetY( Pivot.X ) - Pivot.Y
+		
+		Local DX1:Double, DY1:Double
+		PivotAndRectangle( Pivot, Triangle, DX1, DY1 )
+		If L_Distance2( DX1, DY1 ) < DY * DY Then
+			DX = DX1
+			DY = DY1
 		End If
 	End Function
 	
@@ -89,23 +79,26 @@ Type LTWedge
 	
 	
 	Function OvalAndTriangle( Oval:LTSprite, Triangle:LTSprite, DX:Double Var, DY:Double Var )
-		If TriangleAsRectangle( Oval, Triangle ) Then
-			OvalAndRectangle( Oval, Triangle, DX, DY )
+		L_Oval1 = Oval.ToCircle( L_Pivot3, L_Oval1 )
+		Local VDistance:Double = 0.5 * L_Distance( Triangle.Width, Triangle.Height ) * L_Oval1.Width / Triangle.Width
+		Local DHeight:Double = 0.5 * ( Oval.Height - L_Oval1.Height )
+		Local DDX:Double = 0.5 * L_Oval1.Width / VDistance * L_Cathetus( VDistance, 0.5 * L_Oval1.Width )
+		Local Dir:Int = -1
+		If Triangle.ShapeType = LTSprite.BottomLeftTriangle Or Triangle.ShapeType = LTSprite.BottomRightTriangle Then Dir = 1
+		If Triangle.ShapeType = LTSprite.TopRightTriangle Or Triangle.ShapeType = LTSprite.BottomRightTriangle Then DDX = -DDX
+		If L_Oval1.X < Triangle.LeftX() + DDX Then
+			DY = L_Pivot1.Y - Dir * L_Cathetus( L_Oval1.Width * 0.5, L_Oval1.X - L_Pivot1.X ) - L_Oval1.Y
+		ElseIf L_Oval1.X > Triangle.RightX() + DDX Then
+			DY = L_Pivot2.Y - Dir * L_Cathetus( L_Oval1.Width * 0.5, L_Oval1.X - L_Pivot2.X ) - L_Oval1.Y
 		Else
-			L_Oval1 = Oval.ToCircle( L_Pivot3, L_Oval1 )
-			Local VDistance:Double = 0.5 * L_Distance( Triangle.Width, Triangle.Height ) * L_Oval1.Width / Triangle.Width
-			Local DHeight:Double = 0.5 * ( Oval.Height - L_Oval1.Height )
-			Local DDX:Double = 0.5 * L_Oval1.Width / VDistance * L_Cathetus( VDistance, 0.5 * L_Oval1.Width )
-			Local Dir:Int = -1
-			If Triangle.ShapeType = LTSprite.BottomLeftTriangle Or Triangle.ShapeType = LTSprite.BottomRightTriangle Then Dir = 1
-			If Triangle.ShapeType = LTSprite.TopRightTriangle Or Triangle.ShapeType = LTSprite.BottomRightTriangle Then DDX = -DDX
-			If L_Oval1.X < Triangle.LeftX() + DDX Then
-				DY = L_Pivot1.Y - Dir * L_Cathetus( L_Oval1.Width * 0.5, L_Oval1.X - L_Pivot1.X ) - L_Oval1.Y
-			ElseIf L_Oval1.X > Triangle.RightX() + DDX Then
-				DY = L_Pivot2.Y - Dir * L_Cathetus( L_Oval1.Width * 0.5, L_Oval1.X - L_Pivot2.X ) - L_Oval1.Y
-			Else
-				DY = L_Line.GetY( L_Oval1.X ) - Dir * ( VDistance + DHeight ) - Oval.Y
-			End If
+			DY = L_Line.GetY( L_Oval1.X ) - Dir * ( VDistance + DHeight ) - Oval.Y
+		End If
+	
+		Local DX1:Double, DY1:Double
+		OvalAndRectangle( Oval, Triangle, DX1, DY1 )
+		If L_Distance2( DX1, DY1 ) < DY * DY Then
+			DX = DX1
+			DY = DY1
 		End If
 	End Function
 	
@@ -127,53 +120,46 @@ Type LTWedge
 	
 	
 	Function RectangleAndTriangle( Rectangle:LTSprite, Triangle:LTSprite, DX:Double Var, DY:Double Var )
-		If TriangleAsRectangle( Rectangle, Triangle ) Then
-			RectangleAndRectangle( Rectangle, Triangle, DX, DY )
+		Local X:Double
+		If Triangle.ShapeType = LTSprite.TopLeftTriangle Or Triangle.ShapeType = LTSprite.BottomLeftTriangle Then
+			X = Rectangle.LeftX()
 		Else
-			Local X:Double
-			If Triangle.ShapeType = LTSprite.TopLeftTriangle Or Triangle.ShapeType = LTSprite.BottomLeftTriangle Then
-				X = Rectangle.LeftX()
-			Else
-				X = Rectangle.RightX()
-			End If
-			DX = 0
-			If Triangle.ShapeType = LTSprite.TopLeftTriangle Or Triangle.ShapeType = LTSprite.TopRightTriangle
-				DY = Min( L_Line.GetY( X ), Triangle.BottomY() ) - Rectangle.TopY()
-			Else
-				DY = Max( L_Line.GetY( X ), Triangle.TopY() ) - Rectangle.BottomY()
-			End If
+			X = Rectangle.RightX()
 		End If
-	End Function
-	
-	
-	
-	Function TriangleAsRectangle2:Int( Triangle1:LTSprite, Triangle2:LTSprite )
-		Triangle1.GetOtherVertices( L_Pivot1, L_Pivot2 )
-		Triangle1.GetRightAngleVertex( L_Pivot3 )
-		Triangle1.GetHypotenuse( L_Line )
-		LTLine.FromPivots( L_Pivot1, LTSprite.GetMedium( L_Pivot2, L_Pivot3, L_Pivot4 ), L_Lines[ 0 ] )
-		LTLine.FromPivots( L_Pivot2, LTSprite.GetMedium( L_Pivot1, L_Pivot3, L_Pivot4 ), L_Lines[ 1 ] )
-		Triangle2.GetOtherVertices( L_Pivots[ 0 ], L_Pivots[ 1 ] )
-		Triangle2.GetRightAngleVertex( L_Pivots[ 2 ] )
-		For Local LineNum:Int = 0 To 1
-			Local O:Int = L_Lines[ LineNum ].PivotOrientation( L_Pivot3 )
-			For Local PivotNum:Int = 0 To 2
-				If L_Lines[ LineNum ].PivotOrientation( L_Pivots[ PivotNum ] ) = O Then Return True
-			Next
-		Next
+		If Triangle.ShapeType = LTSprite.TopLeftTriangle Or Triangle.ShapeType = LTSprite.TopRightTriangle
+			DY = Min( L_Line.GetY( X ), Triangle.BottomY() ) - Rectangle.TopY()
+		Else
+			DY = Max( L_Line.GetY( X ), Triangle.TopY() ) - Rectangle.BottomY()
+		End If
+		
+		Local DX1:Double, DY1:Double
+		RectangleAndRectangle( Rectangle, Triangle, DX1, DY1 )
+		If L_Distance2( DX1, DY1 ) < DY * DY Then
+			DX = DX1
+			DY = DY1
+		End If
 	End Function
 	
 	
 	
 	Function TriangleAndTriangle( Triangle1:LTSprite, Triangle2:LTSprite, DX:Double Var, DY:Double Var )
-		If TriangleAsRectangle2( Triangle2, Triangle1 ) Then
-			RectangleAndTriangle( Triangle2, Triangle1, DX, DY )
-			DX = -DX
-			DY = -DY
-		ElseIf TriangleAsRectangle2( Triangle1, Triangle2 ) Then
-			RectangleAndTriangle( Triangle1, Triangle2, DX, DY )
+		'Local DX1:Double, DY1:Double
+		'RectangleAndTriangle( Triangle1, Triangle2, DX, DY )
+		'Local D1:Double = L_Distance2( DX1, DY1 )
+		
+		'Local DX2:Double, DY2:Double
+		'RectangleAndTriangle( Triangle2, Triangle1, DX, DY )
+		'Local D2:Double = L_Distance2( DX2, DY2 )
+		
+		Rem
+		If 0 Then
+			DX = DX1
+			DY = DY1
 		Else
+			DX = -DX2
+			DY = -DY2
 		End If
+		EndRem
 	End Function
 	
 	

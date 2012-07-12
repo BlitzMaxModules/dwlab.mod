@@ -14,7 +14,7 @@ Rem
 bbdoc: Default audio drivers set.
 about: Allows to load and play OGGs.
 End Rem
-Module dwlab.audiodrivers
+Module dwlab.AudioDrivers
 
 ModuleInfo "Version: 1.0"
 ModuleInfo "Author: Matt Merkulov"
@@ -32,11 +32,12 @@ Import brl.oggloader
 
 
 
-incbin "error.ogg"
+Incbin "error1.ogg"
+Incbin "error2.ogg"
 
 Type TErrorSoundPlayer Extends TSoundPlayer
 	Method PlayErrorSound()
-		LoadSound( "incbin::error.ogg" ).Play()
+		LoadSound( "incbin::error" + Rand(1,2) + ".ogg" ).Play()
 	End Method
 End Type
 L_ErrorSoundPlayer = New TErrorSoundPlayer
