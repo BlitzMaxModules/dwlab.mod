@@ -21,7 +21,7 @@ Type LTImage Extends LTObject
 	Field XCells:Int = 1
 	Field YCells:Int = 1
 	
-	Global Images:TMap = New TMap
+	Global Bitmaps:TMap = New TMap
 	
 	
 	
@@ -34,15 +34,11 @@ Type LTImage Extends LTObject
 		'If XCells <= 0 Or YCells <= 0 Then L_Error( "Cells quantity must be 1 or more" )
 		'?
 		
-		Local Image:LTImage = Images.ValueForKey( Filename )
-		If Image Then If Image.XCells = XCells And Image.YCells = YCells Then Return Image
-		
-		Image = New LTImage
+		Local Image:LTImage = New LTImage
 		Image.Filename = Filename
 		Image.XCells = XCells
 		Image.YCells = YCells
 		Image.Init()
-		Images.Insert( Filename, Image )
 		
 		Return Image
 	End Function
@@ -61,8 +57,19 @@ Type LTImage Extends LTObject
 		'?
 		If XCells < 0 Then XCells = PixmapWidth( Pixmap ) / -XCells
 		If YCells < 0 Then YCells = PixmapHeight( Pixmap ) / -YCells
-		BMaxImage = LoadAnimImage( Pixmap, PixmapWidth( Pixmap ) / XCells, PixmapHeight( Pixmap ) / YCells, 0, XCells * YCells )
-		MidHandleImage( BMaxImage )
+		
+		Local CellWidth:Int = PixmapWidth( Pixmap ) / XCells
+		Local CellHeight:Int = PixmapHeight( Pixmap ) / YCells
+		
+		Local Bitmap:TImage = TImage( Bitmaps.ValueForKey( Filename ) )
+		If Bitmap Then If CellWidth <> ImageWidth( Bitmap ) Or CellHeight <> ImageHeight( Bitmap ) Then Bitmap = Null
+		If Bitmap Then
+			BMaxImage = Bitmap
+		Else
+			BMaxImage = LoadAnimImage( Pixmap, CellWidth, CellHeight, 0, XCells * YCells )
+			MidHandleImage( BMaxImage )
+			Bitmaps.Insert( Filename, Bitmap )
+		End If
 	End Method
 	
 	

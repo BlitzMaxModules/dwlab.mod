@@ -447,7 +447,8 @@ LTCollision^Object{
 +RectangleWithTriangle%(Rectangle:LTSprite,Triangle:LTSprite)="_dwlab_frmwork_LTCollision_RectangleWithTriangle"
 +RectangleWithLineSegment%(Rectangle:LTSprite,LineSegment:LTLineSegment)="_dwlab_frmwork_LTCollision_RectangleWithLineSegment"
 +TriangleWithTriangle%(Triangle1:LTSprite,Triangle2:LTSprite)="_dwlab_frmwork_LTCollision_TriangleWithTriangle"
-+TriangleWithLineSegment%(Triangle1:LTSprite,LineSegment:LTLineSegment)="_dwlab_frmwork_LTCollision_TriangleWithLineSegment"
++TriangleWithLineSegment%(Triangle:LTSprite,LineSegment:LTLineSegment)="_dwlab_frmwork_LTCollision_TriangleWithLineSegment"
++LineSegmentWithLineSegment%(LineSegment1:LTLineSegment,LineSegment2:LTLineSegment)="_dwlab_frmwork_LTCollision_LineSegmentWithLineSegment"
 +RasterWithRaster%(Raster1:LTSprite,Raster2:LTSprite)="_dwlab_frmwork_LTCollision_RasterWithRaster"
 }="dwlab_frmwork_LTCollision"
 LTOverlap^Object{
@@ -961,6 +962,7 @@ LTRasterFrame^LTImage{
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTRasterFrame_XMLIO"
 }="dwlab_frmwork_LTRasterFrame"
 LTImage^LTObject{
+Bitmaps:TMap&=mem:p("_dwlab_frmwork_LTImage_Bitmaps")
 .BMaxImage:TImage&
 .Filename$&
 .XCells%&
