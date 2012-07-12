@@ -38,7 +38,7 @@ Type TExample Extends LTProject
 	Method Render()
 		Sprites.Draw()
 		For Local Sprite:LTSprite = Eachin Sprites.Children
-			'If Sprite.ShapeType < 4 Then Continue
+			If Sprite.ShapeType < 4 Then Continue
 			if L_Cursor.CollidesWithSprite( Sprite ) Then
 				Sprite.Visualizer.SetColorFromHex( "FF7F7F" )
 				Local WedgedCursor:LTSprite = LTSprite( L_Cursor.Clone() )
@@ -50,9 +50,6 @@ Type TExample Extends LTProject
 			End If
 		Next
 		L_Cursor.Draw()
-		
-		Local Triangle:LTSprite = LTSprite( Sprites.ValueAtIndex( 5 ) )
-		Triangle.GetHypotenuse( L_Line )
 		
 		L_PrintText( "Press right mouse button to change shape", 0, -12, LTAlign.ToCenter, LTAlign.ToTop )
 		L_PrintText( "ColldesWithSprite example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )

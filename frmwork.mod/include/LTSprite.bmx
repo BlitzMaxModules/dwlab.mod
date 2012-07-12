@@ -571,6 +571,7 @@ Type LTSprite Extends LTShape
 				End Select
 			Case Ray,Raster
 			Default
+				Swap = True
 				Select Sprite.ShapeType
 					Case Pivot
 						LTWedge.PivotAndTriangle( Sprite, Self, DX, DY )
@@ -580,9 +581,8 @@ Type LTSprite Extends LTShape
 						LTWedge.RectangleAndTriangle( Sprite, Self, DX, DY )
 					Case Ray,Raster
 					Default
-						LTWedge.TriangleAndTriangle( Sprite, Self, DX, DY )
+						LTWedge.RectangleAndTriangle( Sprite, Self, DX, DY )
 				End Select
-				Swap = True
 		End Select
 		If Swap Then
 			LTWedge.Separate( Sprite, Self, DX, DY, SpriteMovingResistance, SelfMovingResistance )

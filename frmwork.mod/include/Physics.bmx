@@ -126,6 +126,8 @@ Type LTWedge
 		Else
 			X = Rectangle.RightX()
 		End If
+
+		Triangle.GetHypotenuse( L_Line )
 		If Triangle.ShapeType = LTSprite.TopLeftTriangle Or Triangle.ShapeType = LTSprite.TopRightTriangle
 			DY = Min( L_Line.GetY( X ), Triangle.BottomY() ) - Rectangle.TopY()
 		Else
@@ -143,23 +145,21 @@ Type LTWedge
 	
 	
 	Function TriangleAndTriangle( Triangle1:LTSprite, Triangle2:LTSprite, DX:Double Var, DY:Double Var )
-		'Local DX1:Double, DY1:Double
-		'RectangleAndTriangle( Triangle1, Triangle2, DX, DY )
-		'Local D1:Double = L_Distance2( DX1, DY1 )
+		Local DX1:Double, DY1:Double
+		RectangleAndTriangle( Triangle1, Triangle2, DX1, DY1 )
+		Local D1:Double = L_Distance2( DX1, DY1 )
 		
-		'Local DX2:Double, DY2:Double
-		'RectangleAndTriangle( Triangle2, Triangle1, DX, DY )
-		'Local D2:Double = L_Distance2( DX2, DY2 )
+		Local DX2:Double, DY2:Double
+		RectangleAndTriangle( Triangle2, Triangle1, DX2, DY2 )
+		Local D2:Double = L_Distance2( DX2, DY2 )
 		
-		Rem
-		If 0 Then
+		If D1 < D2 Then
 			DX = DX1
 			DY = DY1
 		Else
 			DX = -DX2
 			DY = -DY2
 		End If
-		EndRem
 	End Function
 	
 	
