@@ -25,6 +25,7 @@ Type TExample Extends LTProject
 		L_Cursor = New LTSprite.FromShape( 0.0, 0.0, 5.0, 7.0, LTSprite.Pivot )
 		L_Cursor.Angle = 45
 		L_Cursor.Visualizer.SetColorFromHex( "7F7F7FFF" )
+		L_Cursor.ShapeType = LTSprite.Ray
 	End Method
 	
 	Method Logic()
@@ -33,12 +34,13 @@ Type TExample Extends LTProject
 			L_Cursor.ShapeType = ( L_Cursor.ShapeType + 1 ) Mod 9
 			If L_Cursor.ShapeType = LTSprite.Raster Then L_Cursor.Visualizer.Image = Image Else L_Cursor.Visualizer.Image = Null
 		End If
+		'L_Cursor.Angle :+ 0.5
 	End Method
 
 	Method Render()
 		Sprites.Draw()
 		For Local Sprite:LTSprite = Eachin Sprites.Children
-			If Sprite.ShapeType < 4 Then Continue
+			'If Sprite.ShapeType < 4 Then Continue
 			if L_Cursor.CollidesWithSprite( Sprite ) Then
 				Sprite.Visualizer.SetColorFromHex( "FF7F7F" )
 				Local WedgedCursor:LTSprite = LTSprite( L_Cursor.Clone() )
@@ -51,7 +53,7 @@ Type TExample Extends LTProject
 		Next
 		L_Cursor.Draw()
 		
-		L_PrintText( "Press right mouse button to change shape", 0, -12, LTAlign.ToCenter, LTAlign.ToTop )
+		L_PrintText( "Press right mouse button to change shape ", 0, -12, LTAlign.ToCenter, LTAlign.ToTop )
 		L_PrintText( "ColldesWithSprite example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

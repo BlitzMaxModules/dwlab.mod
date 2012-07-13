@@ -36,7 +36,7 @@ Type LTWedge
 	
 	
 	Function PivotAndTriangle( Pivot:LTSprite, Triangle:LTSprite, DX:Double Var, DY:Double Var )
-		DY = L_Line.GetY( Pivot.X ) - Pivot.Y
+		DY = L_Line1.GetY( Pivot.X ) - Pivot.Y
 		
 		Local DX1:Double, DY1:Double
 		PivotAndRectangle( Pivot, Triangle, DX1, DY1 )
@@ -91,7 +91,7 @@ Type LTWedge
 		ElseIf L_Oval1.X > Triangle.RightX() + DDX Then
 			DY = L_Pivot2.Y - Dir * L_Cathetus( L_Oval1.Width * 0.5, L_Oval1.X - L_Pivot2.X ) - L_Oval1.Y
 		Else
-			DY = L_Line.GetY( L_Oval1.X ) - Dir * ( VDistance + DHeight ) - Oval.Y
+			DY = L_Line1.GetY( L_Oval1.X ) - Dir * ( VDistance + DHeight ) - Oval.Y
 		End If
 	
 		Local DX1:Double, DY1:Double
@@ -127,11 +127,11 @@ Type LTWedge
 			X = Rectangle.RightX()
 		End If
 
-		Triangle.GetHypotenuse( L_Line )
+		Triangle.GetHypotenuse( L_Line1 )
 		If Triangle.ShapeType = LTSprite.TopLeftTriangle Or Triangle.ShapeType = LTSprite.TopRightTriangle
-			DY = Min( L_Line.GetY( X ), Triangle.BottomY() ) - Rectangle.TopY()
+			DY = Min( L_Line1.GetY( X ), Triangle.BottomY() ) - Rectangle.TopY()
 		Else
-			DY = Max( L_Line.GetY( X ), Triangle.TopY() ) - Rectangle.BottomY()
+			DY = Max( L_Line1.GetY( X ), Triangle.TopY() ) - Rectangle.BottomY()
 		End If
 		
 		Local DX1:Double, DY1:Double
@@ -146,13 +146,13 @@ Type LTWedge
 	
 	Function PopAngle( Triangle1:LTSprite, Triangle2:LTSprite, DY:Double Var )
 		Triangle2.GetRightAngleVertex( L_Pivots[ 0 ] )
-		Triangle2.GetHypotenuse( L_Line )
+		Triangle2.GetHypotenuse( L_Line1 )
 		Triangle1.GetOtherVertices( L_Pivots[ 1 ], L_Pivots[ 2 ] )
-		Local O:Int = L_Line.PivotOrientation( L_Pivots[ 0 ] )
+		Local O:Int = L_Line1.PivotOrientation( L_Pivots[ 0 ] )
 		For Local N:Int = 1 To 2
-			If O = L_Line.PivotOrientation( L_Pivots[ N ] ) Then
+			If O = L_Line1.PivotOrientation( L_Pivots[ N ] ) Then
 				If L_DoubleInLimits( L_Pivots[ N ].X, Triangle2.LeftX(), Triangle2.RightX() ) Then
-					DY = Max( DY, Abs( L_Line.GetY( L_Pivots[ N ].X ) - L_Pivots[ N ].Y ) )
+					DY = Max( DY, Abs( L_Line1.GetY( L_Pivots[ N ].X ) - L_Pivots[ N ].Y ) )
 				End If
 			End If
 		Next

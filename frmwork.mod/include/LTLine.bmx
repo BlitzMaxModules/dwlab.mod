@@ -98,13 +98,22 @@ Type LTLine Extends LTShape
 	
 	
 	
-	Method IntersectionWith:LTSprite( Line:LTLine, Pivot:LTSprite = Null )
+	Method IntersectionWithLine:LTSprite( Line:LTLine, Pivot:LTSprite = Null )
 		If Not Pivot Then Pivot = New LTSprite
 		Local K:Double = B * Line.A - A * Line.B
 		If K = 0.0 Then Return Null
 		Pivot.Y = ( Line.C * A - C * Line.A ) / K
 		Pivot.X = ( C - B * Pivot.Y ) / A
 		Return Pivot
+	End Method
+	
+	
+	
+	Method IntersectionWithLineSegment:LTSprite( LSPivot1:LTSprite, LSPivot2:LTSprite, Pivot:LTSprite = Null )
+		If PivotOrientation( LSPivot1 ) <> PivotOrientation( LSPivot2 ) Then
+			FromPivots( LSPivot1, LSPivot2, L_Line2 )
+			Return IntersectionWithLine( L_Line2, Pivot )
+		End If
 	End Method
 	
 	

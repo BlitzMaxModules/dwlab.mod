@@ -149,14 +149,11 @@ Type LTSprite Extends LTShape
 		Select ShapeType
 			Case Pivot
 				Select Sprite.ShapeType
-					Case Pivot
-						Return LTCollision.PivotWithPivot( Self, Sprite )
 					Case Oval
 						Return LTCollision.PivotWithOval( Self, Sprite )
 					Case Rectangle
 						Return LTCollision.PivotWithRectangle( Self, Sprite )
-					Case Ray
-					Case Raster
+					Case Pivot, Ray, Raster
 					Default
 						Return LTCollision.PivotWithTriangle( Self, Sprite )
 				End Select
@@ -169,6 +166,7 @@ Type LTSprite Extends LTShape
 					Case Rectangle
 						Return LTCollision.OvalWithRectangle( Self, Sprite )
 					Case Ray
+						Return LTCollision.OvalWithRay( Self, Sprite )
 					Case Raster
 					Default
 						Return LTCollision.OvalWithTriangle( Self, Sprite )
@@ -182,10 +180,22 @@ Type LTSprite Extends LTShape
 					Case Rectangle
 						Return LTCollision.RectangleWithRectangle( Self, Sprite )
 					Case Ray
+						Return LTCollision.RectangleWithRay( Self, Sprite )
 					Default
 						Return LTCollision.RectangleWithTriangle( Self, Sprite )
 				End Select
 			Case Ray
+				Select Sprite.ShapeType
+					Case Pivot
+					Case Oval
+						Return LTCollision.OvalWithRay( Sprite, Self )
+					Case Rectangle
+						Return LTCollision.RectangleWithRay( Sprite, Self )
+					Case Ray
+						Return LTCollision.RayWithRay( Self, Sprite )
+					Default
+						Return LTCollision.TriangleWithRay( Sprite, Self )
+				End Select
 			Case Raster
 				If Sprite.ShapeType = Raster Then Return LTCollision.RasterWithRaster( Self, Sprite )
 			Default
@@ -197,6 +207,7 @@ Type LTSprite Extends LTShape
 					Case Rectangle, Raster
 						Return LTCollision.RectangleWithTriangle( Sprite, Self )
 					Case Ray
+						Return LTCollision.TriangleWithRay( Self, Sprite )
 					Case Raster
 					Default
 						Return LTCollision.TriangleWithTriangle( Self, Sprite )
@@ -216,16 +227,15 @@ Type LTSprite Extends LTShape
 		L_CollisionChecks :+ 1
 		?
 		Select ShapeType
-			Case Pivot
-				Return LTCollision.PivotWithLineSegment( Self, LineSegment )
+			Case Pivot, Raster
 			Case Oval
-				Return LTCollision.OvalWithLineSegment( Self, LineSegment )
+				Return LTCollision.OvalWithLineSegment( Self, LineSegment.Pivot[ 0 ], LineSegment.Pivot[ 1 ] )
 			Case Rectangle
-				Return LTCollision.RectangleWithLineSegment( Self, LineSegment )
+				Return LTCollision.RectangleWithLineSegment( Self, LineSegment.Pivot[ 0 ], LineSegment.Pivot[ 1 ] )
 			Case Ray
-			Case Raster
+				Return LTCollision.RayWithLineSegment( Self, LineSegment.Pivot[ 0 ], LineSegment.Pivot[ 1 ] )
 			Default
-				Return LTCollision.TriangleWithLineSegment( Self, LineSegment )
+				Return LTCollision.TriangleWithLineSegment( Self, LineSegment.Pivot[ 0 ], LineSegment.Pivot[ 1 ] )
 		End Select
 	End Method
 	
@@ -240,14 +250,11 @@ Type LTSprite Extends LTShape
 				L_ServicePivot.X = X * XScale + DX
 				L_ServicePivot.Y = Y * YScale + DY
 				Select Sprite.ShapeType
-					Case Pivot
-						Return LTCollision.PivotWithPivot( L_ServicePivot, Sprite )
+					Case Pivot, Raster, Ray
 					Case Oval
 						Return LTCollision.PivotWithOval( L_ServicePivot, Sprite )
 					Case Rectangle
 						Return LTCollision.PivotWithRectangle( L_ServicePivot, Sprite )
-					Case Ray
-					Case Raster
 					Default
 						Return LTCollision.PivotWithTriangle( L_ServicePivot, Sprite )
 				End Select
@@ -264,6 +271,7 @@ Type LTSprite Extends LTShape
 					Case Rectangle, Raster
 						Return LTCollision.OvalWithRectangle( L_ServiceOval, Sprite )
 					Case Ray
+						Return LTCollision.OvalWithRay( L_ServiceOval, Sprite )
 					Case Raster
 					Default
 						Return LTCollision.OvalWithTriangle( L_ServiceOval, Sprite )
@@ -281,6 +289,7 @@ Type LTSprite Extends LTShape
 					Case Rectangle, Raster
 						Return LTCollision.RectangleWithRectangle( L_ServiceRectangle, Sprite )
 					Case Ray
+						Return LTCollision.RectangleWithRay( L_ServiceRectangle, Sprite )
 					Case Raster
 					Default
 						Return LTCollision.RectangleWithTriangle( L_ServiceRectangle, Sprite )
@@ -302,6 +311,7 @@ Type LTSprite Extends LTShape
 					Case Rectangle
 						Return LTCollision.RectangleWithTriangle( Sprite, L_ServiceTriangle )
 					Case Ray
+						Return LTCollision.TriangleWithRay( L_ServiceTriangle, Sprite )
 					Case Raster
 					Default
 						Return LTCollision.TriangleWithTriangle( L_ServiceTriangle, Sprite )
@@ -331,14 +341,14 @@ Type LTSprite Extends LTShape
 					Case Rectangle
 						Return LTOverlap.CircleAndRectangle( Self, Sprite )
 					Case Ray, Raster
-						Return False
+					Default
+						Return LTOverlap.CircleAndTriangle( Self, Sprite )
 				End Select
 			Case Rectangle
 				Select Sprite.ShapeType
 					Case Pivot
 						Return LTOverlap.RectangleAndPivot( Self, Sprite )
 					Case Ray, Raster
-						Return False
 					Default
 						Return LTOverlap.RectangleAndRectangle( Self, Sprite )
 				End Select
@@ -952,6 +962,12 @@ Type LTSprite Extends LTShape
 		Else
 			Return Y1 <= Y
 		End If
+	End Method
+	
+	
+	
+	Method HasPivot:Int( Pivot:LTSprite )
+		Return HasPoint( Pivot.X, Pivot.Y )
 	End Method
 	
 	' ==================== Methods for triangle ====================	

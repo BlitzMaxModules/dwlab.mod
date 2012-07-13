@@ -264,16 +264,16 @@ Type LTVisualizer Extends LTColor
 					Local Ang:Double = L_WrapDouble( Sprite.Angle, 360.0 )
 					If Ang < 45.0 Or Ang >= 315.0 Then
 						Local Width:Double = L_CurrentCamera.Viewport.RightX() - SX
-						DrawLine( SX, SY, SX + Width, SY + Width * ATan( Ang ) )
+						If Width > 0 Then DrawLine( SX, SY, SX + Width, SY + Width * Tan( Ang ) )
 					ElseIf Ang < 135.0 Then
-						Local Height:Double = L_CurrentCamera.Viewport.TopY() - SY
-						DrawLine( SX, SY, SX + Height * Tan( Ang ), SY - Height )
+						Local Height:Double = L_CurrentCamera.Viewport.BottomY() - SY
+						If Height > 0 Then DrawLine( SX, SY, SX + Height / Tan( Ang ), SY + Height )
 					ElseIf Ang < 225.0 Then
-						Local Width:Double = SX - L_CurrentCamera.Viewport.LeftX()
-						DrawLine( SX, SY, SX - Width, SY - Width * ATan( Ang ) )
+						Local Width:Double = L_CurrentCamera.Viewport.LeftX() - SX
+						If Width < 0 Then DrawLine( SX, SY, SX + Width, SY + Width * Tan( Ang ) )
 					Else
 						Local Height:Double = L_CurrentCamera.Viewport.TopY() - SY
-						DrawLine( SX, SY, SX + Height * Tan( Ang ), SY + Height )
+						If Height < 0 Then DrawLine( SX, SY, SX + Height / Tan( Ang ), SY + Height )
 					End If
 				Case LTSprite.TopLeftTriangle
 					DrawPoly( [ Float( SX - 0.5 * SWidth ), Float( SY - 0.5 * SHeight ), Float( SX + 0.5 * SWidth ), Float( SY - 0.5 * SHeight ), ..
