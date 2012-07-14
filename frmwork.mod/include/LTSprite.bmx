@@ -665,7 +665,7 @@ Type LTSprite Extends LTShape
 						LTWedge.OvalAndOval( Self, L_ServiceOval, PushingDX, PushingDY )
 					Case Rectangle
 						LTWedge.OvalAndRectangle( L_ServiceOval, Self, PushingDX, PushingDY )
-						LTWedge.Separate( L_Oval1, Self, PushingDX, PushingDY, 1.0, 0.0 )
+						LTWedge.Separate( L_ServiceOval, Self, PushingDX, PushingDY, 1.0, 0.0 )
 						Return
 				End Select
 			Case Rectangle

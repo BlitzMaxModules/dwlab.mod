@@ -15,6 +15,8 @@ Type LTLine Extends LTShape
 	Field A:Double = 1.0, B:Double, C:Double
 	Field S:Double, S2:Double
 	
+	Global ServiceLine:LTLine = New LTLine
+	
 	
 	
 	Function FromPoints:LTLine( X1:Double, Y1:Double, X2:Double, Y2:Double, Line:LTLine = Null )
@@ -111,8 +113,8 @@ Type LTLine Extends LTShape
 	
 	Method IntersectionWithLineSegment:LTSprite( LSPivot1:LTSprite, LSPivot2:LTSprite, Pivot:LTSprite = Null )
 		If PivotOrientation( LSPivot1 ) <> PivotOrientation( LSPivot2 ) Then
-			FromPivots( LSPivot1, LSPivot2, L_Line2 )
-			Return IntersectionWithLine( L_Line2, Pivot )
+			FromPivots( LSPivot1, LSPivot2, ServiceLine )
+			Return IntersectionWithLine( ServiceLine, Pivot )
 		End If
 	End Method
 	

@@ -54,25 +54,28 @@ Type LTSpriteAndLineSegmentCollisionHandler Extends LTObject
 	End Method
 End Type
 
-' ------------------------------------------------ Service sprites ---------------------------------------------------
-
-Global L_Pivot1:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
-Global L_Pivot2:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
-Global L_Pivot3:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
-Global L_Pivot4:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
-Global L_Oval1:LTSprite = LTSprite.FromShapeType( LTSprite.Oval )
-Global L_Oval2:LTSprite = LTSprite.FromShapeType( LTSprite.Oval )
-Global L_Rectangle:LTSprite = LTSprite.FromShapeType( LTSprite.Rectangle )
-Global L_Triangle:LTSprite = New LTSprite
-Global L_Line1:LTLine = New LTLine
-Global L_Line2:LTLine = New LTLine
-Global L_LineSegment:LTLineSegment = New LTLineSegment
-
 ' ------------------------------------------------ Collision ---------------------------------------------------
 
+For Local N:Int = 0 To 3
+	LTCollision.ServicePivots[ N ] = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
+Next
+
 Type LTCollision
+	Global ServicePivot1:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
+	Global ServicePivot2:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
+	Global ServicePivot3:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
+	Global ServicePivot4:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
+	Global ServicePivots:LTSprite[] = New LTSprite[ 4 ]
+	Global ServiceOval1:LTSprite = LTSprite.FromShapeType( LTSprite.Oval )
+	Global ServiceOval2:LTSprite = LTSprite.FromShapeType( LTSprite.Oval )
+	Global ServiceLine1:LTLine = New LTLine
+	Global ServiceLine2:LTLine = New LTLine
+	Global ServiceLineSegment:LTLineSegment = New LTLineSegment
+
+	
+	
 	Function PivotWithOval:Int( Pivot:LTSprite, Oval:LTSprite )
-		Oval = Oval.ToCircle( Pivot, L_Oval1 )
+		Oval = Oval.ToCircle( Pivot, ServiceOval1 )
 		Local Radius:Double = 0.5 * Oval.Width - L_Inaccuracy
 		If Pivot.Distance2To( Oval ) < Radius * Radius Then Return True
 	End Function
@@ -87,17 +90,17 @@ Type LTCollision
 	
 	Function PivotWithTriangle:Int( Pivot:LTSprite, Triangle:LTSprite )
 		If PivotWithRectangle( Pivot, Triangle ) Then
-			Triangle.GetHypotenuse( L_Line1 )
-			Triangle.GetRightAngleVertex( L_Pivot1 )
-			If L_Line1.PivotOrientation( Pivot ) = L_Line1.PivotOrientation( L_Pivot1 ) Then Return True
+			Triangle.GetHypotenuse( ServiceLine1 )
+			Triangle.GetRightAngleVertex( ServicePivot1 )
+			If ServiceLine1.PivotOrientation( Pivot ) = ServiceLine1.PivotOrientation( ServicePivot1 ) Then Return True
 		End If
 	End Function
 	
 	
 	
 	Function OvalWithOval:Int( Oval1:LTSprite, Oval2:LTSprite )
-		Oval1 = Oval1.ToCircle( Oval2, L_Oval1 )
-		Oval2 = Oval2.ToCircle( Oval1, L_Oval2 )
+		Oval1 = Oval1.ToCircle( Oval2, ServiceOval1 )
+		Oval2 = Oval2.ToCircle( Oval1, ServiceOval2 )
 		Local Radiuses:Double = 0.5 * ( Oval1.Width + Oval2.Width ) - L_Inaccuracy
 		If Oval1.Distance2To( Oval2 ) < Radiuses * Radiuses Then Return True
 	End Function
@@ -105,7 +108,7 @@ Type LTCollision
 	
 	
 	Function OvalWithRectangle:Int( Oval:LTSprite, Rectangle:LTSprite )
-		Oval = Oval.ToCircle( Rectangle, L_Oval1 )
+		Oval = Oval.ToCircle( Rectangle, ServiceOval1 )
 		If ( Rectangle.X - Rectangle.Width * 0.5 <= Oval.X And Oval.X <= Rectangle.X + Rectangle.Width * 0.5 ) Or ( Rectangle.Y - Rectangle.Height * 0.5 <= Oval.Y And Oval.Y <= Rectangle.Y + Rectangle.Height * 0.5 ) Then
 			If 2.0 * Abs( Oval.X - Rectangle.X ) < Oval.Width + Rectangle.Width - L_Inaccuracy And 2.0 * Abs( Oval.Y - Rectangle.Y ) < Oval.Width + Rectangle.Height - L_Inaccuracy Then Return True
 		Else
@@ -119,15 +122,15 @@ Type LTCollision
 	
 	
 	Function OvalWithLineSegment:Int( Oval:LTSprite, LSPivot1:LTSprite, LSPivot2:LTSprite )
-		L_Oval1.X = 0.5 * ( LSPivot1.X + LSPivot2.X )
-		L_Oval1.Y = 0.5 * ( LSPivot1.Y + LSPivot2.Y )
-		L_Oval1.Width = 0.5 * LSPivot1.DistanceTo( LSPivot2 )
-		If OvalWithOval( Oval, L_Oval1 ) Then
-			LTLine.FromPivots( LSPivot1, LSPivot2, L_Line1 )
-			Oval = Oval.ToCircleUsingLine( L_Line1, L_Oval2 )
-			If L_Line1.DistanceTo( Oval ) < 0.5 * Max( Oval.Width, Oval.Height ) - L_Inaccuracy Then
-				L_Line1.PivotProjection( Oval, L_Pivot1 )
-				If PivotWithOval( L_Pivot1, L_Oval1 ) And L_Pivot1.DistanceTo( L_Oval2 ) < L_Oval1.Width - L_Inaccuracy Then Return True
+		ServiceOval1.X = 0.5 * ( LSPivot1.X + LSPivot2.X )
+		ServiceOval1.Y = 0.5 * ( LSPivot1.Y + LSPivot2.Y )
+		ServiceOval1.Width = 0.5 * LSPivot1.DistanceTo( LSPivot2 )
+		If OvalWithOval( Oval, ServiceOval1 ) Then
+			LTLine.FromPivots( LSPivot1, LSPivot2, ServiceLine1 )
+			Oval = Oval.ToCircleUsingLine( ServiceLine1, ServiceOval2 )
+			If ServiceLine1.DistanceTo( Oval ) < 0.5 * Max( Oval.Width, Oval.Height ) - L_Inaccuracy Then
+				ServiceLine1.PivotProjection( Oval, ServicePivot1 )
+				If PivotWithOval( ServicePivot1, ServiceOval1 ) And ServicePivot1.DistanceTo( ServiceOval2 ) < ServiceOval1.Width - L_Inaccuracy Then Return True
 			End If
 		End If
 	End Function
@@ -136,23 +139,23 @@ Type LTCollision
 	
 	Function OvalWithTriangle:Int( Oval:LTSprite, Triangle:LTSprite )
 		If OvalWithRectangle( Oval, Triangle ) Then
-			Triangle.GetHypotenuse( L_Line1 )
-			Oval = Oval.ToCircleUsingLine( L_Line1, L_Oval1 )
-			Triangle.GetRightAngleVertex( L_Pivot1 )
-			If L_Line1.PivotOrientation( Oval ) = L_Line1.PivotOrientation( L_Pivot1 ) Then Return True
-			If Not L_Line1.CollisionPointsWithCircle( Oval, L_Pivot1, L_Pivot2 ) Then Return False
-			If PivotWithRectangle( L_Pivot1, Triangle ) Or PivotWithRectangle( L_Pivot2, Triangle ) Then Return True
+			Triangle.GetHypotenuse( ServiceLine1 )
+			Oval = Oval.ToCircleUsingLine( ServiceLine1, ServiceOval1 )
+			Triangle.GetRightAngleVertex( ServicePivot1 )
+			If ServiceLine1.PivotOrientation( Oval ) = ServiceLine1.PivotOrientation( ServicePivot1 ) Then Return True
+			If Not ServiceLine1.CollisionPointsWithCircle( Oval, ServicePivot1, ServicePivot2 ) Then Return False
+			If PivotWithRectangle( ServicePivot1, Triangle ) Or PivotWithRectangle( ServicePivot2, Triangle ) Then Return True
 		End If
 	End Function
 	
 	
 	
 	Function OvalWithRay:Int( Oval:LTSprite, Ray:LTSprite )
-		Ray.ToLine( L_Line1 )
-		Oval.ToCircleUsingLine( L_Line1, L_Oval1 )
-		If L_Line1.CollisionPointsWithCircle( L_Oval1, L_Pivot1, L_Pivot2 ) Then
-			If Ray.HasPivot( L_Pivot1 ) Then Return True
-			If Ray.HasPivot( L_Pivot2 ) Then Return True
+		Ray.ToLine( ServiceLine1 )
+		Oval.ToCircleUsingLine( ServiceLine1, ServiceOval1 )
+		If ServiceLine1.CollisionPointsWithCircle( ServiceOval1, ServicePivot1, ServicePivot2 ) Then
+			If Ray.HasPivot( ServicePivot1 ) Then Return True
+			If Ray.HasPivot( ServicePivot2 ) Then Return True
 		End If
 		If PivotWithOval( Ray, Oval ) Then Return True
 	End Function
@@ -167,15 +170,15 @@ Type LTCollision
 	
 	Function RectangleWithTriangle:Int( Rectangle:LTSprite, Triangle:LTSprite )
 		If RectangleWithRectangle( Rectangle, Triangle ) Then
-			Triangle.GetHypotenuse( L_Line1 )
-			Triangle.GetRightAngleVertex( L_Pivot1 )
-			If L_Line1.PivotOrientation( Rectangle ) = L_Line1.PivotOrientation( L_Pivot1 ) Then Return True
+			Triangle.GetHypotenuse( ServiceLine1 )
+			Triangle.GetRightAngleVertex( ServicePivot1 )
+			If ServiceLine1.PivotOrientation( Rectangle ) = ServiceLine1.PivotOrientation( ServicePivot1 ) Then Return True
 			Local LeftX:Double, TopY:Double, RightX:Double, BottomY:Double
 			Rectangle.GetBounds( LeftX, TopY, RightX, BottomY )
-			Local O:Int = L_Line1.PointOrientation( LeftX, TopY )
-			If O <> L_Line1.PointOrientation( RightX, TopY ) Then Return True
-			If O <> L_Line1.PointOrientation( LeftX, BottomY ) Then Return True
-			If O <> L_Line1.PointOrientation( RightX, BottomY ) Then Return True
+			Local O:Int = ServiceLine1.PointOrientation( LeftX, TopY )
+			If O <> ServiceLine1.PointOrientation( RightX, TopY ) Then Return True
+			If O <> ServiceLine1.PointOrientation( LeftX, BottomY ) Then Return True
+			If O <> ServiceLine1.PointOrientation( RightX, BottomY ) Then Return True
 		End If
 	End Function
 	
@@ -183,20 +186,20 @@ Type LTCollision
 	
 	Function RectangleWithLineSegment:Int( Rectangle:LTSprite, LSPivot1:LTSprite, LSPivot2:LTSprite )
 		If PivotWithRectangle( LSPivot1, Rectangle ) Then Return True
-		Rectangle.GetBounds( L_Pivots[ 0 ].X, L_Pivots[ 0 ].Y, L_Pivots[ 2 ].X, L_Pivots[ 2 ].Y )
-		Rectangle.GetBounds( L_Pivots[ 1 ].X, L_Pivots[ 3 ].Y, L_Pivots[ 3 ].X, L_Pivots[ 1 ].Y )
+		Rectangle.GetBounds( ServicePivots[ 0 ].X, ServicePivots[ 0 ].Y, ServicePivots[ 2 ].X, ServicePivots[ 2 ].Y )
+		Rectangle.GetBounds( ServicePivots[ 1 ].X, ServicePivots[ 3 ].Y, ServicePivots[ 3 ].X, ServicePivots[ 1 ].Y )
 		For Local N:Int = 0 To 3
-			If LineSegmentWithLineSegment( L_Pivots[ N ], L_Pivots[ ( N + 1 ) Mod 4 ], LSPivot1, LSPivot2 ) Then Return True
+			If LineSegmentWithLineSegment( ServicePivots[ N ], ServicePivots[ ( N + 1 ) Mod 4 ], LSPivot1, LSPivot2 ) Then Return True
 		Next
 	End Function
 	
 	
 	
 	Function RectangleWithRay:Int( Rectangle:LTSprite, Ray:LTSprite )
-		Rectangle.GetBounds( L_Pivots[ 0 ].X, L_Pivots[ 0 ].Y, L_Pivots[ 2 ].X, L_Pivots[ 2 ].Y )
-		Rectangle.GetBounds( L_Pivots[ 1 ].X, L_Pivots[ 3 ].Y, L_Pivots[ 3 ].X, L_Pivots[ 1 ].Y )
+		Rectangle.GetBounds( ServicePivots[ 0 ].X, ServicePivots[ 0 ].Y, ServicePivots[ 2 ].X, ServicePivots[ 2 ].Y )
+		Rectangle.GetBounds( ServicePivots[ 1 ].X, ServicePivots[ 3 ].Y, ServicePivots[ 3 ].X, ServicePivots[ 1 ].Y )
 		For Local N:Int = 0 To 3
-			If RayWithLineSegment( Ray, L_Pivots[ N ], L_Pivots[ ( N + 1 ) Mod 4 ] ) Then Return True
+			If RayWithLineSegment( Ray, ServicePivots[ N ], ServicePivots[ ( N + 1 ) Mod 4 ] ) Then Return True
 		Next
 	End Function
 	
@@ -204,26 +207,26 @@ Type LTCollision
 	
 	Function TriangleWithTriangle:Int( Triangle1:LTSprite, Triangle2:LTSprite )
 		If RectangleWithRectangle( Triangle1, Triangle2 ) Then
-			Triangle1.GetRightAngleVertex( L_Pivot3 )
-			Triangle2.GetRightAngleVertex( L_Pivot4 )
+			Triangle1.GetRightAngleVertex( ServicePivot3 )
+			Triangle2.GetRightAngleVertex( ServicePivot4 )
 			
-			Triangle1.GetOtherVertices( L_Pivot1, L_Pivot2 )
-			Triangle2.GetHypotenuse( L_Line1 )
-			Local O1:Int = L_Line1.PivotOrientation( L_Pivot4 )
-			If PivotWithRectangle( L_Pivot1, Triangle2 ) Then If O1 = L_Line1.PivotOrientation( L_Pivot1 ) Then Return True
-			If PivotWithRectangle( L_Pivot2, Triangle2 ) Then If O1 = L_Line1.PivotOrientation( L_Pivot2 ) Then Return True
-			If PivotWithRectangle( L_Pivot3, Triangle2 ) Then If O1 = L_Line1.PivotOrientation( L_Pivot3 ) Then Return True
-			Local O3:Int = ( L_Line1.PivotOrientation( L_Pivot3 ) <> L_Line1.PivotOrientation( L_Pivot1 ) )
+			Triangle1.GetOtherVertices( ServicePivot1, ServicePivot2 )
+			Triangle2.GetHypotenuse( ServiceLine1 )
+			Local O1:Int = ServiceLine1.PivotOrientation( ServicePivot4 )
+			If PivotWithRectangle( ServicePivot1, Triangle2 ) Then If O1 = ServiceLine1.PivotOrientation( ServicePivot1 ) Then Return True
+			If PivotWithRectangle( ServicePivot2, Triangle2 ) Then If O1 = ServiceLine1.PivotOrientation( ServicePivot2 ) Then Return True
+			If PivotWithRectangle( ServicePivot3, Triangle2 ) Then If O1 = ServiceLine1.PivotOrientation( ServicePivot3 ) Then Return True
+			Local O3:Int = ( ServiceLine1.PivotOrientation( ServicePivot3 ) <> ServiceLine1.PivotOrientation( ServicePivot1 ) )
 			
-			Triangle2.GetOtherVertices( L_Pivots[ 0 ], L_Pivots[ 1 ] )
-			Triangle1.GetHypotenuse( L_Line1 )
-			Local O2:Int = L_Line1.PivotOrientation( L_Pivot3 )
-			If PivotWithRectangle( L_Pivots[ 0 ], Triangle1 ) Then If O2 = L_Line1.PivotOrientation( L_Pivots[ 0 ] ) Then Return True
-			If PivotWithRectangle( L_Pivots[ 1 ], Triangle1 ) Then If O2 = L_Line1.PivotOrientation( L_Pivots[ 1 ] ) Then Return True
-			If PivotWithRectangle( L_Pivot4, Triangle1 ) Then If O2 = L_Line1.PivotOrientation( L_Pivot4 ) Then Return True
+			Triangle2.GetOtherVertices( ServicePivots[ 0 ], ServicePivots[ 1 ] )
+			Triangle1.GetHypotenuse( ServiceLine1 )
+			Local O2:Int = ServiceLine1.PivotOrientation( ServicePivot3 )
+			If PivotWithRectangle( ServicePivots[ 0 ], Triangle1 ) Then If O2 = ServiceLine1.PivotOrientation( ServicePivots[ 0 ] ) Then Return True
+			If PivotWithRectangle( ServicePivots[ 1 ], Triangle1 ) Then If O2 = ServiceLine1.PivotOrientation( ServicePivots[ 1 ] ) Then Return True
+			If PivotWithRectangle( ServicePivot4, Triangle1 ) Then If O2 = ServiceLine1.PivotOrientation( ServicePivot4 ) Then Return True
 			
-			If LineSegmentWithLineSegment( L_Pivot1, L_Pivot2, L_Pivots[ 0 ], L_Pivots[ 1 ] ) Then Return True
-			if O3 Then If L_Line1.PivotOrientation( L_Pivot4 ) <> L_Line1.PivotOrientation( L_Pivots[ 0 ] ) Then Return True
+			If LineSegmentWithLineSegment( ServicePivot1, ServicePivot2, ServicePivots[ 0 ], ServicePivots[ 1 ] ) Then Return True
+			if O3 Then If ServiceLine1.PivotOrientation( ServicePivot4 ) <> ServiceLine1.PivotOrientation( ServicePivots[ 0 ] ) Then Return True
 		End If
 	End Function
 	
@@ -231,49 +234,49 @@ Type LTCollision
 	
 	Function TriangleWithLineSegment:Int( Triangle:LTSprite, LSPivot1:LTSprite, LSPivot2:LTSprite )
 		If PivotWithTriangle( LSPivot1, Triangle ) Then Return True
-		Triangle.GetOtherVertices( L_Pivots[ 0 ], L_Pivots[ 1 ] )
-		Triangle.GetRightAngleVertex( L_Pivots[ 2 ] )
+		Triangle.GetOtherVertices( ServicePivots[ 0 ], ServicePivots[ 1 ] )
+		Triangle.GetRightAngleVertex( ServicePivots[ 2 ] )
 		For Local N:Int = 0 To 2
-			If LineSegmentWithLineSegment( L_Pivots[ N ], L_Pivots[ ( N + 1 ) Mod 3 ], LSPivot1, LSPivot2 ) Then Return True
+			If LineSegmentWithLineSegment( ServicePivots[ N ], ServicePivots[ ( N + 1 ) Mod 3 ], LSPivot1, LSPivot2 ) Then Return True
 		Next
 	End Function
 	
 	
 	
 	Function TriangleWithRay:Int( Triangle:LTSprite, Ray:LTSprite )
-		Triangle.GetOtherVertices( L_Pivots[ 0 ], L_Pivots[ 1 ] )
-		Triangle.GetRightAngleVertex( L_Pivots[ 2 ] )
+		Triangle.GetOtherVertices( ServicePivots[ 0 ], ServicePivots[ 1 ] )
+		Triangle.GetRightAngleVertex( ServicePivots[ 2 ] )
 		For Local N:Int = 0 To 2
-			If RayWithLineSegment( Ray, L_Pivots[ N ], L_Pivots[ ( N + 1 ) Mod 3 ] ) Then Return True
+			If RayWithLineSegment( Ray, ServicePivots[ N ], ServicePivots[ ( N + 1 ) Mod 3 ] ) Then Return True
 		Next
 	End Function
 	
 	
 	
 	Function RayWithLineSegment:Int( Ray:LTSprite, LSPivot1:LTSprite, LSPivot2:LTSprite )
-		Ray.ToLine( L_Line1 )
-		If L_Line1.IntersectionWithLineSegment( LSPivot1, LSPivot2, L_Pivot1 ) Then
-			If Ray.HasPivot( L_Pivot1 ) Then Return True
+		Ray.ToLine( ServiceLine1 )
+		If ServiceLine1.IntersectionWithLineSegment( LSPivot1, LSPivot2, ServicePivot1 ) Then
+			If Ray.HasPivot( ServicePivot1 ) Then Return True
 		End If
 	End Function
 	
 	
 	
 	Function LineSegmentWithLineSegment:Int( LS1Pivot1:LTSprite, LS1Pivot2:LTSprite, LS2Pivot1:LTSprite, LS2Pivot2:LTSprite )
-		LTLine.FromPivots( LS1Pivot1, LS1Pivot2, L_Line1 )
-		If L_Line1.PivotOrientation( LS2Pivot1 ) = L_Line1.PivotOrientation( LS2Pivot2 ) Then Return False
-		LTLine.FromPivots( LS2Pivot1, LS2Pivot2, L_Line1 )
-		If L_Line1.PivotOrientation( LS1Pivot1 ) <> L_Line1.PivotOrientation( LS1Pivot2 ) Then Return True
+		LTLine.FromPivots( LS1Pivot1, LS1Pivot2, ServiceLine1 )
+		If ServiceLine1.PivotOrientation( LS2Pivot1 ) = ServiceLine1.PivotOrientation( LS2Pivot2 ) Then Return False
+		LTLine.FromPivots( LS2Pivot1, LS2Pivot2, ServiceLine1 )
+		If ServiceLine1.PivotOrientation( LS1Pivot1 ) <> ServiceLine1.PivotOrientation( LS1Pivot2 ) Then Return True
 	End Function
 	
 	
 	
 	Function RayWithRay:Int( Ray1:LTSprite, Ray2:LTSprite )
-		Ray1.ToLine( L_Line1 )
-		Ray2.ToLine( L_Line2 )
-		L_Line1.IntersectionWithLine( L_Line2, L_Pivot1 )
-		If Not Ray1.HasPivot( L_Pivot1 ) Then Return False
-		If Ray2.HasPivot( L_Pivot1 ) Then Return True
+		Ray1.ToLine( ServiceLine1 )
+		Ray2.ToLine( ServiceLine2 )
+		ServiceLine1.IntersectionWithLine( ServiceLine2, ServicePivot1 )
+		If Not Ray1.HasPivot( ServicePivot1 ) Then Return False
+		If Ray2.HasPivot( ServicePivot1 ) Then Return True
 	End Function
 	
 	
@@ -308,6 +311,12 @@ End Type
 ' ------------------------------------------------ Overlapping ---------------------------------------------------
 
 Type LTOverlap
+	Global ServicePivot1:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
+	Global ServicePivot2:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
+	Global ServiceOval1:LTSprite = LTSprite.FromShapeType( LTSprite.Oval )
+	
+	
+	
 	Function CircleAndPivot:Int( Circle:LTSprite, Pivot:LTSprite )
 		If 4.0 * Circle.Distance2To( Pivot ) <= Circle.Width * Circle.Width Then Return True
 	End Function
@@ -319,20 +328,20 @@ Type LTOverlap
 		
 		If Oval.Width > Oval.Height Then
 			Local DWidth:Double = Oval.Width - Oval.Height
-			L_Oval1.X = Oval.X - DWidth
-			L_Oval1.Y = Oval.Y
-			L_Oval1.Width = Oval.Height
-			If Not CircleAndCircle( Circle, L_Oval1 ) Then Return False
-			L_Oval1.X = Oval.X + DWidth
+			ServiceOval1.X = Oval.X - DWidth
+			ServiceOval1.Y = Oval.Y
+			ServiceOval1.Width = Oval.Height
+			If Not CircleAndCircle( Circle, ServiceOval1 ) Then Return False
+			ServiceOval1.X = Oval.X + DWidth
 		Else
 			Local DHeight:Double = Oval.Height - Oval.Width
-			L_Oval1.X = Oval.X
-			L_Oval1.Y = Oval.Y - DHeight
-			L_Oval1.Width = Oval.Width
-			If Not CircleAndCircle( Circle, L_Oval1 ) Then Return False
-			L_Oval1.Y = Oval.Y + DHeight
+			ServiceOval1.X = Oval.X
+			ServiceOval1.Y = Oval.Y - DHeight
+			ServiceOval1.Width = Oval.Width
+			If Not CircleAndCircle( Circle, ServiceOval1 ) Then Return False
+			ServiceOval1.Y = Oval.Y + DHeight
 		End If
-		Return CircleAndCircle( Circle, L_Oval1 )
+		Return CircleAndCircle( Circle, ServiceOval1 )
 	End Function
 	
 	
@@ -348,26 +357,26 @@ Type LTOverlap
 		If RectangleAndRectangle( Circle, Rectangle ) Then
 			Local LeftX:Double, TopY:Double, RightX:Double, BottomY:Double
 			Rectangle.GetBounds( LeftX, TopY, RightX, BottomY )
-			L_Pivot1.X = LeftX
-			L_Pivot1.Y = TopY
-			If Not CircleAndPivot( Circle, L_Pivot1 ) Then Return False
-			L_Pivot1.X = RightX
-			If Not CircleAndPivot( Circle, L_Pivot1 ) Then Return False
-			L_Pivot1.Y = BottomY
-			If Not CircleAndPivot( Circle, L_Pivot1 ) Then Return False
-			L_Pivot1.X = LeftX
-			If CircleAndPivot( Circle, L_Pivot1 ) Then Return True
+			ServicePivot1.X = LeftX
+			ServicePivot1.Y = TopY
+			If Not CircleAndPivot( Circle, ServicePivot1 ) Then Return False
+			ServicePivot1.X = RightX
+			If Not CircleAndPivot( Circle, ServicePivot1 ) Then Return False
+			ServicePivot1.Y = BottomY
+			If Not CircleAndPivot( Circle, ServicePivot1 ) Then Return False
+			ServicePivot1.X = LeftX
+			If CircleAndPivot( Circle, ServicePivot1 ) Then Return True
 		End If
 	End Function
 	
 	
 	
 	Function CircleAndTriangle:Int( Circle:LTSprite, Triangle:LTSprite )
-		Triangle.GetRightAngleVertex( L_Pivot1 )
-		If Not CircleAndPivot( Circle, L_Pivot1 ) Then Return False
-		Triangle.GetOtherVertices( L_Pivot1, L_Pivot2 )
-		If Not CircleAndPivot( Circle, L_Pivot1 ) Then Return False
-		If Not CircleAndPivot( Circle, L_Pivot2 ) Then Return False
+		Triangle.GetRightAngleVertex( ServicePivot1 )
+		If Not CircleAndPivot( Circle, ServicePivot1 ) Then Return False
+		Triangle.GetOtherVertices( ServicePivot1, ServicePivot2 )
+		If Not CircleAndPivot( Circle, ServicePivot1 ) Then Return False
+		If Not CircleAndPivot( Circle, ServicePivot2 ) Then Return False
 		Return True
 	End Function
 	

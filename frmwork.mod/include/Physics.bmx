@@ -8,16 +8,21 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Global L_Lines:LTLine[] = New LTLine[ 2 ]
-Global L_Pivots:LTSprite[] = New LTSprite[ 4 ]
 For Local N:Int = 0 To 3
-	If N < 2 Then L_Lines[ N ] = New LTLine
-	L_Pivots[ N ] = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
+	If N < 2 Then LTWedge.ServiceLines[ N ] = New LTLine
+	LTWedge.ServicePivots[ N ] = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
 Next
 
 Type LTWedge
+	Global ServiceLines:LTLine[] = New LTLine[ 2 ]
+	Global ServicePivots:LTSprite[] = New LTSprite[ 4 ]
+	Global ServiceOval1:LTSprite = LTSprite.FromShapeType( LTSprite.Oval )
+	Global ServiceOval2:LTSprite = LTSprite.FromShapeType( LTSprite.Oval )
+
+	
+	
 	Function PivotAndOval( Pivot:LTSprite, Oval:LTSprite, DX:Double Var, DY:Double Var )
-		Oval = Oval.ToCircle( Pivot, L_Oval1 )
+		Oval = Oval.ToCircle( Pivot, ServiceOval1 )
 		Local K:Double = 0.5 * Oval.Width / Oval.DistanceTo( Pivot ) - 1.0
 		DX = ( Pivot.X - Oval.X ) * K
 		DY = ( Pivot.Y - Oval.Y ) * K
@@ -36,7 +41,7 @@ Type LTWedge
 	
 	
 	Function PivotAndTriangle( Pivot:LTSprite, Triangle:LTSprite, DX:Double Var, DY:Double Var )
-		DY = L_Line1.GetY( Pivot.X ) - Pivot.Y
+		DY = ServiceLines[ 0 ].GetY( Pivot.X ) - Pivot.Y
 		
 		Local DX1:Double, DY1:Double
 		PivotAndRectangle( Pivot, Triangle, DX1, DY1 )
@@ -49,8 +54,8 @@ Type LTWedge
 	
 	
 	Function OvalAndOval( Oval1:LTSprite, Oval2:LTSprite, DX:Double Var, DY:Double Var )
-		Oval1 = Oval1.ToCircle( Oval2, L_Oval1 )
-		Oval2 = Oval2.ToCircle( Oval1, L_Oval2  )
+		Oval1 = Oval1.ToCircle( Oval2, ServiceOval1 )
+		Oval2 = Oval2.ToCircle( Oval1, ServiceOval2  )
 		Local K:Double = 0.5 * ( Oval1.Width + Oval2.Width ) / Oval1.DistanceTo( Oval2 ) - 1.0
 		DX = ( Oval1.X - Oval2.X ) * K
 		DY = ( Oval1.Y - Oval2.Y ) * K
@@ -67,31 +72,33 @@ Type LTWedge
 			DX = ( 0.5 * ( Rectangle.Width + Oval.Width ) - Abs( Rectangle.X - Oval.X ) ) * Sgn( Oval.X - Rectangle.X )
 			DY = 0
 		Else
-			L_Pivot4.X = Rectangle.X + 0.5 * Rectangle.Width * Sgn( Oval.X - Rectangle.X )
-			L_Pivot4.Y = Rectangle.Y + 0.5 * Rectangle.Height * Sgn( Oval.Y - Rectangle.Y )
-			Oval = Oval.ToCircle( L_Pivot4, L_Oval1 )
-			Local K:Double = 1.0 - 0.5 * Oval.Width / Oval.DistanceTo( L_Pivot4 )
-			DX = ( L_Pivot4.X - Oval.X ) * K
-			DY = ( L_Pivot4.Y - Oval.Y ) * K
+			ServicePivots[ 0 ].X = Rectangle.X + 0.5 * Rectangle.Width * Sgn( Oval.X - Rectangle.X )
+			ServicePivots[ 0 ].Y = Rectangle.Y + 0.5 * Rectangle.Height * Sgn( Oval.Y - Rectangle.Y )
+			Oval = Oval.ToCircle( ServicePivots[ 0 ], ServiceOval1 )
+			Local K:Double = 1.0 - 0.5 * Oval.Width / Oval.DistanceTo( ServicePivots[ 0 ] )
+			DX = ( ServicePivots[ 0 ].X - Oval.X ) * K
+			DY = ( ServicePivots[ 0 ].Y - Oval.Y ) * K
 		End If
 	End Function
 	
 	
 	
 	Function OvalAndTriangle( Oval:LTSprite, Triangle:LTSprite, DX:Double Var, DY:Double Var )
-		L_Oval1 = Oval.ToCircle( L_Pivot3, L_Oval1 )
-		Local VDistance:Double = 0.5 * L_Distance( Triangle.Width, Triangle.Height ) * L_Oval1.Width / Triangle.Width
-		Local DHeight:Double = 0.5 * ( Oval.Height - L_Oval1.Height )
-		Local DDX:Double = 0.5 * L_Oval1.Width / VDistance * L_Cathetus( VDistance, 0.5 * L_Oval1.Width )
+		Triangle.GetRightAngleVertex( ServicePivots[ 2 ] )
+		Triangle.GetOtherVertices( ServicePivots[ 0 ], ServicePivots[ 1 ] )
+		ServiceOval1 = Oval.ToCircle( ServicePivots[ 2 ], ServiceOval1 )
+		Local VDistance:Double = 0.5 * L_Distance( Triangle.Width, Triangle.Height ) * ServiceOval1.Width / Triangle.Width
+		Local DHeight:Double = 0.5 * ( Oval.Height - ServiceOval1.Height )
+		Local DDX:Double = 0.5 * ServiceOval1.Width / VDistance * L_Cathetus( VDistance, 0.5 * ServiceOval1.Width )
 		Local Dir:Int = -1
 		If Triangle.ShapeType = LTSprite.BottomLeftTriangle Or Triangle.ShapeType = LTSprite.BottomRightTriangle Then Dir = 1
 		If Triangle.ShapeType = LTSprite.TopRightTriangle Or Triangle.ShapeType = LTSprite.BottomRightTriangle Then DDX = -DDX
-		If L_Oval1.X < Triangle.LeftX() + DDX Then
-			DY = L_Pivot1.Y - Dir * L_Cathetus( L_Oval1.Width * 0.5, L_Oval1.X - L_Pivot1.X ) - L_Oval1.Y
-		ElseIf L_Oval1.X > Triangle.RightX() + DDX Then
-			DY = L_Pivot2.Y - Dir * L_Cathetus( L_Oval1.Width * 0.5, L_Oval1.X - L_Pivot2.X ) - L_Oval1.Y
+		If ServiceOval1.X < Triangle.LeftX() + DDX Then
+			DY = ServicePivots[ 0 ].Y - Dir * L_Cathetus( ServiceOval1.Width * 0.5, ServiceOval1.X - ServicePivots[ 0 ].X ) - ServiceOval1.Y
+		ElseIf ServiceOval1.X > Triangle.RightX() + DDX Then
+			DY = ServicePivots[ 1 ].Y - Dir * L_Cathetus( ServiceOval1.Width * 0.5, ServiceOval1.X - ServicePivots[ 1 ].X ) - ServiceOval1.Y
 		Else
-			DY = L_Line1.GetY( L_Oval1.X ) - Dir * ( VDistance + DHeight ) - Oval.Y
+			DY = ServiceLines[ 0 ].GetY( ServiceOval1.X ) - Dir * ( VDistance + DHeight ) - Oval.Y
 		End If
 	
 		Local DX1:Double, DY1:Double
@@ -127,11 +134,11 @@ Type LTWedge
 			X = Rectangle.RightX()
 		End If
 
-		Triangle.GetHypotenuse( L_Line1 )
+		Triangle.GetHypotenuse( ServiceLines[ 0 ] )
 		If Triangle.ShapeType = LTSprite.TopLeftTriangle Or Triangle.ShapeType = LTSprite.TopRightTriangle
-			DY = Min( L_Line1.GetY( X ), Triangle.BottomY() ) - Rectangle.TopY()
+			DY = Min( ServiceLines[ 0 ].GetY( X ), Triangle.BottomY() ) - Rectangle.TopY()
 		Else
-			DY = Max( L_Line1.GetY( X ), Triangle.TopY() ) - Rectangle.BottomY()
+			DY = Max( ServiceLines[ 0 ].GetY( X ), Triangle.TopY() ) - Rectangle.BottomY()
 		End If
 		
 		Local DX1:Double, DY1:Double
@@ -145,14 +152,14 @@ Type LTWedge
 	
 	
 	Function PopAngle( Triangle1:LTSprite, Triangle2:LTSprite, DY:Double Var )
-		Triangle2.GetRightAngleVertex( L_Pivots[ 0 ] )
-		Triangle2.GetHypotenuse( L_Line1 )
-		Triangle1.GetOtherVertices( L_Pivots[ 1 ], L_Pivots[ 2 ] )
-		Local O:Int = L_Line1.PivotOrientation( L_Pivots[ 0 ] )
+		Triangle2.GetRightAngleVertex( ServicePivots[ 0 ] )
+		Triangle2.GetHypotenuse( ServiceLines[ 0 ] )
+		Triangle1.GetOtherVertices( ServicePivots[ 1 ], ServicePivots[ 2 ] )
+		Local O:Int = ServiceLines[ 0 ].PivotOrientation( ServicePivots[ 0 ] )
 		For Local N:Int = 1 To 2
-			If O = L_Line1.PivotOrientation( L_Pivots[ N ] ) Then
-				If L_DoubleInLimits( L_Pivots[ N ].X, Triangle2.LeftX(), Triangle2.RightX() ) Then
-					DY = Max( DY, Abs( L_Line1.GetY( L_Pivots[ N ].X ) - L_Pivots[ N ].Y ) )
+			If O = ServiceLines[ 0 ].PivotOrientation( ServicePivots[ N ] ) Then
+				If L_DoubleInLimits( ServicePivots[ N ].X, Triangle2.LeftX(), Triangle2.RightX() ) Then
+					DY = Max( DY, Abs( ServiceLines[ 0 ].GetY( ServicePivots[ N ].X ) - ServicePivots[ N ].Y ) )
 				End If
 			End If
 		Next
@@ -188,10 +195,10 @@ Type LTWedge
 			
 			Local DY32:Double = DY3 * DY3
 			If DY32 < D1 And DY32 < D2 Then
-				Triangle1.GetRightAngleVertex( L_Pivots[ 0 ] )
-				Triangle2.GetRightAngleVertex( L_Pivots[ 1 ] )
+				Triangle1.GetRightAngleVertex( ServicePivots[ 0 ] )
+				Triangle2.GetRightAngleVertex( ServicePivots[ 1 ] )
 				DX = 0
-				DY = DY3 * Sgn( L_Pivots[ 0 ].Y - L_Pivots[ 1 ].Y )
+				DY = DY3 * Sgn( ServicePivots[ 0 ].Y - ServicePivots[ 1 ].Y )
 				Return
 			Else
 				Exit
