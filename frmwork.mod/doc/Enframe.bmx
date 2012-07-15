@@ -12,6 +12,7 @@ Incbin "tileset.lw"
 Incbin "curved_areas.png"
 
 L_InitGraphics()
+L_EditorData = New LTEditorData
 SetClsColor( 64, 128, 0 )
 
 Cls
@@ -33,7 +34,7 @@ Cls
 L_SetIncbin( True )
 Local World:LTWorld = LTWorld.FromFile( "tileset.lw" )
 L_SetIncbin( False )
-Local TileSet:LTTileSet = LTTileSet( World.Tilesets.First() )
+Local TileSet:LTTileSet = LTTileSet( L_EditorData.Tilesets.First() )
 Local TileMap:LTTileMap = LTTileMap.Create( TileSet, MapSize, MapSize )
 TileMap.SetSize( MapSize * MapScale / 25.0, MapSize * MapScale / 25.0 )
 DrawText( "Step 3: loading world, extract tileset from there and", 0, 0 )

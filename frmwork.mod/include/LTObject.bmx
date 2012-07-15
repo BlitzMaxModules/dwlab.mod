@@ -40,15 +40,17 @@ Type LTObject
 	bbdoc: Loads object with all contents from file.
 	about: See also: #SaveToFile, #XMLIO
 	End Rem
-	Function LoadFromFile:LTObject( FileName:String, UseIncbin:Int = -1 )
+	Function LoadFromFile:LTObject( FileName:String, UseIncbin:Int = -1, XMLObject:LTXMLObject = Null )
 		Local IncbinValue:String = ""
 		Select UseIncbin
 			Case -1; IncbinValue = L_Incbin
 			Case 1; IncbinValue = "incbin::"
 		End Select
 		
-		L_MaxID = 0
-		Local XMLObject:LTXMLObject = LTXMLObject.ReadFromFile( IncbinValue + FileName )
+		If Not XMLObject Then
+			L_MaxID = 0
+			XMLObject = LTXMLObject.ReadFromFile( IncbinValue + FileName )
+		End If
 		
 		L_IDArray = New LTObject[ L_MaxID + 1 ]
 		FillIDArray( XMLObject )

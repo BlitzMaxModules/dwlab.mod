@@ -9,29 +9,68 @@
 '
 
 Rem
-bbdoc: Group of shapes.
+bbdoc: Group of sprites.
 about: It has a lot of methods duplicating methods of TList.
 End Rem
-Type LTGroup Extends LTShape
+Type LTSpriteGroup Extends LTSprite
+	Global SpriteShape:LTSprite = new LTSprite
+
 	Rem
 	bbdoc: List of sprites.
 	End Rem
 	Field Children:TList = New TList
 	
+	
+	
+	Method GetClassTitle:String()
+		Return "Sprite group"
+	End Method
+	
 	' ==================== Drawing ===================
 	
 	Method Draw()
-		For Local Sprite:LTSprite = Eachin Children
-			Sprite.Draw()
-		Next
+		DrawGroup( Null, Self )
 	End Method
 	
 	
 	
 	Method DrawUsingVisualizer( Vis:LTVisualizer )
+		DrawGroup( Vis, Self )
+	End Method
+	
+	
+	
+	Method DrawGroup( Vis:LTVisualizer, ParentShape:LTSprite )
 		For Local Sprite:LTSprite = Eachin Children
-			Sprite.DrawUsingVisualizer( Vis )
+			SetShape( SpriteShape, Sprite, ParentShape )
+			Local ChildSpriteGroup:LTSpriteGroup = LTSpriteGroup( Sprite )
+			If ChildSpriteGroup Then
+				Local NewParentShape:LTSprite = New LTSprite
+				SetShape( NewParentShape, ChildSpriteGroup, ParentShape )
+				ChildSpriteGroup.DrawGroup( Vis, NewParentShape )
+			ElseIf Vis = Null Then
+				Sprite.Visualizer.DrawUsingSprite( Sprite, SpriteShape )
+			Else
+				Vis.DrawUsingSprite( Sprite, SpriteShape )
+			End If
 		Next
+	End Method
+	
+	
+	
+	Method SetShape( Shape:LTSprite, Sprite:LTSprite, ParentShape:LTSprite )
+		If Angle = 0 Then
+			Shape.X = Sprite.X * ParentShape.Width + ParentShape.X
+			Shape.Y = Sprite.Y * ParentShape.Height + ParentShape.Y
+		Else
+			Local RelativeX:Double = Sprite.X * ParentShape.Width
+			Local RelativeY:Double = Sprite.Y * ParentShape.Height
+			Shape.X = RelativeX * Cos( Angle ) - RelativeY * Sin( Angle ) + ParentShape.X
+			Shape.Y = RelativeX * Sin( Angle ) + RelativeY * Cos( Angle ) + ParentShape.Y
+		End If
+		Shape.Width = ParentShape.Width * Sprite.Width
+		Shape.Height = ParentShape.Height * Sprite.Height
+		Shape.Angle = ParentShape.Angle + Sprite.Angle
 	End Method
 	
 	' ==================== Collisions ===================
@@ -86,11 +125,11 @@ Type LTGroup Extends LTShape
 	' ==================== Cloning ====================
 	
 	Method Clone:LTShape()
-		Local NewGroup:LTGroup = New LTGroup
-		For Local Shape:LTShape = Eachin NewGroup.Children
-			NewGroup.Children.AddLast( Shape.Clone() )
+		Local NewSpriteGroup:LTSpriteGroup = New LTSpriteGroup
+		For Local Shape:LTShape = Eachin NewSpriteGroup.Children
+			NewSpriteGroup.Children.AddLast( Shape.Clone() )
 		Next
-		Return NewGroup
+		Return NewSpriteGroup
 	End Method
 	
 	' ==================== Saving / loading ====================

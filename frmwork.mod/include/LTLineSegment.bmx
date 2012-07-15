@@ -40,13 +40,13 @@ Type LTLineSegment Extends LTShape
 	' ==================== Drawing ===================	
 	
 	Method Draw()
-		If Visible Then Visualizer.DrawUsingLine( Self )
+		If Visible Then Visualizer.DrawUsingLineSegment( Self )
 	End Method
 	
 	
 	
 	Method DrawUsingVisualizer( Vis:LTVisualizer )
-		If Visible Then Vis.DrawUsingLine( Self )
+		If Visible Then Vis.DrawUsingLineSegment( Self )
 	End Method
 	
 	' ==================== Collisions ===================

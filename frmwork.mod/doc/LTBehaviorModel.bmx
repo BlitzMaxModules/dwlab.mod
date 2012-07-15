@@ -380,7 +380,7 @@ End Type
 
 
 Type TBumpingWalls Extends LTSpriteAndTileCollisionHandler
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
 		Sprite.PushFromTile( TileMap, TileX, TileY )
 		LTVectorSprite( Sprite ).DX :* -1
 		Sprite.Visualizer.XScale :* -1
@@ -390,7 +390,7 @@ End Type
 
 
 Type TPushFromWalls Extends LTSpriteAndTileCollisionHandler
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
 		If TileMap.GetTile( TileX, TileY ) = Example.Bricks Then Sprite.PushFromTile( TileMap, TileX, TileY )
 	End Method
 End Type
@@ -422,7 +422,7 @@ End Type
 Type TVerticalCollisionHandler Extends LTSpriteAndTileCollisionHandler
 	Field ForPlayer:Int
 	
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
 		If ForPlayer Then If TileMap.GetTile( TileX, TileY ) <> Example.Bricks Then Return
 		Local GameObject:TGameObject = TGameObject( Sprite )
 		GameObject.PushFromTile( TileMap, TileX, TileY )
@@ -512,7 +512,7 @@ End Type
 
 
 Type TDestroyBullet Extends LTSpriteAndTileCollisionHandler
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
 		If TileMap.GetTile( TileX, TileY ) = Example.Bricks Then TBullet.Disable( Sprite )
 	End Method
 End Type

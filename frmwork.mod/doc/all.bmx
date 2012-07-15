@@ -167,13 +167,71 @@ End Type
 Cls
 
 
-
-'CorrectHeight.bmx
+'CollidesWithSprite.bmx
 L_CurrentCamera = LTCamera.Create()
 Global Example4:TExample4 = New TExample4
 Example4.Execute()
 
+Incbin "spaceship.png"
+
 Type TExample4 Extends LTProject
+	Field Sprites:LTLayer = New LTLayer
+	Field Image:LTImage = LTImage.FromFile( "incbin::spaceship.png" )
+	
+	Method Init()
+		For Local N:Int = 0 Until 9
+			Local Sprite:LTSprite = New LTSprite.FromShape( ( N Mod 3 ) * 8.0 - 8.0, Floor( N / 3 ) * 6.0 - 6.0, 6.0, 4.0, N )
+			If N = LTSprite.Raster Then Sprite.Visualizer.Image = Image
+			Sprite.Visualizer.SetColorFromHex( "7FFF7F" )
+			Sprite.Angle = 60
+			Sprites.AddLast( Sprite )
+		Next
+		L_CurrentCamera = LTCamera.Create()
+		L_Cursor = New LTSprite.FromShape( 0.0, 0.0, 5.0, 7.0, LTSprite.Pivot )
+		L_Cursor.Angle = 45
+		L_Cursor.Visualizer.SetColorFromHex( "7F7F7FFF" )
+		L_Cursor.ShapeType = LTSprite.Ray
+	End Method
+	
+	Method Logic()
+		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
+		If MouseHit( 2 ) Then
+			L_Cursor.ShapeType = ( L_Cursor.ShapeType + 1 ) Mod 9
+			If L_Cursor.ShapeType = LTSprite.Raster Then L_Cursor.Visualizer.Image = Image Else L_Cursor.Visualizer.Image = Null
+		End If
+		'L_Cursor.Angle :+ 0.5
+	End Method
+
+	Method Render()
+		Sprites.Draw()
+		For Local Sprite:LTSprite = Eachin Sprites.Children
+			'If Sprite.ShapeType < 4 Then Continue
+			if L_Cursor.CollidesWithSprite( Sprite ) Then
+				Sprite.Visualizer.SetColorFromHex( "FF7F7F" )
+				Local WedgedCursor:LTSprite = LTSprite( L_Cursor.Clone() )
+				WedgedCursor.WedgeOffWithSprite( Sprite, 0, 1 )
+				WedgedCursor.Visualizer.SetColorFromHex( "7F7FFFFF" )
+				WedgedCursor.Draw()
+			Else
+				Sprite.Visualizer.SetColorFromHex( "7FFF7F" )
+			End If
+		Next
+		L_Cursor.Draw()
+		
+		L_PrintText( "Press right mouse button to change shape ", 0, -12, LTAlign.ToCenter, LTAlign.ToTop )
+		L_PrintText( "ColldesWithSprite example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
+	End Method
+End Type
+Cls
+
+
+
+'CorrectHeight.bmx
+L_CurrentCamera = LTCamera.Create()
+Global Example5:TExample5 = New TExample5
+Example5.Execute()
+
+Type TExample5 Extends LTProject
 	Const SpritesQuantity:Int = 50
 	
 	Field Layer:LTLayer = New LTLayer
@@ -209,14 +267,14 @@ Cls
 
 'DirectAs.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example5:TExample5 = New TExample5
-Example5.Execute()
+Global Example6:TExample6 = New TExample6
+Example6.Execute()
 
-Type TExample5 Extends LTProject
+Type TExample6 Extends LTProject
 	Const SpritesQuantity:Int = 50
 	
 	Field Layer:LTLayer = New LTLayer
-	Field Cursor:TCursor5 = New TCursor5
+	Field Cursor:TCursor6 = New TCursor6
 	Field SpriteImage:LTImage = LTImage.FromFile( "incbin::kolobok.png" )
 	Field Selected:LTSprite
 	
@@ -250,14 +308,14 @@ End Type
 
 
 
-Type TCursor5 Extends LTSprite
+Type TCursor6 Extends LTSprite
 	Field SizeHandler:TSizeCollisionHandler = New TSizeCollisionHandler
 	Field DirectionHandler:TDirectionCollisionHandler = new TDirectionCollisionHandler
 	
 	Method Act()
 		SetMouseCoords()
-		If MouseHit( 1 ) Then CollisionsWithLayer( Example5.Layer, DirectionHandler )
-		If MouseHit( 2 ) Then CollisionsWithLayer( Example5.Layer, SizeHandler )
+		If MouseHit( 1 ) Then CollisionsWithLayer( Example6.Layer, DirectionHandler )
+		If MouseHit( 2 ) Then CollisionsWithLayer( Example6.Layer, SizeHandler )
 	End Method
 End Type
 
@@ -282,10 +340,10 @@ Cls
 
 'DirectTo.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example6:TExample6 = New TExample6
-Example6.Execute()
+Global Example7:TExample7 = New TExample7
+Example7.Execute()
 
-Type TExample6 Extends LTProject
+Type TExample7 Extends LTProject
 	Const KoloboksQuantity:Int = 50
 	
 	Field Layer:LTLayer = New LTLayer
@@ -293,7 +351,7 @@ Type TExample6 Extends LTProject
 	
 	Method Init()
 		For Local N:Int = 1 To KoloboksQuantity
-			Local Kolobok:TKolobok6 = New TKolobok6
+			Local Kolobok:TKolobok7 = New TKolobok7
 			Kolobok.SetCoords( Rnd( -15, 15 ), Rnd( -11, 11 ) )
 			Kolobok.SetDiameter( Rnd( 1, 3 ) )
 			Kolobok.ShapeType = LTSprite.Oval
@@ -317,7 +375,7 @@ End Type
 
 
 
-Type TKolobok6 Extends LTSprite
+Type TKolobok7 Extends LTSprite
 	Method Act()
 		DirectTo( L_Cursor )
 	End Method
@@ -327,14 +385,14 @@ Cls
 
 'DistanceToPoint.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example7:TExample7 = New TExample7
-Example7.Execute()
+Global Example8:TExample8 = New TExample8
+Example8.Execute()
 
-Type TExample7 Extends LTProject
+Type TExample8 Extends LTProject
 	Const SpritesQuantity:Int = 20
 	
 	Field Layer:LTLayer = New LTLayer
-	Field Line:LTLine = New LTLine
+	Field LineSegment:LTLineSegment = New LTLineSegment
 	Field MinSprite:LTSprite
 
 	Method Init()
@@ -346,7 +404,7 @@ Type TExample7 Extends LTProject
 			Layer.AddLast( Sprite )
 		Next
 		L_Cursor = LTSprite.FromShape( 0, 0, 0.5, 0.5, LTSprite.Oval )
-		Line.Pivot[ 0 ] = L_Cursor
+		LineSegment.Pivot[ 0 ] = L_Cursor
 	End Method
 	
 	Method Logic()
@@ -358,7 +416,7 @@ Type TExample7 Extends LTProject
 				MinDistance = L_Cursor.DistanceTo( Sprite )
 			End If
 		Next
-		Line.Pivot[ 1 ] = MinSprite
+		LineSegment.Pivot[ 1 ] = MinSprite
 		
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
 	End Method
@@ -366,7 +424,7 @@ Type TExample7 Extends LTProject
 	Method Render()
 		Layer.Draw()
 		
-		Line.Draw()
+		LineSegment.Draw()
 		L_PrintText( L_TrimDouble( L_Cursor.DistanceTo( MinSprite ) ), 0.5 * ( L_Cursor.X + MinSprite.X ), 0.5 * ( L_Cursor.Y + MinSprite.Y ) )
 		
 		Local SX:Double, SY:Double
@@ -384,10 +442,10 @@ Cls
 
 'DrawCircle.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example8:TExample8 = New TExample8
-Example8.Execute()
+Global Example9:TExample9 = New TExample9
+Example9.Execute()
 
-Type TExample8 Extends LTProject
+Type TExample9 Extends LTProject
 	Const MapSize:Int = 128
 	Const MapScale:Double = 4.0
 	Const PicScale:Double = 5.0
@@ -431,10 +489,10 @@ Incbin "hit.ogg"
 
 'DrawTile.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example9:TExample9 = New TExample9
-Example9.Execute()
+Global Example10:TExample10 = New TExample10
+Example10.Execute()
 
-Type TExample9 Extends LTProject
+Type TExample10 Extends LTProject
 	Const TileMapWidth:Int = 16
 	Const TileMapHeight:Int = 12
 	Const ShakingPeriod:Double = 1.0
@@ -484,9 +542,9 @@ Type TShakingVisualizer Extends LTVisualizer
 		Local TileValue:Int = GetTileValue( TileMap, TileX, TileY )
 		If TileValue = TileSet.EmptyTile Then Return
 		
-		SetRotation( Rnd( -DAngle * Example9.ShakingK, DAngle * Example9.ShakingK ) )
-		X :+ Rnd( -DCoord * Example9.ShakingK, DCoord * Example9.ShakingK )
-		Y :+ Rnd( -DCoord * Example9.ShakingK, DCoord * Example9.ShakingK )
+		SetRotation( Rnd( -DAngle * Example10.ShakingK, DAngle * Example10.ShakingK ) )
+		X :+ Rnd( -DCoord * Example10.ShakingK, DCoord * Example10.ShakingK )
+		Y :+ Rnd( -DCoord * Example10.ShakingK, DCoord * Example10.ShakingK )
 		
 		Local SX:Double, SY:Double
 		L_CurrentCamera.FieldToScreen( X, Y, SX, SY )
@@ -501,11 +559,11 @@ Cls
 
 'DrawUsingLine.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example10:TExample10 = New TExample10
-Example10.Execute()
+Global Example11:TExample11 = New TExample11
+Example11.Execute()
 
-Type TExample10 Extends LTProject
-	Field Lines:LTLayer = New LTLayer
+Type TExample11 Extends LTProject
+	Field LineSegments:LTLayer = New LTLayer
 	
 	Method Init()
 		L_CurrentCamera = LTCamera.Create()
@@ -513,9 +571,9 @@ Type TExample10 Extends LTProject
 		Local Visualizer:TBlazing = New TBlazing
 		For Local Pivots:Int[] = Eachin [ [ -4, -2, -2, -2 ], [ -4, -2, -4, 0 ], [ -4, 0, -4, 2 ], [ -4, 0, -3, 0 ], [ 1, -2, -1, -2 ], [ -1, -2, -1, 0 ], [ -1, 0, 1, 0 ], ..
 				[ 1, 0, 1, 2 ], [ 1, 2, -1, 2 ], [ 4, -2, 2, -2 ], [ 2, -2, 2, 0 ], [ 2, 0, 2, 2 ], [ 2, 0, 3, 0 ] ]
-			Local Line:LTLine = LTLine.FromPivots( LTSprite.FromShape( Pivots[ 0 ], Pivots[ 1 ] ), LTSprite.FromShape( Pivots[ 2 ], Pivots[ 3 ] ) )
-			Line.Visualizer = Visualizer
-			Lines.AddLast( Line )
+			Local LineSegment:LTLineSegment = LTLineSegment.FromPivots( LTSprite.FromShape( Pivots[ 0 ], Pivots[ 1 ] ), LTSprite.FromShape( Pivots[ 2 ], Pivots[ 3 ] ) )
+			LineSegment.Visualizer = Visualizer
+			LineSegments.AddLast( LineSegment )
 		Next
 	End Method
 	
@@ -524,7 +582,7 @@ Type TExample10 Extends LTProject
 	End Method
 
 	Method Render()
-		Lines.Draw()
+		LineSegments.Draw()
 		DrawText( "Free Software Forever!", 0, 0 )
 		L_PrintText( "DrawUsingLine example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
@@ -535,10 +593,10 @@ End Type
 Type TBlazing Extends LTVisualizer
 	Const ChunkSize:Double = 25
 	Const DeformationRadius:Double = 15
-	Method DrawUsingLine( Line:LTLine )
+	Method DrawUsingLineSegment( LineSegment:LTLineSegment )
 		Local SX1:Double, SY1:Double, SX2:Double, SY2:Double
-		L_CurrentCamera.FieldToScreen( Line.Pivot[ 0 ].X, Line.Pivot[ 0 ].Y, SX1, SY1 )
-		L_CurrentCamera.FieldToScreen( Line.Pivot[ 1 ].X, Line.Pivot[ 1 ].Y, SX2, SY2 )
+		L_CurrentCamera.FieldToScreen( LineSegment.Pivot[ 0 ].X, LineSegment.Pivot[ 0 ].Y, SX1, SY1 )
+		L_CurrentCamera.FieldToScreen( LineSegment.Pivot[ 1 ].X, LineSegment.Pivot[ 1 ].Y, SX2, SY2 )
 		Local ChunkQuantity:Int = Max( 1, L_Round( 1.0 * L_Distance( SX2 - SX1, SY2 - SY1 ) / ChunkSize ) )
 		Local OldX:Double, OldY:Double
 		For Local N:Int = 0 To ChunkQuantity
@@ -574,10 +632,10 @@ Cls
 
 'DrawUsingSprite.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example11:TExample11 = New TExample11
-Example11.Execute()
+Global Example12:TExample12 = New TExample12
+Example12.Execute()
 
-Type TExample11 Extends LTProject
+Type TExample12 Extends LTProject
 	Const FlowersQuantity:Int = 12
 	Const FlowerCircleDiameter:Double = 9
 	Const FlowerDiameter:Double = 1.8
@@ -615,13 +673,13 @@ Type TFlowerVisualizer Extends LTVisualizer
 	Const CirclesPer360:Int = 7
 	Const Amplitude:Double = 0.15
 	
-	Method DrawUsingSprite( Sprite:LTSprite )
+	Method DrawUsingSprite( Sprite:LTSprite, SpriteShape:LTSprite = Null )
 		Local SpriteDiameter:Double = Sprite.GetDiameter()
 		Local CircleDiameter:Double = L_CurrentCamera.DistFieldToScreen( 2.0 * Pi * SpriteDiameter / CirclesQuantity ) * 1.5
 		For Local N:Int = 0 Until CirclesQuantity
 			Local Angle:Double = 360.0 * N / CirclesQuantity
 			Local Angles:Double = Sprite.Angle + Angle
-			Local Distance:Double = SpriteDiameter * ( 1.0 + Amplitude * Sin( 360.0 * Example11.Time + 360.0 * N / CirclesQuantity * CirclesPer360 ) )
+			Local Distance:Double = SpriteDiameter * ( 1.0 + Amplitude * Sin( 360.0 * Example12.Time + 360.0 * N / CirclesQuantity * CirclesPer360 ) )
 			Local SX:Double, SY:Double
 			L_CurrentCamera.FieldToScreen( Sprite.X + Distance * Cos( Angles ), Sprite.Y + Distance * Sin( Angles ), SX, SY )
 			DrawOval( SX - 0.5 * CircleDiameter, SY - 0.5 * CircleDiameter, CircleDiameter, CircleDiameter )
@@ -631,23 +689,24 @@ End Type
 Cls
 
 
-Const MapSize12:Int = 64
-Const MapScale12:Double = 8
-Const FilledTileNum12:Int = 20
+Const MapSize13:Int = 64
+Const MapScale13:Double = 8
+Const FilledTileNum13:Int = 20
 
 Incbin "tileset.lw"
 Incbin "curved_areas.png"
 
 'Enframe.bmx
 L_CurrentCamera = LTCamera.Create()
-Ex12()
-Function Ex12()
+Ex13()
+Function Ex13()
 L_CurrentCamera = LTCamera.Create()
+L_EditorData = New LTEditorData
 SetClsColor( 64, 128, 0 )
 
 Cls
 Local DoubleMap:LTDoubleMap = New LTDoubleMap
-DoubleMap.SetResolution( MapSize12, MapSize12 )
+DoubleMap.SetResolution( MapSize13, MapSize13 )
 DrawDoubleMap( DoubleMap )
 DrawText( "Step 1: creating Double map and set its resolution", 0, 0 )
 Flip
@@ -664,9 +723,9 @@ Cls
 L_SetIncbin( True )
 Local World:LTWorld = LTWorld.FromFile( "tileset.lw" )
 L_SetIncbin( False )
-Local TileSet:LTTileSet = LTTileSet( World.Tilesets.First() )
-Local TileMap:LTTileMap = LTTileMap.Create( TileSet, MapSize12, MapSize12 )
-TileMap.SetSize( MapSize12 * MapScale12 / 25.0, MapSize12 * MapScale12 / 25.0 )
+Local TileSet:LTTileSet = LTTileSet( L_EditorData.Tilesets.First() )
+Local TileMap:LTTileMap = LTTileMap.Create( TileSet, MapSize13, MapSize13 )
+TileMap.SetSize( MapSize13 * MapScale13 / 25.0, MapSize13 * MapScale13 / 25.0 )
 DrawText( "Step 3: loading world, extract tileset from there and", 0, 0 )
 DrawText( "creating tilemap with same size and this tileset", 0, 16 )
 DrawDoubleMap( DoubleMap )
@@ -675,8 +734,8 @@ Waitkey
 
 
 Cls
-DoubleMap.ExtractTo( TileMap, 0.5, 1.0, FilledTileNum12 )
-DrawText( "Step 4: setting tiles number of tilemap to FilledTileNum12", 0, 0 )
+DoubleMap.ExtractTo( TileMap, 0.5, 1.0, FilledTileNum13 )
+DrawText( "Step 4: setting tiles number of tilemap to FilledTileNum13", 0, 0 )
 DrawText( "if corresponding value of Double map is higher than 0.5", 0, 16 )
 TileMap.Draw()
 DrawSignature()
@@ -684,8 +743,8 @@ Flip
 Waitkey
 
 Cls
-For Local Y:Int = 0 Until MapSize12
-	For Local X:Int = 0 Until MapSize12
+For Local Y:Int = 0 Until MapSize13
+	For Local X:Int = 0 Until MapSize13
 		Fix( TileMap, X, Y )
 	Next
 Next
@@ -719,13 +778,13 @@ SetClsColor( 0, 0, 0 )
 
 End Function
 Function DrawDoubleMap( Map:LTDoubleMap )
-	Local Image:TImage = CreateImage( MapSize12, MapSize12 )
+	Local Image:TImage = CreateImage( MapSize13, MapSize13 )
 	Local Pixmap:TPixmap = Lockimage( Image )
 	ClearPixels( Pixmap, $FF000000 )
 	Map.PasteToPixmap( Pixmap )
 	Unlockimage( Image )
-	SetScale( MapScale12, MapScale12 )
-	DrawImage( Image, 400 - 0.5 * MapScale12 * MapSize12, 300 - 0.5 * MapScale12 * MapSize12 )
+	SetScale( MapScale13, MapScale13 )
+	DrawImage( Image, 400 - 0.5 * MapScale13 * MapSize13, 300 - 0.5 * MapScale13 * MapSize13 )
 	SetScale( 1, 1 )
 	DrawSignature()
 End Function
@@ -739,25 +798,25 @@ End Function
 
 
 Function Fix( TileMap:LTTileMap, X:Int, Y:Int )
-	If TileMap.Value[ X, Y ] = FilledTileNum12 Then Return
+	If TileMap.Value[ X, Y ] = FilledTileNum13 Then Return
 	Local DoFix:Int = False
 	
 	Local FixHorizontal:Int = True
-	If X > 0 And X < MapSize12 - 1 Then
-		If TileMap.Value[ X - 1, Y ] = FilledTileNum12 And TileMap.Value[ X + 1, Y ] = FilledTileNum12 Then DoFix = True
+	If X > 0 And X < MapSize13 - 1 Then
+		If TileMap.Value[ X - 1, Y ] = FilledTileNum13 And TileMap.Value[ X + 1, Y ] = FilledTileNum13 Then DoFix = True
 	Else
 		FixHorizontal = False
 	End If
 	
 	Local FixVertical:Int = True
-	If Y > 0 And Y < MapSize12 - 1 Then
-		If TileMap.Value[ X, Y - 1 ] = FilledTileNum12 And TileMap.Value[ X, Y + 1 ] = FilledTileNum12 Then DoFix = True
+	If Y > 0 And Y < MapSize13 - 1 Then
+		If TileMap.Value[ X, Y - 1 ] = FilledTileNum13 And TileMap.Value[ X, Y + 1 ] = FilledTileNum13 Then DoFix = True
 	Else
 		FixVertical = False
 	End If
 	
 	If DoFix Then
-		TileMap.Value[ X, Y ] = FilledTileNum12
+		TileMap.Value[ X, Y ] = FilledTileNum13
 		If FixHorizontal Then
 			Fix( TileMap, X - 1, Y )
 			Fix( TileMap, X + 1, Y )
@@ -774,10 +833,10 @@ Cls
 
 'GetTileForPoint.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example13:TExample13 = New TExample13
-Example13.Execute()
+Global Example14:TExample14 = New TExample14
+Example14.Execute()
 
-Type TExample13 Extends LTProject
+Type TExample14 Extends LTProject
 	Const TileMapWidth:Int = 16
 	Const TileMapHeight:Int = 12
 	
@@ -801,8 +860,10 @@ Type TExample13 Extends LTProject
 		Cursor.SetMouseCoords()
 		Local TileX:Int, TileY:Int
 		TileMap.GetTileForPoint( Cursor.X, Cursor.Y, TileX, TileY )
-		if MouseDown( 1 ) Then TileMap.SetTile( TileX, TileY, Cursor.Frame )
-		If MouseHit( 2 ) Then Cursor.SetAsTile( TileMap, TileX, TileY )
+		If TileX >= 0 And TileY >= 0 And TileX < TileMap.XQuantity And TileY < TileMap.YQuantity Then
+			if MouseDown( 1 ) Then TileMap.SetTile( TileX, TileY, Cursor.Frame )
+			If MouseHit( 2 ) Then Cursor.SetAsTile( TileMap, TileX, TileY )
+		End If
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
 	End Method
 
@@ -819,10 +880,10 @@ Cls
 
 'GetTileValue.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example14:TExample14 = New TExample14
-Example14.Execute()
+Global Example15:TExample15 = New TExample15
+Example15.Execute()
 
-Type TExample14 Extends LTProject
+Type TExample15 Extends LTProject
 	Const TileMapWidth:Int = 16
 	Const TileMapHeight:Int = 12
 	
@@ -858,10 +919,10 @@ Cls
 
 'LeftX.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example15:TExample15 = New TExample15
-Example15.Execute()
+Global Example16:TExample16 = New TExample16
+Example16.Execute()
 
-Type TExample15 Extends LTProject
+Type TExample16 Extends LTProject
 	Field Rectangle:LTSprite = LTSprite.FromShape( 0, 0, 8, 6 )
 	Field Ball:LTSprite = LTSprite.FromShape( 0, 0, 1, 1, LTSprite.Oval )
 	
@@ -894,10 +955,10 @@ Cls
 
 'LimitByWindowShape.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example16:TExample16 = New TExample16
-Example16.Execute()
+Global Example17:TExample17 = New TExample17
+Example17.Execute()
 
-Type TExample16 Extends LTProject
+Type TExample17 Extends LTProject
 	Field Ball1:LTSprite = LTSprite.FromShape( 0, 0, 3, 3, LTSprite.Oval )
 	Field Ball2:LTSprite = LTSprite.FromShape( 0, 0, 2, 2, LTSprite.Oval )
 	Field Rectangle:LTSprite = LTSprite.FromShape( 0, 0, 10, 10 )
@@ -929,10 +990,10 @@ Cls
 
 'LimitWith.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example17:TExample17 = New TExample17
-Example17.Execute()
+Global Example18:TExample18 = New TExample18
+Example18.Execute()
 
-Type TExample17 Extends LTProject
+Type TExample18 Extends LTProject
 	Field Ball:LTSprite[] = New LTSprite[ 7 ]
 	Field Rectangle:LTSprite = LTSprite.FromShape( 0, 0, 22, 14 )
 	
@@ -976,10 +1037,10 @@ Cls
 
 'LTAction.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example18:TExample18 = New TExample18
-Example18.Execute()
+Global Example19:TExample19 = New TExample19
+Example19.Execute()
 
-Type TExample18 Extends LTProject
+Type TExample19 Extends LTProject
 	Const SpritesQuantity:Int = 50
 	
 	Field Sprites:LTLayer = New LTLayer
@@ -1033,7 +1094,7 @@ Type TMoveDrag Extends LTDrag
 	End Method
 
 	Method StartDragging()
-		Shape = L_Cursor.FirstCollidedSpriteOfLayer( Example18.Sprites )
+		Shape = L_Cursor.FirstCollidedSpriteOfLayer( Example19.Sprites )
 		If Shape Then
 			Action = TMoveAction.Create( Shape )
 			DX = Shape.X - L_Cursor.X
@@ -1091,10 +1152,10 @@ Incbin "scheme2.png"
 
 'LTBehaviorModel.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example19:TExample19 = New TExample19
-Example19.Execute()
+Global Example20:TExample20 = New TExample20
+Example20.Execute()
 
-Type TExample19 Extends LTProject
+Type TExample20 Extends LTProject
 	Const Bricks:Int = 1
 	Const DeathPeriod:Double = 1.0
 	
@@ -1198,7 +1259,7 @@ Type TJelly Extends TGameObject
 		Local FiringAnimation:LTAnimationModel = LTAnimationModel.Create( False, FiringAnimationSpeed, 8, 16 )
 		
 		
-		Local HorizontalMovement:THorizontalMovement = THorizontalMovement.Create( Example19.BumpingWalls )
+		Local HorizontalMovement:THorizontalMovement = THorizontalMovement.Create( Example20.BumpingWalls )
 		
 				
 		Local Jumping:String = GetParameter( "jumping" )
@@ -1390,7 +1451,7 @@ Type TAwPossum Extends TGameObject
 		HitPauseCondition.FalseModels.AddLast( OnLandCondition2 )
 		
 		
-		AttachModel( THorizontalMovement.Create( Example19.PushFromWalls ) )
+		AttachModel( THorizontalMovement.Create( Example20.PushFromWalls ) )
 		
 		
 		AttachModel( LTModelDeactivator.Create( OnLand, True ) )
@@ -1403,8 +1464,8 @@ Type TAwPossum Extends TGameObject
 	
 	Method Act()
 		Super.Act()
-		CollisionsWithLayer( Example19.Layer, Example19.AwPossumHurtingCollision )
-		If X > Example19.TileMap.RightX() Then Example19.SwitchTo( New TRestart )
+		CollisionsWithLayer( Example20.Layer, Example20.AwPossumHurtingCollision )
+		If X > Example20.TileMap.RightX() Then Example20.SwitchTo( New TRestart )
 	End Method
 	
 	Method Draw()
@@ -1449,7 +1510,7 @@ Type THorizontalMovement Extends LTBehaviorModel
 	Method ApplyTo( Shape:LTShape )
 		Local Sprite:LTVectorSprite = LTVectorSprite( Shape )
 		Sprite.Move( Sprite.DX, 0 )
-		Sprite.CollisionsWithTileMap( Example19.TileMap, CollisionHandler )
+		Sprite.CollisionsWithTileMap( Example20.TileMap, CollisionHandler )
 	End Method
 	
 	Method Info:String( Shape:LTShape )
@@ -1460,7 +1521,7 @@ End Type
 
 
 Type TBumpingWalls Extends LTSpriteAndTileCollisionHandler
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
 		Sprite.PushFromTile( TileMap, TileX, TileY )
 		LTVectorSprite( Sprite ).DX :* -1
 		Sprite.Visualizer.XScale :* -1
@@ -1470,15 +1531,15 @@ End Type
 
 
 Type TPushFromWalls Extends LTSpriteAndTileCollisionHandler
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
-		If TileMap.GetTile( TileX, TileY ) = Example19.Bricks Then Sprite.PushFromTile( TileMap, TileX, TileY )
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
+		If TileMap.GetTile( TileX, TileY ) = Example20.Bricks Then Sprite.PushFromTile( TileMap, TileX, TileY )
 	End Method
 End Type
 
 
 
 Type TVerticalMovement Extends LTBehaviorModel
-	Field Handler:TVerticalCollisionHandler19 = New TVerticalCollisionHandler19
+	Field Handler:TVerticalCollisionHandler20 = New TVerticalCollisionHandler20
 
 	Function Create:TVerticalMovement( ForPlayer:Int )
 		Local VerticalMovement:TVerticalMovement = New TVerticalMovement
@@ -1489,7 +1550,7 @@ Type TVerticalMovement Extends LTBehaviorModel
 	Method ApplyTo( Shape:LTShape )
 		Local Sprite:LTVectorSprite = LTVectorSprite( Shape )
 		Sprite.Move( 0, Sprite.DY )
-		Sprite.CollisionsWithTileMap( Example19.TileMap, Handler )
+		Sprite.CollisionsWithTileMap( Example20.TileMap, Handler )
 	End Method
 	
 	Method Info:String( Shape:LTShape )
@@ -1499,11 +1560,11 @@ End Type
 
 
 
-Type TVerticalCollisionHandler19 Extends LTSpriteAndTileCollisionHandler
+Type TVerticalCollisionHandler20 Extends LTSpriteAndTileCollisionHandler
 	Field ForPlayer:Int
 	
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
-		If ForPlayer Then If TileMap.GetTile( TileX, TileY ) <> Example19.Bricks Then Return
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
+		If ForPlayer Then If TileMap.GetTile( TileX, TileY ) <> Example20.Bricks Then Return
 		Local GameObject:TGameObject = TGameObject( Sprite )
 		GameObject.PushFromTile( TileMap, TileX, TileY )
 		If GameObject.DY > 0 Then
@@ -1546,21 +1607,21 @@ Type TCreateBullet Extends LTBehaviorModel
 	End Function
 	
 	Method ApplyTo( Shape:LTShape )
-		TBullet19.Create( LTVectorSprite( Shape ), Rnd( FromSpeed, ToSpeed ) )
+		TBullet20.Create( LTVectorSprite( Shape ), Rnd( FromSpeed, ToSpeed ) )
 		Remove( Shape )
 	End Method
 End Type
 
 
 
-Type TBullet19 Extends LTVectorSprite
+Type TBullet20 Extends LTVectorSprite
 	Const MinAttack:Double = 5.0
 	Const MaxAttack:Double = 10.0
 	
 	Field Collisions:Int = True
 	
 	Function Create( Jelly:LTVectorSprite, Speed:Double )
-		Local Bullet:TBullet19 = New TBullet19
+		Local Bullet:TBullet20 = New TBullet20
 		Bullet.SetCoords( Jelly.X + Sgn( Jelly.DX ) * Jelly.Width * 2.2, Jelly.Y - 0.15 * Jelly.Height )
 		Bullet.SetSize( 0.45 * Jelly.Width, 0.45 * Jelly.Width )
 		Bullet.ShapeType = LTSprite.Oval
@@ -1568,17 +1629,17 @@ Type TBullet19 Extends LTVectorSprite
 		Bullet.Visualizer.SetVisualizerScale( 12, 4 )
 		Bullet.Visualizer.Image = Jelly.Visualizer.Image
 		Bullet.Frame = 6
-		Example19.Layer.AddLast( Bullet )
+		Example20.Layer.AddLast( Bullet )
 	End Function
 	
 	Method Act()
 		MoveForward()
-		If Collisions Then CollisionsWithTileMap( Example19.TileMap, Example19.DestroyBullet )
+		If Collisions Then CollisionsWithTileMap( Example20.TileMap, Example20.DestroyBullet )
 		Super.Act()
 	End Method
 	
 	Function Disable( Sprite:LTSprite )
-		Local Bullet:TBullet19 = TBullet19( Sprite )
+		Local Bullet:TBullet20 = TBullet20( Sprite )
 		if Bullet.Collisions Then 
 			Bullet.AttachModel( New TDeath )
 			Bullet.AttachModel( New TGravity )
@@ -1592,8 +1653,8 @@ End Type
 
 
 Type TDestroyBullet Extends LTSpriteAndTileCollisionHandler
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
-		If TileMap.GetTile( TileX, TileY ) = Example19.Bricks Then TBullet19.Disable( Sprite )
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
+		If TileMap.GetTile( TileX, TileY ) = Example20.Bricks Then TBullet20.Disable( Sprite )
 	End Method
 End Type
 
@@ -1634,11 +1695,11 @@ Type TAwPossumHurtingCollision Extends LTSpriteCollisionHandler
 		
 		Local Damage:Double = 0
 		If TJelly( Sprite2 ) Then Damage = Rnd( TJelly.MinAttack, TJelly.MaxAttack )
-		Local Bullet:TBullet19 = TBullet19( Sprite2 )
+		Local Bullet:TBullet20 = TBullet20( Sprite2 )
 		If Bullet Then
 			If Bullet.Collisions Then
-				Damage = Rnd( TBullet19.MinAttack, TBullet19.MaxAttack ) * Sprite2.GetDiameter() / 0.45
-				Example19.Layer.Remove( Sprite2 )
+				Damage = Rnd( TBullet20.MinAttack, TBullet20.MaxAttack ) * Sprite2.GetDiameter() / 0.45
+				Example20.Layer.Remove( Sprite2 )
 			End If
 		End If
 		If Damage Then
@@ -1714,7 +1775,7 @@ Type THittingArea Extends LTFixedWaitingModel
 		Area.ShapeType = LTSprite.Oval
 		Area.SetDiameter( 0.3 )
 		Period = TAwPossum.HitPeriod
-		Example19.AwPossumHitCollision.Collided = False
+		Example20.AwPossumHitCollision.Collided = False
 	End Method
 	
 	Method ApplyTo( Shape:LTShape )
@@ -1723,14 +1784,14 @@ Type THittingArea Extends LTFixedWaitingModel
 		Else
 			Area.SetCoords( Shape.X + Shape.GetFacing() * 0.95, Shape.Y - 0.1 )
 		End If
-		'Example19.HitArea = Area
-		Area.CollisionsWithLayer( Example19.Layer, Example19.AwPossumHitCollision )
-		If Example19.AwPossumHitCollision.Collided Then Remove( Shape )
+		'Example20.HitArea = Area
+		Area.CollisionsWithLayer( Example20.Layer, Example20.AwPossumHitCollision )
+		If Example20.AwPossumHitCollision.Collided Then Remove( Shape )
 		Super.ApplyTo( Shape )
 	End Method
 	
 	'Method Deactivate( Shape:LTShape )
-	'	Example19.HitArea = Null
+	'	Example20.HitArea = Null
 	'End Method
 End Type
 
@@ -1748,16 +1809,16 @@ Type TAwPossumHitCollision Extends LTSpriteCollisionHandler
 			ElseIf Not Jelly.FindModel( "TDeath" ) Then
 				TScore.Create( Jelly, Jelly.Score )
 				
-				Local AwPossum:TAwPossum = TAwPossum( Example19.Layer.FindShapeWithType( "TAwPossum" ) )
+				Local AwPossum:TAwPossum = TAwPossum( Example20.Layer.FindShapeWithType( "TAwPossum" ) )
 				AwPossum.Health = Min( AwPossum.Health + Rnd( TAwPossum.MinHealthGain, TAwPossum.MaxHealthGain ), 100.0 )
 				
 				Jelly.BehaviorModels.Clear()
 				Jelly.AttachModel( New TDeath )
 			End If
 			Collided = True
-		ElseIf TBullet19( Sprite2 )
+		ElseIf TBullet20( Sprite2 )
 			If Not Sprite2.FindModel( "TDeath" ) Then
-				TBullet19.Disable( Sprite2 )
+				TBullet20.Disable( Sprite2 )
 				TScore.Create( Sprite2, 50 )
 			End If
 		End If
@@ -1788,7 +1849,7 @@ End Type
 
 Type TDeath Extends LTFixedWaitingModel
 	Method Init( Shape:LTShape )
-		Period = Example19.DeathPeriod
+		Period = Example20.DeathPeriod
 	End Method
 
 	Method ApplyTo( Shape:LTShape )
@@ -1798,7 +1859,7 @@ Type TDeath Extends LTFixedWaitingModel
 	End Method
 	
 	Method Deactivate( Shape:LTShape )
-		Example19.Layer.Remove( Shape )
+		Example20.Layer.Remove( Shape )
 	End Method
 End Type
 
@@ -1817,13 +1878,13 @@ Type TScore Extends LTSprite
 		Score.Amount = Amount
 		Score.SetDiameter( 0 )
 		Score.StartingTime = L_CurrentProject.Time
-		Example19.Score :+ Amount
-		Example19.Layer.AddLast( Score )
+		Example20.Score :+ Amount
+		Example20.Layer.AddLast( Score )
 	End Function
 	
 	Method Act()
 		Move( 0, -Speed )
-		If L_CurrentProject.Time > StartingTime + Period Then Example19.Layer.Remove( Self )
+		If L_CurrentProject.Time > StartingTime + Period Then Example20.Layer.Remove( Self )
 	End Method
 	
 	Method Draw()
@@ -1839,14 +1900,14 @@ Type TRestart Extends LTProject
 	
 	Method Render()
 		If Millisecs() < StartingTime + 2000 Then
-			Example19.Render()
+			Example20.Render()
 			L_CurrentCamera.Darken( 0.0005 * ( Millisecs() - StartingTime ) )
 		ElseIf Millisecs() < StartingTime + 4000
 			If Not Initialized Then
-				Example19.InitLevel()
+				Example20.InitLevel()
 				Initialized = True
 			End If
-			Example19.Render()
+			Example20.Render()
 			L_CurrentCamera.Darken( 0.0005 * ( 4000 - Millisecs() + StartingTime ) )
 		Else
 			Exiting = True
@@ -1861,8 +1922,8 @@ Incbin "font.lfn"
 
 'LTBitmapFont.bmx
 L_CurrentCamera = LTCamera.Create()
-Ex20()
-Function Ex20()
+Ex21()
+Function Ex21()
 L_CurrentCamera = LTCamera.Create()
 Local Font:LTBitmapFont = LTBitmapFont.FromFile( "incbin::font.png", 32,127, 16, True )
 
@@ -1883,11 +1944,11 @@ Cls
 
 'LTButtonAction.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example21:TExample21 = New TExample21
-Example21.Execute()
+Global Example22:TExample22 = New TExample22
+Example22.Execute()
 
 
-Type TExample21 Extends LTProject
+Type TExample22 Extends LTProject
 	Field Velocity:Double = 5.0
 	Field BulletVelocity:Double = 10.0
 
@@ -1911,7 +1972,7 @@ Type TExample21 Extends LTProject
 		If MoveRight.IsDown() Then Player.Move( Velocity, 0 )
 		If MoveUp.IsDown() Then Player.Move( 0, -Velocity )
 		If MoveDown.IsDown() Then Player.Move( 0, Velocity )
-		If Fire.IsDown() Then TBullet21.Create()
+		If Fire.IsDown() Then TBullet22.Create()
 		
 		Bullets.Act()
 		
@@ -1930,16 +1991,16 @@ End Type
 
 
 
-Type TBullet21 Extends LTSprite
-	Function Create:TBullet21()
-		Local Bullet:TBullet21 = New TBullet21
-		Bullet.SetCoords( Example21.Player.X, Example21.Player.Y )
+Type TBullet22 Extends LTSprite
+	Function Create:TBullet22()
+		Local Bullet:TBullet22 = New TBullet22
+		Bullet.SetCoords( Example22.Player.X, Example22.Player.Y )
 		Bullet.SetDiameter( 0.25 )
 		Bullet.ShapeType = LTSprite.Oval
-		Bullet.Angle = Example21.Player.DirectionTo( L_Cursor )
-		Bullet.Velocity = Example21.BulletVelocity
+		Bullet.Angle = Example22.Player.DirectionTo( L_Cursor )
+		Bullet.Velocity = Example22.BulletVelocity
 		Bullet.Visualizer.SetColorFromHex( "7FFFBF" )
-		Example21.Bullets.AddLast( Bullet )
+		Example22.Bullets.AddLast( Bullet )
 	End Function
 	
 	Method Act()
@@ -1959,15 +2020,15 @@ Type TDefineKeys Extends LTProject
 	End Method
 	
 	Method Logic()
-		If Example21.Actions[ ActionNum ].Define() Then
+		If Example22.Actions[ ActionNum ].Define() Then
 			ActionNum :+ 1
-			If ActionNum = Example21.Actions.Dimensions()[ 0 ] Then Exiting = True
+			If ActionNum = Example22.Actions.Dimensions()[ 0 ] Then Exiting = True
 		End If
 	End Method
 	
 	Method Render()
-		Example21.Render()
-		DrawText( "Press key for " + Example21.Actions[ ActionNum ].Name, 0, 16 )
+		Example22.Render()
+		DrawText( "Press key for " + Example22.Actions[ ActionNum ].Name, 0, 16 )
 	End Method
 End Type
 Cls
@@ -1976,10 +2037,10 @@ Cls
 
 'LTCamera.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example22:TExample22 = New TExample22
-Example22.Execute()
+Global Example23:TExample23 = New TExample23
+Example23.Execute()
 
-Type TExample22 Extends LTProject
+Type TExample23 Extends LTProject
 	Const TileMapWidth:Int = 64
 	Const TileMapHeight:Int = 64
 	
@@ -2024,15 +2085,15 @@ Cls
 
 'LTDistanceJoint.bmx
 L_CurrentCamera = LTCamera.Create()
-Local Example23:TExample23 = New TExample23
-Example23.Execute()
+Local Example24:TExample24 = New TExample24
+Example24.Execute()
 
-Type TExample23 Extends LTProject
+Type TExample24 Extends LTProject
 	Field Hinge:LTSprite = LTSprite.FromShape( 0, -8, 1, 1, LTSprite.Oval )
 	Field Weight1:LTVectorSprite = LTVectorSprite.FromShapeAndVector( -8, -6, 3, 3, LTSprite.Oval )
 	Field Weight2:LTVectorSprite = LTVectorSprite.FromShapeAndVector( -12, -9, 3, 3, LTSprite.Oval )
-	Field Rope1:LTLine = LTLine.FromPivots( Hinge, Weight1 )
-	Field Rope2:LTLine = LTLine.FromPivots( Weight1, Weight2 )
+	Field Rope1:LTLineSegment = LTLineSegment.FromPivots( Hinge, Weight1 )
+	Field Rope2:LTLineSegment = LTLineSegment.FromPivots( Weight1, Weight2 )
 	
 	Method Init()
 		L_CurrentCamera = LTCamera.Create()
@@ -2070,10 +2131,10 @@ Cls
 
 'LTGraph.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example24:TExample24 = New TExample24
-Example24.Execute()
+Global Example25:TExample25 = New TExample25
+Example25.Execute()
 
-Type TExample24 Extends LTProject
+Type TExample25 Extends LTProject
 	Const PivotsQuantity:Int = 150
 	Const MaxDistance:Double = 3.0
 	Const MinDistance:Double = 1.0
@@ -2082,7 +2143,7 @@ Type TExample24 Extends LTProject
 	Field SelectedPivot:LTSprite
 	Field Path:TList
 	Field PivotVisualizer:LTVisualizer = LTVisualizer.FromHexColor( "4F4FFF" )
-	Field LineVisualizer:LTVisualizer = LTContourVisualizer.FromWidthAndHexColor( 0.15, "FF4F4F", , 3.0 )
+	Field LineSegmentVisualizer:LTVisualizer = LTContourVisualizer.FromWidthAndHexColor( 0.15, "FF4F4F", , 3.0 )
 	Field PathVisualizer:LTVisualizer = LTContourVisualizer.FromWidthAndHexColor( 0.15, "4FFF4F", , 4.0 )
 	
 	Method Init()
@@ -2109,14 +2170,14 @@ Type TExample24 Extends LTProject
 			For Local Pivot2:LTSprite = Eachin Graph.Pivots.Keys()
 				If Pivot1 <> Pivot2 And Pivot1.DistanceTo( Pivot2 ) <= MaxDistance Then
 					Local Passed:Int = True
-					Local NewLine:LTLine = LTLine.FromPivots( Pivot1, Pivot2 )
-					For Local Line:LTLine = Eachin Graph.Lines.Keys()
-						If Line.CollidesWithLine( NewLine, False ) Then
+					Local NewLineSegment:LTLineSegment = LTLineSegment.FromPivots( Pivot1, Pivot2 )
+					For Local LineSegment:LTLineSegment = Eachin Graph.LineSegments.Keys()
+						If LineSegment.CollidesWithLineSegment( NewLineSegment, False ) Then
 							Passed = False
 							Exit
 						End If
 					Next
-					If Passed Then Graph.AddLine( NewLine, False )
+					If Passed Then Graph.AddLineSegment( NewLineSegment, False )
 				End If
 			Next
 		Next
@@ -2135,12 +2196,12 @@ Type TExample24 Extends LTProject
 	End Method
 
 	Method Render()
-		Graph.DrawLinesUsing( LineVisualizer )
+		Graph.DrawLineSegmentsUsing( LineSegmentVisualizer )
 		LTGraph.DrawPath( Path, PathVisualizer )
 		Graph.DrawPivotsUsing( PivotVisualizer )
 		If SelectedPivot Then SelectedPivot.DrawUsingVisualizer( PathVisualizer )
 		DrawText( "Select first pivot with left mouse button and second with right one", 0, 0 )
-		L_PrintText( "LTGraph, FindPath, CollidesWithLine example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
+		L_PrintText( "LTGraph, FindPath, CollidesWithLineSegment example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type
 Cls
@@ -2149,14 +2210,14 @@ Cls
 
 'LTMarchingAnts.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example25:TExample25 = New TExample25
-Example25.Execute()
+Global Example26:TExample26 = New TExample26
+Example26.Execute()
 
-Type TExample25 Extends LTProject
+Type TExample26 Extends LTProject
 	Const SpritesQuantity:Int = 50
 	
 	Field Layer:LTLayer = New LTLayer
-	Field Cursor:TCursor25 = New TCursor25
+	Field Cursor:TCursor26 = New TCursor26
 	Field SpriteImage:LTImage = LTImage.FromFile( "incbin::kolobok.png" )
 	Field Selected:LTSprite
 	Field MarchingAnts:LTMarchingAnts = New LTMarchingAnts
@@ -2181,7 +2242,7 @@ Type TExample25 Extends LTProject
 
 	Method Render()
 		Layer.Draw()
-		If Selected Then Selected.DrawUsingVisualizer( Example25.MarchingAnts )
+		If Selected Then Selected.DrawUsingVisualizer( Example26.MarchingAnts )
 		DrawText( "Select Sprite by left-clicking on it", 0, 0 )
 		L_PrintText( "LTMarchingAnts example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
@@ -2189,14 +2250,14 @@ End Type
 
 
 
-Type TCursor25 Extends LTSprite
+Type TCursor26 Extends LTSprite
 	Field Handler:TSelectionHandler = New TSelectionHandler
 	
 	Method Act()
 		SetMouseCoords()
 		If MouseHit( 1 ) Then
-			Example25.Selected = Null
-			CollisionsWithLayer( Example25.Layer, Handler )
+			Example26.Selected = Null
+			CollisionsWithLayer( Example26.Layer, Handler )
 		End If
 	End Method
 End Type
@@ -2205,7 +2266,7 @@ End Type
 
 Type TSelectionHandler Extends LTSpriteCollisionHandler
 	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
-		Example25.Selected = Sprite2
+		Example26.Selected = Sprite2
 	End Method
 End Type
 Cls
@@ -2215,10 +2276,10 @@ Incbin "border.png"
 
 'LTRasterFrame.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example26:TExample26 = New TExample26
-Example26.Execute()
+Global Example27:TExample27 = New TExample27
+Example27.Execute()
 
-Type TExample26 Extends LTProject
+Type TExample27 Extends LTProject
 	Field Frame:LTSprite
 	Field FrameImage:LTRasterFrame = LTRasterFrame.FromFileAndBorders( "incbin::border.png", 8, 8, 8, 8 )
 	Field Layer:LTLayer = New LTLayer
@@ -2253,22 +2314,22 @@ Type TCreateFrame Extends LTDrag
 	Method StartDragging()
 		StartingX = L_Cursor.X
 		StartingY = L_Cursor.Y
-		Example26.Frame = LTSprite.FromShape( L_Cursor.X, L_Cursor.Y, 0, 0 )
-		Example26.Frame.Visualizer.SetRandomColor()
-		Example26.Frame.Visualizer.Image = Example26.FrameImage
+		Example27.Frame = LTSprite.FromShape( L_Cursor.X, L_Cursor.Y, 0, 0 )
+		Example27.Frame.Visualizer.SetRandomColor()
+		Example27.Frame.Visualizer.Image = Example27.FrameImage
 	End Method
 
 	Method Dragging()
 		Local CornerX:Double, CornerY:Double
 		If StartingX < L_Cursor.X Then CornerX = StartingX Else CornerX = L_Cursor.X
 		If StartingY < L_Cursor.Y Then CornerY = StartingY Else CornerY = L_Cursor.Y
-		Example26.Frame.SetSize( Abs( StartingX - L_Cursor.X ), Abs( StartingY - L_Cursor.Y ) )
-		Example26.Frame.SetCornerCoords( CornerX, CornerY )
+		Example27.Frame.SetSize( Abs( StartingX - L_Cursor.X ), Abs( StartingY - L_Cursor.Y ) )
+		Example27.Frame.SetCornerCoords( CornerX, CornerY )
 	End Method
 	
 	Method EndDragging()
-		Example26.Layer.AddLast( Example26.Frame )
-		Example26.Frame = Null
+		Example27.Layer.AddLast( Example27.Frame )
+		Example27.Frame = Null
 	End Method
 End Type
 Cls
@@ -2279,10 +2340,10 @@ Incbin "part.png"
 
 'LTRevoluteJoint.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example27:TExample27 = New TExample27
-Example27.Execute()
+Global Example28:TExample28 = New TExample28
+Example28.Execute()
 
-Type TExample27 Extends LTProject
+Type TExample28 Extends LTProject
 	Const Period:Double = 2.0
 	Field World:LTWorld
 	Field Layer:LTLayer
@@ -2347,22 +2408,22 @@ Cls
 
 'LTSpriteMap.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example28:TExample28 = New TExample28
-Example28.Execute()
+Global Example29:TExample29 = New TExample29
+Example29.Execute()
 
-Const MapSize28:Int = 192
+Const MapSize29:Int = 192
 
-Type TExample28 Extends LTProject
+Type TExample29 Extends LTProject
 	Const SpritesQuantity:Int = 800
 	
-	Field Rectangle:LTShape = LTSprite.FromShape( 0, 0, MapSize28, MapSize28 )
+	Field Rectangle:LTShape = LTSprite.FromShape( 0, 0, MapSize29, MapSize29 )
 	Field Cursor:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
 	Field SpriteMap:LTSpriteMap = LTSpriteMap.CreateForShape( Rectangle, 2.0 )
-	Field CollisionHandler:TCollisionHandler28 = New TCollisionHandler28
+	Field CollisionHandler:TCollisionHandler29 = New TCollisionHandler29
 	
 	Method Init()
 		For Local N:Int = 1 To SpritesQuantity
-			TBall28.Create()
+			TBall29.Create()
 		Next
 		Rectangle.Visualizer = LTContourVisualizer.FromWidthAndHexColor( 0.1, "FF0000" )
 		L_CurrentCamera = LTCamera.Create()
@@ -2386,31 +2447,31 @@ End Type
 
 
 
-Type TBall28 Extends LTSprite
-	Function Create:TBall28()
-		Local Ball:TBall28 = New TBall28
-		Ball.SetCoords( Rnd( -0.5 * ( MapSize28 - 2 ), 0.5 * ( MapSize28 - 2 ) ), Rnd( -0.5 * ( MapSize28 - 2 ), 0.5 * ( MapSize28 - 2 ) ) )
+Type TBall29 Extends LTSprite
+	Function Create:TBall29()
+		Local Ball:TBall29 = New TBall29
+		Ball.SetCoords( Rnd( -0.5 * ( MapSize29 - 2 ), 0.5 * ( MapSize29 - 2 ) ), Rnd( -0.5 * ( MapSize29 - 2 ), 0.5 * ( MapSize29 - 2 ) ) )
 		Ball.SetDiameter( Rnd( 0.5, 1.5 ) )
 		Ball.Angle = Rnd( 360 )
 		Ball.Velocity = Rnd( 3, 7 )
 		Ball.ShapeType = LTSprite.Oval
 		Ball.Visualizer.SetRandomColor()
-		Example28.SpriteMap.InsertSprite( Ball )
+		Example29.SpriteMap.InsertSprite( Ball )
 		Return Ball
 	End Function
 	
 	Method Act()
 		Super.Act()
-		L_CurrentCamera.BounceInside( Example28.Rectangle )
+		L_CurrentCamera.BounceInside( Example29.Rectangle )
 		MoveForward()
-		BounceInside( Example28.Rectangle )
-		CollisionsWithSpriteMap( Example28.SpriteMap, Example28.CollisionHandler )
+		BounceInside( Example29.Rectangle )
+		CollisionsWithSpriteMap( Example29.SpriteMap, Example29.CollisionHandler )
 	End Method
 End Type
 
 
 
-Type TCollisionHandler28 Extends LTSpriteCollisionHandler
+Type TCollisionHandler29 Extends LTSpriteCollisionHandler
 	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
 		If TParticleArea( Sprite2 ) Then Return
 		Sprite1.PushFromSprite( Sprite2 )
@@ -2434,7 +2495,7 @@ Type TParticleArea Extends LTSprite
 		Local Diameters:Double = Ball1.GetDiameter() + Ball2.GetDiameter()
 		Area.SetCoords( Ball1.X + ( Ball2.X - Ball1.X ) * Ball1.GetDiameter() / Diameters, Ball1.Y + ( Ball2.Y - Ball1.Y ) * Ball1.GetDiameter() / Diameters )
 		Area.SetSize( 4, 4 )
-		Area.StartingTime = Example28.Time
+		Area.StartingTime = Example29.Time
 		Local Angle:Double = Ball1.DirectionTo( Ball2 ) + 90
 		For Local N:Int = 0 Until ParticlesQuantity
 			Local Particle:LTSprite = New LTSprite
@@ -2444,11 +2505,11 @@ Type TParticleArea Extends LTSprite
 			Particle.Velocity = Rnd( 0.5, 3 )
 			Area.Particles.AddLast( Particle )
 		Next
-		Example28.SpriteMap.InsertSprite( Area )
+		Example29.SpriteMap.InsertSprite( Area )
 	End Function
 	
 	Method Draw()
-		Local A:Double = 1.0 - ( Example28.Time - StartingTime ) / FadingTime
+		Local A:Double = 1.0 - ( Example29.Time - StartingTime ) / FadingTime
 		If A >= 0 Then
 			SetAlpha( A )
 			SetColor( 255, 192, 0 )
@@ -2466,7 +2527,7 @@ Type TParticleArea Extends LTSprite
 	End Method
 	
 	Method Act()
-		If Example28.Time > StartingTime + FadingTime Then Example28.SpriteMap.RemoveSprite( Self )
+		If Example29.Time > StartingTime + FadingTime Then Example29.SpriteMap.RemoveSprite( Self )
 
 		If CollidesWithSprite( L_CurrentCamera ) Then
 			For Local Sprite:LTSprite = Eachin Particles
@@ -2481,10 +2542,10 @@ Cls
 
 'LTVectorSprite.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example29:TExample29 = New TExample29
-Example29.Execute()
+Global Example30:TExample30 = New TExample30
+Example30.Execute()
 
-Type TExample29 Extends LTProject
+Type TExample30 Extends LTProject
 	Const CoinsQuantity:Int = 100
 	Const PlatformsQuantity:Int = 100
 	Const MinPlatformLength:Int = 3
@@ -2550,24 +2611,24 @@ Type TPlayer Extends LTVectorSprite
 	
 	Field OnLand:Int
 	Field HorizontalCollisionHandler:THorizontalCollisionHandler = New THorizontalCollisionHandler
-	Field VerticalCollisionHandler:TVerticalCollisionHandler29 = New TVerticalCollisionHandler29
+	Field VerticalCollisionHandler:TVerticalCollisionHandler30 = New TVerticalCollisionHandler30
 	
 	Function Create:TPlayer()
 		Local Player:TPlayer = New TPlayer
 		Player.SetSize( 0.8, 1.8 )
-		Player.SetCoords( 0, 2 -0.5 * Example29.MapSize )
+		Player.SetCoords( 0, 2 -0.5 * Example30.MapSize )
 		Player.Visualizer.Image = LTImage.FromFile( "incbin::mario.png", 4 )
 		Return Player
 	End Function
 	
 	Method Act()
 		Move( DX, 0 )
-		CollisionsWithTileMap( Example29.TileMap, HorizontalCollisionHandler )
+		CollisionsWithTileMap( Example30.TileMap, HorizontalCollisionHandler )
 		
 		OnLand = False
 		Move( 0, DY )
-		DY = DY + Example29.PerSecond( Gravity )
-		CollisionsWithTileMap( Example29.TileMap, VerticalCollisionHandler )
+		DY = DY + Example30.PerSecond( Gravity )
+		CollisionsWithTileMap( Example30.TileMap, VerticalCollisionHandler )
 		
 		DX = 0.0
 		If KeyDown( Key_Left ) Then
@@ -2585,15 +2646,15 @@ End Type
 
 
 Type THorizontalCollisionHandler Extends LTSpriteAndTileCollisionHandler
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
 		If Bricks( TileMap, TileX, TileY ) Then Sprite.PushFromTile( TileMap, TileX, TileY )
 	End Method
 End Type
 
 
 
-Type TVerticalCollisionHandler29 Extends LTSpriteAndTileCollisionHandler
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+Type TVerticalCollisionHandler30 Extends LTSpriteAndTileCollisionHandler
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
 		If Bricks( TileMap, TileX, TileY ) Then 
 			Sprite.PushFromTile( TileMap, TileX, TileY )
 			Local Player:TPlayer = TPlayer( Sprite )
@@ -2607,10 +2668,10 @@ End Type
 
 Function Bricks:Int( TileMap:LTTileMap, TileX:Int, TileY:Int )
 	Local TileNum:Int = TileMap.GetTile( TileX, TileY )
-	If TileNum = Example29.Coin Then
-		TileMap.Value[ TileX, TileY ] = Example29.Void
-		Example29.Coins :+ 1
-	ElseIf TileNum = Example29.Bricks Then
+	If TileNum = Example30.Coin Then
+		TileMap.Value[ TileX, TileY ] = Example30.Void
+		Example30.Coins :+ 1
+	ElseIf TileNum = Example30.Bricks Then
 		Return True
 	End If
 	Return False
@@ -2620,10 +2681,10 @@ Cls
 
 'L_Distance.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example30:TExample30 = New TExample30
-Example30.Execute()
+Global Example31:TExample31 = New TExample31
+Example31.Execute()
 
-Type TExample30 Extends LTProject
+Type TExample31 Extends LTProject
 	Field X:Int = 400
 	Field Y:Int = 300
 	
@@ -2651,8 +2712,8 @@ Cls
 
 'L_DrawEmptyRect.bmx
 L_CurrentCamera = LTCamera.Create()
-Ex31()
-Function Ex31()
+Ex32()
+Function Ex32()
 L_CurrentCamera = LTCamera.Create()
 Repeat
 	If AppTerminate() Or KeyHit( Key_Escape ) Then Exit
@@ -2675,10 +2736,10 @@ Cls
 
 'L_IntInLimits.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example32:TExample32 = New TExample32
-Example32.Execute()
+Global Example33:TExample33 = New TExample33
+Example33.Execute()
 
-Type TExample32 Extends LTProject
+Type TExample33 Extends LTProject
 	Field Word:String
 	
 	Method Init()
@@ -2705,10 +2766,10 @@ Cls
 
 'L_LimitInt.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example33:TExample33 = New TExample33
-Example33.Execute()
+Global Example34:TExample34 = New TExample34
+Example34.Execute()
 
-Type TExample33 Extends LTProject
+Type TExample34 Extends LTProject
 	Method Init()
 		L_CurrentCamera = LTCamera.Create()
 	End Method
@@ -2736,10 +2797,10 @@ Cls
 
 'L_LogicFPS.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example34:TExample34 = New TExample34
-Example34.Execute()
+Global Example35:TExample35 = New TExample35
+Example35.Execute()
 
-Type TExample34 Extends LTProject
+Type TExample35 Extends LTProject
 	Field Sprite1:LTSprite = LTSprite.FromShape( -10, -2, 2, 2, LTSprite.Oval )
 	Field Sprite2:LTSprite = LTSprite.FromShape( -10, 2, 2, 2, LTSprite.Oval )
 
@@ -2775,10 +2836,10 @@ Cls
 
 'L_WrapInt.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example35:TExample35 = New TExample35
-Example35.Execute()
+Global Example36:TExample36 = New TExample36
+Example36.Execute()
 
-Type TExample35 Extends LTProject
+Type TExample36 Extends LTProject
 	Method Init()
 		L_CurrentCamera = LTCamera.Create()
 	End Method
@@ -2807,10 +2868,10 @@ Cls
 
 'MoveTowards.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example36:TExample36 = New TExample36
-Example36.Execute()
+Global Example37:TExample37 = New TExample37
+Example37.Execute()
 
-Type TExample36 Extends LTProject
+Type TExample37 Extends LTProject
 	Field Ball:LTSprite = LTSprite.FromShape( 0, 0, 3, 3, LTSprite.Oval, 0, 5 )
 	
 	Method Init()
@@ -2837,10 +2898,10 @@ Cls
 
 'MoveUsingKeys.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example37:TExample37 = New TExample37
-Example37.Execute()
+Global Example38:TExample38 = New TExample38
+Example38.Execute()
 
-Type TExample37 Extends LTProject
+Type TExample38 Extends LTProject
 	Field Ball1:LTSprite = LTSprite.FromShape( -8, 0, 1, 1, LTSprite.Oval, 0, 7 )
 	Field Ball2:LTSprite = LTSprite.FromShape( 0, 0, 2, 2, LTSprite.Oval, 0, 3 )
 	Field Ball3:LTSprite = LTSprite.FromShape( 8, 0, 1.5, 1.5, LTSprite.Oval, 0, 5 )
@@ -2874,10 +2935,10 @@ Cls
 
 'Overlaps.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example38:TExample38 = New TExample38
-Example38.Execute()
+Global Example39:TExample39 = New TExample39
+Example39.Execute()
 
-Type TExample38 Extends LTProject
+Type TExample39 Extends LTProject
 	Field Sprite1:LTSprite = LTSprite.FromShape( 6, 0, 0, 0, LTSprite.Pivot )
 	Field Sprite2:LTSprite = LTSprite.FromShape( -4, -2, 3, 5, LTSprite.Oval )
 	Field Sprite3:LTSprite = LTSprite.FromShape( 0, 5, 4, 4, LTSprite.Rectangle )
@@ -2921,10 +2982,10 @@ Incbin "clouds.png"
 
 'Parallax.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example39:TExample39 = New TExample39
-Example39.Execute()
+Global Example40:TExample40 = New TExample40
+Example40.Execute()
 
-Type TExample39 Extends LTProject
+Type TExample40 Extends LTProject
   Field Ground:LTTileMap
   Field Grid:LTTileMap
   Field Clouds:LTTileMap
@@ -2961,23 +3022,23 @@ End Type
 Cls
 
 
-Const MapSize40:Int = 128
+Const MapSize41:Int = 128
 
 'Paste.bmx
 L_CurrentCamera = LTCamera.Create()
-Ex40()
-Function Ex40()
+Ex41()
+Function Ex41()
 L_CurrentCamera = LTCamera.Create()
 
-Local SourceMap:LTDoubleMap = LTDoubleMap.Create( MapSize40, MapSize40 )
-SourceMap.DrawCircle( MapSize40 * 0.375, MapSize40 * 0.375, MapSize40 * 0.35, 0.6 )
+Local SourceMap:LTDoubleMap = LTDoubleMap.Create( MapSize41, MapSize41 )
+SourceMap.DrawCircle( MapSize41 * 0.375, MapSize41 * 0.375, MapSize41 * 0.35, 0.6 )
 Draw( SourceMap.ToNewImage(), "Source map" )
 
-Local TargetMap:LTDoubleMap = LTDoubleMap.Create( MapSize40, MapSize40 )
-TargetMap.DrawCircle( MapSize40 * 0.625, MapSize40 * 0.625, MapSize40 * 0.35, 0.8 )
+Local TargetMap:LTDoubleMap = LTDoubleMap.Create( MapSize41, MapSize41 )
+TargetMap.DrawCircle( MapSize41 * 0.625, MapSize41 * 0.625, MapSize41 * 0.35, 0.8 )
 Draw( TargetMap.ToNewImage(), "Target map" )
 
-Local DoubleMap:LTDoubleMap = LTDoubleMap.Create( MapSize40, MapSize40 )
+Local DoubleMap:LTDoubleMap = LTDoubleMap.Create( MapSize41, MapSize41 )
 DoubleMap.Paste( TargetMap )
 DoubleMap.Paste( SourceMap, 0, 0, LTDoubleMap.Add )
 DoubleMap.Limit()
@@ -3015,16 +3076,16 @@ End Function
 Cls
 
 
-Const MapSize41:Int = 256
+Const MapSize42:Int = 256
 
 'PerlinNoise.bmx
 L_CurrentCamera = LTCamera.Create()
-Ex41()
-Function Ex41()
+Ex42()
+Function Ex42()
 L_CurrentCamera = LTCamera.Create()
 
 Local DoubleMap:LTDoubleMap = New LTDoubleMap
-DoubleMap.SetResolution( MapSize41, MapSize41 )
+DoubleMap.SetResolution( MapSize42, MapSize42 )
 
 Local Frequency:Int = 16
 Local Amplitude:Double = 0.25
@@ -3077,19 +3138,19 @@ Cls
 
 'PlaceBetween.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example42:TExample42 = New TExample42
-Example42.Execute()
+Global Example43:TExample43 = New TExample43
+Example43.Execute()
 
-Type TExample42 Extends LTProject
+Type TExample43 Extends LTProject
 	Field Pivot1:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
 	Field Pivot2:LTSprite = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
 	Field Oval1:LTSprite = LTSprite.FromShape( 0, 0, 0.75, 0.75, LTSprite.Oval )
 	Field Oval2:LTSprite = LTSprite.FromShape( 0, 0, 0.75, 0.75, LTSprite.Oval )
-	Field Line:LTLine = LTLine.FromPivots( Pivot1, Pivot2 )
+	Field LineSegment:LTLineSegment = LTLineSegment.FromPivots( Pivot1, Pivot2 )
 	
 	Method Init()
 		L_CurrentCamera = LTCamera.Create()
-		Line.Visualizer = LTContourVisualizer.FromWidthAndHexColor( 0.2, "0000FF", 1.0, 2.0 )
+		LineSegment.Visualizer = LTContourVisualizer.FromWidthAndHexColor( 0.2, "0000FF", 1.0, 2.0 )
 		Oval1.Visualizer.SetColorFromHex( "FF0000" )
 		Oval2.Visualizer.SetColorFromHex( "00FF00" )
 	End Method
@@ -3102,7 +3163,7 @@ Type TExample42 Extends LTProject
 	End Method
 
 	Method Render()
-		Line.Draw()
+		LineSegment.Draw()
 		Oval1.Draw()
 		Oval2.Draw()
 		L_PrintText( "PlaceBetween example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
@@ -3113,10 +3174,10 @@ Cls
 
 'PrintText.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example43:TExample43 = New TExample43
-Example43.Execute()
+Global Example44:TExample44 = New TExample44
+Example44.Execute()
 
-Type TExample43 Extends LTProject
+Type TExample44 Extends LTProject
 	Field Rectangle:LTSprite = LTSprite.FromShape( 0, 0, 16, 12 )
 	
 	Method Init()
@@ -3148,10 +3209,10 @@ Cls
 
 'SaveToFile.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example44:TExample44 = New TExample44
-Example44.Execute()
+Global Example45:TExample45 = New TExample45
+Example45.Execute()
 
-Type TExample44 Extends LTProject
+Type TExample45 Extends LTProject
 	Const SpritesQuantity:Int = 70
 
 	Field Layer:LTLayer = New LTLayer
@@ -3195,10 +3256,10 @@ Cls
 
 'SetAsTile.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example45:TExample45 = New TExample45
-Example45.Execute()
+Global Example46:TExample46 = New TExample46
+Example46.Execute()
 
-Type TExample45 Extends LTProject
+Type TExample46 Extends LTProject
 	Const TileMapWidth:Int = 16
 	Const TileMapHeight:Int = 12
 	
@@ -3248,17 +3309,17 @@ Type TPiece Extends LTVectorSprite
 	
 	Function Create:TPiece()
 		Local Piece:TPiece = New TPiece
-		Piece.StartingTime = Example45.Time
+		Piece.StartingTime = Example46.Time
 		Piece.AngularDirection = -1 + 2 * Rand( 0, 1 )
-		Example45.Pieces.AddFirst( Piece )
+		Example46.Pieces.AddFirst( Piece )
 		Return Piece
 	End Function
 	
 	Method Act()
 		MoveForward()
-		Angle = ( Example45.Time - StartingTime ) * 45 * AngularDirection
+		Angle = ( Example46.Time - StartingTime ) * 45 * AngularDirection
 		DY :+ L_PerSecond( Gravity )
-		If TopY() > Example45.TileMap.BottomY() Then Example45.Pieces.Remove( Self )
+		If TopY() > Example46.TileMap.BottomY() Then Example46.Pieces.Remove( Self )
 	End Method
 End Type
 Cls
@@ -3266,10 +3327,10 @@ Cls
 
 'SetAsViewport.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example46:TExample46 = New TExample46
-Example46.Execute()
+Global Example47:TExample47 = New TExample47
+Example47.Execute()
 
-Type TExample46 Extends LTProject
+Type TExample47 Extends LTProject
 	Const SpritesQuantity:Int = 100
 	
 	Field Layer:LTLayer = New LTLayer
@@ -3307,10 +3368,10 @@ Cls
 
 'SetCornerCoords.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example47:TExample47 = New TExample47
-Example47.Execute()
+Global Example48:TExample48 = New TExample48
+Example48.Execute()
 
-Type TExample47 Extends LTProject
+Type TExample48 Extends LTProject
 	Field Rectangle:LTSprite = LTSprite.FromShape( 0, 0, 8, 6 )
 	
 	Method Init()
@@ -3333,10 +3394,10 @@ Cls
 
 'SetFacing.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example48:TExample48 = New TExample48
-Example48.Execute()
+Global Example49:TExample49 = New TExample49
+Example49.Execute()
 
-Type TExample48 Extends LTProject
+Type TExample49 Extends LTProject
 	Field Sprite:LTSprite = LTSprite.FromShape( 0, 0, 8, 8 )
 	
 	Method Init()
@@ -3360,20 +3421,20 @@ Cls
 
 
 
-Const TileMapWidth49:Int = 4
-Const TileMapHeight49:Int = 3
+Const TileMapWidth50:Int = 4
+Const TileMapHeight50:Int = 3
 
 'Stretch.bmx
 L_CurrentCamera = LTCamera.Create()
-Ex49()
-Function Ex49()
+Ex50()
+Function Ex50()
 Local TileSet:LTTileSet = LTTileSet.Create( LTImage.FromFile( "incbin::tiles.png", 8, 4 ) )
-Local TileMap:LTTileMap = LTTileMap.Create( TileSet, TileMapWidth49, TileMapHeight49 )
+Local TileMap:LTTileMap = LTTileMap.Create( TileSet, TileMapWidth50, TileMapHeight50 )
 
 L_CurrentCamera = LTCamera.Create()
-TileMap.SetSize( TileMapWidth49 * 2, TileMapHeight49 * 2 )
-For Local Y:Int = 0 Until TileMapHeight49
-	For Local X:Int = 0 Until TileMapWidth49
+TileMap.SetSize( TileMapWidth50 * 2, TileMapHeight50 * 2 )
+For Local Y:Int = 0 Until TileMapHeight50
+	For Local X:Int = 0 Until TileMapWidth50
 		TileMap.SetTile( X, Y, Rand( 1, 31 ) )
 	Next
 Next
@@ -3396,10 +3457,10 @@ Incbin "tank.png"
 
 'Turn.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example50:TExample50 = New TExample50
-Example50.Execute()
+Global Example51:TExample51 = New TExample51
+Example51.Execute()
 
-Type TExample50 Extends LTProject
+Type TExample51 Extends LTProject
 	Const TurningSpeed:Double = 90
 
 	Field Tank:LTSprite = LTSprite.FromShape( 0, 0, 2, 2, LTSprite.Rectangle, 0, 5 )
@@ -3429,23 +3490,23 @@ Cls
 
 'WedgeOffWithSprite.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example51:TExample51 = New TExample51
-Example51.Execute()
+Global Example52:TExample52 = New TExample52
+Example52.Execute()
 
-Type TExample51 Extends LTProject
+Type TExample52 Extends LTProject
 	Const KoloboksQuantity:Int = 50
 	
 	Field Koloboks:LTLayer = New LTLayer
 	Field KolobokImage:LTImage = LTImage.FromFile( "incbin::kolobok.png" )
-	Field Player:TKolobok51
+	Field Player:TKolobok52
 	Field DebugMode:Int
-	Field CollisionHandler:TCollisionHandler51 = New TCollisionHandler51
+	Field CollisionHandler:TCollisionHandler52 = New TCollisionHandler52
 	
 	Method Init()
 		For Local N:Int = 1 To KoloboksQuantity
-			TKolobok51.CreateKolobok()
+			TKolobok52.CreateKolobok()
 		Next
-		Player = TKolobok51.CreatePlayer()
+		Player = TKolobok52.CreatePlayer()
 		L_CurrentCamera = LTCamera.Create()
 	End Method
 	
@@ -3476,18 +3537,18 @@ End Type
 
 
 
-Type TKolobok51 Extends LTSprite
+Type TKolobok52 Extends LTSprite
 	Const TurningSpeed:Double = 180.0
 	
-	Function CreatePlayer:TKolobok51()
-		Local Player:TKolobok51 = Create()
+	Function CreatePlayer:TKolobok52()
+		Local Player:TKolobok52 = Create()
 		Player.SetDiameter( 2 )
 		Player.Velocity = 7
 		Return Player
 	End Function
 	
-	Function CreateKolobok:TKolobok51()
-		Local Kolobok:TKolobok51 = Create()
+	Function CreateKolobok:TKolobok52()
+		Local Kolobok:TKolobok52 = Create()
 		Kolobok.SetCoords( Rnd( -15, 15 ), Rnd( -11, 11 ) )
 		Kolobok.SetDiameter( Rnd( 1, 3 ) )
 		Kolobok.Angle = Rnd( 360 )
@@ -3495,23 +3556,23 @@ Type TKolobok51 Extends LTSprite
 		Return Kolobok
 	End Function
 	
-	Function Create:TKolobok51()
-		Local Kolobok:TKolobok51 = New TKolobok51
+	Function Create:TKolobok52()
+		Local Kolobok:TKolobok52 = New TKolobok52
 		Kolobok.ShapeType = LTSprite.Oval
-		Kolobok.Visualizer.Image = Example51.KolobokImage
+		Kolobok.Visualizer.Image = Example52.KolobokImage
 		Kolobok.Visualizer.SetVisualizerScale( 1.3, 1.3 )
-		Example51.Koloboks.AddLast( Kolobok )
+		Example52.Koloboks.AddLast( Kolobok )
 		Return Kolobok
 	End Function
 	
 	Method Act()
-		CollisionsWithLayer( Example51.Koloboks, Example51.CollisionHandler )
+		CollisionsWithLayer( Example52.Koloboks, Example52.CollisionHandler )
 	End Method
 End Type
 
 
 
-Type TCollisionHandler51 Extends LTSpriteCollisionHandler
+Type TCollisionHandler52 Extends LTSpriteCollisionHandler
 	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
 		Sprite1.WedgeOffWithSprite( Sprite2, Sprite1.Width ^ 2, Sprite2.Width ^ 2 )
 	End Method
@@ -3521,10 +3582,10 @@ Cls
 
 'XMLIO.bmx
 L_CurrentCamera = LTCamera.Create()
-Global Example52:TExample52 = New TExample52
-Example52.Execute()
+Global Example53:TExample53 = New TExample53
+Example53.Execute()
 
-Type TExample52 Extends LTProject
+Type TExample53 Extends LTProject
 	Field People:TList = New TList
 	Field Professions:TList = New TList
 	
@@ -3566,8 +3627,8 @@ Type TExample52 Extends LTProject
 	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
-		XMLObject.ManageListField( "professions", Example52.Professions )
-		XMLObject.ManageChildList( Example52.People )
+		XMLObject.ManageListField( "professions", Example53.Professions )
+		XMLObject.ManageChildList( Example53.People )
 	End Method
 End Type
 
@@ -3579,7 +3640,7 @@ Type TProfession Extends LTObject
 	Function Create:TProfession( Name:String )
 		Local Profession:TProfession = New TProfession
 		Profession.Name = Name
-		Example52.Professions.AddLast( Profession )
+		Example53.Professions.AddLast( Profession )
 	End Function
 	
 	Method XMLIO( XMLObject:LTXMLObject )
@@ -3610,8 +3671,8 @@ Type TWorker Extends LTObject
 		Worker.Age = Rand( 20, 50 )
 		Worker.Height = Rnd( 155, 180 )
 		Worker.Weight = Rnd( 50, 90 )
-		Worker.Profession = TProfession( Example52.Professions.ValueAtIndex( Rand( 0, Example52.Professions.Count() - 1 ) ) )
-		Example52.People.AddLast( Worker )
+		Worker.Profession = TProfession( Example53.Professions.ValueAtIndex( Rand( 0, Example53.Professions.Count() - 1 ) ) )
+		Example53.People.AddLast( Worker )
 	End Function
 	
 	Method XMLIO( XMLObject:LTXMLObject )

@@ -11,7 +11,7 @@ Type TExample Extends LTProject
 	Const SpritesQuantity:Int = 20
 	
 	Field Layer:LTLayer = New LTLayer
-	Field Line:LTLine = New LTLine
+	Field LineSegment:LTLineSegment = New LTLineSegment
 	Field MinSprite:LTSprite
 
 	Method Init()
@@ -23,7 +23,7 @@ Type TExample Extends LTProject
 			Layer.AddLast( Sprite )
 		Next
 		L_Cursor = LTSprite.FromShape( 0, 0, 0.5, 0.5, LTSprite.Oval )
-		Line.Pivot[ 0 ] = L_Cursor
+		LineSegment.Pivot[ 0 ] = L_Cursor
 	End Method
 	
 	Method Logic()
@@ -35,7 +35,7 @@ Type TExample Extends LTProject
 				MinDistance = L_Cursor.DistanceTo( Sprite )
 			End If
 		Next
-		Line.Pivot[ 1 ] = MinSprite
+		LineSegment.Pivot[ 1 ] = MinSprite
 		
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
 	End Method
@@ -43,7 +43,7 @@ Type TExample Extends LTProject
 	Method Render()
 		Layer.Draw()
 		
-		Line.Draw()
+		LineSegment.Draw()
 		L_PrintText( L_TrimDouble( L_Cursor.DistanceTo( MinSprite ) ), 0.5 * ( L_Cursor.X + MinSprite.X ), 0.5 * ( L_Cursor.Y + MinSprite.Y ) )
 		
 		Local SX:Double, SY:Double

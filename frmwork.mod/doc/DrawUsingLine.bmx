@@ -8,7 +8,7 @@ Global Example:TExample = New TExample
 Example.Execute()
 
 Type TExample Extends LTProject
-	Field Lines:LTLayer = New LTLayer
+	Field LineSegments:LTLayer = New LTLayer
 	
 	Method Init()
 		L_InitGraphics()
@@ -16,9 +16,9 @@ Type TExample Extends LTProject
 		Local Visualizer:TBlazing = New TBlazing
 		For Local Pivots:Int[] = Eachin [ [ -4, -2, -2, -2 ], [ -4, -2, -4, 0 ], [ -4, 0, -4, 2 ], [ -4, 0, -3, 0 ], [ 1, -2, -1, -2 ], [ -1, -2, -1, 0 ], [ -1, 0, 1, 0 ], ..
 				[ 1, 0, 1, 2 ], [ 1, 2, -1, 2 ], [ 4, -2, 2, -2 ], [ 2, -2, 2, 0 ], [ 2, 0, 2, 2 ], [ 2, 0, 3, 0 ] ]
-			Local Line:LTLine = LTLine.FromPivots( LTSprite.FromShape( Pivots[ 0 ], Pivots[ 1 ] ), LTSprite.FromShape( Pivots[ 2 ], Pivots[ 3 ] ) )
-			Line.Visualizer = Visualizer
-			Lines.AddLast( Line )
+			Local LineSegment:LTLineSegment = LTLineSegment.FromPivots( LTSprite.FromShape( Pivots[ 0 ], Pivots[ 1 ] ), LTSprite.FromShape( Pivots[ 2 ], Pivots[ 3 ] ) )
+			LineSegment.Visualizer = Visualizer
+			LineSegments.AddLast( LineSegment )
 		Next
 	End Method
 	
@@ -27,7 +27,7 @@ Type TExample Extends LTProject
 	End Method
 
 	Method Render()
-		Lines.Draw()
+		LineSegments.Draw()
 		DrawText( "Free Software Forever!", 0, 0 )
 		L_PrintText( "DrawUsingLine example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
@@ -38,10 +38,10 @@ End Type
 Type TBlazing Extends LTVisualizer
 	Const ChunkSize:Double = 25
 	Const DeformationRadius:Double = 15
-	Method DrawUsingLine( Line:LTLine )
+	Method DrawUsingLineSegment( LineSegment:LTLineSegment )
 		Local SX1:Double, SY1:Double, SX2:Double, SY2:Double
-		L_CurrentCamera.FieldToScreen( Line.Pivot[ 0 ].X, Line.Pivot[ 0 ].Y, SX1, SY1 )
-		L_CurrentCamera.FieldToScreen( Line.Pivot[ 1 ].X, Line.Pivot[ 1 ].Y, SX2, SY2 )
+		L_CurrentCamera.FieldToScreen( LineSegment.Pivot[ 0 ].X, LineSegment.Pivot[ 0 ].Y, SX1, SY1 )
+		L_CurrentCamera.FieldToScreen( LineSegment.Pivot[ 1 ].X, LineSegment.Pivot[ 1 ].Y, SX2, SY2 )
 		Local ChunkQuantity:Int = Max( 1, L_Round( 1.0 * L_Distance( SX2 - SX1, SY2 - SY1 ) / ChunkSize ) )
 		Local OldX:Double, OldY:Double
 		For Local N:Int = 0 To ChunkQuantity

@@ -195,13 +195,13 @@ Type LTProject Extends LTObject
 		Pass = 1
 		L_DeltaTime = 0
 		
-		Time = 0.0
-		StartingTime = MilliSecs()
-				
 		Init()
 		InitGraphics()
 		InitSound()
 		
+		Time = 0.0
+		StartingTime = MilliSecs()
+				
 		Local RealTime:Double = 0
 		Local FPSCount:Int
 		Local FPSTime:Int

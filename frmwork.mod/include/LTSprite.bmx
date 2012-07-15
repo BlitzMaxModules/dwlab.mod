@@ -8,6 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
+Include "LTSpriteGroup.bmx"
 Include "LTVectorSprite.bmx"
 Include "Collisions.bmx"
 Include "Physics.bmx"
@@ -121,13 +122,13 @@ Type LTSprite Extends LTShape
 	' ==================== Drawing ===================	
 	
 	Method Draw()
-		Visualizer.DrawUsingSprite( Self )
+		Visualizer.DrawUsingSprite( Self, Self )
 	End Method
 	
 	
 	
 	Method DrawUsingVisualizer( Vis:LTVisualizer )
-		Vis.DrawUsingSprite( Self )
+		Vis.DrawUsingSprite( Self, Self )
 	End Method
 	
 	' ==================== Collisions ===================
@@ -627,7 +628,7 @@ Type LTSprite Extends LTShape
 		If Sprite Then
 			PushFromTileSprite( Sprite, X, Y, CellWidth, CellHeight )
 		Else
-			For Sprite = EachIn LTGroup( Shape ).Children
+			For Sprite = EachIn LTSpriteGroup( Shape ).Children
 				If Sprite.TileSpriteCollidesWithSprite( Self, X, Y, CellWidth, CellHeight ) Then
 					PushFromTileSprite( Sprite, TileMap.LeftX() + CellWidth * TileX, TileMap.TopY() + CellHeight * TileY, CellWidth, CellHeight )
 				End If

@@ -8,7 +8,6 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Include "LTGroup.bmx"
 Include "LTLayer.bmx"
 Include "LTSprite.bmx"
 Include "LTMap.bmx"
@@ -125,7 +124,7 @@ Type LTShape Extends LTObject
 	bbdoc: Prints text inside the shape.
 	about: Current ImageFont is used. You can specify horizontal and vertical alignment and also horizontal and vertical shift in units.
 	End Rem
-	Method PrintText( Text:String, Size:Double, HorizontalAlign:Int = LTAlign.ToCenter, VerticalAlign:Int = LTAlign.ToCenter, HorizontalShift:Double = 0, VerticalShift:Double = 0, Contour:Int = False )
+	Method PrintText( Text:String, Size:Double = 1.0, HorizontalAlign:Int = LTAlign.ToCenter, VerticalAlign:Int = LTAlign.ToCenter, HorizontalShift:Double = 0, VerticalShift:Double = 0, Contour:Int = False )
 		Local SXSize:Double, SYSize:Double
 		L_CurrentCamera.SizeFieldToScreen( 0, Size, SXSize, SYSize )
 		Local K:Double = SYSize / TextHeight( Text )

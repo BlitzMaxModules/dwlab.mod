@@ -30,9 +30,11 @@ Type LTDebugVisualizer Extends LTVisualizer
 	
 	
 
-	Method DrawUsingSprite( Sprite:LTSprite )
+	Method DrawUsingSprite( Sprite:LTSprite, SpriteShape:LTSprite = Null )
+		If Not SpriteShape Then SpriteShape = Sprite
+		
 		If Sprite.Visible Then
-			Sprite.Visualizer.DrawUsingSprite( Sprite )
+			Sprite.Visualizer.DrawUsingSprite( Sprite, SpriteShape )
 		Else
 			Local OldAlpha:Double = Sprite.Visualizer.Alpha
 			Sprite.Visualizer.Alpha :* AlphaOfInvisible
@@ -45,12 +47,12 @@ Type LTDebugVisualizer Extends LTVisualizer
 		End If
 
 		Local SX1:Double, SY1:Double, SWidth:Double, SHeight:Double
-		L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX1, SY1 )
-		L_CurrentCamera.SizeFieldToScreen( Sprite.Width, Sprite.Height, SWidth, SHeight )
+		L_CurrentCamera.FieldToScreen( SpriteShape.X, SpriteShape.Y, SX1, SY1 )
+		L_CurrentCamera.SizeFieldToScreen( SpriteShape.Width, SpriteShape.Height, SWidth, SHeight )
 		
 		L_CollisionColors[ Sprite.CollisionLayer & L_MaxCollisionColor ].ApplyColor()
 		
-		If ShowCollisionShapes Then	DrawSpriteShape( Sprite )
+		If ShowCollisionShapes Then	DrawSpriteShape( SpriteShape )
 		
 		If ShowVectors Then
 			Local Size:Double = Max( SWidth, SHeight )
@@ -98,7 +100,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 		If Sprite Then
 			DrawCollisionSprite( TileMap, X, Y, Sprite )
 		Else
-			For Sprite = Eachin LTGroup( Shape )
+			For Sprite = Eachin LTSpriteGroup( Shape )
 				DrawCollisionSprite( TileMap, X, Y, Sprite )
 			Next
 		End If

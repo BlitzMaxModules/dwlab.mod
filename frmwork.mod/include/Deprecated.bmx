@@ -35,10 +35,10 @@ Type LTRasterFrameVisualizer Extends LTVisualizer
 	
 	
 	
-	Method DrawUsingSprite( Sprite:LTSprite )
+	Method DrawUsingSprite( Sprite:LTSprite, SpriteShape:LTSprite = Null )
 	    Local SX:Double, SY:Double, SXSize:Double, SYSize:Double
-	    L_CurrentCamera.FieldToScreen( Sprite.LeftX(), Sprite.TopY(), SX, SY )
-	    L_CurrentCamera.SizeFieldToScreen( Sprite.Width, Sprite.Height, SXSize, SYSize )
+	    L_CurrentCamera.FieldToScreen( SpriteShape.LeftX(), SpriteShape.TopY(), SX, SY )
+	    L_CurrentCamera.SizeFieldToScreen( SpriteShape.Width, SpriteShape.Height, SXSize, SYSize )
 		
 		If SXSize < 0 Then
 			SX = SX - SXSize
@@ -91,7 +91,6 @@ End type
 
 Type LTEmptyPrimitive Extends LTContourVisualizer
 End Type
-
 
 
 

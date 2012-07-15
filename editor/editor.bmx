@@ -63,7 +63,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.7.13.1"
+	Const Version:String = "1.7.14"
 	Const INIVersion:Int = 5
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 8
@@ -582,7 +582,11 @@ Type LTEditor Extends LTProject
 			InsertToRecentFiles( Filename )
 			ChangeDir( ExtractDir( Filename ) )
 			
-			World = LTWorld.FromFile( Filename )
+			L_MaxID = 0
+			Local XMLObject:LTXMLObject = LTXMLObject.ReadFromFile( FileName )
+			UpdateXML( XMLObject )
+			
+			World = LTWorld( LoadFromFile( Filename, , XMLObject ) )
 			If Not World.Camera Then World.Camera = LTCamera.Create( GadgetWidth( TilesetCanvas ), GadgetHeight( TilesetCanvas ), 16.0 )
 			MainCamera = World.Camera
 			MainCamera.Update()
@@ -934,6 +938,41 @@ Type LTEditor Extends LTProject
 								Sprite.SetFacing( -Sprite.GetFacing() )
 							Next
 							SetChanged()
+						End If
+					Case Key_G
+						If Not SelectedShapes.IsEmpty() Then
+							Local Group:LTSpriteGroup = Null
+							Local LeftX:Double, TopY:Double, RightX:Double, BottomY:Double
+							For Local Sprite:LTSprite = Eachin SelectedShapes
+								If Group Then
+									LeftX = Min( LeftX, Sprite.LeftX() )
+									TopY = Min( TopY, Sprite.TopY() )
+									RightX = Max( RightX, Sprite.RightX() )
+									BottomY = Max( BottomY, Sprite.BottomY() )
+								Else
+									Group = New LTSpriteGroup
+									LeftX = Sprite.LeftX()
+									TopY = Sprite.TopY()
+									RightX = Sprite.RightX()
+									BottomY = Sprite.BottomY()
+								End If
+							Next
+							If Group Then
+								Group.X = 0.5 * ( LeftX + RightX )
+								Group.Y = 0.5 * ( TopY + BottomY )
+								Group.Width = RightX - LeftX
+								Group.Height = BottomY - TopY
+								For Local Sprite:LTSprite = Eachin SelectedShapes
+									Sprite.X = ( Sprite.X - Group.X ) / Group.Width
+									Sprite.Y = ( Sprite.Y - Group.Y ) / Group.Height
+									Sprite.Width :/ Group.Width
+									Sprite.Height :/ Group.Height
+									Group.Children.AddLast( Sprite )
+									RemoveObject( Sprite, World )
+								Next
+								InsertIntoContainer( Group, Editor.CurrentContainer )
+								SetChanged()
+							End If
 						End If
 				End Select
 			Case Event_MouseWheel
@@ -1801,6 +1840,8 @@ Type LTEditor Extends LTProject
 			Icon = 1
 		ElseIf LTSpriteMap( Shape ) Then
 			Icon = 3
+		ElseIf LTSpriteGroup( Shape ) Then
+			Icon = 5
 		Else
 			Icon = 2
 		End If
@@ -2105,6 +2146,89 @@ Type LTEditor Extends LTProject
 			End If
 			Link = Link.NextLink()
 		WEnd
+	End Method
+	
+	
+	
+	Method UpdateXML( XMLObject:LTXMLObject )
+		Local Versions:String[] = ( XMLObject.GetAttribute( "dwlab_version" ) + ".0" ).Split( "." )
+		Local Version:Int = Versions[ 1 ].ToInt() * 100 + Versions[ 2 ].ToInt()
+		If Version < 200 Then UpdateTo1_2( XMLObject )
+		If Version < 206 Then UpdateTo1_2_6( XMLObject )
+		If Version < 414 Then UpdateTo1_4_14( XMLObject )
+	End Method
+	
+	
+	
+	Method UpdateTo1_2( XMLObject:LTXMLObject )
+		Local Name:String = XMLObject.GetAttribute( "name" )
+		If Name And XMLObject.Name <> "lttileset" And XMLObject.Name <> "lttilecategory" Then
+			Local CommaPos:Int = Name.Find( "," )
+		
+			XMLObject.RemoveAttribute( "name" )
+			Local Parameters:LTXMLObject = New LTXMLObject
+			Parameters.Name = "list"
+			
+			Local ClassName:String = Name
+			If CommaPos >= 0 Then ClassName = Name[ ..CommaPos ]
+			If ClassName.ToLower() <> XMLObject.Name Then 
+				Local Parameter:LTXMLObject = New LTXMLObject
+				Parameter.Name = "ltparameter"
+				Parameter.SetAttribute( "name", "class" )
+				Parameters.Children.AddLast( Parameter ) 
+				Parameter.SetAttribute( "value", ClassName )
+			End If
+			
+			If CommaPos >= 0 Then
+				Local Parameter:LTXMLObject = New LTXMLObject
+				Parameter.Name = "ltparameter"
+				Parameter.SetAttribute( "name", "name" )
+				Parameter.SetAttribute( "value", Name[ CommaPos + 1.. ] )
+				Parameters.Children.AddLast( Parameter) 
+			End If 
+			
+			XMLObject.SetField( "parameters", Parameters )
+		End If
+		For Local ChildXMLObject:LTXMLObject = Eachin XMLObject.Children
+			UpdateTo1_2( ChildXMLObject )
+		Next
+		For Local XMLObjectField:LTXMLObjectField = Eachin XMLObject.Fields
+			UpdateTo1_2( XMLObjectField.Value )
+		Next
+	End Method
+	
+	
+	
+	Method UpdateTo1_2_6( XMLObject:LTXMLObject )
+		If XMLObject.Name = "ltSprite" Then
+			XMLObject.Name = "ltsprite"
+		ElseIf XMLObject.Name = "ltvectorsprite" Then
+			XMLObject.Name = "ltsprite"
+			Local DX:Double = XMLObject.GetAttribute( "dx" ).ToDouble()
+			Local DY:Double = XMLObject.GetAttribute( "dy" ).ToDouble()
+			XMLObject.SetAttribute( "angle", ATan2( DY, DX ) )
+			XMLObject.SetAttribute( "velocity", L_Distance( DY, DX ) )
+			XMLObject.RemoveAttribute( "dx" )
+			XMLObject.RemoveAttribute( "dy" )
+		End If
+		For Local ChildXMLObject:LTXMLObject = Eachin XMLObject.Children
+			UpdateTo1_2_6( ChildXMLObject )
+		Next
+		For Local XMLObjectField:LTXMLObjectField = Eachin XMLObject.Fields
+			UpdateTo1_2_6( XMLObjectField.Value )
+		Next
+	End Method
+	
+	
+	
+	Method UpdateTo1_4_14( XMLObject:LTXMLObject )
+		If XMLObject.Name.ToLower() = "ltgroup" Then XMLObject.Name = "ltspritegroup"
+		For Local ChildXMLObject:LTXMLObject = Eachin XMLObject.Children
+			UpdateTo1_4_14( ChildXMLObject )
+		Next
+		For Local XMLObjectField:LTXMLObjectField = Eachin XMLObject.Fields
+			UpdateTo1_4_14( XMLObjectField.Value )
+		Next
 	End Method
 End Type
 

@@ -54,7 +54,9 @@ Type LTContourVisualizer Extends LTVisualizer
 	
 		
 	
-	Method DrawUsingSprite( Sprite:LTSprite )
+	Method DrawUsingSprite( Sprite:LTSprite, SpriteShape:LTSprite = Null )
+		If Not SpriteShape Then SpriteShape = Sprite
+		
 		If Not Sprite.Visible Then Return
 		
 		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
@@ -62,8 +64,8 @@ Type LTContourVisualizer Extends LTVisualizer
 		SetProperLineWidth()
 		
 		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
-		L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX, SY )
-		L_CurrentCamera.SizeFieldToScreen( Sprite.Width * XScale, Sprite.Height * YScale, SWidth, SHeight )
+		L_CurrentCamera.FieldToScreen( SpriteShape.X, SpriteShape.Y, SX, SY )
+		L_CurrentCamera.SizeFieldToScreen( SpriteShape.Width * XScale, SpriteShape.Height * YScale, SWidth, SHeight )
 		L_DrawEmptyRect( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
 		
 		SetLineWidth( 1.0 )
@@ -73,16 +75,16 @@ Type LTContourVisualizer Extends LTVisualizer
 	
 	
 	
-	Method DrawUsingLine( Line:LTLineSegment )
-		If Not Line.Visible Then Return
+	Method DrawUsingLineSegment( LineSegment:LTLineSegment )
+		If Not LineSegment.Visible Then Return
 		
 		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
 		SetAlpha( Alpha )
 		SetProperLineWidth()
 		
 		Local SX1:Double, SY1:Double, SX2:Double, SY2:Double
-		L_CurrentCamera.FieldToScreen( Line.Pivot[ 0 ].X, Line.Pivot[ 0 ].Y, SX1, SY1 )
-		L_CurrentCamera.FieldToScreen( Line.Pivot[ 1 ].X, Line.Pivot[ 1 ].Y, SX2, SY2 )
+		L_CurrentCamera.FieldToScreen( LineSegment.Pivot[ 0 ].X, LineSegment.Pivot[ 0 ].Y, SX1, SY1 )
+		L_CurrentCamera.FieldToScreen( LineSegment.Pivot[ 1 ].X, LineSegment.Pivot[ 1 ].Y, SX2, SY2 )
 		DrawLine( SX1, SY1, SX2, SY2 )
 		
 		Local Radius:Double = L_CurrentCamera.DistFieldToScreen( LineWidth ) * PivotScale

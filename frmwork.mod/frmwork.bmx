@@ -15,12 +15,17 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.4.14"
+ModuleInfo "Version: 1.4.15"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.15 (15.07.12)"
+ModuleInfo "History: &nbsp; &nbsp; Implemented full sprite grouping support with group inclusion and rotation."
+ModuleInfo "History: &nbsp; &nbsp; Added SpriteShape parameter to the LTVisualizer's DrawSprite method."
+ModuleInfo "History: &nbsp; &nbsp; Fixed documentation examples according to system changes."
+ModuleInfo "History: &nbsp; &nbsp; LTGroup renamed to LTSpriteGroup."
 ModuleInfo "History: v1.4.14 (14.07.12)"
 ModuleInfo "History: &nbsp; &nbsp; Implemented collision detection of ray and oval, rectangle, triangle and another ray."
 ModuleInfo "History: &nbsp; &nbsp; Implemented collision detection of line segment and oval, rectangle, triangle, ray, line and another line segment."
@@ -262,7 +267,7 @@ Import brl.map
 Import brl.max2d
 Import brl.eventqueue
 
-Const L_Version:String = "1.4.14"
+Const L_Version:String = "1.4.15"
 
 SeedRnd( MilliSecs() )
 

@@ -174,9 +174,11 @@ Type LTVisualizer Extends LTColor
 	bbdoc: Draws given sprite using this visualizer.
 	about: Change this method if you are making your own visualizer.
 	End Rem
-	Method DrawUsingSprite( Sprite:LTSprite )
+	Method DrawUsingSprite( Sprite:LTSprite, SpriteShape:LTSprite = Null )
 		If Not Sprite.Visible Then Return
 		
+		If Not SpriteShape Then SpriteShape = Sprite
+
 		?debug
 		L_SpritesDisplayed :+ 1
 		?
@@ -186,10 +188,10 @@ Type LTVisualizer Extends LTColor
 		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
 		
 		If Image Then
-			L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX, SY )
+			L_CurrentCamera.FieldToScreen( SpriteShape.X, SpriteShape.Y, SX, SY )
 			
 			If Rotating Then
-				SetRotation( Angle + Sprite.Angle )
+				SetRotation( Angle + SpriteShape.Angle )
 			Else
 				SetRotation( Angle )
 			End If
@@ -199,7 +201,7 @@ Type LTVisualizer Extends LTColor
 			?
 		
 			If Scaling Then
-				L_CurrentCamera.SizeFieldToScreen( Sprite.Width, Sprite.Height, SWidth, SHeight )
+				L_CurrentCamera.SizeFieldToScreen( SpriteShape.Width, SpriteShape.Height, SWidth, SHeight )
 				Local ScaledWidth:Double = SWidth * XScale
 				Local ScaledHeight:Double = SHeight * YScale
 				Image.Draw( SX + DX * ScaledWidth, SY + DY * ScaledHeight, ScaledWidth, ScaledHeight, Sprite.Frame )
@@ -212,7 +214,7 @@ Type LTVisualizer Extends LTColor
 			SetScale( 1.0, 1.0 )
 			SetRotation( 0.0 )
 		Else
-			DrawSpriteShape( Sprite )
+			DrawSpriteShape( SpriteShape )
 		End If
 		
 		ResetColor()
@@ -224,7 +226,9 @@ Type LTVisualizer Extends LTColor
 	bbdoc: Draws sprite shape.
 	about: Isometric camera deformations are also applied.
 	End Rem
-	Method DrawSpriteShape( Sprite:LTSprite )
+	Method DrawSpriteShape( Sprite:LTSprite, SpriteShape:LTSprite = Null )
+		If Not SpriteShape Then SpriteShape = Sprite
+
 		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
 		If Sprite.ShapeType = LTSprite.Pivot Then
 			L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX, SY )
@@ -234,11 +238,11 @@ Type LTVisualizer Extends LTColor
 				Case LTSprite.Circle
 					DrawIsoOval( Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
 				Case LTSprite.Rectangle
-					DrawIsoRectangle( Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
+					DrawIsoRectangle( SpriteShape.X, Sprite.Y, SpriteShape.Width, Sprite.Height )
 			End Select
 		Else
-			L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX, SY )
-			L_CurrentCamera.SizeFieldToScreen( Sprite.Width * XScale, Sprite.Height * YScale, SWidth, SHeight )
+			L_CurrentCamera.FieldToScreen( SpriteShape.X, SpriteShape.Y, SX, SY )
+			L_CurrentCamera.SizeFieldToScreen( SpriteShape.Width * XScale, SpriteShape.Height * YScale, SWidth, SHeight )
 			SX :+ DX * SWidth
 			SY :+ DY * SHeight
 			
@@ -334,14 +338,14 @@ Type LTVisualizer Extends LTColor
 	bbdoc: Draws given line using this visualizer.
 	about: Change this method if you are making your own visualizer.
 	End Rem
-	Method DrawUsingLine( Line:LTLineSegment )
-		If Not Line.Visible Then Return
+	Method DrawUsingLineSegment( LineSegment:LTLineSegment )
+		If Not LineSegment.Visible Then Return
 		
 		ApplyColor()
 		
 		Local SX1:Double, SY1:Double, SX2:Double, SY2:Double
-		L_CurrentCamera.FieldToScreen( Line.Pivot[ 0 ].X, Line.Pivot[ 0 ].Y, SX1, SY1 )
-		L_CurrentCamera.FieldToScreen( Line.Pivot[ 1 ].X, Line.Pivot[ 1 ].Y, SX2, SY2 )
+		L_CurrentCamera.FieldToScreen( LineSegment.Pivot[ 0 ].X, LineSegment.Pivot[ 0 ].Y, SX1, SY1 )
+		L_CurrentCamera.FieldToScreen( LineSegment.Pivot[ 1 ].X, LineSegment.Pivot[ 1 ].Y, SX2, SY2 )
 		
 		DrawLine( SX1, SY1, SX2, SY2 )
 		

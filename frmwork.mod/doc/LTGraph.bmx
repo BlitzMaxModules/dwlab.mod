@@ -16,7 +16,7 @@ Type TExample Extends LTProject
 	Field SelectedPivot:LTSprite
 	Field Path:TList
 	Field PivotVisualizer:LTVisualizer = LTVisualizer.FromHexColor( "4F4FFF" )
-	Field LineVisualizer:LTVisualizer = LTContourVisualizer.FromWidthAndHexColor( 0.15, "FF4F4F", , 3.0 )
+	Field LineSegmentVisualizer:LTVisualizer = LTContourVisualizer.FromWidthAndHexColor( 0.15, "FF4F4F", , 3.0 )
 	Field PathVisualizer:LTVisualizer = LTContourVisualizer.FromWidthAndHexColor( 0.15, "4FFF4F", , 4.0 )
 	
 	Method Init()
@@ -43,14 +43,14 @@ Type TExample Extends LTProject
 			For Local Pivot2:LTSprite = Eachin Graph.Pivots.Keys()
 				If Pivot1 <> Pivot2 And Pivot1.DistanceTo( Pivot2 ) <= MaxDistance Then
 					Local Passed:Int = True
-					Local NewLine:LTLine = LTLine.FromPivots( Pivot1, Pivot2 )
-					For Local Line:LTLine = Eachin Graph.Lines.Keys()
-						If Line.CollidesWithLine( NewLine, False ) Then
+					Local NewLineSegment:LTLineSegment = LTLineSegment.FromPivots( Pivot1, Pivot2 )
+					For Local LineSegment:LTLineSegment = Eachin Graph.LineSegments.Keys()
+						If LineSegment.CollidesWithLineSegment( NewLineSegment, False ) Then
 							Passed = False
 							Exit
 						End If
 					Next
-					If Passed Then Graph.AddLine( NewLine, False )
+					If Passed Then Graph.AddLineSegment( NewLineSegment, False )
 				End If
 			Next
 		Next
@@ -69,11 +69,11 @@ Type TExample Extends LTProject
 	End Method
 
 	Method Render()
-		Graph.DrawLinesUsing( LineVisualizer )
+		Graph.DrawLineSegmentsUsing( LineSegmentVisualizer )
 		LTGraph.DrawPath( Path, PathVisualizer )
 		Graph.DrawPivotsUsing( PivotVisualizer )
 		If SelectedPivot Then SelectedPivot.DrawUsingVisualizer( PathVisualizer )
 		DrawText( "Select first pivot with left mouse button and second with right one", 0, 0 )
-		L_PrintText( "LTGraph, FindPath, CollidesWithLine example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
+		L_PrintText( "LTGraph, FindPath, CollidesWithLineSegment example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

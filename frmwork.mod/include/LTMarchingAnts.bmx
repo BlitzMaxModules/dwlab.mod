@@ -13,17 +13,19 @@ Rem
 bbdoc: This visualizer draws rectangular animated dashed frame around the shape.
 End Rem
 Type LTMarchingAnts Extends LTVisualizer
-	Method DrawUsingSprite( Sprite:LTSprite )
+	Method DrawUsingSprite( Sprite:LTSprite, SpriteShape:LTSprite = Null )
+		If Not SpriteShape Then SpriteShape = Sprite
+		
 		If Not Sprite.Visible Then Return
 		ApplyColor()
 		
 		If L_CurrentCamera.Isometric Then
 			Local SX11:Double, SY11:Double, SX12:Double, SY12:Double
 			Local SX21:Double, SY21:Double, SX22:Double, SY22:Double
-			L_CurrentCamera.FieldToScreen( Sprite.LeftX(), Sprite.TopY(), SX11, SY11 )
-			L_CurrentCamera.FieldToScreen( Sprite.LeftX(), Sprite.BottomY(), SX12, SY12 )
-			L_CurrentCamera.FieldToScreen( Sprite.RightX(), Sprite.TopY(), SX21, SY21 )
-			L_CurrentCamera.FieldToScreen( Sprite.RightX(), Sprite.BottomY(), SX22, SY22 )
+			L_CurrentCamera.FieldToScreen( SpriteShape.LeftX(), SpriteShape.TopY(), SX11, SY11 )
+			L_CurrentCamera.FieldToScreen( SpriteShape.LeftX(), SpriteShape.BottomY(), SX12, SY12 )
+			L_CurrentCamera.FieldToScreen( SpriteShape.RightX(), SpriteShape.TopY(), SX21, SY21 )
+			L_CurrentCamera.FieldToScreen( SpriteShape.RightX(), SpriteShape.BottomY(), SX22, SY22 )
 			
 			Local Pos:Int = Int( Millisecs() / 100 ) Mod 8
 		
@@ -42,8 +44,8 @@ Type LTMarchingAnts Extends LTVisualizer
 			End If
 		Else
 			Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
-			L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX, SY )
-			L_CurrentCamera.SizeFieldToScreen( Sprite.Width * XScale, Sprite.Height * YScale, SWidth, SHeight )
+			L_CurrentCamera.FieldToScreen( SpriteShape.X, SpriteShape.Y, SX, SY )
+			L_CurrentCamera.SizeFieldToScreen( SpriteShape.Width * XScale, SpriteShape.Height * YScale, SWidth, SHeight )
 			
 			DrawMARect( SX - 0.5 * SWidth, SY - 0.5 * SHeight, L_Round( SWidth ), L_Round( SHeight ) )
 		End If

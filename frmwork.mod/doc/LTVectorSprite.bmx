@@ -111,7 +111,7 @@ End Type
 
 
 Type THorizontalCollisionHandler Extends LTSpriteAndTileCollisionHandler
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
 		If Bricks( TileMap, TileX, TileY ) Then Sprite.PushFromTile( TileMap, TileX, TileY )
 	End Method
 End Type
@@ -119,7 +119,7 @@ End Type
 
 
 Type TVerticalCollisionHandler Extends LTSpriteAndTileCollisionHandler
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
 		If Bricks( TileMap, TileX, TileY ) Then 
 			Sprite.PushFromTile( TileMap, TileX, TileY )
 			Local Player:TPlayer = TPlayer( Sprite )

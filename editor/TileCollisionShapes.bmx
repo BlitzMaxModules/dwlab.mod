@@ -13,7 +13,7 @@ Global TileCollisionShapes:TTileCollisionShapes = New TTileCollisionShapes
 Global Frame2:Int
 
 Type TTileCollisionShapes
-	Field CollisionGroup:LTGroup
+	Field CollisionGroup:LTSpriteGroup
 	Field CollisionShape:LTShape
 	Field CollisionShapeUnderCursor:LTSprite
 	Field SelectedCollisionShape:LTSprite
@@ -122,7 +122,7 @@ Type TTileCollisionShapes
 			
 			If MouseIsOver = TileCanvas Then
 				Cursor.SetMouseCoords()
-				CollisionGroup = LTGroup( CollisionShape )
+				CollisionGroup = LTSpriteGroup( CollisionShape )
 				CollisionShapeUnderCursor = Null
 				Local Sprite:LTSprite = LTSprite( CollisionShape )
 				If Sprite Then
@@ -317,7 +317,7 @@ Type TCreateCollisionShape Extends LTDrag
 		If TileCollisionShapes.CollisionGroup Then
 			TileCollisionShapes.CollisionGroup.AddLast( CollisionShape )
 		ElseIf TileCollisionShapes.CollisionShape Then
-			Local Group:LTGroup = New LTGroup
+			Local Group:LTSpriteGroup = New LTSpriteGroup
 			Group.AddLast( LTSprite( TileCollisionShapes.CollisionShape ) )
 			Group.AddLast( CollisionShape )
 			TileCollisionShapes.TileSet.CollisionShape[ TileCollisionShapes.TileNum ] = Group

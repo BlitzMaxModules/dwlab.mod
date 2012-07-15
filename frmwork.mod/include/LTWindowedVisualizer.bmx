@@ -26,14 +26,14 @@ Type LTWindowedVisualizer Extends LTVisualizer
 	
 	
 	
-	Method DrawUsingSprite( Sprite:LTSprite )
+	Method DrawUsingSprite( Sprite:LTSprite, SpriteShape:LTSprite = Null )
 		If Not Sprite.Visible Then Return
 		
 		Local X:Int, Y:Int, Width:Int, Height:Int
 		GetViewport( X, Y, Width, Height )
 		
 		Viewport.SetAsViewport()
-		Visualizer.DrawUsingSprite( Sprite )
+		Visualizer.DrawUsingSprite( Sprite, SpriteShape )
 		
 		SetViewport( X, Y, Width, Height )
 	End Method
