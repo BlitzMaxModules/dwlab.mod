@@ -1,3 +1,6 @@
+1.7.14.1
++ Sprite displaying angle setting is rearranged
+
 1.7.14
 + Editor now can load worlds in old format
 

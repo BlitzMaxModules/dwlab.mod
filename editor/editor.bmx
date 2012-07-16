@@ -63,7 +63,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.7.14"
+	Const Version:String = "1.7.15"
 	Const INIVersion:Int = 5
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 8
@@ -107,6 +107,7 @@ Type LTEditor Extends LTProject
 	Field DYField:TGadget
 	Field VelocityField:TGadget
 	Field AngleSlider:TGadget, AngleField:TGadget
+	Field DisplayingAngleSlider:TGadget, DisplayingAngleField:TGadget
 	Field LayerSlider:TGadget, LayerField:TGadget
 	Field RedSlider:TGadget, RedField:TGadget
 	Field GreenSlider:TGadget, GreenField:TGadget
@@ -120,7 +121,6 @@ Type LTEditor Extends LTProject
 	Field SelectImageButton:TGadget
 	Field RotatingCheckbox:TGadget
 	Field ScalingCheckbox:TGadget
-	Field ImgAngleField:TGadget
 	Field HiddenOKButton:TGadget
 	Field HScroller:TGadget
 	Field VScroller:TGadget
@@ -247,7 +247,7 @@ Type LTEditor Extends LTProject
 	Const MenuModifyParameter:Int = 57
 	Const MenuRemoveParameter:Int = 58
 
-	Const PanelHeight:Int = 344
+	Const PanelHeight:Int = 368
 	Const BarWidth:Int = 256
 	Const LabelWidth:Int = 63
 	Const ListBoxHeight:Int = 62
@@ -304,19 +304,21 @@ Type LTEditor Extends LTProject
 		VelocityField = PanelForm.AddTextField( "{{L_Velocity}}", LabelWidth )
 		SelectImageButton = PanelForm.AddButton( "{{B_SelectImage}}", LabelWidth + 56 )
 		PanelForm.NewLine( LTAlign.Stretch )
-		PanelForm.AddSliderWidthTextField( FrameSlider, FrameField, "{{L_Frame}}", LabelWidth, 50 )
+		PanelForm.AddSliderWithTextField( FrameSlider, FrameField, "{{L_Frame}}", LabelWidth, 50 )
 		PanelForm.NewLine( LTAlign.Stretch )
-		PanelForm.AddSliderWidthTextField( AngleSlider, AngleField, "{{L_Angle}}", LabelWidth, 50 )
+		PanelForm.AddSliderWithTextField( AngleSlider, AngleField, "{{L_Angle}}", LabelWidth, 50 )
 		PanelForm.NewLine( LTAlign.Stretch )
-		PanelForm.AddSliderWidthTextField( LayerSlider, LayerField, "{{L_CollLayer}}", LabelWidth, 50 )
+		PanelForm.AddSliderWithTextField( DisplayingAngleSlider, DisplayingAngleField, "{{L_DisplayingAngle}}", LabelWidth, 50 )
 		PanelForm.NewLine( LTAlign.Stretch )
-		PanelForm.AddSliderWidthTextField( RedSlider, RedField, "{{L_Red}}", LabelWidth, 50 )
+		PanelForm.AddSliderWithTextField( LayerSlider, LayerField, "{{L_CollLayer}}", LabelWidth, 50 )
+		PanelForm.NewLine( LTAlign.Stretch )
+		PanelForm.AddSliderWithTextField( RedSlider, RedField, "{{L_Red}}", LabelWidth, 50 )
 		PanelForm.NewLine( LTAlign.Stretch )		
-		PanelForm.AddSliderWidthTextField( GreenSlider, GreenField, "{{L_Green}}", LabelWidth, 50 )
+		PanelForm.AddSliderWithTextField( GreenSlider, GreenField, "{{L_Green}}", LabelWidth, 50 )
 		PanelForm.NewLine( LTAlign.Stretch )		
-		PanelForm.AddSliderWidthTextField( BlueSlider, BlueField, "{{L_Blue}}", LabelWidth, 50 )
+		PanelForm.AddSliderWithTextField( BlueSlider, BlueField, "{{L_Blue}}", LabelWidth, 50 )
 		PanelForm.NewLine( LTAlign.Stretch )		
-		PanelForm.AddSliderWidthTextField( AlphaSlider, AlphaField, "{{L_Alpha}}", LabelWidth, 50 )
+		PanelForm.AddSliderWithTextField( AlphaSlider, AlphaField, "{{L_Alpha}}", LabelWidth, 50 )
 		PanelForm.NewLine()
 		VisDXField = PanelForm.AddTextField( "{{L_VisDX}}", LabelWidth )
 		VisDYField = PanelForm.AddTextField( "{{L_VisDY}}", LabelWidth )
@@ -326,10 +328,10 @@ Type LTEditor Extends LTProject
 		PanelForm.NewLine( LTAlign.Stretch )
 		RotatingCheckbox = PanelForm.AddButton( "{{CB_Rotation}}", 55, Button_Checkbox )
 		ScalingCheckbox = PanelForm.AddButton( "{{CB_Scaling}}", 55, Button_Checkbox )
-		ImgAngleField = PanelForm.AddTextField( "{{L_ImageAngle}}", LabelWidth + 4 )
 		PanelForm.Finalize( False, 6, 6 )
 		
 		SetSliderRange( AngleSlider, 0, 23 )
+		SetSliderRange( DisplayingAngleSlider, 0, 23 )
 		SetSliderRange( LayerSlider, 0, L_MaxCollisionColor )
 		SetSliderRange( RedSlider, 0, 100 )
 		SetSliderRange( GreenSlider, 0, 100 )
@@ -943,6 +945,7 @@ Type LTEditor Extends LTProject
 						If Not SelectedShapes.IsEmpty() Then
 							Local Group:LTSpriteGroup = Null
 							Local LeftX:Double, TopY:Double, RightX:Double, BottomY:Double
+							Local Container:LTShape = Null
 							For Local Sprite:LTSprite = Eachin SelectedShapes
 								If Group Then
 									LeftX = Min( LeftX, Sprite.LeftX() )
@@ -955,6 +958,7 @@ Type LTEditor Extends LTProject
 									TopY = Sprite.TopY()
 									RightX = Sprite.RightX()
 									BottomY = Sprite.BottomY()
+									Container = FindShapeContainer( World, Sprite )
 								End If
 							Next
 							If Group Then
@@ -962,6 +966,7 @@ Type LTEditor Extends LTProject
 								Group.Y = 0.5 * ( TopY + BottomY )
 								Group.Width = RightX - LeftX
 								Group.Height = BottomY - TopY
+								
 								For Local Sprite:LTSprite = Eachin SelectedShapes
 									Sprite.X = ( Sprite.X - Group.X ) / Group.Width
 									Sprite.Y = ( Sprite.Y - Group.Y ) / Group.Height
@@ -970,7 +975,7 @@ Type LTEditor Extends LTProject
 									Group.Children.AddLast( Sprite )
 									RemoveObject( Sprite, World )
 								Next
-								InsertIntoContainer( Group, Editor.CurrentContainer )
+								InsertIntoContainer( Group, Container )
 								SetChanged()
 							End If
 						End If
@@ -1311,9 +1316,6 @@ Type LTEditor Extends LTProject
 								Case YScaleField
 									Visualizer.YScale = TextFieldText( YScaleField ).ToDouble()
 									SetChanged()
-								Case ImgAngleField
-									Visualizer.Angle = TextFieldText( ImgAngleField ).ToDouble()
-									SetChanged()
 							End Select
 						Case RedSlider
 							Visualizer.Red = 0.01 * SliderValue( RedSlider ) + 0.000001
@@ -1353,6 +1355,10 @@ Type LTEditor Extends LTProject
 									Sprite.Angle = TextFieldText( AngleField ).ToDouble()
 									SetSliderValue( AngleSlider, Abs( L_Round( Sprite.Angle / 15.0 ) ) Mod 24 )
 									SetChanged()
+								Case DisplayingAngleField
+									Sprite.DisplayingAngle = TextFieldText( DisplayingAngleField ).ToDouble()
+									SetSliderValue( DisplayingAngleSlider, Abs( L_Round( Sprite.DisplayingAngle / 15.0 ) ) Mod 24 )
+									SetChanged()
 								Case LayerField
 									Sprite.CollisionLayer = Abs( TextFieldText( LayerField ).ToInt() )
 									SetSliderValue( LayerSlider, Sprite.CollisionLayer & L_MaxCollisionColor )
@@ -1372,6 +1378,10 @@ Type LTEditor Extends LTProject
 						Case AngleSlider
 							Sprite.Angle = SliderValue( AngleSlider ) * 15.0
 							SetGadgetText( AngleField, L_Round( Sprite.Angle ) )
+							SetChanged()
+						Case DisplayingAngleSlider
+							Sprite.DisplayingAngle = SliderValue( DisplayingAngleSlider ) * 15.0
+							SetGadgetText( DisplayingAngleField, L_Round( Sprite.DisplayingAngle ) )
 							SetChanged()
 						Case LayerSlider
 							Sprite.CollisionLayer = SliderValue( LayerSlider )
@@ -1702,7 +1712,6 @@ Type LTEditor Extends LTProject
 		SetGadgetText( VisDYField, L_TrimDouble( Visualizer.DY, 4 ) )
 		SetGadgetText( XScaleField, L_TrimDouble( Visualizer.XScale, 4 ) )
 		SetGadgetText( YScaleField, L_TrimDouble( Visualizer.YScale, 4 ) )
-		SetGadgetText( ImgAngleField, L_TrimDouble( Visualizer.Angle ) )
 		
 		SetButtonState( RotatingCheckbox, Visualizer.Rotating )
 		SetButtonState( ScalingCheckbox, Visualizer.Scaling )
@@ -1718,13 +1727,16 @@ Type LTEditor Extends LTProject
 		SetGadgetText( FrameField, CurrentSprite.Frame )
 		SetGadgetText( VelocityField, L_TrimDouble( CurrentSprite.Velocity ) )
 		SetGadgetText( AngleField, L_TrimDouble( CurrentSprite.Angle ) )
+		SetGadgetText( DisplayingAngleField, L_TrimDouble( CurrentSprite.DisplayingAngle ) )
 		SetGadgetText( LayerField, CurrentSprite.CollisionLayer )
 		
 		If Visualizer.Image Then
 			SetSliderRange( FrameSlider, 0, Visualizer.Image.FramesQuantity() - 1 )
 			SetSliderValue( FrameSlider, CurrentSprite.Frame )
 		End If
+		
 		SetSliderValue( AngleSlider, L_Round( CurrentSprite.Angle / 15.0 ) )
+		SetSliderValue( DisplayingAngleSlider, L_Round( CurrentSprite.DisplayingAngle / 15.0 ) )
 		SetSliderValue( LayerSlider, CurrentSprite.CollisionLayer & L_MaxCollisionColor )
 	End Method
 	
@@ -2228,6 +2240,26 @@ Type LTEditor Extends LTProject
 		Next
 		For Local XMLObjectField:LTXMLObjectField = Eachin XMLObject.Fields
 			UpdateTo1_4_14( XMLObjectField.Value )
+		Next
+	End Method
+	
+	
+	
+	Method FindShapeContainer:LTShape( Layer:LTLayer, Shape:LTShape )
+		For Local ChildShape:LTShape = Eachin Layer.Children
+			If ChildShape = Shape Then Return Layer
+			Local ChildLayer:LTLayer = LTLayer( ChildShape )
+			If ChildLayer Then
+				Local FoundShape:LTShape = FindShapeContainer( ChildLayer, Shape )
+				If FoundShape Then Return FoundShape
+			Else
+				Local ChildSpriteMap:LTSpriteMap = LTSpriteMap( ChildShape )
+				If ChildSpriteMap Then
+					For Local Sprite:LTSprite = Eachin ChildSpriteMap.Sprites.Keys()
+						If Sprite = Shape Then Return ChildSpriteMap
+					Next
+				End If
+			End If
 		Next
 	End Method
 End Type

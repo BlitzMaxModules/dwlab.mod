@@ -71,6 +71,12 @@ Type LTSprite Extends LTShape
 	Field Angle:Double
 	
 	Rem
+	bbdoc: Angle of displaying image.
+	about: Displaying angle is relative to sprite's direction if visualizer's rotating flag is set to True.
+	End Rem
+	Field DisplayingAngle:Double = 0.0
+	
+	Rem
 	bbdoc: Velocity of the sprite in units per second.
 	about: See also: #MoveForward, #MoveTowards
 	End Rem
@@ -1042,6 +1048,7 @@ Type LTSprite Extends LTShape
 		
 		Sprite.ShapeType = ShapeType
 		Sprite.Angle = Angle
+		Sprite.DisplayingAngle = DisplayingAngle
 		Sprite.Velocity = Velocity
 		Sprite.Frame = Frame
 		Sprite.UpdateFromAngularModel()
@@ -1059,6 +1066,7 @@ Type LTSprite Extends LTShape
 		
 		XMLObject.ManageIntAttribute( "shape", ShapeType )
 		XMLObject.ManageDoubleAttribute( "angle", Angle )
+		XMLObject.ManageDoubleAttribute( "disp_angle", Angle )
 		XMLObject.ManageDoubleAttribute( "velocity", Velocity, 1.0 )
 		XMLObject.ManageIntAttribute( "frame", Frame )
 	End Method

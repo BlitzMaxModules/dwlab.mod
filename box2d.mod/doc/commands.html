@@ -1,0 +1,3021 @@
+<html><head><title>Box2D reference</title>
+<link rel=stylesheet Type=text/css href='../../../../doc/bmxstyle.css'>
+</head><body>
+<table width=100% cellspacing=0><tr align=center><td class=small>&nbsp;</td>
+<td class=small width=1%><b>arm.box2d:</b></td>
+<td class=small width=1%><a href=#consts class=small>Constants</a></td>
+<td class=small width=1%><a href=#functions class=small>Functions</a></td>
+<td class=small width=1%><a href=#types class=small>Types</a></td>
+<td class=small width=1%><a href=#modinfo class=small>Modinfo</a></td>
+<td class=small width=1%><a href='../../../../mod/arm.mod/box2d.mod/box2d.bmx' class=small>Source</a></td>
+<td class=small>&nbsp;</td></tr></table>
+<h1>Box2D</h1>
+<h2><a name=consts></a>Constants Summary</h2><table class=doc width=100%><tr><td colspan=2>
+<a href=#b2_addState>b2_addState</a>
+, 
+<a href=#b2_dynamicBody>b2_dynamicBody</a>
+, 
+<a href=#b2_kinematicBody>b2_kinematicBody</a>
+, 
+<a href=#b2_nullState>b2_nullState</a>
+, 
+<a href=#b2_persistState>b2_persistState</a>
+, 
+<a href=#b2_removeState>b2_removeState</a>
+, 
+<a href=#b2_staticBody>b2_staticBody</a>
+, 
+<a href=#e_atLowerLimit>e_atLowerLimit</a>
+, 
+<a href=#e_atUpperLimit>e_atUpperLimit</a>
+, 
+<a href=#e_chain>e_chain</a>
+, 
+<a href=#e_circle>e_circle</a>
+, 
+<a href=#e_distanceJoint>e_distanceJoint</a>
+, 
+<a href=#e_edge>e_edge</a>
+, 
+<a href=#e_equalLimits>e_equalLimits</a>
+, 
+<a href=#e_failed>e_failed</a>
+, 
+<a href=#e_frictionJoint>e_frictionJoint</a>
+, 
+<a href=#e_gearJoint>e_gearJoint</a>
+, 
+<a href=#e_inactiveLimit>e_inactiveLimit</a>
+, 
+<a href=#e_motorJoint>e_motorJoint</a>
+, 
+<a href=#e_mouseJoint>e_mouseJoint</a>
+, 
+<a href=#e_overlapped>e_overlapped</a>
+, 
+<a href=#e_polygon>e_polygon</a>
+, 
+<a href=#e_prismaticJoint>e_prismaticJoint</a>
+, 
+<a href=#e_pulleyJoint>e_pulleyJoint</a>
+, 
+<a href=#e_revoluteJoint>e_revoluteJoint</a>
+, 
+<a href=#e_ropeJoint>e_ropeJoint</a>
+, 
+<a href=#e_separated>e_separated</a>
+, 
+<a href=#e_touching>e_touching</a>
+, 
+<a href=#e_typeCount>e_typeCount</a>
+, 
+<a href=#e_unknown>e_unknown</a>
+, 
+<a href=#e_unknownJoint>e_unknownJoint</a>
+, 
+<a href=#e_weldJoint>e_weldJoint</a>
+, 
+<a href=#e_wheelJoint>e_wheelJoint</a>
+</td></tr>
+</table>
+<h2><a name=functions></a>Functions Summary</h2><table class=doc width=100%>
+<tr><td class=docleft width=1%><a href=#Vec2>Vec2</a></td><td class=docright>
+Convenience function for creating a b2Vec2 object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Vec3>Vec3</a></td><td class=docright>
+Convenience function for creating a b2Vec3 object.
+</td></tr>
+</table>
+<h2><a name=types></a>Types Summary</h2><table class=doc width=100%>
+<tr><td class=docleft width=1%><a href=#b2AABB>b2AABB</a></td><td class=docright>
+An axis aligned bounding box.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2Body>b2Body</a></td><td class=docright>
+A rigid body. These are created via <a href=#b2World>b2World</a>.#CreateBody().
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2BodyDef>b2BodyDef</a></td><td class=docright>
+A body definition holds all the data needed to construct a rigid body.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2CircleShape>b2CircleShape</a></td><td class=docright>
+A circle shape.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2Color>b2Color</a></td><td class=docright>
+Color for debug drawing.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2DestructionListener>b2DestructionListener</a></td><td class=docright>
+Joints and shapes are destroyed when their associated body is destroyed.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2Draw>b2Draw</a></td><td class=docright>
+Implement and register this type with a b2World to provide debug drawing of physics entities in your game.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2Filter>b2Filter</a></td><td class=docright>
+This holds contact filtering data.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2Fixture>b2Fixture</a></td><td class=docright>
+A fixture is used to attach a shape to a body for collision detection.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2FixtureDef>b2FixtureDef</a></td><td class=docright>
+A fixture definition is used to create a fixture.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2Joint>b2Joint</a></td><td class=docright>
+The base joint class.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2JointDef>b2JointDef</a></td><td class=docright>
+Joint definitions are used to construct joints.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2MouseJoint>b2MouseJoint</a></td><td class=docright>
+A mouse joint is used to make a point on a body track a specified world point.<br>
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2MouseJointDef>b2MouseJointDef</a></td><td class=docright>
+Mouse joint definition.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2PolygonShape>b2PolygonShape</a></td><td class=docright>
+A convex polygon Shape.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2QueryCallback>b2QueryCallback</a></td><td class=docright>
+Implement and register this type with a b2World to provide Callback class for AABB queries.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2RayCastInput>b2RayCastInput</a></td><td class=docright>
+Ray-cast input data.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2RayCastOutput>b2RayCastOutput</a></td><td class=docright>
+Ray-cast output data.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2Rot>b2Rot</a></td><td class=docright>
+A transform Rotation.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2Shape>b2Shape</a></td><td class=docright>
+A shape is used for collision detection.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2Transform>b2Transform</a></td><td class=docright>
+A transform contains translation and rotation.<br>It is used to represent the position and orientation of rigid frames.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2Vec2>b2Vec2</a></td><td class=docright>
+A 2D column vector.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2Vec3>b2Vec3</a></td><td class=docright>
+A 2D column vector with 3 elements.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#b2World>b2World</a></td><td class=docright>
+The world class manages all physics entities, dynamic simulation, and asynchronous queries.
+</td></tr>
+</table>
+<h2
+ id=constsdet>Constants
+</h2>
+<table class=doc width=100% cellspacing=3 id=b2_addState>
+<tr><td class=doctop colspan=2>Const b2_addState:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Point was added in the update.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2_dynamicBody>
+<tr><td class=doctop colspan=2>Const b2_dynamicBody:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Dynamic:positive mass, non - zero velocity determined by forces, moved by solver.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2_kinematicBody>
+<tr><td class=doctop colspan=2>Const b2_kinematicBody:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Kinematic:zero mass, non - zero velocity set by user, moved by solver.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2_nullState>
+<tr><td class=doctop colspan=2>Const b2_nullState:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Point does not exist.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2_persistState>
+<tr><td class=doctop colspan=2>Const b2_persistState:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Point persisted across the update.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2_removeState>
+<tr><td class=doctop colspan=2>Const b2_removeState:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Point was removed in the update.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2_staticBody>
+<tr><td class=doctop colspan=2>Const b2_staticBody:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Static: zero mass, zero velocity, may be manually moved.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_atLowerLimit>
+<tr><td class=doctop colspan=2>Const e_atLowerLimit:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2LimitState - At Lower Limit.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_atUpperLimit>
+<tr><td class=doctop colspan=2>Const e_atUpperLimit:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2LimitState - At Upper Limit.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_chain>
+<tr><td class=doctop colspan=2>Const e_chain:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2Shape::Type - Chain.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_circle>
+<tr><td class=doctop colspan=2>Const e_circle:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2Shape::Type - Circle.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_distanceJoint>
+<tr><td class=doctop colspan=2>Const e_distanceJoint:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2JointType - Distance Joint.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_edge>
+<tr><td class=doctop colspan=2>Const e_edge:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2Shape::Type - Edge.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_equalLimits>
+<tr><td class=doctop colspan=2>Const e_equalLimits:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2LimitState - Equal Limits.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_failed>
+<tr><td class=doctop colspan=2>Const e_failed:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2TOIOutput::State - Failed.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_frictionJoint>
+<tr><td class=doctop colspan=2>Const e_frictionJoint:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2JointType - Friction Joint.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_gearJoint>
+<tr><td class=doctop colspan=2>Const e_gearJoint:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2JointType - Gear Joint.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_inactiveLimit>
+<tr><td class=doctop colspan=2>Const e_inactiveLimit:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2LimitState - Inactive Limit.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_motorJoint>
+<tr><td class=doctop colspan=2>Const e_motorJoint:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2JointType - Motor Joint.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_mouseJoint>
+<tr><td class=doctop colspan=2>Const e_mouseJoint:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2JointType - Mouse Joint.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_overlapped>
+<tr><td class=doctop colspan=2>Const e_overlapped:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2TOIOutput::State - Overlapped.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_polygon>
+<tr><td class=doctop colspan=2>Const e_polygon:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2Shape::Type - Polygon.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_prismaticJoint>
+<tr><td class=doctop colspan=2>Const e_prismaticJoint:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2JointType - Prismatic Joint.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_pulleyJoint>
+<tr><td class=doctop colspan=2>Const e_pulleyJoint:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2JointType - Pulley Joint.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_revoluteJoint>
+<tr><td class=doctop colspan=2>Const e_revoluteJoint:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2JointType - Revolute Joint.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_ropeJoint>
+<tr><td class=doctop colspan=2>Const e_ropeJoint:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2JointType - Rope Joint.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_separated>
+<tr><td class=doctop colspan=2>Const e_separated:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2TOIOutput::State - Separated.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_touching>
+<tr><td class=doctop colspan=2>Const e_touching:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2TOIOutput::State - Touching.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_typeCount>
+<tr><td class=doctop colspan=2>Const e_typeCount:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2Shape::Type - Reserved.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_unknown>
+<tr><td class=doctop colspan=2>Const e_unknown:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2TOIOutput::State - Unknown.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_unknownJoint>
+<tr><td class=doctop colspan=2>Const e_unknownJoint:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2JointType - Unknown Joint.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_weldJoint>
+<tr><td class=doctop colspan=2>Const e_weldJoint:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2JointType - Weld Joint.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=e_wheelJoint>
+<tr><td class=doctop colspan=2>Const e_wheelJoint:Int</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>b2JointType - Wheel Joint.</td></tr>
+</table>
+<br>
+<h2
+ id=functionsdet>Functions
+</h2>
+<table class=doc width=100% cellspacing=3 id=Vec2>
+<tr><td class=doctop colspan=2>Function Vec2:b2Vec2(x:Float, y:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Convenience function for creating a b2Vec2 object.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=Vec3>
+<tr><td class=doctop colspan=2>Function Vec3:b2Vec3(x:Float, y:Float, z:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Convenience function for creating a b2Vec3 object.</td></tr>
+</table>
+<br>
+<h2
+ id=typesdet>Types
+</h2>
+<table class=doc width=100% cellspacing=3 id=b2AABB>
+<tr><td class=doctop colspan=2>Type b2AABB</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>An axis aligned bounding box.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2AABB_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Combine>Combine</a></td><td class=docright>
+Combine an AABB into this one.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Combine2>Combine2</a></td><td class=docright>
+Combine two AABBs into this one.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Contains>Contains</a></td><td class=docright>
+Does this AABB contain the provided <b>AABB</b>.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+Creates a new AABB.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Get>Get</a></td><td class=docright>
+Returns the <b>lowerBound</b> and <b>upperBound</b> b2Vec2.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetCenter>GetCenter</a></td><td class=docright>
+Get the center of the AABB.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetExtents>GetExtents</a></td><td class=docright>
+Get the extents of the AABB (half-widths).
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetLowerBound>GetLowerBound</a></td><td class=docright>
+Returns the <b>lowerBound</b> b2Vec2.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetPerimeter>GetPerimeter</a></td><td class=docright>
+Get the perimeter length.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetUpperBound>GetUpperBound</a></td><td class=docright>
+Returns the <b>upperBound</b> b2Vec2.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#IsValid>IsValid</a></td><td class=docright>
+Verify that the bounds are sorted.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#RayCast>RayCast</a></td><td class=docright>
+Ray Casting.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Set>Set</a></td><td class=docright>
+Sets the lower and the upper bound vertex.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetLowerBound>SetLowerBound</a></td><td class=docright>
+Sets the lower bound vertex.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetUpperBound>SetUpperBound</a></td><td class=docright>
+Sets the upper bound vertex.
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2AABB_functions></a>Functions Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#CreateAABB>CreateAABB</a></td><td class=docright>
+Creates a new AABB.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Combine>
+<tr><td class=doctop colspan=2>Method Combine(AABB:b2AABB)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Combine an AABB into this one.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Combine2>
+<tr><td class=doctop colspan=2>Method Combine2(AABB1:b2AABB, AABB2:b2AABB)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Combine two AABBs into this one.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Contains>
+<tr><td class=doctop colspan=2>Method Contains:Int(AABB:b2AABB)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Does this AABB contain the provided <b>AABB</b>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Method Create:b2AABB(lowerBound:b2Vec2 = Null, upperBound:b2Vec2 = Null)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates a new AABB.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Get>
+<tr><td class=doctop colspan=2>Method Get(lowerBound:b2Vec2 Var, upperBound:b2Vec2 Var)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>lowerBound</b> and <b>upperBound</b> b2Vec2.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetCenter>
+<tr><td class=doctop colspan=2>Method GetCenter:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the center of the AABB.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetExtents>
+<tr><td class=doctop colspan=2>Method GetExtents:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the extents of the AABB (half-widths).</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetLowerBound>
+<tr><td class=doctop colspan=2>Method GetLowerBound:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>lowerBound</b> b2Vec2.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetPerimeter>
+<tr><td class=doctop colspan=2>Method GetPerimeter:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the perimeter length.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetUpperBound>
+<tr><td class=doctop colspan=2>Method GetUpperBound:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>upperBound</b> b2Vec2.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=IsValid>
+<tr><td class=doctop colspan=2>Method IsValid:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Verify that the bounds are sorted.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=RayCast>
+<tr><td class=doctop colspan=2>Method RayCast:Int(rayCastOutput:b2RayCastOutput, rayCastInput:b2RayCastInput)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Ray Casting.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Set>
+<tr><td class=doctop colspan=2>Method Set(lowerBound:b2Vec2, upperBound:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the lower and the upper bound vertex.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetLowerBound>
+<tr><td class=doctop colspan=2>Method SetLowerBound(lowerBound:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the lower bound vertex.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetUpperBound>
+<tr><td class=doctop colspan=2>Method SetUpperBound(upperBound:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the upper bound vertex.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=CreateAABB>
+<tr><td class=doctop colspan=2>Function CreateAABB:b2AABB(lowerBound:b2Vec2 = Null, upperBound:b2Vec2 = Null)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates a new AABB.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2Body>
+<tr><td class=doctop colspan=2>Type b2Body</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>A rigid body. These are created via <a href=#b2World>b2World</a>.#CreateBody().</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2Body_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#_createFixture>_createFixture</a></td><td class=docright>
+Creates a fixture from a shape and attach it to this body.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#ApplyForce>ApplyForce</a></td><td class=docright>
+Apply a force at a world point.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#ApplyLinearImpulse>ApplyLinearImpulse</a></td><td class=docright>
+Apply an impulse at a point.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#ApplyTorque>ApplyTorque</a></td><td class=docright>
+Apply a torque.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#CreateFixture>CreateFixture</a></td><td class=docright>
+Creates a fixture and attach it to this body.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#DestroyFixture>DestroyFixture</a></td><td class=docright>
+Destroy a fixture.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetAngle>GetAngle</a></td><td class=docright>
+Get the angle in degrees.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetAngleRad>GetAngleRad</a></td><td class=docright>
+Get the angle in radian.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetAngularVelocity>GetAngularVelocity</a></td><td class=docright>
+Get the angular velocity.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetInertia>GetInertia</a></td><td class=docright>
+Get the central rotational inertia of the body.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetLinearVelocity>GetLinearVelocity</a></td><td class=docright>
+Get the linear velocity of the center of mass.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetLocalCenter>GetLocalCenter</a></td><td class=docright>
+Get the Local position of the center of mass.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetLocalPoint>GetLocalPoint</a></td><td class=docright>
+Gets a local point relative to the body's origin given a world point.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetLocalVector>GetLocalVector</a></td><td class=docright>
+Gets a local vector given a world vector.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetMass>GetMass</a></td><td class=docright>
+Get the total mass of the body.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetNext>GetNext</a></td><td class=docright>
+Get the next body in the world's body list.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetPosition>GetPosition</a></td><td class=docright>
+Get the world body origin position.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetType>GetType</a></td><td class=docright>
+Returns the body type: b2_staticBody, b2_kinematicBody, or b2_dynamicBody.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetUserData>GetUserData</a></td><td class=docright>
+Get the user data pointer that was provided in the body definition.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetWorld>GetWorld</a></td><td class=docright>
+Get the parent world of this body.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetWorldCenter>GetWorldCenter</a></td><td class=docright>
+Get the world position of the center of mass.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetWorldPoint>GetWorldPoint</a></td><td class=docright>
+Get the world coordinates of a point given the local coordinates.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetWorldVector>GetWorldVector</a></td><td class=docright>
+Get the world coordinates of a vector given the local coordinates.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#IsAwake>IsAwake</a></td><td class=docright>
+Is this body sleeping (not simulating).
+</td></tr>
+<tr><td class=docleft width=1%><a href=#IsBullet>IsBullet</a></td><td class=docright>
+Is this body treated like a bullet for continuous collision detection?
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetAngularVelocity>SetAngularVelocity</a></td><td class=docright>
+Set the angular velocity.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetAwake>SetAwake</a></td><td class=docright>
+Set the sleep state of the body. A sleeping body has very low CPU cost.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetBullet>SetBullet</a></td><td class=docright>
+Should this body be treated like a bullet for continuous collision detection?
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetLinearVelocity>SetLinearVelocity</a></td><td class=docright>
+Set the linear velocity of the center of mass.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetType>SetType</a></td><td class=docright>
+Set the type of this body: b2_staticBody, b2_kinematicBody, or b2_dynamicBody.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetUserData>SetUserData</a></td><td class=docright>
+Sets the user data.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=_createFixture>
+<tr><td class=doctop colspan=2>Method _createFixture:b2Fixture(shape:b2Shape, density:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates a fixture from a shape and attach it to this body.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>This is a convenience function.
+Use b2FixtureDef if you need to set parameters like friction, restitution, user data, or filtering.
+If the density is non-zero, this function automatically updates the mass of the body.
+<p>Warning: This function is locked during callbacks.</p>
+<p>Parameters:
+<ul>
+<li><b>shape </b> : the shape to be cloned.</li>
+<li><b>density </b> : the shape density (set to zero for static bodies).</li>
+</ul>
+</p></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=ApplyForce>
+<tr><td class=doctop colspan=2>Method ApplyForce(force:b2Vec2, point:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Apply a force at a world point.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>If the force is not applied at the center of mass, it will generate a torque and affect the angular velocity.
+This wakes up the body.
+<p>Parameters:
+<ul>
+<li><b>force </b> : the world force vector, usually in Newtons (N).</li>
+<li><b>point </b> : the world position of the point of application.</li>
+</ul>
+</p></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=ApplyLinearImpulse>
+<tr><td class=doctop colspan=2>Method ApplyLinearImpulse(impulse:b2Vec2, point:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Apply an impulse at a point.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>This immediately modifies the velocity.
+It also modifies the angular velocity if the point of application is not at the center of mass.
+This wakes up the body.
+<p>Parameters:
+<ul>
+<li><b> impulse </b> : the world impulse vector, usually in N-seconds or kg-m/s.</li>
+<li><b> point </b> : the world position of the point of application.</li>
+</ul>
+</p></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=ApplyTorque>
+<tr><td class=doctop colspan=2>Method ApplyTorque(torque:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Apply a torque.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>This affects the angular velocity without affecting the linear velocity of the center of mass.
+This wakes up the body.
+<p>Parameters:
+<ul>
+<li><b> torque </b> : about the z-axis (out of the screen), usually in N-m.</li>
+</ul>
+</p></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=CreateFixture>
+<tr><td class=doctop colspan=2>Method CreateFixture:b2Fixture(def:b2FixtureDef)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates a fixture and attach it to this body.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Use this function if you need to set some fixture parameters, like friction.
+Otherwise you can create the fixture directly from a shape.
+If the density is non-zero, this function automatically updates the mass of the body.
+Contacts are not created until the next time step.
+<p>Warning: This function is locked during callbacks.</p>
+<p>Parameters:
+<ul>
+<li><b>def </b> : the fixture definition.</li>
+</ul>
+</p></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=DestroyFixture>
+<tr><td class=doctop colspan=2>Method DestroyFixture(fixture:b2Fixture)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Destroy a fixture.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetAngle>
+<tr><td class=doctop colspan=2>Method GetAngle:Float()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>The current world rotation angle in degrees.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the angle in degrees.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetAngleRad>
+<tr><td class=doctop colspan=2>Method GetAngleRad:Float()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>The current world rotation angle in radian.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the angle in radian.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetAngularVelocity>
+<tr><td class=doctop colspan=2>Method GetAngularVelocity:Float()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>The angular velocity in degrees/Second.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the angular velocity.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetInertia>
+<tr><td class=doctop colspan=2>Method GetInertia:Float()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>The rotational inertia, usually in kg-m^2.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the central rotational inertia of the body.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetLinearVelocity>
+<tr><td class=doctop colspan=2>Method GetLinearVelocity:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>The linear velocity of the center of mass.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the linear velocity of the center of mass.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetLocalCenter>
+<tr><td class=doctop colspan=2>Method GetLocalCenter:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the Local position of the center of mass.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetLocalPoint>
+<tr><td class=doctop colspan=2>Method GetLocalPoint:b2Vec2(worldPoint:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>The corresponding local point relative to the body's origin.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Gets a local point relative to the body's origin given a world point.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Parameters:
+<ul>
+<li><b>worldPoint </b> : a point in world coordinates.</li>
+</ul></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetLocalVector>
+<tr><td class=doctop colspan=2>Method GetLocalVector:b2Vec2(worldVector:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>The corresponding local vector.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Gets a local vector given a world vector.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Parameters:
+<ul>
+<li><b>worldVector </b> : a vector in world coordinates.</li>
+</ul></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetMass>
+<tr><td class=doctop colspan=2>Method GetMass:Float()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>The mass, usually in kilograms (kg).</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the total mass of the body.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetNext>
+<tr><td class=doctop colspan=2>Method GetNext:b2Body()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the next body in the world's body list.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetPosition>
+<tr><td class=doctop colspan=2>Method GetPosition:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the world body origin position.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetType>
+<tr><td class=doctop colspan=2>Method GetType:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the body type: b2_staticBody, b2_kinematicBody, or b2_dynamicBody.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Note: if a b2_dynamicBody body would have zero mass, the mass is set to one.
+<ul>
+<li><b>b2_staticBody</b> : zero mass, zero velocity, may be manually moved.</li>
+<li><b>b2_kinematicBody</b> : zero mass, non-zero velocity set by user, moved by solver.</li>
+<li><b>b2_dynamicBody</b> : positive mass, non-zero velocity determined by forces, moved by solver.</li>
+</ul></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetUserData>
+<tr><td class=doctop colspan=2>Method GetUserData:Object()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the user data pointer that was provided in the body definition.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetWorld>
+<tr><td class=doctop colspan=2>Method GetWorld:b2World()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the parent world of this body.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetWorldCenter>
+<tr><td class=doctop colspan=2>Method GetWorldCenter:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the world position of the center of mass.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetWorldPoint>
+<tr><td class=doctop colspan=2>Method GetWorldPoint:b2Vec2(localPoint:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>The same point expressed in world coordinates.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the world coordinates of a point given the local coordinates.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Parameters:
+<ul>
+<li><b>localPoint </b> : a point on the body measured relative the the body's origin.</li>
+</ul></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetWorldVector>
+<tr><td class=doctop colspan=2>Method GetWorldVector:b2Vec2(localVector:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>The same vector expressed in world coordinates.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the world coordinates of a vector given the local coordinates.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Parameters:
+<ul>
+<li><b>localVector </b> : a vector fixed in the body.</li>
+</ul></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=IsAwake>
+<tr><td class=doctop colspan=2>Method IsAwake:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Is this body sleeping (not simulating).</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=IsBullet>
+<tr><td class=doctop colspan=2>Method IsBullet:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Is this body treated like a bullet for continuous collision detection?</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetAngularVelocity>
+<tr><td class=doctop colspan=2>Method SetAngularVelocity(omega:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set the angular velocity.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Parameters:
+<ul>
+<li><b>omega </b> : the New angular velocity in degrees/Second.</li>
+</ul></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetAwake>
+<tr><td class=doctop colspan=2>Method SetAwake(flag:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set the sleep state of the body. A sleeping body has very low CPU cost.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Parameters:
+<ul>
+<li><b>flag </b> : set to true to wake the body, false to put it to sleep.</li>
+</ul></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetBullet>
+<tr><td class=doctop colspan=2>Method SetBullet(flag:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Should this body be treated like a bullet for continuous collision detection?</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetLinearVelocity>
+<tr><td class=doctop colspan=2>Method SetLinearVelocity(v:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set the linear velocity of the center of mass.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Parameters:
+<ul>
+<li><b>v </b> : the New linear velocity of the center of mass.</li>
+</ul></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetType>
+<tr><td class=doctop colspan=2>Method SetType(bodyType:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set the type of this body: b2_staticBody, b2_kinematicBody, or b2_dynamicBody.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>This may alter the mass and velocity.
+Note: if a b2_dynamicBody body would have zero mass, the mass is set to one.
+<ul>
+<li><b>b2_staticBody</b> : zero mass, zero velocity, may be manually moved.</li>
+<li><b>b2_kinematicBody</b> : zero mass, non-zero velocity set by user, moved by solver.</li>
+<li><b>b2_dynamicBody</b> : positive mass, non-zero velocity determined by forces, moved by solver.</li>
+</ul></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetUserData>
+<tr><td class=doctop colspan=2>Method SetUserData(data:Object)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the user data.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2BodyDef>
+<tr><td class=doctop colspan=2>Type b2BodyDef</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>A body definition holds all the data needed to construct a rigid body.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>You can safely re-use body definitions. Shapes are added to a body after construction.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2BodyDef_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#GetActive>GetActive</a></td><td class=docright>
+Returns whether this body definition start out active?
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetAllowSleep>GetAllowSleep</a></td><td class=docright>
+Returns true if the body is allowed to sleep.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetAngle>GetAngle</a></td><td class=docright>
+Returns the world angle of the body in degrees.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetAngleRad>GetAngleRad</a></td><td class=docright>
+Returns the world angle of the body in radian.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetAngularDamping>GetAngularDamping</a></td><td class=docright>
+Returns the angular damping.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetAngularVelocity>GetAngularVelocity</a></td><td class=docright>
+Returns the angular velocity of the body definition.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetAwake>GetAwake</a></td><td class=docright>
+Is this body initially awake or sleeping?
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetBullet>GetBullet</a></td><td class=docright>
+Returns whether this is a bullet type body.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetFixedRotation>GetFixedRotation</a></td><td class=docright>
+Returns True if rotation is fixed.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetGravityScale>GetGravityScale</a></td><td class=docright>
+Returns the scale the gravity applied to this body.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetLinearDamping>GetLinearDamping</a></td><td class=docright>
+Returns the linear damping of the body definition.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetLinearVelocity>GetLinearVelocity</a></td><td class=docright>
+Returns the linear velocity of the body's origin in world co-ordinates.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetPosition>GetPosition</a></td><td class=docright>
+Returns the world position of the body.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetType>GetType</a></td><td class=docright>
+Returns the body type: b2_staticBody, b2_kinematicBody, or b2_dynamicBody.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetUserData>GetUserData</a></td><td class=docright>
+Returns the application specific body data, if any.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetActive>SetActive</a></td><td class=docright>
+Does this body definition start out active?
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetAllowSleep>SetAllowSleep</a></td><td class=docright>
+Set this flag to false if this body should never fall asleep.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetAngle>SetAngle</a></td><td class=docright>
+The world angle of the body in degrees.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetAngleRad>SetAngleRad</a></td><td class=docright>
+The world angle of the body in radian.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetAngularDamping>SetAngularDamping</a></td><td class=docright>
+Angular damping is use to reduce the angular velocity.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetAngularVelocity>SetAngularVelocity</a></td><td class=docright>
+Set the Angular Velocity is use to reduce the linear velocity.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetAwake>SetAwake</a></td><td class=docright>
+Enables/Disables the awake state of the body.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetBullet>SetBullet</a></td><td class=docright>
+Is this a fast moving body that should be prevented from tunneling through other moving bodies?
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetFixedRotation>SetFixedRotation</a></td><td class=docright>
+Should this body be prevented from rotating? Useful for characters.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetGravityScale>SetGravityScale</a></td><td class=docright>
+Set the scale the gravity applied to this body.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetLinearDamping>SetLinearDamping</a></td><td class=docright>
+Linear damping is use to reduce the linear velocity.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetLinearVelocity>SetLinearVelocity</a></td><td class=docright>
+Set the linear velocity of the body's origin in world co-ordinates.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetPosition>SetPosition</a></td><td class=docright>
+The world position of the body.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetPositionXY>SetPositionXY</a></td><td class=docright>
+The world position of the body.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetType>SetType</a></td><td class=docright>
+Set the type of this body:  b2_staticBody, b2_kinematicBody, or b2_dynamicBody.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetUserData>SetUserData</a></td><td class=docright>
+Use this to store application specific body data.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetActive>
+<tr><td class=doctop colspan=2>Method GetActive:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns whether this body definition start out active?</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetAllowSleep>
+<tr><td class=doctop colspan=2>Method GetAllowSleep:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns true if the body is allowed to sleep.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetAngle>
+<tr><td class=doctop colspan=2>Method GetAngle:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the world angle of the body in degrees.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetAngleRad>
+<tr><td class=doctop colspan=2>Method GetAngleRad:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the world angle of the body in radian.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetAngularDamping>
+<tr><td class=doctop colspan=2>Method GetAngularDamping:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the angular damping.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetAngularVelocity>
+<tr><td class=doctop colspan=2>Method GetAngularVelocity:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the angular velocity of the body definition.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetAwake>
+<tr><td class=doctop colspan=2>Method GetAwake:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Is this body initially awake or sleeping?</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetBullet>
+<tr><td class=doctop colspan=2>Method GetBullet:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns whether this is a bullet type body.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetFixedRotation>
+<tr><td class=doctop colspan=2>Method GetFixedRotation:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns True if rotation is fixed.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetGravityScale>
+<tr><td class=doctop colspan=2>Method GetGravityScale:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the scale the gravity applied to this body.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetLinearDamping>
+<tr><td class=doctop colspan=2>Method GetLinearDamping:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the linear damping of the body definition.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetLinearVelocity>
+<tr><td class=doctop colspan=2>Method GetLinearVelocity:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the linear velocity of the body's origin in world co-ordinates.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetPosition>
+<tr><td class=doctop colspan=2>Method GetPosition:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the world position of the body.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetType>
+<tr><td class=doctop colspan=2>Method GetType:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the body type: b2_staticBody, b2_kinematicBody, or b2_dynamicBody.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Note: if a b2_dynamicBody body would have zero mass, the mass is set to one.
+<ul>
+<li><b>b2_staticBody</b> : zero mass, zero velocity, may be manually moved.</li>
+<li><b>b2_kinematicBody</b> : zero mass, non-zero velocity set by user, moved by solver.</li>
+<li><b>b2_dynamicBody</b> : positive mass, non-zero velocity determined by forces, moved by solver.</li>
+</ul></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetUserData>
+<tr><td class=doctop colspan=2>Method GetUserData:Object()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the application specific body data, if any.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetActive>
+<tr><td class=doctop colspan=2>Method SetActive(active:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Does this body definition start out active?</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetAllowSleep>
+<tr><td class=doctop colspan=2>Method SetAllowSleep(allow:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set this flag to false if this body should never fall asleep.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Note that this increases CPU usage.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetAngle>
+<tr><td class=doctop colspan=2>Method SetAngle(angle:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>The world angle of the body in degrees.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetAngleRad>
+<tr><td class=doctop colspan=2>Method SetAngleRad(angle:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>The world angle of the body in radian.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetAngularDamping>
+<tr><td class=doctop colspan=2>Method SetAngularDamping(damping:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Angular damping is use to reduce the angular velocity.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>The damping parameter can be larger than 1.0f but the damping effect
+becomes sensitive to the time step when the damping parameter is large.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetAngularVelocity>
+<tr><td class=doctop colspan=2>Method SetAngularVelocity(velocity:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set the Angular Velocity is use to reduce the linear velocity.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetAwake>
+<tr><td class=doctop colspan=2>Method SetAwake(awake:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Enables/Disables the awake state of the body.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetBullet>
+<tr><td class=doctop colspan=2>Method SetBullet(bullet:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Is this a fast moving body that should be prevented from tunneling through other moving bodies?</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Note that all bodies are prevented from tunneling through kinematic and static bodies. This setting is only considered on dynamic bodies.
+<p>
+Warning: You should use this flag sparingly since it increases processing time.
+</p></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetFixedRotation>
+<tr><td class=doctop colspan=2>Method SetFixedRotation(fixed:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Should this body be prevented from rotating? Useful for characters.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetGravityScale>
+<tr><td class=doctop colspan=2>Method SetGravityScale(gravityScale:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set the scale the gravity applied to this body.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetLinearDamping>
+<tr><td class=doctop colspan=2>Method SetLinearDamping(damping:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Linear damping is use to reduce the linear velocity.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>The damping parameter can be larger than 1.0f but the damping effect
+becomes sensitive to the time step when the damping parameter is large.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetLinearVelocity>
+<tr><td class=doctop colspan=2>Method SetLinearVelocity(velocity:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set the linear velocity of the body's origin in world co-ordinates.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetPosition>
+<tr><td class=doctop colspan=2>Method SetPosition(position:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>The world position of the body.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Avoid creating bodies at the origin since this can lead to many overlapping shapes.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetPositionXY>
+<tr><td class=doctop colspan=2>Method SetPositionXY(x:Float, y:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>The world position of the body.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Avoid creating bodies at the origin since this can lead to many overlapping shapes.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetType>
+<tr><td class=doctop colspan=2>Method SetType(bodyType:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set the type of this body:  b2_staticBody, b2_kinematicBody, or b2_dynamicBody.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Note: if a b2_dynamicBody body would have zero mass, the mass is set to one.
+<ul>
+<li><b>b2_staticBody</b> : zero mass, zero velocity, may be manually moved.</li>
+<li><b>b2_kinematicBody</b> : zero mass, non-zero velocity set by user, moved by solver.</li>
+<li><b>b2_dynamicBody</b> : positive mass, non-zero velocity determined by forces, moved by solver.</li>
+</ul></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetUserData>
+<tr><td class=doctop colspan=2>Method SetUserData(data:Object)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Use this to store application specific body data.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2CircleShape>
+<tr><td class=doctop colspan=2>Type b2CircleShape Extends b2Shape</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>A circle shape.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2CircleShape_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+Creates a new Circle shape.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#New>New</a></td><td class=docright>
+Instanciate a new Circle shape.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Method Create:b2CircleShape()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates a new Circle shape.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=New>
+<tr><td class=doctop colspan=2>Method New()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Instanciate a new Circle shape.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2Color>
+<tr><td class=doctop colspan=2>Type b2Color</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Color for debug drawing.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Each value has the range [0,1].</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2DestructionListener>
+<tr><td class=doctop colspan=2>Type b2DestructionListener</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Joints and shapes are destroyed when their associated body is destroyed.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Implement this listener so that you may nullify references to these joints and shapes.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2DestructionListener_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#SayGoodbyeJoint>SayGoodbyeJoint</a></td><td class=docright>
+Called when any joint is about to be destroyed due to the destruction of one of its attached bodies.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SayGoodbyeShape>SayGoodbyeShape</a></td><td class=docright>
+Called when any fixture is about to be destroyed due to the destruction of its parent body.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SayGoodbyeJoint>
+<tr><td class=doctop colspan=2>Method SayGoodbyeJoint(joint:b2Joint)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Called when any joint is about to be destroyed due to the destruction of one of its attached bodies.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SayGoodbyeShape>
+<tr><td class=doctop colspan=2>Method SayGoodbyeShape(fixture:b2Fixture)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Called when any fixture is about to be destroyed due to the destruction of its parent body.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2Draw>
+<tr><td class=doctop colspan=2>Type b2Draw</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Implement and register this type with a b2World to provide debug drawing of physics entities in your game.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2Draw_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#AppendFlags>AppendFlags</a></td><td class=docright>
+Append flags to the current flags.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#ClearFlags>ClearFlags</a></td><td class=docright>
+Clear flags from the current flags.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#DrawCircle>DrawCircle</a></td><td class=docright>
+Draw a circle.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#DrawPolygon>DrawPolygon</a></td><td class=docright>
+Draw a closed polygon provided in CCW order.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#DrawSegment>DrawSegment</a></td><td class=docright>
+Draw a line segment.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#DrawSolidCircle>DrawSolidCircle</a></td><td class=docright>
+Draw a solid circle.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#DrawSolidPolygon>DrawSolidPolygon</a></td><td class=docright>
+Draw a solid closed polygon provided in CCW order.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#DrawTransform>DrawTransform</a></td><td class=docright>
+Draw a transform. Choose your own length scale. <b>param</b> xf a transform.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetFlags>GetFlags</a></td><td class=docright>
+Get the drawing flags.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetFlags>SetFlags</a></td><td class=docright>
+Set the drawing flags.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=AppendFlags>
+<tr><td class=doctop colspan=2>Method AppendFlags(flags:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Append flags to the current flags.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=ClearFlags>
+<tr><td class=doctop colspan=2>Method ClearFlags(flags:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Clear flags from the current flags.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=DrawCircle>
+<tr><td class=doctop colspan=2>Method DrawCircle(center:b2Vec2, radius:Float, color:b2Color) Abstract</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Draw a circle.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=DrawPolygon>
+<tr><td class=doctop colspan=2>Method DrawPolygon(vertices:b2Vec2[], color:b2Color) Abstract</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Draw a closed polygon provided in CCW order.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=DrawSegment>
+<tr><td class=doctop colspan=2>Method DrawSegment(p1:b2Vec2, p2:b2Vec2, color:b2Color) Abstract</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Draw a line segment.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=DrawSolidCircle>
+<tr><td class=doctop colspan=2>Method DrawSolidCircle(center:b2Vec2, radius:Float, axis:b2Vec2, color:b2Color) Abstract</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Draw a solid circle.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=DrawSolidPolygon>
+<tr><td class=doctop colspan=2>Method DrawSolidPolygon(vertices:b2Vec2[], color:b2Color) Abstract</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Draw a solid closed polygon provided in CCW order.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=DrawTransform>
+<tr><td class=doctop colspan=2>Method DrawTransform(xf:b2Transform) Abstract</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Draw a transform. Choose your own length scale. <b>param</b> xf a transform.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetFlags>
+<tr><td class=doctop colspan=2>Method GetFlags:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the drawing flags.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetFlags>
+<tr><td class=doctop colspan=2>Method SetFlags(flags:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set the drawing flags.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2Filter>
+<tr><td class=doctop colspan=2>Type b2Filter</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>This holds contact filtering data.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2Filter_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+Creates a new Filter.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Delete>Delete</a></td><td class=docright>
+Deletes a given b2Filter object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetCategoryBits>GetCategoryBits</a></td><td class=docright>
+Returns the collision category bits.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetGroupIndex>GetGroupIndex</a></td><td class=docright>
+Returns the Collision groups.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetMaskBits>GetMaskBits</a></td><td class=docright>
+Returns the collision mask bits.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#New>New</a></td><td class=docright>
+Instantiates a new b2Filter Object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetCategoryBits>SetCategoryBits</a></td><td class=docright>
+Sets the collision category bits.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetGroupIndex>SetGroupIndex</a></td><td class=docright>
+Sets the Collision groups.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetMaskBits>SetMaskBits</a></td><td class=docright>
+Sets the collision mask bits.
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2Filter_functions></a>Functions Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#CreateFilter>CreateFilter</a></td><td class=docright>
+Creates a new Filter.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Method Create:b2Filter(categoryBits:Short = 1, maskBits:Short = 65535, groupIndex:Int = 0)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates a new Filter.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Delete>
+<tr><td class=doctop colspan=2>Method Delete()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Deletes a given b2Filter object.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetCategoryBits>
+<tr><td class=doctop colspan=2>Method GetCategoryBits:Short()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the collision category bits.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetGroupIndex>
+<tr><td class=doctop colspan=2>Method GetGroupIndex:int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the Collision groups.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Collision groups allow a certain group of objects to never collide (negative) or always collide (positive).
+<br>Zero means no collision group.
+<br>Non-zero group filtering always wins against the mask bits.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetMaskBits>
+<tr><td class=doctop colspan=2>Method GetMaskBits:Short()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the collision mask bits.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>This states the categories that this shape would accept for collision.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=New>
+<tr><td class=doctop colspan=2>Method New()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Instantiates a new b2Filter Object.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>By default:
+<br> categoryBits = 1
+<br> maskBits = 65535
+<br> groupIndex = 0.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetCategoryBits>
+<tr><td class=doctop colspan=2>Method SetCategoryBits(categoryBits:Short)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the collision category bits.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Normally you would just set one bit.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetGroupIndex>
+<tr><td class=doctop colspan=2>Method SetGroupIndex(groupIndex:int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the Collision groups.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Collision groups allow a certain group of objects to never collide (negative) or always collide (positive).
+<br>Zero means no collision group.
+<br>Non-zero group filtering always wins against the mask bits.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetMaskBits>
+<tr><td class=doctop colspan=2>Method SetMaskBits(maskBits:Short)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the collision mask bits.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>This states the categories that this shape would accept for collision.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=CreateFilter>
+<tr><td class=doctop colspan=2>Function CreateFilter:b2Filter(categoryBits:Short = 1, maskBits:Short = 65535, groupIndex:Int = 0)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates a new Filter.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2Fixture>
+<tr><td class=doctop colspan=2>Type b2Fixture</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>A fixture is used to attach a shape to a body for collision detection.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>A fixture inherits its transform from its parent.
+Fixtures hold additional non-geometric data such as friction, collision filters, etc.
+Fixtures are created via b2Body::CreateFixture.
+<p>
+Warning: You cannot reuse fixture.
+</p></td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2Fixture_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#GetBody>GetBody</a></td><td class=docright>
+Get the parent body of this fixture. This is NULL if the fixture is not attached.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetType>GetType</a></td><td class=docright>
+Get the type of the child shape. You can use this to down cast to the concrete shape.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetUserData>GetUserData</a></td><td class=docright>
+Get the user data that was assigned in the fixture.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#IsSensor>IsSensor</a></td><td class=docright>
+Is this fixture a sensor (non-solid)?
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetUserData>SetUserData</a></td><td class=docright>
+Sets the user data.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#TestPoint>TestPoint</a></td><td class=docright>
+Test a point for containment in this fixture.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetBody>
+<tr><td class=doctop colspan=2>Method GetBody:b2Body()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the parent body of this fixture. This is NULL if the fixture is not attached.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetType>
+<tr><td class=doctop colspan=2>Method GetType:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the type of the child shape. You can use this to down cast to the concrete shape.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetUserData>
+<tr><td class=doctop colspan=2>Method GetUserData:Object()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the user data that was assigned in the fixture.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=IsSensor>
+<tr><td class=doctop colspan=2>Method IsSensor:Int()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>True if the shape is a sensor.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Is this fixture a sensor (non-solid)?</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetUserData>
+<tr><td class=doctop colspan=2>Method SetUserData(data:Object)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the user data.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=TestPoint>
+<tr><td class=doctop colspan=2>Method TestPoint:Int(point:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Test a point for containment in this fixture.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright><b>point</b>: a point in world coordinates.
+returns: True if the point is inside the fixture.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2FixtureDef>
+<tr><td class=doctop colspan=2>Type b2FixtureDef</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>A fixture definition is used to create a fixture.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>This Type defines an abstract fixture definition.
+You can reuse fixture definitions safely.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2FixtureDef_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#GetDensity>GetDensity</a></td><td class=docright>
+Gets the Fixture's density, usually in kg/m^2.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetFilter>GetFilter</a></td><td class=docright>
+Returns the contact filtering data.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetFriction>GetFriction</a></td><td class=docright>
+Gets the Fixture's friction coefficient, usually in the range [0,1].
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetRestitution>GetRestitution</a></td><td class=docright>
+Gets the Fixture's restitution (elasticity) usually in the range [0,1].
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetShape>GetShape</a></td><td class=docright>
+Returns the shape From Fixture definition.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetUserData>GetUserData</a></td><td class=docright>
+Get the user data that was assigned in the fixture definition.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#IsSensor>IsSensor</a></td><td class=docright>
+Returns True if this fixture is a sensor.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetDensity>SetDensity</a></td><td class=docright>
+Sets the Fixture's density, usually in kg/m^2.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetFilter>SetFilter</a></td><td class=docright>
+Sets the contact filtering data.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetFriction>SetFriction</a></td><td class=docright>
+Sets the Fixture's friction coefficient, usually in the range [0,1].
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetIsSensor>SetIsSensor</a></td><td class=docright>
+A sensor fixture collects contact information but never generates a collision response.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetRestitution>SetRestitution</a></td><td class=docright>
+Sets the Fixture's restitution (elasticity) usually in the range [0,1].
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetShape>SetShape</a></td><td class=docright>
+Sets the shape in Fixture definition.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetUserData>SetUserData</a></td><td class=docright>
+Sets the user data.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetDensity>
+<tr><td class=doctop colspan=2>Method GetDensity:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Gets the Fixture's density, usually in kg/m^2.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetFilter>
+<tr><td class=doctop colspan=2>Method GetFilter:b2Filter()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the contact filtering data.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetFriction>
+<tr><td class=doctop colspan=2>Method GetFriction:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Gets the Fixture's friction coefficient, usually in the range [0,1].</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetRestitution>
+<tr><td class=doctop colspan=2>Method GetRestitution:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Gets the Fixture's restitution (elasticity) usually in the range [0,1].</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetShape>
+<tr><td class=doctop colspan=2>Method GetShape:b2Shape()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the shape From Fixture definition.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetUserData>
+<tr><td class=doctop colspan=2>Method GetUserData:Object()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the user data that was assigned in the fixture definition.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=IsSensor>
+<tr><td class=doctop colspan=2>Method IsSensor:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns True if this fixture is a sensor.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>A sensor fixture collects contact information but never generates a collision response.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetDensity>
+<tr><td class=doctop colspan=2>Method SetDensity(density:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the Fixture's density, usually in kg/m^2.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetFilter>
+<tr><td class=doctop colspan=2>Method SetFilter(filter:b2Filter)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the contact filtering data.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetFriction>
+<tr><td class=doctop colspan=2>Method SetFriction(friction:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the Fixture's friction coefficient, usually in the range [0,1].</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetIsSensor>
+<tr><td class=doctop colspan=2>Method SetIsSensor(sensor:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>A sensor fixture collects contact information but never generates a collision response.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetRestitution>
+<tr><td class=doctop colspan=2>Method SetRestitution(restitution:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the Fixture's restitution (elasticity) usually in the range [0,1].</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetShape>
+<tr><td class=doctop colspan=2>Method SetShape(shape:b2Shape)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the shape in Fixture definition.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetUserData>
+<tr><td class=doctop colspan=2>Method SetUserData(data:Object)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the user data.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2Joint>
+<tr><td class=doctop colspan=2>Type b2Joint</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>The base joint class.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Joints are used to constraint two bodies together in various fashions. Some joints also feature limits and motors.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2Joint_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Dump>Dump</a></td><td class=docright>
+Dump this joint to the log file.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetAnchorA>GetAnchorA</a></td><td class=docright>
+Get the anchor point on bodyA in world coordinates.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetAnchorB>GetAnchorB</a></td><td class=docright>
+Get the anchor point on bodyB in world coordinates.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetBodyA>GetBodyA</a></td><td class=docright>
+Get the first body attached to this joint.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetBodyB>GetBodyB</a></td><td class=docright>
+Get the second body attached to this joint.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetReactionForce>GetReactionForce</a></td><td class=docright>
+Get the reaction force on bodyB at the joint anchor in Newtons.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetReactionTorque>GetReactionTorque</a></td><td class=docright>
+Get the reaction torque on bodyB in N*m.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetType>GetType</a></td><td class=docright>
+Get the type of the concrete joint.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetUserData>GetUserData</a></td><td class=docright>
+Get the user data.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#IsActive>IsActive</a></td><td class=docright>
+Short-cut function to determine if either body is inactive.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetUserData>SetUserData</a></td><td class=docright>
+Sets the user data.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#ShiftOrigin>ShiftOrigin</a></td><td class=docright>
+Shift the origin for any points stored in world coordinates.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Dump>
+<tr><td class=doctop colspan=2>Method Dump()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Dump this joint to the log file.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Abstract implementation.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetAnchorA>
+<tr><td class=doctop colspan=2>Method GetAnchorA:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the anchor point on bodyA in world coordinates.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Abstract implementation.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetAnchorB>
+<tr><td class=doctop colspan=2>Method GetAnchorB:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the anchor point on bodyB in world coordinates.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Abstract implementation.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetBodyA>
+<tr><td class=doctop colspan=2>Method GetBodyA:b2Body()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the first body attached to this joint.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetBodyB>
+<tr><td class=doctop colspan=2>Method GetBodyB:b2Body()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the second body attached to this joint.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetReactionForce>
+<tr><td class=doctop colspan=2>Method GetReactionForce:b2Vec2(inv_dt:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the reaction force on bodyB at the joint anchor in Newtons.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Abstract implementation.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetReactionTorque>
+<tr><td class=doctop colspan=2>Method GetReactionTorque:Float(inv_dt:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the reaction torque on bodyB in N*m.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Abstract implementation.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetType>
+<tr><td class=doctop colspan=2>Method GetType:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the type of the concrete joint.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetUserData>
+<tr><td class=doctop colspan=2>Method GetUserData:Object()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the user data.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=IsActive>
+<tr><td class=doctop colspan=2>Method IsActive:Int()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>True if the body is active.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Short-cut function to determine if either body is inactive.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetUserData>
+<tr><td class=doctop colspan=2>Method SetUserData(data:Object)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the user data.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=ShiftOrigin>
+<tr><td class=doctop colspan=2>Method ShiftOrigin(newOrigin:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Shift the origin for any points stored in world coordinates.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Abstract implementation.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2JointDef>
+<tr><td class=doctop colspan=2>Type b2JointDef</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Joint definitions are used to construct joints.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2JointDef_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#GetBodyA>GetBodyA</a></td><td class=docright>
+Get the first body attached to this jointDef.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetBodyB>GetBodyB</a></td><td class=docright>
+Get the second body attached to this jointDef.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetCollideConnected>GetCollideConnected</a></td><td class=docright>
+Returns true if the attached bodies should collide.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetType>GetType</a></td><td class=docright>
+Get the type of the joint.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetUserData>GetUserData</a></td><td class=docright>
+Get the user data.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetBodyA>SetBodyA</a></td><td class=docright>
+Set the first body attached to this jointDef.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetBodyB>SetBodyB</a></td><td class=docright>
+Set the second body attached to this jointDef.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetCollideConnected>SetCollideConnected</a></td><td class=docright>
+Set this flag to true if the attached bodies should collide.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetType>SetType</a></td><td class=docright>
+Set the type of the joint.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetUserData>SetUserData</a></td><td class=docright>
+Sets the user data.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetBodyA>
+<tr><td class=doctop colspan=2>Method GetBodyA:b2Body()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the first body attached to this jointDef.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetBodyB>
+<tr><td class=doctop colspan=2>Method GetBodyB:b2Body()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the second body attached to this jointDef.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetCollideConnected>
+<tr><td class=doctop colspan=2>Method GetCollideConnected:int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns true if the attached bodies should collide.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetType>
+<tr><td class=doctop colspan=2>Method GetType:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the type of the joint.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetUserData>
+<tr><td class=doctop colspan=2>Method GetUserData:Object()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the user data.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetBodyA>
+<tr><td class=doctop colspan=2>Method SetBodyA(body:b2Body)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set the first body attached to this jointDef.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetBodyB>
+<tr><td class=doctop colspan=2>Method SetBodyB(body:b2Body)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set the second body attached to this jointDef.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetCollideConnected>
+<tr><td class=doctop colspan=2>Method SetCollideConnected(flag:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set this flag to true if the attached bodies should collide.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetType>
+<tr><td class=doctop colspan=2>Method SetType(jointType:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set the type of the joint.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetUserData>
+<tr><td class=doctop colspan=2>Method SetUserData(data:Object)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the user data.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2MouseJoint>
+<tr><td class=doctop colspan=2>Type b2MouseJoint extends b2Joint</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>A mouse joint is used to make a point on a body track a specified world point.<br></td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2MouseJoint_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Dump>Dump</a></td><td class=docright>
+Dump this joint to the log file.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetAnchorA>GetAnchorA</a></td><td class=docright>
+Get the anchor point on bodyA in world coordinates.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetAnchorB>GetAnchorB</a></td><td class=docright>
+Get the anchor point on bodyB in world coordinates.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetDampingRatio>GetDampingRatio</a></td><td class=docright>
+Get the damping ratio.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetFrequency>GetFrequency</a></td><td class=docright>
+Get the frequency in Hertz.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetMaxForce>GetMaxForce</a></td><td class=docright>
+Get the maximum force in Newtons.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetReactionForce>GetReactionForce</a></td><td class=docright>
+Get the reaction force on bodyB at the joint anchor in Newtons.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetReactionTorque>GetReactionTorque</a></td><td class=docright>
+Get the reaction torque on bodyB in N*m.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetTarget>GetTarget</a></td><td class=docright>
+Get the world target point.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetDampingRatio>SetDampingRatio</a></td><td class=docright>
+Set the damping ratio.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetFrequency>SetFrequency</a></td><td class=docright>
+Set the frequency in Hertz.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetMaxForce>SetMaxForce</a></td><td class=docright>
+Set the maximum force in Newtons.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetTarget>SetTarget</a></td><td class=docright>
+Use this to update the target point.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#ShiftOrigin>ShiftOrigin</a></td><td class=docright>
+Shift the origin for any points stored in world coordinates.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Dump>
+<tr><td class=doctop colspan=2>Method Dump()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Dump this joint to the log file.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetAnchorA>
+<tr><td class=doctop colspan=2>Method GetAnchorA:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the anchor point on bodyA in world coordinates.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetAnchorB>
+<tr><td class=doctop colspan=2>Method GetAnchorB:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the anchor point on bodyB in world coordinates.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetDampingRatio>
+<tr><td class=doctop colspan=2>Method GetDampingRatio:Float()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>0 = no damping, 1 = critical damping.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the damping ratio.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetFrequency>
+<tr><td class=doctop colspan=2>Method GetFrequency:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the frequency in Hertz.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetMaxForce>
+<tr><td class=doctop colspan=2>Method GetMaxForce:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the maximum force in Newtons.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Usually you will express as some multiple of the weight (multiplier * mass * gravity).</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetReactionForce>
+<tr><td class=doctop colspan=2>Method GetReactionForce:b2Vec2(inv_dt:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the reaction force on bodyB at the joint anchor in Newtons.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetReactionTorque>
+<tr><td class=doctop colspan=2>Method GetReactionTorque:Float(inv_dt:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the reaction torque on bodyB in N*m.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetTarget>
+<tr><td class=doctop colspan=2>Method GetTarget:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the world target point.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetDampingRatio>
+<tr><td class=doctop colspan=2>Method SetDampingRatio(damping:float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set the damping ratio.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>0 = no damping, 1 = critical damping.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetFrequency>
+<tr><td class=doctop colspan=2>Method SetFrequency(frequency:float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set the frequency in Hertz.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetMaxForce>
+<tr><td class=doctop colspan=2>Method SetMaxForce(force:float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set the maximum force in Newtons.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Usually you will express as some multiple of the weight (multiplier * mass * gravity).</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetTarget>
+<tr><td class=doctop colspan=2>Method SetTarget(target:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Use this to update the target point.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=ShiftOrigin>
+<tr><td class=doctop colspan=2>Method ShiftOrigin(newOrigin:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Shift the origin for any points stored in world coordinates.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2MouseJointDef>
+<tr><td class=doctop colspan=2>Type b2MouseJointDef extends b2JointDef</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Mouse joint definition.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>This requires a world target point, tuning parameters, and the time step.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2MouseJointDef_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#GetDampingRatio>GetDampingRatio</a></td><td class=docright>
+Get the damping ratio.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetFrequencyHz>GetFrequencyHz</a></td><td class=docright>
+Get the response speed.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetMaxForce>GetMaxForce</a></td><td class=docright>
+Get the maximum constraint force that can be exerted to move the candidate body.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetTarget>GetTarget</a></td><td class=docright>
+Get the initial world target point.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetDampingRatio>SetDampingRatio</a></td><td class=docright>
+Sets the damping ratio.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetFrequencyHz>SetFrequencyHz</a></td><td class=docright>
+Sets the response speed.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetMaxForce>SetMaxForce</a></td><td class=docright>
+Sets the maximum constraint force that can be exerted to move the candidate body.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetTarget>SetTarget</a></td><td class=docright>
+Set the initial world target point.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetDampingRatio>
+<tr><td class=doctop colspan=2>Method GetDampingRatio:Float()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>0 = no damping, 1 = critical damping.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the damping ratio.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetFrequencyHz>
+<tr><td class=doctop colspan=2>Method GetFrequencyHz:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the response speed.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetMaxForce>
+<tr><td class=doctop colspan=2>Method GetMaxForce:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the maximum constraint force that can be exerted to move the candidate body.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Usually you will express as some multiple of the weight (multiplier * mass * gravity).</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetTarget>
+<tr><td class=doctop colspan=2>Method GetTarget:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the initial world target point.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>This is assumed to coincide with the body anchor initially.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetDampingRatio>
+<tr><td class=doctop colspan=2>Method SetDampingRatio(damping:float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the damping ratio.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>0 = no damping, 1 = critical damping.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetFrequencyHz>
+<tr><td class=doctop colspan=2>Method SetFrequencyHz(frequency:float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the response speed.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetMaxForce>
+<tr><td class=doctop colspan=2>Method SetMaxForce(force:float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the maximum constraint force that can be exerted to move the candidate body.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Usually you will express as some multiple of the weight (multiplier * mass * gravity).</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetTarget>
+<tr><td class=doctop colspan=2>Method SetTarget(target:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set the initial world target point.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>This is assumed to coincide with the body anchor initially.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2PolygonShape>
+<tr><td class=doctop colspan=2>Type b2PolygonShape Extends b2Shape</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>A convex polygon Shape.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2PolygonShape_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+Creates a new Polygon shape.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#New>New</a></td><td class=docright>
+Instanciate a new Polygon shape.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetAsBox>SetAsBox</a></td><td class=docright>
+Build vertices to represent an axis-aligned box centered on the local origin.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetAsOrientedBox>SetAsOrientedBox</a></td><td class=docright>
+Build vertices to represent an oriented box.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetAsOrientedBoxRad>SetAsOrientedBoxRad</a></td><td class=docright>
+Build vertices to represent an oriented box.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Method Create:b2PolygonShape()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates a new Polygon shape.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=New>
+<tr><td class=doctop colspan=2>Method New()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Instanciate a new Polygon shape.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetAsBox>
+<tr><td class=doctop colspan=2>Method SetAsBox(hx:Float, hy:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Build vertices to represent an axis-aligned box centered on the local origin.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Parameters:
+<ul>
+<li><b>hx </b> : the half-width.</li>
+<li><b>hy </b> : the half-height. </li>
+</ul></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetAsOrientedBox>
+<tr><td class=doctop colspan=2>Method SetAsOrientedBox(hx:Float, hy:Float, center:b2Vec2, angle:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Build vertices to represent an oriented box.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Parameters:
+<ul>
+<li><b>hx </b> : the half-width.</li>
+<li><b>hy </b> : the half-height. </li>
+<li><b>center </b> : the center of the box in local coordinates. </li>
+<li><b>angle </b> : the rotation of the box in local degrees coordinates. </li>
+</ul></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetAsOrientedBoxRad>
+<tr><td class=doctop colspan=2>Method SetAsOrientedBoxRad(hx:Float, hy:Float, center:b2Vec2, angle:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Build vertices to represent an oriented box.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Parameters:
+<ul>
+<li><b>hx </b> : the half-width.</li>
+<li><b>hy </b> : the half-height. </li>
+<li><b>center </b> : the center of the box in local coordinates. </li>
+<li><b>angle </b> : the rotation of the box in local radian coordinates. </li>
+</ul></td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2QueryCallback>
+<tr><td class=doctop colspan=2>Type b2QueryCallback</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Implement and register this type with a b2World to provide Callback class for AABB queries.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>See b2World::Query.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2QueryCallback_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#ReportFixture>ReportFixture</a></td><td class=docright>
+Called for each fixture found in the query AABB.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=ReportFixture>
+<tr><td class=doctop colspan=2>Method ReportFixture:Int(fixture:b2Fixture)</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>false to terminate the query.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Called for each fixture found in the query AABB.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2RayCastInput>
+<tr><td class=doctop colspan=2>Type b2RayCastInput</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Ray-cast input data.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>The ray extends from p1 to p1 + maxFraction * (p2 - p1).</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2RayCastInput_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Copy>Copy</a></td><td class=docright>
+Copies <b>rayCastInput</b> into this object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+Creates a new b2RayCastInput with the given coordinates.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Delete>Delete</a></td><td class=docright>
+Deletes a given b2RayCastInput object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Get>Get</a></td><td class=docright>
+Returns the <b>p1</b>, <b>p2</b> and <b>maxFraction</b>.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetMaxFraction>GetMaxFraction</a></td><td class=docright>
+Returns the <b>maxFraction</b>.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetP1>GetP1</a></td><td class=docright>
+Returns the <b>p1</b> b2Vec2.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetP2>GetP2</a></td><td class=docright>
+Returns the <b>p2</b> b2Vec2.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#MaxFraction>MaxFraction</a></td><td class=docright>
+Returns the <b>maxFraction</b>.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#New>New</a></td><td class=docright>
+Instantiates a new b2RayCastInput Object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#P1>P1</a></td><td class=docright>
+Returns the <b>p1</b> b2Vec2.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#P2>P2</a></td><td class=docright>
+Returns the <b>p2</b> b2Vec2.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Set>Set</a></td><td class=docright>
+Sets the <b>p1</b>, <b>p2</b> and <b>maxFraction</b>.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetMaxFraction>SetMaxFraction</a></td><td class=docright>
+Sets the <b>maxFraction</b>.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetP1>SetP1</a></td><td class=docright>
+Sets the <b>p1</b> b2Vec2.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetP2>SetP2</a></td><td class=docright>
+Sets the <b>p2</b> b2Vec2.
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2RayCastInput_functions></a>Functions Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#_create>_create</a></td><td class=docright>
+Returns a new b2RayCastInput from C++ source.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Copy>
+<tr><td class=doctop colspan=2>Method Copy(rayCastInput:b2RayCastInput)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Copies <b>rayCastInput</b> into this object.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Method Create:b2RayCastInput(p1:b2Vec2, p2:b2Vec2, maxFraction:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates a new b2RayCastInput with the given coordinates.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Delete>
+<tr><td class=doctop colspan=2>Method Delete()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Deletes a given b2RayCastInput object.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Get>
+<tr><td class=doctop colspan=2>Method Get(p1:b2Vec2 Var, p2:b2Vec2 Var, maxFraction:Float Var)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>p1</b>, <b>p2</b> and <b>maxFraction</b>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetMaxFraction>
+<tr><td class=doctop colspan=2>Method GetMaxFraction:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>maxFraction</b>.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Synonym for <a href=#MaxFraction>MaxFraction</a>().</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetP1>
+<tr><td class=doctop colspan=2>Method GetP1:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>p1</b> b2Vec2.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Synonym for <a href=#P1>P1</a>().</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetP2>
+<tr><td class=doctop colspan=2>Method GetP2:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>p2</b> b2Vec2.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Synonym for <a href=#P2>P2</a>().</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=MaxFraction>
+<tr><td class=doctop colspan=2>Method MaxFraction:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>maxFraction</b>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=New>
+<tr><td class=doctop colspan=2>Method New()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Instantiates a new b2RayCastInput Object.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>By default <b>p1</b>, <b>p2</b> and <b>maxFraction</b> are set to 0.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=P1>
+<tr><td class=doctop colspan=2>Method P1:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>p1</b> b2Vec2.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=P2>
+<tr><td class=doctop colspan=2>Method P2:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>p2</b> b2Vec2.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Set>
+<tr><td class=doctop colspan=2>Method Set(p1:b2Vec2, p2:b2Vec2, maxFraction:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the <b>p1</b>, <b>p2</b> and <b>maxFraction</b>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetMaxFraction>
+<tr><td class=doctop colspan=2>Method SetMaxFraction(maxFraction:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the <b>maxFraction</b>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetP1>
+<tr><td class=doctop colspan=2>Method SetP1(p1:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the <b>p1</b> b2Vec2.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetP2>
+<tr><td class=doctop colspan=2>Method SetP2(p2:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the <b>p2</b> b2Vec2.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=_create>
+<tr><td class=doctop colspan=2>Function _create:b2RayCastInput(b2ObjectPtr:Byte Ptr)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns a new b2RayCastInput from C++ source.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2RayCastOutput>
+<tr><td class=doctop colspan=2>Type b2RayCastOutput</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Ray-cast output data.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>The ray hits at <b>p1</b> + <b>fraction</b> * (@p2 - <b>p1</b>), where <b>p1</b> and <b>p2</b> come from <a href=#b2RayCastInput>b2RayCastInput</a>.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2RayCastOutput_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Copy>Copy</a></td><td class=docright>
+Copies <b>rayCastOutput</b> into this object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+Creates a new b2RayCastOutput with the given coordinates.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Delete>Delete</a></td><td class=docright>
+Deletes a given b2RayCastOutput object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Fraction>Fraction</a></td><td class=docright>
+Returns the <b>fraction</b>.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Get>Get</a></td><td class=docright>
+Returns the <b>normal</b> and <b>fraction</b>.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetFraction>GetFraction</a></td><td class=docright>
+Returns the <b>fraction</b>.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetNormal>GetNormal</a></td><td class=docright>
+Returns the <b>normal</b> b2Vec2.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#New>New</a></td><td class=docright>
+Instantiates a new b2RayCastOutput Object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Normal>Normal</a></td><td class=docright>
+Returns the <b>normal</b> b2Vec2.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Set>Set</a></td><td class=docright>
+Sets the <b>normal</b> and <b>fraction</b>.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetFraction>SetFraction</a></td><td class=docright>
+Sets the <b>fraction</b>.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetNormal>SetNormal</a></td><td class=docright>
+Sets the <b>normal</b> b2Vec2.
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2RayCastOutput_functions></a>Functions Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#_create>_create</a></td><td class=docright>
+Returns a new b2RayCastOutput from C++ source.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Copy>
+<tr><td class=doctop colspan=2>Method Copy(rayCastOutput:b2RayCastOutput)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Copies <b>rayCastOutput</b> into this object.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Method Create:b2RayCastOutput(normal:b2Vec2, fraction:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates a new b2RayCastOutput with the given coordinates.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Delete>
+<tr><td class=doctop colspan=2>Method Delete()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Deletes a given b2RayCastOutput object.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Fraction>
+<tr><td class=doctop colspan=2>Method Fraction:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>fraction</b>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Get>
+<tr><td class=doctop colspan=2>Method Get(normal:b2Vec2 Var, fraction:Float Var)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>normal</b> and <b>fraction</b>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetFraction>
+<tr><td class=doctop colspan=2>Method GetFraction:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>fraction</b>.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Synonym for <a href=#Fraction>Fraction</a>().</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetNormal>
+<tr><td class=doctop colspan=2>Method GetNormal:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>normal</b> b2Vec2.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Synonym for <a href=#Normal>Normal</a>().</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=New>
+<tr><td class=doctop colspan=2>Method New()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Instantiates a new b2RayCastOutput Object.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>By default <b>normal</b> and <b>fraction</b> are set to 0.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Normal>
+<tr><td class=doctop colspan=2>Method Normal:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>normal</b> b2Vec2.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Set>
+<tr><td class=doctop colspan=2>Method Set(normal:b2Vec2, fraction:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the <b>normal</b> and <b>fraction</b>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetFraction>
+<tr><td class=doctop colspan=2>Method SetFraction(fraction:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the <b>fraction</b>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetNormal>
+<tr><td class=doctop colspan=2>Method SetNormal(normal:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the <b>normal</b> b2Vec2.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=_create>
+<tr><td class=doctop colspan=2>Function _create:b2RayCastOutput(b2ObjectPtr:Byte Ptr)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns a new b2RayCastOutput from C++ source.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2Rot>
+<tr><td class=doctop colspan=2>Type b2Rot</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>A transform Rotation.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2Rot_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+Creates a new Rotation Transform using Degrees.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#CreateRad>CreateRad</a></td><td class=docright>
+Creates a new Rotation Transform using Radian.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Delete>Delete</a></td><td class=docright>
+Deletes a given b2Rot object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetAngle>GetAngle</a></td><td class=docright>
+Returns the angle in Degrees.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetAngleRad>GetAngleRad</a></td><td class=docright>
+Returns the angle in Radian.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetCosinus>GetCosinus</a></td><td class=docright>
+Returns the Cosinus value in this b2Rot object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetSinus>GetSinus</a></td><td class=docright>
+Returns the Sinus value in this b2Rot object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetXAxis>GetXAxis</a></td><td class=docright>
+Returns the x-axis.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetYAxis>GetYAxis</a></td><td class=docright>
+Returns the y-axis.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#New>New</a></td><td class=docright>
+Instantiates a new b2Rot Object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Set>Set</a></td><td class=docright>
+Set using an angle in Degrees.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetCosinus>SetCosinus</a></td><td class=docright>
+Sets the Cosinus value for this b2Rot object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetIdentity>SetIdentity</a></td><td class=docright>
+Set this to the identity rotation.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetRad>SetRad</a></td><td class=docright>
+Set using an angle in Radian.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetSinus>SetSinus</a></td><td class=docright>
+Sets the Sinus value for this b2Rot object.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Method Create:b2Rot(angle:float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates a new Rotation Transform using Degrees.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=CreateRad>
+<tr><td class=doctop colspan=2>Method CreateRad:b2Rot(angle:float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates a new Rotation Transform using Radian.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Delete>
+<tr><td class=doctop colspan=2>Method Delete()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Deletes a given b2Rot object.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetAngle>
+<tr><td class=doctop colspan=2>Method GetAngle:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the angle in Degrees.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetAngleRad>
+<tr><td class=doctop colspan=2>Method GetAngleRad:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the angle in Radian.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetCosinus>
+<tr><td class=doctop colspan=2>Method GetCosinus:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the Cosinus value in this b2Rot object.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetSinus>
+<tr><td class=doctop colspan=2>Method GetSinus:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the Sinus value in this b2Rot object.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetXAxis>
+<tr><td class=doctop colspan=2>Method GetXAxis:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the x-axis.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetYAxis>
+<tr><td class=doctop colspan=2>Method GetYAxis:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the y-axis.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=New>
+<tr><td class=doctop colspan=2>Method New()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Instantiates a new b2Rot Object.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Default rotation transformation is set to zero.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Set>
+<tr><td class=doctop colspan=2>Method Set(angle:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set using an angle in Degrees.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetCosinus>
+<tr><td class=doctop colspan=2>Method SetCosinus(cosinus:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the Cosinus value for this b2Rot object.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetIdentity>
+<tr><td class=doctop colspan=2>Method SetIdentity()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set this to the identity rotation.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetRad>
+<tr><td class=doctop colspan=2>Method SetRad(angle:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set using an angle in Radian.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetSinus>
+<tr><td class=doctop colspan=2>Method SetSinus(sinus:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the Sinus value for this b2Rot object.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2Shape>
+<tr><td class=doctop colspan=2>Type b2Shape</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>A shape is used for collision detection.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>You can create a shape however you like.
+Shapes used for simulation in b2World are created automatically when a b2Fixture is created.
+Shapes may encapsulate a one or more child shapes.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2Shape_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#GetRadius>GetRadius</a></td><td class=docright>
+Get the radius of this circle.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetRadius>SetRadius</a></td><td class=docright>
+Set the radius of this circle.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetRadius>
+<tr><td class=doctop colspan=2>Method GetRadius:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the radius of this circle.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetRadius>
+<tr><td class=doctop colspan=2>Method SetRadius:Float(radius:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set the radius of this circle.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2Transform>
+<tr><td class=doctop colspan=2>Type b2Transform</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>A transform contains translation and rotation.<br>It is used to represent the position and orientation of rigid frames.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2Transform_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+Creates a new Transform using a position vector and a rotation.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Delete>Delete</a></td><td class=docright>
+Deletes a given b2Transform object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetPosition>GetPosition</a></td><td class=docright>
+Returns the Position vector.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetRotation>GetRotation</a></td><td class=docright>
+Returns the Rotation transform.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#New>New</a></td><td class=docright>
+Instantiates a new b2Transform Object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Set>Set</a></td><td class=docright>
+Set this based on the position and angle in degrees.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetIdentity>SetIdentity</a></td><td class=docright>
+Set this to the identity transform.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetPosition>SetPosition</a></td><td class=docright>
+Sets the Position vector.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetRad>SetRad</a></td><td class=docright>
+Set this based on the position and angle in radian.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetRotation>SetRotation</a></td><td class=docright>
+Sets the Rotation transform.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Method Create:b2Transform(position:b2Vec2, rotation:b2Rot)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates a new Transform using a position vector and a rotation.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Delete>
+<tr><td class=doctop colspan=2>Method Delete()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Deletes a given b2Transform object.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetPosition>
+<tr><td class=doctop colspan=2>Method GetPosition:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the Position vector.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetRotation>
+<tr><td class=doctop colspan=2>Method GetRotation:b2Rot()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the Rotation transform.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=New>
+<tr><td class=doctop colspan=2>Method New()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Instantiates a new b2Transform Object.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Position and Rotation transformation are equal to zero.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Set>
+<tr><td class=doctop colspan=2>Method Set(position:b2Vec2, angle:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set this based on the position and angle in degrees.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetIdentity>
+<tr><td class=doctop colspan=2>Method SetIdentity()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set this to the identity transform.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetPosition>
+<tr><td class=doctop colspan=2>Method SetPosition(position:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the Position vector.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetRad>
+<tr><td class=doctop colspan=2>Method SetRad(position:b2Vec2, angle:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set this based on the position and angle in radian.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetRotation>
+<tr><td class=doctop colspan=2>Method SetRotation(rotation:b2Rot)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the Rotation transform.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2Vec2>
+<tr><td class=doctop colspan=2>Type b2Vec2</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>A 2D column vector.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2Vec2_globals></a>Globals Summary</th></tr><tr><td colspan=2>
+<a href=#ZERO>ZERO</a>
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2Vec2_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Add>Add</a></td><td class=docright>
+Adds <b>vec</b> to this vector.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#AddNew>AddNew</a></td><td class=docright>
+Adds <b>vec</b> to this vector, returning a new b2Vec2.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Copy>Copy</a></td><td class=docright>
+Copies <b>vec</b> into this object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+Creates a new vector with the given coordinates.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#CreateFromVec2>CreateFromVec2</a></td><td class=docright>
+Creates a new vector From another vector.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Delete>Delete</a></td><td class=docright>
+Deletes a given b2Vec2 object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Divide>Divide</a></td><td class=docright>
+Divides the vector by <b>value</b>.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#DivideNew>DivideNew</a></td><td class=docright>
+Divides the vector by <b>value</b>, returning a new b2Vec2.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetX>GetX</a></td><td class=docright>
+Returns the <b>X</b> coordinate.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetY>GetY</a></td><td class=docright>
+Returns the <b>Y</b> coordinate.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#IsValid>IsValid</a></td><td class=docright>
+Does this vector contain finite coordinates?
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Length>Length</a></td><td class=docright>
+Returns  the <b>length</b> of this vector (the norm).
+</td></tr>
+<tr><td class=docleft width=1%><a href=#LengthSquared>LengthSquared</a></td><td class=docright>
+Get the length squared.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Multiply>Multiply</a></td><td class=docright>
+Multiply this vector by a scalar <b>value</b>.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#MultiplyNew>MultiplyNew</a></td><td class=docright>
+Multiply this vector by a scalar <b>value</b>, returning a new b2Vec2.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#New>New</a></td><td class=docright>
+Instantiates a new b2Vec2 Object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Normalize>Normalize</a></td><td class=docright>
+Convert this vector into a unit vector.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Set>Set</a></td><td class=docright>
+Set this vector to specified <b>x</b> and <b>y</b> coordinates.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetX>SetX</a></td><td class=docright>
+Sets the <b>x</b> coordinate.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetY>SetY</a></td><td class=docright>
+Sets the <b>y</b> coordinate.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetZero>SetZero</a></td><td class=docright>
+Set this vector to all zeros.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Skew>Skew</a></td><td class=docright>
+Get the skew vector.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Subtract>Subtract</a></td><td class=docright>
+Subtracts <b>vec</b> from this vector.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SubtractNew>SubtractNew</a></td><td class=docright>
+Subtracts <b>vec</b> from this vector, returning a new b2Vec2.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#X>X</a></td><td class=docright>
+Returns the <b>X</b> coordinate.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Y>Y</a></td><td class=docright>
+Returns the <b>Y</b> coordinate.
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2Vec2_functions></a>Functions Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#_create>_create</a></td><td class=docright>
+Returns a new b2Vec2 from C++ source.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#_getb2Vec2Array>_getb2Vec2Array</a></td><td class=docright>
+Returns a b2Vec2 at the given <b>index</b> Array position.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#_newb2Vec2Array>_newb2Vec2Array</a></td><td class=docright>
+Returns a New Array of b2Vec2 object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#_setb2Vec2Array>_setb2Vec2Array</a></td><td class=docright>
+Sets a b2Vec2 at the given <b>index</b> Array position.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#CreateVec2>CreateVec2</a></td><td class=docright>
+Creates a new vector with the given coordinates.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=ZERO>
+<tr><td class=doctop colspan=2>Global ZERO:b2Vec2</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>A zero vector (0,0)</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Add>
+<tr><td class=doctop colspan=2>Method Add:b2Vec2(vec:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Adds <b>vec</b> to this vector.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=AddNew>
+<tr><td class=doctop colspan=2>Method AddNew:b2Vec2(vec:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Adds <b>vec</b> to this vector, returning a new b2Vec2.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>This object is not modified.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Copy>
+<tr><td class=doctop colspan=2>Method Copy(vec:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Copies <b>vec</b> into this object.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Method Create:b2Vec2(x:Float = 0, y:Float = 0)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates a new vector with the given coordinates.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=CreateFromVec2>
+<tr><td class=doctop colspan=2>Method CreateFromVec2:b2Vec2(vec:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates a new vector From another vector.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Delete>
+<tr><td class=doctop colspan=2>Method Delete()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Deletes a given b2Vec2 object.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Divide>
+<tr><td class=doctop colspan=2>Method Divide:b2Vec2(value:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Divides the vector by <b>value</b>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=DivideNew>
+<tr><td class=doctop colspan=2>Method DivideNew:b2Vec2(value:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Divides the vector by <b>value</b>, returning a new b2Vec2.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>This object is not modified.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetX>
+<tr><td class=doctop colspan=2>Method GetX:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>X</b> coordinate.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Synonym for <a href=#X>X</a>().</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetY>
+<tr><td class=doctop colspan=2>Method GetY:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>Y</b> coordinate.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Synonym for <a href=#Y>Y</a>().</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=IsValid>
+<tr><td class=doctop colspan=2>Method IsValid:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Does this vector contain finite coordinates?</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Length>
+<tr><td class=doctop colspan=2>Method Length:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns  the <b>length</b> of this vector (the norm).</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=LengthSquared>
+<tr><td class=doctop colspan=2>Method LengthSquared:Float()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>The <b>length</b> <b>squared</b>.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the length squared.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>For performance, use this instead of b2Vec2::Length (if possible).</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Multiply>
+<tr><td class=doctop colspan=2>Method Multiply:b2Vec2(value:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Multiply this vector by a scalar <b>value</b>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=MultiplyNew>
+<tr><td class=doctop colspan=2>Method MultiplyNew:b2Vec2(value:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Multiply this vector by a scalar <b>value</b>, returning a new b2Vec2.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>This object is not modified.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=New>
+<tr><td class=doctop colspan=2>Method New()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Instantiates a new b2Vec2 Object.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>By default <b>x</b> and <b>y</b> coordinates are set to 0.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Normalize>
+<tr><td class=doctop colspan=2>Method Normalize:Float()</td></tr>
+<tr><td class=docleft width=1%>Returns</td><td class=docright>The <b>length</b>.</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Convert this vector into a unit vector.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Set>
+<tr><td class=doctop colspan=2>Method Set(x:Float, y:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set this vector to specified <b>x</b> and <b>y</b> coordinates.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetX>
+<tr><td class=doctop colspan=2>Method SetX(x:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the <b>x</b> coordinate.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetY>
+<tr><td class=doctop colspan=2>Method SetY(y:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the <b>y</b> coordinate.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetZero>
+<tr><td class=doctop colspan=2>Method SetZero()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set this vector to all zeros.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Skew>
+<tr><td class=doctop colspan=2>Method Skew:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the skew vector.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Such that dot(skew_vec, other) == cross(vec, other)</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Subtract>
+<tr><td class=doctop colspan=2>Method Subtract:b2Vec2(vec:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Subtracts <b>vec</b> from this vector.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SubtractNew>
+<tr><td class=doctop colspan=2>Method SubtractNew:b2Vec2(vec:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Subtracts <b>vec</b> from this vector, returning a new b2Vec2.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>This object is not modified.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=X>
+<tr><td class=doctop colspan=2>Method X:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>X</b> coordinate.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Y>
+<tr><td class=doctop colspan=2>Method Y:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>Y</b> coordinate.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=_create>
+<tr><td class=doctop colspan=2>Function _create:b2Vec2(b2ObjectPtr:Byte Ptr)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns a new b2Vec2 from C++ source.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=_getb2Vec2Array>
+<tr><td class=doctop colspan=2>Function _getb2Vec2Array:Byte Ptr(array:b2Vec2[], index:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns a b2Vec2 at the given <b>index</b> Array position.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=_newb2Vec2Array>
+<tr><td class=doctop colspan=2>Function _newb2Vec2Array:b2Vec2[] (count:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns a New Array of b2Vec2 object.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=_setb2Vec2Array>
+<tr><td class=doctop colspan=2>Function _setb2Vec2Array(array:b2Vec2[], index:Int, vec:Byte Ptr)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets a b2Vec2 at the given <b>index</b> Array position.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=CreateVec2>
+<tr><td class=doctop colspan=2>Function CreateVec2:b2Vec2(x:Float = 0, y:Float = 0)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates a new vector with the given coordinates.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2Vec3>
+<tr><td class=doctop colspan=2>Type b2Vec3</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>A 2D column vector with 3 elements.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2Vec3_globals></a>Globals Summary</th></tr><tr><td colspan=2>
+<a href=#ZERO>ZERO</a>
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2Vec3_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Add>Add</a></td><td class=docright>
+Adds <b>vec</b> to this vector.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#AddNew>AddNew</a></td><td class=docright>
+Adds <b>vec</b> to this vector, returning a new b2Vec3.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Copy>Copy</a></td><td class=docright>
+Copies <b>vec</b> into this object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+Creates a new vector with the given coordinates.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#CreateFromVec3>CreateFromVec3</a></td><td class=docright>
+Creates a new vector From another vector.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Delete>Delete</a></td><td class=docright>
+Deletes a given b2Vec3 object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Divide>Divide</a></td><td class=docright>
+Divides the vector by <b>value</b>.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#DivideNew>DivideNew</a></td><td class=docright>
+Divides the vector by <b>value</b>, returning a new b2Vec3.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetX>GetX</a></td><td class=docright>
+Returns the <b>x</b> coordinate.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetY>GetY</a></td><td class=docright>
+Returns the <b>y</b> coordinate.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetZ>GetZ</a></td><td class=docright>
+Returns the <b>z</b> coordinate.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Multiply>Multiply</a></td><td class=docright>
+Multiplies the vector by <b>value</b>.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#MultiplyNew>MultiplyNew</a></td><td class=docright>
+Multiplies the vector by <b>value</b>, returning a new b2Vec3.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#New>New</a></td><td class=docright>
+Instantiates a new b2Vec3 Object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Set>Set</a></td><td class=docright>
+Sets the <b>x</b>, <b>y</b> and <b>z</b> parts.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetX>SetX</a></td><td class=docright>
+Sets the <b>x</b> part.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetY>SetY</a></td><td class=docright>
+Sets the <b>y</b> part.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetZ>SetZ</a></td><td class=docright>
+Sets the <b>z</b> part.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetZero>SetZero</a></td><td class=docright>
+Set this vector to all zeros.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Subtract>Subtract</a></td><td class=docright>
+Subtracts <b>vec</b> from this vector.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SubtractNew>SubtractNew</a></td><td class=docright>
+Subtracts <b>vec</b> from this vector, returning a new b2Vec3.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#X>X</a></td><td class=docright>
+Returns the <b>x</b> coordinate.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Y>Y</a></td><td class=docright>
+Returns the <b>y</b> coordinate.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Z>Z</a></td><td class=docright>
+Returns the <b>z</b> coordinate.
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2Vec3_functions></a>Functions Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#_create>_create</a></td><td class=docright>
+Returns a new b2Vec3 from C++ source.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#_getb2Vec3Array>_getb2Vec3Array</a></td><td class=docright>
+Returns a b2Vec3 at the given <b>index</b> Array position.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#_newb2Vec3Array>_newb2Vec3Array</a></td><td class=docright>
+Returns a New Array of b2Vec3 object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#_setb2Vec3Array>_setb2Vec3Array</a></td><td class=docright>
+Sets a b2Vec3 at the given <b>index</b> Array position.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#CreateVec3>CreateVec3</a></td><td class=docright>
+Creates a new vector with the given coordinates.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=ZERO>
+<tr><td class=doctop colspan=2>Global ZERO:b2Vec3</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>A zero vector (0,0)</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Add>
+<tr><td class=doctop colspan=2>Method Add:b2Vec3(vec:b2Vec3)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Adds <b>vec</b> to this vector.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=AddNew>
+<tr><td class=doctop colspan=2>Method AddNew:b2Vec3(vec:b2Vec3)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Adds <b>vec</b> to this vector, returning a new b2Vec3.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>This object is not modified.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Copy>
+<tr><td class=doctop colspan=2>Method Copy(vec:b2Vec3)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Copies <b>vec</b> into this object.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Method Create:b2Vec3(x:Float = 0, y:Float = 0, z:Float = 0)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates a new vector with the given coordinates.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=CreateFromVec3>
+<tr><td class=doctop colspan=2>Method CreateFromVec3:b2Vec3(vec:b2Vec3)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates a new vector From another vector.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Delete>
+<tr><td class=doctop colspan=2>Method Delete()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Deletes a given b2Vec3 object.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Divide>
+<tr><td class=doctop colspan=2>Method Divide:b2Vec3(value:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Divides the vector by <b>value</b>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=DivideNew>
+<tr><td class=doctop colspan=2>Method DivideNew:b2Vec3(value:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Divides the vector by <b>value</b>, returning a new b2Vec3.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>This object is not modified.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetX>
+<tr><td class=doctop colspan=2>Method GetX:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>x</b> coordinate.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Synonym for <a href=#X>X</a>().</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetY>
+<tr><td class=doctop colspan=2>Method GetY:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>y</b> coordinate.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Synonym for <a href=#Y>Y</a>().</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetZ>
+<tr><td class=doctop colspan=2>Method GetZ:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>z</b> coordinate.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Synonym for <a href=#Z>Z</a>().</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Multiply>
+<tr><td class=doctop colspan=2>Method Multiply:b2Vec3(value:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Multiplies the vector by <b>value</b>.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=MultiplyNew>
+<tr><td class=doctop colspan=2>Method MultiplyNew:b2Vec3(value:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Multiplies the vector by <b>value</b>, returning a new b2Vec3.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>This object is not modified.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=New>
+<tr><td class=doctop colspan=2>Method New()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Instantiates a new b2Vec3 Object.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>By default <b>x</b>, <b>y</b> and <b>z</b> coordinates are set to 0.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Set>
+<tr><td class=doctop colspan=2>Method Set(x:Float, y:Float, z:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the <b>x</b>, <b>y</b> and <b>z</b> parts.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetX>
+<tr><td class=doctop colspan=2>Method SetX(x:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the <b>x</b> part.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetY>
+<tr><td class=doctop colspan=2>Method SetY(y:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the <b>y</b> part.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetZ>
+<tr><td class=doctop colspan=2>Method SetZ(z:Float)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets the <b>z</b> part.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetZero>
+<tr><td class=doctop colspan=2>Method SetZero()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Set this vector to all zeros.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Subtract>
+<tr><td class=doctop colspan=2>Method Subtract:b2Vec3(vec:b2Vec3)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Subtracts <b>vec</b> from this vector.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SubtractNew>
+<tr><td class=doctop colspan=2>Method SubtractNew:b2Vec3(vec:b2Vec3)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Subtracts <b>vec</b> from this vector, returning a new b2Vec3.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>This object is not modified.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=X>
+<tr><td class=doctop colspan=2>Method X:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>x</b> coordinate.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Y>
+<tr><td class=doctop colspan=2>Method Y:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>y</b> coordinate.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Z>
+<tr><td class=doctop colspan=2>Method Z:Float()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns the <b>z</b> coordinate.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=_create>
+<tr><td class=doctop colspan=2>Function _create:b2Vec3(b2ObjectPtr:Byte Ptr)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns a new b2Vec3 from C++ source.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=_getb2Vec3Array>
+<tr><td class=doctop colspan=2>Function _getb2Vec3Array:Byte Ptr(array:b2Vec3[], index:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns a b2Vec3 at the given <b>index</b> Array position.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=_newb2Vec3Array>
+<tr><td class=doctop colspan=2>Function _newb2Vec3Array:b2Vec3[] (count:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns a New Array of b2Vec3 object.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=_setb2Vec3Array>
+<tr><td class=doctop colspan=2>Function _setb2Vec3Array(array:b2Vec3[], index:Int, vec:Byte Ptr)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Sets a b2Vec3 at the given <b>index</b> Array position.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=CreateVec3>
+<tr><td class=doctop colspan=2>Function CreateVec3:b2Vec3(x:Float = 0, y:Float = 0, z:Float = 0)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Creates a new vector with the given coordinates.</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=b2World>
+<tr><td class=doctop colspan=2>Type b2World</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>The world class manages all physics entities, dynamic simulation, and asynchronous queries.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>The world also contains efficient memory management facilities.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2World_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+Construct a world object.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#CreateBody>CreateBody</a></td><td class=docright>
+Create a rigid body given a definition.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#CreateJoint>CreateJoint</a></td><td class=docright>
+Create a joint to constrain bodies together.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Delete>Delete</a></td><td class=docright>
+Destruct the world.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#DestroyBody>DestroyBody</a></td><td class=docright>
+Destroy a rigid body given a definition.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#DestroyJoint>DestroyJoint</a></td><td class=docright>
+Destroy a joint.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#DoStep>DoStep</a></td><td class=docright>
+Take a time Step.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#DrawDebugData>DrawDebugData</a></td><td class=docright>
+Perform Drawing operation of Debug data structures.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Free>Free</a></td><td class=docright>
+Destruct the world.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetAllowSleeping>GetAllowSleeping</a></td><td class=docright>
+Get Sleeping parameter.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetBodyCount>GetBodyCount</a></td><td class=docright>
+Get the number of bodies.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetContactCount>GetContactCount</a></td><td class=docright>
+Get the number of contacts (each may have 0 or more contact points).
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetContinuousPhysics>GetContinuousPhysics</a></td><td class=docright>
+Get continuous physics parameter.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetGravity>GetGravity</a></td><td class=docright>
+Get the global gravity vector.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetJointCount>GetJointCount</a></td><td class=docright>
+Get the number joints.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetProxyCount>GetProxyCount</a></td><td class=docright>
+Get the number of broad-phase proxies.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetSubStepping>GetSubStepping</a></td><td class=docright>
+Get the single stepped continuous physics parameter.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetTreeBalance>GetTreeBalance</a></td><td class=docright>
+Get the balance of the dynamic tree.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetTreeHeight>GetTreeHeight</a></td><td class=docright>
+Get the height of the dynamic tree.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetWarmStarting>GetWarmStarting</a></td><td class=docright>
+Get Warm Starting parameter.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#QueryAABB>QueryAABB</a></td><td class=docright>
+Query the world for all fixtures that potentially overlap the provided AABB.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetAllowSleeping>SetAllowSleeping</a></td><td class=docright>
+Enable/disable Sleeping parameter.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetContinuousPhysics>SetContinuousPhysics</a></td><td class=docright>
+Enable/disable continuous physics. For testing.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetDebugDraw>SetDebugDraw</a></td><td class=docright>
+Register a routine for debug drawing.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetDestructionListener>SetDestructionListener</a></td><td class=docright>
+Register a destruction listener.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetGravity>SetGravity</a></td><td class=docright>
+Change the global gravity vector.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetSubStepping>SetSubStepping</a></td><td class=docright>
+Enable/disable the single stepped continuous physics. For testing.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetWarmStarting>SetWarmStarting</a></td><td class=docright>
+Enable/disable warm starting. For testing.
+</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=b2World_functions></a>Functions Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#CreateWorld>CreateWorld</a></td><td class=docright>
+Construct a world object.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Method Create:b2World(gravity:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Construct a world object.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright><b>gravity</b> : The world gravity vector.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=CreateBody>
+<tr><td class=doctop colspan=2>Method CreateBody:b2Body(def:b2BodyDef)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Create a rigid body given a definition.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>No reference to the definition is retained.
+<p>
+Warning: This method is locked during callbacks.
+</p></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=CreateJoint>
+<tr><td class=doctop colspan=2>Method CreateJoint:b2Joint(def:b2JointDef)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Create a joint to constrain bodies together.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>No reference to the definition is retained. This may cause the connected bodies to cease
+colliding.
+<p>
+Warning: This method is locked during callbacks.
+</p></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Delete>
+<tr><td class=doctop colspan=2>Method Delete()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Destruct the world.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>All physics entities are destroyed and all heap memory is released.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=DestroyBody>
+<tr><td class=doctop colspan=2>Method DestroyBody(body:b2Body)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Destroy a rigid body given a definition.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>No reference to the definition is retained.
+<p>Warning: This automatically deletes all associated shapes and joints.</p>
+<p>Warning: This method is locked during callbacks.</p></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=DestroyJoint>
+<tr><td class=doctop colspan=2>Method DestroyJoint(joint:b2Joint)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Destroy a joint.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>This may cause the connected bodies to begin colliding.
+<p>
+Warning: This method is locked during callbacks.
+</p></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=DoStep>
+<tr><td class=doctop colspan=2>Method DoStep(timeStep:Float, velocityIterations:Int, positionIterations:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Take a time Step.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>This performs collision detection, integration, and constraint solution.
+<p>Parameters:
+<ul>
+<li><b> timeStep </b> : the amount of time To simulate, this should Not vary. </li>
+<li><b> velocityIterations </b> : for the velocity constraint solver.</li>
+<li><b> positionIterations </b> : for the position constraint solver.</li>
+</ul>
+</p></td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=DrawDebugData>
+<tr><td class=doctop colspan=2>Method DrawDebugData()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Perform Drawing operation of Debug data structures.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Free>
+<tr><td class=doctop colspan=2>Method Free()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Destruct the world.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>All physics entities are destroyed and all heap memory is released.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetAllowSleeping>
+<tr><td class=doctop colspan=2>Method GetAllowSleeping:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get Sleeping parameter.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetBodyCount>
+<tr><td class=doctop colspan=2>Method GetBodyCount:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the number of bodies.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetContactCount>
+<tr><td class=doctop colspan=2>Method GetContactCount:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the number of contacts (each may have 0 or more contact points).</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetContinuousPhysics>
+<tr><td class=doctop colspan=2>Method GetContinuousPhysics:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get continuous physics parameter.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetGravity>
+<tr><td class=doctop colspan=2>Method GetGravity:b2Vec2()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the global gravity vector.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetJointCount>
+<tr><td class=doctop colspan=2>Method GetJointCount:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the number joints.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetProxyCount>
+<tr><td class=doctop colspan=2>Method GetProxyCount:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the number of broad-phase proxies.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetSubStepping>
+<tr><td class=doctop colspan=2>Method GetSubStepping:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the single stepped continuous physics parameter.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetTreeBalance>
+<tr><td class=doctop colspan=2>Method GetTreeBalance:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the balance of the dynamic tree.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetTreeHeight>
+<tr><td class=doctop colspan=2>Method GetTreeHeight:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get the height of the dynamic tree.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetWarmStarting>
+<tr><td class=doctop colspan=2>Method GetWarmStarting:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Get Warm Starting parameter.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=QueryAABB>
+<tr><td class=doctop colspan=2>Method QueryAABB(callback:b2QueryCallback, aabb:b2AABB)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Query the world for all fixtures that potentially overlap the provided AABB.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright><b>callback</b>: A user implemented callback class.<br>@aabb: The query box.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetAllowSleeping>
+<tr><td class=doctop colspan=2>Method SetAllowSleeping(flag:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Enable/disable Sleeping parameter.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetContinuousPhysics>
+<tr><td class=doctop colspan=2>Method SetContinuousPhysics(flag:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Enable/disable continuous physics. For testing.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetDebugDraw>
+<tr><td class=doctop colspan=2>Method SetDebugDraw(debugDraw:b2Draw)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Register a routine for debug drawing.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>The debug draw functions are called inside the b2World::DoStep method, so make sure your renderer is ready to
+consume draw commands when you call DoStep().</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetDestructionListener>
+<tr><td class=doctop colspan=2>Method SetDestructionListener(listener:b2DestructionListener)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Register a destruction listener.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetGravity>
+<tr><td class=doctop colspan=2>Method SetGravity(gravity:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Change the global gravity vector.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetSubStepping>
+<tr><td class=doctop colspan=2>Method SetSubStepping(flag:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Enable/disable the single stepped continuous physics. For testing.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetWarmStarting>
+<tr><td class=doctop colspan=2>Method SetWarmStarting(flag:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Enable/disable warm starting. For testing.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=CreateWorld>
+<tr><td class=doctop colspan=2>Function CreateWorld:b2World(gravity:b2Vec2)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Construct a world object.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright><b>gravity</b> : The world gravity vector.</td></tr>
+</table>
+<br>
+<h2 id=modinfo>Module Information</h2>
+<table width=100%>
+<tr><th width=1%>Version</th><td>1.00</td></tr>
+<tr><th width=1%>License</th><td>MIT</td></tr>
+<tr><th width=1%>Copyright</th><td>Box2D (c) 2006-2012 Erin Catto http://box2d.org/</td></tr>
+<tr><th width=1%>Copyright</th><td>BlitzMax port - 2012 Michaël Lievens</td></tr>
+<tr><th width=1%>History</th><td>Updated to revision 249 - http://box2d.googlecode.com/svn/trunk/</td></tr>
+<tr><th width=1%>History</th><td>1.00 Initial Release</td></tr>
+</body></html>

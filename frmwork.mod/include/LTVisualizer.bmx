@@ -50,11 +50,6 @@ Type LTVisualizer Extends LTColor
 	Field Scaling:Int = True
 	
 	Rem
-	bbdoc: Rotation angle of displaying image relative to the angle of drawing AngularVector (other sprites will be drawed just using visualizer angle).
-	End Rem
-	Field Angle:Double = 0.0
-	
-	Rem
 	bbdoc: Rotating flag.
 	about: If False then Angle parameter will not be used.
 	End Rem
@@ -191,9 +186,9 @@ Type LTVisualizer Extends LTColor
 			L_CurrentCamera.FieldToScreen( SpriteShape.X, SpriteShape.Y, SX, SY )
 			
 			If Rotating Then
-				SetRotation( Angle + SpriteShape.Angle )
+				SetRotation( SpriteShape.DisplayingAngle + SpriteShape.Angle )
 			Else
-				SetRotation( Angle )
+				SetRotation( SpriteShape.DisplayingAngle )
 			End If
 			
 			?debug
@@ -513,11 +508,10 @@ Type LTVisualizer Extends LTColor
 		CopyColorTo( Visualizer )
 		Visualizer.DX = DX
 		Visualizer.DY = DY
-		Visualizer.Angle = Angle
-		Visualizer.Rotating = Rotating
 		Visualizer.XScale = XScale
 		Visualizer.YScale = YScale
 		Visualizer.Scaling = Scaling
+		Visualizer.Rotating = Rotating
 		Visualizer.Image = Image
 	End Method
 	
@@ -531,7 +525,6 @@ Type LTVisualizer Extends LTColor
 		XMLObject.ManageDoubleAttribute( "xscale", XScale, 1.0 )
 		XMLObject.ManageDoubleAttribute( "yscale", YScale, 1.0 )
 		XMLObject.ManageIntAttribute( "scaling", Scaling, 1 )
-		XMLObject.ManageDoubleAttribute( "angle", Angle )
 		XMLObject.ManageIntAttribute( "rotating", Rotating, 1 )
 		Image = LTImage( XMLObject.ManageObjectField( "image", Image ) )
 	End Method

@@ -21,6 +21,8 @@ ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.16 (16.07.12)"
+ModuleInfo "History: &nbsp; &nbsp; Moved displaying angle from LTVisualizer to the LTSprite."
 ModuleInfo "History: v1.4.15 (15.07.12)"
 ModuleInfo "History: &nbsp; &nbsp; Implemented full sprite grouping support with group inclusion and rotation."
 ModuleInfo "History: &nbsp; &nbsp; Added SpriteShape parameter to the LTVisualizer's DrawSprite method."

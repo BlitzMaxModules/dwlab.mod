@@ -53,7 +53,7 @@ Type TTileCollisionShapes
 		Local Form:LTForm = LTForm.Create( Window )
 		Form.NewLine()
 		ShapeComboBox = Form.AddComboBox( "{{L_Shape}}", Editor.LabelWidth, 200 )
-		Form.AddSliderWidthTextField( LayerSlider, LayerField, "{{L_CollisionLayer}}", 100, 150 )
+		Form.AddSliderWithTextField( LayerSlider, LayerField, "{{L_CollisionLayer}}", 100, 150 )
 		SetSliderRange( LayerSlider, 0, L_MaxCollisionColor )
 		Form.NewLine()
 		XField = Form.AddTextField( "{{L_X}}", Editor.LabelWidth )

@@ -124,7 +124,7 @@ Type LTForm
 	returns: Text field gadget.
 	about: Slider gadget will be passed through Slider variable.
 	EndRem
-	Method AddSliderWidthTextField( Slider:TGadget Var, TextField:TGadget Var, LabelText:String, LabelWidth:Int, SliderWidth:Int = 56, TextFieldWidth:Int = 56, SliderStyle:Int = Slider_Trackbar | Slider_Horizontal )
+	Method AddSliderWithTextField( Slider:TGadget Var, TextField:TGadget Var, LabelText:String, LabelWidth:Int, SliderWidth:Int = 56, TextFieldWidth:Int = 56, SliderStyle:Int = Slider_Trackbar | Slider_Horizontal )
 		Local FormGadget:LTFormGadget = AddGadget( LabelText, TextFieldWidth, L_FieldHeight, LabelWidth, SliderWidth, LTFormGadget.SliderWithTextField, SliderStyle )
 		Slider = FormGadget.SliderGadget
 		TextField = FormGadget.Gadget

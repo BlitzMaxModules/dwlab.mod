@@ -98,3 +98,9 @@ End Type
 
 Type LTAngularSprite Extends LTSprite
 End Type
+
+
+
+
+Type LTGroup Extends LTSpriteGroup
+End Type
