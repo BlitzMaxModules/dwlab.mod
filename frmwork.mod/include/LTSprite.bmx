@@ -339,7 +339,7 @@ Type LTSprite Extends LTShape
 		?
 		Select ShapeType
 			Case Oval
-				If Sprite.Width <> Sprite.Height Then L_Error( "Only circle supports overlapping." )
+				If Width <> Height Then L_Error( "Only circle supports overlapping." )
 				Select Sprite.ShapeType
 					Case Pivot
 						Return LTOverlap.CircleAndPivot( Self, Sprite )

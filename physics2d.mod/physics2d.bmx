@@ -13,7 +13,7 @@ SuperStrict
 Rem
 bbdoc: Support for Box2D physics
 End Rem
-Module dwlab.box2dsupport
+Module dwlab.physics2d
 
 ModuleInfo "Version: 1.0"
 ModuleInfo "Author: Matt Merkulov"
@@ -26,4 +26,5 @@ ModuleInfo "History: &nbsp; &nbsp; Initial release."
 Import dwlab.frmwork
 Import dwlab.box2d
 
+Include "include\LTBox2DPhysics.bmx"
 Include "include\LTBox2DSprite.bmx"
