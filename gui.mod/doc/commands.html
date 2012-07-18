@@ -210,8 +210,6 @@ Modal parameter (can be set in editor) set to True forces all existing windows t
 <tr><td class=docleft width=1%>Description</td><td class=docright>Class for label gadgets.</td></tr>
 </table>
 <table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=LTLabel_fields></a>Fields Summary</th></tr><tr><td colspan=2>
-<a href=#DX>DX</a>
-, 
 <a href=#TextVisualizer>TextVisualizer</a>
 </td></tr>
 </table>
@@ -225,10 +223,6 @@ Deactivates the label and also makes it half-transparent.
 <tr><td class=docleft width=1%><a href=#Init>Init</a></td><td class=docright>
 Label initialization method.
 </td></tr>
-</table>
-<table class=doc width=100% cellspacing=3 id=DX>
-<tr><td class=doctop colspan=2>Field DX:Double, DY:Double</td></tr>
-<tr><td class=docleft width=1%>Description</td><td class=docright>Horizontal and vertical shift of button contens.</td></tr>
 </table>
 <table class=doc width=100% cellspacing=3 id=TextVisualizer>
 <tr><td class=doctop colspan=2>Field TextVisualizer:LTVisualizer = New LTVisualizer</td></tr>
@@ -359,8 +353,6 @@ Slider initialization method.
 <ul><li>"type" - sets slider type ( "vertical" or "horizontal" )
 <li>"selection" - sets slider behavior ( "moving" or "filling" )</ul>
 <li>"percent" - sets showing slider position in percents </ul>
-You can also attach sprite (which should be inside same window) as slider moving part to the slider by naming silder and
-set "slider_name" parameter of the sprite to slider name.
 And you can attach a list box (which should be inside same window) to scroll its contents with the slider by naming list box and
 set "list_box_name" parameter of the slider to list box name.</td></tr>
 </table>
@@ -387,6 +379,9 @@ Button unpressing event method.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#OnButtonUp>OnButtonUp</a></td><td class=docright>
 Button up event method.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#OnClose>OnClose</a></td><td class=docright>
+Window closing event method.
 </td></tr>
 <tr><td class=docleft width=1%><a href=#OnMouseOut>OnMouseOut</a></td><td class=docright>
 Mouse cursor leaving gadget event method.
@@ -434,6 +429,11 @@ See also: <a href=#OnButtonPress>OnButtonPress</a>, <a href=#OnButtonDown>OnButt
 <p>
 See also: <a href=#OnButtonPress>OnButtonPress</a>, <a href=#OnButtonUnpress>OnButtonUnpress</a>, <a href=#OnButtonUp>OnButtonUp</a>, <a href=#OnMouseOver>OnMouseOver</a>, <a href=#OnMouseOut>OnMouseOut</a>.</td></tr>
 </table>
+<table class=doc width=100% cellspacing=3 id=OnClose>
+<tr><td class=doctop colspan=2>Method OnClose()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Window closing event method.</td></tr>
+<tr><td class=docleft width=1%>Information</td><td class=docright>Called when window is closed.</td></tr>
+</table>
 <table class=doc width=100% cellspacing=3 id=OnMouseOut>
 <tr><td class=doctop colspan=2>Method OnMouseOut( Gadget:LTGadget )</td></tr>
 <tr><td class=docleft width=1%>Description</td><td class=docright>Mouse cursor leaving gadget event method.</td></tr>
@@ -459,11 +459,24 @@ See also: <a href=#OnButtonUnpress>OnButtonUnpress</a>.</td></tr>
 <br>
 <h2 id=modinfo>Module Information</h2>
 <table width=100%>
-<tr><th width=1%>Version</th><td>1.0.4.1</td></tr>
+<tr><th width=1%>Version</th><td>1.0.6</td></tr>
 <tr><th width=1%>Author</th><td>Matt Merkulov</td></tr>
 <tr><th width=1%>License</th><td>Artistic License 2.0</td></tr>
 <tr><th width=1%>Modserver</th><td>DWLAB</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp;</td></tr>
+<tr><th width=1%>History</th><td>v1.0.6.2 (02.06.12)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; LTGUIProject is rewritten to correspond changed structure of LTProject class and now contains no duplicated code.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Slider is converted to the single gadget.</td></tr>
+<tr><th width=1%>History</th><td>v1.0.6.1 (01.06.12)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added underlined spaces to parameters' names.</td></tr>
+<tr><th width=1%>History</th><td>v1.0.6 (31.05.12)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Changed halign/valign parameters to texthalign/textvalign.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added OnClose() event method to LTWindow.</td></tr>
+<tr><th width=1%>History</th><td>v1.0.5 (30.03.12)</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Now there's also vertical align parameter (valign), horizontal now 'halign'.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added textdx, textdy, textshift label parameters for shifting text from alignment point.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added pressingdx, pressingdy, pressingshift label parameters for defining of shifting button contents upon pressing.</td></tr>
+<tr><th width=1%>History</th><td>&nbsp; &nbsp; Added textcolor label parameter for specifying text color in hex form.</td></tr>
 <tr><th width=1%>History</th><td>v1.0.4.1 (29.12.11)</td></tr>
 <tr><th width=1%>History</th><td>&nbsp; &nbsp; Switched Name and Class parameters in FindWindow() and LoadWindow() methods.</td></tr>
 <tr><th width=1%>History</th><td>v1.0.4 (21.11.11)</td></tr>

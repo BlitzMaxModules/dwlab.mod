@@ -4,9 +4,17 @@ about:
 
 See also: #LTVectorSprite
 End Rem
+
 Type LTBox2DSprite Extends LTVectorSprite
+	Global Pivot1:LTSprite = New LTSprite
+	Global Pivot2:LTSprite = New LTSprite
+	Global Pivot3:LTSprite = New LTSprite
+	Global CircleDefinition:b2CircleDef = New b2CircleDef
+	Global PolygonDefinition:b2PolygonDef = New b2PolygonDef
+	
 	Field Body:b2Body
 	Field ListLink:TLink
+	
 	
 	
 	Method Init()
@@ -22,62 +30,73 @@ Type LTBox2DSprite Extends LTVectorSprite
 			Default
 				BodyDefinition.SetType( b2_dynamicBody )
 		End Select
-		BodyDefinition.SetPosition( New b2Vec2.Create( X, Y ) )
-		BodyDefinition.SetLinearVelocity( New b2Vec2.Create( DX, DY ) )
+		BodyDefinition.SetPosition( Vec2( X, Y ) )
+		BodyDefinition.SetLinearVelocity( Vec2( DX, DY ) )
 		BodyDefinition.SetAngle( DisplayingAngle )
 		
-		If ParameterExists( "linear_damping" ) Then BodyDefinition.SetLinearDamping( GetParameter( "linear_damping" ).ToFloat() )
+		If ParameterExists( "mass" ) Then BodyDefinition.GetMassData().SetMass( GetParameter( "mass" ).ToFloat() )
 		If ParameterExists( "linear_damping" ) Then BodyDefinition.SetLinearDamping( GetParameter( "linear_damping" ).ToFloat() )
 		If ParameterExists( "angular_velocity" ) Then BodyDefinition.SetAngularVelocity( GetParameter( "angular_velocity" ).ToFloat() )
 		If ParameterExists( "angular_damping" ) Then BodyDefinition.SetAngularDamping( GetParameter( "angular_damping" ).ToFloat() )
+		
+		Local Friction:Float = GetParameter( "friction" ).ToFloat()
+		Local Restitution:Float = GetParameter( "restitution" ).ToFloat()
 		
 		Body = LTBox2DPhysics.World.CreateBody( BodyDefinition )
 		
 		Select ShapeType
 			Case Pivot
-				Local Shape:b2CircleShape = New b2CircleShape
-				Shape.Create()
-				Shape.SetRadius( 0 )
-				AttachShape( Shape )
+				CircleDefinition.SetRadius( 0.0 )
+				AttachToBody( CircleDefinition, Friction, Restitution )
 			Case Oval
 				If Width = Height Then
-					Local Shape:b2CircleShape = New b2CircleShape
-					Shape.Create()
-					Shape.SetAsBox
-					Shape.SetRadius( Width )
-					AttachShape( Shape )
-				ElseIf Width > Height
-					Local Shape:b2CircleShape = New b2CircleShape
-					Shape.Create()
-					Shape.SetRadius( Height )
-					AttachShape( Shape )
+					CircleDefinition.SetRadius( 0.5 * Width )
+					AttachToBody( CircleDefinition, Friction, Restitution )
+				ElseIf
+					Local DX:Float = Width - Height
+					If DX > 0 Then
+						PolygonDefinition.SetAsBox( DX, Height )
+					Else
+						PolygonDefinition.SetAsBox( Width, DY )
+					End IF
+					AttachToBody( PolygonDefinition, Friction, Restitution )
 					
-					Local BoxShape:b2PolygonShape = New b2PolygonShape
-					BoxShape.Create()
-					BoxShape.SetAsBox( 0.5 * ( Width - Height ), 0.5 * Height )
-					AttachShape( BoxShape  )
-					
-					Shape = New b2CircleShape
-					Shape.Create()
-					Shape.SetRadius( Height )
-					AttachShape( Shape  )
-				Else
-				
+					For Local Sign:Int = -1 To 1 Step 2					
+						If DX > 0 Then
+							CircleDefinition.SetRadius( 0.5 * Height )
+							CircleDefinition.SetLocalPosition( Vec2( 0.5 * DX * Sign, 0.0 ) )
+						Else
+							CircleDefinition.SetRadius( 0.5 * Width )
+							CircleDefinition.SetLocalPosition( Vec2( 0.0, 0.5 * DY * Sign ) )
+						End If
+						AttachToBody( CircleDefinition, Friction, Restitution )
+					Next
+					CircleDefinition.SetLocalPosition( Vec2( 0.0, 0.0 ) )
 				End If
 			Case Rectangle
-				Local Shape:b2PolygonShape = New b2PolygonShape
-				Shape.Create()
-				Shape.SetAsBox( 0.5 * Width, 0.5 * Height )
-				AttachShape( Shape )
+				PolygonDefinition.SetAsBox( 0.5 * Width, 0.5 * Height )
+				AttachToBody( CircleDefinition, Friction, Restitution )
+			Case Ray, Raster
+			Default
+				GetOtherVertices( Pivot1, Pivot2 )
+				GetRightAngleVertex( Pivot3  )
+				PolygonDefinition.SetVertices( [ PivotToVertex( Pivot1 ), PivotToVertex( Pivot2 ), PivotToVertex( Pivot3 ) ] )
+				AttachToBody( CircleDefinition, Friction, Restitution )
 		End Select
 	End Method
 	
 	
 	
-	Method AttachShape( Shape:b2Shape )
-		Local FixtureDefinition:b2FixtureDef = New b2FixtureDef
-		FixtureDefinition.SetShape( Shape )
-		Body.CreateFixture( FixtureDefinition )
+	Function PivotToVertex:b2Vec2( Pivot:LTSprite )
+		Return Vec2( Pivot.X, Pivot.Y )
+	End Function
+	
+	
+	
+	Method AttachToBody( ShapeDefinition:b2ShapeDef, Friction:Float, Restitution:Float )
+		ShapeDefinition.SetFriction( Friction )
+		ShapeDefinition.SetRestitution( Restitution )
+		Body.CreateShape( ShapeDefinition )
 	End Method
 	
 	
