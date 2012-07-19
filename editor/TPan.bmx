@@ -18,6 +18,14 @@ Type TPan Extends LTDrag
 	
 	
 	
+	Function Create( Camera:LTCamera )
+		Local Pan:TPan = New TPan
+		Pan.Camera = Camera
+		Return Pan
+	End Function
+	
+	
+	
 	Method DragKey:Int()
 		If MouseDown( 3 ) Or KeyDown( Key_LControl ) Or KeyDown( Key_RControl ) Then Return True
 	End Method

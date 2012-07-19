@@ -13,6 +13,7 @@ SuperStrict
 
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
+Import dwlab.physics2d
 Import brl.bmploader
 
 Import brl.eventqueue
@@ -36,6 +37,7 @@ Include "TCreateSprite.bmx"
 Include "TModifyShape.bmx"
 Include "TGrid.bmx"
 Include "TSetTile.bmx"
+Include "TSimulator.bmx"
 Include "ChooseParameter.bmx"
 Include "ImportTilemap.bmx"
 Include "EnterString.bmx"
@@ -50,6 +52,7 @@ Include "SpriteMapProperties.bmx"
 Include "CameraProperties.bmx"
 Include "TileMapProperties.bmx"
 Include "ParameterProperties.bmx"
+
 
 Incbin "english.lng"
 Incbin "russian.lng"
@@ -385,6 +388,7 @@ Type LTEditor Extends LTProject
 		CreateMenu( "{{M_AddLayer}}", MenuAddLayer, LayerMenu )
 		CreateMenu( "{{M_AddTilemap}}", MenuAddTilemap, LayerMenu )
 		CreateMenu( "{{M_AddSpriteMap}}", MenuAddSpriteMap, LayerMenu )
+		CreateMenu( "{{M_StartSimulation}}", MenuStartSimulation, SimulationMenu )
 		
 		Local ImportMenu:TGadget = CreateMenu( "{{M_Import}}", 0, LayerMenu )
 		CreateMenu( "{{M_ImportTilemap}}", MenuImportTilemap, ImportMenu )
@@ -1092,7 +1096,6 @@ Type LTEditor Extends LTProject
 							Image.Init()
 						Next
 						
-						
 					Case MenuEnglish
 						SetLanguage( EnglishNum )
 					Case MenuRussian
@@ -1190,6 +1193,13 @@ Type LTEditor Extends LTProject
 							RefreshProjectManager()
 							SetChanged()
 						End If
+					Case MenuStartSimulation()
+						If LTLayer( SelectedShape ).Bounds Then
+							SwitchTo( Simulator )
+						Else
+							Notify( LocalizeString( "{{N_SetBounds}}" ) )
+						End If
+
 
 					' ============================= Tilemap menu ==================================
 					
