@@ -25,8 +25,7 @@ Type TSimulator Extends LTProject
 	Method Init()
 		LoadAndInitLayer( Layer, LTLayer( Editor.SelectedShape ) )
 		LTBox2DPhysics.InitWorld( Layer )
-		 = 
-		Pan = TPan.Create( 
+		Pan = TPan.Create( L_CurrentCamera )
 	End Method
 	
 	

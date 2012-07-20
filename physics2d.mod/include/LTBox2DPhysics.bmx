@@ -10,27 +10,27 @@
 
 Type LTBox2DPhysics
 	Global Objects:TList = New TList
-	Global Box2DWorld:b2World = New b2World
+	Global Box2DWorld:b2World
 	
 	
 	
 	Method InitWorld( World:LTLayer )
 		Objects.Clear()
 		Local Bounds:LTShape = World.Bounds
-		Box2DWorld = b2World.CreateWorld( b2AABB.Create( Vec2( Bounds.LeftX(), Bounds.TopY() ), Vec2( Bounds.RightX(), Bounds.BottomY() ) ), ..
-				World.GetParameter( "gravity" ).ToFloat(), True )
+		Box2DWorld = b2World.CreateWorld( b2AABB.CreateAABB( Vec2( Bounds.LeftX(), Bounds.TopY() ), Vec2( Bounds.RightX(), Bounds.BottomY() ) ), ..
+				Vec2( 0, World.GetParameter( "gravity" ).ToFloat() ), True )
 		ProcessLayer( World )
 	End Method
 	
 	
 	
 	Method ProcessLayer( Layer:LTLayer )
-		For Local Shape:LTShape = Eachin World.Children
+		For Local Shape:LTShape = Eachin Layer.Children
 			Local ChildLayer:LTLayer = LTLayer( Shape )
 			If ChildLayer Then
 				InitWorld( ChildLayer )
 			Else
-				Local Sprite:LTBox2DSprite = LTBox2DSprite( Sprite )
+				Local Sprite:LTBox2DSprite = LTBox2DSprite( Shape )
 				If Sprite Then Objects.AddLast( Shape )
 				'Local TileMap:LTBox2DTileMap = LTBox2DTileMap( Sprite )
 				'If Sprite Or TileMap Then Objects.AddLast( Shape )

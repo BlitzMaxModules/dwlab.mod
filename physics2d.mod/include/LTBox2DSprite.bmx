@@ -40,6 +40,7 @@ Type LTBox2DSprite Extends LTVectorSprite
 		If ParameterExists( "angular_damping" ) Then BodyDefinition.SetAngularDamping( GetParameter( "angular_damping" ).ToFloat() )
 		
 		Local Friction:Float = GetParameter( "friction" ).ToFloat()
+		Local Density:Float = GetParameter( "density" ).ToFloat()
 		Local Restitution:Float = GetParameter( "restitution" ).ToFloat()
 		
 		Body = LTBox2DPhysics.World.CreateBody( BodyDefinition )
@@ -47,19 +48,20 @@ Type LTBox2DSprite Extends LTVectorSprite
 		Select ShapeType
 			Case Pivot
 				CircleDefinition.SetRadius( 0.0 )
-				AttachToBody( CircleDefinition, Friction, Restitution )
+				AttachToBody( CircleDefinition, Friction, Density, Restitution )
 			Case Oval
 				If Width = Height Then
 					CircleDefinition.SetRadius( 0.5 * Width )
-					AttachToBody( CircleDefinition, Friction, Restitution )
-				ElseIf
+					CircleDefinition.Set
+					AttachToBody( CircleDefinition, Friction, Density, Restitution )
+				Else
 					Local DX:Float = Width - Height
 					If DX > 0 Then
 						PolygonDefinition.SetAsBox( DX, Height )
 					Else
 						PolygonDefinition.SetAsBox( Width, DY )
 					End IF
-					AttachToBody( PolygonDefinition, Friction, Restitution )
+					AttachToBody( PolygonDefinition, Friction, Density, Restitution )
 					
 					For Local Sign:Int = -1 To 1 Step 2					
 						If DX > 0 Then
@@ -69,19 +71,19 @@ Type LTBox2DSprite Extends LTVectorSprite
 							CircleDefinition.SetRadius( 0.5 * Width )
 							CircleDefinition.SetLocalPosition( Vec2( 0.0, 0.5 * DY * Sign ) )
 						End If
-						AttachToBody( CircleDefinition, Friction, Restitution )
+						AttachToBody( CircleDefinition, Friction, Density, Restitution )
 					Next
 					CircleDefinition.SetLocalPosition( Vec2( 0.0, 0.0 ) )
 				End If
 			Case Rectangle
 				PolygonDefinition.SetAsBox( 0.5 * Width, 0.5 * Height )
-				AttachToBody( CircleDefinition, Friction, Restitution )
+				AttachToBody( CircleDefinition, Friction, Density, Restitution )
 			Case Ray, Raster
 			Default
 				GetOtherVertices( Pivot1, Pivot2 )
 				GetRightAngleVertex( Pivot3  )
 				PolygonDefinition.SetVertices( [ PivotToVertex( Pivot1 ), PivotToVertex( Pivot2 ), PivotToVertex( Pivot3 ) ] )
-				AttachToBody( CircleDefinition, Friction, Restitution )
+				AttachToBody( CircleDefinition, Friction, Density, Restitution )
 		End Select
 	End Method
 	
@@ -93,8 +95,9 @@ Type LTBox2DSprite Extends LTVectorSprite
 	
 	
 	
-	Method AttachToBody( ShapeDefinition:b2ShapeDef, Friction:Float, Restitution:Float )
+	Method AttachToBody( ShapeDefinition:b2ShapeDef, Friction:Float, Density:Float, Restitution:Float )
 		ShapeDefinition.SetFriction( Friction )
+		ShapeDefinition.SetDensity( Density )
 		ShapeDefinition.SetRestitution( Restitution )
 		Body.CreateShape( ShapeDefinition )
 	End Method

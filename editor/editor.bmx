@@ -329,8 +329,9 @@ Type LTEditor Extends LTProject
 		XScaleField = PanelForm.AddTextField( "{{L_XScale}}", LabelWidth )
 		YScaleField = PanelForm.AddTextField( "{{L_YScale}}", LabelWidth )
 		PanelForm.NewLine( LTAlign.Stretch )
-		RotatingCheckbox = PanelForm.AddButton( "{{CB_Rotation}}", 55, Button_Checkbox )
-		ScalingCheckbox = PanelForm.AddButton( "{{CB_Scaling}}", 55, Button_Checkbox )
+		RotatingCheckbox = PanelForm.AddButton( "{{CB_Rotation}}", 80, Button_Checkbox )
+		ScalingCheckbox = PanelForm.AddButton( "{{CB_Scaling}}", 80, Button_Checkbox )
+		ScalingCheckbox = PanelForm.AddButton( "{{CB_Physics}}", 80, Button_Checkbox )
 		PanelForm.Finalize( False, 6, 6 )
 		
 		SetSliderRange( AngleSlider, 0, 23 )

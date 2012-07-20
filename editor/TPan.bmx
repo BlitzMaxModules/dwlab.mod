@@ -18,7 +18,7 @@ Type TPan Extends LTDrag
 	
 	
 	
-	Function Create( Camera:LTCamera )
+	Function Create:TPan( Camera:LTCamera )
 		Local Pan:TPan = New TPan
 		Pan.Camera = Camera
 		Return Pan
