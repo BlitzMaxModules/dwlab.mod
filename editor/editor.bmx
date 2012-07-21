@@ -13,7 +13,7 @@ SuperStrict
 
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
-Import dwlab.physics2d
+'Import dwlab.physics2d
 Import brl.bmploader
 
 Import brl.eventqueue
@@ -233,6 +233,7 @@ Type LTEditor Extends LTProject
 	Const MenuAddSpriteMap:Int = 44
 	Const MenuRemoveBounds:Int = 29
 	Const MenuMixContent:Int = 55
+	Const MenuStartSimulation:Int = 64
 
 	Const MenuEditTilemap:Int = 23
 	Const MenuSelectTileMap:Int = 27
@@ -250,6 +251,8 @@ Type LTEditor Extends LTProject
 	Const MenuModifyParameter:Int = 57
 	Const MenuRemoveParameter:Int = 58
 
+	
+	
 	Const PanelHeight:Int = 368
 	Const BarWidth:Int = 256
 	Const LabelWidth:Int = 63
@@ -389,7 +392,7 @@ Type LTEditor Extends LTProject
 		CreateMenu( "{{M_AddLayer}}", MenuAddLayer, LayerMenu )
 		CreateMenu( "{{M_AddTilemap}}", MenuAddTilemap, LayerMenu )
 		CreateMenu( "{{M_AddSpriteMap}}", MenuAddSpriteMap, LayerMenu )
-		CreateMenu( "{{M_StartSimulation}}", MenuStartSimulation, SimulationMenu )
+		CreateMenu( "{{M_StartSimulation}}", MenuStartSimulation, LayerMenu )
 		
 		Local ImportMenu:TGadget = CreateMenu( "{{M_Import}}", 0, LayerMenu )
 		CreateMenu( "{{M_ImportTilemap}}", MenuImportTilemap, ImportMenu )
@@ -1194,7 +1197,7 @@ Type LTEditor Extends LTProject
 							RefreshProjectManager()
 							SetChanged()
 						End If
-					Case MenuStartSimulation()
+					Case MenuStartSimulation
 						If LTLayer( SelectedShape ).Bounds Then
 							SwitchTo( Simulator )
 						Else

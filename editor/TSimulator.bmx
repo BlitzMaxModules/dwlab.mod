@@ -23,14 +23,14 @@ Type TSimulator Extends LTProject
 	
 	
 	Method Init()
-		LoadAndInitLayer( Layer, LTLayer( Editor.SelectedShape ) )
-		LTBox2DPhysics.InitWorld( Layer )
-		Pan = TPan.Create( L_CurrentCamera )
+		'LoadAndInitLayer( Layer, LTLayer( Editor.SelectedShape ) )
+		'LTBox2DPhysics.InitWorld( Layer )
+		'Pan = TPan.Create( L_CurrentCamera )
 	End Method
 	
 	
 	
 	Method Logic()
-		LTBox2DPhysics.Logic()
+		'LTBox2DPhysics.Logic()
 	End Method
 End Type
