@@ -15,12 +15,16 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.4.15"
+ModuleInfo "Version: 1.4.17"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.17 (25.07.12)"
+ModuleInfo "History: &nbsp; &nbsp; Converted strings to UTF8."
+ModuleInfo "History: &nbsp; &nbsp; Added L_VerisonToInt function."
+ModuleInfo "History: &nbsp; &nbsp; Service conversion between symbol and its code functions for /#NNNN symbols are converted to UTF8 too."
 ModuleInfo "History: v1.4.16 (16.07.12)"
 ModuleInfo "History: &nbsp; &nbsp; Moved displaying angle from LTVisualizer to the LTSprite."
 ModuleInfo "History: v1.4.15 (15.07.12)"
@@ -269,7 +273,7 @@ Import brl.map
 Import brl.max2d
 Import brl.eventqueue
 
-Const L_Version:String = "1.4.15"
+Const L_Version:String = "1.4.17"
 
 SeedRnd( MilliSecs() )
 

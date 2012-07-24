@@ -22,6 +22,7 @@ Type LTBox2DSprite Extends LTVectorSprite
 		ListLink = LTBox2DPhysics.Objects.AddLast( Self )
 		
 		Local BodyDefinition:b2BodyDef = New b2BodyDef
+		Rem
 		Select GetParameter( "type" )
 			Case "kinematic"
 				BodyDefinition.SetType( b2_kinematicBody )
@@ -30,20 +31,21 @@ Type LTBox2DSprite Extends LTVectorSprite
 			Default
 				BodyDefinition.SetType( b2_dynamicBody )
 		End Select
+		EndRem
 		BodyDefinition.SetPosition( Vec2( X, Y ) )
-		BodyDefinition.SetLinearVelocity( Vec2( DX, DY ) )
 		BodyDefinition.SetAngle( DisplayingAngle )
 		
 		If ParameterExists( "mass" ) Then BodyDefinition.GetMassData().SetMass( GetParameter( "mass" ).ToFloat() )
 		If ParameterExists( "linear_damping" ) Then BodyDefinition.SetLinearDamping( GetParameter( "linear_damping" ).ToFloat() )
-		If ParameterExists( "angular_velocity" ) Then BodyDefinition.SetAngularVelocity( GetParameter( "angular_velocity" ).ToFloat() )
 		If ParameterExists( "angular_damping" ) Then BodyDefinition.SetAngularDamping( GetParameter( "angular_damping" ).ToFloat() )
 		
 		Local Friction:Float = GetParameter( "friction" ).ToFloat()
 		Local Density:Float = GetParameter( "density" ).ToFloat()
 		Local Restitution:Float = GetParameter( "restitution" ).ToFloat()
 		
-		Body = LTBox2DPhysics.World.CreateBody( BodyDefinition )
+		Body = LTBox2DPhysics.Box2DWorld.CreateBody( BodyDefinition )
+		Body.SetLinearVelocity( Vec2( DX, DY ) )
+		If ParameterExists( "angular_velocity" ) Then Body.SetAngularVelocity( GetParameter( "angular_velocity" ).ToFloat() )
 		
 		Select ShapeType
 			Case Pivot
@@ -52,7 +54,6 @@ Type LTBox2DSprite Extends LTVectorSprite
 			Case Oval
 				If Width = Height Then
 					CircleDefinition.SetRadius( 0.5 * Width )
-					CircleDefinition.Set
 					AttachToBody( CircleDefinition, Friction, Density, Restitution )
 				Else
 					Local DX:Float = Width - Height

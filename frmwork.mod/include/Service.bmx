@@ -453,16 +453,56 @@ End Function
 
 
 
-Function L_UTFToASCII:String( CharNum:Int )
-	Return Chr( 48 + ( CharNum Mod 64 ) ) + Chr( 48 + ( Floor( CharNum / 64 ) Mod 64 ) ) + Chr( 48 + ( Floor( CharNum / 4096 ) Mod 64 ) )
+Function L_UTF8ToASCII:String( CharNum:Int )
+	Local AdditionalBytes:Int = 0
+	Local Mask:Int = 0
+	Local Code:String = ""
+	If CharNum < $00000080 Then
+		Return Chr( CharNum )
+	ElseIf CharNum < $00000800 Then
+		AdditionalBytes = 1
+		Mask = %10000000
+	ElseIf CharNum < $00000800 Then
+		AdditionalBytes = 2
+		Mask = %11000000
+	ElseIf CharNum < $00010000 Then
+		AdditionalBytes = 3
+		Mask = %11100000
+	ElseIf CharNum < $00200000 Then
+		AdditionalBytes = 4
+		Mask = %11110000
+	ElseIf CharNum < $04000000 Then
+		AdditionalBytes = 5
+		Mask = %11111000
+	Else 
+		AdditionalBytes = 6
+		Mask = %11111100
+	End If
+	For Local N:Int = 1 To AdditionalBytes
+		Code = Chr( %10000000 | ( CharNum & %111111 ) ) + Code
+		CharNum = CharNum Shr 6
+	Next
+	Return Chr( Mask | CharNum ) + Code
 End Function
 
 
 
 
 
-Function L_ASCIIToUTF:String( Chars:String )
-	Return Chr( ( Chars[ 0 ] - 48 ) + ( Chars[ 1 ] - 48 ) * 64 + ( Chars[ 2 ] - 48 ) * 4096 )
+Function L_ASCIIToUTF8:String( Text:String, Pos:Int Var )
+	Local Code:Int = 0
+	Local Header:Int = Text[ Pos ]
+	Local BitMask:Int = %10000000
+	Local HeaderShift:Int = 0
+	Repeat
+		If Not( Header & BitMask ) Then Exit
+		Header = Header ~ BitMask
+		Pos :+ 1
+		Code = ( Code Shl 6 ) + Text[ Pos ] & %00111111
+		BitMask = BitMask Shr 1
+		HeaderShift :+ 6
+	Forever
+	Return Chr( ( Header Shl HeaderShift ) + Code )
 End Function
 
 
@@ -510,4 +550,18 @@ Function L_DrawTextWithContour( Text:String, SX:Int, SY:Int )
 	Next
 	LTVisualizer.ResetColor()
 	DrawText( Text, SX, SY )
+End Function
+
+
+
+
+
+Function L_VersionToInt:Int( Version:String, TotalChunks:Int = 4 )
+	Local Versions:String[] = Version.Split( "." )
+	Local IntVersion:Int = 0
+	For Local N:Int = 0 Until TotalChunks
+		IntVersion = IntVersion * 100
+		If N < Versions.Length Then IntVersion :+ Versions[ N ].ToInt()
+	Next
+	Return IntVersion
 End Function

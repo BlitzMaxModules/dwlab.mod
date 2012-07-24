@@ -589,7 +589,7 @@ e_constantAccelController%=2
 e_tensorDampingController%=3
 e_gravityController%=4
 e_constantForceController%=5
-b2World^Object{
+b2World^brl.blitz.Object{
 .b2ObjectPtr@*&
 .filter:b2ContactFilter&
 .contactListener:b2ContactListener&
@@ -633,7 +633,7 @@ b2World^Object{
 -InRange%(aabb:b2AABB)="_dwlab_box2d_b2World_InRange"
 +_setShape%(shapes:b2Shape&[],index%,shape@*)="_dwlab_box2d_b2World__setShape"
 }="dwlab_box2d_b2World"
-b2AABB^Object{
+b2AABB^brl.blitz.Object{
 .b2ObjectPtr@*&
 -New%()="_dwlab_box2d_b2AABB_New"
 -Delete%()="_dwlab_box2d_b2AABB_Delete"
@@ -643,7 +643,7 @@ b2AABB^Object{
 -SetUpperBound%(upperBound:b2Vec2)="_dwlab_box2d_b2AABB_SetUpperBound"
 -IsValid%()="_dwlab_box2d_b2AABB_IsValid"
 }="dwlab_box2d_b2AABB"
-b2Vec2^Object{
+b2Vec2^brl.blitz.Object{
 ZERO:b2Vec2&=mem:p("_dwlab_box2d_b2Vec2_ZERO")
 .b2ObjectPtr@*&
 -New%()="_dwlab_box2d_b2Vec2_New"
@@ -670,7 +670,7 @@ ZERO:b2Vec2&=mem:p("_dwlab_box2d_b2Vec2_ZERO")
 +_getVec@*(array:b2Vec2&[],index%)="_dwlab_box2d_b2Vec2__getVec"
 }="dwlab_box2d_b2Vec2"
 Vec2:b2Vec2(x#,y#)="dwlab_box2d_Vec2"
-b2DestructionListener^Object{
+b2DestructionListener^brl.blitz.Object{
 .b2ObjectPtr@*&
 -New%()="_dwlab_box2d_b2DestructionListener_New"
 -Delete%()="_dwlab_box2d_b2DestructionListener_Delete"
@@ -679,14 +679,14 @@ b2DestructionListener^Object{
 -SayGoodbyeShape%(shape:b2Shape)="_dwlab_box2d_b2DestructionListener_SayGoodbyeShape"
 +_SayGoodbyeShape%(listener:b2DestructionListener,shape@*)="_dwlab_box2d_b2DestructionListener__SayGoodbyeShape"
 }="dwlab_box2d_b2DestructionListener"
-b2BoundaryListener^Object{
+b2BoundaryListener^brl.blitz.Object{
 .b2ObjectPtr@*&
 -New%()="_dwlab_box2d_b2BoundaryListener_New"
 -Delete%()="_dwlab_box2d_b2BoundaryListener_Delete"
 -Violation%(body:b2Body)="_dwlab_box2d_b2BoundaryListener_Violation"
 +_Violation%(listener:b2BoundaryListener,body@*)="_dwlab_box2d_b2BoundaryListener__Violation"
 }="dwlab_box2d_b2BoundaryListener"
-b2ContactListener^Object{
+b2ContactListener^brl.blitz.Object{
 .b2ObjectPtr@*&
 -New%()="_dwlab_box2d_b2ContactListener_New"
 -Delete%()="_dwlab_box2d_b2ContactListener_Delete"
@@ -699,14 +699,14 @@ b2ContactListener^Object{
 -Result%(result:b2ContactResult)="_dwlab_box2d_b2ContactListener_Result"
 +_Result%(listener:b2ContactListener,result@*)="_dwlab_box2d_b2ContactListener__Result"
 }="dwlab_box2d_b2ContactListener"
-b2ContactFilter^Object{
+b2ContactFilter^brl.blitz.Object{
 .b2ObjectPtr@*&
 -New%()="_dwlab_box2d_b2ContactFilter_New"
 -Delete%()="_dwlab_box2d_b2ContactFilter_Delete"
 -ShouldCollide%(shape1:b2Shape,shape2:b2Shape)="_dwlab_box2d_b2ContactFilter_ShouldCollide"
 +_ShouldCollide%(filter:b2ContactFilter,shape1@*,shape2@*)="_dwlab_box2d_b2ContactFilter__ShouldCollide"
 }="dwlab_box2d_b2ContactFilter"
-b2Contact^Object{
+b2Contact^brl.blitz.Object{
 .b2ObjectPtr@*&
 -New%()="_dwlab_box2d_b2Contact_New"
 -Delete%()="_dwlab_box2d_b2Contact_Delete"
@@ -717,7 +717,7 @@ b2Contact^Object{
 -IsSolid%()="_dwlab_box2d_b2Contact_IsSolid"
 -GetManifoldCount%()="_dwlab_box2d_b2Contact_GetManifoldCount"
 }="dwlab_box2d_b2Contact"
-b2ContactPoint^Object{
+b2ContactPoint^brl.blitz.Object{
 .b2ObjectPtr@*&
 -New%()="_dwlab_box2d_b2ContactPoint_New"
 -Delete%()="_dwlab_box2d_b2ContactPoint_Delete"
@@ -731,7 +731,7 @@ b2ContactPoint^Object{
 -GetFriction#()="_dwlab_box2d_b2ContactPoint_GetFriction"
 -GetRestitution#()="_dwlab_box2d_b2ContactPoint_GetRestitution"
 }="dwlab_box2d_b2ContactPoint"
-b2ContactResult^Object{
+b2ContactResult^brl.blitz.Object{
 .b2ObjectPtr@*&
 -New%()="_dwlab_box2d_b2ContactResult_New"
 -Delete%()="_dwlab_box2d_b2ContactResult_Delete"
@@ -743,7 +743,7 @@ b2ContactResult^Object{
 -GetNormalImpulse#()="_dwlab_box2d_b2ContactResult_GetNormalImpulse"
 -GetTangentImpulse#()="_dwlab_box2d_b2ContactResult_GetTangentImpulse"
 }="dwlab_box2d_b2ContactResult"
-b2Joint^Object{
+b2Joint^brl.blitz.Object{
 .b2ObjectPtr@*&
 .userData:Object&
 -New%()="_dwlab_box2d_b2Joint_New"
@@ -754,7 +754,7 @@ b2Joint^Object{
 -GetNext:b2Joint()="_dwlab_box2d_b2Joint_GetNext"
 -GetUserData:Object()="_dwlab_box2d_b2Joint_GetUserData"
 }="dwlab_box2d_b2Joint"
-b2Body^Object{
+b2Body^brl.blitz.Object{
 .b2ObjectPtr@*&
 .userData:Object&
 -New%()="_dwlab_box2d_b2Body_New"
@@ -799,7 +799,7 @@ b2Body^Object{
 -GetWorld:b2World()="_dwlab_box2d_b2Body_GetWorld"
 -SetMass%(massData:b2MassData)="_dwlab_box2d_b2Body_SetMass"
 }="dwlab_box2d_b2Body"
-b2Shape^Object{
+b2Shape^brl.blitz.Object{
 .b2ObjectPtr@*&
 .userData:Object&
 -New%()="_dwlab_box2d_b2Shape_New"
@@ -822,7 +822,7 @@ b2Shape^Object{
 -ComputeSweptAABB%(aabb:b2AABB,xf1:b2XForm,xf2:b2XForm)="_dwlab_box2d_b2Shape_ComputeSweptAABB"
 -ComputeMass%(data:b2MassData)="_dwlab_box2d_b2Shape_ComputeMass"
 }="dwlab_box2d_b2Shape"
-b2DebugDraw^Object{
+b2DebugDraw^brl.blitz.Object{
 e_shapeBit%=1
 e_jointBit%=2
 e_coreShapeBit%=4
@@ -849,7 +849,7 @@ e_controllerBit%=128
 +_DrawSegment%(obj:b2DebugDraw,p1@*,p2@*,r%,g%,b%)="_dwlab_box2d_b2DebugDraw__DrawSegment"
 -DrawXForm%(xf:b2XForm)A="brl_blitz_NullMethodError"
 }A="dwlab_box2d_b2DebugDraw"
-b2Color^Object{
+b2Color^brl.blitz.Object{
 .red%&
 .green%&
 .blue%&
@@ -857,7 +857,7 @@ b2Color^Object{
 -Delete%()="_dwlab_box2d_b2Color_Delete"
 +Set:b2Color(r%,g%,b%)="_dwlab_box2d_b2Color_Set"
 }="dwlab_box2d_b2Color"
-b2BodyDef^Object{
+b2BodyDef^brl.blitz.Object{
 .b2ObjectPtr@*&
 .userData:Object&
 -New%()="_dwlab_box2d_b2BodyDef_New"
@@ -884,7 +884,7 @@ b2BodyDef^Object{
 -SetIsBullet%(bullet%)="_dwlab_box2d_b2BodyDef_SetIsBullet"
 -GetIsBullet%()="_dwlab_box2d_b2BodyDef_GetIsBullet"
 }="dwlab_box2d_b2BodyDef"
-b2JointDef^Object{
+b2JointDef^brl.blitz.Object{
 .b2ObjectPtr@*&
 .userData:Object&
 -New%()="_dwlab_box2d_b2JointDef_New"
@@ -896,7 +896,7 @@ b2JointDef^Object{
 -SetCollideConnected%(collideConnected%)="_dwlab_box2d_b2JointDef_SetCollideConnected"
 -GetCollideConnected%()="_dwlab_box2d_b2JointDef_GetCollideConnected"
 }="dwlab_box2d_b2JointDef"
-b2JointEdge^Object{
+b2JointEdge^brl.blitz.Object{
 .b2ObjectPtr@*&
 -New%()="_dwlab_box2d_b2JointEdge_New"
 -Delete%()="_dwlab_box2d_b2JointEdge_Delete"
@@ -906,7 +906,7 @@ b2JointEdge^Object{
 -GetPrev:b2JointEdge()="_dwlab_box2d_b2JointEdge_GetPrev"
 -GetNext:b2JointEdge()="_dwlab_box2d_b2JointEdge_GetNext"
 }="dwlab_box2d_b2JointEdge"
-b2MassData^Object{
+b2MassData^brl.blitz.Object{
 .b2ObjectPtr@*&
 .owner%&
 -New%()="_dwlab_box2d_b2MassData_New"
@@ -916,7 +916,7 @@ b2MassData^Object{
 -SetCenter%(center:b2Vec2)="_dwlab_box2d_b2MassData_SetCenter"
 -SetRotationalInertia%(i#)="_dwlab_box2d_b2MassData_SetRotationalInertia"
 }="dwlab_box2d_b2MassData"
-b2ShapeDef^Object{
+b2ShapeDef^brl.blitz.Object{
 .b2ObjectPtr@*&
 .userData:Object&
 -New%()="_dwlab_box2d_b2ShapeDef_New"
@@ -933,7 +933,7 @@ b2ShapeDef^Object{
 -IsSensor%()="_dwlab_box2d_b2ShapeDef_IsSensor"
 -SetUserData%(data:Object)="_dwlab_box2d_b2ShapeDef_SetUserData"
 }="dwlab_box2d_b2ShapeDef"
-b2FilterData^Object{
+b2FilterData^brl.blitz.Object{
 .owner%&
 .b2ObjectPtr@*&
 -New%()="_dwlab_box2d_b2FilterData_New"
@@ -1250,7 +1250,7 @@ b2GearJoint^b2Joint{
 -GetReactionTorque#(inv_dt#)="_dwlab_box2d_b2GearJoint_GetReactionTorque"
 -GetRatio#()="_dwlab_box2d_b2GearJoint_GetRatio"
 }="dwlab_box2d_b2GearJoint"
-b2XForm^Object{
+b2XForm^brl.blitz.Object{
 .b2ObjectPtr@*&
 .owner%&
 -New%()="_dwlab_box2d_b2XForm_New"
@@ -1262,7 +1262,7 @@ b2XForm^Object{
 -GetR:b2Mat22()="_dwlab_box2d_b2XForm_GetR"
 -SetR%(r:b2Mat22)="_dwlab_box2d_b2XForm_SetR"
 }="dwlab_box2d_b2XForm"
-b2Mat22^Object{
+b2Mat22^brl.blitz.Object{
 .b2ObjectPtr@*&
 .owner%&
 -New%()="_dwlab_box2d_b2Mat22_New"
@@ -1277,7 +1277,7 @@ b2Mat22^Object{
 -SetZero%()="_dwlab_box2d_b2Mat22_SetZero"
 -GetInverse:b2Mat22()="_dwlab_box2d_b2Mat22_GetInverse"
 }="dwlab_box2d_b2Mat22"
-b2OBB^Object{
+b2OBB^brl.blitz.Object{
 .b2ObjectPtr@*&
 -New%()="_dwlab_box2d_b2OBB_New"
 -Delete%()="_dwlab_box2d_b2OBB_Delete"
@@ -1286,7 +1286,7 @@ b2OBB^Object{
 -GetCenter:b2Vec2()="_dwlab_box2d_b2OBB_GetCenter"
 -GetExtents:b2Vec2()="_dwlab_box2d_b2OBB_GetExtents"
 }="dwlab_box2d_b2OBB"
-b2Segment^Object{
+b2Segment^brl.blitz.Object{
 .b2ObjectPtr@*&
 -New%()="_dwlab_box2d_b2Segment_New"
 -Delete%()="_dwlab_box2d_b2Segment_Delete"
@@ -1298,7 +1298,7 @@ b2Segment^Object{
 -SetStartPoint%(point:b2Vec2)="_dwlab_box2d_b2Segment_SetStartPoint"
 -SetEndPoint%(point:b2Vec2)="_dwlab_box2d_b2Segment_SetEndPoint"
 }="dwlab_box2d_b2Segment"
-b2ControllerEdge^Object{
+b2ControllerEdge^brl.blitz.Object{
 .b2ObjectPtr@*&
 -New%()="_dwlab_box2d_b2ControllerEdge_New"
 -Delete%()="_dwlab_box2d_b2ControllerEdge_Delete"
@@ -1310,7 +1310,7 @@ b2ControllerEdge^Object{
 -GetPrevController:b2ControllerEdge()="_dwlab_box2d_b2ControllerEdge_GetPrevController"
 -GetNextController:b2ControllerEdge()="_dwlab_box2d_b2ControllerEdge_GetNextController"
 }="dwlab_box2d_b2ControllerEdge"
-b2ControllerDef^Object{
+b2ControllerDef^brl.blitz.Object{
 .b2ObjectPtr@*&
 .userData:Object&
 ._type%&
@@ -1368,7 +1368,7 @@ b2ConstantAccelControllerDef^b2ControllerDef{
 -GetForce:b2Vec2()="_dwlab_box2d_b2ConstantAccelControllerDef_GetForce"
 -SetForce%(force:b2Vec2)="_dwlab_box2d_b2ConstantAccelControllerDef_SetForce"
 }="dwlab_box2d_b2ConstantAccelControllerDef"
-b2Controller^Object{
+b2Controller^brl.blitz.Object{
 .b2ObjectPtr@*&
 .userData:Object&
 -New%()="_dwlab_box2d_b2Controller_New"

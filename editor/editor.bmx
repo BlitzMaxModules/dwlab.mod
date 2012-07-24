@@ -66,7 +66,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.7.15"
+	Const Version:String = "1.7.16"
 	Const INIVersion:Int = 5
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 8
@@ -2177,11 +2177,11 @@ Type LTEditor Extends LTProject
 	
 	
 	Method UpdateXML( XMLObject:LTXMLObject )
-		Local Versions:String[] = ( XMLObject.GetAttribute( "dwlab_version" ) + ".0" ).Split( "." )
-		Local Version:Int = Versions[ 1 ].ToInt() * 100 + Versions[ 2 ].ToInt()
-		If Version < 200 Then UpdateTo1_2( XMLObject )
-		If Version < 206 Then UpdateTo1_2_6( XMLObject )
-		If Version < 414 Then UpdateTo1_4_14( XMLObject )
+		Local Version:Int = L_VersionToInt( XMLObject.GetAttribute( "dwlab_version" ) )
+		If Version < 01020000 Then UpdateTo1_2( XMLObject )
+		If Version < 01020600 Then UpdateTo1_2_6( XMLObject )
+		If Version < 01041400 Then UpdateTo1_4_14( XMLObject )
+		If Version < 01041700 Then UpdateTo1_4_17( XMLObject )
 	End Method
 	
 	
@@ -2210,7 +2210,7 @@ Type LTEditor Extends LTProject
 				Parameter.Name = "ltparameter"
 				Parameter.SetAttribute( "name", "name" )
 				Parameter.SetAttribute( "value", Name[ CommaPos + 1.. ] )
-				Parameters.Children.AddLast( Parameter) 
+				Parameters.Children.AddLast( Parameter ) 
 			End If 
 			
 			XMLObject.SetField( "parameters", Parameters )
@@ -2254,6 +2254,28 @@ Type LTEditor Extends LTProject
 		Next
 		For Local XMLObjectField:LTXMLObjectField = Eachin XMLObject.Fields
 			UpdateTo1_4_14( XMLObjectField.Value )
+		Next
+	End Method
+	
+	
+	
+	Method UpdateTo1_4_17( XMLObject:LTXMLObject )
+		For Local Attribute:LTXMLAttribute = Eachin XMLObject.Attributes
+			Local Txt:String = Attribute.Value
+			For Local N:Int = 0 Until Txt.Length
+				if N >= Txt.Length - 1 Then Exit
+				If Txt[ N ] = Asc( "\" ) And Txt[ N + 1 ] = Asc( "#" ) Then
+					Txt = Txt[ ..N ] + Chr( ( Txt[ N + 2 ] - 48 ) + ( Txt[ N + 3 ] - 48 ) * 64 + ( Txt[ N + 4 ] - 48 ) * 4096 ) ..
+							 + Txt[ N + 5.. ]
+				End If
+			Next
+			Attribute.Value = Txt
+		Next
+		For Local ChildXMLObject:LTXMLObject = Eachin XMLObject.Children
+			UpdateTo1_4_17( ChildXMLObject )
+		Next
+		For Local XMLObjectField:LTXMLObjectField = Eachin XMLObject.Fields
+			UpdateTo1_4_17( XMLObjectField.Value )
 		Next
 	End Method
 	

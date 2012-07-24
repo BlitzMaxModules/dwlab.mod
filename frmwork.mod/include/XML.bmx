@@ -578,8 +578,8 @@ Type LTXMLObject Extends LTObject
 					Case Asc( "~q" ), Asc( "\" )
 						NewValue :+ "\" + Chr( CharNum )
 					Default
-						If CharNum >= 256 Then 
-							NewValue :+ "\#" + L_UTFToASCII( CharNum )
+						If CharNum >= 128 Then 
+							NewValue :+ L_UTF8ToASCII( CharNum )
 						Else
 							NewValue :+ Chr( CharNum )
 						End If
@@ -632,12 +632,15 @@ Type LTXMLObject Extends LTObject
 					
 					ReadingValue = False
 					ChunkBegin = -1
+				ElseIf Txt[ N ] >= 128 Then
+					'debugstop
+					Local Pos:Int = N
+					Local Chunk:String = L_ASCIIToUTF8( Txt, Pos )
+					Txt = Txt[ ..N ] + Chunk + Txt[ Pos + 1.. ]
 				ElseIf Txt[ N ] = Asc( "\" ) Then
 					Select Txt[ N + 1 ]
 						Case Asc( "~q" ), Asc( "\" )
 							Txt = Txt[ ..N ] + Txt[ N + 1.. ]
-						Case Asc( "#" )
-							Txt = Txt[ ..N ] + L_ASCIIToUTF( Txt[ N + 2..N + 5 ] ) + Txt[ N + 5.. ]
 					End Select
 				End If
 			Else

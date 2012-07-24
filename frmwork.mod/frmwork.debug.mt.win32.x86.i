@@ -1,10 +1,15 @@
-ModuleInfo "Version: 1.4.15"
+ModuleInfo "Version: 1.4.17"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.17 (25.07.12)"
+ModuleInfo "History: &nbsp; &nbsp; Converted strings to UTF8."
+ModuleInfo "History: &nbsp; &nbsp; Added L_VerisonToInt function."
+ModuleInfo "History: v1.4.16 (16.07.12)"
+ModuleInfo "History: &nbsp; &nbsp; Moved displaying angle from LTVisualizer to the LTSprite."
 ModuleInfo "History: v1.4.15 (15.07.12)"
-ModuleInfo "History: &nbsp; &nbsp; Implemented full sprite grouping support."
+ModuleInfo "History: &nbsp; &nbsp; Implemented full sprite grouping support with group inclusion and rotation."
 ModuleInfo "History: &nbsp; &nbsp; Added SpriteShape parameter to the LTVisualizer's DrawSprite method."
 ModuleInfo "History: &nbsp; &nbsp; Fixed documentation examples according to system changes."
 ModuleInfo "History: &nbsp; &nbsp; LTGroup renamed to LTSpriteGroup."
@@ -247,11 +252,11 @@ import brl.reflection
 import brl.retro
 import brl.max2d
 import brl.eventqueue
-L_Version$=$"1.4.15"
+L_Version$=$"1.4.17"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTObject_XMLIO"
-+LoadFromFile:LTObject(FileName$,UseIncbin%=-1)="_dwlab_frmwork_LTObject_LoadFromFile"
++LoadFromFile:LTObject(FileName$,UseIncbin%=-1,XMLObject:LTXMLObject="bbNullObject")="_dwlab_frmwork_LTObject_LoadFromFile"
 +FillIDArray%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTObject_FillIDArray"
 -SaveToFile%(FileName$)="_dwlab_frmwork_LTObject_SaveToFile"
 }="dwlab_frmwork_LTObject"
@@ -510,6 +515,7 @@ BottomRightTriangle%=7
 Raster%=8
 .ShapeType%&
 .Angle!&
+.DisplayingAngle!&
 .Velocity!&
 .Frame%&
 .SpriteMap:LTSpriteMap&
@@ -1028,7 +1034,6 @@ LTVisualizer^LTColor{
 .XScale!&
 .YScale!&
 .Scaling%&
-.Angle!&
 .Rotating%&
 .Image:LTImage&
 -New%()="_dwlab_frmwork_LTVisualizer_New"
@@ -1428,8 +1433,11 @@ L_ToPowerOf2%(Value%)="dwlab_frmwork_L_ToPowerOf2"
 L_GetEscribedRectangle%(LeftMargin!,RightMargin!,TopMargin!,BottomMargin!,MinX! Var,MinY! Var,MaxX! Var,MaxY! Var)="dwlab_frmwork_L_GetEscribedRectangle"
 L_UTFToASCII$(CharNum%)="dwlab_frmwork_L_UTFToASCII"
 L_ASCIIToUTF$(Chars$)="dwlab_frmwork_L_ASCIIToUTF"
+L_UTF8ToASCII$(CharNum%)="dwlab_frmwork_L_UTF8ToASCII"
+L_ASCIIToUTF8$(Text$,Pos% Var)="dwlab_frmwork_L_ASCIIToUTF8"
 L_PrintText%(Text$,X!,Y!,HorizontalAlign%=1,VerticalAlign%=1,Contour%=0)="dwlab_frmwork_L_PrintText"
 L_DrawTextWithContour%(Text$,SX%,SY%)="dwlab_frmwork_L_DrawTextWithContour"
+L_VersionToInt%(Version$,TotalChunks%=4)="dwlab_frmwork_L_VersionToInt"
 LTRasterFrameVisualizer^LTVisualizer{
 .Images:brl.max2d.TImage&[,]&
 .ImageFile$&
@@ -1447,6 +1455,9 @@ LTEmptyPrimitive^LTContourVisualizer{
 LTAngularSprite^LTSprite{
 -New%()="_dwlab_frmwork_LTAngularSprite_New"
 }="dwlab_frmwork_LTAngularSprite"
+LTGroup^LTSpriteGroup{
+-New%()="_dwlab_frmwork_LTGroup_New"
+}="dwlab_frmwork_LTGroup"
 TSoundPlayer^brl.blitz.Object{
 -New%()="_dwlab_frmwork_TSoundPlayer_New"
 -PlayErrorSound%()="_dwlab_frmwork_TSoundPlayer_PlayErrorSound"

@@ -1,8 +1,11 @@
-ModuleInfo "Version: 1.4.15"
+ModuleInfo "Version: 1.4.17"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.17 (25.07.12)"
+ModuleInfo "History: &nbsp; &nbsp; Converted strings to UTF8."
+ModuleInfo "History: &nbsp; &nbsp; Added L_VerisonToInt function."
 ModuleInfo "History: v1.4.16 (16.07.12)"
 ModuleInfo "History: &nbsp; &nbsp; Moved displaying angle from LTVisualizer to the LTSprite."
 ModuleInfo "History: v1.4.15 (15.07.12)"
@@ -249,7 +252,7 @@ import brl.reflection
 import brl.retro
 import brl.max2d
 import brl.eventqueue
-L_Version$=$"1.4.15"
+L_Version$=$"1.4.17"
 LTObject^brl.blitz.Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
@@ -1507,10 +1510,11 @@ L_DoubleInLimits!(Value!,FromValue!,ToValue!)="dwlab_frmwork_L_DoubleInLimits"
 L_GetTypeID:brl.reflection.TTypeId(TypeName$)="dwlab_frmwork_L_GetTypeID"
 L_ToPowerOf2%(Value%)="dwlab_frmwork_L_ToPowerOf2"
 L_GetEscribedRectangle%(LeftMargin!,RightMargin!,TopMargin!,BottomMargin!,MinX! Var,MinY! Var,MaxX! Var,MaxY! Var)="dwlab_frmwork_L_GetEscribedRectangle"
-L_UTFToASCII$(CharNum%)="dwlab_frmwork_L_UTFToASCII"
-L_ASCIIToUTF$(Chars$)="dwlab_frmwork_L_ASCIIToUTF"
+L_UTF8ToASCII$(CharNum%)="dwlab_frmwork_L_UTF8ToASCII"
+L_ASCIIToUTF8$(Text$,Pos% Var)="dwlab_frmwork_L_ASCIIToUTF8"
 L_PrintText%(Text$,X!,Y!,HorizontalAlign%=1,VerticalAlign%=1,Contour%=0)="dwlab_frmwork_L_PrintText"
 L_DrawTextWithContour%(Text$,SX%,SY%)="dwlab_frmwork_L_DrawTextWithContour"
+L_VersionToInt%(Version$,TotalChunks%=4)="dwlab_frmwork_L_VersionToInt"
 LTRasterFrameVisualizer^LTVisualizer{
 .Images:brl.max2d.TImage&[,]&
 .ImageFile$&
