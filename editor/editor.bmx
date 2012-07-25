@@ -2185,6 +2185,12 @@ Type LTEditor Extends LTProject
 	
 	
 	Method UpdateTo1_2( XMLObject:LTXMLObject )
+		For Local ChildXMLObject:LTXMLObject = Eachin XMLObject.Children
+			UpdateTo1_2( ChildXMLObject )
+		Next
+		For Local XMLObjectField:LTXMLObjectField = Eachin XMLObject.Fields
+			UpdateTo1_2( XMLObjectField.Value )
+		Next
 		Local Name:String = XMLObject.GetAttribute( "name" )
 		If Name And XMLObject.Name <> "lttileset" And XMLObject.Name <> "lttilecategory" Then
 			Local CommaPos:Int = Name.Find( "," )
@@ -2213,12 +2219,6 @@ Type LTEditor Extends LTProject
 			
 			XMLObject.SetField( "parameters", Parameters )
 		End If
-		For Local ChildXMLObject:LTXMLObject = Eachin XMLObject.Children
-			UpdateTo1_2( ChildXMLObject )
-		Next
-		For Local XMLObjectField:LTXMLObjectField = Eachin XMLObject.Fields
-			UpdateTo1_2( XMLObjectField.Value )
-		Next
 	End Method
 	
 	

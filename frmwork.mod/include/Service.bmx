@@ -459,22 +459,22 @@ Function L_UTF8ToASCII:String( CharNum:Int )
 		Return Chr( CharNum )
 	ElseIf CharNum < $00000800 Then
 		AdditionalBytes = 1
-		Mask = %10000000
+		Mask = %11000000
 	ElseIf CharNum < $00000800 Then
 		AdditionalBytes = 2
-		Mask = %11000000
+		Mask = %11100000
 	ElseIf CharNum < $00010000 Then
 		AdditionalBytes = 3
-		Mask = %11100000
+		Mask = %11110000
 	ElseIf CharNum < $00200000 Then
 		AdditionalBytes = 4
-		Mask = %11110000
+		Mask = %11111000
 	ElseIf CharNum < $04000000 Then
 		AdditionalBytes = 5
-		Mask = %11111000
+		Mask = %11111100
 	Else 
 		AdditionalBytes = 6
-		Mask = %11111100
+		Mask = %11111110
 	End If
 	For Local N:Int = 1 To AdditionalBytes
 		Code = Chr( %10000000 | ( CharNum & %111111 ) ) + Code
@@ -488,15 +488,18 @@ End Function
 
 
 Function L_ASCIIToUTF8:String( Text:String, Pos:Int Var )
-	Local Code:Int = 0
 	Local Header:Int = Text[ Pos ]
-	Local BitMask:Int = %10000000
+	If Header < 128 Then Return Chr( Header )
+	
+	Local Code:Int = 0
 	Local HeaderShift:Int = 0
+	Header = Header & %01111111
+	Local BitMask:Int = %01000000
 	Repeat
 		If Not( Header & BitMask ) Then Exit
 		Header = Header ~ BitMask
 		Pos :+ 1
-		Code = ( Code Shl 6 ) + Text[ Pos ] & %00111111
+		Code = ( Code Shl 6 ) + Text[ Pos ] & %111111
 		BitMask = BitMask Shr 1
 		HeaderShift :+ 6
 	Forever
