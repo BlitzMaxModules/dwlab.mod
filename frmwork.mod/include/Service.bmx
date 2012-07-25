@@ -422,12 +422,10 @@ bbdoc: Returns nearest power of 2.
 returns: Lowest power of 2 which is more than or equal to Value.
 about: See also: #L_IsPowerOf2
 End Rem
+Global L_Log2:Double = Log( 2 )
+
 Function L_ToPowerOf2:Int( Value:Int )
-	Local Result:Int = 1
-	Repeat
-		If Result >= Value Then Return Result
-		Result :* 2
-	Forever
+	Return 2 ^ Ceil( Log( Value ) / L_Log2 )
 End Function
 
 
@@ -564,4 +562,39 @@ Function L_VersionToInt:Int( Version:String, TotalChunks:Int = 4 )
 		If N < Versions.Length Then IntVersion :+ Versions[ N ].ToInt()
 	Next
 	Return IntVersion
+End Function
+
+
+
+
+
+Global L_Log80:Double = Log( 80 )
+
+Function L_GetChunkLength:Int( Quantity:Int )
+	Return Ceil( Log( Quantity ) / L_Log80 )
+End Function
+
+
+
+
+
+Function L_Encode:String( Value:Int, ChunkLength:Int )
+	Local Chunk:String = ""
+	For Local N:Int = 1 To ChunkLength
+		Chunk = Chr( 48 + ( Value Mod 80 ) ) + Chunk
+		Value = Floor( Value / 80 )
+	Next
+	Return Chunk
+End Function
+
+
+
+
+
+Function L_Decode:Int( Chunk:String )
+	Local Value:Int = 0
+	For Local N:Int = 0 Until Chunk.Length
+		Value = Value * 80 + Chunk[ N ] - 48
+	Next
+	Return Value
 End Function

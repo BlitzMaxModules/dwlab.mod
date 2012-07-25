@@ -100,7 +100,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 		If Sprite Then
 			DrawCollisionSprite( TileMap, X, Y, Sprite )
 		Else
-			For Sprite = Eachin LTSpriteGroup( Shape )
+			For Sprite = Eachin LTLayer( Shape )
 				DrawCollisionSprite( TileMap, X, Y, Sprite )
 			Next
 		End If

@@ -571,6 +571,8 @@ Type LTEditor Extends LTProject
 		World.Camera = LTCamera.Create( GadgetWidth( TilesetCanvas ), GadgetHeight( TilesetCanvas ), 16.0 )
 		CurrentShape = Null
 		CurrentTileMap = Null
+		L_EditorData.Images.Clear()
+		L_EditorData.Tilesets.Clear()
 		SelectedShapes.Clear()
 		RealPathsForImages.Clear()
 		BigImages.Clear()
@@ -976,11 +978,7 @@ Type LTEditor Extends LTProject
 								Group.Height = BottomY - TopY
 								
 								For Local Sprite:LTSprite = Eachin SelectedShapes
-									Sprite.X = ( Sprite.X - Group.X ) / Group.Width
-									Sprite.Y = ( Sprite.Y - Group.Y ) / Group.Height
-									Sprite.Width :/ Group.Width
-									Sprite.Height :/ Group.Height
-									Group.Children.AddLast( Sprite )
+									Group.InsertSprite( Sprite )
 									RemoveObject( Sprite, World )
 								Next
 								InsertIntoContainer( Group, Container )
@@ -2181,7 +2179,7 @@ Type LTEditor Extends LTProject
 		If Version < 01020000 Then UpdateTo1_2( XMLObject )
 		If Version < 01020600 Then UpdateTo1_2_6( XMLObject )
 		If Version < 01041400 Then UpdateTo1_4_14( XMLObject )
-		If Version < 01041700 Then UpdateTo1_4_17( XMLObject )
+		If Version < 01041800 Then UpdateTo1_4_18( XMLObject )
 	End Method
 	
 	
@@ -2259,7 +2257,7 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method UpdateTo1_4_17( XMLObject:LTXMLObject )
+	Method UpdateTo1_4_18( XMLObject:LTXMLObject )
 		For Local Attribute:LTXMLAttribute = Eachin XMLObject.Attributes
 			Local Txt:String = Attribute.Value
 			For Local N:Int = 0 Until Txt.Length
@@ -2271,12 +2269,39 @@ Type LTEditor Extends LTProject
 			Next
 			Attribute.Value = Txt
 		Next
+		
+		Select XMLObject.Name
+			Case "lttilemap"
+				Local ChunkLength:Int = L_GetChunkLength( XMLObject.GetAttribute( "tiles-quantity" ).ToInt() )
+				For Local Row:LTXMLObject = Eachin XMLObject.Children
+					If Row.Name = "row" Then UpdateData( Row, "data", ChunkLength )
+				Next
+			Case "shapearray"
+				For Local ChildXMLObject:LTXMLObject = Eachin XMLObject.Children
+					If ChildXMLObject.Name = "ltspritegroup" Then ChildXMLObject.Name = "ltlayer"
+				Next
+			Case "lttileset"
+				UpdateData( XMLObject, "block-width", 1 )
+				UpdateData( XMLObject, "block-height", 1 )
+		End Select
+		
 		For Local ChildXMLObject:LTXMLObject = Eachin XMLObject.Children
-			UpdateTo1_4_17( ChildXMLObject )
+			UpdateTo1_4_18( ChildXMLObject )
 		Next
 		For Local XMLObjectField:LTXMLObjectField = Eachin XMLObject.Fields
-			UpdateTo1_4_17( XMLObjectField.Value )
+			UpdateTo1_4_18( XMLObjectField.Value )
 		Next
+	End Method
+	
+	
+	
+	Method UpdateData( XMLObject:LTXMLObject, AttrName:String, ChunkLength:Int )
+		Local Tiles:String[] = XMLObject.GetAttribute( AttrName ).Split( "," )
+		Local Data:String = ""
+		For Local Num:String = Eachin Tiles
+			Data :+ L_Encode( Num.ToInt(), ChunkLength )
+		Next
+		XMLObject.SetAttribute( AttrName, Data )
 	End Method
 	
 	

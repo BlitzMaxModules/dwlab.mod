@@ -239,21 +239,36 @@ Type LTXMLObject Extends LTObject
 	bbdoc: Transfers data between XMLObject attribute and framework object field with Int[] type.
 	about: See also: #ManageIntAttribute
 	End Rem
-	Method ManageIntArrayAttribute( AttrName:String, IntArray:Int[] Var )
+	Method ManageIntArrayAttribute( AttrName:String, IntArray:Int[] Var, ChunkLength:Int = 0 )
 		If L_XMLMode = L_XMLGet Then
-			Local Attr:String = GetAttribute( AttrName )
-			If Not Attr Then Return
-			Local Values:String[] = Attr.Split( "," )
-			Local Quantity:Int = Values.Dimensions()[ 0 ]
-			IntArray = New Int[ Quantity ]
-			For Local N:Int = 0 Until Quantity
-				IntArray[ N ] = Values[ N ].ToInt()
-			Next
+			Local Data:String = GetAttribute( AttrName )
+			If Not Data Then Return
+			If ChunkLength Then
+				IntArray = New Int[ Data.Length / ChunkLength ]
+				Local Pos:Int = 0
+				Local N:Int = 0
+				While Pos < Data.Length
+					IntArray[ N ] = L_Decode( Data[ Pos..Pos + ChunkLength ] )
+					Pos :+ ChunkLength
+					N :+ 1
+				Wend
+			Else
+				Local Values:String[] = Data.Split( "," )
+				Local Quantity:Int = Values.Dimensions()[ 0 ]
+				IntArray = New Int[ Quantity ]
+				For Local N:Int = 0 Until Quantity
+					IntArray[ N ] = Values[ N ].ToInt()
+				Next
+			End If
 		Elseif IntArray Then
 			Local Values:String = ""
 			For Local N:Int = 0 Until IntArray.Dimensions()[ 0 ]
-				If Values Then Values :+ ","
-				Values :+ IntArray[ N ]
+				if ChunkLength Then
+					Values :+ L_Encode( IntArray[ N ], ChunkLength )
+				Else
+					If Values Then Values :+ ","
+					Values :+ IntArray[ N ]
+				End If
 			Next
 			SetAttribute( AttrName, Values )
 		End If
@@ -511,12 +526,19 @@ Type LTXMLObject Extends LTObject
 	
 
 	
+	Global L_EscapingBackslash:Int = 0
+	
 	Function ReadFromFile:LTXMLObject( Filename:String )
 		Local File:TStream = ReadFile( Filename )
 		Local Content:String = ""
 		
+		L_EscapingBackslash:Int = -1
 		While Not Eof( File )
 			Content :+ ReadLine( File )
+			If L_EscapingBackslash = -1 Then
+				Local Quote:Int = Content.Find( "~q", Content.Find( "dwlab_version" ) )
+				L_EscapingBackslash = ( L_VersionToInt( Content[ Quote + 1..Content.Find( "~q", Quote + 1 ) ] ) < 01041800 )
+			End If
 		Wend
 		
 		CloseFile File
@@ -575,8 +597,8 @@ Type LTXMLObject Extends LTObject
 			For Local Num:Int = 0 Until Len( Attr.Value )
 				Local CharNum:Int = Attr.Value[ Num ]
 				Select CharNum
-					Case Asc( "~q" ), Asc( "\" )
-						NewValue :+ "\" + Chr( CharNum )
+					Case Asc( "~q" ), Asc( "%" )
+						NewValue :+ "%" + Chr( CharNum )
 					Default
 						If CharNum >= 128 Then 
 							NewValue :+ L_UTF8ToASCII( CharNum )
@@ -637,9 +659,16 @@ Type LTXMLObject Extends LTObject
 					Local Pos:Int = N
 					Local Chunk:String = L_ASCIIToUTF8( Txt, Pos )
 					Txt = Txt[ ..N ] + Chunk + Txt[ Pos + 1.. ]
-				ElseIf Txt[ N ] = Asc( "\" ) Then
+				ElseIf L_EscapingBackslash Then
+					If Txt[ N ] = Asc( "\" ) Then
+						Select Txt[ N + 1 ]
+							Case Asc( "~q" ), Asc( "\" )
+								Txt = Txt[ ..N ] + Txt[ N + 1.. ]
+						End Select
+					End If
+				ElseIf Txt[ N ] = Asc( "%" ) Then
 					Select Txt[ N + 1 ]
-						Case Asc( "~q" ), Asc( "\" )
+						Case Asc( "~q" ), Asc( "%" )
 							Txt = Txt[ ..N ] + Txt[ N + 1.. ]
 					End Select
 				End If

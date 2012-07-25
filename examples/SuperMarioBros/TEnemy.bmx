@@ -20,7 +20,7 @@ End Type
 
 Global BumpingWalls:TBumpingWalls = New TBumpingWalls
 Type TBumpingWalls Extends LTSpriteAndTileCollisionHandler
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
 		Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite )
 		VectorSprite.PushFromTile( TileMap, TileX, TileY )
 		VectorSprite.DX = -VectorSprite.DX
@@ -53,7 +53,7 @@ End Type
 
 Global PushFromFloor:TPushFromFloor = New TPushFromFloor
 Type TPushFromFloor Extends LTSpriteAndTileCollisionHandler
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
 		Sprite.PushFromTile( TileMap, TileX, TileY )
 		LTVectorSprite( Sprite ).DY = 0
 	End Method

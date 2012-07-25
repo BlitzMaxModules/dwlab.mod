@@ -145,7 +145,7 @@ End Type
 
 Global MarioCollidedWithWall:TMarioCollidedWithWall = New TMarioCollidedWithWall
 Type TMarioCollidedWithWall Extends LTSpriteAndTileCollisionHandler
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
 		Local TileNum:Int = TileMap.GetTile( TileX, TileY )
 		If TileNum = TTIles.Coin Then
 			TileMap.SetTile( TileX, TileY, TTiles.DarkEmptyBlock )
@@ -161,8 +161,8 @@ End Type
 
 Global MarioCollidedWithFloor:TMarioCollidedWithFloor = New TMarioCollidedWithFloor
 Type TMarioCollidedWithFloor Extends LTSpriteAndTileCollisionHandler
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
-		MarioCollidedWithWall.HandleCollision( Sprite, TileMap, TileX, TileY )
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
+		MarioCollidedWithWall.HandleCollision( Sprite, TileMap, TileX, TileY, CollisionSprite )
 		
 		Local TileNum:Int = TileMap.GetTile( TileX, TileY )
 		If TileNum = TTIles.Coin Then Return

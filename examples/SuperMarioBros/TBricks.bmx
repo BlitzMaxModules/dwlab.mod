@@ -41,7 +41,7 @@ Type TBricks Extends LTVectorSprite
 
 	Method Act()
 		Super.Act()
-		LTVisualizer( Visualizer ).Angle :+ DX * Game.PerSecond( RotationSpeed )
+		DisplayingAngle :+ DX * Game.PerSecond( RotationSpeed )
 		MoveForward()
 	End Method
 End Type

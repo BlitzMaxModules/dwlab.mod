@@ -244,5 +244,33 @@ Type LTTileMap Extends LTIntMap
 		XMLObject.ManageIntAttribute( "wrapped", Wrapped )
 		XMLObject.ManageIntAttribute( "horizontal-order", HorizontalOrder, 1 )
 		XMLObject.ManageIntAttribute( "vertical-order", VerticalOrder, 1 )
+		
+		Local ChunkLength:Int = L_GetChunkLength( TilesQuantity )
+		If L_XMLMode = L_XMLGet Then
+			Value = New Int[ XQuantity, YQuantity ]
+			Local Y:Int = 0
+			For Local XMLRow:LTXMLObject = Eachin XMLObject.Children
+				Local Data:String = XMLRow.GetAttribute( "data" )
+				Local Pos:Int = 0
+				Local X:Int = 0
+				While Pos < Data.Length
+					Value[ X, Y ] = L_Decode( Data[ Pos..Pos + ChunkLength ] )
+					Pos :+ ChunkLength
+					X :+ 1
+				Wend
+				Y :+ 1
+			Next
+		Else
+			For Local Y:Int = 0 Until YQuantity
+				Local XMLRow:LTXMLObject = New LTXMLObject
+				XMLRow.Name = "Row"
+				Local ArrayData:String = ""
+				For Local X:Int = 0 Until XQuantity
+					ArrayData :+ L_Encode( Value[ X, Y ], ChunkLength )
+				Next
+				XMLRow.SetAttribute( "data", ArrayData )
+				XMLObject.Children.AddLast( XMLRow )
+			Next
+		End If
 	End Method
 End Type

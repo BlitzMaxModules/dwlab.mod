@@ -15,12 +15,19 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.4.17"
+ModuleInfo "Version: 1.4.18"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.18 (26.07.12)"
+ModuleInfo "History: &nbsp; &nbsp; Tile collision shapes now can contain Layer instead of SpriteGroup."
+ModuleInfo "History: &nbsp; &nbsp; Added L_Encoding and L_Decoding functions for encode int values in string chunks which consist of symbols from 48 to 127."
+ModuleInfo "History: &nbsp; &nbsp; Chunk size depends on values range (80 or less - one symbol, less than 6400 - 2 symbols and so on)."
+ModuleInfo "History: &nbsp; &nbsp; Tile map array now represent as values encoded in chunk string with new encoding functions."
+ModuleInfo "History: &nbsp; &nbsp; Block sizes of tilesets attributes are now encoded with this function too."
+ModuleInfo "History: &nbsp; &nbsp; Escape character for XML is changed from / to % due to its presence in 80-sized symbol block for encoding."
 ModuleInfo "History: v1.4.17 (25.07.12)"
 ModuleInfo "History: &nbsp; &nbsp; Converted strings to UTF8."
 ModuleInfo "History: &nbsp; &nbsp; Added L_VerisonToInt function."
@@ -273,7 +280,7 @@ Import brl.map
 Import brl.max2d
 Import brl.eventqueue
 
-Const L_Version:String = "1.4.17"
+Const L_Version:String = "1.4.18"
 
 SeedRnd( MilliSecs() )
 

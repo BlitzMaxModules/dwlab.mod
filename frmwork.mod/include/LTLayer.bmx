@@ -134,6 +134,17 @@ Type LTLayer Extends LTShape
 		Sprite.CollisionsWithLayer( Self, Handler )
 	End Method
 	
+	
+
+	Method TileShapeCollisionsWithSprite( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double, TileMap:LTTileMap, TileX:Int, TileY:Int, Handler:LTSpriteAndTileCollisionHandler )
+		For Local GroupSprite:LTSprite = Eachin Children
+			If GroupSprite.TileSpriteCollidesWithSprite( Sprite, DX, DY, XScale, YScale ) Then
+				Handler.HandleCollision( Sprite, TileMap, TileX, TileY, GroupSprite )
+				Return
+			End If
+		Next
+	End Method	
+	
 	' ==================== Shape management ===================	
 	
 	Rem

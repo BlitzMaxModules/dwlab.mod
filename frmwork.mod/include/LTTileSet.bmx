@@ -186,8 +186,8 @@ Type LTTileSet Extends LTObject
 		XMLObject.ManageStringAttribute( "name", Name )
 		Image = LTImage( XMLObject.ManageObjectField( "image", Image ) )
 		XMLObject.ManageIntAttribute( "tiles-quantity", TilesQuantity )
-		XMLObject.ManageIntArrayAttribute( "block-width", BlockWidth )
-		XMLObject.ManageIntArrayAttribute( "block-height", BlockHeight )
+		XMLObject.ManageIntArrayAttribute( "block-width", BlockWidth, L_GetChunkLength( Image.XCells ) )
+		XMLObject.ManageIntArrayAttribute( "block-height", BlockHeight, L_GetChunkLength( Image.YCells ) )
 		XMLObject.ManageIntAttribute( "empty-tile", EmptyTile, -1 )
 		XMLObject.ManageChildList( Categories )
 		

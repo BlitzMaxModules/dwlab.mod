@@ -70,39 +70,4 @@ Type LTIntMap Extends LTMap
 		Value = NewArray
 		Super.SetResolution( XQuantity * XMultiplier, YQuantity * YMultiplier )
 	End Method
-	
-	
-	
-	Method XMLIO( XMLObject:LTXMLObject )
-		Super.XMLIO( XMLObject )
-		
-		If L_XMLMode = L_XMLGet Then
-			Value = New Int[ XQuantity, YQuantity ]
-			Local Y:Int = 0
-			For Local XMLRow:LTXMLObject = Eachin XMLObject.Children
-				Local ArrayData:String = XMLRow.GetAttribute( "data" ) + ","
-				Local X:Int = 0
-				Local Comma:Int = -1
-				Local LastArraySymbol:Int = Len( ArrayData ) - 1
-				While Comma < LastArraySymbol
-					Local NextComma:Int = ArrayData.Find( ",", Comma + 1 )
-					Value[ X, Y ] = ArrayData[ Comma + 1..NextComma ].ToInt()
-					Comma = NextComma
-					X :+ 1
-				Wend
-				Y :+ 1
-			Next
-		Else
-			For Local Y:Int = 0 Until YQuantity
-				Local XMLRow:LTXMLObject = New LTXMLObject
-				XMLRow.Name = "Row"
-				Local ArrayData:String = ""
-				For Local X:Int = 0 Until XQuantity
-					ArrayData :+ "," + Value[ X, Y ]
-				Next
-				XMLRow.SetAttribute( "data", ArrayData[ 1.. ] )
-				XMLObject.Children.AddLast( XMLRow )
-			Next
-		End If
-	End Method
 End Type

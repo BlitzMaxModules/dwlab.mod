@@ -35,7 +35,7 @@ End Type
 
 Global FireballCollidesWithFloor:TFireballCollidesWithFloor = New TFireballCollidesWithFloor
 Type TFireballCollidesWithFloor Extends LTSpriteAndTileCollisionHandler
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
 		Sprite.PushFromTile( TileMap, TileX, TileY )
 		Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite )
 		If VectorSprite.DY >= 0.0 Then
@@ -50,7 +50,7 @@ End Type
 
 Global FireballCollidesWithWall:TFireballCollidesWithWall = New TFireballCollidesWithWall
 Type TFireballCollidesWithWall Extends LTSpriteAndTileCollisionHandler
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
 		Sprite.PushFromTile( TileMap, TileX, TileY )
 		Sprite.AttachModel( New TExploding )
 	End Method
@@ -72,7 +72,7 @@ End Type
 
 Type TFlying Extends LTBehaviorModel
 	Method ApplyTo( Shape:LTShape )
-		Shape.Visualizer.Angle :+ Game.PerSecond( TFireball.RotatingSpeed )
+		LTSprite( Shape ).DisplayingAngle :+ Game.PerSecond( TFireball.RotatingSpeed )
 	End Method
 End Type
 

@@ -42,7 +42,7 @@ End Type
 
 Global JumpFromFloor:TJumpFromFloor = New TJumpFromFloor
 Type TJumpFromFloor Extends LTSpriteAndTileCollisionHandler
-	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int )
+	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
 		Local VectorSprite:LTVectorSprite = LTVectorSprite( Sprite )
 		If VectorSprite.DY >= 0.0 Then VectorSprite.DY = -TStarMan.JumpStrength Else VectorSprite.DY = 0
 	End Method

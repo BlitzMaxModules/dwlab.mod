@@ -50,7 +50,7 @@ Function PrintImageToCanvas:Int( Image:TImage, Canvas:TGadget, XCells:Int = 0, Y
 							If Sprite Then
 								DrawCollisionSprite( Sprite, XX, YY, Width / XCells, Height / YCells )
 							Else
-								For Sprite = Eachin LTSpriteGroup( Shape )
+								For Sprite = Eachin LTLayer( Shape )
 									DrawCollisionSprite( Sprite, XX, YY, Width / XCells, Height / YCells )
 								Next
 							End If

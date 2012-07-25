@@ -26,6 +26,33 @@ Type LTSpriteGroup Extends LTSprite
 		Return "Sprite group"
 	End Method
 	
+	
+	
+	Method InsertSprite( Sprite:LTSprite )
+		Sprite.X = ( Sprite.X - X ) / Width
+		Sprite.Y = ( Sprite.Y - Y ) / Height
+		Sprite.Width :/ Width
+		Sprite.Height :/ Height
+		Children.AddLast( Sprite )
+	EndMethod
+	
+	
+	
+	Method RemoveSprite( Sprite:LTSprite )
+		Local Link:TLink = Children.FindLink( Sprite )
+		
+		?debug
+		If Not Link Then L_Error( "Removing sprite is not found in the group" )
+		?
+		
+		Sprite.X = Sprite.X * Width + X
+		Sprite.Y = Sprite.Y * Height + Y
+		Sprite.Width :* Width
+		Sprite.Height :* Height
+		
+		Link.Remove()
+	EndMethod
+
 	' ==================== Drawing ===================
 	
 	Method Draw()
@@ -72,20 +99,8 @@ Type LTSpriteGroup Extends LTSprite
 		Shape.Height = ParentShape.Height * Sprite.Height
 		Shape.Angle = ParentShape.Angle + Sprite.Angle
 	End Method
-	
-	' ==================== Collisions ===================
-	
-	Method TileShapeCollisionsWithSprite( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double, TileMap:LTTileMap, TileX:Int, TileY:Int, Handler:LTSpriteAndTileCollisionHandler )
-		For Local GroupSprite:LTSprite = Eachin Children
-			If GroupSprite.TileSpriteCollidesWithSprite( Sprite, DX, DY, XScale, YScale ) Then
-				Handler.HandleCollision( Sprite, TileMap, TileX, TileY, GroupSprite )
-				Return
-			End If
-		Next
-	End Method
 		
 	' ==================== List wrapping methods ====================
-	
 
 	Method AddFirst:TLink( Sprite:LTShape )
 		Return Children.AddFirst( Sprite )
