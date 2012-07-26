@@ -222,6 +222,30 @@ Type LTLayer Extends LTShape
 	
 	
 	
+	Method InsertBeforeShape:Int( Shape:LTShape = Null, ShapesList:TList = Null, BeforeShape:LTShape )
+		Local Link:TLink = Children.FirstLink()
+		While Link <> Null
+			Local Value:Object = Link.Value()
+			If Value = BeforeShape Then
+				If Shape Then Children.InsertBeforeLink( Shape, Link )
+				If ShapesList Then
+					For Local ListShape:LTSprite =Eachin ShapesList
+						Children.InsertBeforeLink( ListShape, Link )
+					Next
+				End If
+				Return True
+			Else
+				Local Layer:LTLayer = LTLayer( Value )
+				If Layer Then
+					If Layer.InsertBeforeShape( Shape, ShapesList, BeforeShape ) Then Return True
+				End If
+			End If
+			Link = Link.NextLink()
+		Wend
+	End Method
+	
+	
+	
 	Rem
 	bbdoc: Removes the shape from layer.
 	about: Included layers and sprite maps will be also checked.

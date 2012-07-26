@@ -955,7 +955,7 @@ Type LTEditor Extends LTProject
 						If Not SelectedShapes.IsEmpty() Then
 							Local Group:LTSpriteGroup = Null
 							Local LeftX:Double, TopY:Double, RightX:Double, BottomY:Double
-							Local Container:LTShape = Null
+							Local FirstSprite:LTSprite
 							For Local Sprite:LTSprite = Eachin SelectedShapes
 								If Group Then
 									LeftX = Min( LeftX, Sprite.LeftX() )
@@ -968,7 +968,7 @@ Type LTEditor Extends LTProject
 									TopY = Sprite.TopY()
 									RightX = Sprite.RightX()
 									BottomY = Sprite.BottomY()
-									Container = FindShapeContainer( World, Sprite )
+									FirstSprite = Sprite
 								End If
 							Next
 							If Group Then
@@ -977,13 +977,26 @@ Type LTEditor Extends LTProject
 								Group.Width = RightX - LeftX
 								Group.Height = BottomY - TopY
 								
+								World.InsertBeforeShape( Group, , FirstSprite )
+								
 								For Local Sprite:LTSprite = Eachin SelectedShapes
 									Group.InsertSprite( Sprite )
 									RemoveObject( Sprite, World )
 								Next
-								InsertIntoContainer( Group, Container )
 								SetChanged()
 							End If
+						End If
+					Case Key_U
+						If Not SelectedShapes.IsEmpty() Then
+							For Local Group:LTSpriteGroup = Eachin SelectedShapes
+								Rem
+								For Local Sprite:LTSprite = Eachin Group.Children
+									Group.InsertSprite( Sprite )
+									RemoveObject( Sprite, World )
+								Next
+								EndRem
+								SetChanged()
+							Next
 						End If
 				End Select
 			Case Event_MouseWheel

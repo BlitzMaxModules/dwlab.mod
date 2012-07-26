@@ -15,13 +15,15 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.4.18"
+ModuleInfo "Version: 1.4.19"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
-ModuleInfo "History: v1.4.18.1 (26.07.12)"
+ModuleInfo "History: v1.4.19 (27.07.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added InsertBeforeShape method to LTLayer (it works with shape lists too)."
+ModuleInfo "History: v1.4.18.1 (27.07.12)"
 ModuleInfo "History: &nbsp; &nbsp; Fixed some bugs."
 ModuleInfo "History: v1.4.18 (26.07.12)"
 ModuleInfo "History: &nbsp; &nbsp; Tile collision shapes now can contain Layer instead of SpriteGroup."
@@ -282,7 +284,7 @@ Import brl.map
 Import brl.max2d
 Import brl.eventqueue
 
-Const L_Version:String = "1.4.18"
+Const L_Version:String = "1.4.19"
 
 SeedRnd( MilliSecs() )
 
