@@ -574,7 +574,7 @@ End Function
 Global L_Log80:Double = Log( 80 )
 
 Function L_GetChunkLength:Int( Quantity:Int )
-	Return Ceil( Log( Quantity ) / L_Log80 )
+	Return Max( 1, Ceil( Log( Quantity ) / L_Log80 ) )
 End Function
 
 

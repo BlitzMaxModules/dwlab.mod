@@ -21,6 +21,8 @@ ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.18.1 (26.07.12)"
+ModuleInfo "History: &nbsp; &nbsp; Fixed some bugs."
 ModuleInfo "History: v1.4.18 (26.07.12)"
 ModuleInfo "History: &nbsp; &nbsp; Tile collision shapes now can contain Layer instead of SpriteGroup."
 ModuleInfo "History: &nbsp; &nbsp; Added L_Encoding and L_Decoding functions for encode int values in string chunks which consist of symbols from 48 to 127."

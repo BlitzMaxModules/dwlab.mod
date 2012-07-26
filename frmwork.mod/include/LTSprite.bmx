@@ -634,7 +634,7 @@ Type LTSprite Extends LTShape
 		If Sprite Then
 			PushFromTileSprite( Sprite, X, Y, CellWidth, CellHeight )
 		Else
-			For Sprite = EachIn LTSpriteGroup( Shape ).Children
+			For Sprite = EachIn LTLayer( Shape ).Children
 				If Sprite.TileSpriteCollidesWithSprite( Self, X, Y, CellWidth, CellHeight ) Then
 					PushFromTileSprite( Sprite, TileMap.LeftX() + CellWidth * TileX, TileMap.TopY() + CellHeight * TileY, CellWidth, CellHeight )
 				End If
