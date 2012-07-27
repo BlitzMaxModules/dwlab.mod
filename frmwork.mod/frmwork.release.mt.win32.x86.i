@@ -1,12 +1,19 @@
-ModuleInfo "Version: 1.4.18"
+ModuleInfo "Version: 1.4.19"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.19 (27.07.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added InsertBeforeShape method to LTLayer (it works with shape lists too)."
+ModuleInfo "History: v1.4.18.1 (27.07.12)"
+ModuleInfo "History: &nbsp; &nbsp; Fixed some bugs."
 ModuleInfo "History: v1.4.18 (26.07.12)"
 ModuleInfo "History: &nbsp; &nbsp; Tile collision shapes now can contain Layer instead of SpriteGroup."
-ModuleInfo "History: &nbsp; &nbsp; Tile map array now represent as string encoded with 80 symbols (code 48-127) and chunk size depends on tile map tiles quantity (80 or less - one symbol, less than 6400 - 2 symbols and so on)."
-ModuleInfo "History: &nbsp; &nbsp; Block sizes of tilesets now encoded with base 80 too."
+ModuleInfo "History: &nbsp; &nbsp; Added L_Encoding and L_Decoding functions for encode int values in string chunks which consist of symbols from 48 to 127."
+ModuleInfo "History: &nbsp; &nbsp; Chunk size depends on values range (80 or less - one symbol, less than 6400 - 2 symbols and so on)."
+ModuleInfo "History: &nbsp; &nbsp; Tile map array now represent as values encoded in chunk string with new encoding functions."
+ModuleInfo "History: &nbsp; &nbsp; Block sizes of tilesets attributes are now encoded with this function too."
+ModuleInfo "History: &nbsp; &nbsp; Escape character for XML is changed from / to % due to its presence in 80-sized symbol block for encoding."
 ModuleInfo "History: v1.4.17 (25.07.12)"
 ModuleInfo "History: &nbsp; &nbsp; Converted strings to UTF8."
 ModuleInfo "History: &nbsp; &nbsp; Added L_VerisonToInt function."
@@ -257,7 +264,7 @@ import brl.reflection
 import brl.retro
 import brl.max2d
 import brl.eventqueue
-L_Version$=$"1.4.18"
+L_Version$=$"1.4.19"
 LTObject^Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -XMLIO%(XMLObject:LTXMLObject)="_dwlab_frmwork_LTObject_XMLIO"
@@ -339,6 +346,7 @@ LTLayer^LTShape{
 -FindShapeWithType:LTShape(ShapeType$,Name$=$"",IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShapeWithType"
 -FindShapeWithParameter:LTShape(ParameterName$,ParameterValue$,ShapeType$=$"",IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShapeWithParameter"
 -FindShapeWithParameterID:LTShape(ParameterName$,ParameterValue$,ShapeTypeID:TTypeID,IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShapeWithParameterID"
+-InsertBeforeShape%(Sprite:LTSprite="bbNullObject",SpritesList:TList="bbNullObject",BeforeShape:LTShape)="_dwlab_frmwork_LTLayer_InsertBeforeShape"
 -Remove%(Shape:LTShape)="_dwlab_frmwork_LTLayer_Remove"
 -RemoveAllOfType%(TypeName$)="_dwlab_frmwork_LTLayer_RemoveAllOfType"
 -RemoveAllOfTypeID%(TypeID:TTypeID)="_dwlab_frmwork_LTLayer_RemoveAllOfTypeID"
@@ -1365,6 +1373,7 @@ L_Redo%()="dwlab_frmwork_L_Redo"
 L_XMLGet%=0
 L_XMLSet%=1
 LTXMLObject^LTObject{
+L_EscapingBackslash%&=mem("_dwlab_frmwork_LTXMLObject_L_EscapingBackslash")
 .Name$&
 .Attributes:TList&
 .Children:TList&

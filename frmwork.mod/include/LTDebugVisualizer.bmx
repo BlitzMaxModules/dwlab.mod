@@ -13,9 +13,9 @@ bbdoc: Global variable for debug visualizer.
 End Rem
 Global L_DebugVisualizer:LTDebugVisualizer = New LTDebugVisualizer
 
-Global L_CollisionColors:LTColor[] = [ LTColor.FromHex( "FF007F", 0.5 ), LTColor.FromHex( "007FFF", 0.5 ), LTColor.FromHex( "00FF7F", 0.5 ), LTColor.FromHex( "7F00FF", 0.5 ), ..
-		LTColor.FromHex( "7FFF00", 0.5 ), LTColor.FromHex( "FF7F00", 0.5 ), LTColor.FromHex( "FFFFFF", 0.5 ), ..
-		LTColor.FromHex( "000000", 0.5 ) ]
+Global L_CollisionColors:LTColor[] = [ LTColor.FromHex( "FF007F", 0.5 ), LTColor.FromHex( "007FFF", 0.5 ), ..
+		LTColor.FromHex( "00FF7F", 0.5 ), LTColor.FromHex( "7F00FF", 0.5 ), LTColor.FromHex( "7FFF00", 0.5 ), ..
+		LTColor.FromHex( "FF7F00", 0.5 ), LTColor.FromHex( "FFFFFF", 0.5 ), LTColor.FromHex( "000000", 0.5 ) ]
 Global L_MaxCollisionColor:Int = L_CollisionColors.Length - 1
 
 Rem

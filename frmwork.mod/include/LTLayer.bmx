@@ -222,22 +222,35 @@ Type LTLayer Extends LTShape
 	
 	
 	
-	Method InsertBeforeShape:Int( Shape:LTShape = Null, ShapesList:TList = Null, BeforeShape:LTShape )
+	Method InsertBeforeShape:Int( Sprite:LTSprite = Null, SpritesList:TList = Null, BeforeShape:LTShape )
 		Local Link:TLink = Children.FirstLink()
 		While Link <> Null
 			Local Value:Object = Link.Value()
 			If Value = BeforeShape Then
-				If Shape Then Children.InsertBeforeLink( Shape, Link )
-				If ShapesList Then
-					For Local ListShape:LTSprite =Eachin ShapesList
-						Children.InsertBeforeLink( ListShape, Link )
+				If Sprite Then Children.InsertBeforeLink( Sprite, Link )
+				If SpritesList Then
+					For Local ListSprite:LTSprite =Eachin SpritesList
+						Children.InsertBeforeLink( ListSprite, Link )
 					Next
 				End If
 				Return True
 			Else
 				Local Layer:LTLayer = LTLayer( Value )
 				If Layer Then
-					If Layer.InsertBeforeShape( Shape, ShapesList, BeforeShape ) Then Return True
+					If Layer.InsertBeforeShape( Sprite, SpritesList, BeforeShape ) Then Return True
+				Else
+					Local SpriteMap:LTSpriteMap = LTSpriteMap( Value )
+					If SpriteMap Then
+						If SpriteMap.Sprites.Contains( BeforeShape ) Then
+							If Sprite Then SpriteMap.InsertSprite( Sprite )
+							If SpritesList Then
+								For Local ListSprite:LTSprite =Eachin SpritesList
+									SpriteMap.InsertSprite( ListSprite )
+								Next
+							End If
+							Return True
+						End If
+					End If
 				End If
 			End If
 			Link = Link.NextLink()

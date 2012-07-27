@@ -66,7 +66,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.7.16.1"
+	Const Version:String = "1.8"
 	Const INIVersion:Int = 5
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 8
@@ -824,7 +824,7 @@ Type LTEditor Extends LTProject
 						If ( KeyDown( Key_LControl ) Or KeyDown( Key_RControl ) Or EvData = Key_Delete ) And Not SelectedShapes.IsEmpty() Then
 							if EvData = Key_X Then Buffer = SelectedShapes.Copy()
 							For Local Obj:LTShape = Eachin SelectedShapes
-								RemoveObject( Obj, World )
+								World.Remove( Obj )
 							Next
 							SetChanged()
 							SelectedShapes.Clear()
@@ -976,25 +976,26 @@ Type LTEditor Extends LTProject
 								Group.Y = 0.5 * ( TopY + BottomY )
 								Group.Width = RightX - LeftX
 								Group.Height = BottomY - TopY
-								
 								World.InsertBeforeShape( Group, , FirstSprite )
 								
 								For Local Sprite:LTSprite = Eachin SelectedShapes
 									Group.InsertSprite( Sprite )
-									RemoveObject( Sprite, World )
+									World.Remove( Sprite )
 								Next
+								
+								RefreshProjectManager()
 								SetChanged()
 							End If
 						End If
 					Case Key_U
 						If Not SelectedShapes.IsEmpty() Then
 							For Local Group:LTSpriteGroup = Eachin SelectedShapes
-								Rem
+								World.InsertBeforeShape( , Group.Children, Group )
 								For Local Sprite:LTSprite = Eachin Group.Children
-									Group.InsertSprite( Sprite )
-									RemoveObject( Sprite, World )
+									Group.RemoveSprite( Sprite )
 								Next
-								EndRem
+								World.Remove( Group )
+								RefreshProjectManager()
 								SetChanged()
 							Next
 						End If
@@ -1045,7 +1046,7 @@ Type LTEditor Extends LTProject
 							Buffer.Clear()
 							Buffer.AddLast( SelectedShape )
 						End If
-						RemoveObject( SelectedShape, World )
+						World.Remove( SelectedShape )
 						If SelectedShape = CurrentViewLayer Then CurrentViewLayer = Null
 						If SelectedShape = CurrentTilemap Then EditTilemap( Null )
 						If SelectedShape = CurrentContainer Then CurrentContainer = Null
@@ -1939,29 +1940,6 @@ Type LTEditor Extends LTProject
 		Layer.SetParameter( "name", LayerName )
 		World.AddLast( Layer )
 		Return Layer
-	End Method
-	
-	
-	
-	Method RemoveObject( Obj:Object, Layer:LTLayer = Null )
-		If Not Layer Then Layer = World
-		Local Sprite:LTSprite = LTSprite( Obj )
-		Local Link:TLink = Layer.Children.FirstLink()
-		While Link
-			If Link.Value() = Obj Then
-				Link.Remove()
-			Else
-				Local Layer:LTLayer = LTLayer( Link.Value() )
-				If Layer Then
-					RemoveObject( Obj, Layer )
-				ElseIf Sprite Then
-					Local SpriteMap:LTSpriteMap = LTSpriteMap( Link.Value() )
-					If SpriteMap Then SpriteMap.RemoveSprite( Sprite )
-				End If
-			End If
-			
-			Link = Link.NextLink()
-		WEnd
 	End Method
 	
 	

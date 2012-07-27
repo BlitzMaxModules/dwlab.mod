@@ -75,10 +75,10 @@ Type LTSpriteGroup Extends LTSprite
 				Local NewParentShape:LTSprite = New LTSprite
 				SetShape( NewParentShape, ChildSpriteGroup, ParentShape )
 				ChildSpriteGroup.DrawGroup( Vis, NewParentShape )
-			ElseIf Vis = Null Then
-				Sprite.Visualizer.DrawUsingSprite( Sprite, SpriteShape )
-			Else
+			ElseIf Vis Then
 				Vis.DrawUsingSprite( Sprite, SpriteShape )
+			Else
+				Sprite.Visualizer.DrawUsingSprite( Sprite, SpriteShape )
 			End If
 		Next
 	End Method

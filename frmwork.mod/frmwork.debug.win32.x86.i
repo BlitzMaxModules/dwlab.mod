@@ -1,9 +1,11 @@
-ModuleInfo "Version: 1.4.18"
+ModuleInfo "Version: 1.4.19"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 ModuleInfo "History: &nbsp; &nbsp; "
-ModuleInfo "History: v1.4.18.1 (26.07.12)"
+ModuleInfo "History: v1.4.19 (27.07.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added InsertBeforeShape method to LTLayer (it works with shape lists too)."
+ModuleInfo "History: v1.4.18.1 (27.07.12)"
 ModuleInfo "History: &nbsp; &nbsp; Fixed some bugs."
 ModuleInfo "History: v1.4.18 (26.07.12)"
 ModuleInfo "History: &nbsp; &nbsp; Tile collision shapes now can contain Layer instead of SpriteGroup."
@@ -262,7 +264,7 @@ import brl.reflection
 import brl.retro
 import brl.max2d
 import brl.eventqueue
-L_Version$=$"1.4.18"
+L_Version$=$"1.4.19"
 LTObject^Object{
 -New%()="_dwlab_frmwork_LTObject_New"
 -Delete%()="_dwlab_frmwork_LTObject_Delete"
@@ -349,7 +351,7 @@ LTLayer^LTShape{
 -FindShapeWithType:LTShape(ShapeType$,Name$=$"",IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShapeWithType"
 -FindShapeWithParameter:LTShape(ParameterName$,ParameterValue$,ShapeType$=$"",IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShapeWithParameter"
 -FindShapeWithParameterID:LTShape(ParameterName$,ParameterValue$,ShapeTypeID:TTypeID,IgnoreError%=0)="_dwlab_frmwork_LTLayer_FindShapeWithParameterID"
--InsertBeforeShape%(Shape:LTShape="bbNullObject",ShapesList:TList="bbNullObject",BeforeShape:LTShape)="_dwlab_frmwork_LTLayer_InsertBeforeShape"
+-InsertBeforeShape%(Sprite:LTSprite="bbNullObject",SpritesList:TList="bbNullObject",BeforeShape:LTShape)="_dwlab_frmwork_LTLayer_InsertBeforeShape"
 -Remove%(Shape:LTShape)="_dwlab_frmwork_LTLayer_Remove"
 -RemoveAllOfType%(TypeName$)="_dwlab_frmwork_LTLayer_RemoveAllOfType"
 -RemoveAllOfTypeID%(TypeID:TTypeID)="_dwlab_frmwork_LTLayer_RemoveAllOfTypeID"

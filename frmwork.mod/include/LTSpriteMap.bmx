@@ -188,7 +188,7 @@ Type LTSpriteMap Extends LTMap
 						For Local Sprite:LTSprite = Eachin Lists[ X & XMask, MaskedY ]
 							If Not SpriteMap.Contains( Sprite ) Then
 								If Vis Then
-									Vis.DrawUsingSprite( Sprite )
+									Sprite.DrawUsingVisualizer( Vis )
 								Else
 									Sprite.Draw()
 								End If
