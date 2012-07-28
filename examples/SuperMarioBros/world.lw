@@ -1,14 +1,42 @@
-<LTWorld dwlab_version="1.4.6">
-	<LTEditorData field="editor_data" incbin="1" cell_width="1" x_div="2" y_div="2" coll_x_div="16" coll_y_div="16">
+<LTWorld dwlab_version="1.4.18">
+	<LTVisualizer field="visualizer" id="1"/>
+	<LTEditorData field="editor_data" incbin="1" cell_width="1.00000099" x_div="2" y_div="2" coll_x_div="16" coll_y_div="16">
 		<TList field="images">
-			<LTImage id="2" filename="media\\tiles.png" xcells="16" ycells="4"/>
-			<LTImage id="3" filename="media\\LittleGoomba.png" xcells="3"/>
-			<LTImage id="4" filename="media\\KoopaTroopa.png" xcells="3"/>
-			<LTImage id="5" filename="media\\FlagFromPole.png"/>
+			<Object id="11"/>
+			<Object id="172"/>
+			<Object id="177"/>
+			<Object id="288"/>
 		</TList>
 		<TList field="tilesets">
-			<LTTileSet id="6" tiles-quantity="64" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
-				<Object field="image" id="2"/>
+			<Object id="10"/>
+		</TList>
+		<LTColor field="background"/>
+		<LTColor field="grid_color" green="0" alpha="0.30000099"/>
+	</LTEditorData>
+	<LTCamera field="camera" x="50.21486807" y="7.50000099" width="56.68996037" height="49.15379513" shape="2" x1="20.00000099" y1="10.00000099" x2="-20.00000099" y2="10.00000099">
+		<LTVisualizer field="visualizer" id="323"/>
+		<LTShape field="viewport" x="504.000001" y="437.000001" width="1008.000001" height="874.000001">
+			<Object field="visualizer" id="323"/>
+		</LTShape>
+	</LTCamera>
+	<LTLayer>
+		<TList field="parameters">
+			<LTParameter name="num" value="0"/>
+			<LTParameter name="music" value="1"/>
+			<LTParameter name="name" value="Level"/>
+		</TList>
+		<Object field="visualizer" id="1"/>
+		<LTShape field="bounds" x="112.000001" y="7.50000099" width="224.000001" height="15.00000099">
+			<LTVisualizer field="visualizer"/>
+		</LTShape>
+		<LTTileMap x="112.000001" y="7.50000099" width="224.000001" height="15.00000099" xquantity="224" yquantity="15" tiles-quantity="64">
+			<TList field="parameters">
+				<LTParameter name="class" value="TTiles"/>
+				<LTParameter name="name" value="Tiles"/>
+			</TList>
+			<LTVisualizer field="visualizer"/>
+			<LTTileSet field="tileset" id="10" tiles-quantity="64" block-width="0000000000000000000000000000000000000000000000000000000000000000" block-height="0000000000000000000000000000000000000000000000000000000000000000">
+				<LTImage field="image" id="11" filename="media\tiles.png" xcells="16" ycells="4"/>
 				<ShapeArray field="collision-shapes">
 					<Null/>
 					<Null/>
@@ -19,117 +47,117 @@
 					<Null/>
 					<Null/>
 					<Null/>
-					<LTSprite x="0.5" y="0.5" shape="2">
+					<LTSprite x="0.50000099" y="0.50000099" shape="2">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<LTSprite x="0.5" y="0.5" shape="2">
-						<LTVisualizer field="visualizer" id="126"/>
+					<LTSprite x="0.50000099" y="0.50000099" shape="2">
+						<LTVisualizer field="visualizer" id="131"/>
 					</LTSprite>
-					<LTSprite x="0.5" y="0.5" shape="2">
-						<Object field="visualizer" id="126"/>
+					<LTSprite x="0.50000099" y="0.50000099" shape="2">
+						<Object field="visualizer" id="131"/>
 					</LTSprite>
-					<LTSprite x="0.5" y="0.5" shape="2">
-						<Object field="visualizer" id="126"/>
+					<LTSprite x="0.50000099" y="0.50000099" shape="2">
+						<Object field="visualizer" id="131"/>
 					</LTSprite>
-					<LTSprite x="0.5" y="0.5" shape="2">
-						<Object field="visualizer" id="126"/>
-					</LTSprite>
-					<Null/>
-					<LTSprite x="0.5" y="0.5" shape="2">
-						<Object field="visualizer" id="126"/>
-					</LTSprite>
-					<LTSprite x="0.5" y="0.5" shape="2">
-						<Object field="visualizer" id="126"/>
-					</LTSprite>
-					<LTSprite x="0.5" y="0.5" shape="2">
-						<Object field="visualizer" id="126"/>
-					</LTSprite>
-					<LTSprite x="0.5" y="0.5" shape="2">
-						<Object field="visualizer" id="126"/>
+					<LTSprite x="0.50000099" y="0.50000099" shape="2">
+						<Object field="visualizer" id="131"/>
 					</LTSprite>
 					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<LTSprite x="0.56" y="0.5" width="0.87" shape="2">
-						<Object field="visualizer" id="126"/>
+					<LTSprite x="0.50000099" y="0.50000099" shape="2">
+						<Object field="visualizer" id="131"/>
 					</LTSprite>
-					<LTSprite x="0.42" y="0.5" width="0.87" shape="2">
-						<Object field="visualizer" id="126"/>
+					<LTSprite x="0.50000099" y="0.50000099" shape="2">
+						<Object field="visualizer" id="131"/>
+					</LTSprite>
+					<LTSprite x="0.50000099" y="0.50000099" shape="2">
+						<Object field="visualizer" id="131"/>
+					</LTSprite>
+					<LTSprite x="0.50000099" y="0.50000099" shape="2">
+						<Object field="visualizer" id="131"/>
 					</LTSprite>
 					<Null/>
 					<Null/>
 					<Null/>
 					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<LTSprite x="0.5" y="0.5" shape="2">
-						<Object field="visualizer" id="126"/>
+					<LTSprite x="0.56000099" y="0.50000099" width="0.87000099" shape="2">
+						<Object field="visualizer" id="131"/>
 					</LTSprite>
-					<LTSprite x="0.5" y="0.5" shape="2">
-						<Object field="visualizer" id="126"/>
+					<LTSprite x="0.42000099" y="0.50000099" width="0.87000099" shape="2">
+						<Object field="visualizer" id="131"/>
 					</LTSprite>
-					<LTSprite x="0.56" y="0.5" width="0.87" shape="2">
-						<Object field="visualizer" id="126"/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<LTSprite x="0.50000099" y="0.50000099" shape="2">
+						<Object field="visualizer" id="131"/>
 					</LTSprite>
-					<LTSprite x="0.42" y="0.5" width="0.87" shape="2">
-						<Object field="visualizer" id="126"/>
+					<LTSprite x="0.50000099" y="0.50000099" shape="2">
+						<Object field="visualizer" id="131"/>
 					</LTSprite>
-					<LTGroup>
-						<LTVisualizer field="visualizer" id="141"/>
-						<LTSprite x="0.49" y="0.37" width="0.62" height="0.62" shape="1">
-							<Object field="visualizer" id="126"/>
+					<LTSprite x="0.56000099" y="0.50000099" width="0.87000099" shape="2">
+						<Object field="visualizer" id="131"/>
+					</LTSprite>
+					<LTSprite x="0.42000099" y="0.50000099" width="0.87000099" shape="2">
+						<Object field="visualizer" id="131"/>
+					</LTSprite>
+					<LTLayer>
+						<LTVisualizer field="visualizer" id="146"/>
+						<LTSprite x="0.49000099" y="0.37000099" width="0.62000099" height="0.62000099" shape="1">
+							<Object field="visualizer" id="131"/>
 						</LTSprite>
-						<LTSprite x="0.49" y="0.62" width="0.62" height="0.62" shape="1">
-							<LTVisualizer field="visualizer" id="144"/>
+						<LTSprite x="0.49000099" y="0.62000099" width="0.62000099" height="0.62000099" shape="1">
+							<LTVisualizer field="visualizer" id="149"/>
 						</LTSprite>
-					</LTGroup>
-					<LTSprite x="0.5" y="0.5" shape="2">
-						<Object field="visualizer" id="126"/>
+					</LTLayer>
+					<LTSprite x="0.50000099" y="0.50000099" shape="2">
+						<Object field="visualizer" id="131"/>
 					</LTSprite>
-					<LTSprite x="0.5" y="0.56" height="0.87" shape="2">
-						<Object field="visualizer" id="126"/>
+					<LTSprite x="0.50000099" y="0.56000099" height="0.87000099" shape="2">
+						<Object field="visualizer" id="131"/>
 					</LTSprite>
-					<LTGroup>
-						<LTVisualizer field="visualizer" id="148"/>
-						<LTSprite x="0.5" y="0.56" height="0.87" shape="2">
-							<Object field="visualizer" id="126"/>
+					<LTLayer>
+						<LTVisualizer field="visualizer" id="153"/>
+						<LTSprite x="0.50000099" y="0.56000099" height="0.87000099" shape="2">
+							<Object field="visualizer" id="131"/>
 						</LTSprite>
-						<LTSprite x="0.56" y="0.5" width="0.87" shape="2">
-							<Object field="visualizer" id="141"/>
+						<LTSprite x="0.56000099" y="0.50000099" width="0.87000099" shape="2">
+							<Object field="visualizer" id="146"/>
 						</LTSprite>
-					</LTGroup>
-					<LTSprite x="0.5" y="0.5" shape="2">
-						<Object field="visualizer" id="126"/>
+					</LTLayer>
+					<LTSprite x="0.50000099" y="0.50000099" shape="2">
+						<Object field="visualizer" id="131"/>
 					</LTSprite>
-					<LTSprite x="0.5" y="0.42" height="0.87" shape="2">
-						<Object field="visualizer" id="126"/>
+					<LTSprite x="0.50000099" y="0.42000099" height="0.87000099" shape="2">
+						<Object field="visualizer" id="131"/>
 					</LTSprite>
-					<LTGroup>
-						<Object field="visualizer" id="148"/>
-						<LTSprite x="0.5" y="0.43" height="0.87" shape="2">
-							<Object field="visualizer" id="126"/>
+					<LTLayer>
+						<Object field="visualizer" id="153"/>
+						<LTSprite x="0.50000099" y="0.43000099" height="0.87000099" shape="2">
+							<Object field="visualizer" id="131"/>
 						</LTSprite>
-						<LTSprite x="0.56" y="0.5" width="0.87" shape="2">
-							<Object field="visualizer" id="141"/>
+						<LTSprite x="0.56000099" y="0.50000099" width="0.87000099" shape="2">
+							<Object field="visualizer" id="146"/>
 						</LTSprite>
-					</LTGroup>
-					<LTSprite x="0.5" y="0.5" shape="2">
-						<Object field="visualizer" id="126"/>
+					</LTLayer>
+					<LTSprite x="0.50000099" y="0.50000099" shape="2">
+						<Object field="visualizer" id="131"/>
 					</LTSprite>
-					<LTSprite x="0.5" y="0.5" shape="2">
-						<Object field="visualizer" id="126"/>
+					<LTSprite x="0.50000099" y="0.50000099" shape="2">
+						<Object field="visualizer" id="131"/>
 					</LTSprite>
 					<Null/>
 					<Null/>
 					<Null/>
 					<Null/>
-					<LTSprite x="0.5" y="0.5" shape="2">
+					<LTSprite x="0.50000099" y="0.50000099" shape="2">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
 					<Null/>
@@ -291,265 +319,237 @@
 					</LTTileRule>
 				</LTTileCategory>
 			</LTTileSet>
-		</TList>
-		<LTColor field="background"/>
-		<LTColor field="grid_color" green="0" alpha="0.3"/>
-	</LTEditorData>
-	<LTVisualizer field="visualizer" id="162"/>
-	<LTCamera field="camera" x="50.21486708" y="7.5" width="35.20000076" height="30.52063558" shape="2" x1="20" y1="10" x2="-20" y2="10">
-		<LTVisualizer field="visualizer" id="323"/>
-		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
-			<Object field="visualizer" id="323"/>
-		</LTShape>
-	</LTCamera>
-	<LTLayer>
-		<TList field="parameters">
-			<LTParameter name="num" value="0"/>
-			<LTParameter name="music" value="1"/>
-			<LTParameter name="name" value="Level"/>
-		</TList>
-		<Object field="visualizer" id="162"/>
-		<LTShape field="bounds" x="112" y="7.5" width="224" height="15">
-			<LTVisualizer field="visualizer"/>
-		</LTShape>
-		<LTTileMap x="112" y="7.5" width="224" height="15" xquantity="224" yquantity="15" tiles-quantity="64">
-			<TList field="parameters">
-				<LTParameter name="class" value="TTiles"/>
-				<LTParameter name="name" value="Tiles"/>
-			</TList>
-			<LTVisualizer field="visualizer"/>
-			<Object field="tileset" id="6"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,1,2,3,0,0,0,0,0,0,0,0,5,6,7,0,0,0,0,0,1,2,2,2,3,0,0,0,0,5,6,6,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,0,0,0,0,0,0,0,0,5,6,7,0,0,0,0,0,1,2,2,2,3,0,0,0,0,5,6,6,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,0,0,0,0,0,0,0,0,5,6,7,0,0,0,0,0,1,2,2,2,3,0,0,0,0,5,6,6,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,0,0,0,0,0,0,0,0,5,6,7,0,0,0,0,0,1,2,2,2,3,0,0,0,0,5,6,6,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,0,1,2,3,0,0,0,0,0,0,0,0,5,6,7,0,0,0,0,0,1,2,2,2,3"/>
-			<Row data="0,0,0,0,0,0,0,0,5,6,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,6,6,6,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,6,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,6,6,6,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,6,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,6,6,6,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,6,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,6,6,6,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,0,5,6,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,6,6,6,7"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,10,10,10,10,10,10,10,0,0,0,10,10,10,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,0,0,0,0,0,0,0,0,0,0,0,10,10,10,0,0,0,0,10,9,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12,0,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12,12,0,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12,12,12,0,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12,12,12,12,0,0,0,0,0,0,0,0,8,0,0,0,0,14,25,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,0,0,0,10,11,10,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,16,0,0,0,0,0,0,0,0,0,15,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,11,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,10,18,0,0,0,0,9,0,0,9,0,0,9,0,0,0,0,0,10,0,0,0,0,0,0,0,0,0,0,10,10,0,0,0,0,0,0,12,0,0,12,0,0,0,0,0,0,0,0,0,0,12,12,0,0,12,0,0,0,0,0,0,0,0,0,0,0,0,10,10,9,10,0,0,0,0,0,0,0,0,0,0,0,0,12,12,12,12,12,12,0,0,0,0,0,0,0,0,8,0,0,0,0,19,20,21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,16,0,0,0,0,0,0,23,24,0,0,22,0,0,0,0,0,0,23,24,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12,0,0,12,12,0,0,0,0,22,0,0,0,12,12,12,0,0,12,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12,12,12,12,12,12,0,0,0,0,22,0,0,0,8,0,0,0,14,25,25,25,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,26,27,28,0,0,0,0,0,0,0,0,0,0,0,0,0,22,0,0,0,0,0,0,0,0,0,0,15,16,0,0,0,0,0,0,0,0,23,24,0,0,0,0,0,0,23,24,0,26,27,28,0,0,0,0,0,23,24,0,0,0,0,0,0,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,26,27,28,0,0,0,0,0,0,0,0,0,0,0,0,0,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,12,12,0,0,12,12,12,0,0,26,27,28,0,12,12,12,12,0,0,12,12,12,0,0,0,22,0,15,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,16,0,12,12,12,12,12,12,12,12,0,0,0,26,27,28,0,0,8,0,0,0,20,20,29,20,20,0,0,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="26,27,30,27,28,0,0,0,0,0,0,31,32,32,32,33,26,27,28,0,0,0,0,31,32,33,0,0,23,24,0,0,0,0,0,0,0,0,23,24,0,31,32,32,33,0,23,24,26,27,30,27,28,0,0,0,0,23,24,31,32,32,32,33,26,27,28,0,0,0,0,31,32,33,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,31,32,32,33,0,0,0,26,27,30,27,28,0,0,0,0,0,0,31,32,32,32,33,26,27,28,0,0,0,0,31,32,33,0,0,0,0,0,0,0,0,0,0,0,0,12,12,12,12,32,32,12,12,12,12,26,27,30,34,12,12,12,12,12,0,0,12,12,12,12,33,26,27,28,23,24,0,0,31,32,33,0,0,0,0,0,0,0,0,0,23,24,12,12,12,12,12,12,12,12,12,0,0,26,27,30,34,28,0,12,0,0,0,20,20,35,20,20,33,26,27,28,0,0,0,0,31,32,33,0,0,0,0,0,0"/>
-			<Row data="36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36"/>
-			<Row data="36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,0,0,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000001230000000000000012230000000000000000000000000001230000000000000012230000000000000000000000000001230000000000000012230000000000000000000000000001230000000000000012230000000000000040000000000001230000000000"/>
+			<Row data="00000000123000000005670000012223000056670000000000000000123000000005670000012223000056670000000000000000123000000005670000012223000056670000000000000000123000000005670000012223000056670000000000000080123000000005670000012223"/>
+			<Row data="00000000567000000000000000056667000000000000000000000000567000000000000000056667000000000000000000000000567000000000000000056667000000000000000000000000567000000000000000056667000000000000000000000080567000000000000000056667"/>
+			<Row data="00000000000000000000009000000000000000000000000000000000000000000000000000000000::::::::000:::900000000000000;00000000000:::0000:99:00000000000000000000000000000000000000000000000000000000<<0000000080000000000000000000000000"/>
+			<Row data="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000<<<0000000080000000000000000000000000"/>
+			<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000<<<<0000000080000000000000000000000000"/>
+			<Row data="0000000000000000000000000000000000000000000000000000000000000000=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000<<<<<0000000080000>I>000000000000000000"/>
+			<Row data="00000000000000009000:;:9:000000000000000000000?@000000000?@000000000000000000:;:00000000000000A00000:B0000900900900000:0000000000::000000<00<0000000000<<00<000000000000::9:000000000000<<<<<<0000000080000CDE000000000000000000"/>
+			<Row data="00F00000000000000000000000000000000000?@000000GH00F000000GH000000000000000000000000000000000000000F0000000000000000000000000000000000000<<00<<0000F000<<<00<<00000000000000000000000000<<<<<<<0000F0008000>III>00000000000000000"/>
+			<Row data="0JKL0000000000000F0000000000?@00000000GH000000GH0JKL00000GH000000F0000000000000000000000000000000JKL0000000000000F000000000000000000000<<<00<<<00JKL0<<<<00<<<000F0?@00000000000000?@0<<<<<<<<000JKL008000DDMDD00F00000000000000"/>
+			<Row data="JKNKL000000OPPPQJKL0000OPQ00GH00000000GH0OPPQ0GHJKNKL0000GHOPPPQJKL0000OPQ000000000000000OPPQ000JKNKL000000OPPPQJKL0000OPQ000000000000<<<<PP<<<<JKNR<<<<<00<<<<QJKLGH00OPQ000000000GH<<<<<<<<<00JKNRL0<000DDSDDQJKL0000OPQ000000"/>
+			<Row data="TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT00TTTTTTTTTTTTTTT000TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT00TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT"/>
+			<Row data="TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT00TTTTTTTTTTTTTTT000TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT00TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT"/>
 		</LTTileMap>
-		<LTSpriteMap xquantity="128" yquantity="8" cell-width="2" cell-height="2">
+		<LTSpriteMap xquantity="128" yquantity="8" cell-width="2.00000099" cell-height="2.00000099">
 			<TList field="parameters">
 				<LTParameter name="name" value="Objects"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
-			<LTSprite x="107.5" y="12.5" active="0" shape="1" angle="180">
-				<TList field="parameters">
-					<LTParameter name="class" value="TKoopaTroopa"/>
-					<LTParameter name="group" value="5"/>
-				</TList>
-				<LTVisualizer field="visualizer" xscale="-1" yscale="2" rotating="0">
-					<Object field="image" id="4"/>
-				</LTVisualizer>
-			</LTSprite>
-			<LTSprite x="176" y="12.5" active="0" shape="1" angle="180">
+			<LTSprite x="174.500001" y="12.50000099" active="0" shape="1">
 				<TList field="parameters">
 					<LTParameter name="class" value="TGoomba"/>
 					<LTParameter name="group" value="8"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="3"/>
+					<LTImage field="image" id="172" filename="media\LittleGoomba.png" xcells="3"/>
 				</LTVisualizer>
 			</LTSprite>
-			<LTSprite x="97.5" y="12.5" active="0" shape="1" angle="180">
+			<LTSprite x="107.500001" y="12.50000099" active="0" shape="1">
+				<TList field="parameters">
+					<LTParameter name="class" value="TKoopaTroopa"/>
+					<LTParameter name="group" value="5"/>
+				</TList>
+				<LTVisualizer field="visualizer" xscale="-1.00000099" yscale="2.00000099" rotating="0">
+					<LTImage field="image" id="177" filename="media\KoopaTroopa.png" xcells="3"/>
+				</LTVisualizer>
+			</LTSprite>
+			<LTSprite x="176.000001" y="12.50000099" active="0" shape="1">
+				<TList field="parameters">
+					<LTParameter name="class" value="TGoomba"/>
+					<LTParameter name="group" value="8"/>
+				</TList>
+				<LTVisualizer field="visualizer" rotating="0">
+					<Object field="image" id="172"/>
+				</LTVisualizer>
+			</LTSprite>
+			<LTSprite x="97.50000099" y="12.50000099" active="0" shape="1">
 				<TList field="parameters">
 					<LTParameter name="class" value="TGoomba"/>
 					<LTParameter name="group" value="4"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="3"/>
+					<Object field="image" id="172"/>
 				</LTVisualizer>
 			</LTSprite>
-			<LTSprite x="116" y="12.5" active="0" shape="1" angle="180">
-				<TList field="parameters">
-					<LTParameter name="class" value="TGoomba"/>
-					<LTParameter name="group" value="6"/>
-				</TList>
-				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="3"/>
-				</LTVisualizer>
-			</LTSprite>
-			<LTSprite x="51.5" y="12.5" active="0" shape="1" angle="180">
+			<LTSprite x="51.50000099" y="12.50000099" active="0" shape="1">
 				<TList field="parameters">
 					<LTParameter name="class" value="TGoomba"/>
 					<LTParameter name="group" value="2"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="3"/>
+					<Object field="image" id="172"/>
 				</LTVisualizer>
 			</LTSprite>
-			<LTSprite x="126" y="12.5" active="0" shape="1" angle="180">
+			<LTSprite x="116.000001" y="12.50000099" active="0" shape="1">
+				<TList field="parameters">
+					<LTParameter name="class" value="TGoomba"/>
+					<LTParameter name="group" value="6"/>
+				</TList>
+				<LTVisualizer field="visualizer" rotating="0">
+					<Object field="image" id="172"/>
+				</LTVisualizer>
+			</LTSprite>
+			<LTSprite x="126.000001" y="12.50000099" active="0" shape="1">
 				<TList field="parameters">
 					<LTParameter name="class" value="TGoomba"/>
 					<LTParameter name="group" value="7"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="3"/>
+					<Object field="image" id="172"/>
 				</LTVisualizer>
 			</LTSprite>
-			<LTSprite x="128.5" y="12.5" active="0" shape="1" angle="180">
-				<TList field="parameters">
-					<LTParameter name="class" value="TGoomba"/>
-					<LTParameter name="group" value="7"/>
-				</TList>
-				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="3"/>
-				</LTVisualizer>
-			</LTSprite>
-			<LTSprite x="82" y="4.5" active="0" shape="1" angle="180">
+			<LTSprite x="82.00000099" y="4.50000099" active="0" shape="1">
 				<TList field="parameters">
 					<LTParameter name="class" value="TGoomba"/>
 					<LTParameter name="group" value="3"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="3"/>
+					<Object field="image" id="172"/>
 				</LTVisualizer>
 			</LTSprite>
-			<LTSprite x="40.5" y="12.5" active="0" shape="1" angle="180">
+			<LTSprite x="128.500001" y="12.50000099" active="0" shape="1">
+				<TList field="parameters">
+					<LTParameter name="class" value="TGoomba"/>
+					<LTParameter name="group" value="7"/>
+				</TList>
+				<LTVisualizer field="visualizer" rotating="0">
+					<Object field="image" id="172"/>
+				</LTVisualizer>
+			</LTSprite>
+			<LTSprite x="40.50000099" y="12.50000099" active="0" shape="1">
 				<TList field="parameters">
 					<LTParameter name="class" value="TGoomba"/>
 					<LTParameter name="group" value="1"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="3"/>
+					<Object field="image" id="172"/>
 				</LTVisualizer>
 			</LTSprite>
-			<LTSprite x="124.5" y="12.5" active="0" shape="1" angle="180">
+			<LTSprite x="124.500001" y="12.50000099" active="0" shape="1">
 				<TList field="parameters">
 					<LTParameter name="class" value="TGoomba"/>
 					<LTParameter name="group" value="7"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="3"/>
+					<Object field="image" id="172"/>
 				</LTVisualizer>
 			</LTSprite>
-			<LTSprite x="130" y="12.5" active="0" shape="1" angle="180">
+			<LTSprite x="130.000001" y="12.50000099" active="0" shape="1">
 				<TList field="parameters">
 					<LTParameter name="class" value="TGoomba"/>
 					<LTParameter name="group" value="7"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="3"/>
+					<Object field="image" id="172"/>
 				</LTVisualizer>
 			</LTSprite>
-			<LTSprite x="22.5" y="12.5" shape="1" angle="180">
+			<LTSprite x="22.50000099" y="12.50000099" shape="1">
 				<TList field="parameters">
 					<LTParameter name="class" value="TGoomba"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="3"/>
+					<Object field="image" id="172"/>
 				</LTVisualizer>
 			</LTSprite>
-			<LTSprite x="80.5" y="4.5" active="0" shape="1" angle="180">
+			<LTSprite x="80.50000099" y="4.50000099" active="0" shape="1">
 				<TList field="parameters">
 					<LTParameter name="class" value="TGoomba"/>
 					<LTParameter name="group" value="3"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="3"/>
+					<Object field="image" id="172"/>
 				</LTVisualizer>
 			</LTSprite>
-			<LTSprite x="53" y="12.5" active="0" shape="1" angle="180">
+			<LTSprite x="53.00000099" y="12.50000099" active="0" shape="1">
 				<TList field="parameters">
 					<LTParameter name="class" value="TGoomba"/>
 					<LTParameter name="group" value="2"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="3"/>
+					<Object field="image" id="172"/>
 				</LTVisualizer>
 			</LTSprite>
-			<LTSprite x="114.5" y="12.5" active="0" shape="1" angle="180">
+			<LTSprite x="114.500001" y="12.50000099" active="0" shape="1">
 				<TList field="parameters">
 					<LTParameter name="class" value="TGoomba"/>
 					<LTParameter name="group" value="6"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="3"/>
+					<Object field="image" id="172"/>
 				</LTVisualizer>
 			</LTSprite>
-			<LTSprite x="99" y="12.5" active="0" shape="1" angle="180">
+			<LTSprite x="99.00000099" y="12.50000099" active="0" shape="1">
 				<TList field="parameters">
 					<LTParameter name="class" value="TGoomba"/>
 					<LTParameter name="group" value="4"/>
 				</TList>
 				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="3"/>
-				</LTVisualizer>
-			</LTSprite>
-			<LTSprite x="174.5" y="12.5" active="0" shape="1" angle="180">
-				<TList field="parameters">
-					<LTParameter name="class" value="TGoomba"/>
-					<LTParameter name="group" value="8"/>
-				</TList>
-				<LTVisualizer field="visualizer" rotating="0">
-					<Object field="image" id="3"/>
+					<Object field="image" id="172"/>
 				</LTVisualizer>
 			</LTSprite>
 		</LTSpriteMap>
-		<LTSprite x="40.5" y="12.5" width="5" height="5" shape="2" velocity="0">
+		<LTSprite x="40.50000099" y="12.50000099" width="5.00000099" height="5.00000099" shape="2" velocity="0">
 			<TList field="parameters">
 				<LTParameter name="class" value="TTrigger"/>
 				<LTParameter name="group" value="1"/>
 			</TList>
 			<LTVisualizer field="visualizer" alpha="0"/>
 		</LTSprite>
-		<LTSprite x="52.25" y="12.5" width="6.5" height="5" shape="2" velocity="0">
+		<LTSprite x="52.25000099" y="12.50000099" width="6.50000099" height="5.00000099" shape="2" velocity="0">
 			<TList field="parameters">
 				<LTParameter name="class" value="TTrigger"/>
 				<LTParameter name="group" value="2"/>
 			</TList>
 			<LTVisualizer field="visualizer" alpha="0"/>
 		</LTSprite>
-		<LTSprite x="81.25" y="4.5" width="6.5" height="5" shape="2" velocity="0">
+		<LTSprite x="81.25000099" y="4.50000099" width="6.50000099" height="5.00000099" shape="2" velocity="0">
 			<TList field="parameters">
 				<LTParameter name="class" value="TTrigger"/>
 				<LTParameter name="group" value="3"/>
 			</TList>
 			<LTVisualizer field="visualizer" alpha="0"/>
 		</LTSprite>
-		<LTSprite x="98.25" y="12.5" width="6.5" height="5" shape="2" velocity="0">
+		<LTSprite x="98.25000099" y="12.50000099" width="6.50000099" height="5.00000099" shape="2" velocity="0">
 			<TList field="parameters">
 				<LTParameter name="class" value="TTrigger"/>
 				<LTParameter name="group" value="4"/>
 			</TList>
 			<LTVisualizer field="visualizer" alpha="0"/>
 		</LTSprite>
-		<LTSprite x="107.5" y="12.5" width="5" height="5" shape="2" velocity="0">
+		<LTSprite x="107.500001" y="12.50000099" width="5.00000099" height="5.00000099" shape="2" velocity="0">
 			<TList field="parameters">
 				<LTParameter name="class" value="TTrigger"/>
 				<LTParameter name="group" value="5"/>
 			</TList>
 			<LTVisualizer field="visualizer" alpha="0"/>
 		</LTSprite>
-		<LTSprite x="115.25" y="12.5" width="6.5" height="5" shape="2" velocity="0">
+		<LTSprite x="115.250001" y="12.50000099" width="6.50000099" height="5.00000099" shape="2" velocity="0">
 			<TList field="parameters">
 				<LTParameter name="class" value="TTrigger"/>
 				<LTParameter name="group" value="6"/>
 			</TList>
 			<LTVisualizer field="visualizer" alpha="0"/>
 		</LTSprite>
-		<LTSprite x="127.25" y="12.5" width="10.5" height="5" shape="2" velocity="0">
+		<LTSprite x="127.250001" y="12.50000099" width="10.50000099" height="5.00000099" shape="2" velocity="0">
 			<TList field="parameters">
 				<LTParameter name="class" value="TTrigger"/>
 				<LTParameter name="group" value="7"/>
 			</TList>
 			<LTVisualizer field="visualizer" alpha="0"/>
 		</LTSprite>
-		<LTSprite x="175.25" y="12.5" width="6.5" height="5" shape="2" velocity="0">
+		<LTSprite x="175.250001" y="12.50000099" width="6.50000099" height="5.00000099" shape="2" velocity="0">
 			<TList field="parameters">
 				<LTParameter name="class" value="TTrigger"/>
 				<LTParameter name="group" value="8"/>
 			</TList>
 			<LTVisualizer field="visualizer" alpha="0"/>
 		</LTSprite>
-		<LTSprite x="58" y="8" width="2" height="2" shape="2" angle="90">
+		<LTSprite x="58.00000099" y="8.00000099" width="2.00000099" height="2.00000099" shape="2">
 			<TList field="parameters">
 				<LTParameter name="class" value="TExit"/>
 				<LTParameter name="level" value="1"/>
@@ -557,41 +557,41 @@
 			</TList>
 			<LTVisualizer field="visualizer" alpha="0"/>
 		</LTSprite>
-		<LTSprite x="2.5" y="12.5" velocity="0">
+		<LTSprite x="2.50000099" y="12.50000099" velocity="0">
 			<TList field="parameters">
 				<LTParameter name="class" value="TStart"/>
 				<LTParameter name="num" value="0"/>
 			</TList>
 			<LTVisualizer field="visualizer" alpha="0"/>
 		</LTSprite>
-		<LTSprite x="164" y="10.5" velocity="0">
+		<LTSprite x="164.000001" y="10.50000099" velocity="0">
 			<TList field="parameters">
 				<LTParameter name="class" value="TStart"/>
 				<LTParameter name="num" value="1"/>
 			</TList>
 			<LTVisualizer field="visualizer" alpha="0"/>
 		</LTSprite>
-		<LTSprite x="198.5" y="7.25" width="0.25" height="9.5" shape="2" velocity="0">
+		<LTSprite x="198.500001" y="7.25000099" width="0.25000099" height="9.50000099" shape="2" velocity="0">
 			<TList field="parameters">
 				<LTParameter name="class" value="TPole"/>
 			</TList>
 			<LTVisualizer field="visualizer" alpha="0"/>
 		</LTSprite>
-		<LTSprite x="198" y="3.5" shape="2" velocity="0">
+		<LTSprite x="198.000001" y="3.50000099" shape="2" velocity="0">
 			<TList field="parameters">
 				<LTParameter name="name" value="Flag"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<Object field="image" id="5"/>
+				<LTImage field="image" id="288" filename="media\FlagFromPole.png"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="204.5" y="7.5" shape="2" velocity="0">
+		<LTSprite x="204.500001" y="7.50000099" shape="2" velocity="0">
 			<TList field="parameters">
 				<LTParameter name="name" value="CastleFlagSpace"/>
 			</TList>
 			<LTVisualizer field="visualizer" alpha="0"/>
 		</LTSprite>
-		<LTSprite x="204.5" y="12" height="2" shape="2" velocity="0">
+		<LTSprite x="204.500001" y="12.00000099" height="2.00000099" shape="2" velocity="0">
 			<TList field="parameters">
 				<LTParameter name="name" value="FinalExit"/>
 			</TList>
@@ -604,45 +604,45 @@
 			<LTParameter name="name" value="Level"/>
 			<LTParameter name="num" value="1"/>
 		</TList>
-		<Object field="visualizer" id="144"/>
-		<LTShape field="bounds" x="8.5" y="6.5" width="17" height="13">
+		<Object field="visualizer" id="149"/>
+		<LTShape field="bounds" x="8.50000099" y="6.50000099" width="17.00000099" height="13.00000099">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap x="8.5" y="6.5" width="17" height="13" xquantity="17" yquantity="13" tiles-quantity="64">
+		<LTTileMap x="8.50000099" y="6.50000099" width="17.00000099" height="13.00000099" xquantity="17" yquantity="13" tiles-quantity="64">
 			<TList field="parameters">
 				<LTParameter name="class" value="TTiles"/>
 				<LTParameter name="name" value="Tiles"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
-			<Object field="tileset" id="6"/>
-			<Row data="37,35,35,35,37,37,37,37,37,37,37,35,35,35,35,38,39"/>
-			<Row data="37,35,35,35,35,35,35,35,35,35,35,35,35,35,35,38,39"/>
-			<Row data="37,35,35,35,35,35,35,35,35,35,35,35,35,35,35,38,39"/>
-			<Row data="37,35,35,35,35,40,40,40,40,40,35,35,35,35,35,38,39"/>
-			<Row data="37,35,35,35,35,35,35,35,35,35,35,35,35,35,35,38,39"/>
-			<Row data="37,35,35,35,40,40,40,40,40,40,40,35,35,35,35,38,39"/>
-			<Row data="37,35,35,35,35,35,35,35,35,35,35,35,35,35,35,38,39"/>
-			<Row data="37,35,35,35,40,40,40,40,40,40,40,35,35,35,35,38,39"/>
-			<Row data="37,35,35,35,37,37,37,37,37,37,37,35,35,35,35,38,39"/>
-			<Row data="37,35,35,35,37,37,37,37,37,37,37,35,35,41,42,43,39"/>
-			<Row data="37,35,35,35,37,37,37,37,37,37,37,35,35,44,45,46,39"/>
-			<Row data="47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47"/>
-			<Row data="47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47,47"/>
+			<Object field="tileset" id="10"/>
+			<Row data="USSSUUUUUUUSSSSVW"/>
+			<Row data="USSSSSSSSSSSSSSVW"/>
+			<Row data="USSSSSSSSSSSSSSVW"/>
+			<Row data="USSSSXXXXXSSSSSVW"/>
+			<Row data="USSSSSSSSSSSSSSVW"/>
+			<Row data="USSSXXXXXXXSSSSVW"/>
+			<Row data="USSSSSSSSSSSSSSVW"/>
+			<Row data="USSSXXXXXXXSSSSVW"/>
+			<Row data="USSSUUUUUUUSSSSVW"/>
+			<Row data="USSSUUUUUUUSSYZ[W"/>
+			<Row data="USSSUUUUUUUSS\]^W"/>
+			<Row data="_________________"/>
+			<Row data="_________________"/>
 		</LTTileMap>
-		<LTSpriteMap xquantity="8" yquantity="8" cell-width="2" cell-height="2">
+		<LTSpriteMap xquantity="8" yquantity="8" cell-width="2.00000099" cell-height="2.00000099">
 			<TList field="parameters">
 				<LTParameter name="name" value="Objects"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
 		</LTSpriteMap>
-		<LTSprite x="1.5" y="1.5" velocity="0">
+		<LTSprite x="1.50000099" y="1.50000099" velocity="0">
 			<TList field="parameters">
 				<LTParameter name="class" value="TStart"/>
 				<LTParameter name="num" value="0"/>
 			</TList>
 			<LTVisualizer field="visualizer" alpha="0"/>
 		</LTSprite>
-		<LTSprite x="12.5" y="10" height="2" shape="2">
+		<LTSprite x="12.50000099" y="10.00000099" height="2.00000099" shape="2">
 			<TList field="parameters">
 				<LTParameter name="class" value="TExit"/>
 				<LTParameter name="level" value="0"/>

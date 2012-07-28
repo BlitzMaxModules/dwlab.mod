@@ -120,6 +120,7 @@ Type LTSpriteMap Extends LTMap
 		Return Sprites
 	End Method
 	
+	
 	' ==================== Drawing ===================	
 	
 	Rem
@@ -298,7 +299,22 @@ Type LTSpriteMap Extends LTMap
 		Next
 	End Method
 	
-	' ==================== Other ===================
+	' ==================== Other ===================	
+	
+	Method ObjectEnumerator:TNodeEnumerator()
+		Return Sprites.Keys().ObjectEnumerator()
+	End Method
+	
+	
+	
+	Method FindShapeWithParameterIDInChildShapes:LTShape( ParameterName:String, ParameterValue:String, ShapeTypeID:TTypeID )
+		For Local ChildShape:LTShape = EachIn Sprites.Keys()
+			Local Shape:LTShape = ChildShape.FindShapeWithParameterID( ParameterName, ParameterValue, ShapeTypeID, True )
+			If Shape Then Return Shape
+		Next
+	End Method	
+	
+	
 	
 	Method Init()
 		For Local Sprite:LTSprite = Eachin Sprites.Keys()
@@ -312,12 +328,6 @@ Type LTSpriteMap Extends LTMap
 		For Local Sprite:LTSprite = Eachin Sprites.Keys()
 			Sprite.Act()
 		Next
-	End Method
-
-	
-	
-	Method ObjectEnumerator:TNodeEnumerator()
-		Return Sprites.Keys().ObjectEnumerator()
 	End Method
 	
 	

@@ -28,6 +28,12 @@ Type LTSpriteGroup Extends LTSprite
 	
 	
 	
+	Method GetChildrenEnumerator:Object()
+		Return Children
+	End Method
+	
+	
+	
 	Method InsertSprite( Sprite:LTSprite )
 		Sprite.X = ( Sprite.X - X ) / Width
 		Sprite.Y = ( Sprite.Y - Y ) / Height
@@ -101,11 +107,16 @@ Type LTSpriteGroup Extends LTSprite
 	End Method
 		
 	' ==================== List wrapping methods ====================
+	
+	Method ObjectEnumerator:TListEnum()
+		Return Children.ObjectEnumerator()
+	End Method
+	
+	
 
 	Method AddFirst:TLink( Sprite:LTShape )
 		Return Children.AddFirst( Sprite )
 	End Method
-	
 	
 	
 	
@@ -133,16 +144,20 @@ Type LTSpriteGroup Extends LTSprite
 	
 	
 	
-	Method ObjectEnumerator:TListEnum()
-		Return Children.ObjectEnumerator()
-	End Method
+	Method FindShapeWithParameterIDInChildShapes:LTShape( ParameterName:String, ParameterValue:String, ShapeTypeID:TTypeID )
+		For Local ChildShape:LTShape = EachIn Children
+			Local Shape:LTShape = ChildShape.FindShapeWithParameterID( ParameterName, ParameterValue, ShapeTypeID, True )
+			If Shape Then Return Shape
+		Next
+	End Method	
 	
 	' ==================== Cloning ====================
 	
 	Method Clone:LTShape()
 		Local NewSpriteGroup:LTSpriteGroup = New LTSpriteGroup
-		For Local Shape:LTShape = Eachin NewSpriteGroup.Children
-			NewSpriteGroup.Children.AddLast( Shape.Clone() )
+		CopyTo( NewSpriteGroup )
+		For Local Sprite:LTSprite = Eachin Children
+			NewSpriteGroup.Children.AddLast( Sprite.Clone() )
 		Next
 		Return NewSpriteGroup
 	End Method

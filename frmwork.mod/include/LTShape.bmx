@@ -1114,6 +1114,76 @@ Type LTShape Extends LTObject
 		Shape.Active = Active
 	End Method
 	
+	' ==================== Search ===================
+	
+	Method GetChildrenEnumerator:Object()
+		Return Null
+	End Method
+	
+	Rem
+	bbdoc: Finds shape with given name.
+	returns: First found shape with given name.
+	about: IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
+	
+	See also: #Parallax example
+	End Rem
+	Method FindShape:LTShape( Name:String, IgnoreError:Int = False )
+		Return FindShapeWithParameterID( "name", Name, Null, IgnoreError )
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Finds shape of class with given name.
+	returns: First found shape of class of class with given name.
+	about: IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
+	You can specify optional Name parameter to check only shapes with this name.
+	
+	See also: #Parallax example
+	End Rem
+	Method FindShapeWithType:LTShape( ShapeType:String, Name:String = "", IgnoreError:Int = False )
+		If Name Then
+			Return FindShapeWithParameterID( "name", Name, L_GetTypeID( ShapeType ), IgnoreError )
+		Else
+			Return FindShapeWithParameterID( "", "", L_GetTypeID( ShapeType ), IgnoreError )
+		End If
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Finds shape of class with given name with parameter with given name and value.
+	returns: First found layer shape of class with given name and parameter with given name and value.
+	about: IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
+	End Rem
+	Method FindShapeWithParameter:LTShape( ParameterName:String, ParameterValue:String, ShapeType:String = "", IgnoreError:Int = False )
+		Return FindShapeWithParameterID( ParameterName, ParameterValue, L_GetTypeID( ShapeType ), IgnoreError )
+	End Method
+	
+	
+	
+	Method FindShapeWithParameterID:LTShape( ParameterName:String, ParameterValue:String, ShapeTypeID:TTypeID, IgnoreError:Int = False )
+		If TTypeId.ForObject( Self ) = ShapeTypeID Or Not ShapeTypeID Then
+			If GetParameter( ParameterName ) = ParameterValue Or Not ParameterName Then Return Self
+		End If
+		
+		Local Shape:LTShape = FindShapeWithParameterIDInChildShapes( ParameterName:String, ParameterValue:String, ShapeTypeID:TTypeID )
+		If Shape Then Return Shape
+		
+		If Not IgnoreError Then
+			Local TypeName:String = ""
+			If ShapeTypeID Then TypeName = " and type ~q" + ShapeTypeID.Name() + "~q"
+			L_Error( "Shape with parameter " + ParameterName + " = " + ParameterValue + TypeName + " not found." )
+		End If
+		Return Null
+	End Method	
+	
+	
+	
+	Method FindShapeWithParameterIDInChildShapes:LTShape( ParameterName:String, ParameterValue:String, ShapeTypeID:TTypeID )
+		Return Null
+	End Method	
+	
 	' ==================== Management ===================
 	
 	Rem
