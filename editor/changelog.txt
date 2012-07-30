@@ -1,5 +1,9 @@
+1.8.1
++ Ability to open world file via commandline or by selecting world editor as program for opening world files
+* Enchanced compatibility with old world file versions
+
 1.8
-* Added and debugged sprite grouping and ungrouping
++ Sprite grouping and ungrouping
 
 1.7.16.1
 * Fixed some bugs

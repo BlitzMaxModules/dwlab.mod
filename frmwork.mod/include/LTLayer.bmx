@@ -145,95 +145,6 @@ Type LTLayer Extends LTShape
 		Next
 	End Method	
 	
-	' ==================== Shape management ===================	
-	
-	Method InsertBeforeShape:Int( Sprite:LTSprite = Null, SpritesList:TList = Null, BeforeShape:LTShape )
-		Local Link:TLink = Children.FirstLink()
-		While Link <> Null
-			Local Value:Object = Link.Value()
-			If Value = BeforeShape Then
-				If Sprite Then Children.InsertBeforeLink( Sprite, Link )
-				If SpritesList Then
-					For Local ListSprite:LTSprite =Eachin SpritesList
-						Children.InsertBeforeLink( ListSprite, Link )
-					Next
-				End If
-				Return True
-			Else
-				Local Layer:LTLayer = LTLayer( Value )
-				If Layer Then
-					If Layer.InsertBeforeShape( Sprite, SpritesList, BeforeShape ) Then Return True
-				Else
-					Local SpriteMap:LTSpriteMap = LTSpriteMap( Value )
-					If SpriteMap Then
-						If SpriteMap.Sprites.Contains( BeforeShape ) Then
-							If Sprite Then SpriteMap.InsertSprite( Sprite )
-							If SpritesList Then
-								For Local ListSprite:LTSprite =Eachin SpritesList
-									SpriteMap.InsertSprite( ListSprite )
-								Next
-							End If
-							Return True
-						End If
-					End If
-				End If
-			End If
-			Link = Link.NextLink()
-		Wend
-	End Method
-	
-	
-	
-	Rem
-	bbdoc: Removes the shape from layer.
-	about: Included layers and sprite maps will be also checked.
-	End Rem
-	Method Remove( Shape:LTShape )
-		Local Sprite:LTSprite = LTSprite( Shape )
-		Local Link:TLink = Children.FirstLink()
-		While Link <> Null
-			Local Value:Object = Link.Value()
-			If Value = Shape Then
-				Link.Remove()
-			Else
-				Local Layer:LTLayer = LTLayer( Value )
-				If Layer Then
-					Layer.Remove( Shape )
-				ElseIf Sprite Then
-					Local SpriteMap:LTSpriteMap = LTSpriteMap( Value )
-					If SpriteMap Then SpriteMap.RemoveSprite( Sprite )
-				End If
-			End If
-			Link = Link.NextLink()
-		Wend
-	End Method
-	
-	
-	
-	Rem
-	bbdoc: Removes all shapes of class with given name from layer.
-	about: Included layers will be also checked.
-	End Rem
-	Method RemoveAllOfType( TypeName:String )
-		RemoveAllOfTypeID( L_GetTypeID( TypeName ) )
-	End Method 
-	
-	
-	
-	Method RemoveAllOfTypeID( TypeID:TTypeID )
-		Local Link:TLink = Children.FirstLink()
-		While Link <> Null
-			Local Value:Object = Link.Value()
-			If TTypeId.ForObject( Value ) = TypeID Then
-				Link.Remove()
-			Else
-				Local Layer:LTLayer = LTLayer( Value )
-				If Layer Then Layer.RemoveAllOfTypeID( TypeID )
-			End If
-			Link = Link.NextLink()
-		Wend
-	End Method
-	
 	' ==================== Other ===================	
 
 	Method SetCoords( NewX:Double, NewY:Double )
@@ -330,7 +241,7 @@ Type LTLayer Extends LTShape
 		Return Children.ObjectEnumerator()
 	End Method
 	
-	
+	' ==================== Shape management ====================
 	
 	Method FindShapeWithParameterIDInChildShapes:LTShape( ParameterName:String, ParameterValue:String, ShapeTypeID:TTypeID )
 		For Local ChildShape:LTShape = EachIn Children
@@ -338,6 +249,57 @@ Type LTLayer Extends LTShape
 			If Shape Then Return Shape
 		Next
 	End Method	
+	
+	
+	
+	Method InsertBeforeShape:Int( Sprite:LTSprite = Null, SpritesList:TList = Null, BeforeShape:LTShape )
+		Local Link:TLink = Children.FirstLink()
+		While Link <> Null
+			Local Value:Object = Link.Value()
+			If Value = BeforeShape Then
+				If Sprite Then Children.InsertBeforeLink( Sprite, Link )
+				If SpritesList Then
+					For Local ListSprite:LTSprite =Eachin SpritesList
+						Children.InsertBeforeLink( ListSprite, Link )
+					Next
+				End If
+				Return True
+			Else
+				If LTShape( Value ).InsertBeforeShape( Sprite, SpritesList, BeforeShape ) Then Return True
+			End If
+			Link = Link.NextLink()
+		Wend
+	End Method
+	
+	
+	
+	Method Remove( Shape:LTShape )
+		Local Link:TLink = Children.FirstLink()
+		While Link <> Null
+			Local Value:Object = Link.Value()
+			If Value = Shape Then
+				Link.Remove()
+			Else
+				LTShape( Value ).Remove( Shape )
+			End If
+			Link = Link.NextLink()
+		Wend
+	End Method
+	
+	
+	
+	Method RemoveAllOfTypeID( TypeID:TTypeID )
+		Local Link:TLink = Children.FirstLink()
+		While Link <> Null
+			Local Value:Object = Link.Value()
+			If TTypeId.ForObject( Value ) = TypeID Then
+				Link.Remove()
+			Else
+				LTShape( Value ).RemoveAllOfTypeID( TypeID )
+			End If
+			Link = Link.NextLink()
+		Wend
+	End Method
 	
 	' ==================== Cloning ===================	
 	

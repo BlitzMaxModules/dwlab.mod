@@ -1182,7 +1182,41 @@ Type LTShape Extends LTObject
 	
 	Method FindShapeWithParameterIDInChildShapes:LTShape( ParameterName:String, ParameterValue:String, ShapeTypeID:TTypeID )
 		Return Null
-	End Method	
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Inserts the shape before given.
+	about: Included layers and sprite maps will be also checked for given shape.
+	End Rem
+	Method InsertBeforeShape:Int( Sprite:LTSprite = Null, SpritesList:TList = Null, BeforeShape:LTShape )
+		Return False
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Removes the shape from layer.
+	about: Included layers and sprite maps will be also processed.
+	End Rem
+	Method Remove( Shape:LTShape )
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Removes all shapes of class with given name from layer.
+	about: Included layers will be also processed.
+	End Rem
+	Method RemoveAllOfType( TypeName:String )
+		RemoveAllOfTypeID( L_GetTypeID( TypeName ) )
+	End Method 
+	
+	
+	
+	Method RemoveAllOfTypeID( TypeID:TTypeID )
+	End Method		
 	
 	' ==================== Management ===================
 	

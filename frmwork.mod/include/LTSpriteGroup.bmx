@@ -132,17 +132,11 @@ Type LTSpriteGroup Extends LTSprite
 	
 	
 	
-	Method Remove( Shape:LTShape )
-		Children.Remove( Shape )
-	End Method
-	
-	
-	
 	Method ValueAtIndex:LTShape( Index:Int )
 		Return LTSprite( Children.ValueAtIndex( Index ) )
 	End Method
 	
-	
+	' ==================== Shape management ====================
 	
 	Method FindShapeWithParameterIDInChildShapes:LTShape( ParameterName:String, ParameterValue:String, ShapeTypeID:TTypeID )
 		For Local ChildShape:LTShape = EachIn Children
@@ -150,6 +144,57 @@ Type LTSpriteGroup Extends LTSprite
 			If Shape Then Return Shape
 		Next
 	End Method	
+
+		
+	
+	Method InsertBeforeShape:Int( Sprite:LTSprite = Null, SpritesList:TList = Null, BeforeShape:LTShape )
+		Local Link:TLink = Children.FirstLink()
+		While Link <> Null
+			Local Value:Object = Link.Value()
+			If Value = BeforeShape Then
+				If Sprite Then Children.InsertBeforeLink( Sprite, Link )
+				If SpritesList Then
+					For Local ListSprite:LTSprite =Eachin SpritesList
+						Children.InsertBeforeLink( ListSprite, Link )
+					Next
+				End If
+				Return True
+			Else
+				If LTShape( Value ).InsertBeforeShape( Sprite, SpritesList, BeforeShape ) Then Return True
+			End If
+			Link = Link.NextLink()
+		Wend
+	End Method
+	
+	
+	
+	Method Remove( Shape:LTShape )
+		Local Link:TLink = Children.FirstLink()
+		While Link <> Null
+			Local Value:Object = Link.Value()
+			If Value = Shape Then
+				Link.Remove()
+			Else
+				LTShape( Value ).Remove( Shape )
+			End If
+			Link = Link.NextLink()
+		Wend
+	End Method
+	
+	
+	
+	Method RemoveAllOfTypeID( TypeID:TTypeID )
+		Local Link:TLink = Children.FirstLink()
+		While Link <> Null
+			Local Value:Object = Link.Value()
+			If TTypeId.ForObject( Value ) = TypeID Then
+				Link.Remove()
+			Else
+				LTShape( Value ).RemoveAllOfTypeID( TypeID )
+			End If
+			Link = Link.NextLink()
+		Wend
+	End Method
 	
 	' ==================== Cloning ====================
 	

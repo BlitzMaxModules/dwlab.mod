@@ -66,7 +66,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.8"
+	Const Version:String = "1.8.1"
 	Const INIVersion:Int = 5
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 8
@@ -461,11 +461,17 @@ Type LTEditor Extends LTProject
 		ShowGrid = LTMenuSwitch.Find( MenuShowGrid ).Toggle()
 		ReplacementOfTiles = LTMenuSwitch.Find( MenuReplacementOfTiles ).Toggle()
 		ToggleBilinearFiltering()
-			
+		
+		If AppArgs.Length > 1 Then OpenWorld( AppArgs[ 1 ] )
+		
 		If FileType( "editor.ini" ) = 1 Then
 			Local IniFile:TStream = ReadFile( "editor.ini" )
 			If ReadLine( IniFile ).ToInt() = INIVersion Then
-				OpenWorld( ReadLine( IniFile ) )
+				If AppArgs.Length = 1 Then
+					OpenWorld( ReadLine( IniFile ) )
+				Else
+					ReadLine( IniFile )
+				End If 
 				
 				LTMenuSwitch.ReadSwitches( IniFile )
 				L_DebugVisualizer.ShowCollisionShapes = LTMenuSwitch.Find( MenuShowCollisionShapes ).State()

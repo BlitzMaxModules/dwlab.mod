@@ -299,13 +299,7 @@ Type LTSpriteMap Extends LTMap
 		Next
 	End Method
 	
-	' ==================== Other ===================	
-	
-	Method ObjectEnumerator:TNodeEnumerator()
-		Return Sprites.Keys().ObjectEnumerator()
-	End Method
-	
-	
+	' ==================== Shape management ====================
 	
 	Method FindShapeWithParameterIDInChildShapes:LTShape( ParameterName:String, ParameterValue:String, ShapeTypeID:TTypeID )
 		For Local ChildShape:LTShape = EachIn Sprites.Keys()
@@ -313,6 +307,43 @@ Type LTSpriteMap Extends LTMap
 			If Shape Then Return Shape
 		Next
 	End Method	
+
+		
+	
+	Method InsertBeforeShape:Int( Sprite:LTSprite = Null, SpritesList:TList = Null, BeforeShape:LTShape )
+		If Sprites.Contains( BeforeShape ) Then
+			If Sprite Then InsertSprite( Sprite )
+			If SpritesList Then
+				For Local ListSprite:LTSprite =Eachin SpritesList
+					InsertSprite( ListSprite )
+				Next
+			End If
+		End If
+	End Method
+	
+	
+	
+	Method Remove( Shape:LTShape )
+		Local Sprite:LTSprite = LTSprite( Shape )
+		If Sprite Then RemoveSprite( Sprite )
+	End Method
+	
+	
+	
+	Method RemoveAllOfTypeID( TypeID:TTypeID )
+		For Local KeyValue:TKeyValue = Eachin Sprites
+			If TTypeId.ForObject( KeyValue.Key() ) = TypeID Then
+				Local Sprite:LTSprite = LTSprite( KeyValue.Value() )
+				RemoveSprite( Sprite )
+			End If
+		Next
+	End Method
+	
+	' ==================== Other ===================	
+	
+	Method ObjectEnumerator:TNodeEnumerator()
+		Return Sprites.Keys().ObjectEnumerator()
+	End Method
 	
 	
 	

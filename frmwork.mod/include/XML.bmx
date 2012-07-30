@@ -9,6 +9,7 @@
 '
 
 Global L_XMLMode:Int
+Global L_XMLVersion:Int
 
 Const L_XMLGet:Int = 0
 Const L_XMLSet:Int = 1
@@ -532,12 +533,12 @@ Type LTXMLObject Extends LTObject
 		Local File:TStream = ReadFile( Filename )
 		Local Content:String = ""
 		
-		L_EscapingBackslash:Int = -1
+		L_XMLVersion = 0
 		While Not Eof( File )
 			Content :+ ReadLine( File )
-			If L_EscapingBackslash = -1 Then
+			If Not L_XMLVersion Then
 				Local Quote:Int = Content.Find( "~q", Content.Find( "dwlab_version" ) )
-				L_EscapingBackslash = ( L_VersionToInt( Content[ Quote + 1..Content.Find( "~q", Quote + 1 ) ] ) < 01041800 )
+				L_XMLVersion = L_VersionToInt( Content[ Quote + 1..Content.Find( "~q", Quote + 1 ) ] )
 			End If
 		Wend
 		
@@ -599,6 +600,8 @@ Type LTXMLObject Extends LTObject
 				Select CharNum
 					Case Asc( "~q" ), Asc( "%" )
 						NewValue :+ "%" + Chr( CharNum )
+					Case Asc( "~n" )
+						NewValue :+ "%n"
 					Default
 						If CharNum >= 128 Then 
 							NewValue :+ L_UTF8ToASCII( CharNum )
@@ -654,12 +657,12 @@ Type LTXMLObject Extends LTObject
 					
 					ReadingValue = False
 					ChunkBegin = -1
-				ElseIf Txt[ N ] >= 128 Then
+				ElseIf Txt[ N ] >= 128 And L_XMLVersion >= 01041800 Then
 					'debugstop
 					Local Pos:Int = N
 					Local Chunk:String = L_ASCIIToUTF8( Txt, Pos )
 					Txt = Txt[ ..N ] + Chunk + Txt[ Pos + 1.. ]
-				ElseIf L_EscapingBackslash Then
+				ElseIf L_XMLVersion < 01041800 Then
 					If Txt[ N ] = Asc( "\" ) Then
 						Select Txt[ N + 1 ]
 							Case Asc( "~q" ), Asc( "\" )
@@ -670,6 +673,8 @@ Type LTXMLObject Extends LTObject
 					Select Txt[ N + 1 ]
 						Case Asc( "~q" ), Asc( "%" )
 							Txt = Txt[ ..N ] + Txt[ N + 1.. ]
+						Case Asc( "n" )
+							Txt = Txt[ ..N ] + "~n" + Txt[ N + 2.. ]
 					End Select
 				End If
 			Else

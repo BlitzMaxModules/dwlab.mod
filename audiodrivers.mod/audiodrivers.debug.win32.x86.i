@@ -6,7 +6,7 @@ import brl.blitz
 import dwlab.frmwork
 import brl.directsoundaudio
 import brl.oggloader
-TErrorSoundPlayer^dwlab.frmwork.TSoundPlayer{
+TErrorSoundPlayer^TSoundPlayer{
 -New%()="_dwlab_audiodrivers_TErrorSoundPlayer_New"
 -Delete%()="_dwlab_audiodrivers_TErrorSoundPlayer_Delete"
 -PlayErrorSound%()="_dwlab_audiodrivers_TErrorSoundPlayer_PlayErrorSound"
