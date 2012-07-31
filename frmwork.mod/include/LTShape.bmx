@@ -1167,9 +1167,6 @@ Type LTShape Extends LTObject
 			If GetParameter( ParameterName ) = ParameterValue Or Not ParameterName Then Return Self
 		End If
 		
-		Local Shape:LTShape = FindShapeWithParameterIDInChildShapes( ParameterName:String, ParameterValue:String, ShapeTypeID:TTypeID )
-		If Shape Then Return Shape
-		
 		If Not IgnoreError Then
 			Local TypeName:String = ""
 			If ShapeTypeID Then TypeName = " and type ~q" + ShapeTypeID.Name() + "~q"

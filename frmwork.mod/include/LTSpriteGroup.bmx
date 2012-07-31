@@ -138,12 +138,18 @@ Type LTSpriteGroup Extends LTSprite
 	
 	' ==================== Shape management ====================
 	
-	Method FindShapeWithParameterIDInChildShapes:LTShape( ParameterName:String, ParameterValue:String, ShapeTypeID:TTypeID )
+	Method FindShapeWithParameterID:LTShape( ParameterName:String, ParameterValue:String, ShapeTypeID:TTypeID, IgnoreError:Int = False )
 		For Local ChildShape:LTShape = EachIn Children
+			If Not ShapeTypeID Or TTypeId.ForObject( ChildShape ) = ShapeTypeID Then
+				If Not ParameterName Or ChildShape.GetParameter( ParameterName ) = ParameterValue Then Return Self
+			End If
+			
 			Local Shape:LTShape = ChildShape.FindShapeWithParameterID( ParameterName, ParameterValue, ShapeTypeID, True )
 			If Shape Then Return Shape
 		Next
-	End Method	
+		
+		Super.FindShapeWithParameterID( ParameterName, ParameterValue, ShapeTypeID, IgnoreError )
+	End Method
 
 		
 	
