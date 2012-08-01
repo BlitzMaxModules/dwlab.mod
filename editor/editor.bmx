@@ -13,7 +13,7 @@ SuperStrict
 
 Import dwlab.frmwork
 Import dwlab.graphicsdrivers
-'Import dwlab.physics2d
+Import dwlab.physics2d
 Import brl.bmploader
 
 Import brl.eventqueue
@@ -124,6 +124,7 @@ Type LTEditor Extends LTProject
 	Field SelectImageButton:TGadget
 	Field RotatingCheckbox:TGadget
 	Field ScalingCheckbox:TGadget
+	Field PhysicsCheckbox:TGadget
 	Field HiddenOKButton:TGadget
 	Field HScroller:TGadget
 	Field VScroller:TGadget
@@ -172,7 +173,7 @@ Type LTEditor Extends LTProject
 	Field WorldFilename:String
 	Field EditorPath:String
 	
-	Field Pan:TPan = New TPan
+	Field Pan:TPan
 	Field SelectShapes:TSelectShapes = New TSelectShapes
 	Field MoveShape:TMoveShape = New TMoveShape
 	Field CreateSprite:TCreateSprite = New TCreateSprite
@@ -334,7 +335,7 @@ Type LTEditor Extends LTProject
 		PanelForm.NewLine( LTAlign.Stretch )
 		RotatingCheckbox = PanelForm.AddButton( "{{CB_Rotation}}", 80, Button_Checkbox )
 		ScalingCheckbox = PanelForm.AddButton( "{{CB_Scaling}}", 80, Button_Checkbox )
-		ScalingCheckbox = PanelForm.AddButton( "{{CB_Physics}}", 80, Button_Checkbox )
+		PhysicsCheckbox = PanelForm.AddButton( "{{CB_Physics}}", 80, Button_Checkbox )
 		PanelForm.Finalize( False, 6, 6 )
 		
 		SetSliderRange( AngleSlider, 0, 23 )
@@ -350,7 +351,7 @@ Type LTEditor Extends LTProject
 				
 		World.Camera = LTCamera.Create( GadgetWidth( MainCanvas ), GadgetHeight( MainCanvas ), 32.0 )
 		TilesetCamera = LTCamera.Create( GadgetWidth( TilesetCanvas ), GadgetHeight( TilesetCanvas ), 16.0 )
-		
+		Pan = TPan.Create( L_CurrentCamera )
 		
 		
 		FileMenu = CreateMenu( "{{M_File}}", 0, WindowMenu( Window ) )
@@ -1419,6 +1420,21 @@ Type LTEditor Extends LTProject
 							Sprite.CollisionLayer = SliderValue( LayerSlider )
 							SetGadgetText( LayerField, Sprite.CollisionLayer )
 							SetChanged()
+						Case PhysicsCheckbox
+							Local ToSprite:LTSprite
+							If LTBox2DSprite( Sprite ) Then
+								ToSprite = New LTSprite
+							Else
+								ToSprite = New LTBox2DSprite
+							End If
+							Sprite.CopyTo( ToSprite )
+							World.InsertBeforeShape( ToSprite, , Sprite )
+							World.Remove( Sprite )
+							CurrentShape = ToSprite
+							SelectedShapes.InsertAfterLink( ToSprite, SelectedShapes.FindLink( Sprite ) )
+							SelectedShapes.Remove( Sprite )
+							RefreshProjectManager()
+							SetChanged()
 					End Select
 				Next
 			Case Event_GadgetMenu
@@ -1747,6 +1763,7 @@ Type LTEditor Extends LTProject
 		
 		SetButtonState( RotatingCheckbox, Visualizer.Rotating )
 		SetButtonState( ScalingCheckbox, Visualizer.Scaling )
+		SetButtonState( PhysicsCheckbox, LTBox2DSprite( CurrentShape ) <> Null )
 		
 		ClearGadgetItems( ShapeBox )
 		

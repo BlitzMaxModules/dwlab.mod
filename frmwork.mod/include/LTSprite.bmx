@@ -1051,7 +1051,6 @@ Type LTSprite Extends LTShape
 		Sprite.DisplayingAngle = DisplayingAngle
 		Sprite.Velocity = Velocity
 		Sprite.Frame = Frame
-		Sprite.UpdateFromAngularModel()
 	End Method
 	
 	

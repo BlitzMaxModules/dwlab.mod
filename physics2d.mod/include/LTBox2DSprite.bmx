@@ -17,6 +17,12 @@ Type LTBox2DSprite Extends LTVectorSprite
 	
 	
 	
+	Method GetClassTitle:String()
+		Return "Box2D Sprite"
+	End Method
+	
+	
+	
 	Method Init()
 		UpdateFromAngularModel()
 		ListLink = LTBox2DPhysics.Objects.AddLast( Self )
@@ -107,6 +113,14 @@ Type LTBox2DSprite Extends LTVectorSprite
 	
 	Method SetCoords( NewX:Double, NewY:Double )
 
+	End Method
+	
+	
+	
+	Method Clone:LTShape()
+		Local NewSprite:LTBox2DSprite = New LTBox2DSprite
+		CopyTo( NewSprite )
+		Return NewSprite
 	End Method
 	
 	

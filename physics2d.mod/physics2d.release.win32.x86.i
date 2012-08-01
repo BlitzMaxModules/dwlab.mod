@@ -6,14 +6,17 @@ ModuleInfo "History: v1.0 (16.07.12)"
 ModuleInfo "History: &nbsp; &nbsp; Initial release."
 import brl.blitz
 import dwlab.frmwork
-import dwlab.box2d
+import bah.box2d
 LTBox2DPhysics^Object{
 Objects:TList&=mem:p("_dwlab_physics2d_LTBox2DPhysics_Objects")
 Box2DWorld:b2World&=mem:p("_dwlab_physics2d_LTBox2DPhysics_Box2DWorld")
+VelocityIterations%&=mem("_dwlab_physics2d_LTBox2DPhysics_VelocityIterations")
+PositionIterations%&=mem("_dwlab_physics2d_LTBox2DPhysics_PositionIterations")
 -New%()="_dwlab_physics2d_LTBox2DPhysics_New"
 -Delete%()="_dwlab_physics2d_LTBox2DPhysics_Delete"
--InitWorld%(World:LTLayer)="_dwlab_physics2d_LTBox2DPhysics_InitWorld"
--ProcessLayer%(Layer:LTLayer)="_dwlab_physics2d_LTBox2DPhysics_ProcessLayer"
++InitWorld%(World:LTLayer)="_dwlab_physics2d_LTBox2DPhysics_InitWorld"
++ProcessLayer%(Layer:LTLayer)="_dwlab_physics2d_LTBox2DPhysics_ProcessLayer"
++Logic%(TimeStep#)="_dwlab_physics2d_LTBox2DPhysics_Logic"
 }="dwlab_physics2d_LTBox2DPhysics"
 LTBox2DSprite^LTVectorSprite{
 Pivot1:LTSprite&=mem:p("_dwlab_physics2d_LTBox2DSprite_Pivot1")
@@ -25,10 +28,12 @@ PolygonDefinition:b2PolygonDef&=mem:p("_dwlab_physics2d_LTBox2DSprite_PolygonDef
 .ListLink:TLink&
 -New%()="_dwlab_physics2d_LTBox2DSprite_New"
 -Delete%()="_dwlab_physics2d_LTBox2DSprite_Delete"
+-GetClassTitle$()="_dwlab_physics2d_LTBox2DSprite_GetClassTitle"
 -Init%()="_dwlab_physics2d_LTBox2DSprite_Init"
 +PivotToVertex:b2Vec2(Pivot:LTSprite)="_dwlab_physics2d_LTBox2DSprite_PivotToVertex"
 -AttachToBody%(ShapeDefinition:b2ShapeDef,Friction#,Density#,Restitution#)="_dwlab_physics2d_LTBox2DSprite_AttachToBody"
 -SetCoords%(NewX!,NewY!)="_dwlab_physics2d_LTBox2DSprite_SetCoords"
+-Clone:LTShape()="_dwlab_physics2d_LTBox2DSprite_Clone"
 -Update%()="_dwlab_physics2d_LTBox2DSprite_Update"
 -Destroy%()="_dwlab_physics2d_LTBox2DSprite_Destroy"
 }="dwlab_physics2d_LTBox2DSprite"

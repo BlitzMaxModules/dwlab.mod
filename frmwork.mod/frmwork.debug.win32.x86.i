@@ -451,6 +451,8 @@ LTVectorSprite^LTSprite{
 -MoveForward%()="_dwlab_frmwork_LTVectorSprite_MoveForward"
 -DirectTo%(Shape:LTShape)="_dwlab_frmwork_LTVectorSprite_DirectTo"
 -ReverseDirection%()="_dwlab_frmwork_LTVectorSprite_ReverseDirection"
+-Clone:LTShape()="_dwlab_frmwork_LTVectorSprite_Clone"
+-CopyTo%(Shape:LTShape)="_dwlab_frmwork_LTVectorSprite_CopyTo"
 }="dwlab_frmwork_LTVectorSprite"
 LTSpriteCollisionHandler^LTObject{
 -New%()="_dwlab_frmwork_LTSpriteCollisionHandler_New"

@@ -12,25 +12,18 @@
 Global Simulator:TSimulator = New TSimulator
 
 Type TSimulator Extends LTProject
-	Field Layer:LTLayer
-	
-	
-	
-	Method CreateShape:LTShape( Shape:LTShape )
-		Return Shape.Clone()
-	End Method
+	Field Pan:TPan
 	
 	
 	
 	Method Init()
-		'LoadAndInitLayer( Layer, LTLayer( Editor.SelectedShape ) )
-		'LTBox2DPhysics.InitWorld( Layer )
-		'Pan = TPan.Create( L_CurrentCamera )
+		LTBox2DPhysics.InitWorld( LTLayer( Editor.SelectedShape.Clone() ) )
+		Pan = TPan.Create( L_CurrentCamera )
 	End Method
 	
 	
 	
 	Method Logic()
-		'LTBox2DPhysics.Logic()
+		LTBox2DPhysics.Logic( 1.0 / L_LogicFPS )
 	End Method
 End Type

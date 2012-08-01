@@ -1,0 +1,27 @@
+<LTWorld dwlab_version="1.4.20">
+	<LTVisualizer field="visualizer"/>
+	<LTEditorData field="editor_data" cell_width="1.00000099" x_div="2" y_div="2" coll_x_div="16" coll_y_div="16">
+		<TList field="images">
+			<Object id="7"/>
+		</TList>
+		<LTColor field="background"/>
+		<LTColor field="grid_color" green="0" alpha="0.50000099"/>
+	</LTEditorData>
+	<LTCamera field="camera" width="46.85120506" height="40.6229696" shape="2" viewport-clipping="1">
+		<LTVisualizer field="visualizer"/>
+		<LTShape field="viewport" x="504.000001" y="437.000001" width="1008.000001" height="874.000001">
+			<LTVisualizer field="visualizer"/>
+		</LTShape>
+	</LTCamera>
+	<LTLayer>
+		<TList field="parameters">
+			<LTParameter name="name" value="LTLayer"/>
+		</TList>
+		<LTVisualizer field="visualizer"/>
+		<LTBox2DSprite x="-5.25000099" y="13.50000099" width="0.50000099" height="5.00000099" shape="2">
+			<LTVisualizer field="visualizer">
+				<LTImage field="image" id="7" filename="books.jpg"/>
+			</LTVisualizer>
+		</LTBox2DSprite>
+	</LTLayer>
+</LTWorld>

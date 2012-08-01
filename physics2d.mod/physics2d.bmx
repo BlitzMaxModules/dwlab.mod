@@ -24,7 +24,7 @@ ModuleInfo "History: v1.0 (16.07.12)"
 ModuleInfo "History: &nbsp; &nbsp; Initial release."
 
 Import dwlab.frmwork
-Import dwlab.box2d
+Import bah.box2d
 
 Include "include\LTBox2DPhysics.bmx"
 Include "include\LTBox2DSprite.bmx"
