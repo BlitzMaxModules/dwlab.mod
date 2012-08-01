@@ -1372,6 +1372,33 @@ Type LTEditor Extends LTProject
 						Case RotatingCheckbox
 							Visualizer.Rotating = ButtonState( RotatingCheckbox )
 							SetChanged()
+						Case PhysicsCheckbox
+							Local ToShape:LTShape = Null
+							
+							If LTSprite( Shape ) Then
+								If LTBox2DSprite( Shape ) Then
+									ToShape = New LTSprite
+								Else
+									ToShape = New LTBox2DSprite
+								End If
+							ElseIf LTTileMap( Shape )
+								If LTBox2DTileMap( Shape ) Then
+									ToShape = New LTTileMap
+								Else
+									ToShape = New LTBox2DTileMap
+								End If
+							End If
+							
+							If ToShape Then
+								Shape.CopyTo( ToShape )
+								World.InsertBeforeShape( ToShape, , Shape )
+								World.Remove( Shape )
+								CurrentShape = ToShape
+								SelectedShapes.InsertAfterLink( ToShape, SelectedShapes.FindLink( Shape ) )
+								SelectedShapes.Remove( Shape )
+								RefreshProjectManager()
+								SetChanged()
+							End If
 					End Select
 				Next
 				
@@ -1419,21 +1446,6 @@ Type LTEditor Extends LTProject
 						Case LayerSlider
 							Sprite.CollisionLayer = SliderValue( LayerSlider )
 							SetGadgetText( LayerField, Sprite.CollisionLayer )
-							SetChanged()
-						Case PhysicsCheckbox
-							Local ToSprite:LTSprite
-							If LTBox2DSprite( Sprite ) Then
-								ToSprite = New LTSprite
-							Else
-								ToSprite = New LTBox2DSprite
-							End If
-							Sprite.CopyTo( ToSprite )
-							World.InsertBeforeShape( ToSprite, , Sprite )
-							World.Remove( Sprite )
-							CurrentShape = ToSprite
-							SelectedShapes.InsertAfterLink( ToSprite, SelectedShapes.FindLink( Sprite ) )
-							SelectedShapes.Remove( Sprite )
-							RefreshProjectManager()
 							SetChanged()
 					End Select
 				Next
@@ -1795,6 +1807,12 @@ Type LTEditor Extends LTProject
 		AddGadgetItem( ComboBox, LocalizeString( "{{I_Pivot}}" ) )
 		AddGadgetItem( ComboBox, LocalizeString( "{{I_Oval}}" ) )
 		AddGadgetItem( ComboBox, LocalizeString( "{{I_Rectangle}}" ) )
+		AddGadgetItem( ComboBox, LocalizeString( "{{I_Ray}}" ) )
+		AddGadgetItem( ComboBox, LocalizeString( "{{I_TopLeftTriangle}}" ) )
+		AddGadgetItem( ComboBox, LocalizeString( "{{I_TopRightTriangle}}" ) )
+		AddGadgetItem( ComboBox, LocalizeString( "{{I_BottomLeftTriangle}}" ) )
+		AddGadgetItem( ComboBox, LocalizeString( "{{I_BottomRightTriangle}}" ) )
+		AddGadgetItem( ComboBox, LocalizeString( "{{I_Raster}}" ) )
 	End Method
 	
 	

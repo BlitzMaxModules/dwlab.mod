@@ -319,17 +319,18 @@ Type LTSpriteMap Extends LTMap
 
 		
 	
-	Method InsertBeforeShape:Int( Sprite:LTSprite = Null, SpritesList:TList = Null, BeforeShape:LTShape )
+	Method InsertBeforeShape:Int( Shape:LTShape = Null, ShapesList:TList = Null, BeforeShape:LTShape )
 		If Sprites.Contains( BeforeShape ) Then
+			Local Sprite:LTSprite = LTSprite( Shape )
 			If Sprite Then InsertSprite( Sprite )
-			If SpritesList Then
-				For Local ListSprite:LTSprite =Eachin SpritesList
+			If ShapesList Then
+				For Local ListSprite:LTSprite =Eachin ShapesList
 					InsertSprite( ListSprite )
 				Next
 			End If
 		Else
 			For Local SpriteGroup:LTSpriteGroup = Eachin Sprites.Keys()
-				SpriteGroup.InsertBeforeShape( Sprite, SpritesList, BeforeShape )
+				SpriteGroup.InsertBeforeShape( Shape, ShapesList, BeforeShape )
 			Next
 		End If
 	End Method

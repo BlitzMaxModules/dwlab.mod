@@ -1187,7 +1187,7 @@ Type LTShape Extends LTObject
 	bbdoc: Inserts the shape before given.
 	about: Included layers and sprite maps will be also checked for given shape.
 	End Rem
-	Method InsertBeforeShape:Int( Sprite:LTSprite = Null, SpritesList:TList = Null, BeforeShape:LTShape )
+	Method InsertBeforeShape:Int( Shape:LTShape = Null, ShapesList:TList = Null, BeforeShape:LTShape )
 		Return False
 	End Method
 	
