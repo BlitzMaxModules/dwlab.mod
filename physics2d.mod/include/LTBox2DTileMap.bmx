@@ -9,6 +9,11 @@
 '
 
 Type LTBox2DTileMap Extends LTTileMap
+	Field Body:b2Body
+	Field ListLink:TLink
+	
+	
+	
 	Method GetClassTitle:String()
 		Return "Box2D tile map"
 	End Method
@@ -21,30 +26,15 @@ Type LTBox2DTileMap Extends LTTileMap
 		Local BodyDefinition:b2BodyDef = New b2BodyDef
 		Body = LTBox2DPhysics.Box2DWorld.CreateBody( BodyDefinition )
 		
-		AttachSpriteShapesToBody( Self, LTBox2DShapeParameters.FromSprite( Self ), Body )
+		'AttachSpriteShapesToBody( Self, LTBox2DShapeParameters.FromSprite( Self ), Body )
 	End Method
 	
 	
 	
 	Method Clone:LTShape()
-		Local NewSprite:LTBox2DSprite = New LTBox2DSprite
-		CopyTo( NewSprite )
-		Return NewSprite
-	End Method
-	
-	
-	
-	Method Update()
-		If Body Then
-			Local Vector:b2Vec2 = Body.GetPosition()
-			X = Vector.X()
-			Y = Vector.Y()
-			Vector = Body.GetLinearVelocity()
-			DX = Vector.X()
-			DY = Vector.Y()
-			UpdateAngularModel()
-			DisplayingAngle = Body.GetAngle()
-		End If
+		Local NewTileMap:LTBox2DTileMap = New LTBox2DTileMap
+		CopyTo( NewTileMap )
+		Return NewTileMap
 	End Method
 	
 	

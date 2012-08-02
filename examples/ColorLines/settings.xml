@@ -1,12 +1,12 @@
-<LTMenu current_profile="1" dwlab_version="1.4.12">
+<LTMenu current_profile="1" dwlab_version="1.4.21">
 	<TList field="profiles">
-		<TGameProfile id="1" language="Russian" audio="DirectSound" video="DirectX7" width="2048" height="1536" depth="32" frequency="85" x_resolution="1216" y_resolution="912" next-balls="5,3,2" balls-in-line="4" balls-per-turn="3">
-			<LTTileMap field="balls" x="12.5000396" y="8.8300396" width="19.0000396" height="14.2500396" visible="0" xquantity="19" yquantity="19" tiles-quantity="14">
+		<TGameProfile id="1" name="{{P_Player}}" language="Russian" audio="DirectSound" video="DirectX7" width="1280" height="1024" depth="32" frequency="75" x_resolution="1216" y_resolution="912" next-balls="7,5,5" score="15" balls-in-line="5" balls-per-turn="3">
+			<LTTileMap field="balls" x="8.50003" y="4.87002999" width="13.00003" height="9.75003" visible="0" xquantity="13" yquantity="13" tiles-quantity="14">
 				<TList field="parameters">
 					<LTParameter name="name" value="Balls"/>
 				</TList>
-				<LTVisualizer field="visualizer" dy="-0.2500396" xscale="0.90001782" yscale="1.23001782"/>
-				<LTTileSet field="tileset" id="9" name="Balls" tiles-quantity="14" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0" empty-tile="0">
+				<LTVisualizer field="visualizer" dy="-0.20000999" xscale="0.90000999" yscale="1.23001"/>
+				<LTTileSet field="tileset" id="9" name="Balls" tiles-quantity="14" block-width="00000000000000" block-height="00000000000000" empty-tile="0">
 					<LTImage field="image" filename="balls.png" xcells="14"/>
 					<ShapeArray field="collision-shapes">
 						<Null/>
@@ -25,51 +25,39 @@
 						<Null/>
 					</ShapeArray>
 				</LTTileSet>
-				<Row data="0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,7,4,1,0,1,5,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,1,1,0,0,0,0,0,0,3,0,0,0,0,0"/>
-				<Row data="0,0,0,0,6,6,0,0,0,0,0,3,0,0,4,0,0,0,0"/>
-				<Row data="0,0,0,2,3,4,2,3,0,6,6,0,0,0,4,3,0,0,0"/>
-				<Row data="2,0,0,1,0,2,0,0,0,0,0,0,0,1,0,3,0,0,0"/>
-				<Row data="0,0,0,0,1,2,0,5,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="5,0,0,4,2,1,0,0,0,0,0,0,0,0,0,0,0,0,2"/>
-				<Row data="0,0,0,7,2,0,0,0,0,0,0,0,6,6,4,1,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,4,0,0,0,0,1,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,2,7,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,5,0,1,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,6,6,0,0,7,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+				<Row data="0462000325510"/>
+				<Row data="3645000000000"/>
+				<Row data="3350000000765"/>
+				<Row data="2020030602047"/>
+				<Row data="2000002102000"/>
+				<Row data="7000418500010"/>
+				<Row data="0000780840000"/>
+				<Row data="7050410000100"/>
+				<Row data="0050104400000"/>
+				<Row data="4050005000004"/>
+				<Row data="2310700000003"/>
+				<Row data="3210000000404"/>
+				<Row data="0225703001110"/>
 			</LTTileMap>
-			<LTTileMap field="modifiers" x="12.5000396" y="8.8300396" width="19.0000396" height="14.2500396" xquantity="19" yquantity="19" tiles-quantity="14">
+			<LTTileMap field="modifiers" x="8.50003" y="4.87002999" width="13.00003" height="9.75003" xquantity="13" yquantity="13" tiles-quantity="14">
 				<TList field="parameters">
 					<LTParameter name="name" value="Modifiers"/>
 				</TList>
-				<LTVisualizer field="visualizer" dy="-0.2500396" yscale="2.6600396"/>
+				<LTVisualizer field="visualizer" dy="-0.25002999" yscale="1.25001999"/>
 				<Object field="tileset" id="9"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-				<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+				<Row data="000;00000<000"/>
+				<Row data="00;0000000000"/>
+				<Row data="0;000000000<0"/>
+				<Row data=";00000000000<"/>
+				<Row data="0000000000000"/>
+				<Row data="0000000000000"/>
+				<Row data="0000000000000"/>
+				<Row data="0000000000000"/>
+				<Row data="0000000000000"/>
+				<Row data="<00000000000;"/>
+				<Row data="0<00000000000"/>
+				<Row data="00<0000000;00"/>
+				<Row data="000<00000;000"/>
 			</LTTileMap>
 			<LTButtonAction name="Boss key">
 				<LTKeyboardKey code="90"/>

@@ -175,7 +175,7 @@ Type LTXMLObject Extends LTObject
 			Next
 			AttrVariable = DefaultValue
 		ElseIf AttrVariable <> DefaultValue Then
-			SetAttribute( AttrName, String( L_TrimDouble( AttrVariable ) ) )
+			SetAttribute( AttrName, String( L_TrimDouble( AttrVariable, 8 ) ) )
 		End If
 	End Method
 	
