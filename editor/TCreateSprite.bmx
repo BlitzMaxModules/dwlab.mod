@@ -52,7 +52,7 @@ Type TCreateSprite Extends LTDrag
 		Local X:Double = Editor.Cursor.X
 		Local Y:Double = Editor.Cursor.Y
 		Editor.Grid.SnapCoords( X, Y )
-		Sprite.SetCoords( 0.5 * ( X + StartX ), 0.5 * ( Y + StartY ) )
+		Sprite.SetCoords( 0.5:Double * ( X + StartX ), 0.5:Double * ( Y + StartY ) )
 		Sprite.SetSize( Abs( X - StartX ), Abs( Y - StartY ) )
 	End Method
 	

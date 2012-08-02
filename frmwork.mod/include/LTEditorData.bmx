@@ -24,8 +24,8 @@ Type LTEditorData Extends LTObject
 	
 	Field IncbinValue:Int
 	Field BackgroundColor:LTColor = LTColor.FromHex( "FFFFFF" )
-	Field GridCellWidth:Double = 1.0
-	Field GridCellHeight:Double = 1.0
+	Field GridCellWidth:Double = 1.0:Double
+	Field GridCellHeight:Double = 1.0:Double
 	Field GridCellXDiv:Int = 2
 	Field GridCellYDiv:Int = 2
 	Field GridPositionSnappingMode:Int = EdgesSnapping
@@ -42,8 +42,8 @@ Type LTEditorData Extends LTObject
 		XMLObject.ManageListField( "tilesets", Tilesets )
 		
 		BackgroundColor = LTColor( XMLObject.ManageObjectField( "background", BackgroundColor ) )
-		XMLObject.ManageDoubleAttribute( "cell_width", GridCellWidth )
-		XMLObject.ManageDoubleAttribute( "cell_width", GridCellHeight )
+		XMLObject.ManageDoubleAttribute( "cell_width", GridCellWidth, 1.0:Double )
+		XMLObject.ManageDoubleAttribute( "cell_height", GridCellHeight, 1.0:Double )
 		XMLObject.ManageIntAttribute( "x_div", GridCellXDiv )
 		XMLObject.ManageIntAttribute( "y_div", GridCellYDiv )
 		XMLObject.ManageIntAttribute( "position_snap", GridPositionSnappingMode )

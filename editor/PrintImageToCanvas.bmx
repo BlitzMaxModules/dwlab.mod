@@ -93,16 +93,5 @@ End Function
 
 
 Function DrawCollisionSprite( Sprite:LTSprite, X:Double, Y:Double, Width:Double, Height:Double )
-	Local ShapeX:Double = X + Width * Sprite.X
-	Local ShapeY:Double = Y + Height * Sprite.Y
-	Local ShapeWidth:Double = Width * Sprite.Width
-	Local ShapeHeight:Double = Height * Sprite.Height
-	Select Sprite.ShapeType
-		Case LTSprite.Pivot
-			DrawOval( ShapeX - 2, ShapeY - 2, 5, 5 )
-		Case LTSprite.Circle
-			DrawOval( ShapeX - 0.5 * ShapeWidth, ShapeY - 0.5 * ShapeHeight, ShapeWidth, ShapeHeight )
-		Case LTSprite.Rectangle
-			DrawRect( ShapeX - 0.5 * ShapeWidth, ShapeY - 0.5 * ShapeHeight, ShapeWidth, ShapeHeight )
-	End Select
+	LTVisualizer.DrawShape( Sprite.ShapeType, X + Width * Sprite.X, Y + Height * Sprite.Y, Width * Sprite.Width, Height * Sprite.Height )
 End Function

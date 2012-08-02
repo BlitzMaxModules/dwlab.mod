@@ -59,17 +59,24 @@ End Function
 
 	
 Rem
-bbdoc: Trims trailing zeroes of Double value and cuts all digits after given quantity (2 by default) after point.
+bbdoc: Trims trailing zeroes of Double value and cuts all digits after given quantity (off by default) after point.
 End Rem
-Function L_TrimDouble:String ( Val:Double, DigitsAfterDot:Int = 2 )
-	If Abs( Val ) > L_Inaccuracy Then Val :+ L_Inaccuracy * Sgn( Val ) Else Val = 0
-	Local StrVal:String = String( Val ) + "000000000"
-	Local N:Int = StrVal.Find( "." ) + 1 + DigitsAfterDot
+Function L_TrimDouble:String ( Val:Double, DigitsAfterDot:Int = -1 )
+	Local StrVal:String, N:Int
+	If DigitsAfterDot >=0 Then
+		StrVal = String( Val ) + "00000000000000"
+		N = StrVal.Find( "." ) + 1 + DigitsAfterDot
+	Else
+		StrVal = String( Val )
+		N = StrVal.Length
+	End If 
+	
 	Repeat
-		N = N - 1
+		N :- 1
 		Select StrVal[ N ]
-			Case 46 Return StrVal[ ..N ]
-			Case 48
+			Case Asc( "0" )
+			Case Asc( "." )
+				Return StrVal[ ..N ]
 			Default
 				Return StrVal[ ..N + 1 ]
 		End Select
@@ -267,7 +274,7 @@ returns: Rounded value.
 about: Faster than Int().
 End Rem
 Function L_Round:Int( Value:Double )
-	Return Int( Value + 0.5 * Sgn( Value ) )
+	Return Int( Value + 0.5:Double * Sgn( Value ) )
 End Function
 
 

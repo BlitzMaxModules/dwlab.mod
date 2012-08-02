@@ -136,14 +136,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 			Local SWidth:Double, SHeight:Double
 			L_CurrentCamera.SizeFieldToScreen( Sprite.Width * TileWidth, Sprite.Height * TileHeight, SWidth, SHeight )
 			
-			Select Sprite.ShapeType
-				Case LTSprite.Pivot
-					DrawOval( SX - 2, Y - 2, 5, 5 )
-				Case LTSprite.Circle
-					DrawOval( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
-				Case LTSprite.Rectangle
-					DrawRect( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
-			End Select
+			DrawShape( Sprite.ShapeType, SX, SY, SWidth, SHeight )
 		End If
 	End Method
 	

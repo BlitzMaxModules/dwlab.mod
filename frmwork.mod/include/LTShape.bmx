@@ -1280,6 +1280,11 @@ Type LTShape Extends LTObject
 		Visible = False
 	End Method
 	
+	
+	
+	Method Physics:Int()
+	End Method
+	
 	' ==================== Saving / loading ====================
 	
 	Method XMLIO( XMLObject:LTXMLObject )

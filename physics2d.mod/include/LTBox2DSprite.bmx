@@ -27,7 +27,7 @@ Type LTBox2DSprite Extends LTVectorSprite
 	
 	
 	Method GetClassTitle:String()
-		Return "Box2D Sprite"
+		Return "Box2D sprite"
 	End Method
 	
 	
@@ -158,7 +158,15 @@ Type LTBox2DSprite Extends LTVectorSprite
 	Method Destroy()
 		ListLink.Remove()
 	End Method
+	
+	
+	
+	Method Physics:Int()
+		Return True
+	End Method
 End Type
+
+
 
 
 

@@ -66,7 +66,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.8.1"
+	Const Version:String = "1.9"
 	Const INIVersion:Int = 5
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 8
@@ -462,6 +462,9 @@ Type LTEditor Extends LTProject
 		ShowGrid = LTMenuSwitch.Find( MenuShowGrid ).Toggle()
 		ReplacementOfTiles = LTMenuSwitch.Find( MenuReplacementOfTiles ).Toggle()
 		ToggleBilinearFiltering()
+		
+		DebugLog L_EditorData.GridCellWidth
+		DebugLog L_EditorData.GridCellHeight
 		
 		If AppArgs.Length > 1 Then OpenWorld( AppArgs[ 1 ] )
 		
@@ -1376,13 +1379,13 @@ Type LTEditor Extends LTProject
 							Local ToShape:LTShape = Null
 							
 							If LTSprite( Shape ) Then
-								If LTBox2DSprite( Shape ) Then
+								If Shape.Physics() Then
 									ToShape = New LTSprite
 								Else
 									ToShape = New LTBox2DSprite
 								End If
 							ElseIf LTTileMap( Shape )
-								If LTBox2DTileMap( Shape ) Then
+								If Shape.Physics() Then
 									ToShape = New LTTileMap
 								Else
 									ToShape = New LTBox2DTileMap
@@ -1775,7 +1778,7 @@ Type LTEditor Extends LTProject
 		
 		SetButtonState( RotatingCheckbox, Visualizer.Rotating )
 		SetButtonState( ScalingCheckbox, Visualizer.Scaling )
-		SetButtonState( PhysicsCheckbox, LTBox2DSprite( CurrentShape ) <> Null )
+		SetButtonState( PhysicsCheckbox, CurrentShape.Physics() )
 		
 		ClearGadgetItems( ShapeBox )
 		
@@ -2212,6 +2215,7 @@ Type LTEditor Extends LTProject
 		If Version < 01020600 Then UpdateTo1_2_6( XMLObject )
 		If Version < 01041400 Then UpdateTo1_4_14( XMLObject )
 		If Version < 01041800 Then UpdateTo1_4_18( XMLObject )
+		If Version < 01042100 Then UpdateTo1_4_21( XMLObject )
 	End Method
 	
 	
@@ -2337,6 +2341,24 @@ Type LTEditor Extends LTProject
 	End Method
 	
 	
+	
+	Method UpdateTo1_4_21( XMLObject:LTXMLObject )
+		For Local Attribute:LTXMLAttribute = Eachin XMLObject.Attributes
+			Select Attribute.Name
+				Case "x", "y", "width", "height", "angle", "disp_angle", "velocity", "cell_width", "cell_height", ..
+						"dx", "dy", "xscale", "yscale", "red", "green", "blue", "alpha"
+					Local DotPos:Int = Attribute.Value.Find( "." )
+					If DotPos + 5 < Attribute.Value.Length Then Attribute.Value = Attribute.Value[ ..DotPos + 6 ]
+			End Select
+		Next
+		
+		For Local ChildXMLObject:LTXMLObject = Eachin XMLObject.Children
+			UpdateTo1_4_21( ChildXMLObject )
+		Next
+		For Local XMLObjectField:LTXMLObjectField = Eachin XMLObject.Fields
+			UpdateTo1_4_21( XMLObjectField.Value )
+		Next
+	End Method
 	
 	Method FindShapeContainer:LTShape( Layer:LTLayer, Shape:LTShape )
 		For Local ChildShape:LTShape = Eachin Layer.Children

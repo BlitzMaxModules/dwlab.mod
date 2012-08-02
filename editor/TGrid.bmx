@@ -62,7 +62,7 @@ Type TGrid Extends LTShape
 				Local DX2:Double = XStep * L_Round( ( X2 + DX ) / XStep ) - X2
 				If Abs( DX - DX1 ) < Abs( DX - DX2 ) Then DX = DX1 Else DX = DX2
 			Case LTEditorData.CenterSnapping
-				Local CenterX:Double = 0.5 * ( X1 + X2 )
+				Local CenterX:Double = 0.5:Double * ( X1 + X2 )
 				DX = XStep * L_Round( ( CenterX + DX ) / XStep ) - CenterX
 			Case LTEditorData.FixedShifting
 				DX = XStep * L_Round( DX / XStep )

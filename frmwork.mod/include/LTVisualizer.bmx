@@ -241,61 +241,90 @@ Type LTVisualizer Extends LTColor
 			SX :+ DX * SWidth
 			SY :+ DY * SHeight
 			
-			Select Sprite.ShapeType
-				Case LTSprite.Circle
-					If SWidth = SHeight Then
-						DrawOval( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
-					ElseIf SWidth > SHeight Then
-						Local DWidth:Double = SWidth - SHeight
-						DrawOval( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SHeight, SHeight )
-						DrawOval( SX - 0.5 * ( SWidth )  + DWidth, SY - 0.5 * SHeight, SHeight, SHeight )
-						DrawRect( SX - 0.5 * DWidth, SY - 0.5 * SHeight, DWidth, SHeight )
-					Else
-						Local DHeight:Double = SHeight - SWidth
-						DrawOval( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SWidth )
-						DrawOval( SX - 0.5 * SWidth, SY - 0.5 * SHeight + DHeight, SWidth, SWidth )
-						DrawRect( SX - 0.5 * SWidth, SY - 0.5 * DHeight, SWidth, DHeight )
-					End If
-				Case LTSprite.Rectangle
-					DrawRect( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
-				Case LTSprite.Ray
-					DrawOval( SX - 2, SY - 2, 5, 5 )
-					Local Ang:Double = L_WrapDouble( Sprite.Angle, 360.0 )
-					If Ang < 45.0 Or Ang >= 315.0 Then
-						Local Width:Double = L_CurrentCamera.Viewport.RightX() - SX
-						If Width > 0 Then DrawLine( SX, SY, SX + Width, SY + Width * Tan( Ang ) )
-					ElseIf Ang < 135.0 Then
-						Local Height:Double = L_CurrentCamera.Viewport.BottomY() - SY
-						If Height > 0 Then DrawLine( SX, SY, SX + Height / Tan( Ang ), SY + Height )
-					ElseIf Ang < 225.0 Then
-						Local Width:Double = L_CurrentCamera.Viewport.LeftX() - SX
-						If Width < 0 Then DrawLine( SX, SY, SX + Width, SY + Width * Tan( Ang ) )
-					Else
-						Local Height:Double = L_CurrentCamera.Viewport.TopY() - SY
-						If Height < 0 Then DrawLine( SX, SY, SX + Height / Tan( Ang ), SY + Height )
-					End If
-				Case LTSprite.TopLeftTriangle
-					DrawPoly( [ Float( SX - 0.5 * SWidth ), Float( SY - 0.5 * SHeight ), Float( SX + 0.5 * SWidth ), Float( SY - 0.5 * SHeight ), ..
-							Float( SX - 0.5 * SWidth ), Float( SY + 0.5 * SHeight ) ] )
-				Case LTSprite.TopRightTriangle
-					DrawPoly( [ Float( SX - 0.5 * SWidth ), Float( SY - 0.5 * SHeight ), Float( SX + 0.5 * SWidth ), Float( SY - 0.5 * SHeight ), ..
-							Float( SX + 0.5 * SWidth ), Float( SY + 0.5 * SHeight ) ] )
-				Case LTSprite.BottomLeftTriangle
-					DrawPoly( [ Float( SX - 0.5 * SWidth ), Float( SY + 0.5 * SHeight ), Float( SX + 0.5 * SWidth ), Float( SY + 0.5 * SHeight ), ..
-							Float( SX - 0.5 * SWidth ), Float( SY - 0.5 * SHeight ) ] )
-				Case LTSprite.BottomRightTriangle
-					DrawPoly( [ Float( SX - 0.5 * SWidth ), Float( SY + 0.5 * SHeight ), Float( SX + 0.5 * SWidth ), Float( SY + 0.5 * SHeight ), ..
-							Float( SX + 0.5 * SWidth ), Float( SY - 0.5 * SHeight ) ] )
-				Case LTSprite.Raster
-					If Image Then
-						Local Blend:Int = GetBlend()
-						SetBlend MASKBLEND 
-						DrawUsingSprite( Sprite )
-						SetBlend Blend
-					End If
-			End Select
+			If Sprite.ShapeType = LTSprite.Raster Then
+				If Image Then
+					Local Blend:Int = GetBlend()
+					SetBlend MASKBLEND 
+					DrawUsingSprite( Sprite )
+					SetBlend Blend
+				End If
+			Else
+				DrawShape( Sprite.ShapeType, SX, SY, SWidth, SHeight, Sprite.Angle * ( Sprite.Physics() Or Sprite.ShapeType = LTSprite.Ray ) )
+			End If
 		End If
 	End Method
+	
+	
+	
+	Function DrawShape( ShapeType:Int, SX:Double, SY:Double, SWidth:Double, SHeight:Double, Angle:Double = 0.0 )
+		SetRotation( Angle )
+		
+		Select ShapeType
+			Case LTSprite.Oval
+				If SWidth = SHeight Then
+					DrawOval( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
+				ElseIf SWidth > SHeight Then
+					Local DWidth:Double = SWidth - SHeight
+					SetHandle( 0.5 * SWidth, 0.5 * SHeight )
+					DrawOval( SX, SY, SHeight, SHeight )
+					SetHandle( SHeight - 0.5 * SWidth, 0.5 * SHeight )
+					DrawOval( SX, SY, SHeight, SHeight )
+					SetHandle( 0.5 * DWidth, 0.5 * SHeight )
+					DrawRect( SX, SY, DWidth, SHeight )
+					SetHandle( 0.0, 0.0 )
+				Else
+					Local DHeight:Double = SHeight - SWidth
+					SetHandle( 0.5 * SWidth, 0.5 * SHeight )
+					DrawOval( SX, SY, SWidth, SWidth )
+					SetHandle( 0.5 * SWidth, SWidth - 0.5 * SHeight )
+					DrawOval( SX, SY, SWidth, SWidth )
+					SetHandle( 0.5 * SWidth, 0.5 * DHeight )
+					DrawRect( SX, SY, SWidth, DHeight )
+					SetHandle( 0.0, 0.0 )
+				End If
+				SetOrigin( 0.0, 0.0 )
+			Case LTSprite.Rectangle
+				SetHandle( 0.5 * SWidth, 0.5 * SHeight )
+				DrawRect( SX, SY, SWidth, SHeight )
+				SetHandle( 0.0, 0.0 )
+			Case LTSprite.Ray
+				SetRotation( 0.0 )
+				DrawOval( SX - 2, SY - 2, 5, 5 )
+				Local Ang:Double = L_WrapDouble( Angle, 360.0 )
+				If Ang < 45.0 Or Ang >= 315.0 Then
+					Local Width:Double = L_CurrentCamera.Viewport.RightX() - SX
+					If Width > 0 Then DrawLine( SX, SY, SX + Width, SY + Width * Tan( Ang ) )
+				ElseIf Ang < 135.0 Then
+					Local Height:Double = L_CurrentCamera.Viewport.BottomY() - SY
+					If Height > 0 Then DrawLine( SX, SY, SX + Height / Tan( Ang ), SY + Height )
+				ElseIf Ang < 225.0 Then
+					Local Width:Double = L_CurrentCamera.Viewport.LeftX() - SX
+					If Width < 0 Then DrawLine( SX, SY, SX + Width, SY + Width * Tan( Ang ) )
+				Else
+					Local Height:Double = L_CurrentCamera.Viewport.TopY() - SY
+					If Height < 0 Then DrawLine( SX, SY, SX + Height / Tan( Ang ), SY + Height )
+				End If
+			Default
+				SetOrigin( SX, SY )
+				Select ShapeType
+					Case LTSprite.TopLeftTriangle
+						DrawPoly( [ Float( -0.5 * SWidth ), Float( -0.5 * SHeight ), Float( 0.5 * SWidth ), Float( -0.5 * SHeight ), ..
+								Float( -0.5 * SWidth ), Float( 0.5 * SHeight ) ] )
+					Case LTSprite.TopRightTriangle
+						DrawPoly( [ Float( -0.5 * SWidth ), Float( -0.5 * SHeight ), Float( 0.5 * SWidth ), Float( -0.5 * SHeight ), ..
+								Float( 0.5 * SWidth ), Float( 0.5 * SHeight ) ] )
+					Case LTSprite.BottomLeftTriangle
+						DrawPoly( [ Float( -0.5 * SWidth ), Float( 0.5 * SHeight ), Float( 0.5 * SWidth ), Float( 0.5 * SHeight ), ..
+								Float( -0.5 * SWidth ), Float( -0.5 * SHeight ) ] )
+					Case LTSprite.BottomRightTriangle
+						DrawPoly( [ Float( -0.5 * SWidth ), Float( 0.5 * SHeight ), Float( 0.5 * SWidth ), Float( 0.5 * SHeight ), ..
+								Float( 0.5 * SWidth ), Float( -0.5 * SHeight ) ] )
+				End Select
+				SetOrigin( 0.0, 0.0 )
+		End Select
+		
+		SetRotation( 0.0 )
+	End Function
 	
 	
 	

@@ -9,4 +9,53 @@
 '
 
 Type LTBox2DTileMap Extends LTTileMap
+	Method GetClassTitle:String()
+		Return "Box2D tile map"
+	End Method
+	
+	
+	
+	Method Init()
+		ListLink = LTBox2DPhysics.Objects.AddLast( Self )
+		
+		Local BodyDefinition:b2BodyDef = New b2BodyDef
+		Body = LTBox2DPhysics.Box2DWorld.CreateBody( BodyDefinition )
+		
+		AttachSpriteShapesToBody( Self, LTBox2DShapeParameters.FromSprite( Self ), Body )
+	End Method
+	
+	
+	
+	Method Clone:LTShape()
+		Local NewSprite:LTBox2DSprite = New LTBox2DSprite
+		CopyTo( NewSprite )
+		Return NewSprite
+	End Method
+	
+	
+	
+	Method Update()
+		If Body Then
+			Local Vector:b2Vec2 = Body.GetPosition()
+			X = Vector.X()
+			Y = Vector.Y()
+			Vector = Body.GetLinearVelocity()
+			DX = Vector.X()
+			DY = Vector.Y()
+			UpdateAngularModel()
+			DisplayingAngle = Body.GetAngle()
+		End If
+	End Method
+	
+	
+	
+	Method Destroy()
+		ListLink.Remove()
+	End Method
+	
+	
+	
+	Method Physics:Int()
+		Return True
+	End Method
 End Type

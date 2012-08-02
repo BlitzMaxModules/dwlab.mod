@@ -1,3 +1,7 @@
+1.9
++ Support of Box2D sprites and tile maps ("physics" flag)
+* Fixed snapping and writing Double attributes inaccuracy
+
 1.8.1
 + Ability to open world file via commandline or by selecting world editor as program for opening world files
 * Enchanced compatibility with old world file versions
