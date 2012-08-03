@@ -58,7 +58,7 @@ Type LTBox2DSprite Extends LTVectorSprite
 		Body.SetLinearVelocity( Vec2( DX, DY ) )
 		If ParameterExists( "angular_velocity" ) Then Body.SetAngularVelocity( GetParameter( "angular_velocity" ).ToFloat() )
 		
-		AttachSpriteShapesToBody( Self, LTBox2DShapeParameters.FromSprite( Self ), Body )
+		AttachSpriteShapesToBody( Self, LTBox2DShapeParameters.FromShape( Self ), Body )
 	End Method
 	
 	
@@ -95,13 +95,13 @@ Type LTBox2DSprite Extends LTVectorSprite
 				End If
 			Case Rectangle
 				PolygonDefinition.SetAsBox( 0.5 * Sprite.Width, 0.5 * Sprite.Height )
-				AttachToBody( Body, CircleDefinition, ShapeParameters )
+				AttachToBody( Body, PolygonDefinition, ShapeParameters )
 			Case Ray, Raster
 			Default
 				Sprite.GetOtherVertices( Pivot1, Pivot2 )
 				Sprite.GetRightAngleVertex( Pivot3  )
 				PolygonDefinition.SetVertices( [ PivotToVertex( Pivot1 ), PivotToVertex( Pivot2 ), PivotToVertex( Pivot3 ) ] )
-				AttachToBody( Body, CircleDefinition, ShapeParameters )
+				AttachToBody( Body, PolygonDefinition, ShapeParameters )
 		End Select
 	End Function
 	
@@ -177,7 +177,7 @@ Type LTBox2DShapeParameters
 	
 	
 	
-	Function FromSprite:LTBox2DShapeParameters( Shape:LTSprite )
+	Function FromShape:LTBox2DShapeParameters( Shape:LTShape )
 		Local Parameters:LTBox2DShapeParameters = New LTBox2DShapeParameters
 		If Shape.ParameterExists( "friction" ) Then Parameters.Friction = Shape.GetParameter( "friction" ).ToFloat()
 		If Shape.ParameterExists( "density" ) Then Parameters.Density = Shape.GetParameter( "density" ).ToFloat()

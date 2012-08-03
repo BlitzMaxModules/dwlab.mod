@@ -162,7 +162,7 @@ Type LTVectorSprite Extends LTSprite
 	
 	Method Clone:LTShape()
 		Local NewSprite:LTVectorSprite = New LTVectorSprite
-		CopyTo( NewSprite )
+		CopySpriteTo( NewSprite )
 		Return NewSprite
 	End Method
 End Type

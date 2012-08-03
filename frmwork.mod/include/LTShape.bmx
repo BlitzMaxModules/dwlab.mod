@@ -1079,41 +1079,6 @@ Type LTShape Extends LTObject
 		If Parameters.IsEmpty() Then Parameters = Null
 	End Method
 	
-	' ==================== Cloning ===================
-	
-	Rem
-	bbdoc: Clones the shape.
-	returns: Clone of the shape.
-	End Rem
-	Method Clone:LTShape()
-		Local NewShape:LTShape = New LTShape
-		CopyTo( NewShape )
-		Return NewShape
-	End Method
-	
-	
-	
-	Method CopyTo( Shape:LTShape )
-		If Parameters Then
-			Shape.Parameters = New TList
-			For Local Parameter:LTParameter = Eachin Parameters
-				Local NewParameter:LTParameter = New LTParameter
-				NewParameter.Name = Parameter.Name
-				NewParameter.Value = Parameter.Value
-				Shape.Parameters.AddLast( NewParameter )
-			Next 
-		Else
-			Shape.Parameters = Null
-		End If
-		If Visualizer Then Shape.Visualizer = Visualizer.Clone()
-		Shape.X = X
-		Shape.Y = Y
-		Shape.Width = Width
-		Shape.Height = Height
-		Shape.Visible = Visible
-		Shape.Active = Active
-	End Method
-	
 	' ==================== Search ===================
 	
 	Method GetChildrenEnumerator:Object()
@@ -1283,6 +1248,37 @@ Type LTShape Extends LTObject
 	
 	
 	Method Physics:Int()
+	End Method
+	
+	' ==================== Cloning ===================
+	
+	Rem
+	bbdoc: Clones the shape.
+	returns: Clone of the shape.
+	End Rem
+	Method Clone:LTShape()
+		Local NewShape:LTShape = New LTShape
+		CopyShapeTo( NewShape )
+		Return NewShape
+	End Method
+	
+	
+	
+	Method CopyShapeTo( Shape:LTShape )
+		Shape.Parameters = Parameters
+		If Visualizer Then Shape.Visualizer = Visualizer.Clone()
+		Shape.X = X
+		Shape.Y = Y
+		Shape.Width = Width
+		Shape.Height = Height
+		Shape.Visible = Visible
+		Shape.Active = Active
+	End Method
+	
+	
+	
+	Method CopyTo( Shape:LTShape )
+		CopyShapeTo( Shape )
 	End Method
 	
 	' ==================== Saving / loading ====================

@@ -309,14 +309,20 @@ Type LTLayer Extends LTShape
 	
 	' ==================== Cloning ===================	
 	
-	Method CopyTo( Shape:LTShape )
-		Super.CopyTo( Shape )
-		Local Layer:LTLayer = LTLayer( Shape )
+	Method Clone:LTShape()
+		Local NewLayer:LTLayer = New LTLayer
+		CopyLayerTo( NewLayer )
+		Return NewLayer
+	End Method
+	
+	
+	
+	Method CopyLayerTo( Layer:LTLayer )
+		CopyShapeTo( Layer )
 		
-		?debug
-		If Not Layer Then L_Error( "Trying to copy layer ~q" + Shape.GetName() + "~q data to non-layer" )
-		?
-		
+		For Local Shape:LTShape = Eachin Children
+			Layer.Children.AddLast( Shape.Clone() )
+		Next
 		If Bounds Then
 			Layer.Bounds = New LTShape
 			Bounds.CopyTo( Layer.Bounds )
@@ -324,16 +330,17 @@ Type LTLayer Extends LTShape
 		Layer.MixContent = MixContent
 	End Method
 	
-
 	
-	Method Clone:LTShape()
-		Local NewLayer:LTLayer = New LTLayer
-		CopyTo( NewLayer )
-		For Local Shape:LTShape = Eachin Children
-			NewLayer.Children.AddLast( Shape.Clone() )
-		Next
-		Return NewLayer
-	End Method
+	
+	Method CopyTo( Shape:LTShape )
+		Local Layer:LTLayer = LTLayer( Shape )
+		
+		?debug
+		If Not Layer Then L_Error( "Trying to copy layer ~q" + Shape.GetName() + "~q data to non-layer" )
+		?
+		
+		CopyLayerTo( Layer )
+	End Method	
 	
 	' ==================== Saving / loading ===================
 

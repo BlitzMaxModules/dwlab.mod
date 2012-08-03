@@ -527,14 +527,15 @@ Type LTVisualizer Extends LTColor
 	End Rem
 	Method Clone:LTVisualizer()
 		Local Visualizer:LTVisualizer = New LTVisualizer
-		CopyTo( Visualizer )
+		CopyVisualizerTo( Visualizer )
 		Return Visualizer
 	End Method
 	
 	
 	
-	Method CopyTo( Visualizer:LTVisualizer )
+	Method CopyVisualizerTo( Visualizer:LTVisualizer )
 		CopyColorTo( Visualizer )
+		
 		Visualizer.DX = DX
 		Visualizer.DY = DY
 		Visualizer.XScale = XScale

@@ -206,11 +206,30 @@ Type LTSpriteGroup Extends LTSprite
 	
 	Method Clone:LTShape()
 		Local NewSpriteGroup:LTSpriteGroup = New LTSpriteGroup
-		CopyTo( NewSpriteGroup )
-		For Local Sprite:LTSprite = Eachin Children
-			NewSpriteGroup.Children.AddLast( Sprite.Clone() )
-		Next
+		CopySpriteGroupTo( NewSpriteGroup )
 		Return NewSpriteGroup
+	End Method
+
+	
+	
+	Method CopySpriteGroupTo( SpriteGroup:LTSpriteGroup )
+		CopySpriteTo( SpriteGroup )
+		
+		For Local Sprite:LTSprite = Eachin Children
+			SpriteGroup.Children.AddLast( Sprite.Clone() )
+		Next
+	End Method
+
+	
+	
+	Method CopyTo( Shape:LTShape )
+		Local SpriteGroup:LTSpriteGroup = LTSpriteGroup( Shape )
+		
+		?debug
+		If Not SpriteGroup Then L_Error( "Trying to copy sprite group ~q" + Shape.GetTitle() + "~q data to non-sprite-group" )
+		?
+		
+		CopySpriteGroupTo( SpriteGroup )
 	End Method
 	
 	' ==================== Saving / loading ====================

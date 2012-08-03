@@ -201,23 +201,18 @@ Type LTTileMap Extends LTIntMap
 		Return TileMap
 	End Function
 	
-	' ==================== Saving / loading ===================
+	' ==================== Cloning ===================
 	
 	Method Clone:LTShape()
 		Local NewTileMap:LTTileMap = New LTTileMap
-		CopyTo( NewTileMap )
+		CopyTileMapTo( NewTileMap )
 		Return NewTileMap
 	End Method
 	
 	
 	
-	Method CopyTo( Shape:LTShape )
-		Super.CopyTo( Shape )
-		Local TileMap:LTTileMap = LTTileMap( Shape )
-		
-		?debug
-		If Not TileMap Then L_Error( "Trying to copy tilemap ~q" + Shape.GetTitle() + "~q data to non-tilemap" )
-		?
+	Method CopyTileMapTo( TileMap:LTTileMap )
+		CopyShapeTo( TileMap )
 		
 		TileMap.TileSet = TileSet
 		TileMap.TilesQuantity = TilesQuantity
@@ -231,6 +226,18 @@ Type LTTileMap Extends LTIntMap
 	End Method
 	
 	
+	
+	Method CopyTo( Shape:LTShape )
+		Local TileMap:LTTileMap = LTTileMap( Shape )
+		
+		?debug
+		If Not TileMap Then L_Error( "Trying to copy tilemap ~q" + Shape.GetTitle() + "~q data to non-tilemap" )
+		?
+		
+		CopyTileMapTo( TileMap )
+	End Method
+	
+	' ==================== Saving / loading ===================
 	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )

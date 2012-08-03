@@ -1026,25 +1026,20 @@ Type LTSprite Extends LTShape
 		Else
 			GetBounds( Pivot1.X, Pivot2.Y, Pivot2.X, Pivot1.Y )
 		End If
-	End Method
+	End Method	
 	
-	' ==================== Other ====================	
+	' ==================== Cloning ===================	
 	
 	Method Clone:LTShape()
 		Local NewSprite:LTSprite = New LTSprite
-		CopyTo( NewSprite )
+		CopySpriteTo( NewSprite )
 		Return NewSprite
 	End Method
 
 	
 	
-	Method CopyTo( Shape:LTShape )
-		Super.CopyTo( Shape )
-		Local Sprite:LTSprite = LTSprite( Shape )
-		
-		?debug
-		If Not Sprite Then L_Error( "Trying to copy sprite ~q" + Shape.GetTitle() + "~q data to non-sprite" )
-		?
+	Method CopySpriteTo( Sprite:LTSprite )
+		CopyShapeTo( Sprite )
 		
 		Sprite.ShapeType = ShapeType
 		Sprite.Angle = Angle
@@ -1053,8 +1048,20 @@ Type LTSprite Extends LTShape
 		Sprite.Frame = Frame
 		Sprite.UpdateFromAngularModel()
 	End Method
+
 	
 	
+	Method CopyTo( Shape:LTShape )
+		Local Sprite:LTSprite = LTSprite( Shape )
+		
+		?debug
+		If Not Sprite Then L_Error( "Trying to copy sprite ~q" + Shape.GetTitle() + "~q data to non-sprite" )
+		?
+		
+		CopySpriteTo( Sprite )
+	End Method
+
+	' ==================== Other ====================
 	
 	Method UpdateFromAngularModel()
 	End Method

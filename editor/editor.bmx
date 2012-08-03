@@ -2360,6 +2360,8 @@ Type LTEditor Extends LTProject
 		Next
 	End Method
 	
+	
+	
 	Method FindShapeContainer:LTShape( Layer:LTLayer, Shape:LTShape )
 		For Local ChildShape:LTShape = Eachin Layer.Children
 			If ChildShape = Shape Then Return Layer

@@ -305,23 +305,18 @@ Type LTCamera Extends LTVectorSprite
 		ApplyColor( Intensity, 0.0, 0.0, 0.0 )
 	End Method
 	
-	' ==================== Other ====================	
+	' ==================== Cloning ===================	
 	
 	Method Clone:LTShape()
-		Local NewSprite:LTSprite = New LTSprite
-		CopyTo( NewSprite )
-		Return NewSprite
+		Local NewCamera:LTCamera = New LTCamera
+		CopyCameraTo( NewCamera )
+		Return NewCamera
 	End Method
 
 	
 	
-	Method CopyTo( Shape:LTShape )
-		Super.CopyTo( Shape )
-		Local Camera:LTCamera = LTCamera( Shape )
-		
-		?debug
-		If Not Camera Then L_Error( "Trying to copy camera ~q" + Shape.GetTitle() + "~q data to non-camera" )
-		?
+	Method CopyCameraTo( Camera:LTCamera )
+		CopySpriteTo( Camera )
 		
 		Camera.Viewport = Viewport.Clone()
 		Camera.ViewportClipping = ViewportClipping
@@ -335,6 +330,18 @@ Type LTCamera Extends LTVectorSprite
 	
 	
 	
+	Method CopyTo( Shape:LTShape )
+		Local Camera:LTCamera = LTCamera( Shape )
+		
+		?debug
+		If Not Camera Then L_Error( "Trying to copy camera ~q" + Shape.GetTitle() + "~q data to non-camera" )
+		?
+		
+		CopyCameraTo( Camera )
+	End Method
+	
+	' ==================== Other ====================
+	
 	Rem
 	bbdoc: Creates new camera object using given screen resolution and unit size in pixels.
 	returns: New camera object.
@@ -347,7 +354,7 @@ Type LTCamera Extends LTVectorSprite
 		Return Camera
 	End Function
 	
-	' ==================== Saving / loading ====================
+	
 	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )

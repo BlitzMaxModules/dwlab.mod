@@ -21,6 +21,8 @@ ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.22 (03.07.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added Copy<ClassName>To methods to the shape classes."
 ModuleInfo "History: v1.4.21 (02.07.12)"
 ModuleInfo "History: &nbsp; &nbsp; Added physics module, Box2D system, sprite and tile map class."
 ModuleInfo "History: &nbsp; &nbsp; Implemented correct rotation while rendering sprite and tile map collision shapes in LTDebugVisualizer (for Box2D shapes)."
