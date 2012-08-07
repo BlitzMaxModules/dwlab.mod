@@ -762,7 +762,7 @@ Type LTShape Extends LTObject
 	See also: #GetFacing, #XScale
 	End Rem
 	Method SetFacing( NewFacing:Double )
-		Visualizer.XScale = Abs( Visualizer.XScale ) * NewFacing
+		Visualizer.SetFacing( NewFacing )
 	End Method
 	
 	' ==================== Behavior models ===================

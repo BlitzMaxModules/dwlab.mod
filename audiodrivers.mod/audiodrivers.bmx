@@ -34,12 +34,11 @@ Import brl.oggloader
 
 Incbin "error1.ogg"
 Incbin "error2.ogg"
+Incbin "error3.ogg"
 
 Type TErrorSoundPlayer Extends TSoundPlayer
 	Method PlayErrorSound()
-		LoadSound( "incbin::error" + Rand(1,2) + ".ogg" ).Play()
+		LoadSound( "incbin::error" + Rand( 1, 3 ) + ".ogg" ).Play()
 	End Method
 End Type
 L_ErrorSoundPlayer = New TErrorSoundPlayer
-		
-

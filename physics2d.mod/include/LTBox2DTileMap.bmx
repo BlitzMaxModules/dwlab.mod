@@ -80,11 +80,11 @@ Type LTBox2DTileMap Extends LTTileMap
 	
 	
 	
-	Method AttachTileCollisionSpriteToBody( X:Int, Y:Int, CollisionSprite:LTSprite, ShapeParameters:LTBox2DShapeParameters, Body:b2Body )
-		Local TileWidth:Double = TileMap.GetTileWidth()
-		Local TileHeight:Double = TileMap.GetTileHeight()
-		ServiceSprite.X = TileMap.LeftX() + TileWidth * ( TileX + CollisionSprite.X )
-		ServiceSprite.Y = TileMap.TopY() + TileHeight * ( TileY + CollisionSprite.Y )
+	Method AttachTileCollisionSpriteToBody( TileX:Int, TileY:Int, CollisionSprite:LTSprite, ShapeParameters:LTBox2DShapeParameters, Body:b2Body )
+		Local TileWidth:Double = GetTileWidth()
+		Local TileHeight:Double = GetTileHeight()
+		ServiceSprite.X = LeftX() + TileWidth * ( TileX + CollisionSprite.X )
+		ServiceSprite.Y = TopY() + TileHeight * ( TileY + CollisionSprite.Y )
 		ServiceSprite.Width = TileWidth * CollisionSprite.Width
 		ServiceSprite.Height = TileHeight * CollisionSprite.Height
 		ServiceSprite.ShapeType = CollisionSprite.ShapeType

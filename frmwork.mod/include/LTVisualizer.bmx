@@ -519,6 +519,12 @@ Type LTVisualizer Extends LTColor
 		Next
 	End Method
 	
+	
+	
+	Method SetFacing( NewFacing:Double )
+		XScale = Abs( XScale ) * NewFacing
+	End Method
+	
 	' ==================== Other ====================
 	
 	Rem

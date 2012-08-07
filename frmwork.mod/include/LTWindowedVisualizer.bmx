@@ -37,4 +37,10 @@ Type LTWindowedVisualizer Extends LTVisualizer
 		
 		SetViewport( X, Y, Width, Height )
 	End Method
+	
+	
+	
+	Method SetFacing( NewFacing:Double )
+		Visualizer.SetFacing( NewFacing )
+	End Method
 End Type
