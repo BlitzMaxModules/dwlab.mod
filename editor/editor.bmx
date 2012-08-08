@@ -1366,7 +1366,7 @@ Type LTEditor Extends LTProject
 							SetGadgetText( BlueField, L_TrimDouble( Shape.Visualizer.Blue, 4 ) )
 							SetChanged()
 						Case AlphaSlider
-							Visualizer.Alpha = 0.01 * SliderValue( AlphaSlider ) + 0.000001
+							Visualizer.Alpha = 0.01:Double * Double( SliderValue( AlphaSlider ) )
 							SetGadgetText( AlphaField, L_TrimDouble( Shape.Visualizer.Alpha, 4 ) )
 							SetChanged()
 						Case ScalingCheckbox
@@ -2343,12 +2343,16 @@ Type LTEditor Extends LTProject
 	
 	
 	Method UpdateTo1_4_21( XMLObject:LTXMLObject )
+		If XMLObject.Name = "ltsprite" Then XMLObject.SetAttribute( "disp_angle", XMLObject.GetField( "visualizer" ).GetAttribute( "angle" ) )
+		
 		For Local Attribute:LTXMLAttribute = Eachin XMLObject.Attributes
 			Select Attribute.Name
 				Case "x", "y", "width", "height", "angle", "disp_angle", "velocity", "cell_width", "cell_height", ..
 						"dx", "dy", "xscale", "yscale", "red", "green", "blue", "alpha"
 					Local DotPos:Int = Attribute.Value.Find( "." )
-					If DotPos + 5 < Attribute.Value.Length Then Attribute.Value = Attribute.Value[ ..DotPos + 6 ]
+					If DotPos >= 0 Then
+						If DotPos + 5 < Attribute.Value.Length Then Attribute.Value = Attribute.Value[ ..DotPos + 6 ]
+					End If
 			End Select
 		Next
 		

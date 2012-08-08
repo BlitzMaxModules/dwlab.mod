@@ -465,10 +465,10 @@ Type LTSprite Extends LTShape
 				End If
 			Case Ray
 			Default
-				Local X1:Int = Floor( ( X - 0.5 * Width - X0 ) / CellWidth )
-				Local Y1:Int = Floor( ( Y - 0.5 * Height - Y0 ) / CellHeight )
-				Local X2:Int = Floor( ( X + 0.5 * Width - X0 - L_Inaccuracy ) / CellWidth )
-				Local Y2:Int = Floor( ( Y + 0.5 * Height - Y0 - L_Inaccuracy ) / CellHeight )
+				Local X1:Int = Floor( ( X - 0.5:Double * Width - X0 ) / CellWidth )
+				Local Y1:Int = Floor( ( Y - 0.5:Double * Height - Y0 ) / CellHeight )
+				Local X2:Int = Floor( ( X + 0.5:Double * Width - X0 - L_Inaccuracy ) / CellWidth )
+				Local Y2:Int = Floor( ( Y + 0.5:Double * Height - Y0 - L_Inaccuracy ) / CellHeight )
 				
 				If X2 >= 0 And Y2 >= 0 And X1 < XQuantity And Y1 < YQuantity Then
 					X1 = L_LimitInt( X1, 0, XQuantity - 1 )
@@ -511,10 +511,10 @@ Type LTSprite Extends LTShape
 				Next
 			Case Ray
 			Default
-				Local MapX1:Int = Floor( ( X - 0.5 * Width ) / SpriteMap.CellWidth )
-				Local MapY1:Int = Floor( ( Y - 0.5 * Height ) / SpriteMap.CellHeight )
-				Local MapX2:Int = Floor( ( X + 0.5 * Width - L_Inaccuracy ) / SpriteMap.CellWidth )
-				Local MapY2:Int = Floor( ( Y + 0.5 * Height - L_Inaccuracy ) / SpriteMap.CellHeight )
+				Local MapX1:Int = Floor( ( X - 0.5:Double * Width ) / SpriteMap.CellWidth )
+				Local MapY1:Int = Floor( ( Y - 0.5:Double * Height ) / SpriteMap.CellHeight )
+				Local MapX2:Int = Floor( ( X + 0.5:Double * Width - L_Inaccuracy ) / SpriteMap.CellWidth )
+				Local MapY2:Int = Floor( ( Y + 0.5:Double * Height - L_Inaccuracy ) / SpriteMap.CellHeight )
 				
 				For Local CellY:Int = MapY1 To MapY2
 					For Local CellX:Int = MapX1 To MapX2
@@ -1073,7 +1073,7 @@ Type LTSprite Extends LTShape
 		
 		XMLObject.ManageIntAttribute( "shape", ShapeType )
 		XMLObject.ManageDoubleAttribute( "angle", Angle )
-		XMLObject.ManageDoubleAttribute( "disp_angle", Angle )
+		XMLObject.ManageDoubleAttribute( "disp_angle", DisplayingAngle )
 		XMLObject.ManageDoubleAttribute( "velocity", Velocity, 1.0 )
 		XMLObject.ManageIntAttribute( "frame", Frame )
 	End Method

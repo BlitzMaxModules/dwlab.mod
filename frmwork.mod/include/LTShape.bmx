@@ -1081,9 +1081,25 @@ Type LTShape Extends LTObject
 	
 	' ==================== Search ===================
 	
-	Method GetChildrenEnumerator:Object()
-		Return Null
+	Method Load:LTShape()
+		Return LoadShape()
 	End Method
+	
+	
+	
+	Method LoadShape:LTShape()
+		Local TypeName:String = GetParameter( "class" )
+		Local NewShape:LTShape
+		If TypeName Then 
+			NewShape = LTShape( L_GetTypeID( TypeName ).NewObject() )
+		Else
+			NewShape = LTShape( TTypeId.ForObject( Self ).NewObject() )
+		End If
+		CopyTo( NewShape )
+		Return NewShape
+	End Method
+	
+	
 	
 	Rem
 	bbdoc: Finds shape with given name.

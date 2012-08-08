@@ -243,6 +243,16 @@ Type LTLayer Extends LTShape
 	
 	' ==================== Shape management ====================
 	
+	Method Load:LTShape()
+		Local NewLayer:LTLayer = LTLayer( LoadShape() )
+		For Local Shape:LTShape = Eachin Children
+			NewLayer.AddLast( Shape.Load() )
+		Next
+		Return NewLayer
+	End Method
+	
+	
+	
 	Method FindShapeWithParameterID:LTShape( ParameterName:String, ParameterValue:String, ShapeTypeID:TTypeID, IgnoreError:Int = False )
 		For Local ChildShape:LTShape = EachIn Children
 			If Not ShapeTypeID Or TTypeId.ForObject( ChildShape ) = ShapeTypeID Then
@@ -312,6 +322,9 @@ Type LTLayer Extends LTShape
 	Method Clone:LTShape()
 		Local NewLayer:LTLayer = New LTLayer
 		CopyLayerTo( NewLayer )
+		For Local Shape:LTShape = Eachin Children
+			NewLayer.Children.AddLast( Shape.Clone() )
+		Next
 		Return NewLayer
 	End Method
 	
@@ -320,9 +333,6 @@ Type LTLayer Extends LTShape
 	Method CopyLayerTo( Layer:LTLayer )
 		CopyShapeTo( Layer )
 		
-		For Local Shape:LTShape = Eachin Children
-			Layer.Children.AddLast( Shape.Clone() )
-		Next
 		If Bounds Then
 			Layer.Bounds = New LTShape
 			Bounds.CopyTo( Layer.Bounds )

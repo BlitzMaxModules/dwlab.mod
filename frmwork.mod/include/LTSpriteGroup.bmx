@@ -138,6 +138,16 @@ Type LTSpriteGroup Extends LTSprite
 	
 	' ==================== Shape management ====================
 	
+	Method Load:LTShape()
+		Local NewSpriteGroup:LTSpriteGroup = LTSpriteGroup( LoadShape() )
+		For Local Sprite:LTSprite = Eachin Children
+			NewSpriteGroup.AddLast( LTSprite( Sprite.Load() ) )
+		Next
+		Return NewSpriteGroup
+	End Method
+	
+	
+	
 	Method FindShapeWithParameterID:LTShape( ParameterName:String, ParameterValue:String, ShapeTypeID:TTypeID, IgnoreError:Int = False )
 		For Local ChildShape:LTShape = EachIn Children
 			If Not ShapeTypeID Or TTypeId.ForObject( ChildShape ) = ShapeTypeID Then
@@ -206,18 +216,11 @@ Type LTSpriteGroup Extends LTSprite
 	
 	Method Clone:LTShape()
 		Local NewSpriteGroup:LTSpriteGroup = New LTSpriteGroup
-		CopySpriteGroupTo( NewSpriteGroup )
-		Return NewSpriteGroup
-	End Method
-
-	
-	
-	Method CopySpriteGroupTo( SpriteGroup:LTSpriteGroup )
-		CopySpriteTo( SpriteGroup )
-		
+		CopySpriteTo( NewSpriteGroup )
 		For Local Sprite:LTSprite = Eachin Children
-			SpriteGroup.Children.AddLast( Sprite.Clone() )
+			NewSpriteGroup.Children.AddLast( Sprite.Clone() )
 		Next
+		Return NewSpriteGroup
 	End Method
 
 	
@@ -229,7 +232,7 @@ Type LTSpriteGroup Extends LTSprite
 		If Not SpriteGroup Then L_Error( "Trying to copy sprite group ~q" + Shape.GetTitle() + "~q data to non-sprite-group" )
 		?
 		
-		CopySpriteGroupTo( SpriteGroup )
+		CopySpriteTo( SpriteGroup )
 	End Method
 	
 	' ==================== Saving / loading ====================

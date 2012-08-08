@@ -144,6 +144,7 @@ Type TGame Extends LTProject
 			Intro[ N ] = LoadSound( L_Incbin + "media\Music" + MusicNum + "intro.ogg" )
 			Music[ N ]	= LoadSound( L_Incbin + "media\Music" + MusicNum + ".ogg" )
 		Next
+		'debugstop
 		
 		LivesScreen.Execute()
 		SwitchToLevel( 0 )

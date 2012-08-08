@@ -77,41 +77,7 @@ Type LTProject Extends LTObject
 	bbdoc: Loads layer from world.
 	End Rem
 	Method LoadLayer:LTLayer( Layer:LTLayer )
-		Local NewLayer:LTLayer = LTLayer( CreateShape( Layer ) )
-		For Local Shape:LTShape = Eachin Layer.Children
-			Local NewShape:LTShape
-			Local ChildLayer:LTLayer = LTLayer( Shape )
-			If ChildLayer Then
-				NewShape = LoadLayer( ChildLayer )
-			Else
-				Local SpriteMap:LTSpriteMap = LTSpriteMap( Shape )
-				If SpriteMap Then
-					Local NewSpriteMap:LTSpriteMap = LTSpriteMap( CreateShape( Shape ) )
-					For Local ChildSprite:LTSprite = Eachin SpriteMap.Sprites.Keys()
-						NewSpriteMap.InsertSprite( LTSprite( CreateShape( ChildSprite ) ) )
-					Next
-					NewShape = NewSpriteMap
-				Else
-					NewShape = CreateShape( Shape )
-				End If
-			End If
-			NewLayer.AddLast( NewShape )
-		Next
-		Return NewLayer
-	End Method
-	
-	
-	
-	Method CreateShape:LTShape( Shape:LTShape )
-		Local TypeName:String = Shape.GetParameter( "class" )
-		Local NewShape:LTShape
-		If TypeName Then 
-			NewShape = LTShape( L_GetTypeID( TypeName ).NewObject() )
-		Else
-			NewShape = LTShape( TTypeId.ForObject( Shape ).NewObject() )
-		End If
-		Shape.CopyTo( NewShape )
-		Return NewShape
+		Return LTLayer( Layer.Load() )
 	End Method
 	
 	' ==================== Management ===================	

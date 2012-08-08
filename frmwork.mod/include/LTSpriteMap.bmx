@@ -301,6 +301,16 @@ Type LTSpriteMap Extends LTMap
 	
 	' ==================== Shape management ====================
 	
+	Method Load:LTShape()
+		Local NewSpriteMap:LTSpriteMap = LTSpriteMap( LoadShape() )
+		For Local ChildSprite:LTSprite = Eachin Sprites.Keys()
+			NewSpriteMap.InsertSprite( LTSprite( ChildSprite.LoadShape() ) )
+		Next
+		Return NewSpriteMap
+	End Method
+	
+	
+	
 	Method FindShapeWithParameterID:LTShape( ParameterName:String, ParameterValue:String, ShapeTypeID:TTypeID, IgnoreError:Int = False )
 		For Local ChildShape:LTShape = EachIn Sprites.Keys()
 			If Not ShapeTypeID Or TTypeId.ForObject( ChildShape ) = ShapeTypeID Then
@@ -404,7 +414,7 @@ Type LTSpriteMap Extends LTMap
 	
 	
 	Method CopyTo( Shape:LTShape )
-		Super.CopyTo( Shape )
+		CopyShapeTo( Shape )
 		Local SpriteMap:LTSpriteMap = LTSpriteMap( Shape )
 		
 		?debug
