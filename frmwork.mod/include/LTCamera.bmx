@@ -194,10 +194,18 @@ Type LTCamera Extends LTVectorSprite
 	
 	
 	
-	Method SetMagnification( NewK:Double )
+	Method SetZoom( NewK:Double )
 		K = NewK
 		SetSize( Viewport.Width / K, Viewport.Height / K )
 	End Method
+	
+	
+	
+	'Deprecated
+	Method SetMagnification( NewK:Double )
+		SetZoom( NewK )
+	End Method
+	
 	
 	
 	Rem
@@ -236,14 +244,21 @@ Type LTCamera Extends LTVectorSprite
 	
 	
 	Rem
-	bbdoc: Smoothly alterts camera magnification to the given one.
+	bbdoc: Smoothly alterts camera zoom to the given one.
 	about: See also: #LTCamera example
 	End Rem
-	Method AlterCameraMagnification( NewZ:Double, OldK:Double, Acceleration:Double )
+	Method AlterCameraZoom( NewZ:Double, OldK:Double, Acceleration:Double )
 		ApplyAcceleration( Z, NewZ, DZ, Acceleration )
 		'If Abs( NewZ - Z ) > Abs( DZ ) Then DZ = NewZ - Z
 		Z :+ L_DeltaTime * DZ
-		SetMagnification( OldK * ZK ^ Z )
+		SetZoom( OldK * ZK ^ Z )
+	End Method
+	
+	
+	
+	'Deprecated
+	Method AlterCameraMagnification( NewZ:Double, OldK:Double, Acceleration:Double )
+		AlterCameraZoom( NewZ, OldK, Acceleration )
 	End Method
 	
 	

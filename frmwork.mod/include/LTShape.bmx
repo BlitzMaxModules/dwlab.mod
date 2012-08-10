@@ -385,9 +385,11 @@ Type LTShape Extends LTObject
 	
 	See also: #SetCoords, #PlaceBetween example
 	End Rem
-	Method SetMouseCoords()
+	Method SetMouseCoords( Camera:LTCamera = Null )
+		If Not Camera Then Camera = L_CurrentCamera
+		
 		Local NewX:Double, NewY:Double
-		L_CurrentCamera.ScreenToField( MouseX(), MouseY(), NewX, NewY )
+		Camera.ScreenToField( MouseX(), MouseY(), NewX, NewY )
 		SetCoords( NewX, NewY )
 	End Method
 	
@@ -748,13 +750,13 @@ Type LTShape Extends LTObject
 	See also: #SetFacing, #XScale
 	End Rem
 	Method GetFacing:Double()
-		Return Sgn( Visualizer.XScale )
+		Return Visualizer.GetFacing()
 	End Method
 	
 	
 	
-	Const LeftFacing:Double = -1.0
-	Const RightFacing:Double = 1.0
+	Const LeftFacing:Double = -1.0:Double
+	Const RightFacing:Double = 1.0:Double
 	
 	Rem
 	bbdoc: Sets the facing of a shape.

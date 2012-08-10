@@ -40,6 +40,12 @@ Type LTWindowedVisualizer Extends LTVisualizer
 	
 	
 	
+	Method GetFacing:Double()
+		Return Visualizer.GetFacing()
+	End Method
+	
+	
+	
 	Method SetFacing( NewFacing:Double )
 		Visualizer.SetFacing( NewFacing )
 	End Method

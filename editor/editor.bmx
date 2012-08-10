@@ -11,7 +11,7 @@
 
 SuperStrict
 
-Import dwlab.frmwork
+Framework dwlab.frmwork
 Import dwlab.graphicsdrivers
 Import dwlab.physics2d
 Import brl.bmploader

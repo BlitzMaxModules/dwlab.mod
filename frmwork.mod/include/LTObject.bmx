@@ -18,6 +18,8 @@ Rem
 bbdoc: Global object class
 End Rem
 Type LTObject
+	Method Act()
+	End Method
 	
 	' ==================== Loading / saving ===================
 

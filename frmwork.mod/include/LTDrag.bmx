@@ -75,7 +75,7 @@ Type LTDrag Extends LTObject
 	bbdoc: Dragging system executing method.
 	about: Execute it persistently in your project Logic method or some object's Act() method.
 	End Rem
-	Method Execute()
+	Method Act()
 		If DraggingState = False Then
 			If DragKey() Then
 				If DraggingConditions() Then
@@ -91,5 +91,12 @@ Type LTDrag Extends LTObject
 				EndDragging()
 			End If
 		End If
+	End Method
+
+	
+	
+	'Deprecated
+	Method Execute()
+		Act()
 	End Method
 End Type

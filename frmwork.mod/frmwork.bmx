@@ -15,14 +15,23 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.4.21"
+ModuleInfo "Version: 1.4.21.2"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
+
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.22.3 (10.07.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added Scaling parameter to LTContourVisualizer's FromWidthAndHexColor() and FromWidthAndRGBColor() methods."
+ModuleInfo "History: &nbsp; &nbsp; Added Scale and Scaling parameters to LTVisualizer's FromHexColor() and FromRGBColor() methods."
+ModuleInfo "History: &nbsp; &nbsp; Fixed bug of Get/SetFacing() LTShape methods which appears while using LTWindowedVisualizer."
+ModuleInfo "History: v1.4.22.2 (09.07.12)"
+ModuleInfo "History: &nbsp; &nbsp; Now camera can be specified in SetMouseCoords() LTSphape method."
+ModuleInfo "History: v1.4.22.1 (08.07.12)"
+ModuleInfo "History: &nbsp; &nbsp; Fixed bugs in loading of world and its components."
 ModuleInfo "History: v1.4.22 (03.07.12)"
-ModuleInfo "History: &nbsp; &nbsp; Added Copy<ClassName>To methods to the shape classes."
+ModuleInfo "History: &nbsp; &nbsp; Added Copy<ClassName>To methods to some shape classes."
 ModuleInfo "History: v1.4.21 (02.07.12)"
 ModuleInfo "History: &nbsp; &nbsp; Added physics module, Box2D system, sprite and tile map class."
 ModuleInfo "History: &nbsp; &nbsp; Implemented correct rotation while rendering sprite and tile map collision shapes in LTDebugVisualizer (for Box2D shapes)."
@@ -37,7 +46,7 @@ ModuleInfo "History: v1.4.18 (26.07.12)"
 ModuleInfo "History: &nbsp; &nbsp; Tile collision shapes now can contain Layer instead of SpriteGroup."
 ModuleInfo "History: &nbsp; &nbsp; Added L_Encoding and L_Decoding functions for encode int values in string chunks which consist of symbols from 48 to 127."
 ModuleInfo "History: &nbsp; &nbsp; Chunk size depends on values range (80 or less - one symbol, less than 6400 - 2 symbols and so on)."
-ModuleInfo "History: &nbsp; &nbsp; Tile map array now represent as values encoded in chunk string with new encoding functions."
+ModuleInfo "History: &nbsp; &nbsp; Tile map array is now represented as values encoded in chunk string with new encoding functions."
 ModuleInfo "History: &nbsp; &nbsp; Block sizes of tilesets attributes are now encoded with this function too."
 ModuleInfo "History: &nbsp; &nbsp; Escape character for XML is changed from / to % due to its presence in 80-sized symbol block for encoding."
 ModuleInfo "History: v1.4.17 (25.07.12)"
@@ -292,7 +301,7 @@ Import brl.map
 Import brl.max2d
 Import brl.eventqueue
 
-Const L_Version:String = "1.4.21"
+Const L_Version:String = "1.4.21.2"
 
 SeedRnd( MilliSecs() )
 

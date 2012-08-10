@@ -93,10 +93,12 @@ Type LTVisualizer Extends LTColor
 	returns: New visualizer.
 	about: See also: #FromFile, #FromImage, #FromHexColor
 	End Rem
-	Function FromRGBColor:LTVisualizer( Red:Double, Green:Double, Blue:Double, Alpha:Double = 1.0 )
+	Function FromRGBColor:LTVisualizer( Red:Double, Green:Double, Blue:Double, Alpha:Double = 1.0, Scale:Double = 1.0, Scaling:Int = True )
 		Local Visualizer:LTVisualizer = New LTVisualizer
 		Visualizer.SetColorFromRGB( Red, Green, Blue )
 		Visualizer.Alpha = Alpha
+		Visualizer.SetVisualizerScales( Scale )
+		Visualizer.Scaling = Scaling
 		Return Visualizer
 	End Function
 
@@ -107,10 +109,12 @@ Type LTVisualizer Extends LTColor
 	returns: New visualizer.
 	about: See also: #FromFile, #FromImage, #FromRGBColor, #Overlaps example.
 	End Rem
-	Function FromHexColor:LTVisualizer( HexColor:String = "FFFFFF", Alpha:Double = 1.0 )
+	Function FromHexColor:LTVisualizer( HexColor:String = "FFFFFF", Alpha:Double = 1.0, Scale:Double = 1.0, Scaling:Int = True )
 		Local Visualizer:LTVisualizer = New LTVisualizer
 		Visualizer.SetColorFromHex( HexColor )
 		Visualizer.Alpha = Alpha
+		Visualizer.SetVisualizerScales( Scale )
+		Visualizer.Scaling = Scaling
 		Return Visualizer
 	End Function
 	
@@ -517,6 +521,12 @@ Type LTVisualizer Extends LTColor
 				Int( Floor( Y / SpriteMap.CellHeight ) ) & SpriteMap.YMask ]
 			Sprite.Draw()
 		Next
+	End Method
+	
+	
+	
+	Method GetFacing:Double()
+		Return Sgn( XScale )
 	End Method
 	
 	

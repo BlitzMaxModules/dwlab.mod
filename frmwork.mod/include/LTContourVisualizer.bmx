@@ -27,12 +27,13 @@ Type LTContourVisualizer Extends LTVisualizer
 	returns: New visualizer.
 	about: See also: #FromFile, #FromImage
 	End Rem
-	Function FromWidthAndRGBColor:LTContourVisualizer( Width:Double, Red:Double = 1.0, Green:Double = 1.0, Blue:Double = 1.0, Alpha:Double = 1.0, PivotScale:Double = 1.0 )
+	Function FromWidthAndRGBColor:LTContourVisualizer( Width:Double, Red:Double = 1.0, Green:Double = 1.0, Blue:Double = 1.0, Alpha:Double = 1.0, PivotScale:Double = 1.0, Scaling:Int = True )
 		Local Visualizer:LTContourVisualizer = New LTContourVisualizer
 		Visualizer.SetColorFromRGB( Red, Green, Blue )
 		Visualizer.Alpha = Alpha
 		Visualizer.LineWidth = Width
 		Visualizer.PivotScale = PivotScale
+		Visualizer.Scaling = Scaling
 		Return Visualizer
 	End Function
 	
@@ -43,12 +44,13 @@ Type LTContourVisualizer Extends LTVisualizer
 	returns: New visualizer.
 	about: See also: #FromFile, #FromImage
 	End Rem
-	Function FromWidthAndHexColor:LTContourVisualizer( Width:Double, HexColor:String = "FFFFFF", Alpha:Double = 1.0, PivotScale:Double = 1.0 )
+	Function FromWidthAndHexColor:LTContourVisualizer( Width:Double, HexColor:String = "FFFFFF", Alpha:Double = 1.0, PivotScale:Double = 1.0, Scaling:Int = True )
 		Local Visualizer:LTContourVisualizer = New LTContourVisualizer
 		Visualizer.SetColorFromHex( HexColor )
 		Visualizer.Alpha = Alpha
 		Visualizer.LineWidth = Width
 		Visualizer.PivotScale = PivotScale
+		Visualizer.Scaling = Scaling
 		Return Visualizer
 	End Function
 	
@@ -87,7 +89,8 @@ Type LTContourVisualizer Extends LTVisualizer
 		L_CurrentCamera.FieldToScreen( LineSegment.Pivot[ 1 ].X, LineSegment.Pivot[ 1 ].Y, SX2, SY2 )
 		DrawLine( SX1, SY1, SX2, SY2 )
 		
-		Local Radius:Double = L_CurrentCamera.DistFieldToScreen( LineWidth ) * PivotScale
+		Local Radius:Double =PivotScale 
+		If Scaling Then Radius = L_CurrentCamera.DistFieldToScreen( LineWidth ) * PivotScale
 		If DrawPivot1 Then DrawOval( SX1 - 0.5 * Radius, SY1 - 0.5 * Radius, Radius, Radius )
 		If DrawPivot2 Then DrawOval( SX2 - 0.5 * Radius, SY2 - 0.5 * Radius, Radius, Radius )
 		
