@@ -600,6 +600,9 @@ Type LTEditor Extends LTProject
 		If Not AskForSaving() Then Return
 		
 		If Filename Then 
+			L_EditorData.Images.Clear()
+			L_EditorData.Tilesets.Clear()
+			
 			WorldFilename = Filename
 			InsertToRecentFiles( Filename )
 			ChangeDir( ExtractDir( Filename ) )

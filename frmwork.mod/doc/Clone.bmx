@@ -19,8 +19,8 @@ Type TExample Extends LTProject
 		For Local N:Int = 1 To SpritesQuantity
 			Local Sprite:LTSprite = LTSprite.FromShape( Rnd( -15, 15 ), Rnd( -11, 11 ), , , LTSprite.Oval )
 			Sprite.SetDiameter( Rnd( 1, 3 ) )
+			Sprite.DisplayingAngle= Rnd( 360 )
 			Sprite.Visualizer.SetRandomColor()
-			Sprite.Visualizer.Angle = Rnd( 360 )
 			Sprite.Visualizer.Image = SpriteImage
 			Sprite.Visualizer.SetVisualizerScales( 1.3 )
 			Sprites.AddLast( Sprite )

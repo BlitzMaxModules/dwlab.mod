@@ -53,42 +53,6 @@ Type LTVectorSprite Extends LTSprite
 	
 	' ==================== Limiting ====================
 	
-	Method LimitLeftWith( Rectangle:LTShape, AlterVelocity:Int = False )
-		If LeftX() < Rectangle.LeftX() Then
-			SetX( Rectangle.LeftX() + 0.5 * Width )
-			If AlterVelocity Then DX = 0.0
-		End If
-	End Method
-	
-	
-	
-	Method LimitTopWith( Rectangle:LTShape, AlterVelocity:Int = False )
-		If TopY() < Rectangle.TopY() Then
-			SetY( Rectangle.TopY() + 0.5 * Height )
-			If AlterVelocity Then DY = 0.0
-		End If
-	End Method
-	
-	
-	
-	Method LimitRightWith( Rectangle:LTShape, AlterVelocity:Int = False )
-		If RightX() > Rectangle.RightX() Then
-			SetX( Rectangle.RightX() - 0.5 * Width )
-			If AlterVelocity Then DX = 0.0
-		End If
-	End Method
-	
-	
-	
-	Method LimitBottomWith( Rectangle:LTShape, AlterVelocity:Int = False )
-		If BottomY() > Rectangle.BottomY() Then
-			SetY( Rectangle.BottomY() - 0.5 * Height )
-			If AlterVelocity Then DY = 0.0
-		End If
-	End Method
-	
-	
-	
 	Method BounceInside( Shape:LTShape, LeftSide:Int = True, TopSide:Int = True, RightSide:Int = True, BottomSide:Int = True )
 		If LeftSide Then
 			If LeftX() < Shape.LeftX() Then

@@ -791,37 +791,41 @@ Type LTSprite Extends LTShape
 
 	' ==================== Limiting ====================
 	
-	Method LimitLeftWith( Rectangle:LTShape, AlterVelocity:Int = False )
-		If LeftX() < Rectangle.LeftX() Then
-			SetX( Rectangle.LeftX() + 0.5 * Width )
-			If AlterVelocity Then Velocity = 0.0
+	Method LimitLeftWith( Rectangle:LTShape, Handler:LTSpriteCollisionHandler = Null )
+		Local RectLeftX:Double = Rectangle.LeftX()
+		If LeftX() < RectLeftX Then
+			SetX( RectLeftX + 0.5 * Width )
+			If Handler Then Handler.HandleCollision( Self, Null )
 		End If
 	End Method
 	
 	
 	
-	Method LimitTopWith( Rectangle:LTShape, AlterVelocity:Int = False )
-		If TopY() < Rectangle.TopY() Then
-			SetY( Rectangle.TopY() + 0.5 * Height )
-			If AlterVelocity Then Velocity = 0.0
+	Method LimitTopWith( Rectangle:LTShape, Handler:LTSpriteCollisionHandler = Null )
+		Local RectTopY:Double = Rectangle.TopY()
+		If TopY() < RectTopY Then
+			SetY( RectTopY + 0.5 * Height )
+			If Handler Then Handler.HandleCollision( Self, Null )
 		End If
 	End Method
 	
 	
 	
-	Method LimitRightWith( Rectangle:LTShape, AlterVelocity:Int = False )
-		If RightX() > Rectangle.RightX() Then
-			SetX( Rectangle.RightX() - 0.5 * Width )
-			If AlterVelocity Then Velocity = 0.0
+	Method LimitRightWith( Rectangle:LTShape, Handler:LTSpriteCollisionHandler = Null )
+		Local RectRightX:Double = Rectangle.RightX()
+		If RightX() > RectRightX Then
+			SetX( RectRightX - 0.5 * Width )
+			If Handler Then Handler.HandleCollision( Self, Null )
 		End If
 	End Method
 	
 	
 	
-	Method LimitBottomWith( Rectangle:LTShape, AlterVelocity:Int = False )
-		If BottomY() > Rectangle.BottomY() Then
-			SetY( Rectangle.BottomY() - 0.5 * Height )
-			If AlterVelocity Then Velocity = 0.0
+	Method LimitBottomWith( Rectangle:LTShape, Handler:LTSpriteCollisionHandler = Null )
+		Local RectBottomY:Double = Rectangle.BottomY()
+		If BottomY() > RectBottomY Then
+			SetY( RectBottomY - 0.5 * Height )
+			If Handler Then Handler.HandleCollision( Self, Null )
 		End If
 	End Method
 	
