@@ -19,17 +19,20 @@ Type TExample Extends LTProject
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
 	End Method
 
+	Const TextSize:Double = 0.7
+	
 	Method Render()
 		Rectangle.DrawContour( 2 )
-		Rectangle.PrintText( "topleft corner", LTAlign.ToLeft, LTAlign.ToTop )
-		Rectangle.PrintText( "top", LTAlign.ToCenter, LTAlign.ToTop )
-		Rectangle.PrintText( "topright corner", LTAlign.ToRight, LTAlign.ToTop )
-		Rectangle.PrintText( "left side", LTAlign.ToLeft, LTAlign.ToCenter )
-		Rectangle.PrintText( "center", LTAlign.ToCenter, LTAlign.ToCenter )
-		Rectangle.PrintText( "right side", LTAlign.ToRight, LTAlign.ToCenter )
-		Rectangle.PrintText( "bottomleft corner", LTAlign.ToLeft, LTAlign.ToBottom )
-		Rectangle.PrintText( "bottom", LTAlign.ToCenter, LTAlign.ToBottom )
-		Rectangle.PrintText( "bottomright corner", LTAlign.ToRight, LTAlign.ToBottom )
+		
+		Rectangle.PrintText( "topleft corner", TextSize, LTAlign.ToLeft, LTAlign.ToTop )
+		Rectangle.PrintText( "top", TextSize, LTAlign.ToCenter, LTAlign.ToTop )
+		Rectangle.PrintText( "topright corner", TextSize, LTAlign.ToRight, LTAlign.ToTop )
+		Rectangle.PrintText( "left side", TextSize, LTAlign.ToLeft, LTAlign.ToCenter )
+		Rectangle.PrintText( "center", TextSize, LTAlign.ToCenter, LTAlign.ToCenter )
+		Rectangle.PrintText( "right side", TextSize, LTAlign.ToRight, LTAlign.ToCenter )
+		Rectangle.PrintText( "bottomleft corner", TextSize, LTAlign.ToLeft, LTAlign.ToBottom )
+		Rectangle.PrintText( "bottom", TextSize, LTAlign.ToCenter, LTAlign.ToBottom )
+		Rectangle.PrintText( "bottomright corner", TextSize, LTAlign.ToRight, LTAlign.ToBottom )
 		L_PrintText( "PrintText example", 0, 12, LTAlign.ToCenter, LTAlign.ToBottom )
 	End Method
 End Type

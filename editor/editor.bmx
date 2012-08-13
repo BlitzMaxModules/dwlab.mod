@@ -15,6 +15,7 @@ Framework dwlab.frmwork
 Import dwlab.graphicsdrivers
 Import dwlab.physics2d
 Import brl.bmploader
+Import brl.freetypefont
 
 Import brl.eventqueue
 ?win32
@@ -52,10 +53,13 @@ Include "SpriteMapProperties.bmx"
 Include "CameraProperties.bmx"
 Include "TileMapProperties.bmx"
 Include "ParameterProperties.bmx"
+Include "LayerBounds.bmx"
 
 
 Incbin "english.lng"
 Incbin "russian.lng"
+
+Incbin "font.ttf"
 
 Incbin "toolbar.png"
 Incbin "treeview.png"
@@ -234,7 +238,7 @@ Type LTEditor Extends LTProject
 	Const MenuAddSpriteMap:Int = 44
 	Const MenuRemoveBounds:Int = 29
 	Const MenuMixContent:Int = 55
-	Const MenuStartSimulation:Int = 64
+	Const MenuStartSimulation:Int = 67
 
 	Const MenuEditTilemap:Int = 23
 	Const MenuSelectTileMap:Int = 27
@@ -295,7 +299,6 @@ Type LTEditor Extends LTProject
 		SetGadgetLayout( HScroller, Edge_Aligned, Edge_Aligned, Edge_Centered, Edge_Aligned )
 		VScroller = CreateSlider( ClientWidth( Window ) - BarWidth - 16, 0, 16, ClientHeight( Window ) - 16, Window, Slider_Scrollbar | Slider_Vertical )
 		SetGadgetLayout( VScroller, Edge_Centered, Edge_Aligned, Edge_Aligned, Edge_Aligned )
-		
 		
 		
 		Local PanelForm:LTForm = LTForm.Create( Panel, 2, 2, 2 )
@@ -463,9 +466,6 @@ Type LTEditor Extends LTProject
 		ReplacementOfTiles = LTMenuSwitch.Find( MenuReplacementOfTiles ).Toggle()
 		ToggleBilinearFiltering()
 		
-		DebugLog L_EditorData.GridCellWidth
-		DebugLog L_EditorData.GridCellHeight
-		
 		If AppArgs.Length > 1 Then OpenWorld( AppArgs[ 1 ] )
 		
 		If FileType( "editor.ini" ) = 1 Then
@@ -501,6 +501,9 @@ Type LTEditor Extends LTProject
 		MainCamera = World.Camera
 		L_CurrentCamera = MainCamera
 		FillFileMenu()
+		
+		SetGraphics( CanvasGraphics( MainCanvas ) )
+		SetImageFont( LoadImageFont( "incbin::font.ttf", 16 ) )
 	End Method
 	
 	
@@ -2295,7 +2298,9 @@ Type LTEditor Extends LTProject
 	End Method
 	
 	
-	
+
+	Global TilesQ:TMap = New TMap
+		
 	Method UpdateTo1_4_18( XMLObject:LTXMLObject )
 		For Local Attribute:LTXMLAttribute = Eachin XMLObject.Attributes
 			Local Txt:String = Attribute.Value
@@ -2311,7 +2316,17 @@ Type LTEditor Extends LTProject
 		
 		Select XMLObject.Name
 			Case "lttilemap"
-				Local ChunkLength:Int = L_GetChunkLength( XMLObject.GetAttribute( "tiles-quantity" ).ToInt() )
+				Local TileSetField:LTXMLObject = XMLObject.GetField( "tileset" )
+				Local ID:String = TileSetField.GetAttribute( "id" )
+				Local TilesQuantity:String
+				If TileSetField.Name = "object" Then
+					TilesQuantity = String( TilesQ.ValueForKey( ID ) )
+				ElseIf ID Then
+					TilesQuantity = TileSetField.GetAttribute( "tiles-quantity" )
+					TilesQ.Insert( ID, TilesQuantity )
+				End If
+				XMLObject.SetAttribute( "tiles-quantity", TilesQuantity )
+				Local ChunkLength:Int = L_GetChunkLength( TilesQuantity.ToInt() )
 				For Local Row:LTXMLObject = Eachin XMLObject.Children
 					If Row.Name = "row" Then UpdateData( Row, "data", ChunkLength )
 				Next
@@ -2335,9 +2350,8 @@ Type LTEditor Extends LTProject
 	
 	
 	Method UpdateData( XMLObject:LTXMLObject, AttrName:String, ChunkLength:Int )
-		Local Tiles:String[] = XMLObject.GetAttribute( AttrName ).Split( "," )
 		Local Data:String = ""
-		For Local Num:String = Eachin Tiles
+		For Local Num:String = Eachin XMLObject.GetAttribute( AttrName ).Split( "," )
 			Data :+ L_Encode( Num.ToInt(), ChunkLength )
 		Next
 		XMLObject.SetAttribute( AttrName, Data )
@@ -2346,7 +2360,10 @@ Type LTEditor Extends LTProject
 	
 	
 	Method UpdateTo1_4_21( XMLObject:LTXMLObject )
-		If XMLObject.Name = "ltsprite" Then XMLObject.SetAttribute( "disp_angle", XMLObject.GetField( "visualizer" ).GetAttribute( "angle" ) )
+		If XMLObject.Name = "ltsprite" Then
+			Local VisField:LTXMLObject = XMLObject.GetField( "visualizer" )
+			If VisField Then XMLObject.SetAttribute( "disp_angle", VisField.GetAttribute( "angle" ) )
+		End If
 		
 		For Local Attribute:LTXMLAttribute = Eachin XMLObject.Attributes
 			Select Attribute.Name

@@ -21,7 +21,7 @@ Type TParameterProperties Extends LTProject
 	
 		
 	Method Init()
-		Window:TGadget = CreateWindow( "Parameter properties", 0, 0, 0, 0, Editor.Window, Window_Titlebar | Window_ClientCoords )
+		Window = CreateWindow( "{{W_ParameterProerties}}", 0, 0, 0, 0, Editor.Window, Window_Titlebar | Window_ClientCoords )
 		Local Form:LTForm = LTForm.Create( Window )
 		Form.NewLine()
 		NameComboBox = Form.AddComboBox( "{{L_ParameterName}}", 75, 300, ComboBox_Editable )

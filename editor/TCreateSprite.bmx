@@ -36,6 +36,7 @@ Type TCreateSprite Extends LTDrag
 		Local CurrentSprite:LTSprite = LTSprite( Editor.CurrentShape )
 		If CurrentSprite Then
 			Sprite = LTSprite( CurrentSprite.Clone() )
+			Sprite.Parameters = New TList
 			Sprite.Visualizer = CurrentSprite.Visualizer.Clone()
 		Else
 			Sprite = New LTSprite
