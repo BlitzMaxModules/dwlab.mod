@@ -14,8 +14,9 @@ about: Operations like drawing and checking collision between large groups of sp
 End Rem
 Type LTSpriteMap Extends LTMap
 	Field Sprites:TMap = New TMap
-	Field Lists:TList[ , ]
-	
+	Field Lists:LTSprite[][ , ]
+	Field ListSize:Int[ , ]
+
 	Rem
 	bbdoc: Width of sprite map cell in units.
 	about: See also: #SetCellSize
@@ -47,6 +48,8 @@ Type LTSpriteMap Extends LTMap
 	End Rem
 	Field PivotMode:Int = False
 	
+	Field InitialArraysSize:Int = 8
+	
 	
 	
 	Method WrapX:Int( Value:Int )
@@ -74,10 +77,11 @@ Type LTSpriteMap Extends LTMap
 		If Not Masked Then L_Error( "Map resoluton must be power of 2" )
 		?
 		
-		Lists = New TList[ NewXQuantity, NewYQuantity ]
+		Lists = New LTSprite[][ NewXQuantity, NewYQuantity ]
+		ListSize = New Int[ NewXQuantity, NewYQuantity ]
 		For Local Y:Int = 0 Until NewYQuantity
 			For Local X:Int = 0 Until NewXQuantity
-				Lists[ X, Y ] = New TList
+				Lists[ X, Y ] = New LTSprite[ InitialArraysSize ]
 			Next
 		Next
 	End Method
@@ -144,49 +148,48 @@ Type LTSpriteMap Extends LTMap
 			
 			Local SpriteMap:TMap = New TMap
 			
-			Local XLink:TLink[]
-			If Sorted Then XLink = New TLink[ MapX2 - MapX1 + 1 ]
+			Local XN:Int[]
+			If Sorted Then XN = New Int[ MapX2 - MapX1 + 1 ]
 			
 			For Local Y:Int = MapY1 To MapY2
 				Local MaskedY:Int = Y & YMask
 				Local MaxY:Double = ( Y + 1 ) * CellHeight
 				If Sorted Then
-					For Local X:Int = MapX1 To MapX2
-						XLink[ X - MapX1 ] = Lists[ X & XMask, MaskedY ].FirstLink()
-					Next
-					
 					Repeat
 						Local MinY:Double
 						Local StoredX:Int
-						Local StoredLink:TLink = Null
+						Local StoredSprite:LTSprite = Null
 						For Local X:Int = 0 To MapX2 - MapX1
-							Local Link:TLink = XLink[ X ]
-							if Not Link Then Continue
-							Local Sprite:LTSprite = LTSprite( Link.Value() )
+							Local MaskedX:Int = X & YMask
+							Local N:Int = XN[ X ]
+							if N >= ListSize[ MaskedX, MaskedY ] Then Continue
+							Local Sprite:LTSprite = Lists[ MaskedX, MaskedY ][ N ]
 							If Sprite.Y >= MaxY Then Continue
-							If Not StoredLink Or Sprite.Y < MinY Then
+							If Not StoredSprite Or Sprite.Y < MinY Then
 								MinY = Sprite.Y
 								StoredX = X
-								StoredLink = Link
+								StoredSprite = Sprite
 							End If
 						Next
-						If Not StoredLink Then Exit
+						If Not StoredSprite Then Exit
 						
-						Local Sprite:LTSprite = LTSprite( StoredLink.Value() )
-						If Not SpriteMap.Contains( Sprite ) Then
+						If Not SpriteMap.Contains( StoredSprite ) Then
 							If Vis Then
-								Vis.DrawUsingSprite( Sprite )
+								Vis.DrawUsingSprite( StoredSprite )
 							Else
-								Sprite.Draw()
+								StoredSprite.Draw()
 							End If
-							SpriteMap.Insert( Sprite, Null )
+							SpriteMap.Insert( StoredSprite, Null )
 						End If
 						
-						XLink[ StoredX ] = StoredLink.NextLink()
+						XN[ StoredX ] :+ 1
 					Forever
 				Else
 					For Local X:Int = MapX1 To MapX2
-						For Local Sprite:LTSprite = Eachin Lists[ X & XMask, MaskedY ]
+						Local MaskedX:Int = X & XMask
+						Local Array:LTSprite[] = Lists[ MaskedX, MaskedY ]
+						For Local N:Int = 0 Until ListSize[ MaskedX, MaskedY ]
+							Local Sprite:LTSprite = LTSprite( Array[ N ] )
 							If Not SpriteMap.Contains( Sprite ) Then
 								If Vis Then
 									Sprite.DrawUsingVisualizer( Vis )
@@ -213,11 +216,7 @@ Type LTSpriteMap Extends LTMap
 	Method InsertSprite( Sprite:LTSprite, ChangeSpriteMapField:Int = True )
 		Sprites.Insert( Sprite, Null )
 		If PivotMode Then
-			If Sorted Then
-				InsertSpriteTo( Sprite, Int( Sprite.X / CellWidth ) & XMask, Int( Sprite.Y / CellHeight ) & YMask )
-			Else
-				Lists[ Int( Sprite.X / CellWidth ) & XMask, Int( Sprite.Y / CellHeight ) & YMask ].AddFirst( Sprite )
-			End If
+			InsertSpriteIntoList( Sprite, Int( Sprite.X / CellWidth ) & XMask, Int( Sprite.Y / CellHeight ) & YMask )
 		Else
 			Local MapX1:Int = Floor( ( Sprite.X - 0.5 * Sprite.Width ) / CellWidth )
 			Local MapY1:Int = Floor( ( Sprite.Y - 0.5 * Sprite.Height ) / CellHeight )
@@ -226,11 +225,7 @@ Type LTSpriteMap Extends LTMap
 			
 			For Local Y:Int = MapY1 To MapY2
 				For Local X:Int = MapX1 To MapX2
-					If Sorted Then
-						InsertSpriteTo( Sprite, X & XMask, Y & YMask )
-					Else
-						Lists[ X & XMask, Y & YMask ].AddFirst( Sprite )
-					End If
+					InsertSpriteIntoList( Sprite, X & XMask, Y & YMask )
 				Next
 			Next
 		End If
@@ -239,23 +234,28 @@ Type LTSpriteMap Extends LTMap
 	
 	
 	
-	Method InsertSpriteTo( Sprite:LTSprite, MapX:Int, MapY:Int )
-		Local List:TList = Lists[ MapX, MapY ]
-		Local Link:TLink = List.FirstLink()
-		Repeat
-			If Not Link Then
-				List.AddLast( Sprite )
-				Exit
-			End If
-			
-			Local ListSprite:LTSprite = LTSprite( Link.Value() )
-			If Sprite.Y < ListSprite.Y Then
-				List.InsertBeforeLink( Sprite, Link )
-				Exit
-			End If
-			
-			Link = Link.NextLink()
-		Forever
+	Method InsertSpriteIntoList( Sprite:LTSprite, MapX:Int, MapY:Int )
+		Local Array:LTSprite[] = Lists[ MapX, MapY ]
+		Local Size:Int = ListSize[ MapX, MapY ]
+		If Array.Length = Size Then 
+			Array = Array + Array
+			Lists[ MapX, MapY ] = Array
+		End If
+		
+		Array[ Size ] = Sprite
+		If Sorted Then
+			For Local N:Int = 0 Until Size
+				If Sprite.Y < Array[ N ].Y Then
+					For Local M:Int = Size - 1 To N Step -1
+						Array[ M + 1 ] = Array[ M ]
+					Next
+					Array[ N ] = Sprite
+					Exit
+				End If
+			Next
+		End If
+		
+		ListSize[ MapX, MapY ] :+ 1
 	End Method
 	
 	
@@ -269,7 +269,7 @@ Type LTSpriteMap Extends LTMap
 	Method RemoveSprite( Sprite:LTSprite, ChangeSpriteMapField:Int = True )
 		Sprites.Remove( Sprite )
 		If PivotMode Then
-			Lists[ Int( Sprite.X / CellWidth ) & XMask, Int( Sprite.Y / CellHeight ) & YMask ].Remove( Sprite )
+			RemoveSpriteFromList( Sprite, Int( Sprite.X / CellWidth ) & XMask, Int( Sprite.Y / CellHeight ) & YMask )
 		Else
 			Local MapX1:Int = Floor( ( Sprite.X - 0.5 * Sprite.Width ) / CellWidth )
 			Local MapY1:Int = Floor( ( Sprite.Y - 0.5 * Sprite.Height ) / CellHeight )
@@ -278,13 +278,32 @@ Type LTSpriteMap Extends LTMap
 			
 			For Local Y:Int = MapY1 To MapY2
 				For Local X:Int = MapX1 To MapX2
-					Lists[ X & XMask, Y & YMask ].Remove( Sprite )
+					RemoveSpriteFromList( Sprite, X & XMask, Y & YMask )
 				Next
 			Next
 		End If
 		If ChangeSpriteMapField Then Sprite.SpriteMap = Null
 	End Method
 	
+	
+	
+	Method RemoveSpriteFromList( Sprite:LTSprite, MapX:Int, MapY:Int )
+		Local Array:LTSprite[] = Lists[ MapX, MapY ]
+		Local Size:Int = ListSize[ MapX, MapY ]
+		For Local N:Int = 0 Until Size
+			If Array[ N ] = Sprite Then
+				If Sorted Then
+					For Local M:Int = N + 1 Until Size
+						Array[ M - 1 ] = Array[ M ]
+					Next
+				Else
+					Array[ N ] = Array[ Size - 1 ]
+				End If
+				ListSize[ MapX, MapY ] :- 1
+				Return
+			End If
+		Next
+	End Method
 	
 	
 	Rem
@@ -294,7 +313,7 @@ Type LTSpriteMap Extends LTMap
 		Sprites.Clear()
 		For Local Y:Int = 0 Until YQuantity
 			For Local X:Int = 0 Until XQuantity
-				Lists[ X, Y ].Clear()
+				ListSize[ X, Y ] = 0
 			Next
 		Next
 	End Method
@@ -473,8 +492,6 @@ Type LTSpriteMap Extends LTMap
 	
 	
 	Method XMLIO( XMLObject:LTXMLObject )
-		Super.XMLIO( XMLObject )
-		
 		XMLObject.ManageDoubleAttribute( "cell-width", CellWidth, 1.0 )
 		XMLObject.ManageDoubleAttribute( "cell-height", CellHeight, 1.0 )
 		XMLObject.ManageDoubleAttribute( "left-margin", LeftMargin )
@@ -483,6 +500,9 @@ Type LTSpriteMap Extends LTMap
 		XMLObject.ManageDoubleAttribute( "bottom-margin", BottomMargin )
 		XMLObject.ManageIntAttribute( "sorted", Sorted )
 		XMLObject.ManageIntAttribute( "pivot-mode", PivotMode )
+		XMLObject.ManageIntAttribute( "arrays-size", InitialArraysSize, 8 )
+		
+		Super.XMLIO( XMLObject )
 		
 		If L_XMLMode = L_XMLGet Then
 			For Local SpriteXMLObject:LTXMLObject = Eachin XMLObject.Children

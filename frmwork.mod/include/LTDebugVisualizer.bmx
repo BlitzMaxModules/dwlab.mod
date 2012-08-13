@@ -51,7 +51,6 @@ Type LTDebugVisualizer Extends LTVisualizer
 		L_CurrentCamera.SizeFieldToScreen( SpriteShape.Width, SpriteShape.Height, SWidth, SHeight )
 		
 		L_CollisionColors[ Sprite.CollisionLayer & L_MaxCollisionColor ].ApplyColor()
-		
 		If ShowCollisionShapes Then	DrawSpriteShape( SpriteShape )
 		
 		If ShowVectors Then
@@ -144,10 +143,10 @@ Type LTDebugVisualizer Extends LTVisualizer
 	
 	Method DrawSpriteMapTile( SpriteMap:LTSpriteMap, X:Double, Y:Double )
 		SetScale( 1.0, 1.0 )
-		For Local Sprite:LTSprite = Eachin SpriteMap.Lists[ Int( Floor( X / SpriteMap.CellWidth ) ) & SpriteMap.XMask, ..
-				Int( Floor( Y / SpriteMap.CellHeight ) ) & SpriteMap.YMask ]
-			L_CollisionColors[ Sprite.CollisionLayer & L_MaxCollisionColor ].ApplyColor()
-			DrawSpriteShape( Sprite )
+		Local TileX:Int = Int( Floor( X / SpriteMap.CellWidth ) ) & SpriteMap.XMask
+		Local TileY:Int = Int( Floor( Y / SpriteMap.CellHeight ) ) & SpriteMap.YMask
+		For Local N:Int = 0 Until SpriteMap.ListSize[ TileX, TileY ]
+			DrawUsingSprite( SpriteMap.Lists[ TileX, TileY ][ N ] )
 		Next
 	End Method
 End Type

@@ -22,6 +22,7 @@ Type TExample Extends LTProject
 			TBall.Create()
 		Next
 		Rectangle.Visualizer = LTContourVisualizer.FromWidthAndHexColor( 0.1, "FF0000" )
+		SpriteMap.InitialArraysSize = 2
 		L_InitGraphics()
 	End Method
 	

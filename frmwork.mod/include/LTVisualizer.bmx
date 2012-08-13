@@ -517,9 +517,10 @@ Type LTVisualizer Extends LTColor
 	
 	Method DrawSpriteMapTile( SpriteMap:LTSpriteMap, X:Double, Y:Double )
 		If Not SpriteMap.Visible Then Return
-		For Local Sprite:LTSprite = Eachin SpriteMap.Lists[ Int( Floor( X / SpriteMap.CellWidth ) ) & SpriteMap.XMask, ..
-				Int( Floor( Y / SpriteMap.CellHeight ) ) & SpriteMap.YMask ]
-			Sprite.Draw()
+		Local TileX:Int = Int( Floor( X / SpriteMap.CellWidth ) ) & SpriteMap.XMask
+		Local TileY:Int = Int( Floor( Y / SpriteMap.CellHeight ) ) & SpriteMap.YMask
+		For Local N:Int = 0 Until SpriteMap.ListSize[ TileX, TileY ]
+			SpriteMap.Lists[ TileX, TileY ][ N ].Draw()
 		Next
 	End Method
 	

@@ -22,6 +22,7 @@ Type TSpriteMapProperties Extends LTProject
 	Field TopMarginTextField:TGadget
 	Field RightMarginTextField:TGadget
 	Field BottomMarginTextField:TGadget
+	Field ArraysSizeTextField:TGadget
 	Field SortedCheckBox:TGadget
 	Field PivotModeCheckBox:TGadget
 	Field OKButton:TGadget, CancelButton:TGadget
@@ -44,6 +45,8 @@ Type TSpriteMapProperties Extends LTProject
 		RightMarginTextField = Form.AddTextField( "{{L_RightMargin}}", 165 )
 		BottomMarginTextField = Form.AddTextField( "{{L_BottomMargin}}", 165 )
 		Form.NewLine()
+		ArraysSizeTextField = Form.AddTextField( "{{L_InitialArraysSize}}", 165 )
+		Form.NewLine()
 		SortedCheckBox = Form.AddButton( "{{L_Sorted}}", 250, Button_CheckBox )
 		Form.NewLine()
 		PivotModeCheckBox = Form.AddButton( "{{L_PivotMode}}", 250, Button_CheckBox )
@@ -57,6 +60,7 @@ Type TSpriteMapProperties Extends LTProject
 		SetGadgetText( TopMarginTextField, L_TrimDouble( SpriteMap.TopMargin ) )
 		SetGadgetText( RightMarginTextField, L_TrimDouble( SpriteMap.RightMargin ) )
 		SetGadgetText( BottomMarginTextField, L_TrimDouble( SpriteMap.BottomMargin ) )
+		SetGadgetText( ArraysSizeTextField, SpriteMap.InitialArraysSize )
 		SetButtonState( SortedCheckBox, SpriteMap.Sorted )
 		SetButtonState( PivotModeCheckBox, SpriteMap.PivotMode )
 		
@@ -77,34 +81,39 @@ Type TSpriteMapProperties Extends LTProject
 						Local CellWidth:Double = TextFieldText( CellWidthTextField ).ToDouble()
 						Local CellHeight:Double = TextFieldText( CellHeightTextField ).ToDouble()
 						
+						Local InitialArraysSize:Int = TextFieldText( ArraysSizeTextField ).ToDouble()
 						Local Sorted:Int = ButtonState( SortedCheckBox )
 						Local PivotMode:Int = ButtonState( PivotModeCheckBox )
 
 						if CellWidth > 0.0 And CellHeight > 0.0 Then
-							If SpriteMap.XQuantity <> XQuantity Or SpriteMap.YQuantity <> YQuantity Or SpriteMap.CellWidth <> CellWidth..
-									Or SpriteMap.CellHeight <> CellHeight Or SpriteMap.Sorted <> Sorted Or SpriteMap.PivotMode <> PivotMode Then
-								Local Sprites:TMap = SpriteMap.Sprites
-								SpriteMap.Sprites = New TMap
-								SpriteMap.SetResolution( XQuantity, YQuantity )
-								SpriteMap.CellWidth = CellWidth
-								SpriteMap.CellHeight = CellHeight
-								SpriteMap.Sorted = Sorted
-								SpriteMap.PivotMode = PivotMode
+							If InitialArraysSize > 0 Then
+								If SpriteMap.XQuantity <> XQuantity Or SpriteMap.YQuantity <> YQuantity Or SpriteMap.CellWidth <> CellWidth..
+										Or SpriteMap.CellHeight <> CellHeight Or SpriteMap.Sorted <> Sorted Or SpriteMap.PivotMode <> PivotMode Then
+									Local Sprites:TMap = SpriteMap.Sprites
+									SpriteMap.Sprites = New TMap
+									SpriteMap.SetResolution( XQuantity, YQuantity )
+									SpriteMap.CellWidth = CellWidth
+									SpriteMap.CellHeight = CellHeight
+									SpriteMap.Sorted = Sorted
+									SpriteMap.PivotMode = PivotMode
+									
+									SpriteMap.Clear()
+									For Local Sprite:LTSprite = Eachin Sprites.Keys()
+										SpriteMap.InsertSprite( Sprite )
+									Next
+								End If
 								
-								SpriteMap.Clear()
-								For Local Sprite:LTSprite = Eachin Sprites.Keys()
-									SpriteMap.InsertSprite( Sprite )
-								Next
+								SpriteMap.LeftMargin = TextFieldText( LeftMarginTextField ).ToDouble()
+								SpriteMap.TopMargin = TextFieldText( TopMarginTextField ).ToDouble()
+								SpriteMap.RightMargin = TextFieldText( RightMarginTextField ).ToDouble()
+								SpriteMap.BottomMargin = TextFieldText( BottomMarginTextField ).ToDouble()
+								SpriteMap.InitialArraysSize = InitialArraysSize
+								
+								Exiting = True
+								Succeeded = True
+							Else
+								Notify( LocalizeString( "{{N_ArraySizeMoreThanZero}}" ) );
 							End If
-							
-							SpriteMap.LeftMargin = TextFieldText( LeftMarginTextField ).ToDouble()
-							SpriteMap.TopMargin = TextFieldText( TopMarginTextField ).ToDouble()
-							SpriteMap.RightMargin = TextFieldText( RightMarginTextField ).ToDouble()
-							SpriteMap.BottomMargin = TextFieldText( BottomMarginTextField ).ToDouble()
-							
-							Exiting = True
-							Succeeded = True
-						Else
 							Notify( LocalizeString( "{{N_CellSizeMoreThanZero}}" ) );
 						End If
 					Case CancelButton
