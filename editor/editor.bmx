@@ -239,6 +239,7 @@ Type LTEditor Extends LTProject
 	Const MenuRemoveBounds:Int = 29
 	Const MenuMixContent:Int = 55
 	Const MenuStartSimulation:Int = 67
+	Const MenuEditBounds:Int = 68
 
 	Const MenuEditTilemap:Int = 23
 	Const MenuSelectTileMap:Int = 27
@@ -396,15 +397,16 @@ Type LTEditor Extends LTProject
 		CreateMenu( "{{M_AddLayer}}", MenuAddLayer, LayerMenu )
 		CreateMenu( "{{M_AddTilemap}}", MenuAddTilemap, LayerMenu )
 		CreateMenu( "{{M_AddSpriteMap}}", MenuAddSpriteMap, LayerMenu )
-		CreateMenu( "{{M_StartSimulation}}", MenuStartSimulation, LayerMenu )
 		
 		Local ImportMenu:TGadget = CreateMenu( "{{M_Import}}", 0, LayerMenu )
 		CreateMenu( "{{M_ImportTilemap}}", MenuImportTilemap, ImportMenu )
 		CreateMenu( "{{M_ImportTilemaps}}", MenuImportTilemaps, ImportMenu )
 		
 		CreateMenu( "", 0, LayerMenu )
+		CreateMenu( "{{M_EditBounds}}", MenuEditBounds, LayerMenu )
 		CreateMenu( "{{M_RemoveBounds}}", MenuRemoveBounds, LayerMenu )
 		MixContent = CreateMenu( "{{M_MixContent}}", MenuMixContent, LayerMenu )
+		CreateMenu( "{{M_StartSimulation}}", MenuStartSimulation, LayerMenu )
 		CreateMenu( "", 0, LayerMenu )
 		AddCommonMenuItems( LayerMenu )
 		CreateMenu( "{{M_Paste}}", MenuPaste, LayerMenu )
@@ -1211,6 +1213,8 @@ Type LTEditor Extends LTProject
 								End If
 							End If
 						End If
+					Case MenuEditBounds
+						SwitchTo( LayerBounds )
 					Case MenuRemoveBounds
 						LTLayer( SelectedShape ).Bounds = Null
 						SetChanged()

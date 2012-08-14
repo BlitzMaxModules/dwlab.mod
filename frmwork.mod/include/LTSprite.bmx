@@ -740,6 +740,20 @@ Type LTSprite Extends LTShape
 	End Method
 	
 	
+
+	Method SetCoordsAndSize( X1:Double, Y1:Double, X2:Double, Y2:Double )
+		If SpriteMap Then SpriteMap.RemoveSprite( Self, False )
+		
+		X = 0.5:Double * ( X1 + X2 )
+		Y = 0.5:Double * ( Y1 + Y2 )
+		Width = X2 - X1
+		Height = Y2 - Y1
+		
+		Update()
+		If SpriteMap Then SpriteMap.InsertSprite( Self, False )
+	End Method
+	
+	
 	
 	Rem
 	bbdoc: Moves sprite forward.

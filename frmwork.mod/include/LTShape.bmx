@@ -343,6 +343,16 @@ Type LTShape Extends LTObject
 	
 	
 	
+	Method SetCoordsAndSize( X1:Double, Y1:Double, X2:Double, Y2:Double )
+		X = 0.5:Double * ( X1 + X2 )
+		Y = 0.5:Double * ( Y1 + Y2 )
+		Width = X2 - X1
+		Height = Y2 - Y1
+		Update()
+	End Method
+	
+	
+	
 	Rem
 	bbdoc: Alter coordinates of the shape.
 	about: Given values will be added to the coordinates. It's better to use this method instead of incrementing X and Y fields manually.

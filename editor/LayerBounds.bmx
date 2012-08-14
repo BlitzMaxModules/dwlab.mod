@@ -11,36 +11,37 @@
 Global LayerBounds:TLayerBounds  = New TLayerBounds
 Type TLayerBounds Extends LTProject
 	Field Layer:LTLayer
+	Field Bounds:LTShape
 	
 	Field EditWindow:TGadget
-	Field LeftMarginTextField:TGadget
-	Field TopMarginTextField:TGadget
-	Field RightMarginTextField:TGadget
-	Field BottomMarginTextField:TGadget
-	Field WrappedCheckBox:TGadget
-	Field OKButton:TGadget, CancelButton:TGadget, ClearButton:TGadget
+	Field XTextField:TGadget
+	Field YTextField:TGadget
+	Field WidthTextField:TGadget
+	Field HeightTextField:TGadget
+	Field OKButton:TGadget, CancelButton:TGadget
 	
 	
 	
 	Method Init()
-		Layer = LTLayer( Editor.SelectedShapes.First() )
+		Layer = LTLayer( Editor.SelectedShape )
+		Bounds = Layer.Bounds
+		If Not Bounds Then Bounds = New LTShape
 	
 		EditWindow = CreateWindow( "{{W_LayerBounds}}", 0, 0, 0, 0, Editor.Window, Window_Titlebar | Window_ClientCoords )
 		Local Form:LTForm = LTForm.Create( EditWindow )
 		Form.NewLine()
-		XTextField = Form.AddTextField( "{{L_X}}", 165 )
-		YTextField = Form.AddTextField( "{{L_Y}}", 165 )
+		XTextField = Form.AddTextField( "{{L_X}}", 80 )
+		YTextField = Form.AddTextField( "{{L_Y}}", 80 )
 		Form.NewLine()
-		WidthTextField = Form.AddTextField( "{{L_Width}}", 165 )
-		HeightTextField = Form.AddTextField( "{{L_Height}}", 165 )
+		WidthTextField = Form.AddTextField( "{{L_Width}}", 80 )
+		HeightTextField = Form.AddTextField( "{{L_Height}}", 80 )
 		Form.NewLine()
 		AddOKCancelButtons( Form, OKButton, CancelButton )
-		ClearButton = Form.AddButton( "{{B_ClearButton}}" )
 	
-		SetGadgetText( XTextField, L_TrimDouble( Layer.X ) )
-		SetGadgetText( YTextField, L_TrimDouble( Layer.Y ) )
-		SetGadgetText( WidthTextField, L_TrimDouble( Layer.Width ) )
-		SetGadgetText( HeightTextField, L_TrimDouble( Layer.Height ) )
+		SetGadgetText( XTextField, L_TrimDouble( Bounds.X ) )
+		SetGadgetText( YTextField, L_TrimDouble( Bounds.Y ) )
+		SetGadgetText( WidthTextField, L_TrimDouble( Bounds.Width ) )
+		SetGadgetText( HeightTextField, L_TrimDouble( Bounds.Height ) )
 	End Method
 	
 	
@@ -51,14 +52,11 @@ Type TLayerBounds Extends LTProject
 			Case Event_GadgetAction
 				Select EventSource()
 					Case OKButton
-						Layer.Bounds.X = TextFieldText( XTextField ).ToDouble()
-						Layer.Bounds.Y = TextFieldText( YTextField ).ToDouble()
-						Layer.Bounds.Width = TextFieldText( WidthTextField ).ToDouble()
-						Layer.Bounds.Height = TextFieldText( HeightTextField ).ToDouble()
-						Editor.SetChanged()
-						Exiting = True
-					Case ClearButton
-						Bounds = Null
+						Bounds.X = TextFieldText( XTextField ).ToDouble()
+						Bounds.Y = TextFieldText( YTextField ).ToDouble()
+						Bounds.Width = TextFieldText( WidthTextField ).ToDouble()
+						Bounds.Height = TextFieldText( HeightTextField ).ToDouble()
+						Layer.Bounds = Bounds
 						Editor.SetChanged()
 						Exiting = True
 					Case CancelButton

@@ -34,24 +34,22 @@ Type TPan Extends LTDrag
 	
 	Method StartDragging()
 		'If Editor.MouseIsOver = Editor.TilesetCanvas Then L_CurrentCamera = Editor.TilesetCamera Else 
-		L_CurrentCamera = Camera
-		Editor.Cursor.SetMouseCoords()
+		L_Cursor.SetMouseCoords( Camera )
 		CameraStartingX = Camera.X
 		CameraStartingY = Camera.Y
-		CursorStartingX = Editor.Cursor.X
-		CursorStartingY = Editor.Cursor.Y
+		CursorStartingX = L_Cursor.X
+		CursorStartingY = L_Cursor.Y
 	End Method
 	
 	
 	
 	Method Dragging()
-		L_CurrentCamera = Camera
-		Editor.Cursor.SetMouseCoords()
-		Camera.SetCoords( CameraStartingX + CursorStartingX - Editor.Cursor.X, CameraStartingY + CursorStartingY - Editor.Cursor.Y )
-		Editor.Cursor.SetMouseCoords()
+		L_Cursor.SetMouseCoords( Camera )
+		Camera.SetCoords( CameraStartingX + CursorStartingX - L_Cursor.X, CameraStartingY + CursorStartingY - L_Cursor.Y )
+		L_Cursor.SetMouseCoords( Camera )
 		CameraStartingX = Camera.X
 		CameraStartingY = Camera.Y
-		CursorStartingX = Editor.Cursor.X
-		CursorStartingY = Editor.Cursor.Y
+		CursorStartingX = L_Cursor.X
+		CursorStartingY = L_Cursor.Y
 	End Method
 End Type
