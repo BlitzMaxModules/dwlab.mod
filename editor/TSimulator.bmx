@@ -48,11 +48,8 @@ Type TSimulator Extends LTProject
 	
 	
 	
-	Method ProcessEvents()
-		PollEvent()
+	Method OnEvent()
 		Select EventID()
-			Case Event_WindowClose
-				Exiting = True
 			Case Event_KeyDown
 				Select EventData()
 					Case Key_NumAdd

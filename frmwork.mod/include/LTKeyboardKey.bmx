@@ -229,12 +229,12 @@ Type LTKeyboardKey Extends LTPushable
 	
 	
 	
-	Method ProcessEvent( ID:Int )
+	Method ProcessEvent()
 		If EventData() <> Code Then Return
-		Select ID
-			Case EVENT_KEYDOWN
+		Select EventID()
+			Case Event_KeyDown
 				State = JustPressed
-			Case EVENT_KEYUP
+			Case Event_KeyUp
 				State = JustUnpressed
 		End Select
 	End Method

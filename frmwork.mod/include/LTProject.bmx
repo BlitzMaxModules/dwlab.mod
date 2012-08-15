@@ -243,11 +243,11 @@ Type LTProject Extends LTObject
 	
 	Method ProcessEvents()
 		Repeat
-			Local ID:Int = PollEvent()
+			PollEvent()
 			For Local Controller:LTPushable = Eachin L_Controllers
-				Controller.ProcessEvent( ID )
+				Controller.ProcessEvent()
 			Next
-			Select ID
+			Select EventID()
 				Case Event_WindowClose
 					OnCloseButton()
 				Case Event_WindowSize
@@ -255,18 +255,19 @@ Type LTProject Extends LTObject
 				Case 0
 					Exit
 			End Select
-			OnEvent( ID )
+			OnEvent()
 		Forever
 	End Method
 	
 	
 	
-	Method OnEvent( ID:Int )
+	Method OnEvent()
 	End Method
 	
 	
 	
 	Method OnCloseButton()
+		Exiting = True
 	End Method
 	
 	

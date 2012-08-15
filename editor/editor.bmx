@@ -749,10 +749,7 @@ Type LTEditor Extends LTProject
 	
 	
 	
-	Method ProcessEvents()
-		Delay 10
-		PollEvent()
-
+	Method OnEvent()
 		If ActiveGadget() <> Panel Then CurrentTextField = ActiveGadget()
 		
 		Local EvID:Int = EventID()
@@ -1491,6 +1488,7 @@ Type LTEditor Extends LTProject
 	End Method
 		
 	Method Logic()
+		Delay 10
 		If Not CurrentViewLayer Then Return
 		
 		Local Bounds:LTShape = CurrentViewLayer.Bounds

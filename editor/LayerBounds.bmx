@@ -46,8 +46,7 @@ Type TLayerBounds Extends LTProject
 	
 	
 	
-	Method ProcessEvents()
-		PollEvent()
+	Method OnEvent()
 		Select EventID()
 			Case Event_GadgetAction
 				Select EventSource()
@@ -62,8 +61,6 @@ Type TLayerBounds Extends LTProject
 					Case CancelButton
 						Exiting = True
 				End Select
-			Case Event_WindowClose
-				Exiting = True
 		End Select
 	End Method
 	

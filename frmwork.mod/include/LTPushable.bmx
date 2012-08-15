@@ -37,7 +37,7 @@ Type LTPushable Extends LTObject
 	
 	
 	
-	Method ProcessEvent( ID:Int )
+	Method ProcessEvent()
 	End Method
 	
 	

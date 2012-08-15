@@ -39,8 +39,7 @@ Type TParameterProperties Extends LTProject
 	
 	
 	
-	Method ProcessEvents()
-		PollEvent()
+	Method OnEvent()
 		Select EventID()
 			Case Event_GadgetAction
 				Select EventSource()
@@ -57,7 +56,6 @@ Type TParameterProperties Extends LTProject
 				End Select
 			Case Event_WindowClose
 				Succesful = False
-				Exiting = True
 		End Select
 	End Method
 	

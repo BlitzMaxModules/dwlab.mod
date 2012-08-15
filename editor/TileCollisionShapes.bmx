@@ -9,9 +9,9 @@
 ' http://creativecommons.org/licenses/by-nc-sa/3.0/
 '
 
-Global TileCollisionShapes:TTileCollisionShapes = New TTileCollisionShapes
 Global Frame2:Int
 
+Global TileCollisionShapes:TTileCollisionShapes = New TTileCollisionShapes
 Type TTileCollisionShapes
 	Field CollisionGroup:LTLayer
 	Field CollisionShape:LTShape

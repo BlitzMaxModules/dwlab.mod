@@ -36,12 +36,12 @@ Type LTMouseButton Extends LTPushable
 	
 	
 	
-	Method ProcessEvent( ID:Int )
+	Method ProcessEvent()
 		If EventData() <> Num Then Return
-		Select ID
-			Case EVENT_MOUSEDOWN
+		Select EventID()
+			Case Event_MouseDown
 				State = JustPressed
-			Case EVENT_MOUSEUP
+			Case Event_MouseUp
 				State = JustUnpressed
 		End Select
 	End Method

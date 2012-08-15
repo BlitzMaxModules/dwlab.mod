@@ -1,7 +1,7 @@
-<LTMenu current_profile="1" dwlab_version="1.4.21">
+<LTMenu current_profile="1" dwlab_version="1.4.21.2">
 	<TList field="profiles">
 		<TGameProfile id="1" name="{{P_Player}}" language="Russian" audio="DirectSound" video="DirectX7" width="1280" height="1024" depth="32" frequency="75" x_resolution="1216" y_resolution="912" next-balls="7,5,5" score="15" balls-in-line="5" balls-per-turn="3">
-			<LTTileMap field="balls" x="8.50003" y="4.87002999" width="13.00003" height="9.75003" visible="0" xquantity="13" yquantity="13" tiles-quantity="14">
+			<LTTileMap field="balls" x="8.50003" y="4.87002998" width="13.00003" height="9.75003" visible="0" xquantity="13" yquantity="13" tiles-quantity="14">
 				<TList field="parameters">
 					<LTParameter name="name" value="Balls"/>
 				</TList>
@@ -39,11 +39,11 @@
 				<Row data="3210000000404"/>
 				<Row data="0225703001110"/>
 			</LTTileMap>
-			<LTTileMap field="modifiers" x="8.50003" y="4.87002999" width="13.00003" height="9.75003" xquantity="13" yquantity="13" tiles-quantity="14">
+			<LTTileMap field="modifiers" x="8.50003" y="4.87002998" width="13.00003" height="9.75003" xquantity="13" yquantity="13" tiles-quantity="14">
 				<TList field="parameters">
 					<LTParameter name="name" value="Modifiers"/>
 				</TList>
-				<LTVisualizer field="visualizer" dy="-0.25002999" yscale="1.25001999"/>
+				<LTVisualizer field="visualizer" dy="-0.25002996" yscale="1.25001999"/>
 				<Object field="tileset" id="9"/>
 				<Row data="000;00000<000"/>
 				<Row data="00;0000000000"/>
