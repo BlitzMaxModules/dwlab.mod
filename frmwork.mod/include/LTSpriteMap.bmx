@@ -414,6 +414,14 @@ Type LTSpriteMap Extends LTMap
 	
 	
 	
+	Method Update()
+		For Local Obj:LTShape = Eachin Sprites.Keys()
+			Obj.Update()
+		Next
+	End Method
+	
+	
+	
 	Rem
 	bbdoc: Creates collision map.
 	about: You should specify cell quantities and size.

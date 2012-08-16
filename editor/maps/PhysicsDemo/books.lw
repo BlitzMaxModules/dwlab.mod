@@ -11,7 +11,7 @@
 		<LTColor field="background"/>
 		<LTColor field="grid_color" green="0" alpha="0.2"/>
 	</LTEditorData>
-	<LTCamera field="camera" x="16" width="110.47270998" height="95.7868537" shape="2" viewport-clipping="1">
+	<LTCamera field="camera" x="16" width="91.29975636" height="79.16268557" shape="2" viewport-clipping="1">
 		<LTVisualizer field="visualizer"/>
 		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
 			<LTVisualizer field="visualizer"/>
@@ -234,615 +234,618 @@
 			<Row data="QQQQQ6A<<?9:DE<<<<<<<<<I111111J<<<<<<<<<<<<<<I11111J<<<<<<<<<<<<<<<@59:111178QQQ"/>
 			<Row data="311111111111J<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<@D<<<<<<C114"/>
 		</LTTileMap>
-		<LTBox2DSprite x="24.5" y="-2.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="24.5" y="-2.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<LTImage field="image" id="132" filename="books.jpg"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="32.5" y="-2.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="32.5" y="-2.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="24.5" y="0.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="24.5" y="0.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="0.5" y="0.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="0.5" y="0.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="8.5" y="6.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="8.5" y="6.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="28.5" y="12.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="28.5" y="12.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="4.5" y="0.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="4.5" y="0.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="8.5" y="-2.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="8.5" y="-2.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="36.5" y="6.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="36.5" y="6.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="16.5" y="0.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="16.5" y="0.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="4.5" y="6.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="4.5" y="6.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="8.5" y="0.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="8.5" y="0.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="32.5" y="6.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="32.5" y="6.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="12.5" y="0.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="12.5" y="0.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-3.5" y="0.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="-3.5" y="0.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="16.5" y="6.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="16.5" y="6.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-5.5" y="-2" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="-5.5" y="-2" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="16.5" y="-2.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="16.5" y="-2.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="4.5" y="15.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="4.5" y="15.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="24.5" y="12.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="24.5" y="12.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="38.5" y="-2" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="38.5" y="-2" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="28.5" y="6.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="28.5" y="6.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="32.5" y="9.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="32.5" y="9.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="20.5" y="0.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="20.5" y="0.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="28.5" y="15.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="28.5" y="15.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="32.5" y="12.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="32.5" y="12.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="28.5" y="0.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="28.5" y="0.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="8.5" y="9.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="8.5" y="9.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-3.5" y="3.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="-3.5" y="3.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="8.5" y="12.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="8.5" y="12.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="4.5" y="3.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="4.5" y="3.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="36.5" y="0.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="36.5" y="0.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="12.5" y="3.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="12.5" y="3.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="28.5" y="3.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="28.5" y="3.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="32.5" y="0.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="32.5" y="0.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-7.5" y="6.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="-7.5" y="6.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-7.5" y="9.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="-7.5" y="9.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="0.5" y="6.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="0.5" y="6.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="12.5" y="6.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="12.5" y="6.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="20.5" y="6.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="20.5" y="6.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="4.5" y="12.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="4.5" y="12.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="0.5" y="9.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="0.5" y="9.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="16.5" y="9.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="16.5" y="9.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="20.5" y="3.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="20.5" y="3.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="0.5" y="-2.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="0.5" y="-2.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="24.5" y="9.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="24.5" y="9.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-3.5" y="6.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="-3.5" y="6.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="36.5" y="3.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="36.5" y="3.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="24.5" y="6.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="24.5" y="6.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-9.5" y="4" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="-9.5" y="4" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-3.5" y="15.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="-3.5" y="15.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="0.5" y="12.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="0.5" y="12.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-3.5" y="12.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="-3.5" y="12.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-3.5" y="18.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="-3.5" y="18.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-7.5" y="12.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="-7.5" y="12.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="0.5" y="-5.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="0.5" y="-5.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="8.5" y="-5.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="8.5" y="-5.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="16.5" y="-5.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="16.5" y="-5.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="24.5" y="-5.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="24.5" y="-5.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="32.5" y="-5.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="32.5" y="-5.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="28.5" y="-5.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="28.5" y="-5.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="20.5" y="-5.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="20.5" y="-5.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="12.5" y="-5.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="12.5" y="-5.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="4.5" y="-5.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="4.5" y="-5.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-1.5" y="-8" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="-1.5" y="-8" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="4.5" y="-8.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="4.5" y="-8.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="12.5" y="-8.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="12.5" y="-8.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="20.5" y="-8.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="20.5" y="-8.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="28.5" y="-8.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="28.5" y="-8.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="34.5" y="-8" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="34.5" y="-8" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="4.5" y="-11.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="4.5" y="-11.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="8.5" y="-11.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="8.5" y="-11.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="12.5" y="-11.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="12.5" y="-11.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="16.5" y="-11.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="16.5" y="-11.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="20.5" y="-11.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="20.5" y="-11.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="24.5" y="-11.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="24.5" y="-11.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="28.5" y="-11.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="28.5" y="-11.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="8.5" y="-14.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="8.5" y="-14.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="16.5" y="-14.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="16.5" y="-14.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="24.5" y="-14.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="24.5" y="-14.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="30.5" y="-14" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="30.5" y="-14" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="2.5" y="-14" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="2.5" y="-14" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="8.5" y="-17.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="8.5" y="-17.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="12.5" y="-17.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="12.5" y="-17.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="16.5" y="-17.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="16.5" y="-17.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="20.5" y="-17.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="20.5" y="-17.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="24.5" y="-17.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="24.5" y="-17.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="20.5" y="-23.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="20.5" y="-23.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="12.5" y="-23.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="12.5" y="-23.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="26.5" y="-20" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="26.5" y="-20" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="6.5" y="-20" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="6.5" y="-20" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="12.5" y="-20.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="12.5" y="-20.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="20.5" y="-20.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="20.5" y="-20.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="16.5" y="-23.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="16.5" y="-23.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="16.5" y="-26.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="16.5" y="-26.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-11.5" y="12.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="-11.5" y="12.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-13.5" y="10" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="-13.5" y="10" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-15.5" y="21.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="-15.5" y="21.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-7.25" y="21.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="-7.25" y="21.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-7.25" y="18.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="-7.25" y="18.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-11.5" y="18.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="-11.5" y="18.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-11.5" y="15.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="-11.5" y="15.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-15.5" y="18.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="-15.5" y="18.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="-17.5" y="16" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="-17.5" y="16" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="36.5" y="12.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="36.5" y="12.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="40.5" y="12.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="40.5" y="12.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="40.5" y="6.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="40.5" y="6.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="44.5" y="12.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="44.5" y="12.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="40.5" y="9.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="40.5" y="9.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="42.5" y="4" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="42.5" y="4" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="46.5" y="10" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="46.5" y="10" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="36.5" y="18.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="36.5" y="18.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="36.5" y="15.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="36.5" y="15.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="40.5" y="18.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="40.5" y="18.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="44.5" y="18.25" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="44.5" y="18.25" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="44.5" y="15.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="44.5" y="15.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="40.5" y="21.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="40.5" y="21.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="48.5" y="18.75" width="0.5" height="5" shape="2" angle="90">
+		<LTBox2DSprite x="48.5" y="18.75" width="0.5" height="5" shape="2" angle="90" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="48.5" y="21.5" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="48.5" y="21.5" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="50.5" y="16" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="50.5" y="16" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="10.5" y="-26" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="10.5" y="-26" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
-		<LTBox2DSprite x="22.5" y="-26" width="0.5" height="5" shape="2">
+		<LTBox2DSprite x="22.5" y="-26" width="0.5" height="5" shape="2" velocity="0">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="132"/>
 			</LTVisualizer>
 		</LTBox2DSprite>
+		<LTSprite x="-15.25" y="-23.75" width="1.5" height="1.5" shape="1" angle="15" velocity="10">
+			<LTVisualizer field="visualizer" red="0" green="0" blue="0"/>
+		</LTSprite>
 	</LTLayer>
 </LTWorld>

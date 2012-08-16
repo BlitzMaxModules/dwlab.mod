@@ -506,14 +506,13 @@ Type LTShape Extends LTObject
 		Local DX:Double = KeyDown( KRight ) - KeyDown( KLeft )
 		Local DY:Double = KeyDown( KDown ) - KeyDown( KUp )
 		
-		Local X1:Double, Y1:Double, X2:Double, Y2:Double
-		L_CurrentCamera.ScreenToField( 0, 0, X1, Y1 )
-		L_CurrentCamera.ScreenToField( DX, DY, X2, Y2 )
+		Local SDX:Double, SDY:Double
+		L_CurrentCamera.SizeScreenToField( DX, DY, SDX, SDY )
 		
-		If X1 = X2 And Y1 = Y2 Then Return
+		If Not SDX And Not SDY Then Return
 		
-		Local K:Double = Velocity / L_Distance( X2 - X1, Y2 - Y1 )
-		SetCoords( X + ( X2 - X1 ) * K * L_DeltaTime, Y + ( Y2 - Y1 ) * K * L_DeltaTime )
+		Local K:Double = Velocity / L_Distance( SDX, SDY ) * L_DeltaTime
+		SetCoords( X + SDX * K, Y + SDY * K )
 	End Method
 	
 	

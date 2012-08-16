@@ -13,7 +13,7 @@ bbdoc:
 about: 
 End Rem
 
-Type LTBox2DSprite Extends LTVectorSprite
+Type LTBox2DSprite Extends LTSprite
 	Global Pivot1:LTSprite = New LTSprite
 	Global Pivot2:LTSprite = New LTSprite
 	Global Pivot3:LTSprite = New LTSprite
@@ -37,28 +37,18 @@ Type LTBox2DSprite Extends LTVectorSprite
 		ListLink = LTBox2DPhysics.Objects.AddLast( Self )
 		
 		Local BodyDefinition:b2BodyDef = New b2BodyDef
-		Rem
-		Select GetParameter( "type" )
-			Case "kinematic"
-				BodyDefinition.SetType( b2_kinematicBody )
-			Case "static"
-				BodyDefinition.SetType( b2_staticBody )
-			Default
-				BodyDefinition.SetType( b2_dynamicBody )
-		End Select
-		EndRem
 		BodyDefinition.SetPosition( Vec2( X, Y ) )
 		BodyDefinition.SetAngle( DisplayingAngle )
 		
-		If ParameterExists( "mass" ) Then BodyDefinition.GetMassData().SetMass( GetParameter( "mass" ).ToFloat() )
 		If ParameterExists( "linear_damping" ) Then BodyDefinition.SetLinearDamping( GetParameter( "linear_damping" ).ToFloat() )
 		If ParameterExists( "angular_damping" ) Then BodyDefinition.SetAngularDamping( GetParameter( "angular_damping" ).ToFloat() )
 		
 		Body = LTBox2DPhysics.Box2DWorld.CreateBody( BodyDefinition )
-		Body.SetLinearVelocity( Vec2( DX, DY ) )
+		Body.SetLinearVelocity( Vec2( Velocity * Cos( Angle ), Velocity * Sin( Angle ) ) )
 		If ParameterExists( "angular_velocity" ) Then Body.SetAngularVelocity( GetParameter( "angular_velocity" ).ToFloat() )
 		
 		AttachSpriteShapesToBody( Self, LTBox2DShapeParameters.FromShape( Self ), Body )
+		Body.SetMassFromShapes()
 	End Method
 	
 	
@@ -145,11 +135,7 @@ Type LTBox2DSprite Extends LTVectorSprite
 			Local Vector:b2Vec2 = Body.GetPosition()
 			X = Vector.X()
 			Y = Vector.Y()
-			Vector = Body.GetLinearVelocity()
-			DX = Vector.X()
-			DY = Vector.Y()
-			UpdateAngularModel()
-			DisplayingAngle = Body.GetAngle()
+			Angle = Body.GetAngle()
 		End If
 	End Method
 	
@@ -171,9 +157,9 @@ End Type
 
 
 Type LTBox2DShapeParameters
-	Field Friction:Float = 0
-	Field Density:Float = 0
-	Field Restitution:Float = 0
+	Field Friction:Float = 0.5
+	Field Density:Float = 1.0
+	Field Restitution:Float = 0.1
 	
 	
 	

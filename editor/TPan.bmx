@@ -33,7 +33,6 @@ Type TPan Extends LTDrag
 	
 	
 	Method StartDragging()
-		debugstop
 		L_Cursor.SetMouseCoords( Camera )
 		CameraStartingX = Camera.X
 		CameraStartingY = Camera.Y

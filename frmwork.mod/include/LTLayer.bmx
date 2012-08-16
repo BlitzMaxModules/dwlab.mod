@@ -122,6 +122,14 @@ Type LTLayer Extends LTShape
 		End If
 	End Method
 	
+	
+	
+	Method Update()
+		For Local Obj:LTShape = Eachin Children
+			Obj.Update()
+		Next
+	End Method
+	
 	' ==================== Collisions ===================
 	
 	Method LayerFirstSpriteCollision:LTSprite( Sprite:LTSprite )

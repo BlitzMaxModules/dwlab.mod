@@ -25,7 +25,12 @@ Type TSimulator Extends LTProject
 	Method Init()
 		Window = CreateWindow( LocalizeString( "{{W_Simulation}}" ), 0, 0, 0, 0, Editor.Window, Window_Titlebar | Window_ClientCoords )
 		MaximizeWindow( Window )
+		
 		Canvas = CreateCanvas( 0, 0, ClientWidth( Window ), ClientHeight( Window ), Window )
+		ActivateGadget( Canvas )
+		DisablePolledInput()
+		EnablePolledInput( Canvas )
+		
 		Layer = LTLayer( Editor.SelectedShape.Clone() )
 		Camera = New LTCamera
 		Camera.Viewport.SetCoordsAndSize( 0, 0, ClientWidth( Window ), ClientHeight( Window ) )
@@ -33,17 +38,21 @@ Type TSimulator Extends LTProject
 		Camera.SetSizeAs( Layer.Bounds )
 		Camera.Update()
 		InitialWidth = Camera.Width
-		'LTBox2DPhysics.InitWorld( World )
 		Pan = TPan.Create( Camera )
+		
+		LTBox2DPhysics.InitWorld( Layer )
 	End Method
 	
 	
 	
 	Method Logic()
-		'LTBox2DPhysics.Logic( 1.0 / L_LogicFPS )
 		Pan.Act()
 		Camera.MoveUsingArrows( Camera.Width )
 		Editor.SetCameraMagnification( Camera, Canvas, Z, InitialWidth )
+		Camera.LimitWith( Layer.Bounds )
+		
+		LTBox2DPhysics.Logic( 1.0 / L_LogicFPS )
+		Layer.Update()
 	End Method
 	
 	
@@ -77,5 +86,7 @@ Type TSimulator Extends LTProject
 	
 	Method DeInit()
 		FreeGadget( Window )
+		DisablePolledInput()
+		EnablePolledInput( Editor.MainCanvas )
 	End Method
 End Type

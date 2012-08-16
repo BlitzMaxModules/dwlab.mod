@@ -17,7 +17,6 @@ Import dwlab.physics2d
 Import brl.bmploader
 Import brl.freetypefont
 
-Import brl.eventqueue
 ?win32
 Import maxgui.win32maxguiex
 ?linux
