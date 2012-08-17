@@ -993,8 +993,8 @@ Type LTEditor Extends LTProject
 								World.InsertBeforeShape( Group, , FirstSprite )
 								
 								For Local Sprite:LTSprite = Eachin SelectedShapes
-									Group.InsertSprite( Sprite )
 									World.Remove( Sprite )
+									Group.InsertSprite( Sprite )
 								Next
 								
 								RefreshProjectManager()
@@ -1215,7 +1215,7 @@ Type LTEditor Extends LTProject
 						LTLayer( SelectedShape ).Bounds = Null
 						SetChanged()
 					Case MenuMixContent
-						LTLayer( SelectedShape ).MixContent = 1 - LTLayer( SelectedShape ).MixContent
+						LTLayer( SelectedShape ).MixContent = Not LTLayer( SelectedShape ).MixContent
 						SetChanged()
 					Case MenuPaste
 						If Not Buffer.IsEmpty() Then
@@ -1360,19 +1360,19 @@ Type LTEditor Extends LTProject
 									SetChanged()
 							End Select
 						Case RedSlider
-							Visualizer.Red = 0.01 * SliderValue( RedSlider ) + 0.000001
+							Visualizer.Red = 0.01:Double * SliderValue( RedSlider )
 							SetGadgetText( RedField, L_TrimDouble( Shape.Visualizer.Red, 4 ) )
 							SetChanged()
 						Case GreenSlider
-							Visualizer.Green = 0.01 * SliderValue( GreenSlider ) + 0.000001
+							Visualizer.Green = 0.01:Double * SliderValue( GreenSlider )
 							SetGadgetText( GreenField, L_TrimDouble( Shape.Visualizer.Green, 4 ) )
 							SetChanged()
 						Case BlueSlider
-							Visualizer.Blue = 0.01 * SliderValue( BlueSlider ) + 0.000001
+							Visualizer.Blue = 0.01:Double * SliderValue( BlueSlider )
 							SetGadgetText( BlueField, L_TrimDouble( Shape.Visualizer.Blue, 4 ) )
 							SetChanged()
 						Case AlphaSlider
-							Visualizer.Alpha = 0.01:Double * Double( SliderValue( AlphaSlider ) )
+							Visualizer.Alpha = 0.01:Double * SliderValue( AlphaSlider )
 							SetGadgetText( AlphaField, L_TrimDouble( Shape.Visualizer.Alpha, 4 ) )
 							SetChanged()
 						Case ScalingCheckbox
@@ -1384,13 +1384,23 @@ Type LTEditor Extends LTProject
 						Case PhysicsCheckbox
 							Local ToShape:LTShape = Null
 							
-							If LTSprite( Shape ) Then
+							If LTSpriteGroup( Shape ) Then
+								If Shape.Physics() Then
+									ToShape = New LTSpriteGroup
+								Else
+									ToShape = New LTBox2DSpriteGroup
+								End If
+								
+								For Local Sprite:LTSprite = Eachin LTSpriteGroup( Shape )
+									LTSpriteGroup( ToShape ).Children.AddLast( Sprite )
+								Next
+							Else If LTSprite( Shape ) Then
 								If Shape.Physics() Then
 									ToShape = New LTSprite
 								Else
 									ToShape = New LTBox2DSprite
 								End If
-							ElseIf LTTileMap( Shape )
+							Else If LTTileMap( Shape ) Then
 								If Shape.Physics() Then
 									ToShape = New LTTileMap
 								Else

@@ -213,7 +213,7 @@ Type LTVisualizer Extends LTColor
 			SetScale( 1.0, 1.0 )
 			SetRotation( 0.0 )
 		Else
-			DrawSpriteShape( SpriteShape )
+			DrawSpriteShape( Sprite, SpriteShape )
 		End If
 		
 		ResetColor()
@@ -253,7 +253,7 @@ Type LTVisualizer Extends LTColor
 					SetBlend Blend
 				End If
 			Else
-				DrawShape( Sprite.ShapeType, SX, SY, SWidth, SHeight, Sprite.Angle * ( Sprite.Physics() Or Sprite.ShapeType = LTSprite.Ray ) )
+				DrawShape( Sprite.ShapeType, SX, SY, SWidth, SHeight, SpriteShape.Angle * ( Sprite.Physics() Or Sprite.ShapeType = LTSprite.Ray ) )
 			End If
 		End If
 	End Method
@@ -266,7 +266,9 @@ Type LTVisualizer Extends LTColor
 		Select ShapeType
 			Case LTSprite.Oval
 				If SWidth = SHeight Then
-					DrawOval( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
+					SetHandle( 0.5 * SWidth, 0.5 * SHeight )
+					DrawOval( SX, SY, SWidth, SHeight )
+					SetHandle( 0.0, 0.0 )
 				ElseIf SWidth > SHeight Then
 					Local DWidth:Double = SWidth - SHeight
 					SetHandle( 0.5 * SWidth, 0.5 * SHeight )

@@ -9,7 +9,6 @@
 '
 
 Type LTBox2DPhysics
-	Global Objects:TList = New TList
 	Global Box2DWorld:b2World
 	Global VelocityIterations:Int = 10
 	Global PositionIterations:Int = 8
@@ -17,7 +16,6 @@ Type LTBox2DPhysics
 	
 	
 	Function InitWorld( World:LTLayer )
-		Objects.Clear()
 		Local Gravity:Float = 10.0
 		If World.ParameterExists( "gravity" ) Then Gravity = World.GetParameter( "gravity" ).ToFloat()
 		Box2DWorld = b2World.CreateWorld( b2AABB.CreateAABB( Vec2( World.Bounds.LeftX(), World.Bounds.TopY() ), ..
@@ -31,14 +29,9 @@ Type LTBox2DPhysics
 		For Local Shape:LTShape = Eachin Layer.Children
 			Local ChildLayer:LTLayer = LTLayer( Shape )
 			If ChildLayer Then
-				InitWorld( ChildLayer )
-			Else
-				Local Sprite:LTBox2DSprite = LTBox2DSprite( Shape )
-				Local TileMap:LTBox2DTileMap = LTBox2DTileMap( Shape )
-				If Sprite Or TileMap Then
-					Shape.Init()
-					Objects.AddLast( Shape )
-				End If
+				ProcessLayer( ChildLayer )
+			ElseIf Shape.Physics() Then
+				Shape.Init()
 			End If
 		Next
 	End Function

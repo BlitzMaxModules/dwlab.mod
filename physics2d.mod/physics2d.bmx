@@ -29,3 +29,4 @@ Import bah.box2d
 Include "include\LTBox2DPhysics.bmx"
 Include "include\LTBox2DSprite.bmx"
 Include "include\LTBox2DTileMap.bmx"
+Include "include\LTBox2DSpriteGroup.bmx"

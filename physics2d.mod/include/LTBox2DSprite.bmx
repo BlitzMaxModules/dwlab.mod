@@ -22,7 +22,6 @@ Type LTBox2DSprite Extends LTSprite
 	Global ShapeParameters:b2ShapeDef = New b2ShapeDef
 	
 	Field Body:b2Body
-	Field ListLink:TLink
 	
 	
 	
@@ -33,12 +32,9 @@ Type LTBox2DSprite Extends LTSprite
 	
 	
 	Method Init()
-		UpdateFromAngularModel()
-		ListLink = LTBox2DPhysics.Objects.AddLast( Self )
-		
 		Local BodyDefinition:b2BodyDef = New b2BodyDef
 		BodyDefinition.SetPosition( Vec2( X, Y ) )
-		BodyDefinition.SetAngle( DisplayingAngle )
+		BodyDefinition.SetAngle( Angle )
 		
 		If ParameterExists( "linear_damping" ) Then BodyDefinition.SetLinearDamping( GetParameter( "linear_damping" ).ToFloat() )
 		If ParameterExists( "angular_damping" ) Then BodyDefinition.SetAngularDamping( GetParameter( "angular_damping" ).ToFloat() )
@@ -53,53 +49,56 @@ Type LTBox2DSprite Extends LTSprite
 	
 	
 	
-	Function AttachSpriteShapesToBody( Sprite:LTSprite, ShapeParameters:LTBox2DShapeParameters, Body:b2Body )
+	Function AttachSpriteShapesToBody( Sprite:LTSprite, ShapeParameters:LTBox2DShapeParameters, Body:b2Body, X:Float = 0.0, Y:Float = 0.0 )
 		Select Sprite.ShapeType
 			Case Pivot
+				CircleDefinition.SetLocalPosition( Vec2( X, Y ) )
 				CircleDefinition.SetRadius( 0.0 )
 				AttachToBody( Body, CircleDefinition, ShapeParameters )
 			Case Oval
 				If Sprite.Width = Sprite.Height Then
+					CircleDefinition.SetLocalPosition( Vec2( X, Y ) )
 					CircleDefinition.SetRadius( 0.5 * Sprite.Width )
 					AttachToBody( Body, CircleDefinition, ShapeParameters )
 				Else
 					Local DX:Float = Sprite.Width - Sprite.Height
 					If DX > 0 Then
-						PolygonDefinition.SetAsBox( DX, Sprite.Height )
+						PolygonDefinition.SetAsOrientedBox( 0.5 * DX, 0.5 * Sprite.Height, Vec2( X, Y ), 0.0 )
 					Else
-						PolygonDefinition.SetAsBox( Sprite.Width, -DX )
+						PolygonDefinition.SetAsOrientedBox( 0.5 * Sprite.Width, -0.5 * DX, Vec2( X, Y ), 0.0 )
 					End IF
 					AttachToBody( Body, PolygonDefinition, ShapeParameters )
 					
 					For Local Sign:Int = -1 To 1 Step 2					
 						If DX > 0 Then
+							CircleDefinition.SetLocalPosition( Vec2( X + 0.5 * DX * Sign, Y ) )
 							CircleDefinition.SetRadius( 0.5 * Sprite.Height )
-							CircleDefinition.SetLocalPosition( Vec2( 0.5 * DX * Sign, 0.0 ) )
 						Else
+							CircleDefinition.SetLocalPosition( Vec2( X, Y + 0.5 * DX * Sign ) )
 							CircleDefinition.SetRadius( 0.5 * Sprite.Width )
-							CircleDefinition.SetLocalPosition( Vec2( 0.0, -0.5 * DX * Sign ) )
 						End If
 						AttachToBody( Body, CircleDefinition, ShapeParameters )
 					Next
-					CircleDefinition.SetLocalPosition( Vec2( 0.0, 0.0 ) )
 				End If
 			Case Rectangle
-				PolygonDefinition.SetAsBox( 0.5 * Sprite.Width, 0.5 * Sprite.Height )
+				PolygonDefinition.SetAsOrientedBox( 0.5 * Sprite.Width, 0.5 * Sprite.Height, Vec2( X, Y ), 0.0 )
 				AttachToBody( Body, PolygonDefinition, ShapeParameters )
 			Case Ray, Raster
 			Default
-				Sprite.GetOtherVertices( Pivot1, Pivot2 )
-				Sprite.GetRightAngleVertex( Pivot3  )
-				PolygonDefinition.SetVertices( [ PivotToVertex( Pivot1 ), PivotToVertex( Pivot2 ), PivotToVertex( Pivot3 ) ] )
+				Local HalfWidth:Double = 0.5 * Sprite.Width
+				Local HalfHeight:Double = 0.5 * Sprite.Height
+				Select Sprite.ShapeType
+					Case LTSprite.TopLeftTriangle
+						PolygonDefinition.SetVertices( [ Vec2( X - HalfWidth, Y - HalfHeight ), Vec2( X + HalfWidth, Y - HalfHeight ), Vec2( X - HalfWidth, Y + HalfHeight ) ] )
+					Case LTSprite.TopRightTriangle
+						PolygonDefinition.SetVertices( [ Vec2( X - HalfWidth, Y - HalfHeight ), Vec2( X + HalfWidth, Y - HalfHeight ), Vec2( X + HalfWidth, Y + HalfHeight ) ] )
+					Case LTSprite.BottomLeftTriangle
+						PolygonDefinition.SetVertices( [ Vec2( X - HalfWidth, Y - HalfHeight ), Vec2( X + HalfWidth, Y + HalfHeight ), Vec2( X - HalfWidth, Y + HalfHeight ) ] )
+					Case LTSprite.BottomRightTriangle
+						PolygonDefinition.SetVertices( [ Vec2( X - HalfWidth, Y + HalfHeight ), Vec2( X + HalfWidth, Y - HalfHeight ), Vec2( X + HalfWidth, Y + HalfHeight ) ] )
+				End Select
 				AttachToBody( Body, PolygonDefinition, ShapeParameters )
 		End Select
-	End Function
-	
-	
-	
-	
-	Function PivotToVertex:b2Vec2( Pivot:LTSprite )
-		Return Vec2( Pivot.X, Pivot.Y )
 	End Function
 	
 	
@@ -124,7 +123,7 @@ Type LTBox2DSprite Extends LTSprite
 	
 	Method Clone:LTShape()
 		Local NewSprite:LTBox2DSprite = New LTBox2DSprite
-		CopyTo( NewSprite )
+		CopySpriteTo( NewSprite )
 		Return NewSprite
 	End Method
 	
@@ -137,12 +136,6 @@ Type LTBox2DSprite Extends LTSprite
 			Y = Vector.Y()
 			Angle = Body.GetAngle()
 		End If
-	End Method
-	
-	
-	
-	Method Destroy()
-		ListLink.Remove()
 	End Method
 	
 	

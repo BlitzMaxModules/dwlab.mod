@@ -22,6 +22,8 @@ ModuleInfo "Modserver: DWLAB"
 
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.23.1 (17.08.12)"
+ModuleInfo "History: &nbsp; &nbsp; Fixed bug in circular shape drawing."
 ModuleInfo "History: v1.4.23 (13.08.12)"
 ModuleInfo "History: &nbsp; &nbsp; Sprite maps are now array-list-based."
 ModuleInfo "History: v1.4.22.3 (10.08.12)"

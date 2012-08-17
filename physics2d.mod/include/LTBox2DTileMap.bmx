@@ -9,9 +9,10 @@
 '
 
 Type LTBox2DTileMap Extends LTTileMap
+	Global ServiceSprite:LTSprite = New LTSprite
+	Global PolygonDefinition:b2PolygonDef = New b2PolygonDef
+	
 	Field Body:b2Body
-	Field ListLink:TLink
-	Field ServiceSprite:LTSprite = New LTSprite
 	
 	
 	
@@ -22,12 +23,11 @@ Type LTBox2DTileMap Extends LTTileMap
 	
 	
 	Method Init()
-		ListLink = LTBox2DPhysics.Objects.AddLast( Self )
-		
 		Local BodyDefinition:b2BodyDef = New b2BodyDef
 		Body = LTBox2DPhysics.Box2DWorld.CreateBody( BodyDefinition )
 		
 		Local ShapeParameters:LTBox2DShapeParameters = LTBox2DShapeParameters.FromShape( Self )
+		ShapeParameters.Density = 0.0
 		
 		Local FilledTile:Int[,] = New Int[ XQuantity, YQuantity ]
 		For Local Y:Int = 0 Until YQuantity
@@ -35,6 +35,8 @@ Type LTBox2DTileMap Extends LTTileMap
 				Local CollisionShape:LTShape = TileSet.CollisionShape[ Value[ X, Y ] ]
 				If Not CollisionShape Then Continue
 				Local CollisionSprite:LTSprite = LTSprite( CollisionShape )
+				Local BX:Float = LeftX() + ( 0.5 + X ) * GetTileWidth()
+				Local BY:Float = TopY() + ( 0.5 + Y ) * GetTileHeight()
 				If CollisionSprite Then
 					If CollisionSprite.ShapeType = LTSprite.Rectangle And  CollisionSprite.X = 0.5:Double And CollisionSprite.Y = 0.5:Double ..
 							And CollisionSprite.Width = 1.0:Double And CollisionSprite.Height = 1.0:Double Then
@@ -72,10 +74,16 @@ Type LTBox2DTileMap Extends LTTileMap
 					Next
 				Next
 				
-				LTBox2DSprite.PolygonDefinition.SetAsBox( ( X2 - X ) * GetTileWidth(), ( Y2 - X ) * GetTileHeight() )
-				LTBox2DSprite.AttachToBody( Body, LTBox2DSprite.PolygonDefinition, ShapeParameters )
+				Local PX1:Float = LeftX() + X * GetTileWidth()
+				Local PY1:Float = TopY() + Y * GetTileHeight()
+				Local PX2:Float = LeftX() + X2 * GetTileWidth()
+				Local PY2:Float = TopY() + Y2 * GetTileHeight()
+				PolygonDefinition.SetVertices( [ Vec2( PX1, PY1 ), Vec2( PX2, PY1 ), Vec2( PX2, PY2 ), Vec2( PX1, PY2 ) ] )
+				LTBox2DSprite.AttachToBody( Body, PolygonDefinition, ShapeParameters )
 			Next
 		Next
+		
+		Body.SetMassFromShapes()
 	End Method
 	
 	
@@ -83,12 +91,10 @@ Type LTBox2DTileMap Extends LTTileMap
 	Method AttachTileCollisionSpriteToBody( TileX:Int, TileY:Int, CollisionSprite:LTSprite, ShapeParameters:LTBox2DShapeParameters, Body:b2Body )
 		Local TileWidth:Double = GetTileWidth()
 		Local TileHeight:Double = GetTileHeight()
-		ServiceSprite.X = LeftX() + TileWidth * ( TileX + CollisionSprite.X )
-		ServiceSprite.Y = TopY() + TileHeight * ( TileY + CollisionSprite.Y )
 		ServiceSprite.Width = TileWidth * CollisionSprite.Width
 		ServiceSprite.Height = TileHeight * CollisionSprite.Height
 		ServiceSprite.ShapeType = CollisionSprite.ShapeType
-		LTBox2DSprite.AttachSpriteShapesToBody( ServiceSprite, ShapeParameters, Body )
+		LTBox2DSprite.AttachSpriteShapesToBody( ServiceSprite, ShapeParameters, Body, LeftX() + TileWidth * ( TileX + CollisionSprite.X ), TopY() + TileHeight * ( TileY + CollisionSprite.Y ) )
 	End Method
 	
 	
@@ -97,12 +103,6 @@ Type LTBox2DTileMap Extends LTTileMap
 		Local NewTileMap:LTBox2DTileMap = New LTBox2DTileMap
 		CopyTileMapTo( NewTileMap )
 		Return NewTileMap
-	End Method
-	
-	
-	
-	Method Destroy()
-		ListLink.Remove()
 	End Method
 	
 	
