@@ -16,10 +16,14 @@ Type LTBox2DPhysics
 	
 	
 	Function InitWorld( World:LTLayer )
+		Local Margin:Double = 0
+		If World.ParameterExists( "margin" ) Then Margin = World.GetParameter( "margin" ).ToDouble()
+		
 		Local Gravity:Float = 10.0
 		If World.ParameterExists( "gravity" ) Then Gravity = World.GetParameter( "gravity" ).ToFloat()
-		Box2DWorld = b2World.CreateWorld( b2AABB.CreateAABB( Vec2( World.Bounds.LeftX(), World.Bounds.TopY() ), ..
-				Vec2( World.Bounds.RightX(), World.Bounds.BottomY() ) ), Vec2( 0, Gravity ), True )
+		
+		Box2DWorld = b2World.CreateWorld( b2AABB.CreateAABB( Vec2( World.Bounds.LeftX() - Margin, World.Bounds.TopY() - Margin ), ..
+				Vec2( World.Bounds.RightX() + Margin, World.Bounds.BottomY() + Margin ) ), Vec2( 0, Gravity ), True )
 		ProcessLayer( World )
 	End Function
 	
