@@ -1,0 +1,677 @@
+<LTWorld dwlab_version="1.4.21.2">
+	<LTVisualizer field="visualizer" id="1"/>
+	<LTEditorData field="editor_data" x_div="2" y_div="2" coll_x_div="16" coll_y_div="16">
+		<TList field="images">
+			<Object id="7"/>
+			<Object id="47"/>
+			<Object id="84"/>
+		</TList>
+		<TList field="tilesets">
+			<Object id="6"/>
+			<Object id="46"/>
+			<Object id="83"/>
+		</TList>
+		<LTColor field="background"/>
+		<LTColor field="grid_color" green="0" alpha="0.29999998"/>
+	</LTEditorData>
+	<LTCamera field="camera" x="65.39" y="33.64999999" width="215.28009169" height="186.66150808" shape="2" viewport-clipping="1">
+		<LTVisualizer field="visualizer"/>
+		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
+			<LTVisualizer field="visualizer"/>
+		</LTShape>
+	</LTCamera>
+	<LTLayer>
+		<Object field="visualizer" id="1"/>
+		<LTTileMap x="16" y="52" width="32" height="32" xquantity="64" yquantity="64" tiles-quantity="20">
+			<TList field="parameters">
+				<LTParameter name="name" value="Ground"/>
+			</TList>
+			<LTVisualizer field="visualizer"/>
+			<LTTileSet field="tileset" id="6" name="WaterAndSnow" tiles-quantity="20" block-width="00000000000000000000" block-height="00000000000000000000">
+				<LTImage field="image" id="7" filename="water_and_snow.png" xcells="4" ycells="5"/>
+				<ShapeArray field="collision-shapes">
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+				</ShapeArray>
+				<LTTileCategory name="Category 1">
+					<LTTileRule tilenums="13"/>
+				</LTTileCategory>
+				<LTTileCategory name="Category 2">
+					<LTTileRule tilenums="3">
+						<LTTilePos dx="-1" tilenum="13"/>
+						<LTTilePos dy="1" tilenum="13"/>
+					</LTTileRule>
+					<LTTileRule tilenums="2">
+						<LTTilePos dx="1" tilenum="13"/>
+						<LTTilePos dy="1" tilenum="13"/>
+					</LTTileRule>
+					<LTTileRule tilenums="7">
+						<LTTilePos dy="-1" tilenum="13"/>
+						<LTTilePos dx="-1" tilenum="13"/>
+					</LTTileRule>
+					<LTTileRule tilenums="6">
+						<LTTilePos dy="-1" tilenum="13"/>
+						<LTTilePos dx="1" tilenum="13"/>
+					</LTTileRule>
+					<LTTileRule tilenums="12">
+						<LTTilePos dx="1" tilenum="13"/>
+					</LTTileRule>
+					<LTTileRule tilenums="9">
+						<LTTilePos dy="1" tilenum="13"/>
+					</LTTileRule>
+					<LTTileRule tilenums="17">
+						<LTTilePos dy="-1" tilenum="13"/>
+					</LTTileRule>
+					<LTTileRule tilenums="14">
+						<LTTilePos dx="-1" tilenum="13"/>
+					</LTTileRule>
+					<LTTileRule tilenums="10">
+						<LTTilePos dx="-1" dy="1" tilenum="13"/>
+					</LTTileRule>
+					<LTTileRule tilenums="8">
+						<LTTilePos dx="1" dy="1" tilenum="13"/>
+					</LTTileRule>
+					<LTTileRule tilenums="18">
+						<LTTilePos dx="-1" dy="-1" tilenum="13"/>
+					</LTTileRule>
+					<LTTileRule tilenums="16">
+						<LTTilePos dx="1" dy="-1" tilenum="13"/>
+					</LTTileRule>
+					<LTTileRule tilenums="0" xdiv="2" ydiv="2"/>
+					<LTTileRule tilenums="1" x="1" xdiv="2" ydiv="2"/>
+					<LTTileRule tilenums="4" y="1" xdiv="2" ydiv="2"/>
+					<LTTileRule tilenums="5" x="1" y="1" xdiv="2" ydiv="2"/>
+				</LTTileCategory>
+			</LTTileSet>
+			<Row data="01010101010101010101010101010101010892====>101010101010101010101"/>
+			<Row data="454545454545454545454545454545454582======>545454545454545454545"/>
+			<Row data="018999:1010101010101010101899:08992======7B101010101010101010101"/>
+			<Row data="45<===39:545454545454545892==392========7B4545454545454545454545"/>
+			<Row data="01<=====>1010101010101892==============7B10101010101010101010101"/>
+			<Row data="45<===7AB5454545454545<==============7AB454545454545454545454545"/>
+			<Row data="01@6=7B101010101089:01@6==========7AAB01010101010899999:01010101"/>
+			<Row data="454<=>45454545454<=399:@6========7B545454545458992=====3:5454545"/>
+			<Row data="010@AB010101010182====3:@AA6====7B0101010101892=========>1010101"/>
+			<Row data="45454545454589992======39:4<===7B545454545892===========3:454545"/>
+			<Row data="0101010101892============3:<===3:1010101082==============>010101"/>
+			<Row data="4545454545<===============>@6===>54545454<===============>454545"/>
+			<Row data="01010101082===============3:@A6=>101010892=====76========>010101"/>
+			<Row data="454545454<=================>45@AB545454<=====7AB<=======7B454545"/>
+			<Row data="010101010@6============7AAAB010101010892=7AAAB01@A6====7B1010101"/>
+			<Row data="4545454545<============>4545454545454<==7B45454545@AAAAB45454545"/>
+			<Row data="01010101082===========7B0101010101010@AAB10101010101010101010101"/>
+			<Row data="4545454582=====76=====3:4545454545454545454545454545454545454545"/>
+			<Row data="01010101<=====7B@6=====3:101010101010101010101010101010101010189"/>
+			<Row data="45454545<=====>54@6=====3:4545454545454545454545454545454545482="/>
+			<Row data="01010101<====7B101@6=====>010101010101010101010101010101010892=="/>
+			<Row data="45454545<====>45454@6====3:545454545454545454545454545454892===="/>
+			<Row data="010101082====>010101<=====>1010101010101010101010101010892======"/>
+			<Row data="4545454<=====>454545@6====>54545454545454548999999999992========"/>
+			<Row data="0101010@6====>0101010<===7B10101010101010892===================="/>
+			<Row data="45454545<====>4545454@AAAB454545454545454<==7AAAA6========7A6==="/>
+			<Row data="01010101<====>01010101010101010101089:010@AAB1010<=======7B1@6=="/>
+			<Row data="45454545<====>4545454545454545454582=>45454545454@6====7AB454@6="/>
+			<Row data="01010101@6===3:10101010101010108992==>010101010101@6==7B010101@A"/>
+			<Row data="454545454<====>54545454545458992===7AB4545454545454<==>545454545"/>
+			<Row data="010101010<====>10101010101082=====7B010101010101010<==>101010101"/>
+			<Row data="454545454@6===399:4545454582====7AB5454545454545454<==>545454545"/>
+			<Row data="0101010101<======>010108992====7B1010101010101010892==3:01010101"/>
+			<Row data="4545454545@6=====3:54582======7B454545454545458992=====>45454545"/>
+			<Row data="01010101010<======>8992======7B1010101010101082========3:1010101"/>
+			<Row data="45454545454@6=====32======7AAB454545454545454<==========>5454545"/>
+			<Row data="010101010101@6===========7B101010101010101010@AA6=======>1010101"/>
+			<Row data="4545454545454<==========7B45458999999:4545454545<=======3:454545"/>
+			<Row data="0101010101010<========7AB101892======>0101010101@6=======3:10101"/>
+			<Row data="9:45454545454<=======7B545482========3:5454545454@AA6=====>54545"/>
+			<Row data="=>01010101010<====7AAB01010<==========3:010101010101@AAA6=3:0101"/>
+			<Row data="=>45454545454<====3:45454582===========3:545454545454545@6=>4545"/>
+			<Row data="=39:010101010<=====>010101<=============>1010101010101010@AB0101"/>
+			<Row data="===3:54545454<=====>454545<=============39:545454545454545454545"/>
+			<Row data="====>10101010@6====>010101<===============>101010101010101010101"/>
+			<Row data="====>545454545<====>454545<===============39:5454545454545454545"/>
+			<Row data="====>101010101<====3:10101@A6===============3:010101010101010101"/>
+			<Row data="====>545454545<=====>5454545@AA6=============>454545454545454545"/>
+			<Row data="====>101010101@6====3:010101010@AA6==========>010101010101010101"/>
+			<Row data="===7B5454545454<=====3:54545454545@6=========>454545454545454545"/>
+			<Row data="=7AB01010101010@6=====>101010101010@A6======7B0101010899:1010101"/>
+			<Row data="=>454545454545482=====399:45454545454@AAAAAAB54545454<==3999:545"/>
+			<Row data="=>01010101010182=========3:10101010101010101010101010@6=====39:1"/>
+			<Row data="AB454545454545<===========39999:4545454545454545454545<=======>5"/>
+			<Row data="010101010101082================39:010101010101010101082=======>1"/>
+			<Row data="45454545454892===================>4545454545454545454<========3:"/>
+			<Row data="01010101010<=====================39:01010101010101010<=========3"/>
+			<Row data="454545454582=======================3:5454545454545454<=========="/>
+			<Row data="01010101892========7A6==============39:101010101010182=========="/>
+			<Row data="454548992=========7B4@6===============39:545454545482==========="/>
+			<Row data="010182============3:01@6================3:010101010<============"/>
+			<Row data="45482==============39992=================3:54545454<============"/>
+			<Row data="010<======================================>101010182============"/>
+			<Row data="454<======================================>5454545<============="/>
+		</LTTileMap>
+		<LTTileMap width="64" height="64" xquantity="32" yquantity="32" tiles-quantity="16">
+			<TList field="parameters">
+				<LTParameter name="name" value="Grid"/>
+			</TList>
+			<LTVisualizer field="visualizer"/>
+			<LTTileSet field="tileset" id="46" name="Grid" tiles-quantity="16" block-width="0000000000000000" block-height="0000000000000000">
+				<LTImage field="image" id="47" filename="grid.png" xcells="8" ycells="2"/>
+				<ShapeArray field="collision-shapes">
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+				</ShapeArray>
+				<LTTileCategory name="Category 1">
+					<LTTileRule tilenums="0"/>
+				</LTTileCategory>
+				<LTTileCategory name="Category 2">
+					<LTTileRule tilenums="14">
+						<LTTilePos dx="-1"/>
+						<LTTilePos dy="1"/>
+					</LTTileRule>
+					<LTTileRule tilenums="13">
+						<LTTilePos dx="1"/>
+						<LTTilePos dy="1"/>
+					</LTTileRule>
+					<LTTileRule tilenums="12">
+						<LTTilePos dy="-1"/>
+						<LTTilePos dx="-1"/>
+					</LTTileRule>
+					<LTTileRule tilenums="11">
+						<LTTilePos dy="-1"/>
+						<LTTilePos dx="1"/>
+					</LTTileRule>
+					<LTTileRule tilenums="9,10">
+						<LTTilePos dx="1"/>
+					</LTTileRule>
+					<LTTileRule tilenums="3,4">
+						<LTTilePos dy="1"/>
+					</LTTileRule>
+					<LTTileRule tilenums="5,6">
+						<LTTilePos dy="-1"/>
+					</LTTileRule>
+					<LTTileRule tilenums="7,8">
+						<LTTilePos dx="-1"/>
+					</LTTileRule>
+					<LTTileRule tilenums="1,2">
+						<LTTilePos dx="-1" dy="1"/>
+					</LTTileRule>
+					<LTTileRule tilenums="1,2">
+						<LTTilePos dx="1" dy="1"/>
+					</LTTileRule>
+					<LTTileRule tilenums="1,2">
+						<LTTilePos dx="-1" dy="-1"/>
+					</LTTileRule>
+					<LTTileRule tilenums="1,2">
+						<LTTilePos dx="1" dy="-1"/>
+					</LTTileRule>
+					<LTTileRule tilenums="1,2"/>
+				</LTTileCategory>
+			</LTTileSet>
+			<Row data="00007190000000000007900790079071"/>
+			<Row data="0<;071900000000000079007900790>3"/>
+			<Row data="0715111555555555;007900790071;00"/>
+			<Row data="0713111333333311=0079007900>1155"/>
+			<Row data="0>=0719000000079000790079000>333"/>
+			<Row data="00007190000000790007900790000000"/>
+			<Row data="555511900<5;00715551900790000000"/>
+			<Row data="331133=00>3=00713333=007155555;0"/>
+			<Row data="00790000000000790000000711111190"/>
+			<Row data="00790000000000790000000>33331190"/>
+			<Row data="007155555555551155555;0000007190"/>
+			<Row data="00713333311133333333190000007190"/>
+			<Row data="00790000071900000000790000007190"/>
+			<Row data="0079000007190000<55511555;007190"/>
+			<Row data="007900<5511155;07113333119007190"/>
+			<Row data="55190071111111907190000719007190"/>
+			<Row data="331900>3311133=07190<;0711551190"/>
+			<Row data="00790000071900007190>=07113333=0"/>
+			<Row data="007155;0071900007190000719000000"/>
+			<Row data="00>331900>3=000071155551190<5555"/>
+			<Row data="0000079000000000>33311333=071111"/>
+			<Row data="000007900000000000007900000>3333"/>
+			<Row data="000007155555555555551155;0000000"/>
+			<Row data="00<55113333311113333333190<55555"/>
+			<Row data="007133=00000>33=0000000>=0713113"/>
+			<Row data="00790000<;0000000<555;0000790790"/>
+			<Row data="00790000>=0000000711190<55115115"/>
+			<Row data="55115;000000<55;0711190713333333"/>
+			<Row data="11111155555511190711190790000000"/>
+			<Row data="11111133333311190>111=0715555555"/>
+			<Row data="111119000000>33=0071900711113333"/>
+			<Row data="11111900000000000071900711190000"/>
+		</LTTileMap>
+		<LTTileMap x="100" y="32" width="128" height="128" xquantity="32" yquantity="32" tiles-quantity="90">
+			<TList field="parameters">
+				<LTParameter name="name" value="Clouds"/>
+			</TList>
+			<LTVisualizer field="visualizer" alpha="0.5"/>
+			<LTTileSet field="tileset" id="83" name="CurvedAreas" tiles-quantity="90" block-width="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" block-height="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" empty-tile="0">
+				<LTImage field="image" id="84" filename="clouds.png" xcells="9" ycells="10"/>
+				<ShapeArray field="collision-shapes">
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+				</ShapeArray>
+				<LTTileCategory name="White">
+					<LTTileRule tilenums="69">
+						<LTTilePos dx="-1" tilenum="20"/>
+						<LTTilePos dy="-1" tilenum="20"/>
+						<LTTilePos dx="-1" dy="1" tilenum="20"/>
+						<LTTilePos dx="1" dy="-1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="70">
+						<LTTilePos dx="-1" dy="-1" tilenum="20"/>
+						<LTTilePos dy="-1" tilenum="20"/>
+						<LTTilePos dx="1" tilenum="20"/>
+						<LTTilePos dx="1" dy="1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="79">
+						<LTTilePos dx="1" tilenum="20"/>
+						<LTTilePos dx="1" dy="-1" tilenum="20"/>
+						<LTTilePos dy="1" tilenum="20"/>
+						<LTTilePos dx="-1" dy="1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="78">
+						<LTTilePos dx="-1" tilenum="20"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="20"/>
+						<LTTilePos dy="1" tilenum="20"/>
+						<LTTilePos dx="1" dy="1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="46">
+						<LTTilePos dx="-1" tilenum="20"/>
+						<LTTilePos dy="-1" tilenum="20"/>
+						<LTTilePos dx="1" dy="-1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="48">
+						<LTTilePos dx="1" tilenum="20"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="20"/>
+						<LTTilePos dy="-1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="58">
+						<LTTilePos dy="-1" tilenum="20"/>
+						<LTTilePos dx="1" tilenum="20"/>
+						<LTTilePos dx="1" dy="1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="76">
+						<LTTilePos dy="1" tilenum="20"/>
+						<LTTilePos dx="1" tilenum="20"/>
+						<LTTilePos dx="1" dy="-1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="84">
+						<LTTilePos dx="1" tilenum="20"/>
+						<LTTilePos dy="1" tilenum="20"/>
+						<LTTilePos dx="-1" dy="1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="82">
+						<LTTilePos dx="-1" tilenum="20"/>
+						<LTTilePos dy="1" tilenum="20"/>
+						<LTTilePos dx="1" dy="1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="72">
+						<LTTilePos dx="-1" dy="-1" tilenum="20"/>
+						<LTTilePos dx="-1" tilenum="20"/>
+						<LTTilePos dy="1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="54">
+						<LTTilePos dy="-1" tilenum="20"/>
+						<LTTilePos dx="-1" dy="1" tilenum="20"/>
+						<LTTilePos dx="-1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="47">
+						<LTTilePos dy="-1" tilenum="20"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="20"/>
+						<LTTilePos dx="1" dy="-1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="67">
+						<LTTilePos dx="1" dy="-1" tilenum="20"/>
+						<LTTilePos dx="1" tilenum="20"/>
+						<LTTilePos dx="1" dy="1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="83">
+						<LTTilePos dy="1" tilenum="20"/>
+						<LTTilePos dx="-1" dy="1" tilenum="20"/>
+						<LTTilePos dx="1" dy="1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="63">
+						<LTTilePos dx="-1" dy="-1" tilenum="20"/>
+						<LTTilePos dx="-1" tilenum="20"/>
+						<LTTilePos dx="-1" dy="1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="30">
+						<LTTilePos dy="-1" tilenum="20"/>
+						<LTTilePos dx="-1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="12,44">
+						<LTTilePos dx="-1" tilenum="20"/>
+						<LTTilePos dy="1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="10,14,6">
+						<LTTilePos dx="1" tilenum="20"/>
+						<LTTilePos dy="1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="28,42,52">
+						<LTTilePos dy="-1" tilenum="20"/>
+						<LTTilePos dx="1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="77">
+						<LTTilePos dx="1" tilenum="20"/>
+						<LTTilePos dx="1" dy="-1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="68">
+						<LTTilePos dx="1" tilenum="20"/>
+						<LTTilePos dx="1" dy="1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="60">
+						<LTTilePos dy="1" tilenum="20"/>
+						<LTTilePos dx="1" dy="1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="61">
+						<LTTilePos dy="1" tilenum="20"/>
+						<LTTilePos dx="-1" dy="1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="71">
+						<LTTilePos dx="-1" dy="1" tilenum="20"/>
+						<LTTilePos dx="-1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="80">
+						<LTTilePos dx="-1" tilenum="20"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="88">
+						<LTTilePos dx="-1" dy="-1" tilenum="20"/>
+						<LTTilePos dy="-1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="87">
+						<LTTilePos dy="-1" tilenum="20"/>
+						<LTTilePos dx="1" dy="-1" tilenum="20"/>
+					</LTTileRule>
+					<LTTileRule tilenums="2">
+						<LTTilePos dy="1" tilenum="11"/>
+					</LTTileRule>
+					<LTTileRule tilenums="18">
+						<LTTilePos dx="1" tilenum="19"/>
+					</LTTileRule>
+					<LTTileRule tilenums="22,26,8">
+						<LTTilePos dx="-1" tilenum="21"/>
+					</LTTileRule>
+					<LTTileRule tilenums="38,62">
+						<LTTilePos dy="-1" tilenum="29"/>
+					</LTTileRule>
+					<LTTileRule tilenums="51,9,1,27,36,37,39,40,4,3,17,35,50,59,86,89,0,31,13,5,41"/>
+					<LTTileRule tilenums="34,24,16,32"/>
+				</LTTileCategory>
+				<LTTileCategory name="Blue">
+					<LTTileRule tilenums="25">
+						<LTTilePos dx="-1" dy="-1" tilenum="30"/>
+						<LTTilePos dx="-1" dy="1" tilenum="12"/>
+						<LTTilePos dx="1" dy="1" tilenum="10"/>
+						<LTTilePos dx="1" dy="-1" tilenum="28"/>
+						<LTTilePos dx="-1" tilenum="18"/>
+						<LTTilePos dy="-1" tilenum="2"/>
+						<LTTilePos dy="1" tilenum="38"/>
+						<LTTilePos dx="1" tilenum="22"/>
+					</LTTileRule>
+					<LTTileRule tilenums="7">
+						<LTTilePos dx="-1" dy="-1" tilenum="30"/>
+						<LTTilePos dx="1" dy="1" tilenum="10"/>
+						<LTTilePos dx="1" dy="-1" tilenum="28"/>
+						<LTTilePos dx="-1" tilenum="10"/>
+						<LTTilePos dy="1" tilenum="30"/>
+						<LTTilePos dx="-1" dy="1" tilenum="15"/>
+						<LTTilePos dy="-1" tilenum="2"/>
+						<LTTilePos dx="1" tilenum="22"/>
+					</LTTileRule>
+					<LTTileRule tilenums="23">
+						<LTTilePos dx="-1" dy="1" tilenum="12"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="30"/>
+						<LTTilePos dx="1" dy="1" tilenum="10"/>
+						<LTTilePos dx="-1" tilenum="18"/>
+						<LTTilePos dx="1" tilenum="30"/>
+						<LTTilePos dy="-1" tilenum="10"/>
+						<LTTilePos dy="1" tilenum="38"/>
+						<LTTilePos dx="1" dy="-1" tilenum="15"/>
+					</LTTileRule>
+					<LTTileRule tilenums="33">
+						<LTTilePos dx="-1" dy="1" tilenum="12"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="30"/>
+						<LTTilePos dx="1" dy="-1" tilenum="28"/>
+						<LTTilePos dx="-1" tilenum="18"/>
+						<LTTilePos dy="-1" tilenum="2"/>
+						<LTTilePos dx="1" tilenum="12"/>
+						<LTTilePos dy="1" tilenum="28"/>
+						<LTTilePos dx="1" dy="1" tilenum="43"/>
+					</LTTileRule>
+					<LTTileRule tilenums="53">
+						<LTTilePos dx="-1" dy="1" tilenum="12"/>
+						<LTTilePos dx="1" dy="1" tilenum="10"/>
+						<LTTilePos dx="1" dy="-1" tilenum="28"/>
+						<LTTilePos dx="1" tilenum="22"/>
+						<LTTilePos dy="1" tilenum="38"/>
+						<LTTilePos dx="-1" tilenum="28"/>
+						<LTTilePos dy="-1" tilenum="12"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="43"/>
+					</LTTileRule>
+					<LTTileRule tilenums="15">
+						<LTTilePos dx="1" dy="-1" tilenum="15"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="30"/>
+						<LTTilePos dy="-1" tilenum="10"/>
+						<LTTilePos dx="-1" tilenum="10"/>
+						<LTTilePos dx="1" tilenum="30"/>
+						<LTTilePos dy="1" tilenum="30"/>
+						<LTTilePos dx="-1" dy="1" tilenum="15"/>
+						<LTTilePos dx="1" dy="1" tilenum="10"/>
+					</LTTileRule>
+					<LTTileRule tilenums="43">
+						<LTTilePos dx="-1" dy="-1" tilenum="43"/>
+						<LTTilePos dx="-1" dy="1" tilenum="12"/>
+						<LTTilePos dx="-1" tilenum="28"/>
+						<LTTilePos dy="1" tilenum="28"/>
+						<LTTilePos dx="1" dy="-1" tilenum="28"/>
+						<LTTilePos dy="-1" tilenum="12"/>
+						<LTTilePos dx="1" tilenum="12"/>
+						<LTTilePos dx="1" dy="1" tilenum="43"/>
+					</LTTileRule>
+					<LTTileRule tilenums="11">
+						<LTTilePos dx="1" dy="-1" tilenum="28"/>
+						<LTTilePos dy="-1" tilenum="2"/>
+						<LTTilePos dx="-1" tilenum="10"/>
+						<LTTilePos dx="1" tilenum="12"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="30"/>
+					</LTTileRule>
+					<LTTileRule tilenums="19">
+						<LTTilePos dx="-1" dy="1" tilenum="12"/>
+						<LTTilePos dy="1" tilenum="28"/>
+						<LTTilePos dy="-1" tilenum="10"/>
+						<LTTilePos dx="-1" tilenum="18"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="30"/>
+					</LTTileRule>
+					<LTTileRule tilenums="21">
+						<LTTilePos dx="1" dy="1" tilenum="10"/>
+						<LTTilePos dy="1" tilenum="30"/>
+						<LTTilePos dy="-1" tilenum="12"/>
+						<LTTilePos dx="1" tilenum="22"/>
+						<LTTilePos dx="1" dy="-1" tilenum="28"/>
+					</LTTileRule>
+					<LTTileRule tilenums="29">
+						<LTTilePos dx="-1" dy="1" tilenum="12"/>
+						<LTTilePos dx="1" dy="1" tilenum="10"/>
+						<LTTilePos dx="1" tilenum="30"/>
+						<LTTilePos dx="-1" tilenum="28"/>
+						<LTTilePos dy="1" tilenum="38"/>
+					</LTTileRule>
+					<LTTileRule tilenums="81">
+						<LTTilePos dx="1" dy="-1" tilenum="28"/>
+						<LTTilePos dy="-1" tilenum="12"/>
+						<LTTilePos dx="1" tilenum="12"/>
+					</LTTileRule>
+					<LTTileRule tilenums="85">
+						<LTTilePos dx="-1" dy="-1" tilenum="30"/>
+						<LTTilePos dy="-1" tilenum="10"/>
+						<LTTilePos dx="-1" tilenum="10"/>
+					</LTTileRule>
+					<LTTileRule tilenums="45">
+						<LTTilePos dy="1" tilenum="30"/>
+						<LTTilePos dx="1" tilenum="30"/>
+						<LTTilePos dx="1" dy="1" tilenum="10"/>
+					</LTTileRule>
+					<LTTileRule tilenums="49">
+						<LTTilePos dx="-1" tilenum="28"/>
+						<LTTilePos dy="1" tilenum="28"/>
+						<LTTilePos dx="-1" dy="1" tilenum="12"/>
+					</LTTileRule>
+					<LTTileRule tilenums="20"/>
+				</LTTileCategory>
+			</LTTileSet>
+			<Row data="0D0D0D0D0D0D0D0]100}0a0D0D0D0~1313130m0000000l13130m000}0a0D0D0D"/>
+			<Row data="0D0D0D0D0u0_0_180c0c0L0a0D0D0D0D0D0D110<000t150D0D11120m170_0_0_"/>
+			<Row data="0D0D0D0]100l0m0c000002170v0D0D0D0D0D0D0E0F0s0D0D0D0D0D110<00000l"/>
+			<Row data="0_0_0_180t1511121314070F0}0a0D0D0D0]0^18000s0D0D0u0`0a0D11121415"/>
+			<Row data="000000000}0a0D0D0D0]0N0c00170_0_0_180l0m000}0a0]10000L0a0D0D0D0D"/>
+			<Row data="1313130m00170_0_0_180l13130m0000000:150E0F0017180002000j0D0D0D0D"/>
+			<Row data="0D0D0D110<00000l1314150D0D111213140?0^1800000l13140;0<0}0a0D0u0_"/>
+			<Row data="0D0D0D0D110w0B0C0D0]0^0_0`0a0D0D0]0N0c00000t150D0D0D0E0F0L0M1000"/>
+			<Row data="0D0D0D0D0]1000170_180c0c0c170_0_180l130m000}0a0D0D0D0f00000V000l"/>
+			<Row data="0_0_0_0_18000l130m000c0l0m000c0l14150D110w00170_0`0M100000000B0C"/>
+			<Row data="000l13131314150D110w0t15110w0B0C0D0D0D0D0~0m0000000V000l130m0017"/>
+			<Row data="0t150D0D0D0D0D0D0D0o0}0a0]100c170`0a0D0D0D0E0F0002000t150D110w00"/>
+			<Row data="0}0a0D0D0D0D0D0D0]100c171800000000170_0_0_18000B0I0F0}0a0D0]1000"/>
+			<Row data="0m170_0v0D0D0D0u18000l13131313130m0000000l0m00000V0000170_180000"/>
+			<Row data="110w000}0a0D0]10000t150D0D0D0D0D110w000t151112131313130m0000000l"/>
+			<Row data="0D0~0m00170_18000l00D0D0D0D0D0D0D0o000}0a0D0D0D0D0D0D1112131415"/>
+			<Row data="0D0D110w00000l14150D0D0D0D0D0D0D0]1002000L0a0D0D0D0D0D0D0D0D0D0D"/>
+			<Row data="0D0D0D0x000B0C0D0]0^0`0a0D0D0D0]0N0B0I0F00170_0v0D0D0D0]0^0_0`0a"/>
+			<Row data="0D0D0D110w00170_1800000L0M0^0_1800000V000c0c0c0}0a0]0^1800000017"/>
+			<Row data="0D0D0D0]1000000l13130m000V00000l131313131313130m1718000l13130m00"/>
+			<Row data="0D0u0_1800000t150D0D110<00000:150D0D0D0D0D0D0D110<000t150D0D110w"/>
+			<Row data="0]10000000000}0M0^0v0D110<0B0C0D0D0D0D0D0D0D0D0D110w0}0a0D0D0]10"/>
+			<Row data="18000l130m00000V000}0a0D0E0F0L0a0D0D0D0D0D0D0D0D0D0x00170_0_180c"/>
+			<Row data="000:150D1112130m0000170_180000170_0_0_0`0a0D0D0D0D0E0F0000000c00"/>
+			<Row data="0B0C0D0D0D0D0D111213130m0000000l13130m000L0a0D0]0^180l1313131313"/>
+			<Row data="0m170`0a0D0D0D0D0D0D0D110<000t150D0D110<00170_18000:150D0D0D0D0D"/>
+			<Row data="110w00170_0_0_0`0a0D0D0D0E0F0}0a0D0D0D110w0000000t150D0D0D0]0^0_"/>
+			<Row data="0]10000000000000170_0_0_18000c0j0D0D0D0D0~130m000}0a0]0^0_180c00"/>
+			<Row data="18000000000l0m0000000l130m000c0}0a0D0D0D0D0D110<0017180c0c0l1313"/>
+			<Row data="1313131314150E0F0l14150D11120m0c170_0_0`0a0D0D110w000c0l14150D0D"/>
+			<Row data="0D0D0D0D0]0^180B0C0D0D0D0D0D0E0F0l13130m170`0a0]10000B0C0D0D0D0D"/>
+			<Row data="0D0D0u0_1800000c170_0_0_0_0_180t150D0D110w001718000000170_0v0D0D"/>
+		</LTTileMap>
+	</LTLayer>
+</LTWorld>

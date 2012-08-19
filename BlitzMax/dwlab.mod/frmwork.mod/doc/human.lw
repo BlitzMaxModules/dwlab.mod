@@ -1,0 +1,131 @@
+<LTWorld dwlab_version="1.4.21.2">
+	<LTVisualizer field="visualizer"/>
+	<LTEditorData field="editor_data" x_div="2" y_div="2" coll_x_div="16" coll_y_div="16">
+		<LTColor field="background"/>
+		<LTColor field="grid_color" green="0" alpha="0.5"/>
+	</LTEditorData>
+	<LTCamera field="camera" x="1.12" y="-4.41999999" width="16.42105729" height="14.23809927" shape="2" viewport-clipping="1">
+		<LTVisualizer field="visualizer"/>
+		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
+			<LTVisualizer field="visualizer"/>
+		</LTShape>
+	</LTCamera>
+	<LTLayer>
+		<TList field="parameters">
+			<LTParameter name="name" value="LTLayer"/>
+		</TList>
+		<LTVisualizer field="visualizer"/>
+		<LTSprite x="1.5" y="-6" width="0.5" height="1.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="inner_upper_arm"/>
+			</TList>
+			<LTVisualizer field="visualizer" red="0.68" green="0" blue="0">
+				<LTImage field="image" id="8" filename="part.png"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="1.5" y="-5" width="0.5" height="1.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="inner_lower_arm"/>
+			</TList>
+			<LTVisualizer field="visualizer" red="0.68" green="0" blue="0">
+				<Object field="image" id="8"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="1.5" y="-4.25" width="0.75" height="0.75" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="inner_fist"/>
+			</TList>
+			<LTVisualizer field="visualizer" red="0.68" green="0" blue="0">
+				<Object field="image" id="8"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="1.5" y="-4" width="0.5" height="2" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="inner_upper_leg"/>
+			</TList>
+			<LTVisualizer field="visualizer" red="0" green="0" blue="0.68">
+				<Object field="image" id="8"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="1.5" y="-2.5" width="0.5" height="2" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="inner_lower_leg"/>
+			</TList>
+			<LTVisualizer field="visualizer" red="0" green="0" blue="0.68">
+				<Object field="image" id="8"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="1.62" y="-1.62" width="0.75" height="0.25" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="inner_foot"/>
+			</TList>
+			<LTVisualizer field="visualizer" red="0.68" green="0" blue="0.68">
+				<Object field="image" id="8"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="1.5" y="-7.5" shape="1">
+			<TList field="parameters">
+				<LTParameter name="name" value="head"/>
+			</TList>
+			<LTVisualizer field="visualizer" red="0">
+				<Object field="image" id="8"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="1.5" y="-5.62" height="2.75" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="body"/>
+			</TList>
+			<LTVisualizer field="visualizer" blue="0">
+				<Object field="image" id="8"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="1.5" y="-4" width="0.5" height="2" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="outer_upper_leg"/>
+			</TList>
+			<LTVisualizer field="visualizer" red="0" green="0">
+				<Object field="image" id="8"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="1.5" y="-2.5" width="0.5" height="2" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="outer_lower_leg"/>
+			</TList>
+			<LTVisualizer field="visualizer" red="0" green="0">
+				<Object field="image" id="8"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="1.5" y="-4.25" width="0.75" height="0.75" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="outer_fist"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" blue="0">
+				<Object field="image" id="8"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="1.5" y="-6" width="0.5" height="1.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="outer_upper_arm"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" blue="0">
+				<Object field="image" id="8"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="1.5" y="-5" width="0.5" height="1.5" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="outer_lower_arm"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0" blue="0">
+				<Object field="image" id="8"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="1.62" y="-1.62" width="0.75" height="0.25" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="outer_foot"/>
+			</TList>
+			<LTVisualizer field="visualizer" green="0">
+				<Object field="image" id="8"/>
+			</LTVisualizer>
+		</LTSprite>
+	</LTLayer>
+</LTWorld>

@@ -1,0 +1,382 @@
+<TGameMap dwlab_version="0.13.3">
+	<LTVisualizer field="visualizer" id="1"/>
+	<TList field="pivots">
+		<LTSprite id="2" x="5.0899" y="5.8399">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="3" x="9.46" y="-0.87">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="4" x="2.3999" y="-3.18">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="5" x="6.21" y="2.81">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="6" x="3.18" y="7.0598">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="7" x="3.5899" y="-4.71">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="8" x="10.59" y="-0.34">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="9" x="8.5899" y="-2.68">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="10" x="6.25" y="-3.3399">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="11" x="4.8399" y="8.31">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="12" x="7.1798" y="-2.71">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="13" x="3.6499" y="-6.78">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="14" x="1.96" y="-5.37">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="15" x="0.75" y="-2.6499">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="16" x="9.81" y="0.65">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="17" x="5.5598" y="-5.03">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="18" x="6.8399" y="5.46">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="19" x="5.28" y="4.9298">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="20" x="-1.28" y="-1.75">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="21" x="8.7797" y="1.9298">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="22" x="6.1798" y="-7.71">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="23" x="8.1196" y="1.28">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="24" x="-3.25" y="0.25">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="25" x="2.21" y="-6.75">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="26" x="7.53" y="3.31">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="27" x="4.25" y="-9.4">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="28" x="-0.46" y="1.96">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="29" x="-5.12" y="4.37">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="30" x="-3.12" y="4.8399">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="31" x="-0.5897" y="-0.0898">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="32" x="2.06" y="-7.75">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="33" x="-2.81" y="3.5">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="34" x="-4.03" y="2.12">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="35" x="-3.2799" y="-2.18">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="36" x="-3.81" y="-3.81">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="37" x="-6.25" y="2.96">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="38" x="-4.5899" y="-1.03">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="39" x="-2.2799" y="1.06">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="40" x="2.8399" y="5.0899">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="41" x="6.5" y="4.0899">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTSprite id="42" x="5.25" y="-6.28">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+	</TList>
+	<TList field="lines">
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="13"/>
+			<Object field="piv1" id="7"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="37"/>
+			<Object field="piv1" id="29"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="35"/>
+			<Object field="piv1" id="20"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="31"/>
+			<Object field="piv1" id="20"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="20"/>
+			<Object field="piv1" id="15"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="37"/>
+			<Object field="piv1" id="38"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="38"/>
+			<Object field="piv1" id="35"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="35"/>
+			<Object field="piv1" id="36"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="34"/>
+			<Object field="piv1" id="37"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="34"/>
+			<Object field="piv1" id="24"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="24"/>
+			<Object field="piv1" id="38"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="29"/>
+			<Object field="piv1" id="30"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="40"/>
+			<Object field="piv1" id="2"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="24"/>
+			<Object field="piv1" id="39"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="31"/>
+			<Object field="piv1" id="28"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="35"/>
+			<Object field="piv1" id="31"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="39"/>
+			<Object field="piv1" id="28"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="34"/>
+			<Object field="piv1" id="39"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="33"/>
+			<Object field="piv1" id="28"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="30"/>
+			<Object field="piv1" id="33"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="39"/>
+			<Object field="piv1" id="31"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="32"/>
+			<Object field="piv1" id="25"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="14"/>
+			<Object field="piv1" id="25"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="25"/>
+			<Object field="piv1" id="13"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="7"/>
+			<Object field="piv1" id="4"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="4"/>
+			<Object field="piv1" id="15"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="40"/>
+			<Object field="piv1" id="6"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="6"/>
+			<Object field="piv1" id="2"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="2"/>
+			<Object field="piv1" id="11"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="11"/>
+			<Object field="piv1" id="6"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="2"/>
+			<Object field="piv1" id="19"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="19"/>
+			<Object field="piv1" id="18"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="41"/>
+			<Object field="piv1" id="18"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="19"/>
+			<Object field="piv1" id="41"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="41"/>
+			<Object field="piv1" id="5"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="41"/>
+			<Object field="piv1" id="26"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="5"/>
+			<Object field="piv1" id="23"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="23"/>
+			<Object field="piv1" id="21"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="23"/>
+			<Object field="piv1" id="3"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="3"/>
+			<Object field="piv1" id="16"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="16"/>
+			<Object field="piv1" id="8"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="3"/>
+			<Object field="piv1" id="9"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="9"/>
+			<Object field="piv1" id="12"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="12"/>
+			<Object field="piv1" id="10"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="10"/>
+			<Object field="piv1" id="17"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="17"/>
+			<Object field="piv1" id="7"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="22"/>
+			<Object field="piv1" id="13"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="13"/>
+			<Object field="piv1" id="27"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="42"/>
+			<Object field="piv1" id="17"/>
+		</LTLine>
+		<LTLine>
+			<Object field="visualizer" id="1"/>
+			<Object field="piv0" id="22"/>
+			<Object field="piv1" id="42"/>
+		</LTLine>
+	</TList>
+	<Object field="player" id="31"/>
+	<TList field="definitions"/>
+</TGameMap>

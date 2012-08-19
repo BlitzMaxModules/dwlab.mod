@@ -1,0 +1,1643 @@
+<LTWorld dwlab_version="1.4.21.2">
+	<LTVisualizer field="visualizer"/>
+	<LTEditorData field="editor_data" x_div="2" y_div="2" coll_x_div="16" coll_y_div="16">
+		<TList field="images">
+			<Object id="9"/>
+			<Object id="160"/>
+			<Object id="684"/>
+			<Object id="713"/>
+		</TList>
+		<TList field="tilesets">
+			<Object id="8"/>
+			<Object id="159"/>
+		</TList>
+		<LTColor field="background"/>
+		<LTColor field="grid_color" green="0" alpha="0.5"/>
+	</LTEditorData>
+	<LTCamera field="camera" x="16.6514532" y="10.30227889" width="9.26925753" height="8.03703481" shape="2" viewport-clipping="1" isometric="1" x1="32" y1="24" x2="-48" y2="12">
+		<LTVisualizer field="visualizer"/>
+		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
+			<LTVisualizer field="visualizer"/>
+		</LTShape>
+	</LTCamera>
+	<LTLayer>
+		<TList field="parameters">
+			<LTParameter name="name" value="LTLayer"/>
+		</TList>
+		<LTVisualizer field="visualizer"/>
+		<LTShape field="bounds" x="32" y="32" width="64" height="64">
+			<LTVisualizer field="visualizer"/>
+		</LTShape>
+		<LTTileMap x="31.625" y="32.125" width="64" height="64" xquantity="64" yquantity="64" tiles-quantity="160">
+			<TList field="parameters">
+				<LTParameter name="name" value="Floor"/>
+			</TList>
+			<LTVisualizer field="visualizer" xscale="1.03" yscale="1.03"/>
+			<LTTileSet field="tileset" id="8" name="Floor" tiles-quantity="160" block-width="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" block-height="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000">
+				<LTImage field="image" id="9" filename="floor.png" xcells="16" ycells="10"/>
+				<ShapeArray field="collision-shapes">
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+				</ShapeArray>
+				<LTTileCategory name="Category 1">
+					<LTTileRule tilenums="159"/>
+				</LTTileCategory>
+				<LTTileCategory name="Category 2">
+					<LTTileRule tilenums="9">
+						<LTTilePos dy="-1" tilenum="159"/>
+						<LTTilePos dx="1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="9">
+						<LTTilePos dx="1" tilenum="56"/>
+						<LTTilePos dy="-1" tilenum="56"/>
+					</LTTileRule>
+					<LTTileRule tilenums="13">
+						<LTTilePos dx="-1" tilenum="159"/>
+						<LTTilePos dy="-1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="13">
+						<LTTilePos dx="-1" tilenum="56"/>
+						<LTTilePos dy="-1" tilenum="56"/>
+					</LTTileRule>
+					<LTTileRule tilenums="0">
+						<LTTilePos dy="1" tilenum="159"/>
+						<LTTilePos dx="1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="0">
+						<LTTilePos dy="1" tilenum="56"/>
+						<LTTilePos dx="1" tilenum="56"/>
+					</LTTileRule>
+					<LTTileRule tilenums="14">
+						<LTTilePos dx="-1" tilenum="159"/>
+						<LTTilePos dy="1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="14">
+						<LTTilePos dx="-1" tilenum="56"/>
+						<LTTilePos dy="1" tilenum="56"/>
+					</LTTileRule>
+					<LTTileRule tilenums="12,46,47,50">
+						<LTTilePos dx="-1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="12,46,47,50">
+						<LTTilePos dx="-1" tilenum="56"/>
+					</LTTileRule>
+					<LTTileRule tilenums="10,48,49,11">
+						<LTTilePos dy="-1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="10,48,49,11">
+						<LTTilePos dy="-1" tilenum="56"/>
+					</LTTileRule>
+					<LTTileRule tilenums="7,44,45,8,43">
+						<LTTilePos dy="1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="7,44,45,8,43">
+						<LTTilePos dy="1" tilenum="56"/>
+					</LTTileRule>
+					<LTTileRule tilenums="1,2,3,4,5,6">
+						<LTTilePos dx="1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="1,2,3,4,5,6">
+						<LTTilePos dx="1" tilenum="56"/>
+					</LTTileRule>
+					<LTTileRule tilenums="54">
+						<LTTilePos dx="1" dy="-1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="54">
+						<LTTilePos dx="1" dy="-1" tilenum="56"/>
+					</LTTileRule>
+					<LTTileRule tilenums="53">
+						<LTTilePos dx="-1" dy="-1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="53">
+						<LTTilePos dx="-1" dy="-1" tilenum="56"/>
+					</LTTileRule>
+					<LTTileRule tilenums="51">
+						<LTTilePos dx="1" dy="1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="51">
+						<LTTilePos dx="1" dy="1" tilenum="56"/>
+					</LTTileRule>
+					<LTTileRule tilenums="52">
+						<LTTilePos dx="-1" dy="1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="52">
+						<LTTilePos dx="-1" dy="1" tilenum="56"/>
+					</LTTileRule>
+					<LTTileRule tilenums="15,16,17"/>
+				</LTTileCategory>
+				<LTTileCategory name="Category 2">
+					<LTTileRule tilenums="82">
+						<LTTilePos dy="-1" tilenum="159"/>
+						<LTTilePos dx="1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="79">
+						<LTTilePos dx="-1" tilenum="159"/>
+						<LTTilePos dy="-1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="85">
+						<LTTilePos dy="1" tilenum="159"/>
+						<LTTilePos dx="1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="76">
+						<LTTilePos dy="1" tilenum="159"/>
+						<LTTilePos dx="-1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="78">
+						<LTTilePos dx="-1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="81">
+						<LTTilePos dy="-1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="86">
+						<LTTilePos dy="1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="83">
+						<LTTilePos dx="1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="64">
+						<LTTilePos dx="1" dy="-1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="73">
+						<LTTilePos dx="-1" dy="-1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="67">
+						<LTTilePos dx="1" dy="1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="70">
+						<LTTilePos dx="-1" dy="1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="56,60,61,88,89,90,91,92,93"/>
+				</LTTileCategory>
+				<LTTileCategory name="Cracked plates">
+					<LTTileRule tilenums="19">
+						<LTTilePos dx="-1" tilenum="15"/>
+						<LTTilePos dy="1" tilenum="15"/>
+					</LTTileRule>
+					<LTTileRule tilenums="20">
+						<LTTilePos dx="-1" tilenum="15"/>
+						<LTTilePos dy="-1" tilenum="15"/>
+					</LTTileRule>
+					<LTTileRule tilenums="21">
+						<LTTilePos dx="1" tilenum="15"/>
+						<LTTilePos dy="-1" tilenum="15"/>
+					</LTTileRule>
+					<LTTileRule tilenums="22">
+						<LTTilePos dx="1" tilenum="15"/>
+						<LTTilePos dy="1" tilenum="15"/>
+					</LTTileRule>
+					<LTTileRule tilenums="35">
+						<LTTilePos dy="1" tilenum="15"/>
+						<LTTilePos dx="1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="36">
+						<LTTilePos dx="1" tilenum="15"/>
+						<LTTilePos dy="1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="37">
+						<LTTilePos dy="-1" tilenum="15"/>
+						<LTTilePos dx="1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="38">
+						<LTTilePos dx="-1" tilenum="15"/>
+						<LTTilePos dy="1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="39">
+						<LTTilePos dx="-1" tilenum="15"/>
+						<LTTilePos dy="-1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="40">
+						<LTTilePos dx="1" tilenum="15"/>
+						<LTTilePos dy="-1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="41">
+						<LTTilePos dy="1" tilenum="15"/>
+						<LTTilePos dx="-1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="42">
+						<LTTilePos dy="-1" tilenum="15"/>
+						<LTTilePos dx="-1" tilenum="159"/>
+					</LTTileRule>
+					<LTTileRule tilenums="23,24">
+						<LTTilePos dy="1" tilenum="15"/>
+					</LTTileRule>
+					<LTTileRule tilenums="25,26">
+						<LTTilePos dy="-1" tilenum="15"/>
+					</LTTileRule>
+					<LTTileRule tilenums="27,28">
+						<LTTilePos dx="1" tilenum="15"/>
+					</LTTileRule>
+					<LTTileRule tilenums="29,30">
+						<LTTilePos dx="-1" tilenum="15"/>
+					</LTTileRule>
+					<LTTileRule tilenums="31">
+						<LTTilePos dx="-1" dy="-1" tilenum="15"/>
+					</LTTileRule>
+					<LTTileRule tilenums="32">
+						<LTTilePos dx="1" dy="-1" tilenum="15"/>
+					</LTTileRule>
+					<LTTileRule tilenums="33">
+						<LTTilePos dx="-1" dy="1" tilenum="15"/>
+					</LTTileRule>
+					<LTTileRule tilenums="34">
+						<LTTilePos dx="1" dy="1" tilenum="15"/>
+					</LTTileRule>
+				</LTTileCategory>
+			</LTTileSet>
+			<Row data="0h0l0h0h0<0?010h0h0h1310~0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h1311111111111111111111111"/>
+			<Row data="0h0h0h0h0<0?0f0:0:0:0C0F0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:090h0h0h0h0h0=091111111111111111111111"/>
+			<Row data="0h0l0h0h0<0?0?0?0?0?0?0?0?0?0?0?0?0?0?0?0?0?0?0c07070707070707070707000h0h0h0h0h0<011111111111111111111111"/>
+			<Row data="0h0h0h0h0<0?0?0?0?0?0?0?0?0?0?0?0?0?0?0?0?0?0?010h1310~0h0h0h0h0h0h0h0h0h0h0h0h0<011111111111111111111111"/>
+			<Row data="0h0l0h0h0<0?0?1>1>1>1>1>1>1>1>1>1>1>1>1>1>0?0?01160p110y0h0h0h0h0h0h0h0h0h0h0h0h0<011111111111111111111111"/>
+			<Row data="0h0h0h0h0<0?0?1>1>1>1>1>1>1>1>1>1>1>1>1>1>0?0?0110|160v0h0h0h0h0h0h0h0h0h0h0h0h0<011111111111111111111111"/>
+			<Row data="0h0l0h0h0<0?0?1>1>1>1>1>1>1>1>1>1>1>1>1>1>0?0?011110~0h0h0h0h0h0h0h0h0h0h0h0h0<011111111111111111111111"/>
+			<Row data="0h0h1=0h0<0?0?1>1>1>1>1>1>1>1>1>1>0?0?0?0?0?0D0U1110|0v0h0h0h0h0h0h0h0h0h0h0h0<011111111111111111111111"/>
+			<Row data="0h0l0h0h0<0?0?1>1>1>1>1>1>1>1>1>1>0?0?0?0?0?0M111110~0h0h0h0h0h0h0h0h0h0h0h0<011111111111111111111111"/>
+			<Row data="0h0h0h0h0<0?0?1>1>1>1>1>1>1>1>1>1>0?0?0?0?0?0M111110~0h0h0h0h0h0h0h0h0h0h0h0<011111111111111111111111"/>
+			<Row data="0h0l0h0h0<0?0?1>1>1>1>1>1>1>1>1>1>0?0?0?0?0A0C0Q11100y0h0h0h0h0h0h0h0h0h0h0h0<011111111111111111111111"/>
+			<Row data="0h0h0h0h0<0?0?1>1>1>1>1>1>1>1>1>1>0?0?0?0?0?0?0C1111110y0h0h0h0h0h0h0h0h0h0h0h0h0<011111111111111111111111"/>
+			<Row data="0h0l0h0h0<0?0?1>1>1>1>1>1>1>1>1>1>1>1>0?0?0c07000h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0<011111111111111111111111"/>
+			<Row data="0h0h0h0h0<0?0?1>1>1>1>1>1>1>1>1>1>1>1>0?0?010h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0<011111111111111111111111"/>
+			<Row data="0h0l0h0h0<0?0?1>1>1>1>1>1>1>1>1>1>1>1>0?0?050h1;0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0<011111111111111111111111"/>
+			<Row data="160v0h0h0<0?0?1>1>1>1>1>1>1>1>1>1>1>1>0?0?01160v0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0h0<011111111111111111111111"/>
+			<Row data="10~0h0h0<0?0?0?0?0?0?0?0?0?0?0?0?0?0?0?0D0U10~0h0=0:0:0:0:0:0:0:0:0:0:0:0:0:0:0e011111111111111111111111"/>
+			<Row data="10|0v0h0<0?0?0?0?0?0?0?0?0?0?0?0?0?0B0?0N110~0h0b0?0?0?0?0?0?0?0?0?0?0?0?0?0?0?011111111111111111111111"/>
+			<Row data="110|0v0>0\0\0\0[070\07070707070807070D0O110~0h0>070707070d0?1>1>1>1>1>1>1>1>1>1>1111111111111111111111"/>
+			<Row data="1110~0h0h0h0h0h0h181310~0h0h0h0s1511100y0h0h0h0h0h0h0<0?1>1>1>1>1>1>1>1>1>1>1111111111111111111111"/>
+			<Row data="1110~0h0h0h0h0h0h0h0p110y0h0h0s1511110~0h0h0h0h0h1:0h0<0?1>1>1>1>1>1>1>1>1>1>1111111111111111111111"/>
+			<Row data="1110~0m0h0m0h0m0h0m0h0m0h0m0h13111110~0h0m0h0h0h0h0h0<0?1>1>1>1>1>1>1>1>1>1>1111111111111111111111"/>
+			<Row data="1110~0h0h0h0h0h0h0h0h0h0h1=0h13111110~1<0h0h0h0h0h0h0<0?1>1>1>1>1>1>1>1>1>1>1111111111111111111111"/>
+			<Row data="1110~0h0h0h0h0h0h0h0h0h0h0h0h0p1211110~0h0h0h0h0h0h0h0<0?1>1>1>1>1>1>1>1>1>1>1111111111111111111111"/>
+			<Row data="1110|0=0:0:0:0:0:0:0:0:0:0:0:0:0:0C0Q10R0F0:090h0h0l0h0h0<0?1>1>1>1>1>1>1>1>1>1>1111111111111111111111"/>
+			<Row data="11110<0?0?0?0?0?0?0?0?0?0?0?0?0?0?0C0G0F0?0?010h0h0h0h0h0<0?1>1>1>1>1>1>1>1>1>1>1111111111111111111111"/>
+			<Row data="11110>0707070707070707070707070707070707070d010h0h0l1=0h0<0?1>1>1>1>1>1>1>1>1>1>1111111111111111111111"/>
+			<Row data="111111111111111111111110<010h0h0h0h0h0<0?1>1>1>1>1>1>1>1>1>1>1111111111111111111111"/>
+			<Row data="111111111111111111111110<010h0h0l0h0h0<0?1>1>1>1>1>1>1>1>1>1>1111111111111111111111"/>
+			<Row data="111111111111111111111110<010h0h0h0h0h0<0?1>1>1>1>1>1>1>1>1>1>1111111111111111111111"/>
+			<Row data="111111111111111111111110<010h0h0h0h0h0E0?1>1>1>1>1>1>1>1>1>1>1111111111111111111111"/>
+			<Row data="111111111111111111111110<000h0h0h0h0s0T071>1>1>1>1>1>1>1>1>1>1111111111111111111111"/>
+			<Row data="111111111111111111111110~0h0h0h0h0s151111111111111111111111111111111111"/>
+			<Row data="111111111111111111111110~0h0h0s161511111111111111111111111111111111111"/>
+			<Row data="111111111111111111111110|1616151111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+			<Row data="1111111111111111111111111111111111111111111111111111111111111111"/>
+		</LTTileMap>
+		<LTLayer mix-content="1">
+			<TList field="parameters">
+				<LTParameter name="name" value="Objects"/>
+			</TList>
+			<LTVisualizer field="visualizer"/>
+			<LTTileMap x="32" y="32" width="64" height="64" xquantity="256" yquantity="128" tiles-quantity="176" top-margin="10">
+				<TList field="parameters">
+					<LTParameter name="name" value="Walls"/>
+				</TList>
+				<LTVisualizer field="visualizer" dy="-0.25" xscale="3.0899" yscale="16"/>
+				<LTTileSet field="tileset" id="159" name="Objects" tiles-quantity="176" block-width="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" block-height="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" empty-tile="0">
+					<LTImage field="image" id="160" filename="objects.png" xcells="16" ycells="11"/>
+					<ShapeArray field="collision-shapes">
+						<Null/>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<Null/>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<Null/>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<Null/>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<Null/>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<Null/>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<Null/>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<Null/>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+					</ShapeArray>
+					<LTTileCategory name="Fence">
+						<LTTileRule tilenums="46" xdiv="2" ydiv="2">
+							<LTTilePos dy="1" tilenum="36"/>
+							<LTTilePos dx="1" tilenum="48"/>
+						</LTTileRule>
+						<LTTileRule tilenums="160" xdiv="2" ydiv="2">
+							<LTTilePos dx="-2" dy="1" tilenum="36"/>
+							<LTTilePos dx="-2" tilenum="36"/>
+							<LTTilePos dx="-1" tilenum="36"/>
+							<LTTilePos dx="1" tilenum="36"/>
+						</LTTileRule>
+						<LTTileRule tilenums="160" xdiv="2" ydiv="2">
+							<LTTilePos dx="1" tilenum="36"/>
+							<LTTilePos dy="-1" tilenum="36"/>
+						</LTTileRule>
+						<LTTileRule tilenums="160" xdiv="2" ydiv="2">
+							<LTTilePos dx="-1" tilenum="36"/>
+							<LTTilePos dx="-2" tilenum="36"/>
+							<LTTilePos dx="-2" dy="-1" tilenum="36"/>
+							<LTTilePos dx="1" tilenum="36"/>
+						</LTTileRule>
+						<LTTileRule tilenums="36,38,40,41,42,43,44" xdiv="2" ydiv="2">
+							<LTTilePos dy="-1" tilenum="38"/>
+							<LTTilePos dy="1" tilenum="38"/>
+						</LTTileRule>
+						<LTTileRule tilenums="160" y="1" xdiv="2" ydiv="2">
+							<LTTilePos dy="-1" tilenum="38"/>
+							<LTTilePos dy="1" tilenum="38"/>
+						</LTTileRule>
+						<LTTileRule tilenums="48,49,50,52,53,54,56" xdiv="2" ydiv="2">
+							<LTTilePos dx="-1" tilenum="48"/>
+							<LTTilePos dx="1" tilenum="48"/>
+						</LTTileRule>
+						<LTTileRule tilenums="160" x="1" xdiv="2" ydiv="2">
+							<LTTilePos dx="-1" tilenum="48"/>
+							<LTTilePos dx="1" tilenum="48"/>
+						</LTTileRule>
+						<LTTileRule tilenums="33" xdiv="2" ydiv="2">
+							<LTTilePos dx="-1" tilenum="48"/>
+							<LTTilePos dy="-1" tilenum="36"/>
+						</LTTileRule>
+						<LTTileRule tilenums="55" xdiv="2" ydiv="2">
+							<LTTilePos dx="-1" tilenum="48"/>
+							<LTTilePos dy="1" tilenum="36"/>
+						</LTTileRule>
+						<LTTileRule tilenums="47" xdiv="2" ydiv="2">
+							<LTTilePos dx="1" tilenum="48"/>
+						</LTTileRule>
+						<LTTileRule tilenums="51" xdiv="2" ydiv="2">
+							<LTTilePos dx="-1" tilenum="48"/>
+						</LTTileRule>
+					</LTTileCategory>
+					<LTTileCategory name="Ground">
+						<LTTileRule tilenums="0">
+							<LTTilePos dx="1" dy="-1" tilenum="36"/>
+							<LTTilePos dx="1" dy="1" tilenum="36"/>
+							<LTTilePos dx="2" dy="1" tilenum="36"/>
+						</LTTileRule>
+						<LTTileRule tilenums="35,37,39" x="1" y="1" xdiv="2" ydiv="2">
+							<LTTilePos dx="1" dy="-1" tilenum="36"/>
+							<LTTilePos dx="1" dy="1" tilenum="36"/>
+						</LTTileRule>
+						<LTTileRule tilenums="127,129,130,104,107,109,110,124" x="1" y="1" xdiv="2" ydiv="2">
+							<LTTilePos dx="1" dy="1" tilenum="128"/>
+							<LTTilePos dx="1" dy="-1" tilenum="128"/>
+						</LTTileRule>
+						<LTTileRule tilenums="57,60,62,84,82,80,86,64,2,30" x="1" y="1" xdiv="2" ydiv="2">
+							<LTTilePos dx="1" dy="-1" tilenum="58"/>
+							<LTTilePos dx="1" dy="1" tilenum="58"/>
+						</LTTileRule>
+						<LTTileRule tilenums="129,109,110,127,107,130,104,124">
+							<LTTilePos dx="1" dy="1" tilenum="131"/>
+							<LTTilePos dx="1" dy="-2" tilenum="131"/>
+							<LTTilePos dx="1" dy="-1"/>
+						</LTTileRule>
+						<LTTileRule tilenums="122,102">
+							<LTTilePos dx="1" tilenum="131"/>
+							<LTTilePos dx="1" dy="1"/>
+							<LTTilePos dx="2"/>
+						</LTTileRule>
+						<LTTileRule tilenums="121,101">
+							<LTTilePos dx="-1" tilenum="131"/>
+							<LTTilePos dx="-2"/>
+							<LTTilePos dx="-1" dy="-1"/>
+						</LTTileRule>
+						<LTTileRule tilenums="45" x="1" y="1" xdiv="2" ydiv="2">
+							<LTTilePos dx="1" dy="1" tilenum="36"/>
+							<LTTilePos dy="1"/>
+							<LTTilePos dx="2" dy="1"/>
+							<LTTilePos dx="1"/>
+						</LTTileRule>
+						<LTTileRule tilenums="34">
+							<LTTilePos dx="1" dy="-1" tilenum="36"/>
+							<LTTilePos dy="-1"/>
+							<LTTilePos dx="2" dy="-1"/>
+							<LTTilePos dx="1"/>
+						</LTTileRule>
+						<LTTileRule tilenums="0"/>
+					</LTTileCategory>
+					<LTTileCategory name="Walls">
+						<LTTileRule tilenums="155,145" xdiv="2" ydiv="2">
+							<LTTilePos dy="-1" tilenum="155"/>
+							<LTTilePos dx="-1" tilenum="155"/>
+							<LTTilePos dx="1" tilenum="155"/>
+							<LTTilePos dy="1" tilenum="155"/>
+						</LTTileRule>
+						<LTTileRule tilenums="161" xdiv="2" ydiv="2">
+							<LTTilePos dx="-3" tilenum="155"/>
+							<LTTilePos dx="-2" tilenum="155"/>
+							<LTTilePos dx="-1" tilenum="155"/>
+							<LTTilePos dx="-2" dy="-1" tilenum="155"/>
+							<LTTilePos dx="-2" dy="1" tilenum="155"/>
+						</LTTileRule>
+						<LTTileRule tilenums="150,146" xdiv="2" ydiv="2">
+							<LTTilePos dx="-1" tilenum="150"/>
+							<LTTilePos dx="1" tilenum="150"/>
+							<LTTilePos dy="-1" tilenum="150"/>
+						</LTTileRule>
+						<LTTileRule tilenums="161" xdiv="2" ydiv="2">
+							<LTTilePos dx="-3" tilenum="150"/>
+							<LTTilePos dx="-2" tilenum="150"/>
+							<LTTilePos dx="-2" dy="-1" tilenum="150"/>
+							<LTTilePos dx="-1" tilenum="150"/>
+						</LTTileRule>
+						<LTTileRule tilenums="153,147" xdiv="2" ydiv="2">
+							<LTTilePos dx="-1" tilenum="153"/>
+							<LTTilePos dy="1" tilenum="153"/>
+							<LTTilePos dy="-1" tilenum="153"/>
+						</LTTileRule>
+						<LTTileRule tilenums="148,143" xdiv="2" ydiv="2">
+							<LTTilePos dy="-1" tilenum="148"/>
+							<LTTilePos dy="1" tilenum="148"/>
+							<LTTilePos dx="1" tilenum="148"/>
+						</LTTileRule>
+						<LTTileRule tilenums="161" xdiv="2" ydiv="2">
+							<LTTilePos dx="-2" tilenum="148"/>
+							<LTTilePos dx="-2" dy="-1" tilenum="148"/>
+							<LTTilePos dx="-1" tilenum="148"/>
+							<LTTilePos dx="-2" dy="1" tilenum="148"/>
+						</LTTileRule>
+						<LTTileRule tilenums="152,144" xdiv="2" ydiv="2">
+							<LTTilePos dx="-1" tilenum="152"/>
+							<LTTilePos dx="1" tilenum="152"/>
+							<LTTilePos dy="1" tilenum="152"/>
+						</LTTileRule>
+						<LTTileRule tilenums="161" xdiv="2" ydiv="2">
+							<LTTilePos dx="-2" tilenum="152"/>
+							<LTTilePos dx="-1" tilenum="152"/>
+							<LTTilePos dx="-2" dy="1" tilenum="152"/>
+							<LTTilePos dx="-3" tilenum="152"/>
+						</LTTileRule>
+						<LTTileRule tilenums="132,141,142,112" xdiv="2" ydiv="2">
+							<LTTilePos dy="1" tilenum="132"/>
+							<LTTilePos dx="1" tilenum="132"/>
+						</LTTileRule>
+						<LTTileRule tilenums="161" xdiv="2" ydiv="2">
+							<LTTilePos dx="-1" tilenum="132"/>
+							<LTTilePos dx="-2" tilenum="132"/>
+							<LTTilePos dx="-2" dy="1" tilenum="132"/>
+						</LTTileRule>
+						<LTTileRule tilenums="149" xdiv="2" ydiv="2">
+							<LTTilePos dx="-1" tilenum="149"/>
+							<LTTilePos dy="1" tilenum="149"/>
+						</LTTileRule>
+						<LTTileRule tilenums="151" xdiv="2" ydiv="2">
+							<LTTilePos dy="-1" tilenum="151"/>
+							<LTTilePos dx="1" tilenum="151"/>
+						</LTTileRule>
+						<LTTileRule tilenums="161" xdiv="2" ydiv="2">
+							<LTTilePos dx="-2" tilenum="151"/>
+							<LTTilePos dx="-2" dy="-1" tilenum="151"/>
+							<LTTilePos dx="-1" tilenum="151"/>
+						</LTTileRule>
+						<LTTileRule tilenums="154" xdiv="2" ydiv="2">
+							<LTTilePos dy="-1" tilenum="154"/>
+							<LTTilePos dx="-1" tilenum="154"/>
+						</LTTileRule>
+						<LTTileRule tilenums="131,123,125,126,103,105,106,108,111,156,158,128" xdiv="2" ydiv="2">
+							<LTTilePos dy="-1" tilenum="128"/>
+						</LTTileRule>
+						<LTTileRule tilenums="131,125,126,123,105,106,103,108,111,156,158" xdiv="2" ydiv="2">
+							<LTTilePos dy="1" tilenum="131"/>
+						</LTTileRule>
+						<LTTileRule tilenums="161">
+							<LTTilePos dy="1" tilenum="131"/>
+							<LTTilePos dy="-1" tilenum="131"/>
+						</LTTileRule>
+						<LTTileRule tilenums="133,134,113,114,115,116,117,120,135,136,137,140,157,159" xdiv="2" ydiv="2">
+							<LTTilePos dx="-1" tilenum="133"/>
+							<LTTilePos dx="1" tilenum="133"/>
+						</LTTileRule>
+						<LTTileRule tilenums="161">
+							<LTTilePos dx="-1" tilenum="133"/>
+							<LTTilePos dx="1" tilenum="134"/>
+						</LTTileRule>
+						<LTTileRule tilenums="138,118" xdiv="2" ydiv="2">
+							<LTTilePos dx="-1" tilenum="133"/>
+						</LTTileRule>
+						<LTTileRule tilenums="139,139,119" xdiv="2" ydiv="2">
+							<LTTilePos dx="1" tilenum="133"/>
+						</LTTileRule>
+					</LTTileCategory>
+					<LTTileCategory name="Wooden">
+						<LTTileRule tilenums="4,5,21" xdiv="2" ydiv="2">
+							<LTTilePos dy="-1" tilenum="4"/>
+							<LTTilePos dx="-1" tilenum="4"/>
+							<LTTilePos dx="1" tilenum="4"/>
+							<LTTilePos dy="1" tilenum="4"/>
+						</LTTileRule>
+						<LTTileRule tilenums="6,22" xdiv="2" ydiv="2">
+							<LTTilePos dx="-1" tilenum="6"/>
+							<LTTilePos dx="1" tilenum="6"/>
+							<LTTilePos dy="-1" tilenum="6"/>
+						</LTTileRule>
+						<LTTileRule tilenums="26,24,8" xdiv="2" ydiv="2">
+							<LTTilePos dx="-1" tilenum="26"/>
+							<LTTilePos dy="1" tilenum="26"/>
+							<LTTilePos dy="-1" tilenum="26"/>
+						</LTTileRule>
+						<LTTileRule tilenums="20,25,9,7,23" xdiv="2" ydiv="2">
+							<LTTilePos dy="-1" tilenum="20"/>
+							<LTTilePos dy="1" tilenum="20"/>
+							<LTTilePos dx="1" tilenum="20"/>
+						</LTTileRule>
+						<LTTileRule tilenums="14,11,3" xdiv="2" ydiv="2">
+							<LTTilePos dx="-1" tilenum="14"/>
+							<LTTilePos dx="1" tilenum="14"/>
+							<LTTilePos dy="1" tilenum="14"/>
+						</LTTileRule>
+						<LTTileRule tilenums="1" xdiv="2" ydiv="2">
+							<LTTilePos dy="1" tilenum="1"/>
+							<LTTilePos dx="1" tilenum="1"/>
+						</LTTileRule>
+						<LTTileRule tilenums="18,32" xdiv="2" ydiv="2">
+							<LTTilePos dx="-1" tilenum="18"/>
+							<LTTilePos dy="1" tilenum="18"/>
+						</LTTileRule>
+						<LTTileRule tilenums="17,10" xdiv="2" ydiv="2">
+							<LTTilePos dy="-1" tilenum="17"/>
+							<LTTilePos dx="1" tilenum="17"/>
+						</LTTileRule>
+						<LTTileRule tilenums="19,29" xdiv="2" ydiv="2">
+							<LTTilePos dy="-1" tilenum="19"/>
+							<LTTilePos dx="-1" tilenum="19"/>
+						</LTTileRule>
+						<LTTileRule tilenums="79,83,85,65,58,59,81,61,63,31,79" xdiv="2" ydiv="2">
+							<LTTilePos dy="-1" tilenum="58"/>
+							<LTTilePos dy="1" tilenum="58"/>
+						</LTTileRule>
+						<LTTileRule tilenums="162">
+							<LTTilePos dy="1" tilenum="58"/>
+							<LTTilePos dy="-1" tilenum="58"/>
+						</LTTileRule>
+						<LTTileRule tilenums="66,67,68,69,70,71,72,27,28,96,97,98,99,100,91,89,93,94,95" xdiv="2" ydiv="2">
+							<LTTilePos dx="-1" tilenum="66"/>
+							<LTTilePos dx="1" tilenum="66"/>
+						</LTTileRule>
+						<LTTileRule tilenums="162">
+							<LTTilePos dx="-1" tilenum="27"/>
+							<LTTilePos dx="1" tilenum="27"/>
+						</LTTileRule>
+						<LTTileRule tilenums="88,90,92">
+							<LTTilePos dx="1" tilenum="133"/>
+						</LTTileRule>
+						<LTTileRule tilenums="13,15">
+							<LTTilePos dx="1" tilenum="13"/>
+						</LTTileRule>
+						<LTTileRule tilenums="12,16">
+							<LTTilePos dx="-1" tilenum="12"/>
+						</LTTileRule>
+					</LTTileCategory>
+				</LTTileSet>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000001d2121211e211e211e211e211e211e211x2121211e211e211e211e211e211e211x2121211e211e211x2121211}211e211e211e211e211211u0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="000000000000000000000000000000000000000000000000001_2100000000000000000000000000001_2100000000000000000000000000001_210000000000001Z2100000000000000000000000000001_210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000001c0000000000000000000000000000001c0000000000000000000000000000001c00000000000000000000000000000000000000000000001c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="000000000000000000000000000000000000000000000000001a2100000000000000000000000000001_2100000000000000000000000000001_210000000000001_211Y000000000000000000000000001_210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000001c0000000000000000000000000000001c0000000000000000000000000000001c000000000000001c0000000000000000000000000000001c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="000000000000000000000000000000000000000000000000001_2100000000000000000000000000001_2100000000000000000000000000001_210000000000001_2100000000000000000000000000001_210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000001c0000000000000000000000000000001w2121211x2121211j0000001k211e211z000000000000001t2121211211e211e211e211e211211z0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="000000000000000000000000000000000000000000000000001_210000000000000000000000000000000000001_210000000000000000000000000000000000001_21000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000001c000000000000000000000000000000000000001c000000000000000000000000000000000000001|000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="000000000000000000000000000000000000000000000000001_210000000000000000000000000000000000001_210000000000000000000000000000000000001_21000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000001c000000000000000000000000000000000000001c000000000000000000000000000000000000001c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="000000000000000000000000000000000000000000000000001_210000000000000000000000000000000000001_210000000000000000000000000000000000001Z21000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000001t2121211e211e211x2121211e211j0000001k211z0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="000000000000000000000000000000000000000000000000001b210000000000001_210000000000000000000000000000000000000000000000000000000000001_211Y0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000001`000000000000001c000000000000000000000000000000000000000000000000000000000000001`000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="000000000000000000000000000000000000000000000000001b210000000000001Z210000000000000000000000000000000000000000000000000000000000001_21000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000001`000000000000000000000000001d2121211e211j0000001k211f211f211x2121211j0000001k211v2121211e211e211u00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="000000000000000000000000000000000000000000000000001a210000000000001_211Y0000001_2100000000000000000000000000001_21000000000000000000000000000000001_2100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000001t2121211e211e211y00000000001c0000000000000000000000000000001`00000000000000000000000000000000001|00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="000000000000000000000000000000000000000000000000001a210000000000001_21000000001_2100000000000000000000000000001b21000000000000000000000000000000001_2100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000001`000000000000001c00000000001c0000000000000000000000000000001c00000000000000000000000000000000001c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="000000000000000000000000000000000000000000000000001a210000000000001Z21000000001_2100000000000000000000000000001_21000000000000000000000000000000001_2100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000001c000000000000000000000000001c0000000000000000000000000000001c00000000000000000000000000000000001|00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="000000000000000000000000000000000000000000000000001a210000000000001_211Y0000001_2100000000000000000000000000001a21000000000000000000000000000000001_2100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000001w2121211e211e211v2121211e211v2121211}211e211f211}211e211f211v2121211}211l211e211e211e211}211e211z00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001d2121211Q211S211T211e211e211x2121211V0000001W211e211x2121211U211R211e211U211e211u0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001K210000000000000000000000001_21000000000000000000001Z210000000000000000000000001_210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001O000000000000000000000000001c000000000000000000000000000000000000000000000000001c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001_210000000000000000000000001Z21000000000000000000001_211Y00000000000000000000001_210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001c000000000000000000000000000000000000000000000000001t2121211e211e211e211e211e211y0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001_210000000000000000000000001_211Y0000000000000000001_210000000000000000000000001_210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001t2121211e211R211e211e211e211y00000000000000000000001]000000000000000000000000001c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001H210000000000000000000000001_21000000000000000000001_210000000000000000000000001\210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001G000000000000000000000000001J00000000000000000000001c000000000000000000000000001[0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001_210000000000000000000000001Z21000000000000000000001_210000000000000000000000001_210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001c000000000000000000000000000000000000000000000000001]000000000000000000000000001I0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001_210000000000000000000000001_211Y0000000000000000001Z210000000000000000000000001\210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001t2121211Q211e211R211S211e211z000000000000000000000000000000000000000000000000001[0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001Z210000000000000000000000000000000000000000000000001_211Y00000000000000000000001_210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001c000000000000000000000000001I0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001_211Y00000000000000000000000000000000000000000000001_210000000000000000000000001_210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001t2121211Q211j0000001k211e211e211x2121211j0000001k211v2121211Q211X211X211e211e211y0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001K2100000000000000000000000000001_21000000000000000000000000000000000000000000001_210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000^2020200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200g00000000000000000000000000000000000000000000000000000000000000000000001I0000000000000000000000000000001O00000000000000000000000000000000000000000000001J0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000S20000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000S20000000000000000000000000000000000000000000000000000000000000000000001H2100000000000000000000000000001_21000000000000000000000000000000000000000000001_210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000T00000000000000000001220r220>220r220x220x220P000000000000000000000000000000000000000000000000000000000001220r220r220r220r220P0000000000000000000V00000000000000000000000000000000000000000000000000000000000000000000001G0000000000000000000000000000001c00000000000000000000000000000000000000000000001c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000S2000000000000000000i22000010220000000000001022000000000000000000000000000000000000000000000000000000000i220000000000000000102200000000000000000S20000000000000000000000000000000000000000000000000000000000000000000001_2100000000000000000000000000001_21000000000000000000000000000000000000000000001H210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000T0000000000000000000j000000000000000000000000000000000000000000000000000000000000000000000000000000000j00000000000000000000000000000000000000V00000000000000000000000000000000000000000000000000000000000000000000001J0000000000000000000000000000001L00000000000000000000000000000000000000000000001G0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000S2000000000000000000i22000010220000000000001022000000000000000000000000000000000000000000000000000000000i220000000000000000000|00000000000000000S20000000000000000000000000000000000000000000000000000000000000000000001H2100000000000000000000000000001_21000000000000000000000000000000000000000000001_210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000T0000000000000000000j000000000000000000000000000000000000000000000000000000000000000000000000000000000q000000000000000000000000000000000000000T00000000000000000000000000000000000000000000000000000000000000000000001G0000000000000000000000000000001I00000000000000000000000000000000000000000000001I0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000S2000000000000000000i22000010220000000000001022000000000000000000000000000000000000000000000000000000000p220000000000000000000{00000000000000000S20000000000000000000000000000000000000000000000000000000000000000000001_2100000000000000000000000000001_21000000000000000000000000000000000000000000001_210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000T0000000000000000000D220r2204220r220t220r220H00000000000000000000000000000000000000000000000000000000000o00000000000000000000000000000000000000T00000000000000000000000000000000000000000000000000000000000000000000001c0000000000000000000000000000001c00000000000000000000000000000000000000000000001L0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000S2000000000000000000i2200000i220000000000001022000000000000000000000000000000000000000000000000000000000i22000000000000000010220000000000000000000T000000000000000000000000000000000000000000000000000000000000000000001_2100000000000000000000000000001a21000000000000000000000000000000000000000000001_210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000T0000000000000000000j0000000j00000000000000000000000000000000000000000000000000000000000000000000000000j0000000000000000000O00000000000000000R0000000000000000000000000000000000000000000000000000000000000000000000001w2121211e211e211S211T211e211e211v2121211e211S211T211e211e211e211S211T211e211e211z0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000S2000000000000000000i2200000i220000000000000N22000000000000000000000000000000000000000000000000000000000i2200000000000000000N2200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000T0000000000000000000:220r220F220r220r220r220M00000000000000000000000000000000000000000000000000000000000:00000=1>221>220L220M00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000S20000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000T000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000S20000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000T000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000S20000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000]00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000T00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000T000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000S20000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000S20000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000T00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000T000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000S20000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000S20000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000T00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000T000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000S20000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000S20000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000T00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000T000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000S20000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000S20000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="0000000000000000000000000000000000000T00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000T000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000S20000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="000000000000000000000000000000000000202020200h200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200`200Q000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			</LTTileMap>
+			<LTSpriteMap cell-width="0.25" cell-height="0.5" pivot-mode="1" xquantity="256" yquantity="128">
+				<TList field="parameters">
+					<LTParameter name="name" value="Objects"/>
+				</TList>
+				<LTVisualizer field="visualizer"/>
+				<LTSprite x="21.25" y="6" height="0.75" shape="2" frame="48">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<LTImage field="image" id="684" filename="scenery.png" xcells="8" ycells="10"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="38" y="24" shape="2" frame="25">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="12.75" y="30.875" shape="2" frame="7">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="6.75" y="10.5" shape="2" frame="70">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="33.625" y="19.25" shape="2">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="11.25" y="13.5" shape="2" frame="65">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="16.5" y="13.25" shape="2" frame="65">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="6.75" y="11" shape="2" frame="73">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="13" y="7.125" height="0.75" shape="2" frame="26">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="35.875" y="26.625" shape="2" frame="19">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="7" y="5.75" shape="2" frame="35">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="12" y="12.125" height="0.75" shape="2" frame="26">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="36.25" y="28.25" shape="2" frame="43">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="16.5" y="10" height="0.75" shape="2" frame="25">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="22" y="17.5" width="2" height="2" shape="2">
+					<LTVisualizer field="visualizer" xscale="1.6" yscale="3.5499">
+						<LTImage field="image" id="713" filename="cars.png" xcells="3"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="13.875" y="35" width="2" height="2" shape="2" frame="1">
+					<LTVisualizer field="visualizer" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="713"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="11.25" y="5.25" shape="2" frame="65">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="8.5" y="12" height="0.75" shape="2" frame="25">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="39.5" y="21.25" shape="2" frame="41">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="28.25" y="32.125" width="2" height="2" shape="2" frame="2">
+					<LTVisualizer field="visualizer" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="713"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="17" y="9.375" shape="2" frame="20">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="32.25" y="26.875" shape="2" frame="46">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="35.25" y="11.875" shape="2" frame="37">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="23.125" y="25.625" shape="2" frame="21">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="31.875" y="21.5" shape="2" frame="10">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="38.75" y="26.75" shape="2" frame="46">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="8.5" y="15" height="0.75" shape="2" frame="25">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="36" y="29.5" shape="2" frame="10">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="12.125" y="9.125" shape="2" frame="53">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="15.5" y="12.125" height="0.75" shape="2" frame="26">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="7.5" y="7" shape="2" frame="68">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="10.5" y="10.125" height="0.75" shape="2" frame="26">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="28" y="17.625" shape="2" frame="21">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="38.25" y="30.25" shape="2" frame="2">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="32.75" y="29.875" shape="2" frame="2">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="35.25" y="7.625" shape="2" frame="37">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="13.25" y="9.25" shape="2" frame="39">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="12.75" y="30.875" shape="2" frame="7">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="14" y="16.5" shape="2" frame="18">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="11.125" y="29.125" shape="2" frame="6">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="32.125" y="28.125" shape="2" frame="3">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="39.25" y="22.125" shape="2" frame="49">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="5" y="17.625" shape="2" frame="21">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="21.375" y="28.125" shape="2" frame="29">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="24" y="31.5" shape="2" frame="69">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="15.375" y="32.25" shape="2" frame="8">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="14.75" y="28.375" shape="2" frame="30">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="26.125" y="17.625" shape="2" frame="47">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="14.75" y="12.75" shape="2" frame="9">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="21" y="3.5" shape="2" frame="21">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="13.5" y="29.5" shape="2" frame="77">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="32.125" y="18.625" shape="2" frame="14">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="17.375" y="23.125" shape="2" frame="32">
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="1.6" yscale="3.5499">
+						<Object field="image" id="684"/>
+					</LTVisualizer>
+				</LTSprite>
+			</LTSpriteMap>
+		</LTLayer>
+	</LTLayer>
+</LTWorld>

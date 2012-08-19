@@ -1,0 +1,843 @@
+<LTWorld dwlab_version="1.4.21.2">
+	<LTVisualizer field="visualizer" id="1"/>
+	<LTEditorData field="editor_data" x_div="2" y_div="2" coll_x_div="16" coll_y_div="16">
+		<TList field="images">
+			<Object id="8"/>
+		</TList>
+		<TList field="tilesets">
+			<Object id="7"/>
+		</TList>
+		<LTColor field="background"/>
+		<LTColor field="grid_color" green="0" alpha="0.5"/>
+	</LTEditorData>
+	<LTCamera field="camera" x="38.2318372" y="37.47631612" width="51.53632558" height="44.68526642" shape="2" viewport-clipping="1">
+		<LTVisualizer field="visualizer"/>
+		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
+			<LTVisualizer field="visualizer"/>
+		</LTShape>
+	</LTCamera>
+	<LTLayer>
+		<TList field="parameters">
+			<LTParameter value="Grass"/>
+		</TList>
+		<Object field="visualizer" id="1"/>
+		<LTSprite field="bounds" x="32" y="32" width="64" height="64" shape="2">
+			<Object field="visualizer" id="1"/>
+		</LTSprite>
+		<LTTileMap x="32" y="32" width="64" height="64" xquantity="64" yquantity="64" tiles-quantity="266">
+			<TList field="parameters">
+				<LTParameter value="Grass map"/>
+			</TList>
+			<LTVisualizer field="visualizer"/>
+			<LTTileSet field="tileset" id="7" name="Default" tiles-quantity="266" block-width="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" block-height="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000">
+				<LTImage field="image" id="8" filename="tiles.png" xcells="19" ycells="14"/>
+				<ShapeArray field="collision-shapes">
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+					<Null/>
+				</ShapeArray>
+				<LTTileCategory name="Pebblestone">
+					<LTTileRule tilenums="204">
+						<LTTilePos dx="1" tilenum="187"/>
+						<LTTilePos dx="1" dy="1" tilenum="224"/>
+						<LTTilePos dy="1" tilenum="223"/>
+					</LTTileRule>
+					<LTTileRule tilenums="208">
+						<LTTilePos dx="-1" dy="1" tilenum="226"/>
+						<LTTilePos dx="-1" tilenum="187"/>
+						<LTTilePos dy="1" tilenum="227"/>
+					</LTTileRule>
+					<LTTileRule tilenums="242">
+						<LTTilePos dx="1" dy="-1" tilenum="224"/>
+						<LTTilePos dy="-1" tilenum="223"/>
+						<LTTilePos dx="1" tilenum="263"/>
+					</LTTileRule>
+					<LTTileRule tilenums="246">
+						<LTTilePos dx="-1" tilenum="263"/>
+						<LTTilePos dy="-1" tilenum="227"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="226"/>
+					</LTTileRule>
+					<LTTileRule tilenums="205">
+						<LTTilePos dx="-1" tilenum="204"/>
+						<LTTilePos dy="-1" tilenum="204"/>
+						<LTTilePos dx="1" tilenum="206"/>
+						<LTTilePos dy="1" tilenum="224"/>
+					</LTTileRule>
+					<LTTileRule tilenums="207">
+						<LTTilePos dx="-1" tilenum="206"/>
+						<LTTilePos dy="1" tilenum="226"/>
+						<LTTilePos dy="-1" tilenum="208"/>
+						<LTTilePos dx="1" tilenum="208"/>
+					</LTTileRule>
+					<LTTileRule tilenums="243">
+						<LTTilePos dx="-1" tilenum="242"/>
+						<LTTilePos dy="1" tilenum="242"/>
+						<LTTilePos dy="-1" tilenum="224"/>
+						<LTTilePos dx="1" tilenum="244"/>
+					</LTTileRule>
+					<LTTileRule tilenums="245">
+						<LTTilePos dx="1" tilenum="246"/>
+						<LTTilePos dy="1" tilenum="246"/>
+						<LTTilePos dx="-1" tilenum="244"/>
+						<LTTilePos dy="-1" tilenum="226"/>
+					</LTTileRule>
+					<LTTileRule tilenums="187">
+						<LTTilePos dx="-1" tilenum="204"/>
+						<LTTilePos dx="1" tilenum="208"/>
+						<LTTilePos dy="1" tilenum="206"/>
+					</LTTileRule>
+					<LTTileRule tilenums="223">
+						<LTTilePos dx="1" tilenum="224"/>
+						<LTTilePos dy="-1" tilenum="204"/>
+						<LTTilePos dy="1" tilenum="242"/>
+					</LTTileRule>
+					<LTTileRule tilenums="227">
+						<LTTilePos dx="-1" tilenum="226"/>
+						<LTTilePos dy="-1" tilenum="208"/>
+						<LTTilePos dy="1" tilenum="246"/>
+					</LTTileRule>
+					<LTTileRule tilenums="263">
+						<LTTilePos dx="-1" tilenum="242"/>
+						<LTTilePos dx="1" tilenum="246"/>
+						<LTTilePos dy="-1" tilenum="244"/>
+					</LTTileRule>
+					<LTTileRule tilenums="211"/>
+				</LTTileCategory>
+				<LTTileCategory name="Brick">
+					<LTTileRule tilenums="224,206,225,226,244"/>
+				</LTTileCategory>
+				<LTTileCategory name="Rock">
+					<LTTileRule tilenums="19">
+						<LTTilePos dy="-1" tilenum="1"/>
+						<LTTilePos dx="-1" tilenum="1"/>
+						<LTTilePos dx="1" tilenum="20"/>
+						<LTTilePos dy="1" tilenum="38"/>
+					</LTTileRule>
+					<LTTileRule tilenums="38">
+						<LTTilePos dx="-1" tilenum="1"/>
+						<LTTilePos dy="-1" tilenum="19"/>
+						<LTTilePos dy="-2" tilenum="1"/>
+						<LTTilePos dx="1" tilenum="39"/>
+						<LTTilePos dy="1" tilenum="57"/>
+					</LTTileRule>
+					<LTTileRule tilenums="57,76">
+						<LTTilePos dy="-1" tilenum="38"/>
+						<LTTilePos dy="-2" tilenum="19"/>
+						<LTTilePos dy="1" tilenum="95"/>
+						<LTTilePos dy="2" tilenum="114"/>
+						<LTTilePos dy="3" tilenum="133"/>
+						<LTTilePos dx="1" tilenum="58"/>
+						<LTTilePos dx="-1"/>
+					</LTTileRule>
+					<LTTileRule tilenums="95">
+						<LTTilePos dx="1" tilenum="96"/>
+						<LTTilePos dx="-1"/>
+						<LTTilePos dy="-1" tilenum="76"/>
+						<LTTilePos dy="1" tilenum="114"/>
+						<LTTilePos dy="2" tilenum="133"/>
+						<LTTilePos dy="3" tilenum="1"/>
+					</LTTileRule>
+					<LTTileRule tilenums="114">
+						<LTTilePos dy="1" tilenum="133"/>
+						<LTTilePos dy="2" tilenum="1"/>
+						<LTTilePos dy="-1" tilenum="95"/>
+						<LTTilePos dx="-1" tilenum="1"/>
+						<LTTilePos dx="1" tilenum="115"/>
+					</LTTileRule>
+					<LTTileRule tilenums="133">
+						<LTTilePos dy="1" tilenum="1"/>
+						<LTTilePos dx="-1" tilenum="1"/>
+						<LTTilePos dx="1" tilenum="134"/>
+						<LTTilePos dy="-1" tilenum="114"/>
+					</LTTileRule>
+					<LTTileRule tilenums="20">
+						<LTTilePos dy="-1" tilenum="1"/>
+						<LTTilePos dx="-1" tilenum="19"/>
+						<LTTilePos dx="-2" tilenum="1"/>
+						<LTTilePos dx="1" tilenum="21"/>
+						<LTTilePos dy="1" tilenum="39"/>
+					</LTTileRule>
+					<LTTileRule tilenums="39">
+						<LTTilePos dx="-1" tilenum="38"/>
+						<LTTilePos dx="-2" tilenum="1"/>
+						<LTTilePos dy="-1" tilenum="20"/>
+						<LTTilePos dy="-2" tilenum="1"/>
+						<LTTilePos dx="1" tilenum="40"/>
+						<LTTilePos dy="1" tilenum="58"/>
+					</LTTileRule>
+					<LTTileRule tilenums="58,77">
+						<LTTilePos dx="-1" tilenum="57"/>
+						<LTTilePos dx="-2" tilenum="1"/>
+						<LTTilePos dy="-1" tilenum="39"/>
+						<LTTilePos dy="1" tilenum="96"/>
+						<LTTilePos dx="1" tilenum="59"/>
+						<LTTilePos dy="-2" tilenum="20"/>
+						<LTTilePos dy="2" tilenum="115"/>
+						<LTTilePos dy="3" tilenum="134"/>
+					</LTTileRule>
+					<LTTileRule tilenums="96">
+						<LTTilePos dx="1" tilenum="97"/>
+						<LTTilePos dx="-1" tilenum="95"/>
+						<LTTilePos dx="-2" tilenum="1"/>
+						<LTTilePos dy="1" tilenum="115"/>
+						<LTTilePos dy="2" tilenum="134"/>
+						<LTTilePos dy="3" tilenum="1"/>
+						<LTTilePos dy="-1" tilenum="77"/>
+					</LTTileRule>
+					<LTTileRule tilenums="115">
+						<LTTilePos dy="1" tilenum="134"/>
+						<LTTilePos dy="2" tilenum="1"/>
+						<LTTilePos dx="-1" tilenum="114"/>
+						<LTTilePos dx="-2" tilenum="1"/>
+						<LTTilePos dx="1" tilenum="116"/>
+						<LTTilePos dy="-1" tilenum="96"/>
+					</LTTileRule>
+					<LTTileRule tilenums="134">
+						<LTTilePos dx="-1" tilenum="133"/>
+						<LTTilePos dx="-2" tilenum="1"/>
+						<LTTilePos dx="1" tilenum="135"/>
+						<LTTilePos dy="1" tilenum="1"/>
+						<LTTilePos dy="-1" tilenum="115"/>
+					</LTTileRule>
+					<LTTileRule tilenums="21" xdiv="2">
+						<LTTilePos dy="-1" tilenum="1"/>
+						<LTTilePos dx="-1" tilenum="34"/>
+						<LTTilePos dx="-2" tilenum="21"/>
+						<LTTilePos dx="1" tilenum="34"/>
+						<LTTilePos dx="2" tilenum="21"/>
+						<LTTilePos dy="1" tilenum="40"/>
+					</LTTileRule>
+					<LTTileRule tilenums="40" xdiv="2">
+						<LTTilePos dy="-1" tilenum="21"/>
+						<LTTilePos dy="-2" tilenum="1"/>
+						<LTTilePos dx="-1" tilenum="39"/>
+						<LTTilePos dx="-2" tilenum="38"/>
+						<LTTilePos dx="1" tilenum="54"/>
+						<LTTilePos dx="2" tilenum="55"/>
+						<LTTilePos dy="1" tilenum="59"/>
+					</LTTileRule>
+					<LTTileRule tilenums="97" xdiv="2">
+						<LTTilePos dx="-1" tilenum="96"/>
+						<LTTilePos dx="-2" tilenum="95"/>
+						<LTTilePos dy="1" tilenum="116"/>
+						<LTTilePos dy="2" tilenum="135"/>
+						<LTTilePos dy="3" tilenum="1"/>
+						<LTTilePos dx="1" tilenum="111"/>
+						<LTTilePos dx="2" tilenum="112"/>
+						<LTTilePos dy="-1" tilenum="78"/>
+					</LTTileRule>
+					<LTTileRule tilenums="116" xdiv="2">
+						<LTTilePos dx="1" tilenum="130"/>
+						<LTTilePos dx="2" tilenum="131"/>
+						<LTTilePos dx="-1" tilenum="115"/>
+						<LTTilePos dx="-2" tilenum="114"/>
+						<LTTilePos dy="1" tilenum="148"/>
+						<LTTilePos dy="2" tilenum="1"/>
+						<LTTilePos dy="-1" tilenum="110"/>
+					</LTTileRule>
+					<LTTileRule tilenums="135" xdiv="2">
+						<LTTilePos dx="1" tilenum="149"/>
+						<LTTilePos dx="2" tilenum="150"/>
+						<LTTilePos dx="-1" tilenum="134"/>
+						<LTTilePos dx="-2" tilenum="133"/>
+						<LTTilePos dy="1" tilenum="1"/>
+						<LTTilePos dy="-1" tilenum="129"/>
+					</LTTileRule>
+					<LTTileRule tilenums="34" x="1" xdiv="2">
+						<LTTilePos dx="-1" tilenum="21"/>
+						<LTTilePos dx="-2" tilenum="34"/>
+						<LTTilePos dx="1" tilenum="21"/>
+						<LTTilePos dx="2" tilenum="34"/>
+						<LTTilePos dy="1" tilenum="53"/>
+						<LTTilePos dy="-1" tilenum="1"/>
+					</LTTileRule>
+					<LTTileRule tilenums="53" x="1" xdiv="2">
+						<LTTilePos dx="1" tilenum="54"/>
+						<LTTilePos dx="2" tilenum="55"/>
+						<LTTilePos dx="-1" tilenum="39"/>
+						<LTTilePos dx="-2" tilenum="38"/>
+						<LTTilePos dy="-1" tilenum="34"/>
+						<LTTilePos dy="1" tilenum="72"/>
+						<LTTilePos dy="-2" tilenum="1"/>
+					</LTTileRule>
+					<LTTileRule tilenums="110" x="1" xdiv="2">
+						<LTTilePos dx="1" tilenum="111"/>
+						<LTTilePos dx="2" tilenum="112"/>
+						<LTTilePos dx="-1" tilenum="96"/>
+						<LTTilePos dx="-2" tilenum="95"/>
+						<LTTilePos dy="1" tilenum="129"/>
+						<LTTilePos dy="-1" tilenum="91"/>
+						<LTTilePos dy="2" tilenum="148"/>
+						<LTTilePos dy="3" tilenum="167"/>
+					</LTTileRule>
+					<LTTileRule tilenums="129" x="1" xdiv="2">
+						<LTTilePos dx="1" tilenum="130"/>
+						<LTTilePos dx="2" tilenum="131"/>
+						<LTTilePos dx="-1" tilenum="115"/>
+						<LTTilePos dx="-2" tilenum="114"/>
+						<LTTilePos dy="1" tilenum="148"/>
+						<LTTilePos dy="2" tilenum="167"/>
+						<LTTilePos dy="-1" tilenum="110"/>
+					</LTTileRule>
+					<LTTileRule tilenums="148" x="1" xdiv="2">
+						<LTTilePos dy="1" tilenum="167"/>
+						<LTTilePos dx="1" tilenum="149"/>
+						<LTTilePos dx="2" tilenum="149"/>
+						<LTTilePos dx="-1" tilenum="134"/>
+						<LTTilePos dx="-2" tilenum="133"/>
+						<LTTilePos dy="-1" tilenum="129"/>
+					</LTTileRule>
+					<LTTileRule tilenums="35">
+						<LTTilePos dx="1" tilenum="36"/>
+						<LTTilePos dx="2" tilenum="1"/>
+						<LTTilePos dy="-1" tilenum="1"/>
+						<LTTilePos dy="1" tilenum="54"/>
+						<LTTilePos dx="-1" tilenum="34"/>
+					</LTTileRule>
+					<LTTileRule tilenums="54">
+						<LTTilePos dy="-1" tilenum="35"/>
+						<LTTilePos dy="-2" tilenum="1"/>
+						<LTTilePos dx="1" tilenum="55"/>
+						<LTTilePos dx="2" tilenum="1"/>
+						<LTTilePos dx="-1" tilenum="53"/>
+						<LTTilePos dy="1" tilenum="73"/>
+					</LTTileRule>
+					<LTTileRule tilenums="73,92">
+						<LTTilePos dx="1" tilenum="74"/>
+						<LTTilePos dx="2" tilenum="1"/>
+						<LTTilePos dx="-1" tilenum="72"/>
+						<LTTilePos dy="-1" tilenum="54"/>
+						<LTTilePos dy="-2" tilenum="35"/>
+						<LTTilePos dy="1" tilenum="111"/>
+						<LTTilePos dy="2" tilenum="130"/>
+						<LTTilePos dy="3" tilenum="149"/>
+					</LTTileRule>
+					<LTTileRule tilenums="111">
+						<LTTilePos dx="1" tilenum="112"/>
+						<LTTilePos dx="2" tilenum="1"/>
+						<LTTilePos dy="1" tilenum="130"/>
+						<LTTilePos dy="2" tilenum="149"/>
+						<LTTilePos dy="3" tilenum="1"/>
+						<LTTilePos dx="-1" tilenum="110"/>
+						<LTTilePos dy="-1" tilenum="92"/>
+					</LTTileRule>
+					<LTTileRule tilenums="130">
+						<LTTilePos dy="1" tilenum="149"/>
+						<LTTilePos dy="2" tilenum="1"/>
+						<LTTilePos dx="1" tilenum="131"/>
+						<LTTilePos dx="2" tilenum="1"/>
+						<LTTilePos dx="-1" tilenum="129"/>
+						<LTTilePos dy="-1" tilenum="111"/>
+					</LTTileRule>
+					<LTTileRule tilenums="149">
+						<LTTilePos dy="1" tilenum="1"/>
+						<LTTilePos dx="1" tilenum="150"/>
+						<LTTilePos dx="2" tilenum="1"/>
+						<LTTilePos dy="-1" tilenum="130"/>
+						<LTTilePos dx="-1" tilenum="148"/>
+						<LTTilePos dx="-2" tilenum="133"/>
+					</LTTileRule>
+					<LTTileRule tilenums="36">
+						<LTTilePos dy="-1" tilenum="1"/>
+						<LTTilePos dx="1" tilenum="1"/>
+						<LTTilePos dx="-1" tilenum="35"/>
+						<LTTilePos dy="1" tilenum="55"/>
+					</LTTileRule>
+					<LTTileRule tilenums="55">
+						<LTTilePos dy="-1" tilenum="36"/>
+						<LTTilePos dy="-2" tilenum="1"/>
+						<LTTilePos dx="1" tilenum="1"/>
+						<LTTilePos dx="-1" tilenum="54"/>
+						<LTTilePos dy="1" tilenum="74"/>
+					</LTTileRule>
+					<LTTileRule tilenums="74">
+						<LTTilePos dy="-1" tilenum="55"/>
+						<LTTilePos dy="-2" tilenum="36"/>
+						<LTTilePos dy="-3" tilenum="17"/>
+						<LTTilePos dx="1" tilenum="75"/>
+						<LTTilePos dx="-1" tilenum="73"/>
+						<LTTilePos dy="1" tilenum="93"/>
+					</LTTileRule>
+					<LTTileRule tilenums="93">
+						<LTTilePos dx="1" tilenum="1"/>
+						<LTTilePos dy="-1" tilenum="74"/>
+						<LTTilePos dy="-2" tilenum="55"/>
+						<LTTilePos dy="1" tilenum="112"/>
+						<LTTilePos dy="2" tilenum="131"/>
+						<LTTilePos dy="3" tilenum="150"/>
+						<LTTilePos dy="-3" tilenum="36"/>
+					</LTTileRule>
+					<LTTileRule tilenums="112">
+						<LTTilePos dy="1" tilenum="131"/>
+						<LTTilePos dy="2" tilenum="150"/>
+						<LTTilePos dy="3" tilenum="1"/>
+						<LTTilePos dx="1" tilenum="1"/>
+						<LTTilePos dy="-1" tilenum="93"/>
+						<LTTilePos dx="-1" tilenum="111"/>
+					</LTTileRule>
+					<LTTileRule tilenums="131">
+						<LTTilePos dy="1" tilenum="150"/>
+						<LTTilePos dy="2" tilenum="1"/>
+						<LTTilePos dx="1" tilenum="1"/>
+						<LTTilePos dx="-1" tilenum="130"/>
+						<LTTilePos dy="-1" tilenum="112"/>
+					</LTTileRule>
+					<LTTileRule tilenums="150">
+						<LTTilePos dx="1" tilenum="1"/>
+						<LTTilePos dy="1" tilenum="1"/>
+						<LTTilePos dx="-1" tilenum="149"/>
+						<LTTilePos dy="-1" tilenum="131"/>
+					</LTTileRule>
+					<LTTileRule tilenums="59,78,72,91"/>
+				</LTTileCategory>
+				<LTTileCategory name="Grass">
+					<LTTileRule tilenums="153">
+						<LTTilePos dy="-1" tilenum="134"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="133"/>
+						<LTTilePos dx="-2" dy="-1"/>
+						<LTTilePos dx="1" dy="-1" tilenum="135"/>
+						<LTTilePos dx="2" dy="-1" tilenum="149"/>
+					</LTTileRule>
+					<LTTileRule tilenums="154,167">
+						<LTTilePos dy="-1" tilenum="135"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="134"/>
+						<LTTilePos dx="-2" dy="-1" tilenum="133"/>
+						<LTTilePos dx="1" dy="-1" tilenum="149"/>
+						<LTTilePos dx="2" dy="-1" tilenum="150"/>
+					</LTTileRule>
+					<LTTileRule tilenums="168">
+						<LTTilePos dy="-1" tilenum="149"/>
+						<LTTilePos dx="1" dy="-1" tilenum="150"/>
+						<LTTilePos dx="2" dy="-1" tilenum="151"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="134"/>
+						<LTTilePos dx="-2" dy="-1" tilenum="133"/>
+					</LTTileRule>
+					<LTTileRule tilenums="169">
+						<LTTilePos dy="-1" tilenum="150"/>
+						<LTTilePos dx="1" dy="-1" tilenum="151"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="149"/>
+					</LTTileRule>
+					<LTTileRule tilenums="75">
+						<LTTilePos dx="-1" tilenum="74"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="55"/>
+						<LTTilePos dx="-1" dy="-2" tilenum="1"/>
+						<LTTilePos dx="-1" dy="-3"/>
+					</LTTileRule>
+					<LTTileRule tilenums="94">
+						<LTTilePos dx="-1" tilenum="93"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="74"/>
+						<LTTilePos dx="-1" dy="-2" tilenum="55"/>
+						<LTTilePos dx="-1" dy="-3" tilenum="36"/>
+						<LTTilePos dx="-1" dy="1" tilenum="112"/>
+						<LTTilePos dx="-1" dy="2" tilenum="131"/>
+						<LTTilePos dx="-1" dy="3" tilenum="150"/>
+					</LTTileRule>
+					<LTTileRule tilenums="113">
+						<LTTilePos dx="-1" tilenum="112"/>
+						<LTTilePos dx="-1" dy="1" tilenum="131"/>
+						<LTTilePos dx="-1" dy="2" tilenum="150"/>
+						<LTTilePos dx="-1" dy="3" tilenum="169"/>
+					</LTTileRule>
+					<LTTileRule tilenums="132">
+						<LTTilePos dx="-1" tilenum="131"/>
+						<LTTilePos dx="-1" dy="1" tilenum="150"/>
+						<LTTilePos dx="-1" dy="2" tilenum="169"/>
+					</LTTileRule>
+					<LTTileRule tilenums="151">
+						<LTTilePos dx="-1" tilenum="150"/>
+						<LTTilePos dx="-1" dy="1" tilenum="169"/>
+					</LTTileRule>
+					<LTTileRule tilenums="170">
+						<LTTilePos dx="-1" dy="-1" tilenum="150"/>
+						<LTTilePos dx="-1" tilenum="169"/>
+						<LTTilePos dy="-1" tilenum="151"/>
+					</LTTileRule>
+					<LTTileRule tilenums="209">
+						<LTTilePos dx="1" dy="1" tilenum="211"/>
+						<LTTilePos dy="1" tilenum="228"/>
+						<LTTilePos dx="1" tilenum="192"/>
+					</LTTileRule>
+					<LTTileRule tilenums="247">
+						<LTTilePos dx="1" tilenum="230"/>
+						<LTTilePos dy="-1" tilenum="228"/>
+						<LTTilePos dx="1" dy="-1" tilenum="211"/>
+					</LTTileRule>
+					<LTTileRule tilenums="213">
+						<LTTilePos dx="-1" tilenum="192"/>
+						<LTTilePos dy="1" tilenum="232"/>
+						<LTTilePos dx="-1" dy="1" tilenum="211"/>
+					</LTTileRule>
+					<LTTileRule tilenums="251">
+						<LTTilePos dx="-1" tilenum="230"/>
+						<LTTilePos dy="-1" tilenum="232"/>
+						<LTTilePos dx="-1" dy="-1" tilenum="211"/>
+					</LTTileRule>
+					<LTTileRule tilenums="210">
+						<LTTilePos dy="1" tilenum="211"/>
+						<LTTilePos dx="1" tilenum="211"/>
+					</LTTileRule>
+					<LTTileRule tilenums="229">
+						<LTTilePos dx="-1" tilenum="211"/>
+						<LTTilePos dy="-1" tilenum="211"/>
+					</LTTileRule>
+					<LTTileRule tilenums="212">
+						<LTTilePos dx="-1" tilenum="211"/>
+						<LTTilePos dy="1" tilenum="211"/>
+					</LTTileRule>
+					<LTTileRule tilenums="231">
+						<LTTilePos dx="1" tilenum="211"/>
+						<LTTilePos dy="-1" tilenum="211"/>
+					</LTTileRule>
+					<LTTileRule tilenums="192">
+						<LTTilePos dx="-1" tilenum="209"/>
+						<LTTilePos dx="1" tilenum="213"/>
+						<LTTilePos dy="1" tilenum="211"/>
+					</LTTileRule>
+					<LTTileRule tilenums="230">
+						<LTTilePos dx="1" tilenum="251"/>
+						<LTTilePos dx="-1" tilenum="247"/>
+						<LTTilePos dy="-1" tilenum="211"/>
+					</LTTileRule>
+					<LTTileRule tilenums="228">
+						<LTTilePos dx="1" tilenum="211"/>
+						<LTTilePos dy="1" tilenum="247"/>
+						<LTTilePos dy="-1" tilenum="209"/>
+					</LTTileRule>
+					<LTTileRule tilenums="232">
+						<LTTilePos dy="-1" tilenum="213"/>
+						<LTTilePos dy="1" tilenum="251"/>
+						<LTTilePos dx="-1" tilenum="211"/>
+					</LTTileRule>
+					<LTTileRule tilenums="0"/>
+				</LTTileCategory>
+			</LTTileSet>
+			<Row data="00000000000000000000000000000000000000002t2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2x000000000000000000000000000000000000000000000000"/>
+			<Row data="0000000000000000000000000000002a2P2P2P2e372w2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2x000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000002a2P2e002t2c2c2c2d2e372v2v2v2v2v2v2v2w2c2c2c2c2c2c2c2u2v3;000000000000000000000000000000000000000000000000"/>
+			<Row data="0000000000000000002a2P2b2c2d2P2b2c2c2c2c2d2P2P2P2P2P2P2P2P2b2c2c2c2c2c2u2v3;0000000000000000000000000000000000000000000000000000"/>
+			<Row data="000000000000002a2P2b2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2x00000000000000000000000000000000000000000000000000000000"/>
+			<Row data="000000000000002t2c2c2u2v2v2v2v2w2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2u2v2w2c2x00000000000000000000000000000000000000000000000000000000"/>
+			<Row data="000000000000002t2c2u3;000000002t2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2x002t2c2x00000000000000000000000000000000000000000000000000000000"/>
+			<Row data="0000000000002a2b2c2x0000000000372v2v2v2v2v2w2c2c2c2c2c2c2c2c2c2d2P2b2c2d2e000000000000000000000000000000000000000000000000000000"/>
+			<Row data="0000000000002t2c2c2x0000000000000000000000372v2v2w2c2\2K2`2c2c2c2c2c2c2c2x000000000000000000000000000000000000000000000000000000"/>
+			<Row data="0000000000002t2c2u3;00000000000000000000000000002t2c2o342s2c2c2c2c2c2u2v3;000000000000000000000000000000000000000000000000000000"/>
+			<Row data="0000000000002t2c2x000000000000000000002a2P2e002a2b2\2]2^2s2c2c2c2u2v3;0000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="0000000000002t2c2x0000000000002a2P2e002t2c2x2a2b2\2]2r35362c2c2c2x00000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000002a2b2c2x00000000002a2b2c2d2P2b2c2d2b2c2o2^2r2s2c2c2c2c2x00000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000002t2c2c2x00000000002t2c2\2K2K2`2c2c2c2c2o2p35362c2c2c2c2x00002a2P2P2P2P2P2e00000000000000000000000000000000000000000000"/>
+			<Row data="00000000002t2c2u3;000000002a2b2\2]2q2^2s2c2c2c2c2o2^2s2c2u2v2v2v3;00002t2c2c2c2c2c2x00000000002a2P2P2P2P2e0000000000000000000000"/>
+			<Row data="00000000002t2c2x0000002a2P2b2c2o2p353G362\2K2K2K2]342s2c2d2e000000002a2b2c2\2K2`2c2x00000000002t2\2K2K2`2d2P2P2P2e00000000000000"/>
+			<Row data="00000000002t2c2x0000002t2c2c2\2]2p2s2c2\2]2p342r2q2q2s2c2c2x000000002t2c2\2]342s2c2x00000000002t2o2^2q2s2\2K2`2c2d2e000000000000"/>
+			<Row data="00000000002t2c2x0000002t2c2c2o2^342s2c2o2r2q2q353G3G362c2c2x0000002a2b2c2o2^35362c2x00000000002t323G3G362o2^2_2`2c2x000000000000"/>
+			<Row data="00000000002t2c2x0000002t2c2c2o342q2_2K2]2r2^35362\2K2`2c2c2x0000002t2c2c323G362c2u3;0000000000372v2v2w2c2o2r342s2c2x000000000000"/>
+			<Row data="00000000002t2c2x0000002t2c2c323G332p2q342p35362\2]2^2s2c2c2x0000002t2c2c2c2c2c2c2x000000000000000000372w32332r2s2c2x000000000000"/>
+			<Row data="00000000002t2c2d2e00002t2c2c2c2c323G333435362c2o2^35362c2u3;0000002t2c2c2c2c2c2c2x00000000000000000000372w2o2r2_2`2x000000000000"/>
+			<Row data="0000000000372w2c2x0000372w2c2c2c2c2c2o2^2s2c2c323G362c2c2x000000002t2c2c2c2u2v2v3;00000000000000000000002t2o2p2^2s2x000000000000"/>
+			<Row data="000000000000372v3;000000372w2c2c2c2c323G362c2c2c2c2c2c2u3;00000000372v2v2v3;00000000000000000000000000002t323G3G362x000000000000"/>
+			<Row data="00000000000000000000000000372v2w2c2c2c2c2c2c2c2c2c2u2v3;000000000000000000000000000000000000000000000000372v2v2v2v3;000000000000"/>
+			<Row data="000000000000000000000000000000372v2v2v2v2v2v2v2v2v3;0000000000000000000000000C0D0E0R0E0R0E0R0E0R0E0S0T00000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000V0W0X0e0X0e0X0e0X0e0X0f0g00000000000000000000000000"/>
+			<Row data="0000000000000000000000000000000000000000000000000000000000000000000C0D0S0T000i0j1;0x0k0k0~0~0~0x0k0y0z0{000000000000000000000000"/>
+			<Row data="0000000000000000000000000000000000000000000000000000000000000000000V0W0f0g000|0}1;0~0x0x1;0x1;0k0x1<1=1>000000000000000000000000"/>
+			<Row data="0000000000000000000000000000000000000000000000000000000000000000001?1@1O1P0{0i0j1;0k0x0x0x0k1;0k0k1<1=1>000000000000000000000000"/>
+			<Row data="0000000000000000000000000000000000000000000000000000000000002a2e001R1S1b1c1d0|0}0x1;0k0x0~1;0~1;0k0y1=1>000000000000000000000000"/>
+			<Row data="0000000000000000000000000000000000000000000000000000002a2P2P2b2x001e1f1u1v1w1?1@1A1N1A1N1A1N1A1N1A1O1P1Q000000000000000000000000"/>
+			<Row data="000000000000000000000000000000000000000000000000002a2P2b2c2c2c2d2e001y28292:1R1S1T1a1T1a1T1a1T1a1T1b1c1d000000000000000000000000"/>
+			<Row data="000000000000000000000000000000000000000000000000002t2c2c2\2K2K2`2d2P2P2e00001e1f1g1t1g1t1g1t1g1t1g1u1v1w000000000000000000000000"/>
+			<Row data="0000000000000000000000000000000000000000000000002a2b2c2c2o2p2q2_2`2c2c2x0000001y1z2727271z271z271z28292:000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000002a2b2c2c2\2]2q2p2q2s2c2u3;00000C0D0E0R0E0R0E0R0S0T00000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000002t2c2c2c2o342q2^2r2s2c2x0000000V0W0X0e0X0e0X0e0f0g00000000000000000000000000000000"/>
+			<Row data="0000000000000000000000000000000000000000000000372w2c2c2o2p343435362c2d2e00000|0j0x0x0x0~1;0~1<0z0{000000000000000000000000000000"/>
+			<Row data="000000000000000000000000000000000000000000000000372w2c32332q2r2_2`2c2c2x00000|0}0k1;0x0~0x0k1<1=1>000000000000000000000000000000"/>
+			<Row data="000000000000000000000000000000000000000000000000002t2c2c2o2r2r2r2_2`2c2x00000|0j0~0k1A1N0~0k1<1=1>000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000372w2c2o2r2r34342s2c2x00001?1@1A1N1T1a1A1N1O1P1Q000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000002t2c323G33342^2s2u3;00001R1S1T1a1g1t1T1a1b1c1d000000000000000000000000000000"/>
+			<Row data="0000000000000000000000000000000000000000000000000000372v2v2w323G3G362x0000001e1f1u1v271z1e1f1u1v1w000000000000000000000000000000"/>
+			<Row data="0000000000000000000000000000000000000000000000000000000000372v2v2v2v3;000000001y28292:00001y28292:000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+			<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
+		</LTTileMap>
+	</LTLayer>
+</LTWorld>
