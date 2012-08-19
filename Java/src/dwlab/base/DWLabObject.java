@@ -1,0 +1,204 @@
+package dwlab.base;
+import dwlab.visualizers.Visualizer;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import xml.XMLAttribute;
+import xml.XMLMode;
+import xml.XMLObject;
+import xml.XMLObjectField;
+
+//
+// Digital Wizard's Lab - game development framework
+// Copyright (C) 2012, Matt Merkulov
+//
+// All rights reserved. Use of this code is allowed under the
+// Artistic License 2.0 terms, as specified in the license.txt
+// file distributed with this code, or available from
+// http://www.opensource.org/licenses/artistic-license-2.0.php
+//
+
+/**
+ * Global object class
+ */
+public class DWLabObject {
+	public static HashMap<Integer, DWLabObject> iDMap;
+	public static HashSet<XMLObject> removeIDMap;
+	public static int maxID;
+	public static DWLabObject iDArray[];
+	public static HashMap undefinedObjects;
+
+	
+	// ==================== Drawing ===================
+
+	/**
+	 * Draws the shape.
+	 * You can fill it with drawing commands for object and its parts.
+	 * 
+	 * @see #drawUsingVisualizer, #lTVisualizer
+	 */
+	public void draw() {
+	}
+
+
+
+	/**
+	 * Draws the shape using another visualizer.
+	 * You can fill it with drawing commands for object and its parts using another visualizer.
+	 * 
+	 * @see #draw, #lTVisualizer
+	 */
+	public void drawUsingVisualizer( Visualizer vis ) {
+	}
+
+
+
+	/**
+	 * Draws the contour of the object.
+	 */
+	public void drawContour( double lineWidth ) {
+	}
+
+	// ==================== Management ===================
+
+	/**
+	 * Initialization method of the object.
+	 * Fill it with object initialization commands.
+	 */
+	public void init() {
+	}
+	
+	
+	/**
+	 * Acting method of object.
+	 * Fill it with the object acting commands.
+	 */
+	public void act() {
+	}
+
+
+	/**
+	 * Method for updating object.
+	 * Fill it with the object updating commands.
+	 */
+	public void update() {
+	}
+	
+	
+	/**
+	 * Method called before destruction of object.
+	 * Fill it with the commands which should be executed before object destruction.
+	 */
+	public void destroy() {
+	}
+
+	// ==================== Loading / saving ===================
+
+	/**
+	 * Method for loading / saving object.
+	 * This method is for storing object fields into XML object for saving and retrieving object fields from XML object for loading.
+	 * You can put different XMLObject commands and your own algorithms for loading / saving data structures here.
+	 * 
+	 * @see #manageChildArray, #manageChildList, #manageDoubleAttribute, #manageIntArrayAttribute
+	 * #manageIntAttribute, #manageListField, #manageObjectArrayField, #manageObjectAttribute, #manageObjectField
+	 * #manageObjectMapField, #manageStringAttribute 
+	 */
+	public void xMLIO( XMLObject xMLObject ) {
+		if( DWLabSystem.xMLMode == XMLMode.SET ) xMLObject.name = getClass().getName();
+	}
+
+
+
+	/**
+	 * Loads object with all contents from file.
+	 * @see #saveToFile, #xMLIO
+	 */
+	public static DWLabObject loadFromFile( String fileName, XMLObject xMLObject ) {
+		if( xMLObject == null ) {
+			maxID = 0;
+			xMLObject = XMLObject.readFromFile( fileName );
+		}
+
+		iDArray = new DWLabObject[ maxID + 1 ];
+		fillIDArray( xMLObject );
+		
+		DWLabObject object = null;
+		try {
+			object = ( DWLabObject ) Class.forName( xMLObject.name ).newInstance();
+		} catch ( InstantiationException ex ) {
+			error( "\"" + xMLObject.name + "\" is abstract class or interface" );
+		} catch ( IllegalAccessException ex ) {
+			error( "Class \"" + xMLObject.name + "\" is unaccessible" );
+		} catch ( ClassNotFoundException ex ) {
+			error( "Class \"" + xMLObject.name + "\" not found" );
+		}
+
+		DWLabSystem.xMLMode = XMLMode.GET;
+		object.xMLIO( xMLObject );
+
+		return object;
+	}
+	
+	public static DWLabObject loadFromFile( String fileName ) {
+		 return loadFromFile( fileName, null );
+	}
+
+
+	public static void fillIDArray( XMLObject xMLObject ) {
+		if( xMLObject.name.equals( "object" ) ) return;
+		int iD = Integer.parseInt( xMLObject.getAttribute( "id" ) );
+		if( iD > 0 ) try {
+			iDArray[ iD ] = (DWLabObject) Class.forName( xMLObject.name ).newInstance();
+		} catch ( InstantiationException ex ) {
+			error( "\"" + xMLObject.name + "\" is abstract class or interface" );
+		} catch ( IllegalAccessException ex ) {
+			error( "Class \"" + xMLObject.name + "\" is unaccessible" );
+		} catch ( ClassNotFoundException ex ) {
+			error( "Class \"" + xMLObject.name + "\" not found" );
+		}
+		
+		for( XMLObject child: xMLObject.children ) {
+			fillIDArray( child );
+		}
+		for( XMLObjectField objectField: xMLObject.fields ) {
+			fillIDArray( objectField.value );
+		}
+	}
+
+
+
+	/**
+	 * Saves object with all contents to file.
+	 * @see #loadFromFile, #xMLIO
+	 */
+	public void saveToFile( String fileName ) {
+		iDMap = new HashMap<Integer, DWLabObject>();
+		removeIDMap = new HashSet<XMLObject>();
+		maxID = 1;
+
+		DWLabSystem.xMLMode = XMLMode.SET;
+		XMLObject xMLObject = new XMLObject();
+		undefinedObjects = new HashMap();
+		xMLIO( xMLObject );
+
+		xMLObject.setAttribute( "dwlab_version", String.valueOf( DWLabSystem.version ) );
+
+		for( XMLObject xMLObject2: removeIDMap ) {
+			for( XMLAttribute attr: xMLObject2.attributes ) {
+				if( attr.name.equals( "id" ) ) xMLObject2.attributes.remove( attr );
+			}
+		}
+
+		iDMap = null;
+		removeIDMap = null;
+
+		xMLObject.writeToFile( fileName );
+	}
+	
+	
+	public static void error( String Text ) {
+		System.out.println( Text );
+		System.exit( 0 );
+	}
+}
