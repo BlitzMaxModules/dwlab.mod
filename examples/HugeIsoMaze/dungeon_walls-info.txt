@@ -1,4 +1,0 @@
-Title: Classic dungeon walls
-Author: Cliff Bellanger
-License: GPL 3.0
-Link: http://opengameart.org/content/classic-dungeon-walls

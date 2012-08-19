@@ -1,6 +1,0 @@
-Title: Broken tower
-Author: Clint Bellanger
-Rendered by: Leksii Puzankov
-Composed by: Matt Merkulov
-License: GPL 3.0
-Link: http://opengameart.org/content/broken-tower

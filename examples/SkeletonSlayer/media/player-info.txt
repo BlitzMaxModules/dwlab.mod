@@ -1,4 +1,0 @@
-Title: Orc FLARE sprite sheets
-Author: Clint Bellanger and Johndh
-License: GPL 3.0
-Link: http://opengameart.org/content/orc-flare-sprite-sheets
