@@ -1,4 +1,5 @@
 package dwlab.behavior_models;
+import dwlab.base.Project;
 import dwlab.shapes.Shape;
 
 
@@ -8,13 +9,13 @@ import dwlab.shapes.Shape;
  * All rights reserved. Use of this code is allowed under the
  * Artistic License 2.0 terms, as specified in the license.txt
  * file distributed with this code, or available from
-// http://www.opensource.org/licenses/artistic-license-2.0.php
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
 
 
 public class ColorChangingModel extends TemporaryModel {
-	public double initialRed, double initialGreen, double initialBlue;
-	public double destinationRed, double destinationGreen, double destinationBlue;
-
+	public double initialRed, initialGreen, initialBlue;
+	public double destinationRed, destinationGreen, destinationBlue;
 
 
 	public static ColorChangingModel create( double time, double destinationRed, double destinationGreen, double destinationBlue ) {
@@ -27,7 +28,7 @@ public class ColorChangingModel extends TemporaryModel {
 	}
 
 
-
+	@Override
 	public void init( Shape shape ) {
 		initialRed = shape.visualizer.red;
 		initialBlue = shape.visualizer.blue;
@@ -35,9 +36,9 @@ public class ColorChangingModel extends TemporaryModel {
 	}
 
 
-
+	@Override
 	public void applyTo( Shape shape ) {
-		double k = ( currentProject.time - startingTime ) / period;
+		double k = ( Project.current.time - startingTime ) / period;
 		shape.visualizer.red = initialRed + k * ( destinationRed - initialRed );
 		shape.visualizer.green = initialGreen + k * ( destinationGreen - initialGreen );
 		shape.visualizer.blue = initialBlue + k * ( destinationBlue - initialBlue );

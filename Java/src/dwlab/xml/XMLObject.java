@@ -1,9 +1,3 @@
-package xml;
-import dwlab.base.Obj;
-import java.util.HashMap;
-import java.util.LinkedList;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov
  *
@@ -13,6 +7,12 @@ import java.util.LinkedList;
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 
+package dwlab.xml;
+
+import dwlab.base.Obj;
+import java.util.HashMap;
+import java.util.LinkedList;
+
 /**
  * Class for intermediate objects to save/load objects from XML file.
  * When you load framework object from XML file this file firstly will be transformed to the structure consisting of XMLObjects.
@@ -21,9 +21,21 @@ import java.util.LinkedList;
  */
 public class XMLObject extends Obj {
 	public String name;
-	public LinkedList<XMLAttribute> attributes = new LinkedList<XMLAttribute>();
+	private LinkedList<XMLAttribute> attributes = new LinkedList<XMLAttribute>();
+	
+	private class XMLAttribute {
+		public String name;
+		public String value;
+	}	
+	
+	private LinkedList<XMLObjectField> fields = new LinkedList<XMLObjectField>();
+	
+	private class XMLObjectField {
+		public String name;
+		public XMLObject value;
+	}
+	
 	public LinkedList<XMLObject> children = new LinkedList<XMLObject>();
-	public LinkedList<XMLObjectField> fields = new LinkedList<XMLObjectField>();
 	public boolean closing = false;
 
 
@@ -48,7 +60,7 @@ public class XMLObject extends Obj {
 	 */
 	public String getAttribute( String attrName ) {
 		for( XMLAttribute attr: attributes ) {
-			if( attr.name == attrName ) return attr.value;
+			if( attr.name.equals( attrName ) ) return attr.value;
 		}
 	}
 

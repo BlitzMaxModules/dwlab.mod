@@ -1,7 +1,7 @@
 package dwlab.controllers;
-import java.util.LinkedList;
-import dwlab.base.XMLObject;
 import dwlab.base.Obj;
+import dwlab.base.XMLObject;
+import java.util.LinkedList;
 
 
 /* Digital Wizard's Lab - game development framework
@@ -19,7 +19,7 @@ import dwlab.base.Obj;
  */	
 public class ButtonAction extends Obj {
 	public String name;
-	public LinkedList buttonList = new LinkedList();
+	public LinkedList<Pushable> buttonList = new LinkedList();
 
 	/**
 	 * Maximum quantity of buttons in button list (0 means unlimited).

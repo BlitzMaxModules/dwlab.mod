@@ -1,10 +1,3 @@
-package dwlab.base;
-import dwlab.shapes.Shape;
-import dwlab.shapes.Vector;
-import dwlab.sprites.Camera;
-import dwlab.visualizers.Image;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov
  *
@@ -14,6 +7,12 @@ import dwlab.visualizers.Image;
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 
+package dwlab.base;
+
+import dwlab.shapes.Shape;
+import dwlab.shapes.Vector;
+import dwlab.sprites.Camera;
+import dwlab.visualizers.Image;
 
 /**
  * Bitmap font class.
@@ -42,19 +41,19 @@ public class BitmapFont extends Obj {
 		
 		switch( horizontalAlignment ) {
 			case TO_CENTER:
-				servicePivot.setX( 0.5 * width( text ) * scale );
+				servicePivot.x = 0.5 * width( text ) * scale;
 				break;
 			case TO_RIGHT:
-				servicePivot.setX( width( text ) * scale );
+				servicePivot.x = width( text ) * scale;
 				break;
 		}
 
 		switch( verticalAlignment ) {
 			case TO_CENTER:
-				servicePivot.setY( 0.5 * height * scale );
+				servicePivot.y = 0.5 * height * scale;
 				break;
 			case TO_BOTTOM:
-				servicePivot.setY( height * scale );
+				servicePivot.y = height * scale;
 				break;
 		}
 
@@ -62,8 +61,8 @@ public class BitmapFont extends Obj {
 			if( text.charAt( n ) < fromNum || text.charAt( n ) > toNum ) error( "String contains letter that is out of font range" );
 			int frame = text.charAt( n ) - fromNum;
 			double width = scale * letterWidth[ frame ];
-			Graphics.drawImage( image, frame, servicePivot.getX(), servicePivot.getY(), scale * width, scale * height, 0 );
-			servicePivot.alterCoords( width, 0 );
+			Graphics.drawImage( image, frame, servicePivot.x, servicePivot.y, scale * width, scale * height, 0 );
+			servicePivot.x += width;
 		}
 	}
 

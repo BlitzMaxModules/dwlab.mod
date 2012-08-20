@@ -10,7 +10,7 @@ import dwlab.sprites.Sprite;
  * All rights reserved. Use of this code is allowed under the
  * Artistic License 2.0 terms, as specified in the license.txt
  * file distributed with this code, or available from
-// http://www.opensource.org/licenses/artistic-license-2.0.php
+ * http://www.opensource.org/licenses/artistic-license-2.0.php\r\n */
 
 
 /**
@@ -24,7 +24,6 @@ public class FixedJoint extends BehaviorModel {
 	public double dAngle;
 
 
-
 	/**
 	 * Creates fixed joint for specified parent pivot using current pivots position.
 	 * @return New fixed joint
@@ -36,19 +35,20 @@ public class FixedJoint extends BehaviorModel {
 	}
 
 
-
+	@Override
 	public void init( Shape shape ) {
-		Sprite sprite = Sprite( shape );
+		Sprite sprite = (Sprite) shape;
 		angle = parentPivot.directionTo( sprite ) - parentPivot.angle;
 		distance = parentPivot.distanceTo( sprite );
 		dAngle = sprite.angle - parentPivot.angle;
 	}
 
 
-
+	@Override
 	public void applyTo( Shape shape ) {
-		Sprite sprite = Sprite( shape );
-		sprite.setCoords( parentPivot.x + Math.cos( angle + parentPivot.angle ) * distance, parentPivot.y + Math.sin( angle + parentPivot.angle ) * distance );
+		Sprite sprite = (Sprite) shape;
+		sprite.setCoords( parentPivot.getX() + Math.cos( angle + parentPivot.angle ) * distance, 
+				parentPivot.getY() + Math.sin( angle + parentPivot.angle ) * distance );
 		sprite.angle = parentPivot.angle + dAngle;
 	}
 }

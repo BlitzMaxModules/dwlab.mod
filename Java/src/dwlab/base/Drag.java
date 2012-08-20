@@ -1,6 +1,3 @@
-package dwlab.base;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov
  *
@@ -9,6 +6,8 @@ package dwlab.base;
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
+
+package dwlab.base;
 
 /**
  * Class for implementing dragging operations.

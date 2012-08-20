@@ -1,8 +1,3 @@
-package dwlab.behavior_models;
-import dwlab.base.Obj;
-import dwlab.shapes.Shape;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov
  *
@@ -12,19 +7,18 @@ import dwlab.shapes.Shape;
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 
+package dwlab.behavior_models;
 
-
-
-
-
+import dwlab.base.Obj;
+import dwlab.shapes.Shape;
+import java.util.ListIterator;
 
 /**
  * Behavior model is the object which can be attached to the shape and affect its state.
  */
 public class BehaviorModel extends Obj {
-	public int active;
-	public tLink link;
-
+	public boolean active;
+	public ListIterator<BehaviorModel> iterator;
 
 
 	/**
@@ -34,7 +28,6 @@ public class BehaviorModel extends Obj {
 	 */
 	public void init( Shape shape ) {
 	}
-
 
 
 	/**
@@ -47,7 +40,6 @@ public class BehaviorModel extends Obj {
 	}
 
 
-
 	/**
 	 * Deactivation method.
 	 * It will be executed when model will be activated (and when removed too if it was active).
@@ -56,7 +48,6 @@ public class BehaviorModel extends Obj {
 	 */
 	public void deactivate( Shape shape ) {
 	}
-
 
 
 	/**
@@ -70,7 +61,6 @@ public class BehaviorModel extends Obj {
 	}
 
 
-
 	/**
 	 * Model applying method.
 	 * This method will be executed by shape default Act() method if the model will be active.
@@ -82,20 +72,18 @@ public class BehaviorModel extends Obj {
 	}
 
 
-
 	/**
 	 * Activates behavior model.
 	 * For use inside model's methods.
 	 * 
 	 * @see #activate, #deactivate, #activateAllModels, #deactivateAllModels, #deactivateModel
 	 */
-	public void activateModel( Shape shape ) final {
+	public final void activateModel( Shape shape ) {
 		if( ! active ) {
 			activate( shape );
 			active = true;
 		}
 	}
-
 
 
 	/**
@@ -104,13 +92,12 @@ public class BehaviorModel extends Obj {
 	 * 
 	 * @see #activate, #deactivate, #activateAllModels, #deactivateAllModels, #activateModel
 	 */
-	public void deactivateModel( Shape shape ) final {
+	public final void deactivateModel( Shape shape ) {
 		if( active ) {
 			deactivate( shape );
 			active = false;
 		}
 	}
-
 
 
 	/**
@@ -119,26 +106,25 @@ public class BehaviorModel extends Obj {
 	 * 
 	 * @see #deactivate
 	 */
-	public void remove( Shape shape ) final {
+	public final void remove( Shape shape ) {
 		if( active ) deactivateModel( shape );
-		if( link ) link.remove();
+		if( iterator != null ) iterator.remove();
 	}
-
 
 
 	/**
 	 * Removes every other behavior model of same type from shape's behavior models.
 	 * @see #remove
 	 */
-	public void removeSame( Shape shape ) final {
-		tTypeId typeID = tTypeId.forObject( this );
+	public final void removeSame( Shape shape ) {
+		Class modelClass = this.getClass();
 		for( BehaviorModel model: shape.behaviorModels ) {
-			if( tTypeId.forObject( model ) == typeID && model != this ) model.remove( shape );
+			if( model.getClass() == modelClass && model != this ) model.remove( shape );
 		}
 	}
 
 
-
 	public String info( Shape shape ) {
+		return "";
 	}
 }

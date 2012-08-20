@@ -1,6 +1,3 @@
-package dwlab.base;
-import dwlab.visualizers.Image;
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov
  *
@@ -9,6 +6,11 @@ import dwlab.visualizers.Image;
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
+
+package dwlab.base;
+
+import dwlab.visualizers.Color;
+import dwlab.visualizers.Image;
 
 public class Graphics {
 	public static boolean initialized() {
@@ -46,8 +48,12 @@ public class Graphics {
 	}
 	
 
-	static void drawText( String string, int i, int i0 ) {
+	static void drawText( String string, double x, double y, Color color ) {
 		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+	
+	static void drawText( String string, double x, double y ) {
+		drawText( string, x, y, Color.black );
 	}
 	
 	
@@ -67,6 +73,26 @@ public class Graphics {
 	
 
 	static void switchBuffers() {
+		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+	
+
+	static double textWidth( String text ) {
+		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+	
+
+	static double textHeight() {
+		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+	
+
+	public static void setViewport( double x, double y, double width, double height ) {
+		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+	
+
+	public static void resetViewport() {
 		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 }

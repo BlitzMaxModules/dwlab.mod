@@ -1,6 +1,9 @@
 package dwlab.sprites;
-import dwlab.shapes.Vector;
+import dwlab.base.Graphics;
+import dwlab.base.Project;
+import dwlab.base.Rectangle;
 import dwlab.shapes.Shape;
+import dwlab.shapes.Vector;
 
 
 /* Digital Wizard's Lab - game development framework
@@ -23,7 +26,7 @@ public class Camera extends VectorSprite {
 	/**
 	* Global variable for current camera.
 	*/
-	public static Camera current = Camera.create();
+	public static Camera current = new Camera();
 
 	/**
 	* Global flag for discrete graphics.
@@ -35,7 +38,7 @@ public class Camera extends VectorSprite {
 	 * Viewport rectangular shape.
 	 * @see #viewportClipping, #setCameraViewport, #resetViewport
 	 */
-	public Shape viewport = new Shape();
+	public Rectangle viewport = new Rectangle();
 
 	public double k = 1.0d;
 	public double vDX, vDY;
@@ -67,9 +70,11 @@ public class Camera extends VectorSprite {
 	 */
 	public void screenToField( double screenX, double screenY, Vector pivot ) {
 		if( isometric ) {
-			pivot.setCoords( ( screenX * vY2 - screenY * vX2 ) / vK - vDX, ( screenY * vX1 - screenX * vY1 ) / vK  - vDY );
+			pivot.x = ( screenX * vY2 - screenY * vX2 ) / vK - vDX;
+			pivot.y = ( screenY * vX1 - screenX * vY1 ) / vK  - vDY;
 		} else {
-			pivot.setCoords( screenX / k - vDX, screenY / k - vDY );
+			pivot.x =screenX / k - vDX;
+			pivot.y = screenY / k - vDY;
 		}
 	}
 	
@@ -85,10 +90,11 @@ public class Camera extends VectorSprite {
 	 */
 	public void sizeScreenToField( double screenWidth, double screenHeight, Vector sizes ) {
 		if( isometric ) {
-			sizes.setCoords( Math.abs( ( Math.abs( screenWidth * vY2 ) - Math.abs( screenHeight * vX2 ) ) / aVK ),
-					Math.abs( ( Math.abs( screenHeight * vY2 ) - Math.abs( screenWidth * vX2 ) ) / aVK ));
+			sizes.x = Math.abs( ( Math.abs( screenWidth * vY2 ) - Math.abs( screenHeight * vX2 ) ) / aVK );
+			sizes.y = Math.abs( ( Math.abs( screenHeight * vY2 ) - Math.abs( screenWidth * vX2 ) ) / aVK );
 		} else {
-			sizes.setCoords( screenWidth / k, screenHeight / k );
+			sizes.x = screenWidth / k;
+			sizes.y = screenHeight / k;
 		}
 	}
 
@@ -110,9 +116,11 @@ public class Camera extends VectorSprite {
 	 */
 	public void fieldToScreen( double fieldX, double fieldY, Vector pivot ) {
 		if( isometric ) {
-			pivot.setCoords( ( ( fieldX + vDX ) * vX1 + ( fieldY + vDY ) * vX2 ) * k,  ( ( fieldX + vDX ) * vY1 + ( fieldY + vDY ) * vY2 ) * k );
+			pivot.x = ( ( fieldX + vDX ) * vX1 + ( fieldY + vDY ) * vX2 ) * k;
+			pivot.y = ( ( fieldX + vDX ) * vY1 + ( fieldY + vDY ) * vY2 ) * k;
 		} else {
-			pivot.setCoords( ( fieldX + vDX ) * k, ( fieldY + vDY ) * k );
+			pivot.x = ( fieldX + vDX ) * k;
+			pivot.y = ( fieldY + vDY ) * k;
 		}
 
 		if( discreteGraphics ) pivot.roundCoords();
@@ -125,15 +133,15 @@ public class Camera extends VectorSprite {
 	 */
 	public void sizeFieldToScreen( double fieldWidth, double fieldHeight, Vector sizes ) {
 		if( isometric ) {
-			sizes.setCoords( ( Math.abs( fieldWidth * vX1 ) + Math.abs( fieldHeight * vX2 ) ) * k, 
-					Math.abs( fieldWidth * vY1 ) + Math.abs( fieldHeight * vY2 ) ) * k );
+			sizes.x = ( Math.abs( fieldWidth * vX1 ) + Math.abs( fieldHeight * vX2 ) ) * k;
+			sizes.y = ( Math.abs( fieldWidth * vY1 ) + Math.abs( fieldHeight * vY2 ) ) * k;
 		} else {
-			sizes.setCoords( fieldWidth * k, fieldHeight * k );
+			sizes.x = fieldWidth * k;
+			sizes.y = fieldHeight * k;
 		}
 
-		if( discreteGraphics ) pivot.roundCoords();
+		if( discreteGraphics ) sizes.roundCoords();
 	}
-
 
 
 	/**
@@ -145,7 +153,6 @@ public class Camera extends VectorSprite {
 	}
 
 
-
 	/**
 	 * Set viewport cliiping for camera.
 	 * If ViewportClipping flag is set to False, then this command does nothing.
@@ -153,24 +160,12 @@ public class Camera extends VectorSprite {
 	 * @see #viewport, #viewportClipping, #resetViewport
 	 */
 	public void setCameraViewport() {
-		if( ! Graphics.getScreenWidth() ) return;
 		if( viewportClipping ) {
-			setViewport( viewport.x - 0.5 * viewport.width, viewport.y - 0.5 * viewport.height, viewport.width, viewport.height );
+			Graphics.setViewport( viewport.x - 0.5 * viewport.width, viewport.y - 0.5 * viewport.height, viewport.width, viewport.height );
 		} else {
-			resetViewport();
+			Graphics.resetViewport();
 		}
 	}
-
-
-
-	/**
-	 * Resets viewport to whole screen.
-	 * @see #viewport, #viewportClipping, #setCameraViewport, #setAsViewport example
-	 */
-	public void resetViewport() {
-		setViewport( 0, 0, Graphics.getScreenWidth(), graphicsHeight() );
-	}
-
 
 
 	public void setZoom( double newK ) {
@@ -191,7 +186,7 @@ public class Camera extends VectorSprite {
 	 * Smoothly shifts camera to the given point.
 	 * @see #lTCamera example
 	 */
-	public void shiftCameraToPoint( double newX, double newY, double acceleration = 6.0 ) {
+	public void shiftCameraToPoint( double newX, double newY, double acceleration ) {
 		applyAcceleration( x, newX, dX, acceleration );
 		applyAcceleration( y, newY, dY, acceleration );
 		moveForward();
@@ -203,21 +198,22 @@ public class Camera extends VectorSprite {
 	/**
 	 * Smoothly shifts camera to the given shape center.
 	 */
-	public void shiftCameraToShape( Shape shape, double acceleration = 6.0 ) {
-		shiftCameraToPoint( shape.x, shape.y, acceleration );
+	public void shiftCameraToShape( Shape shape, double acceleration ) {
+		shiftCameraToPoint( shape.getX(), shape.getY(), acceleration );
 	}
 
 
 
-	public double applyAcceleration( double x, double newX, double dX var, double acceleration ) {
-		double a = deltaTime * acceleration * sgn( newX - x );
+	public double applyAcceleration( double x, double newX, double dX, double acceleration ) {
+		double a = Project.deltaTime * acceleration * Math.signum( newX - x );
 		if( ( newX - x ) * dX < 0 ) {
 			dX += a;
-		} else if( dX * dX / 2.0 / acceleration < Math.abs( newX - x ) then ) {
+		} else if( dX * dX / 2.0 / acceleration < Math.abs( newX - x ) ) {
 			dX += a;
 		} else {
 			dX -= a;
 		}
+		return dX;
 	}
 
 

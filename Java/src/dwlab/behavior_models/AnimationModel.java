@@ -1,8 +1,3 @@
-package dwlab.behavior_models;
-import dwlab.shapes.Shape;
-import dwlab.sprites.Sprite;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov
  *
@@ -11,6 +6,12 @@ import dwlab.sprites.Sprite;
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
+
+package dwlab.behavior_models;
+
+import dwlab.base.Project;
+import dwlab.shapes.Shape;
+import dwlab.sprites.Sprite;
 
 /**
  * This model plays animation of the sprite.
@@ -21,45 +22,42 @@ import dwlab.sprites.Sprite;
  */
 public class AnimationModel extends ChainedModel {
 	public double startingTime;
-	public int looped;
+	public boolean looped;
 	public double speed;
 	public int framesQuantity;
 	public int frameStart;
-	public int pingPong;
+	public boolean pingPong;
 
 
-
-	public static AnimationModel create( int looped = true, double speed, int framesQuantity = 0, int frameStart = 0, int pingPong = false ) {
-		AnimationModel model = new AnimationModel();
-		model.speed = speed;
-		model.looped = looped;
-		model.framesQuantity = framesQuantity;
-		model.frameStart = frameStart;
-		model.pingPong = pingPong;
-		return model;
+	public AnimationModel( boolean looped, double speed, int framesQuantity, int frameStart, boolean pingPong ) {
+		this.speed = speed;
+		this.looped = looped;
+		this.framesQuantity = framesQuantity;
+		this.frameStart = frameStart;
+		this.pingPong = pingPong;
 	}
 
 
-
+	@Override
 	public void activate( Shape shape ) {
-		startingTime = currentProject.time;
+		startingTime = Project.current.time;
 	}
 
 
-
+	@Override
 	public void applyTo( Shape shape ) {
 		if( ! looped ) {
-			if( currentProject.time > startingTime + speed * ( framesQuantity + ( framesQuantity - 2 ) * pingPong ) ) {
+			if( Project.current.time > startingTime + speed * ( framesQuantity + ( pingPong ? 0 : framesQuantity - 2 ) ) ) {
 				deactivateModel( shape );
 				return;
 			}
 		}
-		Sprite( shape ).animate( speed, framesQuantity, frameStart, startingTime, pingPong );
+		( (Sprite) shape ).animate( speed, framesQuantity, frameStart, startingTime, pingPong );
 	}
 
 
-
+	@Override
 	public String info( Shape shape ) {
-		return Sprite( shape ).frame;
+		return String.valueOf( ( (Sprite) shape ).frame );
 	}
 }

@@ -12,6 +12,7 @@ import dwlab.sprites.SpriteCollisionHandler;
 import dwlab.visualizers.Image;
 import dwlab.visualizers.Visualizer;
 import java.util.LinkedList;
+import xml.XMLObject;
 
 
 /* Digital Wizard's Lab - game development framework
@@ -23,12 +24,29 @@ import java.util.LinkedList;
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 
-/**
+
+
+
+	/**
  * Common object for item of game field.
  */
 public class Shape extends Obj {
-	private LinkedList<Parameter> parameters;
+	private LinkedList<Parameter> parameters = null;
 
+	public class Parameter extends Obj {
+		public String name;
+		public String value;
+
+
+		@Override
+		public void xMLIO( XMLObject xMLObject ) {
+			super.xMLIO( xMLObject );
+			xMLObject.manageStringAttribute( "name", name );
+			xMLObject.manageStringAttribute( "value", value );
+		}
+	}
+	
+	
 	/**
 	 * Shape coordinates in units.
 	 * @see #getX, #setX, #getY, #setY
@@ -255,12 +273,6 @@ public class Shape extends Obj {
 		setCoords( x + dX, y + dY );
 	}
 
-	
-	
-	public void roundCoords() {
-		setCoords( Math.round( x ), Math.round( y ) );
-	}
-
 
 	/**
 	 * Moves vector to mouse position.
@@ -401,8 +413,8 @@ public class Shape extends Obj {
 	 */
 	public void moveTowardsPoint( double destinationX, double destinationY, double velocity ) {
 		double angle = directionToPoint( destinationX, destinationY );
-		double dX = Math.cos( angle ) * velocity * deltaTime;
-		double dY = Math.sin( angle ) * velocity * deltaTime;
+		double dX = Math.cos( angle ) * velocity * Project.deltaTime;
+		double dY = Math.sin( angle ) * velocity * Project.deltaTime;
 		if( Math.abs( dX ) >= Math.abs( x - destinationX ) && Math.abs( dY ) >= Math.abs( y - destinationY ) ) {
 			setCoords( destinationX, destinationY );
 		} else {
@@ -484,7 +496,7 @@ public class Shape extends Obj {
 	 * 
 	 * @see #limitHorizontallyWith, #limitVerticallyWith, #limitLeftWith, #limitRightWith, #limitTopWith, #limitBottomWith
 	 */
-	public void limitWith( Shape rectangle, int alterVelocity = false ) {
+	public void limitWith( Shape rectangle, boolean alterVelocity ) {
 		limitHorizontallyWith( rectangle, alterVelocity );
 		limitVerticallyWith( rectangle, alterVelocity );
 	}
@@ -497,7 +509,7 @@ public class Shape extends Obj {
 	 * 
 	 * @see #limitWith, #limitHorizontallyWith, #limitVerticallyWith, #limitRightWith, #limitTopWith, #limitBottomWith
 	 */
-	public void limitLeftWith( Shape rectangle, SpriteCollisionHandler handler = null ) {
+	public void limitLeftWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		if( leftX() < rectangle.leftX() ) setX( rectangle.leftX() + 0.5 * width );
 	}
 
@@ -509,7 +521,7 @@ public class Shape extends Obj {
 	 * 
 	 * @see #limitWith, #limitHorizontallyWith, #limitVerticallyWith, #limitLeftWith, #limitRightWith, #limitBottomWith
 	 */
-	public void limitTopWith( Shape rectangle, SpriteCollisionHandler handler = null ) {
+	public void limitTopWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		if( topY() < rectangle.topY() ) setY( rectangle.topY() + 0.5 * height );
 	}
 
@@ -521,7 +533,7 @@ public class Shape extends Obj {
 	 * 
 	 * @see #limitWith, #limitHorizontallyWith, #limitVerticallyWith, #limitLeftWith, #limitTopWith, #limitBottomWith
 	 */
-	public void limitRightWith( Shape rectangle, SpriteCollisionHandler handler = null ) {
+	public void limitRightWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		if( rightX() > rectangle.rightX() ) setX( rectangle.rightX() - 0.5 * width );
 	}
 
@@ -533,7 +545,7 @@ public class Shape extends Obj {
 	 * 
 	 * @see #limitWith, #limitHorizontallyWith, #limitVerticallyWith, #limitLeftWith, #limitRightWith, #limitTopWith
 	 */
-	public void limitBottomWith( Shape rectangle, SpriteCollisionHandler handler = null ) {
+	public void limitBottomWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		if( bottomY() > rectangle.bottomY() ) setY( rectangle.bottomY() - 0.5 * height );
 	}
 
@@ -543,7 +555,7 @@ public class Shape extends Obj {
 	 * Keeps shape within limits of given shape horizontally.
 	 * @see #limitWith, #limitVerticallyWith, #limitLeftWith, #limitRightWith, #limitTopWith, #limitBottomWith
 	 */
-	public void limitHorizontallyWith( Shape rectangle, int alterVelocity = false ) {
+	public void limitHorizontallyWith( Shape rectangle, boolean alterVelocity ) {
 		double x1 = Math.min( rectangle.x, rectangle.leftX() + 0.5 * width );
 		double x2 = Math.max( rectangle.x, rectangle.rightX() - 0.5 * width );
 		setX( limitDouble( x, x1, x2 ) );
@@ -563,24 +575,20 @@ public class Shape extends Obj {
 
 	// ==================== Size ====================
 
-	/**
-	 * Sets the width of the shape.
-	 * It's better to use this method instead of equating Width field to new value.
-	 * 
-	 * @see #width, #getDiameter, #setDiameter, #setHeight, #setSize, #alterSize
-	 */
+	public double getWidth() {
+		return width;
+	}
+	
 	public void setWidth( double newWidth )	 {
 		setSize( newWidth, height );
 	}
 
 
 
-	/**
-	 * Sets the height of the shape.
-	 * It's better to use this method instead of equating Height field to new value.
-	 * 
-	 * @see #height, #setWidth, #setSize, #alterSize
-	 */
+	public double getHeight() {
+		return height;
+	}
+	
 	public void setHeight( double newHeight )	 {
 		setSize( width, newHeight );
 	}
@@ -668,9 +676,8 @@ public class Shape extends Obj {
 	 */
 	public void correctHeight() {
 		Image image = visualizer.image;
-		setSize( width, width * imageHeight( image.bMaxImage ) / imageWidth( image.bMaxImage ) );
+		setSize( width, width * image.getHeight() / image.getWidth() );
 	}
-
 
 
 	/**
@@ -690,16 +697,18 @@ public class Shape extends Obj {
 	}
 
 
-
-	public final double leftFacing = -1.double 0;
-	public final double rightFacing = 1.double 0;
+	public enum Facing {
+		LEFT,
+		RIGHT
+	}
+	
 
 	/**
 	 * Sets the facing of a shape.
 	 * Use LeftFacing and RightFacing constants.
 	 * @see #getFacing, #xScale
 	 */
-	public void setFacing( double newFacing ) {
+	public void setFacing( Facing newFacing ) {
 		visualizer.setFacing( newFacing );
 	}
 
@@ -721,8 +730,8 @@ public class Shape extends Obj {
 	 * @return Angle between vector from the center of this shape to center of given shape and X axis.
 	 * @see #directionToPoint, #distanceToPoint example
 	 */
-	public double directionTo( Vector vector ) {
-		return Math.atan2( vector.y, vector.x - x );
+	public double directionTo( Shape shape ) {
+		return Math.atan2( shape.y, shape.x - x );
 	}
 
 	// ==================== Behavior models ===================
@@ -733,23 +742,32 @@ public class Shape extends Obj {
 	 * 
 	 * @see #lTBehaviorModel, #activate
 	 */
-	public void attachModel( BehaviorModel model, int activated = true ) {
-		model.init( this );
-		model.link = behaviorModels.addLast( model );
-		if( activated ) {
-			model.activate( this );
-			model.active = true;
-		}
+	public void attachModel( BehaviorModel model ) {
+		attachModelWithoutActivation( model );
+		model.activate( this );
+		model.active = true;
 	}
-
+	
+	public void attachModelWithoutActivation( BehaviorModel model ) {
+		model.init( this );
+		behaviorModels.addLast( model );
+		model.iterator = behaviorModels.listIterator();
+		model.iterator.previous();
+	}
 
 
 	/**
 	 * Attaches list of behavior model to the shape.
 	 */
-	public void attachModels( LinkedList models, int activated = true ) {
+	public void attachModels( LinkedList<BehaviorModel> models ) {
 		for( BehaviorModel model: models ) {
-			attachModel( model, activated );
+			attachModel( model );
+		}
+	}
+	
+	public void attachModelsWithoutActivation( LinkedList<BehaviorModel> models ) {
+		for( BehaviorModel model: models ) {
+			attachModelWithoutActivation( model );
 		}
 	}
 
@@ -759,11 +777,11 @@ public class Shape extends Obj {
 	 * @return First behavior model with the class of given name.
 	 * @see #lTBehaviorModel
 	 */
-	public BehaviorModel findModel( String typeName ) {
-		tTypeId typeID = getTypeID( typeName );
+	public BehaviorModel findModel( Class modelClass ) {
 		for( BehaviorModel model: behaviorModels ) {
-			if( tTypeId.forObject( model ) == typeID ) return model;
+			if( model.getClass() == modelClass ) return model;
 		}
+		return null;
 	}
 
 
@@ -1193,10 +1211,7 @@ public class Shape extends Obj {
 			}
 		}
 	}
-
-
-
-	/**
+/**
 	 * Method for updating shape.
 	 * It will be called after changing coordinates or size. You can add your shape updating commands here, but don't forget to add Super.Update() command as well.
 	 */
@@ -1271,22 +1286,6 @@ public class Shape extends Obj {
 	}
 }
 
-
-
-
-
-public class Parameter extends Obj {
-	public String name;
-	public String value;
-
-
-
-	public void xMLIO( XMLObject xMLObject ) {
-		super.xMLIO( xMLObject );
-		xMLObject.manageStringAttribute( "name", name );
-		xMLObject.manageStringAttribute( "value", value );
-	}
-}
 
 
 

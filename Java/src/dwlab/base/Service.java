@@ -1,10 +1,3 @@
-package dwlab.base;
-import dwlab.shapes.Shape;
-import dwlab.shapes.Vector;
-import dwlab.sprites.Camera;
-import java.util.Arrays;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov 
 
@@ -13,6 +6,13 @@ import java.util.Arrays;
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
+
+package dwlab.base;
+
+import dwlab.shapes.Vector;
+import dwlab.sprites.Camera;
+import dwlab.visualizers.Color;
+import java.util.Arrays;
 
 public class Service extends Obj {
 	/**
@@ -35,7 +35,7 @@ public class Service extends Obj {
 	/**
 	* Trims trailing zeroes of Double value and cuts all digits after given quantity (off by default) after point.
 	*/
-	public static String trimDouble( double val, int digitsAfterDot ) {
+	public static String trim( double val, int digitsAfterDot ) {
 		String strVal = String.valueOf( val ) + "00000000000000";
 		int n = strVal.indexOf( "." ) + 1 + digitsAfterDot;
 
@@ -51,7 +51,7 @@ public class Service extends Obj {
 		}
 	}
 	
-	public static String trimDouble( double val ) {
+	public static String trim( double val ) {
 		String strVal = String.valueOf( val );
 		int n = strVal.length();
 		
@@ -108,7 +108,7 @@ public class Service extends Obj {
 
 	* @see #l_LimitInt
 	*/
-	public static double limitDouble( double value, double fromValue, double toValue ) {
+	public static double limit( double value, double fromValue, double toValue ) {
 		if( fromValue > toValue ) error( "FromValue must be less than ToValue" );
 		if( value < fromValue ) {
 			return fromValue;
@@ -132,7 +132,7 @@ public class Service extends Obj {
 
 	* @see #l_LimitDouble, #l_IntInLimits
 	*/
-	public static int limitInt( int value, int fromValue, int toValue ) {
+	public static int limit( int value, int fromValue, int toValue ) {
 		if( fromValue > toValue ) error( "FromValue must be less than ToValue" );
 		if( value < fromValue ) {
 			return fromValue;
@@ -161,7 +161,7 @@ public class Service extends Obj {
 
 	* @see #l_WrapInt2, #l_WrapDouble
 	*/
-	public static int wrapInt( int value, int size ) {
+	public static int wrap( int value, int size ) {
 		return value - size * ( (int) Math.floor( ( (double) value ) / size ) );
 	}
 
@@ -173,7 +173,7 @@ public class Service extends Obj {
 
 	* @see #l_WrapInt, #l_WrapDouble
 	*/
-	public static int wrapInt2( int value, int fromValue, int toValue ) {
+	public static int wrap( int value, int fromValue, int toValue ) {
 		int size = toValue - fromValue;
 		return value - ( (int) Math.floor( ( (double) value - fromValue ) / size ) ) * size;
 	}
@@ -208,7 +208,6 @@ public class Service extends Obj {
 
 	/**
 	* Converts full path to path relative to current directory.
-	*/
 	public static String chopFilename( String filename ) {
 		String dir = currentDir();
 		String slash = "/";
@@ -232,13 +231,14 @@ public class Service extends Obj {
 		}
 		return filename[ len( dir ).. ];
 	}
+	*/
 
 
 	/**
 	* Adds Int value to Int array.
 	* @see #l_RemoveItemFromintArray
 	*/
-	public static int[] addItemToIntArray( int[] array, int item ) {
+	public static int[] addItemTo( int[] array, int item ) {
 		array = Arrays.copyOf( array, array.length + 1 );
 		array[ array.length - 1 ] = item;
 		return array;
@@ -249,7 +249,7 @@ public class Service extends Obj {
 	* Removes item with given index from Int array.
 	* @see #l_AddItemToIntArray
 	*/
-	public static int[] removeItemFromIntArray( int[] array, int index ) {
+	public static int[] removeItemFrom( int[] array, int index ) {
 		int size = array.length;
 		if( size == 1 ) {
 			return null;
@@ -318,7 +318,7 @@ public class Service extends Obj {
 	private static Vector serviceVector11 = new Vector();
 	
 	public static void getEscribedRectangle( Margins sourceMargins, Margins destinationMargins ) {
-		Shape viewport = Camera.current.viewport;
+		Rectangle viewport = Camera.current.viewport;
 		Camera.current.screenToField( viewport.leftX(), viewport.topY(), serviceVector00 );
 		Camera.current.screenToField( viewport.rightX(), viewport.topY(), serviceVector10 );
 		Camera.current.screenToField( viewport.leftX(), viewport.bottomY(), serviceVector01 );
@@ -334,155 +334,80 @@ public class Service extends Obj {
 	}
 
 
+	public static void printText( String text, double x, double y, Align horizontalAlign, Align verticalAlign, Color color, boolean contour ) {
+		Camera.current.fieldToScreen( x, y, serviceVector00 );
 
-
-	public static String uTF8toASCII( int charNum ) {
-		int additionalBytes = 0;
-		int mask = 0;
-		String code = "";
-		if( charNum < 0x00000080 ) {
-			return Character.valueOf( charNum ).toString();
-		} else if( charNum < 0x00000800 ) {
-			additionalBytes = 1;
-			mask = %11000000;
-		} else if( charNum < 0x00000800 ) {
-			additionalBytes = 2;
-			mask = %11100000;
-		} else if( charNum < 0x00010000 ) {
-			additionalBytes = 3;
-			mask = %11110000;
-		} else if( charNum < 0x00200000 ) {
-			additionalBytes = 4;
-			mask = %11111000;
-		} else if( charNum < 0x04000000 ) {
-			additionalBytes = 5;
-			mask = %11111100;
-		} else {
-			additionalBytes = 6;
-			mask = %11111110;
-		}
-		for( int n=1; n <= additionalBytes; n++ ) {
-			code = chr( %10000000 | ( charNum & %111111 ) ) + code;
-			charNum = charNum shr 6;
-		}
-		return chr( mask | charNum ) + code;
-	}
-
-
-
-
-
-	public static String aSCIIToUTF8( String text, int pos var ) {
-		int header = text[ pos ];
-		if( header < 128 ) return chr( header );
-
-		int code = 0;
-		int headerShift = 0;
-		header = header & %01111111;
-		int bitMask = %01000000;
-		while( true ) {
-			if( !( header & bitMask ) ) exit;
-			header = header ~ bitMask;
-			pos += 1;
-			code = ( code shl 6 ) + text[ pos ] & %111111;
-			bitMask = bitMask shr 1;
-			headerShift += 6;
-		}
-		return chr( ( header shl headerShift ) + code );
-	}
-
-
-
-
-
-	public static void printText( String text, double x, double y, Align horizontalAlign, Align verticalAlign, boolean contour ) {
-		double sX, double sY;
-		Camera.current.fieldToScreen( x, y, sX, sY );
-
-		double width = textWidth( text );
-		double height = textHeight( text );
+		double width = Graphics.textWidth( text );
+		double height = Graphics.textHeight();
 
 		switch( horizontalAlign ) {
-			case Align.toCenter:
-				sX -= 0.5 * width;
-			case Align.toRight:
-				sX -= width;
+			case TO_CENTER:
+				serviceVector00.x -= 0.5 * width;
+			case TO_RIGHT:
+				serviceVector00.x -= width;
 		}
 
 		switch( verticalAlign ) {
-			case Align.toCenter:
-				sY -= 0.5 * height;
-			case Align.toBottom:
-				sY -= height;
+			case TO_CENTER:
+				serviceVector00.y -= 0.5 * height;
+			case TO_BOTTOM:
+				serviceVector00.y -= height;
 		}
 
 		if( contour ) {
-			drawTextWithContour( text, sX, sY );
+			drawTextWithContour( text, serviceVector00.x, serviceVector00.y );
 		} else {
-			drawText( text, sX, sY );
+			Graphics.drawText( text, serviceVector00.x, serviceVector00.y, color );
 		}
 	}
 
 
-
-
-
-	public static void drawTextWithContour( String text, int sX, int sY ) {
-		setColor( 0, 0, 0 );
+	public static void drawTextWithContour( String text, double x, double y ) {
 		for( int dY=-1; dY <= 1; dY++ ) {
 			for( int dX=Math.abs( dY ) - 1; dX <= 1 - Math.abs( dY ); dX++ ) {
-				drawText( text, sX + dX, sY + dY );
+				Graphics.drawText( text, x + dX, y + dY, Color.white );
 			}
 		}
-		Visualizer.resetColor();
-		drawText( text, sX, sY );
+		Graphics.drawText( text, x, y, Color.black );
 	}
 
 
-
-
-
-	public static int versionToInt( String version, int totalChunks = 4 ) {
-		String versions[] = version.split( "." );
+	public static int versionToInt( String version, int totalChunks ) {
+		String versions[] = version.split( "\\." );
 		int intVersion = 0;
 		for( int n=0; n <= totalChunks; n++ ) {
 			intVersion = intVersion * 100;
-			if( n < versions.length ) intVersion += versions[ n ].toInt();
+			if( n < versions.length ) intVersion += Integer.parseInt( versions[ n ] );
 		}
 		return intVersion;
 	}
-
-
-
-
-
-	public double log80 = Math.log( 80 );
-
-	public static int getChunkLength( int quantity ) {
-		return Math.max( 1, Math.ceil( Math.log( quantity ) / log80 ) );
+	
+	public static int versionToInt( String version ) {
+		return versionToInt( version, 4 );
 	}
 
 
+	public static double log80 = Math.log( 80 );
 
+	public static int getChunkLength( int quantity ) {
+		return (int) Math.max( 1, Math.ceil( Math.log( quantity ) / log80 ) );
+	}
 
 
 	public static String encode( int value, int chunkLength ) {
 		String chunk = "";
 		for( int n=1; n <= chunkLength; n++ ) {
-			chunk = chr( 48 + ( value mod 80 ) ) + chunk;
-			value = Math.floor( value / 80 );
+			chunk = ( (char) ( 48 + ( value % 80 ) ) ) + chunk;
+			value = (int) Math.floor( value / 80 );
 		}
 		return chunk;
 	}
 
 
-
-
-
 	public static int decode( String chunk ) {
 		int value = 0;
-		for( int n=0; n <= chunk.length; n++ ) {
-			value = value * 80 + chunk[ n ] - 48;
+		for( int n=0; n <= chunk.length(); n++ ) {
+			value = value * 80 + ( (int) chunk.charAt( n ) ) - 48;
 		}
 		return value;
 	}

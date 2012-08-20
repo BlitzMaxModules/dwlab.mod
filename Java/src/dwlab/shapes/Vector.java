@@ -14,9 +14,16 @@ import dwlab.base.Obj;
 public class Vector extends Obj {
 	public double x, y;
 		
+	
 	public Vector set( double x, double y ) {
 		this.x = x;
 		this.y = y;
 		return this;
+	}
+
+
+	public void roundCoords() {
+		x = Math.round( x );
+		y = Math.round( y );
 	}
 }

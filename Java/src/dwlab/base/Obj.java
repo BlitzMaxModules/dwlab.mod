@@ -1,15 +1,3 @@
-package dwlab.base;
-import dwlab.visualizers.Visualizer;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import xml.XMLAttribute;
-import xml.XMLMode;
-import xml.XMLObject;
-import xml.XMLObjectField;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov
  *
@@ -18,6 +6,15 @@ import xml.XMLObjectField;
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
+
+package dwlab.base;
+import dwlab.visualizers.Visualizer;
+import java.util.HashMap;
+import java.util.HashSet;
+import xml.XMLAttribute;
+import xml.XMLMode;
+import xml.XMLObject;
+import xml.XMLObjectField;
 
 /**
  * Global object class

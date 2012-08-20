@@ -32,6 +32,43 @@ public class Sprite extends Shape {
 	private Sprite serviceRectangle = new Sprite( ShapeType.RECTANGLE );
 	private Sprite serviceTriangle = new Sprite( ShapeType.TOP_LEFT_TRIANGLE );
 
+	
+	public enum ShapeType {
+		/**
+		* Type of the sprite shape: pivot. It's a point on game field with (X, Y) coordinates.
+		*/
+		PIVOT,
+
+		/**
+		* Type of the sprite shape: oval which is inscribed in shape's rectangle.
+		*/
+		OVAL,
+
+		/**
+		* Type of the sprite shape: rectangle.
+		*/
+		RECTANGLE,
+
+		/**
+		* Type of the sprite shape: ray which starts in (X, Y) and directed as Angle.
+		*/
+		RAY,
+
+		/**
+		* Type of the sprite shape: right triangle which is inscribed in shape's rectangle and have right angle situated in corresponding corner.
+		*/
+		TOP_LEFT_TRIANGLE,
+		TOP_RIGHT_TRIANGLE,
+		BOTTOM_LEFT_TRIANGLE,
+		BOTTOM_RIGHT_TRIANGLE,
+
+		/**
+		* Type of the sprite shape: mask of raster image which is inscribed in shape's rectangle.
+		*/
+		RASTER
+	}
+
+	
 	/**
 	 * Type of the sprite shape.
 	 * @see #pivot, #oval, #rectangle
@@ -774,48 +811,52 @@ public class Sprite extends Shape {
 		height = tileMap.getTileHeight();
 		x = tileMap.leftX() + width * ( 0.5 + tileX );
 		y = tileMap.topY() + height * ( 0.5 + tileY );
-		visualizer = tilemap.visualizer.clone();
-		visualizer.image = tilemap.tileSet.image;
+		visualizer = tileMap.visualizer.clone();
+		visualizer.image = tileMap.tileSet.image;
 		frame = tileMap.getTile( tileX, tileY );
 	}
 
 	// ==================== Limiting ====================
 
-	public void limitLeftWith( Shape rectangle, SpriteCollisionHandler handler = null ) {
+	@Override
+	public void limitLeftWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		double rectLeftX = rectangle.leftX();
 		if( leftX() < rectLeftX ) {
 			setX( rectLeftX + 0.5 * width );
-			if( handler ) handler.handleCollision( this, null );
+			if( handler != null ) handler.handleCollision( this, null );
 		}
 	}
 
 
 
-	public void limitTopWith( Shape rectangle, SpriteCollisionHandler handler = null ) {
+	@Override
+	public void limitTopWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		double rectTopY = rectangle.topY();
 		if( topY() < rectTopY ) {
 			setY( rectTopY + 0.5 * height );
-			if( handler ) handler.handleCollision( this, null );
+			if( handler != null ) handler.handleCollision( this, null );
 		}
 	}
 
 
 
-	public void limitRightWith( Shape rectangle, SpriteCollisionHandler handler = null ) {
+	@Override
+	public void limitRightWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		double rectRightX = rectangle.rightX();
 		if( rightX() > rectRightX ) {
 			setX( rectRightX - 0.5 * width );
-			if( handler ) handler.handleCollision( this, null );
+			if( handler != null ) handler.handleCollision( this, null );
 		}
 	}
 
 
 
-	public void limitBottomWith( Shape rectangle, SpriteCollisionHandler handler = null ) {
+	@Override
+	public void limitBottomWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		double rectBottomY = rectangle.bottomY();
 		if( bottomY() > rectBottomY ) {
 			setY( rectBottomY - 0.5 * height );
-			if( handler ) handler.handleCollision( this, null );
+			if( handler != null ) handler.handleCollision( this, null );
 		}
 	}
 
@@ -870,12 +911,12 @@ public class Sprite extends Shape {
 	/**
 	 * Animates the sprite.
 	 */
-	public void animate( double speed, int framesQuantity = 0, int frameStart = 0, double startingTime = 0.0, int pingPong = false ) {
-		if( framesQuantity = 0 ) framesQuantity == visualizer.getImage().framesQuantity();
+	public void animate( double speed, int framesQuantity, int frameStart, double startingTime, boolean pingPong ) {
+		if( framesQuantity == 0 ) framesQuantity = visualizer.getImage().framesQuantity();
 		int modFactor = framesQuantity;
-		if( pingPong ) modFactor == framesQuantity * 2 - 2;
-		frame = Math.floor( ( currentProject.time - startingTime ) / speed ) mod modFactor;
-		if( pingPong && frame >= framesQuantity ) frame == modFactor - frame;
+		if( pingPong ) modFactor = framesQuantity * 2 - 2;
+		frame =  ( int ) Math.floor( ( Project.current.time - startingTime ) / speed ) % modFactor;
+		if( pingPong && frame >= framesQuantity ) frame = modFactor - frame;
 		frame += frameStart;
 	}
 
