@@ -1,4 +1,5 @@
 package dwlab.sprites;
+import dwlab.base.Project;
 import java.util.HashMap;
 import dwlab.base.XMLObject;
 import java.lang.Math;
@@ -11,66 +12,32 @@ import dwlab.maps.TileSet;
 import dwlab.maps.TileMap;
 import dwlab.visualizers.Visualizer;
 
-//
-// Digital Wizard's Lab - game development framework
-// Copyright (C) 2012, Matt Merkulov
-//
-// All rights reserved. Use of this code is allowed under the
-// Artistic License 2.0 terms, as specified in the license.txt
-// file distributed with this code, or available from
-// http://www.opensource.org/licenses/artistic-license-2.0.php
-//
 
-public Sprite servicePivot = Sprite.fromShape( 0, 0, 0, 0, Sprite.pivot );
-public Sprite serviceOval = Sprite.fromShapeType( Sprite.oval );
-public Sprite serviceRectangle = Sprite.fromShapeType( Sprite.rectangle );
-public Sprite serviceTriangle = new Sprite();
-
+/* Digital Wizard's Lab - game development framework
+ * Copyright (C) 2012, Matt Merkulov
+ *
+ * All rights reserved. Use of this code is allowed under the
+ * Artistic License 2.0 terms, as specified in the license.txt
+ * file distributed with this code, or available from
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
 
 /**
  * Sprite is the main basic shape of the framework to draw, move and check collisions.
  * @see #lTVectorSprite
  */
 public class Sprite extends Shape {
+	private Sprite servicePivot = new Sprite( ShapeType.PIVOT, 0, 0, 0, 0 );
+	private Sprite serviceOval = new Sprite( ShapeType.OVAL );
+	private Sprite serviceRectangle = new Sprite( ShapeType.RECTANGLE );
+	private Sprite serviceTriangle = new Sprite( ShapeType.TOP_LEFT_TRIANGLE );
+
 	/**
 	 * Type of the sprite shape.
 	 * @see #pivot, #oval, #rectangle
 	 */
-	public int shapeType = rectangle;
+	public ShapeType shapeType = ShapeType.RECTANGLE;
 
-	/**
-	 * Type of the sprite shape: pivot. It's a point on game field with (X, Y) coordinates.
-	 */
-	public final int pivot = 0;
-
-	/**
-	 * Type of the sprite shape: oval / circle which is inscribed in shape's rectangle.
-	 */
-	public final int circle = 1;
-	public final int oval = 1;
-
-	/**
-	 * Type of the sprite shape: rectangle.
-	 */
-	public final int rectangle = 2;
-
-	/**
-	 * Type of the sprite shape: ray which starts in (X, Y) and directed as Angle.
-	 */
-	public final int ray = 3;
-
-	/**
-	 * Type of the sprite shape: right triangle which is inscribed in shape's rectangle and have right angle situated in corresponding corner.
-	 */
-	public final int topLeftTriangle = 4;
-	public final int topRightTriangle = 5;
-	public final int bottomLeftTriangle = 6;
-	public final int bottomRightTriangle = 7;
-
-	/**
-	 * Type of the sprite shape: mask of raster image which is inscribed in shape's rectangle.
-	 */
-	public final int raster = 8;
 
 	/**
 	 * Direction of the sprite
@@ -82,7 +49,7 @@ public class Sprite extends Shape {
 	 * Angle of displaying image.
 	 * Displaying angle is relative to sprite's direction if visualizer's rotating flag is set to True.
 	 */
-	public double displayingAngle = 0.0;
+	public double displayingAngle;
 
 	/**
 	 * Velocity of the sprite in units per second.
@@ -100,6 +67,7 @@ public class Sprite extends Shape {
 
 
 
+	@Override
 	public String getClassTitle() {
 		return "Sprite";
 	}
@@ -110,12 +78,9 @@ public class Sprite extends Shape {
 	 * Creates sprite using given shape type.
 	 * @return Created sprite.
 	 */
-	public static Sprite fromShapeType( int shapeType = rectangle ) {
-		Sprite sprite = new Sprite();
-		sprite.shapeType = shapeType;
-		return sprite;
+	public Sprite( ShapeType shapeType ) {
+		this.shapeType = shapeType;
 	}
-
 
 
 	/**
@@ -123,34 +88,45 @@ public class Sprite extends Shape {
 	 * @return Created sprite.
 	 * See also #overlaps example.
 	 */
-	public static Sprite fromShape( double x = 0.0, double y = 0.0, double width = 1.0, double height = 1.0, int shapeType = rectangle, double angle = 0.0, double velocity = 1.0 ) {
-		Sprite sprite = new Sprite();
-		sprite.setCoords( x, y );
-		sprite.setSize( width, height );
-		sprite.shapeType = shapeType;
-		sprite.angle = angle;
-		sprite.velocity = velocity;
-		return sprite;
+	public Sprite( ShapeType shapeType, double x, double y, double width, double height ) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.shapeType = shapeType;
+	}
+
+
+	public Sprite( ShapeType shapeType, double x, double y, double width, double height, double angle, double velocity ) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.shapeType = shapeType;
+		this.angle = angle;
+		this.velocity = velocity;
 	}
 
 	// ==================== Drawing ===================	
 
+	@Override
 	public void draw() {
 		visualizer.drawUsingSprite( this, this );
 	}
 
 
 
+	@Override
 	public void drawUsingVisualizer( Visualizer vis ) {
 		vis.drawUsingSprite( this, this );
 	}
 
 	// ==================== Collisions ===================
 
+	@Override
 	public void tileShapeCollisionsWithSprite( Sprite sprite, double dX, double dY, double xScale, double yScale, TileMap tileMap, int tileX, int tileY, SpriteAndTileCollisionHandler handler ) {
 		if( tileSpriteCollidesWithSprite( sprite, dX, dY, xScale, yScale ) ) handler.handleCollision( sprite, tileMap, tileX, tileY, this );
 	}
-
 
 
 	/**
@@ -860,7 +836,7 @@ public class Sprite extends Shape {
 	 * Turns the sprite with given speed per second.
 	 */
 	public void turn( double turningSpeed ) {
-		angle += deltaTime * turningSpeed;
+		angle += Project.deltaTime * turningSpeed;
 	}
 
 
@@ -870,7 +846,7 @@ public class Sprite extends Shape {
 	 * @see #directAs
 	 */
 	public void directTo( Shape shape ) {
-		angle = Math.atan2( shape.y - y, shape.x - x );
+		angle = Math.atan2( shape.getY() - y, shape.getX() - x );
 	}
 
 

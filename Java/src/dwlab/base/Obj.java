@@ -9,24 +9,24 @@ import xml.XMLMode;
 import xml.XMLObject;
 import xml.XMLObjectField;
 
-//
-// Digital Wizard's Lab - game development framework
-// Copyright (C) 2012, Matt Merkulov
-//
-// All rights reserved. Use of this code is allowed under the
-// Artistic License 2.0 terms, as specified in the license.txt
-// file distributed with this code, or available from
-// http://www.opensource.org/licenses/artistic-license-2.0.php
-//
+
+/* Digital Wizard's Lab - game development framework
+ * Copyright (C) 2012, Matt Merkulov
+ *
+ * All rights reserved. Use of this code is allowed under the
+ * Artistic License 2.0 terms, as specified in the license.txt
+ * file distributed with this code, or available from
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
 
 /**
  * Global object class
  */
-public class DWLabObject {
-	public static HashMap<Integer, DWLabObject> iDMap;
+public class Obj {
+	public static HashMap<Integer, Obj> iDMap;
 	public static HashSet<XMLObject> removeIDMap;
 	public static int maxID;
-	public static DWLabObject iDArray[];
+	public static Obj iDArray[];
 	public static HashMap undefinedObjects;
 
 	
@@ -105,7 +105,7 @@ public class DWLabObject {
 	 * #manageObjectMapField, #manageStringAttribute 
 	 */
 	public void xMLIO( XMLObject xMLObject ) {
-		if( DWLabSystem.xMLMode == XMLMode.SET ) xMLObject.name = getClass().getName();
+		if( Sys.xMLMode == XMLMode.SET ) xMLObject.name = getClass().getName();
 	}
 
 
@@ -114,18 +114,18 @@ public class DWLabObject {
 	 * Loads object with all contents from file.
 	 * @see #saveToFile, #xMLIO
 	 */
-	public static DWLabObject loadFromFile( String fileName, XMLObject xMLObject ) {
+	public static Obj loadFromFile( String fileName, XMLObject xMLObject ) {
 		if( xMLObject == null ) {
 			maxID = 0;
 			xMLObject = XMLObject.readFromFile( fileName );
 		}
 
-		iDArray = new DWLabObject[ maxID + 1 ];
+		iDArray = new Obj[ maxID + 1 ];
 		fillIDArray( xMLObject );
 		
-		DWLabObject object = null;
+		Obj object = null;
 		try {
-			object = ( DWLabObject ) Class.forName( xMLObject.name ).newInstance();
+			object = ( Obj ) Class.forName( xMLObject.name ).newInstance();
 		} catch ( InstantiationException ex ) {
 			error( "\"" + xMLObject.name + "\" is abstract class or interface" );
 		} catch ( IllegalAccessException ex ) {
@@ -134,13 +134,13 @@ public class DWLabObject {
 			error( "Class \"" + xMLObject.name + "\" not found" );
 		}
 
-		DWLabSystem.xMLMode = XMLMode.GET;
+		Sys.xMLMode = XMLMode.GET;
 		object.xMLIO( xMLObject );
 
 		return object;
 	}
 	
-	public static DWLabObject loadFromFile( String fileName ) {
+	public static Obj loadFromFile( String fileName ) {
 		 return loadFromFile( fileName, null );
 	}
 
@@ -149,7 +149,7 @@ public class DWLabObject {
 		if( xMLObject.name.equals( "object" ) ) return;
 		int iD = Integer.parseInt( xMLObject.getAttribute( "id" ) );
 		if( iD > 0 ) try {
-			iDArray[ iD ] = (DWLabObject) Class.forName( xMLObject.name ).newInstance();
+			iDArray[ iD ] = (Obj) Class.forName( xMLObject.name ).newInstance();
 		} catch ( InstantiationException ex ) {
 			error( "\"" + xMLObject.name + "\" is abstract class or interface" );
 		} catch ( IllegalAccessException ex ) {
@@ -173,16 +173,16 @@ public class DWLabObject {
 	 * @see #loadFromFile, #xMLIO
 	 */
 	public void saveToFile( String fileName ) {
-		iDMap = new HashMap<Integer, DWLabObject>();
+		iDMap = new HashMap<Integer, Obj>();
 		removeIDMap = new HashSet<XMLObject>();
 		maxID = 1;
 
-		DWLabSystem.xMLMode = XMLMode.SET;
+		Sys.xMLMode = XMLMode.SET;
 		XMLObject xMLObject = new XMLObject();
 		undefinedObjects = new HashMap();
 		xMLIO( xMLObject );
 
-		xMLObject.setAttribute( "dwlab_version", String.valueOf( DWLabSystem.version ) );
+		xMLObject.setAttribute( "dwlab_version", String.valueOf( Sys.version ) );
 
 		for( XMLObject xMLObject2: removeIDMap ) {
 			for( XMLAttribute attr: xMLObject2.attributes ) {

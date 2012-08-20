@@ -1,16 +1,16 @@
 package dwlab.controllers;
 import java.util.LinkedList;
-import dwlab.base.DWLabObject;
+import dwlab.base.Obj;
 
-//
-// Digital Wizard's Lab - game development framework
-// Copyright (C) 2012, Matt Merkulov
-//
-// All rights reserved. Use of this code is allowed under the
-// Artistic License 2.0 terms, as specified in the license.txt
-// file distributed with this code, or available from
-// http://www.opensource.org/licenses/artistic-license-2.0.php
-//
+
+/* Digital Wizard's Lab - game development framework
+ * Copyright (C) 2012, Matt Merkulov
+ *
+ * All rights reserved. Use of this code is allowed under the
+ * Artistic License 2.0 terms, as specified in the license.txt
+ * file distributed with this code, or available from
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
 
 
 
@@ -21,7 +21,7 @@ public LinkedList controllers = new LinkedList();
 /**
  * Common class for keys, buttons and mouse wheel rolls.
  */
-public class Pushable extends DWLabObject {
+public class Pushable extends Obj {
 	public final int justPressed = 0;
 	public final int pressed = 1;
 	public final int justUnpressed = 2;

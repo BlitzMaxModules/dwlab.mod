@@ -2,19 +2,19 @@ package dwlab.maps;
 import java.util.LinkedList;
 import dwlab.base.XMLObject;
 import java.lang.Math;
-import dwlab.base.DWLabObject;
+import dwlab.base.Obj;
 import dwlab.shapes.Shape;
 import dwlab.visualizers.Image;
 
-//
-// Digital Wizard's Lab - game development framework
-// Copyright (C) 2012, Matt Merkulov
-//
-// All rights reserved. Use of this code is allowed under the
-// Artistic License 2.0 terms, as specified in the license.txt
-// file distributed with this code, or available from
-// http://www.opensource.org/licenses/artistic-license-2.0.php
-//
+
+/* Digital Wizard's Lab - game development framework
+ * Copyright (C) 2012, Matt Merkulov
+ *
+ * All rights reserved. Use of this code is allowed under the
+ * Artistic License 2.0 terms, as specified in the license.txt
+ * file distributed with this code, or available from
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
 
 /**
  * Prolonging tiles flag.
@@ -27,7 +27,7 @@ public int prolongTiles = true;
 /**
  * Tileset stores image and collision shapes of tiles for tilemaps. Also tile replacing/enframing rules are stored here.
  */
-public class TileSet extends DWLabObject {
+public class TileSet extends Obj {
 	public String name;
 	public Image image;
 	public Shape collisionShape[];
@@ -199,7 +199,7 @@ public class TileSet extends DWLabObject {
 		xMLObject.manageIntAttribute( "empty-tile", emptyTile, -1 );
 		xMLObject.manageChildList( categories );
 
-		if( XML.mode == XMLMode.GET ) {
+		if( DWLabSystem.xMLMode == XMLMode.GET ) {
 			collisionShape = new Shape()[ tilesQuantity ];
 
 			XMLObject arrayXMLObject = xMLObject.getField( "collision-shapes" );
@@ -235,7 +235,7 @@ public class TileSet extends DWLabObject {
 
 
 
-public class TileCategory extends DWLabObject {
+public class TileCategory extends Obj {
 	public String name;
 	public int num;
 	public LinkedList tileRules = new LinkedList();
@@ -254,7 +254,7 @@ public class TileCategory extends DWLabObject {
 
 
 
-public class TileRule extends DWLabObject {
+public class TileRule extends Obj {
 	public int tileNums[];
 	public LinkedList tilePositions = new LinkedList();
 	public int x, int y;
@@ -284,7 +284,7 @@ public class TileRule extends DWLabObject {
 
 
 
-public class TilePos extends DWLabObject {
+public class TilePos extends Obj {
 	public int dX, int dY;
 	public int tileNum;
 	public int category;

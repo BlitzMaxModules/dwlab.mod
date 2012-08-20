@@ -1,20 +1,20 @@
 package dwlab.base;
 import java.util.LinkedList;
 
-//
-// Digital Wizard's Lab - game development framework
-// Copyright (C) 2012, Matt Merkulov
-//
-// All rights reserved. Use of this code is allowed under the
-// Artistic License 2.0 terms, as specified in the license.txt
-// file distributed with this code, or available from
-// http://www.opensource.org/licenses/artistic-license-2.0.php
-//
+
+/* Digital Wizard's Lab - game development framework
+ * Copyright (C) 2012, Matt Merkulov
+ *
+ * All rights reserved. Use of this code is allowed under the
+ * Artistic License 2.0 terms, as specified in the license.txt
+ * file distributed with this code, or available from
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
 
 /**
  * Action class for implementing Undo/Redo technology.
  */
-public class Action extends DWLabObject {
+public class Action extends Obj {
 	private static LinkedList<LinkedList<Action>> undoStack = new LinkedList<LinkedList<Action>>();
 	private static LinkedList<Action> currentUndoList = new LinkedList<Action>();
 	private static LinkedList<LinkedList<Action>> redoStack = new LinkedList<LinkedList<Action>>();

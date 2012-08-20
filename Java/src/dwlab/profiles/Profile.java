@@ -3,18 +3,18 @@ import java.util.LinkedList;
 import dwlab.base.XMLObject;
 import java.lang.Math;
 import dwlab.base.Project;
-import dwlab.base.DWLabObject;
+import dwlab.base.Obj;
 import dwlab.sprites.Camera;
 
-//
-// Digital Wizard's Lab - game development framework
-// Copyright (C) 2012, Matt Merkulov
-//
-// All rights reserved. Use of this code is allowed under the
-// Artistic License 2.0 terms, as specified in the license.txt
-// file distributed with this code, or available from
-// http://www.opensource.org/licenses/artistic-license-2.0.php
-//
+
+/* Digital Wizard's Lab - game development framework
+ * Copyright (C) 2012, Matt Merkulov
+ *
+ * All rights reserved. Use of this code is allowed under the
+ * Artistic License 2.0 terms, as specified in the license.txt
+ * file distributed with this code, or available from
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
 
 /**
  * Current profile.
@@ -32,7 +32,7 @@ public LinkedList audioDrivers = new LinkedList();
 /**
  * Head class for profiles.
  */
-public class Profile extends DWLabObject {
+public class Profile extends Obj {
 	/**
 	 * Name of the profile.
 	 */
@@ -136,7 +136,7 @@ public class Profile extends DWLabObject {
 				case "TD3D7Max2DDriver", "TD3D9Max2DDriver":
 					driver = tMax2dDriver( driverTypeID.newObject() );
 			}
-			DWLabObject driverObject = driverTypeID.newObject();
+			Obj driverObject = driverTypeID.newObject();
 			for( tMethod theMethod: driverTypeID.enumMethods() ) {
 				String name = theMethod.name().toLowerCase();
 				if( name = "create" ) driver == tMax2dDriver( theMethod.invoke( driverObject, null ) );

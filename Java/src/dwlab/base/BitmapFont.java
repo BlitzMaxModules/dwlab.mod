@@ -2,30 +2,30 @@ package dwlab.base;
 import dwlab.shapes.Shape;
 import dwlab.shapes.Vector;
 import dwlab.sprites.Camera;
-import java.awt.Image;
-import org.lwjgl.opengl.GL11;
+import dwlab.visualizers.Image;
 
-//
-// Digital Wizard's Lab - game development framework
-// Copyright (C) 2012, Matt Merkulov
-//
-// All rights reserved. Use of this code is allowed under the
-// Artistic License 2.0 terms, as specified in the license.txt
-// file distributed with this code, or available from
-// http://www.opensource.org/licenses/artistic-license-2.0.php
-//
+
+/* Digital Wizard's Lab - game development framework
+ * Copyright (C) 2012, Matt Merkulov
+ *
+ * All rights reserved. Use of this code is allowed under the
+ * Artistic License 2.0 terms, as specified in the license.txt
+ * file distributed with this code, or available from
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
 
 
 /**
  * Bitmap font class.
  */
-public class BitmapFont extends DWLabObject {
+public class BitmapFont extends Obj {
 	private static Vector servicePivot = new Vector();
 	
-	public int letterLength[];
+	public int letterWidth[];
 	public int fromNum;
 	public int toNum;
-	public Image javaImage;
+	public Image image;
+	private boolean variableLength;
 
 
 
@@ -35,39 +35,40 @@ public class BitmapFont extends DWLabObject {
 	 * 
 	 * @see #lTAlign, #printInShape
 	 */
-	public void print( String text, double x, double y, double fontHeightInUnits, Align horizontalAlignment, Align verticalAlignment ) {
+	public void print( String text, double x, double y, double height, Align horizontalAlignment, Align verticalAlignment ) {
 		Camera.current.fieldToScreen( x, y, servicePivot );
 
-		double scale = Camera.current.k * fontHeightInUnits / height();
+		double scale = Camera.current.k * height / height();
 		
 		switch( horizontalAlignment ) {
 			case TO_CENTER:
 				servicePivot.setX( 0.5 * width( text ) * scale );
+				break;
 			case TO_RIGHT:
 				servicePivot.setX( width( text ) * scale );
+				break;
 		}
 
 		switch( verticalAlignment ) {
 			case TO_CENTER:
-				servicePivot.setY( 0.5 * height() * scale );
+				servicePivot.setY( 0.5 * height * scale );
+				break;
 			case TO_BOTTOM:
-				servicePivot.setY( height() * scale );
+				servicePivot.setY( height * scale );
+				break;
 		}
 
-		GL11.glVertex2d( x, y )
-		Graphics.class;
-		setScale scale, scale;
 		for( int n=0; n <= text.length(); n++ ) {
 			if( text.charAt( n ) < fromNum || text.charAt( n ) > toNum ) error( "String contains letter that is out of font range" );
-
-			drawImage( javaImage, sX, sY, text[ n ] - fromNum );
-			sX += scale * letterLength[ text[ n ] - fromNum ];
+			int frame = text.charAt( n ) - fromNum;
+			double width = scale * letterWidth[ frame ];
+			Graphics.drawImage( image, frame, servicePivot.getX(), servicePivot.getY(), scale * width, scale * height, 0 );
+			servicePivot.alterCoords( width, 0 );
 		}
-		setScale 1.0, 1.0;
 	}
 
 	public void print( String text, double x, double y, double fontHeightInUnits ) {
-		print( String text, x, y, fontHeightInUnits ) {
+		print( text, x, y, fontHeightInUnits, Align.TO_CENTER, Align.TO_CENTER );
 	}
 
 
@@ -75,30 +76,36 @@ public class BitmapFont extends DWLabObject {
 	 * Prints text inside given shape using bitmap font.
 	 * You should specify text, shape and alignment.
 	 * 
-	 * @see #lTAlign, #print
+	 * @see Align, print
 	 */
-	public void printInShape( String text, Shape shape, double fontHeightInUnits, int horizontalAlignment = Align.toLeft, int verticalAlignment = Align.TO_TOP ) {
-		double x, double y;
+	public void printInShape( String text, Shape shape, double height, Align horizontalAlignment, Align verticalAlignment ) {
+		double x, y;
 
 		switch( horizontalAlignment ) {
-			case Align.TO_LEFT:
+			case TO_LEFT:
 				x = shape.leftX();
-			case Align.TO_CENTER:
-				x = shape.x;
-			case Align.TO_RIGHT:
+				break;
+			case TO_RIGHT:
 				x = shape.rightX();
+				break;
+			default:
+				x = shape.getX();
+				break;
 		}
 
 		switch( verticalAlignment ) {
-			case Align.TO_TOP:
+			case TO_TOP:
 				y = shape.topY();
-			case Align.TO_CENTER:
-				y = shape.y;
-			case Align.TO_RIGHT:
+				break;
+			case TO_BOTTOM:
 				y = shape.bottomY();
+				break;
+			default:
+				y = shape.getY();
+				break;
 		}
 
-		print( text, x, y, fontHeightInUnits, horizontalAlignment, verticalAlignment );
+		print( text, x, y, height, horizontalAlignment, verticalAlignment );
 	}
 
 
@@ -107,21 +114,21 @@ public class BitmapFont extends DWLabObject {
 	 * Returns text width in pixels.
 	 * @return Text width in pixels for current bitmap font.
 	 */
-	public int width( String text ) {
-		int x = 0;
-		for( int n=0; n <= len( text ); n++ ) {
-			if( text[ n ] < fromNum || text[ n ] > toNum ) error( "String contains letter that is out of font range" );
-
-			x += letterLength[ text[ n ] - fromNum ];
+	public double width( String text ) {
+		if( !variableLength ) return image.getWidth();
+			
+		double x = 0;
+		for( int n=0; n <= text.length(); n++ ) {
+			if( text.charAt( n ) < fromNum || text.charAt( n ) > toNum ) error( "String contains letter that is out of font range" );
+			x += letterWidth[ text.charAt( n ) - fromNum ];
 		}
-		if( x mod 2 ) x += 1;
 		return x;
 	}
 
 
 
-	public int height() {
-		return imageHeight( javaImage );
+	public double height() {
+		return image.getHeight();
 	}
 
 
@@ -133,31 +140,38 @@ public class BitmapFont extends DWLabObject {
 	 * VariableLength flag should be set to true if you want to use letters with variable lengths and have file with letter lengths with ".lfn"
 	 * extension and same name as image file.
 	 */
-	public static BitmapFont fromFile( String fileName, int fromNum = 32, int toNum = 255, int symbolsPerRow = 16, int variableLength = false ), int toNum = 255, int symbolsPerRow = 16, int variableLength = false ) {
+	public static BitmapFont fromFile( String fileName, int fromNum, int toNum, int symbolsPerRow, boolean variableLength ) {
 		BitmapFont font = new BitmapFont();
 		font.fromNum = fromNum;
 		font.toNum = toNum;
+		font.variableLength = variableLength;
 
-		tPixmap pixmap = loadPixmap( incbin + filename );
 		int symbolsQuantity = font.toNum - font.fromNum + 1;
-		int symbolWidth = pixmapWidth( pixmap ) / symbolsPerRow;
-		//debugstop
-		font.javaImage = loadAnimImage( pixmap, symbolWidth, pixmapHeight( pixmap ) * symbolsPerRow / symbolsQuantity, 0, symbolsQuantity );
-
-		font.letterLength = new int()[ symbolsQuantity ];
 		if( variableLength ) {
-			tStream file = readFile( incbin + stripExt( fileName ) + ".lfn" );
-			if( ! file ) error( "Symbol length file for font is not found " + fileName );
-			for( int n=0; n <= symbolsQuantity; n++ ) {
-				if( eof( file ) ) error( "Not enough symbol length lines in file for font " + fileName );
-				font.letterLength[ n ] = readLine( file )[ 2.. ].toInt();
+			Image image = Image.fromFile( fileName );
+			int symbolWidth = ( image.getWidth() - 1 ) / symbolsPerRow;
+			int symbolHeight = image.getHeight() * ((int) Math.ceil( symbolsQuantity / symbolsPerRow ) );
+			font.letterWidth = new int[ symbolsQuantity ];
+			font.image = new Image( symbolsQuantity );
+			int pixel = image.getPixel( 0, 0 );
+			for( int n = 0; n < symbolsQuantity; n++ ) {
+				int x = symbolWidth * ( n % symbolsQuantity );
+				int y = (int) Math.floor( n / symbolsQuantity );
+				for( int width = symbolWidth - 1; width > 1; width-- ) {
+					if( image.getPixel( x + width, y + 1 ) != pixel ) {
+						font.image = image.grab( n, x + 1, y + 1, width - 1, symbolHeight - 1 );
+						break;
+					}
+				}
 			}
 		} else {
-			for( int n=0; n <= symbolsQuantity; n++ ) {
-				font.letterLength[ n ] = symbolWidth;
-			}
+			font.image = Image.fromFile( fileName, symbolsPerRow, (int) Math.ceil( symbolsQuantity / symbolsPerRow ) );
 		}
 
 		return font;
+	}
+	
+	public static BitmapFont fromFile( String fileName ) {
+		return fromFile( fileName, 32, 255, 16, false );
 	}
 }

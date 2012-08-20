@@ -1,52 +1,57 @@
 package dwlab.base;
 import dwlab.layers.Layer;
 import dwlab.controllers.Pushable;
+import dwlab.sprites.Camera;
+import dwlab.sprites.ShapeType;
 import dwlab.sprites.Sprite;
+import java.util.LinkedList;
 
-//
-// Digital Wizard's Lab - game development framework
-// Copyright (C) 2012, Matt Merkulov
-//
-// All rights reserved. Use of this code is allowed under the
-// Artistic License 2.0 terms, as specified in the license.txt
-// file distributed with this code, or available from
-// http://www.opensource.org/licenses/artistic-license-2.0.php
-//
 
-public int collisionChecks;
-public int tilesDisplayed;
-public int spritesDisplayed;
-public int spritesActed;
-public int spriteActed;
-
-public Project currentProject;
-public Sprite cursor = Sprite.fromShape( , , , , Sprite.pivot );
-
-/**
- * Quantity of logic frames per second.
- * @see #logic
+/* Digital Wizard's Lab - game development framework
+ * Copyright (C) 2012, Matt Merkulov
+ *
+ * All rights reserved. Use of this code is allowed under the
+ * Artistic License 2.0 terms, as specified in the license.txt
+ * file distributed with this code, or available from
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
-public double logicFPS = 75;
-public double deltaTime;
-
-public double maxLogicStepsWithoutRender = 6;
-
-/**
- * Current frames per second quantity.
- * @see #render
- */
-public int fPS;
-
-/**
- * Flipping flag.
- * If set to True then Cls will be performed before Render() and Flip will be performed after Render().
- */
-public int flipping = true;
 
 /**
  * Class for main project and subprojects.
  */
-public class Project extends DWLabObject {
+public class Project extends Obj {
+	public static int collisionChecks;
+	public static int tilesDisplayed;
+	public static int spritesDisplayed;
+	public static int spritesActed;
+	public static boolean spriteActed;
+
+	public static Project current;
+	public static Sprite cursor = new Sprite( ShapeType.PIVOT );
+
+	/**
+	* Quantity of logic frames per second.
+	* @see #logic
+	*/
+	public static double logicFPS = 75;
+	public static double deltaTime;
+
+	public static int maxLogicStepsWithoutRender = 6;
+	
+	public static LinkedList<Pushable> controllers = new LinkedList<Pushable>();
+
+	/**
+	* Current frames per second quantity.
+	* @see #render
+	*/
+	public static int fPS;
+
+	/**
+	* Flipping flag.
+	* If set to True then screen clearing will be performed before Render() and buffer switching will be performed after Render().
+	*/
+	public static boolean flipping = true;
+
 	/**
 	 * Current logic frame number.
 	 */
@@ -62,41 +67,20 @@ public class Project extends DWLabObject {
 	 * Exit flag.
 	 * Set it to True to exit project.
 	 */
-	public int exiting;
+	public boolean exiting;
 
-	public int startingTime;
+	public long startingTime;
 
 	// ==================== Loading layers and windows ===================	
-
-	/**
-	 * Loads and initializes layer and all its child objects from previously loaded world.
-	 */
-	public void loadAndInitLayer( Layer newLayer var, Layer layer ) {
-		newLayer = loadLayer( layer );
-		newLayer.init();
-	}
-
-
 
 	/**
 	 * Loads layer from world.
 	 */
 	public Layer loadLayer( Layer layer ) {
-		return Layer( layer.load() );
+		return (Layer) layer.load();
 	}
 
 	// ==================== Management ===================	
-
-	/**
-	 * Initialization method.
-	 * Fill it with project initialization commands.
-	 * 
-	 * @see #initGraphics, #initSound, #deInit
-	 */
-	public void init() {
-	}
-
-
 
 	/**
 	 * Graphics initialization method.
@@ -128,7 +112,6 @@ public class Project extends DWLabObject {
 	}
 
 
-
 	/**
 	 * Logic method. 
 	 * Fill it with project mechanics commands. Will be executed "LogicFPS" times per second.
@@ -137,7 +120,6 @@ public class Project extends DWLabObject {
 	 */
 	public void logic() {
 	}
-
 
 
 	/**
@@ -150,17 +132,15 @@ public class Project extends DWLabObject {
 	}
 
 
-
 	/**
 	 * Executes the project.
 	 * You cannot use this method to execute more projects if the project is already running, use Insert() method instead.
 	 */
 	public void execute() {
-		Project oldProject = currentProject;
-		currentProject = this;
+		Project oldProject = current;
+		current = this;
 
-		flushKeys;
-		flushMouse;
+		Sys.flushControllers();
 
 		exiting = false;
 		pass = 1;
@@ -171,11 +151,11 @@ public class Project extends DWLabObject {
 		initSound();
 
 		time = 0.0;
-		startingTime = milliSecs();
+		startingTime = System.currentTimeMillis();
 
-		double realTime = 0;
-		int fPSCount;
-		int fPSTime;
+		double realTime = 0d;
+		int fPSCount = 0;
+		long fPSTime = 0l;
 
 		for( Pushable controller: controllers ) {
 			controller.reset();
@@ -201,15 +181,15 @@ public class Project extends DWLabObject {
 				controller.reset();
 			}
 
-			if( exiting ) exit;
+			if( exiting ) break;
 
 			logicStepsWithoutRender += 1;
 
 			while( true ) {
-				realTime = 0.001 * ( millisecs() - startingTime );
-				if( realTime >= time && logicStepsWithoutRender <= maxLogicStepsWithoutRender ) exit;
+				realTime = 0.001 * ( System.currentTimeMillis() - startingTime );
+				if( realTime >= time && logicStepsWithoutRender <= maxLogicStepsWithoutRender ) break;
 
-				if( flipping && graphicsWidth() ) cls;
+				if( flipping && Graphics.initialized() ) Graphics.clearScreen();
 
 				spritesDisplayed = 0;
 				tilesDisplayed = 0;
@@ -220,24 +200,23 @@ public class Project extends DWLabObject {
 
 				windowsRender();
 
-				if( flipping && graphicsWidth() ) flip( false );
+				if( flipping && Graphics.initialized() ) Graphics.switchBuffers();
 
 				logicStepsWithoutRender = 0;
-				fPSCount += 1;
+				fPSCount ++;
 			}
 
-			if( millisecs() >= 1000 + fPSTime ) {
+			if( System.currentTimeMillis() >= 1000 + fPSTime ) {
 				fPS = fPSCount;
 				fPSCount = 0;
-				fPSTime = millisecs();
+				fPSTime = System.currentTimeMillis();
 			}
 
-			pollSystem();
 			pass += 1;
 		}
 
 		deInit();
-		currentProject = oldProject;
+		current = oldProject;
 	}
 
 	// ==================== Events ===================		
@@ -261,16 +240,13 @@ public class Project extends DWLabObject {
 	}
 
 
-
 	public void onEvent() {
 	}
-
 
 
 	public void onCloseButton() {
 		exiting = true;
 	}
-
 
 
 	public void onWindowResize() {
@@ -282,10 +258,8 @@ public class Project extends DWLabObject {
 	}
 
 
-
 	public void windowsRender() {
 	}
-
 
 
 	public void reloadWindows() {
@@ -300,12 +274,11 @@ public class Project extends DWLabObject {
 	 * @see #lTButtonAction example
 	 */
 	public void switchTo( Project project ) {
-		int freezingTime = milliSecs();
+		long freezingTime = System.currentTimeMillis();
 		project.execute();
 		deltaTime = 1.0 / logicFPS;
-		startingTime += milliSecs() - freezingTime;
+		startingTime += System.currentTimeMillis() - freezingTime;
 	}
-
 
 
 	//Deprecated
@@ -314,40 +287,17 @@ public class Project extends DWLabObject {
 	}
 
 
+	/**
+	* Draws various debugging information on screen.
+	* See also #wedgeOffWithSprite example
+	*/
+	public static void showDebugInfo() {
+		Graphics.drawText( "FPS" + fPS, 0, 0 );
+		Graphics.drawText( "Memory" + Runtime.getRuntime().totalMemory() / 1024 + "kb", 0, 16 );
 
-	public void showDebugInfo() {
-		showDebugInfo();
+		Graphics.drawText( "Collision  checks" + collisionChecks, 0, 32 );
+		Graphics.drawText( "Tiles  displayed" + tilesDisplayed, 0, 48 );
+		Graphics.drawText( "Sprites  displayed" + spritesDisplayed, 0, 64 );
+		Graphics.drawText( "Sprites  acted" + spritesActed, 0, 80 );
 	}
-}
-
-
-
-
-
-/**
- * Converts value second to value per logic frame.
- * @return Value for logic frame using given per second value.
- * For example, can return coordinate increment for speed per second.
-
- * @see #l_LogicFPS, #setAsTile example
- */
-public static double perSecond( double value ) {
-	return value * deltaTime;
-}
-
-
-
-
-/**
- * Draws various debugging information on screen.
- * See also #wedgeOffWithSprite example
- */
-public static void showDebugInfo() {
-	drawText( " FPS" + fPS, 0, 0 );
-	drawText( " Memory" + int( gCMemAlloced() / 1024 ) + "kb", 0, 16 );
-
-	drawText( "Collision  checks" + collisionChecks, 0, 32 );
-	drawText( "Tiles  displayed" + tilesDisplayed, 0, 48 );
-	drawText( "Sprites  displayed" + spritesDisplayed, 0, 64 );
-	drawText( "Sprites  acted" + spritesActed, 0, 80 );
 }

@@ -1,23 +1,23 @@
 package dwlab.controllers;
 import java.util.LinkedList;
 import dwlab.base.XMLObject;
-import dwlab.base.DWLabObject;
+import dwlab.base.Obj;
 
-//
-// Digital Wizard's Lab - game development framework
-// Copyright (C) 2012, Matt Merkulov
-//
-// All rights reserved. Use of this code is allowed under the
-// Artistic License 2.0 terms, as specified in the license.txt
-// file distributed with this code, or available from
-// http://www.opensource.org/licenses/artistic-license-2.0.php
-//
+
+/* Digital Wizard's Lab - game development framework
+ * Copyright (C) 2012, Matt Merkulov
+ *
+ * All rights reserved. Use of this code is allowed under the
+ * Artistic License 2.0 terms, as specified in the license.txt
+ * file distributed with this code, or available from
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
 
 /**
  * Class for action which can be triggered by activating pushable object (presing a key, mouse button, etc).
  * Key can be binded to several actions and several keys can be binded to one action.
  */	
-public class ButtonAction extends DWLabObject {
+public class ButtonAction extends Obj {
 	public String name;
 	public LinkedList buttonList = new LinkedList();
 

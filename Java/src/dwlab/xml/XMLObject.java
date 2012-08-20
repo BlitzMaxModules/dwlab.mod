@@ -1,17 +1,17 @@
 package xml;
-import dwlab.base.DWLabObject;
+import dwlab.base.Obj;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-//
-// Digital Wizard's Lab - game development framework
-// Copyright (C) 2012, Matt Merkulov
-//
-// All rights reserved. Use of this code is allowed under the
-// Artistic License 2.0 terms, as specified in the license.txt
-// file distributed with this code, or available from
-// http://www.opensource.org/licenses/artistic-license-2.0.php
-//
+
+/* Digital Wizard's Lab - game development framework
+ * Copyright (C) 2012, Matt Merkulov
+ *
+ * All rights reserved. Use of this code is allowed under the
+ * Artistic License 2.0 terms, as specified in the license.txt
+ * file distributed with this code, or available from
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
 
 /**
  * Class for intermediate objects to save/load objects from XML file.
@@ -19,7 +19,7 @@ import java.util.LinkedList;
  * During next step new objects will be created and filled with information using this XMLObjects structure.
  * When you save object to XML file, the system firstly creates a XMLObjects structure and unloads all information there, then save this structure to file. 
  */
-public class XMLObject extends DWLabObject {
+public class XMLObject extends Obj {
 	public String name;
 	public LinkedList<XMLAttribute> attributes = new LinkedList<XMLAttribute>();
 	public LinkedList<XMLObject> children = new LinkedList<XMLObject>();
@@ -145,7 +145,7 @@ public class XMLObject extends DWLabObject {
 	 * @see #manageDoubleAttribute, #manageStringAttribute, #manageObjectAttribute, #manageIntArrayAttribute, #xMLIO example
 	 */
 	public void manageIntAttribute( String attrName, int attrVariable var, int defaultValue = 0 ) {
-		if( XML.mode == XMLMode.GET ) {
+		if( DWLabSystem.xMLMode == XMLMode.GET ) {
 			for( XMLAttribute attr: attributes ) {
 				if( attr.name == attrName ) {
 					attrVariable = attr.value.toInt();
@@ -165,7 +165,7 @@ public class XMLObject extends DWLabObject {
 	 * @see #manageIntAttribute, #manageStringAttribute, #manageObjectAttribute, #xMLIO example
 	 */
 	public void manageDoubleAttribute( String attrName, double attrVariable var, double defaultValue = 0.double 0 ) {
-		if( XML.mode == XMLMode.GET ) {
+		if( DWLabSystem.xMLMode == XMLMode.GET ) {
 			for( XMLAttribute attr: attributes ) {
 				if( attr.name == attrName ) {
 					attrVariable = attr.value.toDouble();
@@ -185,7 +185,7 @@ public class XMLObject extends DWLabObject {
 	 * @see #manageIntAttribute, #manageDoubleAttribute, #manageObjectAttribute, #xMLIO example
 	 */
 	public void manageStringAttribute( String attrName, String attrVariable var ) {
-		if( XML.mode == XMLMode.GET ) {
+		if( DWLabSystem.xMLMode == XMLMode.GET ) {
 			for( XMLAttribute attr: attributes ) {
 				if( attr.name == attrName ) {
 					attrVariable = attr.value;
@@ -206,8 +206,8 @@ public class XMLObject extends DWLabObject {
 	 * 
 	 * @see #manageIntAttribute, #manageDoubleAttribute, #manageStringAttribute, #manageObjectField, #manageChildArray
 	 */
-	public DWLabObject manageObjectAttribute( String attrName, DWLabObject obj ) {
-		if( XML.mode == XMLMode.GET ) {
+	public Obj manageObjectAttribute( String attrName, Obj obj ) {
+		if( DWLabSystem.xMLMode == XMLMode.GET ) {
 			//debugstop
 			int iD = getAttribute( attrName ).toInt();
 			if( ! iD ) return obj;
@@ -238,7 +238,7 @@ public class XMLObject extends DWLabObject {
 	 * @see #manageIntAttribute
 	 */
 	public void manageIntArrayAttribute( String attrName, int intArray[] var, int chunkLength = 0 ) {
-		if( XML.mode == XMLMode.GET ) {
+		if( DWLabSystem.xMLMode == XMLMode.GET ) {
 			String data = getAttribute( attrName );
 			if( ! data ) return;
 			if( chunkLength ) {
@@ -278,8 +278,8 @@ public class XMLObject extends DWLabObject {
 	 * Transfers data between XMLObject field and framework object field with LTObject type.
 	 * @see #xMLIO example
 	 */
-	public DWLabObject manageObjectField( String fieldName, DWLabObject fieldObject) {
-		if( XML.mode == XMLMode.GET ) {
+	public Obj manageObjectField( String fieldName, Obj fieldObject) {
+		if( DWLabSystem.xMLMode == XMLMode.GET ) {
 			XMLObject xMLObject = getField( fieldName );
 
 			if( ! xMLObject ) return fieldObject;
@@ -304,7 +304,7 @@ public class XMLObject extends DWLabObject {
 	 * @see #manageChildList, #xMLIO example
 	 */
 	public void manageListField( String fieldName, LinkedList list var ) {
-		if( XML.mode == XMLMode.GET ) {
+		if( DWLabSystem.xMLMode == XMLMode.GET ) {
 			XMLObject xMLObject = getField( fieldName );
 			if( ! xMLObject ) return;
 			if( xMLObject ) xMLObject.manageChildList( list );
@@ -323,8 +323,8 @@ public class XMLObject extends DWLabObject {
 	 * Transfers data between XMLObject contents and framework object field with LTObject[] type.
 	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectMapField
 	 */
-	public void manageObjectArrayField( String fieldName, DWLabObject array[] var ) {
-		if( XML.mode == XMLMode.GET ) {
+	public void manageObjectArrayField( String fieldName, Obj array[] var ) {
+		if( DWLabSystem.xMLMode == XMLMode.GET ) {
 			XMLObject xMLArray = getField( fieldName );
 			if( ! xMLArray ) return;
 			if( xMLArray ) xMLArray.manageChildArray( array );
@@ -343,7 +343,7 @@ public class XMLObject extends DWLabObject {
 	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectArrayField
 	 */
 	public void manageObjectMapField( String fieldName, HashMap map var ) {
-		if( XML.mode == XMLMode.GET ) {
+		if( DWLabSystem.xMLMode == XMLMode.GET ) {
 			XMLObject xMLMap = getField( fieldName );
 			if( ! xMLMap ) return;
 			if( xMLMap ) xMLMap.manageChildMap( map );
@@ -363,7 +363,7 @@ public class XMLObject extends DWLabObject {
 	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectArrayField
 	 */
 	public void manageObjectSetField( String fieldName, HashMap map var ) {
-		if( XML.mode == XMLMode.GET ) {
+		if( DWLabSystem.xMLMode == XMLMode.GET ) {
 			XMLObject xMLMap = getField( fieldName );
 			if( ! xMLMap ) return;
 			if( xMLMap ) xMLMap.manageChildSet( map );
@@ -378,8 +378,8 @@ public class XMLObject extends DWLabObject {
 
 
 
-	public DWLabObject manageObject( DWLabObject obj ) {
-		if( XML.mode == XMLMode.GET ) {
+	public Obj manageObject( Obj obj ) {
+		if( DWLabSystem.xMLMode == XMLMode.GET ) {
 			int iD = getAttribute( "id" ).toInt();
 
 			if( name.equals( object ) ) {
@@ -434,14 +434,14 @@ public class XMLObject extends DWLabObject {
 	 */
 	public void manageChildList( LinkedList list var ) {
 		//debugstop
-		if( XML.mode == XMLMode.GET ) {
+		if( DWLabSystem.xMLMode == XMLMode.GET ) {
 			list = new LinkedList();
 			for( XMLObject xMLObject: children ) {
 				list.addLast( xMLObject.manageObject( null ) );
 			}
 		} else if( list then ) {
 			children.clear();
-			for( DWLabObject obj: list ) {
+			for( Obj obj: list ) {
 				XMLObject xMLObject = new XMLObject();
 				xMLObject.manageObject( obj );
 				children.addLast( xMLObject );
@@ -455,9 +455,9 @@ public class XMLObject extends DWLabObject {
 	 * Transfers data between XMLObject contents and framework object parameter with LTObject[] type.
 	 * @see #manageChildList, #manageListField
 	 */
-	public void manageChildArray( DWLabObject childArray[] var ) {
-		if( XML.mode == XMLMode.GET ) {
-			childArray = new DWLabObject()[ children.count() ];
+	public void manageChildArray( Obj childArray[] var ) {
+		if( DWLabSystem.xMLMode == XMLMode.GET ) {
+			childArray = new Obj()[ children.count() ];
 			int n = 0;
 			for( XMLObject xMLObject: children ) {
 				childArray[ n ] = xMLObject.manageObject( null );
@@ -465,7 +465,7 @@ public class XMLObject extends DWLabObject {
 				n += 1;
 			}
 		} else {
-			for( DWLabObject obj: childArray ) {
+			for( Obj obj: childArray ) {
 				XMLObject xMLObject = new XMLObject();
 				xMLObject.manageObject( obj );
 				children.addLast( xMLObject );
@@ -480,10 +480,10 @@ public class XMLObject extends DWLabObject {
 	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectArrayField
 	 */
 	public void manageChildMap( HashMap map var ) {
-		if( XML.mode == XMLMode.GET ) {
+		if( DWLabSystem.xMLMode == XMLMode.GET ) {
 			map = new HashMap();
 			for( XMLObject xMLObject: children ) {
-				DWLabObject key = null;
+				Obj key = null;
 				xMLObject.manageObjectAttribute( "key", key );
 				map.put( key, xMLObject.manageObject( null ) );
 			}
@@ -504,13 +504,13 @@ public class XMLObject extends DWLabObject {
 	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectArrayField
 	 */
 	public void manageChildSet( HashMap map var ) {
-		if( XML.mode == XMLMode.GET ) {
+		if( DWLabSystem.xMLMode == XMLMode.GET ) {
 			map = new HashMap();
 			for( XMLObject xMLObject: children ) {
 				map.put( xMLObject.manageObject( null ), null );
 			}
 		} else {
-			for( DWLabObject obj: map.keySet() ) {
+			for( Obj obj: map.keySet() ) {
 				XMLObject xMLValue = new XMLObject();
 				xMLValue.manageObject( obj );
 				children.addLast( xMLValue );

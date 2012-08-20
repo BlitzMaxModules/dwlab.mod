@@ -1,7 +1,8 @@
 package dwlab.shapes;
 import dwlab.base.Align;
-import dwlab.base.DWLabObject;
-import dwlab.base.XMLObject;
+import dwlab.base.Obj;
+import dwlab.base.Project;
+import dwlab.base.Sys;
 import dwlab.behavior_models.BehaviorModel;
 import dwlab.maps.TileMap;
 import dwlab.sprites.Camera;
@@ -10,37 +11,35 @@ import dwlab.sprites.SpriteAndTileCollisionHandler;
 import dwlab.sprites.SpriteCollisionHandler;
 import dwlab.visualizers.Image;
 import dwlab.visualizers.Visualizer;
-import dwlab.visualizers.WindowedVisualizer;
 import java.util.LinkedList;
 
-//
-// Digital Wizard's Lab - game development framework
-// Copyright (C) 2012, Matt Merkulov
-//
-// All rights reserved. Use of this code is allowed under the
-// Artistic License 2.0 terms, as specified in the license.txt
-// file distributed with this code, or available from
-// http://www.opensource.org/licenses/artistic-license-2.0.php
-//
+
+/* Digital Wizard's Lab - game development framework
+ * Copyright (C) 2012, Matt Merkulov
+ *
+ * All rights reserved. Use of this code is allowed under the
+ * Artistic License 2.0 terms, as specified in the license.txt
+ * file distributed with this code, or available from
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
 
 /**
  * Common object for item of game field.
  */
-public class Shape extends Vector {
-	public LinkedList<Parameter> parameters;
-
-
-	/**
-	 * Shape width in units.
-	 * @see #setWidth, #getDiameter, #setDiameter, 
-	 */
-	public double width = 1.0d;
+public class Shape extends Obj {
+	private LinkedList<Parameter> parameters;
 
 	/**
-	 * Shape height in units.
-	 * @see #setHeight, #correctHeight
+	 * Shape coordinates in units.
+	 * @see #getX, #setX, #getY, #setY
 	 */
-	public double height = 1.0d;
+	protected double x, y;
+
+	/**
+	 * Shape size in units.
+	 * @see #setWidth, #setHeight, #getDiameter, #setDiameter, 
+	 */
+	protected double width = 1.0d, height = 1.0d;
 
 	/**
 	 * Shape visualizer (object which displays this shape).
@@ -167,13 +166,154 @@ public class Shape extends Vector {
 
 	// ==================== Position ====================
 
+	public double getX() {
+		return x;
+	}
+	
+	
+	public void setX( double newX ) {
+		setCoords( newX, y );
+	}
+
+
+	public double getY() {
+		return y;
+	}
+
+
+	public void setY( double newY ) {
+		setCoords( x, newY );
+	}
+
+
+	/**
+	 * Distance to point.
+	 * @return Distance from the shape center to the point with given coordinates.
+	 * @see #distanceTo
+	 */
+	public double distanceToPoint( double pointX, double pointY ) {
+		double dX = x - pointX;
+		double dY = y - pointY;
+		return Math.sqrt( dX * dX + dY * dY );
+	}
+
+
+	/**
+	 * Distance to shape.
+	 * @return Distance from the shape center to center of another shape.
+	 * @see #distanceToPoint, #distanceToPoint example
+	 */
+	public double distanceTo( Shape shape ) {
+		double dX = x - shape.x;
+		double dY = y - shape.y;
+		return Math.sqrt( dX * dX + dY * dY );
+	}
+
+
+	public double distance2to( Shape shape ) {
+		double dX = x - shape.x;
+		double dY = y - shape.y;
+		return dX * dX + dY * dY;
+	}
+
+
+	/**
+	 * Checks if the shape is at position of another shape.
+	 * @return True if shape center has same coordinates as another shape center. 
+	 * @see #x, #y, #moveTowards example
+	 */
+	public boolean isAtPositionOf( Shape shape ) {
+		if( shape.x == x && shape.y == y ) return true; else return false;
+	}
+
+
+	public boolean isAtPositionOfPoint( double pointX, double pointY ) {
+		if( pointX == x && pointY == y ) return true; else return false;
+	}
+
+
+	/**
+	 * Sets coordinates of the shape.
+	 * It's better to use this method instead of equating X and Y fields to new values.
+	 * 
+	 * @see #x, #y, #setCornerCoords, #alterCoords, #setMouseCoords
+	 */
+	public void setCoords( double newX, double newY ) {
+		x = newX;
+		y = newY;
+		update();
+	}
+
+
+	/**
+	 * Alter coordinates of the shape.
+	 * Given values will be added to the coordinates. It's better to use this method instead of incrementing X and Y fields manually.
+	 * 
+	 * @see #setCoords, #setCornerCoords, #setMouseCoords, #clone example
+	 */
+	public void alterCoords( double dX, double dY ) {
+		setCoords( x + dX, y + dY );
+	}
+
+	
+	
+	public void roundCoords() {
+		setCoords( Math.round( x ), Math.round( y ) );
+	}
+
+
+	/**
+	 * Moves vector to mouse position.
+	 * Mouse coordinates will be transformed to field coordinates using current camera. Then shape coordinates will be equated to these.
+	 * 
+	 * @see #setCoords, #placeBetween example
+	 */
+	public void setMouseCoords( Camera camera ) {
+		camera.screenToField( Sys.mouseX(), Sys.mouseY(), Camera.servicePivot );
+		setCoords( Camera.servicePivot.x, Camera.servicePivot.y );
+	}
+	
+	
+	public void setMouseCoords() {
+		setMouseCoords( Camera.current );
+	}
+
+
+	public void setCoordsRelativeTo( Sprite sprite, double newX, double newY ) {
+		double spriteAngle = directionToPoint( newX, newY ) + sprite.angle;
+		double radius = Math.sqrt( newX * newX + newY * newY );
+		setCoords( sprite.x + radius * Math.cos( spriteAngle ), sprite.y + radius * Math.sin( spriteAngle ) );
+	}
+
+
+	/**
+	 * Position vector using coordinates in tilemap's coordinate system
+	 * Integer TileX and TileY sets shape position to the center of given tilemap's cooresponding tile
+	 */
+	public void positionOnTileMap( TileMap tileMap, double tileX, double tileY ) {
+		x = tileMap.leftX() + ( tileX + 0.5d ) * tileMap.getTileWidth();
+		y = tileMap.topY() + ( tileY + 0.5d ) * tileMap.getTileHeight();
+	}
+
+
+	/**
+	 * Moves the vector.
+	 * The shape will be moved with given horizontal and vertical speed per second.
+	 * 
+	 * @see #lTButtonAction example
+	 */
+	public void move( double dX, double dY ) {
+		setCoords( x + dX * Project.deltaTime, y + dY * Project.deltaTime );
+	}
+	
+
 	/**
 	 * Left side of the shape.
 	 * @return X coordinate of left shape side in units.
 	 * @see RightX#, TopY#, BottomY#, #x, #width
 	 */
 	public double leftX() {
- 		return x - 0.5 * width;
+ 		return x - 0.5d * width;
  	}
 
 
@@ -184,7 +324,7 @@ public class Shape extends Vector {
 	 * @see LeftX#, RightX#, BottomY#, #y, #height
 	 */
 	public double topY() {
- 		return y - 0.5 * height;
+ 		return y - 0.5d * height;
  	}
 
 
@@ -195,7 +335,7 @@ public class Shape extends Vector {
 	 * @see #leftX, #topY, #bottomY, #x, #width
 	 */
 	public double rightX() {
- 		return x + 0.5 * width;
+ 		return x + 0.5d * width;
  	}
 
 
@@ -206,14 +346,14 @@ public class Shape extends Vector {
 	 * @see LeftX#, RightX#, TopY#, #y, #height
 	 */
 	public double bottomY() {
- 		return y + 0.5 * height;
+ 		return y + 0.5d * height;
  	}
 
 
 
 	public void setCoordsAndSize( double x1, double y1, double x2, double y2 ) {
-		x = 0.double 5 * ( x1 + x2 );
-		y = 0.double 5 * ( y1 + y2 );
+		x = 0.5d * ( x1 + x2 );
+		y = 0.5d * ( y1 + y2 );
 		width = x2 - x1;
 		height = y2 - y1;
 		update();
@@ -234,60 +374,13 @@ public class Shape extends Vector {
 
 
 	/**
-	 * Moves shape to another one.
+	 * Moves vector to another one.
 	 * Center coordinates of the shape will be equated to corresponding center coordinates of given shape.
 	 * 
 	 * @see #isAtPositionOf, #setCoords
 	 */
 	public void jumpTo( Shape shape ) {
 		setCoords( shape.x , shape.y );
-	}
-
-
-
-	/**
-	 * Moves shape to mouse position.
-	 * Mouse coordinates will be transformed to field coordinates using current camera. Then shape coordinates will be equated to these.
-	 * 
-	 * @see #setCoords, #placeBetween example
-	 */
-	public void setMouseCoords( Camera camera = null ) {
-		if( ! camera ) camera == Camera.current;
-
-		double newX, double newY;
-		camera.screenToField( mouseX(), mouseY(), newX, newY );
-		setCoords( newX, newY );
-	}
-
-
-
-	public void setCoordsRelativeTo( Sprite sprite, double newX, double newY ) {
-		double spriteAngle = directionToPoint( newX, newY ) + sprite.angle;
-		double radius = Math.sqrt( newX * newX + newY * newY );
-		setCoords( sprite.x + radius * Math.cos( spriteAngle ), sprite.y + radius * Math.sin( spriteAngle ) );
-	}
-
-
-
-	/**
-	 * Position shape using coordinates in tilemap's coordinate system
-	 * Integer TileX and TileY sets shape position to the center of given tilemap's cooresponding tile
-	 */
-	public void positionOnTileMap( TileMap tileMap, double tileX, double tileY ) {
-		x = tileMap.leftX() + ( tileX + 0.5 ) * tileMap.getTileWidth();
-		y = tileMap.topY() + ( tileY + 0.5 ) * tileMap.getTileHeight();
-	}
-
-
-
-	/**
-	 * Moves the shape.
-	 * The shape will be moved with given horizontal and vertical speed per second.
-	 * 
-	 * @see #lTButtonAction example
-	 */
-	public void move( double dX, double dY ) {
-		setCoords( x + dX * deltaTime, y + dY * deltaTime );
 	}
 
 
@@ -468,28 +561,6 @@ public class Shape extends Vector {
 		setY( limitDouble( y, y1, y2 ) );
 	}
 
-	// ==================== Angle ====================
-
-	/**
-	 * Direction to the point.
-	 * @return Angle between vector from the center of the shape to the point with given coordinates and X axis.
-	 * @see #directionTo, #distanceToPoint example
-	 */
-	public double directionToPoint( double pointX, double pointY ) {
-		return Math.atan2( pointY - y, pointX - x );
-	}
-
-
-
-	/**
-	 * Direction to shape.
-	 * @return Angle between vector from the center of this shape to center of given shape and X axis.
-	 * @see #directionToPoint, #distanceToPoint example
-	 */
-	public double directionTo( Shape shape ) {
-		return Math.atan2( shape.y - y, shape.x - x );
-	}
-
 	// ==================== Size ====================
 
 	/**
@@ -630,6 +701,28 @@ public class Shape extends Vector {
 	 */
 	public void setFacing( double newFacing ) {
 		visualizer.setFacing( newFacing );
+	}
+
+	// ==================== Angle ====================
+
+	/**
+	 * Direction to the point.
+	 * @return Angle between vector from the center of the shape to the point with given coordinates and X axis.
+	 * @see #directionTo, #distanceToPoint example
+	 */
+	public double directionToPoint( double pointX, double pointY ) {
+		return Math.atan2( pointY - y, pointX - x );
+	}
+
+
+
+	/**
+	 * Direction to shape.
+	 * @return Angle between vector from the center of this shape to center of given shape and X axis.
+	 * @see #directionToPoint, #distanceToPoint example
+	 */
+	public double directionTo( Vector vector ) {
+		return Math.atan2( vector.y, vector.x - x );
 	}
 
 	// ==================== Behavior models ===================
@@ -1182,7 +1275,7 @@ public class Shape extends Vector {
 
 
 
-public class Parameter extends DWLabObject {
+public class Parameter extends Obj {
 	public String name;
 	public String value;
 

@@ -1,21 +1,21 @@
 package dwlab.sprites;
 import java.lang.Math;
-import dwlab.base.DWLabObject;
+import dwlab.base.Obj;
 import dwlab.shapes.LineSegment;
 import dwlab.shapes.Line;
 import dwlab.maps.TileMap;
 import dwlab.visualizers.Visualizer;
 import dwlab.visualizers.Image;
 
-//
-// Digital Wizard's Lab - game development framework
-// Copyright (C) 2012, Matt Merkulov
-//
-// All rights reserved. Use of this code is allowed under the
-// Artistic License 2.0 terms, as specified in the license.txt
-// file distributed with this code, or available from
-// http://www.opensource.org/licenses/artistic-license-2.0.php
-//
+
+/* Digital Wizard's Lab - game development framework
+ * Copyright (C) 2012, Matt Merkulov
+ *
+ * All rights reserved. Use of this code is allowed under the
+ * Artistic License 2.0 terms, as specified in the license.txt
+ * file distributed with this code, or available from
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
 
 // Collision handlers, functions and detection modules
 
@@ -32,7 +32,7 @@ public double inaccuracy = 0.000001;
 
  * @see #active example
  */
-public class SpriteCollisionHandler extends DWLabObject {
+public class SpriteCollisionHandler extends Obj {
 	public void handleCollision( Sprite sprite1, Sprite sprite2 ) {
 	}
 }
@@ -45,7 +45,7 @@ public class SpriteCollisionHandler extends DWLabObject {
 
  * @see #active example
  */
-public class SpriteAndTileCollisionHandler extends DWLabObject {
+public class SpriteAndTileCollisionHandler extends Obj {
 	public void handleCollision( Sprite sprite, TileMap tileMap, int tileX, int tileY, Sprite collisionSprite ) {
 	}
 }
@@ -58,7 +58,7 @@ public class SpriteAndTileCollisionHandler extends DWLabObject {
 
  * @see #active example
  */
-public class SpriteAndLineSegmentCollisionHandler extends DWLabObject {
+public class SpriteAndLineSegmentCollisionHandler extends Obj {
 	public void handleCollision( Sprite sprite, LineSegment lineSegment ) {
 	}
 }
@@ -296,10 +296,10 @@ public class Collision {
 		Image image1 = visualizer1.image;
 		Image image2 = visualizer2.image;
 		if( ! image1 || ! image2 ) return false;
-		if raster1.angle = 0 && raster2.angle =0 && raster1.width * image2.width() == raster2.width * image2.width() && ..;
-				raster1.height * image2.height() = raster2.height * image2.height() then;
-			double xScale = image1.width() / raster1.width;
-			double yScale = image1.height() / raster1.height;
+		if raster1.angle = 0 && raster2.angle =0 && raster1.width * image2.getWidth() == raster2.width * image2.getWidth() && ..;
+				raster1.height * image2.getHeight() = raster2.height * image2.getHeight() then;
+			double xScale = image1.getWidth() / raster1.width;
+			double yScale = image1.getHeight() / raster1.height;
 			return imagesCollide( image1.bMaxImage, raster1.x * xScale, raster1.y * yScale, raster1.frame, ..;
 					image2.bMaxImage, raster2.x * xScale, raster2.y * yScale, raster2.frame );
 		} else {

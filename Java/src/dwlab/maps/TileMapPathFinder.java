@@ -2,22 +2,22 @@ package dwlab.maps;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.lang.Math;
-import dwlab.base.DWLabObject;
+import dwlab.base.Obj;
 
-//
-// Digital Wizard's Lab - game development framework
-// Copyright (C) 2012, Matt Merkulov
-//
-// All rights reserved. Use of this code is allowed under the
-// Artistic License 2.0 terms, as specified in the license.txt
-// file distributed with this code, or available from
-// http://www.opensource.org/licenses/artistic-license-2.0.php
-//
+
+/* Digital Wizard's Lab - game development framework
+ * Copyright (C) 2012, Matt Merkulov
+ *
+ * All rights reserved. Use of this code is allowed under the
+ * Artistic License 2.0 terms, as specified in the license.txt
+ * file distributed with this code, or available from
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
 
 /**
  * Pathfinder finds a path in tilemap using flooding algorithm.
  */
-public class TileMapPathFinder extends DWLabObject {
+public class TileMapPathFinder extends Obj {
 	public IntMap map;
 	public int allowDiagonalMovement;
 	public HashMap points;
@@ -76,7 +76,7 @@ public class TileMapPathFinder extends DWLabObject {
 
 
 
-	public DWLabObject getPoint( int x, int y ) {
+	public Obj getPoint( int x, int y ) {
 		return points.get( String( x + map.xQuantity * y ) );
 	}
 

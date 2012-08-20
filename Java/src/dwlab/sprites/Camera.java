@@ -2,15 +2,15 @@ package dwlab.sprites;
 import dwlab.shapes.Vector;
 import dwlab.shapes.Shape;
 
-//
-// Digital Wizard's Lab - game development framework
-// Copyright (C) 2012, Matt Merkulov
-//
-// All rights reserved. Use of this code is allowed under the
-// Artistic License 2.0 terms, as specified in the license.txt
-// file distributed with this code, or available from
-// http://www.opensource.org/licenses/artistic-license-2.0.php
-//
+
+/* Digital Wizard's Lab - game development framework
+ * Copyright (C) 2012, Matt Merkulov
+ *
+ * All rights reserved. Use of this code is allowed under the
+ * Artistic License 2.0 terms, as specified in the license.txt
+ * file distributed with this code, or available from
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
 
 
 /**
@@ -153,7 +153,7 @@ public class Camera extends VectorSprite {
 	 * @see #viewport, #viewportClipping, #resetViewport
 	 */
 	public void setCameraViewport() {
-		if( ! graphicsWidth() ) return;
+		if( ! Graphics.getScreenWidth() ) return;
 		if( viewportClipping ) {
 			setViewport( viewport.x - 0.5 * viewport.width, viewport.y - 0.5 * viewport.height, viewport.width, viewport.height );
 		} else {
@@ -168,7 +168,7 @@ public class Camera extends VectorSprite {
 	 * @see #viewport, #viewportClipping, #setCameraViewport, #setAsViewport example
 	 */
 	public void resetViewport() {
-		setViewport( 0, 0, graphicsWidth(), graphicsHeight() );
+		setViewport( 0, 0, Graphics.getScreenWidth(), graphicsHeight() );
 	}
 
 
@@ -359,7 +359,7 @@ public class Camera extends VectorSprite {
 		xMLObject.manageDoubleAttribute( "x2", vX2 );
 		xMLObject.manageDoubleAttribute( "y2", vY2 );
 
-		if( XML.mode == XMLMode.GET ) update();
+		if( DWLabSystem.xMLMode == XMLMode.GET ) update();
 	}
 }
 
