@@ -26,6 +26,7 @@ Type TClass
 	End Function
 End Type
 
+TClass.Create( "java.lang", "System" )
 TClass.Create( "java.lang", "Math" )
 TClass.Create( "java.util", "LinkedList" )
 TClass.Create( "java.util", "HashMap" )
@@ -46,6 +47,11 @@ For Local Pair:String[] = Eachin [ ..
 	[ "Float", "float" ], ..
 	[ "Double", "double" ], ..
 	[ "Object", "Object" ], ..
+	..
+	[ "And", "&&" ], ..
+	[ "Or", "||" ], ..
+	[ "Not", "!" ], ..
+	[ "Mod", "%" ], ..
 	..
 	[ "String", "String" ], ..
 	[ "Length", "length" ], ..
@@ -80,9 +86,7 @@ For Local Pair:String[] = Eachin [ ..
 	[ "Keys", "keySet" ], ..
 	[ "Values", "values" ], ..
 	..
-	[ "And", "&&" ], ..
-	[ "Or", "||" ], ..
-	[ "Not", "!" ], ..
+	[ "Millisecs", "System.currentTimeMillis()", "system" ], ..
 	..
 	[ "Max", "Math.max", "math" ], ..
 	[ "Min", "Math.min", "math" ], ..
@@ -107,6 +111,7 @@ For Local Pair:String[] = Eachin [ ..
 	[ "Null", "null" ], ..
 	..
 	[ "Return", "return" ], ..
+	[ "Exit", "break" ], ..
 	[ "Super", "super" ], ..
 	[ "Self", "this" ], ..
 	[ "Extends", "extends" ], ..
@@ -273,8 +278,10 @@ Function ApplyRegExs:String( Text:String )
 	Text = TRegEx.Create( " *== *~q~q" ).ReplaceAll( Text, ".isEmpty()" )
 	Text = TRegEx.Create( " *== *~q([^~q]*)~q" ).ReplaceAll( Text, ".equals( ~q\1~q )" )
 	
-	Text = TRegEx.Create( "^((\t| )*)(ElseIf|Else If) (.*)( Then((\t| )*)|);" ).ReplaceAll( Text, "\1} else if( \4 ) {" )
+	Text = TRegEx.Create( "^((\t| )*)(ElseIf|Else If) (.*) Then((\t| )*);" ).ReplaceAll( Text, "\1} else if( \4 ) {" )
+	Text = TRegEx.Create( "^((\t| )*)(ElseIf|Else If) (.*);" ).ReplaceAll( Text, "\1} else if( \4 ) {" )
 	Text = TRegEx.Create( "^((\t| )*)If (.*) then((\t| )*);" ).ReplaceAll( Text, "\1if( \3 ) {" )
+	Text = TRegEx.Create( "^((\t| )*)If (.*) ((\t| )*);" ).ReplaceAll( Text, "\1if( \3 ) {" )
 	Text = TRegEx.Create( "^((\t| )*)If (.*) then (.*) else (.*);" ).ReplaceAll( Text, "\1if( \3 ) \4; else \5;" )
 	Text = TRegEx.Create( "^((\t| )*)If (.*) then (.*);" ).ReplaceAll( Text, "\1if( \3 ) \4;" )
 	Text = TRegEx.Create( "^((\t| )*)Else((\t| )*);" ).ReplaceAll( Text, "\1} else {" )
@@ -309,7 +316,16 @@ Function ApplyRegExs:String( Text:String )
 	Text = TRegEx.Create( "~~n" ).ReplaceAll( Text, "\r\n" )
 	Text = TRegEx.Create( "~~t" ).ReplaceAll( Text, "\t" )
 	
+	Text = TRegEx.Create( "(\d):Byte" ).ReplaceAll( Text, "\1" )
+	Text = TRegEx.Create( "(\d):Short" ).ReplaceAll( Text, "\1" )
+	Text = TRegEx.Create( "(\d):Int" ).ReplaceAll( Text, "\1" )
+	Text = TRegEx.Create( "(\d):Long" ).ReplaceAll( Text, "\1l" )
+	Text = TRegEx.Create( "(\d):Float" ).ReplaceAll( Text, "\1f" )
+	Text = TRegEx.Create( "(\d):Double" ).ReplaceAll( Text, "\1d" )
 	Text = TRegEx.Create( "((\w|\d|_)*) *: *((\w|\d|_)*)" ).ReplaceAll( Text, "\3 \1" )
+	
+	Text = TRegEx.Create( "\$(\d)" ).ReplaceAll( Text, "0x\1" )
+	Text = TRegEx.Create( "%(\d)" ).ReplaceAll( Text, "0b\1" )
 	
 	Text = Text.Replace( "@@", ":" )
 	'Text = TRegEx.Create( "" ).ReplaceAll( Text, "" )
