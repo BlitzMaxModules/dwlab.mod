@@ -8,13 +8,14 @@
  */
 
 package dwlab.base;
+import dwlab.base.Sys.XMLMode;
 import dwlab.visualizers.Visualizer;
+import dwlab.xml.XMLObject;
+import dwlab.xml.XMLObject.XMLAttribute;
+import dwlab.xml.XMLObject.XMLObjectField;
 import java.util.HashMap;
 import java.util.HashSet;
-import xml.XMLAttribute;
-import xml.XMLMode;
-import xml.XMLObject;
-import xml.XMLObjectField;
+
 
 /**
  * Global object class

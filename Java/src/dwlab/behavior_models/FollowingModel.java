@@ -4,7 +4,8 @@
  * All rights reserved. Use of this code is allowed under the
  * Artistic License 2.0 terms, as specified in the license.txt
  * file distributed with this code, or available from
- * http://www.opensource.org/licenses/artistic-license-2.0.php\r\n */
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
 
 package dwlab.behavior_models;
 
@@ -16,11 +17,9 @@ public class FollowingModel extends ChainedModel {
 	public boolean removeWhenStop;
 
 
-	public static FollowingModel create( Shape destinationShape, boolean removeWhenStop ) {
-		FollowingModel model = new FollowingModel();
-		model.destinationShape = destinationShape;
-		model.removeWhenStop = removeWhenStop;
-		return model;
+	public FollowingModel( Shape destinationShape, boolean removeWhenStop ) {
+		this.destinationShape = destinationShape;
+		this.removeWhenStop = removeWhenStop;
 	}
 
 

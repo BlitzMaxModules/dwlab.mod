@@ -10,6 +10,9 @@
 package dwlab.xml;
 
 import dwlab.base.Obj;
+import dwlab.base.Service;
+import dwlab.base.Sys;
+import dwlab.base.Sys.XMLMode;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -21,16 +24,16 @@ import java.util.LinkedList;
  */
 public class XMLObject extends Obj {
 	public String name;
-	private LinkedList<XMLAttribute> attributes = new LinkedList<XMLAttribute>();
+	public LinkedList<XMLAttribute> attributes = new LinkedList<XMLAttribute>();
 	
-	private class XMLAttribute {
+	public class XMLAttribute {
 		public String name;
 		public String value;
 	}	
 	
-	private LinkedList<XMLObjectField> fields = new LinkedList<XMLObjectField>();
+	public LinkedList<XMLObjectField> fields = new LinkedList<XMLObjectField>();
 	
-	private class XMLObjectField {
+	public class XMLObjectField {
 		public String name;
 		public XMLObject value;
 	}
@@ -45,7 +48,7 @@ public class XMLObject extends Obj {
 	 * @return True if attribute exists.
 	 * @see #getAttribute, #setAttribute, #removeAttribulte
 	 */
-	public int attributeExists( String attrName ) {
+	public boolean attributeExists( String attrName ) {
 		for( XMLAttribute attr: attributes ) {
 			if( attr.name == attrName ) return true;
 		}
@@ -156,18 +159,20 @@ public class XMLObject extends Obj {
 	 * Transfers data between XMLObject attribute and framework object field with Int type.
 	 * @see #manageDoubleAttribute, #manageStringAttribute, #manageObjectAttribute, #manageIntArrayAttribute, #xMLIO example
 	 */
-	public void manageIntAttribute( String attrName, int attrVariable var, int defaultValue = 0 ) {
-		if( DWLabSystem.xMLMode == XMLMode.GET ) {
+	public int manageIntAttribute( String attrName, int attrValue, int defaultValue ) {
+		if( Sys.xMLMode == XMLMode.GET ) {
 			for( XMLAttribute attr: attributes ) {
-				if( attr.name == attrName ) {
-					attrVariable = attr.value.toInt();
-					return;
-				}
+				if( attr.name.equals( attrName ) ) return Integer.parseInt( attr.value );
 			}
-			attrVariable = defaultValue;
-		} else if( attrVariable != defaultValue then ) {
-			setAttribute( attrName, String( attrVariable ) );
+			return defaultValue;
+		} else if( attrValue != defaultValue ) {
+			setAttribute( attrName, String.valueOf( attrValue ) );
 		}
+		return attrValue;
+	}
+	
+	public int manageIntAttribute( String attrName, int attrValue ) {
+		return manageIntAttribute( attrName, attrValue, 0 );
 	}
 
 
@@ -176,18 +181,20 @@ public class XMLObject extends Obj {
 	 * Transfers data between XMLObject attribute and framework object field with Double type.
 	 * @see #manageIntAttribute, #manageStringAttribute, #manageObjectAttribute, #xMLIO example
 	 */
-	public void manageDoubleAttribute( String attrName, double attrVariable var, double defaultValue = 0.double 0 ) {
-		if( DWLabSystem.xMLMode == XMLMode.GET ) {
+	public double manageDoubleAttribute( String attrName, double attrValue, double defaultValue ) {
+		if( Sys.xMLMode == XMLMode.GET ) {
 			for( XMLAttribute attr: attributes ) {
-				if( attr.name == attrName ) {
-					attrVariable = attr.value.toDouble();
-					return;
-				}
+				if( attr.name.equals( attrName ) ) return Double.parseDouble( attr.value );
 			}
-			attrVariable = defaultValue;
-		} else if( attrVariable != defaultValue then ) {
-			setAttribute( attrName, String( trimDouble( attrVariable, 8 ) ) );
+			return defaultValue;
+		} else if( attrValue != defaultValue ) {
+			setAttribute( attrName, Service.trim( attrValue, 8 ) );
 		}
+		return attrValue;
+	}
+	
+	public double manageDoubleAttribute( String attrName, double attrValue ) {
+		return manageDoubleAttribute( attrName, attrValue, 0d );
 	}
 
 
@@ -196,17 +203,15 @@ public class XMLObject extends Obj {
 	 * Transfers data between XMLObject attribute and framework object field with String type.
 	 * @see #manageIntAttribute, #manageDoubleAttribute, #manageObjectAttribute, #xMLIO example
 	 */
-	public void manageStringAttribute( String attrName, String attrVariable var ) {
-		if( DWLabSystem.xMLMode == XMLMode.GET ) {
+	public String manageStringAttribute( String attrName, String attrValue ) {
+		if( Sys.xMLMode == XMLMode.GET ) {
 			for( XMLAttribute attr: attributes ) {
-				if( attr.name == attrName ) {
-					attrVariable = attr.value;
-					return;
-				}
+				if( attr.name.equals( attrName ) ) return attr.value;
 			}
-		} else if( attrVariable then ) {
-			setAttribute( attrName, attrVariable );
+		} else if( ! attrValue.isEmpty() ) {
+			setAttribute( attrName, attrValue );
 		}
+		return attrValue;
 	}
 
 
@@ -219,7 +224,7 @@ public class XMLObject extends Obj {
 	 * @see #manageIntAttribute, #manageDoubleAttribute, #manageStringAttribute, #manageObjectField, #manageChildArray
 	 */
 	public Obj manageObjectAttribute( String attrName, Obj obj ) {
-		if( DWLabSystem.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLMode == XMLMode.GET ) {
 			//debugstop
 			int iD = getAttribute( attrName ).toInt();
 			if( ! iD ) return obj;
@@ -250,7 +255,7 @@ public class XMLObject extends Obj {
 	 * @see #manageIntAttribute
 	 */
 	public void manageIntArrayAttribute( String attrName, int intArray[] var, int chunkLength = 0 ) {
-		if( DWLabSystem.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLMode == XMLMode.GET ) {
 			String data = getAttribute( attrName );
 			if( ! data ) return;
 			if( chunkLength ) {
@@ -291,7 +296,7 @@ public class XMLObject extends Obj {
 	 * @see #xMLIO example
 	 */
 	public Obj manageObjectField( String fieldName, Obj fieldObject) {
-		if( DWLabSystem.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLMode == XMLMode.GET ) {
 			XMLObject xMLObject = getField( fieldName );
 
 			if( ! xMLObject ) return fieldObject;
@@ -316,7 +321,7 @@ public class XMLObject extends Obj {
 	 * @see #manageChildList, #xMLIO example
 	 */
 	public void manageListField( String fieldName, LinkedList list var ) {
-		if( DWLabSystem.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLMode == XMLMode.GET ) {
 			XMLObject xMLObject = getField( fieldName );
 			if( ! xMLObject ) return;
 			if( xMLObject ) xMLObject.manageChildList( list );
@@ -336,7 +341,7 @@ public class XMLObject extends Obj {
 	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectMapField
 	 */
 	public void manageObjectArrayField( String fieldName, Obj array[] var ) {
-		if( DWLabSystem.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLMode == XMLMode.GET ) {
 			XMLObject xMLArray = getField( fieldName );
 			if( ! xMLArray ) return;
 			if( xMLArray ) xMLArray.manageChildArray( array );
@@ -355,7 +360,7 @@ public class XMLObject extends Obj {
 	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectArrayField
 	 */
 	public void manageObjectMapField( String fieldName, HashMap map var ) {
-		if( DWLabSystem.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLMode == XMLMode.GET ) {
 			XMLObject xMLMap = getField( fieldName );
 			if( ! xMLMap ) return;
 			if( xMLMap ) xMLMap.manageChildMap( map );
@@ -375,7 +380,7 @@ public class XMLObject extends Obj {
 	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectArrayField
 	 */
 	public void manageObjectSetField( String fieldName, HashMap map var ) {
-		if( DWLabSystem.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLMode == XMLMode.GET ) {
 			XMLObject xMLMap = getField( fieldName );
 			if( ! xMLMap ) return;
 			if( xMLMap ) xMLMap.manageChildSet( map );
@@ -391,7 +396,7 @@ public class XMLObject extends Obj {
 
 
 	public Obj manageObject( Obj obj ) {
-		if( DWLabSystem.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLMode == XMLMode.GET ) {
 			int iD = getAttribute( "id" ).toInt();
 
 			if( name.equals( object ) ) {
@@ -446,7 +451,7 @@ public class XMLObject extends Obj {
 	 */
 	public void manageChildList( LinkedList list var ) {
 		//debugstop
-		if( DWLabSystem.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLMode == XMLMode.GET ) {
 			list = new LinkedList();
 			for( XMLObject xMLObject: children ) {
 				list.addLast( xMLObject.manageObject( null ) );
@@ -468,7 +473,7 @@ public class XMLObject extends Obj {
 	 * @see #manageChildList, #manageListField
 	 */
 	public void manageChildArray( Obj childArray[] var ) {
-		if( DWLabSystem.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLMode == XMLMode.GET ) {
 			childArray = new Obj()[ children.count() ];
 			int n = 0;
 			for( XMLObject xMLObject: children ) {
@@ -492,7 +497,7 @@ public class XMLObject extends Obj {
 	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectArrayField
 	 */
 	public void manageChildMap( HashMap map var ) {
-		if( DWLabSystem.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLMode == XMLMode.GET ) {
 			map = new HashMap();
 			for( XMLObject xMLObject: children ) {
 				Obj key = null;
@@ -516,7 +521,7 @@ public class XMLObject extends Obj {
 	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectArrayField
 	 */
 	public void manageChildSet( HashMap map var ) {
-		if( DWLabSystem.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLMode == XMLMode.GET ) {
 			map = new HashMap();
 			for( XMLObject xMLObject: children ) {
 				map.put( xMLObject.manageObject( null ), null );

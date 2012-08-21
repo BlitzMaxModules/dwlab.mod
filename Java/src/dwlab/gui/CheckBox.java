@@ -1,15 +1,15 @@
-package dwlab.gui;
-import dwlab.controllers.ButtonAction;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov 
 
  * All rights reserved. Use of this code is allowed under the
  * Artistic License 2.0 terms, as specified in the license.txt
  * file distributed with this code, or available from
- * http://www.opensource.org/licenses/artistic-license-2.0.php\r\n */
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
 
+package dwlab.gui;
+
+import dwlab.controllers.ButtonAction;
 
 /**
  * Class for button gadgets.
@@ -17,23 +17,24 @@ import dwlab.controllers.ButtonAction;
  * When user clicks checkbox second time, state returns to False and so on.
  */
 public class CheckBox extends Button {
+	@Override
 	public void onMouseOut() {
 		focus = false;
 	}
 
 
-
+	@Override
 	public void onButtonPress( ButtonAction buttonAction ) {
-		state = ! state;
+		state = !state;
 	}
 
 
-
+	@Override
 	public void onButtonDown( ButtonAction buttonAction ) {
 	}
 
 
-
+	@Override
 	public void onButtonUp( ButtonAction buttonAction ) {
 	}
 }

@@ -111,6 +111,9 @@ public class Sprite extends Shape {
 
 	// ==================== Creating ===================	
 
+	public Sprite() {
+	}
+
 	/**
 	 * Creates sprite using given shape type.
 	 * @return Created sprite.

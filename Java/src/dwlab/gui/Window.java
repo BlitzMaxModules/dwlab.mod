@@ -1,18 +1,18 @@
-package dwlab.gui;
-import java.util.HashMap;
-import dwlab.controllers.ButtonAction;
-import dwlab.layers.Layer;
-import dwlab.layers.World;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov 
 
  * All rights reserved. Use of this code is allowed under the
  * Artistic License 2.0 terms, as specified in the license.txt
  * file distributed with this code, or available from
- * http://www.opensource.org/licenses/artistic-license-2.0.php\r\n */
+ * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
+
+package dwlab.gui;
+
+import dwlab.controllers.ButtonAction;
+import dwlab.layers.Layer;
+import dwlab.layers.World;
+import java.util.HashSet;
 
 /**
  * Class for GUI window.
@@ -20,30 +20,30 @@ import dwlab.layers.World;
 public class Window extends Layer {
 	public World world;
 	public GUIProject project;
-	public HashMap mouseOver = new HashMap();
-	public int modal;
+	public HashSet mouseOver = new HashSet();
+	public boolean modal;
 
 
-
+	@Override
 	public void draw() {
 		if( ! visible ) return;
 		if( modal ) Camera.current.darken( 0.6 );
-		window = this;
+		GUIProject.window = this;
 		super.draw();
 	}
 
 
-
+	@Override
 	public void act() {
-		if( ! active ) return;
+		if( !active ) return;
 
-		window = this;
+		GUIProject.window = this;
 
 		for( Gadget gadget: children ) {
-			if( ! gadget.active ) continue;
+			if( !gadget.active ) continue;
 
 			if( gadget.collidesWithSprite( cursor ) ) {
-				if( ! mouseOver.contains( gadget ) ) {
+				if( !mouseOver.contains( gadget ) ) {
 					onMouseOver( gadget );
 					gadget.onMouseOver();
 					mouseOver.put( gadget, null );
@@ -73,14 +73,14 @@ public class Window extends Layer {
 			}
 		}
 
-		if( enter.wasPressed() ) {
+		if( Gadget.establish.wasPressed() ) {
 			for( Gadget gadget: children ) {
 				if( gadget.getParameter( "action" )[ ..4 ].equals( save ) ) {
 					onButtonPress( gadget, leftMouseButton );
 					onButtonUnpress( gadget, leftMouseButton );
 				}
 			}
-		} else if( esc.wasPressed() then ) {
+		} else if( Gadget.abort.wasPressed() then ) {
 			for( Gadget gadget: children ) {
 				if( gadget.getParameter( "action" ).equals( close ) ) {
 					onButtonPress( gadget, leftMouseButton );
@@ -94,18 +94,18 @@ public class Window extends Layer {
 				String leftPart = activeTextField.leftPart;
 				String rightPart = activeTextField.rightPart;
 				if( leftPart ) {
-					if( characterLeft.wasPressed() ) {
+					if( Gadget.moveCursorLeft.wasPressed() ) {
 						activeTextField.rightPart = leftPart[ leftPart.length - 1.. ] + rightPart;
 						activeTextField.leftPart = leftPart[ ..leftPart.length - 1 ];
 					}
-					if( deletePreviousCharacter.wasPressed() ) activeTextField.leftPart == leftPart[ ..leftPart.length - 1 ];
+					if( Gadget.deletePreviousCharacter.wasPressed() ) activeTextField.leftPart = leftPart[ ..leftPart.length - 1 ];
 				}
 				if( rightPart ) {
-					if( characterRight.wasPressed() ) {
+					if( Gadget.moveCursorRight.wasPressed() ) {
 						activeTextField.leftPart = leftPart + rightPart[ ..1 ];
 						activeTextField.rightPart = rightPart[ 1.. ];
 					}
-					if( deleteNextCharacter.wasPressed() ) activeTextField.rightPart == rightPart[ 1.. ];
+					if( Gadget.deleteNextCharacter.wasPressed() ) activeTextField.rightPart = rightPart[ 1.. ];
 				}
 				int key = getChar();
 				if( key >= 32 && ( activeTextField.maxSymbols == 0 || len( activeTextField.leftPart + activeTextField.rightPart ) < activeTextField.maxSymbols ) ) {
@@ -119,7 +119,6 @@ public class Window extends Layer {
 	}
 
 
-
 	/**
 	 * Button pressing event method.
 	 * Called when button just being pressed on window's gadget.
@@ -128,7 +127,6 @@ public class Window extends Layer {
 	 */
 	public void onButtonPress( Gadget gadget, ButtonAction buttonAction ) {
 	}
-
 
 
 	/**
@@ -176,7 +174,6 @@ public class Window extends Layer {
 	}
 
 
-
 	/**
 	 * Button down event method.
 	 * Called when button is currently pressed and cursor is over window's gadget.
@@ -185,7 +182,6 @@ public class Window extends Layer {
 	 */
 	public void onButtonDown( Gadget gadget, ButtonAction buttonAction ) {
 	}
-
 
 
 	/**
@@ -198,7 +194,6 @@ public class Window extends Layer {
 	}
 
 
-
 	/**
 	 * Mouse cursor entering gadget event method.
 	 * Called when mouse is just entered window's gadget area.
@@ -207,7 +202,6 @@ public class Window extends Layer {
 	 */
 	public void onMouseOver( Gadget gadget ) {
 	}
-
 
 
 	/**
@@ -220,14 +214,12 @@ public class Window extends Layer {
 	}
 
 
-
 	/**
 	 * Window closing event method.
 	 * Called when window is closed.
 	 */
 	public void onClose() {
 	}
-
 
 
 	/**
@@ -238,10 +230,5 @@ public class Window extends Layer {
 	 * @see #onButtonUnpress
 	 */
 	public void save() {
-	}
-
-
-
-	public void deInit() {
 	}
 }

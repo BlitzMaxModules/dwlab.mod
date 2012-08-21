@@ -13,7 +13,7 @@ import dwlab.sprites.Sprite;
  * All rights reserved. Use of this code is allowed under the
  * Artistic License 2.0 terms, as specified in the license.txt
  * file distributed with this code, or available from
- * http://www.opensource.org/licenses/artistic-license-2.0.php\r\n */
+ * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
 
 /**
@@ -287,7 +287,7 @@ public class Graph extends Shape {
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
 		HashMap map = null;
-		if( DWLabSystem.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLMode == XMLMode.GET ) {
 			xMLObject.manageObjectSetField( "pivots", map );
 			for( Sprite piv: map.keySet() ) {
 				addPivot( piv );

@@ -1,4 +1,14 @@
+/* Digital Wizard's Lab - game development framework
+ * Copyright (C) 2012, Matt Merkulov
+ *
+ * All rights reserved. Use of this code is allowed under the
+ * Artistic License 2.0 terms, as specified in the license.txt
+ * file distributed with this code, or available from
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
+
 package dwlab.shapes;
+
 import dwlab.base.Align;
 import dwlab.base.Obj;
 import dwlab.base.Project;
@@ -11,23 +21,11 @@ import dwlab.sprites.SpriteAndTileCollisionHandler;
 import dwlab.sprites.SpriteCollisionHandler;
 import dwlab.visualizers.Image;
 import dwlab.visualizers.Visualizer;
+import dwlab.xml.XMLObject;
+import java.util.Iterator;
 import java.util.LinkedList;
-import xml.XMLObject;
 
-
-/* Digital Wizard's Lab - game development framework
- * Copyright (C) 2012, Matt Merkulov
- *
- * All rights reserved. Use of this code is allowed under the
- * Artistic License 2.0 terms, as specified in the license.txt
- * file distributed with this code, or available from
- * http://www.opensource.org/licenses/artistic-license-2.0.php
- */
-
-
-
-
-	/**
+/**
  * Common object for item of game field.
  */
 public class Shape extends Obj {
@@ -594,6 +592,24 @@ public class Shape extends Obj {
 	}
 
 
+	/**
+	 * Returns diameter of circular shape.
+	 * @return Width field of the shape.
+	 * @see #setDiameter
+	 */
+	public double getDiameter() {
+		return width;
+	}
+
+
+	/**
+	 * Sets the diameter of the shape.
+	 * @see #getDiameter
+	 */
+	public void setDiameter( double newDiameter ) {
+		setSize( newDiameter, newDiameter );
+	}
+
 
 	/**
 	 * Sets the size of the shape.
@@ -608,7 +624,6 @@ public class Shape extends Obj {
 	}
 
 
-
 	/**
 	 * Sets the size of the shape as of given shape.
 	 * @see #width, #height, #setWidth, #setHeight, #setSize, #alterSize, #directAs example
@@ -616,7 +631,6 @@ public class Shape extends Obj {
 	public void setSizeAs( Shape shape ) {
 		setSize( shape.width, shape.height );
 	}
-
 
 
 	/**
@@ -629,27 +643,6 @@ public class Shape extends Obj {
 		width *= dWidth;
 		height *= dHeight;
 		update();
-	}
-
-
-
-	/**
-	 * Returns diameter of circular shape.
-	 * @return Width field of the shape.
-	 * @see #setDiameter
-	 */
-	public double getDiameter() {
-		return width;
-	}
-
-
-
-	/**
-	 * Sets the diameter of the shape.
-	 * @see #getDiameter
-	 */
-	public void setDiameter( double newDiameter ) {
-		setSize( newDiameter, newDiameter );
 	}
 
 
@@ -785,7 +778,6 @@ public class Shape extends Obj {
 	}
 
 
-
 	/**
 	 * Activates all behavior models of the shape.
 	 * Executes Activate() method of all deactivated models and set their Active field to True.
@@ -802,7 +794,6 @@ public class Shape extends Obj {
 	}
 
 
-
 	/**
 	 * Deactivates all behavior models of the shape.
 	 * Executes Deactivate() method of all activated models and set their Active field to False.
@@ -817,7 +808,6 @@ public class Shape extends Obj {
 			}
 		}
 	}
-
 
 
 	/**
@@ -837,7 +827,6 @@ public class Shape extends Obj {
 	}
 
 
-
 	/**
 	 * Deactivates shape behavior models of class with given name.
 	 * Executes Deactivate() method of all active models of class with given name and set their Active field to False.
@@ -853,7 +842,6 @@ public class Shape extends Obj {
 			}
 		}
 	}
-
 
 
 	/**
@@ -878,7 +866,6 @@ public class Shape extends Obj {
 	}
 
 
-
 	/**
 	 * Removes all shape behavior models of class with given name.
 	 * Active models will be deactivated before removal.
@@ -893,7 +880,6 @@ public class Shape extends Obj {
 			}
 		}
 	}
-
 
 
 	/**
@@ -958,29 +944,47 @@ public class Shape extends Obj {
 
 	// ==================== Parameters ===================	
 
+	public boolean parameterExists( String name ) {
+		if( parameters != null ) {
+			for( Parameter parameter: parameters ) {
+				if( parameter.name.equals( name ) ) return true;
+			}
+		}
+		return false;
+	}
+
+	
 	/**
 	 * Retrieves value of object's parameter with given name.
 	 * @return Value of object's parameter with given name.
 	 * @see #getTitle, #getName, #lTBehaviorModel example.
 	 */
 	public String getParameter( String name ) {
-		if( ! parameters ) return "";
-		for( Parameter parameter: parameters ) {
-			if( parameter.name == name ) return parameter.value;
+		if( parameters != null ) {
+			for( Parameter parameter: parameters ) {
+				if( parameter.name.equals( name ) ) return parameter.value;
+			}
 		}
+		return "";
 	}
-
+	
+	public int getIntegerParameter( String name ) {
+		return Integer.parseInt( name );
+	}
+	
+	public double getDoubleParameter( String name ) {
+		return Double.parseDouble( name );
+	}
 
 
 	public String getTitle() {
-		return titleGenerator.getTitle( this );
+		return TitleGenerator.current.getTitle( this );
 	}
-
 
 
 	public String getClassTitle() {
+		return "";
 	}
-
 
 
 	/**
@@ -994,17 +998,6 @@ public class Shape extends Obj {
 
 
 
-	public int parameterExists( String name ) {
-		if( parameters ) {
-			for( Parameter parameter: parameters ) {
-				if( parameter.name == name ) return true;
-			}
-		}
-		return false;
-	}
-
-
-
 	/**
 	 * Sets shape parameter  with given name and value.
 	 * Recommended to use it only if you build your own world via code.
@@ -1012,9 +1005,9 @@ public class Shape extends Obj {
 	 * @see #getParameter
 	 */
 	public void setParameter( String name, String value ) {
-		if( parameters ) {
+		if( parameters != null ) {
 			for( Parameter parameter: parameters ) {
-				if( parameter.name == name ) {
+				if( parameter.name.equals( name ) ) {
 					parameter.value = value;
 					return;
 				}
@@ -1035,7 +1028,7 @@ public class Shape extends Obj {
 		Parameter parameter = new Parameter();
 		parameter.name = name;
 		parameter.value = value;
-		if( ! parameters ) parameters == new LinkedList();
+		if( parameters != null ) parameters = new LinkedList<Parameter>();
 		parameters.addLast( parameter );
 	}
 
@@ -1048,13 +1041,10 @@ public class Shape extends Obj {
 	 * @see #getParameter
 	 */
 	public void removeParameter( String name ) {
-		if( ! parameters ) return;
-		tLink link = parameters.firstLink();
-		while( link ) {
-			if( Parameter( link.value() ).name == name ) link.remove();
-			link = link.nextLink() ;
+		if( parameters == null ) return;
+		for ( Iterator<Parameter> iterator = parameters.iterator(); iterator.hasNext(); ) {
+			if( iterator.next().name.equals( name ) ) iterator.remove();
 		}
-		if( parameters.isEmpty() ) parameters == null;
 	}
 
 	// ==================== Search ===================
@@ -1078,7 +1068,10 @@ public class Shape extends Obj {
 	}
 
 
-
+	public Shape findShape( String parameterName, String parameterValue ) {
+		if( getParameter( parameterName ).equals( parameterValue ) || parameterName.isEmpty() ) return this; else return null;
+	}
+	
 	/**
 	 * Finds shape with given name.
 	 * @return First found shape with given name.
@@ -1086,28 +1079,14 @@ public class Shape extends Obj {
 	 * 
 	 * @see #parallax example
 	 */
-	public Shape findShape( String name, int ignoreError = false ) {
-		return findShapeWithParameterID( "name", name, null, ignoreError );
+	public Shape findShape( String name ) {
+		return findShape( "name", name );
 	}
 
 
-
-	/**
-	 * Finds shape of class with given name.
-	 * @return First found shape of class of class with given name.
-	 * IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
-	 * You can specify optional Name parameter to check only shapes with this name.
-	 * 
-	 * @see #parallax example
-	 */
-	public Shape findShapeWithType( String shapeType, String name = "", int ignoreError = false ) {
-		if( name ) {
-			return findShapeWithParameterID( "name", name, getTypeID( shapeType ), ignoreError );
-		} else {
-			return findShapeWithParameterID( "", "", getTypeID( shapeType ), ignoreError );
-		}
+	public Shape findShape( Class shapeClass ) {
+		if( getClass() == shapeClass ) return this; else return null;
 	}
-
 
 
 	/**
@@ -1115,28 +1094,27 @@ public class Shape extends Obj {
 	 * @return First found layer shape of class with given name and parameter with given name and value.
 	 * IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
 	 */
-	public Shape findShapeWithParameter( String parameterName, String parameterValue, String shapeType = "", int ignoreError = false ) {
-		return findShapeWithParameterID( parameterName, parameterValue, getTypeID( shapeType ), ignoreError );
-	}
-
-
-
-	public Shape findShapeWithParameterID( String parameterName, String parameterValue, tTypeID shapeTypeID, int ignoreError = false ) {
-		if( tTypeId.forObject( this ) == shapeTypeID || ! shapeTypeID ) {
-			if( getParameter( parameterName ) == parameterValue || ! parameterName ) return this;
-		}
-
-		if( ! ignoreError ) {
-			String typeName = "";
-			if( shapeTypeID ) typeName.equals(  and type \" ) + shapeTypeID.name() + "\"";
-			error( "Shape with parameter " + parameterName + " = " + parameterValue + typeName + " not found." );
+	public Shape findShape( String parameterName, String parameterValue, Class shapeClass ) {
+		if( getClass() == shapeClass ) {
+			if( getParameter( parameterName ).equals( parameterValue ) || parameterName.isEmpty() ) return this;
 		}
 		return null;
 	}
 
+	/**
+	 * Finds shape of class with given name.
+	 * @return First found shape of given class.
+	 * IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
+	 * You can specify optional Name parameter to check only shapes with this name.
+	 * 
+	 * @see #parallax example
+	 */
+	public Shape findShape( String name, Class shapeClass ) {
+		return findShape( "name", name, shapeClass );
+	}
+	
 
-
-	public Shape findShapeWithParameterIDInChildShapes( String parameterName, String parameterValue, tTypeID shapeTypeID ) {
+	public Shape findShapeInChildShapes( String parameterName, String parameterValue, Class shapeClass ) {
 		return null;
 	}
 
@@ -1146,7 +1124,7 @@ public class Shape extends Obj {
 	 * Inserts the shape before given.
 	 * Included layers and sprite maps will be also checked for given shape.
 	 */
-	public int insertBeforeShape( Shape shape = null, LinkedList shapesList = null, Shape beforeShape ) {
+	public boolean insertBeforeShape( Shape shape, LinkedList shapesList, Shape beforeShape ) {
 		return false;
 	}
 
@@ -1283,22 +1261,5 @@ public class Shape extends Obj {
 		xMLObject.manageIntAttribute( "visible", visible, 1 );
 		xMLObject.manageIntAttribute( "active", active, 1 );
 		visualizer = Visualizer( xMLObject.manageObjectField( "visualizer", visualizer ) );
-	}
-}
-
-
-
-
-
-
-public TitleGenerator titleGenerator = new TitleGenerator();
-
-public class TitleGenerator {
-	public String getTitle( Shape shape ) {
-		String title = shape.getParameter( "name" );
-		if( title ) return title;
-		title = shape.getParameter( "class" );
-		if( title ) return title;
-		return shape.getClassTitle();
 	}
 }

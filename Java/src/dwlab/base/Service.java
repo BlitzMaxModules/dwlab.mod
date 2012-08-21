@@ -297,6 +297,11 @@ public class Service extends Obj {
 	public static int toPowerOf2( int value ) {
 		return (int) Math.pow( 2.0d, Math.ceil( Math.log( value ) / log2 ) );
 	}
+	
+	
+	public static double random( double from, double to ) {
+		return from + Math.random() * ( to - from );
+	}
 
 	
 	public class Margins {

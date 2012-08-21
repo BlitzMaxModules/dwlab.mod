@@ -11,7 +11,7 @@ import dwlab.visualizers.Visualizer;
  * All rights reserved. Use of this code is allowed under the
  * Artistic License 2.0 terms, as specified in the license.txt
  * file distributed with this code, or available from
- * http://www.opensource.org/licenses/artistic-license-2.0.php\r\n */
+ * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
 
 
@@ -251,7 +251,7 @@ public class TileMap extends IntMap {
 		xMLObject.manageIntAttribute( "vertical-order", verticalOrder, 1 );
 
 		int chunkLength = getChunkLength( tilesQuantity );
-		if( DWLabSystem.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLMode == XMLMode.GET ) {
 			value = new int()[ xQuantity, yQuantity ];
 			int y = 0;
 			for( XMLObject xMLRow: xMLObject.children ) {

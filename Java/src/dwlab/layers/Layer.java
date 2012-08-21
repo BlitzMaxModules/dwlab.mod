@@ -16,7 +16,7 @@ import dwlab.sprites.Sprite;
  * All rights reserved. Use of this code is allowed under the
  * Artistic License 2.0 terms, as specified in the license.txt
  * file distributed with this code, or available from
- * http://www.opensource.org/licenses/artistic-license-2.0.php\r\n */
+ * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
 
 
@@ -29,7 +29,7 @@ public class Layer extends Shape {
 	/**
 	 * List of shapes.
 	 */
-	public LinkedList children = new LinkedList();
+	public LinkedList<Shape> children = new LinkedList<Shape>();
 
 	/**
 	 * Rectangular shape of layer bounds.
@@ -227,15 +227,15 @@ public class Layer extends Shape {
 
 	// ==================== List wrapping methods ====================
 
-	public tLink addFirst( Shape shape ) {
-		return children.addFirst( shape );
+	public void addFirst( Shape shape ) {
+		children.addFirst( shape );
 	}
 
 
 
 
-	public tLink addLast( Shape shape ) {
-		return children.addLast( shape );
+	public void addLast( Shape shape ) {
+		children.addLast( shape );
 	}
 
 
@@ -247,7 +247,7 @@ public class Layer extends Shape {
 
 
 	public Shape get( int index ) {
-		return Shape( children.get( index ) );
+		return children.get( index );
 	}
 
 

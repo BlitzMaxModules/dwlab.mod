@@ -199,7 +199,7 @@ public class TileSet extends Obj {
 		xMLObject.manageIntAttribute( "empty-tile", emptyTile, -1 );
 		xMLObject.manageChildList( categories );
 
-		if( DWLabSystem.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLMode == XMLMode.GET ) {
 			collisionShape = new Shape()[ tilesQuantity ];
 
 			XMLObject arrayXMLObject = xMLObject.getField( "collision-shapes" );

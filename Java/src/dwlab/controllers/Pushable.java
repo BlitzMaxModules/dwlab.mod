@@ -1,8 +1,3 @@
-package dwlab.controllers;
-import java.util.LinkedList;
-import dwlab.base.Obj;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov
  *
@@ -12,23 +7,22 @@ import dwlab.base.Obj;
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 
+package dwlab.controllers;
 
-
-
-
-public LinkedList controllers = new LinkedList();
+import dwlab.base.Obj;
 
 /**
  * Common class for keys, buttons and mouse wheel rolls.
  */
 public class Pushable extends Obj {
-	public final int justPressed = 0;
-	public final int pressed = 1;
-	public final int justUnpressed = 2;
-	public final int unpressed = 3;
+	public enum State {
+		JUST_PRESSED,
+		PRESSED,
+		JUST_UNPRESSED,
+		UNPRESSED
+	}
 
-	public int state = unpressed;
-
+	public State state = State.UNPRESSED;
 
 
 	/**
@@ -37,56 +31,52 @@ public class Pushable extends Obj {
 	 * You can use LocalizeString to get name in current language.
 	 */
 	public String getName() {
+		return "";
 	}
-
 
 
 	public void processEvent() {
 	}
 
 
-
 	public void reset() {
 		switch( state ) {
-			case justPressed:
-				state = pressed;
-			case justUnpressed:
-				state = unpressed;
+			case JUST_PRESSED:
+				state = State.PRESSED;
+			case JUST_UNPRESSED:
+				state = State.UNPRESSED;
 		}
 	}
-
 
 
 	/**
 	 * Function which checks is the object pressed.
 	 * @return True if pushable object is currently pressed.
 	 */
-	public int isDown() {
-		return state = justPressed || state = pressed;
+	public boolean isDown() {
+		return state == State.JUST_PRESSED || state == State.PRESSED;
 	}
 
 
-
-	public int isEqualTo( Pushable pushable ) {
+	public boolean isEqualTo( Pushable pushable ) {
+		return false;
 	}
-
 
 
 	/**
 	 * Function which checks was the object pressed.
 	 * @return True if pushable object was presed during this project cycle.
 	 */
-	public int wasPressed() {
-		return state = justPressed;
+	public boolean wasPressed() {
+		return state == State.JUST_PRESSED;
 	}
-
 
 
 	/**
 	 * Function which checks was the object unpressed.
 	 * @return True if pushable object was unpresed during this project cycle.
 	 */
-	public int wasUnpressed() {
-		return state = justUnpressed;
+	public boolean wasUnpressed() {
+		return state == State.JUST_UNPRESSED;
 	}
 }

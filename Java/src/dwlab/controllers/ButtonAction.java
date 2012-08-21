@@ -1,9 +1,3 @@
-package dwlab.controllers;
-import dwlab.base.Obj;
-import dwlab.base.XMLObject;
-import java.util.LinkedList;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov
  *
@@ -12,6 +6,13 @@ import java.util.LinkedList;
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
+
+package dwlab.controllers;
+
+import dwlab.base.Obj;
+import dwlab.base.Sys;
+import dwlab.xml.XMLObject;
+import java.util.LinkedList;
 
 /**
  * Class for action which can be triggered by activating pushable object (presing a key, mouse button, etc).
@@ -27,11 +28,24 @@ public class ButtonAction extends Obj {
 	public int maxButtons = 3;
 
 
+	/**
+	 * Creates button action with given pushable object (button) and name (optional).
+	 * @return New button action with one pushable object (button).
+	 */
+	public ButtonAction( Pushable button, String name ) {
+		this.name = name;
+		this.buttonList.addLast( button );
+	}
+	
+	public ButtonAction( Pushable button ) {
+		this.buttonList.addLast( button );
+	}
 
-	public String getButtonNames( int withBrackets = false ) {
+
+	public String getButtonNames( boolean withBrackets ) {
 		String names = "";
 		for( Pushable button: buttonList ) {
-			if( names ) names += ", ";
+			if( !names.isEmpty() ) names += ", ";
 			if( withBrackets ) {
 				names += "{{" + button.getName() + "}}";
 			} else {
@@ -40,20 +54,10 @@ public class ButtonAction extends Obj {
 		}
 		return names;
 	}
-
-
-
-	/**
-	 * Creates button action with given pushable object (button) and name (optional).
-	 * @return New button action with one pushable object (button).
-	 */
-	public static ButtonAction create( Pushable button, String name = "" ) {
-		ButtonAction buttonAction = new ButtonAction();
-		buttonAction.name = name;
-		buttonAction.buttonList.addLast( button );
-		return buttonAction;
+	
+	public String getButtonNames() {
+		return getButtonNames( false );
 	}
-
 
 
 	/**
@@ -64,32 +68,32 @@ public class ButtonAction extends Obj {
 			if( oldButton.isEqualTo( button ) ) return;
 		}
 		buttonList.addLast( button );
-		if( maxButtons > 0 then if buttonList.count() > maxButtons ) buttonList.removeFirst();
+		if( maxButtons > 0 ) if( buttonList.size() > maxButtons ) buttonList.removeFirst();
 	}
 
 
-
-
-	public int define() {
+	public boolean define() {
 		for( int code=1; code <= 255; code++ ) {
-			if( keyHit( code ) ) {
+			if( Sys.keyHit( code ) ) {
 				addButton( KeyboardKey.create( code ) );
 				return true;
 			}
 		}
 
 		for( int num=1; num <= 3; num++ ) {
-			if( mouseHit( num ) ) {
-				addButton( lTMouseButton.create( num ) );
+			if( Sys.mouseHit( num ) ) {
+				addButton( MouseButton.create( num ) );
 				return true;
 			}
 		}
 
-		if( mouseZ() ) {
-			addButton( MouseWheelAction.create( sgn( mouseZ() ) ) );
-			flushMouse();
+		if( Sys.mouseZ() != 0 ) {
+			addButton( MouseWheelAction.create( Sys.mouseZ() ) );
+			Sys.flushMouse();
 			return true;
 		}
+		
+		return false;
 	}
 
 
@@ -107,10 +111,11 @@ public class ButtonAction extends Obj {
 	 * Function which checks button action pressing state.
 	 * @return True if one of pushable objects (buttons) of this action is currently pressed.
 	 */
-	public int isDown() {
+	public boolean isDown() {
 		for( Pushable button: buttonList ) {
 			if( button.isDown() ) return true;
 		}
+		return false;
 	}
 
 
@@ -119,10 +124,11 @@ public class ButtonAction extends Obj {
 	 * Function which checks button action just-pressing state.
 	 * @return True if one of pushable objects (buttons) of this action was pressed in current project cycle.
 	 */
-	public int wasPressed() {
+	public boolean wasPressed() {
 		for( Pushable button: buttonList ) {
 			if( button.wasPressed() ) return true;
 		}
+		return false;
 	}
 
 
@@ -131,25 +137,19 @@ public class ButtonAction extends Obj {
 	 * Function which checks button action just-unpressing state.
 	 * @return True if one of pushable objects (buttons) of this action was unpressed in current project cycle.
 	 */	
-	public int wasUnpressed() {
+	public boolean wasUnpressed() {
 		for( Pushable button: buttonList ) {
 			if( button.wasUnpressed() ) return true;
 		}
+		return false;
 	}
 
 
 
-	public static ButtonAction indexOf( LinkedList keySet, String name ) {
-		for( ButtonAction buttonAction: keySet ) {
-			if( buttonAction.name == name ) return buttonAction;
-		}
-	}
-
-
-
+	@Override
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
-		xMLObject.manageStringAttribute( "name", name );
+		name = xMLObject.manageStringAttribute( "name", name );
 		xMLObject.manageChildList( buttonList );
 	}
 }

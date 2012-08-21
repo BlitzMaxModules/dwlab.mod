@@ -355,7 +355,7 @@ public class Camera extends VectorSprite {
 		xMLObject.manageDoubleAttribute( "x2", vX2 );
 		xMLObject.manageDoubleAttribute( "y2", vY2 );
 
-		if( DWLabSystem.xMLMode == XMLMode.GET ) update();
+		if( Sys.xMLMode == XMLMode.GET ) update();
 	}
 }
 

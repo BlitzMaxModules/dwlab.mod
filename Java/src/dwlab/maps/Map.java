@@ -10,7 +10,7 @@ import dwlab.shapes.Shape;
  * All rights reserved. Use of this code is allowed under the
  * Artistic License 2.0 terms, as specified in the license.txt
  * file distributed with this code, or available from
- * http://www.opensource.org/licenses/artistic-license-2.0.php\r\n */
+ * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
 
 
@@ -100,6 +100,6 @@ public class Map extends Shape {
 		xMLObject.manageIntAttribute( "xquantity", xQuantity );
 		xMLObject.manageIntAttribute( "yquantity", yQuantity );
 
-		if( DWLabSystem.xMLMode == XMLMode.GET ) setResolution( xQuantity, yQuantity );
+		if( Sys.xMLMode == XMLMode.GET ) setResolution( xQuantity, yQuantity );
 	}
 }

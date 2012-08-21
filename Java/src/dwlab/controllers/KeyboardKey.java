@@ -1,15 +1,17 @@
-package dwlab.controllers;
-import dwlab.base.XMLObject;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov 
 
  * All rights reserved. Use of this code is allowed under the
  * Artistic License 2.0 terms, as specified in the license.txt
  * file distributed with this code, or available from
- * http://www.opensource.org/licenses/artistic-license-2.0.php\r\n */
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
 
+package dwlab.controllers;
+
+import dwlab.base.Project;
+import dwlab.base.Sys;
+import dwlab.xml.XMLObject;
 
 /**
  * Class for keyboard keys.
@@ -19,7 +21,9 @@ public class KeyboardKey extends Pushable {
 
 
 
+	@Override
 	public String getName() {
+		/*
 		switch( code ) {
 			case kEY_BACKSPACE:
 				return "Backspace";
@@ -221,27 +225,29 @@ public class KeyboardKey extends Pushable {
 			case kEY_RALT:
 				return "Right Alt";
 		}
+		*/
+		return "";
 	}
 
 
-
-	public int isEqualTo( Pushable pushable ) {
-		KeyboardKey key = KeyboardKey( pushable );
-		if( key ) return code == key.code;
+	@Override
+	public boolean isEqualTo( Pushable pushable ) {
+		KeyboardKey key = (KeyboardKey) pushable;
+		if( key != null ) return code == key.code;
+		return false;
 	}
 
 
-
+	@Override
 	public void processEvent() {
-		if( eventData() != code ) return;
+		/*if( eventData() != code ) return;
 		switch( eventID() ) {
 			case event_KeyDown:
 				state = justPressed;
 			case event_KeyUp:
 				state = justUnpressed;
-		}
+		}*/
 	}
-
 
 
 	/**
@@ -249,21 +255,22 @@ public class KeyboardKey extends Pushable {
 	 * @return New object of keyboard key with given code.
 	 */	
 	public static KeyboardKey create( int code ) {
-		for( KeyboardKey key: controllers ) {
-			if( key.code == code ) return key;
-		}
-
 		KeyboardKey key = new KeyboardKey();
 		key.code = code;
-		controllers.addLast( key );
+		
+		for( Pushable pushable: Project.controllers ) {
+			if( pushable.isEqualTo( key ) ) return key;
+		}
+
+		Project.controllers.addLast( key );
 		return key;
 	}
 
 
-
+	@Override
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
-		xMLObject.manageIntAttribute( "code", code );
-		if( DWLabSystem.xMLMode == XMLMode.GET ) controllers.addLast( this );
+		code = xMLObject.manageIntAttribute( "code", code );
+		if( Sys.xMLGetMode() ) Project.controllers.addLast( this );
 	}
 }
