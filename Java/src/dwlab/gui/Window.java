@@ -12,6 +12,7 @@ package dwlab.gui;
 import dwlab.controllers.ButtonAction;
 import dwlab.layers.Layer;
 import dwlab.layers.World;
+import dwlab.sprites.Camera;
 import java.util.HashSet;
 
 /**
@@ -39,14 +40,15 @@ public class Window extends Layer {
 
 		GUIProject.window = this;
 
-		for( Gadget gadget: children ) {
-			if( !gadget.active ) continue;
+		for( Shape shape: children ) {
+			Gadget gadget = (Gadget) shape;
+			if( gadget == null || !gadget.active ) continue;
 
-			if( gadget.collidesWithSprite( cursor ) ) {
+			if( gadget.collidesWithSprite( Project.cursor ) ) {
 				if( !mouseOver.contains( gadget ) ) {
 					onMouseOver( gadget );
 					gadget.onMouseOver();
-					mouseOver.put( gadget, null );
+					mouseOver.add( gadget );
 				}
 
 				for( ButtonAction buttonAction: gUIButtons ) {

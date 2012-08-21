@@ -20,10 +20,10 @@ public class Sys {
 
 	public static void flushControllers() {
 		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
 
 	public static void flushKeys() {
 		throw new UnsupportedOperationException( "Not yet implemented" );
-	}
 	}
 	
 	public static void flushMouse() {
