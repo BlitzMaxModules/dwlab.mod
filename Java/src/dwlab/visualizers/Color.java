@@ -1,9 +1,3 @@
-package dwlab.visualizers;
-import dwlab.base.Obj;
-import dwlab.base.Service;
-import xml.XMLObject;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov
  *
@@ -13,7 +7,11 @@ import xml.XMLObject;
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 
+package dwlab.visualizers;
 
+import dwlab.base.Obj;
+import dwlab.base.Service;
+import dwlab.xml.XMLObject;
 
 public class Color extends Obj {
 	public static Color black = new Color( "000000" );
@@ -23,28 +21,32 @@ public class Color extends Obj {
 	 * Red color intensity for drawing.
 	 * @see #setColorFromHex, #setColorFromRGB, #alterColor, #applyColor, #resetColor
 	 */
-	public double red = 1.0;
+	public double red = 1.0d;
 
 	/**
 	 * Green color intensity for drawing.
 	 * @see #setColorFromHex, #setColorFromRGB, #alterColor, #applyColor, #resetColor
 	 */
-	public double green = 1.0;
+	public double green = 1.0d;
 
 	/**
 	 * Blue color intensity for drawing.
 	 * @see #setColorFromHex, #setColorFromRGB, #alterColor, #applyColor, #resetColor
 	 */
-	public double blue = 1.0;
+	public double blue = 1.0d;
 
 	/**
 	 * Alpha (transparency) value for drawing.
 	 * #applyColor, #resetColor
 	 */
-	public double alpha = 1.0;
+	public double alpha = 1.0d;
 
 	// ==================== Creating ====================
 
+	public Color(){
+	}
+	
+	
 	/**
 	 * Creates new color using given RGB components and transparency.
 	 * @return New color.
@@ -87,7 +89,6 @@ public class Color extends Obj {
 	}
 
 
-
 	/**
 	 * Applies color given in color intensities to visualizer.
 	 * Every intensity should be in range from 0.0 to 1.0.
@@ -105,7 +106,6 @@ public class Color extends Obj {
 	}
 
 
-
 	/**
 	 * Sets random color.
 	 * Each component is in [ 0.25, 1.0 ] range.
@@ -113,7 +113,6 @@ public class Color extends Obj {
 	public void setRandomColor() {
 		setColorFromRGB( Math.random() * 0.75d + 0.25d, Math.random() * 0.75d + 0.25d, Math.random() * 0.75d + 0.25d );
 	}
-
 
 
 	/**
@@ -138,7 +137,7 @@ public class Color extends Obj {
 	}
 
 
-
+	@Override
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
 

@@ -1,15 +1,3 @@
-package dwlab.visualizers;
-import java.util.LinkedList;
-import dwlab.base.XMLObject;
-import java.lang.Math;
-import dwlab.shapes.Shape;
-import dwlab.maps.SpriteMap;
-import dwlab.shapes.LineSegment;
-import dwlab.maps.TileSet;
-import dwlab.maps.TileMap;
-import dwlab.sprites.Sprite;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov 
 
@@ -18,13 +6,12 @@ import dwlab.sprites.Sprite;
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
-
-
-
-
-
-
-
+package dwlab.visualizers;
+import dwlab.maps.TileMap;
+import dwlab.shapes.LineSegment;
+import dwlab.sprites.Sprite;
+import dwlab.xml.XMLObject;
+import java.util.LinkedList;
 
 /**
  * Visualizer is object which contains parameters for drawing the shape.
@@ -58,16 +45,16 @@ public class Visualizer extends Color {
 	 * Scaling flag.
 	 * If False then image will be drawn with no scaling at all.
 	 */
-	public int scaling = true;
+	public boolean scaling = true;
 
 	/**
 	 * Rotating flag.
 	 * If False then Angle parameter will not be used.
 	 */
-	public int rotating = true;
+	public boolean rotating = true;
 
 	/**
-	 * Image (LTImage) field.
+	 * Image field.
 	 */
 	public Image image;
 
@@ -104,7 +91,7 @@ public class Visualizer extends Color {
 	 * @return New visualizer.
 	 * @see #fromFile, #fromImage, #fromHexColor
 	 */
-	public static Visualizer fromRGBColor( double red, double green, double blue, double alpha = 1.0, double scale = 1.0, int scaling = true ) {
+	public static Visualizer fromRGBColor( double red, double green, double blue, double alpha, double scale, int scaling ) {
 		Visualizer visualizer = new Visualizer();
 		visualizer.setColorFromRGB( red, green, blue );
 		visualizer.alpha = alpha;
@@ -120,7 +107,7 @@ public class Visualizer extends Color {
 	 * @return New visualizer.
 	 * @see #fromFile, #fromImage, #fromRGBColor, #overlaps example.
 	 */
-	public static Visualizer fromHexColor( String hexColor = "FFFFFF", double alpha = 1.0, double scale = 1.0, int scaling = true ) {
+	public static Visualizer fromHexColor( String hexColor, double alpha, double scale, int scaling ) {
 		Visualizer visualizer = new Visualizer();
 		visualizer.setColorFromHex( hexColor );
 		visualizer.alpha = alpha;
@@ -184,7 +171,7 @@ public class Visualizer extends Color {
 	 * Draws given sprite using this visualizer.
 	 * Change this method if you are making your own visualizer.
 	 */
-	public void drawUsingSprite( Sprite sprite, Sprite spriteShape = null ) {
+	public void drawUsingSprite( Sprite sprite, Sprite spriteShape ) {
 		if( ! sprite.visible ) return;
 
 		if( ! spriteShape ) spriteShape == sprite;
@@ -232,14 +219,14 @@ public class Visualizer extends Color {
 	 * Draws sprite shape.
 	 * Isometric camera deformations are also applied.
 	 */
-	public void drawSpriteShape( Sprite sprite, Sprite spriteShape = null ) {
-		if( ! spriteShape ) spriteShape == sprite;
+	public void drawSpriteShape( Sprite sprite, Sprite spriteShape ) {
+		if( ! spriteShape ) spriteShape = sprite;
 
 		double sX, double sY, double sWidth, double sHeight;
 		if( sprite.shapeType == Sprite.pivot ) {
 			Camera.current.fieldToScreen( sprite.x, sprite.y, sX, sY );
 			drawOval( sX - 2.5 * xScale + 0.5, sY - 2.5 * yScale + 0.5, 5 * xScale, 5 * yScale );
-		} else if( Camera.current.isometric then ) {
+		} else if( Camera.current.isometric ) {
 			switch( sprite.shapeType ) {
 				case Sprite.circle:
 					drawIsoOval( sprite.x, sprite.y, sprite.width, sprite.height );
@@ -260,23 +247,23 @@ public class Visualizer extends Color {
 					setBlend blend;
 				}
 			} else {
-				drawShape( sprite.shapeType, sX, sY, sWidth, sHeight, spriteShape.angle * ( sprite.physics() || sprite.shapeType = Sprite.ray ) );
+				drawShape( sprite.shapeType, sX, sY, sWidth, sHeight, sprite.physics() || sprite.shapeType == Sprite.ray ? 0: spriteShape.angle );
 			}
 		}
 	}
 
 
 
-	public static void drawShape( int shapeType, double sX, double sY, double sWidth, double sHeight, double angle = 0.0 ) {
+	public static void drawShape( Sprite.ShapeType shapeType, double sX, double sY, double sWidth, double sHeight, double angle ) {
 		setRotation( angle );
 
 		switch( shapeType ) {
-			case Sprite.oval:
+			case OVAL:
 				if( sWidth == sHeight ) {
 					setHandle( 0.5 * sWidth, 0.5 * sHeight );
 					drawOval( sX, sY, sWidth, sHeight );
 					setHandle( 0.0, 0.0 );
-				} else if( sWidth > sHeight then ) {
+				} else if( sWidth > sHeight ) {
 					double dWidth = sWidth - sHeight;
 					setHandle( 0.5 * sWidth, 0.5 * sHeight );
 					drawOval( sX, sY, sHeight, sHeight );
@@ -296,41 +283,44 @@ public class Visualizer extends Color {
 					setHandle( 0.0, 0.0 );
 				}
 				setOrigin( 0.0, 0.0 );
-			case Sprite.rectangle:
+				break;
+			case RECTANGLE:
 				setHandle( 0.5 * sWidth, 0.5 * sHeight );
 				drawRect( sX, sY, sWidth, sHeight );
 				setHandle( 0.0, 0.0 );
-			case Sprite.ray:
+				break;
+			case RAY:
 				setRotation( 0.0 );
 				drawOval( sX - 2, sY - 2, 5, 5 );
 				double ang = wrapDouble( angle, 360.0 );
 				if( ang < 45.0 || ang >= 315.0 ) {
 					double width = Camera.current.viewport.rightX() - sX;
 					if( width > 0 ) drawLine( sX, sY, sX + width, sY + width * Math.tan( ang ) );
-				} else if( ang < 135.0 then ) {
+				} else if( ang < 135.0 ) {
 					double height = Camera.current.viewport.bottomY() - sY;
 					if( height > 0 ) drawLine( sX, sY, sX + height / Math.tan( ang ), sY + height );
-				} else if( ang < 225.0 then ) {
+				} else if( ang < 225.0 ) {
 					double width = Camera.current.viewport.leftX() - sX;
 					if( width < 0 ) drawLine( sX, sY, sX + width, sY + width * Math.tan( ang ) );
 				} else {
 					double height = Camera.current.viewport.topY() - sY;
 					if( height < 0 ) drawLine( sX, sY, sX + height / Math.tan( ang ), sY + height );
 				}
+				break;
 			default:
 				setOrigin( sX, sY );
 				switch( shapeType ) {
-					case Sprite.topLeftTriangle:
-						drawPoly( [ float( -0.5 * sWidth ), float( -0.5 * sHeight ), float( 0.5 * sWidth ), float( -0.5 * sHeight ), ..;
+					case TOP_LEFT_TRIANGLE:
+						drawPoly( [ float( -0.5 * sWidth ), float( -0.5 * sHeight ), float( 0.5 * sWidth ), float( -0.5 * sHeight ),
 								float( -0.5 * sWidth ), float( 0.5 * sHeight ) ] );
-					case Sprite.topRightTriangle:
-						drawPoly( [ float( -0.5 * sWidth ), float( -0.5 * sHeight ), float( 0.5 * sWidth ), float( -0.5 * sHeight ), ..;
+					case TOP_RIGHT_TRIANGLE:
+						drawPoly( [ float( -0.5 * sWidth ), float( -0.5 * sHeight ), float( 0.5 * sWidth ), float( -0.5 * sHeight ),
 								float( 0.5 * sWidth ), float( 0.5 * sHeight ) ] );
-					case Sprite.bottomLeftTriangle:
-						drawPoly( [ float( -0.5 * sWidth ), float( 0.5 * sHeight ), float( 0.5 * sWidth ), float( 0.5 * sHeight ), ..;
+					case BOTTOM_LEFT_TRIANGLE:
+						drawPoly( [ float( -0.5 * sWidth ), float( 0.5 * sHeight ), float( 0.5 * sWidth ), float( 0.5 * sHeight ),
 								float( -0.5 * sWidth ), float( -0.5 * sHeight ) ] );
-					case Sprite.bottomRightTriangle:
-						drawPoly( [ float( -0.5 * sWidth ), float( 0.5 * sHeight ), float( 0.5 * sWidth ), float( 0.5 * sHeight ), ..;
+					case BOTTOM_RIGHT_TRIANGLE:
+						drawPoly( [ float( -0.5 * sWidth ), float( 0.5 * sHeight ), float( 0.5 * sWidth ), float( 0.5 * sHeight ),
 								float( 0.5 * sWidth ), float( -0.5 * sHeight ) ] );
 				}
 				setOrigin( 0.0, 0.0 );
@@ -395,7 +385,7 @@ public class Visualizer extends Color {
 	 * Draws given tilemap using this visualizer.
 	 * Change this method if you are making your own visualizer.
 	 */
-	public void drawUsingTileMap( TileMap tileMap, LinkedList shapes = null ) {
+	public void drawUsingTileMap( TileMap tileMap, LinkedList shapes ) {
 		if( ! tileMap.visible ) return;
 
 		TileSet tileSet = tileMap.tileSet;
@@ -549,6 +539,7 @@ public class Visualizer extends Color {
 	 * Clones the visualizer.
 	 * @return Clone of the visualizer.
 	 */
+	@Override
 	public Visualizer clone() {
 		Visualizer visualizer = new Visualizer();
 		copyVisualizerTo( visualizer );
@@ -571,6 +562,7 @@ public class Visualizer extends Color {
 
 
 
+	@Override
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
 

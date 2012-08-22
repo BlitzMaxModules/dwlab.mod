@@ -1,7 +1,9 @@
 package dwlab.gui;
+import dwlab.base.Project;
 import java.util.LinkedList;
 import java.lang.Math;
 import dwlab.controllers.ButtonAction;
+import dwlab.sprites.Camera;
 import dwlab.sprites.Sprite;
 
 
@@ -22,7 +24,7 @@ public class ListBox extends Gadget {
 	 * List type.
 	 * Can be Vertical or Horizontal.
 	 */
-	public int listType = vertical;
+	public Orientation listType = Orientation.VERTICAL;
 
 	/**
 	 * List which contains list box items.
@@ -37,24 +39,25 @@ public class ListBox extends Gadget {
 	public double shift;
 
 
+	@Override
 	public String getClassTitle() {
 		return "List box";
 	}
 
 
-
+	@Override
 	public void init() {
 		super.init();
-		if( parameterExists( "item_size" ) ) itemSize == getParameter( "item_size" ).toDouble();
+		if( parameterExists( "item_size" ) ) itemSize = getDoubleParameter( "item_size" );
 	}
 
 
-
+	@Override
 	public void draw() {
-		if( ! visible ) return;
+		if( !visible ) return;
 		super.draw();
 
-		if( ! items ) return;
+		if( items.isEmpty() ) return;
 		int num = 0;
 		setAsViewport();
 		for( Object item: items ) {
@@ -65,10 +68,9 @@ public class ListBox extends Gadget {
 	}
 
 
-
 	public Sprite getItemSprite( int num ) {
 		Sprite sprite = new Sprite();
-		if( listType == vertical ) {
+		if( listType == Orientation.VERTICAL ) {
 			sprite.setSize( width, itemSize );
 			sprite.setCornerCoords( leftX(), topY() + num * itemSize - shift );
 		} else {
@@ -79,7 +81,6 @@ public class ListBox extends Gadget {
 	}
 
 
-
 	/**
 	 * Method for drawing list box item.
 	 * Fill this method with code which displays given item. You also can use its number in list and shape which it occupies in list box.
@@ -88,17 +89,17 @@ public class ListBox extends Gadget {
 	}
 
 
-
+	@Override
 	public void onButtonPress( ButtonAction buttonAction ) {
-		if( ! items ) return;
+		if( items.isEmpty() ) return;
 		if( itemSize <= 0 ) return;
 		int num;
-		if( listType == vertical ) {
-			num = Math.floor( ( cursor.y - topY() + shift ) / itemSize );
+		if( listType == Orientation.VERTICAL ) {
+			num = (int) Math.floor( ( Project.cursor.getY() - topY() + shift ) / itemSize );
 		} else {
-			num = Math.floor( ( cursor.x - leftX() + shift ) / itemSize );
+			num = (int) Math.floor( ( Project.cursor.getX() - leftX() + shift ) / itemSize );
 		}
-		if( num >= 0 && num < items.count() ) onButtonPressOnItem( buttonAction, items.get( num ), num );
+		if( num >= 0 && num < items.size() ) onButtonPressOnItem( buttonAction, items.get( num ), num );
 	}
 
 

@@ -31,11 +31,12 @@ public class MouseButton extends Pushable {
 		MouseButton button = new MouseButton();
 		button.num = num;
 
-		for( Pushable pushable: Project.controllers ) {
-			if( pushable.isEqualTo( button ) ) return button;
+		for( ButtonAction action: Project.controllers ) {
+			for( Pushable pushable: action.buttonList ) {
+				if( pushable.isEqualTo( button ) ) return button;
+			}
 		}
 		
-		Project.controllers.addLast( button );
 		return button;
 	}
 
@@ -79,6 +80,5 @@ public class MouseButton extends Pushable {
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
 		xMLObject.manageIntAttribute( "num", num );
-		if( Sys.xMLGetMode() ) Project.controllers.addLast( this );
 	}
 }

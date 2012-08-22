@@ -9,16 +9,41 @@
 
 package dwlab.gui;
 
+import dwlab.base.Project;
+import dwlab.base.Sys;
 import dwlab.controllers.ButtonAction;
+import dwlab.controllers.KeyboardKey;
+import dwlab.controllers.MouseButton;
+import dwlab.controllers.MouseWheelAction;
 import dwlab.layers.Layer;
 import dwlab.layers.World;
+import dwlab.shapes.Shape;
 import dwlab.sprites.Camera;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.lwjgl.input.Keyboard;
 
 /**
  * Class for GUI window.
  */
 public class Window extends Layer {
+	public static Window current;
+	public static TextField activeTextField;
+	
+	public static ButtonAction select = new ButtonAction( MouseButton.create( 1 ) );
+	public static ButtonAction pan = new ButtonAction( MouseButton.create( 3 ) );
+	public static ButtonAction scaleUp = new ButtonAction( MouseWheelAction.create( 1 ) );
+	public static ButtonAction scaleDown = new ButtonAction( MouseWheelAction.create( -1 ) );
+
+	public static ButtonAction establish = new ButtonAction( KeyboardKey.create( Keyboard.KEY_RETURN ) );
+	public static ButtonAction abort = new ButtonAction( KeyboardKey.create( Keyboard.KEY_ESCAPE ) );
+
+	public static ButtonAction moveCursorLeft = new ButtonAction( KeyboardKey.create( Keyboard.KEY_LEFT ) );
+	public static ButtonAction moveCursorRight = new ButtonAction( KeyboardKey.create( Keyboard.KEY_RIGHT ) );
+	public static ButtonAction deletePreviousCharacter = new ButtonAction( KeyboardKey.create( Keyboard.KEY_BACK ) );
+	public static ButtonAction deleteNextCharacter = new ButtonAction( KeyboardKey.create( Keyboard.KEY_DELETE ) );
+
 	public World world;
 	public GUIProject project;
 	public HashSet mouseOver = new HashSet();
@@ -29,7 +54,7 @@ public class Window extends Layer {
 	public void draw() {
 		if( ! visible ) return;
 		if( modal ) Camera.current.darken( 0.6 );
-		GUIProject.window = this;
+		current = this;
 		super.draw();
 	}
 
@@ -38,7 +63,7 @@ public class Window extends Layer {
 	public void act() {
 		if( !active ) return;
 
-		GUIProject.window = this;
+		current = this;
 
 		for( Shape shape: children ) {
 			Gadget gadget = (Gadget) shape;
@@ -51,7 +76,7 @@ public class Window extends Layer {
 					mouseOver.add( gadget );
 				}
 
-				for( ButtonAction buttonAction: gUIButtons ) {
+				for( ButtonAction buttonAction: Project.controllers ) {
 					if( buttonAction.wasPressed() ) {
 						onButtonPress( gadget, buttonAction );
 						gadget.onButtonPress( buttonAction );
@@ -68,50 +93,52 @@ public class Window extends Layer {
 						gadget.onButtonUp( buttonAction );
 					}
 				}
-			} else if( mouseOver.contains( gadget ) then ) {
+			} else if( mouseOver.contains( gadget ) ) {
 				gadget.onMouseOut();
 				onMouseOut( gadget );
 				mouseOver.remove( gadget );
 			}
 		}
 
-		if( Gadget.establish.wasPressed() ) {
-			for( Gadget gadget: children ) {
-				if( gadget.getParameter( "action" )[ ..4 ].equals( save ) ) {
-					onButtonPress( gadget, leftMouseButton );
-					onButtonUnpress( gadget, leftMouseButton );
+		if( establish.wasPressed() ) {
+			for( Shape shape: children ) {
+				Gadget gadget = (Gadget) shape;
+				if( gadget.getParameter( "action" ).substring( 0, 4 ).equals( "save" ) ) {
+					onButtonPress( gadget, select );
+					onButtonUnpress( gadget, select );
 				}
 			}
-		} else if( Gadget.abort.wasPressed() then ) {
-			for( Gadget gadget: children ) {
-				if( gadget.getParameter( "action" ).equals( close ) ) {
-					onButtonPress( gadget, leftMouseButton );
-					onButtonUnpress( gadget, leftMouseButton );
+		} else if( abort.wasPressed() ) {
+			for( Shape shape: children ) {
+				Gadget gadget = (Gadget) shape;
+				if( gadget.getParameter( "action" ).equals( "close" ) ) {
+					onButtonPress( gadget, select );
+					onButtonUnpress( gadget, select );
 				}
 			}
 		}
 
-		if( activeTextField ) {
+		if( activeTextField != null ) {
 			if( activeTextField.active ) {
 				String leftPart = activeTextField.leftPart;
 				String rightPart = activeTextField.rightPart;
-				if( leftPart ) {
-					if( Gadget.moveCursorLeft.wasPressed() ) {
-						activeTextField.rightPart = leftPart[ leftPart.length - 1.. ] + rightPart;
-						activeTextField.leftPart = leftPart[ ..leftPart.length - 1 ];
+				if( !leftPart.isEmpty() ) {
+					if( moveCursorLeft.wasPressed() ) {
+						activeTextField.rightPart = leftPart.substring( leftPart.length() - 1) + rightPart;
+						activeTextField.leftPart = leftPart.substring( 0, leftPart.length() - 1 );
 					}
-					if( Gadget.deletePreviousCharacter.wasPressed() ) activeTextField.leftPart = leftPart[ ..leftPart.length - 1 ];
+					if( deletePreviousCharacter.wasPressed() ) activeTextField.leftPart = leftPart.substring( 0, leftPart.length() - 1 );
 				}
-				if( rightPart ) {
-					if( Gadget.moveCursorRight.wasPressed() ) {
-						activeTextField.leftPart = leftPart + rightPart[ ..1 ];
-						activeTextField.rightPart = rightPart[ 1.. ];
+				if( !rightPart.isEmpty() ) {
+					if( moveCursorRight.wasPressed() ) {
+						activeTextField.leftPart = leftPart + rightPart.substring( 0, 1 );
+						activeTextField.rightPart = rightPart.substring( 1 );
 					}
-					if( Gadget.deleteNextCharacter.wasPressed() ) activeTextField.rightPart = rightPart[ 1.. ];
+					if( deleteNextCharacter.wasPressed() ) activeTextField.rightPart = rightPart.substring( 1 );
 				}
-				int key = getChar();
-				if( key >= 32 && ( activeTextField.maxSymbols == 0 || len( activeTextField.leftPart + activeTextField.rightPart ) < activeTextField.maxSymbols ) ) {
-					activeTextField.leftPart += chr( key );
+				int key = Sys.getChar();
+				if( key >= 32 && ( activeTextField.maxSymbols == 0 || ( activeTextField.leftPart + activeTextField.rightPart ).length() < activeTextField.maxSymbols ) ) {
+					activeTextField.leftPart += ( (char) key );
 				}
 				activeTextField.text = activeTextField.leftPart + activeTextField.rightPart;
 			}
@@ -146,32 +173,34 @@ public class Window extends Layer {
 	 * @see #onButtonPress, #onButtonDown, #onButtonUp, #onMouseOver, #onMouseOut
 	 */
 	public void onButtonUnpress( Gadget gadget, ButtonAction buttonAction ) {
-		tLink link = project.windows.findLink( this );
-		switch( gadget.getParameter( "action" ) ) {
-			case "save":
-				save();
-			case "save_and_close":
-				save();
-				onClose();
-				if( link ) project.closeWindow( Window( link.value() ) );
-			case "close":
-				onClose();
-				if( link ) project.closeWindow( Window( link.value() ) );
-			case "save_and_end":
-				save();
-				onClose();
-				project.exiting = true;
-			case "end":
-				onClose();
-				project.exiting = true;
+		String action = gadget.getParameter( "action" );
+		if( action.equals( "save" ) ) {
+			save();
+		} else if( action.equals( "save_and_close" ) ) {
+			save();
+			onClose();
+			project.closeWindow( this );
+		} else if( action.equals( "close" ) ) {
+			onClose();
+			project.closeWindow( this );
+		} else if( action.equals( "save_and_end" ) ) {
+			save();
+			onClose();
+			project.exiting = true;
+		} else if( action.equals( "end" ) ) {
+			onClose();
+			project.exiting = true;
 		}
 
 		String name = gadget.getParameter( "window" );
-		if( name ) {
-			project.loadWindow( world, , name ) ;
-		} else {
-			String class = gadget.getParameter( "window_class" );
-			if( class ) project.loadWindow( world, class ) ;
+		if( !name.isEmpty() ) {
+			project.loadWindow( world, null, name, false ) ;
+		} else if( parameterExists( "window_class" ) ) {
+			try {
+				project.loadWindow( world, Class.forName( gadget.getParameter( "window_class" ) ), null, false );
+			} catch ( ClassNotFoundException ex ) {
+				Logger.getLogger( Window.class.getName() ).log( Level.SEVERE, null, ex );
+			}
 		}
 	}
 

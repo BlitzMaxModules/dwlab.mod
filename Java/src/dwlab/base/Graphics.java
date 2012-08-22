@@ -48,11 +48,11 @@ public class Graphics {
 	}
 	
 
-	static void drawText( String string, double x, double y, Color color ) {
+	public static void drawText( String string, double x, double y, Color color ) {
 		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
-	static void drawText( String string, double x, double y ) {
+	public static void drawText( String string, double x, double y ) {
 		drawText( string, x, y, Color.black );
 	}
 	
@@ -67,22 +67,22 @@ public class Graphics {
 	}
 	
 
-	static void clearScreen() {
+	public static void clearScreen() {
 		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
 
-	static void switchBuffers() {
+	public static void switchBuffers() {
 		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
 
-	static double textWidth( String text ) {
+	public static double textWidth( String text ) {
 		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
 
-	static double textHeight() {
+	public static double textHeight() {
 		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	

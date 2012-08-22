@@ -1,4 +1,6 @@
 package dwlab.gui;
+import dwlab.base.Project;
+import dwlab.base.Service;
 import dwlab.controllers.ButtonAction;
 import dwlab.sprites.Sprite;
 
@@ -17,15 +19,10 @@ import dwlab.sprites.Sprite;
  * Sliders can act as scroll bars, volume selection bars, progress bars, etc.
  */
 public class Slider extends Gadget {
-	/**
-	 * Constant for moving behavior of slider (for scroll bars).
-	 */
-	public final int moving = 0;
-
-	/**
-	 * Constant for filling behavior of slider (for progress bars).
-	 */
-	public final int filling = 1;
+	public enum Behavior {
+		MOVING,
+		FILLING
+	}
 
 	/**
 	 * Position of the moving part on the slider field ( 0.0 - 1.0 ).
@@ -40,12 +37,12 @@ public class Slider extends Gadget {
 	/**
 	 * Type of the slider - Vertical or Horizontal.
 	 */
-	public int sliderType ;
+	public Orientation sliderType ;
 
 	/**
 	 * Slider behavior - Moving or Filling.
 	 */
-	public int selectionType;
+	public Behavior behavior;
 
 	/**
 	 * Value by which position will change if user roll mouse wheel button on slider.
@@ -54,20 +51,19 @@ public class Slider extends Gadget {
 
 	public ListBox listBox;
 	public Sprite slider = new Sprite();
-	public int dragging;
+	public boolean dragging;
 	public double startingX;
 	public double startingY;
 	public double startingPosition;
 	public double listBoxSize;
 	public double contentsSize;
-	public int showPercent;
+	public boolean showPercent;
 
 
-
+	@Override
 	public String getClassTitle() {
 		return "Slider";
 	}
-
 
 
 	/**
@@ -79,109 +75,108 @@ public class Slider extends Gadget {
 	 * And you can attach a list box (which should be inside same window) to scroll its contents with the slider by naming list box and
 	 * set "list_box_name" parameter of the slider to list box name.
 	 */		
+	@Override
 	public void init() {
-		listBox = ListBox( window.findShape( getParameter( "list_box_name" ), true ) );
-		if( getParameter( "type" ) = "vertical" ) sliderType = vertical; else sliderType == horizontal;
-		if( getParameter( "selection" ) = "filling" ) selectionType = filling; else selectionType == moving;
-		if( getParameter( "percent" ) = "true" ) showPercent == true;
+		listBox = (ListBox) Window.current.findShape( getParameter( "list_box_name" ) );
+		if( getParameter( "type" ).equals( "vertical" ) ) sliderType = Orientation.VERTICAL; else sliderType = Orientation.HORIZONTAL;
+		if( getParameter( "behavior" ).equals(  "filling" ) ) behavior = Behavior.FILLING; else behavior = Behavior.MOVING;
+		if( getParameter( "percent" ).equals(  "true" ) ) showPercent = true;
 		copyTo( slider );
 	}
 
 
-
+	@Override
 	public void draw() {
 		if( ! visible ) return;
 		switch( sliderType ) {
-			case horizontal:
+			case HORIZONTAL:
 				slider.setWidth( width * size );
 				slider.setCornerCoords( leftX() + width * position * ( 1.0 - size ), topY() );
-			case vertical:
+			case VERTICAL:
 				slider.setHeight( height * size );
 				slider.setCornerCoords( leftX(), topY() + height * position * ( 1.0 - size ) );
 		}
 		slider.draw();
 		if( showPercent ) {
-			setColor( 0, 0, 0 );
-			switch( selectionType ) {
-				case moving:
-					printText( round( 100 * position ) + "%", textSize );
-				case filling:
-					printText( round( 100 * size ) + "%", textSize );
+			switch( behavior ) {
+				case MOVING:
+					printText( Math.round( 100 * position ) + "%", textSize );
+				case FILLING:
+					printText( Math.round( 100 * size ) + "%", textSize );
 			}
-			setColor( 255, 255, 255 );
 		}
 	}
 
 
-
+	@Override
 	public void act() {
 		super.act();
-		if( listBox ) {
-			if( listBox.items ) {
-				contentsSize = listBox.itemSize * listBox.items.count();
-				if contentsSize > 0 ;
+		if( listBox != null ) {
+			if( listBox.items != null ) {
+				contentsSize = listBox.itemSize * listBox.items.size();
+				if( contentsSize > 0 ) {
 					switch( listBox.listType ) {
-						case horizontal:
-							listBoxSize = listBox.width;
-						case vertical:
-							listBoxSize = listBox.height;
+						case HORIZONTAL:
+							listBoxSize = listBox.getWidth();
+						case VERTICAL:
+							listBoxSize = listBox.getHeight();
 					}
 					size = listBoxSize / contentsSize;
-					if( size > 1.0 ) size == 1.0;
+					if( size > 1.0 ) size = 1.0;
 				}
 			}
 		}
 	}
 
 
-
+	@Override
 	public void onButtonDown( ButtonAction buttonAction ) {
-		if( buttonAction == leftMouseButton ) {
-			switch( selectionType ) {
-				case moving:
+		if( buttonAction == Window.select ) {
+			switch( behavior ) {
+				case MOVING:
 					if( dragging ) {
 						switch( sliderType ) {
-							case horizontal:
-								position = limitDouble( startingPosition + ( cursor.x - startingX ) / width / ( 1.0 - size ), 0.0, 1.0 );
-							case vertical:
-								position = limitDouble( startingPosition + ( cursor.y - startingY ) / height / ( 1.0 - size ), 0.0, 1.0 );
+							case HORIZONTAL:
+								position = Service.limit( startingPosition + ( Project.cursor.getX() - startingX ) / width / ( 1.0 - size ), 0.0, 1.0 );
+							case VERTICAL:
+								position = Service.limit( startingPosition + ( Project.cursor.getY() - startingY ) / height / ( 1.0 - size ), 0.0, 1.0 );
 						}
 
-						if( listBox ) listBox.shift == position * ( contentsSize - listBoxSize )//; DebugLog ContentsSize + "," + ListBoxSize + "," + ListBox.Shift
+						if( listBox != null ) listBox.shift = position * ( contentsSize - listBoxSize );
 					} else {
 						dragging = true;
-						startingX = cursor.x;
-						startingY = cursor.y;
+						startingX = Project.cursor.getX();
+						startingY = Project.cursor.getY();
 						startingPosition = position;
 					}
-				case filling:
+				case FILLING:
 					position = 0.0;
 					switch( sliderType ) {
-						case horizontal:
-							size = limitDouble( ( cursor.x - leftX() ) / width, 0.0, 1.0 );
-						case vertical:
-							size = limitDouble( ( cursor.y - topY() ) / height, 0.0, 1.0 );
+						case HORIZONTAL:
+							size = Service.limit( ( Project.cursor.getX() - leftX() ) / width, 0.0, 1.0 );
+						case VERTICAL:
+							size = Service.limit( ( Project.cursor.getY() - topY() ) / height, 0.0, 1.0 );
 					}
 			}
 		} else {
 			double dValue = 0;
-			if( buttonAction = mouseWheelDown ) dValue == -mouseWheelValue;
-			if( buttonAction = mouseWheelUp ) dValue == mouseWheelValue;
-			if( dValue ) {
-				switch( selectionType ) {
-					case moving:
-						position = limitDouble( size + dValue, 0.0, 1.0 );
-					case filling:
-						size = limitDouble( size + dValue, 0.0, 1.0 );
+			if( buttonAction == Window.scaleDown ) dValue = -mouseWheelValue;
+			if( buttonAction == Window.scaleUp ) dValue = mouseWheelValue;
+			if( dValue != 0 ) {
+				switch( behavior ) {
+					case MOVING:
+						position = Service.limit( size + dValue, 0.0, 1.0 );
+					case FILLING:
+						size = Service.limit( size + dValue, 0.0, 1.0 );
 				}
 			}
 		}
 	}
 
 
-
+	@Override
 	public void onButtonUnpress( ButtonAction buttonAction ) {
-		if( buttonAction != leftMouseButton ) return;
+		if( buttonAction != Window.select ) return;
 		dragging = false;
 	}
 }

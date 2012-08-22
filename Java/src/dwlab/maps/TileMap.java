@@ -70,7 +70,6 @@ public class TileMap extends IntMap {
 	}
 
 
-
 	/**
 	 * Returns tilemap tile height.
 	 * @return Tile height of the tilemap in units.
@@ -78,7 +77,6 @@ public class TileMap extends IntMap {
 	public double getTileHeight() {
 		return height / yQuantity;
 	}
-
 
 
 	/**
@@ -228,11 +226,17 @@ public class TileMap extends IntMap {
 
 
 	public void copyTo( Shape shape ) {
-		TileMap tileMap = TileMap( shape );
+		TileMap tileMap = shape.toTileMap();
 
-		if( ! tileMap ) error( "Trying to copy tilemap \"" + shape.getTitle() + "\" data to non-tilemap" );
+		if( tileMap == null ) error( "Trying to copy tilemap \"" + shape.getTitle() + "\" data to non-tilemap" );
 
 		copyTileMapTo( tileMap );
+	}
+
+	
+	@Override
+	public TileMap toTileMap() {
+		return this;
 	}
 
 	// ==================== Saving / loading ===================

@@ -10,6 +10,7 @@
 package dwlab.controllers;
 
 import dwlab.base.Obj;
+import dwlab.base.Project;
 import dwlab.base.Sys;
 import dwlab.xml.XMLObject;
 import java.util.LinkedList;
@@ -35,10 +36,12 @@ public class ButtonAction extends Obj {
 	public ButtonAction( Pushable button, String name ) {
 		this.name = name;
 		this.buttonList.addLast( button );
+		Project.controllers.add( this );
 	}
 	
 	public ButtonAction( Pushable button ) {
 		this.buttonList.addLast( button );
+		Project.controllers.add( this );
 	}
 
 
@@ -151,5 +154,6 @@ public class ButtonAction extends Obj {
 		super.xMLIO( xMLObject );
 		name = xMLObject.manageStringAttribute( "name", name );
 		xMLObject.manageChildList( buttonList );
+		if( Sys.xMLGetMode() ) Project.controllers.add( this );
 	}
 }

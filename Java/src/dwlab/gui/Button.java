@@ -101,12 +101,12 @@ public class Button extends Label {
 
 	@Override
 	public void onButtonDown( ButtonAction buttonAction ) {
-		if( buttonAction == Gadget.select ) state = true;
+		if( buttonAction == Window.select ) state = true;
 	}
 
 
 	@Override
 	public void onButtonUp( ButtonAction buttonAction ) {
-		if( buttonAction == Gadget.select ) state = false;
+		if( buttonAction == Window.select ) state = false;
 	}
 }

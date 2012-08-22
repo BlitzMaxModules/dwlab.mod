@@ -24,38 +24,36 @@ public class TextField extends Gadget {
 	public int maxSymbols = 0;
 
 
-
+	@Override
 	public void init() {
 		super.init();
-		activeTextField = this;
-		maxSymbols = getParameter( "max" ).toInt();
+		Window.activeTextField = this;
+		maxSymbols = getIntegerParameter( "max" );
 	}
 
 
-
+	@Override
 	public void draw() {
 		if( ! visible ) return;
 		super.draw();
-		setColor( 0, 0, 0 );
-		if( activeTextField == this ) {
-			printText( " " + leftPart + "_" + rightPart, textSize, Align.TO_LEFT );
+		if( Window.activeTextField == this ) {
+			printText( " " + leftPart + "_" + rightPart, textSize, visualizer, Align.TO_LEFT, Align.TO_CENTER );
 		} else {
-			printText( " " + text, textSize, Align.TO_LEFT );
+			printText( " " + text, textSize, visualizer, Align.TO_LEFT, Align.TO_CENTER );
 		}
-		Visualizer.resetColor();
 	}
 
 
-
+	@Override
 	public String getClassTitle() {
 		return "Text field";
 	}
 
 
-
+	@Override
 	public void onButtonPress( ButtonAction buttonAction ) {
-		if( buttonAction != leftMouseButton ) return;
-		activeTextField = this;
+		if( buttonAction != Window.select ) return;
+		Window.activeTextField = this;
 		leftPart = text;
 		rightPart = "";
 	}

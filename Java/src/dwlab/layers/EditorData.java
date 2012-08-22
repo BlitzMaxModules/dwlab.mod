@@ -1,10 +1,3 @@
-package dwlab.layers;
-import java.util.LinkedList;
-import dwlab.base.XMLObject;
-import dwlab.base.Obj;
-import dwlab.visualizers.Color;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov
  *
@@ -14,32 +7,49 @@ import dwlab.visualizers.Color;
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 
-public EditorData editorData;
+package dwlab.layers;
+
+import dwlab.base.Obj;
+import dwlab.maps.TileSet;
+import dwlab.visualizers.Color;
+import dwlab.visualizers.Image;
+import dwlab.xml.XMLObject;
+import java.util.LinkedList;
 
 public class EditorData extends Obj {
-	public final int edgesSnapping = 0;
+	public static EditorData current;
 
-	public final int centerSnapping = 1;
-	public final int fixedShifting = 2;
-
-	public final int sizeSnapping = 1;
-	public final int fixedResizing = 2;
-
-	public LinkedList images = new LinkedList();
-	public LinkedList tilesets = new LinkedList();
+	public LinkedList<Image> images = new LinkedList<Image>();
+	public LinkedList<TileSet> tilesets = new LinkedList<TileSet>();
 
 	public int incbinValue;
-	public Color backgroundColor = Color.fromHex( "FFFFFF" );
-	public double gridCellWidth = 1.double 0;
-	public double gridCellHeight = 1.double 0;
+	public Color backgroundColor = new Color( "FFFFFF" );
+	public double gridCellWidth = 1d;
+	public double gridCellHeight = 1d;
 	public int gridCellXDiv = 2;
 	public int gridCellYDiv = 2;
-	public int gridPositionSnappingMode = edgesSnapping;
-	public int gridResizingSnappingMode = edgesSnapping;
-	public Color gridColor = Color.fromHex( "FF00FF", 0.5 );
+	
+	public enum GridPositionSnappingMode {
+		EDGES,
+		CENTER,
+		FIXED
+	}
+	
+	public GridPositionSnappingMode gridPositionSnappingMode = GridPositionSnappingMode.EDGES;
+	
+	public enum GridResizingSnappingMode {
+		EDGES,
+		SIZE,
+		FIXED
+	}
+	
+	public GridResizingSnappingMode gridResizingSnappingMode = GridResizingSnappingMode.EDGES;
+	
+	public Color gridColor = new Color( "7FFF00FF" );
 	public int collisionGridCellXDiv = 16;
 	public int collisionGridCellYDiv = 16;
 
+	@Override
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
 
@@ -47,15 +57,15 @@ public class EditorData extends Obj {
 		xMLObject.manageListField( "images", images );
 		xMLObject.manageListField( "tilesets", tilesets );
 
-		backgroundColor = Color( xMLObject.manageObjectField( "background", backgroundColor ) );
-		xMLObject.manageDoubleAttribute( "cell_width", gridCellWidth, 1.double 0 );
-		xMLObject.manageDoubleAttribute( "cell_height", gridCellHeight, 1.double 0 );
-		xMLObject.manageIntAttribute( "x_div", gridCellXDiv );
-		xMLObject.manageIntAttribute( "y_div", gridCellYDiv );
-		xMLObject.manageIntAttribute( "position_snap", gridPositionSnappingMode );
-		xMLObject.manageIntAttribute( "resize_snap", gridResizingSnappingMode );
-		gridColor = Color( xMLObject.manageObjectField( "grid_color", gridColor ) );
-		xMLObject.manageIntAttribute( "coll_x_div", collisionGridCellXDiv );
-		xMLObject.manageIntAttribute( "coll_y_div", collisionGridCellYDiv );
+		backgroundColor = xMLObject.manageObjectField( "background", backgroundColor );
+		gridCellWidth = xMLObject.manageDoubleAttribute( "cell_width", gridCellWidth, 1d );
+		gridCellHeight = xMLObject.manageDoubleAttribute( "cell_height", gridCellHeight, 1d );
+		gridCellXDiv = xMLObject.manageIntAttribute( "x_div", gridCellXDiv );
+		gridCellYDiv = xMLObject.manageIntAttribute( "y_div", gridCellYDiv );
+		gridPositionSnappingMode = xMLObject.manageEnumAttribute( "position_snap", gridPositionSnappingMode );
+		gridResizingSnappingMode = xMLObject.manageEnumAttribute( "resize_snap", gridResizingSnappingMode );
+		gridColor = xMLObject.manageObjectField( "grid_color", gridColor );
+		collisionGridCellXDiv = xMLObject.manageIntAttribute( "coll_x_div", collisionGridCellXDiv );
+		collisionGridCellYDiv =xMLObject.manageIntAttribute( "coll_y_div", collisionGridCellYDiv );
 	}
 }

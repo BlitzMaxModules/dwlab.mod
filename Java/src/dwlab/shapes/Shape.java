@@ -9,16 +9,12 @@
 
 package dwlab.shapes;
 
-import dwlab.base.Align;
-import dwlab.base.Obj;
-import dwlab.base.Project;
-import dwlab.base.Sys;
+import dwlab.base.*;
 import dwlab.behavior_models.BehaviorModel;
+import dwlab.maps.SpriteMap;
 import dwlab.maps.TileMap;
-import dwlab.sprites.Camera;
-import dwlab.sprites.Sprite;
-import dwlab.sprites.SpriteAndTileCollisionHandler;
-import dwlab.sprites.SpriteCollisionHandler;
+import dwlab.sprites.*;
+import dwlab.visualizers.Color;
 import dwlab.visualizers.Image;
 import dwlab.visualizers.Visualizer;
 import dwlab.xml.XMLObject;
@@ -88,6 +84,23 @@ public class Shape extends Obj {
 	public LinkedList<BehaviorModel> behaviorModels = new LinkedList<BehaviorModel>();
 
 	public int collisionLayer;
+	
+
+	public Sprite toSprite() {
+		return null;
+	}
+	
+	public VectorSprite toVectorSprite() {
+		return null;
+	}
+
+	public TileMap toTileMap() {
+		return null;
+	}
+
+	public SpriteMap toSpriteMap() {
+		return null;
+	}
 
 	// ==================== Drawing ===================
 
@@ -95,7 +108,7 @@ public class Shape extends Obj {
 	 * Prints text inside the shape.
 	 * Current ImageFont is used. You can specify horizontal and vertical alignment and also horizontal and vertical shift in units.
 	 */
-	public void printText( String text, double size = 1.0, int horizontalAlign = Align.TO_CENTER, int verticalAlign = Align.TO_CENTER, double horizontalShift = 0, double verticalShift = 0, int contour = false ) {
+	public void printText( String text, double size, Color color, Align horizontalAlign, Align verticalAlign, double horizontalShift, double verticalShift, boolean contour ) {
 		double sXSize, double sYSize;
 		Camera.current.sizeFieldToScreen( 0, size, sXSize, sYSize );
 		double k = sYSize / textHeight( text );
@@ -138,14 +151,29 @@ public class Shape extends Obj {
 
 		setScale k, k;
 		if( contour ) {
-			drawTextWithContour( text, sX, sY );
+			Graphics.drawTextWithContour( text, sX, sY, color, contourColor );
 		} else {
-			drawText( text, sX, sY );
+			Graphics.drawText( text, sX, sY, color );
 		}
 		setScale 1.0, 1.0;
 	}
+	
+	public void printText( String text, double size ) {
+		printText( text, size, Color.black, Align.TO_CENTER, Align.TO_CENTER, 0, 0, false );
+	}
+	
+	public void printText( String text, double size, Color color ) {
+		printText( text, size, color, Align.TO_CENTER, Align.TO_CENTER, 0, 0, false );
+	}
+	
+	public void printText( String text, double size, Color color, Align horizontalAlign, Align verticalAlign ) {
+		printText( text, size, color, horizontalAlign, verticalAlign, 0, 0, false );
+	}
 
-
+	public void printText( String text, double size, Color color, Align horizontalAlign, Align verticalAlign, double horizontalShift, double verticalShift ) {
+		printText( text, size, color, horizontalAlign, verticalAlign, horizontalShift, verticalShift, false );
+	}
+	
 
 	/**
 	 * Sets shape's rectangle as viewport.
@@ -885,17 +913,21 @@ public class Shape extends Obj {
 	/**
 	 * Shows all behavior models attached to shape with their status.
 	 */
-	public int showModels( int y = 0, String shift = "" ) {
+	public void showModels( int y, String shift ) {
 		if( behaviorModels.isEmpty() ) return y;
-		drawText( shift + getTitle() + " ", 0, y );
+		Graphics.drawText( shift + getTitle() + " ", 0, y );
 	    y += 16;
 	    for( BehaviorModel model: behaviorModels ) {
 			String activeString;
-			if( model.active ) activeString = "active"; else activeString.equals( inactive );
-	    	drawText( shift + tTypeID.forObject( model ).name() + " " + activeString + ", " + model.info( this ), 8, y );
+			if( model.active ) activeString = "active"; else activeString =  "inactive";
+			Graphics.drawText( shift + tTypeID.forObject( model ).name() + " " + activeString + ", " + model.info( this ), 8, y );
 			y += 16;
 	    }
 		return y;
+	}
+	
+	public void showModels() {
+		showModels( 0, "" );
 	}
 
 	// ==================== Windowed Visualizer ====================
@@ -1183,28 +1215,12 @@ public class Shape extends Obj {
 			}
 			link.remove();
 
-			if Sprite( this );
+			if ( ( (Sprite) this ) != null ) {
 				spriteActed = true;
 				spritesActed += 1;
 			}
 		}
 	}
-/**
-	 * Method for updating shape.
-	 * It will be called after changing coordinates or size. You can add your shape updating commands here, but don't forget to add Super.Update() command as well.
-	 */
-	public void update() {
-	}
-
-
-
-	/**
-	 * Method for destruction of the shape.
-	 * Fill it with commands for removing shape from layers, lists, maps, etc.
-	 */
-	public void destroy() {
-	}
-
 
 
 	public void hide() {
@@ -1213,9 +1229,15 @@ public class Shape extends Obj {
 	}
 
 
-
-	public int physics() {
+	public boolean physics() {
+		return false;
 	}
+	
+	
+	public int countSprites() {
+		return 1;
+	}
+
 
 	// ==================== Cloning ===================
 
@@ -1223,6 +1245,7 @@ public class Shape extends Obj {
 	 * Clones the shape.
 	 * @return Clone of the shape.
 	 */
+	@Override
 	public Shape clone() {
 		Shape newShape = new Shape();
 		copyShapeTo( newShape );
@@ -1230,10 +1253,9 @@ public class Shape extends Obj {
 	}
 
 
-
 	public void copyShapeTo( Shape shape ) {
 		shape.parameters = parameters;
-		if( visualizer ) shape.visualizer == visualizer.clone();
+		if( visualizer != null ) shape.visualizer = visualizer.clone();
 		shape.x = x;
 		shape.y = y;
 		shape.width = width;
@@ -1243,13 +1265,13 @@ public class Shape extends Obj {
 	}
 
 
-
 	public void copyTo( Shape shape ) {
 		copyShapeTo( shape );
 	}
 
 	// ==================== Saving / loading ====================
 
+	@Override
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
 

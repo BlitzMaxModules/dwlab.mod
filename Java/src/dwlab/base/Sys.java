@@ -34,6 +34,10 @@ public class Sys {
 		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 
+	public static int getChar() {
+		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+
 	public static boolean mouseHit( int num ) {
 		throw new UnsupportedOperationException( "Not yet implemented" );
 	}

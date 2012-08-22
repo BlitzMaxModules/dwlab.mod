@@ -9,11 +9,7 @@
 
 package dwlab.gui;
 import dwlab.controllers.ButtonAction;
-import dwlab.controllers.KeyboardKey;
-import dwlab.controllers.MouseButton;
-import dwlab.controllers.MouseWheelAction;
 import dwlab.sprites.Sprite;
-import org.lwjgl.input.Keyboard;
 
 /**
  * Class for GUI gagdet for placing on window.
@@ -21,20 +17,7 @@ import org.lwjgl.input.Keyboard;
 public class Gadget extends Sprite {
 	public static double defaultTextSize = 0.5d;
 	
-	public static ButtonAction select = new ButtonAction( MouseButton.create( 1 ) );
-	public static ButtonAction pan = new ButtonAction( MouseButton.create( 3 ) );
-	public static ButtonAction scaleUp = new ButtonAction( MouseWheelAction.create( 1 ) );
-	public static ButtonAction scaleDown = new ButtonAction( MouseWheelAction.create( -1 ) );
-
-	public static ButtonAction establish = new ButtonAction( KeyboardKey.create( Keyboard.KEY_RETURN ) );
-	public static ButtonAction abort = new ButtonAction( KeyboardKey.create( Keyboard.KEY_ESCAPE ) );
-
-	public static ButtonAction moveCursorLeft = new ButtonAction( KeyboardKey.create( Keyboard.KEY_LEFT ) );
-	public static ButtonAction moveCursorRight = new ButtonAction( KeyboardKey.create( Keyboard.KEY_RIGHT ) );
-	public static ButtonAction deletePreviousCharacter = new ButtonAction( KeyboardKey.create( Keyboard.KEY_BACK ) );
-	public static ButtonAction deleteNextCharacter = new ButtonAction( KeyboardKey.create( Keyboard.KEY_DELETE ) );
-
-	public enum Orientaion {
+	public enum Orientation {
 		HORIZONTAL,
 		VERTICAL
 	}

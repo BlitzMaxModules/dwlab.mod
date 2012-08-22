@@ -14,6 +14,7 @@ import dwlab.base.Service;
 import dwlab.base.Sys;
 import dwlab.base.Sys.XMLMode;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -50,8 +51,9 @@ public class XMLObject extends Obj {
 	 */
 	public boolean attributeExists( String attrName ) {
 		for( XMLAttribute attr: attributes ) {
-			if( attr.name == attrName ) return true;
+			if( attr.name.equals( attrName ) ) return true;
 		}
+		return false;
 	}
 
 
@@ -65,6 +67,15 @@ public class XMLObject extends Obj {
 		for( XMLAttribute attr: attributes ) {
 			if( attr.name.equals( attrName ) ) return attr.value;
 		}
+		return "";
+	}
+
+	private int getIntegerAttribute( String attrName ) {
+		return Integer.parseInt( getAttribute( attrName ) );
+	}
+
+	private double getDoubleAttribute( String attrName ) {
+		return Double.parseDouble( getAttribute( attrName ) );
 	}
 
 
@@ -75,7 +86,7 @@ public class XMLObject extends Obj {
 	 */
 	public void setAttribute( String attrName, String attrValue) {
 		for( XMLAttribute attr: attributes ) {
-			if( attr.name == attrName ) {
+			if( attr.name.equals( attrName ) ) {
 				attr.value = attrValue;
 				return;
 			}
@@ -93,11 +104,9 @@ public class XMLObject extends Obj {
 	 * Removes attribute with given name of XMLObject.
 	 * @see #attributeExists, #getAttribute, #setAttribute
 	 */
-	public String removeAttribute( String attrName ) {
-		tLink link = attributes.firstLink();
-		while( link ) {
-			if( XMLAttribute( link.value() ).name == attrName ) link.remove();
-			link = link.nextLink();
+	public void removeAttribute( String attrName ) {
+		for ( Iterator<XMLAttribute> iterator = attributes.iterator(); iterator.hasNext(); ) {
+			if( iterator.next().name.equals( attrName ) ) iterator.remove();
 		}
 	}
 
@@ -108,8 +117,11 @@ public class XMLObject extends Obj {
 	 * @return True if field exists.
 	 * @see #getField, #setField, #removeField
 	 */
-	public int fieldExists( String fieldName ) {
-		return getField( fieldName ) != null;
+	public boolean fieldExists( String fieldName ) {
+		for( XMLObjectField objectField: fields ) {
+			if( objectField.name.equals( fieldName ) ) return true;
+		}
+		return false;
 	}
 
 
@@ -121,8 +133,9 @@ public class XMLObject extends Obj {
 	 */
 	public XMLObject getField( String fieldName ) {
 		for( XMLObjectField objectField: fields ) {
-			if( objectField.name == fieldName ) return objectField.value;
+			if( objectField.name.equals( fieldName ) ) return objectField.value;
 		}
+		return null;
 	}
 
 
@@ -145,11 +158,9 @@ public class XMLObject extends Obj {
 	 * Removes field with given name of XMLObject.
 	 * @see #fieldExists, #getField, #setField
 	 */
-	public String removeField( String fieldName ) {
-		tLink link = fields.firstLink();
-		while( link ) {
-			if( XMLObjectField( link.value() ).name == fieldName ) link.remove();
-			link = link.nextLink();
+	public void removeField( String fieldName ) {
+		for ( Iterator<XMLObjectField> iterator = fields.iterator(); iterator.hasNext(); ) {
+			if( iterator.next().name.equals( fieldName ) ) iterator.remove();
 		}
 	}
 
@@ -208,12 +219,27 @@ public class XMLObject extends Obj {
 			for( XMLAttribute attr: attributes ) {
 				if( attr.name.equals( attrName ) ) return attr.value;
 			}
-		} else if( ! attrValue.isEmpty() ) {
+		} else if( !attrValue.isEmpty() ) {
 			setAttribute( attrName, attrValue );
 		}
 		return attrValue;
 	}
 
+
+	/**
+	 * Transfers data between XMLObject attribute and framework object field with String type.
+	 * @see #manageIntAttribute, #manageDoubleAttribute, #manageObjectAttribute, #xMLIO example
+	 */
+	public <E extends Enum> E manageEnumAttribute( String attrName, E attrValue ) {
+		if( Sys.xMLMode == XMLMode.GET ) {
+			for( XMLAttribute attr: attributes ) {
+				if( attr.name.equals( attrName ) ) return (E) Enum.valueOf( attrValue.getClass(), attr.value );
+			}
+		} else if( attrValue != null ) {
+			setAttribute( attrName, String. attrValue.toString() );
+		}
+		return attrValue;
+	}
 
 
 	/**
@@ -223,17 +249,17 @@ public class XMLObject extends Obj {
 	 * 
 	 * @see #manageIntAttribute, #manageDoubleAttribute, #manageStringAttribute, #manageObjectField, #manageChildArray
 	 */
-	public Obj manageObjectAttribute( String attrName, Obj obj ) {
+	public <E extends Obj> E manageObjectAttribute( String attrName, E obj ) {
 		if( Sys.xMLMode == XMLMode.GET ) {
 			//debugstop
-			int iD = getAttribute( attrName ).toInt();
-			if( ! iD ) return obj;
+			int iD = getIntegerAttribute( attrName );
+			if( iD > 0 ) return obj;
 
-			obj = iDArray[ iD ];
+			obj = (E) iDArray[ iD ];
 
 			if( obj == null ) error( "Object with id " + iD + " not found" );
-		} else if( obj then ) {
-			String iD = String( iDMap.get( obj ) );
+		} else if( obj != null ) {
+			String iD = iDMap.get( obj );
 
 			if( ! iD ) {
 				iD = String( maxID );
@@ -247,7 +273,6 @@ public class XMLObject extends Obj {
 		}
 		return obj;
 	}
-
 
 
 	/**
@@ -290,12 +315,11 @@ public class XMLObject extends Obj {
 	}
 
 
-
 	/**
 	 * Transfers data between XMLObject field and framework object field with LTObject type.
 	 * @see #xMLIO example
 	 */
-	public Obj manageObjectField( String fieldName, Obj fieldObject) {
+	public <E extends Obj> E manageObjectField( String fieldName, E fieldObject ) {
 		if( Sys.xMLMode == XMLMode.GET ) {
 			XMLObject xMLObject = getField( fieldName );
 
@@ -315,7 +339,6 @@ public class XMLObject extends Obj {
 	}
 
 
-
 	/**
 	 * Transfers data between XMLObject contents and framework object field with TList type.
 	 * @see #manageChildList, #xMLIO example
@@ -333,7 +356,6 @@ public class XMLObject extends Obj {
 			setField( fieldName, xMLObject );
 		}
 	}
-
 
 
 	/**

@@ -9,6 +9,7 @@
 
 package dwlab.base;
 
+import dwlab.controllers.ButtonAction;
 import dwlab.controllers.Pushable;
 import dwlab.layers.Layer;
 import dwlab.sprites.Camera;
@@ -37,7 +38,7 @@ public class Project extends Obj {
 
 	public static int maxLogicStepsWithoutRender = 6;
 	
-	public static LinkedList<Pushable> controllers = new LinkedList<Pushable>();
+	public static LinkedList<ButtonAction> controllers = new LinkedList<ButtonAction>();
 
 	/**
 	* Current frames per second quantity.
@@ -156,8 +157,10 @@ public class Project extends Obj {
 		int fPSCount = 0;
 		long fPSTime = 0l;
 
-		for( Pushable controller: controllers ) {
-			controller.reset();
+		for( ButtonAction controller: controllers ) {
+			for( Pushable pushable : controller.buttonList ) {
+				pushable.reset();
+			}
 		}
 
 		int logicStepsWithoutRender = 0;
@@ -176,10 +179,12 @@ public class Project extends Obj {
 
 			windowsLogic();
 
-			for( Pushable controller: controllers ) {
-				controller.reset();
+			for( ButtonAction controller: controllers ) {
+				for( Pushable pushable : controller.buttonList ) {
+					pushable.reset();
+				}
 			}
-
+			
 			if( exiting ) break;
 
 			logicStepsWithoutRender += 1;
@@ -223,8 +228,10 @@ public class Project extends Obj {
 	public void processEvents() {
 		/*while( true ) {
 			pollEvent();
-			for( Pushable controller: controllers ) {
-				controller.processEvent();
+			for( ButtonAction controller: controllers ) {
+				for( Pushable pushable : controller.buttonList ) {
+					pushable.processEvent();
+				}
 			}
 			switch( eventID() ) {
 				case event_WindowClose:

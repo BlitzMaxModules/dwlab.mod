@@ -22,9 +22,6 @@ import java.util.LinkedList;
  * Class for GUI project and subprojects.
  */
 public class GUIProject extends Project {
-	public static Window window;
-	public static TextField activeTextField;
-
 	/**
 	* Camera for displaying windows.
 	*/
@@ -48,19 +45,20 @@ public class GUIProject extends Project {
 	 * Modal parameter (can be set in editor) set to True forces all existing windows to be inactive while this window is not closed.
 	 */
 	public Window loadWindow( World world, Class windowClass, String windowName, boolean add ) {
-		activeTextField = null;
+		Window.activeTextField = null;
 		if( windowClass != null ) {
-			window = (Window) loadLayer( (Layer) world.findShape( windowClass ) );
+			Window.current = (Window) loadLayer( (Layer) world.findShape( windowClass ) );
 		} else {
-			window = (Window) loadLayer( (Layer) world.findShape( windowName ) );
+			Window.current = (Window) loadLayer( (Layer) world.findShape( windowName ) );
 		}
+		Window currentWindow = Window.current;
 
-		Shape screen = window.bounds;
+		Shape screen = currentWindow.bounds;
 		if( screen != null ) {
 			if( windows.isEmpty() ) camera.setSize( screen.getWidth(), screen.getHeight() );
 
 			double dY = 0.5 * ( camera.getHeight() - screen.getHeight() * camera.getWidth() / screen.getWidth() );
-			String verticalAlign = window.getParameter( "vertical" );
+			String verticalAlign = Window.current.getParameter( "vertical" );
 			if( verticalAlign.equals( "top" ) ) {
 				dY = -dY;
 			} else if ( !verticalAlign.equals( "bottom" ) ) {
@@ -68,7 +66,7 @@ public class GUIProject extends Project {
 			}
 			
 			double k = camera.getWidth() / screen.getWidth();
-			for( Shape shape: window.children ) {
+			for( Shape shape: currentWindow.children ) {
 				shape.setCoords( camera.getX() + ( shape.getX() - screen.getX() ) * k, camera.getY() + ( shape.getY() - screen.getY() ) * k + dY );
 				shape.setSize( shape.getWidth() * k, shape.getHeight() * k );
 			}
@@ -77,14 +75,14 @@ public class GUIProject extends Project {
 			screen.setSize( camera.getWidth(), screen.getHeight() * camera.getWidth() / screen.getWidth() );
 		}
 
-		window.modal = window.getParameter( "modal" ).equals( "true" );
-		window.world = world;
-		window.project = this;
-		window.init();
-		if( window.modal ) for( Window win: windows ) win.active = false;
-		if( add ) windows.addLast( window );
+		currentWindow.modal = currentWindow.getParameter( "modal" ).equals( "true" );
+		currentWindow.world = world;
+		currentWindow.project = this;
+		currentWindow.init();
+		if( currentWindow.modal ) for( Window win: windows ) win.active = false;
+		if( add ) windows.addLast( currentWindow );
 		Sys.flushKeys();
-		return window;
+		return currentWindow;
 	}
 
 
@@ -92,7 +90,7 @@ public class GUIProject extends Project {
 	public void reloadWindows() {
 		LinkedList<Window> newWindows = new LinkedList<Window>();
 		for ( Window win : windows ) {
-			newWindows.add( loadWindow( win.world, win.getClass(), window.getName(), false ) );
+			newWindows.add( loadWindow( win.world, win.getClass(), Window.current.getName(), false ) );
 		}
 		windows.clear();
 		windows.addAll( newWindows );
@@ -119,7 +117,7 @@ public class GUIProject extends Project {
 	 */
 	public Window findWindow( Class windowClass ) {
 		for( Window win: windows ) {
-			if( windowClass == window.getClass() ) return window;
+			if( windowClass == win.getClass() ) return win;
 		}
 		error( "Window with class \"" + windowClass + "\" is not found." );
 		return null;

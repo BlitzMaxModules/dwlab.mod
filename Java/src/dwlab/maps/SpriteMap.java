@@ -61,21 +61,27 @@ public class SpriteMap extends Map {
 	public int initialArraysSize = 8;
 
 
-
+	@Override
 	public int wrapX( int value ) {
 		return value & xMask;
 	}
 
 
-
+	@Override
 	public int wrapY( int value ) {
 		return value & yMask;
 	}
 
 
-
+	@Override
 	public String getClassTitle() {
 		return "Sprite map";
+	}
+
+	
+	@Override
+	public SpriteMap toSpriteMap() {
+		return this;
 	}
 
 	// ==================== Parameters ====================
@@ -448,6 +454,17 @@ public class SpriteMap extends Map {
 
 
 
+	public Shape clone() {
+		SpriteMap newSpriteMap = new SpriteMap();
+		copyTo( newSpriteMap );
+		for( Sprite sprite: sprites ) {
+			newSpriteMap.insertSprite( sprite );
+		}
+		return newSpriteMap;
+	}
+
+
+
 	public void copyTo( Shape shape ) {
 		copyShapeTo( shape );
 		SpriteMap spriteMap = SpriteMap( shape );
@@ -463,17 +480,6 @@ public class SpriteMap extends Map {
 		spriteMap.bottomMargin = bottomMargin;
 		spriteMap.sorted = sorted;
 		spriteMap.pivotMode = pivotMode;
-	}
-
-
-
-	public Shape clone() {
-		SpriteMap newSpriteMap = new SpriteMap();
-		copyTo( newSpriteMap );
-		for( Sprite sprite: sprites ) {
-			newSpriteMap.insertSprite( sprite );
-		}
-		return newSpriteMap;
 	}
 
 

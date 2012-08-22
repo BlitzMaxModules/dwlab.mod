@@ -21,13 +21,12 @@ import java.util.HashSet;
  * Global object class
  */
 public class Obj {
-	public static HashMap<Integer, Obj> iDMap;
+	public static HashMap<Obj, Integer> iDMap;
 	public static HashSet<XMLObject> removeIDMap;
 	public static int maxID;
 	public static Obj iDArray[];
 	public static HashMap undefinedObjects;
 
-	
 	// ==================== Drawing ===================
 
 	/**
@@ -40,7 +39,6 @@ public class Obj {
 	}
 
 
-
 	/**
 	 * Draws the shape using another visualizer.
 	 * You can fill it with drawing commands for object and its parts using another visualizer.
@@ -49,7 +47,6 @@ public class Obj {
 	 */
 	public void drawUsingVisualizer( Visualizer vis ) {
 	}
-
 
 
 	/**
@@ -103,7 +100,7 @@ public class Obj {
 	 * #manageObjectMapField, #manageStringAttribute 
 	 */
 	public void xMLIO( XMLObject xMLObject ) {
-		if( Sys.xMLMode == XMLMode.SET ) xMLObject.name = getClass().getName();
+		if( Sys.xMLSetMode() ) xMLObject.name = getClass().getName();
 	}
 
 

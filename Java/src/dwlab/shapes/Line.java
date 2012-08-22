@@ -16,8 +16,8 @@ import dwlab.sprites.Sprite;
  * Line is represented by A B and C values in Ax + Bx + C = 0 equation.
  */
 public class Line extends Shape {
-	public double a = 1.0, double b, double c;
-	public double s, double s2;
+	public double a = 1.0, b, c;
+	public double s, s2;
 
 	public Line serviceLine = new Line();
 

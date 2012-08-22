@@ -1,5 +1,6 @@
 package dwlab.gui;
 import dwlab.base.Align;
+import dwlab.shapes.Shape;
 import dwlab.visualizers.Visualizer;
 import dwlab.sprites.Sprite;
 
@@ -20,24 +21,24 @@ import dwlab.sprites.Sprite;
  */
 public class Label extends Gadget {
 	public String text;
-	public Sprite icon, double iconDX, double iconDY;
+	public Shape icon;
+	double iconDX, iconDY;
 
 	/**
 	 * Visualizer for button text.
 	 */	
 	public Visualizer textVisualizer = new Visualizer();
 
-	public int hAlign = Align.TO_CENTER;
-	public int vAlign = Align.TO_CENTER;
+	public Align hAlign = Align.TO_CENTER;
+	public Align vAlign = Align.TO_CENTER;
 
-	public double textDX, double textDY;
+	public double textDX, textDY;
 
 
-
+	@Override
 	public String getClassTitle() {
 		return "Label";
 	}
-
 
 
 	/**
@@ -47,33 +48,33 @@ public class Label extends Gadget {
 	 * <li>"align" - sets align of button contents ("left", "center" or "right")</ul>
 	 * You can also set a name of the label and set "gadget_name" parameter to this name for any sprite inside window layer to load it as label icon.
 	 */	
+	@Override
 	public void init() {
 		super.init();
 
 		String name = getName();
-		if( name ) icon == Sprite( window.findShapeWithParameter( "gadget_name", getName(), "", true ) );
+		if( !name.isEmpty() ) icon = Window.current.findShape( "gadget_name", getName() );
 
-		if( ! text ) text == getParameter( "text" );
-		if( text ) {
-			if( ! icon ) icon == Sprite( window.findShapeWithParameter( "gadget_text", text, "", true ) );
-			text = localizeString( "{{" + text + "}}" );
-		}
+		if( text.isEmpty() ) text = getParameter( "text" );
+				
+		if( !text.isEmpty() ) if( icon == null ) icon = Window.current.findShape( "gadget_text", text );
 
-		switch( getParameter( "text_h_align" ) ) {
-			case "left":
-				hAlign = Align.TO_LEFT;
-			case "center":
-				hAlign = Align.TO_CENTER;
-			case "right":
-				hAlign = Align.TO_RIGHT;
+		String horizontalAlign = getParameter( "text_h_align" );
+		if( horizontalAlign.equals( "left" ) ) {
+			hAlign = Align.TO_LEFT;
+		} else if( horizontalAlign.equals( "center" ) ) {
+			hAlign = Align.TO_CENTER;
+		} else if( horizontalAlign.equals( "right" ) ) {
+			hAlign = Align.TO_RIGHT;
 		}
-		switch( getParameter( "text_v_align" ) ) {
-			case "top":
-				vAlign = Align.TO_TOP;
-			case "center":
-				vAlign = Align.TO_CENTER;
-			case "bottom":
-				vAlign = Align.TO_BOTTOM;
+		
+		String verticalAlign = getParameter( "text_v_align" );
+		if( verticalAlign.equals( "top" ) ) {
+			vAlign = Align.TO_TOP;
+		} else if( verticalAlign.equals( "center" ) ) {
+			vAlign = Align.TO_CENTER;
+		} else if( verticalAlign.equals( "bottom" ) ) {
+			vAlign = Align.TO_BOTTOM;
 		}
 
 		if( parameterExists( "text_color" ) ) {
@@ -83,41 +84,39 @@ public class Label extends Gadget {
 		}
 
 		if( parameterExists( "text_shift" ) ) {
-			textDX = getParameter( "text_shift" ).toDouble();
+			textDX = getDoubleParameter( "text_shift" );
 			textDY = textDX;
 		}
 
-		textDX = getParameter( "text_dx" ).toDouble();
-		textDY = getParameter( "text_dy" ).toDouble();
+		textDX = getDoubleParameter( "text_dx" );
+		textDY = getDoubleParameter( "text_dy" );
 
-		if( icon ) {
-			iconDX = icon.x - x;
-			iconDY = icon.y - y;
-			window.remove( icon );
+		if( icon != null ) {
+			iconDX = icon.getX() - x;
+			iconDY = icon.getY() - y;
+			Window.current.remove( icon );
 		}
 	}
 
 
-
+	@Override
 	public void draw() {
 		if( ! visible ) return;
 		super.draw();
 
-		if( icon ) {
-			icon.x = x + iconDX + getDX();
-			icon.y = y + iconDY + getDY();
+		if( icon != null ) {
+			icon.setCoords( x + iconDX + getDX(), y + iconDY + getDY() );
 			icon.draw();
 		}
 
-		textVisualizer.applyColor();
 		String chunks[] = text.split( "|" );
-		double chunkY = getDY() - 0.5 * ( chunks.dimensions()[ 0 ] - 1 ) * textSize;
+		double chunkY = getDY() - 0.5 * ( chunks.length - 1 ) * textSize;
 		for( String chunk: chunks ) {
-			printText( chunk, textSize, hAlign, vAlign, textDX + getDX(), textDY + chunkY );
+			printText( chunk, textSize, textVisualizer, hAlign, vAlign, textDX + getDX(), textDY + chunkY );
 			chunkY += textSize;
 		}
-		textVisualizer.resetColor();
 	}
+	
 
 	public double getDX() {
 		return 0;
@@ -128,17 +127,15 @@ public class Label extends Gadget {
 	}
 
 
-
 	/**
 	 * Activates the label and also restores visualizer parameters.
 	 */	
 	public void activate() {
 		active = true;
-		visualizer.alpha = 1.0;
-		if( icon ) icon.visualizer.alpha == 1.0;
-		textVisualizer.alpha = 1.0;
+		visualizer.alpha = 1.0d;
+		if( icon != null ) icon.visualizer.alpha = 1.0d;
+		textVisualizer.alpha = 1.0d;
 	}
-
 
 
 	/**
@@ -146,8 +143,8 @@ public class Label extends Gadget {
 	 */	
 	public void deactivate() {
 		active = false;
-		visualizer.alpha = 0.5;
-		if( icon ) icon.visualizer.alpha == 0.5;
-		textVisualizer.alpha = 0.5;
+		visualizer.alpha = 0.5d;
+		if( icon != null ) icon.visualizer.alpha = 0.5d;
+		textVisualizer.alpha = 0.5d;
 	}
 }

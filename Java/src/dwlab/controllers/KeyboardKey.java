@@ -258,11 +258,12 @@ public class KeyboardKey extends Pushable {
 		KeyboardKey key = new KeyboardKey();
 		key.code = code;
 		
-		for( Pushable pushable: Project.controllers ) {
-			if( pushable.isEqualTo( key ) ) return key;
+		for( ButtonAction action: Project.controllers ) {
+			for( Pushable pushable: action.buttonList ) {
+				if( pushable.isEqualTo( key ) ) return key;
+			}
 		}
 
-		Project.controllers.addLast( key );
 		return key;
 	}
 
@@ -271,6 +272,5 @@ public class KeyboardKey extends Pushable {
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
 		code = xMLObject.manageIntAttribute( "code", code );
-		if( Sys.xMLGetMode() ) Project.controllers.addLast( this );
 	}
 }

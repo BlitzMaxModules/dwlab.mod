@@ -44,9 +44,13 @@ public class VectorSprite extends Sprite {
 	}
 
 
-
 	public String getClassTitle() {
 		return "Vector sprite";
+	}
+	
+	
+	public VectorSprite toVectorSprite() {
+		return this;
 	}
 
 

@@ -173,7 +173,7 @@ public class Sprite extends Shape {
 	 * Checks if this sprite collides with given sprite.
 	 * @return True if the sprite collides with given sprite, False otherwise.
 	 */
-	public int collidesWithSprite( Sprite sprite ) {
+	public boolean collidesWithSprite( Sprite sprite ) {
 		collisionChecks += 1;
 		switch( shapeType ) {
 			case pivot:
@@ -251,7 +251,7 @@ public class Sprite extends Shape {
 	 * @return True if the sprite collides with given line, otherwise false.
 	 * Only collision of line and Oval is yet implemented.
 	 */
-	public int collidesWithLineSegment( LineSegment lineSegment ) {
+	public boolean collidesWithLineSegment( LineSegment lineSegment ) {
 		collisionChecks += 1;
 		switch( shapeType ) {
 			case pivot, raster:
@@ -268,7 +268,7 @@ public class Sprite extends Shape {
 
 
 
-	public int tileSpriteCollidesWithSprite( Sprite sprite, double dX, double dY, double xScale, double yScale ) {
+	public boolean tileSpriteCollidesWithSprite( Sprite sprite, double dX, double dY, double xScale, double yScale ) {
 		collisionChecks += 1;
 		switch( shapeType ) {
 			case pivot:
@@ -351,7 +351,7 @@ public class Sprite extends Shape {
 	 * @return True if the sprite overlaps given sprite, otherwise false.
 	 * Pivot overlapping is not supported.
 	 */
-	public int overlaps( Sprite sprite ) {
+	public boolean overlaps( Sprite sprite ) {
 		collisionChecks += 1;
 		switch( shapeType ) {
 			case oval:
@@ -927,7 +927,7 @@ public class Sprite extends Shape {
 
 	public Sprite toCircle( Sprite pivot1, Sprite circleSprite = null ) {
 		if( width == height ) return this;
-		if( ! circleSprite ) circleSprite == new Sprite().fromShapeType( circle );
+		if( circleSprite !=null ) circleSprite = Sprite.fromShapeType( circle );
 		if( width > height ) {
 			circleSprite.x = limitDouble( pivot1.x, x - 0.5 * ( width - height ), x + 0.5 * ( width - height ) );
 			circleSprite.y = y;
@@ -944,16 +944,16 @@ public class Sprite extends Shape {
 
 
 
-	public Sprite toCircleUsingLine( Line line, Sprite circleSprite = null ) {
+	public Sprite toCircleUsingLine( Line line, Sprite circleSprite ) {
 		if( width == height ) return circleSprite;
-		if( ! circleSprite ) circleSprite == new Sprite().fromShapeType( circle );
+		if( circleSprite != null ) circleSprite = (Sprite) circle;
 		if( width > height ) {
 			double dWidth = 0.5 * ( width - height );
 			double o1 = line.a * ( x - dWidth ) + line.b * y + line.c;
 			double o2 = line.a * ( x + dWidth ) + line.b * y + line.c;
-			if( sgn( o1 ) != sgn( o2 ) ) {
+			if( Math.signum( o1 ) != Math.signum( o2 ) ) {
 				circleSprite.x = -( line.b * y + line.c ) / line.a;
-			} else if( Math.abs( o1 ) < Math.abs( o2 ) then ) {
+			} else if( Math.abs( o1 ) < Math.abs( o2 ) ) {
 				circleSprite.x = x - dWidth;
 			} else {
 				circleSprite.x = x + dWidth;
@@ -961,12 +961,12 @@ public class Sprite extends Shape {
 			circleSprite.y = y;
 		} else {
 			double dHeight = 0.5 * ( height - width );
-			double o1 = line.a * x + line.b * ( y - dHeight ) + line.c;
-			double o2 = line.a * x + line.b * ( y + dHeight ) + line.c;
-			if( sgn( o1 ) != sgn( o2 ) ) {
-				circleSprite.y = -( line.a * x + line.c ) / line.b;
-			} else if( Math.abs( o1 ) < Math.abs( o2 ) then ) {
-				circleSprite.y = y - dHeight;
+			//double o1 = line.a * x + line.b * ( y - dHeight ) + line.c;
+			//double o2 = line.a * x + line.b * ( y + dHeight ) + line.c;
+			if( Math.signum( o1 ) != Math.signum( o2 ) ) {
+				//circleSprite.y = -( line.a * x + line.c ) / line.b;
+			} else if( Math.abs( o1 ) < Math.abs( o2 ) ) {
+				//circleSprite.y = y - dHeight;
 			} else {
 				circleSprite.y = y + dHeight;
 			}
@@ -1000,9 +1000,9 @@ public class Sprite extends Shape {
 		double ang = wrapDouble( angle, 360.0 );
 		if( ang < 45.0 || ang >= 315.0 ) {
 			return x1 >= x;
-		} else if( ang < 135.0 then ) {
+		} else if( ang < 135.0 ) {
 			return y1 >= y;
-		} else if( ang < 225.0 then ) {
+		} else if( ang < 225.0 ) {
 			return x1 <= x;
 		} else {
 			return y1 <= y;
@@ -1017,7 +1017,7 @@ public class Sprite extends Shape {
 
 	// ==================== Methods for triangle ====================	
 
-	public static Sprite getMedium( Sprite pivot1, Sprite pivot2, Sprite toPivot = null ) {
+	public static Sprite getMedium( Sprite pivot1, Sprite pivot2, Sprite toPivot ) {
 		if( ! toPivot ) toPivot == new Sprite().fromShape( 0, 0, 0, 0, pivot );
 		toPivot.x = 0.5 * ( pivot1.x + pivot2.x );
 		toPivot.y = 0.5 * ( pivot1.y + pivot2.y );
@@ -1026,7 +1026,7 @@ public class Sprite extends Shape {
 
 
 
-	public Line getHypotenuse( Line line = null ) {
+	public Line getHypotenuse( Line line ) {
 		if( ! line ) line == new Line();
 		switch( shapeType ) {
 			case Sprite.topLeftTriangle, Sprite.bottomRightTriangle:
@@ -1039,7 +1039,7 @@ public class Sprite extends Shape {
 
 
 
-	public Sprite getRightAngleVertex( Sprite vertex = null ) {
+	public Sprite getRightAngleVertex( Sprite vertex ) {
 		if( ! vertex ) vertex == new Sprite().fromShape( 0, 0, 0, 0, pivot );
 		switch( shapeType ) {
 			case Sprite.topLeftTriangle, Sprite.bottomLeftTriangle:
@@ -1068,6 +1068,7 @@ public class Sprite extends Shape {
 
 	// ==================== Cloning ===================	
 
+	@Override
 	public Shape clone() {
 		Sprite newSprite = new Sprite();
 		copySpriteTo( newSprite );
@@ -1089,12 +1090,15 @@ public class Sprite extends Shape {
 
 
 
+	@Override
 	public void copyTo( Shape shape ) {
-		Sprite sprite = Sprite( shape );
+		copySpriteTo( shape.toSprite() );
+	}
+	
 
-		if( ! sprite ) error( "Trying to copy sprite \"" + shape.getTitle() + "\" data to non-sprite" );
-
-		copySpriteTo( sprite );
+	@Override
+	public Sprite toSprite() {
+		return this;
 	}
 
 	// ==================== Other ====================

@@ -61,11 +61,12 @@ public class MouseWheelAction extends Pushable {
 		MouseWheelAction wheelAction = new MouseWheelAction();
 		wheelAction.direction = direction;
 		
-		for( Pushable pushable: Project.controllers ) {
-			if( pushable.isEqualTo( wheelAction ) ) return wheelAction;
+		for( ButtonAction action: Project.controllers ) {
+			for( Pushable pushable: action.buttonList ) {
+				if( pushable.isEqualTo( wheelAction ) ) return wheelAction;
+			}
 		}
 
-		Project.controllers.addLast( wheelAction );
 		return wheelAction;
 	}
 
@@ -74,6 +75,5 @@ public class MouseWheelAction extends Pushable {
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
 		direction = xMLObject.manageIntAttribute( "direction", direction );
-		if( Sys.xMLGetMode() ) Project.controllers.addLast( this );
 	}
 }

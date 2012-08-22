@@ -1,15 +1,3 @@
-package dwlab.layers;
-import java.util.LinkedList;
-import dwlab.base.XMLObject;
-import dwlab.sprites.SpriteAndTileCollisionHandler;
-import dwlab.shapes.Shape;
-import dwlab.maps.SpriteMap;
-import dwlab.sprites.SpriteCollisionHandler;
-import dwlab.maps.TileMap;
-import dwlab.visualizers.Visualizer;
-import dwlab.sprites.Sprite;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov 
 
@@ -18,8 +6,17 @@ import dwlab.sprites.Sprite;
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
+package dwlab.layers;
 
-
+import dwlab.base.Graphics;
+import dwlab.base.Project;
+import dwlab.maps.TileMap;
+import dwlab.shapes.Shape;
+import dwlab.sprites.Sprite;
+import dwlab.sprites.SpriteAndTileCollisionHandler;
+import dwlab.sprites.SpriteCollisionHandler;
+import dwlab.visualizers.Visualizer;
+import java.util.LinkedList;
 
 /**
  * Layer is the group of sprites which have bounds.
@@ -45,41 +42,42 @@ public class Layer extends Shape {
 	 * <li>All tile maps in layer should have equal horizontal and vertical size in tiles.</ul>
 	 * If this layer contains sprites or other layers they will not be drawn.
 	 */
-	public int mixContent;
+	public boolean mixContent;
 
 
-
+	@Override
 	public String getClassTitle() {
 		return "Layer";
 	}
 
 	// ==================== Drawing ===================	
 
+	@Override
 	public void draw() {
 		drawUsingVisualizer( visualizer );
 	}
 
 
-
+	@Override
 	public void drawUsingVisualizer( Visualizer vis ) {
 		if( ! visible ) return;
 
 		if( mixContent ) {
 			LinkedList shapes = new LinkedList();
-			TileMap mainTileMap;
+			TileMap mainTileMap = null;
 			for( Shape shape: children ) {
-				TileMap tileMap = TileMap( shape );
-				if( tileMap ) {
-					if( tileMap.tileSet.image ) {
-						mainTileMap = TileMap( shape );
+				TileMap tileMap = shape.toTileMap();
+				if( tileMap != null ) {
+					if( tileMap.tileSet.image != null ) {
+						mainTileMap = tileMap;
 						shapes.addLast( shape );
 					}
-				} else if( SpriteMap( shape ) then ) {
+				} else if( shape.toSpriteMap() != null ) {
 					shapes.addLast( shape );
 				}
 			}
-			if( mainTileMap ) {
-				if( shapes.count() = 1 ) shapes == null;
+			if( mainTileMap != null ) {
+				if( shapes.size() == 1 ) shapes = null;
 				vis.drawUsingTileMap( mainTileMap, shapes );
 				return;
 			}
@@ -102,6 +100,7 @@ public class Layer extends Shape {
 	 * Initialization method.
 	 * Every child shape will be initialized by default.
 	 */
+	@Override
 	public void init() {
 		for( Shape obj: children ) {
 			obj.init();
@@ -109,28 +108,28 @@ public class Layer extends Shape {
 	}
 
 
-
 	/**
 	 * Acting method.
 	 * Every child shape will be acted.
 	 */
+	@Override
 	public void act() {
 		if( active ) {
 			super.act();
 			for( Shape obj: children ) {
 				if( obj.active ) {
-					spriteActed = false;
+					Project.spriteActed = false;
 
 					obj.act();
 
-					if( Sprite( obj ) && ! spriteActed ) spritesActed += 1;
+					if( obj.toSprite() != null && ! Project.spriteActed ) Project.spritesActed += 1;
 				}
 			}
 		}
 	}
 
 
-
+	@Override
 	public void update() {
 		for( Shape obj: children ) {
 			obj.update();
@@ -139,20 +138,22 @@ public class Layer extends Shape {
 
 	// ==================== Collisions ===================
 
+	@Override
 	public Sprite layerFirstSpriteCollision( Sprite sprite ) {
 		return sprite.firstCollidedSpriteOfLayer( this );
 	}
 
 
-
+	@Override
 	public void spriteLayerCollisions( Sprite sprite, SpriteCollisionHandler handler ) {
 		sprite.collisionsWithLayer( this, handler );
 	}
 
 
-
+	@Override
 	public void tileShapeCollisionsWithSprite( Sprite sprite, double dX, double dY, double xScale, double yScale, TileMap tileMap, int tileX, int tileY, SpriteAndTileCollisionHandler handler ) {
-		for( Sprite groupSprite: children ) {
+		for( Shape groupShape: children ) {
+			Sprite groupSprite = groupShape.toSprite();
 			if( groupSprite.tileSpriteCollidesWithSprite( sprite, dX, dY, xScale, yScale ) ) {
 				handler.handleCollision( sprite, tileMap, tileX, tileY, groupSprite );
 				return;
@@ -162,31 +163,25 @@ public class Layer extends Shape {
 
 	// ==================== Other ===================	
 
+	@Override
 	public void setCoords( double newX, double newY ) {
-		for( Shape shape: children ) {
-			shape.setCoords( shape.x + newX - x, shape.y + newY - y );
-		}
-		x = newX;
-		y = newY;
+		for( Shape shape: children ) shape.alterCoords( newX - x, newY - y );
+		setCoords( newX, newY );
 		update();
 	}
-
 
 
 	/**
 	 * Sets the bounds of layer to given shape.
 	 */
 	public void setBounds( Shape shape ) {
-		if( ! bounds ) {
+		if( bounds == null ) {
 			bounds = new Shape();
 			bounds.visualizer = null;
 		}
-		bounds.x = shape.x;
-		bounds.y = shape.y;
-		bounds.width = shape.width;
-		bounds.height = shape.height;
+		bounds.jumpTo( shape );
+		bounds.setSizeAs( shape );
 	}
-
 
 
 	/**
@@ -194,28 +189,24 @@ public class Layer extends Shape {
 	 * @return Quantity of sprites inside layer and included layers.
 	 * 
 	 */
+	@Override
 	public int countSprites() {
 		int count = 0;
 		for( Shape shape: children ) {
-			if( Sprite( shape ) ) {
-				count += 1;
-			} else if( Layer( shape ) then ) {
-				count += Layer( shape ).countSprites();
-			}
+			count += shape.countSprites();
 		}
 		return count;
 	}
 
 
-
 	/**
 	 * Shows all behavior models attached to shape with their status.
 	 */
-	public int showModels( int y = 0, String shift = "" ) {
+	public int showModels( int y, String shift ) {
 		if( behaviorModels.isEmpty() ) {
 			if( children.isEmpty() ) return y;
-			drawText( shift + getTitle() + " ", 0, y );
-	    	y += 16;
+			Graphics.drawText( shift + getTitle() + " ", 0, y );
+			y += 16;
 		} else {
 			y = super.showModels( y, shift );
 		}
