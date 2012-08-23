@@ -1,10 +1,3 @@
-package dwlab.gui;
-import dwlab.base.Align;
-import dwlab.shapes.Shape;
-import dwlab.visualizers.Visualizer;
-import dwlab.sprites.Sprite;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov
  *
@@ -14,7 +7,10 @@ import dwlab.sprites.Sprite;
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 
-
+package dwlab.gui;
+import dwlab.base.Align;
+import dwlab.shapes.Shape;
+import dwlab.visualizers.Visualizer;
 
 /**
  * Class for label gadgets.

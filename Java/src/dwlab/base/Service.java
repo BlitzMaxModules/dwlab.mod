@@ -298,21 +298,6 @@ public class Service extends Obj {
 	public static int toPowerOf2( int value ) {
 		return (int) Math.pow( 2.0d, Math.ceil( Math.log( value ) / log2 ) );
 	}
-	
-	
-	public static double random( double from, double to ) {
-		return from + Math.random() * ( to - from );
-	}
-	
-
-	public static int signum( double value ) {
-		return ( value > 0d ? -1 : ( value < 0d ? 1 : 0 ) );
-	}
-
-	
-	public static int floor( double value ) {
-		return (int) Math.floor( value );
-	}
 
 	
 	public static class Margins {
@@ -333,20 +318,20 @@ public class Service extends Obj {
 	private static Vector serviceVector10 = new Vector();
 	private static Vector serviceVector11 = new Vector();
 	
-	public static void getEscribedRectangle( Margins sourceMargins, Margins destinationMargins ) {
+	public static void getEscribedRectangle( double minX, double minY, double maxX, double maxY, Margins result ) {
 		Shape viewport = Camera.current.viewport;
 		Camera.current.screenToField( viewport.leftX(), viewport.topY(), serviceVector00 );
 		Camera.current.screenToField( viewport.rightX(), viewport.topY(), serviceVector10 );
 		Camera.current.screenToField( viewport.leftX(), viewport.bottomY(), serviceVector01 );
 		Camera.current.screenToField( viewport.rightX(), viewport.bottomY(), serviceVector11 );
-		sourceMargins.min.x = Math.min( Math.min( serviceVector00.x - sourceMargins.min.x, serviceVector10.x + sourceMargins.max.x ), 
-				Math.min( serviceVector01.x - sourceMargins.min.x, serviceVector11.x + sourceMargins.max.x ) );
-		sourceMargins.min.y = Math.min( Math.min( serviceVector00.y - sourceMargins.min.y, serviceVector10.y - sourceMargins.min.y ), 
-				Math.min( serviceVector01.y + sourceMargins.max.y, serviceVector11.y + sourceMargins.max.y ) );
-		sourceMargins.max.x = Math.max( Math.max( serviceVector00.x - sourceMargins.min.x, serviceVector10.x + sourceMargins.max.x ),
-				Math.max( serviceVector01.x - sourceMargins.min.x, serviceVector11.x + sourceMargins.max.x ) );
-		sourceMargins.max.y = Math.max( Math.max( serviceVector00.y - sourceMargins.min.y, serviceVector10.y - sourceMargins.min.y ),
-				Math.max( serviceVector01.y + sourceMargins.max.y, serviceVector11.y + sourceMargins.max.y ) );
+		result.min.x = Math.min( Math.min( serviceVector00.x - minX, serviceVector10.x + maxX ), 
+				Math.min( serviceVector01.x - minX, serviceVector11.x + maxX ) );
+		result.min.y = Math.min( Math.min( serviceVector00.y - minY, serviceVector10.y - minY ), 
+				Math.min( serviceVector01.y + maxY, serviceVector11.y + maxY ) );
+		result.max.x = Math.max( Math.max( serviceVector00.x - minX, serviceVector10.x + maxX ),
+				Math.max( serviceVector01.x - minX, serviceVector11.x + maxX ) );
+		result.max.y = Math.max( Math.max( serviceVector00.y - minY, serviceVector10.y - minY ),
+				Math.max( serviceVector01.y + maxY, serviceVector11.y + maxY ) );
 	}
 
 
@@ -426,5 +411,25 @@ public class Service extends Obj {
 			value = value * 80 + ( (int) chunk.charAt( n ) ) - 48;
 		}
 		return value;
+	}
+	
+	
+	public static double random( double from, double to ) {
+		return from + Math.random() * ( to - from );
+	}
+	
+
+	public static int signum( double value ) {
+		return ( value > 0d ? -1 : ( value < 0d ? 1 : 0 ) );
+	}
+
+	
+	public static int floor( double value ) {
+		return (int) Math.floor( value );
+	}
+
+	
+	public static int round( double value ) {
+		return (int) Math.round( value );
 	}
 }

@@ -23,25 +23,25 @@ public class Visualizer extends Color {
 	 * Horizontal shift of displaying image from the center of drawing shape in units .
 	 * @see #setDXDY
 	 */
-	public double dX = 0.0;
+	public double dX = 0d;
 
 	/**
 	 * Vertical shift of displaying image from the center of drawing shape in units .
 	 * @see #setDXDY
 	 */
-	public double dY = 0.0;
+	public double dY = 0d;
 
 	/**
 	 * Horizontal scaling of displaying image relative to the width of the drawing shape.
 	 * @see #setVisualizerScale
 	 */
-	public double xScale = 1.0;
+	public double xScale = 1d;
 
 	/**
 	 * Vertical scaling of displaying image relative to the height of the drawing shape.
 	 * @see #setVisualizerScale
 	 */
-	public double yScale = 1.0;
+	public double yScale = 1d;
 
 	/**
 	 * Scaling flag.
@@ -62,17 +62,18 @@ public class Visualizer extends Color {
 
 	// ==================== Creating ====================
 
+	public Visualizer() {
+	}
+	
+	
 	/**
 	 * Creates new visualizer from image file.
 	 * @return New visualizer.
 	 * @see #fromImage, #fromColor, #fromHexColor
 	 */
-	public static Visualizer fromFile( String filename, int xCells = 1, int yCells = 1 ) {
-		Visualizer visualizer = new Visualizer();
-		visualizer.image = Image.fromFile( filename, xCells, yCells );
-		return visualizer;
+	public Visualizer( String filename, int xCells, int yCells ) {
+		this.image = Image.fromFile( filename, xCells, yCells );
 	}
-
 
 
 	/**
@@ -80,12 +81,9 @@ public class Visualizer extends Color {
 	 * @return New visualizer.
 	 * @see #fromFile, #fromRGBColor, #fromHexColor
 	 */
-	public static Visualizer fromImage( Image image ) {
-		Visualizer visualizer = new Visualizer();
-		visualizer.image = image;
-		return visualizer;
+	public Visualizer( Image image ) {
+		this.image = image;
 	}
-
 
 
 	/**
@@ -93,15 +91,11 @@ public class Visualizer extends Color {
 	 * @return New visualizer.
 	 * @see #fromFile, #fromImage, #fromHexColor
 	 */
-	public static Visualizer fromRGBColor( double red, double green, double blue, double alpha, double scale, int scaling ) {
-		Visualizer visualizer = new Visualizer();
-		visualizer.set( red, green, blue );
-		visualizer.alpha = alpha;
-		visualizer.setVisualizerScales( scale );
-		visualizer.scaling = scaling;
-		return visualizer;
+	public Visualizer( double red, double green, double blue, double alpha, double scale, boolean scaling ) {
+		this.set( red, green, blue, alpha );
+		this.setVisualizerScales( scale );
+		this.scaling = scaling;
 	}
-
 
 
 	/**
@@ -109,13 +103,10 @@ public class Visualizer extends Color {
 	 * @return New visualizer.
 	 * @see #fromFile, #fromImage, #fromRGBColor, #overlaps example.
 	 */
-	public static Visualizer fromHexColor( String hexColor, double alpha, double scale, int scaling ) {
-		Visualizer visualizer = new Visualizer();
-		visualizer.setColorFromHex( hexColor );
-		visualizer.alpha = alpha;
-		visualizer.setVisualizerScales( scale );
-		visualizer.scaling = scaling;
-		return visualizer;
+	public Visualizer( String hexColor, double scale, boolean scaling ) {
+		this.set( hexColor );
+		this.setVisualizerScales( scale );
+		this.scaling = scaling;
 	}
 
 	// ==================== Parameters ====================
@@ -148,7 +139,7 @@ public class Visualizer extends Color {
 	 * Sets scalings of the visualizer to one value
 	 * Works only with images.
 	 */
-	public void setVisualizerScales( double newScale ) {
+	public final void setVisualizerScales( double newScale ) {
 		xScale = newScale;
 		yScale = newScale;
 	}
@@ -184,7 +175,7 @@ public class Visualizer extends Color {
 
 		double sX, double sY, double sWidth, double sHeight;
 
-		if( image ) {
+		if( image != null ) {
 			Camera.current.fieldToScreen( spriteShape.x, spriteShape.y, sX, sY );
 
 			if( rotating ) {
@@ -215,6 +206,9 @@ public class Visualizer extends Color {
 		resetColor();
 	}
 
+	public void drawUsingSprite( Sprite sprite ) {
+		drawUsingSprite( sprite, sprite );
+	}
 
 
 	/**

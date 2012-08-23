@@ -8,13 +8,17 @@
 
 package dwlab.maps;
 
+import dwlab.base.Graphics;
+import dwlab.base.Service;
+import dwlab.base.Service.Margins;
 import dwlab.base.Sys;
 import dwlab.shapes.Shape;
+import dwlab.sprites.Collision;
 import dwlab.sprites.Sprite;
 import dwlab.sprites.SpriteGroup;
 import dwlab.visualizers.Visualizer;
-import java.util.HashMap;
-import java.util.HashSet;
+import dwlab.xml.XMLObject;
+import java.util.*;
 
 /**
  * Sprite map is a structure which can contain sprites, draw and perform collision checks between them and other shapes.
@@ -82,10 +86,41 @@ public class SpriteMap extends Map {
 		return this;
 	}
 
+
+	/**
+	 * Creates collision map.
+	 * You should specify cell quantities and size.
+	 * 
+	 * @see #createForShape
+	 */
+	public SpriteMap( int xQuantity, int yQuantity, double cellWidth, double cellHeight, boolean sorted, boolean pivotMode ) {
+		this.setResolution( xQuantity, yQuantity );
+		this.cellWidth = cellWidth;
+		this.cellHeight = cellHeight;
+		this.sorted = sorted;
+		this.pivotMode = pivotMode;
+	}
+
+	/**
+	 * Creates collision map using existing shape.
+	 * Collision map with size not less than shape size will be created. You can specify cell size either.
+	 * Use this function ob layer bounds or layer tilemap which are covers all level to maximize performance.
+	 */
+	public SpriteMap( Shape shape, double cellSize, boolean sorted, boolean pivotMode ) {
+		this.setResolution( Service.toPowerOf2( (int) Math.ceil( shape.getWidth() / cellSize ) ), Service.toPowerOf2( (int) Math.ceil( shape.getHeight() / cellSize ) ) );
+		this.cellWidth = cellSize;
+		this.cellHeight = cellSize;
+		this.sorted = sorted;
+		this.pivotMode = pivotMode;
+	}
+	
+	public SpriteMap() {
+	}
+
 	// ==================== Parameters ====================
 
 	@Override
-	public void setResolution( int newXQuantity, int newYQuantity ) {
+	public final void setResolution( int newXQuantity, int newYQuantity ) {
 		super.setResolution( newXQuantity, newYQuantity );
 
 		if( Sys.debug ) if( ! masked ) error( "Map resoluton must be power of 2" );
@@ -140,46 +175,47 @@ public class SpriteMap extends Map {
 	}
 
 
+	Margins serviceMargins = new Margins();
+	
 	@Override
 	public void drawUsingVisualizer( Visualizer vis ) {
 		if( visible ) {
-			double screenMinX, double screenMinY, double screenMaxX, double screenMaxY;
-			getEscribedRectangle( leftMargin, topMargin, rightMargin, bottomMargin, screenMinX, screenMinY, screenMaxX, screenMaxY );
+			Service.getEscribedRectangle( leftMargin, topMargin, rightMargin, bottomMargin, serviceMargins );
 
-			int mapX1 = Math.floor( screenMinX / cellWidth );
-			int mapY1 = Math.floor( screenMinY / cellHeight );
-			int mapX2 = Math.floor( screenMaxX / cellWidth );
-			int mapY2 = Math.floor( screenMaxY / cellHeight );
+			int mapX1 = Service.floor( serviceMargins.min.x / cellWidth );
+			int mapY1 = Service.floor( serviceMargins.min.y / cellHeight );
+			int mapX2 = Service.floor( serviceMargins.max.x / cellWidth );
+			int mapY2 = Service.floor( serviceMargins.max.y / cellHeight );
 
 			HashMap spriteMap = new HashMap();
 
-			int xN[];
-			if( sorted ) xN == new int()[ mapX2 - mapX1 + 1 ];
+			int xN[] = new int[ mapX2 - mapX1 + 1 ];
 
-			for( int y=mapY1; y <= mapY2; y++ ) {
-				int maskedY = y & yMask;
-				double maxY = ( y + 1 ) * cellHeight;
+			for( int yy = mapY1; yy <= mapY2; yy++ ) {
+				int maskedY = yy & yMask;
+				double maxY = ( yy + 1 ) * cellHeight;
 				if( sorted ) {
 					while( true ) {
-						double minY;
-						int storedX;
+						double minY = 0;
+						int storedX = 0;
 						Sprite storedSprite = null;
-						for( int x=0; x <= mapX2 - mapX1; x++ ) {
-							int maskedX = x & yMask;
-							int n = xN[ x ];
-							if( n >= listSize[ maskedX, maskedY ] ) continue;
-							Sprite sprite = lists[ maskedX, maskedY ][ n ];
-							if( sprite.y >= maxY ) continue;
-							if( ! storedSprite || sprite.y < minY ) {
-								minY = sprite.y;
-								storedX = x;
+						for( int xx = 0; xx <= mapX2 - mapX1; xx++ ) {
+							int maskedX = xx & yMask;
+							int n = xN[ xx ];
+							if( n >= listSize[ maskedY ][ maskedX ] ) continue;
+							Sprite sprite = lists[ maskedY ][ maskedX ][ n ];
+							double y0 = sprite.getY();
+							if( y0 >= maxY ) continue;
+							if( storedSprite == null || y0 < minY ) {
+								minY = y0;
+								storedX = xx;
 								storedSprite = sprite;
 							}
 						}
-						if( ! storedSprite ) exit;
+						if( storedSprite == null ) break;
 
-						if( ! spriteMap.contains( storedSprite ) ) {
-							if( vis ) {
+						if( !spriteMap.containsKey( storedSprite ) ) {
+							if( vis != null ) {
 								vis.drawUsingSprite( storedSprite );
 							} else {
 								storedSprite.draw();
@@ -190,13 +226,13 @@ public class SpriteMap extends Map {
 						xN[ storedX ] += 1;
 					}
 				} else {
-					for( int x=mapX1; x <= mapX2; x++ ) {
-						int maskedX = x & xMask;
-						Sprite array[] = lists[ maskedX, maskedY ];
-						for( int n=0; n <= listSize[ maskedX, maskedY ]; n++ ) {
-							Sprite sprite = Sprite( array[ n ] );
-							if( ! spriteMap.contains( sprite ) ) {
-								if( vis ) {
+					for( int xx = mapX1; xx <= mapX2; xx++ ) {
+						int maskedX = xx & xMask;
+						Sprite array[] = lists[ maskedY ][ maskedX ];
+						for( int n = 0; n <= listSize[ maskedY ][ maskedX ]; n++ ) {
+							Sprite sprite = array[ n ];
+							if( ! spriteMap.containsKey( sprite ) ) {
+								if( vis != null ) {
 									sprite.drawUsingVisualizer( vis );
 								} else {
 									sprite.draw();
@@ -218,49 +254,51 @@ public class SpriteMap extends Map {
 	 * 
 	 * @see #removeSprite
 	 */
-	public void insertSprite( Sprite sprite, int changeSpriteMapField = true ) {
-		sprites.put( sprite, null );
+	public void insertSprite( Sprite sprite, boolean changeSpriteMapField ) {
+		sprites.add( sprite );
 		if( pivotMode ) {
-			insertSpriteIntoList( sprite, int( sprite.x / cellWidth ) & xMask, int( sprite.y / cellHeight ) & yMask );
+			insertSprite( sprite, Service.round( sprite.getX() / cellWidth ) & xMask, (int) Service.round( sprite.getY() / cellHeight ) & yMask );
 		} else {
-			int mapX1 = Math.floor( ( sprite.x - 0.5 * sprite.width ) / cellWidth );
-			int mapY1 = Math.floor( ( sprite.y - 0.5 * sprite.height ) / cellHeight );
-			int mapX2 = Math.floor( ( sprite.x + 0.5 * sprite.width - inaccuracy ) / cellWidth );
-			int mapY2 = Math.floor( ( sprite.y + 0.5 * sprite.height - inaccuracy ) / cellHeight );
+			int mapX1 = Service.floor( ( sprite.getX() - 0.5d * sprite.getWidth() ) / cellWidth );
+			int mapY1 = Service.floor( ( sprite.getY() - 0.5d * sprite.getHeight() ) / cellHeight );
+			int mapX2 = Service.floor( ( sprite.getX() + 0.5d * sprite.getWidth() - Collision.inaccuracy ) / cellWidth );
+			int mapY2 = Service.floor( ( sprite.getY() + 0.5d * sprite.getHeight() - Collision.inaccuracy ) / cellHeight );
 
-			for( int y=mapY1; y <= mapY2; y++ ) {
-				for( int x=mapX1; x <= mapX2; x++ ) {
-					insertSpriteIntoList( sprite, x & xMask, y & yMask );
+			for( int yy = mapY1; yy <= mapY2; yy++ ) {
+				for( int xx = mapX1; xx <= mapX2; xx++ ) {
+					insertSprite( sprite, xx & xMask, yy & yMask );
 				}
 			}
 		}
-		if( changeSpriteMapField ) sprite.spriteMap == this;
+		if( changeSpriteMapField ) sprite.spriteMap = this;
 	}
 
 
 
-	public void insertSpriteIntoList( Sprite sprite, int mapX, int mapY ) {
-		Sprite array[] = lists[ mapX, mapY ];
-		int size = listSize[ mapX, mapY ];
+	public void insertSprite( Sprite sprite, int mapX, int mapY ) {
+		Sprite array[] = lists[ mapY ][ mapX ];
+		int size = listSize[ mapY ][ mapX ];
 		if( array.length == size ) {
-			array = array + array;
-			lists[ mapX, mapY ] = array;
+			array = Arrays.copyOf( array, size * 2 );
+			lists[ mapY ][ mapX ] = array;
 		}
 
 		array[ size ] = sprite;
 		if( sorted ) {
 			for( int n=0; n <= size; n++ ) {
-				if( sprite.y < array[ n ].y ) {
+				if( sprite.getY() < array[ n ].getY() ) {
 					for( int m=size - 1; m <= n; m += -1 ) {
 						array[ m + 1 ] = array[ m ];
 					}
 					array[ n ] = sprite;
-					exit;
+					break;
 				}
 			}
+		} else {
+			array[ size ] = sprite;
 		}
 
-		listSize[ mapX, mapY ] += 1;
+		listSize[ mapY ][ mapX ] += 1;
 	}
 
 
@@ -271,31 +309,31 @@ public class SpriteMap extends Map {
 	 * 
 	 * @see #insertSprite
 	 */
-	public void removeSprite( Sprite sprite, int changeSpriteMapField = true ) {
+	public void removeSprite( Sprite sprite, boolean changeSpriteMapField ) {
 		sprites.remove( sprite );
 		if( pivotMode ) {
-			removeSpriteFromList( sprite, int( sprite.x / cellWidth ) & xMask, int( sprite.y / cellHeight ) & yMask );
+			removeSprite( sprite, Service.round( sprite.getX() / cellWidth ) & xMask, Service.round( sprite.getY() / cellHeight ) & yMask );
 		} else {
-			int mapX1 = Math.floor( ( sprite.x - 0.5 * sprite.width ) / cellWidth );
-			int mapY1 = Math.floor( ( sprite.y - 0.5 * sprite.height ) / cellHeight );
-			int mapX2 = Math.floor( ( sprite.x + 0.5 * sprite.width - inaccuracy ) / cellWidth );
-			int mapY2 = Math.floor( ( sprite.y + 0.5 * sprite.height - inaccuracy ) / cellHeight );
+			int mapX1 = Service.floor( ( sprite.getX() - 0.5d * sprite.getWidth() ) / cellWidth );
+			int mapY1 = Service.floor( ( sprite.getY() - 0.5d * sprite.getHeight() ) / cellHeight );
+			int mapX2 = Service.floor( ( sprite.getX() + 0.5d * sprite.getWidth() - Collision.inaccuracy ) / cellWidth );
+			int mapY2 = Service.floor( ( sprite.getY() + 0.5d * sprite.getHeight() - Collision.inaccuracy ) / cellHeight );
 
-			for( int y=mapY1; y <= mapY2; y++ ) {
-				for( int x=mapX1; x <= mapX2; x++ ) {
-					removeSpriteFromList( sprite, x & xMask, y & yMask );
+			for( int yy = mapY1; yy <= mapY2; yy++ ) {
+				for( int xx = mapX1; xx <= mapX2; xx++ ) {
+					removeSprite( sprite, xx & xMask, yy & yMask );
 				}
 			}
 		}
-		if( changeSpriteMapField ) sprite.spriteMap == null;
+		if( changeSpriteMapField ) sprite.spriteMap = null;
 	}
 
 
 
-	public void removeSpriteFromList( Sprite sprite, int mapX, int mapY ) {
-		Sprite array[] = lists[ mapX, mapY ];
-		int size = listSize[ mapX, mapY ];
-		for( int n=0; n <= size; n++ ) {
+	public void removeSprite( Sprite sprite, int mapX, int mapY ) {
+		Sprite array[] = lists[ mapY ][ mapX ];
+		int size = listSize[ mapY ][ mapX ];
+		for( int n = 0; n <= size; n++ ) {
 			if( array[ n ] == sprite ) {
 				if( sorted ) {
 					for( int m=n + 1; m <= size; m++ ) {
@@ -304,7 +342,7 @@ public class SpriteMap extends Map {
 				} else {
 					array[ n ] = array[ size - 1 ];
 				}
-				listSize[ mapX, mapY ] -= 1;
+				listSize[ mapY ][ mapX ] -= 1;
 				return;
 			}
 		}
@@ -316,151 +354,145 @@ public class SpriteMap extends Map {
 	 */
 	public void clear() {
 		sprites.clear();
-		for( int y=0; y <= yQuantity; y++ ) {
-			for( int x=0; x <= xQuantity; x++ ) {
-				listSize[ x, y ] = 0;
+		for( int yy = 0; yy <= yQuantity; yy++ ) {
+			for( int xx = 0; xx <= xQuantity; xx++ ) {
+				listSize[ yy ][ xx ] = 0;
 			}
 		}
 	}
 
 	// ==================== Shape management ====================
 
+	@Override
 	public Shape load() {
-		SpriteMap newSpriteMap = SpriteMap( loadShape() );
-		for( Sprite childSprite: sprites.keySet() ) {
-			newSpriteMap.insertSprite( Sprite( childSprite.loadShape() ) );
+		SpriteMap newSpriteMap = loadShape().toSpriteMap();
+		for( Sprite childSprite: sprites ) {
+			newSpriteMap.insertSprite( childSprite.loadShape().toSprite(), true );
 		}
 		return newSpriteMap;
 	}
 
 
-
-	public Shape findShapeWithParameterID( String parameterName, String parameterValue, tTypeID shapeTypeID, int ignoreError = false ) {
-		for( Shape childShape: sprites.keySet() ) {
-			if( ! shapeTypeID || tTypeId.forObject( childShape ) == shapeTypeID ) {
-				if( ! parameterName || childShape.getParameter( parameterName ) == parameterValue ) return this;
-			}
-
-			SpriteGroup spriteGroup = SpriteGroup( childShape );
-			if( spriteGroup ) {
-				Shape shape = spriteGroup.findShapeWithParameterID( parameterName, parameterValue, shapeTypeID, true );
-				if( shape ) return shape;
-			}
+	@Override
+	public Shape findShape( String parameterName, String parameterValue ) {
+		super.findShape( parameterName, parameterValue );
+		for( Shape childShape: sprites ) {
+			Shape shape = childShape.findShape( parameterName, parameterValue );
+			if( shape != null ) return shape;
 		}
-
-		super.findShapeWithParameterID( parameterName, parameterValue, shapeTypeID, ignoreError );
+		return null;
 	}
 
 
+	@Override
+	public Shape findShape( Class shapeClass ) {
+		super.findShape( shapeClass );
+		for( Shape childShape: sprites ) {
+			Shape shape = childShape.findShape( shapeClass );
+			if( shape != null ) return shape;
+		}
+		return null;
+	}
 
-	public int insertBeforeShape( Shape shape = null, LinkedList shapesList = null, Shape beforeShape ) {
-		if( sprites.contains( beforeShape ) ) {
-			Sprite sprite = Sprite( shape );
-			if( sprite ) insertSprite( sprite );
-			if( shapesList ) {
-				for( Sprite listSprite: shapesList ) {
-					insertSprite( listSprite );
-				}
-			}
+
+	@Override
+	public Shape findShape( String parameterName, String parameterValue, Class shapeClass ) {
+		super.findShape( parameterName, parameterValue, shapeClass );
+		for( Shape childShape: sprites ) {
+			Shape shape = childShape.findShape( parameterName, parameterValue, shapeClass );
+			if( shape != null ) return shape;
+		}
+		return null;
+	}
+
+
+	@Override
+	public boolean insertBeforeShape( Shape shape, Shape beforeShape ) {
+		Sprite sprite = beforeShape.toSprite();
+		if( sprite == null ) return false;
+		if( sprites.contains( sprite ) ) {
+			sprite = shape.toSprite();
+			if( sprite != null ) sprites.add( sprite );
+			return true;
 		} else {
-			for( SpriteGroup spriteGroup: sprites.keySet() ) {
-				spriteGroup.insertBeforeShape( shape, shapesList, beforeShape );
+			return false;
+		}
+	}
+	
+	
+	@Override
+	public boolean insertBeforeShape( Collection<Shape> shapes, Shape beforeShape ) {
+		Sprite sprite = beforeShape.toSprite();
+		if( sprite == null ) return false;
+		if( sprites.contains( sprite ) ) {
+			for( Shape shape : shapes ) {
+				sprite = shape.toSprite();
+				if( sprite != null ) sprites.add( sprite );
 			}
+			return true;
+		} else {
+			return false;
 		}
 	}
 
-
-
+	@Override
 	public void remove( Shape shape ) {
-		Sprite sprite = Sprite( shape );
-		if( sprite ) {
-			removeSprite( sprite );
-			for( SpriteGroup spriteGroup: sprites.keySet() ) {
-				spriteGroup.remove( sprite );
-			}
-		}
+		Sprite sprite = shape.toSprite();
+		if( sprite != null ) sprites.remove( sprite );
 	}
 
 
-
-	public void removeAllOfTypeID( tTypeID typeID ) {
-		for( tKeyValue keyValue: sprites ) {
-			if( tTypeId.forObject( keyValue.key() ) == typeID ) {
-				Sprite sprite = Sprite( keyValue.value() );
-				removeSprite( sprite );
-			}
-
-			SpriteGroup spriteGroup = SpriteGroup( keyValue.value() );
-			if( spriteGroup ) spriteGroup.removeAllOfTypeID( typeID );
+	@Override
+	public void remove( Class shapeClass ) {
+		for ( Iterator<Sprite> iterator = sprites.iterator(); iterator.hasNext(); ) {
+			Shape childSprite = iterator.next();
+			if( childSprite.getClass() == shapeClass ) iterator.remove(); else childSprite.remove( shapeClass );
 		}
 	}
 
 	// ==================== Other ===================	
-
-	public tNodeEnumerator objectEnumerator() {
-		return sprites.keySet().objectEnumerator();
-	}
-
-
-
+	
+	@Override
 	public void init() {
-		for( Sprite sprite: sprites.keySet() ) {
+		for( Sprite sprite: sprites ) {
 			sprite.init();
 		}
 	}
 
 
-
+	@Override
 	public void act() {
-		for( Sprite sprite: sprites.keySet() ) {
+		for( Sprite sprite: sprites ) {
 			sprite.act();
 		}
 	}
 
 
-
+	@Override
 	public void update() {
-		for( Shape obj: sprites.keySet() ) {
+		for( Shape obj: sprites ) {
 			obj.update();
 		}
 	}
 
 
-
-	/**
-	 * Creates collision map.
-	 * You should specify cell quantities and size.
-	 * 
-	 * @see #createForShape
-	 */
-	public static SpriteMap create( int xQuantity, int yQuantity, double cellWidth = 1.0, double cellHeight = 1.0, int sorted = false, int pivotMode = false ) {
-		SpriteMap map = new SpriteMap();
-		map.setResolution( xQuantity, yQuantity );
-		map.cellWidth = cellWidth;
-		map.cellHeight = cellHeight;
-		map.sorted = sorted;
-		map.pivotMode = pivotMode;
-		return map;
-	}
-
-
-
+	@Override
 	public Shape clone() {
 		SpriteMap newSpriteMap = new SpriteMap();
 		copyTo( newSpriteMap );
 		for( Sprite sprite: sprites ) {
-			newSpriteMap.insertSprite( sprite );
+			newSpriteMap.insertSprite( sprite, true );
 		}
 		return newSpriteMap;
 	}
 
 
-
+	@Override
 	public void copyTo( Shape shape ) {
 		copyShapeTo( shape );
-		SpriteMap spriteMap = SpriteMap( shape );
-
-		if( ! spriteMap ) error( "Trying to copy sprite map \"" + shape.getTitle() + "\" data to non-sprite-map" );
+		SpriteMap spriteMap =  shape.toSpriteMap();
+		
+		if( Sys.debug ) if( spriteMap == null ) error( "Trying to copy sprite map \"" + shape.getTitle() + "\" data to non-sprite-map" );
 
 		spriteMap.setResolution( xQuantity, yQuantity );
 		spriteMap.cellWidth = cellWidth;
@@ -474,53 +506,42 @@ public class SpriteMap extends Map {
 	}
 
 
-
-	/**
-	 * Creates collision map using existing shape.
-	 * Collision map with size not less than shape size will be created. You can specify cell size either.
-	 * Use this function ob layer bounds or layer tilemap which are covers all level to maximize performance.
-	 */
-	public static SpriteMap createForShape( Shape shape, double cellSize = 1.0, int sorted = false ) {
-		return create( toPowerOf2( shape.width / cellSize ), toPowerOf2( shape.height / cellSize ), cellSize, cellSize, sorted );
-	}
-
-
-
-	public int showModels( int y = 0, String shift = "" ) {
+	@Override
+	public int showModels( int y, String shift ) {
 		if( behaviorModels.isEmpty() ) {
 			if( sprites.isEmpty() ) return y;
-			drawText( shift + getTitle() + " ", 0, y );
+			Graphics.drawText( shift + getTitle() + " ", 0, y );
 	    	y += 16;
 		} else {
 			y = super.showModels( y, shift );
 		}
-		for( Shape shape: sprites.keySet() ) {
+		for( Shape shape: sprites ) {
 			y = shape.showModels( y, shift + " " );
 		}
 		return y;
 	}
 
 
-
+	@Override
 	public void xMLIO( XMLObject xMLObject ) {
-		xMLObject.manageDoubleAttribute( "cell-width", cellWidth, 1.0 );
-		xMLObject.manageDoubleAttribute( "cell-height", cellHeight, 1.0 );
-		xMLObject.manageDoubleAttribute( "left-margin", leftMargin );
-		xMLObject.manageDoubleAttribute( "right-margin", rightMargin );
-		xMLObject.manageDoubleAttribute( "top-margin", topMargin );
-		xMLObject.manageDoubleAttribute( "bottom-margin", bottomMargin );
-		xMLObject.manageIntAttribute( "sorted", sorted );
-		xMLObject.manageIntAttribute( "pivot-mode", pivotMode );
-		xMLObject.manageIntAttribute( "arrays-size", initialArraysSize, 8 );
+		cellWidth = xMLObject.manageDoubleAttribute( "cell-width", cellWidth, 1d );
+		cellHeight = xMLObject.manageDoubleAttribute( "cell-height", cellHeight, 1d );
+		leftMargin = xMLObject.manageDoubleAttribute( "left-margin", leftMargin );
+		rightMargin = xMLObject.manageDoubleAttribute( "right-margin", rightMargin );
+		topMargin = xMLObject.manageDoubleAttribute( "top-margin", topMargin );
+		bottomMargin = xMLObject.manageDoubleAttribute( "bottom-margin", bottomMargin );
+		sorted = xMLObject.manageBooleanAttribute( "sorted", sorted );
+		pivotMode = xMLObject.manageBooleanAttribute( "pivot-mode", pivotMode );
+		initialArraysSize = xMLObject.manageIntAttribute( "arrays-size", initialArraysSize, 8 );
 
 		super.xMLIO( xMLObject );
 
-		if( Sys.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLGetMode() ) {
 			for( XMLObject spriteXMLObject: xMLObject.children ) {
-				insertSprite( Sprite( spriteXMLObject.manageObject( null ) ) );
+				insertSprite( (Sprite) spriteXMLObject.manageObject( null ), true );
 			}
 		} else {
-			for( Sprite sprite: sprites.keySet() ) {
+			for( Sprite sprite: sprites ) {
 				XMLObject newXMLObject = new XMLObject();
 				newXMLObject.manageObject( sprite );
 				xMLObject.children.addLast( newXMLObject );

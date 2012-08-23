@@ -11,7 +11,7 @@ package dwlab.sprites;
 
 import dwlab.base.Project;
 import dwlab.base.Service;
-import dwlab.base.Service.Margins;
+import dwlab.base.Sys;
 import dwlab.layers.Layer;
 import dwlab.maps.SpriteMap;
 import dwlab.maps.TileMap;
@@ -19,16 +19,18 @@ import dwlab.maps.TileSet;
 import dwlab.shapes.Line;
 import dwlab.shapes.LineSegment;
 import dwlab.shapes.Shape;
+import dwlab.shapes.Vector;
 import dwlab.visualizers.Visualizer;
 import dwlab.xml.XMLObject;
-import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Sprite is the main basic shape of the framework to draw, move and check collisions.
  * @see #lTVectorSprite
  */
 public class Sprite extends Shape {
-	private Sprite servicePivot = new Sprite( ShapeType.PIVOT, 0, 0, 0, 0 );
+	private Vector serviceVector = new Vector();
+	private Sprite servicePivot = new Sprite();
 	private Sprite serviceOval = new Sprite( ShapeType.OVAL );
 	private Sprite serviceRectangle = new Sprite( ShapeType.RECTANGLE );
 	private Sprite serviceTriangle = new Sprite( ShapeType.TOP_LEFT_TRIANGLE );
@@ -205,76 +207,82 @@ public class Sprite extends Shape {
 	 * @return True if the sprite collides with given sprite, False otherwise.
 	 */
 	public boolean collidesWithSprite( Sprite sprite ) {
-		collisionChecks += 1;
+		if( Sys.debug ) Project.collisionChecks += 1;
 		switch( shapeType ) {
-			case pivot:
+			case PIVOT:
 				switch( sprite.shapeType ) {
-					case oval:
+					case OVAL:
 						return Collision.pivotWithOval( this, sprite );
-					case rectangle:
+					case RECTANGLE:
 						return Collision.pivotWithRectangle( this, sprite );
-					case pivot, ray, raster:
+					case PIVOT:
+					case RAY:
+					case RASTER:
+						break;
 					default:
 						return Collision.pivotWithTriangle( this, sprite );
 				}
-			case oval:
+			case OVAL:
 				switch( sprite.shapeType ) {
-					case pivot:
+					case PIVOT:
 						return Collision.pivotWithOval( sprite, this );
-					case oval:
+					case OVAL:
 						return Collision.ovalWithOval( this, sprite );
-					case rectangle:
+					case RECTANGLE:
 						return Collision.ovalWithRectangle( this, sprite );
-					case ray:
+					case RAY:
 						return Collision.ovalWithRay( this, sprite );
-					case raster:
+					case RASTER:
+						break;
 					default:
 						return Collision.ovalWithTriangle( this, sprite );
 				}
-			case rectangle:
+			case RECTANGLE:
 				switch( sprite.shapeType ) {
-					case pivot:
+					case PIVOT:
 						return Collision.pivotWithRectangle( sprite, this );
-					case oval:
+					case OVAL:
 						return Collision.ovalWithRectangle( sprite, this );
-					case rectangle:
+					case RECTANGLE:
 						return Collision.rectangleWithRectangle( this, sprite );
-					case ray:
+					case RAY:
 						return Collision.rectangleWithRay( this, sprite );
 					default:
 						return Collision.rectangleWithTriangle( this, sprite );
 				}
-			case ray:
+			case RAY:
 				switch( sprite.shapeType ) {
-					case pivot:
-					case oval:
+					case PIVOT:
+						break;
+					case OVAL:
 						return Collision.ovalWithRay( sprite, this );
-					case rectangle:
+					case RECTANGLE:
 						return Collision.rectangleWithRay( sprite, this );
-					case ray:
+					case RAY:
 						return Collision.rayWithRay( this, sprite );
 					default:
 						return Collision.triangleWithRay( sprite, this );
 				}
-			case raster:
-				if( sprite.shapeType == raster ) return Collision.rasterWithRaster( this, sprite );
+			case RASTER:
+				if( sprite.shapeType == ShapeType.RASTER ) return Collision.rasterWithRaster( this, sprite );
 			default:
 				switch( sprite.shapeType ) {
-					case pivot:
+					case PIVOT:
 						return Collision.pivotWithTriangle( sprite, this );
-					case oval:
+					case OVAL:
 						return Collision.ovalWithTriangle( sprite, this );
-					case rectangle, raster:
+					case RECTANGLE:
 						return Collision.rectangleWithTriangle( sprite, this );
-					case ray:
+					case RAY:
 						return Collision.triangleWithRay( this, sprite );
-					case raster:
+					case RASTER:
+						break;
 					default:
 						return Collision.triangleWithTriangle( this, sprite );
 				}
 		}
+		return false;
 	}
-
 
 
 	/**
@@ -283,76 +291,84 @@ public class Sprite extends Shape {
 	 * Only collision of line and Oval is yet implemented.
 	 */
 	public boolean collidesWithLineSegment( LineSegment lineSegment ) {
-		collisionChecks += 1;
+		if( Sys.debug ) Project.collisionChecks += 1;
 		switch( shapeType ) {
-			case pivot, raster:
-			case oval:
+			case PIVOT:
+			case RASTER:
+				break;
+			case OVAL:
 				return Collision.ovalWithLineSegment( this, lineSegment.pivot[ 0 ], lineSegment.pivot[ 1 ] );
-			case rectangle:
+			case RECTANGLE:
 				return Collision.rectangleWithLineSegment( this, lineSegment.pivot[ 0 ], lineSegment.pivot[ 1 ] );
-			case ray:
+			case RAY:
 				return Collision.rayWithLineSegment( this, lineSegment.pivot[ 0 ], lineSegment.pivot[ 1 ] );
 			default:
 				return Collision.triangleWithLineSegment( this, lineSegment.pivot[ 0 ], lineSegment.pivot[ 1 ] );
 		}
+		return false;
 	}
 
 
-
 	public boolean tileSpriteCollidesWithSprite( Sprite sprite, double dX, double dY, double xScale, double yScale ) {
-		collisionChecks += 1;
+		if( Sys.debug ) Project.collisionChecks += 1;
 		switch( shapeType ) {
-			case pivot:
+			case PIVOT:
 				servicePivot.x = x * xScale + dX;
 				servicePivot.y = y * yScale + dY;
 				switch( sprite.shapeType ) {
-					case pivot, raster, ray:
-					case oval:
+					case PIVOT:
+					case RASTER:
+					case RAY:
+						break;
+					case OVAL:
 						return Collision.pivotWithOval( servicePivot, sprite );
-					case rectangle:
+					case RECTANGLE:
 						return Collision.pivotWithRectangle( servicePivot, sprite );
 					default:
 						return Collision.pivotWithTriangle( servicePivot, sprite );
 				}
-			case oval:
+			case OVAL:
 				serviceOval.x = x * xScale + dX;
 				serviceOval.y = y * yScale + dY;
 				serviceOval.width = width * xScale;
 				serviceOval.height = height * yScale;
 				switch( sprite.shapeType ) {
-					case pivot:
+					case PIVOT:
 						return Collision.pivotWithOval( sprite, serviceOval );
-					case oval:
+					case OVAL:
 						return Collision.ovalWithOval( serviceOval, sprite );
-					case rectangle, raster:
+					case RECTANGLE:
 						return Collision.ovalWithRectangle( serviceOval, sprite );
-					case ray:
+					case RAY:
 						return Collision.ovalWithRay( serviceOval, sprite );
-					case raster:
+					case RASTER:
+						break;
 					default:
 						return Collision.ovalWithTriangle( serviceOval, sprite );
 				}
-			case rectangle:
+			case RECTANGLE:
 				serviceRectangle.x = x * xScale + dX;
 				serviceRectangle.y = y * yScale + dY;
 				serviceRectangle.width = width * xScale;
 				serviceRectangle.height = height * yScale;
 				switch( sprite.shapeType ) {
-					case pivot:
+					case PIVOT:
 						return Collision.pivotWithRectangle( sprite, serviceRectangle );
-					case oval:
+					case OVAL:
 						return Collision.ovalWithRectangle( sprite, serviceRectangle );
-					case rectangle, raster:
+					case RECTANGLE:
 						return Collision.rectangleWithRectangle( serviceRectangle, sprite );
-					case ray:
+					case RAY:
 						return Collision.rectangleWithRay( serviceRectangle, sprite );
-					case raster:
+					case RASTER:
+						break;
 					default:
 						return Collision.rectangleWithTriangle( serviceRectangle, sprite );
 				}
-			case ray:
-			case raster:
-				if( sprite.shapeType == raster ) return Collision.rasterWithRaster( this, sprite );
+			case RAY:
+				break;
+			case RASTER:
+				if( sprite.shapeType == ShapeType.RASTER ) return Collision.rasterWithRaster( this, sprite );
 			default:
 				serviceTriangle.x = x * xScale + dX;
 				serviceTriangle.y = y * yScale + dY;
@@ -360,21 +376,22 @@ public class Sprite extends Shape {
 				serviceTriangle.height = height * yScale;
 				serviceTriangle.shapeType = shapeType;
 				switch( sprite.shapeType ) {
-					case pivot:
+					case PIVOT:
 						return Collision.pivotWithTriangle( sprite, serviceTriangle );
-					case oval:
+					case OVAL:
 						return Collision.ovalWithTriangle( sprite, serviceTriangle );
-					case rectangle:
+					case RECTANGLE:
 						return Collision.rectangleWithTriangle( sprite, serviceTriangle );
-					case ray:
+					case RAY:
 						return Collision.triangleWithRay( serviceTriangle, sprite );
-					case raster:
+					case RASTER:
+						break;
 					default:
 						return Collision.triangleWithTriangle( serviceTriangle, sprite );
 				}
 		}
+		return false;
 	}
-
 
 
 	/**
@@ -383,34 +400,38 @@ public class Sprite extends Shape {
 	 * Pivot overlapping is not supported.
 	 */
 	public boolean overlaps( Sprite sprite ) {
-		collisionChecks += 1;
+		if( Sys.debug ) Project.collisionChecks += 1;
 		switch( shapeType ) {
-			case oval:
+			case OVAL:
 				if( width != height ) error( "Only circle supports overlapping." );
 				switch( sprite.shapeType ) {
-					case pivot:
+					case PIVOT:
 						return Overlap.circleAndPivot( this, sprite );
-					case oval:
+					case OVAL:
 						return Overlap.circleAndOval( this, sprite );
-					case rectangle:
+					case RECTANGLE:
 						return Overlap.circleAndRectangle( this, sprite );
-					case ray, raster:
+					case RAY:
+					case RASTER:
+						break;
 					default:
 						return Overlap.circleAndTriangle( this, sprite );
 				}
-			case rectangle:
+			case RECTANGLE:
 				switch( sprite.shapeType ) {
-					case pivot:
+					case PIVOT:
 						return Overlap.rectangleAndPivot( this, sprite );
-					case ray, raster:
+					case RAY:
+					case RASTER:
+						break;
 					default:
 						return Overlap.rectangleAndRectangle( this, sprite );
 				}
 			default:
 				error( "Only Circle And Rectangle shapes supports overlapping." );
 		}
+		return false;
 	}
-
 
 
 	/**
@@ -421,20 +442,20 @@ public class Sprite extends Shape {
 	 * @see #clone example
 	 */	
 	public Sprite firstCollidedSpriteOfLayer( Layer layer ) {
-		for( Shape shape: layer ) {
+		for( Shape shape: layer.children ) {
 			if( shape != this ) {
 				Sprite collided = shape.layerFirstSpriteCollision( this );
-				if( collided ) return collided;
+				if( collided != null ) return collided;
 			}
 		}
+		return null;
 	}
 
 
-
+	@Override
 	public Sprite layerFirstSpriteCollision( Sprite sprite ) {
-		if( collidesWithSprite( sprite ) ) return this;
+		if( collidesWithSprite( sprite ) ) return this; else return null;
 	}
-
 
 
 	/**
@@ -449,7 +470,6 @@ public class Sprite extends Shape {
 	}
 
 
-
 	/**
 	 * Executes given collision handler for collision of sprite with shapes in given group.
 	 * For every collided shape collision handling method will be executed and corresponding parameters will be passed to this method.
@@ -458,17 +478,16 @@ public class Sprite extends Shape {
 	 * @see #collisionsWithSprite, #collisionsWithTileMap, #collisionsWithLine, #collisionsWithSpriteMap, #horizontal, #vertical
 	 */
 	public void collisionsWithLayer( Layer layer, SpriteCollisionHandler handler ) {
-		for( Shape shape: layer ) {
+		for( Shape shape: layer.children ) {
 			if( shape != this ) shape.spriteLayerCollisions( this, handler );
 		}
 	}
 
 
-
+	@Override
 	public void spriteLayerCollisions( Sprite sprite, SpriteCollisionHandler handler ) {
 		if( sprite.collidesWithSprite( this ) ) handler.handleCollision( sprite, this );
 	}
-
 
 
 	/**
@@ -483,8 +502,8 @@ public class Sprite extends Shape {
 	}
 
 
-
-
+	public static final double smallNum = 0.00000000001;
+	
 	/**
 	 * Executes given collision handler for collision of sprite with tiles in given tilemap.
 	 * For every collided tile HandleCollisionWithTile() method will be executed and tilemap with tile indexes will be passed to this method.
@@ -499,40 +518,43 @@ public class Sprite extends Shape {
 		double cellHeight = tileMap.getTileHeight();
 		int xQuantity = tileMap.xQuantity;
 		int yQuantity = tileMap.yQuantity;
-		TileSet tileset = tileMap.tileset;
+		TileSet tileset = tileMap.tileSet;
 
 		switch( shapeType ) {
-			case pivot:
-				int tileX = Math.floor( ( x - x0 ) / cellWidth );
-				int tileY = Math.floor( ( y - y0 ) / cellHeight );
+			case PIVOT:
+				int tileX = Service.floor( ( x - x0 ) / cellWidth );
+				int tileY = Service.floor( ( y - y0 ) / cellHeight );
 
 				if( tileX >= 0 && tileY >= 0 && tileX < xQuantity && tileY < yQuantity ) {
-					Shape shape = tileset.collisionShape[ tileMap.value[ tileX, tileY ] ];
-					if( shape ) shape.tileShapeCollisionsWithSprite( this, x0 + cellWidth * tileX, y0 + cellHeight * tileY, cellWidth, cellHeight, tileMap, tileX, tileY, handler );
+					Shape shape = tileset.collisionShape[ tileMap.value[ tileY ][ tileX ] ];
+					if( shape != null  ) shape.tileShapeCollisionsWithSprite( this, x0 + cellWidth * tileX, y0 + cellHeight * tileY, cellWidth, cellHeight, 
+							tileMap, tileX, tileY, handler );
 				}
-			case ray:
+				break;
+			case RAY:
+				break;
 			default:
-				int x1 = Math.floor( ( x - 0.double 5 * width - x0 ) / cellWidth );
-				int y1 = Math.floor( ( y - 0.double 5 * height - y0 ) / cellHeight );
-				int x2 = Math.floor( ( x + 0.double 5 * width - x0 - inaccuracy ) / cellWidth );
-				int y2 = Math.floor( ( y + 0.double 5 * height - y0 - inaccuracy ) / cellHeight );
+				int x1 = Service.floor( ( x - 0.5d * width - x0 ) / cellWidth );
+				int y1 = Service.floor( ( y - 0.5d * height - y0 ) / cellHeight );
+				int x2 = Service.floor( ( x + 0.5d * width - x0 - smallNum ) / cellWidth );
+				int y2 = Service.floor( ( y + 0.5d * height - y0 - smallNum ) / cellHeight );
 
 				if( x2 >= 0 && y2 >= 0 && x1 < xQuantity && y1 < yQuantity ) {
-					x1 = limitInt( x1, 0, xQuantity - 1 );
-					y1 = limitInt( y1, 0, yQuantity - 1 );
-					x2 = limitInt( x2, 0, xQuantity - 1 );
-					y2 = limitInt( y2, 0, yQuantity - 1 );
+					x1 = Service.limit( x1, 0, xQuantity - 1 );
+					y1 = Service.limit( y1, 0, yQuantity - 1 );
+					x2 = Service.limit( x2, 0, xQuantity - 1 );
+					y2 = Service.limit( y2, 0, yQuantity - 1 );
 
-					for( int tileY=y1; tileY <= y2; tileY++ ) {
-						for( int tileX=x1; tileX <= x2; tileX++ ) {
-							Shape shape = tileset.collisionShape[ tileMap.value[ tileX, tileY ] ];
-							if( shape ) shape.tileShapeCollisionsWithSprite( this, x0 + cellWidth * tileX, y0 + cellHeight * tileY, cellWidth, cellHeight, tileMap, tileX, tileY, handler );
+					for( tileY = y1; tileY <= y2; tileY++ ) {
+						for( tileX = x1; tileX <= x2; tileX++ ) {
+							Shape shape = tileset.collisionShape[ tileMap.value[ tileY ][ tileX ] ];
+							if( shape != null ) shape.tileShapeCollisionsWithSprite( this, x0 + cellWidth * tileX, y0 + cellHeight * tileY, cellWidth, cellHeight,
+									tileMap, tileX, tileY, handler );
 						}
 					}
 				}
 		}
 	}
-
 
 
 	/**
@@ -543,33 +565,34 @@ public class Sprite extends Shape {
 	 * 
 	 * @see #collisionsWithGroup, #collisionsWithSprite, #collisionsWithTileMap, #collisionsWithLine, #horizontal, #vertical, #lTSpriteMap example
 	 */
-	public void collisionsWithSpriteMap( SpriteMap spriteMap, SpriteCollisionHandler handler, HashMap map = null ) {
-		if( ! map ) map == new HashMap();
+	public void collisionsWithSpriteMap( SpriteMap spriteMap, SpriteCollisionHandler handler, HashSet<Sprite> set ) {
+		if( set == null ) set = new HashSet<Sprite>();
 		switch( shapeType ) {
-			case pivot:
-				for( Sprite mapSprite: spriteMap.lists[ int( x / spriteMap.cellWidth ) & spriteMap.xMask, int( y / spriteMap.cellHeight ) & spriteMap.yMask ] ) {
+			case PIVOT:
+				for( Sprite mapSprite: spriteMap.lists[ Service.floor( y / spriteMap.cellHeight ) & spriteMap.yMask ][ Service.floor( x / spriteMap.cellWidth ) & spriteMap.xMask ] ) {
 					if( this == mapSprite ) continue;
 					if( collidesWithSprite( mapSprite ) ) {
-						if( ! map.contains( mapSprite ) ) {
-							map.put( mapSprite, null );
+						if( !set.contains( mapSprite ) ) {
+							set.add( mapSprite );
 							handler.handleCollision( this, mapSprite );
 						}
 					}
 				}
-			case ray:
+			case RAY:
+				break;
 			default:
-				int mapX1 = Math.floor( ( x - 0.double 5 * width ) / spriteMap.cellWidth );
-				int mapY1 = Math.floor( ( y - 0.double 5 * height ) / spriteMap.cellHeight );
-				int mapX2 = Math.floor( ( x + 0.double 5 * width - inaccuracy ) / spriteMap.cellWidth );
-				int mapY2 = Math.floor( ( y + 0.double 5 * height - inaccuracy ) / spriteMap.cellHeight );
+				int mapX1 = Service.floor( ( x - 0.5d * width ) / spriteMap.cellWidth );
+				int mapY1 = Service.floor( ( y - 0.5d * height ) / spriteMap.cellHeight );
+				int mapX2 = Service.floor( ( x + 0.5d * width - smallNum ) / spriteMap.cellWidth );
+				int mapY2 = Service.floor( ( y + 0.5d * height - smallNum ) / spriteMap.cellHeight );
 
 				for( int cellY=mapY1; cellY <= mapY2; cellY++ ) {
 					for( int cellX=mapX1; cellX <= mapX2; cellX++ ) {
-						for( Sprite mapSprite: spriteMap.lists[ cellX & spriteMap.xMask, cellY & spriteMap.yMask ] ) {
+						for( Sprite mapSprite: spriteMap.lists[ cellY & spriteMap.yMask ][ cellX & spriteMap.xMask ] ) {
 							if( this == mapSprite ) continue;
 							if( collidesWithSprite( mapSprite ) ) {
-								if( ! map.contains( mapSprite ) ) {
-									map.put( mapSprite, null );
+								if( ! set.contains( mapSprite ) ) {
+									set.add( mapSprite );
 									handler.handleCollision( this, mapSprite );
 								}
 							}
@@ -590,71 +613,97 @@ public class Sprite extends Shape {
 	 * <li> If one of the sprite has moving resistance less than 0 and other has moving resistance more or equal to 0, then only zero-or-more-moving-resistance sprite will be moved.
 	 * </ul>
 	 */
-	public void wedgeOffWithSprite( Sprite sprite, double selfMovingResistance = 0.5, double spriteMovingResistance = 0.5 ) {
-		double dX, double dY;
-		int swap = false;
+	public void wedgeOffWithSprite( Sprite sprite, double selfMovingResistance, double spriteMovingResistance ) {
+		boolean swap = false;
 		switch( shapeType ) {
-			case pivot:
+			case PIVOT:
 				switch( sprite.shapeType ) {
-					case pivot:
+					case PIVOT:
 						return;
-					case oval:
-						Wedge.pivotAndOval( this, sprite, dX, dY );
-					case rectangle:
-						Wedge.pivotAndRectangle( this, sprite, dX, dY );
-					case ray,raster:
+					case OVAL:
+						Wedge.pivotAndOval( this, sprite, serviceVector );
+						break;
+					case RECTANGLE:
+						Wedge.pivotAndRectangle( this, sprite, serviceVector );
+						break;
+					case RAY:
+					case RASTER:
+						break;
 					default:
-						Wedge.pivotAndTriangle( this, sprite, dX, dY );
+						Wedge.pivotAndTriangle( this, sprite, serviceVector );
+						break;
 				}
-			case oval:
+			case OVAL:
 				switch( sprite.shapeType ) {
-					case pivot:
-						Wedge.pivotAndOval( sprite, this, dX, dY );
+					case PIVOT:
+						Wedge.pivotAndOval( sprite, this, serviceVector );
 						swap = true;
-					case oval:
-						Wedge.ovalAndOval( this, sprite, dX, dY );
-					case rectangle:
-						Wedge.ovalAndRectangle( this, sprite, dX, dY );
-					case ray,raster:
+						break;
+					case OVAL:
+						Wedge.ovalAndOval( this, sprite, serviceVector );
+						break;
+					case RECTANGLE:
+						Wedge.ovalAndRectangle( this, sprite, serviceVector );
+						break;
+					case RAY:
+					case RASTER:
+						break;
 					default:
-						Wedge.ovalAndTriangle( this, sprite, dX, dY );
+						Wedge.ovalAndTriangle( this, sprite, serviceVector );
 				}
-			case rectangle:
+			case RECTANGLE:
 				switch( sprite.shapeType ) {
-					case pivot:
-						Wedge.pivotAndRectangle( sprite, this, dX, dY );
+					case PIVOT:
+						Wedge.pivotAndRectangle( sprite, this, serviceVector );
 						swap = true;
-					case oval:
-						Wedge.ovalAndRectangle( sprite, this, dX, dY );
+						break;
+					case OVAL:
+						Wedge.ovalAndRectangle( sprite, this, serviceVector );
 						swap = true;
-					case rectangle:
-						Wedge.rectangleAndRectangle( this, sprite, dX, dY );
-					case ray,raster:
+						break;
+					case RECTANGLE:
+						Wedge.rectangleAndRectangle( this, sprite, serviceVector );
+						break;
+					case RAY:
+					case RASTER:
+						break;
 					default:
-						Wedge.rectangleAndTriangle( this, sprite, dX, dY );
+						Wedge.rectangleAndTriangle( this, sprite, serviceVector );
+						break;
 				}
-			case ray,raster:
+			case RAY:
+			case RASTER:
+				break;
 			default:
 				swap = true;
 				switch( sprite.shapeType ) {
-					case pivot:
-						Wedge.pivotAndTriangle( sprite, this, dX, dY );
-					case oval:
-						Wedge.ovalAndTriangle( sprite, this, dX, dY );
-					case rectangle:
-						Wedge.rectangleAndTriangle( sprite, this, dX, dY );
-					case ray,raster:
+					case PIVOT:
+						Wedge.pivotAndTriangle( sprite, this, serviceVector );
+						break;
+					case OVAL:
+						Wedge.ovalAndTriangle( sprite, this, serviceVector );
+						break;
+					case RECTANGLE:
+						Wedge.rectangleAndTriangle( sprite, this, serviceVector );
+						break;
+					case RAY:
+					case RASTER:
+						break;
 					default:
-						Wedge.triangleAndTriangle( sprite, this, dX, dY );
+						Wedge.triangleAndTriangle( sprite, this, serviceVector );
+						break;
 				}
 		}
 		if( swap ) {
-			Wedge.separate( sprite, this, dX, dY, spriteMovingResistance, selfMovingResistance );
+			Wedge.separate( sprite, this, serviceVector, spriteMovingResistance, selfMovingResistance );
 		} else {
-			Wedge.separate( this, sprite, dX, dY, selfMovingResistance, spriteMovingResistance );
+			Wedge.separate( this, sprite, serviceVector, selfMovingResistance, spriteMovingResistance );
 		}
 	}
-
+	
+	public void wedgeOffWithSprite( Sprite sprite ) {
+		wedgeOffWithSprite( sprite, 0.5d, 0.5d );
+	}
 
 
 	/**
@@ -666,7 +715,6 @@ public class Sprite extends Shape {
 	}
 
 
-
 	/**
 	 * Pushes sprite from given tile.
 	 * See also : #pushFromSprite
@@ -674,15 +722,16 @@ public class Sprite extends Shape {
 	public void pushFromTile( TileMap tileMap, int tileX, int tileY ) {
 		double cellWidth = tileMap.getTileWidth();
 		double cellHeight = tileMap.getTileHeight();
-		double x = tileMap.leftX() + cellWidth * tileX;
-		double y = tileMap.topY() + cellHeight * tileY;
+		double xx = tileMap.leftX() + cellWidth * tileX;
+		double yy = tileMap.topY() + cellHeight * tileY;
 		Shape shape = tileMap.getTileCollisionShape( tileX, tileY );
-		Sprite sprite = Sprite( shape );
-		if( sprite ) {
-			pushFromTileSprite( sprite, x, y, cellWidth, cellHeight );
+		Sprite sprite = shape.toSprite();
+		if( sprite != null ) {
+			pushFromTileSprite( sprite, xx, yy, cellWidth, cellHeight );
 		} else {
-			for( sprite: Layer( shape ).children ) {
-				if( sprite.tileSpriteCollidesWithSprite( this, x, y, cellWidth, cellHeight ) ) {
+			for( Shape childShape : shape.toLayer().children ) {
+				sprite = childShape.toSprite();
+				if( sprite.tileSpriteCollidesWithSprite( this, xx, yy, cellWidth, cellHeight ) ) {
 					pushFromTileSprite( sprite, tileMap.leftX() + cellWidth * tileX, tileMap.topY() + cellHeight * tileY, cellWidth, cellHeight );
 				}
 			}
@@ -690,85 +739,82 @@ public class Sprite extends Shape {
 	}
 
 
-
 	public void pushFromTileSprite( Sprite tileSprite, double dX, double dY, double xScale, double yScale ) {
-		double pushingDX, double pushingDY;
 		switch( tileSprite.shapeType ) {
-			case pivot:
-				servicePivot.x = tileSprite.x * xScale + dX;
-				servicePivot.y = tileSprite.y * yScale + dY;
+			case PIVOT:
+				serviceOval.x = tileSprite.x * xScale + dX;
+				serviceOval.y = tileSprite.y * yScale + dY;
 				switch( shapeType ) {
-					case pivot:
+					case PIVOT:
 						return;
-					case oval:
-						Wedge.ovalAndOval( this, servicePivot, pushingDX, pushingDY );
-					case rectangle:
-						Wedge.rectangleAndRectangle( this, servicePivot, pushingDX, pushingDY );
+					case OVAL:
+						Wedge.ovalAndOval( this, serviceOval, serviceVector );
+					case RECTANGLE:
+						Wedge.rectangleAndRectangle( this, serviceOval, serviceVector );
 				}
-			case oval:
+			case OVAL:
 				serviceOval.x = tileSprite.x * xScale + dX;
 				serviceOval.y = tileSprite.y * yScale + dY;
 				serviceOval.width = tileSprite.width * xScale;
 				serviceOval.height = tileSprite.height * yScale;
 				switch( shapeType ) {
-					case pivot:
-						servicePivot.x = x;
-						servicePivot.y = y;
-						Wedge.ovalAndOval( servicePivot, serviceOval, pushingDX, pushingDY );
-					case oval:
-						Wedge.ovalAndOval( this, serviceOval, pushingDX, pushingDY );
-					case rectangle:
-						Wedge.ovalAndRectangle( serviceOval, this, pushingDX, pushingDY );
-						Wedge.separate( serviceOval, this, pushingDX, pushingDY, 1.0, 0.0 );
+					case PIVOT:
+						serviceOval.x = x;
+						serviceOval.y = y;
+						Wedge.ovalAndOval( serviceOval, serviceOval, serviceVector );
+					case OVAL:
+						Wedge.ovalAndOval( this, serviceOval, serviceVector );
+					case RECTANGLE:
+						Wedge.ovalAndRectangle( serviceOval, this, serviceVector );
+						Wedge.separate( serviceOval, this, serviceVector, 1.0, 0.0 );
 						return;
 				}
-			case rectangle:
+			case RECTANGLE:
 				serviceRectangle.x = tileSprite.x * xScale + dX;
 				serviceRectangle.y = tileSprite.y * yScale + dY;
 				serviceRectangle.width = tileSprite.width * xScale;
 				serviceRectangle.height = tileSprite.height * yScale;
 				switch( shapeType ) {
-					case pivot:
-						servicePivot.x = x;
-						servicePivot.y = y;
-						Wedge.rectangleAndRectangle( servicePivot, serviceRectangle, pushingDX, pushingDY );
-					case oval:
-						Wedge.ovalAndRectangle( this, serviceRectangle, pushingDX, pushingDY );
-					case rectangle:
-						Wedge.rectangleAndRectangle( this, serviceRectangle, pushingDX, pushingDY );
+					case PIVOT:
+						serviceOval.x = x;
+						serviceOval.y = y;
+						Wedge.rectangleAndRectangle( serviceOval, serviceRectangle, serviceVector );
+					case OVAL:
+						Wedge.ovalAndRectangle( this, serviceRectangle, serviceVector );
+					case RECTANGLE:
+						Wedge.rectangleAndRectangle( this, serviceRectangle, serviceVector );
 				}
 		}
-		Wedge.separate( this, tileSprite, pushingDX, pushingDY, 0.0, 1.0 );
+		Wedge.separate( this, tileSprite, serviceVector, 0.0, 1.0 );
 	}
-
 
 
 	/**
 	 * Forces sprite to bounce off the inner bounds of the shape.
 	 * @see #active example
 	 */
-	public void bounceInside( Shape shape, int leftSide = true, int topSide = true, int rightSide = true, int bottomSide = true ) {
+	public void bounceInside( Sprite sprite, boolean leftSide, boolean topSide, boolean rightSide, boolean bottomSide, SpriteCollisionHandler handler ) {
 		if( leftSide ) {
-			if( leftX() < shape.leftX() ) {
-				x = shape.leftX() + 0.5 * width;
+			if( leftX() < sprite.leftX() ) {
+				x = sprite.leftX() + 0.5 * width;
 				angle = 180 - angle;
 			}
 		}
 		if( topSide ) {
-			if( topY() < shape.topY() ) {
-				y = shape.topY() + 0.5 * height;
+			if( topY() < sprite.topY() ) {
+				y = sprite.topY() + 0.5 * height;
 				angle = -angle;
 			}
 		}
 		if( rightSide ) {
-			if( rightX() > shape.rightX() ) {
-				x = shape.rightX() - 0.5 * width;
+			if( rightX() > sprite.rightX() ) {
+				x = sprite.rightX() - 0.5 * width;
 				angle = 180 - angle;
 			}
 		}
 		if( bottomSide ) {
-			if( bottomY() > shape.bottomY() ) {
-				y = shape.bottomY() - 0.5 * height;
+			if( bottomY() > sprite.bottomY() ) {
+				y = sprite.bottomY() - 0.5 * height;
 				angle = -angle;
 			}
 		}
@@ -776,30 +822,30 @@ public class Sprite extends Shape {
 
 	// ==================== Position and size ====================
 
+	@Override
 	public void setCoords( double newX, double newY ) {
-		if( spriteMap ) spriteMap.removeSprite( this, false );
+		if( spriteMap != null ) spriteMap.removeSprite( this, false );
 
 		x = newX;
 		y = newY;
 
 		update();
-		if( spriteMap ) spriteMap.insertSprite( this, false );
+		if( spriteMap != null ) spriteMap.insertSprite( this, false );
 	}
 
 
-
+	@Override
 	public void setCoordsAndSize( double x1, double y1, double x2, double y2 ) {
-		if( spriteMap ) spriteMap.removeSprite( this, false );
+		if( spriteMap != null ) spriteMap.removeSprite( this, false );
 
-		x = 0.double 5 * ( x1 + x2 );
-		y = 0.double 5 * ( y1 + y2 );
+		x = 0.5d * ( x1 + x2 );
+		y = 0.5d * ( y1 + y2 );
 		width = x2 - x1;
 		height = y2 - y1;
 
 		update();
-		if( spriteMap ) spriteMap.insertSprite( this, false );
+		if( spriteMap != null ) spriteMap.insertSprite( this, false );
 	}
-
 
 
 	/**
@@ -807,9 +853,8 @@ public class Sprite extends Shape {
 	 * @see #move, #moveBackward, #turn example
 	 */
 	public void moveForward() {
-		setCoords( x + Math.cos( angle ) * velocity * deltaTime, y + Math.sin( angle ) * velocity * deltaTime );
+		setCoords( x + Math.cos( angle ) * velocity * Project.deltaTime, y + Math.sin( angle ) * velocity * Project.deltaTime );
 	}
-
 
 
 	/**
@@ -817,19 +862,19 @@ public class Sprite extends Shape {
 	 * @see #move, #moveForward, #turn example
 	 */
 	public void moveBackward() {
-		setCoords( x - Math.cos( angle ) * velocity * deltaTime, y - Math.sin( angle ) * velocity * deltaTime );
+		setCoords( x - Math.cos( angle ) * velocity * Project.deltaTime, y - Math.sin( angle ) * velocity * Project.deltaTime );
 	}
 
 
-
+	@Override
 	public void setSize( double newWidth, double newHeight ) {
-		if( spriteMap ) spriteMap.removeSprite( this, false );
+		if( spriteMap != null ) spriteMap.removeSprite( this, false );
 
 		width = newWidth;
 		height = newHeight;
 
 		update();
-		if( spriteMap ) spriteMap.insertSprite( this, false );
+		if( spriteMap != null ) spriteMap.insertSprite( this, false );
 	}
 
 
@@ -958,15 +1003,15 @@ public class Sprite extends Shape {
 
 	public Sprite toCircle( Sprite pivot1, Sprite circleSprite ) {
 		if( width == height ) return this;
-		if( circleSprite !=null ) circleSprite = Sprite.fromShapeType( circle );
+		if( circleSprite !=null ) circleSprite = new Sprite( ShapeType.OVAL );
 		if( width > height ) {
-			circleSprite.x = limitDouble( pivot1.x, x - 0.5 * ( width - height ), x + 0.5 * ( width - height ) );
+			circleSprite.x = Service.limit( pivot1.x, x - 0.5 * ( width - height ), x + 0.5 * ( width - height ) );
 			circleSprite.y = y;
 			circleSprite.width = height;
 			circleSprite.height = height;
 		} else {
 			circleSprite.x = x;
-			circleSprite.y = limitDouble( pivot1.y, y - 0.5 * ( height - width ), y + 0.5 * ( height - width ) );
+			circleSprite.y = Service.limit( pivot1.y, y - 0.5 * ( height - width ), y + 0.5 * ( height - width ) );
 			circleSprite.width = width;
 			circleSprite.height = width;
 		}
@@ -977,7 +1022,6 @@ public class Sprite extends Shape {
 
 	public Sprite toCircleUsingLine( Line line, Sprite circleSprite ) {
 		if( width == height ) return circleSprite;
-		if( circleSprite != null ) circleSprite = (Sprite) circle;
 		if( width > height ) {
 			double dWidth = 0.5 * ( width - height );
 			double o1 = line.a * ( x - dWidth ) + line.b * y + line.c;
@@ -992,18 +1036,22 @@ public class Sprite extends Shape {
 			circleSprite.y = y;
 		} else {
 			double dHeight = 0.5 * ( height - width );
-			//double o1 = line.a * x + line.b * ( y - dHeight ) + line.c;
-			//double o2 = line.a * x + line.b * ( y + dHeight ) + line.c;
+			double o1 = line.a * x + line.b * ( y - dHeight ) + line.c;
+			double o2 = line.a * x + line.b * ( y + dHeight ) + line.c;
 			if( Math.signum( o1 ) != Math.signum( o2 ) ) {
-				//circleSprite.y = -( line.a * x + line.c ) / line.b;
+				circleSprite.y = -( line.a * x + line.c ) / line.b;
 			} else if( Math.abs( o1 ) < Math.abs( o2 ) ) {
-				//circleSprite.y = y - dHeight;
+				circleSprite.y = y - dHeight;
 			} else {
 				circleSprite.y = y + dHeight;
 			}
 			circleSprite.x = x;
 		}
 		return circleSprite;
+	}
+	
+	public Sprite toCircleUsingLine( Line line ) {
+		return toCircleUsingLine( line, new Sprite( ShapeType.OVAL ) );
 	}
 
 	// ==================== Methods for ray ====================	
@@ -1035,12 +1083,14 @@ public class Sprite extends Shape {
 	// ==================== Methods for triangle ====================	
 
 	public static Sprite getMedium( Sprite pivot1, Sprite pivot2, Sprite toPivot ) {
-		if( ! toPivot ) toPivot == new Sprite().fromShape( 0, 0, 0, 0, pivot );
 		toPivot.x = 0.5 * ( pivot1.x + pivot2.x );
 		toPivot.y = 0.5 * ( pivot1.y + pivot2.y );
 		return toPivot;
 	}
 
+	public static Sprite getMedium( Sprite pivot1, Sprite pivot2 ) {
+		return getMedium( pivot1, pivot2, new Sprite() );
+	}
 
 
 	public Line getHypotenuse( Line line ) {

@@ -267,7 +267,6 @@ public class Layer extends Shape {
 	}
 
 
-
 	@Override
 	public Shape findShape( String parameterName, String parameterValue ) {
 		super.findShape( parameterName, parameterValue );
@@ -277,7 +276,6 @@ public class Layer extends Shape {
 		}
 		return null;
 	}
-
 
 
 	@Override

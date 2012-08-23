@@ -26,4 +26,9 @@ public class Vector extends Obj {
 		x = Math.round( x );
 		y = Math.round( y );
 	}
+
+	
+	public double length2() {
+		return x * x + y * y;
+	}
 }
