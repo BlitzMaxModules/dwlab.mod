@@ -144,7 +144,7 @@ public class Image extends Obj {
 
 		//If Not L_EditorData.Images.Contains( Self ) L_EditorData.Images.AddLast( Self )
 
-		if( Sys.xMLMode == XMLMode.GET && loadImages ) init();
+		if( Sys.xMLGetMode() && loadImages ) init();
 	}
 	
 
@@ -165,5 +165,9 @@ public class Image extends Obj {
 
 	public int getPixel( int x, int y ) {
 		return Graphics.getImagePixel( javaImage[ 0 ], x, y );
+	}
+
+	public void setPixel( int x, int y, int color ) {
+		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 }

@@ -1,9 +1,3 @@
-package dwlab.maps;
-import dwlab.base.XMLObject;
-import java.lang.Math;
-import dwlab.shapes.Shape;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov 
 
@@ -12,10 +6,9 @@ import dwlab.shapes.Shape;
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
+package dwlab.maps;
 
-
-
-
+import dwlab.shapes.Shape;
 
 /**
  * Common object for maps
@@ -25,9 +18,10 @@ public class Map extends Shape {
 	/**
 	 * Dimensions of the array
 	 */
-	public int xQuantity, int yQuantity;
+	public int xQuantity, yQuantity;
 
-	public int xMask, int yMask, int masked;
+	public int xMask, yMask;
+	public boolean masked;
 
 
 
@@ -89,7 +83,7 @@ public class Map extends Shape {
 	/**
 	 * Stretches the map by integer values.
 	 */
-	public Map stretch( int xMultiplier, int yMultiplier ) {
+	public void stretch( int xMultiplier, int yMultiplier ) {
 	}
 
 

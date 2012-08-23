@@ -1,8 +1,3 @@
-package dwlab.layers;
-import dwlab.base.XMLObject;
-import dwlab.sprites.Camera;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov 
 
@@ -11,16 +6,17 @@ import dwlab.sprites.Camera;
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
+package dwlab.layers;
 
-
+import dwlab.sprites.Camera;
+import dwlab.xml.XMLObject;
 
 /**
  * World is the root layer which can be created in the editor and loaded from file.
-
  */
 public class World extends Layer {
+	public static EditorData editorData = new EditorData();
 	public Camera camera;
-
 
 
 	/**
@@ -29,16 +25,16 @@ public class World extends Layer {
 	 * @see #parallax example
 	 */
 	public static World fromFile( String filename ) {
-		return World( loadFromFile( filename ) );
+		return (World) loadFromFile( filename );
 	}
 
 
-
+	@Override
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
 
-		if( editorData ) {
-			editorData = EditorData( xMLObject.manageObjectField( "editor_data", editorData ) );
+		if( editorData != null ) {
+			editorData = xMLObject.manageObjectField( "editor_data", editorData );
 			if( xMLObject.fieldExists( "images" ) ) {
 				xMLObject.manageIntAttribute( "incbin", editorData.incbinValue );
 				xMLObject.manageListField( "images", editorData.images );
@@ -46,6 +42,6 @@ public class World extends Layer {
 			}
 		}
 
-		camera = Camera( xMLObject.manageObjectField( "camera", camera ) );
+		camera = xMLObject.manageObjectField( "camera", camera );
 	}
 }

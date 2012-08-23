@@ -11,6 +11,7 @@ package dwlab.shapes;
 
 import dwlab.base.*;
 import dwlab.behavior_models.BehaviorModel;
+import dwlab.layers.Layer;
 import dwlab.maps.SpriteMap;
 import dwlab.maps.TileMap;
 import dwlab.sprites.*;
@@ -18,6 +19,7 @@ import dwlab.visualizers.Color;
 import dwlab.visualizers.Image;
 import dwlab.visualizers.Visualizer;
 import dwlab.xml.XMLObject;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -85,6 +87,10 @@ public class Shape extends Obj {
 
 	public int collisionLayer;
 	
+
+	public Layer toLayer() {
+		return null;
+	}
 
 	public Sprite toSprite() {
 		return null;
@@ -355,7 +361,6 @@ public class Shape extends Obj {
  	}
 
 
-
 	/**
 	 * Top of the shape.
 	 * @return Y coordinate of shape top in units.
@@ -364,7 +369,6 @@ public class Shape extends Obj {
 	public double topY() {
  		return y - 0.5d * height;
  	}
-
 
 
 	/**
@@ -376,8 +380,6 @@ public class Shape extends Obj {
  		return x + 0.5d * width;
  	}
 
-
-
 	/**
 	 * Bottom of the shape
 	 * @return Y coordinate of shape bottom in units.
@@ -388,7 +390,6 @@ public class Shape extends Obj {
  	}
 
 
-
 	public void setCoordsAndSize( double x1, double y1, double x2, double y2 ) {
 		x = 0.5d * ( x1 + x2 );
 		y = 0.5d * ( y1 + y2 );
@@ -396,7 +397,6 @@ public class Shape extends Obj {
 		height = y2 - y1;
 		update();
 	}
-
 
 
 	/**
@@ -410,7 +410,6 @@ public class Shape extends Obj {
 	}
 
 
-
 	/**
 	 * Moves vector to another one.
 	 * Center coordinates of the shape will be equated to corresponding center coordinates of given shape.
@@ -422,7 +421,6 @@ public class Shape extends Obj {
 	}
 
 
-
 	/**
 	 * Moves the shape with given velocity towards shape.
 	 * @see #moveForward, #moveBackward
@@ -430,7 +428,6 @@ public class Shape extends Obj {
 	public void moveTowards( Shape shape, double velocity ) {
 		moveTowardsPoint( shape.x, shape.y, velocity );
 	}
-
 
 
 	/**
@@ -449,7 +446,6 @@ public class Shape extends Obj {
 	}
 
 
-
 	/**
 	 * Places the shape between two another shapes.
 	 * K parameter is in 0...1 interval.
@@ -464,7 +460,6 @@ public class Shape extends Obj {
 	}
 
 
-
 	/**
 	 * Allowing moving the shape around with given velocity with WSAD keys.
 	 * @see #moveUsingArrows, #moveUsingKeys, #move
@@ -474,7 +469,6 @@ public class Shape extends Obj {
 	}
 
 
-
 	/**
 	 * Allowing moving the shape around with given velocity with Arrow keys.
 	 * @see #moveUsingWSAD, #moveUsingKeys, #move
@@ -482,7 +476,6 @@ public class Shape extends Obj {
 	public void moveUsingArrows( double velocity ) {
 		moveUsingKeys( key_Up, key_Down, key_Left, key_Right, velocity );
 	}
-
 
 
 	/**
@@ -501,7 +494,6 @@ public class Shape extends Obj {
 		double k = velocity / distance( sDX, sDY ) * deltaTime;
 		setCoords( x + sDX * k, y + sDY * k );
 	}
-
 
 
 	/**
@@ -528,7 +520,6 @@ public class Shape extends Obj {
 	}
 
 
-
 	/**
 	 * Limits left side of the shape with left side of given rectangular shape.
 	 * If the left side X coordinate of shape is less than left side X coordinate of given shape, left side of the shape will be equated to left side of given shape.
@@ -538,7 +529,6 @@ public class Shape extends Obj {
 	public void limitLeftWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		if( leftX() < rectangle.leftX() ) setX( rectangle.leftX() + 0.5 * width );
 	}
-
 
 
 	/**
@@ -552,7 +542,6 @@ public class Shape extends Obj {
 	}
 
 
-
 	/**
 	 * Limits right side of the shape with right side of given rectangular shape.
 	 * If the right side X coordinate of shape is more than right side X coordinate of given shape, right side of the shape will be equated to right side of given shape.
@@ -562,7 +551,6 @@ public class Shape extends Obj {
 	public void limitRightWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		if( rightX() > rectangle.rightX() ) setX( rectangle.rightX() - 0.5 * width );
 	}
-
 
 
 	/**
@@ -576,7 +564,6 @@ public class Shape extends Obj {
 	}
 
 
-
 	/**
 	 * Keeps shape within limits of given shape horizontally.
 	 * @see #limitWith, #limitVerticallyWith, #limitLeftWith, #limitRightWith, #limitTopWith, #limitBottomWith
@@ -586,7 +573,6 @@ public class Shape extends Obj {
 		double x2 = Math.max( rectangle.x, rectangle.rightX() - 0.5 * width );
 		setX( limitDouble( x, x1, x2 ) );
 	}
-
 
 
 	/**
@@ -608,7 +594,6 @@ public class Shape extends Obj {
 	public void setWidth( double newWidth )	 {
 		setSize( newWidth, height );
 	}
-
 
 
 	public double getHeight() {
@@ -674,7 +659,6 @@ public class Shape extends Obj {
 	}
 
 
-
 	/**
 	 * Alters both sizes of the shape (pretending they are equal).
 	 * It's better to use this method instead of equating Width and Height fields to new values.
@@ -686,7 +670,6 @@ public class Shape extends Obj {
 		height *= d;
 		update();
 	}
-
 
 
 	/**
@@ -743,7 +726,6 @@ public class Shape extends Obj {
 	public double directionToPoint( double pointX, double pointY ) {
 		return Math.atan2( pointY - y, pointX - x );
 	}
-
 
 
 	/**
@@ -913,7 +895,7 @@ public class Shape extends Obj {
 	/**
 	 * Shows all behavior models attached to shape with their status.
 	 */
-	public void showModels( int y, String shift ) {
+	public int showModels( int y, String shift ) {
 		if( behaviorModels.isEmpty() ) return y;
 		Graphics.drawText( shift + getTitle() + " ", 0, y );
 	    y += 16;
@@ -951,7 +933,6 @@ public class Shape extends Obj {
 	}
 
 
-
 	/**
 	 * Limits sprite displaying by given rectangular shape.
 	 * All sprite parts which are outside this rectangle will not be displayed.
@@ -961,7 +942,6 @@ public class Shape extends Obj {
 	public void limitByWindowShape( Shape shape ) {
 		limitByWindow( shape.x, shape.y, shape.width, shape.height );
 	}
-
 
 
 	/**
@@ -1029,7 +1009,6 @@ public class Shape extends Obj {
 	}
 
 
-
 	/**
 	 * Sets shape parameter  with given name and value.
 	 * Recommended to use it only if you build your own world via code.
@@ -1049,7 +1028,6 @@ public class Shape extends Obj {
 	}
 
 
-
 	/**
 	 * Adds parameter with given name and value to the shape.
 	 * Recommended to use it only if you build your own world via code.
@@ -1063,7 +1041,6 @@ public class Shape extends Obj {
 		if( parameters != null ) parameters = new LinkedList<Parameter>();
 		parameters.addLast( parameter );
 	}
-
 
 
 	/**
@@ -1086,7 +1063,6 @@ public class Shape extends Obj {
 	}
 
 
-
 	public Shape loadShape() {
 		String typeName = getParameter( "class" );
 		Shape newShape;
@@ -1106,7 +1082,7 @@ public class Shape extends Obj {
 	
 	/**
 	 * Finds shape with given name.
-	 * @return First found shape with given name.
+	 * @return First found shape with given name in collection shape.
 	 * IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
 	 * 
 	 * @see #parallax example
@@ -1122,8 +1098,8 @@ public class Shape extends Obj {
 
 
 	/**
-	 * Finds shape of class with given name with parameter with given name and value.
-	 * @return First found layer shape of class with given name and parameter with given name and value.
+	 * Finds shape of class with given parameter + value and class.
+	 * @return First found layer shape of given class and parameter with given name and value in collection shape.
 	 * IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
 	 */
 	public Shape findShape( String parameterName, String parameterValue, Class shapeClass ) {
@@ -1134,7 +1110,7 @@ public class Shape extends Obj {
 	}
 
 	/**
-	 * Finds shape of class with given name.
+	 * Finds shape of class with given name in collection shape.
 	 * @return First found shape of given class.
 	 * IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
 	 * You can specify optional Name parameter to check only shapes with this name.
@@ -1144,29 +1120,30 @@ public class Shape extends Obj {
 	public Shape findShape( String name, Class shapeClass ) {
 		return findShape( "name", name, shapeClass );
 	}
-	
-
-	public Shape findShapeInChildShapes( String parameterName, String parameterValue, Class shapeClass ) {
-		return null;
-	}
 
 
 
 	/**
-	 * Inserts the shape before given.
+	 * Inserts the shape before given in collection shape.
 	 * Included layers and sprite maps will be also checked for given shape.
 	 */
-	public boolean insertBeforeShape( Shape shape, LinkedList shapesList, Shape beforeShape ) {
+	public boolean insertBeforeShape( Shape shape, Shape beforeShape ) {
+		return false;
+	}
+
+	public boolean insertBeforeShape( Collection<Shape> shapesList, Shape beforeShape ) {
 		return false;
 	}
 
 
-
 	/**
-	 * Removes the shape from layer.
+	 * Removes the shape from collection shape.
 	 * Included layers and sprite maps will be also processed.
 	 */
 	public void remove( Shape shape ) {
+	}
+	
+	public void remove( Class shapeClass ) {
 	}
 
 
@@ -1175,25 +1152,10 @@ public class Shape extends Obj {
 	 * Removes all shapes of class with given name from layer.
 	 * Included layers will be also processed.
 	 */
-	public void removeAllOfType( String typeName ) {
-		removeAllOfTypeID( getTypeID( typeName ) );
-	}
-
-
-
-	public void removeAllOfTypeID( tTypeID typeID ) {
+	public void removeAllOfType( Class shapeClass ) {
 	}
 
 	// ==================== Management ===================
-
-	/**
-	 * Initialization method of the shape.
-	 * Fill it with shape initialization commands. This method will be executed after loading the layer which have this shape inside.
-	 */
-	public void init() {
-	}
-
-
 
 	/**
 	 * Acting method of the shape.

@@ -10,13 +10,17 @@ package dwlab.layers;
 
 import dwlab.base.Graphics;
 import dwlab.base.Project;
+import dwlab.base.Sys;
 import dwlab.maps.TileMap;
 import dwlab.shapes.Shape;
 import dwlab.sprites.Sprite;
 import dwlab.sprites.SpriteAndTileCollisionHandler;
 import dwlab.sprites.SpriteCollisionHandler;
 import dwlab.visualizers.Visualizer;
+import dwlab.xml.XMLObject;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 /**
  * Layer is the group of sprites which have bounds.
@@ -48,6 +52,12 @@ public class Layer extends Shape {
 	@Override
 	public String getClassTitle() {
 		return "Layer";
+	}
+	
+
+	@Override
+	public Layer toLayer() {
+		return this;
 	}
 
 	// ==================== Drawing ===================	
@@ -118,11 +128,13 @@ public class Layer extends Shape {
 			super.act();
 			for( Shape obj: children ) {
 				if( obj.active ) {
-					Project.spriteActed = false;
-
-					obj.act();
-
-					if( obj.toSprite() != null && ! Project.spriteActed ) Project.spritesActed += 1;
+					if( Sys.debug ) {
+						Project.spriteActed = false;
+						obj.act();
+						if( obj.toSprite() != null && ! Project.spriteActed ) Project.spritesActed += 1;
+					} else {
+						obj.act();
+					}
 				}
 			}
 		}
@@ -202,6 +214,7 @@ public class Layer extends Shape {
 	/**
 	 * Shows all behavior models attached to shape with their status.
 	 */
+	@Override
 	public int showModels( int y, String shift ) {
 		if( behaviorModels.isEmpty() ) {
 			if( children.isEmpty() ) return y;
@@ -241,16 +254,11 @@ public class Layer extends Shape {
 		return children.get( index );
 	}
 
-
-
-	public tListEnum objectEnumerator() {
-		return children.objectEnumerator();
-	}
-
 	// ==================== Shape management ====================
 
+	@Override
 	public Shape load() {
-		Layer newLayer = Layer( loadShape() );
+		Layer newLayer = loadShape().toLayer();
 		for( Shape shape: children ) {
 			newLayer.addLast( shape.load() );
 		}
@@ -259,72 +267,90 @@ public class Layer extends Shape {
 
 
 
-	public Shape findShapeWithParameterID( String parameterName, String parameterValue, tTypeID shapeTypeID, int ignoreError = false ) {
+	@Override
+	public Shape findShape( String parameterName, String parameterValue ) {
+		super.findShape( parameterName, parameterValue );
 		for( Shape childShape: children ) {
-			if( ! shapeTypeID || tTypeId.forObject( childShape ) == shapeTypeID ) {
-				if( ! parameterName || childShape.getParameter( parameterName ) == parameterValue ) return childShape;
-			}
-
-			Shape shape = childShape.findShapeWithParameterID( parameterName, parameterValue, shapeTypeID, true );
-			if( shape ) return shape;
+			Shape shape = childShape.findShape( parameterName, parameterValue );
+			if( shape != null ) return shape;
 		}
-
-		super.findShapeWithParameterID( parameterName, parameterValue, shapeTypeID, ignoreError );
+		return null;
 	}
 
 
 
-	public int insertBeforeShape( Shape shape = null, LinkedList shapesList = null, Shape beforeShape ) {
-		tLink link = children.firstLink();
-		while( link != null ) {
-			Object value = link.value();
-			if( value == beforeShape ) {
-				if( shape ) children.insertBeforeLink( shape, link );
-				if( shapesList ) {
-					for( Sprite listShape: shapesList ) {
-						children.insertBeforeLink( listShape, link );
-					}
-				}
+	@Override
+	public Shape findShape( Class shapeClass ) {
+		super.findShape( shapeClass );
+		for( Shape childShape: children ) {
+			Shape shape = childShape.findShape( shapeClass );
+			if( shape != null ) return shape;
+		}
+		return null;
+	}
+
+
+	@Override
+	public Shape findShape( String parameterName, String parameterValue, Class shapeClass ) {
+		super.findShape( parameterName, parameterValue, shapeClass );
+		for( Shape childShape: children ) {
+			Shape shape = childShape.findShape( parameterName, parameterValue, shapeClass );
+			if( shape != null ) return shape;
+		}
+		return null;
+	}
+
+
+	@Override
+	public boolean insertBeforeShape( Shape shape, Shape beforeShape ) {
+		for ( ListIterator<Shape> iterator = children.listIterator(); iterator.hasNext(); ) {
+			Shape childShape = iterator.next();
+			if( childShape == beforeShape ) {
+				children.add( iterator.previousIndex(), shape );
 				return true;
 			} else {
-				if( Shape( value ).insertBeforeShape( shape, shapesList, beforeShape ) ) return true;
+				if( childShape.insertBeforeShape( shape, beforeShape ) ) return true;
 			}
-			link = link.nextLink();
 		}
+		return false;
 	}
+	
+	public boolean insertBeforeShape( LinkedList<Shape> shapesList, Shape beforeShape ) {
+		for ( ListIterator<Shape> iterator = children.listIterator(); iterator.hasNext(); ) {
+			Shape childShape = iterator.next();
+			if( childShape == beforeShape ) {
+				children.addAll( iterator.previousIndex(), shapesList );
+				return true;
+			} else {
+				if( childShape.insertBeforeShape( shapesList, beforeShape ) ) return true;
+			}
+		}
+		return false;
+	}
+	
 
-
-
+	@Override
 	public void remove( Shape shape ) {
-		tLink link = children.firstLink();
-		while( link != null ) {
-			Object value = link.value();
-			if( value == shape ) {
-				link.remove();
-			} else {
-				Shape( value ).remove( shape );
-			}
-			link = link.nextLink();
+		for ( ListIterator<Shape> iterator = children.listIterator(); iterator.hasNext(); ) {
+			Shape childShape = iterator.next();
+			if( childShape == shape ) iterator.remove();
+			childShape.remove( shape );
 		}
 	}
 
 
-
-	public void removeAllOfTypeID( tTypeID typeID ) {
-		tLink link = children.firstLink();
-		while( link != null ) {
-			Object value = link.value();
-			if( tTypeId.forObject( value ) == typeID ) {
-				link.remove();
-			} else {
-				Shape( value ).removeAllOfTypeID( typeID );
-			}
-			link = link.nextLink();
+	@Override
+	public void remove( Class shapeClass ) {
+		for ( ListIterator<Shape> iterator = children.listIterator(); iterator.hasNext(); ) {
+			Shape childShape = iterator.next();
+			if( childShape.getClass() == shapeClass ) iterator.remove();
+			childShape.remove( shapeClass );
 		}
 	}
 
 	// ==================== Cloning ===================	
 
+	@Override
 	public Shape clone() {
 		Layer newLayer = new Layer();
 		copyLayerTo( newLayer );
@@ -335,11 +361,9 @@ public class Layer extends Shape {
 	}
 
 
-
 	public void copyLayerTo( Layer layer ) {
 		copyShapeTo( layer );
-
-		if( bounds ) {
+		if( bounds != null ) {
 			layer.bounds = new Shape();
 			bounds.copyTo( layer.bounds );
 		}
@@ -347,22 +371,21 @@ public class Layer extends Shape {
 	}
 
 
-
+	@Override
 	public void copyTo( Shape shape ) {
-		Layer layer = Layer( shape );
-
-		if( ! layer ) error( "Trying to copy layer \"" + shape.getName() + "\" data to non-layer" );
-
+		Layer layer = shape.toLayer();
+		if( Sys.debug ) if( layer == null ) error( "Trying to copy layer \"" + shape.getName() + "\" data to non-layer" );
 		copyLayerTo( layer );
 	}
 
 	// ==================== Saving / loading ===================
 
+	@Override
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
 
 		xMLObject.manageChildList( children );
-		bounds = Shape( xMLObject.manageObjectField( "bounds", bounds ) );
-		xMLObject.manageIntAttribute( "mix-content", mixContent );
+		bounds = xMLObject.manageObjectField( "bounds", bounds );
+		mixContent = xMLObject.manageBooleanAttribute( "mix-content", mixContent );
 	}
 }

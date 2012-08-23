@@ -1,8 +1,3 @@
-package dwlab.maps;
-import java.lang.Math;
-import dwlab.visualizers.Image;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov 
 
@@ -11,77 +6,85 @@ import dwlab.visualizers.Image;
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
+package dwlab.maps;
+
+import dwlab.base.Sys;
+import dwlab.visualizers.Image;
 
 /**
  * DoubleMap is basicaly a heightmap.
  * It is 2d array of Double values which are in 0.0...1.0 interval.
  */
 public class DoubleMap extends Map {
-	/**
-	 * Constant for filling red color channel in pixmap.
-	 * @see #pasteToImage, #pasteToPixmap
-	 */
-	public final int red = 0;
+	public enum Channel {
+		/**
+		* Constant for filling red color channel in pixmap.
+		* @see #pasteToImage, #pasteToPixmap
+		*/
+		RED,
+		
+		/**
+		* Constant for filling green color channel in pixmap.
+		* @see #pasteToImage, #pasteToPixmap
+		*/
+		GREEN,
+
+		/**
+		* Constant for filling blue color channel in pixmap.
+		* @see #pasteToImage, #pasteToPixmap
+		*/
+		BLUE,
+
+		/**
+		* Constant for filling alpha channel in pixmap (transparency).
+		* @see #pasteToImage, #pasteToPixmap
+		*/
+		ALPHA,
+
+		/**
+		* Constant for filling all color channels in pixmap (resulting color will be from black to white).
+		* @see #pasteToImage, #pasteToPixmap
+		*/
+		RGB
+	}
+	
+	public enum PasteMode {
+		/**
+		* Constant for overwriting source heightmap values by destination heightmap values.
+		* @see #overwrite, #add, #multiply, #maximum, #minimum, #paste
+		*/
+		OVERWRITE,
+
+		/**
+		* Constant for adding source heightmap values to destination heightmap values.
+		* @see #overwrite, #add, #multiply, #maximum, #minimum, #paste, #limit
+		*/
+		ADD,
+
+		/**
+		* Constant for multiplying source heightmap values by destination heightmap values.
+		* @see #overwrite, #add, #multiply, #maximum, #minimum, #paste
+		*/
+		MULTIPLY,
+
+		/**
+		* Constant for selecting maximum value between source heightmap values and destination heightmap values.
+		* @see #overwrite, #add, #multiply, #maximum, #minimum, #paste
+		*/
+		MAXIMUM,
+
+		/**
+		* Constant for selecting minimum value between source heightmap values and destination heightmap values.
+		* @see #overwrite, #add, #multiply, #maximum, #minimum, #paste
+		*/
+		MINIMUM
+	}
+
 
 	/**
-	 * Constant for filling green color channel in pixmap.
-	 * @see #pasteToImage, #pasteToPixmap
+	 * Array of heightmap values.
 	 */
-	public final int green = 1;
-
-	/**
-	 * Constant for filling blue color channel in pixmap.
-	 * @see #pasteToImage, #pasteToPixmap
-	 */
-	public final int blue = 2;
-
-	/**
-	 * Constant for filling alpha channel in pixmap (transparency).
-	 * @see #pasteToImage, #pasteToPixmap
-	 */
-	public final int alpha = 3;
-
-	/**
-	 * Constant for filling all color channels in pixmap (resulting color will be from black to white).
-	 * @see #pasteToImage, #pasteToPixmap
-	 */
-	public final int rGB = 4;
-
-
-	/**
-	 * Constant for overwriting source heightmap values by destination heightmap values.
-	 * @see #overwrite, #add, #multiply, #maximum, #minimum, #paste
-	 */
-	public final int overwrite = 0;
-
-	/**
-	 * Constant for adding source heightmap values to destination heightmap values.
-	 * @see #overwrite, #add, #multiply, #maximum, #minimum, #paste, #limit
-	 */
-	public final int add = 1;
-
-	/**
-	 * Constant for multiplying source heightmap values by destination heightmap values.
-	 * @see #overwrite, #add, #multiply, #maximum, #minimum, #paste
-	 */
-	public final int multiply = 2;
-
-	/**
-	 * Constant for selecting maximum value between source heightmap values and destination heightmap values.
-	 * @see #overwrite, #add, #multiply, #maximum, #minimum, #paste
-	 */
-	public final int maximum = 3;
-
-	/**
-	 * Constant for selecting minimum value between source heightmap values and destination heightmap values.
-	 * @see #overwrite, #add, #multiply, #maximum, #minimum, #paste
-	 */
-	public final int minimum = 4;
-
-	/**
-	 * 2D array of heightmap values.
-	 */
-	public double value[ , ] = new double()[ 1, 1 ];
+	public double value[ ][ ];
 
 	// ==================== Creating ===================
 
@@ -90,17 +93,17 @@ public class DoubleMap extends Map {
 	 * @return Created double map.
 	 * @see #paste example
 	 */
-	public static DoubleMap create( int xQuantity, int yQuantity ) {
-		DoubleMap doubleMap = new DoubleMap();
-		doubleMap.setResolution( xQuantity, yQuantity );
-		return doubleMap;
+	public DoubleMap( int xQuantity, int yQuantity ) {
+		setResolution( xQuantity, yQuantity );
 	}
 
 	// ==================== Parameters ====================
 
-	public void setResolution( int newXQuantity, int newYQuantity ) {
+	@Override
+	public final void setResolution( int newXQuantity, int newYQuantity ) {
 		super.setResolution( newXQuantity, newYQuantity );
-		value = new double()[ newXQuantity, newYQuantity ];
+		value = new double[ newYQuantity ][];
+		for( int yy = 0; yy < newYQuantity; x++ ) value[ yy ] = new double[ newXQuantity ];
 	}
 
 	// ==================== Manipulations ====================	
@@ -112,7 +115,8 @@ public class DoubleMap extends Map {
 	 * 
 	 * @see #toNewPixmap, #pasteToImage, #pasteToPixmap, #paste example
 	 */
-	public Image toNewImage( int channel = rGB ) {
+	/*
+	public Image toNewImage( Channel channel ) {
 		Image image = new Image();
 		image.bMaxImage = createImage( xQuantity, yQuantity );
 		midHandleImage( image.bMaxImage );
@@ -123,24 +127,7 @@ public class DoubleMap extends Map {
 
 		unlockImage( image.bMaxImage );
 		return image;
-	}
-
-
-
-	/**
-	 * Converts heightmap to new pixmap.
-	 * @return New pixmap.
-	 * By default every color channel will be filled by heightmap values, but you can specify another channel filling mode.
-	 * 
-	 * @see #toNewImage, #pasteToImage, #pasteToPixmap, #perlinNoise example
-	 */
-	public tPixmap toNewPixmap( int channel = rGB ) {
-		tPixmap pixmap = createPixmap( xQuantity, yQuantity, pF_RGBA8888 );
-		pixmap.clearPixels( $fF000000 );
-		pasteToPixmap( pixmap, 0, 0, channel );
-		return pixmap;
-	}
-
+	}*/
 
 
 	/**
@@ -149,51 +136,46 @@ public class DoubleMap extends Map {
 	 * 
 	 * @see #toNewImage, #toNewPixmap, #pasteToPixmap, #paste example
 	 */
-	public void pasteToImage( Image image, int xShift = 0, int yShift = 0, int frame = 0, int channel = rGB ) {
-		pasteToPixmap( lockImage( image.bMaxImage, frame ), xShift, yShift, channel );
-		unlockImage( image.bMaxImage );
-	}
+	public void pasteTo( Image image, int frame, int xShift, int yShift, Channel channel ) {
+		for( int y1=0; y1 <= yQuantity; y1++ ) {
+			for( int x1=0; x1 <= xQuantity; x1++ ) {
+				int col = (int) Math.round( 255.0 * value[ y1 ][ x1 ] + 0.5 );
 
-
-
-	/**
-	 * Pastes heightmap to existing pixmap with given shift.
-	 * By default every color channel will be filled by heightmap values, but you can specify another channel filling mode.
-	 * 
-	 * @see #toNewImage, #toNewPixmap, #pasteToImage
-	 */
-	public void pasteToPixmap( tPixmap pixmap, int xShift = 0, int yShift = 0, int channel = rGB ) {
-		for( int y=0; y <= yQuantity; y++ ) {
-			for( int x=0; x <= xQuantity; x++ ) {
-				int col = int( 255.0 * value[ x, y ] + 0.5 );
-
-				int xX, int yY;
+				int x2, y2;
 				if( masked ) {
-					xX = ( x + xShift ) & xMask;
-					yY = ( y + yShift ) & yMask;
+					x2 = ( x1 + xShift ) & xMask;
+					y2 = ( y1 + yShift ) & yMask;
 				} else {
-					xX = wrapX( x + xShift );
-					yY = wrapY( y + yShift );
+					x2 = wrapX( x1 + xShift );
+					y2 = wrapY( y1 + yShift );
 				}
 
-				int pixel = readPixel( pixmap, xX, yY );
+				int pixel = image.getPixel( x2, y2 );
 
 				switch( channel ) {
-					case rGB:
-						writePixel( pixmap, xX, yY, ( col * $010101 ) | ( pixel & $fF000000 )  );
-					case alpha:
-						writePixel( pixmap, xX, yY, ( col shl 24 ) | ( pixel & $00fFFFFF )  );
-					case blue:
-						writePixel( pixmap, xX, yY, col | ( pixel & $fFFFFF00 )  );
-					case green:
-						writePixel( pixmap, xX, yY, ( col shl 8 ) | ( pixel & $fFFF00FF )  );
-					case red:
-						writePixel( pixmap, xX, yY, ( col shl 16 ) | ( pixel & $fF00FFFF )  );
+					case RGB:
+						image.setPixel( x2, y2, ( col * 0x010101 ) | ( pixel & 0xFF000000 )  );
+						break;
+					case ALPHA:
+						image.setPixel( x2, y2, ( col << 24 ) | ( pixel & 0x00FFFFFF )  );
+						break;
+					case BLUE:
+						image.setPixel( x2, y2, col | ( pixel & 0xFFFFFF00 )  );
+						break;
+					case GREEN:
+						image.setPixel( x2, y2, ( col << 8 ) | ( pixel & 0xFFFF00FF )  );
+						break;
+					case RED:
+						image.setPixel( x2, y2, ( col << 16 ) | ( pixel & 0xFF00FFFF )  );
+						break;
 				}
 			}
 		}
 	}
-
+	
+	public void pasteTo( Image image, Channel channel ) {
+		pasteTo( image, 0, 0, 0, channel );
+	}
 
 
 	/**
@@ -203,36 +185,44 @@ public class DoubleMap extends Map {
 	 * 
 	 * @see #overwrite, #add, #multiply, #maximum, #minimum
 	 */
-	public void paste( DoubleMap sourceMap, int x = 0, int y = 0, int mode = overwrite ) {
+	public void paste( DoubleMap sourceMap, int xx, int yy, PasteMode mode ) {
 		for( int y0=0; y0 <= sourceMap.yQuantity; y0++ ) {
 			for( int x0=0; x0 <= sourceMap.xQuantity; x0++ ) {
-				int xX, int yY;
+				int x1, y1;
 
 				if( masked ) {
-					xX = ( x + x0 ) & xMask;
-					yY = ( y + y0 ) & yMask;
+					x1 = ( xx + x0 ) & xMask;
+					y1 = ( yy + y0 ) & yMask;
 				} else {
-					xX = wrapX( x + xX );
-					yY = wrapY( y + yY );
+					x1 = wrapX( xx + x0 );
+					y1 = wrapY( yy + y0 );
 				}
 
 			switch( mode ) {
-					case overwrite:
-						value[ xX, yY ] = sourceMap.value[ x0, y0 ];
-					case add:
-						value[ xX, yY ] = value[ xX, yY ] + sourceMap.value[ x0, y0 ];
-					case multiply:
-						value[ xX, yY ] = value[ xX, yY ] * sourceMap.value[ x0, y0 ];
-					case maximum:
-						value[ xX, yY ] = Math.max( value[ xX, yY ], sourceMap.value[ x0, y0 ] );
-					case minimum:
-						value[ xX, yY ] = Math.min( value[ xX, yY ], sourceMap.value[ x0, y0 ] );
+					case OVERWRITE:
+						value[ y1 ][ x1 ] = sourceMap.value[ y0 ][ x0 ];
+						break;
+					case ADD:
+						value[ y1 ][ x1 ] = value[ y1 ][ x1 ] + sourceMap.value[ y0 ][ x0 ];
+						break;
+					case MULTIPLY:
+						value[ y1 ][ x1 ] = value[ y1 ][ x1 ] * sourceMap.value[ y0 ][ x0 ];
+						break;
+					case MAXIMUM:
+						value[ y1 ][ x1 ] = Math.max( value[ y1 ][ x1 ], sourceMap.value[ y0 ][ x0 ] );
+						break;
+					case MINIMUM:
+						value[ y1 ][ x1 ] = Math.min( value[ y1 ][ x1 ], sourceMap.value[ y0 ][ x0 ] );
+						break;
 				}
 			}
 		}
 	}
 
-
+	public void paste( DoubleMap sourceMap, PasteMode mode ) {
+		paste( sourceMap, 0, 0, mode );
+	}
+	
 
 	/**
 	 * Extracts slice of heightmap to the tilemap.
@@ -242,15 +232,14 @@ public class DoubleMap extends Map {
 	 * @see #enframe example
 	 */
 	public void extractTo( IntMap tileMap, double vFrom, double vTo, int tileNum ) {
-		if( tileMap.xQuantity != xQuantity || tileMap.yQuantity != yQuantity ) error( "Sizes of source heightmap and resulting tilemap are different." );
+		if( Sys.debug ) if( tileMap.xQuantity != xQuantity || tileMap.yQuantity != yQuantity ) error( "Sizes of source heightmap and resulting tilemap are different." );
 
-		for( int x=0; x <= xQuantity; x++ ) {
-			for( int y=0; y <= yQuantity; y++ ) {
-				if( value[ x, y ] >= vFrom && value[ x, y ] < vTo ) tileMap.value[ x, y ]  == tileNum; ;
+		for( int yy=0; yy <= yQuantity; yy++ ) {
+			for( int xx=0; xx <= xQuantity; xx++ ) {
+				if( value[ yy ][ xx ] >= vFrom && value[ yy ][ xx ] < vTo ) tileMap.value[ yy ][ xx ] = tileNum;
 			}
 		}
 	}
-
 
 
 	/**
@@ -258,26 +247,26 @@ public class DoubleMap extends Map {
 	 * @see #perlinNoise, #drawCircle example
 	 */
 	public void blur() {
-		double newArray[ xQuantity, yQuantity ];
+		double[][] newArray = new double[ yQuantity ][];
 
-		for( int x=0; x <= xQuantity; x++ ) {
-			for( int y=0; y <= yQuantity; y++ ) {
+		for( int y0 = 0; y0 <= yQuantity; y0++ ) {
+			newArray[ y0 ] = new double[ xQuantity ];
+			for( int x0=0; x0 <= xQuantity; x0++ ) {
 				double sum = 0;
 				for( int xX=-1; xX <= 1; xX++ ) {
 					for( int yY=-1; yY <= 1; yY++ ) {
 						if( masked ) {
-							sum += value[ ( x + xX ) & xMask, ( y + yY ) & yMask ];
+							sum += value[ ( y0 + yY ) & yMask ][ ( x0 + xX ) & xMask ];
 						} else {
-							sum += value[ wrapX( x ), wrapY( y ) ];
+							sum += value[ wrapY( y0 + yY ) ][ wrapX( x0 + xX ) ];
 						}
 					}
 				}
-				newArray[ x, y ] = ( sum + value[ x, y ] * 7.0 ) / 16.0;
+				newArray[ y0 ][ x0 ] = ( sum + value[ y0 ][ x0 ] * 7.0 ) / 16.0;
 			}
 		}
 		value = newArray;
 	}
-
 
 
 	/**
@@ -341,7 +330,6 @@ public class DoubleMap extends Map {
 	}
 
 
-
 	public final double circleBound = 0.707107;
 
 	/**
@@ -378,7 +366,6 @@ public class DoubleMap extends Map {
 			}
 		}
 	}
-
 
 
 	/**

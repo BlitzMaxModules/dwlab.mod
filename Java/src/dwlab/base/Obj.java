@@ -168,7 +168,7 @@ public class Obj {
 	 * @see #loadFromFile, #xMLIO
 	 */
 	public void saveToFile( String fileName ) {
-		iDMap = new HashMap<Integer, Obj>();
+		iDMap = new HashMap<Obj, Integer>();
 		removeIDMap = new HashSet<XMLObject>();
 		maxID = 1;
 

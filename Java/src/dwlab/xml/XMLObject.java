@@ -170,6 +170,27 @@ public class XMLObject extends Obj {
 	 * Transfers data between XMLObject attribute and framework object field with Int type.
 	 * @see #manageDoubleAttribute, #manageStringAttribute, #manageObjectAttribute, #manageIntArrayAttribute, #xMLIO example
 	 */
+	public boolean manageBooleanAttribute( String attrName, boolean attrValue, boolean defaultValue ) {
+		if( Sys.xMLMode == XMLMode.GET ) {
+			for( XMLAttribute attr: attributes ) {
+				if( attr.name.equals( attrName ) ) return attr.value.equals( "0" ) ? false : true;
+			}
+			return defaultValue;
+		} else if( attrValue != defaultValue ) {
+			setAttribute( attrName, attrValue ? "1" : "0" );
+		}
+		return attrValue;
+	}
+	
+	public boolean manageBooleanAttribute( String attrName, boolean attrValue ) {
+		return manageBooleanAttribute( attrName, attrValue, false );
+	}
+
+
+	/**
+	 * Transfers data between XMLObject attribute and framework object field with Int type.
+	 * @see #manageDoubleAttribute, #manageStringAttribute, #manageObjectAttribute, #manageIntArrayAttribute, #xMLIO example
+	 */
 	public int manageIntAttribute( String attrName, int attrValue, int defaultValue ) {
 		if( Sys.xMLMode == XMLMode.GET ) {
 			for( XMLAttribute attr: attributes ) {

@@ -3,6 +3,8 @@ package dwlab.base;
 public class Sys {
 	public static String version = "1.4.24";
 	
+	public static final boolean debug = true;
+	
 	public enum XMLMode {
 		GET,
 		SET

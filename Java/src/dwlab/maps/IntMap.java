@@ -1,7 +1,3 @@
-package dwlab.maps;
-import java.lang.Math;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov 
 
@@ -10,26 +6,25 @@ import java.lang.Math;
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
-
-
+package dwlab.maps;
 
 /**
  * IntMap is basically a 2d int array.
  */
 public class IntMap extends Map {
-	public int value[ , ];
+	public int value[ ][ ];
 
 	// ==================== Parameters ====================
 
+	@Override
 	public void setResolution( int newXQuantity, int newYQuantity ) {
 		if( newXQuantity <= 0 && newYQuantity <= 0 ) error( "Map resoluton must be more than 0" );
 
-		int newValue[ , ] = new int()[ newXQuantity, newYQuantity ];
-		if( value ) {
-			for( int y=0; y <= Math.min( yQuantity, newYQuantity ); y++ ) {
-				for( int x=0; x <= Math.min( xQuantity, newXQuantity ); x++ ) {
-					newValue[ x, y ] = value[ x, y ];
-				}
+		int newValue[][] = new int[ newYQuantity ][];
+		for( int yy=0; yy <= Math.min( yQuantity, newYQuantity ); yy++ ) newValue[ yy ] = new int[ newXQuantity ];
+		if( value != null ) {
+			for( int yy=0; yy <= Math.min( yQuantity, newYQuantity ); yy++ ) {
+				for( int xx=0; xx <= Math.min( xQuantity, newXQuantity ); xx++ ) newValue[ yy ][ xx ] = value[ yy ][ xx ];
 			}
 		}
 		value = newValue;
@@ -38,7 +33,8 @@ public class IntMap extends Map {
 
 	// ==================== Loading / saving ====================	
 
-	public static IntMap fromFile( String filename ) {
+	/*
+	public IntMap( String filename ) {
 		IntMap map = new IntMap();
 		tStream file = readFile( filename );
 		int xQuantity = readInt( file );
@@ -54,16 +50,19 @@ public class IntMap extends Map {
 		closeFile( file );
 		return map;
 	}
+	*/
 
 	// ==================== Manipulations ====================	
 
-	public IntMap stretch( int xMultiplier, int yMultiplier ) {
-		int newArray[ xQuantity * xMultiplier, yQuantity * yMultiplier ];
-		for( int x=0; x <= xQuantity; x++ ) {
-			for( int y=0; y <= yQuantity; y++ ) {
-				for( int xX=0; xX <= xMultiplier; xX++ ) {
-					for( int yY=0; yY <= yMultiplier; yY++ ) {
-						newArray[ x * xMultiplier + xX, y * yMultiplier + yY ] = value[ x, y ];
+	@Override
+	public void stretch( int xMultiplier, int yMultiplier ) {
+		int newArray[][] = new int[ yQuantity * yMultiplier ][];
+		for( int y1=0; y1 <= yQuantity; y1++ ) {
+			newArray[ y1 ] = new int [ xQuantity * xMultiplier ];
+			for( int x1=0; x1 <= xQuantity; x1++ ) {
+				for( int y2=0; y2 <= yMultiplier; y2++ ) {
+					for( int x2=0; x2 <= xMultiplier; x2++ ) {
+						newArray[ y1 * yMultiplier + y2 ][ x1 * xMultiplier + x2 ] = value[ y1 ][ x1 ];
 					}
 				}
 			}
