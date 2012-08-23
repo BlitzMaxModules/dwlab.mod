@@ -8,7 +8,10 @@
 
 package dwlab.maps;
 
+import dwlab.base.Service;
+import dwlab.base.Sys;
 import dwlab.shapes.Shape;
+import dwlab.xml.XMLObject;
 
 /**
  * Common object for maps
@@ -30,11 +33,11 @@ public class Map extends Shape {
 	 * For some objects resolutions which are powers of 2 are necessary or will work faster.
 	 */
 	public void setResolution( int newXQuantity, int newYQuantity ) {
-		if( newXQuantity <= 0 || newYQuantity <= 0 ) error( "Map resoluton must be more than 0" );
+		if( Sys.debug ) if( newXQuantity <= 0 || newYQuantity <= 0 ) error( "Map resoluton must be more than 0" );
 
 		xQuantity = newXQuantity;
 		yQuantity = newYQuantity;
-		if( isPowerOf2( xQuantity ) && isPowerOf2( yQuantity ) ) {
+		if( Service.isPowerOf2( xQuantity ) && Service.isPowerOf2( yQuantity ) ) {
 			xMask = xQuantity - 1;
 			yMask = yQuantity - 1;
 			masked = true;
@@ -60,7 +63,7 @@ public class Map extends Shape {
 		if( masked ) {
 			return value & xMask;
 		} else {
-			return value - xQuantity * Math.floor( 1.0 * value / xQuantity );
+			return value - xQuantity * ( (int) Math.floor( 1.0 * value / xQuantity ) );
 		}
 	}
 
@@ -74,7 +77,7 @@ public class Map extends Shape {
 		if( masked ) {
 			return value & yMask;
 		} else {
-			return value - yQuantity * Math.floor( 1.0 * value / yQuantity );
+			return value - yQuantity * ( (int) Math.floor( 1.0d * value / yQuantity ) );
 		}
 	}
 
@@ -88,12 +91,13 @@ public class Map extends Shape {
 
 
 
+	@Override
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
 
 		xMLObject.manageIntAttribute( "xquantity", xQuantity );
 		xMLObject.manageIntAttribute( "yquantity", yQuantity );
 
-		if( Sys.xMLMode == XMLMode.GET ) setResolution( xQuantity, yQuantity );
+		if( Sys.xMLGetMode() ) setResolution( xQuantity, yQuantity );
 	}
 }

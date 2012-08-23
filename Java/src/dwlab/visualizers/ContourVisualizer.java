@@ -1,4 +1,5 @@
 package dwlab.visualizers;
+import dwlab.base.Graphics;
 import dwlab.shapes.LineSegment;
 import dwlab.sprites.Sprite;
 
@@ -31,14 +32,11 @@ public class ContourVisualizer extends Visualizer {
 	 * @return New visualizer.
 	 * @see #fromFile, #fromImage
 	 */
-	public static ContourVisualizer fromWidthAndRGBColor( double width, double red = 1.0, double green = 1.0, double blue = 1.0, double alpha = 1.0, double pivotScale = 1.0, int scaling = true ) {
-		ContourVisualizer visualizer = new ContourVisualizer();
-		visualizer.setColorFromRGB( red, green, blue );
-		visualizer.alpha = alpha;
-		visualizer.lineWidth = width;
-		visualizer.pivotScale = pivotScale;
-		visualizer.scaling = scaling;
-		return visualizer;
+	public ContourVisualizer( double lineWidth, double red, double green, double blue, double alpha, double pivotScale, boolean scaling ) {
+		set( red, green, blue, alpha );
+		this.lineWidth = lineWidth;
+		this.pivotScale = pivotScale;
+		this.scaling = scaling;
 	}
 
 
@@ -48,35 +46,30 @@ public class ContourVisualizer extends Visualizer {
 	 * @return New visualizer.
 	 * @see #fromFile, #fromImage
 	 */
-	public static ContourVisualizer fromWidthAndHexColor( double width, String hexColor = "FFFFFF", double alpha = 1.0, double pivotScale = 1.0, int scaling = true ) {
-		ContourVisualizer visualizer = new ContourVisualizer();
-		visualizer.setColorFromHex( hexColor );
-		visualizer.alpha = alpha;
-		visualizer.lineWidth = width;
-		visualizer.pivotScale = pivotScale;
-		visualizer.scaling = scaling;
-		return visualizer;
+	public ContourVisualizer( double lineWidth, String hexColor, double pivotScale, boolean scaling ) {
+		set( hexColor );
+		this.lineWidth = lineWidth;
+		this.pivotScale = pivotScale;
+		this.scaling = scaling;
 	}
 
 
 
-	public void drawUsingSprite( Sprite sprite, Sprite spriteShape = null ) {
-		if( ! spriteShape ) spriteShape == sprite;
-
+	public void drawUsingSprite( Sprite sprite, Sprite spriteShape ) {
 		if( ! sprite.visible ) return;
 
-		setColor 255.0 * red, 255.0 * green, 255.0 * blue;
-		setAlpha( alpha );
 		setProperLineWidth();
 
 		double sX, double sY, double sWidth, double sHeight;
 		Camera.current.fieldToScreen( spriteShape.x, spriteShape.y, sX, sY );
 		Camera.current.sizeFieldToScreen( spriteShape.width * xScale, spriteShape.height * yScale, sWidth, sHeight );
-		drawEmptyRect( sX - 0.5 * sWidth, sY - 0.5 * sHeight, sWidth, sHeight );
+		Graphics.drawEmptyRectangle( sX - 0.5 * sWidth, sY - 0.5 * sHeight, sWidth, sHeight, 0, this );
 
-		setLineWidth( 1.0 );
-		setColor( 255, 255, 255 );
-		setAlpha( 1.0 );
+		Graphics.setLineWidth( 1.0 );
+	}
+	
+	public void drawUsingSprite( Sprite sprite ) {
+		drawUsingSprite( sprite, sprite );
 	}
 
 
@@ -107,9 +100,9 @@ public class ContourVisualizer extends Visualizer {
 
 	public void setProperLineWidth() {
 		if( scaling ) {
-			setLineWidth( Camera.current.distFieldToScreen( lineWidth ) );
+			Graphics.setLineWidth( Camera.current.distFieldToScreen( lineWidth ) );
 		} else {
-			setLineWidth( lineWidth );
+			Graphics.setLineWidth( lineWidth );
 		}
 	}
 }

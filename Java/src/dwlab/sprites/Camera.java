@@ -1,11 +1,3 @@
-package dwlab.sprites;
-import dwlab.base.Graphics;
-import dwlab.base.Project;
-import dwlab.base.Rectangle;
-import dwlab.shapes.Shape;
-import dwlab.shapes.Vector;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov
  *
@@ -15,6 +7,16 @@ import dwlab.shapes.Vector;
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 
+package dwlab.sprites;
+
+import dwlab.base.Graphics;
+import dwlab.base.Project;
+import dwlab.base.Rectangle;
+import dwlab.base.Sys;
+import dwlab.shapes.Shape;
+import dwlab.shapes.Vector;
+import dwlab.visualizers.Color;
+import dwlab.xml.XMLObject;
 
 /**
  * Camera for displaying game objects.
@@ -38,7 +40,7 @@ public class Camera extends VectorSprite {
 	 * Viewport rectangular shape.
 	 * @see #viewportClipping, #setCameraViewport, #resetViewport
 	 */
-	public Rectangle viewport = new Rectangle();
+	public Shape viewport = new Shape();
 
 	public double k = 1.0d;
 	public double vDX, vDY;
@@ -161,7 +163,7 @@ public class Camera extends VectorSprite {
 	 */
 	public void setCameraViewport() {
 		if( viewportClipping ) {
-			Graphics.setViewport( viewport.x - 0.5 * viewport.width, viewport.y - 0.5 * viewport.height, viewport.width, viewport.height );
+			Graphics.setViewport( viewport.getX() - 0.5 * viewport.getWidth(), viewport.getY() - 0.5 * viewport.getHeight(), viewport.getWidth(), viewport.getHeight() );
 		} else {
 			Graphics.resetViewport();
 		}
@@ -170,16 +172,8 @@ public class Camera extends VectorSprite {
 
 	public void setZoom( double newK ) {
 		k = newK;
-		setSize( viewport.width / k, viewport.height / k );
+		setSize( viewport.getWidth() / k, viewport.getHeight() / k );
 	}
-
-
-
-	//Deprecated
-	public void setMagnification( double newK ) {
-		setZoom( newK );
-	}
-
 
 
 	/**
@@ -193,15 +187,12 @@ public class Camera extends VectorSprite {
 	}
 
 
-
-
 	/**
 	 * Smoothly shifts camera to the given shape center.
 	 */
 	public void shiftCameraToShape( Shape shape, double acceleration ) {
 		shiftCameraToPoint( shape.getX(), shape.getY(), acceleration );
 	}
-
 
 
 	public double applyAcceleration( double x, double newX, double dX, double acceleration ) {
@@ -217,7 +208,6 @@ public class Camera extends VectorSprite {
 	}
 
 
-
 	/**
 	 * Smoothly alterts camera zoom to the given one.
 	 * @see #lTCamera example
@@ -225,10 +215,9 @@ public class Camera extends VectorSprite {
 	public void alterCameraZoom( double newZ, double oldK, double acceleration ) {
 		applyAcceleration( z, newZ, dZ, acceleration );
 		//If Abs( NewZ - Z ) > Abs( DZ ) Then DZ = NewZ - Z
-		z += deltaTime * dZ;
-		setZoom( oldK * zK ^ z );
+		z += Project.deltaTime * dZ;
+		setZoom( Math.pow( oldK * zK, z ) );
 	}
-
 
 
 	//Deprecated
@@ -237,25 +226,26 @@ public class Camera extends VectorSprite {
 	}
 
 
-
+	@Override
 	public void update() {
 		if( isometric ) {
 			double dWidth = Math.abs( vX1 ) + Math.abs( vX2 );
 			double dHeight = Math.abs( vY1 ) + Math.abs( vY2 );
-			k = Math.min( viewport.width / dWidth / width, viewport.height / dHeight / height );
+			k = Math.min( viewport.getWidth() / dWidth / width, viewport.getHeight() / dHeight / height );
 			vK = ( vX1 * vY2 - vY1 * vX2 ) * k;
 			aVK = ( Math.abs( vX1 * vY2 ) - Math.abs( vY1 * vX2 ) ) * k;
-			vDX = ( viewport.x * vY2 - viewport.y * vX2 ) / vK - x;
-			vDY = ( viewport.y * vX1 - viewport.x * vY1 ) / vK - y;
+			vDX = ( viewport.getX() * vY2 - viewport.getY() * vX2 ) / vK - x;
+			vDY = ( viewport.getY() * vX1 - viewport.getX() * vY1 ) / vK - y;
 		} else {
-			k = viewport.width / width;
-			height = viewport.height / k;
-			vDX = viewport.x / k - x;
-			vDY = viewport.y/ k - y;
+			k = viewport.getWidth() / width;
+			height = viewport.getHeight() / k;
+			vDX = viewport.getX() / k - x;
+			vDY = viewport.getY() / k - y;
 		}
 	}
 
 
+	private static Color serviceColor = new Color();
 
 	/**
 	 * Applies color with given intensity to the whole viewport.
@@ -264,13 +254,10 @@ public class Camera extends VectorSprite {
 	 * 
 	 * @see #lighten, #darken
 	 */
-	public void applyColor( double intensity, double red, double green, double blue ) {
-		setAlpha( intensity );
-		setColor( 255.0 * red, 255.0 * green, 255.0 * blue );
-		drawRect( viewport.x - 0.5 * viewport.width, viewport.y - 0.5 * viewport.height, viewport.width, viewport.height );
-		Visualizer.resetColor();
+	public void applyColor( double red, double green, double blue, double intensity ) {
+		serviceColor.set( red, green, blue, intensity );
+		Graphics.drawRectangle( viewport.getX() - 0.5 * viewport.getWidth(), viewport.getY() - 0.5 * viewport.getHeight(), viewport.getWidth(), viewport.getHeight(), 0, serviceColor );
 	}
-
 
 
 	/**
@@ -280,7 +267,7 @@ public class Camera extends VectorSprite {
 	 * @see #applyColor, #darken
 	 */
 	public void lighten( double intensity ) {
-		applyColor( intensity, 1.0, 1.0, 1.0 );
+		applyColor( 1.0d, 1.0d, 1.0d, intensity );
 	}
 
 
@@ -292,17 +279,17 @@ public class Camera extends VectorSprite {
 	 * @see #applyColor, #lighten
 	 */
 	public void darken( double intensity ) {
-		applyColor( intensity, 0.0, 0.0, 0.0 );
+		applyColor( 0.0, 0.0, 0.0, intensity );
 	}
 
 	// ==================== Cloning ===================	
 
+	@Override
 	public Shape clone() {
 		Camera newCamera = new Camera();
 		copyCameraTo( newCamera );
 		return newCamera;
 	}
-
 
 
 	public void copyCameraTo( Camera camera ) {
@@ -319,12 +306,10 @@ public class Camera extends VectorSprite {
 	}
 
 
-
+	@Override
 	public void copyTo( Shape shape ) {
-		Camera camera = Camera( shape );
-
-		if( ! camera ) error( "Trying to copy camera \"" + shape.getTitle() + "\" data to non-camera" );
-
+		Camera camera = (Camera) shape;
+		if( camera == null ) error( "Trying to copy camera \"" + shape.getTitle() + "\" data to non-camera" );
 		copyCameraTo( camera );
 	}
 
@@ -334,47 +319,34 @@ public class Camera extends VectorSprite {
 	 * Creates new camera object using given screen resolution and unit size in pixels.
 	 * @return New camera object.
 	 */
-	public static Camera create( double width = 800.0, double height = 600.0, double unitSize = 25.0 ) {
-		Camera camera = new Camera();
-		camera.viewport.setCoords( 0.5 * width, 0.5 * height );
-		camera.viewport.setSize( width, height );
-		camera.setSize( width / unitSize, height / unitSize );
-		return camera;
+	public Camera( double width, double height, double unitSize ) {
+		viewport.setCoords( 0.5 * width, 0.5 * height );
+		viewport.setSize( width, height );
+		setSize( width / unitSize, height / unitSize );
+	}
+	
+	public Camera() {
+		double newWidth = 800d, newHeight = 600d, newUnitSize = 25d;
+		viewport.setCoords( 0.5 * newWidth, 0.5 * newHeight );
+		viewport.setSize( newWidth, newHeight );
+		setSize( newWidth / newUnitSize, newHeight / newUnitSize );
 	}
 
 
-
+	@Override
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
 
-		viewport = Shape( xMLObject.manageObjectField( "viewport", viewport ) );
-		xMLObject.manageIntAttribute( "viewport-clipping", viewportClipping );
-		xMLObject.manageIntAttribute( "isometric", isometric );
-		xMLObject.manageDoubleAttribute( "x1", vX1 );
-		xMLObject.manageDoubleAttribute( "y1", vY1 );
-		xMLObject.manageDoubleAttribute( "x2", vX2 );
-		xMLObject.manageDoubleAttribute( "y2", vY2 );
+		viewport = xMLObject.manageObjectField( "viewport", viewport );
+		viewportClipping = xMLObject.manageBooleanAttribute( "viewport-clipping", viewportClipping );
+		isometric = xMLObject.manageBooleanAttribute( "isometric", isometric );
+		vX1 = xMLObject.manageDoubleAttribute( "x1", vX1 );
+		vY1 = xMLObject.manageDoubleAttribute( "y1", vY1 );
+		vX2 = xMLObject.manageDoubleAttribute( "x2", vX2 );
+		vY2 = xMLObject.manageDoubleAttribute( "y2", vY2 );
 
-		if( Sys.xMLMode == XMLMode.GET ) update();
+		if( Sys.xMLGetMode() ) update();
 	}
-}
-
-
-
-/**
- * Sets graphics mode.
- * Provide width and height of screen in pixels and unit size in pixels for camera.
-
- * @see #parallax example
- */
-public static void initGraphics( int width = 800, int height = 600, double unitSize = 25.0, int colorDepth = 0, int frequency = 60 ) {
-	graphics( width, height, colorDepth, frequency );
-	autoImageFlags( fILTEREDIMAGE | dYNAMICIMAGE | mIPMAPPEDIMAGE );
-	setBlend( alphaBlend );
-
-	Camera.current.viewport.setSize( width, height );
-	Camera.current.viewport.setCoords( 0.5 * width, 0.5 * height );
-	Camera.current.setSize( width / unitSize, height / unitSize );
 }
 
 

@@ -33,15 +33,19 @@ public class ButtonAction extends Obj {
 	 * Creates button action with given pushable object (button) and name (optional).
 	 * @return New button action with one pushable object (button).
 	 */
-	public ButtonAction( Pushable button, String name ) {
-		this.name = name;
-		this.buttonList.addLast( button );
-		Project.controllers.add( this );
+	public static ButtonAction create( Pushable button, String name ) {
+		ButtonAction action = new ButtonAction();
+		action.name = name;
+		action.buttonList.addLast( button );
+		Project.controllers.add( action );
+		return action;
 	}
 	
-	public ButtonAction( Pushable button ) {
-		this.buttonList.addLast( button );
-		Project.controllers.add( this );
+	public static ButtonAction create( Pushable button ) {
+		ButtonAction action = new ButtonAction();
+		action.buttonList.addLast( button );
+		Project.controllers.add( action );
+		return action;
 	}
 
 

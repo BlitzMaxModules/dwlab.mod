@@ -31,18 +31,18 @@ public class Window extends Layer {
 	public static Window current;
 	public static TextField activeTextField;
 	
-	public static ButtonAction select = new ButtonAction( MouseButton.create( 1 ) );
-	public static ButtonAction pan = new ButtonAction( MouseButton.create( 3 ) );
-	public static ButtonAction scaleUp = new ButtonAction( MouseWheelAction.create( 1 ) );
-	public static ButtonAction scaleDown = new ButtonAction( MouseWheelAction.create( -1 ) );
+	public static ButtonAction select = ButtonAction.create( MouseButton.create( 1 ) );
+	public static ButtonAction pan = ButtonAction.create( MouseButton.create( 3 ) );
+	public static ButtonAction scaleUp = ButtonAction.create( MouseWheelAction.create( 1 ) );
+	public static ButtonAction scaleDown = ButtonAction.create( MouseWheelAction.create( -1 ) );
 
-	public static ButtonAction establish = new ButtonAction( KeyboardKey.create( Keyboard.KEY_RETURN ) );
-	public static ButtonAction abort = new ButtonAction( KeyboardKey.create( Keyboard.KEY_ESCAPE ) );
+	public static ButtonAction establish = ButtonAction.create( KeyboardKey.create( Keyboard.KEY_RETURN ) );
+	public static ButtonAction abort = ButtonAction.create( KeyboardKey.create( Keyboard.KEY_ESCAPE ) );
 
-	public static ButtonAction moveCursorLeft = new ButtonAction( KeyboardKey.create( Keyboard.KEY_LEFT ) );
-	public static ButtonAction moveCursorRight = new ButtonAction( KeyboardKey.create( Keyboard.KEY_RIGHT ) );
-	public static ButtonAction deletePreviousCharacter = new ButtonAction( KeyboardKey.create( Keyboard.KEY_BACK ) );
-	public static ButtonAction deleteNextCharacter = new ButtonAction( KeyboardKey.create( Keyboard.KEY_DELETE ) );
+	public static ButtonAction moveCursorLeft = ButtonAction.create( KeyboardKey.create( Keyboard.KEY_LEFT ) );
+	public static ButtonAction moveCursorRight = ButtonAction.create( KeyboardKey.create( Keyboard.KEY_RIGHT ) );
+	public static ButtonAction deletePreviousCharacter = ButtonAction.create( KeyboardKey.create( Keyboard.KEY_BACK ) );
+	public static ButtonAction deleteNextCharacter = ButtonAction.create( KeyboardKey.create( Keyboard.KEY_DELETE ) );
 
 	public World world;
 	public GUIProject project;

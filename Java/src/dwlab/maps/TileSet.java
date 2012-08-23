@@ -1,12 +1,3 @@
-package dwlab.maps;
-import java.util.LinkedList;
-import dwlab.base.XMLObject;
-import java.lang.Math;
-import dwlab.base.Obj;
-import dwlab.shapes.Shape;
-import dwlab.visualizers.Image;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov
  *
@@ -16,24 +7,34 @@ import dwlab.visualizers.Image;
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 
-/**
- * Prolonging tiles flag.
- * Defines the method of recognizing tiles outside tilemap for tile replacing/enframing algorythm.
+package dwlab.maps;
 
- * @see #enframe example
- */
-public int prolongTiles = true;
+import dwlab.base.Obj;
+import dwlab.base.Service;
+import dwlab.base.Sys;
+import dwlab.shapes.Shape;
+import dwlab.visualizers.Image;
+import dwlab.xml.XMLObject;
+import java.util.LinkedList;
 
 /**
  * Tileset stores image and collision shapes of tiles for tilemaps. Also tile replacing/enframing rules are stored here.
  */
 public class TileSet extends Obj {
+	/**
+	* Prolonging tiles flag.
+	* Defines the method of recognizing tiles outside tilemap for tile replacing/enframing algorythm.
+
+	* @see #enframe example
+	*/
+	public static boolean prolongTiles = true;
+	
 	public String name;
 	public Image image;
 	public Shape collisionShape[];
 	public int blockWidth[];
 	public int blockHeight[];
-	public LinkedList categories = new LinkedList();
+	public LinkedList<TileCategory> categories = new LinkedList<TileCategory>();
 	public int tilesQuantity;
 	public int tileCategory[];
 
@@ -44,17 +45,16 @@ public class TileSet extends Obj {
 	public int emptyTile = -1;
 
 
-
 	/**
 	 * Updates tileset when tiles quantity was changed.
 	 * Execute this method every time you change TilesQuantity parameter.
 	 */
-	public void refreshTilesQuantity() {
-		if( ! image ) return;
+	public final void refreshTilesQuantity() {
+		if( image == null ) return;
 		int newTilesQuantity = image.framesQuantity();
-		Shape newCollisionShape[] = new Shape()[ newTilesQuantity ];
-		int newBlockWidth[] = new int()[ newTilesQuantity ];
-		int newBlockHeight[] = new int()[ newTilesQuantity ];
+		Shape newCollisionShape[] = new Shape[ newTilesQuantity ];
+		int newBlockWidth[] = new int[ newTilesQuantity ];
+		int newBlockHeight[] = new int[ newTilesQuantity ];
 		for( int n=0; n <= Math.min( tilesQuantity, newTilesQuantity ); n++ ) {
 			newBlockWidth[ n ] = blockWidth[ n ];
 			newBlockHeight[ n ] = blockHeight[ n ];
@@ -68,38 +68,37 @@ public class TileSet extends Obj {
 	}
 
 
-
 	/**
 	 * Enframes the tile of given tilemap with given coordinates.
 	 */
 	public void enframe( TileMap tileMap, int x, int y ) {
-		int catNum = tileCategory[ tileMap.value[ x, y ] ];
+		int catNum = tileCategory[ tileMap.value[ y ][ x ] ];
 		if( catNum < 0 ) return;
-		TileCategory category = TileCategory( categories.get( catNum ) );
+		TileCategory category = categories.get( catNum );
 		for( TileRule rule: category.tileRules ) {
-			if( x mod rule.xDivider != rule.x || y mod rule.yDivider != rule.y ) continue;
+			if( x % rule.xDivider != rule.x || y % rule.yDivider != rule.y ) continue;
 
-			int passed = true;
+			boolean passed = true;
 			for( TilePos pos: rule.tilePositions ) {
-				int tileCategory = getTileCategory( tileMap, x + pos.dX, y + pos.dY );
+				int tileCat = getTileCategory( tileMap, x + pos.dX, y + pos.dY );
 				if( pos.category == -1 ) {
-					if( tileCategory == catNum ) {
+					if( tileCat == catNum ) {
 						passed = false;
-						exit;
+						break;
 					}
 				} else {
-					if( tileCategory != pos.category ) {
+					if( tileCat != pos.category ) {
 						passed = false;
-						exit;
+						break;
 					}
 				}
 			}
 
 			if( passed ) {
 				for( int tileNum: rule.tileNums ) {
-					if( tileNum == tileMap.value[ x, y ] ) return;
+					if( tileNum == tileMap.value[ y ][ x ] ) return;
 				}
-				tileMap.value[ x, y ] = rule.tileNums[ 0 ];
+				tileMap.value[ y ][ x ] = rule.tileNums[ 0 ];
 				return;
 			}
 		}
@@ -133,17 +132,17 @@ public class TileSet extends Obj {
 				if( x < 0 || x >= tileMap.xQuantity || y < 0 || y >= tileMap.yQuantity ) return -1;
 			}
 		}
-		return tileCategory[ tileMap.value[ x, y ] ];
+		return tileCategory[ tileMap.value[ y ][ x ] ];
 	}
-
 
 
 	/**
 	 * Updates tileset information.
 	 * This method will be automatically executed after loading tileset. Also execute it after forming or changing tileset categories.
 	 */
+	@Override
 	public void update() {
-		tileCategory = new int()[ tilesQuantity ];
+		tileCategory = new int[ tilesQuantity ];
 		for( int n=0; n <= tilesQuantity; n++ ) {
 			tileCategory[ n ] = -1;
 		}
@@ -152,8 +151,8 @@ public class TileSet extends Obj {
 		for( TileCategory category: categories ) {
 			category.num = catNum;
 			for( TileRule rule: category.tileRules ) {
-				for( int n=0; n <= rule.tileNums.dimensions()[ 0 ]; n++ ) {
-					if( rule.tileNums[ n ] >= tilesQuantity ) rule.tileNums[ n ] == tilesQuantity - 1;
+				for( int n=0; n <= rule.tileNums.length; n++ ) {
+					if( rule.tileNums[ n ] >= tilesQuantity ) rule.tileNums[ n ] = tilesQuantity - 1;
 					tileCategory[ rule.tileNums[ n ] ] = category.num;
 				}
 			}
@@ -162,10 +161,10 @@ public class TileSet extends Obj {
 
 		for( TileCategory category: categories ) {
 			for( TileRule rule: category.tileRules ) {
-				if( rule.x >= rule.xDivider ) rule.x == rule.xDivider - 1;
-				if( rule.y >= rule.yDivider ) rule.y == rule.yDivider - 1;
+				if( rule.x >= rule.xDivider ) rule.x = rule.xDivider - 1;
+				if( rule.y >= rule.yDivider ) rule.y = rule.yDivider - 1;
 				for( TilePos pos: rule.tilePositions ) {
-					if( pos.tileNum >= tilesQuantity ) pos.tileNum == tilesQuantity - 1;
+					if( pos.tileNum >= tilesQuantity ) pos.tileNum = tilesQuantity - 1;
 					pos.category = tileCategory[ pos.tileNum ];
 				}
 			}
@@ -173,40 +172,42 @@ public class TileSet extends Obj {
 	}
 
 
-
 	/**
 	 * Creates tileset with given image and empty tile number.
 	 * @return Created tileset.
 	 */
-	public static TileSet create( Image image, int emptyTile = -1 ) {
-		TileSet tileSet = new TileSet();
-		tileSet.image = image;
-		tileSet.emptyTile = emptyTile;
-		tileSet.refreshTilesQuantity();
-		return tileSet;
+	public TileSet( Image image, int emptyTile ) {
+		this.image = image;
+		this.emptyTile = emptyTile;
+		this.refreshTilesQuantity();
+	}
+	
+	public TileSet( Image image ) {
+		this.image = image;
+		this.refreshTilesQuantity();
 	}
 
 
-
+	@Override
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
 
 		xMLObject.manageStringAttribute( "name", name );
-		image = Image( xMLObject.manageObjectField( "image", image ) );
-		xMLObject.manageIntAttribute( "tiles-quantity", tilesQuantity );
-		xMLObject.manageIntArrayAttribute( "block-width", blockWidth, getChunkLength( image.xCells ) );
-		xMLObject.manageIntArrayAttribute( "block-height", blockHeight, getChunkLength( image.yCells ) );
-		xMLObject.manageIntAttribute( "empty-tile", emptyTile, -1 );
+		image = xMLObject.manageObjectField( "image", image );
+		tilesQuantity = xMLObject.manageIntAttribute( "tiles-quantity", tilesQuantity );
+		blockWidth = xMLObject.manageIntArrayAttribute( "block-width", blockWidth, Service.getChunkLength( image.getXCells() ) );
+		blockHeight = xMLObject.manageIntArrayAttribute( "block-height", blockHeight, Service.getChunkLength( image.getYCells() ) );
+		emptyTile = xMLObject.manageIntAttribute( "empty-tile", emptyTile, -1 );
 		xMLObject.manageChildList( categories );
 
-		if( Sys.xMLMode == XMLMode.GET ) {
-			collisionShape = new Shape()[ tilesQuantity ];
+		if( Sys.xMLGetMode() ) {
+			collisionShape = new Shape[ tilesQuantity ];
 
 			XMLObject arrayXMLObject = xMLObject.getField( "collision-shapes" );
-			if( arrayXMLObject ) {
+			if( arrayXMLObject != null ) {
 				int n = 0;
 				for( XMLObject childXMLObject: arrayXMLObject.children ) {
-					if( childXMLObject.name != "null" ) collisionShape[ n ] == Shape( childXMLObject.manageObject( null ) );
+					if( !childXMLObject.name.equals( "null" ) ) collisionShape[ n ] = (Shape) childXMLObject.manageObject( null );
 					n += 1;
 				}
 			}
@@ -216,9 +217,9 @@ public class TileSet extends Obj {
 			XMLObject arrayXMLObject = new XMLObject();
 			arrayXMLObject.name = "ShapeArray";
 			xMLObject.setField( "collision-shapes", arrayXMLObject );
-			for( int n=0; n <= collisionShape.dimensions()[ 0 ]; n++ ) {
+			for( int n=0; n <= collisionShape.length; n++ ) {
 				XMLObject newXMLObject = new XMLObject();
-				if( collisionShape[ n ] ) {
+				if( collisionShape[ n ] != null ) {
 					newXMLObject.manageObject( collisionShape[ n ] );
 				} else {
 					newXMLObject.name = "Null";
@@ -229,73 +230,63 @@ public class TileSet extends Obj {
 
 		//If Not L_EditorData.Tilesets.Contains( Self ) L_EditorData.Tilesets.AddLast( Self )
 	}
-}
 
 
+	public class TileCategory extends Obj {
+		public String name;
+		public int num;
+		public LinkedList<TileRule> tileRules = new LinkedList<TileRule>();
 
 
+		@Override
+		public void xMLIO( XMLObject xMLObject ) {
+			super.xMLIO( xMLObject );
 
-public class TileCategory extends Obj {
-	public String name;
-	public int num;
-	public LinkedList tileRules = new LinkedList();
-
-
-
-	public void xMLIO( XMLObject xMLObject ) {
-		super.xMLIO( xMLObject );
-
-		xMLObject.manageStringAttribute( "name", name );
-		xMLObject.manageChildList( tileRules );
-	}
-}
-
-
-
-
-
-public class TileRule extends Obj {
-	public int tileNums[];
-	public LinkedList tilePositions = new LinkedList();
-	public int x, int y;
-	public int xDivider = 1, int yDivider = 1;
-
-
-
-	public int tilesQuantity() {
-		return tileNums.dimensions()[ 0 ];
+			name = xMLObject.manageStringAttribute( "name", name );
+			xMLObject.manageChildList( tileRules );
+		}
 	}
 
 
+	public class TileRule extends Obj {
+		public int tileNums[];
+		public LinkedList<TilePos> tilePositions = new LinkedList<TilePos>();
+		public int x, y;
+		public int xDivider = 1, yDivider = 1;
 
-	public void xMLIO( XMLObject xMLObject ) {
-		super.xMLIO( xMLObject );
 
-		xMLObject.manageIntArrayAttribute( "tilenums", tileNums );
-		xMLObject.manageIntAttribute( "x", x );
-		xMLObject.manageIntAttribute( "y", y );
-		xMLObject.manageIntAttribute( "xdiv", xDivider, 1 );
-		xMLObject.manageIntAttribute( "ydiv", yDivider, 1 );
-		xMLObject.manageChildList( tilePositions );
+		public int tilesQuantity() {
+			return tileNums.length;
+		}
+
+
+		@Override
+		public void xMLIO( XMLObject xMLObject ) {
+			super.xMLIO( xMLObject );
+
+			tileNums = xMLObject.manageIntArrayAttribute( "tilenums", tileNums );
+			x = xMLObject.manageIntAttribute( "x", x );
+			y = xMLObject.manageIntAttribute( "y", y );
+			xDivider = xMLObject.manageIntAttribute( "xdiv", xDivider, 1 );
+			yDivider = xMLObject.manageIntAttribute( "ydiv", yDivider, 1 );
+			xMLObject.manageChildList( tilePositions );
+		}
 	}
-}
 
 
+	public class TilePos extends Obj {
+		public int dX, dY;
+		public int tileNum;
+		public int category;
 
 
+		@Override
+		public void xMLIO( XMLObject xMLObject ) {
+			super.xMLIO( xMLObject );
 
-public class TilePos extends Obj {
-	public int dX, int dY;
-	public int tileNum;
-	public int category;
-
-
-
-	public void xMLIO( XMLObject xMLObject ) {
-		super.xMLIO( xMLObject );
-
-		xMLObject.manageIntAttribute( "dx", dX );
-		xMLObject.manageIntAttribute( "dy", dY );
-		xMLObject.manageIntAttribute( "tilenum", tileNum );
+			xMLObject.manageIntAttribute( "dx", dX );
+			xMLObject.manageIntAttribute( "dy", dY );
+			xMLObject.manageIntAttribute( "tilenum", tileNum );
+		}
 	}
 }

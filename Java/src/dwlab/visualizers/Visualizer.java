@@ -9,6 +9,8 @@
 package dwlab.visualizers;
 import dwlab.maps.TileMap;
 import dwlab.shapes.LineSegment;
+import dwlab.shapes.Shape;
+import dwlab.shapes.Shape.Facing;
 import dwlab.sprites.Sprite;
 import dwlab.xml.XMLObject;
 import java.util.LinkedList;
@@ -93,7 +95,7 @@ public class Visualizer extends Color {
 	 */
 	public static Visualizer fromRGBColor( double red, double green, double blue, double alpha, double scale, int scaling ) {
 		Visualizer visualizer = new Visualizer();
-		visualizer.setColorFromRGB( red, green, blue );
+		visualizer.set( red, green, blue );
 		visualizer.alpha = alpha;
 		visualizer.setVisualizerScales( scale );
 		visualizer.scaling = scaling;
@@ -469,6 +471,10 @@ public class Visualizer extends Color {
 		resetColor();
 		setScale( 1.0, 1.0 );
 	}
+	
+	public void drawUsingTileMap( TileMap tileMap ) {
+		drawUsingTileMap( tileMap, null );
+	}
 
 
 
@@ -523,14 +529,14 @@ public class Visualizer extends Color {
 
 
 
-	public double getFacing() {
-		return sgn( xScale );
+	public Facing getFacing() {
+		return xScale < 0 ? Facing.LEFT : Facing.RIGHT;
 	}
 
 
 
-	public void setFacing( double newFacing ) {
-		xScale = Math.abs( xScale ) * newFacing;
+	public void setFacing( Facing newFacing ) {
+		xScale = Math.abs( xScale ) * ( newFacing == Facing.LEFT ? -1d : 1d );
 	}
 
 	// ==================== Other ====================

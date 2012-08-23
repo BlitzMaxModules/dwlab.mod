@@ -8,6 +8,7 @@
 
 package dwlab.maps;
 
+import dwlab.base.Service;
 import dwlab.base.Sys;
 import dwlab.visualizers.Image;
 
@@ -273,23 +274,24 @@ public class DoubleMap extends Map {
 	 * Fills heightmap with perlin noise.
 	 * @see #blur, #enframe example
 	 */
-	public void perlinNoise( int startingXFrequency, double startingYFrequency, double startingAmplitude, double dAmplitude, int layersQuantity ) {
+	public void perlinNoise( int startingXFrequency, int startingYFrequency, double startingAmplitude, double dAmplitude, int layersQuantity ) {
 		int xFrequency = startingXFrequency;
 		int yFrequency = startingYFrequency;
 		double amplitude = startingAmplitude;
 
-		for( double x=0.0; x <= xQuantity; x++ ) {
-			for( double y=0.0; y <= yQuantity; y++ ) {
-				value[ x, y ] = 0.5;
+		for( int xx = 0; xx <= xQuantity; xx++ ) {
+			for( int yy = 0; yy <= yQuantity; yy++ ) {
+				value[ yy ][ xx ] = 0.5d;
 			}
 		}
 
 		for( int n=1; n <= layersQuantity; n++ ) {
-			double array[ , ] = new double()[ xFrequency, yFrequency ];
+			double array[][] = new double[ yFrequency ][];
 
-			for( int aX=0; aX <= xFrequency; aX++ ) {
-				for( int aY=0; aY <= yFrequency; aY++ ) {
-					array[ aX, aY ] = Math.random( -amplitude, amplitude );
+			for( int aY = 0; aY <= yFrequency; aY++ ) {
+				array[ aY ] = new double[ xFrequency ];
+				for( int aX = 0; aX <= xFrequency; aX++ ) {
+					array[ aY ][ aX ] = Service.random( -amplitude, amplitude );
 				}
 			}
 
@@ -299,25 +301,26 @@ public class DoubleMap extends Map {
 			double kX = 1.0 * xFrequency / xQuantity;
 			double kY = 1.0 * yFrequency / yQuantity;
 
-			for( double x=0.0; x <= xQuantity; x++ ) {
-				for( double y=0.0; y <= yQuantity; y++ ) {
-					double xK = x * kX;
-					double yK = y * kY;
-					int arrayX = Math.floor( xK );
-					int arrayY = Math.floor( yK );
+			for( int yy = 0; yy <= yQuantity; yy++ ) {
+				for( int xx = 0; xx <= xQuantity; xx++ ) {
+					double xK = kX * xx;
+					double yK = kY * yy;
+					
+					int arrayX = Service.floor( xK );
+					int arrayY = Service.floor( yK );
 
 					xK = ( 1.0 - Math.cos( 180.0 * ( xK - arrayX ) ) ) * 0.5;
 					yK = ( 1.0 - Math.cos( 180.0 * ( yK - arrayY ) ) ) * 0.5;
 
-					double z00 = array[ arrayX, arrayY ] ;
-					double z10 = array[ ( arrayX + 1 ) & fXMask, arrayY ] ;
-					double z01 = array[ arrayX, ( arrayY + 1 ) & fYMask ] ;
-					double z11 = array[ ( arrayX + 1 ) & fXMask, ( arrayY + 1 ) & fYMask ] ;
+					double z00 = array[ arrayY ][ arrayX ] ;
+					double z10 = array[ arrayY ][ ( arrayX + 1 ) & fXMask ] ;
+					double z01 = array[ ( arrayY + 1 ) & fYMask ][ arrayX ] ;
+					double z11 = array[ ( arrayY + 1 ) & fYMask ][ ( arrayX + 1 ) & fXMask ] ;
 
 					double z0 = z00 + ( z10 - z00 ) * xK;
 					double z1 = z01 + ( z11 - z01 ) * xK;
 
-					value[ x, y ] = value[ x, y ] + z0 + ( z1 - z0 ) * yK;
+					value[ yy ][ xx ] = value[ yy ][ xx ] + z0 + ( z1 - z0 ) * yK;
 				}
 			}
 
@@ -330,7 +333,7 @@ public class DoubleMap extends Map {
 	}
 
 
-	public final double circleBound = 0.707107;
+	public final double circleBound = 0.707107d;
 
 	/**
 	 * Draws anti-aliased circle on the heightmap.
@@ -338,30 +341,30 @@ public class DoubleMap extends Map {
 	 * 
 	 * @see #paste example
 	 */
-	public void drawCircle( double xCenter, double yCenter, double radius, double color = 1.0 ) {
-		for( int y=Math.floor( yCenter - radius ); y <= Math.ceil( yCenter + radius ); y++ ) {
-			for( int x=Math.floor( xCenter - radius ); x <= Math.ceil( xCenter + radius ); x++ ) {
-				int xX, int yY;
+	public void drawCircle( double xCenter, double yCenter, double radius, double color ) {
+		for( int y0 = Service.floor( yCenter - radius ); y0 <= Math.ceil( yCenter + radius ); y0++ ) {
+			for( int x0 = Service.floor( xCenter - radius ); x0 <= Math.ceil( xCenter + radius ); x0++ ) {
+				int xx, yy;
 				if( masked ) {
-					xX = x & xMask;
-					yY = y & yMask;
+					xx = x0 & xMask;
+					yy = y0 & yMask;
 				} else {
-					xX = wrapX( x );
-					yY = wrapY( y );
+					xx = wrapX( x0 );
+					yy = wrapY( y0 );
 				}
 
-				double dist = radius - Math.sqrt( ( x - xCenter ) * ( x - xCenter ) + ( y - yCenter ) * ( y - yCenter ) );
+				double dist = radius - Math.sqrt( ( x0 - xCenter ) * ( x0 - xCenter ) + ( y0 - yCenter ) * ( y0 - yCenter ) );
 
 				if( dist > circleBound ) {
-					value[ xX, yY ] = color;
-				} else if( dist < -circleBound then ) {
+					value[ yy ][ xx ] = color;
+				} else if( dist < -circleBound ) {
 				} else {
 					double dist00 = radius - Math.sqrt( ( x - 0.5 - xCenter ) * ( x - 0.5 - xCenter ) + ( y - 0.5 - yCenter ) * ( y - 0.5 - yCenter ) );
 					double dist01 = radius - Math.sqrt( ( x - 0.5 - xCenter ) * ( x - 0.5 - xCenter ) + ( y + 0.5 - yCenter ) * ( y + 0.5 - yCenter ) );
 					double dist10 = radius - Math.sqrt( ( x + 0.5 - xCenter ) * ( x + 0.5 - xCenter ) + ( y - 0.5 - yCenter ) * ( y - 0.5 - yCenter ) );
 					double dist11 = radius - Math.sqrt( ( x + 0.5 - xCenter ) * ( x + 0.5 - xCenter ) + ( y + 0.5 - yCenter ) * ( y + 0.5 - yCenter ) );
-					double k = limitDouble( 0.125 / circleBound * ( dist00 + dist01 + dist10 + dist11 ) + 0.5, 0.0, 1.0 );
-					value[ xX, yY ] = value[ xX, yY ] * ( 1 - k ) + k * color;
+					double k = Service.limit( 0.125 / circleBound * ( dist00 + dist01 + dist10 + dist11 ) + 0.5, 0.0, 1.0 );
+					value[ yy ][ xx ] = value[ yy ][ xx ] * ( 1 - k ) + k * color;
 				}
 			}
 		}
@@ -377,10 +380,10 @@ public class DoubleMap extends Map {
 	 * @see #paste example
 	 */
 	public void limit() {
-		for( int x=0; x <= xQuantity; x++ ) {
-			for( int y=0; y <= yQuantity; y++ ) {
-				if( value[ x, y ] < 0.0 ) value[ x, y ] == 0.0;
-				if( value[ x, y ] > 1.0 ) value[ x, y ] == 1.0;
+		for( int yy = 0; yy <= yQuantity; yy++ ) {
+			for( int xx = 0; xx <= xQuantity; xx++ ) {
+				if( value[ yy ][ xx ] < 0.0 ) value[ yy ][ xx ] = 0d;
+				if( value[ yy ][ xx ] > 1.0 ) value[ yy ][ xx ] = 1d;
 			}
 		}
 	}

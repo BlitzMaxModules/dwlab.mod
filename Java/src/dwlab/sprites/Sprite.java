@@ -1,18 +1,3 @@
-package dwlab.sprites;
-import dwlab.base.Project;
-import java.util.HashMap;
-import dwlab.base.XMLObject;
-import java.lang.Math;
-import dwlab.layers.Layer;
-import dwlab.shapes.Shape;
-import dwlab.maps.SpriteMap;
-import dwlab.shapes.LineSegment;
-import dwlab.shapes.Line;
-import dwlab.maps.TileSet;
-import dwlab.maps.TileMap;
-import dwlab.visualizers.Visualizer;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov
  *
@@ -21,6 +6,22 @@ import dwlab.visualizers.Visualizer;
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
+
+package dwlab.sprites;
+
+import dwlab.base.Project;
+import dwlab.base.Service;
+import dwlab.base.Service.Margins;
+import dwlab.layers.Layer;
+import dwlab.maps.SpriteMap;
+import dwlab.maps.TileMap;
+import dwlab.maps.TileSet;
+import dwlab.shapes.Line;
+import dwlab.shapes.LineSegment;
+import dwlab.shapes.Shape;
+import dwlab.visualizers.Visualizer;
+import dwlab.xml.XMLObject;
+import java.util.HashMap;
 
 /**
  * Sprite is the main basic shape of the framework to draw, move and check collisions.
@@ -92,7 +93,7 @@ public class Sprite extends Shape {
 	 * Velocity of the sprite in units per second.
 	 * @see #moveForward, #moveTowards
 	 */
-	public double velocity = 1.0;
+	public double velocity;
 
 	/**
 	 * Frame of the sprite image.
@@ -112,6 +113,7 @@ public class Sprite extends Shape {
 	// ==================== Creating ===================	
 
 	public Sprite() {
+		this.shapeType = ShapeType.PIVOT;
 	}
 
 	/**
@@ -120,9 +122,39 @@ public class Sprite extends Shape {
 	 */
 	public Sprite( ShapeType shapeType ) {
 		this.shapeType = shapeType;
+		this.x = 0d;
+		this.y = 0d;
+		if( shapeType == ShapeType.PIVOT ) {
+			this.width = 0d;
+			this.height = 0d;
+		} else {
+			this.width = 1d;
+			this.height = 1d;
+		}
 	}
 
+	public Sprite( double x, double y ) {
+		this.x = x;
+		this.y = y;
+		this.shapeType = ShapeType.PIVOT;
+	}
 
+	public Sprite( double x, double y, double radius ) {
+		this.x = x;
+		this.y = y;
+		this.width = radius;
+		this.height = radius;
+		this.shapeType = ShapeType.OVAL;
+	}
+
+	public Sprite( double x, double y, double width, double height ) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.shapeType = ShapeType.RECTANGLE;
+	}
+	
 	/**
 	 * Creates sprite using given coordinates, size, shape type, angle and velocity.
 	 * @return Created sprite.
@@ -135,8 +167,7 @@ public class Sprite extends Shape {
 		this.height = height;
 		this.shapeType = shapeType;
 	}
-
-
+	
 	public Sprite( ShapeType shapeType, double x, double y, double width, double height, double angle, double velocity ) {
 		this.x = x;
 		this.y = y;
@@ -925,7 +956,7 @@ public class Sprite extends Shape {
 
 	// ==================== Methods for oval ====================	
 
-	public Sprite toCircle( Sprite pivot1, Sprite circleSprite = null ) {
+	public Sprite toCircle( Sprite pivot1, Sprite circleSprite ) {
 		if( width == height ) return this;
 		if( circleSprite !=null ) circleSprite = Sprite.fromShapeType( circle );
 		if( width > height ) {
@@ -975,29 +1006,16 @@ public class Sprite extends Shape {
 		return circleSprite;
 	}
 
-	// ==================== Methods for rectangle ====================	
-
-	public void getBounds( double leftX var, double topY var, double rightX var, double bottomY var ) {
-		double dWidth = 0.5 * width;
-		double dHeight = 0.5 * height;
-		leftX = x - dWidth;
-		topY = y - dHeight;
-		rightX = x + dWidth;
-		bottomY = y + dHeight;
-	}
-
 	// ==================== Methods for ray ====================	
 
-	public Line toLine( Line line ) {
-		if( ! line ) line == new Line();
+	public void toLine( Line line ) {
 		line.usePoints( x, y, x + Math.cos( angle ), y + Math.sin( angle ) );
-		return line;
 	}
 
 
 
-	public int hasPoint( double x1, double y1 ) {
-		double ang = wrapDouble( angle, 360.0 );
+	public boolean hasPoint( double x1, double y1 ) {
+		double ang = Service.wrap( angle, 360.0 );
 		if( ang < 45.0 || ang >= 315.0 ) {
 			return x1 >= x;
 		} else if( ang < 135.0 ) {
@@ -1008,10 +1026,9 @@ public class Sprite extends Shape {
 			return y1 <= y;
 		}
 	}
+	
 
-
-
-	public int hasPivot( Sprite pivot ) {
+	public boolean hasPivot( Sprite pivot ) {
 		return hasPoint( pivot.x, pivot.y );
 	}
 
@@ -1107,14 +1124,14 @@ public class Sprite extends Shape {
 	}
 
 
-
+	@Override
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
 
-		xMLObject.manageIntAttribute( "shape", shapeType );
-		xMLObject.manageDoubleAttribute( "angle", angle );
-		xMLObject.manageDoubleAttribute( "disp_angle", displayingAngle );
-		xMLObject.manageDoubleAttribute( "velocity", velocity, 1.0 );
-		xMLObject.manageIntAttribute( "frame", frame );
+		shapeType = xMLObject.manageEnumAttribute( "shape", shapeType );
+		angle = xMLObject.manageDoubleAttribute( "angle", angle );
+		displayingAngle = xMLObject.manageDoubleAttribute( "disp_angle", displayingAngle );
+		velocity = xMLObject.manageDoubleAttribute( "velocity", velocity, 1.0 );
+		frame = xMLObject.manageIntAttribute( "frame", frame );
 	}
 }

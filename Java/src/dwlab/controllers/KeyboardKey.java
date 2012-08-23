@@ -10,15 +10,14 @@
 package dwlab.controllers;
 
 import dwlab.base.Project;
-import dwlab.base.Sys;
 import dwlab.xml.XMLObject;
+import org.lwjgl.input.Keyboard;
 
 /**
  * Class for keyboard keys.
  */
 public class KeyboardKey extends Pushable {
 	public int code;
-
 
 
 	@Override

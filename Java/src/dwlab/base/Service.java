@@ -9,6 +9,7 @@
 
 package dwlab.base;
 
+import dwlab.shapes.Shape;
 import dwlab.shapes.Vector;
 import dwlab.sprites.Camera;
 import dwlab.visualizers.Color;
@@ -186,7 +187,7 @@ public class Service extends Obj {
 
 	* @see #l_WrapInt
 	*/
-	public static double wrapDouble( double value, double size ) {
+	public static double wrap( double value, double size ) {
 		return value - size * Math.floor( value / size );
 	}
 	
@@ -302,9 +303,19 @@ public class Service extends Obj {
 	public static double random( double from, double to ) {
 		return from + Math.random() * ( to - from );
 	}
+	
+
+	public static int signum( double value ) {
+		return ( value > 0d ? -1 : ( value < 0d ? 1 : 0 ) );
+	}
 
 	
-	public class Margins {
+	public static int floor( double value ) {
+		return (int) Math.floor( value );
+	}
+
+	
+	public static class Margins {
 		public Vector min = new Vector();
 		public Vector max = new Vector();
 		
@@ -323,7 +334,7 @@ public class Service extends Obj {
 	private static Vector serviceVector11 = new Vector();
 	
 	public static void getEscribedRectangle( Margins sourceMargins, Margins destinationMargins ) {
-		Rectangle viewport = Camera.current.viewport;
+		Shape viewport = Camera.current.viewport;
 		Camera.current.screenToField( viewport.leftX(), viewport.topY(), serviceVector00 );
 		Camera.current.screenToField( viewport.rightX(), viewport.topY(), serviceVector10 );
 		Camera.current.screenToField( viewport.leftX(), viewport.bottomY(), serviceVector01 );

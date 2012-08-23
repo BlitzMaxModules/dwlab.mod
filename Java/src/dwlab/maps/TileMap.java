@@ -1,10 +1,3 @@
-package dwlab.maps;
-import dwlab.base.XMLObject;
-import java.lang.Math;
-import dwlab.shapes.Shape;
-import dwlab.visualizers.Visualizer;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov 
 
@@ -13,9 +6,14 @@ import dwlab.visualizers.Visualizer;
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
+package dwlab.maps;
 
-
-
+import dwlab.base.Service;
+import dwlab.base.Sys;
+import dwlab.shapes.Shape;
+import dwlab.shapes.Vector;
+import dwlab.visualizers.Visualizer;
+import dwlab.xml.XMLObject;
 
 /**
  * Tilemap is displayable rectangular tile-based shape with 2d array of tile indexes and tileset with tile images.
@@ -38,13 +36,13 @@ public class TileMap extends IntMap {
 	 * When drawing tile map, margins define the size of rectangular frame around camera's rectangle in which tiles will be also drawn.
 	 * Will be handy if tilemap's XScale / YScale parameters are greater than 1.0.
 	 */
-	public double leftMargin, double rightMargin, double topMargin, double bottomMargin;
+	public double leftMargin, rightMargin, topMargin, bottomMargin;
 
 	/**
 	 * Wrapping flag.
 	 * If this flag will be set to True, then map will be repeated (tiled, wrapped) enlessly in all directions.
 	 */
-	public int wrapped = false;
+	public boolean wrapped = false;
 
 	/**
 	 * Horizontal displaying order.
@@ -87,34 +85,35 @@ public class TileMap extends IntMap {
 		if( tileX < 0 || tileX >= xQuantity ) error( "Incorrect tile X position" );
 		if( tileY < 0 || tileY >= yQuantity ) error( "Incorrect tile Y position" );
 
-		return tileset.collisionShape[ value[ tileX, tileY ] ];
+		return tileSet.collisionShape[ value[ tileY ][ tileX ] ];
 	}
-
 
 
 	/**
 	 * Returns tile coordinates for given field coordinates.
 	 * @return Tile coordinates for given point.
 	 */	
-	public void getTileForPoint( double x, double y, int tileX var, int tileY var ) {
-		tileX = Math.floor( ( x - leftX() ) / getTileWidth() );
-		tileY = Math.floor( ( y - topY() ) / getTileHeight() );
+	public void getTileForPoint( double x, double y, Vector vector ) {
+		vector.x = Math.floor( ( x - leftX() ) / getTileWidth() );
+		vector.y = Math.floor( ( y - topY() ) / getTileHeight() );
 	}
 
 
-
+	@Override
 	public String getClassTitle() {
 		return "Tile map";
 	}
 
 	// ==================== Drawing ===================	
 
+	@Override
 	public void draw() {
 		if( visible ) visualizer.drawUsingTileMap( this );
 	}
 
 
 
+	@Override
 	public void drawUsingVisualizer( Visualizer visualizer ) {
 		if( visible ) visualizer.drawUsingTileMap( this );
 	}
@@ -127,15 +126,17 @@ public class TileMap extends IntMap {
 	 * 
 	 * @see #lTTileSet
 	 */
-	public void enframe( TileSet byTileSet = null ) {
-		if( ! byTileSet ) byTileSet == tileSet;
-		for( int y=0; y <= yQuantity; y++ ) {
-			for( int x=0; x <= xQuantity; x++ ) {
-				byTileSet.enframe( this, x, y );
+	public void enframe( TileSet byTileSet ) {
+		for( int yy = 0; yy <= yQuantity; yy++ ) {
+			for( int xx = 0; xx <= xQuantity; xx++ ) {
+				byTileSet.enframe( this, xx , yy );
 			}
 		}
 	}
-
+	
+	public void enframe() {
+		enframe( tileSet );
+	}
 
 
 	/**
@@ -144,11 +145,12 @@ public class TileMap extends IntMap {
 	 * @see #setTile, #setAsTile example
 	 */
 	public int getTile( int tileX, int tileY ) {
-		if( tileX < 0 || tileX >= xQuantity ) error( "Incorrect tile X position" );
-		if( tileY < 0 || tileY >= yQuantity ) error( "Incorrect tile Y position" );
-		return value[ tileX, tileY ];
+		if( Sys.debug ) {
+			if( tileX < 0 || tileX >= xQuantity ) error( "Incorrect tile X position" );
+			if( tileY < 0 || tileY >= yQuantity ) error( "Incorrect tile Y position" );
+		}
+		return value[ tileY ][ tileX ];
 	}
-
 
 
 	/**
@@ -156,12 +158,13 @@ public class TileMap extends IntMap {
 	 * @see #getTile, #getTileForPoint example, #stretch example
 	 */
 	public void setTile( int tileX, int tileY, int tileNum ) {
-		if( tileNum < 0 || tileNum >= tilesQuantity ) error( "Incorrect tile number" );
-		if( tileX < 0 || tileX >= xQuantity ) error( "Incorrect tile X position" );
-		if( tileY < 0 || tileY >= yQuantity ) error( "Incorrect tile Y position" );
-		value[ tileX, tileY ] = tileNum;
+		if( Sys.debug ) {
+			if( tileNum < 0 || tileNum >= tilesQuantity ) error( "Incorrect tile number" );
+			if( tileX < 0 || tileX >= xQuantity ) error( "Incorrect tile X position" );
+			if( tileY < 0 || tileY >= yQuantity ) error( "Incorrect tile Y position" );
+		}
+		value[ tileY ][ tileX ] = tileNum;
 	}
-
 
 
 	public void swapTiles( int tileX1, int tileY1, int tileX2, int tileY2 ) {
@@ -171,18 +174,17 @@ public class TileMap extends IntMap {
 	}
 
 
-
 	/**
 	 * Refreshes tile indexes of tilemap.
 	 * Execute this method after lowering tiles quantity of this tilemap or its tileset to avoid errors.
 	 * Tile indexes will be limited to 0...TilesQuantity - 1 interval.
 	 */
 	public void refreshTilesQuantity() {
-		if( ! tileSet ) return;
+		if( tileSet == null ) return;
 		if( tileSet.tilesQuantity < tilesQuantity ) {
-			for( int y=0; y <= yQuantity; y++ ) {
-				for( int x=0; x <= xQuantity; x++ ) {
-					if( value[ x, y ] >= tileSet.tilesQuantity ) value[ x, y ] == tileSet.tilesQuantity - 1;
+			for( int yy = 0; yy <= yQuantity; yy++ ) {
+				for( int xx = 0; xx <= xQuantity; xx++ ) {
+					if( value[ yy ][ xx ] >= tileSet.tilesQuantity ) value[ yy ][ xx ] = tileSet.tilesQuantity - 1;
 				}
 			}
 		}
@@ -195,18 +197,18 @@ public class TileMap extends IntMap {
 		TileMap tileMap = new TileMap();
 		tileMap.setResolution( xQuantity, yQuantity );
 		tileMap.tileSet = tileSet;
-		if( tileSet ) tileMap.tilesQuantity == tileSet.tilesQuantity;
+		if( tileSet != null ) tileMap.tilesQuantity = tileSet.tilesQuantity;
 		return tileMap;
 	}
 
 	// ==================== Cloning ===================
 
+	@Override
 	public Shape clone() {
 		TileMap newTileMap = new TileMap();
 		copyTileMapTo( newTileMap );
 		return newTileMap;
 	}
-
 
 
 	public void copyTileMapTo( TileMap tileMap ) {
@@ -216,20 +218,18 @@ public class TileMap extends IntMap {
 		tileMap.tilesQuantity = tilesQuantity;
 		tileMap.wrapped = wrapped;
 		tileMap.setResolution( xQuantity, yQuantity );
-		for( int y=0; y <= yQuantity; y++ ) {
-			for( int x=0; x <= xQuantity; x++ ) {
-				tileMap.value[ x, y ] = value[ x, y ];
+		for( int yy = 0; yy <= yQuantity; yy++ ) {
+			for( int xx = 0; xx <= xQuantity; xx++ ) {
+				tileMap.value[ yy ][ xx ] = value[ yy ][ xx ];
 			}
 		}
 	}
 
 
-
+	@Override
 	public void copyTo( Shape shape ) {
 		TileMap tileMap = shape.toTileMap();
-
-		if( tileMap == null ) error( "Trying to copy tilemap \"" + shape.getTitle() + "\" data to non-tilemap" );
-
+		if( Sys.debug ) if( tileMap == null ) error( "Trying to copy tilemap \"" + shape.getTitle() + "\" data to non-tilemap" );
 		copyTileMapTo( tileMap );
 	}
 
@@ -241,41 +241,43 @@ public class TileMap extends IntMap {
 
 	// ==================== Saving / loading ===================
 
+	@Override
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
 
-		tileSet = TileSet( xMLObject.manageObjectField( "tileset", tileSet ) );
-		xMLObject.manageIntAttribute( "tiles-quantity", tilesQuantity );
-		xMLObject.manageDoubleAttribute( "left-margin", leftMargin );
-		xMLObject.manageDoubleAttribute( "right-margin", rightMargin );
-		xMLObject.manageDoubleAttribute( "top-margin", topMargin );
-		xMLObject.manageDoubleAttribute( "bottom-margin", bottomMargin );
-		xMLObject.manageIntAttribute( "wrapped", wrapped );
-		xMLObject.manageIntAttribute( "horizontal-order", horizontalOrder, 1 );
-		xMLObject.manageIntAttribute( "vertical-order", verticalOrder, 1 );
+		tileSet = xMLObject.manageObjectField( "tileset", tileSet );
+		tilesQuantity = xMLObject.manageIntAttribute( "tiles-quantity", tilesQuantity );
+		leftMargin = xMLObject.manageDoubleAttribute( "left-margin", leftMargin );
+		rightMargin = xMLObject.manageDoubleAttribute( "right-margin", rightMargin );
+		topMargin = xMLObject.manageDoubleAttribute( "top-margin", topMargin );
+		bottomMargin = xMLObject.manageDoubleAttribute( "bottom-margin", bottomMargin );
+		wrapped = xMLObject.manageBooleanAttribute( "wrapped", wrapped );
+		horizontalOrder = xMLObject.manageIntAttribute( "horizontal-order", horizontalOrder, 1 );
+		verticalOrder = xMLObject.manageIntAttribute( "vertical-order", verticalOrder, 1 );
 
-		int chunkLength = getChunkLength( tilesQuantity );
-		if( Sys.xMLMode == XMLMode.GET ) {
-			value = new int()[ xQuantity, yQuantity ];
-			int y = 0;
+		int chunkLength = Service.getChunkLength( tilesQuantity );
+		if( Sys.xMLGetMode() ) {
+			value = new int[ yQuantity ][];
+			int yy = 0;
 			for( XMLObject xMLRow: xMLObject.children ) {
+				value[ yy ] = new int [ xQuantity ]; 
 				String data = xMLRow.getAttribute( "data" );
 				int pos = 0;
-				int x = 0;
-				while( pos < data.length ) {
-					value[ x, y ] = decode( data[ pos..pos + chunkLength ] );
+				int xx = 0;
+				while( pos < data.length() ) {
+					value[ yy ][ xx ] = Service.decode( data.substring( pos, pos + chunkLength ) );
 					pos += chunkLength;
-					x += 1;
+					xx += 1;
 				}
-				y += 1;
+				yy += 1;
 			}
 		} else {
-			for( int y=0; y <= yQuantity; y++ ) {
+			for( int yy = 0; yy <= yQuantity; yy++ ) {
 				XMLObject xMLRow = new XMLObject();
 				xMLRow.name = "Row";
 				String arrayData = "";
-				for( int x=0; x <= xQuantity; x++ ) {
-					arrayData += encode( value[ x, y ], chunkLength );
+				for( int xx = 0; xx <= xQuantity; xx++ ) {
+					arrayData += Service.encode( value[ yy ][ xx ], chunkLength );
 				}
 				xMLRow.setAttribute( "data", arrayData );
 				xMLObject.children.addLast( xMLRow );

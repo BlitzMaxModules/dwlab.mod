@@ -171,7 +171,7 @@ public class XMLObject extends Obj {
 	 * @see #manageDoubleAttribute, #manageStringAttribute, #manageObjectAttribute, #manageIntArrayAttribute, #xMLIO example
 	 */
 	public boolean manageBooleanAttribute( String attrName, boolean attrValue, boolean defaultValue ) {
-		if( Sys.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLGetMode() ) {
 			for( XMLAttribute attr: attributes ) {
 				if( attr.name.equals( attrName ) ) return attr.value.equals( "0" ) ? false : true;
 			}
@@ -192,7 +192,7 @@ public class XMLObject extends Obj {
 	 * @see #manageDoubleAttribute, #manageStringAttribute, #manageObjectAttribute, #manageIntArrayAttribute, #xMLIO example
 	 */
 	public int manageIntAttribute( String attrName, int attrValue, int defaultValue ) {
-		if( Sys.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLGetMode() ) {
 			for( XMLAttribute attr: attributes ) {
 				if( attr.name.equals( attrName ) ) return Integer.parseInt( attr.value );
 			}
@@ -214,7 +214,7 @@ public class XMLObject extends Obj {
 	 * @see #manageIntAttribute, #manageStringAttribute, #manageObjectAttribute, #xMLIO example
 	 */
 	public double manageDoubleAttribute( String attrName, double attrValue, double defaultValue ) {
-		if( Sys.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLGetMode() ) {
 			for( XMLAttribute attr: attributes ) {
 				if( attr.name.equals( attrName ) ) return Double.parseDouble( attr.value );
 			}
@@ -236,7 +236,7 @@ public class XMLObject extends Obj {
 	 * @see #manageIntAttribute, #manageDoubleAttribute, #manageObjectAttribute, #xMLIO example
 	 */
 	public String manageStringAttribute( String attrName, String attrValue ) {
-		if( Sys.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLGetMode() ) {
 			for( XMLAttribute attr: attributes ) {
 				if( attr.name.equals( attrName ) ) return attr.value;
 			}
@@ -252,12 +252,12 @@ public class XMLObject extends Obj {
 	 * @see #manageIntAttribute, #manageDoubleAttribute, #manageObjectAttribute, #xMLIO example
 	 */
 	public <E extends Enum> E manageEnumAttribute( String attrName, E attrValue ) {
-		if( Sys.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLGetMode() ) {
 			for( XMLAttribute attr: attributes ) {
 				if( attr.name.equals( attrName ) ) return (E) Enum.valueOf( attrValue.getClass(), attr.value );
 			}
 		} else if( attrValue != null ) {
-			setAttribute( attrName, String. attrValue.toString() );
+			setAttribute( attrName, attrValue.toString() );
 		}
 		return attrValue;
 	}
@@ -297,42 +297,47 @@ public class XMLObject extends Obj {
 
 
 	/**
-	 * Transfers data between XMLObject attribute and framework object field with Int[] type.
+	 * Transfers data between XMLObject attribute and framework object field with int[] type.
 	 * @see #manageIntAttribute
 	 */
-	public void manageIntArrayAttribute( String attrName, int intArray[] var, int chunkLength = 0 ) {
-		if( Sys.xMLMode == XMLMode.GET ) {
+	public int[] manageIntArrayAttribute( String attrName, int[] array, int chunkLength ) {
+		if( Sys.xMLGetMode() ) {
 			String data = getAttribute( attrName );
-			if( ! data ) return;
-			if( chunkLength ) {
-				intArray = new int()[ data.length / chunkLength ];
+			if( !attributeExists( attrName ) ) return array;
+			if( chunkLength > 0 ) {
+				array = new int[ data.length() / chunkLength ];
 				int pos = 0;
 				int n = 0;
-				while( pos < data.length ) {
-					intArray[ n ] = decode( data[ pos..pos + chunkLength ] );
+				while( pos < data.length() ) {
+					array[ n ] = Service.decode( data.substring( pos, pos + chunkLength ) );
 					pos += chunkLength;
 					n += 1;
 				}
 			} else {
 				String values[] = data.split( "," );
-				int quantity = values.dimensions()[ 0 ];
-				intArray = new int()[ quantity ];
+				int quantity = values.length;
+				array = new int[ quantity ];
 				for( int n=0; n <= quantity; n++ ) {
-					intArray[ n ] = values[ n ].toInt();
+					array[ n ] = Integer.parseInt( values[ n ] );
 				}
 			}
-		} else if( intArray then ) {
+		} else if( array != null ) {
 			String values = "";
-			for( int n=0; n <= intArray.dimensions()[ 0 ]; n++ ) {
-				if( chunkLength ) {
-					values += encode( intArray[ n ], chunkLength );
+			for( int n=0; n <= array.length; n++ ) {
+				if( chunkLength > 0 ) {
+					values += Service.encode( array[ n ], chunkLength );
 				} else {
-					if( values ) values += ",";
-					values += intArray[ n ];
+					if( !values.isEmpty() ) values += ",";
+					values += array[ n ];
 				}
 			}
 			setAttribute( attrName, values );
 		}
+		return array;
+	}
+	
+	public int[] manageIntArrayAttribute( String attrName, int[] array ) {
+		return manageIntArrayAttribute( attrName, array, 0 );
 	}
 
 
@@ -402,7 +407,7 @@ public class XMLObject extends Obj {
 	 * Transfers data between XMLObject field and framework object field with TMap type filled with LTObject-LTObject pairs.
 	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectArrayField
 	 */
-	public void manageObjectMapField( String fieldName, HashMap map var ) {
+	public void manageObjectMapField( String fieldName, HashMap map ) {
 		if( Sys.xMLMode == XMLMode.GET ) {
 			XMLObject xMLMap = getField( fieldName );
 			if( ! xMLMap ) return;
@@ -422,7 +427,7 @@ public class XMLObject extends Obj {
 	 * Transfers data between XMLObject field and framework object field with TMap type filled with LTObject-LTObject pairs.
 	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectArrayField
 	 */
-	public void manageObjectSetField( String fieldName, HashMap map var ) {
+	public void manageObjectSetField( String fieldName, HashMap map ) {
 		if( Sys.xMLMode == XMLMode.GET ) {
 			XMLObject xMLMap = getField( fieldName );
 			if( ! xMLMap ) return;
@@ -492,7 +497,7 @@ public class XMLObject extends Obj {
 	 * Transfers data between XMLObject contents and framework object field with TList type.
 	 * @see #manageListField, #manageChildArray, #xMLIO example
 	 */
-	public void manageChildList( LinkedList list var ) {
+	public void manageChildList( LinkedList list ) {
 		//debugstop
 		if( Sys.xMLMode == XMLMode.GET ) {
 			list = new LinkedList();
@@ -515,7 +520,7 @@ public class XMLObject extends Obj {
 	 * Transfers data between XMLObject contents and framework object parameter with LTObject[] type.
 	 * @see #manageChildList, #manageListField
 	 */
-	public void manageChildArray( Obj childArray[] var ) {
+	public void manageChildArray( Obj childArray[] ) {
 		if( Sys.xMLMode == XMLMode.GET ) {
 			childArray = new Obj()[ children.count() ];
 			int n = 0;
@@ -539,7 +544,7 @@ public class XMLObject extends Obj {
 	 * Transfers data between XMLObject contents and framework object field with TMap type filled with LTObject-LTObject pairs.
 	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectArrayField
 	 */
-	public void manageChildMap( HashMap map var ) {
+	public void manageChildMap( HashMap map ) {
 		if( Sys.xMLMode == XMLMode.GET ) {
 			map = new HashMap();
 			for( XMLObject xMLObject: children ) {
@@ -563,7 +568,7 @@ public class XMLObject extends Obj {
 	 * Transfers data between XMLObject contents and framework object field with TMap type filled with LTObject keys.
 	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectArrayField
 	 */
-	public void manageChildSet( HashMap map var ) {
+	public void manageChildSet( HashMap map ) {
 		if( Sys.xMLMode == XMLMode.GET ) {
 			map = new HashMap();
 			for( XMLObject xMLObject: children ) {
@@ -613,7 +618,7 @@ public class XMLObject extends Obj {
 
 
 
-	public static XMLObject readObject( String txt var, int n var, String fieldName var ), int n var, String fieldName var ) {
+	public static XMLObject readObject( String txt, int n, String fieldName ) {
 		XMLObject obj = new XMLObject();
 
 		obj.readAttributes( txt, n, fieldName );
@@ -683,7 +688,7 @@ public class XMLObject extends Obj {
 
 
 
-	public void readAttributes( String txt var, int n var, String fieldName var ) {
+	public void readAttributes( String txt var, int n var, String fieldName ) {
 		int readingContents = false;
 		int readingName = true;
 		int readingValue = false;

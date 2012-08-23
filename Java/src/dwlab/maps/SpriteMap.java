@@ -1,14 +1,3 @@
-package dwlab.maps;
-import java.util.HashMap;
-import java.util.LinkedList;
-import dwlab.base.XMLObject;
-import java.lang.Math;
-import dwlab.sprites.SpriteGroup;
-import dwlab.shapes.Shape;
-import dwlab.visualizers.Visualizer;
-import dwlab.sprites.Sprite;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov 
 
@@ -17,15 +6,24 @@ import dwlab.sprites.Sprite;
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
+package dwlab.maps;
+
+import dwlab.base.Sys;
+import dwlab.shapes.Shape;
+import dwlab.sprites.Sprite;
+import dwlab.sprites.SpriteGroup;
+import dwlab.visualizers.Visualizer;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Sprite map is a structure which can contain sprites, draw and perform collision checks between them and other shapes.
  * Operations like drawing and checking collision between large groups of sprites will be faster with use of collision maps.
  */
 public class SpriteMap extends Map {
-	public HashMap sprites = new HashMap();
-	public Sprite lists[][ , ];
-	public int listSize[ , ];
+	public HashSet<Sprite> sprites = new HashSet<Sprite>();
+	public Sprite lists[][][];
+	public int listSize[][];
 
 	/**
 	 * Width of sprite map cell in units.
@@ -44,19 +42,19 @@ public class SpriteMap extends Map {
 	 * When drawing sprite map, margins define the size of rectangular frame around camera's rectangle in which objects will be also drawn.
 	 * Will be handy if you draw sprite map with objects with XScale / YScale parameters greater than 1.0.
 	 */
-	public double leftMargin, double rightMargin, double topMargin, double bottomMargin;
+	public double leftMargin, rightMargin, topMargin, bottomMargin;
 
 	/**
 	 * Flag which defines will be the sprite map sorted by sprite Y coordinates.
 	 * False by default.
 	 */
-	public int sorted = false;
+	public boolean sorted = false;
 
 	/**
 	 * Flag which defines will be all objects recognized as pivots.
 	 * False by default.
 	 */
-	public int pivotMode = false;
+	public boolean pivotMode = false;
 
 	public int initialArraysSize = 8;
 
@@ -86,20 +84,22 @@ public class SpriteMap extends Map {
 
 	// ==================== Parameters ====================
 
+	@Override
 	public void setResolution( int newXQuantity, int newYQuantity ) {
 		super.setResolution( newXQuantity, newYQuantity );
 
-		if( ! masked ) error( "Map resoluton must be power of 2" );
+		if( Sys.debug ) if( ! masked ) error( "Map resoluton must be power of 2" );
 
-		lists = new Sprite()[][ newXQuantity, newYQuantity ];
-		listSize = new int()[ newXQuantity, newYQuantity ];
-		for( int y=0; y <= newYQuantity; y++ ) {
-			for( int x=0; x <= newXQuantity; x++ ) {
-				lists[ x, y ] = new Sprite()[ initialArraysSize ];
+		lists = new Sprite[ newYQuantity ][][];
+		listSize = new int[ newYQuantity ][];
+		for( int yy = 0; yy <= newYQuantity; yy++ ) {
+			lists[ yy ] = new Sprite[ newXQuantity ][];
+			listSize[ yy ] = new int[ newXQuantity ];
+			for( int xx = 0; xx <= newXQuantity; xx++ ) {
+				lists[ yy ][ xx ] = new Sprite[ initialArraysSize ];
 			}
 		}
 	}
-
 
 
 	/**
@@ -111,14 +111,12 @@ public class SpriteMap extends Map {
 	}
 
 
-
 	/**
 	 * Sets all margins to single value.
 	 */
 	public void setBorder( double border ) {
 		setMargins( border, border, border, border );
 	}
-
 
 
 	/**
@@ -131,25 +129,18 @@ public class SpriteMap extends Map {
 		bottomMargin = newBottomMargin;
 	}
 
-
-
-	//Deprecated
-	public HashMap getSprites() {
-		return sprites;
-	}
-
-
 	// ==================== Drawing ===================	
 
 	/**
 	 * Draws all objects of sprite map which are in cells under camera's rectangle plus margins.
 	 */
+	@Override
 	public void draw() {
 		drawUsingVisualizer( null );
 	}
 
 
-
+	@Override
 	public void drawUsingVisualizer( Visualizer vis ) {
 		if( visible ) {
 			double screenMinX, double screenMinY, double screenMaxX, double screenMaxY;

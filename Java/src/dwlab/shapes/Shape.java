@@ -11,6 +11,8 @@ package dwlab.shapes;
 
 import dwlab.base.*;
 import dwlab.behavior_models.BehaviorModel;
+import dwlab.controllers.ButtonAction;
+import dwlab.controllers.KeyboardKey;
 import dwlab.layers.Layer;
 import dwlab.maps.SpriteMap;
 import dwlab.maps.TileMap;
@@ -18,10 +20,14 @@ import dwlab.sprites.*;
 import dwlab.visualizers.Color;
 import dwlab.visualizers.Image;
 import dwlab.visualizers.Visualizer;
+import dwlab.visualizers.WindowedVisualizer;
 import dwlab.xml.XMLObject;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.lwjgl.input.Keyboard;
 
 /**
  * Common object for item of game field.
@@ -53,7 +59,7 @@ public class Shape extends Obj {
 	 * Shape size in units.
 	 * @see #setWidth, #setHeight, #getDiameter, #setDiameter, 
 	 */
-	protected double width = 1.0d, height = 1.0d;
+	protected double width, height;
 
 	/**
 	 * Shape visualizer (object which displays this shape).
@@ -91,7 +97,7 @@ public class Shape extends Obj {
 	public Layer toLayer() {
 		return null;
 	}
-
+	
 	public Sprite toSprite() {
 		return null;
 	}
@@ -110,74 +116,79 @@ public class Shape extends Obj {
 
 	// ==================== Drawing ===================
 
+	private static Vector servicePivot = new Vector();
+	private static Vector serviceSizes = new Vector();
+	
 	/**
 	 * Prints text inside the shape.
 	 * Current ImageFont is used. You can specify horizontal and vertical alignment and also horizontal and vertical shift in units.
 	 */
-	public void printText( String text, double size, Color color, Align horizontalAlign, Align verticalAlign, double horizontalShift, double verticalShift, boolean contour ) {
-		double sXSize, double sYSize;
-		Camera.current.sizeFieldToScreen( 0, size, sXSize, sYSize );
-		double k = sYSize / textHeight( text );
+	public void printText( String text, double size, Color color, Align horizontalAlign, Align verticalAlign, double horizontalShift, double verticalShift, Color contourColor ) {
+		Camera.current.sizeFieldToScreen( 0, size, serviceSizes );
+		double k = serviceSizes.y / Graphics.textHeight();
 
-		double xX, double yY;
+		double xX, yY;
 		switch( horizontalAlign ) {
-			case Align.TO_LEFT:
+			case TO_LEFT:
 				xX = leftX();
-			case Align.TO_CENTER:
-				xX = x;
-			case Align.TO_RIGHT:
+				break;
+			case TO_RIGHT:
 				xX = rightX();
+				break;
+			default:
+				xX = x;
+				break;
 		}
 
 		switch( verticalAlign ) {
-			case Align.TO_TOP:
+			case TO_TOP:
 				yY = topY();
-			case Align.TO_CENTER:
-				yY = y;
-			case Align.TO_BOTTOM:
+				break;
+			case TO_BOTTOM:
 				yY = bottomY();
+				break;
+			default:
+				yY = y;
+				break;
 		}
 
-		double sX, double sY;
-		Camera.current.fieldToScreen( xX + horizontalShift, yY + verticalShift, sX, sY );
+		Camera.current.fieldToScreen( xX + horizontalShift, yY + verticalShift, servicePivot );
 
 		switch( horizontalAlign ) {
-			case Align.TO_CENTER:
-				sX -= 0.5 * textWidth( text ) * k;
-			case Align.TO_RIGHT:
-				sX -= textWidth( text ) * k;
+			case TO_CENTER:
+				servicePivot.x -= 0.5 * Graphics.textWidth( text ) * k;
+			case TO_RIGHT:
+				servicePivot.x -= Graphics.textWidth( text ) * k;
 		}
 
 		switch( verticalAlign ) {
-			case Align.TO_CENTER:
-				sY -= 0.5 * textHeight( text ) * k;
-			case Align.TO_BOTTOM:
-				sY -= textHeight( text ) * k;
+			case TO_CENTER:
+				servicePivot.y -= 0.5 * Graphics.textHeight() * k;
+			case TO_BOTTOM:
+				servicePivot.y -= Graphics.textHeight() * k;
 		}
 
-		setScale k, k;
-		if( contour ) {
-			Graphics.drawTextWithContour( text, sX, sY, color, contourColor );
+		if( contourColor != null ) {
+			Graphics.drawText( text, servicePivot.x, servicePivot.y, color, contourColor );
 		} else {
-			Graphics.drawText( text, sX, sY, color );
+			Graphics.drawText( text, servicePivot.x, servicePivot.y, color );
 		}
-		setScale 1.0, 1.0;
 	}
 	
 	public void printText( String text, double size ) {
-		printText( text, size, Color.black, Align.TO_CENTER, Align.TO_CENTER, 0, 0, false );
+		printText( text, size, Color.black, Align.TO_CENTER, Align.TO_CENTER, 0, 0, null );
 	}
 	
 	public void printText( String text, double size, Color color ) {
-		printText( text, size, color, Align.TO_CENTER, Align.TO_CENTER, 0, 0, false );
+		printText( text, size, color, Align.TO_CENTER, Align.TO_CENTER, 0, 0, null );
 	}
 	
 	public void printText( String text, double size, Color color, Align horizontalAlign, Align verticalAlign ) {
-		printText( text, size, color, horizontalAlign, verticalAlign, 0, 0, false );
+		printText( text, size, color, horizontalAlign, verticalAlign, 0, 0, null );
 	}
 
 	public void printText( String text, double size, Color color, Align horizontalAlign, Align verticalAlign, double horizontalShift, double verticalShift ) {
-		printText( text, size, color, horizontalAlign, verticalAlign, horizontalShift, verticalShift, false );
+		printText( text, size, color, horizontalAlign, verticalAlign, horizontalShift, verticalShift, null );
 	}
 	
 
@@ -185,23 +196,23 @@ public class Shape extends Obj {
 	 * Sets shape's rectangle as viewport.
 	 */
 	public void setAsViewport() {
-		double vX, double vY, double vWidth, double vHeight;
-		Camera.current.fieldToScreen( leftX(), topY(), vX, vY );
-		Camera.current.sizeFieldToScreen( width, height, vWidth, vHeight );
-		if( vX < 0 ) {
-			vWidth += vX;
-			vX = 0;
+		Camera.current.fieldToScreen( leftX(), topY(), servicePivot );
+		Camera.current.sizeFieldToScreen( width, height, serviceSizes );
+		if( servicePivot.x < 0 ) {
+			serviceSizes.x += servicePivot.x;
+			servicePivot.x = 0;
 		}
-		if( vY < 0 ) {
-			vHeight += vY;
-			vY = 0;
+		if( servicePivot.y < 0 ) {
+			serviceSizes.y += servicePivot.y;
+			servicePivot.y = 0;
 		}
-		setViewport( vX, vY, vWidth, vHeight );
+		Graphics.setViewport( servicePivot.x, servicePivot.y, serviceSizes.x, serviceSizes.y );
 	}
 
 	// ==================== Collisions ===================
 
 	public Sprite layerFirstSpriteCollision( Sprite sprite ) {
+		return null;
 	}
 
 
@@ -361,6 +372,7 @@ public class Shape extends Obj {
  	}
 
 
+
 	/**
 	 * Top of the shape.
 	 * @return Y coordinate of shape top in units.
@@ -369,6 +381,7 @@ public class Shape extends Obj {
 	public double topY() {
  		return y - 0.5d * height;
  	}
+
 
 
 	/**
@@ -380,6 +393,8 @@ public class Shape extends Obj {
  		return x + 0.5d * width;
  	}
 
+
+
 	/**
 	 * Bottom of the shape
 	 * @return Y coordinate of shape bottom in units.
@@ -388,6 +403,7 @@ public class Shape extends Obj {
 	public double bottomY() {
  		return y + 0.5d * height;
  	}
+
 
 
 	public void setCoordsAndSize( double x1, double y1, double x2, double y2 ) {
@@ -399,6 +415,7 @@ public class Shape extends Obj {
 	}
 
 
+
 	/**
 	 * Sets top-left corner coordinates of the shape.
 	 * After this operation top-left corner of the shape will be at given coordinates.
@@ -406,8 +423,9 @@ public class Shape extends Obj {
 	 * @see #setCoords, #alterCoords, #setMouseCoords
 	 */
 	public void setCornerCoords( double newX, double newY ) {
-		setCoords( newX + width * 0.5, newY + height * 0.5 );
+		setCoords( newX + width * 0.5d, newY + height * 0.5d );
 	}
+
 
 
 	/**
@@ -421,6 +439,7 @@ public class Shape extends Obj {
 	}
 
 
+
 	/**
 	 * Moves the shape with given velocity towards shape.
 	 * @see #moveForward, #moveBackward
@@ -428,6 +447,7 @@ public class Shape extends Obj {
 	public void moveTowards( Shape shape, double velocity ) {
 		moveTowardsPoint( shape.x, shape.y, velocity );
 	}
+
 
 
 	/**
@@ -460,50 +480,65 @@ public class Shape extends Obj {
 	}
 
 
+	private static final ButtonAction[] keysWSAD = {
+		ButtonAction.create( KeyboardKey.create( Keyboard.KEY_W ) ),
+		ButtonAction.create( KeyboardKey.create( Keyboard.KEY_S ) ), 
+		ButtonAction.create( KeyboardKey.create( Keyboard.KEY_A ) ), 
+		ButtonAction.create( KeyboardKey.create( Keyboard.KEY_D ) )
+	};
+
 	/**
 	 * Allowing moving the shape around with given velocity with WSAD keys.
 	 * @see #moveUsingArrows, #moveUsingKeys, #move
 	 */
 	public void moveUsingWSAD( double velocity ) {
-		moveUsingKeys( key_W, key_S, key_A, key_D, velocity );
+		moveUsingKeys( keysWSAD, velocity );
 	}
 
+
+	private static final ButtonAction[] keysArrows = {
+		ButtonAction.create( KeyboardKey.create( Keyboard.KEY_UP ) ),
+		ButtonAction.create( KeyboardKey.create( Keyboard.KEY_DOWN ) ), 
+		ButtonAction.create( KeyboardKey.create( Keyboard.KEY_LEFT ) ), 
+		ButtonAction.create( KeyboardKey.create( Keyboard.KEY_RIGHT ) )
+	};
 
 	/**
 	 * Allowing moving the shape around with given velocity with Arrow keys.
 	 * @see #moveUsingWSAD, #moveUsingKeys, #move
 	 */
 	public void moveUsingArrows( double velocity ) {
-		moveUsingKeys( key_Up, key_Down, key_Left, key_Right, velocity );
+		moveUsingKeys( keysArrows, velocity );
 	}
+
 
 
 	/**
 	 * Allowing moving the shape around with with given keys and velocity.
 	 * @see #moveUsingArrows, #moveUsingWSAD, #move
 	 */
-	public void moveUsingKeys( int kUp, int kDown, int kLeft, int kRight, double velocity ) {
-		double dX = keyDown( kRight ) - keyDown( kLeft );
-		double dY = keyDown( kDown ) - keyDown( kUp );
+	public void moveUsingKeys( ButtonAction[] keys, double velocity ) {
+		double dX = ( keys[ 2 ].isDown() ? -1d : ( keys[ 3 ].isDown() ? 1d : 0d ) );
+		double dY = ( keys[ 0 ].isDown() ? -1d : ( keys[ 1 ].isDown() ? 1d : 0d ) );
+	
+		Camera.current.sizeScreenToField( dX, dY, servicePivot );
 
-		double sDX, double sDY;
-		Camera.current.sizeScreenToField( dX, dY, sDX, sDY );
+		if( servicePivot.x == 0 && servicePivot.y == 0 ) return;
 
-		if( ! sDX && ! sDY ) return;
-
-		double k = velocity / distance( sDX, sDY ) * deltaTime;
-		setCoords( x + sDX * k, y + sDY * k );
+		double k = velocity / Service.distance( servicePivot.x, servicePivot.y ) * Project.deltaTime;
+		setCoords( x + servicePivot.x * k, y + servicePivot.y * k );
 	}
+
 
 
 	/**
 	 * Applies parallax effect for shape depending on current camera size and position relative to given shape.
 	 */
 	public void parallax( Shape shape ) {
-		double dX = shape.width - Camera.current.width;
-		double dY = shape.height - Camera.current.height;
-		setCoords( shape.leftX() + 0.5 * width + ( Camera.current.leftX() - shape.leftX() ) * ( shape.width - width ) / dX,..;
-			shape.topY() + 0.5 * height + ( Camera.current.topY() - shape.topY() ) * ( shape.height - height ) / dY );
+		double dX = shape.getWidth() - Camera.current.getWidth();
+		double dY = shape.getHeight() - Camera.current.getHeight();
+		setCoords( shape.leftX() + 0.5 * width + ( Camera.current.leftX() - shape.leftX() ) * ( shape.getWidth() - width ) / dX,
+			shape.topY() + 0.5 * height + ( Camera.current.topY() - shape.topY() ) * ( shape.getHeight() - height ) / dY );
 	}
 
 	// ==================== Limiting ====================
@@ -514,9 +549,45 @@ public class Shape extends Obj {
 	 * 
 	 * @see #limitHorizontallyWith, #limitVerticallyWith, #limitLeftWith, #limitRightWith, #limitTopWith, #limitBottomWith
 	 */
-	public void limitWith( Shape rectangle, boolean alterVelocity ) {
-		limitHorizontallyWith( rectangle, alterVelocity );
-		limitVerticallyWith( rectangle, alterVelocity );
+	public void limitWith( Shape rectangle, SpriteCollisionHandler handler ) {
+		limitHorizontallyWith( rectangle, handler );
+		limitVerticallyWith( rectangle, handler );
+	}
+
+	public void limitWith( Shape rectangle ) {
+		limitHorizontallyWith( rectangle );
+		limitVerticallyWith( rectangle );
+	}
+
+
+	/**
+	 * Keeps shape within limits of given shape horizontally.
+	 * @see #limitWith, #limitVerticallyWith, #limitLeftWith, #limitRightWith, #limitTopWith, #limitBottomWith
+	 */
+	public void limitHorizontallyWith( Shape rectangle, SpriteCollisionHandler handler ) {
+		limitHorizontallyWith( rectangle );
+	}
+	
+	public void limitHorizontallyWith( Shape rectangle ) {
+		double x1 = Math.min( rectangle.x, rectangle.leftX() + 0.5 * width );
+		double x2 = Math.max( rectangle.x, rectangle.rightX() - 0.5 * width );
+		setX( Service.limit( x, x1, x2 ) );
+	}
+
+
+
+	/**
+	 * Keeps shape within limits of given shape vertically.
+	 * @see #limitWith, #limitHorizontallyWith, #limitLeftWith, #limitRightWith, #limitTopWith, #limitBottomWith
+	 */
+	public void limitVerticallyWith( Shape rectangle, SpriteCollisionHandler handler ) {
+		limitVerticallyWith( rectangle );
+	}
+
+	public void limitVerticallyWith( Shape rectangle ) {
+		double y1 = Math.min( rectangle.y, rectangle.topY() + 0.5 * height );
+		double y2 = Math.max( rectangle.y, rectangle.bottomY() - 0.5 * height );
+		setY( Service.limit( y, y1, y2 ) );
 	}
 
 
@@ -527,8 +598,13 @@ public class Shape extends Obj {
 	 * @see #limitWith, #limitHorizontallyWith, #limitVerticallyWith, #limitRightWith, #limitTopWith, #limitBottomWith
 	 */
 	public void limitLeftWith( Shape rectangle, SpriteCollisionHandler handler ) {
-		if( leftX() < rectangle.leftX() ) setX( rectangle.leftX() + 0.5 * width );
+		limitLeftWith( rectangle );
 	}
+	
+	public void limitLeftWith( Shape rectangle ) {
+		if( leftX() < rectangle.leftX() ) setX( rectangle.leftX() + 0.5 * width );		
+	}
+
 
 
 	/**
@@ -538,7 +614,11 @@ public class Shape extends Obj {
 	 * @see #limitWith, #limitHorizontallyWith, #limitVerticallyWith, #limitLeftWith, #limitRightWith, #limitBottomWith
 	 */
 	public void limitTopWith( Shape rectangle, SpriteCollisionHandler handler ) {
-		if( topY() < rectangle.topY() ) setY( rectangle.topY() + 0.5 * height );
+		limitTopWith( rectangle );
+	}
+
+	public void limitTopWith( Shape rectangle ) {
+		if( topY() < rectangle.topY() ) setY( rectangle.topY() + 0.5 * height );		
 	}
 
 
@@ -549,7 +629,11 @@ public class Shape extends Obj {
 	 * @see #limitWith, #limitHorizontallyWith, #limitVerticallyWith, #limitLeftWith, #limitTopWith, #limitBottomWith
 	 */
 	public void limitRightWith( Shape rectangle, SpriteCollisionHandler handler ) {
-		if( rightX() > rectangle.rightX() ) setX( rectangle.rightX() - 0.5 * width );
+		limitRightWith( rectangle );
+	}
+
+	public void limitRightWith( Shape rectangle ) {
+		if( rightX() > rectangle.rightX() ) setX( rectangle.rightX() - 0.5 * width );		
 	}
 
 
@@ -560,29 +644,11 @@ public class Shape extends Obj {
 	 * @see #limitWith, #limitHorizontallyWith, #limitVerticallyWith, #limitLeftWith, #limitRightWith, #limitTopWith
 	 */
 	public void limitBottomWith( Shape rectangle, SpriteCollisionHandler handler ) {
+		limitBottomWith( rectangle );
+	}
+	
+	public void limitBottomWith( Shape rectangle ) {
 		if( bottomY() > rectangle.bottomY() ) setY( rectangle.bottomY() - 0.5 * height );
-	}
-
-
-	/**
-	 * Keeps shape within limits of given shape horizontally.
-	 * @see #limitWith, #limitVerticallyWith, #limitLeftWith, #limitRightWith, #limitTopWith, #limitBottomWith
-	 */
-	public void limitHorizontallyWith( Shape rectangle, boolean alterVelocity ) {
-		double x1 = Math.min( rectangle.x, rectangle.leftX() + 0.5 * width );
-		double x2 = Math.max( rectangle.x, rectangle.rightX() - 0.5 * width );
-		setX( limitDouble( x, x1, x2 ) );
-	}
-
-
-	/**
-	 * Keeps shape within limits of given shape vertically.
-	 * @see #limitWith, #limitHorizontallyWith, #limitLeftWith, #limitRightWith, #limitTopWith, #limitBottomWith
-	 */
-	public void limitVerticallyWith( Shape rectangle, int alterVelocity = false ) {
-		double y1 = Math.min( rectangle.y, rectangle.topY() + 0.5 * height );
-		double y2 = Math.max( rectangle.y, rectangle.bottomY() - 0.5 * height );
-		setY( limitDouble( y, y1, y2 ) );
 	}
 
 	// ==================== Size ====================
@@ -594,6 +660,7 @@ public class Shape extends Obj {
 	public void setWidth( double newWidth )	 {
 		setSize( newWidth, height );
 	}
+
 
 
 	public double getHeight() {
@@ -659,6 +726,7 @@ public class Shape extends Obj {
 	}
 
 
+
 	/**
 	 * Alters both sizes of the shape (pretending they are equal).
 	 * It's better to use this method instead of equating Width and Height fields to new values.
@@ -670,6 +738,7 @@ public class Shape extends Obj {
 		height *= d;
 		update();
 	}
+
 
 
 	/**
@@ -684,6 +753,11 @@ public class Shape extends Obj {
 	}
 
 
+	public enum Facing {
+		LEFT,
+		RIGHT
+	}
+
 	/**
 	 * Returns shape facing.
 	 * @return Shape facing
@@ -696,16 +770,9 @@ public class Shape extends Obj {
 	 * 
 	 * @see #setFacing, #xScale
 	 */
-	public double getFacing() {
+	public Facing getFacing() {
 		return visualizer.getFacing();
 	}
-
-
-	public enum Facing {
-		LEFT,
-		RIGHT
-	}
-	
 
 	/**
 	 * Sets the facing of a shape.
@@ -826,10 +893,9 @@ public class Shape extends Obj {
 	 * 
 	 * @see #deactivateModel, #toggleModel, #lTBehaviorModel, #activate
 	 */
-	public void activateModel( String typeName ) {
-		tTypeId typeID = getTypeID( typeName );
+	public void activateModel( Class modelClass ) {
 		for( BehaviorModel model: behaviorModels ) {
-			if( tTypeId.forObject( model ) == typeID && ! model.active ) {
+			if( model.getClass() == modelClass && !model.active ) {
 				model.activate( this );
 				model.active = true;
 			}
@@ -843,10 +909,9 @@ public class Shape extends Obj {
 	 * 
 	 * @see #activateModel, #toggleModel, #lTBehaviorModel, #deactivate
 	 */
-	public void deactivateModel( String typeName ) {
-		tTypeId typeID = getTypeID( typeName );
+	public void deactivateModel( Class modelClass ) {
 		for( BehaviorModel model: behaviorModels ) {
-			if( tTypeId.forObject( model ) == typeID && model.active ) {
+			if( model.getClass() == modelClass && model.active ) {
 				model.deactivate( this );
 				model.active = false;
 			}
@@ -860,10 +925,9 @@ public class Shape extends Obj {
 	 * 
 	 * @see #activateModel, #deactivateModel, #lTBehaviorModel, #activate, #deactivate
 	 */
-	public void toggleModel( String typeName ) {
-		tTypeId typeID = getTypeID( typeName );
+	public void toggleModel( Class modelClass ) {
 		for( BehaviorModel model: behaviorModels ) {
-			if( tTypeId.forObject( model ) == typeID ) {
+			if( model.getClass() == modelClass && model.active ) {
 				if( model.active ) {
 					model.deactivate( this );
 					model.active = false;
@@ -882,12 +946,9 @@ public class Shape extends Obj {
 	 * 
 	 * @see #lTBehaviorModel, #deactivate
 	 */
-	public void removeModel( String typeName ) {
-		tTypeId typeID = getTypeID( typeName );
-		for( BehaviorModel model: behaviorModels ) {
-			if( tTypeId.forObject( model ) == typeID ) {
-				model.remove( this );
-			}
+	public void removeModel( Class modelClass ) {
+		for ( Iterator<BehaviorModel> iterator = behaviorModels.iterator(); iterator.hasNext(); ) {
+			if( iterator.next().getClass() == modelClass ) iterator.remove();
 		}
 	}
 
@@ -902,7 +963,7 @@ public class Shape extends Obj {
 	    for( BehaviorModel model: behaviorModels ) {
 			String activeString;
 			if( model.active ) activeString = "active"; else activeString =  "inactive";
-			Graphics.drawText( shift + tTypeID.forObject( model ).name() + " " + activeString + ", " + model.info( this ), 8, y );
+			Graphics.drawText( shift + model.getClass().getName() + " " + activeString + ", " + model.info( this ), 8, y );
 			y += 16;
 	    }
 		return y;
@@ -951,7 +1012,7 @@ public class Shape extends Obj {
 	 * @see #limitByWindow, #limitByWindowShape
 	 */
 	public void removeWindowLimit() {
-		visualizer = WindowedVisualizer( visualizer ).visualizer;
+		visualizer = ( (WindowedVisualizer) visualizer ).visualizer;
 	}
 
 	// ==================== Parameters ===================	
@@ -1063,27 +1124,40 @@ public class Shape extends Obj {
 	}
 
 
+
 	public Shape loadShape() {
-		String typeName = getParameter( "class" );
-		Shape newShape;
-		if( typeName ) {
-			newShape = Shape( getTypeID( typeName ).newObject() );
-		} else {
-			newShape = Shape( tTypeId.forObject( this ).newObject() );
+		Shape newShape = null;
+		try {
+			if( parameterExists( "class" ) ) {
+				newShape = (Shape) Class.forName( getParameter( "class" ) ).newInstance();
+			} else {
+				newShape = (Shape) getClass().newInstance();
+			}
+		} catch ( ClassNotFoundException ex ) {
+			Logger.getLogger( Shape.class.getName() ).log( Level.SEVERE, null, ex );
+		} catch ( InstantiationException ex ) {
+			Logger.getLogger( Shape.class.getName() ).log( Level.SEVERE, null, ex );
+		} catch ( IllegalAccessException ex ) {
+			Logger.getLogger( Shape.class.getName() ).log( Level.SEVERE, null, ex );
 		}
 		copyTo( newShape );
 		return newShape;
 	}
 
 
+
+	/**
+	 * Finds shape by parameter of given name and value.
+	 * @return First found layer shape with parameter of given name and value.
+	 */
+	
 	public Shape findShape( String parameterName, String parameterValue ) {
 		if( getParameter( parameterName ).equals( parameterValue ) || parameterName.isEmpty() ) return this; else return null;
 	}
 	
 	/**
-	 * Finds shape with given name.
-	 * @return First found shape with given name in collection shape.
-	 * IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
+	 * Finds shape by name.
+	 * @return First found shape with given name.
 	 * 
 	 * @see #parallax example
 	 */
@@ -1098,9 +1172,8 @@ public class Shape extends Obj {
 
 
 	/**
-	 * Finds shape of class with given parameter + value and class.
-	 * @return First found layer shape of given class and parameter with given name and value in collection shape.
-	 * IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
+	 * Finds shape by given class and parameter of given name and value.
+	 * @return First found layer shape of given class and parameter of given name and value.
 	 */
 	public Shape findShape( String parameterName, String parameterValue, Class shapeClass ) {
 		if( getClass() == shapeClass ) {
@@ -1110,10 +1183,8 @@ public class Shape extends Obj {
 	}
 
 	/**
-	 * Finds shape of class with given name in collection shape.
-	 * @return First found shape of given class.
-	 * IgnoreError parameter should be set to True if you aren't sure is the corresponding shape inside this layer.
-	 * You can specify optional Name parameter to check only shapes with this name.
+	 * Finds shape by name and class.
+	 * @return First found shape with specified name of given class.
 	 * 
 	 * @see #parallax example
 	 */
@@ -1122,37 +1193,35 @@ public class Shape extends Obj {
 	}
 
 
-
 	/**
-	 * Inserts the shape before given in collection shape.
+	 * Inserts the shape before given.
 	 * Included layers and sprite maps will be also checked for given shape.
 	 */
 	public boolean insertBeforeShape( Shape shape, Shape beforeShape ) {
 		return false;
 	}
 
-	public boolean insertBeforeShape( Collection<Shape> shapesList, Shape beforeShape ) {
+	/**
+	 * Inserts collection of shapes before given.
+	 * Included layers and sprite maps will be also checked for given shape.
+	 */
+	public boolean insertBeforeShape( Collection<Shape> shapes, Shape beforeShape ) {
 		return false;
 	}
 
 
 	/**
-	 * Removes the shape from collection shape.
+	 * Removes the shape from layer.
 	 * Included layers and sprite maps will be also processed.
 	 */
 	public void remove( Shape shape ) {
 	}
-	
-	public void remove( Class shapeClass ) {
-	}
-
-
 
 	/**
 	 * Removes all shapes of class with given name from layer.
 	 * Included layers will be also processed.
 	 */
-	public void removeAllOfType( Class shapeClass ) {
+	public void remove( Class shapeClass ) {
 	}
 
 	// ==================== Management ===================
@@ -1163,26 +1232,24 @@ public class Shape extends Obj {
 	 * you want to have this action inside your own Act() method, use Super.Act() command.
 	 * @see #lTBehaviorModel, #applyTo, #watch
 	 */
+	@Override
 	public void act() {
 		if( active ) {
-			BehaviorModel lastModel = new BehaviorModel();
-			tLink link = behaviorModels.addLast( lastModel );
 			for( BehaviorModel model: behaviorModels ) {
-				if( model == lastModel ) exit;
 				if( model.active ) {
 					model.applyTo( this );
 				} else {
 					model.watch( this );
 				}
 			}
-			link.remove();
 
-			if ( ( (Sprite) this ) != null ) {
-				spriteActed = true;
-				spritesActed += 1;
+			if ( Sys.debug ) {
+				Project.spriteActed = true;
+				Project.spritesActed += 1;
 			}
 		}
 	}
+
 
 
 	public void hide() {
@@ -1200,6 +1267,26 @@ public class Shape extends Obj {
 		return 1;
 	}
 
+	// ==================== Methods for rectangle ====================	
+
+	public void getBounds( Service.Margins margins ) {
+		double dWidth = 0.5d * width;
+		double dHeight = 0.5 * height;
+		margins.min.x = x - dWidth;
+		margins.min.y = y - dHeight;
+		margins.max.x = x + dWidth;
+		margins.max.y = y + dHeight;
+	}
+	
+	
+	public void getPivots( Shape pivot1, Shape pivot2, Shape pivot3, Shape pivot4 ) {
+		double dWidth = 0.5d * width;
+		double dHeight = 0.5d * height;
+		if( pivot1 != null ) pivot1.setCoords( x - dWidth, y - dHeight );
+		if( pivot2 != null ) pivot2.setCoords( x + dWidth, y - dHeight );
+		if( pivot3 != null ) pivot3.setCoords( x + dWidth, y + dHeight );
+		if( pivot4 != null ) pivot4.setCoords( x - dWidth, y + dHeight );
+	}
 
 	// ==================== Cloning ===================
 
@@ -1238,12 +1325,12 @@ public class Shape extends Obj {
 		super.xMLIO( xMLObject );
 
 		xMLObject.manageListField( "parameters", parameters );
-		xMLObject.manageDoubleAttribute( "x", x );
-		xMLObject.manageDoubleAttribute( "y", y );
-		xMLObject.manageDoubleAttribute( "width", width, 1.0 );
-		xMLObject.manageDoubleAttribute( "height", height, 1.0 );
-		xMLObject.manageIntAttribute( "visible", visible, 1 );
-		xMLObject.manageIntAttribute( "active", active, 1 );
-		visualizer = Visualizer( xMLObject.manageObjectField( "visualizer", visualizer ) );
+		x = xMLObject.manageDoubleAttribute( "x", x );
+		y = xMLObject.manageDoubleAttribute( "y", y );
+		width = xMLObject.manageDoubleAttribute( "width", width, 1.0 );
+		height = xMLObject.manageDoubleAttribute( "height", height, 1.0 );
+		visible = xMLObject.manageBooleanAttribute( "visible", visible, true );
+		active = xMLObject.manageBooleanAttribute( "active", active, true );
+		visualizer = xMLObject.manageObjectField( "visualizer", visualizer );
 	}
 }

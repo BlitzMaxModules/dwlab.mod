@@ -1,9 +1,3 @@
-package dwlab.shapes;
-import dwlab.base.XMLObject;
-import dwlab.visualizers.Visualizer;
-import dwlab.sprites.Sprite;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov 
 
@@ -12,6 +6,11 @@ import dwlab.sprites.Sprite;
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
+package dwlab.shapes;
+
+import dwlab.visualizers.Visualizer;
+import dwlab.sprites.Sprite;
+import dwlab.xml.XMLObject;
 
 /**
  * It's line section between 2 pivots (sprites centers).
@@ -20,7 +19,7 @@ public class LineSegment extends Shape {
 	/**
 	 * Pivots array.
 	 */
-	public Sprite pivot[] = new Sprite()[ 2 ];
+	public Sprite[] pivot = new Sprite[ 2 ];
 
 
 
@@ -29,27 +28,34 @@ public class LineSegment extends Shape {
 	 * @return New line.
 	 * @see #placeBetween example
 	 */
-	public static LineSegment fromPivots( Sprite pivot1, Sprite pivot2, LineSegment segment = null ) {
-		if( ! segment ) segment == new LineSegment();
-		segment.pivot[ 0 ] = pivot1;
-		segment.pivot[ 1 ] = pivot2;
-		return segment;
+	public LineSegment( Sprite pivot1, Sprite pivot2 ) {
+		this.pivot[ 0 ] = pivot1;
+		this.pivot[ 1 ] = pivot2;
+	}
+
+	public void usePivots( Sprite pivot1, Sprite pivot2 ) {
+		pivot[ 0 ] = pivot1;
+		pivot[ 1 ] = pivot2;
 	}
 
 
-
-	public Line toLine( Line line = null ) {
-		Line.fromPivots( pivot[ 0 ], pivot[ 1 ], line );
+	public void toLine( Line line ) {
+		line.usePivots( pivot[ 0 ], pivot[ 1 ] );
+	}
+	
+	public Line toLine() {
+		return new Line( pivot[ 0 ], pivot[ 1 ] );
 	}
 
 	// ==================== Drawing ===================	
 
+	@Override
 	public void draw() {
 		if( visible ) visualizer.drawUsingLineSegment( this );
 	}
 
 
-
+	@Override
 	public void drawUsingVisualizer( Visualizer vis ) {
 		if( visible ) vis.drawUsingLineSegment( this );
 	}
@@ -61,7 +67,6 @@ public class LineSegment extends Shape {
 	}
 
 
-
 	/**
 	 * Checks if the line section collides with given line.
 	 * @return True if the line section collides with given line, otherwise false.
@@ -69,8 +74,9 @@ public class LineSegment extends Shape {
 	 * 
 	 * @see #lTGraph example
 	 */
-	public int collidesWithLineSegment( LineSegment lineSegment, int includingPivots = true ) {
-		if( pivot[ 0 ] = lineSegment.pivot[ 0 ] || pivot[ 0 ] = lineSegment.pivot[ 1 ] || pivot[ 1 ] = lineSegment.pivot[ 0 ] || pivot[ 1 ] == lineSegment.pivot[ 1 ] ) {
+	public boolean collidesWithLineSegment( LineSegment lineSegment, boolean includingPivots ) {
+		if( pivot[ 0 ].isAtPositionOf( lineSegment.pivot[ 0 ] ) || pivot[ 0 ].isAtPositionOf( lineSegment.pivot[ 1 ] ) || pivot[ 1 ].isAtPositionOf( lineSegment.pivot[ 0 ] ) 
+				|| pivot[ 1 ].isAtPositionOf( lineSegment.pivot[ 1 ] ) ) {
 			if( includingPivots ) return true; else return false;
 		}
 
@@ -96,13 +102,16 @@ public class LineSegment extends Shape {
 		} else {
 			if( n > 0.0 && n < 1.0 && m > 0.0 && m < 1.0 ) return true;
 		}
+		
+		return false;
 	}
 
 	// ==================== Other ====================
 
+	@Override
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
-		pivot[ 0 ] = Sprite( xMLObject.manageObjectField( "piv0", pivot[ 0 ] ) );
-		pivot[ 1 ] = Sprite( xMLObject.manageObjectField( "piv1", pivot[ 1 ] ) );
+		pivot[ 0 ] = xMLObject.manageObjectField( "piv0", pivot[ 0 ] );
+		pivot[ 1 ] = xMLObject.manageObjectField( "piv1", pivot[ 1 ] );
 	}
 }

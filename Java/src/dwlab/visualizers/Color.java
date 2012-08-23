@@ -11,6 +11,7 @@ package dwlab.visualizers;
 
 import dwlab.base.Obj;
 import dwlab.base.Service;
+import dwlab.base.Sys;
 import dwlab.xml.XMLObject;
 
 public class Color extends Obj {
@@ -21,31 +22,31 @@ public class Color extends Obj {
 	 * Red color intensity for drawing.
 	 * @see #setColorFromHex, #setColorFromRGB, #alterColor, #applyColor, #resetColor
 	 */
-	public double red = 1.0d;
+	public double red;
 
 	/**
 	 * Green color intensity for drawing.
 	 * @see #setColorFromHex, #setColorFromRGB, #alterColor, #applyColor, #resetColor
 	 */
-	public double green = 1.0d;
+	public double green;
 
 	/**
 	 * Blue color intensity for drawing.
 	 * @see #setColorFromHex, #setColorFromRGB, #alterColor, #applyColor, #resetColor
 	 */
-	public double blue = 1.0d;
+	public double blue;
 
 	/**
 	 * Alpha (transparency) value for drawing.
 	 * #applyColor, #resetColor
 	 */
-	public double alpha = 1.0d;
+	public double alpha;
 
 	// ==================== Creating ====================
 
 	public Color(){
+		this.set( 1.0d, 1.0d, 1.0d, 1.0 );
 	}
-	
 	
 	/**
 	 * Creates new color using given RGB components and transparency.
@@ -53,12 +54,11 @@ public class Color extends Obj {
 	 * @see #fromHex
 	 */
 	public Color( double red, double green, double blue, double alpha ) {
-		this.setColorFromRGB( red, green, blue );
-		this.alpha = alpha;
+		this.set( red, green, blue, alpha );
 	}
 	
 	public Color( double red, double green, double blue ) {
-		this.setColorFromRGB( red, green, blue );
+		this.set( red, green, blue, 1.0d );
 	}
 
 
@@ -69,7 +69,7 @@ public class Color extends Obj {
 	 * @see #fromRGB
 	 */
 	public Color( String hexColor ) {
-		this.setColorFromHex( hexColor );
+		this.set( hexColor );
 	}
 
 	// ==================== Setting ====================
@@ -78,7 +78,7 @@ public class Color extends Obj {
 	 * Applies color given in hex string to visualizer.
 	 * @see #setColorFromRGB, #alterColor, #applyColor, #applyClsColor, #resetColor
 	 */
-	public final void setColorFromHex( String hexColor ) {
+	public final void set( String hexColor ) {
 		if( hexColor.length() == 8 ) {
 			alpha = Service.hexToInt( hexColor.substring( 0, 2 ) ) / 255.0;
 			hexColor = hexColor.substring( 2 );
@@ -95,14 +95,18 @@ public class Color extends Obj {
 	 * 
 	 * @see #setColorFromHex, #alterColor, #applyColor, #applyClsColor, #resetColor
 	 */
-	public final void setColorFromRGB( double newRed, double newGreen, double newBlue ) {
-		if( newRed < 0.0 || newRed > 1.0 ) error( "Red component must be between 0.0 and 1.0 inclusive" );
-		if( newGreen < 0.0 || newGreen > 1.0 ) error( "Green component must be between 0.0 and 1.0 inclusive" );
-		if( newBlue < 0.0 || newBlue > 1.0 ) error( "Blue component must be between 0.0 and 1.0 inclusive" );
+	public final void set( double newRed, double newGreen, double newBlue, double newAlpha ) {
+		if( Sys.debug ) {
+			if( newRed < 0.0 || newRed > 1.0 ) error( "Red component must be between 0.0 and 1.0 inclusive" );
+			if( newGreen < 0.0 || newGreen > 1.0 ) error( "Green component must be between 0.0 and 1.0 inclusive" );
+			if( newBlue < 0.0 || newBlue > 1.0 ) error( "Blue component must be between 0.0 and 1.0 inclusive" );
+			if( newAlpha < 0.0 || newAlpha > 1.0 ) error( "Blue component must be between 0.0 and 1.0 inclusive" );
+		}
 
 		red = newRed;
 		green = newGreen;
 		blue = newBlue;
+		alpha = newAlpha;
 	}
 
 
@@ -111,7 +115,7 @@ public class Color extends Obj {
 	 * Each component is in [ 0.25, 1.0 ] range.
 	 */
 	public void setRandomColor() {
-		setColorFromRGB( Math.random() * 0.75d + 0.25d, Math.random() * 0.75d + 0.25d, Math.random() * 0.75d + 0.25d );
+		set( Math.random() * 0.75d + 0.25d, Math.random() * 0.75d + 0.25d, Math.random() * 0.75d + 0.25d, alpha );
 	}
 
 

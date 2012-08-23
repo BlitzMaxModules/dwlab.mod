@@ -78,9 +78,9 @@ public class Label extends Gadget {
 		}
 
 		if( parameterExists( "text_color" ) ) {
-			textVisualizer.setColorFromHex( getParameter( "text_color" ) );
+			textVisualizer.set( getParameter( "text_color" ) );
 		} else {
-			textVisualizer.setColorFromRGB( 0.0, 0.0, 0.0 );
+			textVisualizer.set( 0.0, 0.0, 0.0, 0.0 );
 		}
 
 		if( parameterExists( "text_shift" ) ) {

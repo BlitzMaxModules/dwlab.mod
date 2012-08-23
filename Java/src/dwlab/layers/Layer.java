@@ -18,6 +18,7 @@ import dwlab.sprites.SpriteAndTileCollisionHandler;
 import dwlab.sprites.SpriteCollisionHandler;
 import dwlab.visualizers.Visualizer;
 import dwlab.xml.XMLObject;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -315,14 +316,15 @@ public class Layer extends Shape {
 		return false;
 	}
 	
-	public boolean insertBeforeShape( LinkedList<Shape> shapesList, Shape beforeShape ) {
+	@Override
+	public boolean insertBeforeShape( Collection<Shape> shapes, Shape beforeShape ) {
 		for ( ListIterator<Shape> iterator = children.listIterator(); iterator.hasNext(); ) {
 			Shape childShape = iterator.next();
 			if( childShape == beforeShape ) {
-				children.addAll( iterator.previousIndex(), shapesList );
+				children.addAll( iterator.previousIndex(), shapes );
 				return true;
 			} else {
-				if( childShape.insertBeforeShape( shapesList, beforeShape ) ) return true;
+				if( childShape.insertBeforeShape( shapes, beforeShape ) ) return true;
 			}
 		}
 		return false;

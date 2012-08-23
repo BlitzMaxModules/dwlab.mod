@@ -1,4 +1,6 @@
 package dwlab.sprites;
+import dwlab.base.Project;
+import dwlab.base.Service;
 import java.lang.Math;
 import dwlab.shapes.Shape;
 
@@ -32,91 +34,100 @@ public class VectorSprite extends Sprite {
 	public double dY;
 
 
-
-	public static VectorSprite fromShapeAndVector( double x, double y, double width = 1.0, double height = 1.0, int shapeType = Sprite.rectangle, double dX = 0.0, double dY = 0.0 ) {
-		VectorSprite sprite = new VectorSprite();
-		sprite.setCoords( x, y );
-		sprite.setSize( width, height );
-		sprite.shapeType = shapeType;
-		sprite.dX = dY;
-		sprite.dX = dY;
-		return sprite;
+	public VectorSprite() {
+	}
+	
+	public VectorSprite( ShapeType shapeType, double x, double y, double width, double height, double dX, double dY ) {
+		this.setCoords( x, y );
+		this.setSize( width, height );
+		this.shapeType = shapeType;
+		this.dX = dY;
+		this.dX = dY;
 	}
 
 
+	@Override
 	public String getClassTitle() {
 		return "Vector sprite";
 	}
 	
 	
+	@Override
 	public VectorSprite toVectorSprite() {
 		return this;
 	}
 
 
-
+	@Override
 	public void init()	 {
 		updateFromAngularModel();
 	}
 
 	// ==================== Limiting ====================
 
-	public void bounceInside( Shape shape, int leftSide = true, int topSide = true, int rightSide = true, int bottomSide = true ) {
+	public void bounceInside( Sprite sprite, boolean leftSide, boolean topSide, boolean rightSide, boolean bottomSide, SpriteCollisionHandler handler ) {
 		if( leftSide ) {
-			if( leftX() < shape.leftX() ) {
-				x = shape.leftX() + 0.5 * width;
+			if( leftX() < sprite.leftX() ) {
+				x = sprite.leftX() + 0.5 * width;
 				dX = Math.abs( dX );
+				if( handler != null ) handler.handleCollision( this, sprite );
 			}
 		}
 		if( topSide ) {
-			if( topY() < shape.topY() ) {
-				y = shape.topY() + 0.5 * height;
+			if( topY() < sprite.topY() ) {
+				y = sprite.topY() + 0.5 * height;
 				dY = Math.abs( dY );
+				if( handler != null ) handler.handleCollision( this, sprite );
 			}
 		}
 		if( rightSide ) {
-			if( rightX() > shape.rightX() ) {
-				x = shape.rightX() - 0.5 * width;
+			if( rightX() > sprite.rightX() ) {
+				x = sprite.rightX() - 0.5 * width;
 				dX = -Math.abs( dX );
+				if( handler != null ) handler.handleCollision( this, sprite );
 			}
 		}
 		if( bottomSide ) {
-			if( bottomY() > shape.bottomY() ) {
-				y = shape.bottomY() - 0.5 * height;
+			if( bottomY() > sprite.bottomY() ) {
+				y = sprite.bottomY() - 0.5 * height;
 				dY = -Math.abs( dY );
+				if( handler != null ) handler.handleCollision( this, sprite );
 			}
 		}
 	}
+	
+	public void bounceInside( Sprite sprite ) {
+		bounceInside( sprite, true, true, true, true, null );
+	}
 
 
-
+	@Override
 	public void updateFromAngularModel() {
 		dX = Math.cos( angle ) * velocity;
 		dY = Math.sin( angle ) * velocity;
 	}
 
 
-
 	public void updateAngularModel() {
 		angle = Math.atan2( dY, dX );
-		velocity = distance( dX, dY );
+		velocity = Service.distance( dX, dY );
 	}
 
 
-
+	@Override
 	public void moveForward() {
-		setCoords( x + dX * deltaTime, y + dY * deltaTime );
+		setCoords( x + dX * Project.deltaTime, y + dY * Project.deltaTime );
 	}
 
 
-
+	@Override
 	public void directTo( Shape shape ) {
-		double vectorLength = distance( dX, dY );
-		dX = shape.x - x;
-		dY = shape.y - y;
-		if( vectorLength ) {
-			double newVectorLength = distance( dX, dY );
-			if( newVectorLength ) {
+		double vectorLength = Service.distance( dX, dY );
+		dX = shape.getX() - x;
+		dY = shape.getY() - y;
+		if( vectorLength > 0 ) {
+			double newVectorLength = Service.distance( dX, dY );
+			if( newVectorLength > 0 ) {
 				dX *= vectorLength / newVectorLength;
 				dY *= vectorLength / newVectorLength;
 			}
@@ -124,14 +135,14 @@ public class VectorSprite extends Sprite {
 	}
 
 
-
+	@Override
 	public void reverseDirection() {
 		dX = -dX;
 		dY = -dY;
 	}
 
 
-
+	@Override
 	public Shape clone() {
 		VectorSprite newSprite = new VectorSprite();
 		copySpriteTo( newSprite );
