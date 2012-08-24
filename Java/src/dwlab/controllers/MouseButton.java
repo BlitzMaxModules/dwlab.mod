@@ -12,7 +12,7 @@ package dwlab.controllers;
 
 import dwlab.base.Project;
 import dwlab.base.Sys;
-import dwlab.xml.XMLObject;
+import dwlab.base.XMLObject;
 
 /**
  * Class for mouse buttons.

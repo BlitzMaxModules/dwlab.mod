@@ -21,7 +21,7 @@ import dwlab.shapes.LineSegment;
 import dwlab.shapes.Shape;
 import dwlab.shapes.Vector;
 import dwlab.visualizers.Visualizer;
-import dwlab.xml.XMLObject;
+import dwlab.base.XMLObject;
 import java.util.HashSet;
 
 /**

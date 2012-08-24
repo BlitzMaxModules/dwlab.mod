@@ -12,7 +12,7 @@ package dwlab.visualizers;
 import dwlab.base.Obj;
 import dwlab.base.Service;
 import dwlab.base.Sys;
-import dwlab.xml.XMLObject;
+import dwlab.base.XMLObject;
 
 public class Color extends Obj {
 	public static Color black = new Color( "000000" );

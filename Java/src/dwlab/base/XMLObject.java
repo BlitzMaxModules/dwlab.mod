@@ -2,21 +2,25 @@
  * Copyright (C) 2012, Matt Merkulov
  *
  * All rights reserved. Use of this code is allowed under the
- * Artistic License 2.0 terms, as specified in the license.txt
+ * Artistic License 2.0 terms, as specified in the license.text
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 
-package dwlab.xml;
+package dwlab.base;
 
+import dwlab.base.File;
 import dwlab.base.Obj;
 import dwlab.base.Service;
 import dwlab.base.Sys;
-import dwlab.base.Sys.XMLMode;
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class for intermediate objects to save/load objects from XML file.
@@ -25,24 +29,34 @@ import java.util.LinkedList;
  * When you save object to XML file, the system firstly creates a XMLObjects structure and unloads all information there, then save this structure to file. 
  */
 public class XMLObject extends Obj {
+	public static int version;
+	
+	public enum Type {
+		NORMAL,
+		CLOSED,
+		EMPTY
+	}
+	
 	public String name;
 	public LinkedList<XMLAttribute> attributes = new LinkedList<XMLAttribute>();
 	
-	public class XMLAttribute {
+	public static class XMLAttribute {
 		public String name;
 		public String value;
 	}	
 	
 	public LinkedList<XMLObjectField> fields = new LinkedList<XMLObjectField>();
 	
-	public class XMLObjectField {
+	public static class XMLObjectField {
 		public String name;
 		public XMLObject value;
 	}
 	
 	public LinkedList<XMLObject> children = new LinkedList<XMLObject>();
-	public boolean closing = false;
-
+	
+	private Type type = Type.NORMAL;
+	private String text;
+	private int textPos;
 
 
 	/**
@@ -56,7 +70,6 @@ public class XMLObject extends Obj {
 		}
 		return false;
 	}
-
 
 
 	/**
@@ -80,7 +93,6 @@ public class XMLObject extends Obj {
 	}
 
 
-
 	/**
 	 * Sets value of XMLObject attribute with given name.
 	 * @see #attributeExists, #getAttribute, #removeAttribulte
@@ -98,7 +110,14 @@ public class XMLObject extends Obj {
 		attr.value = attrValue;
 		attributes.addLast( attr );
 	}
-
+	
+	public void setAttribute( String attrName, int attrValue) {
+		setAttribute( attrName, String.valueOf( attrValue ) );
+	}
+	
+	public void setAttribute( String attrName, double attrValue) {
+		setAttribute( attrName, String.valueOf( attrValue ) );
+	}
 
 
 	/**
@@ -110,7 +129,6 @@ public class XMLObject extends Obj {
 			if( iterator.next().name.equals( attrName ) ) iterator.remove();
 		}
 	}
-
 
 
 	/**
@@ -126,7 +144,6 @@ public class XMLObject extends Obj {
 	}
 
 
-
 	/**
 	 * Returns XMLObject which is the field with given name of current XMLObject.
 	 * @return XMLObject representing a field.
@@ -138,7 +155,6 @@ public class XMLObject extends Obj {
 		}
 		return null;
 	}
-
 
 
 	/**
@@ -154,7 +170,6 @@ public class XMLObject extends Obj {
 	}
 
 
-
 	/**
 	 * Removes field with given name of XMLObject.
 	 * @see #fieldExists, #getField, #setField
@@ -164,7 +179,6 @@ public class XMLObject extends Obj {
 			if( iterator.next().name.equals( fieldName ) ) iterator.remove();
 		}
 	}
-
 
 
 	/**
@@ -209,7 +223,6 @@ public class XMLObject extends Obj {
 	}
 
 
-
 	/**
 	 * Transfers data between XMLObject attribute and framework object field with Double type.
 	 * @see #manageIntAttribute, #manageStringAttribute, #manageObjectAttribute, #xMLIO example
@@ -229,7 +242,6 @@ public class XMLObject extends Obj {
 	public double manageDoubleAttribute( String attrName, double attrValue ) {
 		return manageDoubleAttribute( attrName, attrValue, 0d );
 	}
-
 
 
 	/**
@@ -272,8 +284,7 @@ public class XMLObject extends Obj {
 	 * @see #manageIntAttribute, #manageDoubleAttribute, #manageStringAttribute, #manageObjectField, #manageChildArray
 	 */
 	public <E extends Obj> E manageObjectAttribute( String attrName, E obj ) {
-		if( Sys.xMLMode == XMLMode.GET ) {
-			//debugstop
+		if( Sys.xMLGetMode() ) {
 			int iD = getIntegerAttribute( attrName );
 			if( iD > 0 ) return obj;
 
@@ -287,7 +298,7 @@ public class XMLObject extends Obj {
 				iD = maxID;
 				iDMap.put( obj, iD );
 				maxID += 1;
-				undefinedObjects.put( obj, null );
+				undefinedObjects.add( obj );
 			}
 			removeIDMap.remove( obj );
 
@@ -442,7 +453,7 @@ public class XMLObject extends Obj {
 		if( Sys.xMLGetMode() ) {
 			list = new LinkedList();
 			for( XMLObject xMLObject: children ) {
-				list.addLast( xMLObject.manageObject( null ) );
+				list.addLast( xMLObject.manageObject( (E) null ) );
 			}
 		} else if( list != null ) {
 			children.clear();
@@ -462,11 +473,10 @@ public class XMLObject extends Obj {
 	 */
 	public <E extends Obj> E[] manageChildArray( E[] childArray ) {
 		if( Sys.xMLGetMode() ) {
-			childArray = new Obj[ children.size() ];
+			childArray = (E[]) Array.newInstance( childArray.getClass(), children.size() );
 			int n = 0;
 			for( XMLObject xMLObject: children ) {
 				childArray[ n ] = xMLObject.manageObject( null );
-				if( ! childArray[ n ] ) debugStop;
 				n += 1;
 			}
 		} else {
@@ -485,22 +495,23 @@ public class XMLObject extends Obj {
 	 * Transfers data between XMLObject contents and framework object field with TMap type filled with LTObject-LTObject pairs.
 	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectArrayField
 	 */
-	public <E extends Obj, F extends Obj> void manageChildMap( HashMap<E, F> map ) {
+	public <E extends Obj, F extends Obj> HashMap<E, F> manageChildMap( HashMap<E, F> map ) {
 		if( Sys.xMLGetMode() ) {
 			map = new HashMap();
 			for( XMLObject xMLObject: children ) {
-				Obj key = null;
+				E key = null;
 				xMLObject.manageObjectAttribute( "key", key );
-				map.put( key, xMLObject.manageObject( null ) );
+				map.put( key, xMLObject.manageObject( (F) null ) );
 			}
 		} else {
-			for( tKeyValue keyValue: map ) {
+			for( Entry<E, F> entry: map.entrySet() ) {
 				XMLObject xMLValue = new XMLObject();
-				xMLValue.manageObject( Object( keyValue.value() ) );
-				xMLValue.manageObjectAttribute( "key", Object( keyValue.value() ) );
+				xMLValue.manageObject( entry.getValue() );
+				xMLValue.manageObjectAttribute( "key", entry.getKey() );
 				children.addLast( xMLValue );
 			}
 		}
+		return map;
 	}
 
 
@@ -509,19 +520,20 @@ public class XMLObject extends Obj {
 	 * Transfers data between XMLObject contents and framework object field with TMap type filled with LTObject keys.
 	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectArrayField
 	 */
-	public <E extends Obj> void manageChildSet( HashSet<E> map ) {
+	public <E extends Obj> HashSet<E> manageChildSet( HashSet<E> set ) {
 		if( Sys.xMLGetMode() ) {
-			map = new HashMap();
+			set = new HashSet<E>();
 			for( XMLObject xMLObject: children ) {
-				map.put( xMLObject.manageObject( null ), null );
+				set.add( xMLObject.manageObject( (E) null ) );
 			}
 		} else {
-			for( Obj obj: map.keySet() ) {
+			for( Obj obj: set ) {
 				XMLObject xMLValue = new XMLObject();
 				xMLValue.manageObject( obj );
 				children.addLast( xMLValue );
 			}
 		}
+		return set;
 	}
 
 
@@ -530,36 +542,41 @@ public class XMLObject extends Obj {
 		if( Sys.xMLGetMode() ) {
 			int iD = getIntegerAttribute( "id" );
 
-			if( name.equals( object ) ) {
-				obj = iDArray[ iD ];
+			if( name.equals( "object" ) ) {
+				obj = ( E ) iDArray[ iD ];
 			} else {
-				if( iD && iDArray[ iD ] ) {
-					obj = iDArray[ iD ];
-					//debugstop
+				if( iD > 0 && iDArray[ iD ] != null ) {
+					obj = ( E ) iDArray[ iD ];
 				} else {
-					tTypeId typeID = tTypeId.forName( name );
+					try {
+						Class objectClass = Class.forName( name );
 
-					if( typeID == null ) error( "Object \"" + name + "\" not found" );
+						if( objectClass == null ) error( "Object \"" + name + "\" not found" );
 
-					obj = Object( typeID.newObject() );
+						obj = ( E ) objectClass.newInstance();
+					} catch ( InstantiationException ex ) {
+						Logger.getLogger( XMLObject.class.getName() ).log( Level.SEVERE, null, ex );
+					} catch ( IllegalAccessException ex ) {
+						Logger.getLogger( XMLObject.class.getName() ).log( Level.SEVERE, null, ex );
+					} catch ( ClassNotFoundException ex ) {
+						Logger.getLogger( XMLObject.class.getName() ).log( Level.SEVERE, null, ex );
+					}
 				}
 				obj.xMLIO( this );
 			}
 
 			if( obj == null ) error( "Object with ID " + iD + " not found." );
-
-			return obj;
-		} else if( obj then ) {
-			String iD = String( iDMap.get( obj ) );
-			int undefined = undefinedObjects.contains( obj );
-			if( iD && ! undefined ) {
+		} else if( obj != null ) {
+			int iD = iDMap.get( obj );
+			boolean undefined = undefinedObjects.contains( obj );
+			if( iD > 0 && ! undefined ) {
 				removeIDMap.remove( obj );
 				name = "Object";
 				setAttribute( "id", iD );
 				return obj;
 			} else {
-				if( ! XMLObject( obj ) && ! undefined ) {
-					iD = String( maxID );
+				if( !undefined ) {
+					iD = maxID;
 					iDMap.put( obj, iD );
 					maxID += 1;
 					removeIDMap.put( obj, this );
@@ -578,20 +595,22 @@ public class XMLObject extends Obj {
 
 	public int escapingBackslash = 0;
 
-	public static XMLObject readFromFile( String filename ) {
-		tStream file = readFile( filename );
+	public static XMLObject readFromFile( String fileName ) {
+		File file = File.read( fileName );
 		String content = "";
 
-		xMLVersion = 0;
-		while( ! eof( file ) ) {
-			content += readLine( file );
-			if( ! xMLVersion ) {
+		version = 0;
+		while( true ) {
+			String string = file.readLine();
+			if( string == null ) break;
+			content += string;
+			if( version == 0 ) {
 				int quote = content.indexOf( "\"", content.indexOf( "dwlab_version" ) );
-				xMLVersion = versionToInt( content[ quote + 1..content.indexOf( "\"", quote + 1 ) ] );
+				version = Service.versionToInt( content.substring( quote + 1, content.indexOf( "\"", quote + 1 ) ) );
 			}
 		}
 
-		closeFile file;
+		file.close();
 
 		int n = 0;
 		//DebugLog Content
@@ -601,28 +620,27 @@ public class XMLObject extends Obj {
 
 
 
-	public void writeToFile( String filename ) {
-		tStream file = writeFile( fileName );
-		writeObject( file );
-		closeFile file;
+	public void writeToFile( String fileName ) {
+		File file = File.write( fileName );
+		writeObject( file, "" );
+		file.close();
 	}
 
 
 
-	public static XMLObject readObject( String txt, int n, String fieldName ) {
+	public static XMLObject readObject( String text, int n, String fieldName ) {
 		XMLObject obj = new XMLObject();
 
-		obj.readAttributes( txt, n, fieldName );
+		obj.readAttributes( fieldName );
 
-		if( ! obj.closing ) {
+		if( obj.type == Type.NORMAL ) {
 			while( true ) {
 				String childFieldName = "";
-				XMLObject child = obj.readObject( txt, n, childFieldName );
-				if( child.closing == 2 ) {
-					if( child.name == obj.name ) return obj;
-
+				XMLObject child = readObject( text, n, childFieldName );
+				if( child.type == Type.EMPTY ) {
+					if( child.name.equals( obj.name ) ) return obj;
 					error( "Error in XML file - wrong closing tag \"" + child.name + "\", expected \"" + obj.name + "\"" );
-				} else if( childFieldName then ) {
+				} else if( !childFieldName.isEmpty() ) {
 					XMLObjectField objectField = new XMLObjectField();
 					objectField.name = childFieldName;
 					objectField.value = child;
@@ -637,31 +655,30 @@ public class XMLObject extends Obj {
 
 
 
-	public void writeObject( tStream file, String indent = "" ) {
+	public void writeObject( File file, String indent ) {
 		String st = indent + "<" + name;
 		for( XMLAttribute attr: attributes ) {
 			String newValue = "";
-			for( int num=0; num <= len( attr.value ); num++ ) {
-				int charNum = attr.value[ num ];
-				switch( charNum ) {
-					case asc( "\"" ), asc( "%" ):
-						newValue += "%" + chr( charNum );
-					case asc( "\r\n" ):
+			for( int num=0; num <= attr.value.length(); num++ ) {
+				char character = attr.value.charAt( num );
+				switch( character ) {
+					case '\"':
+					case '%':
+						newValue += "%" + character;
+						break;
+					case '\n':
 						newValue += "%n";
+						break;
 					default:
-						if( charNum >= 128 ) {
-							newValue += uTF8toASCII( charNum );
-						} else {
-							newValue += chr( charNum );
-						}
+						newValue += character;
 				}
 			}
 			st += " " + attr.name + "=\"" +newValue + "\"";
 		}
 		if( children.isEmpty() && fields.isEmpty() ) {
-			writeLine( file, st + "/>" );
+			file.writeLine( st + "/>" );
 		} else {
-			writeLine( file, st + ">" );
+			file.writeLine( st + ">" );
 			//debugstop
 			for( XMLObjectField objectField: fields ) {
 				XMLAttribute attr = new XMLAttribute();
@@ -673,122 +690,112 @@ public class XMLObject extends Obj {
 			for( XMLObject xMLObject: children ) {
 				xMLObject.writeObject( file, indent + "\t" );
 			}
-			writeLine( file, indent + "</" + name + ">" );
+			file.writeLine( indent + "</" + name + ">" );
 		}
 	}
 
 
 
-	public void readAttributes( String txt var, int n var, String fieldName ) {
-		int readingContents = false;
-		int readingName = true;
-		int readingValue = false;
-		int quotes = false;
+	public void readAttributes( String fieldName ) {
+		boolean readingContents = false;
+		boolean readingName = true;
+		boolean readingValue = false;
+		char quotes = '0';
 		int chunkBegin = -1;
 
 		XMLAttribute attr = null;
 
-		while( n < len( txt ) ) {
-			if( quotes ) {
-				if( quotes == txt[ n ] ) {
-					quotes = false;
-					attr.value = txt[ chunkBegin..n ];
+		while( textPos < text.length() ) {
+			if( quotes != '0' ) {
+				if( quotes == text.charAt( textPos ) ) {
+					quotes = '0';
+					attr.value = text.substring( chunkBegin, textPos );
 
-					if( attr.name.equals( field ) ) {
+					if( attr.name.equals( "field" ) ) {
 						fieldName = attr.value;
 					} else {
-						if( attr.name = "id" ) maxID == Math.max( maxID, attr.value.toInt() );
+						if( attr.name.equals( "id" ) ) maxID = Math.max( maxID, Integer.parseInt( attr.value ) );
 						attributes.addLast( attr );
 					}
 
 					readingValue = false;
 					chunkBegin = -1;
-				} else if( txt[ n ] >= 128 && xMLVersion >= 01041800 then ) {
-					//debugstop
-					int pos = n;
-					String chunk = aSCIIToUTF8( txt, pos );
-					txt = txt[ ..n ] + chunk + txt[ pos + 1.. ];
-				} else if( xMLVersion < 01041800 then ) {
-					if( txt[ n ] == asc( "\" ) ) {
-						switch( txt[ n + 1 ] ) {
-							case asc( "\"" ), asc( "\" ):
-								txt = txt[ ..n ] + txt[ n + 1.. ];
-						}
-					}
-				} else if( txt[ n ] = asc( "%" ) then ) {
-					switch( txt[ n + 1 ] ) {
-						case asc( "\"" ), asc( "%" ):
-							txt = txt[ ..n ] + txt[ n + 1.. ];
-						case asc( "n" ):
-							txt = txt[ ..n ] + "\r\n" + txt[ n + 2.. ];
+				} else if( text.charAt( textPos ) == '%' ) {
+					switch( text.charAt( textPos + 1 ) ) {
+						case '\"':
+						case '%':
+							text = text.substring( 0, textPos ) + text.substring( textPos + 1);
+							break;
+						case 'n' :
+							text = text.substring( 0, textPos ) + "\r\n" + text.substring( textPos + 2 );
+							break;
 					}
 				}
 			} else {
-				if( txt[ n ] = asc( "'" ) || txt[ n ] == asc( "\"" ) ) {
-					if( ! readingValue ) error( "Error in XML file - unexpected  quotes" + txt[ ..n ] );
+				if( text.charAt( textPos ) == '\'' || text.charAt( textPos ) == '\"' ) {
+					if( ! readingValue ) error( "Error in XML file - unexpected  quotes" + text.substring( 0, textPos ) );
 
-					chunkBegin = n + 1;
-					quotes = txt[ n ];
-				} else if( txt[ n ] = asc( "<" ) then ) {
-					if( readingContents || readingValue ) error( "Error in XML file - unexpected beginning of tag" + txt[ ..n ] );
+					chunkBegin = textPos + 1;
+					quotes = text.charAt( textPos );
+				} else if( text.charAt( textPos ) == '<' ) {
+					if( readingContents || readingValue ) error( "Error in XML file - unexpected beginning of tag" + text.substring( 0, textPos ) );
 
 					readingContents = true;
-				} else if( iDSym( txt[ n ] ) then ) {
-					if( chunkBegin < 0 ) chunkBegin == n;
+				} else if( iDSym( text.charAt( textPos ) ) ) {
+					if( chunkBegin < 0 ) chunkBegin = textPos;
 
-					if( closing && ! readingName ) error( "Error in XML file - invalid closing  tag" + txt[ ..n ] );
+					if( type != Type.NORMAL && ! readingName ) error( "Error in XML file - invalid closing  tag" + text.substring( 0, textPos ) );
 				} else {
-					if( txt[ n ] = asc( "=" ) && readingName || readingValue ) error( "Error in XML file - unexpected \"==\" " + txt[ ..n ] );
+					if( text.charAt( textPos ) == '=' && readingName || readingValue ) error( "Error in XML file - unexpected \"==\" " + text.substring( 0, textPos ) );
 
 					if( chunkBegin >= 0 ) {
 						if( readingName ) {
-							name = txt[ chunkBegin..n ].toLowerCase();
+							name = text.substring( chunkBegin, textPos ).toLowerCase();
 							readingName = false;
-						} else if( readingValue then ) {
-							attr.value = txt[ chunkBegin..n ];
+						} else if( readingValue ) {
+							attr.value = text.substring( chunkBegin, textPos );
 
-							if( attr.name.equals( field ) ) {
+							if( attr.name.equals( "field" ) ) {
 								fieldName = attr.value;
 							} else {
-								if( attr.name = "id" ) maxID == Math.max( maxID, attr.value.toInt() );
+								if( attr.name.equals( "id" ) ) maxID = Math.max( maxID, Integer.parseInt( attr.value ) );
 								attributes.addLast( attr );
 							}
 
 							readingValue = false;
 						} else {
 							attr = new XMLAttribute();
-							attr.name = txt[ chunkBegin..n ].toLowerCase();
+							attr.name = text.substring( chunkBegin, textPos ).toLowerCase();
 							readingValue = true;
 						}
 						chunkBegin = -1;
 					}
 
-					if( txt[ n ] == asc( "/" ) ) {
-						if( readingValue || closing  ) error( "Error in XML file - unexpected  slash" + txt[ ..n ] );
+					if( text.charAt( textPos ) == '/' ) {
+						if( readingValue || type != Type.NORMAL  ) error( "Error in XML file - unexpected  slash" + text.substring( 0, textPos ) );
 
-						if( readingName ) closing = 2; else closing == 1;
+						if( readingName ) type = Type.EMPTY; else type = Type.CLOSED;
 					}
 
-					if( txt[ n ] == asc( ">" ) ) {
-						if( ! readingContents || readingValue || readingName ) error("Error in XML file - unexpected end of  tag" + txt[ ..n ] );
+					if( text.charAt( textPos ) == '>' ) {
+						if( ! readingContents || readingValue || readingName ) error("Error in XML file - unexpected end of  tag" + text.substring( 0, textPos ) );
 
-						n += 1;
+						textPos += 1;
 						return;
 					}
 				}
 			}
 
-			n += 1;
+			textPos += 1;
 		}
-		debugStop;
 	}
 
 
-
-	public static int iDSym( int sym ) {
-		if( sym >= asc( "a" ) && sym <= asc( "z" ) ) return true;
-		if( sym >= asc( "A" ) && sym <= asc( "Z" ) ) return true;
-		if( sym >= asc( "0" ) && sym <= asc( "9" ) ) return true;
-		if( sym = asc( "_" ) || sym == asc( "-" ) ) return true;
+	public static boolean iDSym( char sym ) {
+		if( sym >= 'a' && sym <= 'z' ) return true;
+		if( sym >= 'A' && sym <= 'Z' ) return true;
+		if( sym >= '0' && sym <= '9' ) return true;
+		if( sym == '_' || sym == '-' ) return true;
+		return false;
 	}
 }

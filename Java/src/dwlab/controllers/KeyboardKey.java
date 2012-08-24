@@ -10,7 +10,7 @@
 package dwlab.controllers;
 
 import dwlab.base.Project;
-import dwlab.xml.XMLObject;
+import dwlab.base.XMLObject;
 import org.lwjgl.input.Keyboard;
 
 /**

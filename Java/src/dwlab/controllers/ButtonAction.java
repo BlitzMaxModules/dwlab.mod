@@ -12,7 +12,7 @@ package dwlab.controllers;
 import dwlab.base.Obj;
 import dwlab.base.Project;
 import dwlab.base.Sys;
-import dwlab.xml.XMLObject;
+import dwlab.base.XMLObject;
 import java.util.LinkedList;
 
 /**

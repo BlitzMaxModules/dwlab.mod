@@ -17,7 +17,7 @@ import dwlab.shapes.sprites.Collision;
 import dwlab.shapes.sprites.Sprite;
 import dwlab.shapes.sprites.SpriteGroup;
 import dwlab.visualizers.Visualizer;
-import dwlab.xml.XMLObject;
+import dwlab.base.XMLObject;
 import java.util.*;
 
 /**

@@ -9,7 +9,7 @@
 package dwlab.shapes.layers;
 
 import dwlab.shapes.sprites.Camera;
-import dwlab.xml.XMLObject;
+import dwlab.base.XMLObject;
 
 /**
  * World is the root layer which can be created in the editor and loaded from file.

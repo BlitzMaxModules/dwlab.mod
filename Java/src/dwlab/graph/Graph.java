@@ -14,7 +14,7 @@ import dwlab.shapes.LineSegment;
 import dwlab.shapes.Shape;
 import dwlab.shapes.sprites.Sprite;
 import dwlab.visualizers.Visualizer;
-import dwlab.xml.XMLObject;
+import dwlab.base.XMLObject;
 import java.util.HashMap;
 import java.util.LinkedList;
 

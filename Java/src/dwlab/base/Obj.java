@@ -9,11 +9,10 @@
 
 package dwlab.base;
 
-import dwlab.base.Sys.XMLMode;
+import dwlab.base.SysTemplate.XMLMode;
 import dwlab.visualizers.Visualizer;
-import dwlab.xml.XMLObject;
-import dwlab.xml.XMLObject.XMLAttribute;
-import dwlab.xml.XMLObject.XMLObjectField;
+import dwlab.base.XMLObject.XMLAttribute;
+import dwlab.base.XMLObject.XMLObjectField;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -25,7 +24,7 @@ public class Obj {
 	public static HashMap<Obj, XMLObject> removeIDMap;
 	public static int maxID;
 	public static Obj iDArray[];
-	public static HashMap undefinedObjects;
+	public static HashSet<Obj> undefinedObjects;
 
 	// ==================== Drawing ===================
 
@@ -169,17 +168,17 @@ public class Obj {
 	 */
 	public void saveToFile( String fileName ) {
 		iDMap = new HashMap<Obj, Integer>();
-		removeIDMap = new HashSet<XMLObject>();
+		removeIDMap = new HashMap<Obj, XMLObject>();
 		maxID = 1;
 
 		Sys.xMLMode = XMLMode.SET;
 		XMLObject xMLObject = new XMLObject();
-		undefinedObjects = new HashMap();
+		undefinedObjects = new HashSet<Obj>();
 		xMLIO( xMLObject );
 
 		xMLObject.setAttribute( "dwlab_version", String.valueOf( Sys.version ) );
 
-		for( XMLObject xMLObject2: removeIDMap ) {
+		for( XMLObject xMLObject2: removeIDMap.values() ) {
 			for( XMLAttribute attr: xMLObject2.attributes ) {
 				if( attr.name.equals( "id" ) ) xMLObject2.attributes.remove( attr );
 			}

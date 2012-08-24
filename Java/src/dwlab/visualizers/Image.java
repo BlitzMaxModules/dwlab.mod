@@ -12,7 +12,7 @@ package dwlab.visualizers;
 import dwlab.base.Graphics;
 import dwlab.base.Obj;
 import dwlab.base.Sys;
-import dwlab.xml.XMLObject;
+import dwlab.base.XMLObject;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 

@@ -10,7 +10,7 @@ package dwlab.shapes;
 
 import dwlab.visualizers.Visualizer;
 import dwlab.shapes.sprites.Sprite;
-import dwlab.xml.XMLObject;
+import dwlab.base.XMLObject;
 
 /**
  * It's line section between 2 pivots (sprites centers).

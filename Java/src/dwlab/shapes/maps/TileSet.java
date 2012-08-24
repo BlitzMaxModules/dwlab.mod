@@ -14,7 +14,7 @@ import dwlab.base.Service;
 import dwlab.base.Sys;
 import dwlab.shapes.Shape;
 import dwlab.visualizers.Image;
-import dwlab.xml.XMLObject;
+import dwlab.base.XMLObject;
 import java.util.LinkedList;
 
 /**

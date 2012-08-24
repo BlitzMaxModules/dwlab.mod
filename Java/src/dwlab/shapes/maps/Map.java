@@ -11,7 +11,7 @@ package dwlab.shapes.maps;
 import dwlab.base.Service;
 import dwlab.base.Sys;
 import dwlab.shapes.Shape;
-import dwlab.xml.XMLObject;
+import dwlab.base.XMLObject;
 
 /**
  * Common object for maps

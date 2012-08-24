@@ -25,7 +25,7 @@ import dwlab.visualizers.Color;
 import dwlab.visualizers.Image;
 import dwlab.visualizers.Visualizer;
 import dwlab.visualizers.WindowedVisualizer;
-import dwlab.xml.XMLObject;
+import dwlab.base.XMLObject;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;

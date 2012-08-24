@@ -16,7 +16,7 @@ import dwlab.base.Sys;
 import dwlab.shapes.Shape;
 import dwlab.shapes.Vector;
 import dwlab.visualizers.Color;
-import dwlab.xml.XMLObject;
+import dwlab.base.XMLObject;
 
 /**
  * Camera for displaying game objects.

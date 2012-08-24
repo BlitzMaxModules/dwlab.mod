@@ -17,7 +17,7 @@ import dwlab.shapes.sprites.Sprite;
 import dwlab.shapes.sprites.SpriteAndTileCollisionHandler;
 import dwlab.shapes.sprites.SpriteCollisionHandler;
 import dwlab.visualizers.Visualizer;
-import dwlab.xml.XMLObject;
+import dwlab.base.XMLObject;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;

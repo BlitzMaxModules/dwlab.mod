@@ -8,7 +8,7 @@
 
 package dwlab.visualizers;
 
-import dwlab.xml.XMLObject;
+import dwlab.base.XMLObject;
 
 /**
  * Special image subclass to display raster frame.

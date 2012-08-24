@@ -13,7 +13,7 @@ import dwlab.base.Obj;
 import dwlab.shapes.maps.TileSet;
 import dwlab.visualizers.Color;
 import dwlab.visualizers.Image;
-import dwlab.xml.XMLObject;
+import dwlab.base.XMLObject;
 import java.util.LinkedList;
 
 public class EditorData extends Obj {

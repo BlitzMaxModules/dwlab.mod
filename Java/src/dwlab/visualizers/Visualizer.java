@@ -23,7 +23,7 @@ import dwlab.shapes.maps.TileSet;
 import dwlab.shapes.sprites.Camera;
 import dwlab.shapes.sprites.Sprite;
 import dwlab.shapes.sprites.Sprite.ShapeType;
-import dwlab.xml.XMLObject;
+import dwlab.base.XMLObject;
 import java.util.LinkedList;
 
 /**
