@@ -1,8 +1,3 @@
-package dwlab.visualizers;
-import dwlab.shapes.Shape;
-import dwlab.sprites.Sprite;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov 
 
@@ -11,46 +6,55 @@ import dwlab.sprites.Sprite;
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
+package dwlab.visualizers;
+
+import dwlab.base.Graphics;
+import dwlab.shapes.Shape;
+import dwlab.shapes.Shape.Facing;
+import dwlab.shapes.Vector;
+import dwlab.shapes.sprites.Sprite;
 
 public class WindowedVisualizer extends Visualizer {
 	public Shape viewport;
 	public Visualizer visualizer;
 
 
-
+	@Override
 	public Image getImage() {
 		return visualizer.getImage();
 	}
 
 
-
+	@Override
 	public void setImage( Image newImage ) {
 		visualizer.setImage( newImage );
 	}
 
 
-
-	public void drawUsingSprite( Sprite sprite, Sprite spriteShape = null ) {
+	private Vector servicePivot = new Vector();
+	private Vector serviceSizes = new Vector();
+	
+	@Override
+	public void drawUsingSprite( Sprite sprite, Sprite spriteShape ) {
 		if( ! sprite.visible ) return;
 
-		int x, int y, int width, int height;
-		getViewport( x, y, width, height );
+		Graphics.getViewport( servicePivot, serviceSizes );
 
 		viewport.setAsViewport();
 		visualizer.drawUsingSprite( sprite, spriteShape );
 
-		setViewport( x, y, width, height );
+		Graphics.setViewport( servicePivot, serviceSizes );
 	}
 
 
-
-	public double getFacing() {
+	@Override
+	public Facing getFacing() {
 		return visualizer.getFacing();
 	}
 
 
-
-	public void setFacing( double newFacing ) {
+	@Override
+	public void setFacing( Facing newFacing ) {
 		visualizer.setFacing( newFacing );
 	}
 }

@@ -10,7 +10,7 @@
 package dwlab.behavior_models;
 
 import dwlab.shapes.Shape;
-import dwlab.sprites.Sprite;
+import dwlab.shapes.sprites.Sprite;
 
 public class FollowingModel extends ChainedModel {
 	public Shape destinationShape;

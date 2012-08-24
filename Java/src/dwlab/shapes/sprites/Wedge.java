@@ -6,12 +6,12 @@
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
-package dwlab.sprites;
+package dwlab.shapes.sprites;
 
 import dwlab.base.Service;
 import dwlab.shapes.Line;
 import dwlab.shapes.Vector;
-import dwlab.sprites.Sprite.ShapeType;
+import dwlab.shapes.sprites.Sprite.ShapeType;
 
 public class Wedge {
 	private static Vector serviceVector1 = new Vector();

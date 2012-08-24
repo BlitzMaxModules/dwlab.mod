@@ -7,18 +7,18 @@
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 
-package dwlab.sprites;
+package dwlab.shapes.sprites;
 
 import dwlab.base.Obj;
-import dwlab.maps.TileMap;
+import dwlab.shapes.LineSegment;
 
 /**
- * Sprite and tile collision handling class.
- * Collision check method with specified collision handler will execute this handler's method on collision sprite with tile.
+ * Sprite and line segment collision handling class.
+ * Collision check method with specified collision handler will execute this handler's method on collision sprite with line.
 
  * @see #active example
  */
-public class SpriteAndTileCollisionHandler extends Obj {
-	public void handleCollision( Sprite sprite, TileMap tileMap, int tileX, int tileY, Sprite collisionSprite ) {
+public class SpriteAndLineSegmentCollisionHandler extends Obj {
+	public void handleCollision( Sprite sprite, LineSegment lineSegment ) {
 	}
 }

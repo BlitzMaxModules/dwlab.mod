@@ -9,14 +9,18 @@
 
 package dwlab.shapes;
 
+import dwlab.shapes.sprites.VectorSprite;
+import dwlab.shapes.sprites.Camera;
+import dwlab.shapes.sprites.Sprite;
+import dwlab.shapes.sprites.SpriteCollisionHandler;
+import dwlab.shapes.sprites.SpriteAndTileCollisionHandler;
 import dwlab.base.*;
 import dwlab.behavior_models.BehaviorModel;
 import dwlab.controllers.ButtonAction;
 import dwlab.controllers.KeyboardKey;
-import dwlab.layers.Layer;
-import dwlab.maps.SpriteMap;
-import dwlab.maps.TileMap;
-import dwlab.sprites.*;
+import dwlab.shapes.layers.Layer;
+import dwlab.shapes.maps.SpriteMap;
+import dwlab.shapes.maps.TileMap;
 import dwlab.visualizers.Color;
 import dwlab.visualizers.Image;
 import dwlab.visualizers.Visualizer;

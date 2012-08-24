@@ -7,13 +7,13 @@
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 
-package dwlab.sprites;
+package dwlab.shapes.sprites;
 
 import dwlab.base.Graphics;
 import dwlab.base.Service.Margins;
 import dwlab.shapes.Line;
 import dwlab.shapes.LineSegment;
-import dwlab.sprites.Sprite.ShapeType;
+import dwlab.shapes.sprites.Sprite.ShapeType;
 import dwlab.visualizers.Image;
 import dwlab.visualizers.Visualizer;
 
@@ -265,7 +265,7 @@ public class Collision {
 				&& raster1.getHeight() * image2.getHeight() == raster2.getHeight() * image2.getHeight() ) {
 			double xScale = image1.getWidth() / raster1.getWidth();
 			double yScale = image1.getHeight() / raster1.getHeight();
-			return Graphics.imagesCollide( image1, raster1.frame, raster1.getX() * xScale, raster1.getY() * yScale, 
+			return image1.collides( raster1.frame, raster1.getX() * xScale, raster1.getY() * yScale, 
 					image2, raster2.frame, raster2.getX() * xScale, raster2.getY() * yScale );
 		} else {
 			double xScale1 = image1.getWidth() / raster1.getWidth();
@@ -274,7 +274,7 @@ public class Collision {
 			double yScale2 = image2.getHeight() / raster2.getHeight();
 			double xScale = Math.max( xScale1, xScale2 );
 			double yScale = Math.max( yScale1, yScale2 );
-			return Graphics.imagesCollide( image1, raster1.frame, raster1.getX() * xScale, raster1.getY() * yScale, xScale / xScale1, yScale / yScale1, 
+			return image1.collides( raster1.frame, raster1.getX() * xScale, raster1.getY() * yScale, xScale / xScale1, yScale / yScale1, 
 					raster1.angle, image2, raster2.frame, raster2.getX() * xScale, raster2.getY() * yScale, xScale / xScale2, yScale / yScale2, raster2.angle );
 		}
 	}

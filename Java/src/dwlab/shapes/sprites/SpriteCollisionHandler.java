@@ -7,10 +7,10 @@
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 
-package dwlab.sprites;
+package dwlab.shapes.sprites;
 
 import dwlab.base.Obj;
-import dwlab.sprites.Sprite;
+import dwlab.shapes.sprites.Sprite;
 
 /**
  * Sprite collision handling class.

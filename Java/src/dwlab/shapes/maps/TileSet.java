@@ -7,7 +7,7 @@
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 
-package dwlab.maps;
+package dwlab.shapes.maps;
 
 import dwlab.base.Obj;
 import dwlab.base.Service;

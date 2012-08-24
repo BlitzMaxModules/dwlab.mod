@@ -11,9 +11,9 @@ package dwlab.base;
 
 import dwlab.controllers.ButtonAction;
 import dwlab.controllers.Pushable;
-import dwlab.layers.Layer;
-import dwlab.sprites.Camera;
-import dwlab.sprites.Sprite;
+import dwlab.shapes.layers.Layer;
+import dwlab.shapes.sprites.Camera;
+import dwlab.shapes.sprites.Sprite;
 import java.util.LinkedList;
 
 /**

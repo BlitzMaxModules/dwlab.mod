@@ -11,7 +11,7 @@ package dwlab.base;
 
 import dwlab.shapes.Shape;
 import dwlab.shapes.Vector;
-import dwlab.sprites.Camera;
+import dwlab.shapes.sprites.Camera;
 import dwlab.visualizers.Image;
 
 /**
@@ -61,7 +61,7 @@ public class BitmapFont extends Obj {
 			if( text.charAt( n ) < fromNum || text.charAt( n ) > toNum ) error( "String contains letter that is out of font range" );
 			int frame = text.charAt( n ) - fromNum;
 			double width = scale * letterWidth[ frame ];
-			Graphics.drawImage( image, frame, servicePivot.x, servicePivot.y, scale * width, scale * height, 0 );
+			image.draw( frame, servicePivot.x, servicePivot.y, scale * width, scale * height, 0 );
 			servicePivot.x += width;
 		}
 	}
@@ -147,7 +147,7 @@ public class BitmapFont extends Obj {
 
 		int symbolsQuantity = font.toNum - font.fromNum + 1;
 		if( variableLength ) {
-			Image image = Image.fromFile( fileName );
+			Image image = new Image( fileName );
 			int symbolWidth = ( image.getWidth() - 1 ) / symbolsPerRow;
 			int symbolHeight = image.getHeight() * ((int) Math.ceil( symbolsQuantity / symbolsPerRow ) );
 			font.letterWidth = new int[ symbolsQuantity ];
@@ -158,13 +158,13 @@ public class BitmapFont extends Obj {
 				int y = (int) Math.floor( n / symbolsQuantity );
 				for( int width = symbolWidth - 1; width > 1; width-- ) {
 					if( image.getPixel( x + width, y + 1 ) != pixel ) {
-						font.image = image.grab( n, x + 1, y + 1, width - 1, symbolHeight - 1 );
+						font.image.grab( n, x + 1, y + 1, width - 1, symbolHeight - 1 );
 						break;
 					}
 				}
 			}
 		} else {
-			font.image = Image.fromFile( fileName, symbolsPerRow, (int) Math.ceil( symbolsQuantity / symbolsPerRow ) );
+			font.image = new Image( fileName, symbolsPerRow, (int) Math.ceil( symbolsQuantity / symbolsPerRow ) );
 		}
 
 		return font;

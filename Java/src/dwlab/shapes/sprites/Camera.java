@@ -7,7 +7,7 @@
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 
-package dwlab.sprites;
+package dwlab.shapes.sprites;
 
 import dwlab.base.Graphics;
 import dwlab.base.Project;
@@ -127,6 +127,10 @@ public class Camera extends VectorSprite {
 
 		if( discreteGraphics ) pivot.roundCoords();
 	}
+	
+	public void fieldToScreen( Shape shape, Vector pivot ) {
+		fieldToScreen( shape.getX(), shape.getY(), pivot );
+	}
 
 
 	/**
@@ -143,6 +147,10 @@ public class Camera extends VectorSprite {
 		}
 
 		if( discreteGraphics ) sizes.roundCoords();
+	}
+	
+	public void sizeFieldToScreen( Shape shape, Vector sizes ) {
+		sizeFieldToScreen( shape.getWidth(), shape.getHeight(), sizes );
 	}
 
 

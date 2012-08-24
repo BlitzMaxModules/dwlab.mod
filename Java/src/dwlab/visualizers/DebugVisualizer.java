@@ -1,11 +1,15 @@
 package dwlab.visualizers;
+import dwlab.base.Graphics;
+import dwlab.base.Service;
 import java.util.LinkedList;
 import java.lang.Math;
-import dwlab.layers.Layer;
+import dwlab.shapes.layers.Layer;
 import dwlab.shapes.Shape;
-import dwlab.maps.SpriteMap;
-import dwlab.maps.TileMap;
-import dwlab.sprites.Sprite;
+import dwlab.shapes.maps.SpriteMap;
+import dwlab.shapes.maps.TileMap;
+import dwlab.shapes.Vector;
+import dwlab.shapes.sprites.Camera;
+import dwlab.shapes.sprites.Sprite;
 
 
 /* Digital Wizard's Lab - game development framework
@@ -20,28 +24,27 @@ import dwlab.sprites.Sprite;
 /**
  * Global variable for debug visualizer.
  */
-public DebugVisualizer debugVisualizer = new DebugVisualizer();
-
-public Color collisionColors[] = [ Color.fromHex( "FF007F", 0.5 ), Color.fromHex( "007FFF", 0.5 ), ..;
-		Color.fromHex( "00FF7F", 0.5 ), Color.fromHex( "7F00FF", 0.5 ), Color.fromHex( "7FFF00", 0.5 ), ..;
-		Color.fromHex( "FF7F00", 0.5 ), Color.fromHex( "FFFFFF", 0.5 ), Color.fromHex( "000000", 0.5 ) ];
-public int maxCollisionColor = collisionColors.length - 1;
-
 /**
  * This visualizer can draw collision shape, vector and name of the shape with this shape itself.
  * See also #wedgeOffWithSprite example
  */
 public class DebugVisualizer extends Visualizer {
-	public int showCollisionShapes = true;
-	public int showVectors = true;
-	public int showNames = true;
-	public double alphaOfInvisible = 0.5;
+	public DebugVisualizer instance = new DebugVisualizer();
+	public Color colors[] = { new Color( "7FFF007F" ), new Color( "7F007FFF" ), new Color( "7F00FF7F" ), new Color( "7F7F00FF" ), new Color( "7F7FFF00" ),
+			new Color( "7FFF7F00" ), new Color( "7FFFFFFF" ), new Color( "7F000000" ) };
+	public final int maxColor = 7;
+
+	public boolean showCollisionShapes = true;
+	public boolean showVectors = true;
+	public boolean showNames = true;
+	public double alphaOfInvisible = 0.5d;
 
 
+	private static Vector serviceVector = new Vector();
+	private static Vector serviceSizes = new Vector();
 
-	public void drawUsingSprite( Sprite sprite, Sprite spriteShape = null ) {
-		if( ! spriteShape ) spriteShape == sprite;
-
+	@Override
+	public void drawUsingSprite( Sprite sprite, Sprite spriteShape ) {
 		if( sprite.visible ) {
 			sprite.visualizer.drawUsingSprite( sprite, spriteShape );
 		} else {
@@ -55,65 +58,59 @@ public class DebugVisualizer extends Visualizer {
 			sprite.visible = false;
 		}
 
-		double sX1, double sY1, double sWidth, double sHeight;
-		Camera.current.fieldToScreen( spriteShape.x, spriteShape.y, sX1, sY1 );
-		Camera.current.sizeFieldToScreen( spriteShape.width, spriteShape.height, sWidth, sHeight );
+		Camera.current.fieldToScreen( spriteShape, serviceVector );
+		Camera.current.sizeFieldToScreen( spriteShape, serviceSizes );
 
-		collisionColors[ sprite.collisionLayer & maxCollisionColor ].applyColor();
-		if showCollisionShapes then	drawSpriteShape( spriteShape );
+		Color color = colors[ sprite.collisionLayer & maxColor ];
+		if( showCollisionShapes ) drawSpriteShape( spriteShape, color );
 
 		if( showVectors ) {
-			double size = Math.max( sWidth, sHeight );
-			if( size ) {
-				double sX2 = sX1 + Math.cos( sprite.angle ) * size;
-				double sY2 = sY1 + Math.sin( sprite.angle ) * size;
-				drawLine( sX1, sY1, sX2, sY2 );
+			double size = Math.max( serviceSizes.x, serviceSizes.y );
+			if( size != 0d ) {
+				double sX2 = serviceVector.x + Math.cos( sprite.angle ) * size;
+				double sY2 = serviceVector.y + Math.sin( sprite.angle ) * size;
+				Graphics.drawLine( serviceVector.x, serviceVector.y, sX2, sY2 );
 				for( double d=-135; d <= 135; d += 270 ) {
-					drawLine( sX2, sY2, sX2 + 5.0 * Math.cos( sprite.angle + d ), sY2 + 5.0 * Math.sin( sprite.angle + d ) );
+					Graphics.drawLine( sX2, sY2, sX2 + 5.0 * Math.cos( sprite.angle + d ), sY2 + 5.0 * Math.sin( sprite.angle + d ) );
 				}
 			}
 		}
 
-		resetColor();
-
 		if( showNames ) {
 			String titles[] = sprite.getTitle().split( "|" );
-			sY1 -= titles.length * 8;
+			serviceVector.y -= titles.length * 8;
 			for( String title: titles ) {
-				int txtWidth = 0.5 * textWidth( title );
-				setColor( 0, 0, 0 );
-				for( int dY=-1; dY <= 1; dY++ ) {
-					for( int dX=-( dY = 0 ); dX <= Math.abs( dY = 0 ); dX += 2 ) {
-						drawText( title, sX1 + dX - txtWidth, sY1 + dY );
+				double txtWidth = 0.5 * Graphics.textWidth( title );
+				for( int dy=-1; dy <= 1; dy++ ) {
+					for( int dx=-( dy = 0 ); dx <= Math.abs( dy = 0 ); dx += 2 ) {
+						Graphics.drawText( title, serviceVector.x + dx - txtWidth, serviceVector.y + dy );
 					}
 				}
-				resetColor();
-				drawText( title, sX1 - txtWidth, sY1 );
-				sY1 += 14;
+				Graphics.drawText( title, serviceVector.x - txtWidth, serviceVector.y );
+				serviceVector.y += 14;
 			}
 		}
 	}
 
 
-
-	public void drawUsingTileMap( TileMap tileMap, LinkedList shapes = null ) {
+	@Override
+	public void drawUsingTileMap( TileMap tileMap, LinkedList shapes ) {
 		tileMap.visualizer.drawUsingTileMap( tileMap, shapes );
 		if( showCollisionShapes ) super.drawUsingTileMap( tileMap, shapes );
 	}
 
 
-
+	@Override
 	public void drawTile( TileMap tileMap, double x, double y, double width, double height, int tileX, int tileY ) {
 		Shape shape = tileMap.getTileCollisionShape( tileMap.wrapX( tileX ), tileMap.wrapY( tileY ) );
-		if( ! shape ) return;
+		if( shape == null ) return;
 
-		setScale( 1.0, 1.0 );
-		Sprite sprite = Sprite( shape );
-		if( sprite ) {
+		Sprite sprite = shape.toSprite();
+		if( sprite != null ) {
 			drawCollisionSprite( tileMap, x, y, sprite );
 		} else {
-			for( sprite: Layer( shape ) ) {
-				drawCollisionSprite( tileMap, x, y, sprite );
+			for( Shape childShape: shape.toLayer().children ) {
+				drawCollisionSprite( tileMap, x, y, childShape.toSprite() );
 			}
 		}
 	}
@@ -121,45 +118,43 @@ public class DebugVisualizer extends Visualizer {
 
 
 	public void drawCollisionSprite( TileMap tileMap, double x, double y, Sprite sprite ) {
-		collisionColors[ sprite.collisionLayer & maxCollisionColor ].applyColor();
+		Color color = colors[ sprite.collisionLayer & maxColor ];
 
 		double tileWidth = tileMap.getTileWidth();
 		double tileHeight = tileMap.getTileHeight();
 
 		if( Camera.current.isometric ) {
-			double shapeX = x + ( sprite.x - 0.5 ) * tileWidth;
-			double shapeY = y + ( sprite.y - 0.5 ) * tileHeight;
-			double shapeWidth = sprite.width * tileWidth;
-			double shapeHeight = sprite.height * tileHeight;
+			double shapeX = x + ( sprite.getX() - 0.5 ) * tileWidth;
+			double shapeY = y + ( sprite.getY() - 0.5 ) * tileHeight;
+			double shapeWidth = sprite.getWidth() * tileWidth;
+			double shapeHeight = sprite.getHeight() * tileHeight;
 			switch( sprite.shapeType ) {
-				case Sprite.pivot:
-					double sX, double sY;
-					Camera.current.fieldToScreen( shapeX, shapeY, sX, sY );
-					drawOval( sX - 2, sY - 2, 5, 5 );
-				case Sprite.circle:
-					drawIsoOval( shapeX, shapeY, shapeWidth, shapeHeight );
-				case Sprite.rectangle:
-					drawIsoRectangle( shapeX, shapeY, shapeWidth, shapeHeight );
+				case PIVOT:
+					Camera.current.fieldToScreen( shapeX, shapeY, serviceVector );
+					Graphics.drawOval( serviceVector.x - 2d, serviceVector.y - 2d, 5d, 5d, 0d, color );
+					break;
+				case OVAL:
+					drawIsoOval( shapeX, shapeY, shapeWidth, shapeHeight, color );
+					break;
+				case RECTANGLE:
+					drawIsoRectangle( shapeX, shapeY, shapeWidth, shapeHeight, color );
+					break;
 			}
 		} else {
-			double sX, double sY;
-			Camera.current.fieldToScreen( x + ( sprite.x - 0.5 ) * tileWidth, y + ( sprite.y - 0.5 ) * tileHeight, sX, sY );
+			Camera.current.fieldToScreen( x + ( sprite.getX() - 0.5d ) * tileWidth, y + ( sprite.getY() - 0.5d ) * tileHeight, serviceVector );
+			Camera.current.sizeFieldToScreen( sprite.getWidth() * tileWidth, sprite.getHeight() * tileHeight, serviceSizes );
 
-			double sWidth, double sHeight;
-			Camera.current.sizeFieldToScreen( sprite.width * tileWidth, sprite.height * tileHeight, sWidth, sHeight );
-
-			drawShape( sprite.shapeType, sX, sY, sWidth, sHeight );
+			drawShape( sprite.shapeType, serviceVector.x, serviceVector.y, serviceSizes.x, serviceSizes.y, 0d, color );
 		}
 	}
 
 
-
+	@Override
 	public void drawSpriteMapTile( SpriteMap spriteMap, double x, double y ) {
-		setScale( 1.0, 1.0 );
-		int tileX = int( Math.floor( x / spriteMap.cellWidth ) ) & spriteMap.xMask;
-		int tileY = int( Math.floor( y / spriteMap.cellHeight ) ) & spriteMap.yMask;
-		for( int n=0; n <= spriteMap.listSize[ tileX, tileY ]; n++ ) {
-			drawUsingSprite( spriteMap.lists[ tileX, tileY ][ n ] );
+		int tileX = Service.floor( x / spriteMap.cellWidth ) & spriteMap.xMask;
+		int tileY = Service.floor( y / spriteMap.cellHeight ) & spriteMap.yMask;
+		for( int n = 0; n <= spriteMap.listSize[ tileY ][ tileX ]; n++ ) {
+			drawUsingSprite( spriteMap.lists[ tileY ][ tileX ][ n ] );
 		}
 	}
 }

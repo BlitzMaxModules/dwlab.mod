@@ -7,9 +7,9 @@
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 
-package dwlab.sprites;
+package dwlab.shapes.sprites;
 
-import dwlab.sprites.Sprite.ShapeType;
+import dwlab.shapes.sprites.Sprite.ShapeType;
 
 public class Overlap {
 	public static Sprite servicePivot1 = new Sprite();

@@ -7,15 +7,15 @@
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 
-package dwlab.sprites;
+package dwlab.shapes.sprites;
 
 import dwlab.base.Project;
 import dwlab.base.Service;
 import dwlab.base.Sys;
-import dwlab.layers.Layer;
-import dwlab.maps.SpriteMap;
-import dwlab.maps.TileMap;
-import dwlab.maps.TileSet;
+import dwlab.shapes.layers.Layer;
+import dwlab.shapes.maps.SpriteMap;
+import dwlab.shapes.maps.TileMap;
+import dwlab.shapes.maps.TileSet;
 import dwlab.shapes.Line;
 import dwlab.shapes.LineSegment;
 import dwlab.shapes.Shape;
@@ -1059,6 +1059,12 @@ public class Sprite extends Shape {
 	public void toLine( Line line ) {
 		line.usePoints( x, y, x + Math.cos( angle ), y + Math.sin( angle ) );
 	}
+	
+	public Line toLine() {
+		Line line = new Line();
+		toLine( line );
+		return line;
+	}
 
 
 
@@ -1082,54 +1088,74 @@ public class Sprite extends Shape {
 
 	// ==================== Methods for triangle ====================	
 
-	public static Sprite getMedium( Sprite pivot1, Sprite pivot2, Sprite toPivot ) {
-		toPivot.x = 0.5 * ( pivot1.x + pivot2.x );
-		toPivot.y = 0.5 * ( pivot1.y + pivot2.y );
-		return toPivot;
+	public static void getMedium( Sprite pivot1, Sprite pivot2, Sprite medium ) {
+		medium.setCoords( 0.5 * ( pivot1.x + pivot2.x ), 0.5 * ( pivot1.y + pivot2.y ) );
 	}
 
 	public static Sprite getMedium( Sprite pivot1, Sprite pivot2 ) {
-		return getMedium( pivot1, pivot2, new Sprite() );
+		Sprite medium = new Sprite();
+		getMedium( pivot1, pivot2, medium );
+		return medium;
 	}
 
 
-	public Line getHypotenuse( Line line ) {
-		if( ! line ) line == new Line();
+	public void getHypotenuse( Line line ) {
 		switch( shapeType ) {
-			case Sprite.topLeftTriangle, Sprite.bottomRightTriangle:
-				Line.fromPoints( x, y, x - width, y + height, line );
-			case Sprite.topRightTriangle, Sprite.bottomLeftTriangle:
-				Line.fromPoints( x, y, x + width, y + height, line );
+			case TOP_LEFT_TRIANGLE:
+			case BOTTOM_RIGHT_TRIANGLE:
+				line.usePoints( x, y, x - width, y + height );
+				break;
+			case TOP_RIGHT_TRIANGLE:
+			case BOTTOM_LEFT_TRIANGLE:
+				line.usePoints( x, y, x + width, y + height );
+				break;
 		}
+	}
+	
+	public Line getHypotenuse() {
+		Line line = new Line();
+		getHypotenuse( line );
 		return line;
 	}
 
 
 
-	public Sprite getRightAngleVertex( Sprite vertex ) {
-		if( ! vertex ) vertex == new Sprite().fromShape( 0, 0, 0, 0, pivot );
+	public void getRightAngleVertex( Sprite vertex ) {
 		switch( shapeType ) {
-			case Sprite.topLeftTriangle, Sprite.bottomLeftTriangle:
-				vertex.x = x - 0.5 * width;
-			case Sprite.bottomRightTriangle, Sprite.topRightTriangle:
-				vertex.x = x + 0.5 * width;
+			case TOP_LEFT_TRIANGLE:
+			case BOTTOM_LEFT_TRIANGLE:
+				vertex.setX( x - 0.5 * width );
+				break;
+			case BOTTOM_RIGHT_TRIANGLE:
+			case TOP_RIGHT_TRIANGLE:
+				vertex.setX( x + 0.5 * width );
+				break;
 		}
 		switch( shapeType ) {
-			case Sprite.topLeftTriangle, Sprite.topRightTriangle:
-				vertex.y = y - 0.5 * height;
-			case Sprite.bottomLeftTriangle, Sprite.bottomRightTriangle:
-				vertex.y = y + 0.5 * height;
+			case TOP_LEFT_TRIANGLE:
+			case TOP_RIGHT_TRIANGLE:
+				vertex.setY( y - 0.5 * height );
+				break;
+			case BOTTOM_LEFT_TRIANGLE:
+			case BOTTOM_RIGHT_TRIANGLE:
+				vertex.setY( y + 0.5 * height );
+				break;
 		}
+	}
+	
+	public Sprite getRightAngleVertex() {
+		Sprite vertex = new Sprite();
+		getRightAngleVertex( vertex );
 		return vertex;
 	}
 
 
 
 	public void getOtherVertices( Sprite pivot1, Sprite pivot2 ) {
-		if( shapeType = Sprite.topRightTriangle || shapeType == Sprite.bottomLeftTriangle ) {
-			getBounds( pivot1.x, pivot1.y, pivot2.x, pivot2.y );
+		if( shapeType == ShapeType.TOP_RIGHT_TRIANGLE || shapeType == ShapeType.BOTTOM_LEFT_TRIANGLE ) {
+			getPivots( pivot1, null, pivot2, null );
 		} else {
-			getBounds( pivot1.x, pivot2.y, pivot2.x, pivot1.y );
+			getPivots( null, pivot1, null, pivot2 );
 		}
 	}
 

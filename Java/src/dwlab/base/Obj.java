@@ -8,6 +8,7 @@
  */
 
 package dwlab.base;
+
 import dwlab.base.Sys.XMLMode;
 import dwlab.visualizers.Visualizer;
 import dwlab.xml.XMLObject;
@@ -16,13 +17,12 @@ import dwlab.xml.XMLObject.XMLObjectField;
 import java.util.HashMap;
 import java.util.HashSet;
 
-
 /**
  * Global object class
  */
 public class Obj {
 	public static HashMap<Obj, Integer> iDMap;
-	public static HashSet<XMLObject> removeIDMap;
+	public static HashMap<Obj, XMLObject> removeIDMap;
 	public static int maxID;
 	public static Obj iDArray[];
 	public static HashMap undefinedObjects;

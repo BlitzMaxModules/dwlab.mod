@@ -9,6 +9,8 @@
 
 package dwlab.base;
 
+import dwlab.base.Service.Margins;
+import dwlab.shapes.Vector;
 import dwlab.visualizers.Color;
 import dwlab.visualizers.Image;
 
@@ -40,17 +42,21 @@ public class Graphics {
 	}
 	
 	
-	public static int getScreenWidth() {
+	public static double getScreenWidth() {
+		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+	
+	public static double getScreenHeight() {
 		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
 
-	public static void drawLine( double x1, double y1, double x2, double y2, Color color ) {
+	public static void drawLine( double x1, double y1, double x2, double y2, double width, Color color ) {
 		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
 	public static void drawLine( double x1, double y1, double x2, double y2 ) {
-		drawLine( x1, y1, x2, y2, currentColor );
+		drawLine( x1, y1, x2, y2, 1d, currentColor );
 	}
 	
 	
@@ -58,12 +64,12 @@ public class Graphics {
 		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
-	public static void drawRectangle( double x, double y, double width, double height, double angle ){
-		drawRectangle( x, y, width, height, 0, currentColor );
+	public static void drawRectangle( double x, double y, double width, double height ){
+		drawRectangle( x, y, width, height, 0d, currentColor );
 	}
 
 	
-	public static void drawEmptyRectangle( double x, double y, double width, double height, double angle, Color color ) {
+	public static void drawEmptyRectangle( double x, double y, double width, double height, double angle, double lineWidth, Color color ) {
 		width -= 1;
 		height -= 1;
 		drawLine( x, y, x + width, y );
@@ -73,7 +79,7 @@ public class Graphics {
 	}
 	
 	public static void drawEmptyRectangle( double x, double y, double width, double height ) {
-		drawEmptyRectangle( x, y, width, height, 0, currentColor );
+		drawEmptyRectangle( x, y, width, height, 0d, 1d, currentColor );
 	}
 	
 	
@@ -81,8 +87,30 @@ public class Graphics {
 		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
+	public static void drawOval( double x, double y, double width, double height, double angle ){
+		drawOval( x, y, width, height, angle, currentColor );
+	}
+	
 	public static void drawOval( double x, double y, double width, double height ){
-		drawOval( x, y, width, height, 0, currentColor );
+		drawOval( x, y, width, height, 0d, currentColor );
+	}
+	
+
+	public static void drawLongOval( double sX, double sY, double sWidth, double sHeight, double angle, Color color ) {
+		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+	
+
+	public static void startPolygon( int vertexQuantity ) {
+		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+
+	public static void addPolygonVertex( double x, double y ) {
+		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+
+	public static void drawPolygon() {
+		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
 	
@@ -96,34 +124,6 @@ public class Graphics {
 	
 	public static void drawText( String string, double x, double y ) {
 		drawText( string, x, y, currentColor );
-	}
-	
-	
-	public static void drawImage( Image image, int frame, double x, double y, double width, double height, double angle, Color contourColor ){
-		throw new UnsupportedOperationException( "Not yet implemented" );
-	}
-	
-	public static void drawImage( Image image, int frame, double x, double y, double width, double height ){
-		drawImage( image, frame, x, y, width, height, 0, currentColor );
-	}
-	
-	public static void drawImage( Image image, int frame, double x, double y ){
-		drawImage( image, frame, x, y, image.getWidth(), image.getHeight(), 0, currentColor );
-	}
-	
-
-	public static Image grabImage( Image image, int x, int y, int width, int height ) {
-		throw new UnsupportedOperationException( "Not yet implemented" );
-	}
-
-	
-	public static boolean imagesCollide( Image image1, int frame1, double x1, double y1, Image image2, int frame2, double x2, double y2 ) {
-		throw new UnsupportedOperationException( "Not yet implemented" );
-	}
-
-	public static boolean imagesCollide( Image image1, int frame1, double x1, double y1, double xScale1, double yScale1, double angle1,
-			Image image2, int frame2, double x2, double y2, double xScale2, double yScale2, double angle2 ) {
-		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
 
@@ -147,18 +147,20 @@ public class Graphics {
 	}
 	
 
+	public static void getViewport( Vector pivot, Vector size ) {
+		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+
 	public static void setViewport( double x, double y, double width, double height ) {
 		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
-	
+
+	public static void setViewport( Vector pivot, Vector size ) {
+		setViewport( pivot.x, pivot.y, size.x, size.y );
+	}
 
 	public static void resetViewport() {
-		throw new UnsupportedOperationException( "Not yet implemented" );
-	}
-	
-
-	public static void setLineWidth( double lineWidth ) {
-		throw new UnsupportedOperationException( "Not yet implemented" );
+		setViewport( 0.5d * getScreenWidth(), 0.5d * getScreenHeight() , getScreenWidth(), getScreenHeight() );
 	}
 }
 

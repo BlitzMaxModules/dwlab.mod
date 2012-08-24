@@ -10,8 +10,8 @@
 package dwlab.behavior_models;
 
 import dwlab.shapes.Shape;
-import dwlab.sprites.Sprite;
-import dwlab.sprites.VectorSprite;
+import dwlab.shapes.sprites.Sprite;
+import dwlab.shapes.sprites.VectorSprite;
 
 /**
  * Distance joint keeps fixed distance between parent pivot and given shape.

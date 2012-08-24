@@ -1,12 +1,3 @@
-package dwlab.visualizers;
-import dwlab.base.Obj;
-import dwlab.base.Sys;
-import dwlab.base.Graphics;
-import java.util.HashMap;
-import xml.XMLMode;
-import xml.XMLObject;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov
  *
@@ -16,6 +7,15 @@ import xml.XMLObject;
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 
+package dwlab.visualizers;
+
+import dwlab.base.Graphics;
+import dwlab.base.Obj;
+import dwlab.base.Sys;
+import dwlab.xml.XMLObject;
+import java.awt.image.BufferedImage;
+import java.util.HashMap;
+
 /**
  * Image class.
  */
@@ -23,45 +23,49 @@ public class Image extends Obj {
 	public static boolean loadImages = true;
 	private static HashMap bitmaps = new HashMap();
 
-	private java.awt.Image[] javaImage;
-	private String filename;
-	private int xCells = 1;
-	private int yCells = 1;
+	BufferedImage[] javaImage;
+	String filename;
+	int xCells = 1;
+	int yCells = 1;
 
+	
+	public Image() {
+	}
 	
 	public Image( int frames ) {
-		javaImage = new java.awt.Image[ frames ];
+		javaImage = new BufferedImage[ frames ];
 	}
 	
+	public Image( int width, int height ) {
+		javaImage = new BufferedImage[ 1 ];
+		javaImage[ 0 ] = new BufferedImage( width, height, BufferedImage.TYPE_3BYTE_BGR );
+	}
 	
 	public Image( int frames, int width, int height ) {
-		javaImage = new java.awt.Image[ frames ];
+		javaImage = new BufferedImage[ frames ];
 		for( int n = 0; n < frames; n++ ) {
-			javaImage[ n ] = new Image( width, height );
+			javaImage[ n ] = new BufferedImage( width, height, BufferedImage.TYPE_3BYTE_BGR );
 		}
 	}
-
 
 	/**
 	 * Creates new image from file with specified cell quantities for splitting.
 	 * @return New image (LTImage).
 	 */
-	public static Image fromFile( String filename, int xCells, int yCells ) {
-		//?debug
-		//If XCells <= 0 Or YCells <= 0 Then L_Error( "Cells quantity must be 1 or more" )
-		//?
+	public Image( String filename, int xCells, int yCells ) {
+		if( Sys.debug ) if( xCells <= 0 || yCells <= 0 ) error( "Cells quantity must be 1 or more" );
 
-		Image image = new Image();
-		image.filename = filename;
-		image.xCells = xCells;
-		image.yCells = yCells;
-		image.init();
-
-		return image;
+		this.filename = filename;
+		this.xCells = xCells;
+		this.yCells = yCells;
+		this.init();
 	}
 
-	public static Image fromFile( String filename ) {
-		return fromFile( filename, 1, 1 );
+	public Image( String filename ) {
+		this.filename = filename;
+		this.xCells = 1;
+		this.yCells = 1;
+		this.init();
 	}
 
 
@@ -69,7 +73,8 @@ public class Image extends Obj {
 	 * Initializes image.
 	 * Splits image by XCells x YCells grid. Will be executed after loading image object from XML file.
 	 */
-	public void init() {
+	public final void initImage() {
+		/*
 		tPixmap pixmap = loadPixmap( incbin + filename );
 		if( ! pixmap ) error( incbin + filename + " cannot be loaded or not found." );
 		//?debug
@@ -89,8 +94,8 @@ public class Image extends Obj {
 			javaImage = loadAnimImage( pixmap, cellWidth, cellHeight, 0, xCells * yCells );
 			bitmaps.put( filename, bitmap );
 		}
+		*/
 	}
-
 
 
 	/**
@@ -102,7 +107,6 @@ public class Image extends Obj {
 	}
 
 
-
 	/**
 	 * Returns width of image.
 	 * @return Width of image in pixels.
@@ -110,7 +114,6 @@ public class Image extends Obj {
 	public int getWidth() {
 		return javaImage[ 0 ].getWidth( null );
 	}
-
 
 
 	/**
@@ -122,12 +125,10 @@ public class Image extends Obj {
 	}
 
 	
-	
 	public int getXCells() {
 		return xCells;
 	}
 
-	
 	
 	public int getYCells() {
 		return yCells;
@@ -142,32 +143,75 @@ public class Image extends Obj {
 		xCells = xMLObject.manageIntAttribute( "xcells", xCells, 1 );
 		yCells = xMLObject.manageIntAttribute( "ycells", yCells, 1 );
 
-		//If Not L_EditorData.Images.Contains( Self ) L_EditorData.Images.AddLast( Self )
-
-		if( Sys.xMLGetMode() && loadImages ) init();
+		if( Sys.xMLGetMode() && loadImages ) initImage();
 	}
 	
 
-	public Image grab( int frame, int x, int y, int width, int height ) {
-		return Graphics.grabImage( javaImage[ frame ], x, y, width, height );
+	public void grab( int frame, int x, int y, int width, int height ) {
+		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
-	
 
-	public Image grab( int x, int y, int width, int height ) {
-		return Graphics.grabImage( javaImage[ 0 ], x, y, width, height );
+	
+	public static Image grab( int x, int y, int width, int height ) {
+		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
 
 	public int getPixel( int frame, int x, int y ) {
-		return Graphics.getImagePixel( javaImage[ frame ], x, y );
+		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
 
 	public int getPixel( int x, int y ) {
-		return Graphics.getImagePixel( javaImage[ 0 ], x, y );
+		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 
 	public void setPixel( int x, int y, int color ) {
+		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+	
+	
+	public void draw( int frame, double x, double y, double width, double height, double angle, Color color ){
+		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+	
+	public void draw( int frame, double x, double y, double width, double height, double angle ){
+		draw( frame, x, y, width, height, angle, Color.white );
+	}
+	
+	public void draw( int frame, double x, double y, double width, double height ){
+		draw( frame, x, y, width, height, 0d, Color.white );
+	}
+	
+	public void draw( int frame, double x, double y ){
+		draw( frame, x, y, getWidth(), getHeight(), 0, Color.white );
+	}
+	
+	public void draw( double x, double y ){
+		draw( 0, x, y, getWidth(), getHeight(), 0, Color.white );
+	}
+	
+
+	public void drawAsLine( int frame, double x1, double y1, double x2, double y2, Color color ) {
+		draw( frame, 0.5d * ( x1 + x2 ), 0.5d * ( y1 + y2 ), getWidth(), getHeight(), Math.atan2( y2 - y1, x2 - x1 ), color );
+	}
+	
+	public void drawAsLine( double x1, double y1, double x2, double y2 ) {
+		draw( 0, 0.5d * ( x1 + x2 ), 0.5d * ( y1 + y2 ), getWidth(), getHeight(), Math.atan2( y2 - y1, x2 - x1 ), Color.white );
+	}
+
+	
+	public boolean collides( int frame1, double x1, double y1, Image image2, int frame2, double x2, double y2 ) {
+		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+	
+	public boolean collides( int frame1, double x1, double y1, double width1, double height1,
+			Image image2, int frame2, double x2, double y2, double width2, double height2 ) {
+		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+
+	public boolean collides( int frame1, double x1, double y1, double width1, double height1, double angle1,
+			Image image2, int frame2, double x2, double y2, double width2, double height2, double angle2 ) {
 		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 }

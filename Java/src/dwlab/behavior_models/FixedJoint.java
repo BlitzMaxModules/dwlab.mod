@@ -1,7 +1,7 @@
 package dwlab.behavior_models;
 import java.lang.Math;
 import dwlab.shapes.Shape;
-import dwlab.sprites.Sprite;
+import dwlab.shapes.sprites.Sprite;
 
 
 /* Digital Wizard's Lab - game development framework

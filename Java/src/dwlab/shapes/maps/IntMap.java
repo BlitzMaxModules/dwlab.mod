@@ -6,7 +6,7 @@
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
-package dwlab.maps;
+package dwlab.shapes.maps;
 
 /**
  * IntMap is basically a 2d int array.

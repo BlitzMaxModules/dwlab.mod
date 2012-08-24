@@ -3,8 +3,8 @@ import dwlab.base.Project;
 import java.util.LinkedList;
 import java.lang.Math;
 import dwlab.controllers.ButtonAction;
-import dwlab.sprites.Camera;
-import dwlab.sprites.Sprite;
+import dwlab.shapes.sprites.Camera;
+import dwlab.shapes.sprites.Sprite;
 
 
 /* Digital Wizard's Lab - game development framework

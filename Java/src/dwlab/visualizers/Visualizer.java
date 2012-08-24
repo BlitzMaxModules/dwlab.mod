@@ -7,11 +7,22 @@
  * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
 package dwlab.visualizers;
-import dwlab.maps.TileMap;
+
+import dwlab.base.Graphics;
+import dwlab.base.Project;
+import dwlab.base.Service;
+import dwlab.base.Service.Margins;
+import dwlab.base.Sys;
+import dwlab.shapes.maps.TileMap;
 import dwlab.shapes.LineSegment;
 import dwlab.shapes.Shape;
 import dwlab.shapes.Shape.Facing;
-import dwlab.sprites.Sprite;
+import dwlab.shapes.Vector;
+import dwlab.shapes.maps.SpriteMap;
+import dwlab.shapes.maps.TileSet;
+import dwlab.shapes.sprites.Camera;
+import dwlab.shapes.sprites.Sprite;
+import dwlab.shapes.sprites.Sprite.ShapeType;
 import dwlab.xml.XMLObject;
 import java.util.LinkedList;
 
@@ -72,7 +83,7 @@ public class Visualizer extends Color {
 	 * @see #fromImage, #fromColor, #fromHexColor
 	 */
 	public Visualizer( String filename, int xCells, int yCells ) {
-		this.image = Image.fromFile( filename, xCells, yCells );
+		this.image = new Image( filename, xCells, yCells );
 	}
 
 
@@ -158,52 +169,48 @@ public class Visualizer extends Color {
 		image = newImage;
 	}
 
-	// ==================== Drawing ===================	
+	// ==================== Drawing ===================	}
+
+
+	private static Vector servicePivot = new Vector();
+	private static Vector serviceSizes = new Vector();
 
 	/**
 	 * Draws given sprite using this visualizer.
 	 * Change this method if you are making your own visualizer.
 	 */
 	public void drawUsingSprite( Sprite sprite, Sprite spriteShape ) {
-		if( ! sprite.visible ) return;
+		if( !sprite.visible ) return;
 
-		if( ! spriteShape ) spriteShape == sprite;
-
-		spritesDisplayed += 1;
-
-		applyColor();
-
-		double sX, double sY, double sWidth, double sHeight;
+		if( Sys.debug ) Project.spritesDisplayed += 1;
 
 		if( image != null ) {
-			Camera.current.fieldToScreen( spriteShape.x, spriteShape.y, sX, sY );
+			Camera.current.fieldToScreen( spriteShape, servicePivot );
 
+			double angle;
 			if( rotating ) {
-				setRotation( spriteShape.displayingAngle + spriteShape.angle );
+				angle = spriteShape.displayingAngle + spriteShape.angle;
 			} else {
-				setRotation( spriteShape.displayingAngle );
+				angle = spriteShape.displayingAngle;
 			}
 
-			if( sprite.frame < 0 || sprite.frame >= image.framesQuantity() ) error( "Incorrect frame number ( " + sprite.frame + " ) for sprite \"" + sprite.getTitle() + "\", must be less than " + image.framesQuantity() );
+			if( Sys.debug ) if( sprite.frame < 0 || sprite.frame >= image.framesQuantity() ) {
+				error( "Incorrect frame number ( " + sprite.frame + " ) for sprite \"" + sprite.getTitle() + "\", must be less than " + image.framesQuantity() );
+			}
 
 			if( scaling ) {
-				Camera.current.sizeFieldToScreen( spriteShape.width, spriteShape.height, sWidth, sHeight );
-				double scaledWidth = sWidth * xScale;
-				double scaledHeight = sHeight * yScale;
-				image.draw( sX + dX * scaledWidth, sY + dY * scaledHeight, scaledWidth, scaledHeight, sprite.frame );
+				Camera.current.sizeFieldToScreen( spriteShape, serviceSizes );
+				double scaledWidth = serviceSizes.x * xScale;
+				double scaledHeight = serviceSizes.y * yScale;
+				image.draw( sprite.frame, servicePivot.x + dX * scaledWidth, servicePivot.y + dY * scaledHeight, scaledWidth, scaledHeight, angle, sprite.visualizer );
 			} else {
-				double scaledWidth = imageWidth( image.bMaxImage ) * xScale;
-				double scaledHeight = imageHeight( image.bMaxImage ) * yScale;
-				image.draw( sX + dX * scaledWidth, sY + dY * scaledHeight, scaledWidth, scaledHeight, sprite.frame );
+				double scaledWidth = image.getWidth() * xScale;
+				double scaledHeight = image.getHeight() * yScale;
+				image.draw( sprite.frame, servicePivot.x + dX * scaledWidth, servicePivot.y + dY * scaledHeight, scaledWidth, scaledHeight, angle, sprite.visualizer );
 			}
-
-			setScale( 1.0, 1.0 );
-			setRotation( 0.0 );
 		} else {
-			drawSpriteShape( sprite, spriteShape );
+			drawSpriteShape( sprite, spriteShape, sprite.visualizer );
 		}
-
-		resetColor();
 	}
 
 	public void drawUsingSprite( Sprite sprite ) {
@@ -215,114 +222,98 @@ public class Visualizer extends Color {
 	 * Draws sprite shape.
 	 * Isometric camera deformations are also applied.
 	 */
-	public void drawSpriteShape( Sprite sprite, Sprite spriteShape ) {
-		if( ! spriteShape ) spriteShape = sprite;
-
-		double sX, double sY, double sWidth, double sHeight;
-		if( sprite.shapeType == Sprite.pivot ) {
-			Camera.current.fieldToScreen( sprite.x, sprite.y, sX, sY );
-			drawOval( sX - 2.5 * xScale + 0.5, sY - 2.5 * yScale + 0.5, 5 * xScale, 5 * yScale );
+	public void drawSpriteShape( Sprite sprite, Sprite spriteShape, Color color ) {
+		if( sprite.shapeType == ShapeType.PIVOT ) {
+			Camera.current.fieldToScreen( sprite, servicePivot );
+			Graphics.drawOval( servicePivot.x - 2.5d * xScale + 0.5d, servicePivot.y - 2.5d * yScale + 0.5d, 5d * xScale, 5d * yScale );
 		} else if( Camera.current.isometric ) {
 			switch( sprite.shapeType ) {
-				case Sprite.circle:
-					drawIsoOval( sprite.x, sprite.y, sprite.width, sprite.height );
-				case Sprite.rectangle:
-					drawIsoRectangle( spriteShape.x, sprite.y, spriteShape.width, sprite.height );
+				case OVAL:
+					drawIsoOval( sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight(), color );
+				case RECTANGLE:
+					drawIsoRectangle( spriteShape.getX(), sprite.getY(), spriteShape.getWidth(), sprite.getHeight(), color );
 			}
 		} else {
-			Camera.current.fieldToScreen( spriteShape.x, spriteShape.y, sX, sY );
-			Camera.current.sizeFieldToScreen( spriteShape.width * xScale, spriteShape.height * yScale, sWidth, sHeight );
-			sX += dX * sWidth;
-			sY += dY * sHeight;
+			Camera.current.fieldToScreen( spriteShape, servicePivot );
+			Camera.current.sizeFieldToScreen( spriteShape.getWidth() * xScale, spriteShape.getHeight() * yScale, serviceSizes );
+			servicePivot.x += dX * serviceSizes.x;
+			servicePivot.y += dY * serviceSizes.y;
 
-			if( sprite.shapeType == Sprite.raster ) {
-				if( image ) {
+			if( sprite.shapeType == ShapeType.RASTER ) {
+				if( image != null ) {
+					/*
 					int blend = getBlend();
 					setBlend mASKBLEND ;
 					drawUsingSprite( sprite );
 					setBlend blend;
+					*/
 				}
 			} else {
-				drawShape( sprite.shapeType, sX, sY, sWidth, sHeight, sprite.physics() || sprite.shapeType == Sprite.ray ? 0: spriteShape.angle );
+				drawShape( sprite.shapeType, servicePivot .x, servicePivot .y, serviceSizes.x, serviceSizes.y,
+						( sprite.physics() || sprite.shapeType == ShapeType.RAY ? spriteShape.angle : 0d ), color );
 			}
 		}
+	}
+	
+	public void drawSpriteShape( Sprite sprite, Color color ) {
+		drawSpriteShape( sprite, sprite, color );
 	}
 
 
 
-	public static void drawShape( Sprite.ShapeType shapeType, double sX, double sY, double sWidth, double sHeight, double angle ) {
-		setRotation( angle );
-
+	public static void drawShape( Sprite.ShapeType shapeType, double sX, double sY, double sWidth, double sHeight, double angle, Color color ) {
 		switch( shapeType ) {
 			case OVAL:
 				if( sWidth == sHeight ) {
-					setHandle( 0.5 * sWidth, 0.5 * sHeight );
-					drawOval( sX, sY, sWidth, sHeight );
-					setHandle( 0.0, 0.0 );
-				} else if( sWidth > sHeight ) {
-					double dWidth = sWidth - sHeight;
-					setHandle( 0.5 * sWidth, 0.5 * sHeight );
-					drawOval( sX, sY, sHeight, sHeight );
-					setHandle( sHeight - 0.5 * sWidth, 0.5 * sHeight );
-					drawOval( sX, sY, sHeight, sHeight );
-					setHandle( 0.5 * dWidth, 0.5 * sHeight );
-					drawRect( sX, sY, dWidth, sHeight );
-					setHandle( 0.0, 0.0 );
+					Graphics.drawOval( sX, sY, sWidth, sHeight, angle, color );
 				} else {
-					double dHeight = sHeight - sWidth;
-					setHandle( 0.5 * sWidth, 0.5 * sHeight );
-					drawOval( sX, sY, sWidth, sWidth );
-					setHandle( 0.5 * sWidth, sWidth - 0.5 * sHeight );
-					drawOval( sX, sY, sWidth, sWidth );
-					setHandle( 0.5 * sWidth, 0.5 * dHeight );
-					drawRect( sX, sY, sWidth, dHeight );
-					setHandle( 0.0, 0.0 );
+					Graphics.drawLongOval( sX, sY, sWidth, sHeight, angle, color );
 				}
-				setOrigin( 0.0, 0.0 );
 				break;
 			case RECTANGLE:
-				setHandle( 0.5 * sWidth, 0.5 * sHeight );
-				drawRect( sX, sY, sWidth, sHeight );
-				setHandle( 0.0, 0.0 );
+				Graphics.drawRectangle( sX, sY, sWidth, sHeight, angle, color );
 				break;
 			case RAY:
-				setRotation( 0.0 );
-				drawOval( sX - 2, sY - 2, 5, 5 );
-				double ang = wrapDouble( angle, 360.0 );
+				Graphics.drawOval( sX - 2, sY - 2, 5, 5, 0d, color );
+				double ang = Service.wrap( angle, 360.0 );
 				if( ang < 45.0 || ang >= 315.0 ) {
 					double width = Camera.current.viewport.rightX() - sX;
-					if( width > 0 ) drawLine( sX, sY, sX + width, sY + width * Math.tan( ang ) );
+					if( width > 0 ) Graphics.drawLine( sX, sY, sX + width, sY + width * Math.tan( ang ), 1d, color );
 				} else if( ang < 135.0 ) {
 					double height = Camera.current.viewport.bottomY() - sY;
-					if( height > 0 ) drawLine( sX, sY, sX + height / Math.tan( ang ), sY + height );
+					if( height > 0 ) Graphics.drawLine( sX, sY, sX + height / Math.tan( ang ), sY + height, 1d, color );
 				} else if( ang < 225.0 ) {
 					double width = Camera.current.viewport.leftX() - sX;
-					if( width < 0 ) drawLine( sX, sY, sX + width, sY + width * Math.tan( ang ) );
+					if( width < 0 ) Graphics.drawLine( sX, sY, sX + width, sY + width * Math.tan( ang ), 1d, color );
 				} else {
 					double height = Camera.current.viewport.topY() - sY;
-					if( height < 0 ) drawLine( sX, sY, sX + height / Math.tan( ang ), sY + height );
+					if( height < 0 ) Graphics.drawLine( sX, sY, sX + height / Math.tan( ang ), sY + height, 1d, color );
 				}
 				break;
 			default:
-				setOrigin( sX, sY );
+				sWidth *= 0.5d;
+				sHeight *= 0.5d;
+				Graphics.startPolygon( 3 );
 				switch( shapeType ) {
 					case TOP_LEFT_TRIANGLE:
-						drawPoly( [ float( -0.5 * sWidth ), float( -0.5 * sHeight ), float( 0.5 * sWidth ), float( -0.5 * sHeight ),
-								float( -0.5 * sWidth ), float( 0.5 * sHeight ) ] );
+						Graphics.addPolygonVertex( sX - sWidth, sY - sHeight );
+						Graphics.addPolygonVertex( sX + sWidth, sY - sHeight );
+						Graphics.addPolygonVertex( sX - sWidth, sY + sHeight );
 					case TOP_RIGHT_TRIANGLE:
-						drawPoly( [ float( -0.5 * sWidth ), float( -0.5 * sHeight ), float( 0.5 * sWidth ), float( -0.5 * sHeight ),
-								float( 0.5 * sWidth ), float( 0.5 * sHeight ) ] );
+						Graphics.addPolygonVertex( sX - sWidth, sY - sHeight );
+						Graphics.addPolygonVertex( sX + sWidth, sY - sHeight );
+						Graphics.addPolygonVertex( sX + sWidth, sY + sHeight );
 					case BOTTOM_LEFT_TRIANGLE:
-						drawPoly( [ float( -0.5 * sWidth ), float( 0.5 * sHeight ), float( 0.5 * sWidth ), float( 0.5 * sHeight ),
-								float( -0.5 * sWidth ), float( -0.5 * sHeight ) ] );
+						Graphics.addPolygonVertex( sX - sWidth, sY + sHeight );
+						Graphics.addPolygonVertex( sX + sWidth, sY + sHeight );
+						Graphics.addPolygonVertex( sX - sWidth, sY - sHeight );
 					case BOTTOM_RIGHT_TRIANGLE:
-						drawPoly( [ float( -0.5 * sWidth ), float( 0.5 * sHeight ), float( 0.5 * sWidth ), float( 0.5 * sHeight ),
-								float( 0.5 * sWidth ), float( -0.5 * sHeight ) ] );
+						Graphics.addPolygonVertex( sX - sWidth, sY + sHeight );
+						Graphics.addPolygonVertex( sX + sWidth, sY + sHeight );
+						Graphics.addPolygonVertex( sX + sWidth, sY - sHeight );
 				}
-				setOrigin( 0.0, 0.0 );
+				Graphics.drawPolygon();
 		}
-
-		setRotation( 0.0 );
 	}
 
 
@@ -330,13 +321,17 @@ public class Visualizer extends Color {
 	/**
 	 * Draws rectangle for isometric camera using given field coordinates and size.
 	 */
-	public void drawIsoRectangle( double x, double y, double width, double height ) {
-		float s[] = new float()[ 8 ];
-		Camera.current.fieldToScreenFloat( x - 0.5 * width, y - 0.5 * height, s[ 0 ], s[ 1 ] );
-		Camera.current.fieldToScreenFloat( x - 0.5 * width, y + 0.5 * height, s[ 2 ], s[ 3 ] );
-		Camera.current.fieldToScreenFloat( x + 0.5 * width, y + 0.5 * height, s[ 4 ], s[ 5 ] );
-		Camera.current.fieldToScreenFloat( x + 0.5 * width, y - 0.5 * height, s[ 6 ], s[ 7 ] );
-		drawPoly( s );
+	public void drawIsoRectangle( double x, double y, double width, double height, Color color ) {
+		Graphics.startPolygon( 4 );
+		Camera.current.fieldToScreen( x - 0.5 * width, y - 0.5 * height, servicePivot );
+		Graphics.addPolygonVertex( servicePivot.x, servicePivot.y );
+		Camera.current.fieldToScreen( x - 0.5 * width, y + 0.5 * height, servicePivot );
+		Graphics.addPolygonVertex( servicePivot.x, servicePivot.y );
+		Camera.current.fieldToScreen( x + 0.5 * width, y + 0.5 * height, servicePivot );
+		Graphics.addPolygonVertex( servicePivot.x, servicePivot.y );
+		Camera.current.fieldToScreen( x + 0.5 * width, y - 0.5 * height, servicePivot );
+		Graphics.addPolygonVertex( servicePivot.x, servicePivot.y );
+		Graphics.drawPolygon();
 	}
 
 
@@ -344,114 +339,107 @@ public class Visualizer extends Color {
 	/**
 	 * Draws oval for isometric camera using given field coordinates and size.
 	 */
-	public void drawIsoOval( double x, double y, double width, double height ) {
-		float s[] = new float()[ 16 ];
+	public void drawIsoOval( double x, double y, double width, double height, Color color ) {
+		Graphics.startPolygon( 8 );
 		double xRadius = 0.5 * width;
 		double yRadius = 0.5 * height;
-		for( int n=0; n <= 16 step 2; n++ ) {
+		for( int n=0; n < 16; n += 2 ) {
 			double angle = 22.5 * n;
-			Camera.current.fieldToScreenFloat( x + xRadius * Math.cos( angle ), y + yRadius * Math.sin( angle ), s[ n ], s[ n + 1 ] );
+			Camera.current.fieldToScreen( x + xRadius * Math.cos( angle ), y + yRadius * Math.sin( angle ), servicePivot );
+			Graphics.addPolygonVertex( servicePivot.x, servicePivot.y );
 		}
-		drawPoly( s );
+		Graphics.drawPolygon();
 	}
 
 
-
+	private static Vector servicePivot1 = new Vector();
+	private static Vector servicePivot2 = new Vector();
+	
 	/**
 	 * Draws given line using this visualizer.
 	 * Change this method if you are making your own visualizer.
 	 */
 	public void drawUsingLineSegment( LineSegment lineSegment ) {
 		if( ! lineSegment.visible ) return;
-
-		applyColor();
-
-		double sX1, double sY1, double sX2, double sY2;
-		Camera.current.fieldToScreen( lineSegment.pivot[ 0 ].x, lineSegment.pivot[ 0 ].y, sX1, sY1 );
-		Camera.current.fieldToScreen( lineSegment.pivot[ 1 ].x, lineSegment.pivot[ 1 ].y, sX2, sY2 );
-
-		drawLine( sX1, sY1, sX2, sY2 );
-
-		resetColor();
+		Camera.current.fieldToScreen( lineSegment.pivot[ 0 ].getX(), lineSegment.pivot[ 0 ].getY(), servicePivot1 );
+		Camera.current.fieldToScreen( lineSegment.pivot[ 1 ].getX(), lineSegment.pivot[ 1 ].getY(), servicePivot2 );
+		Graphics.drawLine( servicePivot1.x, servicePivot1.y, servicePivot2.x, servicePivot2.y, 1d, this );
 	}
 
 
-
+	private static Margins margins = new Margins();
+	
 	/**
 	 * Draws given tilemap using this visualizer.
 	 * Change this method if you are making your own visualizer.
 	 */
-	public void drawUsingTileMap( TileMap tileMap, LinkedList shapes ) {
-		if( ! tileMap.visible ) return;
+	public void drawUsingTileMap( TileMap tileMap, LinkedList<Shape> shapes ) {
+		if( !tileMap.visible ) return;
 
 		TileSet tileSet = tileMap.tileSet;
-		if( ! tileSet ) return;
+		if( tileSet == null ) return;
 
-		Image image = tileSet.image;
-
-		applyColor();
+		Image tileSetImage = tileSet.image;
 
 		double cellWidth = tileMap.getTileWidth();
 		double cellHeight = tileMap.getTileHeight();
 
-		double minX, double minY, double maxX, double maxY;
-		getEscribedRectangle( tileMap.leftMargin, tileMap.topMargin, tileMap.rightMargin, tileMap.bottomMargin, minX, minY, maxX, maxY );
+		Service.getEscribedRectangle( tileMap.leftMargin, tileMap.topMargin, tileMap.rightMargin, tileMap.bottomMargin, margins );
 
 		double cornerX = tileMap.leftX();
 		double cornerY = tileMap.topY();
-		int minTileX = Math.floor( ( minX - cornerX ) / cellWidth );
-		int minTileY = Math.floor( ( minY - cornerY ) / cellHeight );
-		int maxTileX = Math.ceil( ( maxX - cornerX ) / cellWidth );
-		int maxTileY = Math.ceil( ( maxY - cornerY ) / cellHeight );
+		int minTileX = Service.floor( ( margins.min.x - cornerX ) / cellWidth );
+		int minTileY = Service.floor( ( margins.min.y - cornerY ) / cellHeight );
+		int maxTileX = Service.ceil( ( margins.max.x - cornerX ) / cellWidth );
+		int maxTileY = Service.ceil( ( margins.max.y - cornerY ) / cellHeight );
 
-		if( ! tileMap.wrapped ) {
-			minTileX = limitInt( minTileX, 0, tileMap.xQuantity - 1 );
-			minTileY = limitInt( minTileY, 0, tileMap.yQuantity - 1 );
-			maxTileX = limitInt( maxTileX, 0, tileMap.xQuantity - 1 );
-			maxTileY = limitInt( maxTileY, 0, tileMap.yQuantity - 1 );
+		if( !tileMap.wrapped ) {
+			minTileX = Service.limit( minTileX, 0, tileMap.xQuantity - 1 );
+			minTileY = Service.limit( minTileY, 0, tileMap.yQuantity - 1 );
+			maxTileX = Service.limit( maxTileX, 0, tileMap.xQuantity - 1 );
+			maxTileY = Service.limit( maxTileY, 0, tileMap.yQuantity - 1 );
 		}
 
-		int tileDX = tileMap.horizontalOrder, int tileDY = tileMap.verticalOrder;
-		double sDX = cellWidth * tileDX, double sDY = cellHeight * tileDY;
+		int tileDX = tileMap.horizontalOrder, tileDY = tileMap.verticalOrder;
+		double sDX = cellWidth * tileDX, sDY = cellHeight * tileDY;
 
-		double sWidth, double sHeight;
-		Camera.current.sizeFieldToScreen( cellWidth, cellHeight, sWidth, sHeight );
+		Camera.current.sizeFieldToScreen( cellWidth, cellHeight, serviceSizes );
 
-		if( ! Camera.current.isometric then if ! image ) return;
+		if( !Camera.current.isometric ) if ( tileSetImage == null ) return;
 
 		int tileY;
-		if( tileDY = 1 ) tileY = minTileY; else tileY == maxTileY;
+		if( tileDY == 1 ) tileY = minTileY; else tileY = maxTileY;
 		double y = cornerY + cellHeight * ( 0.5 + tileY );
 		while( true ) {
 			if( tileDY == 1 ) {
-				if( tileY > maxTileY ) exit;
+				if( tileY > maxTileY ) break;
 			} else {
-				if( tileY < minTileY ) exit;
+				if( tileY < minTileY ) break;
 			}
 
 			int tileX;
-			if( tileDX = 1 ) tileX = minTileX; else tileX == maxTileX;
+			if( tileDX == 1 ) tileX = minTileX; else tileX = maxTileX;
 
 			double x = cornerX + cellWidth * ( 0.5 + tileX );
 
 			while( true ) {
 				if( tileDX == 1 ) {
-					if( tileX > maxTileX ) exit;
+					if( tileX > maxTileX ) break;
 				} else {
-					if( tileX < minTileX ) exit;
+					if( tileX < minTileX ) break;
 				}
 
-				if( shapes ) {
+				if( shapes != null ) {
 					for( Shape shape: shapes ) {
-						TileMap childTileMap = TileMap( shape );
-						if( childTileMap ) {
-							drawTile( childTileMap, x, y, sWidth, sHeight, tileX, tileY );
+						TileMap childTileMap = shape.toTileMap();
+						if( childTileMap != null ) {
+							drawTile( childTileMap, x, y, serviceSizes.x, serviceSizes.y, tileX, tileY );
 						} else {
-							drawSpriteMapTile( SpriteMap( shape ), x, y );
+							drawSpriteMapTile( shape.toSpriteMap(), x, y );
 						}
 					}
 				} else {
-					drawTile( tileMap, x, y, sWidth, sHeight, tileX, tileY );
+					drawTile( tileMap, x, y, serviceSizes.x, serviceSizes.y, tileX, tileY );
 				}
 
 				x += sDX;
@@ -461,9 +449,6 @@ public class Visualizer extends Color {
 			y+= sDY;
 			tileY += tileDY;
 		}
-
-		resetColor();
-		setScale( 1.0, 1.0 );
 	}
 	
 	public void drawUsingTileMap( TileMap tileMap ) {
@@ -480,25 +465,22 @@ public class Visualizer extends Color {
 	 * @see #drawUsingTileMap
 	 */
 	public void drawTile( TileMap tileMap, double x, double y, double width, double height, int tileX, int tileY ) {
-		applyColor();
-
-		TileSet tileSet =tilemap.tileSet;
+		TileSet tileSet =tileMap.tileSet;
 		int tileValue = getTileValue( tileMap, tileX, tileY );
 		if( tileValue == tileSet.emptyTile ) return;
 
-		Image image = tileSet.image;
-		if( ! image ) return;
+		Image tileSetImage = tileSet.image;
+		if( tileSetImage == null ) return;
 
-		double sX, double sY;
-		Camera.current.fieldToScreen( x, y, sX, sY );
+		Camera.current.fieldToScreen( x, y, servicePivot );
 
 		Visualizer visualizer = tileMap.visualizer;
 		width *= visualizer.xScale;
 		height *= visualizer.yScale;
 
-		image.draw( sX + visualizer.dX * width, sY + visualizer.dY * height, width, height, tileValue );
+		tileSetImage.draw( tileValue, servicePivot.x + visualizer.dX * width, servicePivot.y + visualizer.dY * height, width, height  );
 
-		tilesDisplayed += 1;
+		if( Sys.debug ) Project.tilesDisplayed += 1;
 	}
 
 
@@ -507,26 +489,23 @@ public class Visualizer extends Color {
 	 * @return Tile number for given tilemap and tile coordinates.
 	 */
 	public int getTileValue( TileMap tileMap, int tileX, int tileY ) {
-		return tileMap.value[ tileMap.wrapX( tileX ), tileMap.wrapY( tileY ) ];
+		return tileMap.value[ tileMap.wrapY( tileY ) ][ tileMap.wrapX( tileX ) ];
 	}
-
 
 
 	public void drawSpriteMapTile( SpriteMap spriteMap, double x, double y ) {
-		if( ! spriteMap.visible ) return;
-		int tileX = int( Math.floor( x / spriteMap.cellWidth ) ) & spriteMap.xMask;
-		int tileY = int( Math.floor( y / spriteMap.cellHeight ) ) & spriteMap.yMask;
-		for( int n=0; n <= spriteMap.listSize[ tileX, tileY ]; n++ ) {
-			spriteMap.lists[ tileX, tileY ][ n ].draw();
+		if( !spriteMap.visible ) return;
+		int tileX = Service.floor( x / spriteMap.cellWidth ) & spriteMap.xMask;
+		int tileY = Service.floor( y / spriteMap.cellHeight ) & spriteMap.yMask;
+		for( int n=0; n <= spriteMap.listSize[ tileY ][ tileX ]; n++ ) {
+			spriteMap.lists[ tileY ][ tileX ][ n ].draw();
 		}
 	}
-
 
 
 	public Facing getFacing() {
 		return xScale < 0 ? Facing.LEFT : Facing.RIGHT;
 	}
-
 
 
 	public void setFacing( Facing newFacing ) {
@@ -566,12 +545,12 @@ public class Visualizer extends Color {
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
 
-		xMLObject.manageDoubleAttribute( "dx", dX );
-		xMLObject.manageDoubleAttribute( "dy", dY );
-		xMLObject.manageDoubleAttribute( "xscale", xScale, 1.0 );
-		xMLObject.manageDoubleAttribute( "yscale", yScale, 1.0 );
-		xMLObject.manageIntAttribute( "scaling", scaling, 1 );
-		xMLObject.manageIntAttribute( "rotating", rotating, 1 );
-		image = Image( xMLObject.manageObjectField( "image", image ) );
+		dX = xMLObject.manageDoubleAttribute( "dx", dX );
+		dY = xMLObject.manageDoubleAttribute( "dy", dY );
+		xScale = xMLObject.manageDoubleAttribute( "xscale", xScale, 1.0 );
+		yScale = xMLObject.manageDoubleAttribute( "yscale", yScale, 1.0 );
+		scaling = xMLObject.manageBooleanAttribute( "scaling", scaling, true );
+		rotating = xMLObject.manageBooleanAttribute( "rotating", rotating, true );
+		image = xMLObject.manageObjectField( "image", image );
 	}
 }

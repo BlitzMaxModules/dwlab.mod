@@ -7,10 +7,10 @@
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 
-package dwlab.layers;
+package dwlab.shapes.layers;
 
 import dwlab.base.Obj;
-import dwlab.maps.TileSet;
+import dwlab.shapes.maps.TileSet;
 import dwlab.visualizers.Color;
 import dwlab.visualizers.Image;
 import dwlab.xml.XMLObject;

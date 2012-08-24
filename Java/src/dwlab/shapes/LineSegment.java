@@ -9,7 +9,7 @@
 package dwlab.shapes;
 
 import dwlab.visualizers.Visualizer;
-import dwlab.sprites.Sprite;
+import dwlab.shapes.sprites.Sprite;
 import dwlab.xml.XMLObject;
 
 /**

@@ -11,7 +11,7 @@ package dwlab.behavior_models;
 
 import dwlab.base.Project;
 import dwlab.shapes.Shape;
-import dwlab.sprites.Sprite;
+import dwlab.shapes.sprites.Sprite;
 
 /**
  * This model plays animation of the sprite.

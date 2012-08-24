@@ -2,7 +2,7 @@ package dwlab.gui;
 import dwlab.base.Project;
 import dwlab.base.Service;
 import dwlab.controllers.ButtonAction;
-import dwlab.sprites.Sprite;
+import dwlab.shapes.sprites.Sprite;
 
 
 /* Digital Wizard's Lab - game development framework

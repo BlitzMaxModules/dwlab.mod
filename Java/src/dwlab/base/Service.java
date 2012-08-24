@@ -11,7 +11,7 @@ package dwlab.base;
 
 import dwlab.shapes.Shape;
 import dwlab.shapes.Vector;
-import dwlab.sprites.Camera;
+import dwlab.shapes.sprites.Camera;
 import dwlab.visualizers.Color;
 import java.util.Arrays;
 
@@ -426,6 +426,11 @@ public class Service extends Obj {
 	
 	public static int floor( double value ) {
 		return (int) Math.floor( value );
+	}
+	
+
+	public static int ceil( double value ) {
+		return (int) Math.ceil( value );
 	}
 
 	

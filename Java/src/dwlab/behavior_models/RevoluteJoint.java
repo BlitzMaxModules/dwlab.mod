@@ -11,7 +11,7 @@ package dwlab.behavior_models;
 
 import dwlab.base.Service;
 import dwlab.shapes.Shape;
-import dwlab.sprites.Sprite;
+import dwlab.shapes.sprites.Sprite;
 
 /**
  * Revolute joint moves angular sprite if parent pivot moves or rotates, but the sprite can be rotated freely.

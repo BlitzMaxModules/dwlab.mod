@@ -11,8 +11,8 @@ package dwlab.shapes;
 import dwlab.base.Graphics;
 import dwlab.base.Service;
 import dwlab.base.Sys;
-import dwlab.sprites.Camera;
-import dwlab.sprites.Sprite;
+import dwlab.shapes.sprites.Camera;
+import dwlab.shapes.sprites.Sprite;
 
 /**
  * Line is represented by A B and C values in Ax + Bx + C = 0 equation.

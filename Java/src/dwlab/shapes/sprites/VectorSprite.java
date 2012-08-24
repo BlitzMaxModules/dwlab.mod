@@ -1,4 +1,4 @@
-package dwlab.sprites;
+package dwlab.shapes.sprites;
 import dwlab.base.Project;
 import dwlab.base.Service;
 import java.lang.Math;

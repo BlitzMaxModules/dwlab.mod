@@ -11,10 +11,10 @@ package dwlab.gui;
 
 import dwlab.base.Project;
 import dwlab.base.Sys;
-import dwlab.layers.Layer;
-import dwlab.layers.World;
+import dwlab.shapes.layers.Layer;
+import dwlab.shapes.layers.World;
 import dwlab.shapes.Shape;
-import dwlab.sprites.Camera;
+import dwlab.shapes.sprites.Camera;
 import java.util.Iterator;
 import java.util.LinkedList;
 

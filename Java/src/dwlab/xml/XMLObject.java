@@ -14,6 +14,7 @@ import dwlab.base.Service;
 import dwlab.base.Sys;
 import dwlab.base.Sys.XMLMode;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -280,17 +281,17 @@ public class XMLObject extends Obj {
 
 			if( obj == null ) error( "Object with id " + iD + " not found" );
 		} else if( obj != null ) {
-			String iD = iDMap.get( obj );
+			int iD = iDMap.get( obj );
 
-			if( ! iD ) {
-				iD = String( maxID );
+			if( iD == 0 ) {
+				iD = maxID;
 				iDMap.put( obj, iD );
 				maxID += 1;
 				undefinedObjects.put( obj, null );
 			}
 			removeIDMap.remove( obj );
 
-			setAttribute( attrName, iD );
+			setAttribute( attrName, String.valueOf( iD ) );
 		}
 		return obj;
 	}
@@ -346,22 +347,15 @@ public class XMLObject extends Obj {
 	 * @see #xMLIO example
 	 */
 	public <E extends Obj> E manageObjectField( String fieldName, E fieldObject ) {
-		if( Sys.xMLMode == XMLMode.GET ) {
+		if( Sys.xMLGetMode() ) {
 			XMLObject xMLObject = getField( fieldName );
-
-			if( ! xMLObject ) return fieldObject;
-
-			return xMLObject.manageObject( fieldObject );
-		} else if( fieldObject then ) {
-
-			if( fieldObject ) {
-				XMLObject xMLObject = new XMLObject();
-				xMLObject.manageObject( fieldObject );
-				setField( fieldName, xMLObject );
-			}
-
-			return fieldObject;
+			if( xMLObject != null ) return xMLObject.manageObject( fieldObject );
+		} else if( fieldObject != null ) {
+			XMLObject xMLObject = new XMLObject();
+			xMLObject.manageObject( fieldObject );
+			setField( fieldName, xMLObject );
 		}
+		return fieldObject;
 	}
 
 
@@ -369,12 +363,11 @@ public class XMLObject extends Obj {
 	 * Transfers data between XMLObject contents and framework object field with TList type.
 	 * @see #manageChildList, #xMLIO example
 	 */
-	public void manageListField( String fieldName, LinkedList list var ) {
-		if( Sys.xMLMode == XMLMode.GET ) {
+	public <E extends Obj> void manageListField( String fieldName, LinkedList<E> list ) {
+		if( Sys.xMLGetMode() ) {
 			XMLObject xMLObject = getField( fieldName );
-			if( ! xMLObject ) return;
-			if( xMLObject ) xMLObject.manageChildList( list );
-		} else if( list then ) {
+			if( xMLObject != null ) xMLObject.manageChildList( list );
+		} else if( list != null ) {
 			if( list.isEmpty() ) return;
 			XMLObject xMLObject = new XMLObject();
 			xMLObject.name = "TList";
@@ -388,17 +381,17 @@ public class XMLObject extends Obj {
 	 * Transfers data between XMLObject contents and framework object field with LTObject[] type.
 	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectMapField
 	 */
-	public void manageObjectArrayField( String fieldName, Obj array[] var ) {
-		if( Sys.xMLMode == XMLMode.GET ) {
+	public <E extends Obj> E[] manageObjectArrayField( String fieldName, E[] array ) {
+		if( Sys.xMLGetMode() ) {
 			XMLObject xMLArray = getField( fieldName );
-			if( ! xMLArray ) return;
-			if( xMLArray ) xMLArray.manageChildArray( array );
-		} else if( array then ) {
+			if( xMLArray != null ) xMLArray.manageChildArray( array );
+		} else if( array != null ) {
 			XMLObject xMLArray = new XMLObject();
 			xMLArray.name = "Array";
 			xMLArray.manageChildArray( array );
 			setField( fieldName, xMLArray );
 		}
+		return array;
 	}
 
 
@@ -407,12 +400,11 @@ public class XMLObject extends Obj {
 	 * Transfers data between XMLObject field and framework object field with TMap type filled with LTObject-LTObject pairs.
 	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectArrayField
 	 */
-	public void manageObjectMapField( String fieldName, HashMap map ) {
-		if( Sys.xMLMode == XMLMode.GET ) {
+	public <E extends Obj, F extends Obj> void manageObjectMapField( String fieldName, HashMap<E, F> map ) {
+		if( Sys.xMLGetMode() ) {
 			XMLObject xMLMap = getField( fieldName );
-			if( ! xMLMap ) return;
-			if( xMLMap ) xMLMap.manageChildMap( map );
-		} else if( map then ) {
+			if( xMLMap != null ) xMLMap.manageChildMap( map );
+		} else if( map != null ) {
 			if( map.isEmpty() ) return;
 			XMLObject xMLMap = new XMLObject();
 			xMLMap.name = "Map";
@@ -427,25 +419,116 @@ public class XMLObject extends Obj {
 	 * Transfers data between XMLObject field and framework object field with TMap type filled with LTObject-LTObject pairs.
 	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectArrayField
 	 */
-	public void manageObjectSetField( String fieldName, HashMap map ) {
-		if( Sys.xMLMode == XMLMode.GET ) {
-			XMLObject xMLMap = getField( fieldName );
-			if( ! xMLMap ) return;
-			if( xMLMap ) xMLMap.manageChildSet( map );
-		} else if( map then ) {
-			if( map.isEmpty() ) return;
+	public <E extends Obj> void manageObjectSetField( String fieldName, HashSet<E> set ) {
+		if( Sys.xMLGetMode() ) {
+			XMLObject xMLSet = getField( fieldName );
+			if( xMLSet != null ) xMLSet.manageChildSet( set );
+		} else if( set != null ) {
+			if( set.isEmpty() ) return;
 			XMLObject xMLMap = new XMLObject();
 			xMLMap.name = "Set";
-			xMLMap.manageChildSet( map );
+			xMLMap.manageChildSet( set );
 			setField( fieldName, xMLMap );
 		}
 	}
 
 
 
-	public Obj manageObject( Obj obj ) {
-		if( Sys.xMLMode == XMLMode.GET ) {
-			int iD = getAttribute( "id" ).toInt();
+	/**
+	 * Transfers data between XMLObject contents and framework object field with TList type.
+	 * @see #manageListField, #manageChildArray, #xMLIO example
+	 */
+	public <E extends Obj> void manageChildList( LinkedList<E> list ) {
+		if( Sys.xMLGetMode() ) {
+			list = new LinkedList();
+			for( XMLObject xMLObject: children ) {
+				list.addLast( xMLObject.manageObject( null ) );
+			}
+		} else if( list != null ) {
+			children.clear();
+			for( Obj obj: list ) {
+				XMLObject xMLObject = new XMLObject();
+				xMLObject.manageObject( obj );
+				children.addLast( xMLObject );
+			}
+		}
+	}
+
+
+
+	/**
+	 * Transfers data between XMLObject contents and framework object parameter with LTObject[] type.
+	 * @see #manageChildList, #manageListField
+	 */
+	public <E extends Obj> E[] manageChildArray( E[] childArray ) {
+		if( Sys.xMLGetMode() ) {
+			childArray = new Obj[ children.size() ];
+			int n = 0;
+			for( XMLObject xMLObject: children ) {
+				childArray[ n ] = xMLObject.manageObject( null );
+				if( ! childArray[ n ] ) debugStop;
+				n += 1;
+			}
+		} else {
+			for( Obj obj: childArray ) {
+				XMLObject xMLObject = new XMLObject();
+				xMLObject.manageObject( obj );
+				children.addLast( xMLObject );
+			}
+		}
+		return childArray;
+	}
+
+
+
+	/**
+	 * Transfers data between XMLObject contents and framework object field with TMap type filled with LTObject-LTObject pairs.
+	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectArrayField
+	 */
+	public <E extends Obj, F extends Obj> void manageChildMap( HashMap<E, F> map ) {
+		if( Sys.xMLGetMode() ) {
+			map = new HashMap();
+			for( XMLObject xMLObject: children ) {
+				Obj key = null;
+				xMLObject.manageObjectAttribute( "key", key );
+				map.put( key, xMLObject.manageObject( null ) );
+			}
+		} else {
+			for( tKeyValue keyValue: map ) {
+				XMLObject xMLValue = new XMLObject();
+				xMLValue.manageObject( Object( keyValue.value() ) );
+				xMLValue.manageObjectAttribute( "key", Object( keyValue.value() ) );
+				children.addLast( xMLValue );
+			}
+		}
+	}
+
+
+
+	/**
+	 * Transfers data between XMLObject contents and framework object field with TMap type filled with LTObject keys.
+	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectArrayField
+	 */
+	public <E extends Obj> void manageChildSet( HashSet<E> map ) {
+		if( Sys.xMLGetMode() ) {
+			map = new HashMap();
+			for( XMLObject xMLObject: children ) {
+				map.put( xMLObject.manageObject( null ), null );
+			}
+		} else {
+			for( Obj obj: map.keySet() ) {
+				XMLObject xMLValue = new XMLObject();
+				xMLValue.manageObject( obj );
+				children.addLast( xMLValue );
+			}
+		}
+	}
+
+
+
+	public <E extends Obj> E manageObject( E obj ) {
+		if( Sys.xMLGetMode() ) {
+			int iD = getIntegerAttribute( "id" );
 
 			if( name.equals( object ) ) {
 				obj = iDArray[ iD ];
@@ -489,98 +572,6 @@ public class XMLObject extends Obj {
 		}
 
 		return obj;
-	}
-
-
-
-	/**
-	 * Transfers data between XMLObject contents and framework object field with TList type.
-	 * @see #manageListField, #manageChildArray, #xMLIO example
-	 */
-	public void manageChildList( LinkedList list ) {
-		//debugstop
-		if( Sys.xMLMode == XMLMode.GET ) {
-			list = new LinkedList();
-			for( XMLObject xMLObject: children ) {
-				list.addLast( xMLObject.manageObject( null ) );
-			}
-		} else if( list then ) {
-			children.clear();
-			for( Obj obj: list ) {
-				XMLObject xMLObject = new XMLObject();
-				xMLObject.manageObject( obj );
-				children.addLast( xMLObject );
-			}
-		}
-	}
-
-
-
-	/**
-	 * Transfers data between XMLObject contents and framework object parameter with LTObject[] type.
-	 * @see #manageChildList, #manageListField
-	 */
-	public void manageChildArray( Obj childArray[] ) {
-		if( Sys.xMLMode == XMLMode.GET ) {
-			childArray = new Obj()[ children.count() ];
-			int n = 0;
-			for( XMLObject xMLObject: children ) {
-				childArray[ n ] = xMLObject.manageObject( null );
-				if( ! childArray[ n ] ) debugStop;
-				n += 1;
-			}
-		} else {
-			for( Obj obj: childArray ) {
-				XMLObject xMLObject = new XMLObject();
-				xMLObject.manageObject( obj );
-				children.addLast( xMLObject );
-			}
-		}
-	}
-
-
-
-	/**
-	 * Transfers data between XMLObject contents and framework object field with TMap type filled with LTObject-LTObject pairs.
-	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectArrayField
-	 */
-	public void manageChildMap( HashMap map ) {
-		if( Sys.xMLMode == XMLMode.GET ) {
-			map = new HashMap();
-			for( XMLObject xMLObject: children ) {
-				Obj key = null;
-				xMLObject.manageObjectAttribute( "key", key );
-				map.put( key, xMLObject.manageObject( null ) );
-			}
-		} else {
-			for( tKeyValue keyValue: map ) {
-				XMLObject xMLValue = new XMLObject();
-				xMLValue.manageObject( Object( keyValue.value() ) );
-				xMLValue.manageObjectAttribute( "key", Object( keyValue.value() ) );
-				children.addLast( xMLValue );
-			}
-		}
-	}
-
-
-
-	/**
-	 * Transfers data between XMLObject contents and framework object field with TMap type filled with LTObject keys.
-	 * @see #manageObjectAttribute, #manageObjectField, #manageObjectArrayField
-	 */
-	public void manageChildSet( HashMap map ) {
-		if( Sys.xMLMode == XMLMode.GET ) {
-			map = new HashMap();
-			for( XMLObject xMLObject: children ) {
-				map.put( xMLObject.manageObject( null ), null );
-			}
-		} else {
-			for( Obj obj: map.keySet() ) {
-				XMLObject xMLValue = new XMLObject();
-				xMLValue.manageObject( obj );
-				children.addLast( xMLValue );
-			}
-		}
 	}
 
 

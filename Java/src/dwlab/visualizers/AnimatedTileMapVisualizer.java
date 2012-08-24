@@ -1,5 +1,5 @@
 package dwlab.visualizers;
-import dwlab.maps.TileMap;
+import dwlab.shapes.maps.TileMap;
 
 
 /* Digital Wizard's Lab - game development framework
@@ -22,7 +22,8 @@ public class AnimatedTileMapVisualizer extends Visualizer {
 
 
 
+	@Override
 	public int getTileValue( TileMap tileMap, int tileX, int tileY ) {
-		return tileNum[ tileMap.value[ tileMap.wrapX( tileX ), tileMap.wrapY( tileY ) ] ];
+		return tileNum[ tileMap.value[ tileMap.wrapY( tileY ) ][ tileMap.wrapX( tileX ) ] ];
 	}
 }

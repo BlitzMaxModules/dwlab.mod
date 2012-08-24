@@ -6,9 +6,9 @@
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
-package dwlab.layers;
+package dwlab.shapes.layers;
 
-import dwlab.sprites.Camera;
+import dwlab.shapes.sprites.Camera;
 import dwlab.xml.XMLObject;
 
 /**

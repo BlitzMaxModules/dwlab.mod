@@ -6,16 +6,16 @@
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
-package dwlab.maps;
+package dwlab.shapes.maps;
 
 import dwlab.base.Graphics;
 import dwlab.base.Service;
 import dwlab.base.Service.Margins;
 import dwlab.base.Sys;
 import dwlab.shapes.Shape;
-import dwlab.sprites.Collision;
-import dwlab.sprites.Sprite;
-import dwlab.sprites.SpriteGroup;
+import dwlab.shapes.sprites.Collision;
+import dwlab.shapes.sprites.Sprite;
+import dwlab.shapes.sprites.SpriteGroup;
 import dwlab.visualizers.Visualizer;
 import dwlab.xml.XMLObject;
 import java.util.*;

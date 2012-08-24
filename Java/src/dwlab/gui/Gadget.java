@@ -9,7 +9,7 @@
 
 package dwlab.gui;
 import dwlab.controllers.ButtonAction;
-import dwlab.sprites.Sprite;
+import dwlab.shapes.sprites.Sprite;
 
 /**
  * Class for GUI gagdet for placing on window.

@@ -1,7 +1,9 @@
 package dwlab.visualizers;
 import dwlab.base.Graphics;
 import dwlab.shapes.LineSegment;
-import dwlab.sprites.Sprite;
+import dwlab.shapes.Vector;
+import dwlab.shapes.sprites.Camera;
+import dwlab.shapes.sprites.Sprite;
 
 
 /* Digital Wizard's Lab - game development framework
@@ -21,8 +23,6 @@ public class ContourVisualizer extends Visualizer {
 	 * Width of contour lines.
 	 */
 	public double lineWidth = 1.0;
-	public int drawPivot1 = true;
-	public int drawPivot2 = true;
 	public double pivotScale = 1.0;
 
 
@@ -54,55 +54,46 @@ public class ContourVisualizer extends Visualizer {
 	}
 
 
-
+	private static Vector serviceVector1 = new Vector();
+	private static Vector serviceVector2 = new Vector();
+	
+	@Override
 	public void drawUsingSprite( Sprite sprite, Sprite spriteShape ) {
 		if( ! sprite.visible ) return;
 
-		setProperLineWidth();
-
-		double sX, double sY, double sWidth, double sHeight;
-		Camera.current.fieldToScreen( spriteShape.x, spriteShape.y, sX, sY );
-		Camera.current.sizeFieldToScreen( spriteShape.width * xScale, spriteShape.height * yScale, sWidth, sHeight );
-		Graphics.drawEmptyRectangle( sX - 0.5 * sWidth, sY - 0.5 * sHeight, sWidth, sHeight, 0, this );
-
-		Graphics.setLineWidth( 1.0 );
+		Camera.current.fieldToScreen( spriteShape.getX(), spriteShape.getY(), serviceVector1 );
+		Camera.current.sizeFieldToScreen( spriteShape.getWidth() * xScale, spriteShape.getHeight() * yScale, serviceVector2 );
+		Graphics.drawEmptyRectangle( serviceVector1.x - 0.5 * serviceVector2.x, serviceVector1.x - 0.5 * serviceVector2.y, serviceVector2.x, serviceVector2.y, 
+				0d, realLineWidth(), this );
 	}
 	
+	@Override
 	public void drawUsingSprite( Sprite sprite ) {
 		drawUsingSprite( sprite, sprite );
 	}
 
 
-
+	@Override
 	public void drawUsingLineSegment( LineSegment lineSegment ) {
 		if( ! lineSegment.visible ) return;
 
-		setColor 255.0 * red, 255.0 * green, 255.0 * blue;
-		setAlpha( alpha );
-		setProperLineWidth();
-
-		double sX1, double sY1, double sX2, double sY2;
-		Camera.current.fieldToScreen( lineSegment.pivot[ 0 ].x, lineSegment.pivot[ 0 ].y, sX1, sY1 );
-		Camera.current.fieldToScreen( lineSegment.pivot[ 1 ].x, lineSegment.pivot[ 1 ].y, sX2, sY2 );
-		drawLine( sX1, sY1, sX2, sY2 );
+		Camera.current.fieldToScreen( lineSegment.pivot[ 0 ].getX(), lineSegment.pivot[ 0 ].getY(), serviceVector1 );
+		Camera.current.fieldToScreen( lineSegment.pivot[ 1 ].getX(), lineSegment.pivot[ 1 ].getY(), serviceVector2 );
+		Graphics.drawLine( serviceVector1.x, serviceVector1.y, serviceVector2.x, serviceVector2.y, realLineWidth(), this );
 
 		double radius =pivotScale ;
-		if( scaling ) radius == Camera.current.distFieldToScreen( lineWidth ) * pivotScale;
-		if( drawPivot1 ) drawOval( sX1 - 0.5 * radius, sY1 - 0.5 * radius, radius, radius );
-		if( drawPivot2 ) drawOval( sX2 - 0.5 * radius, sY2 - 0.5 * radius, radius, radius );
-
-		setLineWidth( 1.0 );
-		setColor( 255, 255, 255 );
-		setAlpha( 1.0 );
+		if( scaling ) radius = Camera.current.distFieldToScreen( lineWidth ) * pivotScale;
+		Graphics.drawOval( serviceVector1.x - 0.5d * radius, serviceVector1.y - 0.5d * radius, radius, radius, 0d, this );
+		Graphics.drawOval( serviceVector2.x - 0.5d * radius, serviceVector2.y - 0.5d * radius, radius, radius, 0d, this );
 	}
 
 
 
-	public void setProperLineWidth() {
+	public double realLineWidth() {
 		if( scaling ) {
-			Graphics.setLineWidth( Camera.current.distFieldToScreen( lineWidth ) );
+			return Camera.current.distFieldToScreen( lineWidth );
 		} else {
-			Graphics.setLineWidth( lineWidth );
+			return lineWidth;
 		}
 	}
 }
