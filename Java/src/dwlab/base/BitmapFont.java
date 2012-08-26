@@ -12,7 +12,6 @@ package dwlab.base;
 import dwlab.shapes.Shape;
 import dwlab.shapes.Vector;
 import dwlab.shapes.sprites.Camera;
-import dwlab.visualizers.Image;
 
 /**
  * Bitmap font class.
@@ -148,8 +147,8 @@ public class BitmapFont extends Obj {
 		int symbolsQuantity = font.toNum - font.fromNum + 1;
 		if( variableLength ) {
 			Image image = new Image( fileName );
-			int symbolWidth = ( image.getWidth() - 1 ) / symbolsPerRow;
-			int symbolHeight = image.getHeight() * ((int) Math.ceil( symbolsQuantity / symbolsPerRow ) );
+			int symbolWidth = ( (int) image.getWidth() - 1 ) / symbolsPerRow;
+			int symbolHeight = (int) image.getHeight() * ( (int) Math.ceil( symbolsQuantity / symbolsPerRow ) );
 			font.letterWidth = new int[ symbolsQuantity ];
 			font.image = new Image( symbolsQuantity );
 			int pixel = image.getPixel( 0, 0 );

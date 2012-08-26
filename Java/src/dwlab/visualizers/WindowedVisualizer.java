@@ -8,6 +8,7 @@
 
 package dwlab.visualizers;
 
+import dwlab.base.Image;
 import dwlab.base.Graphics;
 import dwlab.shapes.Shape;
 import dwlab.shapes.Shape.Facing;

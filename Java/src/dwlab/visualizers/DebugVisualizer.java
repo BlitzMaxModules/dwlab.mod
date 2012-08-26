@@ -131,7 +131,7 @@ public class DebugVisualizer extends Visualizer {
 			switch( sprite.shapeType ) {
 				case PIVOT:
 					Camera.current.fieldToScreen( shapeX, shapeY, serviceVector );
-					Graphics.drawOval( serviceVector.x - 2d, serviceVector.y - 2d, 5d, 5d, 0d, color );
+					Graphics.drawOval( serviceVector.x - 2d, serviceVector.y - 2d, 5d, 5d, 0d, color, false );
 					break;
 				case OVAL:
 					drawIsoOval( shapeX, shapeY, shapeWidth, shapeHeight, color );

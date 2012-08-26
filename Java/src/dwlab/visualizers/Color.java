@@ -140,6 +140,12 @@ public class Color extends Obj {
 		color.alpha = alpha;
 	}
 
+	
+	@Override
+	public Color clone(){
+		return new Color( red, green, blue, alpha );
+	}
+	
 
 	@Override
 	public void xMLIO( XMLObject xMLObject ) {

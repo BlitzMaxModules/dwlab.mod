@@ -63,8 +63,8 @@ public class ContourVisualizer extends Visualizer {
 
 		Camera.current.fieldToScreen( spriteShape.getX(), spriteShape.getY(), serviceVector1 );
 		Camera.current.sizeFieldToScreen( spriteShape.getWidth() * xScale, spriteShape.getHeight() * yScale, serviceVector2 );
-		Graphics.drawEmptyRectangle( serviceVector1.x - 0.5 * serviceVector2.x, serviceVector1.x - 0.5 * serviceVector2.y, serviceVector2.x, serviceVector2.y, 
-				0d, realLineWidth(), this );
+		Graphics.drawRectangle( serviceVector1.x - 0.5 * serviceVector2.x, serviceVector1.x - 0.5 * serviceVector2.y, serviceVector2.x, serviceVector2.y, 
+				0d, this, true );
 	}
 	
 	@Override
@@ -83,8 +83,8 @@ public class ContourVisualizer extends Visualizer {
 
 		double radius =pivotScale ;
 		if( scaling ) radius = Camera.current.distFieldToScreen( lineWidth ) * pivotScale;
-		Graphics.drawOval( serviceVector1.x - 0.5d * radius, serviceVector1.y - 0.5d * radius, radius, radius, 0d, this );
-		Graphics.drawOval( serviceVector2.x - 0.5d * radius, serviceVector2.y - 0.5d * radius, radius, radius, 0d, this );
+		Graphics.drawOval( serviceVector1.x - 0.5d * radius, serviceVector1.y - 0.5d * radius, radius, radius, 0d, this, false );
+		Graphics.drawOval( serviceVector2.x - 0.5d * radius, serviceVector2.y - 0.5d * radius, radius, radius, 0d, this, false );
 	}
 
 

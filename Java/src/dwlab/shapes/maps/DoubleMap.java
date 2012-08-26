@@ -10,7 +10,7 @@ package dwlab.shapes.maps;
 
 import dwlab.base.Service;
 import dwlab.base.Sys;
-import dwlab.visualizers.Image;
+import dwlab.base.Image;
 
 /**
  * DoubleMap is basicaly a heightmap.

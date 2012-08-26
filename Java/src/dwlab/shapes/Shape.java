@@ -22,7 +22,7 @@ import dwlab.shapes.layers.Layer;
 import dwlab.shapes.maps.SpriteMap;
 import dwlab.shapes.maps.TileMap;
 import dwlab.visualizers.Color;
-import dwlab.visualizers.Image;
+import dwlab.base.Image;
 import dwlab.visualizers.Visualizer;
 import dwlab.visualizers.WindowedVisualizer;
 import dwlab.base.XMLObject;

@@ -8,6 +8,7 @@
 
 package dwlab.visualizers;
 
+import dwlab.base.Image;
 import dwlab.base.Graphics;
 import dwlab.base.Project;
 import dwlab.base.Service;
@@ -265,16 +266,16 @@ public class Visualizer extends Color {
 		switch( shapeType ) {
 			case OVAL:
 				if( sWidth == sHeight ) {
-					Graphics.drawOval( sX, sY, sWidth, sHeight, angle, color );
+					Graphics.drawOval( sX, sY, sWidth, sHeight, angle, color, false );
 				} else {
-					Graphics.drawLongOval( sX, sY, sWidth, sHeight, angle, color );
+					Graphics.drawLongOval( sX, sY, sWidth, sHeight, angle, color, false );
 				}
 				break;
 			case RECTANGLE:
-				Graphics.drawRectangle( sX, sY, sWidth, sHeight, angle, color );
+				Graphics.drawRectangle( sX, sY, sWidth, sHeight, angle, color, false );
 				break;
 			case RAY:
-				Graphics.drawOval( sX - 2, sY - 2, 5, 5, 0d, color );
+				Graphics.drawOval( sX - 2, sY - 2, 5, 5, 0d, color, false );
 				double ang = Service.wrap( angle, 360.0 );
 				if( ang < 45.0 || ang >= 315.0 ) {
 					double width = Camera.current.viewport.rightX() - sX;
@@ -293,7 +294,7 @@ public class Visualizer extends Color {
 			default:
 				sWidth *= 0.5d;
 				sHeight *= 0.5d;
-				Graphics.startPolygon( 3 );
+				Graphics.startPolygon( 3, color, false );
 				switch( shapeType ) {
 					case TOP_LEFT_TRIANGLE:
 						Graphics.addPolygonVertex( sX - sWidth, sY - sHeight );
@@ -322,7 +323,7 @@ public class Visualizer extends Color {
 	 * Draws rectangle for isometric camera using given field coordinates and size.
 	 */
 	public void drawIsoRectangle( double x, double y, double width, double height, Color color ) {
-		Graphics.startPolygon( 4 );
+		Graphics.startPolygon( 4, color, false );
 		Camera.current.fieldToScreen( x - 0.5 * width, y - 0.5 * height, servicePivot );
 		Graphics.addPolygonVertex( servicePivot.x, servicePivot.y );
 		Camera.current.fieldToScreen( x - 0.5 * width, y + 0.5 * height, servicePivot );
@@ -340,7 +341,7 @@ public class Visualizer extends Color {
 	 * Draws oval for isometric camera using given field coordinates and size.
 	 */
 	public void drawIsoOval( double x, double y, double width, double height, Color color ) {
-		Graphics.startPolygon( 8 );
+		Graphics.startPolygon( 8, color, false );
 		double xRadius = 0.5 * width;
 		double yRadius = 0.5 * height;
 		for( int n=0; n < 16; n += 2 ) {

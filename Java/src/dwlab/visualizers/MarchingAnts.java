@@ -10,6 +10,7 @@
 
 package dwlab.visualizers;
 
+import dwlab.base.Image;
 import dwlab.base.Graphics;
 import dwlab.base.Service;
 import java.util.LinkedList;
@@ -101,7 +102,7 @@ public class MarchingAnts extends Visualizer {
 	public static Image makeMALine( int width, int pos ) {
 		Image image = new Image( width, 1 );
 		for( int xX=0; xX <= width; xX++ ) {
-			image.setPixel( xX, 0, ( pos >= 4 ? 0xFFFFFFFF : 0xFF000000 ) );
+			image.setPixel( xX, 0, ( pos >= 4 ? Color.white : Color.black ) );
 			pos = ( pos + 1 ) % 8;
 		}
 		return image;

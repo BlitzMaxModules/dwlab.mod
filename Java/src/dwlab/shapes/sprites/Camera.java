@@ -264,7 +264,8 @@ public class Camera extends VectorSprite {
 	 */
 	public void applyColor( double red, double green, double blue, double intensity ) {
 		serviceColor.set( red, green, blue, intensity );
-		Graphics.drawRectangle( viewport.getX() - 0.5 * viewport.getWidth(), viewport.getY() - 0.5 * viewport.getHeight(), viewport.getWidth(), viewport.getHeight(), 0, serviceColor );
+		Graphics.drawRectangle( viewport.getX() - 0.5 * viewport.getWidth(), viewport.getY() - 0.5 * viewport.getHeight(), viewport.getWidth(), viewport.getHeight(), 0,
+				serviceColor, false );
 	}
 
 

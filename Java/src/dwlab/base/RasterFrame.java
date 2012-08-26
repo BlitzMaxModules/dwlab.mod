@@ -6,8 +6,9 @@
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
-package dwlab.visualizers;
+package dwlab.base;
 
+import dwlab.base.Image;
 import dwlab.base.XMLObject;
 
 /**
@@ -65,11 +66,12 @@ public class RasterFrame extends Image {
 	 * Main image will be splitted into 9 images and put into array for using.
 	 */
 	public final void initRasterFrame() {
+		/*
 		super.init();
 		int quantity = this.framesQuantity();
 		for( int n=0; n <= quantity; n++ ) {
-			int totalWidth = getWidth();
-			int totalHeight = getHeight();
+			int totalWidth = (int) getWidth();
+			int totalHeight = (int) getHeight();
 			int y = 0;
 			for( int yN=0; yN <= 2 ; yN++ ) {
 				if( n == 0 ) images = new Image[ 3 ][];
@@ -109,6 +111,7 @@ public class RasterFrame extends Image {
 				y += height;
 			}
 		}
+		*/
 	}
 
 

@@ -12,17 +12,36 @@ package dwlab.base;
 import dwlab.shapes.Vector;
 import dwlab.visualizers.Color;
 
-public class GraphicsTemplate {
-	private static Color currentColor = new Color();
-	private static double lineWidth = 1.0d;
+public abstract class GraphicsTemplate {
+	static Color currentColor = Color.white.clone();
+	static Color currentClearingColor = Color.black.clone();
+	static double lineWidth = 1.0d;
+	static int width = 0, height = 0;
 	
+	
+	public static boolean initialized() {
+		return width == 0 ? false : true;
+	}
 	
 	public static double getScreenWidth() {
-		return 0d;
+		return width;
 	}
 	
 	public static double getScreenHeight() {
-		return 0d;
+		return height;
+	}
+	
+	
+	public void setColor( double red, double green, double blue, double alpha ) {
+		currentColor.set( red, green, blue, alpha );
+	}
+	
+	public void setClearingColor( double red, double green, double blue, double alpha ) {
+		currentClearingColor.set( red, green, blue, alpha );
+	}
+	
+	public void setLineWidth( double width ) {
+		lineWidth = width;
 	}
 	
 
@@ -34,41 +53,66 @@ public class GraphicsTemplate {
 	}
 	
 	
-	public static void drawRectangle( double x, double y, double width, double height, double angle, Color color ){
+	public static void drawRectangle( double x, double y, double width, double height, double angle, Color color, boolean empty ){
+		width *= 0.5d ;
+		height *= 0.5d ;
+		startPolygon( 4, color, empty );
+		addPolygonVertex( x - width, y - height );
+		addPolygonVertex( x + width, y - height );
+		addPolygonVertex( x + width, y + height );
+		addPolygonVertex( x - width, y + height );
+		drawPolygon();
 	}
 	
 	public static void drawRectangle( double x, double y, double width, double height ){
-		drawRectangle( x, y, width, height, 0d, currentColor );
-	}
-
-	
-	public static void drawEmptyRectangle( double x, double y, double width, double height, double angle, double lineWidth, Color color ) {
-		width -= 1;
-		height -= 1;
-		drawLine( x, y, x + width, y );
-		drawLine( x, y, x, y + height );
-		drawLine( x + width, y, x + width, y + height );
-		drawLine( x, y + height, x + width, y + height );
+		drawRectangle( x, y, width, height, 0d, currentColor, false );
 	}
 	
-	public static void drawEmptyRectangle( double x, double y, double width, double height ) {
-		drawEmptyRectangle( x, y, width, height, 0d, lineWidth, currentColor );
+	public static void drawEmptyRectangle( double x, double y, double width, double height ){
+		drawRectangle( x, y, width, height, 0d, currentColor, true );
 	}
 	
 	
-	public static void drawOval( double x, double y, double width, double height, double angle, Color color ){
+	public static void drawOval( double x, double y, double width, double height, double angle, Color color, boolean empty ){
+		int vertexQuantity = 8;
+		double step = 360d / vertexQuantity;
+		startPolygon( vertexQuantity, color, empty );
+		for( double ang = 0d; ang < 360d; ang += step ) addPolygonVertex( x + width * Math.cos( ang ), y + height * Math.sin( ang ) );
+		drawPolygon();
 	}
 	
 	public static void drawOval( double x, double y, double width, double height, double angle ){
-		drawOval( x, y, width, height, angle, currentColor );
+		drawOval( x, y, width, height, angle, currentColor, false );
+	}
+	
+	public static void drawEmptyOval( double x, double y, double width, double height, double angle ){
+		drawOval( x, y, width, height, angle, currentColor, true );
 	}
 	
 	public static void drawOval( double x, double y, double width, double height ){
-		drawOval( x, y, width, height, 0d, currentColor );
+		drawOval( x, y, width, height, 0d, currentColor, false );
+	}
+	
+	public static void drawEmptyOval( double x, double y, double width, double height ){
+		drawOval( x, y, width, height, 0d, currentColor, true );
 	}
 	
 
-	public static void drawLongOval( double sX, double sY, double sWidth, double sHeight, double angle, Color color ) {
+	public static void drawLongOval( double sX, double sY, double sWidth, double sHeight, double angle, Color color, boolean empty ) {
+		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+	
+
+	public static void startPolygon( int vertexQuantity, Color color, boolean empty ) {
+		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+
+	public static void addPolygonVertex( double x, double y ) {
+		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+
+	public static void drawPolygon() {
+		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
 	
@@ -80,6 +124,14 @@ public class GraphicsTemplate {
 	
 	public static void drawText( String string, double x, double y ) {
 		drawText( string, x, y, currentColor );
+	}
+	
+
+	public static void clearScreen() {
+		clearScreen( currentClearingColor );
+	}
+	
+	public static void clearScreen( Color color ) {
 	}
 	
 

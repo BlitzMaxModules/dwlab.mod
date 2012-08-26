@@ -14,7 +14,7 @@ import dwlab.base.Service.Margins;
 import dwlab.shapes.Line;
 import dwlab.shapes.LineSegment;
 import dwlab.shapes.sprites.Sprite.ShapeType;
-import dwlab.visualizers.Image;
+import dwlab.base.Image;
 import dwlab.visualizers.Visualizer;
 
 public class Collision {

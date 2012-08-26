@@ -10,72 +10,54 @@
 package dwlab.base;
 
 import dwlab.shapes.Vector;
+import dwlab.shapes.sprites.Camera;
 import dwlab.visualizers.Color;
+import org.lwjgl.opengl.GL11;
 
 public class Graphics extends GraphicsTemplate {
-	public static boolean initialized() {
-		throw new UnsupportedOperationException( "Not yet implemented" );
-	}
-	
-	
 	/**
 	* Sets graphics mode.
 	* Provide width and height of screen in pixels and unit size in pixels for camera.
 
 	* @see #parallax example
 	*/
-	public static void init( int width, int height, double unitSize, int colorDepth, int frequency ) {
-		/*
-		graphics( width, height, colorDepth, frequency );
-		autoImageFlags( fILTEREDIMAGE | dYNAMICIMAGE | mIPMAPPEDIMAGE );
-		setBlend( alphaBlend );
-
+	public static void init( int newWidth, int newHeight, double unitSize, int colorDepth, int frequency ) {
+		width =newWidth;
+		height = newHeight;
+		
+		GL11.glMatrixMode( GL11.GL_PROJECTION) ;
+		GL11.glLoadIdentity();
+		GL11.glOrtho( 0d, width, 0d, height, 1d, -1d );
+		GL11.glMatrixMode( GL11.GL_MODELVIEW) ;
+		GL11.glShadeModel( GL11.GL_SMOOTH );
+		resetViewport();
+		
+		Camera.current.viewport.setCoords( 0.5d * width, 0.5d * height );
 		Camera.current.viewport.setSize( width, height );
-		Camera.current.viewport.setCoords( 0.5 * width, 0.5 * height );
 		Camera.current.setSize( width / unitSize, height / unitSize );
-		*/ 
-	}
-	
-	
-	public static double getScreenWidth() {
-		throw new UnsupportedOperationException( "Not yet implemented" );
-	}
-	
-	public static double getScreenHeight() {
-		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
 
 	public static void drawLine( double x1, double y1, double x2, double y2, double width, Color color ) {
-		throw new UnsupportedOperationException( "Not yet implemented" );
-	}
-	
-	
-	public static void drawRectangle( double x, double y, double width, double height, double angle, Color color ){
-		throw new UnsupportedOperationException( "Not yet implemented" );
-	}
-	
-	
-	public static void drawOval( double x, double y, double width, double height, double angle, Color color ){
-		throw new UnsupportedOperationException( "Not yet implemented" );
+		GL11.glColor4d( color.red, color.green, color.blue, color.alpha );
+		GL11.glBegin( GL11.GL_LINES );
+			GL11.glVertex2d(	x1, y1 );
+			GL11.glVertex2d(	x2, y2 );
+		GL11.glEnd();		
 	}
 	
 
-	public static void drawLongOval( double sX, double sY, double sWidth, double sHeight, double angle, Color color ) {
-		throw new UnsupportedOperationException( "Not yet implemented" );
-	}
-	
-
-	public static void startPolygon( int vertexQuantity ) {
-		throw new UnsupportedOperationException( "Not yet implemented" );
+	public static void startPolygon( int vertexQuantity, Color color, boolean empty ) {
+		GL11.glColor4d( color.red, color.green, color.blue, color.alpha );
+		if( empty ) GL11.glBegin( GL11.GL_LINE_LOOP ); else GL11.glBegin( GL11.GL_POLYGON );
 	}
 
 	public static void addPolygonVertex( double x, double y ) {
-		throw new UnsupportedOperationException( "Not yet implemented" );
+		GL11.glVertex2d(	x, y );
 	}
 
 	public static void drawPolygon() {
-		throw new UnsupportedOperationException( "Not yet implemented" );
+		GL11.glEnd();
 	}
 	
 	
@@ -87,9 +69,11 @@ public class Graphics extends GraphicsTemplate {
 		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
-
-	public static void clearScreen() {
-		throw new UnsupportedOperationException( "Not yet implemented" );
+	
+	public static void clearScreen( Color color ) {
+		GL11.glClearColor( (float) color.red, (float) color.green, (float) color.blue, 1.0f );
+		GL11.glClear( GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT );
+		GL11.glLoadIdentity(); 
 	}
 	
 
@@ -113,7 +97,7 @@ public class Graphics extends GraphicsTemplate {
 	}
 
 	public static void setViewport( double x, double y, double width, double height ) {
-		throw new UnsupportedOperationException( "Not yet implemented" );
+		GL11.glViewport( Service.round( x - 0.5d * width ), Service.round( y - 0.5d * height ), Service.round( width ), Service.round( height ) );
 	}
 }
 
