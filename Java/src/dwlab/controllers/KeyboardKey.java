@@ -11,14 +11,13 @@ package dwlab.controllers;
 
 import dwlab.base.Project;
 import dwlab.base.XMLObject;
-import org.lwjgl.input.Keyboard;
 
 /**
  * Class for keyboard keys.
  */
 public class KeyboardKey extends Pushable {
 	public int code;
-
+	
 
 	@Override
 	public String getName() {
@@ -237,23 +236,11 @@ public class KeyboardKey extends Pushable {
 	}
 
 
-	@Override
-	public void processEvent() {
-		/*if( eventData() != code ) return;
-		switch( eventID() ) {
-			case event_KeyDown:
-				state = justPressed;
-			case event_KeyUp:
-				state = justUnpressed;
-		}*/
-	}
-
-
 	/**
 	 * Creates keyboard key object.
 	 * @return New object of keyboard key with given code.
 	 */	
-	public static KeyboardKey create( int code ) {
+	public static KeyboardKey create( int code, Modifiers modifier ) {
 		KeyboardKey key = new KeyboardKey();
 		key.code = code;
 		
@@ -266,6 +253,10 @@ public class KeyboardKey extends Pushable {
 		return key;
 	}
 
+	public static KeyboardKey create( int code ) {
+		return create( code, Modifiers.NO );
+	}
+	
 
 	@Override
 	public void xMLIO( XMLObject xMLObject ) {

@@ -8,11 +8,11 @@
 
 package dwlab.visualizers;
 
-import dwlab.base.Image;
 import dwlab.base.Graphics;
+import dwlab.base.Image;
+import dwlab.base.Vector;
 import dwlab.shapes.Shape;
 import dwlab.shapes.Shape.Facing;
-import dwlab.shapes.Vector;
 import dwlab.shapes.sprites.Sprite;
 
 public class WindowedVisualizer extends Visualizer {

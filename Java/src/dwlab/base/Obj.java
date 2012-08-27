@@ -10,9 +10,14 @@
 package dwlab.base;
 
 import dwlab.base.SysTemplate.XMLMode;
-import dwlab.visualizers.Visualizer;
 import dwlab.base.XMLObject.XMLAttribute;
 import dwlab.base.XMLObject.XMLObjectField;
+import dwlab.shapes.layers.Layer;
+import dwlab.shapes.maps.SpriteMap;
+import dwlab.shapes.maps.TileMap;
+import dwlab.shapes.sprites.Sprite;
+import dwlab.shapes.sprites.VectorSprite;
+import dwlab.visualizers.Visualizer;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -25,6 +30,27 @@ public class Obj {
 	public static int maxID;
 	public static Obj iDArray[];
 	public static HashSet<Obj> undefinedObjects;
+	
+
+	public Layer toLayer() {
+		return null;
+	}
+	
+	public Sprite toSprite() {
+		return null;
+	}
+	
+	public VectorSprite toVectorSprite() {
+		return null;
+	}
+
+	public TileMap toTileMap() {
+		return null;
+	}
+
+	public SpriteMap toSpriteMap() {
+		return null;
+	}
 
 	// ==================== Drawing ===================
 

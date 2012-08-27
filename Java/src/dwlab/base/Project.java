@@ -15,6 +15,8 @@ import dwlab.shapes.layers.Layer;
 import dwlab.shapes.sprites.Camera;
 import dwlab.shapes.sprites.Sprite;
 import java.util.LinkedList;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 /**
  * Class for main project and subprojects.
@@ -226,23 +228,7 @@ public class Project extends Obj {
 	// ==================== Events ===================		
 
 	public void processEvents() {
-		/*while( true ) {
-			pollEvent();
-			for( ButtonAction controller: controllers ) {
-				for( Pushable pushable : controller.buttonList ) {
-					pushable.processEvent();
-				}
-			}
-			switch( eventID() ) {
-				case event_WindowClose:
-					onCloseButton();
-				case event_WindowSize:
-					onWindowResize();
-				case 0:
-					exit;
-			}
-			onEvent();
-		}*/
+		Sys.processEvents();
 	}
 
 

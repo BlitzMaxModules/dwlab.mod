@@ -1,5 +1,10 @@
 package dwlab.base;
 
+import dwlab.controllers.ButtonAction;
+import dwlab.controllers.Pushable;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+
 public class Sys extends SysTemplate {
 	public static void flushControllers() {
 		throw new UnsupportedOperationException( "Not yet implemented" );
@@ -35,5 +40,36 @@ public class Sys extends SysTemplate {
 
 	public static int mouseZ() {
 		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+
+	static void processEvents( Project project ) {
+		Event ev =Event.;
+		
+		while ( Keyboard.next() ) {
+			for( ButtonAction controller: controllers ) {
+				for( Pushable pushable : controller.buttonList ) {
+					pushable.processKeyboardEvent();
+					project.onKeyboardEvent();
+				}
+			}
+		}
+		
+		while ( Mouse.next() ) {
+			for( ButtonAction controller: controllers ) {
+				for( Pushable pushable : controller.buttonList ) {
+					pushable.processEvent();
+				}
+			}
+		}
+		while( true ) {
+			switch( eventID() ) {
+				case event_WindowClose:
+					onCloseButton();
+				case event_WindowSize:
+					onWindowResize();
+				case 0:
+					exit;
+			}
+		}
 	}
 }

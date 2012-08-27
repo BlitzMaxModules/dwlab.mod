@@ -9,16 +9,10 @@ public abstract class ImageTemplate extends Obj {
 	static int lastNum = 0;
 
 	int textureNum;
-	String filename;
-	double width, height;
+	String fileName;
+	int textureWidth, textureHeight;
+	int frameWidth, frameHeight;
 	int xCells, yCells;
-
-
-	/**
-	 * Initializes image.
-	 * Splits image by XCells x YCells grid. Will be executed after loading image object from XML file.
-	 */
-	public abstract void initImage();
 	
 	
 	public static int createTexture( int width, int height ) {
@@ -39,16 +33,16 @@ public abstract class ImageTemplate extends Obj {
 	 * Returns width of image.
 	 * @return Width of image in pixels.
 	 */
-	public double getWidth() {
-		return width;
+	public int getWidth() {
+		return frameWidth;
 	}
 
 	/**
 	 * Returns height of image.
 	 * @return Height of image in pixels.
 	 */
-	public double getHeight() {
-		return height;
+	public int getHeight() {
+		return frameHeight;
 	}
 
 	
@@ -65,11 +59,11 @@ public abstract class ImageTemplate extends Obj {
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
 
-		filename = xMLObject.manageStringAttribute( "filename", filename );
+		fileName = xMLObject.manageStringAttribute( "filename", fileName );
 		xCells = xMLObject.manageIntAttribute( "xcells", xCells, 1 );
 		yCells = xMLObject.manageIntAttribute( "ycells", yCells, 1 );
 
-		if( Sys.xMLGetMode() && loadImages ) initImage();
+		if( Sys.xMLGetMode() && loadImages ) init();
 	}
 	
 

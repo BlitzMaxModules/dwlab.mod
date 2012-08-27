@@ -9,9 +9,12 @@
 
 package dwlab.base;
 
-import dwlab.shapes.Vector;
 import dwlab.shapes.sprites.Camera;
 import dwlab.visualizers.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 public class Graphics extends GraphicsTemplate {
@@ -31,6 +34,12 @@ public class Graphics extends GraphicsTemplate {
 		GL11.glMatrixMode( GL11.GL_MODELVIEW) ;
 		GL11.glShadeModel( GL11.GL_SMOOTH );
 		resetViewport();
+
+		try {
+			Mouse.create();
+		} catch ( LWJGLException ex ) {
+			Logger.getLogger( Graphics.class.getName() ).log( Level.SEVERE, null, ex );
+		}
 		
 		Camera.current.viewport.setCoords( 0.5d * width, 0.5d * height );
 		Camera.current.viewport.setSize( width, height );
@@ -69,6 +78,21 @@ public class Graphics extends GraphicsTemplate {
 		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
+
+	public static double textWidth( String text ) {
+		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+	
+
+	public static double textHeight() {
+		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+
+	public static void setViewport( int x, int y, int width, int height ) {
+		GraphicsTemplate.setViewport( x, y, width, height );
+		GL11.glViewport( x - width / 2, y - height / 2, width, height );
+	}
+	
 	
 	public static void clearScreen( Color color ) {
 		GL11.glClearColor( (float) color.red, (float) color.green, (float) color.blue, 1.0f );
@@ -79,25 +103,6 @@ public class Graphics extends GraphicsTemplate {
 
 	public static void switchBuffers() {
 		throw new UnsupportedOperationException( "Not yet implemented" );
-	}
-	
-
-	public static double textWidth( String text ) {
-		throw new UnsupportedOperationException( "Not yet implemented" );
-	}
-	
-
-	public static double textHeight() {
-		throw new UnsupportedOperationException( "Not yet implemented" );
-	}
-	
-
-	public static void getViewport( Vector pivot, Vector size ) {
-		throw new UnsupportedOperationException( "Not yet implemented" );
-	}
-
-	public static void setViewport( double x, double y, double width, double height ) {
-		GL11.glViewport( Service.round( x - 0.5d * width ), Service.round( y - 0.5d * height ), Service.round( width ), Service.round( height ) );
 	}
 }
 

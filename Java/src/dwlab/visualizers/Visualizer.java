@@ -8,23 +8,17 @@
 
 package dwlab.visualizers;
 
-import dwlab.base.Image;
-import dwlab.base.Graphics;
-import dwlab.base.Project;
-import dwlab.base.Service;
 import dwlab.base.Service.Margins;
-import dwlab.base.Sys;
-import dwlab.shapes.maps.TileMap;
+import dwlab.base.*;
 import dwlab.shapes.LineSegment;
 import dwlab.shapes.Shape;
 import dwlab.shapes.Shape.Facing;
-import dwlab.shapes.Vector;
 import dwlab.shapes.maps.SpriteMap;
+import dwlab.shapes.maps.TileMap;
 import dwlab.shapes.maps.TileSet;
 import dwlab.shapes.sprites.Camera;
 import dwlab.shapes.sprites.Sprite;
 import dwlab.shapes.sprites.Sprite.ShapeType;
-import dwlab.base.XMLObject;
 import java.util.LinkedList;
 
 /**
@@ -133,7 +127,6 @@ public class Visualizer extends Color {
 	}
 
 
-
 	/**
 	 * Sets vertical and horizontal scaling of the visualizer
 	 * Works only with images.
@@ -146,7 +139,6 @@ public class Visualizer extends Color {
 	}
 
 
-
 	/**
 	 * Sets scalings of the visualizer to one value
 	 * Works only with images.
@@ -157,15 +149,11 @@ public class Visualizer extends Color {
 	}
 
 
-
-	// Deprecated
 	public Image getImage() {
 		return image;
 	}
 
 
-
-	// Deprecated
 	public void setImage( Image newImage ) {
 		image = newImage;
 	}

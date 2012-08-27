@@ -9,10 +9,6 @@
 
 package dwlab.base;
 
-import dwlab.base.File;
-import dwlab.base.Obj;
-import dwlab.base.Service;
-import dwlab.base.Sys;
 import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.HashSet;

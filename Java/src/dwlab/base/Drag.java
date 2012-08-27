@@ -20,7 +20,6 @@ public class Drag extends Obj {
 	public boolean draggingState;
 
 
-
 	/**
 	 * Method which should return True if drag key (or other similar controller) is down.
 	 * @return True is dragging key is down.
@@ -29,7 +28,6 @@ public class Drag extends Obj {
 	public boolean dragKey() {
 		return false;
 	}
-
 
 
 	/**
@@ -42,7 +40,6 @@ public class Drag extends Obj {
 	}
 
 
-
 	/**
 	 * Dragging starting method.
 	 * Will be executed once when all dragging conditions are met and dragging key has been pressed.
@@ -50,7 +47,6 @@ public class Drag extends Obj {
 	 */
 	public void startDragging() {
 	}
-
 
 
 	/**
@@ -62,7 +58,6 @@ public class Drag extends Obj {
 	}
 
 
-
 	/**
 	 * Dragging ending method
 	 * Will be executed when dragging key will be released during dragging.
@@ -70,7 +65,6 @@ public class Drag extends Obj {
 	 */
 	public void endDragging() {
 	}
-
 
 
 	/**

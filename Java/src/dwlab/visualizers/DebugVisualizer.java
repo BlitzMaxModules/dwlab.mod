@@ -7,7 +7,7 @@ import dwlab.shapes.layers.Layer;
 import dwlab.shapes.Shape;
 import dwlab.shapes.maps.SpriteMap;
 import dwlab.shapes.maps.TileMap;
-import dwlab.shapes.Vector;
+import dwlab.base.Vector;
 import dwlab.shapes.sprites.Camera;
 import dwlab.shapes.sprites.Sprite;
 

@@ -10,7 +10,7 @@ package dwlab.shapes.sprites;
 
 import dwlab.base.Service;
 import dwlab.shapes.Line;
-import dwlab.shapes.Vector;
+import dwlab.base.Vector;
 import dwlab.shapes.sprites.Sprite.ShapeType;
 
 public class Wedge {

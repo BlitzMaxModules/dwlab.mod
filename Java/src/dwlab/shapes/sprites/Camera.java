@@ -9,14 +9,9 @@
 
 package dwlab.shapes.sprites;
 
-import dwlab.base.Graphics;
-import dwlab.base.Project;
-import dwlab.base.Rectangle;
-import dwlab.base.Sys;
+import dwlab.base.*;
 import dwlab.shapes.Shape;
-import dwlab.shapes.Vector;
 import dwlab.visualizers.Color;
-import dwlab.base.XMLObject;
 
 /**
  * Camera for displaying game objects.
@@ -171,7 +166,8 @@ public class Camera extends VectorSprite {
 	 */
 	public void setCameraViewport() {
 		if( viewportClipping ) {
-			Graphics.setViewport( viewport.getX() - 0.5 * viewport.getWidth(), viewport.getY() - 0.5 * viewport.getHeight(), viewport.getWidth(), viewport.getHeight() );
+			Graphics.setViewport( Service.round( viewport.getX() - 0.5 * viewport.getWidth() ), Service.round( viewport.getY() - 0.5 * viewport.getHeight() ),
+					Service.round( viewport.getWidth() ), Service.round( viewport.getHeight() ) );
 		} else {
 			Graphics.resetViewport();
 		}

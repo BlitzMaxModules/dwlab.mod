@@ -22,6 +22,16 @@ public class Pushable extends Obj {
 		UNPRESSED
 	}
 
+	public enum Modifiers {
+		NO,
+		SHIFT,
+		CONTROL,
+		CONTROL_SHIFT,
+		CONTROL_ALT,
+		ALT,
+		ALT_SHIFT
+	}
+
 	public State state = State.UNPRESSED;
 
 

@@ -9,25 +9,27 @@
 
 package dwlab.base;
 
-import dwlab.shapes.Vector;
 import dwlab.visualizers.Color;
+import org.lwjgl.opengl.GL11;
 
 public abstract class GraphicsTemplate {
 	static Color currentColor = Color.white.clone();
 	static Color currentClearingColor = Color.black.clone();
 	static double lineWidth = 1.0d;
-	static int width = 0, height = 0;
+	static int width, height;
+	static int viewportX, viewportY;
+	static int viewportWidth, viewportHeight;
 	
 	
 	public static boolean initialized() {
 		return width == 0 ? false : true;
 	}
 	
-	public static double getScreenWidth() {
+	public static int getScreenWidth() {
 		return width;
 	}
 	
-	public static double getScreenHeight() {
+	public static int getScreenHeight() {
 		return height;
 	}
 	
@@ -56,12 +58,7 @@ public abstract class GraphicsTemplate {
 	public static void drawRectangle( double x, double y, double width, double height, double angle, Color color, boolean empty ){
 		width *= 0.5d ;
 		height *= 0.5d ;
-		startPolygon( 4, color, empty );
-		addPolygonVertex( x - width, y - height );
-		addPolygonVertex( x + width, y - height );
-		addPolygonVertex( x + width, y + height );
-		addPolygonVertex( x - width, y + height );
-		drawPolygon();
+		GL11.glRectd( x - width, y - height, x + width, y + height );
 	}
 	
 	public static void drawRectangle( double x, double y, double width, double height ){
@@ -135,14 +132,25 @@ public abstract class GraphicsTemplate {
 	}
 	
 
-	public static void setViewport( double x, double y, double width, double height ) {
+	public static void getViewport( Vector pivot, Vector size ) {
+		pivot.x = viewportX;
+		pivot.y = viewportY;
+		size.x = viewportWidth;
+		size.y = viewportHeight;
+	}
+
+	public static void setViewport( int x, int y, int width, int height ) {
+		viewportX = x;
+		viewportY = y;
+		viewportWidth = width;
+		viewportHeight = height;
 	}
 
 	public static void setViewport( Vector pivot, Vector size ) {
-		setViewport( pivot.x, pivot.y, size.x, size.y );
+		setViewport( Service.round( pivot.x ), Service.round( pivot.y ), Service.round( size.x ), Service.round( size.y ) );
 	}
 
 	public static void resetViewport() {
-		setViewport( 0.5d * getScreenWidth(), 0.5d * getScreenHeight() , getScreenWidth(), getScreenHeight() );
+		setViewport( getScreenWidth() / 2, getScreenHeight() / 2, getScreenWidth(), getScreenHeight() );
 	}
 }

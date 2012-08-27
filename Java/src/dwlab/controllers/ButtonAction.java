@@ -14,6 +14,7 @@ import dwlab.base.Project;
 import dwlab.base.Sys;
 import dwlab.base.XMLObject;
 import java.util.LinkedList;
+import org.lwjgl.input.Mouse;
 
 /**
  * Class for action which can be triggered by activating pushable object (presing a key, mouse button, etc).
@@ -88,14 +89,15 @@ public class ButtonAction extends Obj {
 		}
 
 		for( int num=1; num <= 3; num++ ) {
-			if( Sys.mouseHit( num ) ) {
+			if( Mouse.isButtonDown( num ) ) {
 				addButton( MouseButton.create( num ) );
 				return true;
 			}
 		}
 
-		if( Sys.mouseZ() != 0 ) {
-			addButton( MouseWheelAction.create( Sys.mouseZ() ) );
+		int dWheel = Mouse.getDWheel();
+		if( dWheel != 0 ) {
+			addButton( MouseWheelAction.create( dWheel ) );
 			Sys.flushMouse();
 			return true;
 		}

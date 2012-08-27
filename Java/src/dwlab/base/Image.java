@@ -26,8 +26,8 @@ public class Image extends ImageTemplate {
 		if( Sys.debug ) if( xCells <= 0 || yCells <= 0 ) error( "Cells quantity must be 1 or more" );
 		if( Sys.debug ) if( width <= 0 || height <= 0 ) error( "Cell sizes must be more than 0" );
 		
-		this.width = width;
-		this.height = height;
+		this.frameWidth = width;
+		this.frameHeight = height;
 		this.xCells = 1;
 		this.yCells = 1;
 	}
@@ -39,25 +39,27 @@ public class Image extends ImageTemplate {
 		this.textureNum = createTexture( width, height );
 		this.xCells = xCells;
 		this.yCells = yCells;
-		this.width = width;
-		this.height = height;
+		this.frameWidth = width;
+		this.frameHeight = height;
+		this.textureWidth = width * xCells;
+		this.textureHeight = height * yCells;
 	}
 	
 	/**
 	 * Creates new image from file with specified cell quantities for splitting.
 	 * @return New image (LTImage).
 	 */
-	public Image( String filename, int xCells, int yCells ) {
+	public Image( String fileName, int xCells, int yCells ) {
 		if( Sys.debug ) if( xCells <= 0 || yCells <= 0 ) error( "Cells quantity must be 1 or more" );
 
-		this.filename = filename;
+		this.fileName = fileName;
 		this.xCells = xCells;
 		this.yCells = yCells;
 		this.init();
 	}
 
-	public Image( String filename ) {
-		this.filename = filename;
+	public Image( String fileName ) {
+		this.fileName = fileName;
 		this.xCells = 1;
 		this.yCells = 1;
 		this.init();
@@ -69,19 +71,23 @@ public class Image extends ImageTemplate {
 	 * Splits image by XCells x YCells grid. Will be executed after loading image object from XML file.
 	 */
 	@Override
-	public final void initImage() {
-		if( filename.isEmpty() ) {
-			width = Math.round( width );
-			height = Math.round( height );
-			textureNum = createTexture( (int) width, (int) height, ByteBuffer.allocate( (int) ( 4d * width * height ) ) );
+	public final void init() {
+		if( fileName.isEmpty() ) {
+			frameWidth = Math.round( frameWidth );
+			frameHeight = Math.round( frameHeight );
+			textureNum = createTexture( (int) frameWidth, (int) frameHeight, ByteBuffer.allocate( (int) ( 4d * frameWidth * frameHeight ) ) );
  		} else {
-			java.awt.Image image = ( new javax.swing.ImageIcon( filename ) ).getImage();
-			BufferedImage tex = new BufferedImage( image.getWidth( null ), image.getHeight( null ), BufferedImage.TYPE_4BYTE_ABGR );
-			ByteBuffer scratch = ByteBuffer.allocateDirect( 4 * tex.getWidth() * tex.getHeight() );
+			java.awt.Image image = ( new javax.swing.ImageIcon( fileName ) ).getImage();
+			textureWidth = image.getWidth( null );
+			textureHeight = image.getHeight( null );
+			BufferedImage tex = new BufferedImage( textureWidth, textureHeight, BufferedImage.TYPE_4BYTE_ABGR );
+			ByteBuffer scratch = ByteBuffer.allocateDirect( 4 * textureWidth * textureHeight );
 			scratch.clear();
-			scratch.put( (byte[]) tex.getRaster().getDataElements(0, 0, tex.getWidth(), tex.getHeight(), null) );
+			scratch.put( (byte[]) tex.getRaster().getDataElements( 0, 0, textureWidth, textureHeight, null ) );
 			scratch.rewind();
-			textureNum = createTexture( (int) width, (int) height, scratch );
+			textureNum = createTexture( textureWidth, textureHeight, scratch );
+			frameWidth = textureWidth / xCells;
+			frameHeight = textureWidth / yCells;
 		}
 	}
 	
@@ -140,19 +146,46 @@ public class Image extends ImageTemplate {
 		height *= 0.5d ;
 		double tx = width * ( frame % xCells );
 		double ty = height * Math.floor( frame / xCells );
+		double kx = 1d / textureWidth;
+		double ky = 1d / textureHeight;
+		
+		GL11.glColor4d( color.red, color.green, color.blue, color.alpha );
 		GL11.glBegin( GL11.GL_QUADS );
 			GL11.glColor4d( color.red, color.green, color.blue, color.alpha );
-			GL11.glTexCoord2d( tx, ty );
+			GL11.glTexCoord2d( tx * kx, ty * kx );
 			GL11.glVertex2d(	x - width, y - height );
-			GL11.glTexCoord2d( tx + width - 1, ty );
+			GL11.glTexCoord2d( ( tx + width - 1 ) * kx, ty * ky );
 			GL11.glVertex2d(	x + width, y - height );
-			GL11.glTexCoord2d( tx + width - 1, ty + height -1 );
+			GL11.glTexCoord2d( ( tx + width - 1 ) * kx, ( ty + height -1 ) * ky );
 			GL11.glVertex2d(	x + width, y + height );
-			GL11.glTexCoord2d( tx, ty + height -1 );
+			GL11.glTexCoord2d( tx * kx, ( ty + height -1 ) * ky );
 			GL11.glVertex2d(	x - width, y + height );
 		GL11.glEnd();
 	}
-
+	
+	
+	public void draw( int frame, double x, double y, double width, double height, int tx1, int ty1, int tx2, int ty2, Color color ){
+		width *= 0.5d ;
+		height *= 0.5d ;
+		double tx = width * ( frame % xCells );
+		double ty = height * Math.floor( frame / xCells );
+		double kx = 1d / textureWidth;
+		double ky = 1d / textureHeight;
+		
+		GL11.glColor4d( color.red, color.green, color.blue, color.alpha );
+		GL11.glBegin( GL11.GL_QUADS );
+			GL11.glColor4d( color.red, color.green, color.blue, color.alpha );
+			GL11.glTexCoord2d( ( tx + tx1 ) * kx, ( ty + ty1 ) * kx );
+			GL11.glVertex2d(	x - width, y - height );
+			GL11.glTexCoord2d( ( tx + tx2) * kx, ( ty + ty1 ) * ky );
+			GL11.glVertex2d(	x + width, y - height );
+			GL11.glTexCoord2d( ( tx + tx2) * kx, ( ty + ty2 ) * ky );
+			GL11.glVertex2d(	x + width, y + height );
+			GL11.glTexCoord2d( ( tx + tx1 ) * kx, ( ty + ty2 ) * ky );
+			GL11.glVertex2d(	x - width, y + height );
+		GL11.glEnd();
+	}
+		
 	
 	@Override
 	public boolean collides( int frame1, double x1, double y1, Image image2, int frame2, double x2, double y2 ) {

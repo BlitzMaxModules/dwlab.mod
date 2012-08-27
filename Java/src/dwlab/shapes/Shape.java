@@ -9,6 +9,7 @@
 
 package dwlab.shapes;
 
+import dwlab.base.Vector;
 import dwlab.shapes.sprites.VectorSprite;
 import dwlab.shapes.sprites.Camera;
 import dwlab.shapes.sprites.Sprite;
@@ -96,27 +97,6 @@ public class Shape extends Obj {
 	public LinkedList<BehaviorModel> behaviorModels = new LinkedList<BehaviorModel>();
 
 	public int collisionLayer;
-	
-
-	public Layer toLayer() {
-		return null;
-	}
-	
-	public Sprite toSprite() {
-		return null;
-	}
-	
-	public VectorSprite toVectorSprite() {
-		return null;
-	}
-
-	public TileMap toTileMap() {
-		return null;
-	}
-
-	public SpriteMap toSpriteMap() {
-		return null;
-	}
 
 	// ==================== Drawing ===================
 
@@ -210,7 +190,7 @@ public class Shape extends Obj {
 			serviceSizes.y += servicePivot.y;
 			servicePivot.y = 0;
 		}
-		Graphics.setViewport( servicePivot.x, servicePivot.y, serviceSizes.x, serviceSizes.y );
+		Graphics.setViewport( Service.round( servicePivot.x ), Service.round( servicePivot.y ), Service.round( serviceSizes.x ), Service.round( serviceSizes.y ) );
 	}
 
 	// ==================== Collisions ===================

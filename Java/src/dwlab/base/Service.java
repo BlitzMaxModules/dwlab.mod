@@ -10,7 +10,6 @@
 package dwlab.base;
 
 import dwlab.shapes.Shape;
-import dwlab.shapes.Vector;
 import dwlab.shapes.sprites.Camera;
 import dwlab.visualizers.Color;
 import java.util.Arrays;
@@ -362,6 +361,10 @@ public class Service extends Obj {
 		}
 	}
 
+	public static void printText( String text, double x, double y, Align horizontalAlign, Align verticalAlign ) {
+		printText( text, x, y, horizontalAlign, verticalAlign, Color.white, false );
+	}
+
 
 	public static void drawTextWithContour( String text, double x, double y ) {
 		for( int dY=-1; dY <= 1; dY++ ) {
@@ -416,6 +419,10 @@ public class Service extends Obj {
 	
 	public static double random( double from, double to ) {
 		return from + Math.random() * ( to - from );
+	}
+
+	public static double random( double range ) {
+		return Math.random() * range;
 	}
 	
 

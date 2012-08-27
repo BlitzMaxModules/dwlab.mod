@@ -10,6 +10,7 @@ package dwlab.base;
 
 import dwlab.base.Image;
 import dwlab.base.XMLObject;
+import dwlab.visualizers.Color;
 
 /**
  * Special image subclass to display raster frame.
@@ -51,133 +52,135 @@ public class RasterFrame extends Image {
 	 * Raster frame creation function.
 	 * You should provide image file name and 4 values for borders (optional, 1 by default).
 	 */
-	public RasterFrame( String fileName, int leftBorder, int topBorder, int rightBorder, int bottomBorder ) {
-		this.filename = fileName;
+	public RasterFrame( String fileName, int xCells, int yCells, int leftBorder, int topBorder, int rightBorder, int bottomBorder ) {
 		this.leftBorder = leftBorder;
 		this.topBorder = topBorder;
 		this.rightBorder = rightBorder;
 		this.bottomBorder = bottomBorder;
-		this.initRasterFrame();
+		
+		this.fileName = fileName;
+		this.xCells = xCells;
+		this.yCells = yCells;
+		this.init();
 	}
 
-
+	public RasterFrame( String fileName, int leftBorder, int topBorder, int rightBorder, int bottomBorder ) {
+		this.leftBorder = leftBorder;
+		this.topBorder = topBorder;
+		this.rightBorder = rightBorder;
+		this.bottomBorder = bottomBorder;
+		
+		this.fileName = fileName;
+		this.xCells = 1;
+		this.yCells = 1;
+		this.init();
+	}
+	
+	
 	/**
 	 * Initialization function.
 	 * Main image will be splitted into 9 images and put into array for using.
 	 */
-	public final void initRasterFrame() {
-		/*
-		super.init();
-		int quantity = this.framesQuantity();
-		for( int n=0; n <= quantity; n++ ) {
-			int totalWidth = (int) getWidth();
-			int totalHeight = (int) getHeight();
-			int y = 0;
-			for( int yN=0; yN <= 2 ; yN++ ) {
-				if( n == 0 ) images = new Image[ 3 ][];
-				int height = 0;
-				switch( yN ) {
-					case 0:
-						height = topBorder;
-						break;
-					case 1:
-						height = totalHeight - topBorder - bottomBorder;
-						break;
-					case 2:
-						height = bottomBorder;
-						break;
-				}
-				int x = 0;
-				for( int xN=0; xN <= 2; xN++ ) {
-					if( n == 0 ) images[ yN ] = new Image[ 3 ];
-					int width = 0;
-					switch( xN ) {
-						case 0:
-							width = leftBorder;
-							break;
-						case 1:
-							width = totalWidth - leftBorder - rightBorder;
-							break;
-						case 2:
-							width = rightBorder;
-							break;
-					}
-					images[ yN ][ xN ] = new Image( quantity );
-					if( width > 0 && height > 0 ) {
-						if( x + width <= totalWidth && y + height <= totalHeight ) images[ yN ][ xN ].grab( n, x, y, width, height );
-					}
-					x += width;
-				}
-				y += height;
-			}
-		}
-		*/
-	}
-
-
-	public void draw( double x, double y, double totalWidth, double totalHeight, int frame ) {
-		double width, height;
-		double startX = x - 0.5 * totalWidth;
-		double startY = y - 0.5 * totalHeight;
+	@Override
+	public void draw( int frame, double x, double y, double width, double height, double angle, Color color ){
+		double currentY = y - 0.5 * height;
 		if( proportional ) {
-			/*
-			if( imageWidth( images[ frame, 0, 1 ] ) == 0 ) {
-				double scale = 1.0 * totalWidth / imageWidth( images[ frame, 1, 1 ] );
-				setScale scale, scale;
-				if( images[ frame, 1, 0 ] ) draw( images[ frame, 1, 0 ], startX, startY );
-				if( images[ frame, 2, 2 ] ) draw( images[ frame, 1, 2 ], startX, startY + totalHeight - scale * imageHeight( images[ frame, 1, 2 ] ) );
-				setScale scale, 1.0 * ( totalHeight - scale * ( imageHeight( images[ frame, 1, 0 ] ) + imageHeight( images[ frame, 1, 2 ] ) ) ) / ..;
-						imageHeight( images[ frame, 1, 1 ] );
-				images[ frame, 1, 1 ].draw( startX, startY + scale * imageHeight( images[ frame, 1, 0 ] ) );
-			} else {
-				double scale = 1.0 * totalHeight / imageHeight( images[ frame, 1, 1 ] );
-				setScale scale, scale;
-				if( images[ 1 ][ 0 ] != null ) images[ 1 ][ 0 ].draw( frame, startX, startY );
-				if( images[ 1 ][ 2 ] != null ) images[ 1 ][ 2 ].draw( frame, startX + totalWidth - scale * images[ 1 ][ 2 ].getWidth(), startY );
-				setScale ( totalWidth - scale * ( imageWidth( images[ frame, 0, 1 ] ) + imageWidth( images[ frame, 2, 1 ] ) ) ) / ..;
-						imageWidth( images[ frame, 1, 1 ] ), scale;
-				draw( images[ frame, 1, 1 ], startX + scale * imageWidth( images[ frame, 0, 1 ] ), startY );
-			}
-			*/
-		} else {
-			double xX = startX;
-			for( int xN=0; xN <= 2; xN++ ) {
-				switch( xN ) {
-					case 0:
-						width = images[ 0 ][ 0 ].getWidth();
-						break;
-					case 1:
-						width = totalWidth - images[ 0 ][ 0 ].getWidth() - images[ 2 ][ 2 ].getWidth();
-						break;
-					default:
-						width = images[ 2 ][ 2 ].getWidth();
-						break;
-				}
-
-				if( width == 0d ) continue;
-
-				double yY = startY;
-				for( int yN=0; yN <= 2; yN++ ) {
-					switch( yN ) {
+			double currentX = x - 0.5 * width;
+			if( topBorder != 0 || bottomBorder != 0 ) {
+				double currentHeight;
+				int currentTHeight;
+				int currentTY = 0;
+				for( int n = 0; n <= 2 ; n++ ) {
+					switch( n ) {
 						case 0:
-							height = images[ 0 ][ 0 ].getHeight();
+							currentHeight = topBorder;
+							currentTHeight = topBorder;
 							break;
 						case 1:
-							height = totalHeight - images[ 0 ][ 0 ].getHeight() - images[ 2 ][ 2 ].getHeight();
+							currentHeight = height - topBorder - bottomBorder;
+							currentTHeight = getHeight() - topBorder - bottomBorder;
 							break;
 						default:
-							height = images[ 2 ][ 2 ].getHeight();
+							currentHeight = bottomBorder;
+							currentTHeight = bottomBorder;
+							break;
+					}
+					
+					draw( frame, currentX, currentY, width, currentHeight, 0, currentTY, frameWidth, currentTY + currentTHeight, color );
+					
+					currentY += currentHeight;
+					currentTY += currentTHeight;
+				}
+			} else if( leftBorder != 0 || rightBorder != 0 ) {
+				double currentWidth;
+				int currentTWidth;
+				int currentTX = 0;
+				for( int m = 0; m <= 2; m++ ) {
+					switch( m ) {
+						case 0:
+							currentWidth = leftBorder;
+							currentTWidth = leftBorder;
+							break;
+						case 1:
+							currentWidth = width - leftBorder - rightBorder;
+							currentTWidth = getWidth() - leftBorder - rightBorder;
+							break;
+						default:
+							currentWidth = rightBorder;
+							currentTWidth = rightBorder;
 							break;
 					}
 
-					if( height == 0 ) continue;
+					draw( frame, currentX, currentY, currentWidth, 0, currentTX, 0, currentTX+ currentTWidth, frameHeight, color );
 
-					//setScale 1.0 * width / imageWidth( images[ frame, xN, yN ] ), 1.0 * height / imageHeight( images[ frame, xN, yN ] );
-					images[ yN ][ xN ].draw( frame, xX, yY );
-
-					yY += height;
+					currentX += currentWidth;
+					currentTX += currentTWidth;
 				}
-				xX += width;
+			}
+		} else {
+			double currentWidth, currentHeight;
+			int currentTWidth, currentTHeight;
+			int currentTY = 0;
+			for( int n = 0; n <= 2 ; n++ ) {
+				switch( n ) {
+					case 0:
+						currentHeight = topBorder;
+						currentTHeight = topBorder;
+						break;
+					case 1:
+						currentHeight = height - topBorder - bottomBorder;
+						currentTHeight = getHeight() - topBorder - bottomBorder;
+						break;
+					default:
+						currentHeight = bottomBorder;
+						currentTHeight = bottomBorder;
+						break;
+				}
+				double currentX = x - 0.5 * width;
+				int currentTX = 0;
+				for( int m = 0; m <= 2; m++ ) {
+					switch( m ) {
+						case 0:
+							currentWidth = leftBorder;
+							currentTWidth = leftBorder;
+							break;
+						case 1:
+							currentWidth = width - leftBorder - rightBorder;
+							currentTWidth = getWidth() - leftBorder - rightBorder;
+							break;
+						default:
+							currentWidth = rightBorder;
+							currentTWidth = rightBorder;
+							break;
+					}
+
+					draw( frame, currentX, currentY, currentWidth, currentHeight, currentTX, currentTY, currentTX+ currentTWidth, currentTY + currentTHeight, color );
+
+					currentX += currentWidth;
+					currentTX += currentTWidth;
+				}
+				currentY += currentHeight;
+				currentTY += currentTHeight;
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-package dwlab.shapes;
+package dwlab.base;
 
 import dwlab.base.Obj;
 

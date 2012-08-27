@@ -8,6 +8,7 @@
 
 package dwlab.shapes;
 
+import dwlab.base.Vector;
 import dwlab.base.Graphics;
 import dwlab.base.Service;
 import dwlab.base.Sys;

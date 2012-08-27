@@ -10,21 +10,18 @@
 package dwlab.base;
 
 import dwlab.shapes.Shape;
-import dwlab.shapes.Vector;
 import dwlab.shapes.sprites.Camera;
 
 /**
  * Bitmap font class.
  */
-public class BitmapFont extends Obj {
+public class BitmapFont extends Image {
 	private static Vector servicePivot = new Vector();
 	
 	public int letterWidth[];
 	public int fromNum;
 	public int toNum;
-	public Image image;
-	private boolean variableLength;
-
+	public boolean variableLength;
 
 
 	/**
@@ -36,14 +33,14 @@ public class BitmapFont extends Obj {
 	public void print( String text, double x, double y, double height, Align horizontalAlignment, Align verticalAlignment ) {
 		Camera.current.fieldToScreen( x, y, servicePivot );
 
-		double scale = Camera.current.k * height / height();
+		double scale = Camera.current.k * height / getHeight();
 		
 		switch( horizontalAlignment ) {
 			case TO_CENTER:
-				servicePivot.x = 0.5 * width( text ) * scale;
+				servicePivot.x = 0.5 * getWidth( text ) * scale;
 				break;
 			case TO_RIGHT:
-				servicePivot.x = width( text ) * scale;
+				servicePivot.x = getWidth( text ) * scale;
 				break;
 		}
 
@@ -59,9 +56,9 @@ public class BitmapFont extends Obj {
 		for( int n=0; n <= text.length(); n++ ) {
 			if( text.charAt( n ) < fromNum || text.charAt( n ) > toNum ) error( "String contains letter that is out of font range" );
 			int frame = text.charAt( n ) - fromNum;
-			double width = scale * letterWidth[ frame ];
-			image.draw( frame, servicePivot.x, servicePivot.y, scale * width, scale * height, 0 );
-			servicePivot.x += width;
+			double realLetterWidth = scale * letterWidth[ frame ];
+			draw( frame, servicePivot.x, servicePivot.y, scale * realLetterWidth, scale * height, 0 );
+			servicePivot.x += realLetterWidth;
 		}
 	}
 
@@ -112,23 +109,20 @@ public class BitmapFont extends Obj {
 	 * Returns text width in pixels.
 	 * @return Text width in pixels for current bitmap font.
 	 */
-	public double width( String text ) {
-		if( !variableLength ) return image.getWidth();
+	public double getWidth( String text ) {
+		if( !variableLength ) return super.getWidth() * text.length();
 			
 		double x = 0;
 		for( int n=0; n <= text.length(); n++ ) {
 			if( text.charAt( n ) < fromNum || text.charAt( n ) > toNum ) error( "String contains letter that is out of font range" );
-			x += letterWidth[ text.charAt( n ) - fromNum ];
+			if( variableLength ) {
+				x += letterWidth[ text.charAt( n ) - fromNum ];
+			} else {
+				x += getWidth();
+			}
 		}
 		return x;
 	}
-
-
-
-	public double height() {
-		return image.getHeight();
-	}
-
 
 
 	/**
@@ -138,38 +132,35 @@ public class BitmapFont extends Obj {
 	 * VariableLength flag should be set to true if you want to use letters with variable lengths and have file with letter lengths with ".lfn"
 	 * extension and same name as image file.
 	 */
-	public static BitmapFont fromFile( String fileName, int fromNum, int toNum, int symbolsPerRow, boolean variableLength ) {
-		BitmapFont font = new BitmapFont();
-		font.fromNum = fromNum;
-		font.toNum = toNum;
-		font.variableLength = variableLength;
+	public BitmapFont( String fileName, int fromNum, int toNum, int symbolsPerRow, boolean variableLength ) {
+		int symbolsQuantity = toNum - fromNum + 1;
+		this.fileName = fileName;
+		this.xCells = symbolsPerRow;
+		this.yCells = symbolsQuantity / symbolsPerRow;
+		this.init();		
+		
+		this.fromNum = fromNum;
+		this.toNum = toNum;
+		this.variableLength = variableLength;
 
-		int symbolsQuantity = font.toNum - font.fromNum + 1;
 		if( variableLength ) {
 			Image image = new Image( fileName );
-			int symbolWidth = ( (int) image.getWidth() - 1 ) / symbolsPerRow;
-			int symbolHeight = (int) image.getHeight() * ( (int) Math.ceil( symbolsQuantity / symbolsPerRow ) );
-			font.letterWidth = new int[ symbolsQuantity ];
-			font.image = new Image( symbolsQuantity );
-			int pixel = image.getPixel( 0, 0 );
+			this.letterWidth = new int[ symbolsQuantity ];
+			int pixel = image.getPixel( frameWidth - 1, 0 );
 			for( int n = 0; n < symbolsQuantity; n++ ) {
-				int x = symbolWidth * ( n % symbolsQuantity );
+				int x = frameWidth * ( n % symbolsQuantity );
 				int y = (int) Math.floor( n / symbolsQuantity );
-				for( int width = symbolWidth - 1; width > 1; width-- ) {
-					if( image.getPixel( x + width, y + 1 ) != pixel ) {
-						font.image.grab( n, x + 1, y + 1, width - 1, symbolHeight - 1 );
+				for( int lWidth = frameWidth - 1; lWidth > 1; lWidth-- ) {
+					if( image.getPixel( x + lWidth, y + 1 ) != pixel ) {
+						letterWidth[ n ] = lWidth + 1;
 						break;
 					}
 				}
 			}
-		} else {
-			font.image = new Image( fileName, symbolsPerRow, (int) Math.ceil( symbolsQuantity / symbolsPerRow ) );
 		}
-
-		return font;
 	}
 	
-	public static BitmapFont fromFile( String fileName ) {
-		return fromFile( fileName, 32, 255, 16, false );
+	public BitmapFont( String fileName ) {
+		new BitmapFont( fileName, 32, 255, 16, false );
 	}
 }

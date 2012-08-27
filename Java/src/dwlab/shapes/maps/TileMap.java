@@ -11,7 +11,7 @@ package dwlab.shapes.maps;
 import dwlab.base.Service;
 import dwlab.base.Sys;
 import dwlab.shapes.Shape;
-import dwlab.shapes.Vector;
+import dwlab.base.Vector;
 import dwlab.visualizers.Visualizer;
 import dwlab.base.XMLObject;
 
