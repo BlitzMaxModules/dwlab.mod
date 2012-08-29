@@ -81,28 +81,7 @@ public class ButtonAction extends Obj {
 
 
 	public boolean define() {
-		for( int code=1; code <= 255; code++ ) {
-			if( Sys.keyHit( code ) ) {
-				addButton( KeyboardKey.create( code ) );
-				return true;
-			}
-		}
-
-		for( int num=1; num <= 3; num++ ) {
-			if( Mouse.isButtonDown( num ) ) {
-				addButton( MouseButton.create( num ) );
-				return true;
-			}
-		}
-
-		int dWheel = Mouse.getDWheel();
-		if( dWheel != 0 ) {
-			addButton( MouseWheelAction.create( dWheel ) );
-			Sys.flushMouse();
-			return true;
-		}
-		
-		return false;
+		return Sys.getPushable( this );
 	}
 
 

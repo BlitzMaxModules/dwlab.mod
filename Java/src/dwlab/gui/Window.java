@@ -14,7 +14,7 @@ import dwlab.base.Sys;
 import dwlab.controllers.ButtonAction;
 import dwlab.controllers.KeyboardKey;
 import dwlab.controllers.MouseButton;
-import dwlab.controllers.MouseWheelAction;
+import dwlab.controllers.MouseWheel;
 import dwlab.shapes.layers.Layer;
 import dwlab.shapes.layers.World;
 import dwlab.shapes.Shape;
@@ -33,8 +33,8 @@ public class Window extends Layer {
 	
 	public static ButtonAction select = ButtonAction.create( MouseButton.create( 1 ) );
 	public static ButtonAction pan = ButtonAction.create( MouseButton.create( 3 ) );
-	public static ButtonAction scaleUp = ButtonAction.create( MouseWheelAction.create( 1 ) );
-	public static ButtonAction scaleDown = ButtonAction.create( MouseWheelAction.create( -1 ) );
+	public static ButtonAction scaleUp = ButtonAction.create( MouseWheel.create( 1 ) );
+	public static ButtonAction scaleDown = ButtonAction.create( MouseWheel.create( -1 ) );
 
 	public static ButtonAction establish = ButtonAction.create( KeyboardKey.create( Keyboard.KEY_RETURN ) );
 	public static ButtonAction abort = ButtonAction.create( KeyboardKey.create( Keyboard.KEY_ESCAPE ) );

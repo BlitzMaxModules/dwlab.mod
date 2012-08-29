@@ -81,7 +81,7 @@ public class GUIProject extends Project {
 		currentWindow.init();
 		if( currentWindow.modal ) for( Window win: windows ) win.active = false;
 		if( add ) windows.addLast( currentWindow );
-		Sys.flushKeys();
+		Sys.flushKeyboard();
 		return currentWindow;
 	}
 
@@ -138,7 +138,7 @@ public class GUIProject extends Project {
 			}
 		}
 		window.onClose();
-		Sys.flushKeys();
+		Sys.flushKeyboard();
 	}
 	
 	public void closeWindow() {

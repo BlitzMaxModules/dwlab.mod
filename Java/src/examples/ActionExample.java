@@ -13,6 +13,12 @@ import org.lwjgl.input.Keyboard;
 
 
 public class ActionExample extends Project {
+	static {
+		Graphics.init();
+	}
+	
+	private static ActionExample instance = new ActionExample();
+	
 	public static ButtonAction undoKey = ButtonAction.create( KeyboardKey.create( Keyboard.KEY_Z, Modifiers.CONTROL ) );
 	public static ButtonAction redoKey = ButtonAction.create( KeyboardKey.create( Keyboard.KEY_Y, Modifiers.CONTROL ) );
 	public static ButtonAction saveKey = ButtonAction.create( KeyboardKey.create( Keyboard.KEY_F2 ) );
@@ -21,9 +27,9 @@ public class ActionExample extends Project {
 	public final int spritesQuantity = 50;
 
 	public static Layer sprites = new Layer();
-	public static Image spriteImage = new Image( "kolobok .png" );
+	public static Image spriteImage = new Image( "res/kolobok.png" );
 	public static MoveDrag drag = new MoveDrag();
-
+	
 	
 	@Override
 	public void init() {
@@ -36,7 +42,6 @@ public class ActionExample extends Project {
 			sprite.visualizer.setVisualizerScales( 1.3 );
 			sprites.addLast( sprite );
 		}
-		initGraphics();
 	}
 	
 
@@ -50,8 +55,6 @@ public class ActionExample extends Project {
 
 		if( saveKey.wasPressed() ) sprites.saveToFile( "sprites2.lw" );
 		if( loadKey.wasPressed() ) sprites = Obj.loadFromFile( "sprites2.lw" ).toLayer();
-
-		if( appTerminate() || keyHit( key_Escape ) ) exiting = true;
 	}
 	
 
@@ -62,9 +65,15 @@ public class ActionExample extends Project {
 		Service.printText( "LTAction, L_Undo, L_Redo, L_PushActionsList, LTDrag example", 0, 12, Align.TO_CENTER, Align.TO_BOTTOM );
 	}
 	
+	
+	
+	public static void main(String[] argv) {
+		instance.act();
+	}
+	
 
 	public static class MoveDrag extends Drag {
-		public static ButtonAction key = ButtonAction.create( MouseButton.create( 1 ) );
+		public ButtonAction key = ButtonAction.create( MouseButton.create( 1 ) );
 						
 		public Shape shape;
 		public MoveAction action;

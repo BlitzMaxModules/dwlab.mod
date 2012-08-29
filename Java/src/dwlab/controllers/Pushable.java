@@ -14,7 +14,7 @@ import dwlab.base.Obj;
 /**
  * Common class for keys, buttons and mouse wheel rolls.
  */
-public class Pushable extends Obj {
+public abstract class Pushable extends Obj {
 	public enum State {
 		JUST_PRESSED,
 		PRESSED,
@@ -44,8 +44,28 @@ public class Pushable extends Obj {
 		return "";
 	}
 
+	
+	KeyboardKey getKeyboardKey() {
+		return null;
+	}
 
-	public void processEvent() {
+	
+	MouseButton getMouseButton() {
+		return null;
+	}
+
+	
+	MouseWheel getMouseWheel() {
+		return null;
+	}
+	
+
+	public void processKeyboardEvent() {
+		
+	}
+	
+	public void processMouseEvent() {
+		
 	}
 
 

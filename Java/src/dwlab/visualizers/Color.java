@@ -45,7 +45,7 @@ public class Color extends Obj {
 	// ==================== Creating ====================
 
 	public Color(){
-		this.set( 1.0d, 1.0d, 1.0d, 1.0 );
+		this.set( 1.0d, 1.0d, 1.0d, 1.0d );
 	}
 	
 	/**

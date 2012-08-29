@@ -8,7 +8,6 @@ public abstract class ImageTemplate extends Obj {
 	private static HashSet<Image> images = new HashSet<Image>(); 
 	static int lastNum = 0;
 
-	int textureNum;
 	String fileName;
 	int textureWidth, textureHeight;
 	int frameWidth, frameHeight;

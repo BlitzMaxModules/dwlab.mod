@@ -29,11 +29,11 @@ import java.util.HashSet;
  * @see #lTVectorSprite
  */
 public class Sprite extends Shape {
-	private Vector serviceVector = new Vector();
-	private Sprite servicePivot = new Sprite();
-	private Sprite serviceOval = new Sprite( ShapeType.OVAL );
-	private Sprite serviceRectangle = new Sprite( ShapeType.RECTANGLE );
-	private Sprite serviceTriangle = new Sprite( ShapeType.TOP_LEFT_TRIANGLE );
+	private static Vector serviceVector = new Vector();
+	private static Sprite servicePivot = new Sprite();
+	private static Sprite serviceOval = new Sprite( ShapeType.OVAL );
+	private static Sprite serviceRectangle = new Sprite( ShapeType.RECTANGLE );
+	private static Sprite serviceTriangle = new Sprite( ShapeType.TOP_LEFT_TRIANGLE );
 
 	
 	public enum ShapeType {

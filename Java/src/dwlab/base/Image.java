@@ -19,6 +19,8 @@ import org.lwjgl.opengl.GL11;
  * Image class.
  */
 public class Image extends ImageTemplate {
+	int textureNum;
+
 	public Image() {
 	}
 	
@@ -80,8 +82,9 @@ public class Image extends ImageTemplate {
 			java.awt.Image image = ( new javax.swing.ImageIcon( fileName ) ).getImage();
 			textureWidth = image.getWidth( null );
 			textureHeight = image.getHeight( null );
+			if( textureWidth == -1 ) error( "Image \"" + fileName + "\" or cannot be loaded or not found." );
 			BufferedImage tex = new BufferedImage( textureWidth, textureHeight, BufferedImage.TYPE_4BYTE_ABGR );
-			ByteBuffer scratch = ByteBuffer.allocateDirect( 4 * textureWidth * textureHeight );
+			ByteBuffer scratch = ByteBuffer.allocateDirect( 4 * textureWidth * textureHeight * 4 );
 			scratch.clear();
 			scratch.put( (byte[]) tex.getRaster().getDataElements( 0, 0, textureWidth, textureHeight, null ) );
 			scratch.rewind();

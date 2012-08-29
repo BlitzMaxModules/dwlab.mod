@@ -15,7 +15,7 @@ import dwlab.base.XMLObject;
 /**
  * Class for mouse wheel rollings.
  */
-public class MouseWheelAction extends Pushable {
+public class MouseWheel extends Pushable {
 	public int z;
 	public int direction;
 
@@ -32,33 +32,33 @@ public class MouseWheelAction extends Pushable {
 		}
 	}
 
+	
+	@Override
+	MouseWheel getMouseWheel() {
+		return this;
+	}
+
 
 	@Override
 	public boolean isEqualTo( Pushable pushable ) {
-		MouseWheelAction wheel = (MouseWheelAction) pushable;
+		MouseWheel wheel = pushable.getMouseWheel();
 		if( wheel != null ) return direction == wheel.direction; else return false;
 	}
 
 
 	@Override
-	public void processEvent() {
-		/*if( eventID() == event_MouseWheel ) {
-			if( direction * ( mouseZ() - z ) > 0 ) {
-				state = justPressed;
-				z = mouseZ();
-			}
-		}*/
+	public void processMouseEvent() {
+		Sys.processMouseWheelEvent( this );
 	}
-
 
 	/**
 	 * Creates mouse wheel roll action object.
 	 * @return New object of mouse wheel roll action of given direction.
 	 */	
-	public static MouseWheelAction create( int direction ) {
+	public static MouseWheel create( int direction ) {
 		if( Math.abs( direction ) != 1 ) error( "Invalid mouse wheel direction" );
 
-		MouseWheelAction wheelAction = new MouseWheelAction();
+		MouseWheel wheelAction = new MouseWheel();
 		wheelAction.direction = direction;
 		
 		for( ButtonAction action: Project.controllers ) {

@@ -10,6 +10,7 @@
 package dwlab.controllers;
 
 import dwlab.base.Project;
+import dwlab.base.Sys;
 import dwlab.base.XMLObject;
 
 /**
@@ -227,14 +228,26 @@ public class KeyboardKey extends Pushable {
 		return "";
 	}
 
+	
+	@Override
+	KeyboardKey getKeyboardKey() {
+		return this;
+	}
+
 
 	@Override
 	public boolean isEqualTo( Pushable pushable ) {
-		KeyboardKey key = (KeyboardKey) pushable;
+		KeyboardKey key = pushable.getKeyboardKey();
 		if( key != null ) return code == key.code;
 		return false;
 	}
+	
 
+	@Override
+	public void processKeyboardEvent() {
+		Sys.processKeyboardKeyEvent( this );
+	}
+	
 
 	/**
 	 * Creates keyboard key object.

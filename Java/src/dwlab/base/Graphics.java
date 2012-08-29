@@ -15,6 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
 public class Graphics extends GraphicsTemplate {
@@ -24,10 +26,16 @@ public class Graphics extends GraphicsTemplate {
 
 	* @see #parallax example
 	*/
-	public static void init( int newWidth, int newHeight, double unitSize, int colorDepth, int frequency ) {
+	public static void init( int newWidth, int newHeight, double unitSize ) {
 		width =newWidth;
 		height = newHeight;
-		
+		try {
+			Display.setDisplayMode( new DisplayMode( width, height ) );
+			Display.create();
+		} catch ( LWJGLException ex ) {
+			Logger.getLogger( Graphics.class.getName() ).log( Level.SEVERE, null, ex );
+		}
+
 		GL11.glMatrixMode( GL11.GL_PROJECTION) ;
 		GL11.glLoadIdentity();
 		GL11.glOrtho( 0d, width, 0d, height, 1d, -1d );
@@ -44,6 +52,10 @@ public class Graphics extends GraphicsTemplate {
 		Camera.current.viewport.setCoords( 0.5d * width, 0.5d * height );
 		Camera.current.viewport.setSize( width, height );
 		Camera.current.setSize( width / unitSize, height / unitSize );
+	}
+
+	public static void init() {
+		init( 800, 600, 25d );
 	}
 	
 
@@ -71,21 +83,23 @@ public class Graphics extends GraphicsTemplate {
 	
 	
 	public static void drawText( String string, double x, double y, Color color, Color contourColor ) {
-		throw new UnsupportedOperationException( "Not yet implemented" );
+		//throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 
 	public static void drawText( String string, double x, double y, Color color ) {
-		throw new UnsupportedOperationException( "Not yet implemented" );
+		//throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
 
 	public static double textWidth( String text ) {
-		throw new UnsupportedOperationException( "Not yet implemented" );
+		return 1;
+		//throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
 
 	public static double textHeight() {
-		throw new UnsupportedOperationException( "Not yet implemented" );
+		return 1;
+		//throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 
 	public static void setViewport( int x, int y, int width, int height ) {
@@ -102,7 +116,7 @@ public class Graphics extends GraphicsTemplate {
 	
 
 	public static void switchBuffers() {
-		throw new UnsupportedOperationException( "Not yet implemented" );
+		Display.update();
 	}
 }
 

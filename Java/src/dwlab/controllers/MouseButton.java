@@ -18,7 +18,7 @@ import dwlab.base.XMLObject;
  * Class for mouse buttons.
  */
 public class MouseButton extends Pushable {
-	private int num;
+	public int num;
 
 
 	/**
@@ -55,24 +55,24 @@ public class MouseButton extends Pushable {
 		}
 	}
 
+	
+	@Override
+	MouseButton getMouseButton() {
+		return this;
+	}
+
 
 	@Override
 	public boolean isEqualTo( Pushable pushable ) {
-		MouseButton button = (MouseButton) pushable;
+		MouseButton button = pushable.getMouseButton();
 		if( button != null ) return num == button.num;
 		return false;
 	}
 
 
 	@Override
-	public void processEvent() {
-		/*if( eventData() != num ) return;
-		switch( eventID() ) {
-			case event_MouseDown:
-				state = justPressed;
-			case event_MouseUp:
-				state = justUnpressed;
-		}*/
+	public void processMouseEvent() {
+		Sys.processMouseButtonEvent( this );
 	}
 
 

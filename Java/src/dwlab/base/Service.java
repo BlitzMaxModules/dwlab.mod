@@ -21,7 +21,7 @@ public class Service extends Obj {
 	public static int hexToInt( String hexString ) {
 		int value = 0;
 		hexString = hexString.toUpperCase().trim();
-		for( int n=0; n <= hexString.length(); n++ ) {
+		for( int n=0; n < hexString.length(); n++ ) {
 			if( hexString.charAt( n ) <= '9' ) {
 				value = value * 16 + ( (int) hexString.charAt( n ) - '0'  );
 			} else {

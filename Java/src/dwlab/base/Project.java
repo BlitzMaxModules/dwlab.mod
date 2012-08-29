@@ -15,13 +15,13 @@ import dwlab.shapes.layers.Layer;
 import dwlab.shapes.sprites.Camera;
 import dwlab.shapes.sprites.Sprite;
 import java.util.LinkedList;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 
 /**
  * Class for main project and subprojects.
  */
 public class Project extends Obj {
+	public static LinkedList<ButtonAction> controllers = new LinkedList<ButtonAction>();
+	
 	public static int collisionChecks;
 	public static int tilesDisplayed;
 	public static int spritesDisplayed;
@@ -29,7 +29,7 @@ public class Project extends Obj {
 	public static boolean spriteActed;
 
 	public static Project current;
-	public static Sprite cursor = new Sprite( Sprite.ShapeType.PIVOT );
+	public static Sprite cursor = new Sprite();
 
 	/**
 	* Quantity of logic frames per second.
@@ -40,7 +40,6 @@ public class Project extends Obj {
 
 	public static int maxLogicStepsWithoutRender = 6;
 	
-	public static LinkedList<ButtonAction> controllers = new LinkedList<ButtonAction>();
 
 	/**
 	* Current frames per second quantity.
@@ -138,7 +137,8 @@ public class Project extends Obj {
 	 * Executes the project.
 	 * You cannot use this method to execute more projects if the project is already running, use Insert() method instead.
 	 */
-	public void execute() {
+	@Override
+	public void act() {
 		Project oldProject = current;
 		current = this;
 
@@ -228,11 +228,15 @@ public class Project extends Obj {
 	// ==================== Events ===================		
 
 	public void processEvents() {
-		Sys.processEvents();
+		Sys.processEvents( this );
 	}
+	
 
+	public void onKeyboardEvent() {
+	}
+	
 
-	public void onEvent() {
+	public void onMouseEvent() {
 	}
 
 
@@ -267,7 +271,7 @@ public class Project extends Obj {
 	 */
 	public void switchTo( Project project ) {
 		long freezingTime = System.currentTimeMillis();
-		project.execute();
+		project.act();
 		deltaTime = 1.0 / logicFPS;
 		startingTime += System.currentTimeMillis() - freezingTime;
 	}
