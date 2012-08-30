@@ -40,7 +40,7 @@ Type LTBox2DTileMap Extends LTTileMap
 				If CollisionSprite Then
 					If CollisionSprite.ShapeType = LTSprite.Rectangle And  CollisionSprite.X = 0.5:Double And CollisionSprite.Y = 0.5:Double ..
 							And CollisionSprite.Width = 1.0:Double And CollisionSprite.Height = 1.0:Double Then
-						FilledTile[ X, Y ] = True
+						FilledTile[ X, Y ] = CollisionShape.CollisionLayer
 					Else
 						AttachTileCollisionSpriteToBody( X, Y, CollisionSprite, ShapeParameters, Body )
 					End If
@@ -55,6 +55,9 @@ Type LTBox2DTileMap Extends LTTileMap
 		For Local Y:Int = 0 Until YQuantity
 			For Local X:Int = 0 Until XQuantity
 				If Not FilledTile[ X, Y ] Then Continue
+				
+				Local CollisonLayer:Int = FilledTile[ X, Y ]
+				
 				Local X2:Int
 				For X2 = X + 1 Until XQuantity
 					If Not FilledTile[ X2, Y ] Then Exit
@@ -63,7 +66,7 @@ Type LTBox2DTileMap Extends LTTileMap
 				Local Y2:Int, XX:Int
 				For Y2 = Y + 1 Until YQuantity
 					For XX = X Until X2
-						If Not FilledTile[ XX, Y2 ] Then Exit
+						If FilledTile[ XX, Y2 ] <> CollisionLayer Then Exit
 					Next
 					If XX < X2 Then Exit
 				Next
@@ -79,7 +82,7 @@ Type LTBox2DTileMap Extends LTTileMap
 				Local PX2:Float = LeftX() + X2 * GetTileWidth()
 				Local PY2:Float = TopY() + Y2 * GetTileHeight()
 				PolygonDefinition.SetVertices( [ Vec2( PX1, PY1 ), Vec2( PX2, PY1 ), Vec2( PX2, PY2 ), Vec2( PX1, PY2 ) ] )
-				LTBox2DSprite.AttachToBody( Body, PolygonDefinition, ShapeParameters )
+				LTBox2DSprite.AttachToBody( Body, PolygonDefinition, ShapeParameters, Null )
 			Next
 		Next
 		

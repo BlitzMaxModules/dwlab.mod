@@ -54,12 +54,12 @@ Type LTBox2DSprite Extends LTSprite
 			Case Pivot
 				CircleDefinition.SetLocalPosition( Vec2( X, Y ) )
 				CircleDefinition.SetRadius( 0.0 )
-				AttachToBody( Body, CircleDefinition, ShapeParameters )
+				AttachToBody( Body, CircleDefinition, ShapeParameters, Sprite )
 			Case Oval
 				If Sprite.Width = Sprite.Height Then
 					CircleDefinition.SetLocalPosition( Vec2( X, Y ) )
 					CircleDefinition.SetRadius( 0.5 * Sprite.Width )
-					AttachToBody( Body, CircleDefinition, ShapeParameters )
+					AttachToBody( Body, CircleDefinition, ShapeParameters, Sprite )
 				Else
 					Local DX:Float = Sprite.Width - Sprite.Height
 					If DX > 0 Then
@@ -67,7 +67,7 @@ Type LTBox2DSprite Extends LTSprite
 					Else
 						PolygonDefinition.SetAsOrientedBox( 0.5 * Sprite.Width, -0.5 * DX, Vec2( X, Y ), 0.0 )
 					End IF
-					AttachToBody( Body, PolygonDefinition, ShapeParameters )
+					AttachToBody( Body, PolygonDefinition, ShapeParameters, Sprite )
 					
 					For Local Sign:Int = -1 To 1 Step 2					
 						If DX > 0 Then
@@ -77,12 +77,12 @@ Type LTBox2DSprite Extends LTSprite
 							CircleDefinition.SetLocalPosition( Vec2( X, Y + 0.5 * DX * Sign ) )
 							CircleDefinition.SetRadius( 0.5 * Sprite.Width )
 						End If
-						AttachToBody( Body, CircleDefinition, ShapeParameters )
+						AttachToBody( Body, CircleDefinition, ShapeParameters, Sprite )
 					Next
 				End If
 			Case Rectangle
 				PolygonDefinition.SetAsOrientedBox( 0.5 * Sprite.Width, 0.5 * Sprite.Height, Vec2( X, Y ), 0.0 )
-				AttachToBody( Body, PolygonDefinition, ShapeParameters )
+				AttachToBody( Body, PolygonDefinition, ShapeParameters, Sprite )
 			Case Ray, Raster
 			Default
 				Local HalfWidth:Double = 0.5 * Sprite.Width
@@ -97,16 +97,17 @@ Type LTBox2DSprite Extends LTSprite
 					Case LTSprite.BottomRightTriangle
 						PolygonDefinition.SetVertices( [ Vec2( X - HalfWidth, Y + HalfHeight ), Vec2( X + HalfWidth, Y - HalfHeight ), Vec2( X + HalfWidth, Y + HalfHeight ) ] )
 				End Select
-				AttachToBody( Body, PolygonDefinition, ShapeParameters )
+				AttachToBody( Body, PolygonDefinition, ShapeParameters, Sprite )
 		End Select
 	End Function
 	
 	
 	
-	Function AttachToBody( Body:b2Body, ShapeDefinition:b2ShapeDef, ShapeParameters:LTBox2DShapeParameters )
+	Function AttachToBody( Body:b2Body, ShapeDefinition:b2ShapeDef, ShapeParameters:LTBox2DShapeParameters, Sprite:LTSprite )
 		ShapeDefinition.SetFriction( ShapeParameters.Friction )
 		ShapeDefinition.SetDensity( ShapeParameters.Density )
 		ShapeDefinition.SetRestitution( ShapeParameters.Restitution )
+		ShapeDefinition.SetUserData( Sprite )
 		Body.CreateShape( ShapeDefinition )
 	End Function
 	

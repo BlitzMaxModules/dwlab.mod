@@ -36,7 +36,7 @@ Type LTProfile Extends LTObject
 	Global MusicDepth:Double
 	Global OperationStartTime:Int
 	
-	Global MusicMode:Int
+	Global MusicMode:Int = Normal
 	Const Normal:Int = 0
 	Const Paused:Int = 1
 	Const Fading:Int = 2
@@ -281,10 +281,10 @@ Type LTProfile Extends LTObject
 			For Local Channel:TChannel = Eachin ChannelsList
 				Channel.Stop()
 			Next
+			ChannelsList.Clear()
 			SetAudioDriver( AudioDriver )
 			SoundChannels.Clear()
-			MusicChannel = New TChannel
-			ChannelsList.Clear()
+			StartMusic()
 		End If
 		
 		If Projects Then
@@ -334,7 +334,6 @@ Type LTProfile Extends LTObject
 
 	Method StartMusic()
 		If MusicMode > Paused Then Return
-		If MusicNum >= MusicQuantity Then MusicNum = 0
 		PlayMusic( LoadSound( "music\" + MusicNum + ".ogg" ) )
 	End Method
 	
@@ -429,9 +428,7 @@ Type LTProfile Extends LTObject
 	End Rem
 	Method SetSoundVolume( Volume:Double )
 		SoundVolume = Volume
-		For Local KeyValue:TKeyValue = Eachin SoundChannels
-			TChannel( KeyValue.Key() ).SetVolume( String( KeyValue.Value() ).ToDouble() * SoundVolume * SoundOn )
-		Next
+		UpdateSoundVolume()
 	End Method
 	
 	
@@ -448,6 +445,9 @@ Type LTProfile Extends LTObject
 	
 	
 	Method UpdateSoundVolume()
+		For Local KeyValue:TKeyValue = Eachin SoundChannels
+			TChannel( KeyValue.Key() ).SetVolume( String( KeyValue.Value() ).ToDouble() * SoundVolume * SoundOn )
+		Next
 	End Method
 	
 	
@@ -457,7 +457,7 @@ Type LTProfile Extends LTObject
 	End Rem
 	Method SetMusicVolume( Volume:Double )
 		MusicVolume = Volume
-		MusicChannel.SetVolume( RelativeMusicVolume * MusicVolume * MusicOn )
+		UpdateMusicVolume()
 	End Method
 	
 	
@@ -468,6 +468,12 @@ Type LTProfile Extends LTObject
 	End Rem
 	Method SetRelativeMusicVolume( Volume:Double )
 		RelativeMusicVolume = Volume
+		UpdateMusicVolume()
+	End Method
+	
+	
+	
+	Method UpdateMusicVolume()
 		MusicChannel.SetVolume( RelativeMusicVolume * MusicVolume * MusicOn )
 	End Method
 	
@@ -515,13 +521,11 @@ Type LTProfile Extends LTObject
 					MusicMode = Normal
 				End If
 			Case Normal
-				If MusicChannel Then
-					If Not MusicChannel.Playing() Then
-						If L_CurrentProfile.MusicRepeat Then
-							PlayMusic( MusicSound, MusicVolume, MusicRate, MusicPan, MusicDepth )
-						Else
-							L_CurrentProfile.NextTrack()
-						End If
+				If Not MusicChannel.Playing() Then
+					If L_CurrentProfile.MusicRepeat Then
+						PlayMusic( MusicSound, MusicVolume, MusicRate, MusicPan, MusicDepth )
+					Else
+						L_CurrentProfile.NextTrack()
 					End If
 				End If
 		End Select

@@ -22,7 +22,7 @@ ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: v1.0.1 (14.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Finished music playing engine."
-ModuleInfo "History: &nbsp; &nbsp; Moved profile sound functions to LTProfileSound class."
+ModuleInfo "History: &nbsp; &nbsp; Sound functions are merged into LTProfile class."
 ModuleInfo "History: v1.0.0.1 (14.11.11)"
 ModuleInfo "History: &nbsp; &nbsp; Fixed bug in LTScreenResolution.Get()."
 ModuleInfo "History: v1.0 (09.10.11)"

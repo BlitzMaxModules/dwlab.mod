@@ -1,9 +1,9 @@
-<LTWorld dwlab_version="1.4.21">
+<LTWorld dwlab_version="1.4.23">
 	<LTVisualizer field="visualizer"/>
-	<LTEditorData field="editor_data" incbin="1" x_div="16" y_div="16" coll_x_div="16" coll_y_div="16">
+	<LTEditorData field="editor_data" incbin="1" x_div="4" y_div="4" coll_x_div="16" coll_y_div="16">
 		<TList field="images">
-			<Object id="107"/>
-			<Object id="104"/>
+			<Object id="120"/>
+			<Object id="117"/>
 			<Object id="54"/>
 			<Object id="12"/>
 			<Object id="50"/>
@@ -11,14 +11,16 @@
 			<Object id="9"/>
 			<Object id="17"/>
 			<Object id="21"/>
+			<Object id="71"/>
+			<Object id="74"/>
 		</TList>
 		<LTColor field="background"/>
 		<LTColor field="grid_color" green="0" alpha="0.5"/>
 	</LTEditorData>
-	<LTCamera field="camera" x="8" y="5" width="16.42105729" height="14.23809927" viewport-clipping="1" x1="2.00000693" y1="1.00000693" x2="-2.00000693" y2="1.00000693">
-		<LTVisualizer field="visualizer" id="126"/>
+	<LTCamera field="camera" x="8" y="5" width="26.44627984" height="22.93060375" viewport-clipping="1" x1="2.00000693" y1="1.00000693" x2="-2.00000693" y2="1.00000693">
+		<LTVisualizer field="visualizer" id="139"/>
 		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
-			<Object field="visualizer" id="126"/>
+			<Object field="visualizer" id="139"/>
 		</LTShape>
 	</LTCamera>
 	<LTLayer>
@@ -154,6 +156,31 @@
 				<Object field="image" id="54"/>
 			</LTVisualizer>
 		</LTSprite>
+		<LTLayer>
+			<TList field="parameters">
+				<LTParameter name="name" value="help-1"/>
+			</TList>
+			<LTVisualizer field="visualizer"/>
+			<LTSprite x="2.5" y="2.25" width="5" height="2.5" shape="2">
+				<TList field="parameters">
+					<LTParameter name="text" value="это панель игрока|на ней размещаются|имя игрока и его очки"/>
+					<LTParameter name="text-size" value="0.5"/>
+				</TList>
+				<LTVisualizer field="visualizer">
+					<LTRasterFrame field="image" id="71" left="15" right="15" top="15" bottom="15" filename="help_frame.png"/>
+				</LTVisualizer>
+			</LTSprite>
+			<LTSprite x="1.5" y="1.5" shape="2">
+				<LTVisualizer field="visualizer">
+					<LTRasterFrame field="image" id="74" left="31" right="0" top="15" bottom="15" filename="help_arrow.png" xcells="2"/>
+				</LTVisualizer>
+			</LTSprite>
+			<LTSprite x="1.5" y="0.25" height="1.5" shape="2" frame="1">
+				<LTVisualizer field="visualizer">
+					<Object field="image" id="74"/>
+				</LTVisualizer>
+			</LTSprite>
+		</LTLayer>
 	</LTLayer>
 	<LTLayer>
 		<TList field="parameters">
@@ -186,10 +213,10 @@
 				<LTParameter name="action" value="save_and_close"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="84" left="2" right="2" top="2" bottom="2" filename="MouseMenu\frames\button.png" xcells="2"/>
+				<LTRasterFrame field="image" id="97" left="2" right="2" top="2" bottom="2" filename="MouseMenu\frames\button.png" xcells="2"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="30.71877999" y="45.37503999" width="6.93750999" height="3.75" shape="2">
+		<LTSprite x="30.71877999" y="45.37503997" width="6.93750994" height="3.75" shape="2">
 			<TList field="parameters">
 				<LTParameter name="name" value="Levels"/>
 				<LTParameter name="class" value="TLevelsList"/>
@@ -212,22 +239,22 @@
 				<LTParameter name="gadget_text" value="Select"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="98" filename="MouseMenu\images\icons.png" xcells="8" ycells="4"/>
+				<LTImage field="image" id="111" filename="MouseMenu\images\icons.png" xcells="8" ycells="4"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="34.50003" y="45.37503999" width="0.5" height="3.75" shape="2">
+		<LTSprite x="34.50003" y="45.37503997" width="0.5" height="3.75" shape="2">
 			<TList field="parameters">
 				<LTParameter name="class" value="LTSlider"/>
 				<LTParameter name="list_box_name" value="Levels"/>
 				<LTParameter name="type" value="vertical"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="104" filename="MouseMenu\frames\volume.png"/>
+				<LTRasterFrame field="image" id="117" filename="MouseMenu\frames\volume.png"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="34.5" y="45.375" width="0.5" height="3.75" shape="2">
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="107" filename="MouseMenu\frames\simple.png"/>
+				<LTRasterFrame field="image" id="120" filename="MouseMenu\frames\simple.png"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="32.5" y="47.85" width="2.5" height="0.75" shape="2">
@@ -237,7 +264,7 @@
 				<LTParameter name="action" value="close"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<Object field="image" id="84"/>
+				<Object field="image" id="97"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="31.75" y="47.85" width="0.5" height="0.5" shape="2" frame="3">
@@ -245,7 +272,7 @@
 				<LTParameter name="gadget_text" value="Select"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<Object field="image" id="98"/>
+				<Object field="image" id="111"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="27.25" y="43" width="0.4" height="0.4" shape="2" frame="8">
@@ -253,7 +280,7 @@
 				<LTParameter name="gadget_text" value="Select level"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<Object field="image" id="98"/>
+				<Object field="image" id="111"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>

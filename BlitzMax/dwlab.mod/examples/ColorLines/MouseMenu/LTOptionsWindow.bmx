@@ -101,7 +101,7 @@ Function L_Boss()
 				Menu.Project.Locked = True
 				EndGraphics()
 				L_ProjectWindow = Null
-				L_CurrentProfile.Apply( [ LTProject( Menu ), LTProject( Menu.Project ) ], True, False, True )
+				L_CurrentProfile.Apply( [ LTProject( Menu ), LTProject( Menu.Project ) ], True, True, False, True )
 				Return
 			End If
 		Next
