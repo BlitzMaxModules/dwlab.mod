@@ -76,6 +76,7 @@ Type TGame Extends LTGUIProject
 	
 	Method Logic()
 		Delay 5
+		L_CurrentProfile.ManageSounds()
 	
 		If Not Locked Then
 			If Not Profile.GameField Then
@@ -94,7 +95,6 @@ Type TGame Extends LTGUIProject
 		
 		Objects.Act()
 		Particles.Act()
-		L_ClearSoundMaps()
 		
 		For Local Goal:TGoal = Eachin Profile.Goals
 			If Goal.Count = 0 Then Profile.Goals.Remove( Goal )

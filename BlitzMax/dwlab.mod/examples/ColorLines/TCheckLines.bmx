@@ -35,7 +35,7 @@ Type TCheckLines
 		If Rows.IsEmpty() Then
 			If CreateBalls Then Profile.CreateBalls()
 		Else
-			L_PlaySound( Game.ExplosionSound )
+			L_CurrentProfile.PlaySnd( Game.ExplosionSound )
 			Profile.Score :+ ( Game.TotalBalls - 7 ) * Game.TotalBalls / 2 + 10
 			For Local Goal:TRemoveCombinations = Eachin Profile.Goals
 				If ( Goal.BallType = BallNum Or Goal.BallType = Profile.RandomBall ) And Game.TotalBalls >= Goal.LineBallsQuantity Then

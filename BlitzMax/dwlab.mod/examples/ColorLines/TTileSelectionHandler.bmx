@@ -25,11 +25,11 @@ Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
 				TMoveAlongPath.Create( Game.PathFinder.FindPath( Game.Selected.X, Game.Selected.Y, TileX, TileY ), TileX, TileY )
 			Else
 				If TileNum = Profile.Glue Or TileNum = Profile.ColdGlue Then
-					If Profile.SoundOn Then L_PlaySound( Game.WrongTurnSound )
+					If Profile.SoundOn Then L_CurrentProfile.PlaySnd( Game.WrongTurnSound )
 					Return
 				End If
 				Game.Selected = TSelected.Create( TileX, TileY )
-				L_PlaySound( Game.SelectSound )
+				L_CurrentProfile.PlaySnd( Game.SelectSound )
 			End If
 		ElseIf Game.RightMouse.WasPressed() 
 			if BallNum = Profile.Bomb Then
@@ -50,7 +50,7 @@ Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
 			Else If Game.Selected And Profile.Swap Then
 				If BallNum = Profile.NoBall Then Return
 				If TileNum = Profile.Glue Or TileNum = Profile.ColdGlue Then 
-					If Profile.SoundOn Then L_PlaySound( Game.WrongTurnSound )
+					If Profile.SoundOn Then L_CurrentProfile.PlaySnd( Game.WrongTurnSound )
 					Return
 				End If
 				If Game.Selected Then Game.Selected.Remove( Null )
@@ -59,9 +59,9 @@ Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
 					TMoveBall.Create( TileX, TileY, Game.Selected.X - TileX, Game.Selected.Y - TileY, True )
 					Profile.Balls.SwapTiles( TileX, TileY, Game.Selected.X, Game.Selected.Y )
 					Profile.Modifiers.SwapTiles( TileX, TileY, Game.Selected.X, Game.Selected.Y )
-					If Profile.SoundOn Then L_PlaySound( Game.SwapSound )
+					If Profile.SoundOn Then L_CurrentProfile.PlaySnd( Game.SwapSound )
 				Else
-					If Profile.SoundOn Then L_PlaySound( Game.WrongTurnSound )
+					If Profile.SoundOn Then L_CurrentProfile.PlaySnd( Game.WrongTurnSound )
 				End If
 			End If
 		End If

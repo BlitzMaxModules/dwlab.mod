@@ -26,6 +26,8 @@ Type LTOptionsWindow Extends LTAudioWindow
 		LTSprite( Label.Icon ).Frame = 6 + L_CurrentProfile.FullScreen
 		LTButton( FindShape( "SoundOn" ) ).State = L_CurrentProfile.SoundOn
 		LTButton( FindShape( "MusicOn" ) ).State = L_CurrentProfile.MusicOn
+		LTButton( FindShape( "Play" ) ).State = Not L_CurrentProfile.MusicMode = L_CurrentProfile.Paused
+		LTButton( FindShape( "Repeat" ) ).State = L_CurrentProfile.MusicRepeat
 	End Method
 	
 	Method Act()
@@ -39,17 +41,27 @@ Type LTOptionsWindow Extends LTAudioWindow
 		Select Gadget.GetName()
 			Case "SoundOn"
 				L_CurrentProfile.SoundOn = Not L_CurrentProfile.SoundOn
-				If L_CurrentProfile.SoundOn Then Menu.SoundOn.Play()
+				If L_CurrentProfile.SoundOn Then L_CurrentProfile.PlaySnd( Menu.SoundOn )
+				L_CurrentProfile.UpdateSoundVolume()
 			Case "MusicOn"
 				L_CurrentProfile.MusicOn = Not L_CurrentProfile.MusicOn
-				If L_CurrentProfile.SoundOn Then Menu.ButtonClick.Play()
+				If L_CurrentProfile.SoundOn Then L_CurrentProfile.PlaySnd( Menu.ButtonClick )
+				L_CurrentProfile.UpdateMusicVolume()
 			Case "Fullscreen"
-				If L_CurrentProfile.SoundOn Then Menu.ButtonClick.Play()
+				If L_CurrentProfile.SoundOn Then L_CurrentProfile.PlaySnd( Menu.ButtonClick )
 				L_CurrentProfile.FullScreen = Not L_CurrentProfile.FullScreen
 				L_CurrentProfile.Apply( [ Menu.Project, LTGUIProject( Menu ) ], True, False, False )
 			Case "Boss"
-				If L_CurrentProfile.SoundOn Then Menu.Boss.Play()
+				If L_CurrentProfile.SoundOn Then L_CurrentProfile.PlaySnd( Menu.Boss )
 				L_Boss()
+			Case "Play"
+				L_CurrentProfile.SwitchMusicPlaying()
+			Case "PrevTrack"
+				L_CurrentProfile.PrevTrack()
+			Case "NextTrack"
+				L_CurrentProfile.NextTrack()
+			Case "Repeat"
+				L_CurrentProfile.MusicRepeat = Not L_CurrentProfile.MusicRepeat
 		End Select
 	End Method
 	
@@ -58,9 +70,9 @@ Type LTOptionsWindow Extends LTAudioWindow
 		If ButtonAction <> L_LeftMouseButton Then Return
 		Select Gadget.GetName()
 			Case "SoundVolume"
-				L_CurrentProfile.SoundVolume = LTSlider( Gadget ).Size
+				L_CurrentProfile.SetSoundVolume( LTSlider( Gadget ).Size )
 			Case "MusicVolume"
-				L_CurrentProfile.MusicVolume = LTSlider( Gadget ).Size
+				L_CurrentProfile.SetMusicVolume( LTSlider( Gadget ).Size )
 		End Select
 	End Method
 End Type

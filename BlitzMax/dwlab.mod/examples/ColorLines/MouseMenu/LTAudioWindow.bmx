@@ -13,9 +13,9 @@ Type LTAudioWindow Extends LTWindow
 		If ButtonAction = L_LeftMouseButton And L_CurrentProfile.SoundOn And LTButton( Gadget ) Then
 			Select Gadget.GetParameter( "action" )
 				Case "close", "save_and_close"
-					Menu.Close.Play()
+					L_CurrentProfile.PlaySnd( Menu.Close )
 				Default
-					Menu.ButtonClick.Play()
+					L_CurrentProfile.PlaySnd( Menu.ButtonClick )
 			End Select
 		End If
 		Super.OnButtonPress( Gadget, ButtonAction )

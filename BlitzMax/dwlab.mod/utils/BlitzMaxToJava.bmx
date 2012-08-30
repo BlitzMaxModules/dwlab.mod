@@ -2,6 +2,8 @@ SuperStrict
 
 Import bah.regex
 
+Const Directory:String = "D:\temp\src"
+
 
 Type TClass
 	Global Classes:TMap = New TMap
@@ -128,8 +130,6 @@ For Local Pair:String[] = Eachin [ ..
 Next
 
 
-
-Const Directory:String = "D:\temp\src"
 
 GetClassNames( Directory )
 ProcessDirectory( Directory )

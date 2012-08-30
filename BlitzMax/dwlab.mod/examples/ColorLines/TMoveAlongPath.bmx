@@ -17,7 +17,7 @@ Type TMoveAlongPath Extends LTBehaviorModel
 
 	Function Create( Position:LTTileMapPosition, TileX:Int, TileY:Int )
 		If Position = Null Then
-			If Profile.SoundOn Then L_PlaySound( Game.WrongTurnSound )
+			If Profile.SoundOn Then L_CurrentProfile.PlaySnd( Game.WrongTurnSound )
 			Return
 		End If
 		Local Model:TMoveAlongPath = New TMoveAlongPath
@@ -29,7 +29,7 @@ Type TMoveAlongPath Extends LTBehaviorModel
 		Profile.Modifiers.SwapTiles( TileX, TileY, Game.Selected.X, Game.Selected.Y )
 		Game.HiddenBalls[ TileX, TileY ] = True
 		Game.Selected = Null
-		L_PlaySound( Game.RushSound )
+		L_CurrentProfile.PlaySnd( Game.RushSound )
 	End Function
 	
 	Method ApplyTo( Shape:LTShape )
@@ -77,7 +77,7 @@ Type TMoveAlongPath Extends LTBehaviorModel
 	
 	Method Deactivate( Shape:LTShape )
 		Game.Locked = False
-		L_PlaySound( Game.StopSound )
+		L_CurrentProfile.PlaySnd( Game.StopSound )
 		
 		Game.HiddenBalls[ Position.X, Position.Y ] = False
 		If LTSprite( Shape ).Frame = Profile.BlackBall And Profile.GameField.GetTile( Position.X, Position.Y ) = Profile.ClosedPocket Then

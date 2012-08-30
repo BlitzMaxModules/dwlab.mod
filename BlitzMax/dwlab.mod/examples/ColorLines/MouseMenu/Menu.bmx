@@ -122,7 +122,10 @@ Type LTMenu Extends LTGUIProject
 	End Method
 	
 	Method Logic()
-		If L_CurrentProfile.Language Then Exiting = True
+		If L_CurrentProfile.Language Then
+			Exiting = True
+			L_CurrentProfile.StartMusic()
+		End If
 	End Method
 	
 	Method OnCloseButton()
