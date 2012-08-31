@@ -22,8 +22,8 @@ Type LTKeysList Extends  LTMenuListBox
 		
 		SetColor( 0, 0, 0 )
 		Local ButtonAction:LTButtonAction = LTButtonAction( Item )
-		Sprite.PrintText( LocalizeString( "{{" + ButtonAction.Name + "}}" ), TextSize, LTAlign.ToLeft, , 0.25 )
-		Sprite.PrintText( LocalizeString( ButtonAction.GetButtonNames( True ) ), TextSize, LTAlign.ToRight, , -0.25 )
+		Sprite.PrintText( LocalizeString( "{{" + ButtonAction.Name + "}}" ), TextSize, LTAlign.ToLeft, , , , 0.25 )
+		Sprite.PrintText( LocalizeString( ButtonAction.GetButtonNames( True ) ), TextSize, LTAlign.ToRight, , , , -0.25 )
 		LTColor.ResetColor()
 	End Method
 	

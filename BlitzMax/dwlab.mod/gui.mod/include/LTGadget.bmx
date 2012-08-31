@@ -30,7 +30,7 @@ Type LTGadget Extends LTSprite
 	about: Called after loading window with this gadget.
 	End Rem
 	Method Init()
-		If ParameterExists( "text_size" ) Then TextSize = GetParameter( "text_size" ).ToDouble()
+		If ParameterExists( "text-size" ) Then TextSize = GetParameter( "text-size" ).ToDouble()
 	End Method
 	
 	

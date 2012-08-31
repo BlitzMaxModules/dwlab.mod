@@ -37,13 +37,13 @@ Type LTButton Extends LTLabel
 	Method Init()
 		Super.Init()
 		
-		If ParameterExists( "pressing_shift" ) Then
-			PressingDX = GetParameter( "pressing_shift" ).ToDouble()
+		If ParameterExists( "pressing-shift" ) Then
+			PressingDX = GetParameter( "pressing-shift" ).ToDouble()
 			PressingDY = PressingDX
 		End If
 		
-		PressingDX = GetParameter( "pressing_dx" ).ToDouble()
-		PressingDY = GetParameter( "pressing_dy" ).ToDouble()
+		PressingDX = GetParameter( "pressing-dx" ).ToDouble()
+		PressingDY = GetParameter( "pressing-dy" ).ToDouble()
 	End Method
 	
 	

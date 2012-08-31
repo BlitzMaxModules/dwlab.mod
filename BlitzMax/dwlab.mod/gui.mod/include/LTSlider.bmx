@@ -79,7 +79,7 @@ Type LTSlider Extends LTGadget
 		ListBox = LTListBox( L_Window.FindShape( GetParameter( "list_box_name" ), True ) )
 		If GetParameter( "type" ) = "vertical" Then SliderType = Vertical Else SliderType = Horizontal
 		If GetParameter( "selection" ) = "filling" Then SelectionType = Filling Else SelectionType = Moving
-		If GetParameter( "percent" ) = "true" Then ShowPercent = True
+		If ParameterExists( "percent" ) Then ShowPercent = True
 		CopyTo( Slider )
 	End Method
 	

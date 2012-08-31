@@ -67,7 +67,7 @@ Type LTGUIProject Extends LTProject
 			Screen.SetSize( L_GUICamera.Width, Screen.Height * L_GUICamera.Width / Screen.Width )
 		End If
 
-		L_Window.Modal = ( L_Window.GetParameter( "modal" ) = "true" )
+		L_Window.Modal = L_Window.ParameterExists( "modal" )
 		L_Window.World = World
 		L_Window.Project = Self
 		L_Window.Init()

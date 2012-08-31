@@ -1090,8 +1090,8 @@ Type LTSprite Extends LTShape
 		Super.XMLIO( XMLObject )
 		
 		XMLObject.ManageIntAttribute( "shape", ShapeType )
-		XMLObject.ManageDoubleAttribute( "angle", Angle )
-		XMLObject.ManageDoubleAttribute( "disp_angle", DisplayingAngle )
+		XMLObject.ManageDoubleAttribute( "moving-angle", Angle )
+		XMLObject.ManageDoubleAttribute( "disp-angle", DisplayingAngle )
 		XMLObject.ManageDoubleAttribute( "velocity", Velocity, 1.0 )
 		XMLObject.ManageIntAttribute( "frame", Frame )
 	End Method

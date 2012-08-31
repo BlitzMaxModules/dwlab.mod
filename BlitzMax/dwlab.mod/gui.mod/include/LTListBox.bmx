@@ -39,7 +39,7 @@ Type LTListBox Extends LTGadget
 	
 	Method Init()
 		Super.Init()
-		If ParameterExists( "item_size" ) Then ItemSize = GetParameter( "item_size" ).ToDouble()
+		If ParameterExists( "item-size" ) Then ItemSize = GetParameter( "item-size" ).ToDouble()
 	End Method
 	
 	

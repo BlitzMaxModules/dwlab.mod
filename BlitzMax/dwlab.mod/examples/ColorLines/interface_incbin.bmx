@@ -8,6 +8,4 @@ Incbin "clock.png"
 Incbin "background.jpg"
 Incbin "MouseMenu\frames\button.png"
 Incbin "MouseMenu\images\icons.png"
-Incbin "help_frame.png"
-Incbin "help_arrow.png"
 L_SetIncbin( True )

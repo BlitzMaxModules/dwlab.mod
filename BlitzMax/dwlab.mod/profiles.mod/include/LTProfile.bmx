@@ -36,7 +36,7 @@ Type LTProfile Extends LTObject
 	Global MusicDepth:Double
 	Global OperationStartTime:Int
 	
-	Global MusicMode:Int = Normal
+	Global MusicMode:Int = NoMusic
 	Const Normal:Int = 0
 	Const Paused:Int = 1
 	Const Fading:Int = 2
@@ -177,7 +177,6 @@ Type LTProfile Extends LTObject
 			If FileType( "music\" + MusicQuantity + ".ogg" ) <> 1 Then Exit
 			MusicQuantity :+ 1
 		Forever
-		If MusicQuantity = 0 Then MusicMode = NoMusic
 	End Function
 	
 	
@@ -609,13 +608,13 @@ Type LTProfile Extends LTObject
 		XMLObject.ManageIntAttribute( "depth", ColorDepth )
 		XMLObject.ManageIntAttribute( "frequency", Frequency )
 		XMLObject.ManageChildList( Keys )
-		XMLObject.ManageIntAttribute( "sound_on", SoundOn, 1 )
-		XMLObject.ManageDoubleAttribute( "sound_volume", SoundVolume, 1.0 )
-		XMLObject.ManageIntAttribute( "music_on", MusicOn, 1 )
-		XMLObject.ManageDoubleAttribute( "music_volume", MusicVolume, 1.0 )
+		XMLObject.ManageIntAttribute( "sound-on", SoundOn, 1 )
+		XMLObject.ManageDoubleAttribute( "sound-volume", SoundVolume, 1.0 )
+		XMLObject.ManageIntAttribute( "music-on", MusicOn, 1 )
+		XMLObject.ManageDoubleAttribute( "music-volume", MusicVolume, 1.0 )
 		XMLObject.ManageIntAttribute( "repeat", MusicRepeat, True )
 		XMLObject.ManageIntAttribute( "music", MusicNum )
-		XMLObject.ManageIntAttribute( "x_resolution", L_XResolution )
-		XMLObject.ManageIntAttribute( "y_resolution", L_YResolution )
+		XMLObject.ManageIntAttribute( "x-resolution", L_XResolution )
+		XMLObject.ManageIntAttribute( "y-resolution", L_YResolution )
 	End Method
 End Type

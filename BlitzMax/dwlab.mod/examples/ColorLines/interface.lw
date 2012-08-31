@@ -1,9 +1,9 @@
-<LTWorld dwlab_version="1.4.23">
+<LTWorld dwlab_version="1.4.24">
 	<LTVisualizer field="visualizer"/>
 	<LTEditorData field="editor_data" incbin="1" x_div="4" y_div="4" coll_x_div="16" coll_y_div="16">
 		<TList field="images">
-			<Object id="120"/>
-			<Object id="117"/>
+			<Object id="107"/>
+			<Object id="104"/>
 			<Object id="54"/>
 			<Object id="12"/>
 			<Object id="50"/>
@@ -11,16 +11,14 @@
 			<Object id="9"/>
 			<Object id="17"/>
 			<Object id="21"/>
-			<Object id="71"/>
-			<Object id="74"/>
 		</TList>
 		<LTColor field="background"/>
 		<LTColor field="grid_color" green="0" alpha="0.5"/>
 	</LTEditorData>
-	<LTCamera field="camera" x="8" y="5" width="26.44627984" height="22.93060375" viewport-clipping="1" x1="2.00000693" y1="1.00000693" x2="-2.00000693" y2="1.00000693">
-		<LTVisualizer field="visualizer" id="139"/>
+	<LTCamera field="camera" x="8" y="5" width="18.06316341" height="15.66190954" viewport-clipping="1" x1="2.00000693" y1="1.00000693" x2="-2.00000693" y2="1.00000693">
+		<LTVisualizer field="visualizer" id="126"/>
 		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
-			<Object field="visualizer" id="139"/>
+			<Object field="visualizer" id="126"/>
 		</LTShape>
 	</LTCamera>
 	<LTLayer>
@@ -56,7 +54,7 @@
 		</LTSprite>
 		<LTSprite x="14.75" y="-0.25" width="0.4" height="0.4" shape="2" frame="17">
 			<TList field="parameters">
-				<LTParameter name="gadget_text" value="Restart"/>
+				<LTParameter name="gadget-text" value="Restart"/>
 			</TList>
 			<LTVisualizer field="visualizer">
 				<LTImage field="image" id="21" filename="MouseMenu\images\icons.png" xcells="8" ycells="4"/>
@@ -125,7 +123,7 @@
 		</LTSprite>
 		<LTSprite x="0.62749999" y="-0.4975" width="0.37" height="0.37" shape="2">
 			<TList field="parameters">
-				<LTParameter name="gadget_name" value="CurrentProfile"/>
+				<LTParameter name="gadget-name" value="CurrentProfile"/>
 			</TList>
 			<LTVisualizer field="visualizer">
 				<LTImage field="image" id="50" filename="player.png"/>
@@ -143,7 +141,7 @@
 			<TList field="parameters">
 				<LTParameter name="name" value="GoalCount"/>
 				<LTParameter name="class" value="LTLabel"/>
-				<LTParameter name="text_h_align" value="left"/>
+				<LTParameter name="text-h-align" value="left"/>
 			</TList>
 			<LTVisualizer field="visualizer" alpha="0"/>
 		</LTSprite>
@@ -156,31 +154,6 @@
 				<Object field="image" id="54"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTLayer>
-			<TList field="parameters">
-				<LTParameter name="name" value="help-1"/>
-			</TList>
-			<LTVisualizer field="visualizer"/>
-			<LTSprite x="2.5" y="2.25" width="5" height="2.5" shape="2">
-				<TList field="parameters">
-					<LTParameter name="text" value="это панель игрока|на ней размещаются|имя игрока и его очки"/>
-					<LTParameter name="text-size" value="0.5"/>
-				</TList>
-				<LTVisualizer field="visualizer">
-					<LTRasterFrame field="image" id="71" left="15" right="15" top="15" bottom="15" filename="help_frame.png"/>
-				</LTVisualizer>
-			</LTSprite>
-			<LTSprite x="1.5" y="1.5" shape="2">
-				<LTVisualizer field="visualizer">
-					<LTRasterFrame field="image" id="74" left="31" right="0" top="15" bottom="15" filename="help_arrow.png" xcells="2"/>
-				</LTVisualizer>
-			</LTSprite>
-			<LTSprite x="1.5" y="0.25" height="1.5" shape="2" frame="1">
-				<LTVisualizer field="visualizer">
-					<Object field="image" id="74"/>
-				</LTVisualizer>
-			</LTSprite>
-		</LTLayer>
 	</LTLayer>
 	<LTLayer>
 		<TList field="parameters">
@@ -213,7 +186,7 @@
 				<LTParameter name="action" value="save_and_close"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="97" left="2" right="2" top="2" bottom="2" filename="MouseMenu\frames\button.png" xcells="2"/>
+				<LTRasterFrame field="image" id="84" left="2" right="2" top="2" bottom="2" filename="MouseMenu\frames\button.png" xcells="2"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="30.71877999" y="45.37503997" width="6.93750994" height="3.75" shape="2">
@@ -236,10 +209,10 @@
 		</LTSprite>
 		<LTSprite x="29" y="47.85" width="0.5" height="0.5" shape="2" frame="4">
 			<TList field="parameters">
-				<LTParameter name="gadget_text" value="Select"/>
+				<LTParameter name="gadget-text" value="Select"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="111" filename="MouseMenu\images\icons.png" xcells="8" ycells="4"/>
+				<LTImage field="image" id="98" filename="MouseMenu\images\icons.png" xcells="8" ycells="4"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="34.50003" y="45.37503997" width="0.5" height="3.75" shape="2">
@@ -249,12 +222,12 @@
 				<LTParameter name="type" value="vertical"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="117" filename="MouseMenu\frames\volume.png"/>
+				<LTRasterFrame field="image" id="104" filename="MouseMenu\frames\volume.png"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="34.5" y="45.375" width="0.5" height="3.75" shape="2">
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="120" filename="MouseMenu\frames\simple.png"/>
+				<LTRasterFrame field="image" id="107" filename="MouseMenu\frames\simple.png"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="32.5" y="47.85" width="2.5" height="0.75" shape="2">
@@ -264,23 +237,23 @@
 				<LTParameter name="action" value="close"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<Object field="image" id="97"/>
+				<Object field="image" id="84"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="31.75" y="47.85" width="0.5" height="0.5" shape="2" frame="3">
 			<TList field="parameters">
-				<LTParameter name="gadget_text" value="Select"/>
+				<LTParameter name="gadget-text" value="Select"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<Object field="image" id="111"/>
+				<Object field="image" id="98"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="27.25" y="43" width="0.4" height="0.4" shape="2" frame="8">
 			<TList field="parameters">
-				<LTParameter name="gadget_text" value="Select level"/>
+				<LTParameter name="gadget-text" value="Select level"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<Object field="image" id="111"/>
+				<Object field="image" id="98"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>

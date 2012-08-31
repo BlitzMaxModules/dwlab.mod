@@ -63,8 +63,6 @@ Incbin "font.ttf"
 Incbin "toolbar.png"
 Incbin "treeview.png"
 
-L_TitleGenerator = New EditorTitleGenerator
-
 Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
@@ -2233,6 +2231,7 @@ Type LTEditor Extends LTProject
 		If Version < 01041400 Then UpdateTo1_4_14( XMLObject )
 		If Version < 01041800 Then UpdateTo1_4_18( XMLObject )
 		If Version < 01042100 Then UpdateTo1_4_21( XMLObject )
+		If Version < 01042400 Then UpdateTo1_4_24( XMLObject )
 	End Method
 	
 	
@@ -2397,6 +2396,34 @@ Type LTEditor Extends LTProject
 	
 	
 	
+	Method UpdateTo1_4_24( XMLObject:LTXMLObject )
+		If XMLObject.Name = "ltparameter" Then
+			Local Name:String = XMLObject.GetAttribute( "name" )
+			Select Name
+				Case "text_size", "text_color", "text_shift", "text_h_align", "text_v_align", "gadget_name", "gadget_text", ..
+						"pressing_shift", "pressing_shift", "pressing_dx", "pressing_dy", "item_size", "disp_angle"
+					XMLObject.SetAttribute( "name", Name.Replace( "_", "-" ) )
+				Case "text_dx"
+					XMLObject.SetAttribute( "name", "text-h-margin" )
+				Case "text_dy"
+					XMLObject.SetAttribute( "name", "text-v-margin" )
+			End Select
+		End If
+		
+		For Local Attribute:LTXMLAttribute = Eachin XMLObject.Attributes
+			If Attribute.Name = "angle" Then Attribute.Name = "moving-angle"
+		Next
+		
+		For Local ChildXMLObject:LTXMLObject = Eachin XMLObject.Children
+			UpdateTo1_4_24( ChildXMLObject )
+		Next
+		For Local XMLObjectField:LTXMLObjectField = Eachin XMLObject.Fields
+			UpdateTo1_4_24( XMLObjectField.Value )
+		Next
+	End Method
+	
+
+	
 	Method FindShapeContainer:LTShape( Layer:LTLayer, Shape:LTShape )
 		For Local ChildShape:LTShape = Eachin Layer.Children
 			If ChildShape = Shape Then Return Layer
@@ -2428,20 +2455,3 @@ Function ComparePixmaps:Int( Pixmap1:TPixmap, Pixmap2:TPixmap )
 	Next
 	Return True
 End Function
-
-
-
-
-Type EditorTitleGenerator Extends LTTitleGenerator
-	Method GetTitle:String( Shape:LTShape )
-		Local Title:String = Shape.GetParameter( "caption" )
-		If Title Then Return Title
-		Title = Shape.GetParameter( "text" )
-		If Title Then Return Title
-		Title = Shape.GetParameter( "name" )
-		If Title Then Return Title
-		Title = Shape.GetParameter( "class" )
-		If Title Then Return Title
-		Return Shape.GetClassTitle()
-	End Method
-End Type

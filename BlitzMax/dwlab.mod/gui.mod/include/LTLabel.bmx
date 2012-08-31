@@ -25,7 +25,7 @@ Type LTLabel Extends LTGadget
 	Field HAlign:Int = LTAlign.ToCenter
 	Field VAlign:Int = LTAlign.ToCenter
 	
-	Field TextDX:Double, TextDY:Double
+	Field TextHMargin:Double, TextVMargin:Double
 	
 	
 	
@@ -46,44 +46,45 @@ Type LTLabel Extends LTGadget
 		Super.Init()
 	
 		Local Name:String = GetName()
-		If Name Then Icon = LTSprite( L_Window.FindShapeWithParameter( "gadget_name", GetName(), "", True ) )
+		If Name Then Icon = LTSprite( L_Window.FindShapeWithParameter( "gadget-name", GetName(), "", True ) )
 		
 		If Not Text Then Text = GetParameter( "text" )
 		If Text Then
-			If Not Icon Then Icon = LTSprite( L_Window.FindShapeWithParameter( "gadget_text", Text, "", True ) )
+			If Not Icon Then Icon = LTSprite( L_Window.FindShapeWithParameter( "gadget-text", Text, "", True ) )
 			Text = LocalizeString( "{{" + Text + "}}" )
 		End If
 		
-		Select GetParameter( "text_h_align" )
+		Select GetParameter( "text-h-align" )
 			Case "left"
 				HAlign = LTAlign.ToLeft
-			Case "center"
-				HAlign = LTAlign.ToCenter
 			Case "right"
 				HAlign = LTAlign.ToRight
-		End Select
-		Select GetParameter( "text_v_align" )
-			Case "top"
-				VAlign = LTAlign.ToTop
-			Case "center"
-				VAlign = LTAlign.ToCenter
-			Case "bottom"
-				VAlign = LTAlign.ToBottom
+			Default
+				HAlign = LTAlign.ToCenter
 		End Select
 		
-		If ParameterExists( "text_color" ) Then
-			TextVisualizer.SetColorFromHex( GetParameter( "text_color" ) )
+		Select GetParameter( "text-v-align" )
+			Case "top"
+				VAlign = LTAlign.ToTop
+			Case "bottom"
+				VAlign = LTAlign.ToBottom
+			Default
+				VAlign = LTAlign.ToCenter
+		End Select
+		
+		If ParameterExists( "text-margin" ) Then
+			TextHMargin = GetParameter( "text-margin" ).ToDouble()
+			TextVMargin = TextHMargin
+		Else
+			TextHMargin = GetParameter( "text-h-margin" ).ToDouble()
+			TextVMargin = GetParameter( "text-v-margin" ).ToDouble()
+		End If
+					
+		If ParameterExists( "text-color" ) Then
+			TextVisualizer.SetColorFromHex( GetParameter( "text-color" ) )
 		Else
 			TextVisualizer.SetColorFromRGB( 0.0, 0.0, 0.0 )
 		End If
-		
-		If ParameterExists( "text_shift" ) Then
-			TextDX = GetParameter( "text_shift" ).ToDouble()
-			TextDY = TextDX
-		End If
-
-		TextDX = GetParameter( "text_dx" ).ToDouble()
-		TextDY = GetParameter( "text_dy" ).ToDouble()
 		
 		If Icon Then
 			IconDX = Icon.X - X
@@ -105,12 +106,7 @@ Type LTLabel Extends LTGadget
 		End If
 		
 		TextVisualizer.ApplyColor()
-		Local Chunks:String[] = Text.Split( "|" )
-		Local ChunkY:Double = GetDY() - 0.5 * ( Chunks.Dimensions()[ 0 ] - 1 ) * TextSize
-		For Local Chunk:String = Eachin Chunks
-			PrintText( Chunk, TextSize, HAlign, VAlign, TextDX + GetDX(), TextDY + ChunkY )
-			ChunkY :+ TextSize
-		Next
+		PrintText( Text, TextSize, HAlign, VAlign, TextHMargin, TextVMargin, GetDX(), GetDY() )
 		TextVisualizer.ResetColor()
 	End Method
 	

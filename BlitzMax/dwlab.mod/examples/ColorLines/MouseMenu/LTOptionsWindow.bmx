@@ -26,7 +26,7 @@ Type LTOptionsWindow Extends LTAudioWindow
 		LTSprite( Label.Icon ).Frame = 6 + L_CurrentProfile.FullScreen
 		LTButton( FindShape( "SoundOn" ) ).State = L_CurrentProfile.SoundOn
 		LTButton( FindShape( "MusicOn" ) ).State = L_CurrentProfile.MusicOn
-		LTButton( FindShape( "Play" ) ).State = Not L_CurrentProfile.MusicMode = L_CurrentProfile.Paused
+		LTButton( FindShape( "Play" ) ).State = Not ( L_CurrentProfile.MusicMode = L_CurrentProfile.Paused )
 		LTButton( FindShape( "Repeat" ) ).State = L_CurrentProfile.MusicRepeat
 	End Method
 	

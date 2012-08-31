@@ -11,6 +11,8 @@ ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.7 (31.08.12)"
+ModuleInfo "History: &nbsp; &nbsp; Fixed some parameter names (replaced underscopes to dashes)."
 ModuleInfo "History: v1.0.6.2 (02.06.12)"
 ModuleInfo "History: &nbsp; &nbsp; LTGUIProject is rewritten to correspond changed structure of LTProject class and now contains no duplicated code."
 ModuleInfo "History: &nbsp; &nbsp; Slider is converted to the single gadget."

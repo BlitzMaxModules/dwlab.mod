@@ -59,6 +59,9 @@ Type TGame Extends LTGUIProject
 		
 		Profile = TGameProfile( L_CurrentProfile )
 		Profile.Load()
+		
+		If L_CurrentProfile.MusicQuantity > 0 Then L_CurrentProfile.MusicMode = L_CurrentProfile.Normal
+		L_CurrentProfile.StartMusic()
 	End Method
 	
 	Method InitGraphics()

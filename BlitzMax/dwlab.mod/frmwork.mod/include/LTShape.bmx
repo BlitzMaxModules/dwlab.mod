@@ -124,53 +124,69 @@ Type LTShape Extends LTObject
 	bbdoc: Prints text inside the shape.
 	about: Current ImageFont is used. You can specify horizontal and vertical alignment and also horizontal and vertical shift in units.
 	End Rem
-	Method PrintText( Text:String, Size:Double = 1.0, HorizontalAlign:Int = LTAlign.ToCenter, VerticalAlign:Int = LTAlign.ToCenter, HorizontalShift:Double = 0, VerticalShift:Double = 0, Contour:Int = False )
+	Method PrintText( Text:String, Size:Double = 1.0, HorizontalAlign:Int = LTAlign.ToCenter, VerticalAlign:Int = LTAlign.ToCenter, ..
+			HorizontalMargin:Double = 0, VerticalMargin:Double = 0, HorizontalShift:Double = 0, VerticalShift:Double= 0, Contour:Int = False )
 		Local SXSize:Double, SYSize:Double
 		L_CurrentCamera.SizeFieldToScreen( 0, Size, SXSize, SYSize )
 		Local K:Double = SYSize / TextHeight( Text )
+			
+		Local Lines:String[] = Text.Split( "|" )
+		Local MaxLineWidth:Double = 0
+		For Local Line:String = Eachin Lines
+			Local LineWidth:Double = TextWidth( Line )
+			If LineWidth > MaxLineWidth Then MaxLineWidth = LineWidth
+		Next
 		
 		Local XX:Double, YY:Double
 		Select HorizontalAlign
 			Case LTAlign.ToLeft
-				XX = LeftX()
+				XX = LeftX() + HorizontalMargin
 			Case LTAlign.ToCenter
 				XX = X
 			Case LTAlign.ToRight
-				XX = RightX()
+				XX = RightX() - HorizontalMargin
 		End Select
 		
 		Select VerticalAlign
 			Case LTAlign.ToTop
-				YY = TopY()
+				YY = TopY() + VerticalMargin
 			Case LTAlign.ToCenter
 				YY = Y
 			Case LTAlign.ToBottom
-				YY = BottomY()
+				YY = BottomY() - VerticalMargin
 		End Select
 		
 		Local SX:Double, SY:Double
-		L_CurrentCamera.FieldToScreen( XX + HorizontalShift, YY + VerticalShift, SX, SY )
-		
-		Select HorizontalAlign
-			Case LTAlign.ToCenter
-				SX :- 0.5 * TextWidth( Text ) * K
-			Case LTAlign.ToRight
-				SX :- TextWidth( Text ) * K
-		End Select
+		L_CurrentCamera.FieldToScreen( XX, YY, SX, SY )
 		
 		Select VerticalAlign
 			Case LTAlign.ToCenter
-				SY :- 0.5 * TextHeight( Text ) * K
+				SY :- 0.5 * TextHeight( Text ) * Lines.Length * K
 			Case LTAlign.ToBottom
-				SY :- TextHeight( Text ) * K
+				SY :- TextHeight( Text ) * Lines.Length * K
 		End Select
 		
 		SetScale K, K
-		If Contour Then
-			L_DrawTextWithContour( Text, SX, SY )
-		Else
-			DrawText( Text, SX, SY )
-		End If
+		
+		Local STextHeight:Double = L_CurrentCamera.DistFieldToScreen( Size )
+		Local LineSX:Double
+		For Local Line:String = Eachin Lines
+			Select HorizontalAlign
+				Case LTAlign.ToLeft
+					LineSX = SX
+				Case LTAlign.ToCenter
+					LineSX = SX - 0.5 * TextWidth( Line ) * K
+				Case LTAlign.ToRight
+					LineSX = SX - TextWidth( Line ) * K
+			End Select
+			
+			If Contour Then
+				L_DrawTextWithContour( Line, LineSX, SY )
+			Else
+				DrawText( Line, LineSX, SY )
+			End If
+			SY = SY + STextHeight
+		Next
 		SetScale 1.0, 1.0
 	End Method
 	
@@ -992,21 +1008,12 @@ Type LTShape Extends LTObject
 	' ==================== Parameters ===================	
 	
 	Rem
-	bbdoc: Retrieves value of object's parameter with given name.
-	returns: Value of object's parameter with given name.
-	about: See also: #GetTitle, #GetName, #LTBehaviorModel example.
+	bbdoc: Retrieves name of object.
+	returns: Value of object's parameter "name".
+	about: See also: #GetParameter, #GetTitle
 	End Rem
-	Method GetParameter:String( Name:String )
-		If Not Parameters Then Return ""
-		For Local Parameter:LTParameter = Eachin Parameters
-			If Parameter.Name = Name Then Return Parameter.Value
-		Next
-	End Method
-	
-	
-	
-	Method GetTitle:String()
-		Return L_TitleGenerator.GetTitle( Self )
+	Method GetName:String()
+		Return GetParameter( "name" )
 	End Method
 	
 	
@@ -1016,13 +1023,24 @@ Type LTShape Extends LTObject
 	
 	
 	
+	Method GetTitle:String()
+		If ParameterExists( "name" ) Then Return GetParameter( "name" )
+		If ParameterExists( "class" ) Then Return GetParameter( "class" )
+		Return GetClassTitle()
+	End Method
+	
+	
+	
 	Rem
-	bbdoc: Retrieves name of object.
-	returns: Value of object's parameter "name".
-	about: See also: #GetParameter, #GetTitle
+	bbdoc: Retrieves value of object's parameter with given name.
+	returns: Value of object's parameter with given name.
+	about: See also: #GetTitle, #GetName, #LTBehaviorModel example.
 	End Rem
-	Method GetName:String()
-		Return GetParameter( "name" )
+	Method GetParameter:String( Name:String )
+		If Not Parameters Then Return ""
+		For Local Parameter:LTParameter = Eachin Parameters
+			If Parameter.Name = Name Then Return Parameter.Value
+		Next
 	End Method
 	
 	
@@ -1338,21 +1356,5 @@ Type LTParameter Extends LTObject
 		Super.XMLIO( XMLObject )
 		XMLObject.ManageStringAttribute( "name", Name )
 		XMLObject.ManageStringAttribute( "value", Value )
-	End Method
-End Type
-
-
-
-
-
-Global L_TitleGenerator:LTTitleGenerator = New LTTitleGenerator
-
-Type LTTitleGenerator
-	Method GetTitle:String( Shape:LTShape )
-		Local Title:String = Shape.GetParameter( "name" )
-		If Title Then Return Title
-		Title = Shape.GetParameter( "class" )
-		If Title Then Return Title
-		Return Shape.GetClassTitle()
 	End Method
 End Type

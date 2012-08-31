@@ -23,13 +23,15 @@ bbdoc: This visualizer can draw collision shape, vector and name of the shape wi
 about: See also #WedgeOffWithSprite example
 End Rem
 Type LTDebugVisualizer Extends LTVisualizer
+	Global TextVisualizer:LTVisualizer = New LTVisualizer
+
 	Field ShowCollisionShapes:Int = True
 	Field ShowVectors:Int = True
 	Field ShowNames:Int = True
 	Field AlphaOfInvisible:Double = 0.5
 	
 	
-
+	
 	Method DrawUsingSprite( Sprite:LTSprite, SpriteShape:LTSprite = Null )
 		If Not SpriteShape Then SpriteShape = Sprite
 		
@@ -65,27 +67,64 @@ Type LTDebugVisualizer Extends LTVisualizer
 			End If
 		End If
 		
-		ResetColor()
+		If Sprite.ParameterExists( "text" ) Then
+			Local Text:String = Sprite.GetParameter( "text" )
 			
-		If ShowNames Then
-			Local Titles:String[] = Sprite.GetTitle().Split( "|" )
-			SY1 :- Titles.Length * 8
-			For Local Title:String = Eachin Titles
-				Local TxtWidth:Int = 0.5 * TextWidth( Title )
-				SetColor( 0, 0, 0 )
-				For Local DY:Int = -1 To 1
-					For Local DX:Int = -( DY = 0 ) To Abs( DY = 0 ) Step 2
-						DrawText( Title, SX1 + DX - TxtWidth, SY1 + DY )
-					Next
+			Local HMargin:Double, VMargin:Double
+			If Sprite.ParameterExists( "text-margin" ) Then
+				HMargin = Sprite.GetParameter( "text-margin" ).ToDouble()
+				VMargin = HMargin
+			Else
+				HMargin = Sprite.GetParameter( "text-h-margin" ).ToDouble()
+				VMargin = Sprite.GetParameter( "text-v-margin" ).ToDouble()
+			End If
+			
+			Local HAlign:Int
+			Select Sprite.GetParameter( "text-h-align" )
+				Case "left"
+					HAlign = LTAlign.ToLeft
+				Case "right"
+					HAlign = LTAlign.ToRight
+				Default
+					HAlign = LTAlign.ToCenter
+			End Select
+			
+			Local VAlign:Int
+			Select Sprite.GetParameter( "text-v-align" )
+				Case "top"
+					VAlign = LTAlign.ToTop
+				Case "bottom"
+					VAlign = LTAlign.ToBottom
+				Default
+					VAlign = LTAlign.ToCenter
+			End Select
+			
+			Local TextSize:Double = 0.5
+			If Sprite.ParameterExists( "text-size" ) Then TextSize = Sprite.GetParameter( "text-size" ).ToDouble()
+			
+			If Sprite.ParameterExists( "text-color" ) Then
+				TextVisualizer.SetColorFromHex( Sprite.GetParameter( "text-color" ) )
+			Else
+				TextVisualizer.SetColorFromRGB( 0.0, 0.0, 0.0 )
+			End If
+			TextVisualizer.ApplyColor()
+	
+			Sprite.PrintText( Text, TextSize, HAlign, VAlign, HMargin, VMargin )
+			
+			ResetColor()
+		ElseIf ShowNames Then
+			Local Title:String = Sprite.GetTitle()
+			Local TxtWidth:Int = 0.5 * TextWidth( Title )
+			SetColor( 0, 0, 0 )
+			For Local DY:Int = -1 To 1
+				For Local DX:Int = -( DY = 0 ) To Abs( DY = 0 ) Step 2
+					DrawText( Title, SX1 + DX - TxtWidth, SY1 + DY )
 				Next
-				ResetColor()
-				DrawText( Title, SX1 - TxtWidth, SY1 )
-				SY1 :+ 14
 			Next
+			ResetColor()
+			DrawText( Title, SX1 - TxtWidth, SY1 )
 		End If
-	End Method
-	
-	
+	End Method	
 	
 	Method DrawUsingTileMap( TileMap:LTTileMap, Shapes:TList = Null )
 		TileMap.Visualizer.DrawUsingTileMap( TileMap, Shapes )
