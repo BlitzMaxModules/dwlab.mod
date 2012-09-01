@@ -52,6 +52,8 @@ Type LTTileMap Extends LTIntMap
 	End Rem
 	Field VerticalOrder:Int = 1	
 	
+	Field LoadingTime:Int
+	
 	' ==================== Parameters ===================	
 	
 	Rem
@@ -60,7 +62,7 @@ Type LTTileMap Extends LTIntMap
 	about: See also: #GetTileHeight
 	End Rem
 	Method GetTileWidth:Double()
-			Return Width / XQuantity
+		Return Width / XQuantity
 	End Method
 
 	
@@ -251,9 +253,12 @@ Type LTTileMap Extends LTIntMap
 		XMLObject.ManageIntAttribute( "wrapped", Wrapped )
 		XMLObject.ManageIntAttribute( "horizontal-order", HorizontalOrder, 1 )
 		XMLObject.ManageIntAttribute( "vertical-order", VerticalOrder, 1 )
-		
+		XMLObject.ManageIntAttribute( "loading-time", LoadingTime )
+			
 		Local ChunkLength:Int = L_GetChunkLength( TilesQuantity )
 		If L_XMLMode = L_XMLGet Then
+			Local Time:Int = Millisecs()
+			
 			Value = New Int[ XQuantity, YQuantity ]
 			Local Y:Int = 0
 			For Local XMLRow:LTXMLObject = Eachin XMLObject.Children
@@ -267,6 +272,12 @@ Type LTTileMap Extends LTIntMap
 				Wend
 				Y :+ 1
 			Next
+			
+			L_LoadingTime :+ LoadingTime
+			LoadingTime = MilliSecs() - Time
+			L_NewTotalLoadingTime :+ LoadingTime
+			L_LoadingProgress = 1.0 * L_LoadingTime / L_TotalLoadingTime
+			If L_LoadingUpdater Then L_LoadingUpdater.Update()
 		Else
 			For Local Y:Int = 0 Until YQuantity
 				Local XMLRow:LTXMLObject = New LTXMLObject

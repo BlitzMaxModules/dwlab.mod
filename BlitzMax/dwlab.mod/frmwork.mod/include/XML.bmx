@@ -533,13 +533,16 @@ Type LTXMLObject Extends LTObject
 		Local File:TStream = ReadFile( Filename )
 		Local Content:String = ""
 		
+		L_LoadingStatus = "Loading XML..."
+		
 		L_XMLVersion = 0
+		Local LinesQuantity:Int
+		Local LineNum:Int = 0
 		While Not Eof( File )
 			Content :+ ReadLine( File )
-			If Not L_XMLVersion Then
-				Local Quote:Int = Content.Find( "~q", Content.Find( "dwlab_version" ) )
-				L_XMLVersion = L_VersionToInt( Content[ Quote + 1..Content.Find( "~q", Quote + 1 ) ] )
-			End If
+			If Not L_XMLVersion Then L_XMLVersion = L_VersionToInt( GetAttributeFromString( Content, "dwlab_version" ) )
+			L_LoadingProgress = 1.0 * StreamPos( File ) / StreamSize( File )
+			If L_LoadingUpdater Then L_LoadingUpdater.Update()
 		Wend
 		
 		CloseFile File
@@ -547,7 +550,16 @@ Type LTXMLObject Extends LTObject
 		Local N:Int = 0
 		'DebugLog Content
 		Local FieldName:String = ""
+		
+		L_LoadingStatus = "Parsing XML..."
 		Return ReadObject( Content, N, FieldName )
+	End Function
+	
+	
+	
+	Function GetAttributeFromString:String( Text:String, AttrName:String )
+		Local Quote:Int = Text.Find( "~q", Text.Find( AttrName ) )
+		Return Text[ Quote + 1..Text.Find( "~q", Quote + 1 ) ]
 	End Function
 	
 	
@@ -585,6 +597,9 @@ Type LTXMLObject Extends LTObject
 				End If
 			Forever
 		End If
+
+		L_LoadingProgress = 1.0 * N / Txt.Length
+		If L_LoadingUpdater Then L_LoadingUpdater.Update()
 				
 		Return Obj
 	End Function

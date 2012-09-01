@@ -15,6 +15,7 @@ Type LTFormGadget
 	Const SliderWithTextField:Int = 3
 	Const Label:Int = 4
 	Const Canvas:Int = 5
+	Const ProgressBar:Int = 6
 	
 	Field GadgetType:Int
 	

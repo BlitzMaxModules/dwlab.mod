@@ -1,4 +1,4 @@
-<LTWorld dwlab_version="1.4.21.2">
+<LTWorld dwlab_version="1.4.24" total-loading-time="18">
 	<LTVisualizer field="visualizer" id="1"/>
 	<LTEditorData field="editor_data" x_div="2" y_div="2" coll_x_div="16" coll_y_div="16">
 		<TList field="images">
@@ -1046,7 +1046,7 @@
 			<Row data="001D1E1R1C1B1S1D1E0000001D"/>
 			<Row data="001T1U1B1S1R1C1T1U0000001T"/>
 		</LTTileMap>
-		<LTSprite x="7.5" y="4.5" shape="2" angle="-90" frame="243">
+		<LTSprite x="7.5" y="4.5" shape="2" moving-angle="-90" frame="243">
 			<TList field="parameters">
 				<LTParameter value="HazardousBlock"/>
 			</TList>
@@ -1429,7 +1429,7 @@
 			<Row data="0q000000002R2R2R2R00002R2R"/>
 			<Row data="00000000002R2R2P2Q0Z002R2R"/>
 		</LTTileMap>
-		<LTSprite x="10.5" y="5.5" shape="2" angle="-90" frame="243">
+		<LTSprite x="10.5" y="5.5" shape="2" moving-angle="-90" frame="243">
 			<TList field="parameters">
 				<LTParameter value="HazardousBlock"/>
 			</TList>
@@ -1437,7 +1437,7 @@
 				<Object field="image" id="8"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="0.5" y="5.5" shape="2" angle="-90" frame="243">
+		<LTSprite x="0.5" y="5.5" shape="2" moving-angle="-90" frame="243">
 			<TList field="parameters">
 				<LTParameter value="HazardousBlock"/>
 			</TList>
@@ -1510,7 +1510,7 @@
 			<Row data="1t1u1t1e0000001d1u00001t1e"/>
 			<Row data="1d1e1d1e0000001t1e00001t1e"/>
 		</LTTileMap>
-		<LTSprite x="5.5" y="8.5" shape="2" angle="-90" frame="307">
+		<LTSprite x="5.5" y="8.5" shape="2" moving-angle="-90" frame="307">
 			<TList field="parameters">
 				<LTParameter value="HazardousBlock"/>
 			</TList>
@@ -1518,7 +1518,7 @@
 				<Object field="image" id="8"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="10.5" y="6.5" shape="2" angle="-90" frame="307">
+		<LTSprite x="10.5" y="6.5" shape="2" moving-angle="-90" frame="307">
 			<TList field="parameters">
 				<LTParameter value="HazardousBlock"/>
 			</TList>
@@ -1526,7 +1526,7 @@
 				<Object field="image" id="8"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="6.5" y="3.5" shape="2" angle="-90" frame="307">
+		<LTSprite x="6.5" y="3.5" shape="2" moving-angle="-90" frame="307">
 			<TList field="parameters">
 				<LTParameter value="HazardousBlock"/>
 			</TList>
@@ -1608,7 +1608,7 @@
 			<Row data="0000000019194W000000002021"/>
 			<Row data="0000000020214r000000002021"/>
 		</LTTileMap>
-		<LTSprite x="3.5" y="9.5" shape="2" angle="-90" frame="331">
+		<LTSprite x="3.5" y="9.5" shape="2" moving-angle="-90" frame="331">
 			<TList field="parameters">
 				<LTParameter value="HazardousBlock"/>
 			</TList>
@@ -1616,7 +1616,7 @@
 				<Object field="image" id="8"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="9.5" y="2.5" shape="2" angle="-90" frame="331">
+		<LTSprite x="9.5" y="2.5" shape="2" moving-angle="-90" frame="331">
 			<TList field="parameters">
 				<LTParameter value="HazardousBlock"/>
 			</TList>
@@ -1665,7 +1665,7 @@
 				<Object field="image" id="8"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="7.5" y="6.5" shape="2" angle="-90" frame="261">
+		<LTSprite x="7.5" y="6.5" shape="2" moving-angle="-90" frame="261">
 			<TList field="parameters">
 				<LTParameter value="HazardousBlock"/>
 			</TList>
@@ -1706,7 +1706,7 @@
 				<Object field="image" id="8"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="2.5" y="11.5" shape="2" angle="-90" frame="313">
+		<LTSprite x="2.5" y="11.5" shape="2" moving-angle="-90" frame="313">
 			<TList field="parameters">
 				<LTParameter value="HazardousBlock"/>
 			</TList>
@@ -1714,7 +1714,7 @@
 				<Object field="image" id="8"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="5.5" y="11.5" shape="2" angle="-90" frame="313">
+		<LTSprite x="5.5" y="11.5" shape="2" moving-angle="-90" frame="313">
 			<TList field="parameters">
 				<LTParameter value="HazardousBlock"/>
 			</TList>
@@ -1722,7 +1722,7 @@
 				<Object field="image" id="8"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="8.5" y="11.5" shape="2" angle="-90" frame="313">
+		<LTSprite x="8.5" y="11.5" shape="2" moving-angle="-90" frame="313">
 			<TList field="parameters">
 				<LTParameter value="HazardousBlock"/>
 			</TList>
@@ -1730,7 +1730,7 @@
 				<Object field="image" id="8"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="11.5" y="11.5" shape="2" angle="-90" frame="313">
+		<LTSprite x="11.5" y="11.5" shape="2" moving-angle="-90" frame="313">
 			<TList field="parameters">
 				<LTParameter value="HazardousBlock"/>
 			</TList>
@@ -1771,7 +1771,7 @@
 				<Object field="image" id="8"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="7.5" y="11.5" shape="2" angle="-90" frame="307">
+		<LTSprite x="7.5" y="11.5" shape="2" moving-angle="-90" frame="307">
 			<TList field="parameters">
 				<LTParameter value="HazardousBlock"/>
 			</TList>
@@ -1861,7 +1861,7 @@
 				<Object field="image" id="8"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="5.5" y="5.5" shape="2" angle="-90" frame="274">
+		<LTSprite x="5.5" y="5.5" shape="2" moving-angle="-90" frame="274">
 			<TList field="parameters">
 				<LTParameter value="HazardousBlock"/>
 			</TList>
@@ -3221,7 +3221,7 @@
 			<LTParameter value="Level 40"/>
 		</TList>
 		<Object field="visualizer" id="1"/>
-		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400">
+		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" loading-time="1">
 			<TList field="parameters">
 				<LTParameter value="Level 40 map"/>
 			</TList>
@@ -3572,7 +3572,7 @@
 			<LTParameter value="Level 47"/>
 		</TList>
 		<Object field="visualizer" id="1"/>
-		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400">
+		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" loading-time="1">
 			<TList field="parameters">
 				<LTParameter value="Level 47 map"/>
 			</TList>
@@ -3702,7 +3702,7 @@
 			<LTParameter value="Level 49"/>
 		</TList>
 		<Object field="visualizer" id="1"/>
-		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400">
+		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" loading-time="1">
 			<TList field="parameters">
 				<LTParameter value="Level 49 map"/>
 			</TList>

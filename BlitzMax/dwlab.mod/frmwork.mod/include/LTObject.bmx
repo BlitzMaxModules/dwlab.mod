@@ -14,11 +14,26 @@ Global L_MaxID:Int
 Global L_IDArray:LTObject[]
 Global L_UndefinedObjects:TMap
 
+Global L_NewTotalLoadingTime:Int
+Global L_LoadingTime:Int
+Global L_TotalLoadingTime:Int
+Global L_LoadingProgress:Float
+Global L_LoadingStatus:String
+Global L_LoadingUpdater:LTObject = Null
+
 Rem
 bbdoc: Global object class
 End Rem
 Type LTObject
 	Method Act()
+	End Method
+	
+
+	
+	Rem
+	bbdoc: Method for updating object.
+	End Rem
+	Method Update()
 	End Method
 	
 	' ==================== Loading / saving ===================
@@ -53,6 +68,10 @@ Type LTObject
 			L_MaxID = 0
 			XMLObject = LTXMLObject.ReadFromFile( IncbinValue + FileName )
 		End If
+			
+		L_LoadingStatus = "Serializing objects..."
+		L_TotalLoadingTime = XMLObject.GetAttribute( "total-loading-time" ).ToInt()
+		L_NewTotalLoadingTime = 0
 		
 		L_IDArray = New LTObject[ L_MaxID + 1 ]
 		FillIDArray( XMLObject )
@@ -95,6 +114,7 @@ Type LTObject
 		XMLIO( XMLObject )
 		
 		XMLObject.SetAttribute( "dwlab_version", L_Version )
+		XMLObject.SetAttribute( "total-loading-time", L_NewTotalLoadingTime )
 				
 		For Local XMLObject2:LTXMLObject = EachIn L_RemoveIDMap.Values()
 			For Local Attr:LTXMLAttribute = EachIn XMLObject2.Attributes

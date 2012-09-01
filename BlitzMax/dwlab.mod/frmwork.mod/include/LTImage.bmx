@@ -16,12 +16,13 @@ Rem
 bbdoc: Image class.
 End Rem
 Type LTImage Extends LTObject
+	Global Bitmaps:TMap = New TMap
+	
 	Field BMaxImage:TImage
 	Field Filename:String
 	Field XCells:Int = 1
 	Field YCells:Int = 1
-	
-	Global Bitmaps:TMap = New TMap
+	Field LoadingTime:Int
 	
 	
 	
@@ -50,6 +51,8 @@ Type LTImage Extends LTObject
 	about: Splits image by XCells x YCells grid. Will be executed after loading image object from XML file.
 	End Rem
 	Method Init()
+		Local Time:Int = Millisecs()
+		
 		Local Pixmap:TPixmap = LoadPixmap( L_Incbin + Filename )
 		If Not Pixmap Then L_Error( L_Incbin + Filename + " cannot be loaded or not found." )
 		'?debug
@@ -70,6 +73,12 @@ Type LTImage Extends LTObject
 			MidHandleImage( BMaxImage )
 			Bitmaps.Insert( Filename, Bitmap )
 		End If
+		
+		L_LoadingTime :+ LoadingTime
+		LoadingTime = MilliSecs() - Time
+		L_NewTotalLoadingTime :+ LoadingTime
+		L_LoadingProgress = 1.0 * L_LoadingTime / L_TotalLoadingTime
+		If L_LoadingUpdater Then L_LoadingUpdater.Update()
 	End Method
 	
 	
@@ -130,6 +139,7 @@ Type LTImage Extends LTObject
 		XMLObject.ManageStringAttribute( "filename", Filename )
 		XMLObject.ManageIntAttribute( "xcells", XCells, 1 )
 		XMLObject.ManageIntAttribute( "ycells", YCells, 1 )
+		XMLObject.ManageIntAttribute( "loading-time", LoadingTime )
 		
 		'If Not L_EditorData.Images.Contains( Self ) L_EditorData.Images.AddLast( Self )
 		

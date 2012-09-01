@@ -132,6 +132,12 @@ Type LTForm
 	
 	
 	
+	Method AddProgressBar:TGadget( Width:Int )
+		Return AddGadget( "", Width, L_FieldHeight, 0, 0, LTFormGadget.ProgressBar, 0 ).Gadget
+	End Method
+	
+	
+	
 	Method AddGadget:LTFormGadget( LabelText:String, Width:Int, Height:Int, LabelWidth:Int, SliderWidth:Int, GadgetType:Int, Style:Int )
 		Local FormGadget:LTFormGadget = New LTFormGadget
 		If X > Margins Then X :+ HorizontalCellSpacing
@@ -160,6 +166,8 @@ Type LTForm
 				FormGadget.SliderX = X
 				X :+ SliderWidth + L_LabelIndent
 				FormGadget.Gadget = CreateTextField( X, Y, Width, Height, Gadget )
+			Case LTFormGadget.ProgressBar
+				FormGadget.Gadget = CreateProgBar( X, Y, Width, Height, Gadget )
 		End Select
 		FormGadget.X = X
 		FormGadget.Y = Y

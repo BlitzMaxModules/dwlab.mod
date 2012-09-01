@@ -1,3 +1,6 @@
+1.9.1
++ World loading bar
+
 1.9
 + Support of Box2D sprites and tile maps ("physics" flag)
 * Fixed snapping and writing Double attributes inaccuracy

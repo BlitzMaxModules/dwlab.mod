@@ -63,6 +63,8 @@ Incbin "font.ttf"
 Incbin "toolbar.png"
 Incbin "treeview.png"
 
+L_LoadingUpdater = New TLoadingUpdater
+
 Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
@@ -609,6 +611,12 @@ Type LTEditor Extends LTProject
 			InsertToRecentFiles( Filename )
 			ChangeDir( ExtractDir( Filename ) )
 			
+			LoadingWindow = CreateWindow( "", 0, 0, 0, 0, Editor.Window, Window_Titlebar | Window_ClientCoords )
+			Local Form:LTForm = LTForm.Create( LoadingWindow )
+			Form.NewLine()
+			ProgressBar = Form.AddProgressBar( 200 )
+			Form.Finalize()
+			
 			L_MaxID = 0
 			Local XMLObject:LTXMLObject = LTXMLObject.ReadFromFile( FileName )
 			UpdateXML( XMLObject )
@@ -643,6 +651,8 @@ Type LTEditor Extends LTProject
 			
 			SetTitle()
 			RefreshProjectManager()
+			
+			FreeGadget( LoadingWindow )
 		End If
 	End Method
 
@@ -2444,8 +2454,6 @@ Type LTEditor Extends LTProject
 End Type
 
 
-
-
 	
 Function ComparePixmaps:Int( Pixmap1:TPixmap, Pixmap2:TPixmap )
 	For Local Y:Int = 0 Until PixmapHeight( Pixmap1 )
@@ -2455,3 +2463,15 @@ Function ComparePixmaps:Int( Pixmap1:TPixmap, Pixmap2:TPixmap )
 	Next
 	Return True
 End Function
+
+
+
+Global LoadingWindow:TGadget
+Global ProgressBar:TGadget
+
+Type TLoadingUpdater Extends LTObject
+	Method Update()
+		UpdateProgBar( ProgressBar, L_LoadingProgress )
+		SetGadgetText( LoadingWindow, L_LoadingStatus )
+	End Method
+End Type

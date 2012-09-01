@@ -1,6 +1,6 @@
-<LTWorld dwlab_version="1.4.6">
+<LTWorld dwlab_version="1.4.24" total-loading-time="132">
 	<LTVisualizer field="visualizer" id="1"/>
-	<LTEditorData field="editor_data" cell_width="1" x_div="2" y_div="2" coll_x_div="16" coll_y_div="16">
+	<LTEditorData field="editor_data" x_div="2" y_div="2" coll_x_div="16" coll_y_div="16">
 		<TList field="images">
 			<Object id="8"/>
 			<Object id="143"/>
@@ -11,7 +11,7 @@
 		<LTColor field="background"/>
 		<LTColor field="grid_color" green="0" alpha="0.5"/>
 	</LTEditorData>
-	<LTCamera field="camera" x="8.93" y="6.08" width="11.21580211" height="9.72481254" viewport-clipping="1" isometric="1" x1="20" y1="10" x2="-20" y2="10">
+	<LTCamera field="camera" x="8.92999999" y="6.08" width="11.2158021" height="9.72481254" viewport-clipping="1" isometric="1" x1="20" y1="10" x2="-20" y2="10">
 		<LTVisualizer field="visualizer" id="150"/>
 		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
 			<Object field="visualizer" id="150"/>
@@ -22,12 +22,12 @@
 		<LTShape field="bounds" x="8" y="8" width="16" height="16">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap x="8" y="8" width="16" height="16" xquantity="16" yquantity="16" tiles-quantity="32">
+		<LTTileMap x="8" y="8" width="16" height="16" xquantity="16" yquantity="16" tiles-quantity="32" loading-time="1">
 			<TList field="parameters">
 				<LTParameter name="name" value="Floor"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4"/>
-			<LTTileSet field="tileset" id="7" name="dungeon" tiles-quantity="32" block-width="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" block-height="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" empty-tile="0">
+			<LTTileSet field="tileset" id="7" name="dungeon" tiles-quantity="32" block-width="00000000000000000000000000000000" block-height="00000000000000000000000000000000" empty-tile="0">
 				<LTImage field="image" id="8" filename="dungeon_walls.png" xcells="8" ycells="4"/>
 				<ShapeArray field="collision-shapes">
 					<Null/>
@@ -62,7 +62,7 @@
 					<LTSprite x="0.68" y="0.68" width="0.62" height="0.62" shape="2">
 						<Object field="visualizer" id="72"/>
 					</LTSprite>
-					<LTGroup>
+					<LTLayer>
 						<LTVisualizer field="visualizer" id="87"/>
 						<LTSprite x="0.81" y="0.68" width="0.37" height="0.62" shape="2">
 							<Object field="visualizer" id="87"/>
@@ -70,8 +70,8 @@
 						<LTSprite x="0.31" y="0.5" width="0.62" shape="2">
 							<Object field="visualizer" id="83"/>
 						</LTSprite>
-					</LTGroup>
-					<LTGroup>
+					</LTLayer>
+					<LTLayer>
 						<LTVisualizer field="visualizer" id="91"/>
 						<LTSprite x="0.81" y="0.31" width="0.37" height="0.62" shape="2">
 							<Object field="visualizer" id="72"/>
@@ -79,25 +79,25 @@
 						<LTSprite x="0.31" y="0.5" width="0.62" shape="2">
 							<Object field="visualizer" id="87"/>
 						</LTSprite>
-					</LTGroup>
-					<LTGroup>
+					</LTLayer>
+					<LTLayer>
 						<Object field="visualizer" id="91"/>
 						<LTSprite x="0.68" y="0.5" width="0.62" shape="2">
 							<Object field="visualizer" id="72"/>
 						</LTSprite>
-						<LTSprite x="0.18" y="0.31" width="0.37" height="0.62" shape="2">
+						<LTSprite x="0.17999999" y="0.31" width="0.37" height="0.62" shape="2">
 							<Object field="visualizer" id="87"/>
 						</LTSprite>
-					</LTGroup>
-					<LTGroup>
+					</LTLayer>
+					<LTLayer>
 						<Object field="visualizer" id="91"/>
 						<LTSprite x="0.5" y="0.68" height="0.62" shape="2">
 							<Object field="visualizer" id="72"/>
 						</LTSprite>
-						<LTSprite x="0.68" y="0.18" width="0.62" height="0.37" shape="2">
+						<LTSprite x="0.68" y="0.17999999" width="0.62" height="0.37" shape="2">
 							<Object field="visualizer" id="87"/>
 						</LTSprite>
-					</LTGroup>
+					</LTLayer>
 					<LTSprite x="0.31" y="0.5" width="0.62" shape="2">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
@@ -222,22 +222,22 @@
 					<LTTileRule tilenums="1"/>
 				</LTTileCategory>
 			</LTTileSet>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0000000000000000"/>
+			<Row data="0000000000000000"/>
+			<Row data="0000000000000000"/>
+			<Row data="0000000000000000"/>
+			<Row data="0000000000000000"/>
+			<Row data="0000000000000000"/>
+			<Row data="0000000000000000"/>
+			<Row data="0000000000000000"/>
+			<Row data="0000000000000000"/>
+			<Row data="0000000000000000"/>
+			<Row data="0000000000000000"/>
+			<Row data="0000000000000000"/>
+			<Row data="0000000000000000"/>
+			<Row data="0000000000000000"/>
+			<Row data="0000000000000000"/>
+			<Row data="0000000000000000"/>
 		</LTTileMap>
 	</LTLayer>
 	<LTLayer mix-content="1">
@@ -251,24 +251,24 @@
 			</TList>
 			<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4"/>
 			<Object field="tileset" id="7"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,13,31,23,14,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,26,1,1,10,14,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,26,1,1,1,10,17,14,0,0,0"/>
-			<Row data="0,0,0,13,27,23,9,1,1,1,1,1,10,23,14,0"/>
-			<Row data="0,0,0,18,1,1,1,1,11,7,8,1,1,1,6,0"/>
-			<Row data="0,0,0,12,7,7,8,1,6,0,16,1,1,1,6,0"/>
-			<Row data="0,0,0,0,0,0,22,1,6,0,4,1,11,7,15,0"/>
-			<Row data="0,0,0,0,0,13,9,1,6,0,26,1,6,0,0,0"/>
-			<Row data="0,0,0,0,0,22,1,1,6,0,12,7,15,0,0,0"/>
-			<Row data="0,0,0,0,0,12,7,7,15,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
-			<Row data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Row data="0000000000000000"/>
+			<Row data="000000=OG>000000"/>
+			<Row data="000000J11:>00000"/>
+			<Row data="000000J111:A>000"/>
+			<Row data="000=KG911111:G>0"/>
+			<Row data="000B1111;7811160"/>
+			<Row data="000<778160@11160"/>
+			<Row data="000000F16041;7?0"/>
+			<Row data="00000=9160J16000"/>
+			<Row data="00000F1160<7?000"/>
+			<Row data="00000<77?0000000"/>
+			<Row data="0000000000000000"/>
+			<Row data="0000000000000000"/>
+			<Row data="0000000000000000"/>
+			<Row data="0000000000000000"/>
+			<Row data="0000000000000000"/>
 		</LTTileMap>
-		<LTSpriteMap xquantity="16" yquantity="16" left-margin="1" right-margin="1" top-margin="1" bottom-margin="3" sorted="1" pivot-mode="1">
+		<LTSpriteMap left-margin="1" right-margin="1" top-margin="1" bottom-margin="3" sorted="1" pivot-mode="1" xquantity="16" yquantity="16">
 			<TList field="parameters">
 				<LTParameter name="name" value="Zombies"/>
 			</TList>

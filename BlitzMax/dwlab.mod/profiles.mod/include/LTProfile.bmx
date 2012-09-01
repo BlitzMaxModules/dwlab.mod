@@ -280,6 +280,11 @@ Type LTProfile Extends LTObject
 			For Local Channel:TChannel = Eachin ChannelsList
 				Channel.Stop()
 			Next
+			If NewMusicChannel Then NewMusicChannel = Null
+			If MusicChannel Then
+				MusicChannel.Stop()
+				MusicChannel = Null
+			End If
 			ChannelsList.Clear()
 			SetAudioDriver( AudioDriver )
 			SoundChannels.Clear()

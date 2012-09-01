@@ -1,4 +1,4 @@
-<LTWorld dwlab_version="1.4.21.2">
+<LTWorld dwlab_version="1.4.24" total-loading-time="211">
 	<LTVisualizer field="visualizer"/>
 	<LTEditorData field="editor_data" x_div="2" y_div="2" coll_x_div="16" coll_y_div="16">
 		<TList field="images">
@@ -30,7 +30,7 @@
 				<LTParameter name="name" value="Layer 1"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
-			<LTTileMap width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336">
+			<LTTileMap width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336" loading-time="3">
 				<TList field="parameters">
 					<LTParameter name="name" value="Floor"/>
 				</TList>
@@ -477,7 +477,7 @@
 				<Row data="0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y02030;0;0;0;0;0;06020Z0Z0^0Z0^0Z0Z0Z0Z0Z0Z0Z0^0^020Z0^0Z0Z0Z020202020202020202020202020202020202020202030;0;0;0;0;0;06020Z0Z0^0Z0^0Z0Z0Z0Z0Z0Z0Z0^0^020Z0^0Z0Z0Z"/>
 				<Row data="0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y0Y02030;0;0;0<0;0;06020Z0Z0Z0^0Z0Z0^0Z0Z0Z0Z0Z0Z0^020Z0Z0Z0Z0Z020202020202020202020202020202020202020202030;0;0;0<0;0;06020Z0Z0Z0^0Z0Z0^0Z0Z0Z0Z0Z0Z0^020Z0Z0Z0Z0Z"/>
 			</LTTileMap>
-			<LTTileMap width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336">
+			<LTTileMap width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336" loading-time="3">
 				<TList field="parameters">
 					<LTParameter name="name" value="Left wall"/>
 				</TList>
@@ -584,7 +584,7 @@
 				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001700000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336">
+			<LTTileMap width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336" loading-time="3">
 				<TList field="parameters">
 					<LTParameter name="name" value="Right wall"/>
 				</TList>
@@ -691,7 +691,7 @@
 				<Row data="0000000000000000000000000000000000000000000000000000000000000Q0Q0Q0Q0Q0Q0Q0Q0Q0Q0Q0Q0Q0Q00000Q0Q0000111111111P1P1111111311111111111311110000000000000000000000000Q0Q0Q0Q0Q0Q0Q0Q0Q0Q0Q0Q0Q0Q00000Q0Q0000"/>
 				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336">
+			<LTTileMap width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336" loading-time="3">
 				<TList field="parameters">
 					<LTParameter name="name" value="Object"/>
 				</TList>
@@ -804,7 +804,7 @@
 				<LTParameter name="name" value="Layer 2"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
-			<LTTileMap x="-1.6" y="-1.6" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336">
+			<LTTileMap x="-1.6" y="-1.6" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336" loading-time="2">
 				<TList field="parameters">
 					<LTParameter name="name" value="Floor"/>
 				</TList>
@@ -911,7 +911,7 @@
 				<Row data="0000000000002b2a2a2a2d0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-1.6" y="-1.6" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336">
+			<LTTileMap x="-1.6" y="-1.6" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336" loading-time="4">
 				<TList field="parameters">
 					<LTParameter name="name" value="Left wall"/>
 				</TList>
@@ -1018,7 +1018,7 @@
 				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001700000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-1.6" y="-1.6" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336">
+			<LTTileMap x="-1.6" y="-1.6" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336" loading-time="2">
 				<TList field="parameters">
 					<LTParameter name="name" value="Right wall"/>
 				</TList>
@@ -1125,7 +1125,7 @@
 				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001111111111111111111111111111111111110000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-1.6" y="-1.6" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336">
+			<LTTileMap x="-1.6" y="-1.6" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336" loading-time="2">
 				<TList field="parameters">
 					<LTParameter name="name" value="Object"/>
 				</TList>
@@ -1238,7 +1238,7 @@
 				<LTParameter name="name" value="Layer 3"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
-			<LTTileMap x="-3.2" y="-3.2" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336">
+			<LTTileMap x="-3.2" y="-3.2" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336" loading-time="2">
 				<TList field="parameters">
 					<LTParameter name="name" value="Floor"/>
 				</TList>
@@ -1345,7 +1345,7 @@
 				<Row data="0000000000002n2m2m2m2q0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-3.2" y="-3.2" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336">
+			<LTTileMap x="-3.2" y="-3.2" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336" loading-time="5">
 				<TList field="parameters">
 					<LTParameter name="name" value="Left wall"/>
 				</TList>
@@ -1452,7 +1452,7 @@
 				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-3.2" y="-3.2" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336">
+			<LTTileMap x="-3.2" y="-3.2" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336" loading-time="3">
 				<TList field="parameters">
 					<LTParameter name="name" value="Right wall"/>
 				</TList>
@@ -1559,7 +1559,7 @@
 				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-3.2" y="-3.2" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336">
+			<LTTileMap x="-3.2" y="-3.2" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336" loading-time="2">
 				<TList field="parameters">
 					<LTParameter name="name" value="Object"/>
 				</TList>
@@ -1672,7 +1672,7 @@
 				<LTParameter name="name" value="Layer 4"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
-			<LTTileMap x="-4.79999999" y="-4.79999999" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336">
+			<LTTileMap x="-4.79999998" y="-4.79999998" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336" loading-time="2">
 				<TList field="parameters">
 					<LTParameter name="name" value="Floor"/>
 				</TList>
@@ -1779,7 +1779,7 @@
 				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-4.79999999" y="-4.79999999" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336">
+			<LTTileMap x="-4.79999998" y="-4.79999998" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336" loading-time="2">
 				<TList field="parameters">
 					<LTParameter name="name" value="Left wall"/>
 				</TList>
@@ -1886,7 +1886,7 @@
 				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-4.79999999" y="-4.79999999" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336">
+			<LTTileMap x="-4.79999998" y="-4.79999998" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336" loading-time="3">
 				<TList field="parameters">
 					<LTParameter name="name" value="Right wall"/>
 				</TList>
@@ -1993,7 +1993,7 @@
 				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-4.79999999" y="-4.79999999" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336">
+			<LTTileMap x="-4.79999998" y="-4.79999998" width="100" height="100" xquantity="100" yquantity="100" tiles-quantity="336" loading-time="3">
 				<TList field="parameters">
 					<LTParameter name="name" value="Object"/>
 				</TList>
@@ -2112,7 +2112,7 @@
 				<LTParameter name="name" value="Layer 1"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
-			<LTTileMap width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272">
+			<LTTileMap width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Floor"/>
 				</TList>
@@ -2455,7 +2455,7 @@
 				<Row data="020202020202020202020202020202020202020202020202020202020202050505050505050505050505050505050505050504040404040404040404"/>
 				<Row data="020202020202020202020202020202020202020202020202020202020202050505050505050505050505050505050505050504040404040404040404"/>
 			</LTTileMap>
-			<LTTileMap width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272">
+			<LTTileMap width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Left wall"/>
 				</TList>
@@ -2522,7 +2522,7 @@
 				<Row data="0000000000000000000000000000000000000000000000000000000000000J0000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="0000000000000000000000000000000000000000000000000000000000000I0000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272">
+			<LTTileMap width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Right wall"/>
 				</TList>
@@ -2589,7 +2589,7 @@
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272">
+			<LTTileMap width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Object"/>
 				</TList>
@@ -2662,7 +2662,7 @@
 				<LTParameter name="name" value="Layer 2"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
-			<LTTileMap x="-1.6" y="-1.6" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272">
+			<LTTileMap x="-1.6" y="-1.6" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Floor"/>
 				</TList>
@@ -2729,7 +2729,7 @@
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-1.6" y="-1.6" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272">
+			<LTTileMap x="-1.6" y="-1.6" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Left wall"/>
 				</TList>
@@ -2796,7 +2796,7 @@
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-1.6" y="-1.6" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272">
+			<LTTileMap x="-1.6" y="-1.6" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272" loading-time="3">
 				<TList field="parameters">
 					<LTParameter name="name" value="Right wall"/>
 				</TList>
@@ -2863,7 +2863,7 @@
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-1.6" y="-1.6" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272">
+			<LTTileMap x="-1.6" y="-1.6" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Object"/>
 				</TList>
@@ -2936,7 +2936,7 @@
 				<LTParameter name="name" value="Layer 3"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
-			<LTTileMap x="-3.2" y="-3.2" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272">
+			<LTTileMap x="-3.2" y="-3.2" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Floor"/>
 				</TList>
@@ -3003,7 +3003,7 @@
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-3.2" y="-3.2" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272">
+			<LTTileMap x="-3.2" y="-3.2" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Left wall"/>
 				</TList>
@@ -3070,7 +3070,7 @@
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-3.2" y="-3.2" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272">
+			<LTTileMap x="-3.2" y="-3.2" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Right wall"/>
 				</TList>
@@ -3137,7 +3137,7 @@
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-3.2" y="-3.2" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272">
+			<LTTileMap x="-3.2" y="-3.2" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Object"/>
 				</TList>
@@ -3210,7 +3210,7 @@
 				<LTParameter name="name" value="Layer 4"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
-			<LTTileMap x="-4.79999999" y="-4.79999999" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272">
+			<LTTileMap x="-4.79999998" y="-4.79999998" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Floor"/>
 				</TList>
@@ -3277,7 +3277,7 @@
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-4.79999999" y="-4.79999999" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272">
+			<LTTileMap x="-4.79999998" y="-4.79999998" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Left wall"/>
 				</TList>
@@ -3344,7 +3344,7 @@
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-4.79999999" y="-4.79999999" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272">
+			<LTTileMap x="-4.79999998" y="-4.79999998" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Right wall"/>
 				</TList>
@@ -3411,7 +3411,7 @@
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-4.79999999" y="-4.79999999" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272">
+			<LTTileMap x="-4.79999998" y="-4.79999998" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="272" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Object"/>
 				</TList>
@@ -3490,7 +3490,7 @@
 				<LTParameter name="name" value="Layer 1"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
-			<LTTileMap width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256">
+			<LTTileMap width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Floor"/>
 				</TList>
@@ -3817,7 +3817,7 @@
 				<Row data="020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202"/>
 				<Row data="020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202"/>
 			</LTTileMap>
-			<LTTileMap width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256">
+			<LTTileMap width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256" loading-time="3">
 				<TList field="parameters">
 					<LTParameter name="name" value="Left wall"/>
 				</TList>
@@ -3884,7 +3884,7 @@
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256">
+			<LTTileMap width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Right wall"/>
 				</TList>
@@ -3951,7 +3951,7 @@
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256">
+			<LTTileMap width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Object"/>
 				</TList>
@@ -4024,7 +4024,7 @@
 				<LTParameter name="name" value="Layer 2"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
-			<LTTileMap x="-1.6" y="-1.6" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256">
+			<LTTileMap x="-1.6" y="-1.6" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Floor"/>
 				</TList>
@@ -4158,7 +4158,7 @@
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-1.6" y="-1.6" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256">
+			<LTTileMap x="-1.6" y="-1.6" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Right wall"/>
 				</TList>
@@ -4225,7 +4225,7 @@
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-1.6" y="-1.6" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256">
+			<LTTileMap x="-1.6" y="-1.6" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Object"/>
 				</TList>
@@ -4298,7 +4298,7 @@
 				<LTParameter name="name" value="Layer 3"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
-			<LTTileMap x="-3.2" y="-3.2" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256">
+			<LTTileMap x="-3.2" y="-3.2" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Floor"/>
 				</TList>
@@ -4365,7 +4365,7 @@
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-3.2" y="-3.2" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256">
+			<LTTileMap x="-3.2" y="-3.2" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Left wall"/>
 				</TList>
@@ -4432,7 +4432,7 @@
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-3.2" y="-3.2" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256">
+			<LTTileMap x="-3.2" y="-3.2" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Right wall"/>
 				</TList>
@@ -4499,7 +4499,7 @@
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-3.2" y="-3.2" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256">
+			<LTTileMap x="-3.2" y="-3.2" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Object"/>
 				</TList>
@@ -4572,7 +4572,7 @@
 				<LTParameter name="name" value="Layer 4"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
-			<LTTileMap x="-4.79999999" y="-4.79999999" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256">
+			<LTTileMap x="-4.79999998" y="-4.79999998" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Floor"/>
 				</TList>
@@ -4639,7 +4639,7 @@
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-4.79999999" y="-4.79999999" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256">
+			<LTTileMap x="-4.79999998" y="-4.79999998" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256" loading-time="3">
 				<TList field="parameters">
 					<LTParameter name="name" value="Left wall"/>
 				</TList>
@@ -4706,7 +4706,7 @@
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-4.79999999" y="-4.79999999" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256">
+			<LTTileMap x="-4.79999998" y="-4.79999998" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256" loading-time="1">
 				<TList field="parameters">
 					<LTParameter name="name" value="Right wall"/>
 				</TList>
@@ -4773,7 +4773,7 @@
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 				<Row data="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
-			<LTTileMap x="-4.79999999" y="-4.79999999" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256">
+			<LTTileMap x="-4.79999998" y="-4.79999998" width="60" height="60" xquantity="60" yquantity="60" tiles-quantity="256">
 				<TList field="parameters">
 					<LTParameter name="name" value="Object"/>
 				</TList>

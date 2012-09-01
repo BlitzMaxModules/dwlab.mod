@@ -15,7 +15,7 @@ bbdoc: Digital Wizard's Lab framework profiling module
 End Rem
 Module dwlab.profiles
 
-ModuleInfo "Version: 1.0.0.1"
+ModuleInfo "Version: 1.0.1"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"

@@ -22,6 +22,8 @@ ModuleInfo "Modserver: DWLAB"
 
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.25 (01.09.12)"
+ModuleInfo "History: &nbsp; &nbsp; Implemented mechanism of calculating loading time and updating loading bars."
 ModuleInfo "History: v1.4.24 (31.08.12)"
 ModuleInfo "History: &nbsp; &nbsp; Removed tile generator class and integrated it firmly into shape."
 ModuleInfo "History: &nbsp; &nbsp; Fixed some parameter names (replaced underscopes to dashes)."
