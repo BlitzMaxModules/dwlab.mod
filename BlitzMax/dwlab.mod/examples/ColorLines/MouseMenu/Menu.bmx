@@ -130,7 +130,7 @@ Type LTMenu Extends LTGUIProject
 	End Method
 	
 	Method OnWindowResize()
-		Profile.Apply( [ Self ], True, False, False, False )
+		Profile.Apply( [ Self ], True, False )
 	End Method
 
 	Method DeInit()
@@ -169,6 +169,8 @@ Type LTMenu Extends LTGUIProject
 		L_CurrentProfile = LTProfile( XMLObject.ManageObjectAttribute( "current_profile", L_CurrentProfile ) )
 		XMLObject.ManageListField( "profiles", Menu.Profiles )
 		XMLObject.ManageListField( "high_scores", Menu.HighScores )
+		XMLObject.ManageStringAttribute( "audio", LTProfile.AudioDriver )
+		XMLObject.ManageStringAttribute( "video", LTProfile.VideoDriver )
 	End Method
 End Type
 

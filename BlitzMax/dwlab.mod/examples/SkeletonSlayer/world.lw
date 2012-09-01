@@ -1,9 +1,9 @@
-<LTWorld dwlab_version="1.4.24" total-loading-time="695">
+<LTWorld dwlab_version="1.4.24" total-loading-time="367">
 	<LTVisualizer field="visualizer" id="1"/>
 	<LTEditorData field="editor_data" incbin="1" x_div="2" y_div="2" coll_x_div="16" coll_y_div="16">
 		<TList field="images">
 			<Object id="8"/>
-			<Object id="145"/>
+			<Object id="165"/>
 			<Object id="133"/>
 			<Object id="77"/>
 		</TList>
@@ -28,13 +28,13 @@
 		<LTShape field="bounds" x="32" y="32" width="64" height="64">
 			<Object field="visualizer" id="1"/>
 		</LTShape>
-		<LTTileMap x="32" y="32" width="64" height="64" xquantity="64" yquantity="64" tiles-quantity="24" loading-time="1">
+		<LTTileMap x="32" y="32" width="64" height="64" xquantity="64" yquantity="64" tiles-quantity="24">
 			<TList field="parameters">
 				<LTParameter name="name" value="Ground"/>
 			</TList>
 			<LTVisualizer field="visualizer" yscale="2"/>
 			<LTTileSet field="tileset" id="7" tiles-quantity="24" block-width="000000000000000000000000" block-height="000000000000000000000000">
-				<LTImage field="image" id="8" filename="media\grass_and_water.png" xcells="4" ycells="6" loading-time="13"/>
+				<LTImage field="image" id="8" filename="media\grass_and_water.png" xcells="4" ycells="6" loading-time="5"/>
 				<ShapeArray field="collision-shapes">
 					<Null/>
 					<Null/>
@@ -217,13 +217,13 @@
 			<LTShape field="bounds" x="32" y="32" width="64" height="64">
 				<Object field="visualizer" id="1"/>
 			</LTShape>
-			<LTTileMap x="32" y="32" width="64" height="64" xquantity="64" yquantity="64" tiles-quantity="40" loading-time="2">
+			<LTTileMap x="32" y="32" width="64" height="64" xquantity="64" yquantity="64" tiles-quantity="40">
 				<TList field="parameters">
 					<LTParameter name="name" value="Fence"/>
 				</TList>
 				<LTVisualizer field="visualizer" dy="-0.28999997" xscale="1.25" yscale="2.5"/>
 				<LTTileSet field="tileset" id="76" tiles-quantity="40" block-width="0000000000000000000000000000000000000000" block-height="0000000000000000000000000000000000000000" empty-tile="0">
-					<LTImage field="image" id="77" filename="media\fence.png" xcells="8" ycells="5" loading-time="69"/>
+					<LTImage field="image" id="77" filename="media\fence.png" xcells="8" ycells="5" loading-time="36"/>
 					<ShapeArray field="collision-shapes">
 						<Null/>
 						<Null/>
@@ -404,55 +404,15 @@
 					<LTParameter name="name" value="Objects"/>
 				</TList>
 				<Object field="visualizer" id="1"/>
-				<LTSprite x="28.5" y="22.5" shape="1">
+				<LTSprite x="48.5" y="38.5" shape="1">
 					<TList field="parameters">
 						<LTParameter id="131" name="class" value="TSkeleton"/>
 					</TList>
 					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
-						<LTImage field="image" id="133" filename="media\skeleton.png" xcells="26" ycells="8" loading-time="279"/>
+						<LTImage field="image" id="133" filename="media\skeleton.png" xcells="26" ycells="8" loading-time="154"/>
 					</LTVisualizer>
 				</LTSprite>
-				<LTSprite x="37.5" y="20.5" shape="1">
-					<TList field="parameters">
-						<Object id="131"/>
-					</TList>
-					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
-						<Object field="image" id="133"/>
-					</LTVisualizer>
-				</LTSprite>
-				<LTSprite x="36.5" y="32.5" shape="1">
-					<TList field="parameters">
-						<Object id="131"/>
-					</TList>
-					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
-						<Object field="image" id="133"/>
-					</LTVisualizer>
-				</LTSprite>
-				<LTSprite x="48.5" y="38.5" shape="1">
-					<TList field="parameters">
-						<Object id="131"/>
-					</TList>
-					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
-						<Object field="image" id="133"/>
-					</LTVisualizer>
-				</LTSprite>
-				<LTSprite x="24.5" y="27.5" shape="1">
-					<TList field="parameters">
-						<Object id="131"/>
-					</TList>
-					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
-						<Object field="image" id="133"/>
-					</LTVisualizer>
-				</LTSprite>
-				<LTSprite x="16.5" y="57.5" shape="1">
-					<TList field="parameters">
-						<LTParameter name="class" value="TPlayer"/>
-					</TList>
-					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
-						<LTImage field="image" id="145" filename="media\player.png" xcells="26" ycells="8" loading-time="331"/>
-					</LTVisualizer>
-				</LTSprite>
-				<LTSprite x="40.5" y="43.5" shape="1">
+				<LTSprite x="28.5" y="22.5" shape="1">
 					<TList field="parameters">
 						<Object id="131"/>
 					</TList>
@@ -476,7 +436,15 @@
 						<Object field="image" id="133"/>
 					</LTVisualizer>
 				</LTSprite>
-				<LTSprite x="45.5" y="46.5" shape="1">
+				<LTSprite x="24.5" y="27.5" shape="1">
+					<TList field="parameters">
+						<Object id="131"/>
+					</TList>
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
+						<Object field="image" id="133"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="37.5" y="20.5" shape="1">
 					<TList field="parameters">
 						<Object id="131"/>
 					</TList>
@@ -492,7 +460,7 @@
 						<Object field="image" id="133"/>
 					</LTVisualizer>
 				</LTSprite>
-				<LTSprite x="36.5" y="23.5" shape="1">
+				<LTSprite x="45.5" y="46.5" shape="1">
 					<TList field="parameters">
 						<Object id="131"/>
 					</TList>
@@ -500,7 +468,7 @@
 						<Object field="image" id="133"/>
 					</LTVisualizer>
 				</LTSprite>
-				<LTSprite x="49.5" y="22.5" shape="1">
+				<LTSprite x="36.5" y="32.5" shape="1">
 					<TList field="parameters">
 						<Object id="131"/>
 					</TList>
@@ -508,7 +476,15 @@
 						<Object field="image" id="133"/>
 					</LTVisualizer>
 				</LTSprite>
-				<LTSprite x="27.5" y="41.5" shape="1">
+				<LTSprite x="40.5" y="43.5" shape="1">
+					<TList field="parameters">
+						<Object id="131"/>
+					</TList>
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
+						<Object field="image" id="133"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="43.5" y="35.5" shape="1">
 					<TList field="parameters">
 						<Object id="131"/>
 					</TList>
@@ -524,12 +500,36 @@
 						<Object field="image" id="133"/>
 					</LTVisualizer>
 				</LTSprite>
-				<LTSprite x="43.5" y="35.5" shape="1">
+				<LTSprite x="27.5" y="41.5" shape="1">
 					<TList field="parameters">
 						<Object id="131"/>
 					</TList>
 					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
 						<Object field="image" id="133"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="49.5" y="22.5" shape="1">
+					<TList field="parameters">
+						<Object id="131"/>
+					</TList>
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
+						<Object field="image" id="133"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="36.5" y="23.5" shape="1">
+					<TList field="parameters">
+						<Object id="131"/>
+					</TList>
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
+						<Object field="image" id="133"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="16.5" y="57.5" shape="1">
+					<TList field="parameters">
+						<LTParameter name="class" value="TPlayer"/>
+					</TList>
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
+						<LTImage field="image" id="165" filename="media\player.png" xcells="26" ycells="8" loading-time="172"/>
 					</LTVisualizer>
 				</LTSprite>
 			</LTSpriteMap>

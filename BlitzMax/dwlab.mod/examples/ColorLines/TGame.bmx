@@ -110,7 +110,7 @@ Type TGame Extends LTGUIProject
 	End Method
 	
 	Method OnWindowResize()
-		Profile.Apply( [ LTGUIProject( Self ), LTGUIProject( Menu ) ], True, False, False, False )
+		Profile.Apply( [ LTGUIProject( Self ), LTGUIProject( Menu ) ], True, False )
 	End Method
 	
 	Method Render()

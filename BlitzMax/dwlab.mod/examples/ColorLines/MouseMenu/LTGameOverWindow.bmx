@@ -33,7 +33,10 @@ Type LTGameOverWindow Extends LTAudioWindow
 	
 	Method Save()
 		If Profile.Score Then
-			If Profile.Name = "{{P_Player}}" Then Profile.Name = LTTextField( FindShape( "Name" ) ).Text
+			If Profile.Name = "{{P_Player}}" Then
+				Local Text:String = LTTextField( FindShape( "Name" ) ).Text
+				If Text Then Profile.Name = Text
+			End If
 			If Profile.Name Then Menu.AddHighScore( Profile.Name, Profile.Score )
 		End If
 		

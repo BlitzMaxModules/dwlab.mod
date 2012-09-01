@@ -50,7 +50,7 @@ Type LTOptionsWindow Extends LTAudioWindow
 			Case "Fullscreen"
 				If L_CurrentProfile.SoundOn Then L_CurrentProfile.PlaySnd( Menu.ButtonClick )
 				L_CurrentProfile.FullScreen = Not L_CurrentProfile.FullScreen
-				L_CurrentProfile.Apply( [ Menu.Project, LTGUIProject( Menu ) ], True, False, False )
+				L_CurrentProfile.Apply( [ Menu.Project, LTGUIProject( Menu ) ], True, False )
 			Case "Boss"
 				If L_CurrentProfile.SoundOn Then L_CurrentProfile.PlaySnd( Menu.Boss )
 				L_Boss()
@@ -101,7 +101,7 @@ Function L_Boss()
 				Menu.Project.Locked = True
 				EndGraphics()
 				L_ProjectWindow = Null
-				L_CurrentProfile.Apply( [ LTProject( Menu ), LTProject( Menu.Project ) ], True, False, False, False )
+				L_CurrentProfile.Apply( [ LTProject( Menu ), LTProject( Menu.Project ) ], True, False )
 				Return
 			End If
 		Next

@@ -25,6 +25,16 @@ Rem
 bbdoc: Head class for profiles.
 End Rem
 Type LTProfile Extends LTObject
+	Rem
+	bbdoc: Name of the audio driver.
+	End Rem
+	Global AudioDriver:String
+	
+	Rem
+	bbdoc: Name of the video driver.
+	End Rem
+	Global VideoDriver:String
+	
 	Global MusicQuantity:Int
 	Global SoundChannels:TMap = New TMap
 	Global MusicChannel:TChannel = New TChannel
@@ -61,16 +71,6 @@ Type LTProfile Extends LTObject
 	bbdoc: Name of MaxGUI language.
 	End Rem
 	Field Language:String
-	
-	Rem
-	bbdoc: Name of the audio driver.
-	End Rem
-	Field AudioDriver:String
-	
-	Rem
-	bbdoc: Name of the video driver.
-	End Rem
-	Field VideoDriver:String
 	
 	Rem
 	bbdoc: Full screen flag (false means windowed mode).
@@ -230,12 +230,10 @@ Type LTProfile Extends LTObject
 	bbdoc: Applies profile.
 	about: You can specify an array of projects which should been initialized after changing drivers or screen resolution.
 	End Rem
-	Method Apply( Projects:LTProject[] = Null, NewScreen:Int = True, NewVideoDriver:Int = True, NewAudioDriver:Int = True, NewLanguage:Int = True )
+	Method Apply( Projects:LTProject[] = Null, NewScreen:Int = True, NewLanguage:Int = True )
 		If NewLanguage Then SetLocalizationLanguage( GetLanguage( Language ) )
 		
-		If NewVideoDriver Then SetGraphicsDriver( LTVideoDriver.Get( VideoDriver ).Driver )
-		
-		If NewScreen Or NewVideoDriver Then
+		If NewScreen Then
 			If FullScreen Then
 				If L_ProjectWindow Then
 					DisablePolledInput()
@@ -276,28 +274,44 @@ Type LTProfile Extends LTObject
 			SetBlend( AlphaBlend )
 		End If
 		
-		If NewAudioDriver Then
-			For Local Channel:TChannel = Eachin ChannelsList
-				Channel.Stop()
-			Next
-			If NewMusicChannel Then NewMusicChannel = Null
-			If MusicChannel Then
-				MusicChannel.Stop()
-				MusicChannel = Null
-			End If
-			ChannelsList.Clear()
-			SetAudioDriver( AudioDriver )
-			SoundChannels.Clear()
-			StartMusic()
-		End If
-		
 		If Projects Then
 			For Local Project:LTProject = Eachin Projects
-				If NewVideoDriver Or NewScreen Then Project.InitGraphics()
 				If NewScreen Or NewLanguage Then Project.ReloadWindows()
-				If NewAudioDriver Then Project.InitSound()
+				If NewScreen Then Project.InitGraphics()
 			Next
 		End If
+	End Method
+	
+	
+	
+	Function SetVideoDriver( DriverName:String )
+		VideoDriver = DriverName
+		SetGraphicsDriver( LTVideoDriver.Get( VideoDriver ).Driver )
+	End Function
+	
+	
+	
+	Method SetSoundDriver( Projects:LTProject[], DriverName:String )
+		For Local Channel:TChannel = Eachin ChannelsList
+			Channel.Stop()
+		Next
+		ChannelsList.Clear()
+		SoundChannels.Clear()
+		
+		If NewMusicChannel Then NewMusicChannel = Null
+		If MusicChannel Then
+			MusicChannel.Stop()
+			MusicChannel = New TChannel
+		End If
+					
+		AudioDriver = DriverName
+		SetAudioDriver( AudioDriver )
+			
+		For Local Project:LTProject = Eachin Projects
+			Project.InitSound()
+		Next
+		
+		StartMusic()
 	End Method
 	
 	

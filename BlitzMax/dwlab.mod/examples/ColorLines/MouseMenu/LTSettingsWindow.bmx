@@ -21,8 +21,8 @@ Type LTSettingsWindow Extends LTAudioWindow
 		Resolution = LTScreenResolution.Get( L_CurrentProfile.ScreenWidth, L_CurrentProfile.ScreenHeight )
 		ColorDepth = LTColorDepth.Get( Resolution, L_CurrentProfile.ColorDepth )
 		Frequency = LTFrequency.Get( ColorDepth, L_CurrentProfile.Frequency )
-		VideoDriver = LTVideoDriver.Get( L_CurrentProfile.VideoDriver )
-		AudioDriver = L_CurrentProfile.AudioDriver
+		VideoDriver = LTVideoDriver.Get( LTProfile.VideoDriver )
+		AudioDriver = LTProfile.AudioDriver
 		
 		For Local Label:LTLabel = Eachin Children
 			If Not Label.Text Then Label.Text = GetText( Label.GetName() )
@@ -119,12 +119,15 @@ Type LTSettingsWindow Extends LTAudioWindow
 		L_CurrentProfile.ColorDepth = ColorDepth.Bits
 		L_CurrentProfile.Frequency = Frequency.Hertz
 		
-		If L_CurrentProfile.VideoDriver <> VideoDriver.Name Then NewVideoDriver = True
-		L_CurrentProfile.VideoDriver = VideoDriver.Name
+		Local Projects:LTProject[] = [ LTGUIProject( Menu ), Project ]
 		
-		If L_CurrentProfile.AudioDriver <> AudioDriver Then NewAudioDriver = True
-		L_CurrentProfile.AudioDriver = AudioDriver
+		If LTProfile.VideoDriver <> VideoDriver.Name Then
+			L_CurrentProfile.SetVideoDriver( VideoDriver.Name )
+			NewScreen = True
+		End If
 		
-		L_CurrentProfile.Apply( [ LTGUIProject( Menu ), Project ], NewScreen, NewVideoDriver, NewAudioDriver, NewLanguage )
+		If LTProfile.AudioDriver <> AudioDriver Then L_CurrentProfile.SetSoundDriver( Projects, AudioDriver )
+		
+		L_CurrentProfile.Apply( Projects, NewScreen, NewLanguage )
 	End Method
 End Type
