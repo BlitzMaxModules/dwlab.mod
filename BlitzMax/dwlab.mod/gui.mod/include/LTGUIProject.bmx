@@ -41,8 +41,10 @@ Type LTGUIProject Extends LTProject
 		L_ActiveTextField = Null
 		If Class Then
 			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShapeWithParameter( "class", Class ) ) ) )
+			If L_Window = Null Then L_Error( "Window of class ~q" + Name + "~q is not found." )
 		Else
 			L_Window = LTWindow( LoadLayer( LTLayer( World.FindShape( Name ) ) ) )
+			If L_Window = Null Then L_Error( "Window with name ~q" + Name + "~q is not found." )
 		End If
 		
 		Local Screen:LTShape = L_Window.Bounds

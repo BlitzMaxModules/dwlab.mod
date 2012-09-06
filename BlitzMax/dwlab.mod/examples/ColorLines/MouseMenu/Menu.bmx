@@ -54,6 +54,7 @@ Global Menu:LTMenu = New LTMenu
 Type LTMenu Extends LTGUIProject
 	Field Project:LTGUIProject
 	Field World:LTWorld
+	Field LoadingBar:LTSlider
 	
 	Field ProfileTypeID:TTypeId = TTypeId.ForName( "LTProfile" )
 	Field Profiles:TList = New TList
@@ -80,6 +81,7 @@ Type LTMenu Extends LTGUIProject
 		L_TextSize = 0.3
 		
 		LTProfile.InitSystem()
+		
 		If Not L_CurrentProfile Then
 			L_CurrentProfile = LTProfile.CreateDefault( ProfileTypeID )
 			Profiles.AddLast( L_CurrentProfile )
@@ -88,6 +90,11 @@ Type LTMenu Extends LTGUIProject
 		SelectedProfile = L_CurrentProfile
 
 		L_CurrentProfile.Apply( [ Project, LTGUIProject( Self ) ] )
+		
+		Boss = TSound.Load( L_Incbin + "MouseMenu\sounds\boss.ogg", False )
+		ButtonClick = TSound.Load( L_Incbin + "MouseMenu\sounds\button_click.ogg", False )
+		Close = TSound.Load( L_Incbin + "MouseMenu\sounds\close.ogg", False )
+		SoundOn = TSound.Load( L_Incbin + "MouseMenu\sounds\sound_on.ogg", False )
 		
 		If Not L_Incbin Then ChangeDir( "MouseMenu" )
 		World = LTWorld.FromFile( "menu.lw" )
@@ -115,10 +122,6 @@ Type LTMenu Extends LTGUIProject
 	End Method
 	
 	Method InitSound()
-		Boss = TSound.Load( L_Incbin + "MouseMenu\sounds\boss.ogg", False )
-		ButtonClick = TSound.Load( L_Incbin + "MouseMenu\sounds\button_click.ogg", False )
-		Close = TSound.Load( L_Incbin + "MouseMenu\sounds\close.ogg", False )
-		SoundOn = TSound.Load( L_Incbin + "MouseMenu\sounds\sound_on.ogg", False )
 	End Method
 	
 	Method Logic()
@@ -134,6 +137,12 @@ Type LTMenu Extends LTGUIProject
 	End Method
 
 	Method DeInit()
+		Windows.Clear()
+		Cls()
+		LoadingBar = LTSlider( LoadWindow( World, , "LoadingWindow" ).FindShapeWithType( "LTSlider" ) )
+		L_LoadingUpdater = New LTLoadingWindowUpdater
+		L_LoadingUpdater.Update()
+		LTProfile.LoadMusic()
 		Windows.Clear()
 	End Method
 		
@@ -185,4 +194,14 @@ End Type
 
 
 Type LTAuthorsWindow Extends LTAudioWindow
+End Type
+
+
+
+Type LTLoadingWindowUpdater Extends LTObject
+	Method Update()
+		Menu.LoadingBar.Size = L_LimitDouble( 1.0 * L_LoadingTime / LTProfile.TotalMusicLoadingTime, 0.0, 1.0 )
+		Menu.WindowsRender()
+		Flip
+	End Method
 End Type

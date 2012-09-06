@@ -16,5 +16,4 @@ Incbin "images\combo_box.png"
 Incbin "frames\window_title.png"
 Incbin "images\up.png"
 Incbin "images\down.png"
-Incbin "frames\button2.png"
 L_SetIncbin( True )

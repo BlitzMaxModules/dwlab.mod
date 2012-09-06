@@ -166,7 +166,7 @@ Type LTSlider Extends LTGadget
 			If DValue Then
 				Select SelectionType
 					Case Moving
-						Position = L_LimitDouble( Size + DValue, 0.0, 1.0 )
+						Position = L_LimitDouble( Position + DValue, 0.0, 1.0 )
 					Case Filling
 						Size = L_LimitDouble( Size + DValue, 0.0, 1.0 )
 				End Select

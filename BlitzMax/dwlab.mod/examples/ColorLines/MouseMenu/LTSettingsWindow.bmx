@@ -107,13 +107,14 @@ Type LTSettingsWindow Extends LTAudioWindow
 	End Method
 	
 	Method Save()
-		Local NewScreen:Int, NewVideoDriver:Int, NewAudioDriver:Int, NewLanguage:Int
+		Local NewScreen:Int, NewLanguage:Int
 		
 		If L_CurrentProfile.Language <> Language.GetName() Then NewLanguage = True
 		L_CurrentProfile.Language = Language.GetName()
 		
-		If L_CurrentProfile.ScreenWidth <> Resolution.Width Or L_CurrentProfile.ScreenHeight <> Resolution.Height Or ..
-				L_CurrentProfile.ColorDepth <> ColorDepth.Bits Or L_CurrentProfile.Frequency <> Frequency.Hertz Then NewScreen = True
+		If L_CurrentProfile.FullScreen And ( L_CurrentProfile.ScreenWidth <> Resolution.Width Or ..
+				L_CurrentProfile.ScreenHeight <> Resolution.Height Or L_CurrentProfile.ColorDepth <> ColorDepth.Bits Or ..
+				L_CurrentProfile.Frequency <> Frequency.Hertz ) Then NewScreen = True
 		L_CurrentProfile.ScreenWidth = Resolution.Width
 		L_CurrentProfile.ScreenHeight = Resolution.Height
 		L_CurrentProfile.ColorDepth = ColorDepth.Bits
@@ -126,7 +127,7 @@ Type LTSettingsWindow Extends LTAudioWindow
 			NewScreen = True
 		End If
 		
-		If LTProfile.AudioDriver <> AudioDriver Then L_CurrentProfile.SetSoundDriver( Projects, AudioDriver )
+		If LTProfile.AudioDriver <> AudioDriver Then L_CurrentProfile.SetSoundDriver( AudioDriver )
 		
 		L_CurrentProfile.Apply( Projects, NewScreen, NewLanguage )
 	End Method

@@ -12,7 +12,6 @@ Rem
 bbdoc: Class for mouse wheel rollings.
 End Rem
 Type LTMouseWheelAction Extends LTPushable
-	Field Z:Int
 	Field Direction:Int
 	
 	
@@ -37,11 +36,18 @@ Type LTMouseWheelAction Extends LTPushable
 	
 	Method ProcessEvent()
 		If EventID() = Event_MouseWheel Then
-			If Direction * ( MouseZ() - Z ) > 0 Then
-				State = JustPressed
-				Z = MouseZ()
-			End If
+			If Sgn( EventData() ) = Direction Then State = JustPressed
 		End If
+	End Method
+	
+	
+	
+	Method Reset()
+		if State = JustPressed Then
+			State = JustUnpressed 
+		Else
+			Super.Reset()
+		End If	
 	End Method
 	
 	

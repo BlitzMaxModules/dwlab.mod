@@ -19,6 +19,8 @@ Rem
 bbdoc: Common object for item of game field.
 End Rem
 Type LTShape Extends LTObject
+	Global CloneParameters:Int = False
+
 	Field Parameters:TList
 
 	Rem
@@ -1310,7 +1312,14 @@ Type LTShape Extends LTObject
 	
 	
 	Method CopyShapeTo( Shape:LTShape )
-		Shape.Parameters = Parameters
+		If CloneParameters And Parameters Then
+			Shape.Parameters = New TList
+			For Local Parameter:LTParameter = Eachin Parameters
+				Shape.Parameters.AddLast( Parameter.Clone() )
+			Next
+		Else
+			Shape.Parameters = Parameters
+		End If
 		If Visualizer Then Shape.Visualizer = Visualizer.Clone()
 		Shape.X = X
 		Shape.Y = Y
@@ -1349,6 +1358,15 @@ End Type
 Type LTParameter Extends LTObject
 	Field Name:String
 	Field Value:String
+	
+	
+	
+	Method Clone:LTParameter()
+		Local NewParameter:LTParameter = New LTParameter
+		NewParameter.Name = Name
+		NewParameter.Value = Value
+		Return NewParameter
+	End Method
 	
 	
 	

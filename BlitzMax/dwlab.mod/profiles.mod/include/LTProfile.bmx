@@ -53,9 +53,13 @@ Type LTProfile Extends LTObject
 	Const Rising:Int = 3
 	Const NoMusic:Int = 4
 	
+	Global Music:TSound[]
+	Global MusicLoadingTime:Int[] 
+	Global TotalMusicLoadingTime:Int = 0
+	
 	Global ChannelsList:TList = New TList
 	Global PauseMusicFadingPeriod:Double = 500
-	Global NextMusicFadingPeriod:Double = 2000
+	Global NextMusicFadingPeriod:Double = 1000
 	
 	Rem
 	bbdoc: Name of the profile.
@@ -146,6 +150,7 @@ Type LTProfile Extends LTObject
 			End If
 		Next
 		
+		Local DefaultDriverTypeID:TTypeId = TTypeId.ForObject( GetGraphicsDriver() )
 		For Local DriverTypeID:TTypeId = Eachin TTypeID.ForName( "TMax2DDriver" ).DerivedTypes()
 			Local Driver:TMax2DDriver = Null
 			Local DriverName:String = ""
@@ -162,22 +167,56 @@ Type LTProfile Extends LTObject
 				If Name = "tostring" Then DriverName = String( TheMethod.Invoke( DriverObject, Null ) )
 			Next
 			If Driver Then
-				Local VideoDriver:LTVideoDriver = New LTVideoDriver
-				VideoDriver.Driver = Driver
-				VideoDriver.Name = DriverName
-				L_VideoDrivers.AddLast( VideoDriver )
+				Local VideoDrv:LTVideoDriver = New LTVideoDriver
+				VideoDrv.Driver = Driver
+				VideoDrv.Name = DriverName
+				L_VideoDrivers.AddLast( VideoDrv )
+				
+				If Not VideoDriver And DriverTypeID = DefaultDriverTypeID Then VideoDriver = DriverName
 			End If
 		Next
 		
-		For Local Driver:String = Eachin AudioDrivers()
-			L_AudioDrivers.AddLast( Driver )
-		Next
-		
+		L_AudioDrivers = TList.FromArray( AudioDrivers() )
+		If Not AudioDriver Then
+			?win32
+				If AudioDriverExists( "DirectSound" ) Then AudioDriver = "DirectSound"
+			?not win32
+				If AudioDriverExists( "OpenAL" ) Then AudioDriver = "OpenAL"
+			?
+		End If
+	End Function
+	
+	
+	
+	Function LoadMusic()
+		Local MusicList:TList = New TList
+		Local TotalTime:Int = 0
 		Repeat
-			If FileType( "music\" + MusicQuantity + ".ogg" ) <> 1 Then Exit
+			Local FileName:String = "music\" + MusicQuantity + ".ogg"
+			If FileType( FileName ) <> 1 Then Exit
+			
+			Local Time:Int = Millisecs()
+			MusicList.AddLast( LoadSound( FileName ) )
+			DebugLog( "Music #" + MusicQuantity + " loading time: " + ( Millisecs() - Time ) )
+			TotalTime :+ Millisecs() - Time
+			
+			If TotalMusicLoadingTime > 0 Then
+				L_LoadingTime :+ MusicLoadingTime[ MusicQuantity ]
+				L_LoadingProgress = 1.0 * L_LoadingTime / L_TotalLoadingTime
+				If L_LoadingUpdater Then L_LoadingUpdater.Update()
+			End If
+			
 			MusicQuantity :+ 1
 		Forever
-	End Function
+		DebugLog "Total music loading time: " + TotalTime
+		
+		Local N:Int = 0
+		Music = New TSound[ MusicQuantity ]
+		For Local Sound:TSound = Eachin MusicList
+			Music[ N ] = Sound
+			N :+ 1
+		Next	
+	End Function	
 	
 	
 	
@@ -189,10 +228,6 @@ Type LTProfile Extends LTObject
 	Function CreateDefault:LTProfile( ProfileTypeID:TTypeID )
 		Local Profile:LTProfile = LTProfile( ProfileTypeID.NewObject() )
 		Profile.Name = "{{P_Player}}"
-		Local TypeID:TTypeId = TTypeId.ForObject( GetGraphicsDriver() )
-		For Local Driver:LTVideoDriver = Eachin L_VideoDrivers
-			If TTypeID.ForObject( Driver.Driver ) = TypeID Then Profile.VideoDriver = Driver.Name
-		Next
 		
 		Local Resolution:LTScreenResolution = LTScreenResolution.Get()
 		Profile.ScreenWidth = Resolution.Width
@@ -200,12 +235,7 @@ Type LTProfile Extends LTObject
 		Local ColorDepth:LTColorDepth = LTColorDepth.Get( Resolution )
 		Profile.ColorDepth = ColorDepth.Bits
 		Profile.Frequency = LTFrequency.Get( ColorDepth ).Hertz
-		
-		?win32
-		If AudioDriverExists( "DirectSound" ) Then Profile.AudioDriver = "DirectSound"
-		?
-		If Not Profile.AudioDriver And AudioDrivers() Then Profile.AudioDriver = AudioDrivers()[ 0 ]
-		
+				
 		Profile.Init()
 		Profile.Reset()
 		Return Profile
@@ -291,7 +321,7 @@ Type LTProfile Extends LTObject
 	
 	
 	
-	Method SetSoundDriver( Projects:LTProject[], DriverName:String )
+	Method SetSoundDriver( DriverName:String )
 		For Local Channel:TChannel = Eachin ChannelsList
 			Channel.Stop()
 		Next
@@ -306,10 +336,6 @@ Type LTProfile Extends LTObject
 					
 		AudioDriver = DriverName
 		SetAudioDriver( AudioDriver )
-			
-		For Local Project:LTProject = Eachin Projects
-			Project.InitSound()
-		Next
 		
 		StartMusic()
 	End Method
@@ -352,7 +378,7 @@ Type LTProfile Extends LTObject
 
 	Method StartMusic()
 		If MusicMode > Paused Then Return
-		PlayMusic( LoadSound( "music\" + MusicNum + ".ogg" ) )
+		PlayMusic( Music[ MusicNum ] )
 	End Method
 	
 	

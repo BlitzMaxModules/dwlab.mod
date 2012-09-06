@@ -38,16 +38,19 @@ Type TGame Extends LTGUIProject
 	Field LeftMouse:LTButtonAction = LTButtonAction.Create( LTMouseButton.Create( 1 ), "Click" )
 	Field RightMouse:LTButtonAction = LTButtonAction.Create( LTMouseButton.Create( 2 ), "Swap" )
 
-	Field SwapSound:TSound
-	Field RushSound:TSound
-	Field StopSound:TSound
-	Field SelectSound:TSound
-	Field ExplosionSound:TSound
-	Field WrongTurnSound:TSound
+	Field SwapSound:TSound = LoadSound( L_Incbin + "sound\swap.ogg" )
+	Field RushSound:TSound = LoadSound( L_Incbin + "sound\rush.ogg" )
+	Field StopSound:TSound = LoadSound( L_Incbin + "sound\stop.ogg" )
+	Field SelectSound:TSound = LoadSound( L_Incbin + "sound\select.ogg" )
+	Field ExplosionSound:TSound = LoadSound( L_Incbin + "sound\explosion.ogg" )
+	Field WrongTurnSound:TSound = LoadSound( L_Incbin + "sound\wrong_turn.ogg" )
 	
 	Field ExitWindow:Int
 	
 	Method Init()
+		LTProfile.MusicLoadingTime = [ 3619, 1815 ]
+		LTProfile.TotalMusicLoadingTime = 5432
+		
 		SetGraphicsDriver( D3D7Max2DDriver() )
 		Interface = LTWorld.FromFile( "interface.lw" )
 		Levels = LTWorld.FromFile( "levels.lw" )
@@ -66,15 +69,6 @@ Type TGame Extends LTGUIProject
 	
 	Method InitGraphics()
 		If Profile Then Profile.InitGraphics()
-	End Method
-	
-	Method InitSound()
-		SwapSound = LoadSound( L_Incbin + "sound\swap.ogg" )
-		RushSound = LoadSound( L_Incbin + "sound\rush.ogg" )
-		StopSound = LoadSound( L_Incbin + "sound\stop.ogg" )
-		SelectSound = LoadSound( L_Incbin + "sound\select.ogg" )
-		ExplosionSound = LoadSound( L_Incbin + "sound\explosion.ogg" )
-		WrongTurnSound = LoadSound( L_Incbin + "sound\wrong_turn.ogg" )
 	End Method
 	
 	Method Logic()

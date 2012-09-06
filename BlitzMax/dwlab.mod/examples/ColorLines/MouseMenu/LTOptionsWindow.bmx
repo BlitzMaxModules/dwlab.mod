@@ -67,7 +67,6 @@ Type LTOptionsWindow Extends LTAudioWindow
 	
 	Method OnButtonDown( Gadget:LTGadget, ButtonAction:LTButtonAction )
 		Super.OnButtonDown( Gadget, ButtonAction )
-		If ButtonAction <> L_LeftMouseButton Then Return
 		Select Gadget.GetName()
 			Case "SoundVolume"
 				L_CurrentProfile.SetSoundVolume( LTSlider( Gadget ).Size )

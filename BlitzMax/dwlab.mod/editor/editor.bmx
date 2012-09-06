@@ -505,6 +505,8 @@ Type LTEditor Extends LTProject
 		
 		SetGraphics( CanvasGraphics( MainCanvas ) )
 		SetImageFont( LoadImageFont( "incbin::font.ttf", 16 ) )
+		
+		LTShape.CloneParameters = True
 	End Method
 	
 	

@@ -38,26 +38,26 @@ Type LTWindow Extends LTLayer
 			
 			If Gadget.CollidesWithSprite( L_Cursor ) Then
 				If Not MouseOver.Contains( Gadget ) Then
-					OnMouseOver( Gadget )
 					Gadget.OnMouseOver()
+					OnMouseOver( Gadget )
 					MouseOver.Insert( Gadget, Null )
 				End If
 				
 				For Local ButtonAction:LTButtonAction = Eachin L_GUIButtons
 					If ButtonAction.WasPressed() Then
-						OnButtonPress( Gadget, ButtonAction )
 						Gadget.OnButtonPress( ButtonAction )
+						OnButtonPress( Gadget, ButtonAction )
 					End If
 					If ButtonAction.WasUnpressed() Then
-						OnButtonUnpress( Gadget, ButtonAction )
 						Gadget.OnButtonUnpress( ButtonAction )
+						OnButtonUnpress( Gadget, ButtonAction )
 					End If
 					If ButtonAction.IsDown() Then
-						OnButtonDown( Gadget, ButtonAction )
 						Gadget.OnButtonDown( ButtonAction )
+						OnButtonDown( Gadget, ButtonAction )
 					Else
-						OnButtonUp( Gadget, ButtonAction )
 						Gadget.OnButtonUp( ButtonAction )
+						OnButtonUp( Gadget, ButtonAction )
 					End If
 				Next
 			ElseIf MouseOver.Contains( Gadget ) Then
@@ -132,10 +132,10 @@ Type LTWindow Extends LTLayer
 	<ul><li>"save" - executes window's Save() method. Intended for saving data changed by window.
 	<lI>"close" - closes the window.
 	<li>"end" - forces exit from current project.
-	<li>"window" - opens a window with given name
-	<li>"window_class" - opens a window of given class
 	<li>"save_and_close" - performs "save" and "close" actions
 	<li>"save_and_end" - performs "save" and "end" actions</ul>
+	"window" parameter opens a window with given name
+	"window_class" parameter opens a window of given class
 	
 	See also: #OnButtonPress, #OnButtonDown, #OnButtonUp, #OnMouseOver, #OnMouseOut
 	End Rem
