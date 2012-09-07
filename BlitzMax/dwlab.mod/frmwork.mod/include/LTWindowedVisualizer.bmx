@@ -40,6 +40,31 @@ Type LTWindowedVisualizer Extends LTVisualizer
 	
 	
 	
+	
+	Method DrawUsingLineSegment( LineSegment:LTLineSegment )
+		Local X:Int, Y:Int, Width:Int, Height:Int
+		GetViewport( X, Y, Width, Height )
+		
+		Viewport.SetAsViewport()
+		Visualizer.DrawUsingLineSegment( LineSegment )
+		
+		SetViewport( X, Y, Width, Height )
+	End Method
+	
+	
+
+	Method DrawUsingTileMap( TileMap:LTTileMap, Shapes:TList = Null )
+		Local X:Int, Y:Int, Width:Int, Height:Int
+		GetViewport( X, Y, Width, Height )
+		
+		Viewport.SetAsViewport()
+		Visualizer.DrawUsingTileMap( TileMap, Shapes )
+		
+		SetViewport( X, Y, Width, Height )
+	End Method
+	
+	
+	
 	Method GetFacing:Double()
 		Return Visualizer.GetFacing()
 	End Method
