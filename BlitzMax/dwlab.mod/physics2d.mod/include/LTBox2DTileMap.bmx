@@ -32,11 +32,10 @@ Type LTBox2DTileMap Extends LTTileMap
 		Local FilledTile:Int[,] = New Int[ XQuantity, YQuantity ]
 		For Local Y:Int = 0 Until YQuantity
 			For Local X:Int = 0 Until XQuantity
+				FilledTile[ X, Y ] = -1
 				Local CollisionShape:LTShape = TileSet.CollisionShape[ Value[ X, Y ] ]
 				If Not CollisionShape Then Continue
 				Local CollisionSprite:LTSprite = LTSprite( CollisionShape )
-				Local BX:Float = LeftX() + ( 0.5 + X ) * GetTileWidth()
-				Local BY:Float = TopY() + ( 0.5 + Y ) * GetTileHeight()
 				If CollisionSprite Then
 					If CollisionSprite.ShapeType = LTSprite.Rectangle And  CollisionSprite.X = 0.5:Double And CollisionSprite.Y = 0.5:Double ..
 							And CollisionSprite.Width = 1.0:Double And CollisionSprite.Height = 1.0:Double Then
@@ -54,26 +53,27 @@ Type LTBox2DTileMap Extends LTTileMap
 		
 		For Local Y:Int = 0 Until YQuantity
 			For Local X:Int = 0 Until XQuantity
-				If Not FilledTile[ X, Y ] Then Continue
+				If FilledTile[ X, Y ] < 0 Then Continue
 				
-				Local CollisonLayer:Int = FilledTile[ X, Y ]
+				Local CollLayer:Int = FilledTile[ X, Y ]
 				
 				Local X2:Int
 				For X2 = X + 1 Until XQuantity
-					If Not FilledTile[ X2, Y ] Then Exit
+					If FilledTile[ X2, Y ] <> CollLayer Then Exit
 				Next
 				
-				Local Y2:Int, XX:Int
+				Local Y2:Int
 				For Y2 = Y + 1 Until YQuantity
+					Local XX:Int
 					For XX = X Until X2
-						If FilledTile[ XX, Y2 ] <> CollisionLayer Then Exit
+						If FilledTile[ XX, Y2 ] <> CollLayer Then Exit
 					Next
 					If XX < X2 Then Exit
 				Next
 				
 				For Local YY:Int = Y Until Y2
 					For Local XX:Int = X Until X2
-						FilledTile[ XX, YY ] = False
+						FilledTile[ XX, YY ] = -1
 					Next
 				Next
 				

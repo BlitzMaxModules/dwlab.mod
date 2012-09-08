@@ -970,15 +970,16 @@ Type LTShape Extends LTObject
 	about: These parameters forms a rectangle on game field which will be viewport for displaying the sprite.
 	All sprite parts which are outside this rectangle will not be displayed.
 	
-	See also: #LimitByWindowShape, #RemoveWindowLimit
+	See also: #LimitByWindowShape, #LimitByWindowShapes, #RemoveWindowLimit
 	End Rem
 	Method LimitByWindow( X:Double, Y:Double, Width:Double, Height:Double )
 		Local NewVisualizer:LTWindowedVisualizer = New LTWindowedVisualizer
-		NewVisualizer.Viewport = New LTShape
-		NewVisualizer.Viewport.X = X
-		NewVisualizer.Viewport.Y = Y
-		NewVisualizer.Viewport.Width = Width
-		NewVisualizer.Viewport.Height = Height
+		NewVisualizer.Viewports = New LTShape[ 1 ]
+		NewVisualizer.Viewports[ 0 ] = New LTShape
+		NewVisualizer.Viewports[ 0 ].X = X
+		NewVisualizer.Viewports[ 0 ].Y = Y
+		NewVisualizer.Viewports[ 0 ].Width = Width
+		NewVisualizer.Viewports[ 0 ].Height = Height
 		NewVisualizer.Visualizer = Visualizer
 		Visualizer = NewVisualizer
 	End Method
@@ -989,10 +990,34 @@ Type LTShape Extends LTObject
 	bbdoc: Limits sprite displaying by given rectangular shape.
 	about: All sprite parts which are outside this rectangle will not be displayed.
 	
-	See also: #LimitByWindow, #RemoveWindowLimit
+	See also: #LimitByWindow, #LimitByWindowShapes, #RemoveWindowLimit
 	End Rem
 	Method LimitByWindowShape( Shape:LTShape )
-		LimitByWindow( Shape.X, Shape.Y, Shape.Width, Shape.Height )
+		Local NewVisualizer:LTWindowedVisualizer = New LTWindowedVisualizer
+		NewVisualizer.Viewports = New LTShape[ 1 ]
+		NewVisualizer.Viewports[ 0 ] = New LTShape
+		Shape.CopyShapeTo( NewVisualizer.Viewports[ 0 ] )
+		NewVisualizer.Visualizer = Visualizer
+		Visualizer = NewVisualizer
+	End Method
+	
+	
+	
+	Rem
+	bbdoc: Limits sprite displaying by given rectangular shapes.
+	about: All sprite parts which are outside these rectangles will not be displayed.
+	
+	See also: #LimitByWindow, #LimitByWindowShape, #RemoveWindowLimit
+	End Rem
+	Method LimitByWindowShapes( Shapes:LTShape[] )
+		Local NewVisualizer:LTWindowedVisualizer = New LTWindowedVisualizer
+		NewVisualizer.Viewports = New LTShape[ Shapes.Length ]
+		For Local N:Int = 0 Until Shapes.Length
+			NewVisualizer.Viewports[ N ] = New LTShape
+			Shapes[ N ].CopyShapeTo( NewVisualizer.Viewports[ N ] )
+		Next
+		NewVisualizer.Visualizer = Visualizer
+		Visualizer = NewVisualizer
 	End Method
 	
 	

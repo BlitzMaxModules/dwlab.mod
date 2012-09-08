@@ -38,9 +38,9 @@ Type LTHighScoresList Extends LTMenuListBox
 		
 		SetColor( 0, 0, 0 )
 		Local HighScore:LTHighScore = LTHighScore( Item )
-		Sprite.PrintText( ( Num + 1 ) + ".", TextSize, LTAlign.ToLeft, , , , 0.25 )
-		Sprite.PrintText( HighScore.Name, TextSize, LTAlign.ToLeft, , , , 0.6 )
-		Sprite.PrintText( HighScore.Score, TextSize, LTAlign.ToRight, , , , -0.25 )
+		Sprite.PrintText( ( Num + 1 ) + ".", TextSize, LTAlign.ToLeft, , 0.25 )
+		Sprite.PrintText( HighScore.Name, TextSize, LTAlign.ToLeft, , 0.6 )
+		Sprite.PrintText( HighScore.Score, TextSize, LTAlign.ToRight, , 0.25 )
 		LTVisualizer.ResetColor()
 	End Method
 End Type
@@ -54,7 +54,7 @@ Type LTHighScore Extends LTObject
 	
 	Function Create:LTHighScore( Name:String, Score:Int, Achievements:TList = Null )
 		Local HighScore:LTHighScore = New LTHighScore
-		HighScore.Name = Name
+		HighScore.Name = LocalizeString( Name )
 		HighScore.Score = Score
 		HighScore.Achievements = Achievements
 		Return HighScore

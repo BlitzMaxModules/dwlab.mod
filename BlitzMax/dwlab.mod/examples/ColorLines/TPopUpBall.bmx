@@ -37,7 +37,7 @@ Type TPopUpBall Extends LTBehaviorModel
 	Method ApplyTo( Shape:LTShape )
 		Local Angle:Double = StartingAngle + ( Game.Time - StartingTime ) * ( EndingAngle - StartingAngle ) / Period
 		Local Scale:Double = Sin( Angle ) / Sin( EndingAngle )
-		Shape.Visualizer.SetVisualizerScale( Scale, 2.0 * Scale )
+		Shape.Visualizer.SetVisualizerScale( Scale, 1.0 * Scale )
 		If Game.Time > StartingTime + Period Then Remove( Shape )
 	End Method
 	

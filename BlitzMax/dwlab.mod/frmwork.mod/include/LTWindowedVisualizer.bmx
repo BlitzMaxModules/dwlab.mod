@@ -9,7 +9,7 @@
 '
 
 Type LTWindowedVisualizer Extends LTVisualizer
-	Field Viewport:LTShape
+	Field Viewports:LTShape[]
 	Field Visualizer:LTVisualizer
 	
 	
@@ -32,8 +32,10 @@ Type LTWindowedVisualizer Extends LTVisualizer
 		Local X:Int, Y:Int, Width:Int, Height:Int
 		GetViewport( X, Y, Width, Height )
 		
-		Viewport.SetAsViewport()
-		Visualizer.DrawUsingSprite( Sprite, SpriteShape )
+		For Local Viewport:LTShape = Eachin Viewports
+			Viewport.SetAsViewport()
+			Visualizer.DrawUsingSprite( Sprite, SpriteShape )
+		Next
 		
 		SetViewport( X, Y, Width, Height )
 	End Method
@@ -45,8 +47,10 @@ Type LTWindowedVisualizer Extends LTVisualizer
 		Local X:Int, Y:Int, Width:Int, Height:Int
 		GetViewport( X, Y, Width, Height )
 		
-		Viewport.SetAsViewport()
-		Visualizer.DrawUsingLineSegment( LineSegment )
+		For Local Viewport:LTShape = Eachin Viewports
+			Viewport.SetAsViewport()
+			Visualizer.DrawUsingLineSegment( LineSegment )
+		Next
 		
 		SetViewport( X, Y, Width, Height )
 	End Method
@@ -57,8 +61,10 @@ Type LTWindowedVisualizer Extends LTVisualizer
 		Local X:Int, Y:Int, Width:Int, Height:Int
 		GetViewport( X, Y, Width, Height )
 		
-		Viewport.SetAsViewport()
-		Visualizer.DrawUsingTileMap( TileMap, Shapes )
+		For Local Viewport:LTShape = Eachin Viewports
+			Viewport.SetAsViewport()
+			Visualizer.DrawUsingTileMap( TileMap, Shapes )
+		Next
 		
 		SetViewport( X, Y, Width, Height )
 	End Method

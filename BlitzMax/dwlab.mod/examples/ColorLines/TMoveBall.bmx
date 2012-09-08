@@ -35,7 +35,7 @@ Type TMoveBall Extends LTBehaviorModel
 		Else
 			Shape.PositionOnTileMap( Profile.GameField, X, Y )
 			Local K:Double = ( Game.Time - StartingTime ) / Period
-			Shape.AlterCoords( DX * K + DY * Sin( K * 180 ) * Bump, DY * K + DX * Sin( K * 180 ) * Bump )
+			Shape.AlterCoords( DX * K + DY * Sin( K * 180 ) * Bump, DY * K * 0.75 + DX * Sin( K * 180 ) * Bump )
 		End If
 	End Method
 	

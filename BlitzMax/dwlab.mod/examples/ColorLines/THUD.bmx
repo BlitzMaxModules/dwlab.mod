@@ -36,15 +36,17 @@ Type THUD Extends LTWindow
 	Method Draw()
 		Super.Draw()
 		if Profile.NextBalls Then
-			Local StartingX:Double = FindShape( "Balls" ).X - 0.5 * Distance * ( Profile.NextBalls.Dimensions()[ 0 ] - 1 )
-			Local N:Int = 0
-			Ball.SetDiameter( Size )
-			For Local BallNum:Int = Eachin Profile.NextBalls
-				Ball.SetX( StartingX + N * Distance )
-				Ball.Frame = BallNum
-				Ball.Draw()
-				N :+ 1
-			Next
+			If Profile.NextBalls.Length <= 5 Then
+				Local StartingX:Double = FindShape( "Balls" ).X - 0.5 * Distance * ( Profile.NextBalls.Dimensions()[ 0 ] - 1 )
+				Local N:Int = 0
+				Ball.SetDiameter( Size )
+				For Local BallNum:Int = Eachin Profile.NextBalls
+					Ball.SetX( StartingX + N * Distance )
+					Ball.Frame = BallNum
+					Ball.Draw()
+					N :+ 1
+				Next
+			End If
 		End If
 		
 		Local GoalX:Double = Goal1X

@@ -143,7 +143,7 @@ Type LTSlider Extends LTGadget
 								Position = L_LimitDouble( StartingPosition + ( L_Cursor.Y - StartingY ) / Height / ( 1.0 - Size ), 0.0, 1.0 )
 						End Select
 						
-						If ListBox Then ListBox.Shift = Position * ( ContentsSize - ListBoxSize )'; DebugLog ContentsSize + "," + ListBoxSize + "," + ListBox.Shift
+						If ListBox Then ListBox.Shift = Max( Position * ( ContentsSize - ListBoxSize ), 0.0 )
 					Else
 						Dragging = True
 						StartingX = L_Cursor.X
@@ -163,10 +163,12 @@ Type LTSlider Extends LTGadget
 			Local DValue:Double = 0
 			If ButtonAction = L_MouseWheelDown Then DValue = -MouseWheelValue
 			If ButtonAction = L_MouseWheelUp Then DValue = MouseWheelValue
+			if SliderType = Vertical Then DValue = -DValue
 			If DValue Then
 				Select SelectionType
 					Case Moving
 						Position = L_LimitDouble( Position + DValue, 0.0, 1.0 )
+						If ListBox Then ListBox.Shift = Max( Position * ( ContentsSize - ListBoxSize ), 0.0 )
 					Case Filling
 						Size = L_LimitDouble( Size + DValue, 0.0, 1.0 )
 				End Select

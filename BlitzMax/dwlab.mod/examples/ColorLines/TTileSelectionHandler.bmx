@@ -33,15 +33,8 @@ Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
 			End If
 		ElseIf Game.RightMouse.WasPressed() 
 			if BallNum = Profile.Bomb Then
-				For Local DY:Int = -1 To 1
-					For Local DX:Int = -1 To 1
-						Local XDX:Int = TileX + DX
-						Local YDY:Int = TileY + DY
-						If XDX > 0 And YDY > 0 And XDX < Profile.Balls.XQuantity - 1 And YDY < Profile.Balls.YQuantity - 1 Then
-							TExplosion.Create( XDX, YDY )
-						End If
-					Next
-				Next
+				L_CurrentProfile.PlaySnd( Game.ExplosionSound )
+				ExplodeBomb( TileX, TileY )
 			ElseIf ModifierNum = Profile.AnyColor Then
 				Local Project:TColorSelection = New TColorSelection
 				Project.TileX = TileX
@@ -66,6 +59,21 @@ Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
 			End If
 		End If
 	End Method
+	
+	Function ExplodeBomb( TileX:Int, TileY:Int )
+		For Local DY:Int = -1 To 1
+			For Local DX:Int = -1 To 1
+				Local XDX:Int = TileX + DX
+				Local YDY:Int = TileY + DY
+				If XDX > 0 And YDY > 0 And XDX < Profile.Balls.XQuantity - 1 And YDY < Profile.Balls.YQuantity - 1 Then
+					Local isBomb:Int = False
+					If Profile.Balls.GetTile( XDX, YDY ) = Profile.Bomb Then isBomb = True
+					TExplosion.Create( XDX, YDY )
+					If isBomb Then ExplodeBomb( XDX, YDY )
+				End If
+			Next
+		Next
+	End Function
 End Type
 
 

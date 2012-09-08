@@ -29,6 +29,7 @@ Type LTListBox Extends LTGadget
 	End Rem
 	Field ItemSize:Double = 1.0
 	Field Shift:Double
+	Field Slider:LTSLider
 	
 	
 	Method GetClassTitle:String()
@@ -40,6 +41,7 @@ Type LTListBox Extends LTGadget
 	Method Init()
 		Super.Init()
 		If ParameterExists( "item-size" ) Then ItemSize = GetParameter( "item-size" ).ToDouble()
+		Slider = LTSlider( L_Window.FindShapeWithParameter( "list_box_name", GetName(), , True ) )
 	End Method
 	
 	
@@ -93,6 +95,22 @@ Type LTListBox Extends LTGadget
 			Num = Floor( ( L_Cursor.X - LeftX() + Shift ) / ItemSize )
 		End If
 		If Num >= 0 And Num < Items.Count() Then OnButtonPressOnItem( ButtonAction, Items.ValueAtIndex( Num ), Num )
+		
+		Local DValue:Double = 0
+		If ButtonAction = L_MouseWheelDown Then DValue = -1
+		If ButtonAction = L_MouseWheelUp Then DValue = 1
+		If DValue Then
+			Local ListBoxSize:Double
+			If ListType = Vertical Then
+				ListBoxSize = Height
+				DValue = -DValue
+			Else
+				ListBoxSize = Width
+			End If
+			Local MaxShift:Double = Max( 0.0, ItemSize * Items.Count() - ListBoxSize )
+			Shift = L_LimitDouble( Shift + DValue * ItemSize, 0.0, MaxShift )
+			If Slider And MaxShift > 0 Then Slider.Position = Shift / MaxShift
+		End If
 	End Method
 	
 	
