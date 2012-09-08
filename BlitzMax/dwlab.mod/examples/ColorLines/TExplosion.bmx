@@ -44,7 +44,9 @@ Type TExplosion
 		Select TileNum
 			Case Profile.Glue, Profile.ColdGlue
 		 		Profile.GameField.SetTile( X, Y, TileNum - 1 )
-				For Local Goal:TRemoveGlue = Eachin Profile.Goals
+			Case Profile.Ice, Profile.ColdIce
+		 		Profile.GameField.SetTile( X, Y, TileNum - 2 )
+				For Local Goal:TRemoveIce = Eachin Profile.Goals
 					Goal.Count :- 1
 				Next
 		End Select

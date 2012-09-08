@@ -26,6 +26,9 @@ Include "LTHighScoresList.bmx"
 Include "LTAuthorsList.bmx"
 Include "LTGameOverWindow.bmx"
 Include "LTExitWindow.bmx"
+Include "LTLevelSelectionWindow.bmx"
+Include "LTLevelsList.bmx"
+Include "LTLevelWindow.bmx"
 
 Global L_OldIncbin:String = L_Incbin
 Global L_MenuPath:String

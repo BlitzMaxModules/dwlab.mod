@@ -8,18 +8,18 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TLevelSelectionWindow Extends LTAudioWindow
+Type LTLevelSelectionWindow Extends LTAudioWindow
 	Method Init()
 		Super.Init()
 		DestinationY = 0
 	End Method
 	
 	Method Save()
-		Local List:TLevelsList = TLevelsList( FindShapeWithType( "TLevelsList" ) )
+		Local List:LTLevelsList = LTLevelsList( FindShapeWithType( "LTLevelsList" ) )
 		If List.SelectedLevel Then
-			Profile.LoadLevel( LTLayer( List.SelectedLevel ) )
-			Project.Locked = False
-			DestinationY = -LTMenuWindow( Project.FindWindow( "LTMenuWindow" ) ).Panel.Height
+			L_CurrentProfile.LoadLevel( LTLayer( List.SelectedLevel ) )
+			Menu.Project.Locked = False
+			DestinationY = -LTMenuWindow( Menu.Project.FindWindow( "LTMenuWindow" ) ).Panel.Height
 		End If
 	End Method
 End Type

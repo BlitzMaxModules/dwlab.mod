@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TLevelsList Extends LTMenuListBox
+Type LTLevelsList Extends LTMenuListBox
 	Field Speed:Double
 	
 	Field SelectedLevel:Object
@@ -17,7 +17,7 @@ Type TLevelsList Extends LTMenuListBox
 		Super.Init()
 		Items = New TList
 		For Local Layer:LTLayer = Eachin Game.Levels
-			If Layer.GetName().StartsWith( "Level" ) Then Items.AddLast( Layer )
+			Items.AddLast( Layer )
 		Next
 	End Method
 	

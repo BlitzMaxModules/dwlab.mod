@@ -9,13 +9,16 @@
 '
 
 Type TGoal Extends LTObject
-	Field Icon:Int
 	Field Count:Int
 	
+	Method GetIcon:Int()
+		Return 0
+	End Method
+		
 	Method Draw( X:Double, IconShape:LTSprite, BallShape:LTSprite, CountShape:LTLabel )
 		If IconShape Then
 			IconShape.SetX( X - 0.5 * IconShape.Width )
-			IconShape.Frame = Icon
+			IconShape.Frame = GetIcon()
 			IconShape.Draw()
 		End If
 		
@@ -54,7 +57,6 @@ Type TGetScore Extends TGoal
 	Function Create( Score:Int )
 		Local Goal:TGetScore = New TGetScore
 		Goal.Count = Score
-		Goal.Icon = 0
 		Profile.Goals.AddLast( Goal )
 	End Function
 End Type
@@ -64,12 +66,8 @@ End Type
 Type TRemoveBalls Extends TGoal
 	Field BallType:Int
 	
-	Method Draw( X:Double, IconShape:LTSprite, BallShape:LTSprite, CountShape:LTLabel )
-		Super.Draw( X, Null, Null, CountShape )
-		BallShape.SetX( X - 0.5 * IconShape.Width )
-		BallShape.SetDiameter( IconShape.GetDiameter() )
-		BallShape.Frame = BallType
-		BallShape.Draw()
+	Method GetIcon:Int()
+		Return BallType
 	End Method
 	
 	Function Create( BallType:Int, Quantity:Int )
@@ -126,11 +124,14 @@ End Type
 
 
 
-Type TRemoveGlue Extends TGoal
+Type TRemoveIce Extends TGoal
+	Method GetIcon:Int()
+		Return 14
+	End Method
+	
 	Function Create( Quantity:Int )
-		Local Goal:TRemoveGlue = New TRemoveGlue
+		Local Goal:TRemoveIce = New TRemoveIce
 		Goal.Count = Quantity
-		Goal.Icon = 1
 		Profile.Goals.AddLast( Goal )
 	End Function
 End Type

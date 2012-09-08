@@ -577,6 +577,10 @@ Type LTProfile Extends LTObject
 	
 	
 	
+	Method LoadLevel( Level:LTLayer )
+	End Method
+	
+	
 	Rem
 	bbdoc: Clones the profile
 	returns: Profile which is exact copy of given.

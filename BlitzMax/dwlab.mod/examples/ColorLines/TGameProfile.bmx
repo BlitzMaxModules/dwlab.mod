@@ -12,8 +12,10 @@ Type TGameProfile Extends LTProfile
 	Const Void:Int = 0
 	Const Plate:Int = 1
 	Const Glue:Int = 2
+	Const Ice:Int = 3
 	Const ColdPlate:Int = 4
 	Const ColdGlue:Int = 5
+	Const ColdIce:Int = 6
 	Const ClosedPocket:Int = 7
 	
 	Const OpenedPocket:Int = 8
@@ -33,6 +35,7 @@ Type TGameProfile Extends LTProfile
 	Field Balls:LTTileMap
 	Field Modifiers:LTTileMap
 	Field NextBalls:Int[]
+	Field Pool:TList = New TList
 	Field Goals:TList = New TList
 	Field Score:Int
 	Field BallsInLine:Int
@@ -41,6 +44,7 @@ Type TGameProfile Extends LTProfile
 	Field OrthogonalLines:Int
 	Field DiagonalLines:Int
 	Field Overflow:Int
+	Field CurrentLevelName:String
 	
 	Field BossKey:LTButtonAction
 	Field ExitToMenu:LTButtonAction
@@ -72,7 +76,8 @@ Type TGameProfile Extends LTProfile
 		DiagonalLines = True
 		Overflow = True
 		
-		Goals = New TList
+		Goals.Clear()
+		Pool.Clear()
 		For Local Parameter:LTParameter = Eachin Level.Parameters
 			Local IntValue:Int = Parameter.Value.ToInt()
 			Local Parameters:String[] = Parameter.Value.Split( "," )
@@ -97,17 +102,25 @@ Type TGameProfile Extends LTProfile
 					TRemoveBalls.Create( Parameters[ 0 ].ToInt(), Parameters[ 1 ].ToInt() )
 				Case "remove_combinations"
 					TRemoveCombinations.Create( Parameters[ 0 ].ToInt(), Parameters[ 1 ].ToInt(), Parameters[ 2 ].ToInt() )
-				Case "remove_glue"
-					TRemoveGlue.Create( IntValue )
+				Case "remove_ice"
+					TRemoveIce.Create( IntValue )
+				Case "bomb"
+					AddPoolObject( 10, Parameter.Value.ToDouble() )
 			End Select
 		Next
+		
+		Local TotalPercent:Double = 0
+		For Local PoolObject:TPoolObject = Eachin Pool
+			TotalPercent :+ PoolObject.Percent
+		Next
+		AddPoolObject( 9, 100 - TotalPercent )
 		
 		For Local Y:Int = 0 Until GameField.YQuantity
 			For Local X:Int = 0 Until GameField.XQuantity
 				If Balls.GetTile( X, Y ) = RandomBall Then Balls.SetTile( X, Y, Rand( 1, 7 ) )
 			Next
 		Next
-		
+
 		InitLevel()
 			
 		NextBalls = New Int[ BallsPerTurn ]
@@ -116,6 +129,13 @@ Type TGameProfile Extends LTProfile
 		Game.Locked = True
 	End Method
 		
+	Method AddPoolObject( Num:Int, Percent:Double )
+		Local PoolObject:TPoolObject = New TPoolObject
+		PoolObject.Num = Num
+		PoolObject.Percent = Percent
+		Pool.AddLast( PoolObject )
+	End Method
+	
 	Method InitLevel()
 		If Not GameField Then Return
 		Game.PathFinder.Map = GameField
@@ -161,7 +181,18 @@ Type TGameProfile Extends LTProfile
 	
 	Method FillNextBalls()
 		For Local N:Int = 0 Until BallsPerTurn
-			NextBalls[ N ] = Rand( 1, 7 )
+			Local Choice:Double = Rnd( 100 )
+			For Local PoolObject:TPoolObject = Eachin Pool
+				Choice :- PoolObject.Percent
+				If Choice < 0 Then
+					If PoolObject.Num = 9 Then 
+						NextBalls[ N ] = Rand( 1, 7 )
+					Else
+						NextBalls[ N ] = PoolObject.Num
+					End If
+					Exit
+				End If
+			Next
 		Next
 	End Method
 	
@@ -223,4 +254,11 @@ Type TCell
 		List.Remove( Cell )
 		Return Cell
 	End Function
+End Type
+
+
+
+Type TPoolObject
+	Field Num:Int
+	Field Percent:Double
 End Type

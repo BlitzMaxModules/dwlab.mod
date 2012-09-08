@@ -77,8 +77,8 @@ Type TGame Extends LTGUIProject
 	
 		If Not Locked Then
 			If Not Profile.GameField Then
-				LoadWindow( Interface, "TLevelSelectionWindow" )
-				Locked = True
+				If Not Profile.CurrentLevelName Then Profile.CurrentLevelName = LTShape( Levels.Children.First() ).GetName()
+				Profile.LoadLevel( LTLayer( Levels.FindShape( Profile.CurrentLevelName ) ) )
 			Else
 				Game.SelectedTileX = -1
 				L_Cursor.CollisionsWithTileMap( Profile.GameField, TileSelectionHandler )

@@ -36,8 +36,6 @@ Include "TGoal.bmx"
 Include "TBall.bmx"
 Include "MouseMenu/Menu.bmx"
 Include "TRestartButton.bmx"
-Include "TLevelsList.bmx"
-Include "TLevelSelectionWindow.bmx"
 
 
 Rem
