@@ -20,6 +20,8 @@ ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
+ModuleInfo "History: v1.0.1 (16.07.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added collision layer support for tilemap filled tiles partitioning."
 ModuleInfo "History: v1.0 (16.07.12)"
 ModuleInfo "History: &nbsp; &nbsp; Initial release."
 
