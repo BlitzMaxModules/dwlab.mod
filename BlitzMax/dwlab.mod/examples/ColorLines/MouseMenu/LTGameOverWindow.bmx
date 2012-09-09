@@ -41,7 +41,7 @@ Type LTGameOverWindow Extends LTAudioWindow
 		End If
 		
 		DestinationY = 0
-		Menu.Project.LoadWindow( Menu.World, "LTScoresWindow" )
+		Menu.Project.LoadWindow( Menu.Interface, "LTScoresWindow" )
 		
 		Profile.Reset()
 		Profile.Load()

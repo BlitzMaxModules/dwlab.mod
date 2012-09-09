@@ -61,4 +61,9 @@ Type THUD Extends LTWindow
 		LTLabel( FindShape( "Score" ) ).Text = Profile.Score
 		LTLabel( FindShape( "CurrentProfile" ) ).Text = LocalizeString( Profile.Name )
 	End Method
+	
+	Method OnButtonPress( Gadget:LTGadget, ButtonAction:LTButtonAction )
+		If ButtonAction <> L_LeftMouseButton Then Return
+		If Gadget.GetName() = "GiveUp" Then Game.LoadWindow( Menu.Interface, "LTRestartWindow" )
+	End Method
 End Type

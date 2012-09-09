@@ -136,6 +136,8 @@ Type LTProfile Extends LTObject
 	Field MinGrainYQuantity:Int = 36
 	Field MaxGrainYQuantity:Int = 48
 	
+	Field FirstLockedLevel:String
+	
 	
 	
 	Rem

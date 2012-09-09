@@ -16,7 +16,7 @@ Type LTLevelsList Extends LTMenuListBox
 	Method Init()
 		Super.Init()
 		Items = New TList
-		For Local Layer:LTLayer = Eachin Game.Levels
+		For Local Layer:LTLayer = Eachin Menu.Levels
 			Items.AddLast( Layer )
 		Next
 	End Method

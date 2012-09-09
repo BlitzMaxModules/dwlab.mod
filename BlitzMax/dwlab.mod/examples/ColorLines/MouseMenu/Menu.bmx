@@ -56,7 +56,8 @@ Global Menu:LTMenu = New LTMenu
 
 Type LTMenu Extends LTGUIProject
 	Field Project:LTGUIProject
-	Field World:LTWorld
+	Field Interface:LTWorld
+	Field Levels:LTWorld
 	Field LoadingBar:LTSlider
 	
 	Field ProfileTypeID:TTypeId = TTypeId.ForName( "LTProfile" )
@@ -66,6 +67,8 @@ Type LTMenu Extends LTGUIProject
 	Field HighScores:TList = New TList
 	Field MaxHighScores:Int = 10
 	Field NewHighScore:Int = -1
+	
+	Field LevelName:String
 	
 	Field GameState:LTObject
 	
@@ -100,11 +103,11 @@ Type LTMenu Extends LTGUIProject
 		SoundOn = TSound.Load( L_Incbin + "MouseMenu\sounds\sound_on.ogg", False )
 		
 		If Not L_Incbin Then ChangeDir( "MouseMenu" )
-		World = LTWorld.FromFile( "menu.lw" )
+		Interface = LTWorld.FromFile( "menu.lw" )
 		If Not L_Incbin Then ChangeDir( ".." )
 		L_Incbin = L_OldIncbin
 		
-		LoadWindow( World, "LTLanguageSelectionWindow" )
+		LoadWindow( Interface, "LTLanguageSelectionWindow" )
 		SetLocalizationLanguage( LTProfile.GetLanguage( L_CurrentProfile.Language ) )
 		
 		Rem
@@ -142,7 +145,7 @@ Type LTMenu Extends LTGUIProject
 	Method DeInit()
 		Windows.Clear()
 		Cls()
-		LoadingBar = LTSlider( LoadWindow( World, , "LoadingWindow" ).FindShapeWithType( "LTSlider" ) )
+		LoadingBar = LTSlider( LoadWindow( Interface, , "LoadingWindow" ).FindShapeWithType( "LTSlider" ) )
 		L_LoadingUpdater = New LTLoadingWindowUpdater
 		L_LoadingUpdater.Update()
 		LTProfile.LoadMusic()
@@ -150,8 +153,8 @@ Type LTMenu Extends LTGUIProject
 	End Method
 		
 	Method AddPanels()
-		Project.LoadWindow( World, "LTMenuWindow" )
-		Project.LoadWindow( World, "LTOptionsWindow" )
+		Project.LoadWindow( Interface, "LTMenuWindow" )
+		Project.LoadWindow( Interface, "LTOptionsWindow" )
 		Project.Locked = True
 	End Method
 	
@@ -172,8 +175,36 @@ Type LTMenu Extends LTGUIProject
 	
 	Method LoadGameOverWindow( Title:String = "Game over" )
 		Profile.GameField = Null
-		LTLabel( Project.LoadWindow( World, "LTGameOverWindow" ).FindShape( "GameOver" ) ).Text = LocalizeString( "{{" + Title + "}}" )
+		LTLabel( Project.LoadWindow( Interface, "LTGameOverWindow" ).FindShape( "GameOver" ) ).Text = LocalizeString( "{{" + Title + "}}" )
 		Project.Locked = True
+	End Method
+	
+	Method LoadFirstLevel()
+		L_CurrentProfile.FirstLockedLevel = LTShape( Levels.Children.First() ).GetName()
+		If Not LevelName Then LevelName = L_CurrentProfile.FirstLockedLevel
+		Menu.LoadLevel( Menu.LevelName )
+	End Method
+	
+	Method LoadLevel( LevelName:String )
+		Profile.LoadLevel( LTLayer( Levels.FindShape( LevelName ) ) )
+	End Method
+	
+	Method NextLevel()
+		Local Link:TLink = Levels.Children.FirstLink()
+		While Link
+			If LTLayer( Link.Value() ).GetName() = LevelName Then
+				Link = Link.NextLink()
+				If Link Then
+					LevelName = LTLayer( Link.Value() ).GetName()
+					Profile.FirstLockedLevel = LevelName
+				Else
+					LoadFirstLevel()
+				End If
+				Return
+			End If
+			Link = Link.NextLink()
+		WEnd
+		LoadFirstLevel()
 	End Method
 	
 	Method XMLIO( XMLObject:LTXMLObject )

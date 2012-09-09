@@ -12,7 +12,6 @@ Global Profile:TGameProfile
 Global GameCamera:LTCamera = L_CurrentCamera
 
 Type TGame Extends LTGUIProject
-	Field Levels:LTWorld
 	Field Interface:LTWorld
 	
 	Field HUD:LTWindow
@@ -53,7 +52,7 @@ Type TGame Extends LTGUIProject
 		
 		SetGraphicsDriver( D3D7Max2DDriver() )
 		Interface = LTWorld.FromFile( "interface.lw" )
-		Levels = LTWorld.FromFile( "levels.lw" )
+		Menu.Levels = LTWorld.FromFile( "levels.lw" )
 
 		Menu.ProfileTypeID = TTypeID.ForName( "TGameProfile" )
 		Menu.InitSystem( Self )
@@ -77,12 +76,14 @@ Type TGame Extends LTGUIProject
 	
 		If Not Locked Then
 			If Not Profile.GameField Then
-				If Not Profile.CurrentLevelName Then Profile.CurrentLevelName = LTShape( Levels.Children.First() ).GetName()
-				Profile.LoadLevel( LTLayer( Levels.FindShape( Profile.CurrentLevelName ) ) )
+				Menu.LoadFirstLevel()
 			Else
 				Game.SelectedTileX = -1
 				L_Cursor.CollisionsWithTileMap( Profile.GameField, TileSelectionHandler )
-				If Profile.Goals.IsEmpty() Then Menu.LoadGameOverWindow( "Level completed" )
+				If Profile.Goals.IsEmpty() Then
+					LTLevelWindow.LevelIsCompleted = True
+					LoadWindow( Menu.Interface, "LTLevelWindow" )
+				End If
 			End If
 		End If
 		
@@ -99,7 +100,7 @@ Type TGame Extends LTGUIProject
 	End Method
 	
 	Method OnCloseButton()
-		If Not ExitWindow Then LoadWindow( Menu.World, "LTExitWindow" )
+		If Not ExitWindow Then LoadWindow( Menu.Interface, "LTExitWindow" )
 		ExitWindow = True
 	End Method
 	

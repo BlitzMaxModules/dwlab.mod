@@ -30,7 +30,7 @@ Type LTKeysList Extends  LTMenuListBox
 	Method OnButtonPressOnItem( ButtonAction:LTButtonAction, Item:Object, Num:Int )
 		L_CurrentButtonAction = LTButtonAction( Item )
 		If ButtonAction = L_LeftMouseButton Then
-			Menu.Project.LoadWindow( Menu.World, "LTKeyWindow" )
+			Menu.Project.LoadWindow( Menu.Interface, "LTKeyWindow" )
 		ElseIf ButtonAction = L_RightMouseButton Then	
 			L_CurrentButtonAction.Clear()
 		End If

@@ -35,7 +35,6 @@ Include "TFallIntoPocket.bmx"
 Include "TGoal.bmx"
 Include "TBall.bmx"
 Include "MouseMenu/Menu.bmx"
-Include "TRestartButton.bmx"
 
 
 Rem

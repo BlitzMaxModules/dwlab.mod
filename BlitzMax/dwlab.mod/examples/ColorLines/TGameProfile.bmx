@@ -44,7 +44,11 @@ Type TGameProfile Extends LTProfile
 	Field OrthogonalLines:Int
 	Field DiagonalLines:Int
 	Field Overflow:Int
-	Field CurrentLevelName:String
+	
+	Field LevelScore:Int
+	Field LevelTime:Int
+	Field LevelTurns:Int
+	Field LevelSkippingTokens:Int
 	
 	Field BossKey:LTButtonAction
 	Field ExitToMenu:LTButtonAction

@@ -1,4 +1,4 @@
-<LTWorld dwlab_version="1.4.26" total-loading-time="12">
+<LTWorld dwlab_version="1.4.26" total-loading-time="8">
 	<LTVisualizer field="visualizer" id="1"/>
 	<LTEditorData field="editor_data" incbin="1" x_div="16" y_div="16" coll_x_div="16" coll_y_div="16">
 		<TList field="images">
@@ -12,7 +12,7 @@
 		<LTColor field="background"/>
 		<LTColor field="grid_color" green="0" alpha="0.50002999"/>
 	</LTEditorData>
-	<LTCamera field="camera" x="13.50003" y="7.20502997" width="21.85642867" height="18.95091137" viewport-clipping="1" x1="2.00003858" y1="1.00003861" x2="-2.00003858" y2="1.00003861">
+	<LTCamera field="camera" x="8.50003" y="4.87002998" width="21.85642867" height="18.95091137" viewport-clipping="1" x1="2.00003858" y1="1.00003861" x2="-2.00003858" y2="1.00003861">
 		<LTVisualizer field="visualizer" id="155"/>
 		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
 			<Object field="visualizer" id="155"/>
@@ -21,7 +21,7 @@
 	<LTLayer>
 		<TList field="parameters">
 			<LTParameter name="name" value="Black ball cross"/>
-			<LTParameter name="put_balls_in_holes" value="1"/>
+			<LTParameter name="put_balls_in_holes" value="4"/>
 			<LTParameter name="time" value="5:00"/>
 			<LTParameter name="medal" value="4:00"/>
 			<LTParameter name="star" value="3:00"/>
@@ -30,7 +30,7 @@
 		<LTShape field="bounds" x="8.50003" y="4.87002998" width="13.00003" height="9.75003">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap x="8.50003" y="4.87002998" width="13.00003" height="9.75003" xquantity="13" yquantity="13" tiles-quantity="11">
+		<LTTileMap x="8.50003" y="4.87002998" width="13.00003" height="9.75003" xquantity="13" yquantity="13" tiles-quantity="11" loading-time="1">
 			<TList field="parameters">
 				<LTParameter name="name" value="Field"/>
 			</TList>
@@ -118,7 +118,7 @@
 			<Row data="9990000000999"/>
 			<Row data="0999000009990"/>
 		</LTTileMap>
-		<LTTileMap x="8.50003" y="4.87002998" width="13.00003" height="9.75003" xquantity="13" yquantity="13" tiles-quantity="15" loading-time="1">
+		<LTTileMap x="8.50003" y="4.87002998" width="13.00003" height="9.75003" xquantity="13" yquantity="13" tiles-quantity="15">
 			<TList field="parameters">
 				<LTParameter name="name" value="Modifiers"/>
 			</TList>
@@ -193,7 +193,7 @@
 			<Row data="00000000000"/>
 			<Row data="00900090000"/>
 		</LTTileMap>
-		<LTTileMap x="8.50003" y="6.87002998" width="11.00003" height="11.25003" xquantity="11" yquantity="15" tiles-quantity="15" loading-time="1">
+		<LTTileMap x="8.50003" y="6.87002998" width="11.00003" height="11.25003" xquantity="11" yquantity="15" tiles-quantity="15">
 			<TList field="parameters">
 				<LTParameter name="name" value="Modifiers"/>
 			</TList>
@@ -350,7 +350,7 @@
 			<Row data="00009990000"/>
 			<Row data="00009990000"/>
 		</LTTileMap>
-		<LTTileMap x="8.50003" y="4.83002997" width="11.00003" height="8.25003" xquantity="11" yquantity="11" tiles-quantity="15" loading-time="1">
+		<LTTileMap x="8.50003" y="4.83002997" width="11.00003" height="8.25003" xquantity="11" yquantity="11" tiles-quantity="15">
 			<TList field="parameters">
 				<LTParameter name="name" value="Modifiers"/>
 			</TList>
@@ -423,7 +423,7 @@
 			<Row data="0000000000000000000"/>
 			<Row data="0000000000000000000"/>
 		</LTTileMap>
-		<LTTileMap x="13.50003" y="6.83002997" width="19.00002999" height="11.25003" xquantity="19" yquantity="15" tiles-quantity="15" loading-time="1">
+		<LTTileMap x="13.50003" y="6.83002997" width="19.00002999" height="11.25003" xquantity="19" yquantity="15" tiles-quantity="15">
 			<TList field="parameters">
 				<LTParameter name="name" value="Modifiers"/>
 			</TList>
@@ -494,7 +494,7 @@
 			<Row data="99999999990"/>
 			<Row data="99999999900"/>
 		</LTTileMap>
-		<LTTileMap x="9.50003" y="5.33002997" width="11.00003" height="8.25003" xquantity="11" yquantity="11" tiles-quantity="15" loading-time="1">
+		<LTTileMap x="9.50003" y="5.33002997" width="11.00003" height="8.25003" xquantity="11" yquantity="11" tiles-quantity="15">
 			<TList field="parameters">
 				<LTParameter name="name" value="Modifiers"/>
 			</TList>
