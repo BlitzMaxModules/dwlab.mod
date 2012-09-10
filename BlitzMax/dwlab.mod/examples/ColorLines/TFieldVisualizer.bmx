@@ -52,8 +52,8 @@ Type TFieldVisualizer Extends LTVisualizer
 		Width = TileMap.GetTileWidth()
 		Height = TileMap.GetTileHeight()
 		For Local Sprite:LTSprite = Eachin Game.Objects
-			If L_DoubleInLimits( Sprite.X, X - 0.95 * Width, X + 0.05 * Width ) And L_DoubleInLimits( Sprite.Y, Y - 0.95 * Height, ..
-					Y + 0.05 * Height ) Then Sprite.Draw()
+			If L_DoubleInLimits( Sprite.X, X - 0.95 * Width, X + 0.05 * Width + ( TileX = TileMap.XQuantity - 1 ) ) And L_DoubleInLimits( Sprite.Y, Y - 0.95 * Height, ..
+					Y + 0.05 * Height + ( TileY = TileMap.YQuantity - 1 ) ) Then Sprite.Draw()
 		Next
 	End Method
 End Type

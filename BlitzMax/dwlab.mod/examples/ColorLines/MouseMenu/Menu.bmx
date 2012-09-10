@@ -209,11 +209,13 @@ Type LTMenu Extends LTGUIProject
 	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
-		L_CurrentProfile = LTProfile( XMLObject.ManageObjectAttribute( "current_profile", L_CurrentProfile ) )
+		L_CurrentProfile = LTProfile( XMLObject.ManageObjectAttribute( "current-profile", L_CurrentProfile ) )
 		XMLObject.ManageListField( "profiles", Menu.Profiles )
-		XMLObject.ManageListField( "high_scores", Menu.HighScores )
+		XMLObject.ManageListField( "high-scores", Menu.HighScores )
 		XMLObject.ManageStringAttribute( "audio", LTProfile.AudioDriver )
 		XMLObject.ManageStringAttribute( "video", LTProfile.VideoDriver )
+		XMLObject.ManageStringAttribute( "level", LevelName )
+		XMLObject.ManageStringAttribute( "first-locked-level", LevelName )
 	End Method
 End Type
 

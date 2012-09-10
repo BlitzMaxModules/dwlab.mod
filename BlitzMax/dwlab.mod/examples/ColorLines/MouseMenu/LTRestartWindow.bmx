@@ -16,6 +16,7 @@ Type LTRestartWindow Extends LTAudioWindow
 	
 	Method Save()
 		Profile.GameField = Null
+		LTLevelWindow.LevelIsCompleted = False
 		Project.LoadWindow( Menu.Interface, "LTLevelWindow" )
 	End Method
 		

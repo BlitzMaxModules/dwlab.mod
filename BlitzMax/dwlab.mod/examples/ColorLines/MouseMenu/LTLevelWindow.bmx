@@ -13,18 +13,12 @@ Type LTLevelWindow Extends LTAudioWindow
 	
 	Method Init()
 		Super.Init()
-		If LevelIsCompleted Then
-			If Menu.LevelName = Profile.FirstLockedLevel Then
-				Menu.NextLevel()
-			Else
-				Menu.LevelName = Profile.FirstLockedLevel
-			End If
-		Else
+		If Not LevelIsCompleted Then
 			LTLabel( FindShape( "Title" ) ).Text = LocalizeString( "{{You failed}}" )
 			LTLabel( FindShape( "NextLevel" ) ).Text = LocalizeString( "{{Skip level}}" )
 		End If
 		LTLabel( FindShape( "Score" ) ).Text = LocalizeString( "{{You scored XXX points}}" ).Replace( "XXX", Profile.LevelScore )
-		LTLabel( FindShape( "Time" ) ).Text = LocalizeString( "{{Spent XXX of time}}" ).Replace( "XXX", ConvertTime( Profile.LevelTime ) )
+		LTLabel( FindShape( "Time" ) ).Text = LocalizeString( "{{Spent}} " ) + LocalizeString( ConvertTime( Profile.LevelTime ) )
 		LTLabel( FindShape( "Turns" ) ).Text = LocalizeString( "{{And made XXX turns}}" ).Replace( "XXX", Profile.LevelTurns )
 		LTLabel( FindShape( "Tokens" ) ).Text = LocalizeString( "{{Level skipping tokens}}: " ) + Profile.LevelSkippingTokens
 	End Method
@@ -35,13 +29,16 @@ Type LTLevelWindow Extends LTAudioWindow
 			Case "SelectLevel"
 				Project.CloseWindow( Self )
 				Project.LoadWindow( Menu.Interface, "LTLevelSelectionWindow" )
+				Menu.Project.Locked = False
 			Case "Restart"
 				Project.CloseWindow( Self )
 				Menu.LoadLevel( Menu.LevelName )
+				Menu.Project.Locked = False
 			Case "NextLevel"
 				Project.CloseWindow( Self )
 				Menu.NextLevel()
 				Menu.LoadLevel( Profile.FirstLockedLevel )
+				Menu.Project.Locked = False
 		End Select
 	End Method
 	
@@ -50,6 +47,6 @@ Type LTLevelWindow Extends LTAudioWindow
 		Local Seconds:Int = TotalSeconds Mod 60
 		Local Minutes:Int = Floor( TotalSeconds / 60.0 ) Mod 60
 		Local Hours:Int = Floor( TotalSeconds / 3600.0 )
-		If Hours Then Return Hours + ":" + Minutes + ":" + Seconds Else Return Minutes + ":" + Seconds
+		If Hours Then Return Hours + " {{hrs}} " + Minutes + " {{min}} " + Seconds + " {{sec}}" Else Return Minutes + " {{min}} " + Seconds + " {{sec}}"
 	End Function
 End Type
