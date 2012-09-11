@@ -86,27 +86,27 @@ Type TGameProfile Extends LTProfile
 			Local IntValue:Int = Parameter.Value.ToInt()
 			Local Parameters:String[] = Parameter.Value.Split( "," )
 			Select Parameter.Name
-				Case "new_balls"
+				Case "new-balls"
 					BallsPerTurn = IntValue
-				Case "line_balls"
+				Case "line-balls"
 					BallsInLine = IntValue
-				Case "no_swap"
+				Case "no-swap"
 					Swap = False
-				Case "no_orthogonal_lines"
+				Case "no-orthogonal-lines"
 					OrthogonalLines = False
-				Case "no_diagonal_lines"
+				Case "no-diagonal-lines"
 					DiagonalLines = False
-				Case "no_overflow"
+				Case "no-overflow"
 					Overflow = False
-				Case "put_balls_in_holes"
+				Case "put-balls-in-holes"
 					TPutBallsInHoles.Create( IntValue )
-				Case "get_score"
+				Case "get-score"
 					TGetScore.Create( IntValue )
-				Case "remove_balls"
+				Case "remove-balls"
 					TRemoveBalls.Create( Parameters[ 0 ].ToInt(), Parameters[ 1 ].ToInt() )
-				Case "remove_combinations"
+				Case "remove-combinations"
 					TRemoveCombinations.Create( Parameters[ 0 ].ToInt(), Parameters[ 1 ].ToInt(), Parameters[ 2 ].ToInt() )
-				Case "remove_ice"
+				Case "remove-ice"
 					TRemoveIce.Create( IntValue )
 				Case "bomb"
 					AddPoolObject( 10, Parameter.Value.ToDouble() )

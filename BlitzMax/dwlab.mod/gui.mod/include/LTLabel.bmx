@@ -20,13 +20,20 @@ Type LTLabel Extends LTGadget
 	Rem
 	bbdoc: Visualizer for button text.
 	End Rem	
-	Field TextVisualizer:LTVisualizer = New LTVisualizer
+	Field TextColor:LTColor = LTColor.FromHex( "000000" )
+	Field OnMouseOverTextColor:LTColor
 	
 	Field HAlign:Int = LTAlign.ToCenter
 	Field VAlign:Int = LTAlign.ToCenter
 	
 	Field TextHMargin:Double, TextVMargin:Double
 	
+	Rem
+	bbdoc: Focus of label
+	about: Focus is changed to True when mouse cursor is over the label.
+	End Rem
+	Field Focus:Int
+
 	
 	
 	Method GetClassTitle:String()
@@ -79,12 +86,8 @@ Type LTLabel Extends LTGadget
 			TextHMargin = GetParameter( "text-h-margin" ).ToDouble()
 			TextVMargin = GetParameter( "text-v-margin" ).ToDouble()
 		End If
-					
-		If ParameterExists( "text-color" ) Then
-			TextVisualizer.SetColorFromHex( GetParameter( "text-color" ) )
-		Else
-			TextVisualizer.SetColorFromRGB( 0.0, 0.0, 0.0 )
-		End If
+			
+		If ParameterExists( "text-color" ) Then LTColor.FromHex( GetParameter( "text-color" ) )
 		
 		If Icon Then
 			IconDX = Icon.X - X
@@ -105,9 +108,9 @@ Type LTLabel Extends LTGadget
 			Icon.Draw()
 		End If
 		
-		TextVisualizer.ApplyColor()
+		TextColor.ApplyColor()
 		PrintText( Text, TextSize, HAlign, VAlign, TextHMargin, TextVMargin, GetDX(), GetDY() )
-		TextVisualizer.ResetColor()
+		LTColor.ResetColor()
 	End Method
 	
 	Method GetDX:Double()
@@ -116,6 +119,18 @@ Type LTLabel Extends LTGadget
 	
 	Method GetDY:Double()
 		Return 0
+	End Method
+
+	
+	
+	Method OnMouseOver()
+		Focus = True
+	End Method
+	
+	
+	
+	Method OnMouseOut()
+		Focus = False
 	End Method
 	
 	
@@ -127,7 +142,7 @@ Type LTLabel Extends LTGadget
 		Active = True
 		Visualizer.Alpha = 1.0
 		If Icon Then Icon.Visualizer.Alpha = 1.0
-		TextVisualizer.Alpha = 1.0
+		TextColor.Alpha = 1.0
 	End Method
 	
 	
@@ -139,6 +154,6 @@ Type LTLabel Extends LTGadget
 		Active = False
 		Visualizer.Alpha = 0.5
 		If Icon Then Icon.Visualizer.Alpha = 0.5
-		TextVisualizer.Alpha = 0.5
+		TextColor.Alpha = 0.5
 	End Method
 End Type

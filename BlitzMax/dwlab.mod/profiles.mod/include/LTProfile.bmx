@@ -308,8 +308,8 @@ Type LTProfile Extends LTObject
 		
 		If Projects Then
 			For Local Project:LTProject = Eachin Projects
-				If NewScreen Or NewLanguage Then Project.ReloadWindows()
 				If NewScreen Then Project.InitGraphics()
+				If NewScreen Or NewLanguage Then Project.ReloadWindows()
 			Next
 		End If
 	End Method

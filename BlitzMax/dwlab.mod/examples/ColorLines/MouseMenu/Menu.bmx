@@ -11,6 +11,7 @@
 Include "LTLanguageSelectionWindow.bmx"
 Include "LTAudioWindow.bmx"
 Include "LTMenuWindow.bmx"
+Include "LTMenuButton.bmx"
 Include "LTOptionsWindow.bmx"
 Include "LTRestartWindow.bmx"
 Include "LTSelectProfileWindow.bmx"

@@ -24,12 +24,6 @@ Type LTButton Extends LTLabel
 	End Rem
 	Field State:Int
 	
-	Rem
-	bbdoc: Focus of button
-	about: Focus is changed to True when mouse cursor is over the button.
-	End Rem
-	Field Focus:Int
-	
 	Field PressingDX:Double, PressingDY:Double
 	
 	
@@ -79,12 +73,6 @@ Type LTButton Extends LTLabel
 	
 	Method GetClassTitle:String()
 		Return "Button"
-	End Method
-
-	
-	
-	Method OnMouseOver()
-		Focus = True
 	End Method
 	
 	
