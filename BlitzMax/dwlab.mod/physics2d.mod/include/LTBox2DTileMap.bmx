@@ -12,6 +12,7 @@ Type LTBox2DTileMap Extends LTTileMap
 	Global ServiceSprite:LTSprite = New LTSprite
 	Global PolygonDefinition:b2PolygonDef = New b2PolygonDef
 	Global CollisionLayerWelding:Int[] = [ 1, 1, 1, 1, 1, 1, 1, 1 ]
+	Global CollisionLayersQuantity:Int = CollisionLayerWelding.Length - 1
 	
 	Field Body:b2Body
 	
@@ -36,7 +37,7 @@ Type LTBox2DTileMap Extends LTTileMap
 				FilledTile[ X, Y ] = -1
 				Local CollisionShape:LTShape = TileSet.CollisionShape[ Value[ X, Y ] ]
 				If Not CollisionShape Then Continue
-				If Not CollisionLayerWelding[ CollisionShape.CollisionLayer & L_MaxCollisionColor ] Then Continue
+				If Not CollisionLayerWelding[ CollisionShape.CollisionLayer & CollisionLayersQuantity ] Then Continue
 				Local CollisionSprite:LTSprite = LTSprite( CollisionShape )
 				If CollisionSprite Then
 					If CollisionSprite.ShapeType = LTSprite.Rectangle And  CollisionSprite.X = 0.5:Double And CollisionSprite.Y = 0.5:Double ..
