@@ -596,6 +596,10 @@ Type LTEditor Extends LTProject
 		CurrentViewLayer = AddLayer( "LTLayer" )
 		CurrentContainer = CurrentViewLayer
 		RefreshProjectManager()
+		
+		WorldFilename = "untitled.lw"
+		Changed = False
+		SetTitle()
 	End Method
 	
 	
