@@ -13,14 +13,14 @@ Type LTLevelWindow Extends LTAudioWindow
 	
 	Method Init()
 		Super.Init()
+		TStats.AddStats()
 		If Not LevelIsCompleted Then
 			LTLabel( FindShape( "Title" ) ).Text = LocalizeString( "{{You failed}}" )
-			LTLabel( FindShape( "NextLevel" ) ).Text = LocalizeString( "{{Skip level}}" )
+			If Menu.LevelName = Profile.FirstLockedLevel Then LTLabel( FindShape( "NextLevel" ) ).Text = LocalizeString( "{{Skip level}}" )
 		End If
 		LTLabel( FindShape( "Score" ) ).Text = LocalizeString( "{{You scored XXX points}}" ).Replace( "XXX", Profile.LevelScore )
 		LTLabel( FindShape( "Time" ) ).Text = LocalizeString( "{{Spent}} " ) + LocalizeString( ConvertTime( Profile.LevelTime ) )
 		LTLabel( FindShape( "Turns" ) ).Text = LocalizeString( "{{And made XXX turns}}" ).Replace( "XXX", Profile.LevelTurns )
-		LTLabel( FindShape( "Tokens" ) ).Text = LocalizeString( "{{Level skipping tokens}}: " ) + Profile.LevelSkippingTokens
 	End Method
 
 	Method OnButtonUnPress( Gadget:LTGadget, ButtonAction:LTButtonAction )
@@ -36,7 +36,7 @@ Type LTLevelWindow Extends LTAudioWindow
 				Menu.Project.Locked = False
 			Case "NextLevel"
 				Project.CloseWindow( Self )
-				Menu.NextLevel()
+				If Menu.LevelName = Profile.FirstLockedLevel Then Menu.NextLevel()
 				Menu.LoadLevel( Profile.FirstLockedLevel )
 				Menu.Project.Locked = False
 		End Select

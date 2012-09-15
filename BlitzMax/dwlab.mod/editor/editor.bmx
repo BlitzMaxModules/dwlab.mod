@@ -70,7 +70,7 @@ Editor.Execute()
 
 Type LTEditor Extends LTProject
 	Const Version:String = "1.9.1"
-	Const INIVersion:Int = 5
+	Const INIVersion:Int = 6
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 8
 	
@@ -473,7 +473,7 @@ Type LTEditor Extends LTProject
 			Local IniFile:TStream = ReadFile( "editor.ini" )
 			If ReadLine( IniFile ).ToInt() = INIVersion Then
 				If AppArgs.Length = 1 Then
-					OpenWorld( ReadLine( IniFile ) )
+					OpenWorld( L_ASCIILineToUTF8( ReadLine( IniFile ) ) )
 				Else
 					ReadLine( IniFile )
 				End If 
@@ -492,7 +492,7 @@ Type LTEditor Extends LTProject
 				SetLanguage( ReadLine( IniFile ).ToInt() )
 				
 				For Local N:Int = 0 Until RecentFilesQuantity
-					RecentFiles[ N ] = ReadLine( IniFile )
+					RecentFiles[ N ] = L_ASCIILineToUTF8( ReadLine( IniFile ) )
 				Next
 			End If
 			
@@ -740,7 +740,7 @@ Type LTEditor Extends LTProject
 		Local IniFile:TStream = WriteFile( EditorPath + "\editor.ini" )
 		
 		WriteLine( IniFile, INIVersion )
-		WriteLine( IniFile, WorldFilename )
+		WriteLine( IniFile, L_UTF8LineToASCII( WorldFilename ) )
 		LTMenuSwitch.SaveSwicthes( IniFile )
 		WriteLine( IniFile, TileCollisionShapes.GridActive )
 		
@@ -752,7 +752,7 @@ Type LTEditor Extends LTProject
 		End Select
 		
 		For Local N:Int = 0 Until RecentFilesQuantity
-			WriteLine( IniFile, RecentFiles[ N ] )
+			WriteLine( IniFile, L_UTF8LineToASCII( RecentFiles[ N ] ) )
 		Next
 		
 		CloseFile( IniFile )

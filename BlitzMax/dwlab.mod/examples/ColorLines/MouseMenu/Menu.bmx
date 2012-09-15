@@ -174,26 +174,20 @@ Type LTMenu Extends LTGUIProject
 		If HighScores.Count() < MaxHighScores Then HighScores.AddLast( LTHighScore.Create( Name, Score, Achievements ) )
 	End Method
 	
-	Method LoadGameOverWindow( Title:String = "Game over" )
-		Profile.GameField = Null
-		LTLabel( Project.LoadWindow( Interface, "LTGameOverWindow" ).FindShape( "GameOver" ) ).Text = LocalizeString( "{{" + Title + "}}" )
-		Project.Locked = True
-	End Method
-	
 	Method LoadFirstLevel()
 		L_CurrentProfile.FirstLockedLevel = LTShape( Levels.Children.First() ).GetName()
 		If Not LevelName Then LevelName = L_CurrentProfile.FirstLockedLevel
 		Menu.LoadLevel( Menu.LevelName )
 	End Method
 	
-	Method LoadLevel( LevelName:String )
-		Profile.LoadLevel( LTLayer( Levels.FindShape( LevelName ) ) )
+	Method LoadLevel( NewLevelName:String )
+		Profile.LoadLevel( LTLayer( Levels.FindShape( NewLevelName ) ) )
 	End Method
 	
 	Method NextLevel()
 		Local Link:TLink = Levels.Children.FirstLink()
 		While Link
-			If LTLayer( Link.Value() ).GetName() = LevelName Then
+			If LTLayer( Link.Value() ).GetName() = L_CurrentProfile.FirstLockedLevel Then
 				Link = Link.NextLink()
 				If Link Then
 					LevelName = LTLayer( Link.Value() ).GetName()
@@ -215,8 +209,7 @@ Type LTMenu Extends LTGUIProject
 		XMLObject.ManageListField( "high-scores", Menu.HighScores )
 		XMLObject.ManageStringAttribute( "audio", LTProfile.AudioDriver )
 		XMLObject.ManageStringAttribute( "video", LTProfile.VideoDriver )
-		XMLObject.ManageStringAttribute( "level", LevelName )
-		XMLObject.ManageStringAttribute( "first-locked-level", LevelName )
+		XMLObject.ManageStringAttribute( "level", Menu.LevelName )
 	End Method
 End Type
 

@@ -651,8 +651,6 @@ Type LTProfile Extends LTObject
 		
 		XMLObject.ManageStringAttribute( "name", Name )
 		XMLObject.ManageStringAttribute( "language", Language )
-		XMLObject.ManageStringAttribute( "audio", AudioDriver )
-		XMLObject.ManageStringAttribute( "video", VideoDriver )
 		XMLObject.ManageIntAttribute( "fullscreen", FullScreen )
 		XMLObject.ManageIntAttribute( "width", ScreenWidth )
 		XMLObject.ManageIntAttribute( "height", ScreenHeight )
@@ -667,5 +665,6 @@ Type LTProfile Extends LTObject
 		XMLObject.ManageIntAttribute( "music", MusicNum )
 		XMLObject.ManageIntAttribute( "x-resolution", L_XResolution )
 		XMLObject.ManageIntAttribute( "y-resolution", L_YResolution )
+		XMLObject.ManageStringAttribute( "first-locked-level", FirstLockedLevel )
 	End Method
 End Type

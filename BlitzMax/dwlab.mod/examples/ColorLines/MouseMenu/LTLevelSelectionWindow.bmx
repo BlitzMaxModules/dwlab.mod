@@ -12,6 +12,7 @@ Type LTLevelSelectionWindow Extends LTAudioWindow
 	Method Init()
 		Super.Init()
 		DestinationY = 0
+		Menu.Project.Locked = True
 	End Method
 	
 	Method Save()
@@ -21,5 +22,9 @@ Type LTLevelSelectionWindow Extends LTAudioWindow
 			Menu.Project.Locked = False
 			DestinationY = -LTMenuWindow( Menu.Project.FindWindow( "LTMenuWindow" ) ).Panel.Height
 		End If
+	End Method
+	
+	Method DeInit()
+		Menu.Project.Locked = False
 	End Method
 End Type

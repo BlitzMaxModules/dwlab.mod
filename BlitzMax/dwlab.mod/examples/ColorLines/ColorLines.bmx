@@ -34,6 +34,7 @@ Include "TExplosion.bmx"
 Include "TFallIntoPocket.bmx"
 Include "TGoal.bmx"
 Include "TBall.bmx"
+Include "TStats.bmx"
 Include "MouseMenu/Menu.bmx"
 
 

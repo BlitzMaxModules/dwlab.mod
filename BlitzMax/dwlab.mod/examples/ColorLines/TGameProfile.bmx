@@ -48,7 +48,6 @@ Type TGameProfile Extends LTProfile
 	Field LevelScore:Int
 	Field LevelTime:Int
 	Field LevelTurns:Int
-	Field LevelSkippingTokens:Int
 	
 	Field BossKey:LTButtonAction
 	Field ExitToMenu:LTButtonAction
@@ -126,6 +125,10 @@ Type TGameProfile Extends LTProfile
 		Next
 
 		InitLevel()
+		
+		LevelTime = 0
+		LevelTurns = 0
+		LevelScore = 0
 			
 		NextBalls = New Int[ BallsPerTurn ]
 		FillNextBalls()
@@ -174,7 +177,10 @@ Type TGameProfile Extends LTProfile
 		
 		For Local BallNum:Int = Eachin Profile.NextBalls
 			If Game.EmptyCells.IsEmpty() Then
-				If Overflow Then Menu.LoadGameOverWindow()
+				If Overflow Then
+					LTLevelWindow.LevelIsCompleted = False
+					Game.LoadWindow( Menu.Interface, "LTLevelWindow" )
+				End If
 				Return
 			End If
 			Local Cell:TCell = TCell.PopFrom( Game.EmptyCells )
@@ -237,6 +243,10 @@ Type TGameProfile Extends LTProfile
 		XMLObject.ManageIntAttribute( "overflow", Overflow, 1 )
 		XMLObject.ManageIntAttribute( "orthogonal-lines", OrthogonalLines, 1 )
 		XMLObject.ManageIntAttribute( "diagonal-lines", DiagonalLines, 1 )
+		XMLObject.ManageIntAttribute( "time", LevelTime )
+		XMLObject.ManageIntAttribute( "turns", LevelTurns )
+		XMLObject.ManageIntAttribute( "score", LevelScore )
+		XMLObject.ManageListField( "pool", Pool )
 		If Not NextBalls Then FillNextBalls()
 	End Method
 End Type
@@ -262,7 +272,13 @@ End Type
 
 
 
-Type TPoolObject
+Type TPoolObject Extends LTObject
 	Field Num:Int
 	Field Percent:Double
+	
+	Method XMLIO( XMLObject:LTXMLObject )
+		Super.XMLIO( XMLObject )
+		XMLObject.ManageIntAttribute( "num", Num )
+		XMLObject.ManageDoubleAttribute( "percent", Percent )
+	End Method
 End Type

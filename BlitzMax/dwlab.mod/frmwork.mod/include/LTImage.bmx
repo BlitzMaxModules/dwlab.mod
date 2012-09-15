@@ -141,7 +141,7 @@ Type LTImage Extends LTObject
 		XMLObject.ManageIntAttribute( "ycells", YCells, 1 )
 		XMLObject.ManageIntAttribute( "loading-time", LoadingTime )
 		
-		'If Not L_EditorData.Images.Contains( Self ) L_EditorData.Images.AddLast( Self )
+		'If Not L_EditorData.Images.Contains( Self ) Then L_EditorData.Images.AddLast( Self )
 		
 		If L_XMLMode = L_XMLGet And L_LoadImages Then Init()
 	End Method

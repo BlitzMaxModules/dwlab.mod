@@ -494,6 +494,18 @@ End Function
 
 
 
+Function L_UTF8LineToASCII:String( Line:String )
+	Local NewLine:String = ""
+	For Local M:Int = 0 Until Line.Length
+		NewLine :+ L_UTF8ToASCII( Line[ M ] )
+	Next
+	Return NewLine
+End Function
+
+
+
+
+
 Function L_ASCIIToUTF8:String( Text:String, Pos:Int Var )
 	Local Header:Int = Text[ Pos ]
 	If Header < 128 Then Return Chr( Header )
@@ -511,6 +523,20 @@ Function L_ASCIIToUTF8:String( Text:String, Pos:Int Var )
 		HeaderShift :+ 6
 	Forever
 	Return Chr( ( Header Shl HeaderShift ) + Code )
+End Function
+
+
+
+
+
+Function L_ASCIILineToUTF8:String( Line:String )
+	Local NewLine:String = ""
+	Local Pos:Int = 0
+	While Pos < Line.Length
+		NewLine :+ L_ASCIIToUTF8( Line, Pos )
+		Pos :+ 1
+	WEnd
+	Return NewLine
 End Function
 
 

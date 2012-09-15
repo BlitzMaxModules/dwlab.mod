@@ -23,6 +23,7 @@ Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
 			If BallNum = Profile.NoBall
 				If Not Game.Selected Then Return
 				TMoveAlongPath.Create( Game.PathFinder.FindPath( Game.Selected.X, Game.Selected.Y, TileX, TileY ), TileX, TileY )
+				Profile.LevelTurns :+ 1
 			Else
 				If TileNum = Profile.Glue Or TileNum = Profile.ColdGlue Then
 					If Profile.SoundOn Then L_CurrentProfile.PlaySnd( Game.WrongTurnSound )
@@ -53,6 +54,7 @@ Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
 					Profile.Balls.SwapTiles( TileX, TileY, Game.Selected.X, Game.Selected.Y )
 					Profile.Modifiers.SwapTiles( TileX, TileY, Game.Selected.X, Game.Selected.Y )
 					If Profile.SoundOn Then L_CurrentProfile.PlaySnd( Game.SwapSound )
+					Profile.LevelTurns :+ 1
 				Else
 					If Profile.SoundOn Then L_CurrentProfile.PlaySnd( Game.WrongTurnSound )
 				End If

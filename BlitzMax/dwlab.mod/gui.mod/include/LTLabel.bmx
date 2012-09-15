@@ -87,7 +87,7 @@ Type LTLabel Extends LTGadget
 			TextVMargin = GetParameter( "text-v-margin" ).ToDouble()
 		End If
 			
-		If ParameterExists( "text-color" ) Then LTColor.FromHex( GetParameter( "text-color" ) )
+		If ParameterExists( "text-color" ) Then TextColor.SetColorFromHex( GetParameter( "text-color" ) )
 		
 		If Icon Then
 			IconDX = Icon.X - X

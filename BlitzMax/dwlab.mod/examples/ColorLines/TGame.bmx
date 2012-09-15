@@ -24,6 +24,7 @@ Type TGame Extends LTGUIProject
 	Field Selected:TSelected
 	Field GameOver:Int
 	Field TotalBalls:Int
+	Field LevelTime:Int
 	
 	Field TileIsPassable:Int[] = [ 0, 1, 0, 1, 1, 0, 1, 1 ]
 	
@@ -62,6 +63,8 @@ Type TGame Extends LTGUIProject
 		Profile = TGameProfile( L_CurrentProfile )
 		Profile.Load()
 		
+		If FileType( "stats.xml" ) = 1 Then TStatList.Instance = TStatList( LoadFromFile( "stats.xml" ) )
+		
 		If L_CurrentProfile.MusicQuantity > 0 Then L_CurrentProfile.MusicMode = L_CurrentProfile.Normal
 		L_CurrentProfile.StartMusic()
 	End Method
@@ -71,10 +74,12 @@ Type TGame Extends LTGUIProject
 	End Method
 	
 	Method Logic()
+		
 		Delay 5
 		L_CurrentProfile.ManageSounds()
 	
 		If Not Locked Then
+			Profile.LevelTime :+ MilliSecs() - LevelTime
 			If Not Profile.GameField Then
 				Menu.LoadFirstLevel()
 			Else
@@ -88,6 +93,8 @@ Type TGame Extends LTGUIProject
 			End If
 		End If
 		
+		LevelTime = MilliSecs()
+		
 		FindWindow( "THUD" ).Active = Not Locked
 		Local MenuWindow:LTMenuWindow = LTMenuWindow( FindWindow( "LTMenuWindow" ) )
 		If Profile.ExitToMenu.WasPressed() And MenuWindow.Active Then MenuWindow.Switch()
@@ -96,7 +103,7 @@ Type TGame Extends LTGUIProject
 		Particles.Act()
 		
 		For Local Goal:TGoal = Eachin Profile.Goals
-			If Goal.Count = 0 Then Profile.Goals.Remove( Goal )
+			If Goal.Count <= 0 Then Profile.Goals.Remove( Goal )
 		Next
 	End Method
 	
