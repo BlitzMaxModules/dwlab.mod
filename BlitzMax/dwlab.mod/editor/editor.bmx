@@ -69,7 +69,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.9.1"
+	Const Version:String = "1.9.2"
 	Const INIVersion:Int = 6
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 8
@@ -642,15 +642,10 @@ Type LTEditor Extends LTProject
 			If Not World.Children.IsEmpty() Then CurrentViewLayer = LTLayer( World.Children.First() )
 			CurrentContainer = CurrentViewLayer
 			
-			RealPathsForImages.Clear()
-			BigImages.Clear()
-			For Local Image:LTImage = Eachin L_EditorData.Images
-				RealPathsForImages.Insert( Image, RealPath( Image.Filename ) )
-				BigImages.Insert( Image, LoadImage( Image.Filename ) )
-			Next
-			
 			InitParameterNames()
 			AddParameterNames( World )
+			
+			UpdateImages()
 			
 			SetIncbin()
 			Changed = False
@@ -709,25 +704,21 @@ Type LTEditor Extends LTProject
 		Local OldEditorData:LTEditorData = L_EditorData
 		Local NewWorld:LTWorld = LTWorld.FromFile( Filename )
 		
-		For Local Image:LTImage = Eachin L_EditorData.Images
-			OldEditorData.Images.AddLast( Image )
-			RealPathsForImages.Insert( Image, RealPath( Image.Filename ) )
-			BigImages.Insert( Image, LoadImage( Image.Filename ) )
-		Next
-		L_EditorData.Images = OldEditorData.Images
-		
 		ChangeDir( OldDir )
 		
 		For Local TileSet:LTTileSet = Eachin L_EditorData.Tilesets
 			OldEditorData.Tilesets.AddLast( TileSet )
 		Next
-		L_EditorData.Tilesets = OldEditorData.Tilesets
+		
+		L_EditorData = OldEditorData
 		
 		For Local Layer:LTLayer = Eachin NewWorld
 			World.AddLast( Layer )
 		Next
 		
 		AddParameterNames( NewWorld )
+		
+		UpdateImages()
 		
 		RefreshProjectManager()
 	End Method
@@ -2456,6 +2447,66 @@ Type LTEditor Extends LTProject
 				End If
 			End If
 		Next
+	End Method
+	
+	
+	
+	Global ImageMap:TMap
+	
+	Method UpdateImages()
+		ImageMap = New TMap
+		For Local Image:LTImage = Eachin L_EditorData.Images
+			If ImageMap.Contains( RealPath( Image.Filename ) ) Then
+				L_EditorData.Images.Remove( Image )
+			Else
+				ImageMap.Insert( RealPath( Image.Filename ), Image )
+			End If
+		Next
+		MergeImages( World )
+			
+		RealPathsForImages.Clear()
+		BigImages.Clear()
+		For Local Image:LTImage = Eachin L_EditorData.Images
+			RealPathsForImages.Insert( Image, RealPath( Image.Filename ) )
+			BigImages.Insert( Image, LoadImage( Image.Filename ) )
+		Next
+	End Method
+	
+	
+	
+	Method MergeImages( Layer:LTLayer )
+		For Local Sprite:LTSprite = Eachin Layer.Children
+			MergeImage( Sprite.Visualizer.Image )
+		Next
+		
+		For Local TileMap:LTTileMap = Eachin Layer.Children
+			MergeImage( TileMap.TileSet.Image )
+		Next
+		
+		For Local SpriteMap:LTSpriteMap = Eachin Layer.Children
+			For Local Sprite:LTSprite = Eachin SpriteMap.Sprites.Keys()
+				MergeImage( Sprite.Visualizer.Image )
+			Next
+		Next
+		
+		For Local ChildLayer:LTLayer = Eachin Layer.Children
+			MergeImages( ChildLayer )
+		Next
+	End Method
+	
+	
+	
+	Method MergeImage( Image:LTImage Var )
+		If Not Image Then Return
+		Local MapImage:LTImage = LTImage( ImageMap.ValueForKey( RealPath( Image.Filename ) ) )
+		If MapImage Then
+			Image = MapImage
+			DebugLog( "Merged" )
+		Else
+			ImageMap.Insert( RealPath( Image.Filename ), Image )
+			DebugLog( "Inserted" )
+			L_EditorData.Images.AddLast( Image )
+		End If
 	End Method
 End Type
 

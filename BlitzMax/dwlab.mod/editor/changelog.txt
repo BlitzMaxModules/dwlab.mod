@@ -1,3 +1,8 @@
+1.9.2
+* Removal of image duplicates
+* Inclusion of orphaned images (result of incorrect merging) into images list
+* Fixed project merging algorythm
+
 1.9.1
 + World loading bar
 

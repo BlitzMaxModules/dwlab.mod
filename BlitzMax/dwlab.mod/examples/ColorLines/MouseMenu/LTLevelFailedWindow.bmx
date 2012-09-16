@@ -8,18 +8,5 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTRestartWindow Extends LTAudioWindow
-	Method Init()
-		Project.Locked = True
-		Super.Init()
-	End Method
-	
-	Method Save()
-		Project.LoadWindow( Menu.Interface, "LTLevelFailedWindow" )
-	End Method
-		
-	Method DeInit()
-		Project.Locked = False
-		Super.DeInit()
-	End Method
+Type LTLevelFailedWindow Extends LTLevelCompletedWindow
 End Type

@@ -8,16 +8,10 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTLevelWindow Extends LTAudioWindow
-	Global LevelIsCompleted:Int = False
-	
+Type LTLevelCompletedWindow Extends LTAudioWindow
 	Method Init()
 		Super.Init()
-		TStats.AddStats()
-		If Not LevelIsCompleted Then
-			LTLabel( FindShape( "Title" ) ).Text = LocalizeString( "{{You failed}}" )
-			If Menu.LevelName = Profile.FirstLockedLevel Then LTLabel( FindShape( "NextLevel" ) ).Text = LocalizeString( "{{Skip level}}" )
-		End If
+		TStats.AddStats( LTLevelCompletedWindow( Self ) <> Null )
 		LTLabel( FindShape( "Score" ) ).Text = LocalizeString( "{{You scored XXX points}}" ).Replace( "XXX", Profile.LevelScore )
 		LTLabel( FindShape( "Time" ) ).Text = LocalizeString( "{{Spent}} " ) + LocalizeString( ConvertTime( Profile.LevelTime ) )
 		LTLabel( FindShape( "Turns" ) ).Text = LocalizeString( "{{And made XXX turns}}" ).Replace( "XXX", Profile.LevelTurns )
@@ -29,7 +23,6 @@ Type LTLevelWindow Extends LTAudioWindow
 			Case "SelectLevel"
 				Project.CloseWindow( Self )
 				Project.LoadWindow( Menu.Interface, "LTLevelSelectionWindow" )
-				Menu.Project.Locked = False
 			Case "Restart"
 				Project.CloseWindow( Self )
 				Menu.LoadLevel( Menu.LevelName )

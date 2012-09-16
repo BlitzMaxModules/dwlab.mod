@@ -87,8 +87,7 @@ Type TGame Extends LTGUIProject
 				L_Cursor.CollisionsWithTileMap( Profile.GameField, TileSelectionHandler )
 				If Profile.Goals.IsEmpty() Then
 					Locked = True
-					LTLevelWindow.LevelIsCompleted = True
-					LoadWindow( Menu.Interface, "LTLevelWindow" )
+					LoadWindow( Menu.Interface, "LTLevelCompletedWindow" )
 				End If
 			End If
 		End If

@@ -15,10 +15,10 @@ Type TStats Extends LTObject
 	Field Time:Int
 	Field Turns:Int	
 	
-	Function AddStats()
+	Function AddStats( LevelIsCompleted:Int )
 		local Stat:TStats = New TStats
 		Stat.LevelName = Menu.LevelName
-		Stat.Completed = LTLevelWindow.LevelIsCompleted
+		Stat.Completed = LevelIsCompleted
 		Stat.Score = Profile.LevelScore
 		Stat.Time = Profile.LevelTime
 		Stat.Turns = Profile.LevelTurns

@@ -177,10 +177,7 @@ Type TGameProfile Extends LTProfile
 		
 		For Local BallNum:Int = Eachin Profile.NextBalls
 			If Game.EmptyCells.IsEmpty() Then
-				If Overflow Then
-					LTLevelWindow.LevelIsCompleted = False
-					Game.LoadWindow( Menu.Interface, "LTLevelWindow" )
-				End If
+				If Overflow Then Game.LoadWindow( Menu.Interface, "LTLevelFailedWindow" )
 				Return
 			End If
 			Local Cell:TCell = TCell.PopFrom( Game.EmptyCells )
