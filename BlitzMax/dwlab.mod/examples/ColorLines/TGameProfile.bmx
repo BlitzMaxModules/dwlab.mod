@@ -45,9 +45,9 @@ Type TGameProfile Extends LTProfile
 	Field DiagonalLines:Int
 	Field Overflow:Int
 	
-	Field LevelScore:Int
 	Field LevelTime:Int
 	Field LevelTurns:Int
+	Field LevelScores:TMap
 	
 	Field BossKey:LTButtonAction
 	Field ExitToMenu:LTButtonAction
@@ -128,7 +128,7 @@ Type TGameProfile Extends LTProfile
 		
 		LevelTime = 0
 		LevelTurns = 0
-		LevelScore = 0
+		Score = 0
 			
 		NextBalls = New Int[ BallsPerTurn ]
 		FillNextBalls()
@@ -226,6 +226,17 @@ Type TGameProfile Extends LTProfile
 		Profile = Self
 	End Method
 	
+	Method AddHighScore( LevelIsCompleted:Int )
+		If LevelIsCompleted Then
+			TStats.AddStats( True )
+			LTHighScoresList.HighScoresList = Menu.AddHighScore( Menu.LevelName, Profile.Score )
+			Local OldScore:Int = String( LevelScores.ValueForKey( Menu.LevelName ) ).ToInt()
+			If OldScore < Profile.Score Then LevelScores.Insert( Menu.LevelName, Profile.Score )
+		Else
+			TStats.AddStats( False )
+		End If
+	End Method
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		GameField = LTTileMap( XMLObject.ManageObjectField( "field", GameField ) )
@@ -242,7 +253,7 @@ Type TGameProfile Extends LTProfile
 		XMLObject.ManageIntAttribute( "diagonal-lines", DiagonalLines, 1 )
 		XMLObject.ManageIntAttribute( "time", LevelTime )
 		XMLObject.ManageIntAttribute( "turns", LevelTurns )
-		XMLObject.ManageIntAttribute( "score", LevelScore )
+		XMLObject.ManageStringMapField( "scores", LevelScores )
 		XMLObject.ManageListField( "pool", Pool )
 		If Not NextBalls Then FillNextBalls()
 	End Method

@@ -66,7 +66,7 @@ Type LTMenu Extends LTGUIProject
 	Field Profiles:TList = New TList
 	Field SelectedProfile:LTProfile
 	
-	Field HighScores:TList = New TList
+	Field HighScores:TMap = New TMap
 	Field MaxHighScores:Int = 10
 	Field NewHighScore:Int = -1
 	
@@ -160,19 +160,31 @@ Type LTMenu Extends LTGUIProject
 		Project.Locked = True
 	End Method
 	
-	Method AddHighScore( Name:String, Score:Int, Achievements:TList = Null )
-		Local Link:TLink = HighScores.FirstLink()
-		NewHighScore = 0
-		While Link <> Null
-			If LTHighScore( Link.Value() ).Score <= Score Then
-				HighScores.InsertBeforeLink( LTHighScore.Create( Name, Score, Achievements ), Link )
-				If HighScores.Count() > MaxHighScores Then HighScores.RemoveLast()
-				Return
-			End If
-			Link = Link.NextLink()
-			NewHighScore :+ 1
-		WEnd
-		If HighScores.Count() < MaxHighScores Then HighScores.AddLast( LTHighScore.Create( Name, Score, Achievements ) )
+	Method AddHighScore:LTLayer( LevelName:String, Score:Int )
+		Local HighScoresList:LTLayer = LTLayer( HighScores.ValueForKey( LevelName ) )
+		
+		If Not HighScoresList Then
+			HighScoresList = New LTLayer
+			HighScores.Insert( LevelName, HighScoresList )
+		Else
+			Local Link:TLink = HighScoresList.Children.FirstLink()
+			NewHighScore = 0
+			While Link <> Null
+				If LTHighScore( Link.Value() ).Score <= Score Then
+					HighScoresList.Children.InsertBeforeLink( LTHighScore.Create( Profile.Name, Score, Null ), Link )
+					If HighScoresList.Children.Count() > MaxHighScores Then HighScoresList.Children.RemoveLast()
+					Return HighScoresList
+				End If
+				Link = Link.NextLink()
+				NewHighScore :+ 1
+			WEnd
+		End If
+		
+		If HighScoresList.Children.Count() < MaxHighScores Then
+			HighScoresList.Children.AddLast( LTHighScore.Create( Profile.Name, Score, Null ) )
+		End If
+		
+		Return HighScoresList
 	End Method
 	
 	Method LoadFirstLevel()
@@ -207,7 +219,7 @@ Type LTMenu Extends LTGUIProject
 		Super.XMLIO( XMLObject )
 		L_CurrentProfile = LTProfile( XMLObject.ManageObjectAttribute( "current-profile", L_CurrentProfile ) )
 		XMLObject.ManageListField( "profiles", Menu.Profiles )
-		XMLObject.ManageListField( "high-scores", Menu.HighScores )
+		XMLObject.ManageStringObjectMapField( "high-scores", Menu.HighScores )
 		XMLObject.ManageStringAttribute( "audio", LTProfile.AudioDriver )
 		XMLObject.ManageStringAttribute( "video", LTProfile.VideoDriver )
 		XMLObject.ManageStringAttribute( "level", Menu.LevelName )
@@ -217,6 +229,11 @@ End Type
 
 
 Type LTScoresWindow Extends LTAudioWindow
+	Method Init()
+		Super.Init()
+		LTHighScoresList.HighScoresList = LTLayer( Menu.HighScores.ValueForKey( "" ) )
+	End Method
+
 	Method DeInit()
 		Menu.NewHighScore = -1
 	End Method

@@ -9,6 +9,8 @@
 '
 
 Type LTHighScoresList Extends LTMenuListBox
+	Global HighScoresList:LTLayer
+	
 	Field ContourVisualizer:LTContourVisualizer = LTContourVisualizer.FromWidthAndHexColor( 0.1, "FF0000", 0.5 ) 
 	Field TopColor1:LTColor = LTColor.FromHex( "FFFFFF" )
 	Field TopColor2:LTColor = LTColor.FromHex( "FFFFFF" )
@@ -16,7 +18,7 @@ Type LTHighScoresList Extends LTMenuListBox
 
 	Method Init()
 		Super.Init()
-		Items = Menu.HighScores
+		If HighScoresList Then Items = HighScoresList.Children
 		If ParameterExists( "top_color_1" ) Then TopColor1 = LTColor.FromHex( GetParameter( "top_color_1" ) )
 		If ParameterExists( "top_color_2" ) Then TopColor2 = LTColor.FromHex( GetParameter( "top_color_2" ) )
 		If ParameterExists( "top_color_3" ) Then TopColor3 = LTColor.FromHex( GetParameter( "top_color_3" ) )

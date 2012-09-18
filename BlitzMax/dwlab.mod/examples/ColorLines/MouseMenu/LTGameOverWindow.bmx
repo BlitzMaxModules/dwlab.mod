@@ -20,15 +20,6 @@ Type LTGameOverWindow Extends LTAudioWindow
 			FindShapeWithParameter( "text", "Enter your name" ).Hide()
 			FindShape( "Name" ).Hide()
 		End If
-		
-		Repeat
-			If Not Profile.Score Then Exit
-			If Menu.HighScores.Count() = Menu.MaxHighScores Then
-				If LTHighScore( Menu.HighScores.Last() ).Score <= Profile.Score Then Exit
-			End If
-			LTLabel( FindShape( "GameOver" ) ).Icon.Frame = 20
-		 	Exit
-		Forever
 	End Method
 	
 	Method Save()
@@ -37,7 +28,7 @@ Type LTGameOverWindow Extends LTAudioWindow
 				Local Text:String = LTTextField( FindShape( "Name" ) ).Text
 				If Text Then Profile.Name = Text
 			End If
-			If Profile.Name Then Menu.AddHighScore( Profile.Name, Profile.Score )
+			If Profile.Name Then Menu.AddHighScore( "", Profile.Score )
 		End If
 		
 		DestinationY = 0

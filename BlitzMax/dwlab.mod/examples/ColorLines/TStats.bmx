@@ -19,7 +19,7 @@ Type TStats Extends LTObject
 		local Stat:TStats = New TStats
 		Stat.LevelName = Menu.LevelName
 		Stat.Completed = LevelIsCompleted
-		Stat.Score = Profile.LevelScore
+		Stat.Score = Profile.Score
 		Stat.Time = Profile.LevelTime
 		Stat.Turns = Profile.LevelTurns
 		TStatList.Instance.Stats.AddLast( Stat )

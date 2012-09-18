@@ -9,10 +9,15 @@
 '
 
 Type LTLevelSelectionWindow Extends LTAudioWindow
+	Global Lock:LTSprite
+	
 	Method Init()
 		Super.Init()
 		DestinationY = 0
 		Menu.Project.Locked = True
+		
+		Lock = LTSprite( FindShape( "Lock" ) )
+		Remove( Lock )
 	End Method
 	
 	Method Save()

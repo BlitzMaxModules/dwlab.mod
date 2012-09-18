@@ -646,6 +646,11 @@ Type LTProfile Extends LTObject
 	
 	
 	
+	Method AddHighScore( LevelIsCompleted:Int )
+	End Method
+	
+	
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		

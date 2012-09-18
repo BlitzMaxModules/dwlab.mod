@@ -1,4 +1,4 @@
-<LTWorld dwlab_version="1.4.26" total-loading-time="6">
+<LTWorld dwlab_version="1.4.26" total-loading-time="4">
 	<LTVisualizer field="visualizer" id="1"/>
 	<LTEditorData field="editor_data" incbin="1" x_div="16" y_div="16" coll_x_div="16" coll_y_div="16">
 		<TList field="images">
@@ -19,11 +19,12 @@
 			<Object id="9"/>
 			<Object id="504"/>
 			<Object id="510"/>
+			<Object id="916"/>
 		</TList>
 		<LTColor field="background"/>
 		<LTColor field="grid_color" green="0" alpha="0.5"/>
 	</LTEditorData>
-	<LTCamera field="camera" x="38" y="50" width="16.42105729" height="14.23809927" shape="2" viewport-clipping="1">
+	<LTCamera field="camera" x="31" y="46" width="16.42105729" height="14.23809927" shape="2" viewport-clipping="1">
 		<Object field="visualizer" id="1"/>
 		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
 			<Object field="visualizer" id="1"/>
@@ -43,7 +44,7 @@
 				<LTParameter name="text" value="Language selection"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="9" left="3" right="3" top="3" bottom="3" filename="frames\window_title.png" loading-time="1"/>
+				<LTRasterFrame field="image" id="9" left="3" right="3" top="3" bottom="3" filename="frames\window_title.png"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="31.12" y="47.25" width="4.75" height="2.5" shape="2">
@@ -59,7 +60,7 @@
 				<LTParameter name="default" value="true"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="19" left="2" right="2" top="2" bottom="2" filename="frames\button.png" xcells="2" loading-time="1"/>
+				<LTRasterFrame field="image" id="19" left="2" right="2" top="2" bottom="2" filename="frames\button.png" xcells="2"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="28.9875" y="45.73749999" width="0.4" height="0.4" shape="2" frame="5">
@@ -67,7 +68,7 @@
 				<LTParameter name="gadget-text" value="Language selection"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="23" filename="images\icons.png" xcells="8" ycells="4" loading-time="1"/>
+				<LTImage field="image" id="23" filename="images\icons.png" xcells="8" ycells="4" loading-time="2"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="31.12" y="46.5" width="4.25" height="0.5" shape="2">
@@ -117,7 +118,7 @@
 				<LTParameter name="name" value="Panel"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="50" left="9" right="9" top="9" bottom="9" filename="frames\panel.png" loading-time="1"/>
+				<LTRasterFrame field="image" id="50" left="9" right="9" top="9" bottom="9" filename="frames\panel.png"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="24.43" y="41.6" width="2.37" height="0.75" shape="2">
@@ -180,7 +181,7 @@
 				<LTParameter name="action" value="switch"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="84" left="15" right="15" top="15" bottom="15" filename="frames\menu_tab.png" loading-time="1"/>
+				<LTRasterFrame field="image" id="84" left="15" right="15" top="15" bottom="15" filename="frames\menu_tab.png"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="23.64" y="41.6" width="0.4" height="0.4" shape="2" frame="8">
@@ -372,7 +373,7 @@
 				<LTParameter name="name" value="Repeat"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="174" filename="images\repeat.png" xcells="2"/>
+				<LTImage field="image" id="174" filename="images\repeat.png" xcells="2" loading-time="1"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="35.75" y="52.5" width="2.5" height="0.5" shape="2">
@@ -1873,7 +1874,7 @@
 				<Object field="image" id="37"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="29" y="47.85" width="0.5" height="0.5" shape="2" frame="4">
+		<LTSprite x="28.875" y="47.875" width="0.5" height="0.5" shape="2" frame="4">
 			<TList field="parameters">
 				<LTParameter name="gadget-text" value="Select"/>
 			</TList>
@@ -1906,7 +1907,7 @@
 				<Object field="image" id="19"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="31.75" y="47.85" width="0.5" height="0.5" shape="2" frame="3">
+		<LTSprite x="31.625" y="47.875" width="0.5" height="0.5" shape="2" frame="3">
 			<TList field="parameters">
 				<LTParameter name="gadget-text" value="Select"/>
 			</TList>
@@ -1920,6 +1921,14 @@
 			</TList>
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="23"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="27.5" y="47.8125" width="0.375" height="0.375" shape="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="Lock"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<LTImage field="image" id="916" filename="..\lock.png"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>

@@ -15,13 +15,15 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.4.26"
+ModuleInfo "Version: 1.4.27"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.27 (18.09.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added ManageStringObjectMap and ManageStringMap functions to LTXMLObject."
 ModuleInfo "History: v1.4.26 (08.09.12)"
 ModuleInfo "History: &nbsp; &nbsp; Enchanced LTWindowedVisualizer to support several vierwports."
 ModuleInfo "History: &nbsp; &nbsp; Added LimitByWindowShapes() LTShape method."
@@ -315,7 +317,7 @@ Import brl.map
 Import brl.max2d
 Import brl.eventqueue
 
-Const L_Version:String = "1.4.26"
+Const L_Version:String = "1.4.27"
 
 SeedRnd( MilliSecs() )
 
