@@ -529,6 +529,7 @@ Type LTXMLObject Extends LTObject
 		Else
 			For Local KeyValue:TKeyValue = Eachin Map
 				Local XMLValue:LTXMLObject = New LTXMLObject
+				XMLValue.Name = "Pair"
 				XMLValue.ManageObject( LTObject( KeyValue.Value() ) )
 				Local Key:LTObject = LTObject( KeyValue.Key() )
 				XMLValue.ManageObjectAttribute( "key", Key )
@@ -548,6 +549,7 @@ Type LTXMLObject Extends LTObject
 		Else
 			For Local KeyValue:TKeyValue = Eachin Map
 				Local XMLValue:LTXMLObject = New LTXMLObject
+				XMLValue.Name = "Pair"
 				XMLValue.ManageObject( LTObject( KeyValue.Value() ) )
 				XMLValue.SetAttribute( "key", String( KeyValue.Key() ) )
 				Children.AddLast( XMLValue )
@@ -566,6 +568,7 @@ Type LTXMLObject Extends LTObject
 		Else
 			For Local KeyValue:TKeyValue = Eachin Map
 				Local XMLValue:LTXMLObject = New LTXMLObject
+				XMLValue.Name = "Pair"
 				XMLValue.SetAttribute( "value", String( KeyValue.Value() ) )
 				XMLValue.SetAttribute( "key", String( KeyValue.Key() ) )
 				Children.AddLast( XMLValue )

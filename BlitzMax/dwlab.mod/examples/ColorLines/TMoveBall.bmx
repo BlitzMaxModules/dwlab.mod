@@ -40,10 +40,6 @@ Type TMoveBall Extends LTBehaviorModel
 	End Method
 	
 	Method Deactivate( Shape:LTShape )
-		Game.HiddenBalls[ X + DX, Y + DY ] = False
-		Game.Objects.Remove( Shape )
-		Game.Locked = False
-		Game.Selected = Null
-		If CheckLines Then TCheckLines.Execute( LTSprite( Shape ).Frame )
+		Game.CheckBall( Shape, X + DX, Y + DY, CheckLines )
 	End Method
 End Type

@@ -129,4 +129,17 @@ Type TGame Extends LTGUIProject
 	Method DeInit()
 		Menu.SaveToFile( "settings.xml" )
 	End Method
+	
+	Method CheckBall( Shape:LTShape, X:Int, Y:Int, CheckLines:Int )
+		Game.HiddenBalls[ X, Y ] = False
+		If LTSprite( Shape ).Frame = Profile.BlackBall And Profile.GameField.GetTile( X, Y ) = Profile.ClosedPocket Then
+			DebugStop
+			Shape.AttachModel( TFallIntoPocket.Create( X, Y ) )
+		Else
+			Game.Objects.Remove( Shape )
+			If CheckLines Then TCheckLines.Execute( LTSprite( Shape ).Frame )
+		End If
+		Game.Selected = Null
+		Game.Locked = False
+	End Method
 End Type

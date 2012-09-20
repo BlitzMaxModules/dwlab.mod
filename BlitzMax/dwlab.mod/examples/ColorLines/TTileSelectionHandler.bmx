@@ -26,7 +26,7 @@ Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
 				Profile.LevelTurns :+ 1
 			Else
 				If TileNum = Profile.Glue Or TileNum = Profile.ColdGlue Then
-					If Profile.SoundOn Then L_CurrentProfile.PlaySnd( Game.WrongTurnSound )
+					L_CurrentProfile.PlaySnd( Game.WrongTurnSound )
 					Return
 				End If
 				Game.Selected = TSelected.Create( TileX, TileY )
@@ -34,9 +34,11 @@ Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
 			End If
 		ElseIf Game.RightMouse.WasPressed() 
 			if BallNum = Profile.Bomb Then
+				if Game.Selected Then Game.Selected.Deactivate( Game.Selected.Sprite )
 				L_CurrentProfile.PlaySnd( Game.ExplosionSound )
 				ExplodeBomb( TileX, TileY )
 			ElseIf ModifierNum = Profile.AnyColor Then
+				if Game.Selected Then Game.Selected.Deactivate( Game.Selected.Sprite )
 				Local Project:TColorSelection = New TColorSelection
 				Project.TileX = TileX
 				Project.TileY = TileY
@@ -44,7 +46,7 @@ Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
 			Else If Game.Selected And Profile.Swap Then
 				If BallNum = Profile.NoBall Then Return
 				If TileNum = Profile.Glue Or TileNum = Profile.ColdGlue Then 
-					If Profile.SoundOn Then L_CurrentProfile.PlaySnd( Game.WrongTurnSound )
+					L_CurrentProfile.PlaySnd( Game.WrongTurnSound )
 					Return
 				End If
 				If Game.Selected Then Game.Selected.Remove( Null )
@@ -53,10 +55,10 @@ Type TTileSelectionHandler Extends LTSpriteAndTileCollisionHandler
 					TMoveBall.Create( TileX, TileY, Game.Selected.X - TileX, Game.Selected.Y - TileY, True )
 					Profile.Balls.SwapTiles( TileX, TileY, Game.Selected.X, Game.Selected.Y )
 					Profile.Modifiers.SwapTiles( TileX, TileY, Game.Selected.X, Game.Selected.Y )
-					If Profile.SoundOn Then L_CurrentProfile.PlaySnd( Game.SwapSound )
+					L_CurrentProfile.PlaySnd( Game.SwapSound )
 					Profile.LevelTurns :+ 1
 				Else
-					If Profile.SoundOn Then L_CurrentProfile.PlaySnd( Game.WrongTurnSound )
+					L_CurrentProfile.PlaySnd( Game.WrongTurnSound )
 				End If
 			End If
 		End If

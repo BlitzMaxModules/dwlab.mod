@@ -47,7 +47,7 @@ Type TGameProfile Extends LTProfile
 	
 	Field LevelTime:Int
 	Field LevelTurns:Int
-	Field LevelScores:TMap
+	Field LevelScores:TMap = New TMap
 	
 	Field BossKey:LTButtonAction
 	Field ExitToMenu:LTButtonAction
@@ -65,6 +65,7 @@ Type TGameProfile Extends LTProfile
 
 	Method LoadLevel( Level:LTLayer )
 		Local Layer:LTLayer = Null
+		Game.Objects.Clear()
 		Game.LoadAndInitLayer( Layer, Level )
 		GameField = LTTileMap( Layer.FindShape( "Field" ) )
 		GameField.Visualizer = TFieldVisualizer.Create( GameField.Visualizer )
@@ -109,6 +110,8 @@ Type TGameProfile Extends LTProfile
 					TRemoveIce.Create( IntValue )
 				Case "bomb"
 					AddPoolObject( 10, Parameter.Value.ToDouble() )
+				Case "black-ball"
+					AddPoolObject( 8, Parameter.Value.ToDouble() )
 			End Select
 		Next
 		
@@ -134,6 +137,8 @@ Type TGameProfile Extends LTProfile
 		FillNextBalls()
 		CreateBalls()
 		Game.Locked = True
+		Game.Selected = Null
+		Menu.LevelName = Level.GetName()
 	End Method
 		
 	Method AddPoolObject( Num:Int, Percent:Double )
@@ -230,8 +235,9 @@ Type TGameProfile Extends LTProfile
 		If LevelIsCompleted Then
 			TStats.AddStats( True )
 			LTHighScoresList.HighScoresList = Menu.AddHighScore( Menu.LevelName, Profile.Score )
-			Local OldScore:Int = String( LevelScores.ValueForKey( Menu.LevelName ) ).ToInt()
-			If OldScore < Profile.Score Then LevelScores.Insert( Menu.LevelName, Profile.Score )
+			Local OldScore:Int = 0
+			If LevelScores.Contains( Menu.LevelName ) Then OldScore = String( LevelScores.ValueForKey( Menu.LevelName ) ).ToInt()
+			If OldScore < Profile.Score Then LevelScores.Insert( Menu.LevelName, String( Profile.Score ) )
 		Else
 			TStats.AddStats( False )
 		End If

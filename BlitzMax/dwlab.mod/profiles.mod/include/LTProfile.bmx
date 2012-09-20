@@ -424,6 +424,7 @@ Type LTProfile Extends LTObject
 	If you set Temporary flag to false, you should unregister sound after use manually by calling UnregisterSound function.
 	End Rem
 	Method PlaySnd:TChannel( Sound:TSound, Temporary:Int = True, Volume:Double = 1.0, Rate:Double = 1.0, Pan:Double = 0.0, Depth:Double = 0.0 )
+		If Not SoundOn Then Return Null
 		Local Channel:TChannel = PlaySndAndSetParameters( Sound, Rate, Pan, Depth )
 		SetRelativeSoundVolume( Channel, Volume )
 		ResumeChannel( Channel )
@@ -438,6 +439,7 @@ Type LTProfile Extends LTObject
 	about: Use it instead of standard sound playing functions to make profile music volume affect playing music.
 	End Rem
 	Method PlayMusic:TChannel( Sound:TSound, Volume:Double = 1.0, Rate:Double = 1.0, Pan:Double = 0.0, Depth:Double = 0.0 )
+		If Not MusicOn Then Return Null
 		If NewMusicChannel Then NewMusicChannel.Stop()
 		MusicSound = Sound
 		OperationStartTime = MilliSecs()

@@ -27,7 +27,7 @@ Type TSelected Extends LTBehaviorModel
 	
 	Method ApplyTo( Shape:LTShape )
 		Local Angle:Double = ( Game.Time - StartingTime ) * 360.0 * Speed
-		Shape.Visualizer.SetVisualizerScale( 0.8 + Sin( Angle ) * Bump, 1.2 + Cos( Angle ) * Bump )
+		Sprite.Visualizer.SetVisualizerScale( 0.8 + Sin( Angle ) * Bump, 1.2 + Cos( Angle ) * Bump )
 	End Method
 	
 	Method Deactivate( Shape:LTShape )

@@ -10,7 +10,7 @@
 
 Type LTLevelCompletedWindow Extends LTAudioWindow
 	Method Init()
-		L_CurrentProfile.AddHighScore( LTLevelCompletedWindow( Self ) )
+		L_CurrentProfile.AddHighScore( LTLevelFailedWindow( Self ) = Null )
 		LTLabel( FindShape( "Score" ) ).Text = LocalizeString( "{{You scored XXX points}}" ).Replace( "XXX", Profile.Score )
 		LTLabel( FindShape( "Time" ) ).Text = LocalizeString( "{{Spent}} " ) + LocalizeString( ConvertTime( Profile.LevelTime ) )
 		LTLabel( FindShape( "Turns" ) ).Text = LocalizeString( "{{And made XXX turns}}" ).Replace( "XXX", Profile.LevelTurns )
