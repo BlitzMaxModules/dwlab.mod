@@ -121,8 +121,8 @@ Type TGameProfile Extends LTProfile
 		Next
 		AddPoolObject( 9, 100 - TotalPercent )
 		
-		For Local Y:Int = 0 Until GameField.YQuantity
-			For Local X:Int = 0 Until GameField.XQuantity
+		For Local Y:Int = 0 Until Balls.YQuantity
+			For Local X:Int = 0 Until Balls.XQuantity
 				If Balls.GetTile( X, Y ) = RandomBall Then Balls.SetTile( X, Y, Rand( 1, 7 ) )
 			Next
 		Next

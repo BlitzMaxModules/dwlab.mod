@@ -7,7 +7,7 @@
 			<Object id="51"/>
 			<Object id="12"/>
 			<Object id="47"/>
-			<LTImage filename="clock.png" loading-time="1"/>
+			<LTImage filename="images\clock.png" loading-time="1"/>
 			<Object id="9"/>
 			<Object id="18"/>
 			<LTImage filename="MouseMenu\images\icons.png" xcells="8" ycells="4" loading-time="1"/>
@@ -35,7 +35,7 @@
 				<LTParameter name="name" value="Background"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="9" filename="background.jpg" loading-time="47"/>
+				<LTImage field="image" id="9" filename="images\background.jpg" loading-time="47"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="7.96875" y="-0.5" width="16" shape="2">
@@ -119,7 +119,7 @@
 				<LTParameter name="gadget-name" value="CurrentProfile"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="47" filename="player.png" loading-time="1"/>
+				<LTImage field="image" id="47" filename="images\player.png" loading-time="1"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="8.00004" y="-0.5" width="0.625" height="0.625" shape="2" frame="8">
@@ -127,7 +127,7 @@
 				<LTParameter name="name" value="GoalIcon"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="51" filename="balls.png" xcells="15" loading-time="5"/>
+				<LTImage field="image" id="51" filename="images\balls.png" xcells="15" loading-time="5"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="8.68754" y="-0.5" width="0.75" height="0.5" shape="2">

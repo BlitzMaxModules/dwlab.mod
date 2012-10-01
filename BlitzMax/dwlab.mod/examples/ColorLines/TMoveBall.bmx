@@ -31,7 +31,7 @@ Type TMoveBall Extends LTBehaviorModel
 	
 	Method ApplyTo( Shape:LTShape )
 		If Game.Time > StartingTime + Period Then
-			Deactivate( Shape )
+			DeactivateModel( Shape )
 		Else
 			Shape.PositionOnTileMap( Profile.GameField, X, Y )
 			Local K:Double = ( Game.Time - StartingTime ) / Period

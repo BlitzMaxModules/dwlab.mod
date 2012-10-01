@@ -37,7 +37,7 @@ Type TGame Extends LTGUIProject
 
 	Field LeftMouse:LTButtonAction = LTButtonAction.Create( LTMouseButton.Create( 1 ), "Click" )
 	Field RightMouse:LTButtonAction = LTButtonAction.Create( LTMouseButton.Create( 2 ), "Swap" )
-
+	
 	Field SwapSound:TSound = LoadSound( L_Incbin + "sound\swap.ogg" )
 	Field RushSound:TSound = LoadSound( L_Incbin + "sound\rush.ogg" )
 	Field StopSound:TSound = LoadSound( L_Incbin + "sound\stop.ogg" )
@@ -50,6 +50,7 @@ Type TGame Extends LTGUIProject
 	Method Init()
 		LTProfile.MusicLoadingTime = [ 3619, 1815 ]
 		LTProfile.TotalMusicLoadingTime = 5432
+		TBombExplosion.Image.Visualizer = LTVisualizer.FromFile( "images\explosion.png", 8, 1 )
 		
 		SetGraphicsDriver( D3D7Max2DDriver() )
 		Interface = LTWorld.FromFile( "interface.lw" )
@@ -133,7 +134,6 @@ Type TGame Extends LTGUIProject
 	Method CheckBall( Shape:LTShape, X:Int, Y:Int, CheckLines:Int )
 		Game.HiddenBalls[ X, Y ] = False
 		If LTSprite( Shape ).Frame = Profile.BlackBall And Profile.GameField.GetTile( X, Y ) = Profile.ClosedPocket Then
-			DebugStop
 			Shape.AttachModel( TFallIntoPocket.Create( X, Y ) )
 		Else
 			Game.Objects.Remove( Shape )

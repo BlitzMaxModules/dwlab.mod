@@ -1928,7 +1928,7 @@
 				<LTParameter name="name" value="Lock"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="916" filename="..\lock.png"/>
+				<LTImage field="image" id="916" filename="images\lock.png"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>

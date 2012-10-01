@@ -8,7 +8,7 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type TExplosion
+Type TExplosion Extends LTBehaviorModel
 	Const MaxRadius:Int = 3
 	Const CircleWidth:Double = 0.12
 	Const ParticleSize:Double = 0.18
@@ -17,7 +17,7 @@ Type TExplosion
 	Const Shift:Double = 0.03
 	Const DShift:Double = 0.1
 	Const ExplosionK:Double = 18.0
-	
+
 	Function Create( X:Int, Y:Int )
 		Local BallNum:Int = Profile.Balls.GetTile( X, Y )
 		If BallNum = 0 Then Return

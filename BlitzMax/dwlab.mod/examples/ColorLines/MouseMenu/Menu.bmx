@@ -190,11 +190,12 @@ Type LTMenu Extends LTGUIProject
 	Method LoadFirstLevel()
 		L_CurrentProfile.FirstLockedLevel = LTShape( Levels.Children.First() ).GetName()
 		If Not LevelName Then LevelName = L_CurrentProfile.FirstLockedLevel
-		Menu.LoadLevel( Menu.LevelName )
+		LoadLevel( LevelName )
 	End Method
 	
 	Method LoadLevel( NewLevelName:String )
 		Profile.LoadLevel( LTLayer( Levels.FindShape( NewLevelName ) ) )
+		LevelName = NewLevelName
 	End Method
 	
 	Method NextLevel()

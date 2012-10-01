@@ -88,6 +88,7 @@ Function L_Boss()
 	Local OldAppTitle:String = AppTitle
 	AppTitle = LocalizeString( "{{Calculator}}" )
 	Graphics( Image.Width, Image.Height )
+	If L_CurrentProfile.MusicChannel Then PauseChannel( L_CurrentProfile.MusicChannel )
 	Repeat
 		If AppTerminate() Then
 			Menu.Project.DeInit()
@@ -101,6 +102,7 @@ Function L_Boss()
 				EndGraphics()
 				L_ProjectWindow = Null
 				L_CurrentProfile.Apply( [ LTProject( Menu ), LTProject( Menu.Project ) ], True, False )
+				If L_CurrentProfile.MusicChannel Then ResumeChannel( L_CurrentProfile.MusicChannel )
 				Return
 			End If
 		Next
