@@ -31,7 +31,6 @@ Include "TMoveAlongPath.bmx"
 Include "TCheckLines.bmx"
 Include "TMoveBall.bmx"
 Include "TExplosion.bmx"
-Include "TBombExplosion.bmx"
 Include "TFallIntoPocket.bmx"
 Include "TGoal.bmx"
 Include "TBall.bmx"
@@ -40,6 +39,7 @@ Include "MouseMenu/Menu.bmx"
 
 
 Rem
+Incbin "images\explosion.png"
 Incbin "sound\stop.ogg"
 Incbin "sound\rush.ogg"
 Incbin "sound\explosion.ogg"

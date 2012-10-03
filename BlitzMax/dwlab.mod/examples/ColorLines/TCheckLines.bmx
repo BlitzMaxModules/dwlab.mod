@@ -80,7 +80,7 @@ Type TRow
 		For Local KK:Int = 0 To K
 			Local XX:Int = X + DX * KK
 			Local YY:Int = Y + DY * KK
-			TExplosion.Create( XX, YY )
+			TExplosion.ManageParticles( XX, YY )
 		Next
 	End Method
 End Type

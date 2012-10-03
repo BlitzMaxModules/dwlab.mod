@@ -50,7 +50,6 @@ Type TGame Extends LTGUIProject
 	Method Init()
 		LTProfile.MusicLoadingTime = [ 3619, 1815 ]
 		LTProfile.TotalMusicLoadingTime = 5432
-		TBombExplosion.Image.Visualizer = LTVisualizer.FromFile( "images\explosion.png", 8, 1 )
 		
 		SetGraphicsDriver( D3D7Max2DDriver() )
 		Interface = LTWorld.FromFile( "interface.lw" )

@@ -17,10 +17,79 @@ Type TExplosion Extends LTBehaviorModel
 	Const Shift:Double = 0.03
 	Const DShift:Double = 0.1
 	Const ExplosionK:Double = 18.0
+	Const AnimationSpeed:Double = 0.05
 
-	Function Create( X:Int, Y:Int )
+	Global Image:LTImage = LTImage.FromFile( L_Incbin + "images\explosion.png", 8, 1 )
+	
+	Field X:Int, Y:Int, BallNum:Int, StartingTime:Double, Exploded:Int
+	
+	Function Create( X:Int, Y:Int, Frame:Int = 0 )
+		Local Model:TExplosion = New TExplosion
+		Model.X = X
+		Model.Y = Y
+		Model.BallNum = Profile.Balls.GetTile( X, Y )
+		Model.StartingTime = Game.Time - Frame * AnimationSpeed
+		Local Sprite:LTSprite = LTSprite.FromShape( 0, 0, 3.0, 2.25 )
+		Sprite.PositionOnTileMap( Profile.Balls, X, Y )
+		Sprite.Visualizer.Image = Image
+		Sprite.AttachModel( Model )
+		Game.Particles.AddLast( Sprite )
+		ManageFields( X, Y )
+	End Function
+		
+	Method ApplyTo( Shape:LTShape )
+		Local Frame:Int = 1.0:Double * ( Game.Time - StartingTime ) / AnimationSpeed
+		If Frame >= 8 Then DeactivateModel( Shape ) Else LTSprite( Shape ).Frame = Frame
+		If Frame = 4 And Not Exploded Then 
+			L_CurrentProfile.PlaySnd( Game.ExplosionSound )
+			Exploded = True
+		End If
+	End Method
+
+	Method Deactivate( Shape:LTShape )
+		Game.Particles.Remove( Shape )
+		CreateParticles( X, Y, BallNum )
+		For Local DY:Int = -1 To 1
+			For Local DX:Int = -1 To 1
+				If DY = 0 And DX = 0 Then Continue
+				Local XDX:Int = X + DX
+				Local YDY:Int = Y + DY
+				If XDX > 0 And YDY > 0 And XDX < Profile.Balls.XQuantity - 1 And YDY < Profile.Balls.YQuantity - 1 Then
+					Local isBomb:Int = False
+					If Profile.Balls.GetTile( XDX, YDY ) = Profile.Bomb Then isBomb = True
+					If isBomb Then
+						TExplosion.Create( XDX, YDY, 4 )
+					Else
+						TExplosion.ManageParticles( XDX, YDY )
+					End If
+				End If
+			Next
+		Next
+	End Method
+	
+	Function ManageFields( X:Int, Y:Int )
 		Local BallNum:Int = Profile.Balls.GetTile( X, Y )
 		If BallNum = 0 Then Return
+		Profile.Balls.SetTile( X, Y, Profile.NoBall )
+		Profile.Modifiers.SetTile( X, Y, Profile.NoModifier )
+		
+		Local TileNum:Int = Profile.GameField.GetTile( X, Y )
+		Select TileNum
+			Case Profile.Glue, Profile.ColdGlue
+		 		Profile.GameField.SetTile( X, Y, TileNum - 1 )
+			Case Profile.Ice, Profile.ColdIce
+		 		Profile.GameField.SetTile( X, Y, TileNum - 2 )
+				For Local Goal:TRemoveIce = Eachin Profile.Goals
+					Goal.Count :- 1
+				Next
+		End Select
+		Game.TotalBalls :+ 1
+		For Local Goal:TRemoveBalls = Eachin Profile.Goals
+			If ( Goal.BallType = TileNum Or Goal.BallType = Profile.RandomBall ) Then Goal.Count :- 1
+		Next
+	End Function
+	
+	Function CreateParticles( X:Int, Y:Int, BallNum:Int )
 		For Local Radius:Double = 1 To MaxRadius
 			Local Angle:Double = 0
 			While Angle < 360.0
@@ -38,23 +107,12 @@ Type TExplosion Extends LTBehaviorModel
 				Angle :+ 360.0 / ParticleDensity / Radius
 			WEnd
 		Next
-		Profile.Balls.SetTile( X, Y, Profile.NoBall )
-		Profile.Modifiers.SetTile( X, Y, Profile.NoModifier )
-		Local TileNum:Int = Profile.GameField.GetTile( X, Y )
-		Select TileNum
-			Case Profile.Glue, Profile.ColdGlue
-		 		Profile.GameField.SetTile( X, Y, TileNum - 1 )
-			Case Profile.Ice, Profile.ColdIce
-		 		Profile.GameField.SetTile( X, Y, TileNum - 2 )
-				For Local Goal:TRemoveIce = Eachin Profile.Goals
-					Goal.Count :- 1
-				Next
-		End Select
-		Game.TotalBalls :+ 1
-		For Local Goal:TRemoveBalls = Eachin Profile.Goals
-			If ( Goal.BallType = TileNum Or Goal.BallType = Profile.RandomBall ) Then Goal.Count :- 1
-		Next
 	End Function
+	
+	Function ManageParticles( X:Int, Y:Int )
+		TExplosion.CreateParticles( X, Y, Profile.Balls.GetTile( X, Y ) )
+		TExplosion.ManageFields( X, Y )
+	End Function	
 End Type
 
 

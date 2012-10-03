@@ -10,6 +10,5 @@
 
 Type TBombExplosion Extends LTBehaviorModel
 
-	Field Image:LTSprite = LTSprite.FromShape( 0, 0, 3.0, 2.25 )
 		
 End Type
