@@ -177,10 +177,11 @@ public class Layer extends Shape {
 	// ==================== Other ===================	
 
 	@Override
-	public void setCoords( double newX, double newY ) {
+	public Shape setCoords( double newX, double newY ) {
 		for( Shape shape: children ) shape.alterCoords( newX - x, newY - y );
 		setCoords( newX, newY );
 		update();
+		return this;
 	}
 
 
@@ -330,22 +331,24 @@ public class Layer extends Shape {
 	
 
 	@Override
-	public void remove( Shape shape ) {
+	public Shape remove( Shape shape ) {
 		for ( ListIterator<Shape> iterator = children.listIterator(); iterator.hasNext(); ) {
 			Shape childShape = iterator.next();
 			if( childShape == shape ) iterator.remove();
 			childShape.remove( shape );
 		}
+		return this;
 	}
 
 
 	@Override
-	public void remove( Class shapeClass ) {
+	public Shape remove( Class shapeClass ) {
 		for ( ListIterator<Shape> iterator = children.listIterator(); iterator.hasNext(); ) {
 			Shape childShape = iterator.next();
 			if( childShape.getClass() == shapeClass ) iterator.remove();
 			childShape.remove( shapeClass );
 		}
+		return this;
 	}
 
 	// ==================== Cloning ===================	

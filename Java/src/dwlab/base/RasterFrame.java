@@ -8,8 +8,6 @@
 
 package dwlab.base;
 
-import dwlab.base.Image;
-import dwlab.base.XMLObject;
 import dwlab.visualizers.Color;
 
 /**

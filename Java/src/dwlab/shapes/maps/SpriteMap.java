@@ -436,18 +436,20 @@ public class SpriteMap extends Map {
 	}
 
 	@Override
-	public void remove( Shape shape ) {
+	public Shape remove( Shape shape ) {
 		Sprite sprite = shape.toSprite();
 		if( sprite != null ) sprites.remove( sprite );
+		return this;
 	}
 
 
 	@Override
-	public void remove( Class shapeClass ) {
+	public Shape remove( Class shapeClass ) {
 		for ( Iterator<Sprite> iterator = sprites.iterator(); iterator.hasNext(); ) {
 			Shape childSprite = iterator.next();
 			if( childSprite.getClass() == shapeClass ) iterator.remove(); else childSprite.remove( shapeClass );
 		}
+		return this;
 	}
 
 	// ==================== Other ===================	

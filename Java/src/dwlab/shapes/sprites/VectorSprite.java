@@ -1,10 +1,3 @@
-package dwlab.shapes.sprites;
-import dwlab.base.Project;
-import dwlab.base.Service;
-import java.lang.Math;
-import dwlab.shapes.Shape;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov 
 
@@ -13,8 +6,10 @@ import dwlab.shapes.Shape;
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php */
 
-
-
+package dwlab.shapes.sprites;
+import dwlab.base.Project;
+import dwlab.base.Service;
+import dwlab.shapes.Shape;
 
 /**
  * Vector sprite has horizontal and vertical velocities forming velocity vector.
@@ -59,13 +54,14 @@ public class VectorSprite extends Sprite {
 
 
 	@Override
-	public void init()	 {
+	public void init() {
 		updateFromAngularModel();
 	}
 
 	// ==================== Limiting ====================
 
-	public void bounceInside( Sprite sprite, boolean leftSide, boolean topSide, boolean rightSide, boolean bottomSide, SpriteCollisionHandler handler ) {
+	@Override
+	public Sprite bounceInside( Sprite sprite, boolean leftSide, boolean topSide, boolean rightSide, boolean bottomSide, SpriteCollisionHandler handler ) {
 		if( leftSide ) {
 			if( leftX() < sprite.leftX() ) {
 				x = sprite.leftX() + 0.5 * width;
@@ -94,10 +90,7 @@ public class VectorSprite extends Sprite {
 				if( handler != null ) handler.handleCollision( this, sprite );
 			}
 		}
-	}
-	
-	public void bounceInside( Sprite sprite ) {
-		bounceInside( sprite, true, true, true, true, null );
+		return this;
 	}
 
 
@@ -115,13 +108,14 @@ public class VectorSprite extends Sprite {
 
 
 	@Override
-	public void moveForward() {
+	public Sprite moveForward() {
 		setCoords( x + dX * Project.deltaTime, y + dY * Project.deltaTime );
+		return this;
 	}
 
 
 	@Override
-	public void directTo( Shape shape ) {
+	public Sprite directTo( Shape shape ) {
 		double vectorLength = Service.distance( dX, dY );
 		dX = shape.getX() - x;
 		dY = shape.getY() - y;
@@ -132,13 +126,15 @@ public class VectorSprite extends Sprite {
 				dY *= vectorLength / newVectorLength;
 			}
 		}
+		return this;
 	}
 
 
 	@Override
-	public void reverseDirection() {
+	public Sprite reverseDirection() {
 		dX = -dX;
 		dY = -dY;
+		return this;
 	}
 
 

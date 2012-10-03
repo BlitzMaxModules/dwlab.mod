@@ -216,8 +216,9 @@ public class Shape extends Obj {
 	}
 	
 	
-	public void setX( double newX ) {
+	public Shape setX( double newX ) {
 		setCoords( newX, y );
+		return this;
 	}
 
 
@@ -226,8 +227,9 @@ public class Shape extends Obj {
 	}
 
 
-	public void setY( double newY ) {
+	public Shape setY( double newY ) {
 		setCoords( x, newY );
+		return this;
 	}
 
 
@@ -283,10 +285,11 @@ public class Shape extends Obj {
 	 * 
 	 * @see #x, #y, #setCornerCoords, #alterCoords, #setMouseCoords
 	 */
-	public void setCoords( double newX, double newY ) {
+	public Shape setCoords( double newX, double newY ) {
 		x = newX;
 		y = newY;
 		update();
+		return this;
 	}
 
 
@@ -296,8 +299,9 @@ public class Shape extends Obj {
 	 * 
 	 * @see #setCoords, #setCornerCoords, #setMouseCoords, #clone example
 	 */
-	public void alterCoords( double dX, double dY ) {
+	public Shape alterCoords( double dX, double dY ) {
 		setCoords( x + dX, y + dY );
+		return this;
 	}
 
 
@@ -307,21 +311,24 @@ public class Shape extends Obj {
 	 * 
 	 * @see #setCoords, #placeBetween example
 	 */
-	public void setMouseCoords( Camera camera ) {
+	public Shape setMouseCoords( Camera camera ) {
 		camera.screenToField( Sys.mouseX(), Sys.mouseY(), Camera.servicePivot );
 		setCoords( Camera.servicePivot.x, Camera.servicePivot.y );
+		return this;
 	}
 	
 	
-	public void setMouseCoords() {
+	public Shape setMouseCoords() {
 		setMouseCoords( Camera.current );
+		return this;
 	}
 
 
-	public void setCoordsRelativeTo( Sprite sprite, double newX, double newY ) {
+	public Shape setCoordsRelativeTo( Sprite sprite, double newX, double newY ) {
 		double spriteAngle = directionToPoint( newX, newY ) + sprite.angle;
 		double radius = Math.sqrt( newX * newX + newY * newY );
 		setCoords( sprite.x + radius * Math.cos( spriteAngle ), sprite.y + radius * Math.sin( spriteAngle ) );
+		return this;
 	}
 
 
@@ -329,9 +336,10 @@ public class Shape extends Obj {
 	 * Position vector using coordinates in tilemap's coordinate system
 	 * Integer TileX and TileY sets shape position to the center of given tilemap's cooresponding tile
 	 */
-	public void positionOnTileMap( TileMap tileMap, double tileX, double tileY ) {
+	public Shape positionOnTileMap( TileMap tileMap, double tileX, double tileY ) {
 		x = tileMap.leftX() + ( tileX + 0.5d ) * tileMap.getTileWidth();
 		y = tileMap.topY() + ( tileY + 0.5d ) * tileMap.getTileHeight();
+		return this;
 	}
 
 
@@ -341,8 +349,9 @@ public class Shape extends Obj {
 	 * 
 	 * @see #lTButtonAction example
 	 */
-	public void move( double dX, double dY ) {
+	public Shape move( double dX, double dY ) {
 		setCoords( x + dX * Project.deltaTime, y + dY * Project.deltaTime );
+		return this;
 	}
 	
 
@@ -356,7 +365,6 @@ public class Shape extends Obj {
  	}
 
 
-
 	/**
 	 * Top of the shape.
 	 * @return Y coordinate of shape top in units.
@@ -365,7 +373,6 @@ public class Shape extends Obj {
 	public double topY() {
  		return y - 0.5d * height;
  	}
-
 
 
 	/**
@@ -378,7 +385,6 @@ public class Shape extends Obj {
  	}
 
 
-
 	/**
 	 * Bottom of the shape
 	 * @return Y coordinate of shape bottom in units.
@@ -389,15 +395,14 @@ public class Shape extends Obj {
  	}
 
 
-
-	public void setCoordsAndSize( double x1, double y1, double x2, double y2 ) {
+	public Shape setCoordsAndSize( double x1, double y1, double x2, double y2 ) {
 		x = 0.5d * ( x1 + x2 );
 		y = 0.5d * ( y1 + y2 );
 		width = x2 - x1;
 		height = y2 - y1;
 		update();
+		return this;
 	}
-
 
 
 	/**
@@ -406,10 +411,10 @@ public class Shape extends Obj {
 	 * 
 	 * @see #setCoords, #alterCoords, #setMouseCoords
 	 */
-	public void setCornerCoords( double newX, double newY ) {
+	public Shape setCornerCoords( double newX, double newY ) {
 		setCoords( newX + width * 0.5d, newY + height * 0.5d );
+		return this;
 	}
-
 
 
 	/**
@@ -418,27 +423,27 @@ public class Shape extends Obj {
 	 * 
 	 * @see #isAtPositionOf, #setCoords
 	 */
-	public void jumpTo( Shape shape ) {
+	public Shape jumpTo( Shape shape ) {
 		setCoords( shape.x , shape.y );
+		return this;
 	}
-
 
 
 	/**
 	 * Moves the shape with given velocity towards shape.
 	 * @see #moveForward, #moveBackward
 	 */
-	public void moveTowards( Shape shape, double velocity ) {
+	public Shape moveTowards( Shape shape, double velocity ) {
 		moveTowardsPoint( shape.x, shape.y, velocity );
+		return this;
 	}
-
 
 
 	/**
 	 * Moves the shape with given velocity towards shape.
 	 * @see #moveForward
 	 */
-	public void moveTowardsPoint( double destinationX, double destinationY, double velocity ) {
+	public Shape moveTowardsPoint( double destinationX, double destinationY, double velocity ) {
 		double angle = directionToPoint( destinationX, destinationY );
 		double dX = Math.cos( angle ) * velocity * Project.deltaTime;
 		double dY = Math.sin( angle ) * velocity * Project.deltaTime;
@@ -447,6 +452,7 @@ public class Shape extends Obj {
 		} else {
 			setCoords( x + dX, y + dY );
 		}
+		return this;
 	}
 
 
@@ -459,8 +465,9 @@ public class Shape extends Obj {
 	 * <li> 0.5 shifts shape to the middle between given shapes centers.
 	 * </ul>
 	 */
-	public void placeBetween( Shape shape1, Shape shape2, double k ) {
+	public Shape placeBetween( Shape shape1, Shape shape2, double k ) {
 		setCoords( shape1.x + ( shape2.x - shape1.x ) * k, shape1.y + ( shape2.y - shape1.y ) * k );
+		return this;
 	}
 
 
@@ -475,8 +482,9 @@ public class Shape extends Obj {
 	 * Allowing moving the shape around with given velocity with WSAD keys.
 	 * @see #moveUsingArrows, #moveUsingKeys, #move
 	 */
-	public void moveUsingWSAD( double velocity ) {
+	public Shape moveUsingWSAD( double velocity ) {
 		moveUsingKeys( keysWSAD, velocity );
+		return this;
 	}
 
 
@@ -491,38 +499,39 @@ public class Shape extends Obj {
 	 * Allowing moving the shape around with given velocity with Arrow keys.
 	 * @see #moveUsingWSAD, #moveUsingKeys, #move
 	 */
-	public void moveUsingArrows( double velocity ) {
+	public Shape moveUsingArrows( double velocity ) {
 		moveUsingKeys( keysArrows, velocity );
+		return this;
 	}
-
 
 
 	/**
 	 * Allowing moving the shape around with with given keys and velocity.
 	 * @see #moveUsingArrows, #moveUsingWSAD, #move
 	 */
-	public void moveUsingKeys( ButtonAction[] keys, double velocity ) {
+	public Shape moveUsingKeys( ButtonAction[] keys, double velocity ) {
 		double dX = ( keys[ 2 ].isDown() ? -1d : ( keys[ 3 ].isDown() ? 1d : 0d ) );
 		double dY = ( keys[ 0 ].isDown() ? -1d : ( keys[ 1 ].isDown() ? 1d : 0d ) );
 	
 		Camera.current.sizeScreenToField( dX, dY, servicePivot );
 
-		if( servicePivot.x == 0 && servicePivot.y == 0 ) return;
+		if( servicePivot.x == 0 && servicePivot.y == 0 ) return this;
 
 		double k = velocity / Service.distance( servicePivot.x, servicePivot.y ) * Project.deltaTime;
 		setCoords( x + servicePivot.x * k, y + servicePivot.y * k );
+		return this;
 	}
-
 
 
 	/**
 	 * Applies parallax effect for shape depending on current camera size and position relative to given shape.
 	 */
-	public void parallax( Shape shape ) {
+	public Shape parallax( Shape shape ) {
 		double dX = shape.getWidth() - Camera.current.getWidth();
 		double dY = shape.getHeight() - Camera.current.getHeight();
 		setCoords( shape.leftX() + 0.5 * width + ( Camera.current.leftX() - shape.leftX() ) * ( shape.getWidth() - width ) / dX,
 			shape.topY() + 0.5 * height + ( Camera.current.topY() - shape.topY() ) * ( shape.getHeight() - height ) / dY );
+		return this;
 	}
 
 	// ==================== Limiting ====================
@@ -533,14 +542,16 @@ public class Shape extends Obj {
 	 * 
 	 * @see #limitHorizontallyWith, #limitVerticallyWith, #limitLeftWith, #limitRightWith, #limitTopWith, #limitBottomWith
 	 */
-	public void limitWith( Shape rectangle, SpriteCollisionHandler handler ) {
+	public Shape limitWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		limitHorizontallyWith( rectangle, handler );
 		limitVerticallyWith( rectangle, handler );
+		return this;
 	}
 
-	public void limitWith( Shape rectangle ) {
+	public Shape limitWith( Shape rectangle ) {
 		limitHorizontallyWith( rectangle );
 		limitVerticallyWith( rectangle );
+		return this;
 	}
 
 
@@ -548,14 +559,16 @@ public class Shape extends Obj {
 	 * Keeps shape within limits of given shape horizontally.
 	 * @see #limitWith, #limitVerticallyWith, #limitLeftWith, #limitRightWith, #limitTopWith, #limitBottomWith
 	 */
-	public void limitHorizontallyWith( Shape rectangle, SpriteCollisionHandler handler ) {
+	public Shape limitHorizontallyWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		limitHorizontallyWith( rectangle );
+		return this;
 	}
 	
-	public void limitHorizontallyWith( Shape rectangle ) {
+	public Shape limitHorizontallyWith( Shape rectangle ) {
 		double x1 = Math.min( rectangle.x, rectangle.leftX() + 0.5 * width );
 		double x2 = Math.max( rectangle.x, rectangle.rightX() - 0.5 * width );
 		setX( Service.limit( x, x1, x2 ) );
+		return this;
 	}
 
 
@@ -564,14 +577,16 @@ public class Shape extends Obj {
 	 * Keeps shape within limits of given shape vertically.
 	 * @see #limitWith, #limitHorizontallyWith, #limitLeftWith, #limitRightWith, #limitTopWith, #limitBottomWith
 	 */
-	public void limitVerticallyWith( Shape rectangle, SpriteCollisionHandler handler ) {
+	public Shape limitVerticallyWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		limitVerticallyWith( rectangle );
+		return this;
 	}
 
-	public void limitVerticallyWith( Shape rectangle ) {
+	public Shape limitVerticallyWith( Shape rectangle ) {
 		double y1 = Math.min( rectangle.y, rectangle.topY() + 0.5 * height );
 		double y2 = Math.max( rectangle.y, rectangle.bottomY() - 0.5 * height );
 		setY( Service.limit( y, y1, y2 ) );
+		return this;
 	}
 
 
@@ -581,14 +596,15 @@ public class Shape extends Obj {
 	 * 
 	 * @see #limitWith, #limitHorizontallyWith, #limitVerticallyWith, #limitRightWith, #limitTopWith, #limitBottomWith
 	 */
-	public void limitLeftWith( Shape rectangle, SpriteCollisionHandler handler ) {
+	public Shape limitLeftWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		limitLeftWith( rectangle );
+		return this;
 	}
 	
-	public void limitLeftWith( Shape rectangle ) {
+	public Shape limitLeftWith( Shape rectangle ) {
 		if( leftX() < rectangle.leftX() ) setX( rectangle.leftX() + 0.5 * width );		
+		return this;
 	}
-
 
 
 	/**
@@ -597,12 +613,14 @@ public class Shape extends Obj {
 	 * 
 	 * @see #limitWith, #limitHorizontallyWith, #limitVerticallyWith, #limitLeftWith, #limitRightWith, #limitBottomWith
 	 */
-	public void limitTopWith( Shape rectangle, SpriteCollisionHandler handler ) {
+	public Shape limitTopWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		limitTopWith( rectangle );
+		return this;
 	}
 
-	public void limitTopWith( Shape rectangle ) {
+	public Shape limitTopWith( Shape rectangle ) {
 		if( topY() < rectangle.topY() ) setY( rectangle.topY() + 0.5 * height );		
+		return this;
 	}
 
 
@@ -612,12 +630,14 @@ public class Shape extends Obj {
 	 * 
 	 * @see #limitWith, #limitHorizontallyWith, #limitVerticallyWith, #limitLeftWith, #limitTopWith, #limitBottomWith
 	 */
-	public void limitRightWith( Shape rectangle, SpriteCollisionHandler handler ) {
+	public Shape limitRightWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		limitRightWith( rectangle );
+		return this;
 	}
 
-	public void limitRightWith( Shape rectangle ) {
+	public Shape limitRightWith( Shape rectangle ) {
 		if( rightX() > rectangle.rightX() ) setX( rectangle.rightX() - 0.5 * width );		
+		return this;
 	}
 
 
@@ -627,12 +647,14 @@ public class Shape extends Obj {
 	 * 
 	 * @see #limitWith, #limitHorizontallyWith, #limitVerticallyWith, #limitLeftWith, #limitRightWith, #limitTopWith
 	 */
-	public void limitBottomWith( Shape rectangle, SpriteCollisionHandler handler ) {
+	public Shape limitBottomWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		limitBottomWith( rectangle );
+		return this;
 	}
 	
-	public void limitBottomWith( Shape rectangle ) {
+	public Shape limitBottomWith( Shape rectangle ) {
 		if( bottomY() > rectangle.bottomY() ) setY( rectangle.bottomY() - 0.5 * height );
+		return this;
 	}
 
 	// ==================== Size ====================
@@ -641,8 +663,9 @@ public class Shape extends Obj {
 		return width;
 	}
 	
-	public void setWidth( double newWidth )	 {
+	public Shape setWidth( double newWidth )	 {
 		setSize( newWidth, height );
+		return this;
 	}
 
 
@@ -651,8 +674,9 @@ public class Shape extends Obj {
 		return height;
 	}
 	
-	public void setHeight( double newHeight )	 {
+	public Shape setHeight( double newHeight )	 {
 		setSize( width, newHeight );
+		return this;
 	}
 
 
@@ -670,8 +694,9 @@ public class Shape extends Obj {
 	 * Sets the diameter of the shape.
 	 * @see #getDiameter
 	 */
-	public void setDiameter( double newDiameter ) {
+	public Shape setDiameter( double newDiameter ) {
 		setSize( newDiameter, newDiameter );
+		return this;
 	}
 
 
@@ -681,10 +706,11 @@ public class Shape extends Obj {
 	 * 
 	 * @see #width, #height, #setWidth, #setHeight, #setSizeAs, #alterSize
 	 */
-	public void setSize( double newWidth, double newHeight ) {
+	public Shape setSize( double newWidth, double newHeight ) {
 		width = newWidth;
 		height = newHeight;
 		update();
+		return this;
 	}
 
 
@@ -692,8 +718,9 @@ public class Shape extends Obj {
 	 * Sets the size of the shape as of given shape.
 	 * @see #width, #height, #setWidth, #setHeight, #setSize, #alterSize, #directAs example
 	 */
-	public void setSizeAs( Shape shape ) {
+	public Shape setSizeAs( Shape shape ) {
 		setSize( shape.width, shape.height );
+		return this;
 	}
 
 
@@ -703,12 +730,12 @@ public class Shape extends Obj {
 	 * 
 	 * @see #width, #height, #setWidth, #setHeight, #setSize, #setSizeAs, #stretch example
 	 */
-	public void alterSize( double dWidth, double dHeight ) {
+	public Shape alterSize( double dWidth, double dHeight ) {
 		width *= dWidth;
 		height *= dHeight;
 		update();
+		return this;
 	}
-
 
 
 	/**
@@ -717,12 +744,12 @@ public class Shape extends Obj {
 	 * 
 	 * @see #clone example
 	 */
-	public void alterDiameter( double d ) {
+	public Shape alterDiameter( double d ) {
 		width *= d;
 		height *= d;
 		update();
+		return this;
 	}
-
 
 
 	/**
@@ -731,9 +758,10 @@ public class Shape extends Obj {
 	 * 
 	 * @see #height, #setHeight, #visualizer
 	 */
-	public void correctHeight() {
+	public Shape correctHeight() {
 		Image image = visualizer.image;
 		setSize( width, width * image.getHeight() / image.getWidth() );
+		return this;
 	}
 
 
@@ -763,8 +791,9 @@ public class Shape extends Obj {
 	 * Use LeftFacing and RightFacing constants.
 	 * @see #getFacing, #xScale
 	 */
-	public void setFacing( Facing newFacing ) {
+	public Shape setFacing( Facing newFacing ) {
 		visualizer.setFacing( newFacing );
+		return this;
 	}
 
 	// ==================== Angle ====================
@@ -796,33 +825,37 @@ public class Shape extends Obj {
 	 * 
 	 * @see #lTBehaviorModel, #activate
 	 */
-	public void attachModel( BehaviorModel model ) {
+	public Shape attachModel( BehaviorModel model ) {
 		attachModelWithoutActivation( model );
 		model.activate( this );
 		model.active = true;
+		return this;
 	}
 	
-	public void attachModelWithoutActivation( BehaviorModel model ) {
+	public Shape attachModelWithoutActivation( BehaviorModel model ) {
 		model.init( this );
 		behaviorModels.addLast( model );
 		model.iterator = behaviorModels.listIterator();
 		model.iterator.previous();
+		return this;
 	}
 
 
 	/**
 	 * Attaches list of behavior model to the shape.
 	 */
-	public void attachModels( LinkedList<BehaviorModel> models ) {
+	public Shape attachModels( LinkedList<BehaviorModel> models ) {
 		for( BehaviorModel model: models ) {
 			attachModel( model );
 		}
+		return this;
 	}
 	
-	public void attachModelsWithoutActivation( LinkedList<BehaviorModel> models ) {
+	public Shape attachModelsWithoutActivation( LinkedList<BehaviorModel> models ) {
 		for( BehaviorModel model: models ) {
 			attachModelWithoutActivation( model );
 		}
+		return this;
 	}
 
 
@@ -845,13 +878,14 @@ public class Shape extends Obj {
 	 * 
 	 * @see #deactivateAllModels, #lTBehaviorModel, #activate
 	 */
-	public void activateAllModels() {
+	public Shape activateAllModels() {
 		for( BehaviorModel model: behaviorModels ) {
 			if( ! model.active ) {
 				model.activate( this );
 				model.active = true;
 			}
 		}
+		return this;
 	}
 
 
@@ -861,13 +895,14 @@ public class Shape extends Obj {
 	 * 
 	 * @see #activateAllModels, #lTBehaviorModel, #deactivate
 	 */
-	public void deactivateAllModels() {
+	public Shape deactivateAllModels() {
 		for( BehaviorModel model: behaviorModels ) {
 			if( model.active ) {
 				model.deactivate( this );
 				model.active = false;
 			}
 		}
+		return this;
 	}
 
 
@@ -877,13 +912,14 @@ public class Shape extends Obj {
 	 * 
 	 * @see #deactivateModel, #toggleModel, #lTBehaviorModel, #activate
 	 */
-	public void activateModel( Class modelClass ) {
+	public Shape activateModel( Class modelClass ) {
 		for( BehaviorModel model: behaviorModels ) {
 			if( model.getClass() == modelClass && !model.active ) {
 				model.activate( this );
 				model.active = true;
 			}
 		}
+		return this;
 	}
 
 
@@ -893,13 +929,14 @@ public class Shape extends Obj {
 	 * 
 	 * @see #activateModel, #toggleModel, #lTBehaviorModel, #deactivate
 	 */
-	public void deactivateModel( Class modelClass ) {
+	public Shape deactivateModel( Class modelClass ) {
 		for( BehaviorModel model: behaviorModels ) {
 			if( model.getClass() == modelClass && model.active ) {
 				model.deactivate( this );
 				model.active = false;
 			}
 		}
+		return this;
 	}
 
 
@@ -909,7 +946,7 @@ public class Shape extends Obj {
 	 * 
 	 * @see #activateModel, #deactivateModel, #lTBehaviorModel, #activate, #deactivate
 	 */
-	public void toggleModel( Class modelClass ) {
+	public Shape toggleModel( Class modelClass ) {
 		for( BehaviorModel model: behaviorModels ) {
 			if( model.getClass() == modelClass && model.active ) {
 				if( model.active ) {
@@ -921,6 +958,7 @@ public class Shape extends Obj {
 				}
 			}
 		}
+		return this;
 	}
 
 
@@ -930,10 +968,11 @@ public class Shape extends Obj {
 	 * 
 	 * @see #lTBehaviorModel, #deactivate
 	 */
-	public void removeModel( Class modelClass ) {
+	public Shape removeModel( Class modelClass ) {
 		for ( Iterator<BehaviorModel> iterator = behaviorModels.iterator(); iterator.hasNext(); ) {
 			if( iterator.next().getClass() == modelClass ) iterator.remove();
 		}
+		return this;
 	}
 
 
@@ -966,7 +1005,7 @@ public class Shape extends Obj {
 	 * 
 	 * @see #limitByWindowShape, #removeWindowLimit
 	 */
-	public void limitByWindow( double x, double y, double width, double height ) {
+	public Shape limitByWindow( double x, double y, double width, double height ) {
 		WindowedVisualizer newVisualizer = new WindowedVisualizer();
 		newVisualizer.viewport = new Shape();
 		newVisualizer.viewport.x = x;
@@ -975,6 +1014,7 @@ public class Shape extends Obj {
 		newVisualizer.viewport.height = height;
 		newVisualizer.visualizer = visualizer;
 		visualizer = newVisualizer;
+		return this;
 	}
 
 
@@ -984,8 +1024,9 @@ public class Shape extends Obj {
 	 * 
 	 * @see #limitByWindow, #removeWindowLimit
 	 */
-	public void limitByWindowShape( Shape shape ) {
+	public Shape limitByWindowShape( Shape shape ) {
 		limitByWindow( shape.x, shape.y, shape.width, shape.height );
+		return this;
 	}
 
 
@@ -995,8 +1036,9 @@ public class Shape extends Obj {
 	 * 
 	 * @see #limitByWindow, #limitByWindowShape
 	 */
-	public void removeWindowLimit() {
+	public Shape removeWindowLimit() {
 		visualizer = ( (WindowedVisualizer) visualizer ).visualizer;
+		return this;
 	}
 
 	// ==================== Parameters ===================	
@@ -1060,16 +1102,17 @@ public class Shape extends Obj {
 	 * 
 	 * @see #getParameter
 	 */
-	public void setParameter( String name, String value ) {
+	public Shape setParameter( String name, String value ) {
 		if( parameters != null ) {
 			for( Parameter parameter: parameters ) {
 				if( parameter.name.equals( name ) ) {
 					parameter.value = value;
-					return;
+					return this;
 				}
 			}
 		}
 		addParameter( name, value );
+		return this;
 	}
 
 
@@ -1079,12 +1122,13 @@ public class Shape extends Obj {
 	 * 
 	 * @see #getParameter
 	 */
-	public void addParameter( String name, String value ) {
+	public Shape addParameter( String name, String value ) {
 		Parameter parameter = new Parameter();
 		parameter.name = name;
 		parameter.value = value;
 		if( parameters != null ) parameters = new LinkedList<Parameter>();
 		parameters.addLast( parameter );
+		return this;
 	}
 
 
@@ -1094,11 +1138,12 @@ public class Shape extends Obj {
 	 * 
 	 * @see #getParameter
 	 */
-	public void removeParameter( String name ) {
-		if( parameters == null ) return;
+	public Shape removeParameter( String name ) {
+		if( parameters == null ) return this;
 		for ( Iterator<Parameter> iterator = parameters.iterator(); iterator.hasNext(); ) {
 			if( iterator.next().name.equals( name ) ) iterator.remove();
 		}
+		return this;
 	}
 
 	// ==================== Search ===================
@@ -1106,7 +1151,6 @@ public class Shape extends Obj {
 	public Shape load() {
 		return loadShape();
 	}
-
 
 
 	public Shape loadShape() {
@@ -1127,7 +1171,6 @@ public class Shape extends Obj {
 		copyTo( newShape );
 		return newShape;
 	}
-
 
 
 	/**
@@ -1198,14 +1241,16 @@ public class Shape extends Obj {
 	 * Removes the shape from layer.
 	 * Included layers and sprite maps will be also processed.
 	 */
-	public void remove( Shape shape ) {
+	public Shape remove( Shape shape ) {
+		return this;
 	}
 
 	/**
 	 * Removes all shapes of class with given name from layer.
 	 * Included layers will be also processed.
 	 */
-	public void remove( Class shapeClass ) {
+	public Shape remove( Class shapeClass ) {
+		return this;
 	}
 
 	// ==================== Management ===================
@@ -1235,10 +1280,10 @@ public class Shape extends Obj {
 	}
 
 
-
-	public void hide() {
+	public Shape hide() {
 		active = false;
 		visible = false;
+		return this;
 	}
 
 

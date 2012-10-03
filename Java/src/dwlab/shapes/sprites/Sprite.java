@@ -9,19 +9,15 @@
 
 package dwlab.shapes.sprites;
 
-import dwlab.base.Project;
-import dwlab.base.Service;
-import dwlab.base.Sys;
+import dwlab.base.*;
+import dwlab.shapes.Line;
+import dwlab.shapes.LineSegment;
+import dwlab.shapes.Shape;
 import dwlab.shapes.layers.Layer;
 import dwlab.shapes.maps.SpriteMap;
 import dwlab.shapes.maps.TileMap;
 import dwlab.shapes.maps.TileSet;
-import dwlab.shapes.Line;
-import dwlab.shapes.LineSegment;
-import dwlab.shapes.Shape;
-import dwlab.base.Vector;
 import dwlab.visualizers.Visualizer;
-import dwlab.base.XMLObject;
 import java.util.HashSet;
 
 /**
@@ -793,37 +789,52 @@ public class Sprite extends Shape {
 	 * Forces sprite to bounce off the inner bounds of the shape.
 	 * @see #active example
 	 */
-	public void bounceInside( Sprite sprite, boolean leftSide, boolean topSide, boolean rightSide, boolean bottomSide, SpriteCollisionHandler handler ) {
+	public Sprite bounceInside( Sprite sprite, boolean leftSide, boolean topSide, boolean rightSide, boolean bottomSide, SpriteCollisionHandler handler ) {
 		if( leftSide ) {
 			if( leftX() < sprite.leftX() ) {
 				x = sprite.leftX() + 0.5 * width;
 				angle = 180 - angle;
+				if( handler != null ) handler.handleCollision( this, sprite );
 			}
 		}
 		if( topSide ) {
 			if( topY() < sprite.topY() ) {
 				y = sprite.topY() + 0.5 * height;
 				angle = -angle;
+				if( handler != null ) handler.handleCollision( this, sprite );
 			}
 		}
 		if( rightSide ) {
 			if( rightX() > sprite.rightX() ) {
 				x = sprite.rightX() - 0.5 * width;
 				angle = 180 - angle;
+				if( handler != null ) handler.handleCollision( this, sprite );
 			}
 		}
 		if( bottomSide ) {
 			if( bottomY() > sprite.bottomY() ) {
 				y = sprite.bottomY() - 0.5 * height;
 				angle = -angle;
+				if( handler != null ) handler.handleCollision( this, sprite );
 			}
 		}
+		return this;
+	}
+	
+	public Sprite bounceInside( Sprite sprite, SpriteCollisionHandler handler ) {
+		bounceInside( sprite, true, true, true, true, handler );
+		return this;
+	}
+	
+	public Sprite bounceInside( Sprite sprite ) {
+		bounceInside( sprite, true, true, true, true, null );
+		return this;
 	}
 
 	// ==================== Position and size ====================
 
 	@Override
-	public void setCoords( double newX, double newY ) {
+	public Shape setCoords( double newX, double newY ) {
 		if( spriteMap != null ) spriteMap.removeSprite( this, false );
 
 		x = newX;
@@ -831,11 +842,12 @@ public class Sprite extends Shape {
 
 		update();
 		if( spriteMap != null ) spriteMap.insertSprite( this, false );
+		return this;
 	}
 
 
 	@Override
-	public void setCoordsAndSize( double x1, double y1, double x2, double y2 ) {
+	public Shape setCoordsAndSize( double x1, double y1, double x2, double y2 ) {
 		if( spriteMap != null ) spriteMap.removeSprite( this, false );
 
 		x = 0.5d * ( x1 + x2 );
@@ -845,6 +857,7 @@ public class Sprite extends Shape {
 
 		update();
 		if( spriteMap != null ) spriteMap.insertSprite( this, false );
+		return this;
 	}
 
 
@@ -852,8 +865,9 @@ public class Sprite extends Shape {
 	 * Moves sprite forward.
 	 * @see #move, #moveBackward, #turn example
 	 */
-	public void moveForward() {
+	public Sprite moveForward() {
 		setCoords( x + Math.cos( angle ) * velocity * Project.deltaTime, y + Math.sin( angle ) * velocity * Project.deltaTime );
+		return this;
 	}
 
 
@@ -861,13 +875,14 @@ public class Sprite extends Shape {
 	 * Moves sprite backward.
 	 * @see #move, #moveForward, #turn example
 	 */
-	public void moveBackward() {
+	public Sprite moveBackward() {
 		setCoords( x - Math.cos( angle ) * velocity * Project.deltaTime, y - Math.sin( angle ) * velocity * Project.deltaTime );
+		return this;
 	}
 
 
 	@Override
-	public void setSize( double newWidth, double newHeight ) {
+	public Shape setSize( double newWidth, double newHeight ) {
 		if( spriteMap != null ) spriteMap.removeSprite( this, false );
 
 		width = newWidth;
@@ -875,6 +890,7 @@ public class Sprite extends Shape {
 
 		update();
 		if( spriteMap != null ) spriteMap.insertSprite( this, false );
+		return this;
 	}
 
 
@@ -885,7 +901,7 @@ public class Sprite extends Shape {
 	 * 
 	 * @see #getTileForPoint example
 	 */
-	public void setAsTile( TileMap tileMap, int tileX, int tileY ) {
+	public Sprite setAsTile( TileMap tileMap, int tileX, int tileY ) {
 		width = tileMap.getTileWidth();
 		height = tileMap.getTileHeight();
 		x = tileMap.leftX() + width * ( 0.5 + tileX );
@@ -893,50 +909,55 @@ public class Sprite extends Shape {
 		visualizer = tileMap.visualizer.clone();
 		visualizer.image = tileMap.tileSet.image;
 		frame = tileMap.getTile( tileX, tileY );
+		return this;
 	}
 
 	// ==================== Limiting ====================
 
 	@Override
-	public void limitLeftWith( Shape rectangle, SpriteCollisionHandler handler ) {
+	public Shape limitLeftWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		double rectLeftX = rectangle.leftX();
 		if( leftX() < rectLeftX ) {
 			setX( rectLeftX + 0.5 * width );
 			if( handler != null ) handler.handleCollision( this, null );
 		}
+		return this;
 	}
 
 
 
 	@Override
-	public void limitTopWith( Shape rectangle, SpriteCollisionHandler handler ) {
+	public Shape limitTopWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		double rectTopY = rectangle.topY();
 		if( topY() < rectTopY ) {
 			setY( rectTopY + 0.5 * height );
 			if( handler != null ) handler.handleCollision( this, null );
 		}
+		return this;
 	}
 
 
 
 	@Override
-	public void limitRightWith( Shape rectangle, SpriteCollisionHandler handler ) {
+	public Shape limitRightWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		double rectRightX = rectangle.rightX();
 		if( rightX() > rectRightX ) {
 			setX( rectRightX - 0.5 * width );
 			if( handler != null ) handler.handleCollision( this, null );
 		}
+		return this;
 	}
 
 
 
 	@Override
-	public void limitBottomWith( Shape rectangle, SpriteCollisionHandler handler ) {
+	public Shape limitBottomWith( Shape rectangle, SpriteCollisionHandler handler ) {
 		double rectBottomY = rectangle.bottomY();
 		if( bottomY() > rectBottomY ) {
 			setY( rectBottomY - 0.5 * height );
 			if( handler != null ) handler.handleCollision( this, null );
 		}
+		return this;
 	}
 
 	// ==================== Angle ====================
@@ -945,8 +966,9 @@ public class Sprite extends Shape {
 	 * Directs sprite as given angular sprite. 
 	 * @see #directTo
 	 */
-	public void directAs( Sprite sprite ) {
+	public Sprite directAs( Sprite sprite ) {
 		angle = sprite.angle;
+		return this;
 	}
 
 
@@ -955,8 +977,9 @@ public class Sprite extends Shape {
 	 * Turns the sprite.
 	 * Turns the sprite with given speed per second.
 	 */
-	public void turn( double turningSpeed ) {
+	public Sprite turn( double turningSpeed ) {
 		angle += Project.deltaTime * turningSpeed;
+		return this;
 	}
 
 
@@ -965,14 +988,16 @@ public class Sprite extends Shape {
 	 * Direct the sprite to center of the given shape.
 	 * @see #directAs
 	 */
-	public void directTo( Shape shape ) {
+	public Sprite directTo( Shape shape ) {
 		angle = Math.atan2( shape.getY() - y, shape.getX() - x );
+		return this;
 	}
 
 
 
-	public void reverseDirection() {
+	public Sprite reverseDirection() {
 		angle = angle + 180;
+		return this;
 	}
 
 
@@ -981,8 +1006,9 @@ public class Sprite extends Shape {
 	 * Alters angle by given value.
 	 * @see #clone example
 	 */
-	public void alterAngle( double dAngle ) {
+	public Sprite alterAngle( double dAngle ) {
 		angle += dAngle;
+		return this;
 	}
 
 	// ==================== Animation ====================
@@ -990,13 +1016,14 @@ public class Sprite extends Shape {
 	/**
 	 * Animates the sprite.
 	 */
-	public void animate( double speed, int framesQuantity, int frameStart, double startingTime, boolean pingPong ) {
+	public Sprite animate( double speed, int framesQuantity, int frameStart, double startingTime, boolean pingPong ) {
 		if( framesQuantity == 0 ) framesQuantity = visualizer.getImage().framesQuantity();
 		int modFactor = framesQuantity;
 		if( pingPong ) modFactor = framesQuantity * 2 - 2;
 		frame =  ( int ) Math.floor( ( Project.current.time - startingTime ) / speed ) % modFactor;
 		if( pingPong && frame >= framesQuantity ) frame = modFactor - frame;
 		frame += frameStart;
+		return this;
 	}
 
 	// ==================== Methods for oval ====================	
