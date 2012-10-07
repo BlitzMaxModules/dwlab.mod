@@ -23,7 +23,7 @@ Type LTOptionsWindow Extends LTAudioWindow
 		Else
 			Label.Text = LocalizeString( "{{Fullscreen}}" )
 		End If
-		LTSprite( Label.Icon ).Frame = 6 + L_CurrentProfile.FullScreen
+		If Label.Icon Then LTSprite( Label.Icon ).Frame = 6 + L_CurrentProfile.FullScreen
 		LTButton( FindShape( "SoundOn" ) ).State = L_CurrentProfile.SoundOn
 		LTButton( FindShape( "MusicOn" ) ).State = L_CurrentProfile.MusicOn
 		LTButton( FindShape( "Play" ) ).State = Not ( L_CurrentProfile.MusicMode = L_CurrentProfile.Paused )

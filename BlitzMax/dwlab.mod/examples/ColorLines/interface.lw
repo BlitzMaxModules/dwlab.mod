@@ -1,24 +1,25 @@
-<LTWorld dwlab_version="1.4.26" total-loading-time="55">
+<LTWorld dwlab_version="1.4.27" total-loading-time="53">
 	<LTVisualizer field="visualizer"/>
-	<LTEditorData field="editor_data" incbin="1" x_div="4" y_div="4" coll_x_div="16" coll_y_div="16">
+	<LTEditorData field="editor_data" incbin="1" x_div="16" y_div="16" coll_x_div="16" coll_y_div="16">
 		<TList field="images">
 			<LTRasterFrame filename="MouseMenu\frames\simple.png"/>
 			<LTRasterFrame filename="MouseMenu\frames\volume.png"/>
 			<Object id="51"/>
 			<Object id="12"/>
 			<Object id="47"/>
-			<LTImage filename="images\clock.png" loading-time="1"/>
+			<LTImage filename="images\clock.png"/>
 			<Object id="9"/>
 			<Object id="18"/>
 			<LTImage filename="MouseMenu\images\icons.png" xcells="8" ycells="4" loading-time="1"/>
+			<Object id="67"/>
 		</TList>
 		<LTColor field="background"/>
 		<LTColor field="grid_color" green="0" alpha="0.5"/>
 	</LTEditorData>
 	<LTCamera field="camera" x="8" y="5" width="18.06316341" height="15.66190954" viewport-clipping="1" x1="2.00000693" y1="1.00000693" x2="-2.00000693" y2="1.00000693">
-		<LTVisualizer field="visualizer" id="71"/>
+		<LTVisualizer field="visualizer" id="86"/>
 		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
-			<Object field="visualizer" id="71"/>
+			<Object field="visualizer" id="86"/>
 		</LTShape>
 	</LTCamera>
 	<LTLayer>
@@ -53,7 +54,7 @@
 				<LTRasterFrame field="image" id="18" left="2" right="2" top="2" bottom="2" filename="MouseMenu\frames\button.png" xcells="2"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="8.5875" y="-0.5" width="2.2" height="0.75" shape="2">
+		<LTSprite x="10.125" y="-0.50833333" width="1.625" height="0.75" shape="2">
 			<TList field="parameters">
 				<LTParameter name="class" value="LTLabel"/>
 				<LTParameter name="name" value="Goal1"/>
@@ -93,7 +94,7 @@
 				<Object field="image" id="18"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="10.9625" y="-0.5" width="2.2" height="0.75" shape="2">
+		<LTSprite x="11.875" y="-0.49166663" width="1.625" height="0.75" shape="2">
 			<TList field="parameters">
 				<LTParameter name="name" value="Goal2"/>
 			</TList>
@@ -101,7 +102,7 @@
 				<Object field="image" id="18"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="13.2875" y="-0.5" width="2.2" height="0.75" shape="2">
+		<LTSprite x="13.625" y="-0.49166663" width="1.625" height="0.75" shape="2">
 			<TList field="parameters">
 				<LTParameter name="name" value="Goal3"/>
 			</TList>
@@ -109,7 +110,7 @@
 				<Object field="image" id="18"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="6.24" y="-0.5" width="2.2" height="0.75" shape="2">
+		<LTSprite x="6.625" y="-0.5" width="3" height="0.75" shape="2">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="18"/>
 			</LTVisualizer>
@@ -119,10 +120,10 @@
 				<LTParameter name="gadget-name" value="CurrentProfile"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="47" filename="images\player.png" loading-time="1"/>
+				<LTImage field="image" id="47" filename="images\player.png"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="8.00004" y="-0.5" width="0.625" height="0.625" shape="2" frame="8">
+		<LTSprite x="9.6875" y="-0.51249999" width="0.625" height="0.625" shape="2" frame="8">
 			<TList field="parameters">
 				<LTParameter name="name" value="GoalIcon"/>
 			</TList>
@@ -130,7 +131,7 @@
 				<LTImage field="image" id="51" filename="images\balls.png" xcells="15" loading-time="5"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="8.68754" y="-0.5" width="0.75" height="0.5" shape="2">
+		<LTSprite x="10.4375" y="-0.51666666" width="0.75" height="0.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="name" value="GoalCount"/>
 				<LTParameter name="class" value="LTLabel"/>
@@ -145,6 +146,38 @@
 			</TList>
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="51"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="8.71875" y="-0.49166664" width="0.9375" height="0.73333333" shape="2">
+			<LTVisualizer field="visualizer">
+				<Object field="image" id="18"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="6.59375" y="-0.34375" width="2.6875" height="0.1875" shape="2" frame="2">
+			<TList field="parameters">
+				<LTParameter name="name" value="level-time"/>
+				<LTParameter name="class" value="TBar"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<LTImage field="image" id="67" filename="MouseMenu\images\progressbar.png" xcells="6"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="6.59375" y="-0.65625" width="2.6875" height="0.1875" shape="2" frame="3">
+			<TList field="parameters">
+				<LTParameter name="name" value="turns"/>
+				<LTParameter name="class" value="TBar"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<Object field="image" id="67"/>
+			</LTVisualizer>
+		</LTSprite>
+		<LTSprite x="8.71875" y="-0.34375" width="0.6875" height="0.1875" shape="2" frame="5">
+			<TList field="parameters">
+				<LTParameter name="name" value="turn-time"/>
+				<LTParameter name="class" value="TBar"/>
+			</TList>
+			<LTVisualizer field="visualizer">
+				<Object field="image" id="67"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>

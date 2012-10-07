@@ -35,6 +35,7 @@ Include "TFallIntoPocket.bmx"
 Include "TGoal.bmx"
 Include "TBall.bmx"
 Include "TStats.bmx"
+Include "TBar.bmx"
 Include "MouseMenu/Menu.bmx"
 
 
@@ -45,7 +46,8 @@ Incbin "sound\rush.ogg"
 Incbin "sound\explosion.ogg"
 Incbin "sound\select.ogg"
 Incbin "sound\swap.ogg"
-Incbin "sound\wrong_turn.ogg"
+Incbin "sound\wrong_turn.ogg"\
+Incbin "images\explosion.png"
 Include "interface_incbin.bmx"
 Include "levels_incbin.bmx"
 EndRem

@@ -45,8 +45,11 @@ Type TGameProfile Extends LTProfile
 	Field DiagonalLines:Int
 	Field Overflow:Int
 	
-	Field LevelTime:Int
-	Field LevelTurns:Int
+	Field TotalLevelTime:Double
+	Field TotalTurns:Int
+	Field Turns:Int
+	Field TotalTurnTime:Double
+	Field TurnTime:Double
 	Field LevelScores:TMap = New TMap
 	
 	Field BossKey:LTButtonAction
@@ -79,6 +82,9 @@ Type TGameProfile Extends LTProfile
 		OrthogonalLines = True
 		DiagonalLines = True
 		Overflow = True
+		TotalLevelTime = 0
+		TotalTurns = 0
+		TotalTurnTime = 0
 		
 		Goals.Clear()
 		Pool.Clear()
@@ -112,9 +118,14 @@ Type TGameProfile Extends LTProfile
 					AddPoolObject( 10, Parameter.Value.ToDouble() )
 				Case "black-ball"
 					AddPoolObject( 8, Parameter.Value.ToDouble() )
+				Case "level-time"
+					TotalLevelTime = ToTime( Parameter.Value )
+				Case "turns"
+					TotalTurns = Parameter.Value.ToInt()
+				Case "turn-time"
+					TotalTurnTime = ToTime( Parameter.Value )
 			End Select
 		Next
-		
 		Local TotalPercent:Double = 0
 		For Local PoolObject:TPoolObject = Eachin Pool
 			TotalPercent :+ PoolObject.Percent
@@ -130,7 +141,7 @@ Type TGameProfile Extends LTProfile
 		InitLevel()
 		
 		LevelTime = 0
-		LevelTurns = 0
+		Turns = 0
 		Score = 0
 			
 		NextBalls = New Int[ BallsPerTurn ]
@@ -138,7 +149,7 @@ Type TGameProfile Extends LTProfile
 		CreateBalls()
 		Game.Locked = True
 		Game.Selected = Null
-		Menu.LevelName = Level.GetName()
+		Profile.LevelName = Level.GetName()
 	End Method
 		
 	Method AddPoolObject( Num:Int, Percent:Double )
@@ -231,13 +242,18 @@ Type TGameProfile Extends LTProfile
 		Profile = Self
 	End Method
 	
+	Function ToTime:Double( Time:String )
+		Local TimeChunks:String[] = Time.Split( ":" )
+		If TimeChunks.Length = 1 Then Return 60.0 * Time.ToInt() Else Return 60.0 * TimeChunks[ 0 ].ToInt() + 1.0 * TimeChunks[ 1 ].ToInt()
+	End Function
+	
 	Method AddHighScore( LevelIsCompleted:Int )
 		If LevelIsCompleted Then
 			TStats.AddStats( True )
-			LTHighScoresList.HighScoresList = Menu.AddHighScore( Menu.LevelName, Profile.Score )
+			LTHighScoresList.HighScoresList = Menu.AddHighScore( LevelName, Score )
 			Local OldScore:Int = 0
-			If LevelScores.Contains( Menu.LevelName ) Then OldScore = String( LevelScores.ValueForKey( Menu.LevelName ) ).ToInt()
-			If OldScore < Profile.Score Then LevelScores.Insert( Menu.LevelName, String( Profile.Score ) )
+			If LevelScores.Contains( LevelName ) Then OldScore = String( LevelScores.ValueForKey( LevelName ) ).ToInt()
+			If OldScore < Profile.Score Then LevelScores.Insert( LevelName, String( Score ) )
 		Else
 			TStats.AddStats( False )
 		End If
@@ -257,8 +273,12 @@ Type TGameProfile Extends LTProfile
 		XMLObject.ManageIntAttribute( "overflow", Overflow, 1 )
 		XMLObject.ManageIntAttribute( "orthogonal-lines", OrthogonalLines, 1 )
 		XMLObject.ManageIntAttribute( "diagonal-lines", DiagonalLines, 1 )
-		XMLObject.ManageIntAttribute( "time", LevelTime )
-		XMLObject.ManageIntAttribute( "turns", LevelTurns )
+		XMLObject.ManageDoubleAttribute( "total-time", TotalLevelTime )
+		XMLObject.ManageDoubleAttribute( "time", LevelTime )
+		XMLObject.ManageIntAttribute( "total-turns", TotalTurns )
+		XMLObject.ManageIntAttribute( "turns", Turns )
+		XMLObject.ManageDoubleAttribute( "total-turn-time", TotalTurnTime )
+		XMLObject.ManageDoubleAttribute( "turn-time", TurnTime )
 		XMLObject.ManageStringMapField( "scores", LevelScores )
 		XMLObject.ManageListField( "pool", Pool )
 		If Not NextBalls Then FillNextBalls()

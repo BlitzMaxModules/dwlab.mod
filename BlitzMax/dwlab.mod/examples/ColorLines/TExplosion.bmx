@@ -19,7 +19,7 @@ Type TExplosion Extends LTBehaviorModel
 	Const ExplosionK:Double = 18.0
 	Const AnimationSpeed:Double = 0.05
 
-	Global Image:LTImage = LTImage.FromFile( L_Incbin + "images\explosion.png", 8, 1 )
+	Global Image:LTImage = LTImage.FromFile( TGame.Inc + "images\explosion.png", 8, 1 )
 	
 	Field X:Int, Y:Int, BallNum:Int, StartingTime:Double, Exploded:Int
 	

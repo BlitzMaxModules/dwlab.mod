@@ -1,0 +1,153 @@
+<LTMenu current-profile="1" audio="DirectSound" video="DirectX7" dwlab_version="1.4.27" total-loading-time="0">
+	<TList field="profiles">
+		<TGameProfile id="1" name="{{P_Player}}" language="Russian" width="1280" height="1024" depth="32" frequency="75" music-on="0" repeat="0" music="1" x-resolution="1216" y-resolution="912" first-locked-level="Iceland" level="Court" next-balls="7,2,2" balls-in-line="5" balls-per-turn="3" time="1.02666666" turn-time="6.79999997">
+			<LTTileMap field="field" x="13.50003" y="6.83002997" width="19.00002999" height="11.25003" xquantity="19" yquantity="15" tiles-quantity="11">
+				<TList field="parameters">
+					<LTParameter name="name" value="Field"/>
+				</TList>
+				<TFieldVisualizer field="visualizer" dy="0.1" yscale="1.25001"/>
+				<LTTileSet field="tileset" name="Default" tiles-quantity="11" block-width="00000000000" block-height="00000000000" empty-tile="0">
+					<LTImage field="image" filename="images\fields.png" xcells="11" loading-time="1"/>
+					<ShapeArray field="collision-shapes">
+						<Null/>
+						<LTSprite x="0.50002999" y="0.50002999" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.50002999" y="0.50002999" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.50002999" y="0.50002999" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.50002999" y="0.50002999" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.50002999" y="0.50002999" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.5" y="0.5" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<Null/>
+						<Null/>
+						<Null/>
+					</ShapeArray>
+				</LTTileSet>
+				<Row data="1111111111111111111"/>
+				<Row data="1111111111111111111"/>
+				<Row data="1111111111111111111"/>
+				<Row data="1111144444444411111"/>
+				<Row data="1111144444444411111"/>
+				<Row data="1111144444444411111"/>
+				<Row data="1111144444444411111"/>
+				<Row data="1111144444444411111"/>
+				<Row data="1111144444444411111"/>
+				<Row data="1111144444444411111"/>
+				<Row data="1111144444444411111"/>
+				<Row data="1111144444444411111"/>
+				<Row data="1111111111111111111"/>
+				<Row data="1111111111111111111"/>
+				<Row data="1111111111111111111"/>
+			</LTTileMap>
+			<LTTileMap field="balls" x="13.50003" y="6.83002997" width="19.00002999" height="11.25003" visible="0" xquantity="19" yquantity="15" tiles-quantity="15">
+				<TList field="parameters">
+					<LTParameter name="name" value="Balls"/>
+				</TList>
+				<LTVisualizer field="visualizer" dy="-0.25002996" xscale="0.90000999" yscale="1.23001"/>
+				<LTTileSet field="tileset" id="28" name="Balls" tiles-quantity="15" block-width="000000000000000" block-height="000000000000000" empty-tile="0">
+					<LTImage field="image" filename="images\balls.png" xcells="15" loading-time="3"/>
+					<ShapeArray field="collision-shapes">
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+					</ShapeArray>
+				</LTTileSet>
+				<Row data="0006000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000040"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000060000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+			</LTTileMap>
+			<LTTileMap field="modifiers" x="13.50003" y="6.83002997" width="19.00002999" height="11.25003" xquantity="19" yquantity="15" tiles-quantity="15">
+				<TList field="parameters">
+					<LTParameter name="name" value="Modifiers"/>
+				</TList>
+				<LTVisualizer field="visualizer" dy="-0.25002996" yscale="2.66002999"/>
+				<Object field="tileset" id="28"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+				<Row data="0000000000000000000"/>
+			</LTTileMap>
+			<TList field="goals">
+				<TRemoveCombinations count="1" ball-type="9" line-balls-quantity="29"/>
+			</TList>
+			<Map field="scores">
+				<Pair value="129" key="Black ball cross"/>
+				<Pair value="20" key="The wall"/>
+			</Map>
+			<TList field="pool">
+				<TPoolObject num="9" percent="100"/>
+			</TList>
+			<LTButtonAction name="Boss key">
+				<LTKeyboardKey code="90"/>
+			</LTButtonAction>
+			<LTButtonAction name="Exit to menu">
+				<LTKeyboardKey code="27"/>
+			</LTButtonAction>
+		</TGameProfile>
+	</TList>
+	<Map field="high-scores">
+		<LTLayer key="Black ball cross">
+			<LTVisualizer field="visualizer"/>
+			<LTHighScore score="129" name="Игрок"/>
+		</LTLayer>
+		<LTLayer key="The wall">
+			<LTVisualizer field="visualizer"/>
+			<LTHighScore score="20" name="Игрок"/>
+			<LTHighScore score="20" name="Игрок"/>
+			<LTHighScore score="15" name="Игрок"/>
+			<LTHighScore score="15" name="Игрок"/>
+			<LTHighScore score="15" name="Игрок"/>
+			<LTHighScore score="5" name="Игрок"/>
+			<LTHighScore score="5" name="Игрок"/>
+			<LTHighScore score="5" name="Игрок"/>
+		</LTLayer>
+	</Map>
+</LTMenu>

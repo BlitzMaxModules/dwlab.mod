@@ -13,6 +13,7 @@ Global GameCamera:LTCamera = L_CurrentCamera
 
 Type TGame Extends LTGUIProject
 	Field Interface:LTWorld
+	Const Inc:String = ""
 	
 	Field HUD:LTWindow
 	Field Background:LTShape
@@ -38,12 +39,12 @@ Type TGame Extends LTGUIProject
 	Field LeftMouse:LTButtonAction = LTButtonAction.Create( LTMouseButton.Create( 1 ), "Click" )
 	Field RightMouse:LTButtonAction = LTButtonAction.Create( LTMouseButton.Create( 2 ), "Swap" )
 	
-	Field SwapSound:TSound = LoadSound( L_Incbin + "sound\swap.ogg" )
-	Field RushSound:TSound = LoadSound( L_Incbin + "sound\rush.ogg" )
-	Field StopSound:TSound = LoadSound( L_Incbin + "sound\stop.ogg" )
-	Field SelectSound:TSound = LoadSound( L_Incbin + "sound\select.ogg" )
-	Field ExplosionSound:TSound = LoadSound( L_Incbin + "sound\explosion.ogg" )
-	Field WrongTurnSound:TSound = LoadSound( L_Incbin + "sound\wrong_turn.ogg" )
+	Field SwapSound:TSound = LoadSound( Inc + "sound\swap.ogg" )
+	Field RushSound:TSound = LoadSound( Inc + "sound\rush.ogg" )
+	Field StopSound:TSound = LoadSound( Inc + "sound\stop.ogg" )
+	Field SelectSound:TSound = LoadSound( Inc + "sound\select.ogg" )
+	Field ExplosionSound:TSound = LoadSound( Inc + "sound\explosion.ogg" )
+	Field WrongTurnSound:TSound = LoadSound( Inc + "sound\wrong_turn.ogg" )
 	
 	Field ExitWindow:Int
 	
@@ -79,16 +80,24 @@ Type TGame Extends LTGUIProject
 		L_CurrentProfile.ManageSounds()
 	
 		If Not Locked Then
-			Profile.LevelTime :+ MilliSecs() - LevelTime
+			Profile.LevelTime :+ 1.0 / L_LogicFPS
+			Profile.TurnTime :+ 1.0 / L_LogicFPS
 			If Not Profile.GameField Then
 				Menu.LoadFirstLevel()
 			Else
 				Game.SelectedTileX = -1
 				L_Cursor.CollisionsWithTileMap( Profile.GameField, TileSelectionHandler )
 				If Profile.Goals.IsEmpty() Then
-					Locked = True
 					LoadWindow( Menu.Interface, "LTLevelCompletedWindow" )
 				End If
+			End If
+			If ( Profile.TotalLevelTime > 0 And Profile.LevelTime > Profile.TotalLevelTime ) Or ..
+				( Profile.TotalTurns > 0 And Profile.Turns > Profile.TotalTurns ) Then
+					LoadWindow( Menu.Interface, "LTLevelFailedWindow" )
+			Else If Profile.TotalTurnTime > 0 And Profile.TurnTime > Profile.TotalTurnTime Then
+				Profile.CreateBalls()
+				Profile.TurnTime = 0.0
+				Profile.Turns :+ 1
 			End If
 		End If
 		

@@ -9,4 +9,12 @@
 '
 
 Type LTLevelFailedWindow Extends LTLevelCompletedWindow
+	Method Init()
+		If Profile.TotalLevelTime > 0 And Profile.LevelTime > Profile.TotalLevelTime Then
+			LTLabel( FindShape( "Title" ) ).Text = LocalizeString( "You are run out of time" )
+		Else If Profile.TotalTurns > 0 And Profile.Turns > Profile.TotalTurns Then
+			LTLabel( FindShape( "Title" ) ).Text = LocalizeString( "You are run out of turns" )
+		End If
+		Super.Init()
+	End Method
 End Type

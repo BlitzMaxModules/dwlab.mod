@@ -16,9 +16,15 @@ Type THUD Extends LTWindow
 	Field Distance:Double
 	Field Goal1X:Double
 	Field GoalDX:Double
+	Field LevelTimeBar:TBar
+	Field TurnsBar:TBar
+	Field TurnTimeBar:TBar
 	
 	Method Init()
 		Super.Init()
+		LevelTimeBar = TBar( FindShape( "level-time" ) )
+		TurnsBar = TBar( FindShape( "turns" ) )
+		TurnTimeBar = TBar( FindShape( "turn-time" ) )
 		Game.Background = FindShape( "Background" )
 		Remove( Game.Background )
 		Icon = LTSprite( FindShape( "GoalIcon" ) )
@@ -34,6 +40,11 @@ Type THUD Extends LTWindow
 	End Method
 
 	Method Draw()
+		LevelTimeBar.SetValue( Profile.LevelTime * ( Profile.TotalLevelTime > 0 ), Profile.TotalLevelTime )
+		TurnsBar.SetValue( Profile.Turns * ( Profile.TotalTurns > 0 ), Profile.TotalTurns )
+		TurnTimeBar.SetValue( Profile.TurnTime * ( Profile.TotalTurnTime > 0 ), Profile.TotalTurnTime )
+		'debugstop
+	
 		Super.Draw()
 		if Profile.NextBalls Then
 			If Profile.NextBalls.Length <= 5 Then

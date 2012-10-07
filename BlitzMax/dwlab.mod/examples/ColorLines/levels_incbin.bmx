@@ -1,4 +1,4 @@
 Incbin "levels.lw"
-Incbin "fields.png"
-Incbin "balls.png"
+Incbin "images\fields.png"
+Incbin "images\balls.png"
 L_SetIncbin( True )

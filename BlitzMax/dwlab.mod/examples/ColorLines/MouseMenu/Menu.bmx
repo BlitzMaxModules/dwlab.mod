@@ -70,8 +70,6 @@ Type LTMenu Extends LTGUIProject
 	Field MaxHighScores:Int = 10
 	Field NewHighScore:Int = -1
 	
-	Field LevelName:String
-	
 	Field GameState:LTObject
 	
 	Field Boss:TSound
@@ -189,13 +187,13 @@ Type LTMenu Extends LTGUIProject
 	
 	Method LoadFirstLevel()
 		L_CurrentProfile.FirstLockedLevel = LTShape( Levels.Children.First() ).GetName()
-		If Not LevelName Then LevelName = L_CurrentProfile.FirstLockedLevel
-		LoadLevel( LevelName )
+		If Not Profile.LevelName Then Profile.LevelName = L_CurrentProfile.FirstLockedLevel
+		LoadLevel( Profile.LevelName )
 	End Method
 	
 	Method LoadLevel( NewLevelName:String )
 		Profile.LoadLevel( LTLayer( Levels.FindShape( NewLevelName ) ) )
-		LevelName = NewLevelName
+		Profile.LevelName = NewLevelName
 	End Method
 	
 	Method NextLevel()
@@ -204,8 +202,8 @@ Type LTMenu Extends LTGUIProject
 			If LTLayer( Link.Value() ).GetName() = L_CurrentProfile.FirstLockedLevel Then
 				Link = Link.NextLink()
 				If Link Then
-					LevelName = LTLayer( Link.Value() ).GetName()
-					Profile.FirstLockedLevel = LevelName
+					Profile.LevelName = LTLayer( Link.Value() ).GetName()
+					Profile.FirstLockedLevel = Profile.LevelName
 				Else
 					LoadFirstLevel()
 				End If
@@ -223,7 +221,6 @@ Type LTMenu Extends LTGUIProject
 		XMLObject.ManageStringObjectMapField( "high-scores", Menu.HighScores )
 		XMLObject.ManageStringAttribute( "audio", LTProfile.AudioDriver )
 		XMLObject.ManageStringAttribute( "video", LTProfile.VideoDriver )
-		XMLObject.ManageStringAttribute( "level", Menu.LevelName )
 	End Method
 End Type
 

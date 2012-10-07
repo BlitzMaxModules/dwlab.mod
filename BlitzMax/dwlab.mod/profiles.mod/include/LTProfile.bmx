@@ -35,6 +35,9 @@ Type LTProfile Extends LTObject
 	End Rem
 	Global VideoDriver:String
 	
+	Field LevelName:String
+	Field LevelTime:Double
+	
 	Global MusicQuantity:Int
 	Global SoundChannels:TMap = New TMap
 	Global MusicChannel:TChannel = New TChannel
@@ -673,5 +676,6 @@ Type LTProfile Extends LTObject
 		XMLObject.ManageIntAttribute( "x-resolution", L_XResolution )
 		XMLObject.ManageIntAttribute( "y-resolution", L_YResolution )
 		XMLObject.ManageStringAttribute( "first-locked-level", FirstLockedLevel )
+		XMLObject.ManageStringAttribute( "level", LevelName )
 	End Method
 End Type

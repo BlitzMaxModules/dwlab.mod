@@ -17,11 +17,11 @@ Type TStats Extends LTObject
 	
 	Function AddStats( LevelIsCompleted:Int )
 		local Stat:TStats = New TStats
-		Stat.LevelName = Menu.LevelName
+		Stat.LevelName = Profile.LevelName
 		Stat.Completed = LevelIsCompleted
 		Stat.Score = Profile.Score
 		Stat.Time = Profile.LevelTime
-		Stat.Turns = Profile.LevelTurns
+		Stat.Turns = Profile.Turns
 		TStatList.Instance.Stats.AddLast( Stat )
 		TStatList.Instance.SaveToFile( "stats.xml" )
 	End Function
