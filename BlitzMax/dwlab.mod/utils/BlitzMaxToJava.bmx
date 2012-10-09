@@ -41,7 +41,7 @@ Type TIdentifier
 	Field Class:TClass
 End Type
 
-For Local Pair:String[] = Eachin [ ..
+For Local Pair:String[] = EachIn [ ..
 	[ "Byte", "byte" ], ..
 	[ "Short", "short" ], ..
 	[ "Int", "int" ], ..
@@ -151,7 +151,7 @@ Function GetClassNames( DirName:String, Package:String = "" )
 		
 		If Not FileName.ToLower().EndsWith( ".bmx" ) Then Continue
 	
-		DebugLog "Retrieving class names from " + FileName
+		Print "Retrieving class names from " + FileName
 		Local File:TStream = ReadFile( FullFileName )
 		While Not Eof( File )
 			Local Line:String = ReadLine( File ).Trim()
@@ -159,7 +159,7 @@ Function GetClassNames( DirName:String, Package:String = "" )
 				Line = Line[ 4.. ].Trim() + " "
 				TClass.Create( Package, Line[ ..Line.Find( " " ) ] )
 			End If
-		WEnd
+		Wend
 	Forever
 End Function
 
@@ -184,7 +184,7 @@ Function ProcessDirectory( DirName:String, Start:Int = -1 )
 		
 		FileClasses = New TMap
 		
-		DebugLog "Converting " + FileName
+		Print "Converting " + FileName
 		Local File:TStream = ReadFile( FullFileName )
 		Local Text:String = ""
 		Local RemBlock:Int = False
@@ -192,16 +192,16 @@ Function ProcessDirectory( DirName:String, Start:Int = -1 )
 			Local Line:String = ReadLine( File )
 			Local Trimmed:String = Line.ToLower().Trim()
 			If Trimmed.StartsWith( "?" ) Then Continue
-			if Text Then Text :+ "~n"
+			If Text Then Text :+ "~n"
 			If RemBlock Then
-				If Trimmed = "endrem" or Trimmed = "end rem" Then
+				If Trimmed = "endrem" Or Trimmed = "end rem" Then
 					Text :+ TRegEx.Create( "^((\t| )*)(EndRem|End Rem)" ).ReplaceAll( Line, "\1 */" )
 					RemBlock = False
 				Else
 					Local N:Int = 0
 					Repeat
 						N = Line.Find( "#", N ) + 1
-						If N = 0 or N = Line.Length Then Exit
+						If N = 0 Or N = Line.Length Then Exit
 						Line = Line[ ..N ] + Chr( Line[ N ] ).ToLower() + Line [ N + 1.. ]
 					Forever
 					
@@ -214,7 +214,8 @@ Function ProcessDirectory( DirName:String, Start:Int = -1 )
 				Text :+ TRegEx.Create( "^((\t| )*)Rem" ).ReplaceAll( Line, "\1/**" )
 				RemBlock = True
 			Else
-				If Trimmed.StartsWith( "import" ) Or Trimmed.StartsWith( "framework" ) Or Trimmed.StartsWith( "include" ) Then Continue
+				If Trimmed.StartsWith( "import" ) Or Trimmed.StartsWith( "framework" ) Or Trimmed.StartsWith( "include" ) Or ..
+						Trimmed = "superstrict" or Trimmed = "strict" Or Trimmed.StartsWith( "incbin" ) Then Continue
 				If Line.Trim() Then
 					Line :+ ";"
 					
@@ -240,22 +241,25 @@ Function ProcessDirectory( DirName:String, Start:Int = -1 )
 							End If
 						End If
 						N :+ 1
-					WEnd
+					Wend
 					
 					Text :+ ApplyRegExs( Line )
 				End If
 			End If
-		WEnd
+		Wend
 		CloseFile File
+		
+		Local Package:String = DirName[ Start + 1.. ].Replace( "\", "." )
 		
 		If FileName.StartsWith( "LT" ) Then FullFileName = DirName + "\" + FileName[ 2.. ]
 		If FileName[ 0 ] = Asc( "T" ) And FileName[ 1 ] >= Asc( "A" ) And FileName[ 1 ] <= Asc( "Z" ) Then FullFileName = DirName + "\" + FileName[ 1.. ]
-		File = WriteFile( FullFileName[ ..FullFileName.Length - 4 ] + ".java" )
+		Local Postfix:String = ""
+		If Package = "examples" Then Postfix = "Example"
+		File = WriteFile( FullFileName[ ..FullFileName.Length - 4 ] + Postfix + ".java" )
 		
-		Local Package:String = DirName[ Start + 1.. ].Replace( "\", "." )
 		WriteLine( File, "package " + Package + ";" )
-		For Local Class:TClass = Eachin FileClasses.Keys()
-			if Class.Package <> Package Then WriteLine( File, "import " + Class.Package + "." + Class.Name + ";" )
+		For Local Class:TClass = EachIn FileClasses.Keys()
+			If Class.Package <> Package Then WriteLine( File, "import " + Class.Package + "." + Class.Name + ";" )
 		Next
 		WriteLine( File, "" )
 		
@@ -286,7 +290,7 @@ Function ApplyRegExs:String( Text:String )
 	Text = TRegEx.Create( "^((\t| )*)(ElseIf|Else If) (.*?) Then((\t| )*);" ).ReplaceAll( Text, "\1} else if( \4 ) {" )
 	Text = TRegEx.Create( "^((\t| )*)(ElseIf|Else If) (.*?)((\t| )*);$" ).ReplaceAll( Text, "\1} else if( \4 ) {" )
 	Local LowerText:String =Text.Trim().ToLower()
-	if LowerText.StartsWith( "if" ) Then If Not LowerText.Contains( "then" ) Then Text = Text[ ..Text.Length - 1 ] + "then;"
+	If LowerText.StartsWith( "if" ) Then If Not LowerText.Contains( "then" ) Then Text = Text[ ..Text.Length - 1 ] + "then;"
 	Text = TRegEx.Create( "^((\t| )*)If (.*?) Then((\t| )*);$" ).ReplaceAll( Text, "\1if( \3 ) {" )
 	Text = TRegEx.Create( "^((\t| )*)If (.*?) Then (.*?) else (.*?);$" ).ReplaceAll( Text, "\1if( \3 ) \4; else \5;" )
 	Text = TRegEx.Create( "^((\t| )*)If (.*?) Then (.*?)((\t| )*);$" ).ReplaceAll( Text, "\1if( \3 ) \4;" )
