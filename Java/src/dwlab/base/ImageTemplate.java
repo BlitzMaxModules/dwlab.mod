@@ -6,17 +6,10 @@ import java.util.HashSet;
 public abstract class ImageTemplate extends Obj {
 	public static boolean loadImages = true;
 	private static HashSet<Image> images = new HashSet<Image>(); 
-	static int lastNum = 0;
 
 	String fileName;
-	int textureWidth, textureHeight;
 	int frameWidth, frameHeight;
 	int xCells, yCells;
-	
-	
-	public static int createTexture( int width, int height ) {
-		return 0;
-	}
 
 
 	/**

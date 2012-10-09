@@ -166,7 +166,7 @@ public class Camera extends VectorSprite {
 	 */
 	public void setCameraViewport() {
 		if( viewportClipping ) {
-			Graphics.setViewport( Service.round( viewport.getX() - 0.5 * viewport.getWidth() ), Service.round( viewport.getY() - 0.5 * viewport.getHeight() ),
+			Graphics.setViewport( Service.round( viewport.getX() ), Service.round( viewport.getY() ), 
 					Service.round( viewport.getWidth() ), Service.round( viewport.getHeight() ) );
 		} else {
 			Graphics.resetViewport();

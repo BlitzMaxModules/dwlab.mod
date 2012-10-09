@@ -43,6 +43,7 @@ public class Service extends Obj {
 			n--;
 			switch( strVal.charAt( n ) ) {
 				case '0':
+					break;
 				case '.':
 					return strVal.substring( 0, n );
 				default:
@@ -337,8 +338,8 @@ public class Service extends Obj {
 	public static void printText( String text, double x, double y, Align horizontalAlign, Align verticalAlign, Color color, boolean contour ) {
 		Camera.current.fieldToScreen( x, y, serviceVector00 );
 
-		double width = Graphics.textWidth( text );
-		double height = Graphics.textHeight();
+		double width = Graphics.getTextWidth( text );
+		double height = Graphics.getTextHeight();
 
 		switch( horizontalAlign ) {
 			case TO_CENTER:

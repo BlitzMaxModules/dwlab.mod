@@ -17,9 +17,16 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
+import static org.lwjgl.opengl.GL11.*;
 
-public class Graphics extends GraphicsTemplate {
+public class Graphics {
+	private static Color currentColor = Color.white.clone();
+	private static Color currentClearingColor = Color.black.clone();
+	private static double lineWidth = 1.0d;
+	private static int width, height;
+	private static int viewportX, viewportY;
+	private static int viewportWidth, viewportHeight;
+	
 	/**
 	* Sets graphics mode.
 	* Provide width and height of screen in pixels and unit size in pixels for camera.
@@ -36,12 +43,15 @@ public class Graphics extends GraphicsTemplate {
 			Logger.getLogger( Graphics.class.getName() ).log( Level.SEVERE, null, ex );
 		}
 
-		GL11.glMatrixMode( GL11.GL_PROJECTION) ;
-		GL11.glLoadIdentity();
-		GL11.glOrtho( 0d, width, 0d, height, 1d, -1d );
-		GL11.glMatrixMode( GL11.GL_MODELVIEW) ;
-		GL11.glShadeModel( GL11.GL_SMOOTH );
-		resetViewport();
+		glMatrixMode( GL_PROJECTION) ;
+		glLoadIdentity();
+		glOrtho( 0d, width, 0d, height, 1d, -1d );
+		glMatrixMode( GL_MODELVIEW) ;
+		glShadeModel( GL_SMOOTH );
+		glEnable( GL_TEXTURE_2D ); 
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//resetViewport();
 
 		try {
 			Mouse.create();
@@ -52,66 +62,167 @@ public class Graphics extends GraphicsTemplate {
 		Camera.current.viewport.setCoords( 0.5d * width, 0.5d * height );
 		Camera.current.viewport.setSize( width, height );
 		Camera.current.setSize( width / unitSize, height / unitSize );
+		
 	}
 
 	public static void init() {
 		init( 800, 600, 25d );
 	}
 	
+	
+	public static boolean initialized() {
+		return width == 0 ? false : true;
+	}
+	
+	public static int getScreenWidth() {
+		return width;
+	}
+	
+	public static int getScreenHeight() {
+		return height;
+	}
+	
+	
+	public void setColor( double red, double green, double blue, double alpha ) {
+		currentColor.set( red, green, blue, alpha );
+	}
+	
+	public void setClearingColor( double red, double green, double blue, double alpha ) {
+		currentClearingColor.set( red, green, blue, alpha );
+	}
+	
+	public void setLineWidth( double width ) {
+		lineWidth = width;
+	}
+	
 
 	public static void drawLine( double x1, double y1, double x2, double y2, double width, Color color ) {
-		GL11.glColor4d( color.red, color.green, color.blue, color.alpha );
-		GL11.glBegin( GL11.GL_LINES );
-			GL11.glVertex2d(	x1, y1 );
-			GL11.glVertex2d(	x2, y2 );
-		GL11.glEnd();		
+		glColor4d( color.red, color.green, color.blue, color.alpha );
+		glBegin( GL_LINES );
+			glVertex2d( x1, y1 );
+			glVertex2d( x2, y2 );
+		glEnd();		
+	}
+	
+	public static void drawLine( double x1, double y1, double x2, double y2 ) {
+		drawLine( x1, y1, x2, y2, lineWidth, currentColor );
+	}
+	
+	
+	public static void drawRectangle( double x, double y, double width, double height, double angle, Color color, boolean empty ){
+		width *= 0.5d ;
+		height *= 0.5d ;
+		glRectd( x - width, y - height, x + width, y + height );
+	}
+	
+	public static void drawRectangle( double x, double y, double width, double height ){
+		drawRectangle( x, y, width, height, 0d, currentColor, false );
+	}
+	
+	public static void drawEmptyRectangle( double x, double y, double width, double height ){
+		drawRectangle( x, y, width, height, 0d, currentColor, true );
+	}
+	
+	
+	public static void drawOval( double x, double y, double width, double height, double angle, Color color, boolean empty ){
+		int vertexQuantity = 8;
+		double step = 360d / vertexQuantity;
+		startPolygon( vertexQuantity, color, empty );
+		for( double ang = 0d; ang < 360d; ang += step ) addPolygonVertex( x + width * Math.cos( ang ), y + height * Math.sin( ang ) );
+		drawPolygon();
+	}
+	
+	public static void drawOval( double x, double y, double width, double height, double angle ){
+		drawOval( x, y, width, height, angle, currentColor, false );
+	}
+	
+	public static void drawEmptyOval( double x, double y, double width, double height, double angle ){
+		drawOval( x, y, width, height, angle, currentColor, true );
+	}
+	
+	public static void drawOval( double x, double y, double width, double height ){
+		drawOval( x, y, width, height, 0d, currentColor, false );
+	}
+	
+	public static void drawEmptyOval( double x, double y, double width, double height ){
+		drawOval( x, y, width, height, 0d, currentColor, true );
+	}
+	
+
+	public static void drawLongOval( double sX, double sY, double sWidth, double sHeight, double angle, Color color, boolean empty ) {
+		throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
 
 	public static void startPolygon( int vertexQuantity, Color color, boolean empty ) {
-		GL11.glColor4d( color.red, color.green, color.blue, color.alpha );
-		if( empty ) GL11.glBegin( GL11.GL_LINE_LOOP ); else GL11.glBegin( GL11.GL_POLYGON );
+		glColor4d( color.red, color.green, color.blue, color.alpha );
+		if( empty ) glBegin( GL_LINE_LOOP ); else glBegin( GL_POLYGON );
 	}
 
 	public static void addPolygonVertex( double x, double y ) {
-		GL11.glVertex2d(	x, y );
+		glVertex2d(	x, y );
 	}
 
 	public static void drawPolygon() {
-		GL11.glEnd();
+		glEnd();
 	}
 	
 	
 	public static void drawText( String string, double x, double y, Color color, Color contourColor ) {
-		//throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 
 	public static void drawText( String string, double x, double y, Color color ) {
-		//throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
+	public static void drawText( String string, double x, double y ) {
+		drawText( string, x, y, currentColor );
+	}
+	
+	public static double getTextWidth( String text ) {
+		return 1;
+		//throw new UnsupportedOperationException( "Not yet implemented" );
+	}
 
-	public static double textWidth( String text ) {
+	public static double getTextHeight() {
 		return 1;
 		//throw new UnsupportedOperationException( "Not yet implemented" );
 	}
 	
 
-	public static double textHeight() {
-		return 1;
-		//throw new UnsupportedOperationException( "Not yet implemented" );
+	public static void clearScreen() {
+		clearScreen( currentClearingColor );
 	}
-
-	public static void setViewport( int x, int y, int width, int height ) {
-		GraphicsTemplate.setViewport( x, y, width, height );
-		GL11.glViewport( x - width / 2, y - height / 2, width, height );
-	}
-	
 	
 	public static void clearScreen( Color color ) {
-		GL11.glClearColor( (float) color.red, (float) color.green, (float) color.blue, 1.0f );
-		GL11.glClear( GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT );
-		GL11.glLoadIdentity(); 
+		glClearColor( (float) color.red, (float) color.green, (float) color.blue, 1.0f );
+		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+		glLoadIdentity(); 
+	}
+	
+
+	public static void getViewport( Vector pivot, Vector size ) {
+		pivot.x = viewportX;
+		pivot.y = viewportY;
+		size.x = viewportWidth;
+		size.y = viewportHeight;
+	}
+
+
+
+	public static void setViewport( int x, int y, int width, int height ) {
+		viewportX = x;
+		viewportY = y;
+		viewportWidth = width;
+		viewportHeight = height;
+		glViewport( x - width / 2, y - height / 2, width, height );
+	}
+
+	public static void setViewport( Vector pivot, Vector size ) {
+		setViewport( Service.round( pivot.x ), Service.round( pivot.y ), Service.round( size.x ), Service.round( size.y ) );
+	}
+
+	public static void resetViewport() {
+		setViewport( getScreenWidth() / 2, getScreenHeight() / 2, getScreenWidth(), getScreenHeight() );
 	}
 	
 

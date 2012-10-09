@@ -11,6 +11,7 @@ package dwlab.controllers;
 import dwlab.base.Project;
 import dwlab.base.Sys;
 import dwlab.base.XMLObject;
+import org.lwjgl.input.Mouse;
 
 /**
  * Class for mouse wheel rollings.
@@ -48,7 +49,10 @@ public class MouseWheel extends Pushable {
 
 	@Override
 	public void processMouseEvent() {
-		Sys.processMouseWheelEvent( this );
+		int dWheel =Mouse.getEventDWheel();
+		if( dWheel != 0 ) {
+			if( direction == dWheel ) state = State.JUST_PRESSED;
+		}
 	}
 
 	/**

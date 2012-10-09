@@ -109,7 +109,7 @@ public class Shape extends Obj {
 	 */
 	public void printText( String text, double size, Color color, Align horizontalAlign, Align verticalAlign, double horizontalShift, double verticalShift, Color contourColor ) {
 		Camera.current.sizeFieldToScreen( 0, size, serviceSizes );
-		double k = serviceSizes.y / Graphics.textHeight();
+		double k = serviceSizes.y / Graphics.getTextHeight();
 
 		double xX, yY;
 		switch( horizontalAlign ) {
@@ -140,16 +140,16 @@ public class Shape extends Obj {
 
 		switch( horizontalAlign ) {
 			case TO_CENTER:
-				servicePivot.x -= 0.5 * Graphics.textWidth( text ) * k;
+				servicePivot.x -= 0.5 * Graphics.getTextWidth( text ) * k;
 			case TO_RIGHT:
-				servicePivot.x -= Graphics.textWidth( text ) * k;
+				servicePivot.x -= Graphics.getTextWidth( text ) * k;
 		}
 
 		switch( verticalAlign ) {
 			case TO_CENTER:
-				servicePivot.y -= 0.5 * Graphics.textHeight() * k;
+				servicePivot.y -= 0.5 * Graphics.getTextHeight() * k;
 			case TO_BOTTOM:
-				servicePivot.y -= Graphics.textHeight() * k;
+				servicePivot.y -= Graphics.getTextHeight() * k;
 		}
 
 		if( contourColor != null ) {

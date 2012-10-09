@@ -49,10 +49,9 @@ public class XMLObject extends Obj {
 	}
 	
 	public LinkedList<XMLObject> children = new LinkedList<XMLObject>();
-	
 	private Type type = Type.NORMAL;
-	private String text;
-	private int textPos;
+	
+	private static int textPos;
 
 
 	/**
@@ -112,7 +111,7 @@ public class XMLObject extends Obj {
 	}
 	
 	public void setAttribute( String attrName, double attrValue) {
-		setAttribute( attrName, String.valueOf( attrValue ) );
+		setAttribute( attrName, Service.trim( attrValue ) );
 	}
 
 
@@ -563,7 +562,9 @@ public class XMLObject extends Obj {
 
 			if( obj == null ) error( "Object with ID " + iD + " not found." );
 		} else if( obj != null ) {
-			int iD = iDMap.get( obj );
+			int iD = 0;
+			Object iDObj = iDMap.get( obj );
+			if( iDObj != null ) iD = (Integer) iDObj;
 			boolean undefined = undefinedObjects.contains( obj );
 			if( iD > 0 && ! undefined ) {
 				removeIDMap.remove( obj );
@@ -590,28 +591,27 @@ public class XMLObject extends Obj {
 
 
 	public int escapingBackslash = 0;
-
+	private static String text;
+					
 	public static XMLObject readFromFile( String fileName ) {
 		File file = File.read( fileName );
-		String content = "";
+		text = "";
 
 		version = 0;
 		while( true ) {
 			String string = file.readLine();
 			if( string == null ) break;
-			content += string;
+			text += string;
 			if( version == 0 ) {
-				int quote = content.indexOf( "\"", content.indexOf( "dwlab_version" ) );
-				version = Service.versionToInt( content.substring( quote + 1, content.indexOf( "\"", quote + 1 ) ) );
+				int quote = text.indexOf( "\"", text.indexOf( "dwlab_version" ) );
+				version = Service.versionToInt( text.substring( quote + 1, text.indexOf( "\"", quote + 1 ) ) );
 			}
 		}
 
 		file.close();
 
-		int n = 0;
-		//DebugLog Content
-		String fieldName = "";
-		return readObject( content, n, fieldName );
+		textPos = 0;
+		return readObject( new StringWrapper( "" ) );
 	}
 
 
@@ -624,21 +624,21 @@ public class XMLObject extends Obj {
 
 
 
-	public static XMLObject readObject( String text, int n, String fieldName ) {
+	public static XMLObject readObject( StringWrapper fieldName ) {
 		XMLObject obj = new XMLObject();
 
 		obj.readAttributes( fieldName );
 
 		if( obj.type == Type.NORMAL ) {
 			while( true ) {
-				String childFieldName = "";
-				XMLObject child = readObject( text, n, childFieldName );
+				StringWrapper childFieldName = new StringWrapper( "" );
+				XMLObject child = readObject( childFieldName );
 				if( child.type == Type.EMPTY ) {
 					if( child.name.equals( obj.name ) ) return obj;
 					error( "Error in XML file - wrong closing tag \"" + child.name + "\", expected \"" + obj.name + "\"" );
-				} else if( !childFieldName.isEmpty() ) {
+				} else if( !childFieldName.value.isEmpty() ) {
 					XMLObjectField objectField = new XMLObjectField();
-					objectField.name = childFieldName;
+					objectField.name = childFieldName.value;
 					objectField.value = child;
 					obj.fields.addLast( objectField );
 				} else {
@@ -655,7 +655,7 @@ public class XMLObject extends Obj {
 		String st = indent + "<" + name;
 		for( XMLAttribute attr: attributes ) {
 			String newValue = "";
-			for( int num=0; num <= attr.value.length(); num++ ) {
+			for( int num=0; num < attr.value.length(); num++ ) {
 				char character = attr.value.charAt( num );
 				switch( character ) {
 					case '\"':
@@ -692,7 +692,7 @@ public class XMLObject extends Obj {
 
 
 
-	public void readAttributes( String fieldName ) {
+	public void readAttributes( StringWrapper fieldName ) {
 		boolean readingContents = false;
 		boolean readingName = true;
 		boolean readingValue = false;
@@ -700,7 +700,6 @@ public class XMLObject extends Obj {
 		int chunkBegin = -1;
 
 		XMLAttribute attr = null;
-
 		while( textPos < text.length() ) {
 			if( quotes != '0' ) {
 				if( quotes == text.charAt( textPos ) ) {
@@ -708,7 +707,7 @@ public class XMLObject extends Obj {
 					attr.value = text.substring( chunkBegin, textPos );
 
 					if( attr.name.equals( "field" ) ) {
-						fieldName = attr.value;
+						fieldName.value = attr.value;
 					} else {
 						if( attr.name.equals( "id" ) ) maxID = Math.max( maxID, Integer.parseInt( attr.value ) );
 						attributes.addLast( attr );
@@ -742,17 +741,17 @@ public class XMLObject extends Obj {
 
 					if( type != Type.NORMAL && ! readingName ) error( "Error in XML file - invalid closing  tag" + text.substring( 0, textPos ) );
 				} else {
-					if( text.charAt( textPos ) == '=' && readingName || readingValue ) error( "Error in XML file - unexpected \"==\" " + text.substring( 0, textPos ) );
+					if( text.charAt( textPos ) == '=' && readingName || readingValue ) error( "Error in XML file - unexpected \"=\" " + text.substring( 0, textPos ) );
 
 					if( chunkBegin >= 0 ) {
 						if( readingName ) {
-							name = text.substring( chunkBegin, textPos ).toLowerCase();
+							name = text.substring( chunkBegin, textPos );
 							readingName = false;
 						} else if( readingValue ) {
 							attr.value = text.substring( chunkBegin, textPos );
 
 							if( attr.name.equals( "field" ) ) {
-								fieldName = attr.value;
+								fieldName.value = attr.value;
 							} else {
 								if( attr.name.equals( "id" ) ) maxID = Math.max( maxID, Integer.parseInt( attr.value ) );
 								attributes.addLast( attr );
@@ -761,7 +760,7 @@ public class XMLObject extends Obj {
 							readingValue = false;
 						} else {
 							attr = new XMLAttribute();
-							attr.name = text.substring( chunkBegin, textPos ).toLowerCase();
+							attr.name = text.substring( chunkBegin, textPos );
 							readingValue = true;
 						}
 						chunkBegin = -1;
@@ -793,5 +792,14 @@ public class XMLObject extends Obj {
 		if( sym >= '0' && sym <= '9' ) return true;
 		if( sym == '_' || sym == '-' ) return true;
 		return false;
+	}
+	
+	
+	public static class StringWrapper {
+		String value;
+		
+		StringWrapper( String value ) {
+			this.value = value;
+		}
 	}
 }

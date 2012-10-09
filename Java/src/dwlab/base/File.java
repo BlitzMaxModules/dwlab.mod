@@ -5,21 +5,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class File extends Obj {
-	private InputStream stream;
 	private BufferedReader reader;
-	private BufferedWriter writer;
+	private PrintWriter writer;
 	
 	
 	public static File read( String Filename ) {
 		File file = new File();
+		InputStream stream = null;
 		try {
-			file.stream = new FileInputStream( Filename );
+			stream = new FileInputStream( Filename );
 		} catch ( FileNotFoundException ex ) {
 			error( "Файл \"" + Filename + "\" не найден."  );
 		}
 		
 		try {
-			file.reader = new BufferedReader( new InputStreamReader( file.stream, "UTF8" ) );
+			file.reader = new BufferedReader( new InputStreamReader( stream, "UTF8" ) );
 		} catch ( UnsupportedEncodingException ex ) {
 			Logger.getLogger( File.class.getName() ).log( Level.SEVERE, null, ex );
 		}
@@ -31,8 +31,8 @@ public class File extends Obj {
 	public static File write( String Filename ) {
 		File file = new File();
 		try {
-			file.stream = new FileInputStream( Filename );
-		} catch ( FileNotFoundException ex ) {
+			file.writer = new PrintWriter( new FileWriter( Filename ) );
+		} catch ( IOException ex ) {
 			error( "Файл \"" + Filename + "\" не найден."  );
 		}
 		
@@ -52,13 +52,14 @@ public class File extends Obj {
 	
 
 	public void writeLine( String string ) {
+		writer.println( string );
 	}
 	
 
 	public void close() {
 		try {
-			reader.close();
-			stream.close();
+			if( reader != null ) reader.close();
+			if( writer != null ) writer.close();
 		} catch ( IOException ex ) {
 			Logger.getLogger( File.class.getName() ).log( Level.SEVERE, null, ex );
 		}

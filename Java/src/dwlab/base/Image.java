@@ -10,17 +10,22 @@
 package dwlab.base;
 
 import dwlab.visualizers.Color;
-import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import org.lwjgl.opengl.GL11;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static org.lwjgl.opengl.GL11.*;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
+	
 /**
  * Image class.
  */
 public class Image extends ImageTemplate {
-	int textureNum;
-
+	Texture texture;
+		
 	public Image() {
 	}
 	
@@ -38,13 +43,11 @@ public class Image extends ImageTemplate {
 		if( Sys.debug ) if( xCells <= 0 || yCells <= 0 ) error( "Cells quantity must be 1 or more" );
 		if( Sys.debug ) if( width <= 0 || height <= 0 ) error( "Cell sizes must be more than 0" );
 		
-		this.textureNum = createTexture( width, height );
+		this.texture = null;
 		this.xCells = xCells;
 		this.yCells = yCells;
 		this.frameWidth = width;
 		this.frameHeight = height;
-		this.textureWidth = width * xCells;
-		this.textureHeight = height * yCells;
 	}
 	
 	/**
@@ -74,46 +77,21 @@ public class Image extends ImageTemplate {
 	 */
 	@Override
 	public final void init() {
-		if( fileName.isEmpty() ) {
-			frameWidth = Math.round( frameWidth );
-			frameHeight = Math.round( frameHeight );
-			textureNum = createTexture( (int) frameWidth, (int) frameHeight, ByteBuffer.allocate( (int) ( 4d * frameWidth * frameHeight ) ) );
- 		} else {
-			java.awt.Image image = ( new javax.swing.ImageIcon( fileName ) ).getImage();
-			textureWidth = image.getWidth( null );
-			textureHeight = image.getHeight( null );
-			if( textureWidth == -1 ) error( "Image \"" + fileName + "\" or cannot be loaded or not found." );
-			BufferedImage tex = new BufferedImage( textureWidth, textureHeight, BufferedImage.TYPE_4BYTE_ABGR );
-			ByteBuffer scratch = ByteBuffer.allocateDirect( 4 * textureWidth * textureHeight * 4 );
-			scratch.clear();
-			scratch.put( (byte[]) tex.getRaster().getDataElements( 0, 0, textureWidth, textureHeight, null ) );
-			scratch.rewind();
-			textureNum = createTexture( textureWidth, textureHeight, scratch );
-			frameWidth = textureWidth / xCells;
-			frameHeight = textureWidth / yCells;
+		try {
+			texture = TextureLoader.getTexture( fileName.substring( fileName.length() - 3 ).toUpperCase(), 
+					ResourceLoader.getResourceAsStream( fileName ) );
+		} catch ( IOException ex ) {
+			Logger.getLogger( Image.class.getName() ).log( Level.SEVERE, null, ex );
 		}
+		frameWidth = texture.getTextureWidth() / xCells;
+		frameHeight = texture.getTextureWidth() / yCells;
 	}
-	
-	
-	public static int createTexture( int width, int height, ByteBuffer buffer ) {
-		lastNum++;
-		GL11.glBindTexture( GL11.GL_TEXTURE_2D, lastNum );
-		GL11.glPixelStorei( GL11.GL_UNPACK_ALIGNMENT, 1 );
-		GL11.glTexParameteri( GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP );
-		GL11.glTexParameteri( GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP );
-		GL11.glTexParameteri( GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR );
-		GL11.glTexParameteri( GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR );
-		GL11.glTexEnvi( GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE );
-		GL11.glTexImage2D( GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_INT, buffer );
-		return lastNum;
-	}
-	
 	
 	private static ByteBuffer buffer = ByteBuffer.allocateDirect( 4 );
 
 	@Override
 	public Color getPixel( int frame, int x, int y, Color color ) {
-		GL11.glReadPixels( x, y, 1, 1, GL11.GL_RGBA, GL11.GL_UNSIGNED_INT, buffer );
+		glReadPixels( x, y, 1, 1, GL_RGBA, GL_UNSIGNED_INT, buffer );
 		color.red = buffer.get( 0 ) / 255d;
 		color.green = buffer.get( 1 ) / 255d;
 		color.blue = buffer.get( 2 ) / 255d;
@@ -127,66 +105,71 @@ public class Image extends ImageTemplate {
 		buffer.put( 1, (byte) ( 255d * color.green ) );
 		buffer.put( 2, (byte) ( 255d * color.blue ) );
 		buffer.put( 3, (byte) ( 255d * color.alpha ) );
-		GL11.glDrawPixels( x, y, GL11.GL_RGBA, GL11.GL_UNSIGNED_INT, buffer );
+		glDrawPixels( x, y, GL_RGBA, GL_UNSIGNED_INT, buffer );
 	}
 	
 	
 	public int getPixel( int x, int y ) {
-		GL11.glReadPixels( x, y, 1, 1, GL11.GL_RGBA, GL11.GL_UNSIGNED_INT, intBuffer );
+		glReadPixels( x, y, 1, 1, GL_RGBA, GL_UNSIGNED_INT, intBuffer );
 		return intBuffer.get( 0 );
 	}
 	
 	private static IntBuffer intBuffer = IntBuffer.allocate( 1 );
 	public void setPixel( int x, int y, int color ) {
 		intBuffer.put( 0, color );
-		GL11.glDrawPixels( x, y, GL11.GL_RGBA, GL11.GL_UNSIGNED_INT, buffer );
+		glDrawPixels( x, y, GL_RGBA, GL_UNSIGNED_INT, buffer );
 	}
 	
 	
 	@Override
 	public void draw( int frame, double x, double y, double width, double height, double angle, Color color ){
-		width *= 0.5d ;
-		height *= 0.5d ;
-		double tx = width * ( frame % xCells );
-		double ty = height * Math.floor( frame / xCells );
-		double kx = 1d / textureWidth;
-		double ky = 1d / textureHeight;
+		double width2 = 0.5d * width ;
+		double height2 = 0.5d * height;
+		double tx = frameWidth * ( frame % xCells );
+		double ty = frameHeight * Math.floor( frame / xCells );
+		double kx = 1d / getTextureWidth();
+		double ky = 1d / getTextureHeight();
 		
-		GL11.glColor4d( color.red, color.green, color.blue, color.alpha );
-		GL11.glBegin( GL11.GL_QUADS );
-			GL11.glColor4d( color.red, color.green, color.blue, color.alpha );
-			GL11.glTexCoord2d( tx * kx, ty * kx );
-			GL11.glVertex2d(	x - width, y - height );
-			GL11.glTexCoord2d( ( tx + width - 1 ) * kx, ty * ky );
-			GL11.glVertex2d(	x + width, y - height );
-			GL11.glTexCoord2d( ( tx + width - 1 ) * kx, ( ty + height -1 ) * ky );
-			GL11.glVertex2d(	x + width, y + height );
-			GL11.glTexCoord2d( tx * kx, ( ty + height -1 ) * ky );
-			GL11.glVertex2d(	x - width, y + height );
-		GL11.glEnd();
+		texture.bind();
+		
+		glColor4d( color.red, color.green, color.blue, color.alpha );
+		glBindTexture( GL_TEXTURE_2D, texture.getTextureID() );
+		glBegin( GL_QUADS );
+			glColor4d( color.red, color.green, color.blue, color.alpha );
+			glTexCoord2d( tx * kx, ty * kx );
+			glVertex2d( x - width2, y - height2 );
+			glTexCoord2d( ( tx + frameWidth ) * kx, ty * ky );
+			glVertex2d( x + width2, y - height2 );
+			glTexCoord2d( ( tx + frameWidth ) * kx, ( ty + frameHeight ) * ky );
+			glVertex2d( x + width2, y + height2 );
+			glTexCoord2d( tx * kx, ( ty + frameHeight ) * ky );
+			glVertex2d( x - width2, y + height2 );
+		glEnd();
 	}
 	
 	
 	public void draw( int frame, double x, double y, double width, double height, int tx1, int ty1, int tx2, int ty2, Color color ){
-		width *= 0.5d ;
-		height *= 0.5d ;
-		double tx = width * ( frame % xCells );
-		double ty = height * Math.floor( frame / xCells );
-		double kx = 1d / textureWidth;
-		double ky = 1d / textureHeight;
+		double width2 = 0.5d * width ;
+		double height2 = 0.5d * height;
+		double tx = frameWidth * ( frame % xCells );
+		double ty = frameHeight * Math.floor( frame / xCells );
+		double kx = 1d / getTextureWidth();
+		double ky = 1d / getTextureHeight();
 		
-		GL11.glColor4d( color.red, color.green, color.blue, color.alpha );
-		GL11.glBegin( GL11.GL_QUADS );
-			GL11.glColor4d( color.red, color.green, color.blue, color.alpha );
-			GL11.glTexCoord2d( ( tx + tx1 ) * kx, ( ty + ty1 ) * kx );
-			GL11.glVertex2d(	x - width, y - height );
-			GL11.glTexCoord2d( ( tx + tx2) * kx, ( ty + ty1 ) * ky );
-			GL11.glVertex2d(	x + width, y - height );
-			GL11.glTexCoord2d( ( tx + tx2) * kx, ( ty + ty2 ) * ky );
-			GL11.glVertex2d(	x + width, y + height );
-			GL11.glTexCoord2d( ( tx + tx1 ) * kx, ( ty + ty2 ) * ky );
-			GL11.glVertex2d(	x - width, y + height );
-		GL11.glEnd();
+		texture.bind();
+		
+		glColor4d( color.red, color.green, color.blue, color.alpha );
+		glBegin( GL_QUADS );
+			glColor4d( color.red, color.green, color.blue, color.alpha );
+			glTexCoord2d( ( tx + tx1 * frameWidth ) * kx, ( ty + ty1 * frameHeight ) * kx );
+			glVertex2d( x - width2, y - height2 );
+			glTexCoord2d( ( tx + tx2 * frameWidth ) * kx, ( ty + ty1 * frameHeight ) * ky );
+			glVertex2d( x + width2, y - height2 );
+			glTexCoord2d( ( tx + tx2 * frameWidth ) * kx, ( ty + ty2 * frameHeight ) * ky );
+			glVertex2d( x + width2, y + height2 );
+			glTexCoord2d( ( tx + tx1 * frameWidth ) * kx, ( ty + ty2 * frameHeight ) * ky );
+			glVertex2d( x - width2, y + height2 );
+		glEnd();
 	}
 		
 	
@@ -205,5 +188,13 @@ public class Image extends ImageTemplate {
 	public boolean collides( int frame1, double x1, double y1, double width1, double height1, double angle1,
 			Image image2, int frame2, double x2, double y2, double width2, double height2, double angle2 ) {
 		throw new UnsupportedOperationException( "Not yet implemented" );
+	}
+
+	private double getTextureWidth() {
+		return texture.getImageWidth();
+	}
+
+	private double getTextureHeight() {
+		return texture.getImageHeight();
 	}
 }

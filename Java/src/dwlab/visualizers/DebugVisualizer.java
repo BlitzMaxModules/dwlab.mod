@@ -80,7 +80,7 @@ public class DebugVisualizer extends Visualizer {
 			String titles[] = sprite.getTitle().split( "|" );
 			serviceVector.y -= titles.length * 8;
 			for( String title: titles ) {
-				double txtWidth = 0.5 * Graphics.textWidth( title );
+				double txtWidth = 0.5 * Graphics.getTextWidth( title );
 				for( int dy=-1; dy <= 1; dy++ ) {
 					for( int dx=-( dy = 0 ); dx <= Math.abs( dy = 0 ); dx += 2 ) {
 						Graphics.drawText( title, serviceVector.x + dx - txtWidth, serviceVector.y + dy );

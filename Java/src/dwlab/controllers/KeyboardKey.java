@@ -12,6 +12,7 @@ package dwlab.controllers;
 import dwlab.base.Project;
 import dwlab.base.Sys;
 import dwlab.base.XMLObject;
+import org.lwjgl.input.Keyboard;
 
 /**
  * Class for keyboard keys.
@@ -245,7 +246,13 @@ public class KeyboardKey extends Pushable {
 
 	@Override
 	public void processKeyboardEvent() {
-		Sys.processKeyboardKeyEvent( this );
+		if( Keyboard.getEventKey() == code ) {
+			if( Keyboard.getEventKeyState() ) {
+				state = State.JUST_PRESSED;
+			} else {
+				state = State.JUST_UNPRESSED;
+			}
+		}
 	}
 	
 

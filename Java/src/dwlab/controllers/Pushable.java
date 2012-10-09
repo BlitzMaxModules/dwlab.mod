@@ -10,6 +10,7 @@
 package dwlab.controllers;
 
 import dwlab.base.Obj;
+import org.lwjgl.input.Keyboard;
 
 /**
  * Common class for keys, buttons and mouse wheel rolls.
@@ -61,11 +62,9 @@ public abstract class Pushable extends Obj {
 	
 
 	public void processKeyboardEvent() {
-		
 	}
 	
 	public void processMouseEvent() {
-		
 	}
 
 
@@ -73,8 +72,10 @@ public abstract class Pushable extends Obj {
 		switch( state ) {
 			case JUST_PRESSED:
 				state = State.PRESSED;
+				break;
 			case JUST_UNPRESSED:
 				state = State.UNPRESSED;
+				break;
 		}
 	}
 

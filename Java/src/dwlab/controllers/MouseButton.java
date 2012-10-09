@@ -11,22 +11,26 @@
 package dwlab.controllers;
 
 import dwlab.base.Project;
-import dwlab.base.Sys;
 import dwlab.base.XMLObject;
+import org.lwjgl.input.Mouse;
 
 /**
  * Class for mouse buttons.
  */
 public class MouseButton extends Pushable {
-	public int num;
+	public static final int LEFT_BUTTON = 0;
+	public static final int RIGHT_BUTTON = 1;
+	public static final int MIDDLE_BUTTON = 2;
 
+	public int num;
+	
 
 	/**
 	 * Creates mouse button object.
 	 * @return New object of mouse button with given number.
 	 */	
 	public static MouseButton create( int num ) {
-		if( num <= 0 || num > 3 ) error( "Invalid mouse button number" );
+		if( num < LEFT_BUTTON || num > MIDDLE_BUTTON ) error( "Invalid mouse button number" );
 
 		MouseButton button = new MouseButton();
 		button.num = num;
@@ -44,11 +48,11 @@ public class MouseButton extends Pushable {
 	@Override
 	public String getName() {
 		switch( num ) {
-			case 1:
+			case LEFT_BUTTON:
 				return "Left mouse button";
-			case 2:
+			case RIGHT_BUTTON:
 				return "Right mouse button";
-			case 3:
+			case MIDDLE_BUTTON:
 				return "Middle mouse button";
 			default:
 				return "";
@@ -72,7 +76,13 @@ public class MouseButton extends Pushable {
 
 	@Override
 	public void processMouseEvent() {
-		Sys.processMouseButtonEvent( this );
+		if( Mouse.getEventButton() == num ) {
+			if( Mouse.getEventButtonState() ) {
+				state = State.JUST_PRESSED;
+			} else {
+				state = State.JUST_UNPRESSED;
+			}
+		}
 	}
 
 

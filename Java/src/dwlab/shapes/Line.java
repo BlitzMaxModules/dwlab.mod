@@ -22,7 +22,7 @@ public class Line extends Shape {
 	public double a, b, c;
 	public double s, s2;
 
-	public Line serviceLine = new Line();
+	public static Line serviceLine = new Line();
 
 
 	public Line( double x1, double y1, double x2, double y2 ) {

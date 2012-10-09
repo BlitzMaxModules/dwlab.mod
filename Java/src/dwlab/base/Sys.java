@@ -1,14 +1,34 @@
 package dwlab.base;
 
-import dwlab.controllers.*;
-import dwlab.controllers.Pushable.State;
+import dwlab.controllers.ButtonAction;
+import dwlab.controllers.KeyboardKey;
+import dwlab.controllers.MouseButton;
+import dwlab.controllers.MouseWheel;
 import java.util.LinkedList;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
 
-public class Sys extends SysTemplate {
-	private static LinkedList<Integer> keys = new LinkedList<Integer>();
+public class Sys {
+	static LinkedList<Integer> keys = new LinkedList<Integer>();
+	
+	public static String version = "1.4.24";
+	
+	public static final boolean debug = true;
+	
+	public enum XMLMode {
+		GET,
+		SET
+	}
+	
+	public static XMLMode xMLMode;
+
+	public static boolean xMLGetMode() {
+		return xMLMode == XMLMode.GET;
+	}
+
+	public static boolean xMLSetMode() {
+		return xMLMode == XMLMode.SET;
+	}
 	
 	public static void flushControllers() {
 		flushKeyboard();
@@ -40,57 +60,6 @@ public class Sys extends SysTemplate {
 	
 	public static int mouseY() {
 		return Mouse.getY();
-	}
-
-	public static void processEvents( Project project ) {
-		while ( Keyboard.next() ) {
-			for( ButtonAction controller: Project.controllers ) {
-				for( Pushable pushable : controller.buttonList ) {
-					pushable.processKeyboardEvent();
-					project.onKeyboardEvent();
-					if( Keyboard.getEventKeyState() ) keys.add( Keyboard.getEventKey() );
-				}
-			}
-		}
-		
-		while ( Mouse.next() ) {
-			for( ButtonAction controller: Project.controllers ) {
-				for( Pushable pushable : controller.buttonList ) {
-					pushable.processMouseEvent();
-					project.onMouseEvent();
-				}
-			}
-		}
-		
-		if( Display.isCloseRequested() ) project.onCloseButton();
-	}
-	
-
-	public static void processKeyboardKeyEvent( KeyboardKey key ) {
-		if( Keyboard.getEventKey() == key.code ) {
-			if( Keyboard.getEventKeyState() ) {
-				key.state = State.JUST_PRESSED;
-			} else {
-				key.state = State.JUST_UNPRESSED;
-			}
-		}
-	}
-
-	public static void processMouseButtonEvent( MouseButton button ) {
-		if( Mouse.getEventButton() == button.num ) {
-			if( Mouse.getEventButtonState() ) {
-				button.state = State.JUST_PRESSED;
-			} else {
-				button.state = State.JUST_UNPRESSED;
-			}
-		}
-	}
-
-	public static void processMouseWheelEvent( MouseWheel wheel ) {
-		int dWheel =Mouse.getEventDWheel();
-		if( dWheel != 0 ) {
-			if( wheel.direction == dWheel ) wheel.state = State.JUST_PRESSED;
-		}
 	}
 
 	public static boolean getPushable( ButtonAction action ) {

@@ -10,6 +10,7 @@ import dwlab.shapes.layers.Layer;
 import dwlab.shapes.sprites.Sprite;
 import dwlab.shapes.sprites.Sprite.ShapeType;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 
 public class ActionExample extends Project {
@@ -60,6 +61,7 @@ public class ActionExample extends Project {
 
 	@Override
 	public void render() {
+		//sprites.children.getFirst().setCoords( 0.04 * Mouse.getX() - 16, 0.04 * Mouse.getY() - 12 );
 		sprites.draw();
 		Graphics.drawText( "Drag sprites with left mouse button, press CTRL-Z to undo, CTRL-Y to redo, F2 to save, F3 to load", 0, 0 );
 		Service.printText( "LTAction, L_Undo, L_Redo, L_PushActionsList, LTDrag example", 0, 12, Align.TO_CENTER, Align.TO_BOTTOM );
@@ -73,7 +75,7 @@ public class ActionExample extends Project {
 	
 
 	public static class MoveDrag extends Drag {
-		public ButtonAction key = ButtonAction.create( MouseButton.create( 1 ) );
+		public ButtonAction key = ButtonAction.create( MouseButton.create( MouseButton.LEFT_BUTTON ) );
 						
 		public Shape shape;
 		public MoveAction action;

@@ -9,7 +9,7 @@
 
 package dwlab.base;
 
-import dwlab.base.SysTemplate.XMLMode;
+import dwlab.base.Sys.XMLMode;
 import dwlab.base.XMLObject.XMLAttribute;
 import dwlab.base.XMLObject.XMLObjectField;
 import dwlab.shapes.layers.Layer;
@@ -20,6 +20,7 @@ import dwlab.shapes.sprites.VectorSprite;
 import dwlab.visualizers.Visualizer;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * Global object class
@@ -125,7 +126,7 @@ public class Obj {
 	 * #manageObjectMapField, #manageStringAttribute 
 	 */
 	public void xMLIO( XMLObject xMLObject ) {
-		if( Sys.xMLSetMode() ) xMLObject.name = getClass().getName();
+		if( Sys.xMLSetMode() ) xMLObject.name = getClass().getSimpleName();
 	}
 
 
@@ -167,7 +168,9 @@ public class Obj {
 
 	public static void fillIDArray( XMLObject xMLObject ) {
 		if( xMLObject.name.equals( "object" ) ) return;
-		int iD = Integer.parseInt( xMLObject.getAttribute( "id" ) );
+		int iD = 0;
+		if( xMLObject.attributeExists( "id" ) ) iD = Integer.parseInt( xMLObject.getAttribute( "id" ) );
+		
 		if( iD > 0 ) try {
 			iDArray[ iD ] = (Obj) Class.forName( xMLObject.name ).newInstance();
 		} catch ( InstantiationException ex ) {
@@ -205,8 +208,9 @@ public class Obj {
 		xMLObject.setAttribute( "dwlab_version", String.valueOf( Sys.version ) );
 
 		for( XMLObject xMLObject2: removeIDMap.values() ) {
-			for( XMLAttribute attr: xMLObject2.attributes ) {
-				if( attr.name.equals( "id" ) ) xMLObject2.attributes.remove( attr );
+			for ( Iterator<XMLAttribute> iterator = xMLObject2.attributes.iterator(); iterator.hasNext(); ) {
+				XMLAttribute attr = iterator.next();
+				if( attr.name.equals( "id" ) ) iterator.remove();
 			}
 		}
 
