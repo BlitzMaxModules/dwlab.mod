@@ -1353,7 +1353,7 @@ public class Shape extends Obj {
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
 
-		xMLObject.manageListField( "parameters", parameters );
+		parameters = xMLObject.manageListField( "parameters", parameters );
 		x = xMLObject.manageDoubleAttribute( "x", x );
 		y = xMLObject.manageDoubleAttribute( "y", y );
 		width = xMLObject.manageDoubleAttribute( "width", width, 1.0 );

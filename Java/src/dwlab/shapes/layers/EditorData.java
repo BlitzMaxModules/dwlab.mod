@@ -54,8 +54,8 @@ public class EditorData extends Obj {
 		super.xMLIO( xMLObject );
 
 		xMLObject.manageIntAttribute( "incbin", incbinValue );
-		xMLObject.manageListField( "images", images );
-		xMLObject.manageListField( "tilesets", tilesets );
+		images = xMLObject.manageListField( "images", images );
+		tilesets = xMLObject.manageListField( "tilesets", tilesets );
 
 		backgroundColor = xMLObject.manageObjectField( "background", backgroundColor );
 		gridCellWidth = xMLObject.manageDoubleAttribute( "cell_width", gridCellWidth, 1d );

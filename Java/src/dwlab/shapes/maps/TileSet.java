@@ -198,7 +198,7 @@ public class TileSet extends Obj {
 		blockWidth = xMLObject.manageIntArrayAttribute( "block-width", blockWidth, Service.getChunkLength( image.getXCells() ) );
 		blockHeight = xMLObject.manageIntArrayAttribute( "block-height", blockHeight, Service.getChunkLength( image.getYCells() ) );
 		emptyTile = xMLObject.manageIntAttribute( "empty-tile", emptyTile, -1 );
-		xMLObject.manageChildList( categories );
+		categories = xMLObject.manageChildList( categories );
 
 		if( Sys.xMLGetMode() ) {
 			collisionShape = new Shape[ tilesQuantity ];
@@ -243,7 +243,7 @@ public class TileSet extends Obj {
 			super.xMLIO( xMLObject );
 
 			name = xMLObject.manageStringAttribute( "name", name );
-			xMLObject.manageChildList( tileRules );
+			tileRules = xMLObject.manageChildList( tileRules );
 		}
 	}
 
@@ -269,7 +269,7 @@ public class TileSet extends Obj {
 			y = xMLObject.manageIntAttribute( "y", y );
 			xDivider = xMLObject.manageIntAttribute( "xdiv", xDivider, 1 );
 			yDivider = xMLObject.manageIntAttribute( "ydiv", yDivider, 1 );
-			xMLObject.manageChildList( tilePositions );
+			tilePositions = xMLObject.manageChildList( tilePositions );
 		}
 	}
 

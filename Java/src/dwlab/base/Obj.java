@@ -21,11 +21,13 @@ import dwlab.visualizers.Visualizer;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import org.reflections.Reflections;
 
 /**
  * Global object class
  */
 public class Obj {
+	public static HashMap<String, Class<Obj>> classes = new HashMap<String, Class<Obj>>();
 	public static HashMap<Obj, Integer> iDMap;
 	public static HashMap<Obj, XMLObject> removeIDMap;
 	public static int maxID;
@@ -136,6 +138,11 @@ public class Obj {
 	 * @see #saveToFile, #xMLIO
 	 */
 	public static Obj loadFromFile( String fileName, XMLObject xMLObject ) {
+		if( classes.isEmpty() ) {
+			Reflections reflections = new Reflections("");
+			for( Class objectClass : reflections.getSubTypesOf( Obj.class ) ) classes.put( objectClass.getSimpleName(), objectClass );
+		}
+		
 		if( xMLObject == null ) {
 			maxID = 0;
 			xMLObject = XMLObject.readFromFile( fileName );
@@ -145,14 +152,14 @@ public class Obj {
 		fillIDArray( xMLObject );
 		
 		Obj object = null;
+		Class<Obj> objectClass = classes.get( xMLObject.name );
+		if( objectClass == null ) error( "Class \"" + xMLObject.name + "\" not found" );
 		try {
-			object = ( Obj ) Class.forName( xMLObject.name ).newInstance();
+			object = objectClass.newInstance();
 		} catch ( InstantiationException ex ) {
 			error( "\"" + xMLObject.name + "\" is abstract class or interface" );
 		} catch ( IllegalAccessException ex ) {
 			error( "Class \"" + xMLObject.name + "\" is unaccessible" );
-		} catch ( ClassNotFoundException ex ) {
-			error( "Class \"" + xMLObject.name + "\" not found" );
 		}
 
 		Sys.xMLMode = XMLMode.GET;
@@ -164,21 +171,22 @@ public class Obj {
 	public static Obj loadFromFile( String fileName ) {
 		 return loadFromFile( fileName, null );
 	}
-
+	
 
 	public static void fillIDArray( XMLObject xMLObject ) {
-		if( xMLObject.name.equals( "object" ) ) return;
+		if( xMLObject.name.equals( "Object" ) ) return;
 		int iD = 0;
 		if( xMLObject.attributeExists( "id" ) ) iD = Integer.parseInt( xMLObject.getAttribute( "id" ) );
 		
+		Class objectClass = classes.get( xMLObject.name );
+		if( objectClass == null ) error( "Class \"" + xMLObject.name + "\" not found" );
+						
 		if( iD > 0 ) try {
-			iDArray[ iD ] = (Obj) Class.forName( xMLObject.name ).newInstance();
+			iDArray[ iD ] = (Obj) objectClass.newInstance();
 		} catch ( InstantiationException ex ) {
 			error( "\"" + xMLObject.name + "\" is abstract class or interface" );
 		} catch ( IllegalAccessException ex ) {
 			error( "Class \"" + xMLObject.name + "\" is unaccessible" );
-		} catch ( ClassNotFoundException ex ) {
-			error( "Class \"" + xMLObject.name + "\" not found" );
 		}
 		
 		for( XMLObject child: xMLObject.children ) {

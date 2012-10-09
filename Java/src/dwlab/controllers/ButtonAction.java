@@ -138,7 +138,7 @@ public class ButtonAction extends Obj {
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
 		name = xMLObject.manageStringAttribute( "name", name );
-		xMLObject.manageChildList( buttonList );
+		buttonList = xMLObject.manageChildList( buttonList );
 		if( Sys.xMLGetMode() ) Project.controllers.add( this );
 	}
 }

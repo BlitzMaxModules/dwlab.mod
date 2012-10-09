@@ -80,11 +80,13 @@ public class XMLObject extends Obj {
 	}
 
 	private int getIntegerAttribute( String attrName ) {
-		return Integer.parseInt( getAttribute( attrName ) );
+		String attrValue = getAttribute( attrName );
+		if( attrValue.isEmpty() ) return 0; else return Integer.parseInt( attrValue );
 	}
 
 	private double getDoubleAttribute( String attrName ) {
-		return Double.parseDouble( getAttribute( attrName ) );
+		String attrValue = getAttribute( attrName );
+		if( attrValue.isEmpty() ) return 0; else return Double.parseDouble( getAttribute( attrName ) );
 	}
 
 
@@ -369,17 +371,18 @@ public class XMLObject extends Obj {
 	 * Transfers data between XMLObject contents and framework object field with TList type.
 	 * @see #manageChildList, #xMLIO example
 	 */
-	public <E extends Obj> void manageListField( String fieldName, LinkedList<E> list ) {
+	public <E extends Obj> LinkedList<E> manageListField( String fieldName, LinkedList<E> list ) {
 		if( Sys.xMLGetMode() ) {
 			XMLObject xMLObject = getField( fieldName );
 			if( xMLObject != null ) xMLObject.manageChildList( list );
 		} else if( list != null ) {
-			if( list.isEmpty() ) return;
+			if( list.isEmpty() ) return list;
 			XMLObject xMLObject = new XMLObject();
 			xMLObject.name = "TList";
 			xMLObject.manageChildList( list );
 			setField( fieldName, xMLObject );
 		}
+		return list;
 	}
 
 
@@ -444,9 +447,9 @@ public class XMLObject extends Obj {
 	 * Transfers data between XMLObject contents and framework object field with TList type.
 	 * @see #manageListField, #manageChildArray, #xMLIO example
 	 */
-	public <E extends Obj> void manageChildList( LinkedList<E> list ) {
+	public <E extends Obj> LinkedList<E> manageChildList( LinkedList<E> list ) {
 		if( Sys.xMLGetMode() ) {
-			list = new LinkedList();
+			list = new LinkedList<E>();
 			for( XMLObject xMLObject: children ) {
 				list.addLast( xMLObject.manageObject( (E) null ) );
 			}
@@ -458,7 +461,8 @@ public class XMLObject extends Obj {
 				children.addLast( xMLObject );
 			}
 		}
-	}
+		return list;
+ 	}
 
 
 
@@ -544,16 +548,13 @@ public class XMLObject extends Obj {
 					obj = ( E ) iDArray[ iD ];
 				} else {
 					try {
-						Class objectClass = Class.forName( name );
-
+						Class objectClass = classes.get( name );;
 						if( objectClass == null ) error( "Object \"" + name + "\" not found" );
 
 						obj = ( E ) objectClass.newInstance();
 					} catch ( InstantiationException ex ) {
 						Logger.getLogger( XMLObject.class.getName() ).log( Level.SEVERE, null, ex );
 					} catch ( IllegalAccessException ex ) {
-						Logger.getLogger( XMLObject.class.getName() ).log( Level.SEVERE, null, ex );
-					} catch ( ClassNotFoundException ex ) {
 						Logger.getLogger( XMLObject.class.getName() ).log( Level.SEVERE, null, ex );
 					}
 				}

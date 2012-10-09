@@ -1,0 +1,253 @@
+<Layer width="0" height="0" dwlab_version="1.4.24">
+	<Visualizer field="visualizer"/>
+	<Sprite x="-0.33027664" y="-7.13349862" width="2.4737273" height="2.4737273" shape="OVAL" disp_angle="151.30817452" velocity="0">
+		<Visualizer field="visualizer" red="0.65024492" green="0.28044179" blue="0.80635531" xscale="1.3" yscale="1.3">
+			<Image field="image" id="4" filename="res/kolobok.png"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-3.44588704" y="-3.11360647" width="1.4447878" height="1.4447878" shape="OVAL" disp_angle="87.98457039" velocity="0">
+		<Visualizer field="visualizer" red="0.84795027" green="0.55037268" blue="0.49904984" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-12.72739935" y="-4.08326891" width="1.1209426" height="1.1209426" shape="OVAL" disp_angle="96.06454609" velocity="0">
+		<Visualizer field="visualizer" red="0.57659752" green="0.96926723" blue="0.36406466" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-0.36813138" y="3.37273693" width="2.86010543" height="2.86010543" shape="OVAL" disp_angle="111.49762908" velocity="0">
+		<Visualizer field="visualizer" red="0.66952044" green="0.57749085" blue="0.94449728" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="6.98032281" y="0.91653564" width="2.9839689" height="2.9839689" shape="OVAL" disp_angle="322.43554337" velocity="0">
+		<Visualizer field="visualizer" red="0.40275701" green="0.30799912" blue="0.75362145" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-8.5430816" y="0.76781219" width="1.36106017" height="1.36106017" shape="OVAL" disp_angle="77.3343763" velocity="0">
+		<Visualizer field="visualizer" red="0.83504799" green="0.60049087" blue="0.84951651" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-8.07044294" y="-2.31721372" width="2.15409492" height="2.15409492" shape="OVAL" disp_angle="71.44794035" velocity="0">
+		<Visualizer field="visualizer" red="0.47296322" green="0.35992421" blue="0.94538701" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-12.36033146" y="9.66453406" width="1.31458969" height="1.31458969" shape="OVAL" disp_angle="15.99402478" velocity="0">
+		<Visualizer field="visualizer" red="0.40827365" green="0.85029546" blue="0.41383731" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-6.09719102" y="6.47910154" width="2.01826152" height="2.01826152" shape="OVAL" disp_angle="122.70323859" velocity="0">
+		<Visualizer field="visualizer" red="0.92637354" green="0.89992422" blue="0.33208518" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-10.68426914" y="-3.72343157" width="2.89780342" height="2.89780342" shape="OVAL" disp_angle="155.25386716" velocity="0">
+		<Visualizer field="visualizer" red="0.67672636" green="0.65059521" blue="0.28239349" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-1.5599883" y="-3.15337715" width="2.70393295" height="2.70393295" shape="OVAL" disp_angle="53.44902849" velocity="0">
+		<Visualizer field="visualizer" red="0.61960345" green="0.57966907" blue="0.71652269" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="8.09264398" y="-6.89537197" width="2.99236837" height="2.99236837" shape="OVAL" disp_angle="258.28955848" velocity="0">
+		<Visualizer field="visualizer" red="0.2561335" green="0.30156065" blue="0.57700956" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="6.30214154" y="7.89769795" width="1.43125014" height="1.43125014" shape="OVAL" disp_angle="59.93068958" velocity="0">
+		<Visualizer field="visualizer" red="0.56135217" green="0.46463389" blue="0.68593878" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="14.61807961" y="-7.17655276" width="1.98232233" height="1.98232233" shape="OVAL" disp_angle="144.83708169" velocity="0">
+		<Visualizer field="visualizer" red="0.32951975" green="0.26010915" blue="0.66077177" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="8.13848514" y="-3.24817165" width="2.08642247" height="2.08642247" shape="OVAL" disp_angle="85.15547644" velocity="0">
+		<Visualizer field="visualizer" red="0.55050217" green="0.36746548" blue="0.85923368" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-0.58225777" y="3.89586391" width="1.51048474" height="1.51048474" shape="OVAL" disp_angle="140.24493181" velocity="0">
+		<Visualizer field="visualizer" red="0.44116675" green="0.50083717" blue="0.91459357" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="3.13216787" y="-6.03058012" width="1.92806665" height="1.92806665" shape="OVAL" disp_angle="160.48171933" velocity="0">
+		<Visualizer field="visualizer" red="0.42431233" green="0.74522529" blue="0.34196577" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-9.17936362" y="8.904355" width="1.67298874" height="1.67298874" shape="OVAL" disp_angle="180.14449595" velocity="0">
+		<Visualizer field="visualizer" red="0.70939142" green="0.38053213" blue="0.46727329" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-1.00205319" y="-1.090263" width="1.95878652" height="1.95878652" shape="OVAL" disp_angle="81.90996422" velocity="0">
+		<Visualizer field="visualizer" red="0.49267369" green="0.49236645" blue="0.41372589" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-4.10390335" y="5.91812385" width="2.93899246" height="2.93899246" shape="OVAL" disp_angle="272.17308621" velocity="0">
+		<Visualizer field="visualizer" red="0.42349487" green="0.54338735" blue="0.93881069" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-0.57458386" y="6.043643" width="2.00683697" height="2.00683697" shape="OVAL" disp_angle="132.35756763" velocity="0">
+		<Visualizer field="visualizer" red="0.96113357" green="0.71546652" blue="0.82141166" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="1.05498588" y="5.45225332" width="1.00185367" height="1.00185367" shape="OVAL" disp_angle="289.66433881" velocity="0">
+		<Visualizer field="visualizer" red="0.70602202" green="0.9813061" blue="0.40977803" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-12.00074218" y="4.05912742" width="1.18012313" height="1.18012313" shape="OVAL" disp_angle="312.17673512" velocity="0">
+		<Visualizer field="visualizer" red="0.47419679" green="0.83589949" blue="0.63205519" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-2.39300179" y="3.27247506" width="1.12124138" height="1.12124138" shape="OVAL" disp_angle="176.29311091" velocity="0">
+		<Visualizer field="visualizer" red="0.7436001" green="0.58304713" blue="0.94266918" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="7.04190381" y="7.80947397" width="1.1336957" height="1.1336957" shape="OVAL" disp_angle="182.23635622" velocity="0">
+		<Visualizer field="visualizer" red="0.7648664" green="0.48410686" blue="0.9236324" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-2.28651209" y="3.18417724" width="2.71881908" height="2.71881908" shape="OVAL" disp_angle="98.02421509" velocity="0">
+		<Visualizer field="visualizer" red="0.48268904" green="0.77539577" blue="0.7650696" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="5.62501589" y="7.00260547" width="2.93269854" height="2.93269854" shape="OVAL" disp_angle="204.41205631" velocity="0">
+		<Visualizer field="visualizer" red="0.76647872" green="0.44789364" blue="0.80403478" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-10.96648741" y="-6.77219199" width="1.05304072" height="1.05304072" shape="OVAL" disp_angle="13.9343556" velocity="0">
+		<Visualizer field="visualizer" red="0.52533654" green="0.65340454" blue="0.36255061" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-1.74706556" y="8.27934481" width="1.43955408" height="1.43955408" shape="OVAL" disp_angle="117.57586827" velocity="0">
+		<Visualizer field="visualizer" red="0.42251835" green="0.90136197" blue="0.30585628" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="2.79870582" y="3.93672952" width="2.82475965" height="2.82475965" shape="OVAL" disp_angle="247.00159971" velocity="0">
+		<Visualizer field="visualizer" red="0.71689617" green="0.79330907" blue="0.81489912" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="12.15826616" y="-1.22704557" width="1.69491945" height="1.69491945" shape="OVAL" disp_angle="164.27820704" velocity="0">
+		<Visualizer field="visualizer" red="0.7545683" green="0.85248938" blue="0.82048326" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-11.81449286" y="6.37081443" width="1.25203613" height="1.25203613" shape="OVAL" disp_angle="318.10573593" velocity="0">
+		<Visualizer field="visualizer" red="0.35020628" green="0.9106642" blue="0.43381054" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="4.64799615" y="-8.79142832" width="2.12825748" height="2.12825748" shape="OVAL" disp_angle="222.27946651" velocity="0">
+		<Visualizer field="visualizer" red="0.58206777" green="0.57290374" blue="0.81323011" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="7.70259405" y="-6.82602564" width="1.29075014" height="1.29075014" shape="OVAL" disp_angle="31.45212245" velocity="0">
+		<Visualizer field="visualizer" red="0.99916732" green="0.96614841" blue="0.34981731" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="8.03493871" y="0.44641311" width="1.40112786" height="1.40112786" shape="OVAL" disp_angle="310.79835772" velocity="0">
+		<Visualizer field="visualizer" red="0.51073287" green="0.80270327" blue="0.6348929" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="7.30485651" y="4.85193959" width="2.65215076" height="2.65215076" shape="OVAL" disp_angle="159.49046614" velocity="0">
+		<Visualizer field="visualizer" red="0.62937317" green="0.34733853" blue="0.34997237" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="9.07746058" y="-8.51440551" width="2.8736595" height="2.8736595" shape="OVAL" disp_angle="235.55767913" velocity="0">
+		<Visualizer field="visualizer" red="0.30386137" green="0.75597206" blue="0.91346573" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="3.41689671" y="0.54470573" width="2.55782021" height="2.55782021" shape="OVAL" disp_angle="274.09490918" velocity="0">
+		<Visualizer field="visualizer" red="0.55248867" green="0.48546216" blue="0.59478553" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="5.87969437" y="6.24600508" width="1.05500369" height="1.05500369" shape="OVAL" disp_angle="268.05765718" velocity="0">
+		<Visualizer field="visualizer" red="0.84822339" green="0.48636262" blue="0.37615001" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-4.26093623" y="-0.22575279" width="1.84895801" height="1.84895801" shape="OVAL" disp_angle="214.12196602" velocity="0">
+		<Visualizer field="visualizer" red="0.76761145" green="0.7619909" blue="0.54991177" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-8.61909809" y="1.88505495" width="2.75852947" height="2.75852947" shape="OVAL" disp_angle="308.50091305" velocity="0">
+		<Visualizer field="visualizer" red="0.32866597" green="0.88932498" blue="0.56086316" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="12.2639173" y="7.76161454" width="2.29642305" height="2.29642305" shape="OVAL" disp_angle="105.16437366" velocity="0">
+		<Visualizer field="visualizer" red="0.51276269" green="0.26015476" blue="0.29705271" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="0.0482517" y="3.46671959" width="2.18250013" height="2.18250013" shape="OVAL" disp_angle="100.81344704" velocity="0">
+		<Visualizer field="visualizer" red="0.45417341" green="0.6234812" blue="0.90180506" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="5.40352571" y="-1.01107132" width="2.50036713" height="2.50036713" shape="OVAL" disp_angle="54.94174454" velocity="0">
+		<Visualizer field="visualizer" red="0.33892318" green="0.32665186" blue="0.80405961" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="9.50046127" y="-2.00421438" width="1.77110251" height="1.77110251" shape="OVAL" disp_angle="181.51133485" velocity="0">
+		<Visualizer field="visualizer" red="0.65807331" green="0.79365598" blue="0.3552571" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-1.52292823" y="6.57292196" width="1.47707089" height="1.47707089" shape="OVAL" disp_angle="268.75841705" velocity="0">
+		<Visualizer field="visualizer" red="0.72133168" green="0.53851809" blue="0.86107096" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="0.50510617" y="-4.7944859" width="1.81687793" height="1.81687793" shape="OVAL" disp_angle="357.88554034" velocity="0">
+		<Visualizer field="visualizer" red="0.59291117" green="0.96521564" blue="0.31356735" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="9.39915346" y="-9.15951375" width="2.3530211" height="2.3530211" shape="OVAL" disp_angle="217.13555094" velocity="0">
+		<Visualizer field="visualizer" red="0.42690839" green="0.97023897" blue="0.45009506" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="6.24079412" y="-8.8818017" width="2.5254699" height="2.5254699" shape="OVAL" disp_angle="258.12510465" velocity="0">
+		<Visualizer field="visualizer" red="0.80169634" green="0.62183174" blue="0.97251828" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+	<Sprite x="-13.48662947" y="2.1575947" width="2.06335539" height="2.06335539" shape="OVAL" disp_angle="247.28312286" velocity="0">
+		<Visualizer field="visualizer" red="0.824134" green="0.70656038" blue="0.31732272" xscale="1.3" yscale="1.3">
+			<Object field="image" id="4"/>
+		</Visualizer>
+	</Sprite>
+</Layer>

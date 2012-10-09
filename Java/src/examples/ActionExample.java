@@ -1,144 +1,115 @@
 package examples;
-
-import dwlab.base.*;
-import dwlab.controllers.ButtonAction;
-import dwlab.controllers.KeyboardKey;
-import dwlab.controllers.MouseButton;
-import dwlab.controllers.Pushable.Modifiers;
+import java.lang.Math;
+import dwlab.base.Action;
+import dwlab.base.Align;
+import dwlab.base.Image;
+import dwlab.base.Project;
+import dwlab.base.Object;
+import dwlab.base.Drag;
 import dwlab.shapes.Shape;
 import dwlab.shapes.layers.Layer;
 import dwlab.shapes.sprites.Sprite;
-import dwlab.shapes.sprites.Sprite.ShapeType;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 
+public static Example example = new Example();
+example.execute();
 
-public class ActionExample extends Project {
-	static {
-		Graphics.init();
-	}
-	
-	private static ActionExample instance = new ActionExample();
-	
-	public static ButtonAction undoKey = ButtonAction.create( KeyboardKey.create( Keyboard.KEY_Z, Modifiers.CONTROL ) );
-	public static ButtonAction redoKey = ButtonAction.create( KeyboardKey.create( Keyboard.KEY_Y, Modifiers.CONTROL ) );
-	public static ButtonAction saveKey = ButtonAction.create( KeyboardKey.create( Keyboard.KEY_F2 ) );
-	public static ButtonAction loadKey = ButtonAction.create( KeyboardKey.create( Keyboard.KEY_F3 ) );
-	
+public class Example extends Project {
 	public final int spritesQuantity = 50;
 
-	public static Layer sprites = new Layer();
-	public static Image spriteImage = new Image( "res/kolobok.png" );
-	public static MoveDrag drag = new MoveDrag();
-	
-	
-	@Override
+	public Layer sprites = new Layer();
+	public Image spriteImage = Image.fromFile( " incbinkolobok .png" );
+	public MoveDrag drag = new MoveDrag();
+
 	public void init() {
 		for( int n = 1; n <= spritesQuantity; n++ ) {
-			Sprite sprite = new Sprite( ShapeType.OVAL, Service.random( -15, 15 ), Service.random( -11, 11 ), 0, 0 );
-			sprite.setDiameter( Service.random( 1, 3 ) );
-			sprite.displayingAngle= Service.random( 360 );
+			Sprite sprite = Sprite.fromShape( Math.random( -15, 15 ), Math.random( -11, 11 ), , , Sprite.oval );
+			sprite.setDiameter( Math.random( 1, 3 ) );
+			sprite.displayingAngle= Math.random( 360 );
 			sprite.visualizer.setRandomColor();
 			sprite.visualizer.image = spriteImage;
 			sprite.visualizer.setVisualizerScales( 1.3 );
 			sprites.addLast( sprite );
 		}
+		initGraphics();
 	}
-	
 
-	@Override
 	public void logic() {
-		drag.act();
+		drag.execute();
 
-		Action.pushActionsList();
-		if( undoKey.wasPressed() ) Action.undoStep();
-		if( redoKey.wasPressed() ) Action.redoStep();
+		pushActionsList();
+		if( keyDown( key_LControl ) || keyDown( key_RControl ) ) {
+			if( keyHit( key_Z ) ) undo();
+			if( keyHit( key_Y ) ) redo();
+		}
 
-		if( saveKey.wasPressed() ) sprites.saveToFile( "sprites2.lw" );
-		if( loadKey.wasPressed() ) sprites = Obj.loadFromFile( "sprites2.lw" ).toLayer();
+		if( keyHit( key_F2 ) ) sprites.saveToFile( "sprites2.lw" );
+		if( keyHit( key_F3 ) ) sprites = Layer( Object.loadFromFile( "sprites2.lw" ) );
+
+		if( appTerminate() || keyHit( key_Escape ) ) exiting = true;
 	}
-	
 
-	@Override
 	public void render() {
-		//sprites.children.getFirst().setCoords( 0.04 * Mouse.getX() - 16, 0.04 * Mouse.getY() - 12 );
 		sprites.draw();
-		Graphics.drawText( "Drag sprites with left mouse button, press CTRL-Z to undo, CTRL-Y to redo, F2 to save, F3 to load", 0, 0 );
-		Service.printText( "LTAction, L_Undo, L_Redo, L_PushActionsList, LTDrag example", 0, 12, Align.TO_CENTER, Align.TO_BOTTOM );
+		drawText( "Drag sprites with left mouse button, press CTRL-Z to undo, CTRL-Y to redo, F2 to save, F3 to load", 0, 0 );
+		printText( "LTAction, L_Undo, L_Redo, L_PushActionsList, LTDrag example", 0, 12, Align.toCenter, Align.toBottom );
 	}
-	
-	
-	
-	public static void main(String[] argv) {
-		instance.act();
+}
+
+
+
+public class MoveDrag extends Drag {
+	public Shape shape;
+	public MoveAction action;
+	public double dX, double dY;
+
+	public int dragKey() {
+		return mouseDown( 1 );
 	}
-	
 
-	public static class MoveDrag extends Drag {
-		public ButtonAction key = ButtonAction.create( MouseButton.create( MouseButton.LEFT_BUTTON ) );
-						
-		public Shape shape;
-		public MoveAction action;
-		public double dX, dY;
-
-		
-		@Override
-		public boolean dragKey() {
-			return key.isDown();
-		}
-		
-
-		@Override
-		public void startDragging() {
-			shape = cursor.firstCollidedSpriteOfLayer( sprites );
-			if( shape != null ) {
-				action = new MoveAction( shape );
-				dX = shape.getX() - cursor.getX();
-				dY = shape.getY() - cursor.getY();
-			} else {
-				draggingState = false;
-			}
-		}
-		
-
-		@Override
-		public void dragging() {
-			shape.setCoords( cursor.getX() + dX, cursor.getY() + dY );
-		}
-		
-
-		@Override
-		public void endDragging() {
-			action.newX = shape.getX();
-			action.newY = shape.getY();
-			action.perform();
+	public void startDragging() {
+		shape = cursor.firstCollidedSpriteOfLayer( example.sprites );
+		if( shape ) {
+			action = MoveAction.create( shape );
+			dX = shape.x - cursor.x;
+			dY = shape.y - cursor.y;
+		} else {
+			draggingState = false;
 		}
 	}
 
+	public void dragging() {
+		shape.setCoords( cursor.x + dX, cursor.y + dY );
+	}
 
-	public static class MoveAction extends Action {
-		public Shape shape;
-		public double oldX, oldY;
-		public double newX, newY;
+	public void endDragging() {
+		action.newX = shape.x;
+		action.newY = shape.y;
+		action.do();
+	}
+}
 
-		
-		public MoveAction( Shape shape ) {
-			this.shape = shape;
-			this.oldX = shape.getX();
-			this.oldY = shape.getY();
-		}
 
-		
-		@Override
-		public void perform() {
-			shape.setCoords( newX, newY );
-			super.perform();
-		}
 
-		@Override
-		public void undo() {
-			shape.setCoords( oldX, oldY );
-			super.undo();
-		}
+public class MoveAction extends Action {
+	public Shape shape;
+	public double oldX, double oldY;
+	public double newX, double newY;
+
+	public static MoveAction create( Shape shape ) {
+		MoveAction action = new MoveAction();
+		action.shape = shape;
+		action.oldX = shape.x;
+		action.oldY = shape.y;
+		return action;
+	}
+
+	public void do() {
+		shape.setCoords( newX, newY );
+		super.do();
+	}
+
+	public void undo() {
+		shape.setCoords( oldX, oldY );
+		super.undo();
 	}
 }

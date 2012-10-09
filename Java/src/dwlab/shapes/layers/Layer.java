@@ -387,7 +387,7 @@ public class Layer extends Shape {
 	public void xMLIO( XMLObject xMLObject ) {
 		super.xMLIO( xMLObject );
 
-		xMLObject.manageChildList( children );
+		children = xMLObject.manageChildList( children );
 		bounds = xMLObject.manageObjectField( "bounds", bounds );
 		mixContent = xMLObject.manageBooleanAttribute( "mix-content", mixContent );
 	}
