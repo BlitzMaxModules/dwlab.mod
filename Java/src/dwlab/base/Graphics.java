@@ -11,6 +11,8 @@ package dwlab.base;
 
 import dwlab.shapes.sprites.Camera;
 import dwlab.visualizers.Color;
+import java.awt.Font;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lwjgl.LWJGLException;
@@ -18,6 +20,8 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import static org.lwjgl.opengl.GL11.*;
+import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.util.ResourceLoader;
 
 public class Graphics {
 	private static Color currentColor = Color.white.clone();
@@ -26,6 +30,7 @@ public class Graphics {
 	private static int width, height;
 	private static int viewportX, viewportY;
 	private static int viewportWidth, viewportHeight;
+	private static TrueTypeFont currentFont;
 	
 	/**
 	* Sets graphics mode.
@@ -33,7 +38,7 @@ public class Graphics {
 
 	* @see #parallax example
 	*/
-	public static void init( int newWidth, int newHeight, double unitSize ) {
+	public static void init( int newWidth, int newHeight, double unitSize, boolean loadFont ) {
 		width =newWidth;
 		height = newHeight;
 		try {
@@ -63,10 +68,11 @@ public class Graphics {
 		Camera.current.viewport.setSize( width, height );
 		Camera.current.setSize( width / unitSize, height / unitSize );
 		
+		if( loadFont ) Graphics.setCurrentFont( Graphics.loadFont( "res/font.ttf", 32 ) );
 	}
 
 	public static void init() {
-		init( 800, 600, 25d );
+		init( 800, 600, 25d, true );
 	}
 	
 	
@@ -160,13 +166,28 @@ public class Graphics {
 	}
 
 	public static void addPolygonVertex( double x, double y ) {
-		glVertex2d(	x, y );
+		glVertex2d( x, y );
 	}
 
 	public static void drawPolygon() {
 		glEnd();
 	}
 	
+	
+	public static TrueTypeFont loadFont( String fileName, float size ) {
+		try {
+			InputStream inputStream	= ResourceLoader.getResourceAsStream("myfont.ttf");
+			Font font = Font.createFont( Font.TRUETYPE_FONT, inputStream );
+			font = font.deriveFont( size ); // set font size
+			return new TrueTypeFont( font, false );
+		} catch (Exception e) {
+		}
+		return null;
+	}
+	
+	public static void setCurrentFont( TrueTypeFont font ) {
+		currentFont = font;
+	}
 	
 	public static void drawText( String string, double x, double y, Color color, Color contourColor ) {
 	}
@@ -177,15 +198,56 @@ public class Graphics {
 	public static void drawText( String string, double x, double y ) {
 		drawText( string, x, y, currentColor );
 	}
+
+	private static Vector serviceVector = new Vector();
+	
+	public static void drawText( String text, double x, double y, Align horizontalAlign, Align verticalAlign, Color color, boolean contour ) {
+		Camera.current.fieldToScreen( x, y, serviceVector );
+
+		double textWidth = Graphics.getTextWidth( text );
+		double textHeight = Graphics.getTextHeight();
+
+		switch( horizontalAlign ) {
+			case TO_CENTER:
+				serviceVector.x -= 0.5 * textWidth;
+			case TO_RIGHT:
+				serviceVector.x -= textWidth;
+		}
+
+		switch( verticalAlign ) {
+			case TO_CENTER:
+				serviceVector.y -= 0.5 * textHeight;
+			case TO_BOTTOM:
+				serviceVector.y -= textHeight;
+		}
+
+		if( contour ) {
+			drawTextWithContour( text, serviceVector.x, serviceVector.y );
+		} else {
+			drawText( text, serviceVector.x, serviceVector.y, color );
+		}
+	}
+
+	public static void drawText( String text, double x, double y, Align horizontalAlign, Align verticalAlign ) {
+		drawText( text, x, y, horizontalAlign, verticalAlign, Color.white, false );
+	}
+
+
+	public static void drawTextWithContour( String text, double x, double y ) {
+		for( int dY=-1; dY <= 1; dY++ ) {
+			for( int dX=Math.abs( dY ) - 1; dX <= 1 - Math.abs( dY ); dX++ ) {
+				Graphics.drawText( text, x + dX, y + dY, Color.white );
+			}
+		}
+		Graphics.drawText( text, x, y, Color.black );
+	}
 	
 	public static double getTextWidth( String text ) {
-		return 1;
-		//throw new UnsupportedOperationException( "Not yet implemented" );
+		return currentFont.getWidth( text );
 	}
 
 	public static double getTextHeight() {
-		return 1;
-		//throw new UnsupportedOperationException( "Not yet implemented" );
+		return currentFont.getHeight();
 	}
 	
 

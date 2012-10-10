@@ -335,48 +335,6 @@ public class Service extends Obj {
 	}
 
 
-	public static void printText( String text, double x, double y, Align horizontalAlign, Align verticalAlign, Color color, boolean contour ) {
-		Camera.current.fieldToScreen( x, y, serviceVector00 );
-
-		double width = Graphics.getTextWidth( text );
-		double height = Graphics.getTextHeight();
-
-		switch( horizontalAlign ) {
-			case TO_CENTER:
-				serviceVector00.x -= 0.5 * width;
-			case TO_RIGHT:
-				serviceVector00.x -= width;
-		}
-
-		switch( verticalAlign ) {
-			case TO_CENTER:
-				serviceVector00.y -= 0.5 * height;
-			case TO_BOTTOM:
-				serviceVector00.y -= height;
-		}
-
-		if( contour ) {
-			drawTextWithContour( text, serviceVector00.x, serviceVector00.y );
-		} else {
-			Graphics.drawText( text, serviceVector00.x, serviceVector00.y, color );
-		}
-	}
-
-	public static void printText( String text, double x, double y, Align horizontalAlign, Align verticalAlign ) {
-		printText( text, x, y, horizontalAlign, verticalAlign, Color.white, false );
-	}
-
-
-	public static void drawTextWithContour( String text, double x, double y ) {
-		for( int dY=-1; dY <= 1; dY++ ) {
-			for( int dX=Math.abs( dY ) - 1; dX <= 1 - Math.abs( dY ); dX++ ) {
-				Graphics.drawText( text, x + dX, y + dY, Color.white );
-			}
-		}
-		Graphics.drawText( text, x, y, Color.black );
-	}
-
-
 	public static int versionToInt( String version, int totalChunks ) {
 		String versions[] = version.split( "\\." );
 		int intVersion = 0;
