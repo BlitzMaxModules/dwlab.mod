@@ -1,7 +1,3 @@
-package dwlab.base;
-import java.util.LinkedList;
-
-
 /* Digital Wizard's Lab - game development framework
  * Copyright (C) 2012, Matt Merkulov
  *
@@ -10,6 +6,10 @@ import java.util.LinkedList;
  * file distributed with this code, or available from
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
+
+package dwlab.base;
+
+import java.util.LinkedList;
 
 /**
  * Action class for implementing Undo/Redo technology.

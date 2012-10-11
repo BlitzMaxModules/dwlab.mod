@@ -11,7 +11,6 @@ package dwlab.base;
 
 import dwlab.shapes.Shape;
 import dwlab.shapes.sprites.Camera;
-import dwlab.visualizers.Color;
 import java.util.Arrays;
 
 public class Service extends Obj {
@@ -256,7 +255,7 @@ public class Service extends Obj {
 			return null;
 		} else {
 			int[] newArray = new int[ size - 1 ];
-			for( int n=0; n <= size; n++ ) {
+			for( int n=0; n < size; n++ ) {
 				if( n < index ) {
 					newArray[ n ] = array[ n ];
 				} else if( n > index ) {

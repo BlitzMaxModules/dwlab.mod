@@ -17,12 +17,11 @@ public class ActionExample extends Project {
 		Graphics.init();
 	}
 	
+	private static ActionExample instance = new ActionExample();
 	
 	public static void main(String[] argv) {
 		instance.act();
 	}
-	
-	private static ActionExample instance = new ActionExample();
 	
 	public static ButtonAction undoKey = ButtonAction.create( KeyboardKey.create( Keyboard.KEY_Z, Modifiers.CONTROL ) );
 	public static ButtonAction redoKey = ButtonAction.create( KeyboardKey.create( Keyboard.KEY_Y, Modifiers.CONTROL ) );
