@@ -28,6 +28,12 @@ public class ModelActivator extends BehaviorModel {
 	}
 
 
+	public ModelActivator( BehaviorModel model ) {
+		this.model = model;
+		this.permanent = false;
+	}
+
+
 	@Override
 	public void applyTo( Shape shape ) {
 		model.activateModel( shape );

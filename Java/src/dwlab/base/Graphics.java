@@ -176,7 +176,7 @@ public class Graphics {
 	
 	public static TrueTypeFont loadFont( String fileName, float size ) {
 		try {
-			InputStream inputStream	= ResourceLoader.getResourceAsStream("myfont.ttf");
+			InputStream inputStream	= ResourceLoader.getResourceAsStream( fileName );
 			Font font = Font.createFont( Font.TRUETYPE_FONT, inputStream );
 			font = font.deriveFont( size ); // set font size
 			return new TrueTypeFont( font, false );

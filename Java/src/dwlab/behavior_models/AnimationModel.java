@@ -37,6 +37,15 @@ public class AnimationModel extends ChainedModel {
 		this.pingPong = pingPong;
 	}
 
+	
+	public AnimationModel( boolean looped, double speed, int framesQuantity, int frameStart ) {
+		this.speed = speed;
+		this.looped = looped;
+		this.framesQuantity = framesQuantity;
+		this.frameStart = frameStart;
+		this.pingPong = false;
+	}
+	
 
 	@Override
 	public void activate( Shape shape ) {
