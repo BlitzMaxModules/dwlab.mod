@@ -50,7 +50,7 @@ public class Graphics {
 
 		glMatrixMode( GL_PROJECTION) ;
 		glLoadIdentity();
-		glOrtho( 0d, width, 0d, height, 1d, -1d );
+		glOrtho( 0d, width, height, 0d, -1d, 1d );
 		glMatrixMode( GL_MODELVIEW) ;
 		glShadeModel( GL_SMOOTH );
 		glEnable( GL_TEXTURE_2D ); 
@@ -68,7 +68,7 @@ public class Graphics {
 		Camera.current.viewport.setSize( width, height );
 		Camera.current.setSize( width / unitSize, height / unitSize );
 		
-		if( loadFont ) Graphics.setCurrentFont( Graphics.loadFont( "res/font.ttf", 32 ) );
+		if( loadFont ) setCurrentFont( loadFont( "res/font.ttf", 16 ) );
 	}
 
 	public static void init() {
@@ -193,6 +193,7 @@ public class Graphics {
 	}
 
 	public static void drawText( String string, double x, double y, Color color ) {
+		currentFont.drawString( (float) x, (float) y, string );
 	}
 	
 	public static void drawText( String string, double x, double y ) {
@@ -205,18 +206,19 @@ public class Graphics {
 		Camera.current.fieldToScreen( x, y, serviceVector );
 
 		double textWidth = Graphics.getTextWidth( text );
+		System.out.println( serviceVector.x  );
 		double textHeight = Graphics.getTextHeight();
 
 		switch( horizontalAlign ) {
 			case TO_CENTER:
-				serviceVector.x -= 0.5 * textWidth;
+				serviceVector.x -= 0.5d * textWidth;
 			case TO_RIGHT:
 				serviceVector.x -= textWidth;
 		}
 
 		switch( verticalAlign ) {
 			case TO_CENTER:
-				serviceVector.y -= 0.5 * textHeight;
+				serviceVector.y -= 0.5d * textHeight;
 			case TO_BOTTOM:
 				serviceVector.y -= textHeight;
 		}
@@ -232,14 +234,13 @@ public class Graphics {
 		drawText( text, x, y, horizontalAlign, verticalAlign, Color.white, false );
 	}
 
-
 	public static void drawTextWithContour( String text, double x, double y ) {
 		for( int dY=-1; dY <= 1; dY++ ) {
 			for( int dX=Math.abs( dY ) - 1; dX <= 1 - Math.abs( dY ); dX++ ) {
-				Graphics.drawText( text, x + dX, y + dY, Color.white );
+				drawText( text, x + dX, y + dY, Color.white );
 			}
 		}
-		Graphics.drawText( text, x, y, Color.black );
+		drawText( text, x, y, Color.black );
 	}
 	
 	public static double getTextWidth( String text ) {

@@ -26,7 +26,6 @@ public class ContourVisualizer extends Visualizer {
 	public double pivotScale = 1.0;
 
 
-
 	/**
 	 * Creates new contour visualizer using given RGB color components and transparency.
 	 * @return New visualizer.
@@ -38,8 +37,6 @@ public class ContourVisualizer extends Visualizer {
 		this.pivotScale = pivotScale;
 		this.scaling = scaling;
 	}
-
-
 
 	/**
 	 * Creates new contour visualizer using given hexadecimal color representation and transparency.
@@ -53,7 +50,14 @@ public class ContourVisualizer extends Visualizer {
 		this.scaling = scaling;
 	}
 
+	public ContourVisualizer( double lineWidth, String hexColor ) {
+		set( hexColor );
+		this.lineWidth = lineWidth;
+		this.pivotScale = 1.0;
+		this.scaling = false;
+	}
 
+	
 	private static Vector serviceVector1 = new Vector();
 	private static Vector serviceVector2 = new Vector();
 	

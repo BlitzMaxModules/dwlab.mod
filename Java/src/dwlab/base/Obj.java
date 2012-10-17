@@ -140,7 +140,9 @@ public class Obj {
 	public static Obj loadFromFile( String fileName, XMLObject xMLObject ) {
 		if( classes.isEmpty() ) {
 			Reflections reflections = new Reflections("");
-			for( Class objectClass : reflections.getSubTypesOf( Obj.class ) ) classes.put( objectClass.getSimpleName(), objectClass );
+			for( Class objectClass : reflections.getSubTypesOf( Obj.class ) ) {
+				if( objectClass != null ) classes.put( objectClass.getSimpleName(), objectClass );
+			}
 		}
 		
 		if( xMLObject == null ) {

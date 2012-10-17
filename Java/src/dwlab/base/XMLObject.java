@@ -475,7 +475,7 @@ public class XMLObject extends Obj {
 			childArray = (E[]) Array.newInstance( childArray.getClass(), children.size() );
 			int n = 0;
 			for( XMLObject xMLObject: children ) {
-				childArray[ n ] = xMLObject.manageObject( null );
+				childArray[ n ] = (E) xMLObject.manageObject( null );
 				n += 1;
 			}
 		} else {

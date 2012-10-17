@@ -59,7 +59,7 @@ public class Sys {
 	}
 	
 	public static int mouseY() {
-		return Mouse.getY();
+		return Graphics.getScreenHeight() - Mouse.getY();
 	}
 
 	public static boolean getPushable( ButtonAction action ) {

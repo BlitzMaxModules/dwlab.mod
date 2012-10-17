@@ -1,75 +1,101 @@
 package examples;
-import java.lang.Math;
 import dwlab.base.Align;
+import dwlab.base.Graphics;
 import dwlab.base.Project;
+import dwlab.base.Service;
+import dwlab.controllers.ButtonAction;
+import dwlab.controllers.KeyboardKey;
+import dwlab.controllers.MouseButton;
 import dwlab.shapes.Shape;
 import dwlab.shapes.layers.Layer;
-import dwlab.visualizers.ContourVisualizer;
-import dwlab.shapes.sprites.SpriteCollisionHandler;
 import dwlab.shapes.sprites.Sprite;
+import dwlab.shapes.sprites.SpriteCollisionHandler;
+import dwlab.visualizers.ContourVisualizer;
+import org.lwjgl.input.Keyboard;
 
-public static Example example = new Example();
-example.execute();
-
-public class Example extends Project {
+public class ActiveExample extends Project {
+	static {
+		Graphics.init();
+	}
+	
+	private static ActiveExample instance = new ActiveExample();
+	
+	public static void main(String[] argv) {
+		instance.act();
+	}
+	
 	public final int spritesQuantity = 50;
 
-	public Layer layer = new Layer();
-	public Shape rectangle = Sprite.fromShape( 0, 0, 30, 20 );
+	public static Layer layer = new Layer();
+	public static Sprite rectangle = new Sprite( 0, 0, 30, 20 );
 
+	
+	@Override
 	public void init() {
 		for( int n = 1; n <= spritesQuantity; n++ ) {
 			Ball.create();
 		}
-		rectangle.visualizer = ContourVisualizer.fromWidthAndHexColor( 0.1, "FF0000" );
+		rectangle.visualizer = new ContourVisualizer( 0.1, "FF0000" );
 		initGraphics();
 	}
 
+	
+	private static ButtonAction reset = ButtonAction.create( KeyboardKey.create( Keyboard.KEY_SPACE ) );
+	
+	@Override
 	public void logic() {
 		layer.act();
-		if( keyHit( key_Space ) ) {
-			for( Sprite sprite : layer ) {
-				sprite.active = true;
-				sprite.visible = true;
+		if( reset.wasPressed() ) {
+			for( Shape shape : layer.children ) {
+				shape.active = true;
+				shape.visible = true;
 			}
 		}
-		if( appTerminate() || keyHit( key_Escape ) ) exiting = true;
 	}
+	
 
+	@Override
 	public void render() {
 		layer.draw();
 		rectangle.draw();
-		drawText( "Press left mouse button on circle to make it inactive, right button to make it invisible.", 0, 0 );
-		drawText( "Press space to restore all back.", 0, 16 );
-		printText( "Active, BounceInside, CollisionsWisthSprite, HandleCollisionWithSprite, Visible example", 0, 12, Align.toCenter, Align.toBottom );
-	}
-}
-
-public class Ball extends Sprite {
-	public CollisionHandler handler = new CollisionHandler();
-
-	public static Ball create() {
-		Ball ball = new Ball();
-		ball.setCoords( Math.random( -13, 13 ), Math.random( -8, 8 ) );
-		ball.setDiameter( Math.random( 0.5, 1.5 ) );
-		ball.angle = Math.random( 360 );
-		ball.velocity = Math.random( 3, 7 );
-		ball.shapeType = Sprite.oval;
-		ball.visualizer.setRandomColor();
-		example.layer.addLast( ball );
-		return ball;
+		Graphics.drawText( "Press left mouse button on circle to make it inactive, right button to make it invisible.", 0, 0 );
+		Graphics.drawText( "Press space to restore all back.", 0, 16 );
+		Graphics.drawText( "Active, BounceInside, CollisionsWisthSprite, HandleCollisionWithSprite, Visible example", 0d, 12d, Align.TO_CENTER, Align.TO_BOTTOM );
 	}
 
-	public void act() {
-		moveForward();
-		bounceInside( example.rectangle );
-		collisionsWithSprite( cursor, handler );
-	}
-}
 
-public class CollisionHandler extends SpriteCollisionHandler {
-	public void handleCollision( Sprite sprite1, Sprite sprite2 ) {
-		if( mouseDown( 1 ) ) sprite1.active = false;
-		if( mouseDown( 2 ) ) sprite1.visible = false;
+	public static class Ball extends Sprite {
+		public static CollisionHandler handler = new CollisionHandler();
+
+		public static Ball create() {
+			Ball ball = new Ball();
+			ball.setCoords( Service.random( -13, 13 ), Service.random( -8, 8 ) );
+			ball.setDiameter( Service.random( 0.5, 1.5 ) );
+			ball.angle = Service.random( 360 );
+			ball.velocity = Service.random( 3, 7 );
+			ball.shapeType = ShapeType.OVAL;
+			ball.visualizer.setRandomColor();
+			layer.addLast( ball );
+			return ball;
+		}
+		
+
+		@Override
+		public void act() {
+			moveForward();
+			bounceInside( rectangle );
+			collisionsWithSprite( cursor, handler );
+		}
+	}
+	
+
+	public static class CollisionHandler extends SpriteCollisionHandler {
+		private static ButtonAction makeInactive = ButtonAction.create( MouseButton.create( MouseButton.LEFT_BUTTON ) );
+		private static ButtonAction makeInvisible = ButtonAction.create( MouseButton.create( MouseButton.RIGHT_BUTTON ) );
+
+		public void handleCollision( Sprite sprite1, Sprite sprite2 ) {
+			if( makeInactive.wasPressed() ) sprite1.active = false;
+			if( makeInvisible.wasPressed() ) sprite1.visible = false;
+		}
 	}
 }
