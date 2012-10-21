@@ -1,16 +1,14 @@
 package examples;
+import dwlab.base.*;
 import java.lang.Math;
 import java.lang.System;
 import dwlab.behavior_models.IsModelActive;
 import dwlab.behavior_models.RandomWaitingModel;
 import dwlab.behavior_models.BehaviorModel;
-import dwlab.base.Align;
-import dwlab.base.Graphics;
 import dwlab.behavior_models.IsButtonActionDown;
 import dwlab.shapes.maps.TileMap;
 import dwlab.behavior_models.AnimationModel;
 import dwlab.behavior_models.ModelActivator;
-import dwlab.base.Project;
 import dwlab.controllers.ButtonAction;
 import dwlab.behavior_models.FixedWaitingModel;
 import dwlab.behavior_models.ModelDeactivator;
@@ -57,20 +55,24 @@ public class BehaviorModelExample extends Project {
 
 	ButtonAction keyExit = ButtonAction.create( KeyboardKey.create( Keyboard.KEY_ESCAPE) );
 	
+	@Override
 	public void init() {
 	 	world = World.fromFile( "res/jellys.lw" );
 
 		initGraphics();
 
-		while( true ) {
-			drawImage( loadImage( " incbinscheme2 .png" ), 0, 0 );
-			flip;
-		until keyHit( key_Escape );
+		Sprite sprite = new Sprite( Camera.current );
+		sprite.visualizer.image = new Image( "res/scheme2.png" );
+		while ( !keyExit.wasPressed() ) {
+			sprite.draw();
+			Graphics.switchBuffers();
+		}
 
-		while( true ) {
-			drawImage( loadImage( " incbinscheme1 .png" ), 0, 0 );
-			flip;
-		until keyHit( key_Escape );
+		sprite.visualizer.image = new Image( "res/scheme1.png" );
+		while ( !keyExit.wasPressed() ) {
+			sprite.draw();
+			Graphics.switchBuffers();
+		}
 
 		initLevel();
 	}
@@ -91,11 +93,12 @@ public class BehaviorModelExample extends Project {
 		if( keyExit.wasPressed() ) exiting = true;
 	}
 
+	@Override
 	public void render() {
 		layer.draw();
-		if( selectedSprite ) {
-			switch( edSprite.showModels( 100 ) ) {
-			switch( edSprite.drawUsingVisualizer( marchingAnts ) ) {
+		if( selectedSprite != null ) {
+			selectedSprite.showModels( 100 );
+			selectedSprite.drawUsingVisualizer( marchingAnts );
 		}
 		//If HitArea Then HitArea.Draw()
 		showDebugInfo();

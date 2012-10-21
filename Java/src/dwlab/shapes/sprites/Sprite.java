@@ -152,6 +152,10 @@ public class Sprite extends Shape {
 		this.height = height;
 		this.shapeType = ShapeType.RECTANGLE;
 	}
+
+	public Sprite( Sprite sprite ) {
+		sprite.copySpriteTo( this );
+	}
 	
 	/**
 	 * Creates sprite using given coordinates, size, shape type, angle and velocity.

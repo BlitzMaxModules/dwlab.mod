@@ -206,7 +206,7 @@ public class Graphics {
 		Camera.current.fieldToScreen( x, y, serviceVector );
 
 		double textWidth = Graphics.getTextWidth( text );
-		System.out.println( serviceVector.x  );
+		System.out.println( textWidth );
 		double textHeight = Graphics.getTextHeight();
 
 		switch( horizontalAlign ) {

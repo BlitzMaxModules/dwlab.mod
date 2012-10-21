@@ -93,6 +93,7 @@ public class ActiveExample extends Project {
 		private static ButtonAction makeInactive = ButtonAction.create( MouseButton.create( MouseButton.LEFT_BUTTON ) );
 		private static ButtonAction makeInvisible = ButtonAction.create( MouseButton.create( MouseButton.RIGHT_BUTTON ) );
 
+		@Override
 		public void handleCollision( Sprite sprite1, Sprite sprite2 ) {
 			if( makeInactive.wasPressed() ) sprite1.active = false;
 			if( makeInvisible.wasPressed() ) sprite1.visible = false;
