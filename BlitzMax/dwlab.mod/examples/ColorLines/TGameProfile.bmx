@@ -44,6 +44,7 @@ Type TGameProfile Extends LTProfile
 	Field OrthogonalLines:Int
 	Field DiagonalLines:Int
 	Field Overflow:Int
+	Field TotalBalls:Int
 	
 	Field TotalLevelTime:Double
 	Field TotalTurns:Int
@@ -85,11 +86,13 @@ Type TGameProfile Extends LTProfile
 		TotalLevelTime = 0
 		TotalTurns = 0
 		TotalTurnTime = 0
+		TotalBalls = 7
 		
 		Goals.Clear()
 		Pool.Clear()
 		For Local Parameter:LTParameter = Eachin Level.Parameters
 			Local IntValue:Int = Parameter.Value.ToInt()
+			Local DoubleValue:Int = Parameter.Value.ToDouble()
 			Local Parameters:String[] = Parameter.Value.Split( "," )
 			Select Parameter.Name
 				Case "new-balls"
@@ -114,16 +117,20 @@ Type TGameProfile Extends LTProfile
 					TRemoveCombinations.Create( Parameters[ 0 ].ToInt(), Parameters[ 1 ].ToInt(), Parameters[ 2 ].ToInt() )
 				Case "remove-ice"
 					TRemoveIce.Create( IntValue )
+				Case "ball-percent"
+					AddPoolObject( Parameters[ 0 ].ToInt(), Parameters[ 1 ].ToInt() )
 				Case "bomb"
-					AddPoolObject( 10, Parameter.Value.ToDouble() )
+					AddPoolObject( 10, DoubleValue )
 				Case "black-ball"
-					AddPoolObject( 8, Parameter.Value.ToDouble() )
+					AddPoolObject( 8, DoubleValue )
 				Case "level-time"
 					TotalLevelTime = ToTime( Parameter.Value )
 				Case "turns"
-					TotalTurns = Parameter.Value.ToInt()
+					TotalTurns = IntValue
 				Case "turn-time"
 					TotalTurnTime = ToTime( Parameter.Value )
+				Case "total-balls"
+					TotalBalls = IntValue
 			End Select
 		Next
 		Local TotalPercent:Double = 0
@@ -209,7 +216,7 @@ Type TGameProfile Extends LTProfile
 				Choice :- PoolObject.Percent
 				If Choice < 0 Then
 					If PoolObject.Num = 9 Then 
-						NextBalls[ N ] = Rand( 1, 7 )
+						NextBalls[ N ] = Rand( 1, TotalBalls )
 					Else
 						NextBalls[ N ] = PoolObject.Num
 					End If
