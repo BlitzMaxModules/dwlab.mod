@@ -85,6 +85,20 @@ End Type
 
 
 
+Type TRemoveLights Extends TGoal
+	Method GetIcon:Int()
+		Return Profile.Lights
+	End Method
+	
+	Function Create( Quantity:Int )
+		Local Goal:TRemoveLights = New TRemoveLights
+		Goal.Count = Quantity
+		Profile.Goals.AddLast( Goal )
+	End Function
+End Type
+
+
+
 Type TRemoveCombinations Extends TGoal
 	Field BallType:Int
 	Field LineBallsQuantity:Int

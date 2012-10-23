@@ -45,9 +45,6 @@ Type TCheckLines
 					Goal.Count :- 1
 				End If
 			Next
-			For Local Goal:TRemoveBalls = Eachin Profile.Goals
-				If ( Goal.BallType = BallNum Or Goal.BallType = Profile.RandomBall ) Then Goal.Count :- Game.TotalBalls
-			Next
 		End If
 	End Function
 	

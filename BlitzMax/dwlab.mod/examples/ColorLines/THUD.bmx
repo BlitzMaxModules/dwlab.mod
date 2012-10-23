@@ -46,7 +46,7 @@ Type THUD Extends LTWindow
 		'debugstop
 	
 		Super.Draw()
-		if Profile.NextBalls Then
+		if Profile.NextBalls And Profile.ShowNextBalls Then
 			If Profile.NextBalls.Length <= 5 Then
 				Local StartingX:Double = FindShape( "Balls" ).X - 0.5 * Distance * ( Profile.NextBalls.Dimensions()[ 0 ] - 1 )
 				Local N:Int = 0

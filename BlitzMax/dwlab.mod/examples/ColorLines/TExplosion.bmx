@@ -70,8 +70,12 @@ Type TExplosion Extends LTBehaviorModel
 	Function ManageFields( X:Int, Y:Int )
 		Local BallNum:Int = Profile.Balls.GetTile( X, Y )
 		If BallNum = 0 Then Return
-		Profile.Balls.SetTile( X, Y, Profile.NoBall )
-		Profile.Modifiers.SetTile( X, Y, Profile.NoModifier )
+		
+		If Profile.Modifiers.GetTile( X, Y ) = Profile.Lights
+			For Local Goal:TRemoveLights = Eachin Profile.Goals
+				Goal.Count :- 1
+			Next
+		End If
 		
 		Local TileNum:Int = Profile.GameField.GetTile( X, Y )
 		Select TileNum
@@ -83,10 +87,15 @@ Type TExplosion Extends LTBehaviorModel
 					Goal.Count :- 1
 				Next
 		End Select
-		Game.TotalBalls :+ 1
+		
 		For Local Goal:TRemoveBalls = Eachin Profile.Goals
 			If ( Goal.BallType = TileNum Or Goal.BallType = Profile.RandomBall ) Then Goal.Count :- 1
 		Next
+		
+		Game.TotalBalls :+ 1
+		
+		Profile.Balls.SetTile( X, Y, Profile.NoBall )
+		Profile.Modifiers.SetTile( X, Y, Profile.NoModifier )
 	End Function
 	
 	Function CreateParticles( X:Int, Y:Int, BallNum:Int )

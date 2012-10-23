@@ -608,8 +608,6 @@ Type LTXMLObject Extends LTObject
 		L_LoadingStatus = "Loading XML..."
 		
 		L_XMLVersion = 0
-		Local LinesQuantity:Int
-		Local LineNum:Int = 0
 		While Not Eof( File )
 			Content :+ ReadLine( File )
 			If Not L_XMLVersion Then L_XMLVersion = L_VersionToInt( GetAttributeFromString( Content, "dwlab_version" ) )

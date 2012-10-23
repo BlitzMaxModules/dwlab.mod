@@ -30,6 +30,7 @@ Type TGameProfile Extends LTProfile
 	Const NoModifier:Int = 0
 	Const Lights:Int = 11
 	Const AnyColor:Int = 12
+	Const Stone:Int = 13
 	
 	Field GameField:LTTileMap
 	Field Balls:LTTileMap
@@ -45,6 +46,10 @@ Type TGameProfile Extends LTProfile
 	Field DiagonalLines:Int
 	Field Overflow:Int
 	Field TotalBalls:Int
+	Field OnlySameColor:Int
+	Field ShowNextBalls:Int
+	Field TotalBallPacks:Int
+	Field PackNum:Int
 	
 	Field TotalLevelTime:Double
 	Field TotalTurns:Int
@@ -87,6 +92,10 @@ Type TGameProfile Extends LTProfile
 		TotalTurns = 0
 		TotalTurnTime = 0
 		TotalBalls = 7
+		OnlySameColor = False
+		ShowNextBalls = True
+		TotalBallPacks = -1
+		PackNum = 0
 		
 		Goals.Clear()
 		Pool.Clear()
@@ -113,6 +122,8 @@ Type TGameProfile Extends LTProfile
 					TGetScore.Create( IntValue )
 				Case "remove-balls"
 					TRemoveBalls.Create( Parameters[ 0 ].ToInt(), Parameters[ 1 ].ToInt() )
+				Case "remove-stones"
+					TRemoveBalls.Create( Stone, IntValue )
 				Case "remove-combinations"
 					TRemoveCombinations.Create( Parameters[ 0 ].ToInt(), Parameters[ 1 ].ToInt(), Parameters[ 2 ].ToInt() )
 				Case "remove-ice"
@@ -131,6 +142,14 @@ Type TGameProfile Extends LTProfile
 					TotalTurnTime = ToTime( Parameter.Value )
 				Case "total-balls"
 					TotalBalls = IntValue
+				Case "only-same-color"
+					OnlySameColor = True
+				Case "remove-lights"
+					TRemoveLights.Create( IntValue )
+				Case "hide-next-balls"
+					ShowNextBalls = False
+				Case "total-ball-packs"
+					TotalBallPacks = IntValue
 			End Select
 		Next
 		Local TotalPercent:Double = 0
@@ -189,14 +208,24 @@ Type TGameProfile Extends LTProfile
 		End If
 	End Method
 	
+	Global ExistentBalls:Int[] = New Int[ 8 ]
+	
 	Method CreateBalls()
+		PackNum :+ 1
+		If PackNum > TotalBallPacks And TotalBallPacks >= 0 Then Return
+		
+		ExistentBalls = New Int[ 8 ]
 		Game.EmptyCells.Clear()
 		For Local Y:Int = 0 Until GameField.YQuantity
 			For Local X:Int = 0 Until GameField.XQuantity
-				If GameField.GetTile( X, Y ) = Plate And Balls.GetTile( X, Y ) = NoBall Then Game.EmptyCells.AddLast( TCell.Create( X, Y ) )
+				Local BallNum:Int = Balls.GetTile( X, Y )
+				If GameField.GetTile( X, Y ) = Plate And BallNum = NoBall Then Game.EmptyCells.AddLast( TCell.Create( X, Y ) )
+				If BallNum <= 7 Then ExistentBalls[ BallNum ] = 1
 				if Modifiers.GetTile( X, Y ) = Lights Then Balls.SetTile( X, Y, Rand( 1, 7 ) )
 			Next
 		Next
+		
+		If OnlySameColor Then FillNextBalls()
 		
 		For Local BallNum:Int = Eachin Profile.NextBalls
 			If Game.EmptyCells.IsEmpty() Then
@@ -210,13 +239,22 @@ Type TGameProfile Extends LTProfile
 	End Method
 	
 	Method FillNextBalls()
+		Local BallStack:TList = New TList
+		For Local N:Int = 1 To 7
+			If ExistentBalls[ N ] Then BallStack.AddLast( String( N ) )
+		Next
+		
 		For Local N:Int = 0 Until BallsPerTurn
 			Local Choice:Double = Rnd( 100 )
 			For Local PoolObject:TPoolObject = Eachin Pool
 				Choice :- PoolObject.Percent
 				If Choice < 0 Then
-					If PoolObject.Num = 9 Then 
-						NextBalls[ N ] = Rand( 1, TotalBalls )
+					If PoolObject.Num = RandomBall Then 
+						If OnlySameColor And BallStack.Count() Then
+							NextBalls[ N ] = String( BallStack.ValueAtIndex( Rand( BallStack.Count() ) ) ).ToInt()
+						Else
+							NextBalls[ N ] = Rand( 1, TotalBalls )
+						End If
 					Else
 						NextBalls[ N ] = PoolObject.Num
 					End If
@@ -278,8 +316,12 @@ Type TGameProfile Extends LTProfile
 		XMLObject.ManageIntAttribute( "balls-per-turn", BallsPerTurn )
 		XMLObject.ManageIntAttribute( "swap", Swap, 1 )
 		XMLObject.ManageIntAttribute( "overflow", Overflow, 1 )
+		XMLObject.ManageIntAttribute( "total-balls", TotalBalls )
+		XMLObject.ManageIntAttribute( "only-same-color", OnlySameColor )
+		XMLObject.ManageIntAttribute( "show-next-balls", ShowNextBalls )
 		XMLObject.ManageIntAttribute( "orthogonal-lines", OrthogonalLines, 1 )
 		XMLObject.ManageIntAttribute( "diagonal-lines", DiagonalLines, 1 )
+		XMLObject.ManageIntAttribute( "total-ball-packs", TotalBallPacks, -1 )
 		XMLObject.ManageDoubleAttribute( "total-time", TotalLevelTime )
 		XMLObject.ManageDoubleAttribute( "time", LevelTime )
 		XMLObject.ManageIntAttribute( "total-turns", TotalTurns )

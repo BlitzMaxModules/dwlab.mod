@@ -1,7 +1,7 @@
 <LTMenu current-profile="1" audio="DirectSound" video="DirectX7" dwlab_version="1.4.27" total-loading-time="0">
 	<TList field="profiles">
-		<TGameProfile id="1" name="{{P_Player}}" language="Russian" width="1280" height="1024" depth="32" frequency="75" music-on="0" repeat="0" music="1" x-resolution="1216" y-resolution="912" first-locked-level="Iceland" level="Court" next-balls="7,2,2" balls-in-line="5" balls-per-turn="3" time="1.02666666" turn-time="6.79999997">
-			<LTTileMap field="field" x="13.50003" y="6.83002997" width="19.00002999" height="11.25003" xquantity="19" yquantity="15" tiles-quantity="11">
+		<TGameProfile id="1" name="{{P_Player}}" language="Russian" width="1280" height="1024" depth="32" frequency="75" repeat="0" x-resolution="1216" y-resolution="912" first-locked-level="The wall" level="The wall" next-balls="6,3,7" balls-in-line="5" balls-per-turn="3" total-time="180" time="1.58666665" total-turns="60" total-turn-time="15" turn-time="1.6">
+			<LTTileMap field="field" x="8.50003" y="4.83002997" width="11.00003" height="8.25003" xquantity="11" yquantity="11" tiles-quantity="11">
 				<TList field="parameters">
 					<LTParameter name="name" value="Field"/>
 				</TList>
@@ -36,23 +36,19 @@
 						<Null/>
 					</ShapeArray>
 				</LTTileSet>
-				<Row data="1111111111111111111"/>
-				<Row data="1111111111111111111"/>
-				<Row data="1111111111111111111"/>
-				<Row data="1111144444444411111"/>
-				<Row data="1111144444444411111"/>
-				<Row data="1111144444444411111"/>
-				<Row data="1111144444444411111"/>
-				<Row data="1111144444444411111"/>
-				<Row data="1111144444444411111"/>
-				<Row data="1111144444444411111"/>
-				<Row data="1111144444444411111"/>
-				<Row data="1111144444444411111"/>
-				<Row data="1111111111111111111"/>
-				<Row data="1111111111111111111"/>
-				<Row data="1111111111111111111"/>
+				<Row data="11112221111"/>
+				<Row data="11112221111"/>
+				<Row data="11112221111"/>
+				<Row data="11112221111"/>
+				<Row data="11112221111"/>
+				<Row data="11112221117"/>
+				<Row data="11112221111"/>
+				<Row data="11112221111"/>
+				<Row data="11112221111"/>
+				<Row data="11112221111"/>
+				<Row data="11112221111"/>
 			</LTTileMap>
-			<LTTileMap field="balls" x="13.50003" y="6.83002997" width="19.00002999" height="11.25003" visible="0" xquantity="19" yquantity="15" tiles-quantity="15">
+			<LTTileMap field="balls" x="8.50003" y="4.83002997" width="11.00003" height="8.25003" visible="0" xquantity="11" yquantity="11" tiles-quantity="15">
 				<TList field="parameters">
 					<LTParameter name="name" value="Balls"/>
 				</TList>
@@ -77,51 +73,39 @@
 						<Null/>
 					</ShapeArray>
 				</LTTileSet>
-				<Row data="0006000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000040"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000060000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
+				<Row data="00004520100"/>
+				<Row data="00001340000"/>
+				<Row data="00002370000"/>
+				<Row data="00004533000"/>
+				<Row data="00004450000"/>
+				<Row data="80007410000"/>
+				<Row data="00005660000"/>
+				<Row data="00002710000"/>
+				<Row data="00005350000"/>
+				<Row data="00003610000"/>
+				<Row data="00003320010"/>
 			</LTTileMap>
-			<LTTileMap field="modifiers" x="13.50003" y="6.83002997" width="19.00002999" height="11.25003" xquantity="19" yquantity="15" tiles-quantity="15">
+			<LTTileMap field="modifiers" x="8.50003" y="4.83002997" width="11.00003" height="8.25003" xquantity="11" yquantity="11" tiles-quantity="15">
 				<TList field="parameters">
 					<LTParameter name="name" value="Modifiers"/>
 				</TList>
 				<LTVisualizer field="visualizer" dy="-0.25002996" yscale="2.66002999"/>
 				<Object field="tileset" id="28"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
-				<Row data="0000000000000000000"/>
+				<Row data="00000000000"/>
+				<Row data="00000000000"/>
+				<Row data="00000000000"/>
+				<Row data="00000000000"/>
+				<Row data="00000000000"/>
+				<Row data="00000000000"/>
+				<Row data="00000000000"/>
+				<Row data="00000000000"/>
+				<Row data="00000000000"/>
+				<Row data="00000000000"/>
+				<Row data="00000000000"/>
 			</LTTileMap>
 			<TList field="goals">
-				<TRemoveCombinations count="1" ball-type="9" line-balls-quantity="29"/>
+				<TPutBallsInHoles count="1"/>
 			</TList>
-			<Map field="scores">
-				<Pair value="129" key="Black ball cross"/>
-				<Pair value="20" key="The wall"/>
-			</Map>
 			<TList field="pool">
 				<TPoolObject num="9" percent="100"/>
 			</TList>
@@ -133,21 +117,4 @@
 			</LTButtonAction>
 		</TGameProfile>
 	</TList>
-	<Map field="high-scores">
-		<LTLayer key="Black ball cross">
-			<LTVisualizer field="visualizer"/>
-			<LTHighScore score="129" name="Игрок"/>
-		</LTLayer>
-		<LTLayer key="The wall">
-			<LTVisualizer field="visualizer"/>
-			<LTHighScore score="20" name="Игрок"/>
-			<LTHighScore score="20" name="Игрок"/>
-			<LTHighScore score="15" name="Игрок"/>
-			<LTHighScore score="15" name="Игрок"/>
-			<LTHighScore score="15" name="Игрок"/>
-			<LTHighScore score="5" name="Игрок"/>
-			<LTHighScore score="5" name="Игрок"/>
-			<LTHighScore score="5" name="Игрок"/>
-		</LTLayer>
-	</Map>
 </LTMenu>

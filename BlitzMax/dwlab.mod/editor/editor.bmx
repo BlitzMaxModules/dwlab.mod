@@ -1018,6 +1018,15 @@ Type LTEditor Extends LTProject
 								SetChanged()
 							Next
 						End If
+					Case KEY_R
+						Local TileSetName:String, TileNum1:String, TileNum2:String
+						If EnterString( "Enter tileset name to process", TileSetName ) Then
+							If EnterString( "Enter tile value to process", TileNum1 ) Then
+								If EnterString( "Enter tile value to replace to", TileNum2 ) Then
+									ReplaceTiles( World, TileSetName, TileNum1.ToInt(), TileNum2.ToInt() )
+								End If
+							End If
+						End If
 				End Select
 			Case Event_MouseWheel
 				If Not Modifiers.IsEmpty() Then SetShapeModifiers( LTShape( SelectedShapes.First() ) )
@@ -2507,6 +2516,23 @@ Type LTEditor Extends LTProject
 			DebugLog( "Inserted" )
 			L_EditorData.Images.AddLast( Image )
 		End If
+	End Method
+	
+	
+	
+	Method ReplaceTiles( Layer:LTLayer, TileSetName:String, TileNum1:Int, TileNum2:Int )
+		For Local TileMap:LTTileMap = Eachin Layer
+			If TileMap.TileSet.Name <> TileSetName Then Continue
+			For Local Y:Int = 0 Until TileMap.YQuantity
+				For Local X:Int = 0 Until TileMap.XQuantity
+					If TileMap.Value[ X, Y ] = TileNum1 Then TileMap.Value[ X, Y ] = TileNum2
+				Next
+			Next
+		Next
+		
+		For Local ChildLayer:LTLayer = Eachin Layer
+			ReplaceTiles( ChildLayer, TileSetName, TileNum1, TileNum2 )
+		Next
 	End Method
 End Type
 
