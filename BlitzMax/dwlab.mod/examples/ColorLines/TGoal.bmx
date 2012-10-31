@@ -11,16 +11,22 @@
 Type TGoal Extends LTObject
 	Field Count:Int
 	
-	Method GetIcon:Int()
+	Method GetBallIcon:Int()
+		Return 0
+	End Method
+	
+	Method GetTileIcon:Int()
 		Return 0
 	End Method
 		
-	Method Draw( X:Double, IconShape:LTSprite, BallShape:LTSprite, CountShape:LTLabel )
-		If IconShape Then
-			IconShape.SetX( X - 0.5 * IconShape.Width )
-			IconShape.Frame = GetIcon()
-			IconShape.Draw()
-		End If
+	Method Draw( X:Double, BallShape:LTSprite, TileIcon:LTSprite, BallIcon:LTSprite, CountShape:LTLabel )
+		TileIcon.SetX( X - 0.5 * TileIcon.Width )
+		TileIcon.Frame = GetTileIcon()
+		TileIcon.Draw()
+		
+		BallIcon.SetX( X - 0.5 * BallIcon.Width )
+		BallIcon.Frame = GetBallIcon()
+		BallIcon.Draw()
 		
 		CountShape.SetX( X + 0.5 * CountShape.Width )
 		CountShape.Text = " x" + Count
@@ -36,12 +42,8 @@ End Type
 
 
 Type TPutBallsInHoles Extends TGoal
-	Method Draw( X:Double, IconShape:LTSprite, BallShape:LTSprite, CountShape:LTLabel )
-		Super.Draw( X, Null, Null, CountShape )
-		BallShape.SetX( X - 0.5 * IconShape.Width )
-		BallShape.SetDiameter( IconShape.GetDiameter() )
-		BallShape.Frame = TGameProfile.BlackBall
-		BallShape.Draw()
+	Method GetBallIcon:Int()
+		Return Profile.BlackBall
 	End Method
 	
 	Function Create( BallsQuantity:Int )
@@ -66,7 +68,7 @@ End Type
 Type TRemoveBalls Extends TGoal
 	Field BallType:Int
 	
-	Method GetIcon:Int()
+	Method GetBallIcon:Int()
 		Return BallType
 	End Method
 	
@@ -86,7 +88,7 @@ End Type
 
 
 Type TRemoveLights Extends TGoal
-	Method GetIcon:Int()
+	Method GetBallIcon:Int()
 		Return Profile.Lights
 	End Method
 	
@@ -103,21 +105,23 @@ Type TRemoveCombinations Extends TGoal
 	Field BallType:Int
 	Field LineBallsQuantity:Int
 	
-	Method Draw( X:Double, IconShape:LTSprite, BallShape:LTSprite, CountShape:LTLabel )
-		Super.Draw( X, Null, Null, CountShape )
-		IconShape.SetX( X - 0.5 * IconShape.Width )
+	Method Draw( X:Double, BallShape:LTSprite, TileIcon:LTSprite, BallIcon:LTSprite, CountShape:LTLabel )
+		TileIcon.Frame = 0
+		BallIcon.Frame = 0
+		Super.Draw( X, BallShape, TileIcon, BallIcon, CountShape )
+		TileIcon.SetX( X - 0.5 * TileIcon.Width )
 		
 		BallShape.Frame = BallType
 		BallShape.SetDiameter( 0.3 )
 		For Local K:Int = -1 To 1
-			BallShape.SetCoords( IconShape.X + 0.2 * K, IconShape.Y + 0.2 * K )
+			BallShape.SetCoords( TileIcon.X + 0.2 * K, TileIcon.Y + 0.2 * K )
 			BallShape.Draw()
 		Next
 		BallShape.SetDiameter( 0.65 )
-		BallShape.SetCoords( IconShape.X, IconShape.Y )
+		BallShape.SetCoords( TileIcon.X, TileIcon.Y )
 		
 		SetColor( 0, 0, 0 )
-		IconShape.PrintText( LineBallsQuantity, 0.3, LTAlign.ToLeft, LTAlign.ToBottom )
+		TileIcon.PrintText( LineBallsQuantity, 0.3, LTAlign.ToLeft, LTAlign.ToBottom )
 		LTColor.ResetColor()
 	End Method
 	
@@ -139,7 +143,7 @@ End Type
 
 
 Type TRemoveIce Extends TGoal
-	Method GetIcon:Int()
+	Method GetBallIcon:Int()
 		Return 14
 	End Method
 	

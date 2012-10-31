@@ -13,24 +13,22 @@ Type TGameProfile Extends LTProfile
 	Const Plate:Int = 1
 	Const Glue:Int = 2
 	Const Ice:Int = 3
-	Const ColdPlate:Int = 4
-	Const ColdGlue:Int = 5
-	Const ColdIce:Int = 6
-	Const ClosedPocket:Int = 7
+	Const ColdPlate:Int = 12
 	
-	Const OpenedPocket:Int = 8
-	Const PocketForeground:Int = 9
-	Const TileCursor:Int = 10
+	Const ClosedPocket:Int = 22
+	Const OpenedPocket:Int = 23
+	Const PocketForeground:Int = 24
+	Const TileCursor:Int = 11
 	
 	Const NoBall:Int = 0
 	Const BlackBall:Int = 8
 	Const RandomBall:Int = 9
 	Const Bomb:Int = 10
+	Const Stone:Int = 13
 	
 	Const NoModifier:Int = 0
 	Const Lights:Int = 11
 	Const AnyColor:Int = 12
-	Const Stone:Int = 13
 	
 	Field GameField:LTTileMap
 	Field Balls:LTTileMap
@@ -58,13 +56,9 @@ Type TGameProfile Extends LTProfile
 	Field TurnTime:Double
 	Field LevelScores:TMap = New TMap
 	
-	Field BossKey:LTButtonAction
-	Field ExitToMenu:LTButtonAction
-
-	Method Init()
-		Keys.AddLast( LTButtonAction.Create( LTKeyboardKey.Create( Key_Z ), "Boss key" ) )
-		Keys.AddLast( LTButtonAction.Create( LTKeyboardKey.Create( Key_Escape ), "Exit to menu" ) )
-	End Method
+	Field SkipTurn:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Space ), "Skip turn" )
+	Field BossKey:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Z ), "Boss key" )
+	Field ExitToMenu:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Escape ), "Exit to menu" )
 	
 	Method Reset()
 		Score = 0
@@ -172,7 +166,7 @@ Type TGameProfile Extends LTProfile
 			
 		NextBalls = New Int[ BallsPerTurn ]
 		FillNextBalls()
-		CreateBalls()
+		NewTurn()
 		Game.Locked = True
 		Game.Selected = Null
 		Profile.LevelName = Level.GetName()
@@ -210,7 +204,10 @@ Type TGameProfile Extends LTProfile
 	
 	Global ExistentBalls:Int[] = New Int[ 8 ]
 	
-	Method CreateBalls()
+	Method NewTurn()
+		Profile.TurnTime = 0.0
+		Profile.Turns :+ 1
+		
 		PackNum :+ 1
 		If PackNum > TotalBallPacks And TotalBallPacks >= 0 Then Return
 		
@@ -251,7 +248,7 @@ Type TGameProfile Extends LTProfile
 				If Choice < 0 Then
 					If PoolObject.Num = RandomBall Then 
 						If OnlySameColor And BallStack.Count() Then
-							NextBalls[ N ] = String( BallStack.ValueAtIndex( Rand( BallStack.Count() ) ) ).ToInt()
+							NextBalls[ N ] = String( BallStack.ValueAtIndex( Rand( 0, BallStack.Count() - 1 ) ) ).ToInt()
 						Else
 							NextBalls[ N ] = Rand( 1, TotalBalls )
 						End If
@@ -275,8 +272,6 @@ Type TGameProfile Extends LTProfile
 	End Method
 	
 	Method Load()
-		BossKey = LTButtonAction.Find( Keys, "Boss key" )
-		ExitToMenu = LTButtonAction.Find( Keys, "Exit to menu" )
 		InitLevel()
 	End Method
 	
@@ -304,6 +299,12 @@ Type TGameProfile Extends LTProfile
 		End If
 	End Method
 	
+	Method AddKeys( Items:TList )
+		Items.AddLast( Profile.SkipTurn )
+		Items.AddLast( Profile.ExitToMenu )
+		Items.AddLast( Profile.BossKey )
+	End Method
+
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		GameField = LTTileMap( XMLObject.ManageObjectField( "field", GameField ) )
@@ -330,6 +331,9 @@ Type TGameProfile Extends LTProfile
 		XMLObject.ManageDoubleAttribute( "turn-time", TurnTime )
 		XMLObject.ManageStringMapField( "scores", LevelScores )
 		XMLObject.ManageListField( "pool", Pool )
+		SkipTurn = LTButtonAction( XMLObject.ManageObjectField( "skip-turn", SkipTurn ) )
+		ExitToMenu = LTButtonAction( XMLObject.ManageObjectField( "exit-to-menu", ExitToMenu ) )
+		BossKey = LTButtonAction( XMLObject.ManageObjectField( "boss-key", BossKey ) )
 		If Not NextBalls Then FillNextBalls()
 	End Method
 End Type

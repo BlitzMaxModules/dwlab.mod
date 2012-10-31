@@ -78,10 +78,10 @@ Type TExplosion Extends LTBehaviorModel
 		End If
 		
 		Local TileNum:Int = Profile.GameField.GetTile( X, Y )
-		Select TileNum
-			Case Profile.Glue, Profile.ColdGlue
+		Select TileNum Mod 11
+			Case Profile.Glue
 		 		Profile.GameField.SetTile( X, Y, TileNum - 1 )
-			Case Profile.Ice, Profile.ColdIce
+			Case Profile.Ice
 		 		Profile.GameField.SetTile( X, Y, TileNum - 2 )
 				For Local Goal:TRemoveIce = Eachin Profile.Goals
 					Goal.Count :- 1

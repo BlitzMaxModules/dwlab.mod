@@ -9,7 +9,7 @@
 '
 
 Type TCheckLines
-	Function Execute( BallNum:Int, CreateBalls:Int = True )
+	Function Execute( BallNum:Int, NewTurn:Int = True )
 		Game.TotalBalls = 0
 		
 		Local Rows:TList = New TList
@@ -33,7 +33,7 @@ Type TCheckLines
 		Next
 		
 		If Rows.IsEmpty() Then
-			If CreateBalls Then Profile.CreateBalls()
+			If NewTurn Then Profile.NewTurn()
 		Else
 			L_CurrentProfile.PlaySnd( Game.ExplosionSound )
 			Profile.Score :+ ( Game.TotalBalls - 7 ) * Game.TotalBalls / 2 + 10

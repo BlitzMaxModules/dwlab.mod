@@ -37,9 +37,9 @@ Type LTLevelCompletedWindow Extends LTAudioWindow
 	End Method
 	
 	Function ConvertTime:String( Time:Int )
-		Local Seconds:Int = Ceil( Time ) Mod 60
-		Local Minutes:Int = Floor( Seconds / 60.0 ) Mod 60
-		Local Hours:Int = Floor( Seconds / 3600.0 )
+		Local Seconds:Int = Floor( Time ) Mod 60
+		Local Minutes:Int = Floor( Time / 60.0 ) Mod 60
+		Local Hours:Int = Floor( Time / 3600.0 )
 		If Hours Then Return Hours + " {{hrs}} " + Minutes + " {{min}} " + Seconds + " {{sec}}" Else Return Minutes + " {{min}} " + Seconds + " {{sec}}"
 	End Function
 End Type

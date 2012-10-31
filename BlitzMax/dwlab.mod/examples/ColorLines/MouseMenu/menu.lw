@@ -1,4 +1,4 @@
-<LTWorld dwlab_version="1.4.26" total-loading-time="4">
+<LTWorld dwlab_version="1.4.27" total-loading-time="1">
 	<LTVisualizer field="visualizer" id="1"/>
 	<LTEditorData field="editor_data" incbin="1" x_div="16" y_div="16" coll_x_div="16" coll_y_div="16">
 		<TList field="images">
@@ -24,7 +24,7 @@
 		<LTColor field="background"/>
 		<LTColor field="grid_color" green="0" alpha="0.5"/>
 	</LTEditorData>
-	<LTCamera field="camera" x="31" y="46" width="16.42105729" height="14.23809927" shape="2" viewport-clipping="1">
+	<LTCamera field="camera" x="38" y="50" width="16.42105729" height="14.23809927" shape="2" viewport-clipping="1">
 		<Object field="visualizer" id="1"/>
 		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
 			<Object field="visualizer" id="1"/>
@@ -68,7 +68,7 @@
 				<LTParameter name="gadget-text" value="Language selection"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="23" filename="images\icons.png" xcells="8" ycells="4" loading-time="2"/>
+				<LTImage field="image" id="23" filename="images\icons.png" xcells="8" ycells="4"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="31.12" y="46.5" width="4.25" height="0.5" shape="2">
@@ -181,7 +181,7 @@
 				<LTParameter name="action" value="switch"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="84" left="15" right="15" top="15" bottom="15" filename="frames\menu_tab.png"/>
+				<LTRasterFrame field="image" id="84" left="15" right="15" top="15" bottom="15" filename="frames\menu_tab.png" loading-time="1"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="23.64" y="41.6" width="0.4" height="0.4" shape="2" frame="8">
@@ -355,7 +355,7 @@
 				<LTParameter name="name" value="Play"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="164" filename="images\play.png" xcells="2" loading-time="1"/>
+				<LTImage field="image" id="164" filename="images\play.png" xcells="2"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="33.25" y="52.5" width="0.4" height="0.4" shape="2">
@@ -373,7 +373,7 @@
 				<LTParameter name="name" value="Repeat"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="174" filename="images\repeat.png" xcells="2" loading-time="1"/>
+				<LTImage field="image" id="174" filename="images\repeat.png" xcells="2"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="35.75" y="52.5" width="2.5" height="0.5" shape="2">
@@ -1510,7 +1510,7 @@
 		<LTShape field="bounds" x="38" y="50" width="16" height="12">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTSprite x="38" y="50" width="8.5" height="3" shape="2">
+		<LTSprite x="38" y="49.90625" width="8.5" height="3.0625" shape="2">
 			<LTVisualizer field="visualizer">
 				<Object field="image" id="12"/>
 			</LTVisualizer>
@@ -1525,7 +1525,7 @@
 				<Object field="image" id="9"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="39.5" y="50.9375" width="2.25" height="0.5" shape="2">
+		<LTSprite x="36.625" y="50.9375" width="2.25" height="0.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="text" value="Restart"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -1537,7 +1537,7 @@
 				<Object field="image" id="19"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="38.625" y="50.9375" width="0.5" height="0.5" shape="2" frame="17">
+		<LTSprite x="35.75" y="50.9375" width="0.5" height="0.5" shape="2" frame="17">
 			<TList field="parameters">
 				<LTParameter name="gadget-text" value="Restart"/>
 			</TList>
@@ -1569,7 +1569,7 @@
 			</TList>
 			<LTVisualizer field="visualizer"/>
 		</LTSprite>
-		<LTSprite x="36.8125" y="50.9375" width="2.625" height="0.5" shape="2">
+		<LTSprite x="39.25" y="50.9375" width="2.625" height="0.5" shape="2">
 			<TList field="parameters">
 				<LTParameter name="text" value="Select level"/>
 				<LTParameter name="class" value="LTButton"/>
@@ -1581,7 +1581,7 @@
 				<Object field="image" id="19"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="35.75" y="50.9375" width="0.5" height="0.5" shape="2" frame="8">
+		<LTSprite x="38.1875" y="50.9375" width="0.5" height="0.5" shape="2" frame="8">
 			<TList field="parameters">
 				<LTParameter name="gadget-text" value="Select level"/>
 			</TList>

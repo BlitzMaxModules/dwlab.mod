@@ -27,7 +27,9 @@ Type TGame Extends LTGUIProject
 	Field TotalBalls:Int
 	Field LevelTime:Int
 	
-	Field TileIsPassable:Int[] = [ 0, 1, 0, 1, 1, 0, 1, 1 ]
+	Field TileIsPassable:Int[] = [ 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, ..
+											0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, ..
+											1 ]
 	
 	Field EmptyCells:TList = New TList
 	Field PathFinder:TPathFinder = New TPathFinder
@@ -95,10 +97,9 @@ Type TGame Extends LTGUIProject
 				( Profile.TotalTurns > 0 And Profile.Turns > Profile.TotalTurns ) Then
 					LoadWindow( Menu.Interface, "LTLevelFailedWindow" )
 			Else If Profile.TotalTurnTime > 0 And Profile.TurnTime > Profile.TotalTurnTime Then
-				Profile.CreateBalls()
-				Profile.TurnTime = 0.0
-				Profile.Turns :+ 1
+				Profile.NewTurn()
 			End If
+			If Profile.SkipTurn.WasPressed() Then Profile.NewTurn()
 		End If
 		
 		LevelTime = MilliSecs()

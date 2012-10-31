@@ -9,7 +9,8 @@
 '
 
 Type THUD Extends LTWindow
-	Field Icon:LTSprite
+	Field BallIcon:LTSprite
+	Field TileIcon:LTSprite
 	Field Count:LTLabel
 	Field Ball:LTSprite
 	Field Size:Double
@@ -27,14 +28,16 @@ Type THUD Extends LTWindow
 		TurnTimeBar = TBar( FindShape( "turn-time" ) )
 		Game.Background = FindShape( "Background" )
 		Remove( Game.Background )
-		Icon = LTSprite( FindShape( "GoalIcon" ) )
-		Remove( Icon )
+		BallIcon = LTSprite( FindShape( "BallIcon" ) )
+		Remove( BallIcon )
+		TileIcon = LTSprite( FindShape( "TileIcon" ) )
+		Remove( TileIcon )
 		Count = LTLabel( FindShape( "GoalCount" ) )
 		Remove( Count )
 		Ball = LTSprite( FindShape( "Ball" ) )
 		Remove( Ball )
-		Size = Ball.GetDiameter()
-		Distance = Ball.GetParameter( "distance" ).ToDouble()
+		Size = BallIcon.GetDiameter()
+		Distance = BallIcon.GetParameter( "distance" ).ToDouble()
 		Goal1X = FindShape( "Goal1" ).X
 		GoalDX = FindShape( "Goal2" ).X - Goal1X
 	End Method
@@ -62,7 +65,7 @@ Type THUD Extends LTWindow
 		
 		Local GoalX:Double = Goal1X
 		For Local Goal:TGoal = Eachin Profile.Goals
-			Goal.Draw( Goal1X, Icon, Ball, Count )
+			Goal.Draw( GoalX, Ball, TileIcon, BallIcon, Count )
 			GoalX :+ GoalDX
 		Next
 	End Method

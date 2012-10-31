@@ -13,7 +13,8 @@ Global L_CurrentButtonAction:LTButtonAction
 Type LTKeysList Extends  LTMenuListBox
 	Method Init()
 		Super.Init()
-		Items = L_CurrentProfile.Keys
+		Items = New TList
+		Profile.AddKeys( Items )
 	End Method
 	
 	Method DrawItem( Item:Object, Num:Int, Sprite:LTSprite )

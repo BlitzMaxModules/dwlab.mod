@@ -9,4 +9,5 @@ Incbin "images\background.jpg"
 Incbin "MouseMenu\frames\button.png"
 Incbin "MouseMenu\images\icons.png"
 Incbin "MouseMenu\images\progressbar.png"
+Incbin "images\fields.png"
 L_SetIncbin( True )

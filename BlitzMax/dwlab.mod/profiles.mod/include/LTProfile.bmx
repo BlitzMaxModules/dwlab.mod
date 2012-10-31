@@ -656,6 +656,11 @@ Type LTProfile Extends LTObject
 	
 	
 	
+	Method AddKeys( Items:TList )
+	End Method
+
+	
+	
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		

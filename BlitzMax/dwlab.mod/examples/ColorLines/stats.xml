@@ -17,4 +17,44 @@
 	<TStats level="Iceland" time="3" turns="1"/>
 	<TStats level="Iceland" time="15" turns="2"/>
 	<TStats level="Iceland" score="72" time="163" turns="70"/>
+	<TStats level="The wall" time="2"/>
+	<TStats level="The wall" time="1"/>
+	<TStats level="The wall" time="5"/>
+	<TStats level="The wall" time="4"/>
+	<TStats level="The wall" time="4"/>
+	<TStats level="The wall" completed="1" score="15" time="48" turns="19"/>
+	<TStats level="Black ball cross" time="2"/>
+	<TStats level="The wall" time="1"/>
+	<TStats level="The wall" time="1"/>
+	<TStats level="Black ball cross" time="1"/>
+	<TStats level="The wall" completed="1" score="10" time="18" turns="9"/>
+	<TStats level="Black ball cross" time="4"/>
+	<TStats level="The wall" time="5"/>
+	<TStats level="The wall" time="7"/>
+	<TStats level="Level_1_1" completed="1" score="52" time="49" turns="24"/>
+	<TStats level="Level_1_2" completed="1" score="41" time="35" turns="16"/>
+	<TStats level="Level_1_3" completed="1" score="52" time="43" turns="16"/>
+	<TStats level="Level_1_4" completed="1"/>
+	<TStats level="Level_1_4" completed="1"/>
+	<TStats level="Level_2_1" completed="1" score="28" time="14" turns="7"/>
+	<TStats level="Level_2_2" time="2"/>
+	<TStats level="Level_1_3"/>
+	<TStats level="Level_1_4" completed="1"/>
+	<TStats level="Level_1_4" completed="1"/>
+	<TStats level="Level_2_2" time="1"/>
+	<TStats level="Level_1_1" time="1"/>
+	<TStats level="Level_1_1" time="4" turns="3"/>
+	<TStats level="Level_1_1" time="4" turns="3"/>
+	<TStats level="Level_1_1" time="4" turns="3"/>
+	<TStats level="Level_1_1" completed="1" score="52" time="45" turns="30"/>
+	<TStats level="Level_1_1" completed="1" score="52" time="44" turns="30"/>
+	<TStats level="Level_1_1" completed="1" score="53" time="30" turns="26"/>
+	<TStats level="Level_1_2" time="6" turns="3"/>
+	<TStats level="Level_1_2" time="7" turns="3"/>
+	<TStats level="The wall" time="2" turns="1"/>
+	<TStats level="The wall" time="2" turns="1"/>
+	<TStats level="The wall" score="10" time="79" turns="38"/>
+	<TStats level="The wall" score="15" time="44" turns="28"/>
+	<TStats level="The wall" score="35" time="118" turns="63"/>
+	<TStats level="The wall" score="35" time="118" turns="63"/>
 </TStatList>

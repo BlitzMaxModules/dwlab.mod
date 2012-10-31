@@ -1,13 +1,13 @@
 <LTMenu current-profile="1" audio="DirectSound" video="DirectX7" dwlab_version="1.4.27" total-loading-time="0">
 	<TList field="profiles">
-		<TGameProfile id="1" name="{{P_Player}}" language="Russian" width="1280" height="1024" depth="32" frequency="75" repeat="0" x-resolution="1216" y-resolution="912" first-locked-level="The wall" level="The wall" next-balls="6,3,7" balls-in-line="5" balls-per-turn="3" total-time="180" time="1.58666665" total-turns="60" total-turn-time="15" turn-time="1.6">
-			<LTTileMap field="field" x="8.50003" y="4.83002997" width="11.00003" height="8.25003" xquantity="11" yquantity="11" tiles-quantity="11">
+		<TGameProfile id="1" name="{{P_Player}}" language="Russian" width="1280" height="1024" depth="32" frequency="75" music-on="0" repeat="0" x-resolution="1216" y-resolution="912" first-locked-level="The wall" level="The wall" next-balls="2,6,6" balls-in-line="5" balls-per-turn="3" total-balls="7" show-next-balls="1" total-time="180" time="1.8" total-turns="60" turns="1" total-turn-time="15" turn-time="1.8">
+			<LTTileMap field="field" x="8.50003" y="4.83002997" width="11.00003" height="8.25003" xquantity="11" yquantity="11" tiles-quantity="33">
 				<TList field="parameters">
 					<LTParameter name="name" value="Field"/>
 				</TList>
 				<TFieldVisualizer field="visualizer" dy="0.1" yscale="1.25001"/>
-				<LTTileSet field="tileset" name="Default" tiles-quantity="11" block-width="00000000000" block-height="00000000000" empty-tile="0">
-					<LTImage field="image" filename="images\fields.png" xcells="11" loading-time="1"/>
+				<LTTileSet field="tileset" name="Default" tiles-quantity="33" block-width="000000000000000000000000000000000" block-height="000000000000000000000000000000000" empty-tile="0">
+					<LTImage field="image" filename="images\fields.png" xcells="11" ycells="3" loading-time="3"/>
 					<ShapeArray field="collision-shapes">
 						<Null/>
 						<LTSprite x="0.50002999" y="0.50002999" shape="2">
@@ -34,6 +34,50 @@
 						<Null/>
 						<Null/>
 						<Null/>
+						<Null/>
+						<LTSprite x="0.50002999" y="0.50002999" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.50002999" y="0.50002999" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.50002999" y="0.50002999" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.50002999" y="0.50002999" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.50002999" y="0.50002999" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.50002999" y="0.50002999" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.50002999" y="0.50002999" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.50002999" y="0.50002999" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.50002999" y="0.50002999" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.50002999" y="0.50002999" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.50002999" y="0.50002999" shape="2">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
+						<Null/>
 					</ShapeArray>
 				</LTTileSet>
 				<Row data="11112221111"/>
@@ -41,22 +85,21 @@
 				<Row data="11112221111"/>
 				<Row data="11112221111"/>
 				<Row data="11112221111"/>
-				<Row data="11112221117"/>
+				<Row data="1111222111F"/>
 				<Row data="11112221111"/>
 				<Row data="11112221111"/>
 				<Row data="11112221111"/>
 				<Row data="11112221111"/>
 				<Row data="11112221111"/>
 			</LTTileMap>
-			<LTTileMap field="balls" x="8.50003" y="4.83002997" width="11.00003" height="8.25003" visible="0" xquantity="11" yquantity="11" tiles-quantity="15">
+			<LTTileMap field="balls" x="8.50003" y="4.83002997" width="11.00003" height="8.25003" visible="0" xquantity="11" yquantity="11" tiles-quantity="14">
 				<TList field="parameters">
 					<LTParameter name="name" value="Balls"/>
 				</TList>
 				<LTVisualizer field="visualizer" dy="-0.25002996" xscale="0.90000999" yscale="1.23001"/>
-				<LTTileSet field="tileset" id="28" name="Balls" tiles-quantity="15" block-width="000000000000000" block-height="000000000000000" empty-tile="0">
-					<LTImage field="image" filename="images\balls.png" xcells="15" loading-time="3"/>
+				<LTTileSet field="tileset" id="46" name="Balls" tiles-quantity="14" block-width="00000000000000" block-height="00000000000000" empty-tile="0">
+					<LTImage field="image" filename="images\balls.png" xcells="14" loading-time="3"/>
 					<ShapeArray field="collision-shapes">
-						<Null/>
 						<Null/>
 						<Null/>
 						<Null/>
@@ -73,24 +116,24 @@
 						<Null/>
 					</ShapeArray>
 				</LTTileSet>
-				<Row data="00004520100"/>
-				<Row data="00001340000"/>
-				<Row data="00002370000"/>
-				<Row data="00004533000"/>
-				<Row data="00004450000"/>
-				<Row data="80007410000"/>
-				<Row data="00005660000"/>
-				<Row data="00002710000"/>
-				<Row data="00005350000"/>
-				<Row data="00003610000"/>
-				<Row data="00003320010"/>
+				<Row data="00003330000"/>
+				<Row data="00005250000"/>
+				<Row data="00004750000"/>
+				<Row data="00006540000"/>
+				<Row data="30007420000"/>
+				<Row data="80002145000"/>
+				<Row data="00002130004"/>
+				<Row data="00002220000"/>
+				<Row data="00001160000"/>
+				<Row data="00005730000"/>
+				<Row data="00006430000"/>
 			</LTTileMap>
-			<LTTileMap field="modifiers" x="8.50003" y="4.83002997" width="11.00003" height="8.25003" xquantity="11" yquantity="11" tiles-quantity="15">
+			<LTTileMap field="modifiers" x="8.50003" y="4.83002997" width="11.00003" height="8.25003" xquantity="11" yquantity="11" tiles-quantity="14">
 				<TList field="parameters">
 					<LTParameter name="name" value="Modifiers"/>
 				</TList>
 				<LTVisualizer field="visualizer" dy="-0.25002996" yscale="2.66002999"/>
-				<Object field="tileset" id="28"/>
+				<Object field="tileset" id="46"/>
 				<Row data="00000000000"/>
 				<Row data="00000000000"/>
 				<Row data="00000000000"/>
@@ -109,11 +152,14 @@
 			<TList field="pool">
 				<TPoolObject num="9" percent="100"/>
 			</TList>
-			<LTButtonAction name="Boss key">
-				<LTKeyboardKey code="90"/>
+			<LTButtonAction field="skip-turn" name="Skip turn">
+				<LTKeyboardKey code="32"/>
 			</LTButtonAction>
-			<LTButtonAction name="Exit to menu">
+			<LTButtonAction field="exit-to-menu" name="Exit to menu">
 				<LTKeyboardKey code="27"/>
+			</LTButtonAction>
+			<LTButtonAction field="boss-key" name="Boss key">
+				<LTKeyboardKey code="90"/>
 			</LTButtonAction>
 		</TGameProfile>
 	</TList>
