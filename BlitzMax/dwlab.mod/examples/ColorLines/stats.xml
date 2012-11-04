@@ -57,4 +57,24 @@
 	<TStats level="The wall" score="15" time="44" turns="28"/>
 	<TStats level="The wall" score="35" time="118" turns="63"/>
 	<TStats level="The wall" score="35" time="118" turns="63"/>
+	<TStats level="The wall" time="2.10666666" turns="1"/>
+	<TStats level="Level_1_1" completed="1" score="53" time="58.41333333" turns="32"/>
+	<TStats level="Level_1_2" completed="1" score="42" time="49.25333332" turns="32"/>
+	<TStats level="Level_1_3" completed="1" score="51" time="52.98666665" turns="30"/>
+	<TStats level="Level_1_4" completed="1" time="0.01333332" turns="1"/>
+	<TStats level="Level_1_4" completed="1" time="0.02666665" turns="1"/>
+	<TStats level="Level_1_2" completed="1" score="41" time="39.30666665" turns="27"/>
+	<TStats level="Level_1_3" completed="1" score="50" time="59.16" turns="23"/>
+	<TStats level="Level_1_4" completed="1" time="0.01333333" turns="1"/>
+	<TStats level="Level_1_4" completed="1" time="0.02666666" turns="1"/>
+	<TStats level="Level_1_4" completed="1" time="0.01333333" turns="1"/>
+	<TStats level="Level_1_4" completed="1" time="0.02666666" turns="1"/>
+	<TStats level="Level_1_4" completed="1" time="0.01333333" turns="1"/>
+	<TStats level="Level_1_4" completed="1" time="0.02666666" turns="1"/>
+	<TStats level="Level_1_4" completed="1" time="0.01333333" turns="1"/>
+	<TStats level="Level_1_4" completed="1" time="0.02666666" turns="1"/>
+	<TStats level="Level_1_4" completed="1" time="0.01333333" turns="1"/>
+	<TStats level="Level_1_4" completed="1" time="0.02666666" turns="1"/>
+	<TStats level="Level_1_4" completed="1" time="0.01333333" turns="1"/>
+	<TStats level="Level_1_4" completed="1" time="0.02666666" turns="1"/>
 </TStatList>

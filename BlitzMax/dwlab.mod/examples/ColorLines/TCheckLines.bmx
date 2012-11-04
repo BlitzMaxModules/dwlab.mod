@@ -36,7 +36,8 @@ Type TCheckLines
 			If NewTurn Then Profile.NewTurn()
 		Else
 			L_CurrentProfile.PlaySnd( Game.ExplosionSound )
-			Profile.Score :+ ( Game.TotalBalls - 7 ) * Game.TotalBalls / 2 + 10
+			Profile.Score :+ Profile.BallsInLine + Progression( 1, 1 + Game.TotalBalls - Profile.BallsInLine ) - 1
+			
 			For Local Goal:TGetScore = Eachin Profile.Goals
 				If Goal.Count <= Profile.Score Then Goal.Count = 0
 			Next
@@ -46,6 +47,10 @@ Type TCheckLines
 				End If
 			Next
 		End If
+	End Function
+	
+	Function Progression:Int( FromValue:Int, ToValue:Int )
+		Return ( FromValue + ToValue ) * ( ToValue - FromValue + 1 ) * 0.5
 	End Function
 	
 	Function CheckRow( BallNum:Int, Rows:TList, X:Int, Y:Int, DX:Int, DY:Int )

@@ -37,7 +37,7 @@ Type THUD Extends LTWindow
 		Ball = LTSprite( FindShape( "Ball" ) )
 		Remove( Ball )
 		Size = BallIcon.GetDiameter()
-		Distance = BallIcon.GetParameter( "distance" ).ToDouble()
+		Distance = Ball.GetParameter( "distance" ).ToDouble()
 		Goal1X = FindShape( "Goal1" ).X
 		GoalDX = FindShape( "Goal2" ).X - Goal1X
 	End Method

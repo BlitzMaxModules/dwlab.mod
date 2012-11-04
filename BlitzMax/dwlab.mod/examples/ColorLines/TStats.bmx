@@ -12,7 +12,7 @@ Type TStats Extends LTObject
 	Field LevelName:String
 	Field Completed:Int
 	Field Score:Int
-	Field Time:Int
+	Field Time:Double
 	Field Turns:Int	
 	
 	Function AddStats( LevelIsCompleted:Int )
@@ -31,7 +31,7 @@ Type TStats Extends LTObject
 		XMLObject.ManageStringAttribute( "level", LevelName )
 		XMLObject.ManageIntAttribute( "completed", Completed )
 		XMLObject.ManageIntAttribute( "score", Score )
-		XMLObject.ManageIntAttribute( "time", Time )
+		XMLObject.ManageDoubleAttribute( "time", Time )
 		XMLObject.ManageIntAttribute( "turns", Turns )
 	End Method
 End Type
