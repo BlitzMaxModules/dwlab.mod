@@ -64,12 +64,14 @@ Incbin "toolbar.png"
 Incbin "treeview.png"
 
 L_LoadingUpdater = New TLoadingUpdater
+LTImage.LoadingErrorHandler = New LTCustomImageLoadingErrorHandler
+LTTileMap.LoadingErrorHandler = New LTCustomTileMapLoadingErrorHandler
 
 Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.9.2"
+	Const Version:String = "1.9.3"
 	Const INIVersion:Int = 6
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 8
@@ -596,6 +598,7 @@ Type LTEditor Extends LTProject
 		CurrentViewLayer = AddLayer( "LTLayer" )
 		CurrentContainer = CurrentViewLayer
 		RefreshProjectManager()
+		LTTileMap.MaxTileMapNum = 0
 		
 		WorldFilename = "untitled.lw"
 		Changed = False
@@ -603,6 +606,8 @@ Type LTEditor Extends LTProject
 	End Method
 	
 	
+	
+	Global Errors:String
 	
 	Method OpenWorld( Filename:String )
 		If FileType( Filename ) = 0 Then Return
@@ -627,6 +632,7 @@ Type LTEditor Extends LTProject
 			Local XMLObject:LTXMLObject = LTXMLObject.ReadFromFile( FileName )
 			UpdateXML( XMLObject )
 			
+			Errors = ""
 			World = LTWorld( LoadFromFile( Filename, , XMLObject ) )
 			If Not World.Camera Then World.Camera = LTCamera.Create( GadgetWidth( TilesetCanvas ), GadgetHeight( TilesetCanvas ), 16.0 )
 			MainCamera = World.Camera
@@ -653,7 +659,11 @@ Type LTEditor Extends LTProject
 			SetTitle()
 			RefreshProjectManager()
 			
+			If Errors Then Notify( Errors )
+			
 			FreeGadget( LoadingWindow )
+			
+			If LTTileMap.MaxTileMapNum = 0 Then EnumerateTileMaps( World )
 		End If
 	End Method
 
@@ -1181,6 +1191,8 @@ Type LTEditor Extends LTProject
 									Layer.AddLast( Tilemap )
 									SetChanged()
 									EditTileMap( Tilemap )
+									LTTileMap.MaxTileMapNum :+ 1
+									TileMap.FileNum = LTTileMap.MaxTileMapNum
 								End If
 							End If
 						End If
@@ -2510,10 +2522,10 @@ Type LTEditor Extends LTProject
 		Local MapImage:LTImage = LTImage( ImageMap.ValueForKey( RealPath( Image.Filename ) ) )
 		If MapImage Then
 			Image = MapImage
-			DebugLog( "Merged" )
+			'DebugLog( "Merged" )
 		Else
 			ImageMap.Insert( RealPath( Image.Filename ), Image )
-			DebugLog( "Inserted" )
+			'DebugLog( "Inserted" )
 			L_EditorData.Images.AddLast( Image )
 		End If
 	End Method
@@ -2533,6 +2545,19 @@ Type LTEditor Extends LTProject
 		For Local ChildLayer:LTLayer = Eachin Layer
 			ReplaceTiles( ChildLayer, TileSetName, TileNum1, TileNum2 )
 		Next
+	End Method
+	
+	
+	
+	Method EnumerateTileMaps( Layer:LTLayer )
+		For Local TileMap:LTTileMap = Eachin Layer
+			LTTileMap.MaxTileMapNum :+ 1
+			TileMap.FileNum = LTTileMap.MaxTileMapNum
+		Next
+		
+		For Local ChildLayer:LTLayer = Eachin Layer
+			EnumerateTileMaps( ChildLayer )
+		Next		
 	End Method
 End Type
 
@@ -2556,5 +2581,31 @@ Type TLoadingUpdater Extends LTObject
 	Method Update()
 		UpdateProgBar( ProgressBar, L_LoadingProgress )
 		SetGadgetText( LoadingWindow, L_LoadingStatus )
+	End Method
+End Type
+
+
+
+Type LTCustomImageLoadingErrorHandler Extends LTImageLoadingErrorHandler
+	Method HandleError:TPixmap( FileName:String, Image:LTImage )
+		If Editor.Errors Then Editor.Errors :+ "~n"
+		Editor.Errors :+ LocalizeString( "{{Image}} " ) + FileName + LocalizeString( " {{cannot be loaded or not found}}" )
+		Local Width:Int = Abs( Image.XCells )
+		Local Height:Int = Abs( Image.YCells )
+		Local Frame:LTRasterFrame = LTRasterFrame( Image )
+		If Frame Then
+			Width :* ( Frame.LeftBorder + Frame.RightBorder + 1 )
+			Height  :* ( Frame.TopBorder + Frame.BottomBorder + 1 )
+		End If
+		Return TPixmap.Create( Width, Height, PF_RGBA8888 )
+	End Method
+End Type
+
+
+
+Type LTCustomTileMapLoadingErrorHandler Extends LTTileMapLoadingErrorHandler
+	Method HandleError( FileName:String )
+		If Editor.Errors Then Editor.Errors :+ "~n"
+		Editor.Errors :+ LocalizeString( "{{Tile map}} " ) + FileName + LocalizeString( " {{cannot be loaded or not found}}" )
 	End Method
 End Type

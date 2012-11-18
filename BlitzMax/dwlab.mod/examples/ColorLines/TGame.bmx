@@ -77,7 +77,6 @@ Type TGame Extends LTGUIProject
 	End Method
 	
 	Method Logic()
-		
 		Delay 5
 		L_CurrentProfile.ManageSounds()
 	

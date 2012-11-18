@@ -17,6 +17,7 @@ bbdoc: Image class.
 End Rem
 Type LTImage Extends LTObject
 	Global Bitmaps:TMap = New TMap
+	Global LoadingErrorHandler:LTImageLoadingErrorHandler = New LTImageLoadingErrorHandler
 	
 	Field BMaxImage:TImage
 	Field Filename:String
@@ -54,7 +55,7 @@ Type LTImage Extends LTObject
 		Local Time:Int = Millisecs()
 		
 		Local Pixmap:TPixmap = LoadPixmap( L_Incbin + Filename )
-		If Not Pixmap Then L_Error( L_Incbin + Filename + " cannot be loaded or not found." )
+		If Not Pixmap Then Pixmap = LoadingErrorHandler.HandleError( L_Incbin + Filename, Self )
 		'?debug
 		'If PixmapWidth( BMaxImage ) Mod XCells <> 0 Or PixmapHeight( BMaxImage ) Mod YCells <> 0 Then L_Error( "Incorrect cells quantity for splitting" )
 		'?
@@ -144,5 +145,15 @@ Type LTImage Extends LTObject
 		'If Not L_EditorData.Images.Contains( Self ) Then L_EditorData.Images.AddLast( Self )
 		
 		If L_XMLMode = L_XMLGet And L_LoadImages Then Init()
+	End Method
+End Type
+
+
+
+
+
+Type LTImageLoadingErrorHandler
+	Method HandleError:TPixmap( FileName:String, Image:LTImage )
+		L_Error( "Image " + FileName + " cannot be loaded or not found." )
 	End Method
 End Type

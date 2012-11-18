@@ -29,7 +29,9 @@ Type LTVectorSprite Extends LTSprite
 	
 	
 	
-	Function FromShapeAndVector:LTVectorSprite( X:Double, Y:Double, Width:Double = 1.0, Height:Double = 1.0, ShapeType:Int = LTSprite.Rectangle, DX:Double = 0.0, DY:Double = 0.0 )
+	Function FromShapeAndVector:LTVectorSprite( X:Double, Y:Double, Width:Double = 1.0, Height:Double = 1.0, ..
+			ShapeType:LTShapeType = Null, DX:Double = 0.0, DY:Double = 0.0 )
+		If ShapeType = Null Then ShapeType = LTSprite.Rectangle
 		Local Sprite:LTVectorSprite = New LTVectorSprite
 		Sprite.SetCoords( X, Y )
 		Sprite.SetSize( Width, Height )

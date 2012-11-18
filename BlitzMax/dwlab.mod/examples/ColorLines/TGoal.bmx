@@ -143,8 +143,8 @@ End Type
 
 
 Type TRemoveIce Extends TGoal
-	Method GetBallIcon:Int()
-		Return 14
+	Method GetTileIcon:Int()
+		Return 3
 	End Method
 	
 	Function Create( Quantity:Int )

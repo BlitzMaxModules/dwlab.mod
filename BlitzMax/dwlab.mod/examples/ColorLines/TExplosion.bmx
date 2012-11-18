@@ -54,7 +54,7 @@ Type TExplosion Extends LTBehaviorModel
 				If DY = 0 And DX = 0 Then Continue
 				Local XDX:Int = X + DX
 				Local YDY:Int = Y + DY
-				If XDX > 0 And YDY > 0 And XDX < Profile.Balls.XQuantity - 1 And YDY < Profile.Balls.YQuantity - 1 Then
+				If XDX >= 0 And YDY >= 0 And XDX < Profile.Balls.XQuantity And YDY < Profile.Balls.YQuantity Then
 					Local isBomb:Int = False
 					If Profile.Balls.GetTile( XDX, YDY ) = Profile.Bomb Then isBomb = True
 					If isBomb Then
@@ -71,6 +71,8 @@ Type TExplosion Extends LTBehaviorModel
 		Local BallNum:Int = Profile.Balls.GetTile( X, Y )
 		If BallNum = 0 Then Return
 		
+		If BallNum = Profile.Stone Then Profile.Score :+ Profile.ExplodedStonePoints Else Profile.Score :+ Profile.ExplodedBallPoints
+		
 		If Profile.Modifiers.GetTile( X, Y ) = Profile.Lights
 			For Local Goal:TRemoveLights = Eachin Profile.Goals
 				Goal.Count :- 1
@@ -81,11 +83,13 @@ Type TExplosion Extends LTBehaviorModel
 		Select TileNum Mod 11
 			Case Profile.Glue
 		 		Profile.GameField.SetTile( X, Y, TileNum - 1 )
+				Profile.Score :+ Profile.ClearedGluePoints
 			Case Profile.Ice
 		 		Profile.GameField.SetTile( X, Y, TileNum - 2 )
 				For Local Goal:TRemoveIce = Eachin Profile.Goals
 					Goal.Count :- 1
 				Next
+				Profile.Score :+ Profile.ExplodedIcePoints
 		End Select
 		
 		For Local Goal:TRemoveBalls = Eachin Profile.Goals

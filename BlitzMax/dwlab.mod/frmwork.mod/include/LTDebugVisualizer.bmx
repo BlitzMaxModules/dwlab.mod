@@ -161,14 +161,14 @@ Type LTDebugVisualizer Extends LTVisualizer
 			Local ShapeY:Double = Y + ( Sprite.Y - 0.5 ) * TileHeight
 			Local ShapeWidth:Double = Sprite.Width * TileWidth
 			Local ShapeHeight:Double = Sprite.Height * TileHeight
-			Select Sprite.ShapeType
-				Case LTSprite.Pivot
+			Select Sprite.ShapeType.GetNum()
+				Case LTSprite.Pivot.GetNum()
 					Local SX:Double, SY:Double
 					L_CurrentCamera.FieldToScreen( ShapeX, ShapeY, SX, SY )
 					DrawOval( SX - 2, SY - 2, 5, 5 )
-				Case LTSprite.Circle
+				Case LTSprite.Oval.GetNum()
 					DrawIsoOval( ShapeX, ShapeY, ShapeWidth, ShapeHeight )
-				Case LTSprite.Rectangle
+				Case LTSprite.Rectangle.GetNum()
 					DrawIsoRectangle( ShapeX, ShapeY, ShapeWidth, ShapeHeight )
 			End Select		
 		Else

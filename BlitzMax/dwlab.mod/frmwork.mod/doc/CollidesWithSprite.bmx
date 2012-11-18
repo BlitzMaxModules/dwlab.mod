@@ -15,8 +15,8 @@ Type TExample Extends LTProject
 	
 	Method Init()
 		For Local N:Int = 0 Until 9
-			Local Sprite:LTSprite = New LTSprite.FromShape( ( N Mod 3 ) * 8.0 - 8.0, Floor( N / 3 ) * 6.0 - 6.0, 6.0, 4.0, N )
-			If N = LTSprite.Raster Then Sprite.Visualizer.Image = Image
+			Local Sprite:LTSprite = New LTSprite.FromShape( ( N Mod 3 ) * 8.0 - 8.0, Floor( N / 3 ) * 6.0 - 6.0, 6.0, 4.0, LTShapeType.GetByNum( N ) )
+			If N = LTSprite.Raster.GetNum() Then Sprite.Visualizer.Image = Image
 			Sprite.Visualizer.SetColorFromHex( "7FFF7F" )
 			Sprite.Angle = 60
 			Sprites.AddLast( Sprite )
@@ -31,8 +31,8 @@ Type TExample Extends LTProject
 	Method Logic()
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
 		If MouseHit( 2 ) Then
-			L_Cursor.ShapeType = ( L_Cursor.ShapeType + 1 ) Mod 9
-			If L_Cursor.ShapeType = LTSprite.Raster Then L_Cursor.Visualizer.Image = Image Else L_Cursor.Visualizer.Image = Null
+			L_Cursor.ShapeType = LTShapeType.GetByNum( ( L_Cursor.ShapeType.GetNum() + 1 ) Mod 9 )
+			If L_Cursor.ShapeType.GetNum() = LTSprite.Raster.GetNum() Then L_Cursor.Visualizer.Image = Image Else L_Cursor.Visualizer.Image = Null
 		End If
 		'L_Cursor.Angle :+ 0.5
 	End Method

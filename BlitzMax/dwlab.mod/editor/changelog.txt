@@ -1,3 +1,6 @@
+1.9.3
+* Loading image or tilemap errors will be shown at once and editor will continue to work with them
+
 1.9.2
 * Removal of image duplicates
 * Inclusion of orphaned images (result of incorrect merging) into images list

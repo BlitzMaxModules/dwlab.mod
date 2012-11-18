@@ -15,13 +15,18 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.4.27"
+ModuleInfo "Version: 1.4.28"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.29 (09.11.12)"
+ModuleInfo "History: &nbsp; &nbsp; Tilemaps are now stored in binary format in special folder which is in same place as lw file."
+ModuleInfo "History: &nbsp; &nbsp; Added tilemap loading error handler."
+ModuleInfo "History: v1.4.28 (08.11.12)"
+ModuleInfo "History: &nbsp; &nbsp; Added image loading error handler."
 ModuleInfo "History: v1.4.27 (18.09.12)"
 ModuleInfo "History: &nbsp; &nbsp; Added ManageStringObjectMap and ManageStringMap functions to LTXMLObject."
 ModuleInfo "History: v1.4.26 (08.09.12)"
@@ -317,7 +322,7 @@ Import brl.map
 Import brl.max2d
 Import brl.eventqueue
 
-Const L_Version:String = "1.4.27"
+Const L_Version:String = "1.4.28"
 
 SeedRnd( MilliSecs() )
 
@@ -353,9 +358,12 @@ End Function
 
 
 
-
 Global L_Incbin:String = ""
 
 Function L_SetIncbin( Value:Int )
 	If Value Then L_Incbin = "incbin::" Else L_Incbin = ""
 End Function
+
+
+
+LTInteraction.Init()

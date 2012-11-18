@@ -38,5 +38,6 @@ Type TFallIntoPocket extends LTBehaviorModel
 		For Local Goal:TPutBallsInHoles = Eachin Profile.Goals
 			Goal.Count :- 1
 		Next
+		Profile.Score :+ Profile.BallInPocketPoints
 	End Method
 End Type

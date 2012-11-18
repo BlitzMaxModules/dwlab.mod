@@ -15,6 +15,9 @@ Rem
 bbdoc: Tilemap is displayable rectangular tile-based shape with 2d array of tile indexes and tileset with tile images.
 End Rem
 Type LTTileMap Extends LTIntMap
+	Global LoadingErrorHandler:LTTileMapLoadingErrorHandler = New LTTileMapLoadingErrorHandler
+	Global MaxTileMapNum:Int = 0
+	
 	Rem
 	bbdoc: Tilemap's default tileset.
 	about: See also: #LTTileSet
@@ -51,6 +54,8 @@ Type LTTileMap Extends LTIntMap
 	about: 1 means drawing tile rows from top to bottom, -1 means otherwise.
 	End Rem
 	Field VerticalOrder:Int = 1	
+	
+	Field FileNum:Int
 	
 	Field LoadingTime:Int
 	
@@ -254,24 +259,55 @@ Type LTTileMap Extends LTIntMap
 		XMLObject.ManageIntAttribute( "horizontal-order", HorizontalOrder, 1 )
 		XMLObject.ManageIntAttribute( "vertical-order", VerticalOrder, 1 )
 		XMLObject.ManageIntAttribute( "loading-time", LoadingTime )
+		XMLObject.ManageIntAttribute( "file-num", FileNum )
 			
 		Local ChunkLength:Int = L_GetChunkLength( TilesQuantity )
 		If L_XMLMode = L_XMLGet Then
 			Local Time:Int = Millisecs()
 			
-			Value = New Int[ XQuantity, YQuantity ]
-			Local Y:Int = 0
-			For Local XMLRow:LTXMLObject = Eachin XMLObject.Children
-				Local Data:String = XMLRow.GetAttribute( "data" )
-				Local Pos:Int = 0
-				Local X:Int = 0
-				While Pos < Data.Length
-					Value[ X, Y ] = L_Decode( Data[ Pos..Pos + ChunkLength ] )
-					Pos :+ ChunkLength
-					X :+ 1
-				Wend
-				Y :+ 1
-			Next
+			If FileNum Then
+				MaxTileMapNum = Max( MaxTileMapNum, FileNum )
+				Local FileName:String = LTObject.ObjectFileName + "_tilemaps\" + FileNum + ".bin"
+				Local File:TStream = ReadFile( FileName )
+				If Not File Then
+					LoadingErrorHandler.HandleError( FileName )
+				Else
+					If TilesQuantity <= 256 Then
+						For Local Y:Int = 0 Until YQuantity
+							For Local X:Int = 0 Until XQuantity
+								Value[ X, Y ] = ReadByte( File )
+							Next
+						Next
+					ElseIf TilesQuantity <= 65536 Then
+						For Local Y:Int = 0 Until YQuantity
+							For Local X:Int = 0 Until XQuantity
+								Value[ X, Y ] = ReadShort( File )
+							Next
+						Next
+					Else
+						For Local Y:Int = 0 Until YQuantity
+							For Local X:Int = 0 Until XQuantity
+								Value[ X, Y ] = ReadInt( File )
+							Next
+						Next
+					End If
+					CloseFile( File )
+				End If
+			Else
+				Value = New Int[ XQuantity, YQuantity ]
+				Local Y:Int = 0
+				For Local XMLRow:LTXMLObject = Eachin XMLObject.Children
+					Local Data:String = XMLRow.GetAttribute( "data" )
+					Local Pos:Int = 0
+					Local X:Int = 0
+					While Pos < Data.Length
+						Value[ X, Y ] = L_Decode( Data[ Pos..Pos + ChunkLength ] )
+						Pos :+ ChunkLength
+						X :+ 1
+					Wend
+					Y :+ 1
+				Next
+			End If
 			
 			L_LoadingTime :+ LoadingTime
 			LoadingTime = MilliSecs() - Time
@@ -279,16 +315,39 @@ Type LTTileMap Extends LTIntMap
 			L_LoadingProgress = 1.0 * L_LoadingTime / L_TotalLoadingTime
 			If L_LoadingUpdater Then L_LoadingUpdater.Update()
 		Else
-			For Local Y:Int = 0 Until YQuantity
-				Local XMLRow:LTXMLObject = New LTXMLObject
-				XMLRow.Name = "Row"
-				Local ArrayData:String = ""
-				For Local X:Int = 0 Until XQuantity
-					ArrayData :+ L_Encode( Value[ X, Y ], ChunkLength )
+			Local DirName:String = LTObject.ObjectFileName + "_tilemaps"
+			If FileType( DirName ) < 2 Then CreateDir( DirName )
+			Local File:TStream = WriteFile( DirName + "\" + FileNum + ".bin" )
+			If TilesQuantity <= 256 Then
+				For Local Y:Int = 0 Until YQuantity
+					For Local X:Int = 0 Until XQuantity
+						WriteByte( File, Value[ X, Y ] )
+					Next
 				Next
-				XMLRow.SetAttribute( "data", ArrayData )
-				XMLObject.Children.AddLast( XMLRow )
-			Next
+			ElseIf TilesQuantity <= 65536 Then
+				For Local Y:Int = 0 Until YQuantity
+					For Local X:Int = 0 Until XQuantity
+						WriteShort( File, Value[ X, Y ] )
+					Next
+				Next
+			Else
+				For Local Y:Int = 0 Until YQuantity
+					For Local X:Int = 0 Until XQuantity
+						WriteInt( File, Value[ X, Y ] )
+					Next
+				Next
+			End If
+			CloseFile( File )
 		End If
+	End Method
+End Type
+
+
+
+
+
+Type LTTileMapLoadingErrorHandler
+	Method HandleError( FileName:String )
+		L_Error( "Tile map " + FileName + " cannot be loaded or not found." )
 	End Method
 End Type

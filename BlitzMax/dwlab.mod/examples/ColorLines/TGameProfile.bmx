@@ -56,6 +56,12 @@ Type TGameProfile Extends LTProfile
 	Field TurnTime:Double
 	Field LevelScores:TMap = New TMap
 	
+	Field ExplodedBallPoints:Int = 1
+	Field ExplodedStonePoints:Int = 5
+	Field ExplodedIcePoints:Int = 3
+	Field ClearedGluePoints:Int = 1
+	Field BallInPocketPoints:Int = 10
+	
 	Field SkipTurn:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Space ), "Skip turn" )
 	Field BossKey:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Z ), "Boss key" )
 	Field ExitToMenu:LTButtonAction = LTButtonAction.Create( LTKeyboardKey.Create( Key_Escape ), "Exit to menu" )
@@ -218,7 +224,6 @@ Type TGameProfile Extends LTProfile
 				Local BallNum:Int = Balls.GetTile( X, Y )
 				If GameField.GetTile( X, Y ) = Plate And BallNum = NoBall Then Game.EmptyCells.AddLast( TCell.Create( X, Y ) )
 				If BallNum <= 7 Then ExistentBalls[ BallNum ] = 1
-				if Modifiers.GetTile( X, Y ) = Lights Then Balls.SetTile( X, Y, Rand( 1, 7 ) )
 			Next
 		Next
 		
@@ -233,6 +238,8 @@ Type TGameProfile Extends LTProfile
 			TPopUpBall.Create( Cell.X, Cell.Y, BallNum )
 		Next
 		FillNextBalls()
+		
+		Menu.SaveToFile( "settings.xml" )
 	End Method
 	
 	Method FillNextBalls()
@@ -241,6 +248,18 @@ Type TGameProfile Extends LTProfile
 			If ExistentBalls[ N ] Then BallStack.AddLast( String( N ) )
 		Next
 		
+		For Local Y:Int = 0 Until GameField.YQuantity
+			For Local X:Int = 0 Until GameField.XQuantity
+				if Modifiers.GetTile( X, Y ) = Lights Then
+					If OnlySameColor And BallStack.Count() Then
+						Balls.SetTile( X, Y, RandValue( BallStack ) )
+					Else
+						Balls.SetTile( X, Y, Rand( 1, TotalBalls ) )
+					End If
+				End If
+			Next
+		Next
+			
 		For Local N:Int = 0 Until BallsPerTurn
 			Local Choice:Double = Rnd( 100 )
 			For Local PoolObject:TPoolObject = Eachin Pool
@@ -248,7 +267,7 @@ Type TGameProfile Extends LTProfile
 				If Choice < 0 Then
 					If PoolObject.Num = RandomBall Then 
 						If OnlySameColor And BallStack.Count() Then
-							NextBalls[ N ] = String( BallStack.ValueAtIndex( Rand( 0, BallStack.Count() - 1 ) ) ).ToInt()
+							NextBalls[ N ] = RandValue( BallStack )
 						Else
 							NextBalls[ N ] = Rand( 1, TotalBalls )
 						End If
@@ -260,6 +279,10 @@ Type TGameProfile Extends LTProfile
 			Next
 		Next
 	End Method
+	
+	Function RandValue:Int( BallStack:TList )
+		Return String( BallStack.ValueAtIndex( Rand( 0, BallStack.Count() - 1 ) ) ).ToInt()
+	End Function
 	
 	Method TileToSprite:LTSprite( Model:LTBehaviorModel, X:Int, Y:Int, HideBall:Int = True )
 		Local Sprite:TBall = New TBall

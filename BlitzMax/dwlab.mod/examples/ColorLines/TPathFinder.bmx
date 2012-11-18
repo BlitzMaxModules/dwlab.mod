@@ -10,6 +10,8 @@
 
 Type TPathFinder Extends LTTileMapPathFinder
 	Method Passage:Double( X:Int, Y:Int )
-		If Profile.Balls.Value[ X, Y ] = Profile.NoBall And Game.TileIsPassable[ Profile.GameField.Value[ X, Y ] ] Then Return True
+		Local FieldValue:Int = Profile.GameField.Value[ X, Y ]
+		If FieldValue > Game.TileIsPassable.Length Then Return False
+		If Profile.Balls.Value[ X, Y ] = Profile.NoBall And Game.TileIsPassable[ FieldValue ] Then Return True
 	End Method
 End Type

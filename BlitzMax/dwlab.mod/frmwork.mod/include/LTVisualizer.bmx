@@ -229,14 +229,14 @@ Type LTVisualizer Extends LTColor
 		If Not SpriteShape Then SpriteShape = Sprite
 
 		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
-		If Sprite.ShapeType = LTSprite.Pivot Then
+		If Sprite.ShapeType.GetNum() = LTSprite.Pivot.GetNum() Then
 			L_CurrentCamera.FieldToScreen( Sprite.X, Sprite.Y, SX, SY )
 			DrawOval( SX - 2.5 * XScale + 0.5, SY - 2.5 * YScale + 0.5, 5 * XScale, 5 * YScale )
 		Else If L_CurrentCamera.Isometric Then
-			Select Sprite.ShapeType
-				Case LTSprite.Circle
+			Select Sprite.ShapeType.GetNum()
+				Case LTSprite.Oval.GetNum()
 					DrawIsoOval( Sprite.X, Sprite.Y, Sprite.Width, Sprite.Height )
-				Case LTSprite.Rectangle
+				Case LTSprite.Rectangle.GetNum()
 					DrawIsoRectangle( SpriteShape.X, Sprite.Y, SpriteShape.Width, Sprite.Height )
 			End Select
 		Else
@@ -260,11 +260,11 @@ Type LTVisualizer Extends LTColor
 	
 	
 	
-	Function DrawShape( ShapeType:Int, SX:Double, SY:Double, SWidth:Double, SHeight:Double, Angle:Double = 0.0 )
+	Function DrawShape( ShapeType:LTShapeType, SX:Double, SY:Double, SWidth:Double, SHeight:Double, Angle:Double = 0.0 )
 		SetRotation( Angle )
 		
-		Select ShapeType
-			Case LTSprite.Oval
+		Select ShapeType.GetNum()
+			Case LTSprite.Oval.GetNum()
 				If SWidth = SHeight Then
 					SetHandle( 0.5 * SWidth, 0.5 * SHeight )
 					DrawOval( SX, SY, SWidth, SHeight )
@@ -289,11 +289,11 @@ Type LTVisualizer Extends LTColor
 					SetHandle( 0.0, 0.0 )
 				End If
 				SetOrigin( 0.0, 0.0 )
-			Case LTSprite.Rectangle
+			Case LTSprite.Rectangle.GetNum()
 				SetHandle( 0.5 * SWidth, 0.5 * SHeight )
 				DrawRect( SX, SY, SWidth, SHeight )
 				SetHandle( 0.0, 0.0 )
-			Case LTSprite.Ray
+			Case LTSprite.Ray.GetNum()
 				SetRotation( 0.0 )
 				DrawOval( SX - 2, SY - 2, 5, 5 )
 				Local Ang:Double = L_WrapDouble( Angle, 360.0 )
@@ -312,17 +312,17 @@ Type LTVisualizer Extends LTColor
 				End If
 			Default
 				SetOrigin( SX, SY )
-				Select ShapeType
-					Case LTSprite.TopLeftTriangle
+				Select ShapeType.GetNum()
+					Case LTSprite.TopLeftTriangle.GetNum()
 						DrawPoly( [ Float( -0.5 * SWidth ), Float( -0.5 * SHeight ), Float( 0.5 * SWidth ), Float( -0.5 * SHeight ), ..
 								Float( -0.5 * SWidth ), Float( 0.5 * SHeight ) ] )
-					Case LTSprite.TopRightTriangle
+					Case LTSprite.TopRightTriangle.GetNum()
 						DrawPoly( [ Float( -0.5 * SWidth ), Float( -0.5 * SHeight ), Float( 0.5 * SWidth ), Float( -0.5 * SHeight ), ..
 								Float( 0.5 * SWidth ), Float( 0.5 * SHeight ) ] )
-					Case LTSprite.BottomLeftTriangle
+					Case LTSprite.BottomLeftTriangle.GetNum()
 						DrawPoly( [ Float( -0.5 * SWidth ), Float( 0.5 * SHeight ), Float( 0.5 * SWidth ), Float( 0.5 * SHeight ), ..
 								Float( -0.5 * SWidth ), Float( -0.5 * SHeight ) ] )
-					Case LTSprite.BottomRightTriangle
+					Case LTSprite.BottomRightTriangle.GetNum()
 						DrawPoly( [ Float( -0.5 * SWidth ), Float( 0.5 * SHeight ), Float( 0.5 * SWidth ), Float( 0.5 * SHeight ), ..
 								Float( 0.5 * SWidth ), Float( -0.5 * SHeight ) ] )
 				End Select

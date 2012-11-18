@@ -1,9 +1,9 @@
-<LTWorld dwlab_version="1.4.24" total-loading-time="367">
+<LTWorld dwlab_version="1.4.28" total-loading-time="705">
 	<LTVisualizer field="visualizer" id="1"/>
 	<LTEditorData field="editor_data" incbin="1" x_div="2" y_div="2" coll_x_div="16" coll_y_div="16">
 		<TList field="images">
 			<Object id="8"/>
-			<Object id="165"/>
+			<Object id="155"/>
 			<Object id="133"/>
 			<Object id="77"/>
 		</TList>
@@ -28,13 +28,13 @@
 		<LTShape field="bounds" x="32" y="32" width="64" height="64">
 			<Object field="visualizer" id="1"/>
 		</LTShape>
-		<LTTileMap x="32" y="32" width="64" height="64" xquantity="64" yquantity="64" tiles-quantity="24">
+		<LTTileMap x="32" y="32" width="64" height="64" xquantity="64" yquantity="64" tiles-quantity="24" loading-time="1" file-num="1">
 			<TList field="parameters">
 				<LTParameter name="name" value="Ground"/>
 			</TList>
 			<LTVisualizer field="visualizer" yscale="2"/>
 			<LTTileSet field="tileset" id="7" tiles-quantity="24" block-width="000000000000000000000000" block-height="000000000000000000000000">
-				<LTImage field="image" id="8" filename="media\grass_and_water.png" xcells="4" ycells="6" loading-time="5"/>
+				<LTImage field="image" id="8" filename="media\grass_and_water.png" xcells="4" ycells="6" loading-time="21"/>
 				<ShapeArray field="collision-shapes">
 					<Null/>
 					<Null/>
@@ -132,70 +132,6 @@
 					<LTTileRule tilenums="0"/>
 				</LTTileCategory>
 			</LTTileSet>
-			<Row data="7>67>604<<50007>>4<<<<500?F957>>4<<<<50?FFFFF4<<5?F?F=0?F9504<50"/>
-			<Row data="004<500?FF=4<4<50?FFFF=007;F95048FFFF=0?FF:>>?FF=7>4<507;F=48F=0"/>
-			<Row data="00?F4<<8F:6?F?F957>;FF=000?FF=0?FFFF:607;F4<5?FF=00?F4<57>6?F:60"/>
-			<Row data="007>?FFF4<57>?FF=00?F:4<507;F=0?FF:>604<<5?F=7>>6007>?F=04<54<50"/>
-			<Row data="00007>>>?F4<5?F4<507>6?F=007>607>>6000?FF=7>604<5004<8F9<8F48F=0"/>
-			<Row data="000000007>?F=7>?F=00048F=004<5000000007>>4<500?F=048FFFFFF:?F:60"/>
-			<Row data="000004<<<57>6007>6000?F:600?F9<<<4<<<<500?F=00?F=0?F:;F:4<54<500"/>
-			<Row data="00000?FFF=0004<<504<5?F9500?FFFFF?FFFF=007>6007>607>67>6?F=?F950"/>
-			<Row data="000007>>>6000?FF95?F=?FF=0074<5>>?F:>>600000000000004<507>67;F95"/>
-			<Row data="00000000004<57>;F=7>67;F9500?F=007>60000004<50000000?F9500048FF="/>
-			<Row data="0000000000?F=00?F95000?FF=007>600000000000?F=04<50007;F4<50?F:>6"/>
-			<Row data="00000000007>6048FF=0007>4<<5000000004<<5048F=0?F=00007>?F=07>600"/>
-			<Row data="00000000000000?FFF=04<50?FF9504<<5048FF95?FF=07>6000004<54<50000"/>
-			<Row data="000000000000007>>>60?F=07;FF=48FF=0?F:;F=7;F=0000004<5?F=?F9<500"/>
-			<Row data="000000000000000000007>6007>>6?FFF=07>67>607>6000000?F=7>6?FFF=00"/>
-			<Row data="000000000000000000000000000007>>>6000000000000000007>60007>>>600"/>
-			<Row data="0000000000000000000000000000000000000000000000000000004<50000000"/>
-			<Row data="00000000000000000000000000000000000000000000000004<500?F=004<<50"/>
-			<Row data="0000000000000000000000000000000000000000000000000?F=007>600?FF95"/>
-			<Row data="00000000000000000000000000000000000000000000000007>4<<<54<5?FFF="/>
-			<Row data="500000000000000000000000000000000000000000000000000?FFF=?F=7;FF="/>
-			<Row data="=00000000000000000000000000000000000000000000000000?FFF=7>607>>6"/>
-			<Row data="9500000000000000000000000000000000000000000000000007;FF=04<50000"/>
-			<Row data="F=000000000000000000000000000000000000000000000000007>>60?F=0000"/>
-			<Row data="F9<500000000000000000000000000000000000000000000000004<507>64<50"/>
-			<Row data="FFF95000000000000000000000000000000000000000000000000?F=0000?F=0"/>
-			<Row data="FFFF95000000000000000000000000000000000000000000000007>600007>60"/>
-			<Row data="FFFFF9<500000000000000000000000000000000000000000000000000000000"/>
-			<Row data="FFFFFFF950000000000000000000000000000000000000000000000000000000"/>
-			<Row data="FFFFFFFF9<<50000000000000000000000000000000000000000000000000000"/>
-			<Row data=";FFFFFFFFFF=0000000000000000000000000000000000000000000000000000"/>
-			<Row data="7;FFFFFFFFF95000000000000000000000000000000000000000000000000000"/>
-			<Row data="07;FFFFFFFFF9500000000000000000000000000000000000000000000000000"/>
-			<Row data="007>>;FFFFFFF=00000000000000000000000000000000000000000000000000"/>
-			<Row data="000007;FFFFFF950000000000000000000000000000000000000000000000000"/>
-			<Row data="000000?FFFFFFF=0000000000000000000000000000000000000000000000000"/>
-			<Row data="000000?FFFFFFF95000000000000000000000000000000000000000000000000"/>
-			<Row data="0000007;FFFFFFF=000000000000000000000000000000000000000000000000"/>
-			<Row data="00000007;FFFFFF=000000000000000000000000000000000000000000000000"/>
-			<Row data="00000000?FFFFF:6000000000000000000000000000000000000000000000000"/>
-			<Row data="000000007;FFFF=0000000000000000000000000000000000000000000000000"/>
-			<Row data="000000000?FFFF95000000000000000000000000000000000000000000000000"/>
-			<Row data="0000000007;FFFF=000000000000000000000000000000000000000000000000"/>
-			<Row data="00000000007;FFF9500000000000000000000000000000000000000000000000"/>
-			<Row data="000000000007;FFF=00000000000000000000000000000000000000000000000"/>
-			<Row data="0000000000007;FF950000000000000000000000000000000000000000000000"/>
-			<Row data="0000000000000?FFF95000000000000000000000000000000000000000000000"/>
-			<Row data="00000000000007;FFF=000000000000000000000000000000000000000000000"/>
-			<Row data="00000000000000?FFF9500000000000000000000000000000000000000000000"/>
-			<Row data="000000000000007;FFF=00000000000000000000000000000000000000000000"/>
-			<Row data="000000000000000?FFF950000000000000000000000000000000000000000000"/>
-			<Row data="000000000000000?FFFF=0000000000000000000000000000000000000000000"/>
-			<Row data="0000000000000048FFFF=0000000000000000000000000000000000000000000"/>
-			<Row data="00000000000000?FFFFF=0000000000000000000000000000000000000000000"/>
-			<Row data="00000000000000?FFFFF=0000000000000000000000000000000000000000000"/>
-			<Row data="00000000000000?FFFF:60000000000000000000000000000000000000000000"/>
-			<Row data="000000000000007>>>>600000000000000000000000000000000000000000000"/>
-			<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-			<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-			<Row data="0000000000000004<<<500000000000000000000000000000000000000000000"/>
-			<Row data="000000000000000?FFF=00000000000000000000000000000000000000000000"/>
-			<Row data="000000000000000?FFF950000000000000000000000000000000000000000000"/>
-			<Row data="000000000000000?FFFF=0000000000000000000000000000000000000000000"/>
-			<Row data="0000000000000007;FFF95000000000000000000000000000000000000000000"/>
 		</LTTileMap>
 		<LTSprite x="16.5" y="57.5" shape="2">
 			<TList field="parameters">
@@ -217,13 +153,13 @@
 			<LTShape field="bounds" x="32" y="32" width="64" height="64">
 				<Object field="visualizer" id="1"/>
 			</LTShape>
-			<LTTileMap x="32" y="32" width="64" height="64" xquantity="64" yquantity="64" tiles-quantity="40">
+			<LTTileMap x="32" y="32" width="64" height="64" xquantity="64" yquantity="64" tiles-quantity="40" loading-time="1" file-num="2">
 				<TList field="parameters">
 					<LTParameter name="name" value="Fence"/>
 				</TList>
 				<LTVisualizer field="visualizer" dy="-0.28999997" xscale="1.25" yscale="2.5"/>
 				<LTTileSet field="tileset" id="76" tiles-quantity="40" block-width="0000000000000000000000000000000000000000" block-height="0000000000000000000000000000000000000000" empty-tile="0">
-					<LTImage field="image" id="77" filename="media\fence.png" xcells="8" ycells="5" loading-time="36"/>
+					<LTImage field="image" id="77" filename="media\fence.png" xcells="8" ycells="5" loading-time="73"/>
 					<ShapeArray field="collision-shapes">
 						<Null/>
 						<Null/>
@@ -334,85 +270,21 @@
 						</LTTileRule>
 					</LTTileCategory>
 				</LTTileSet>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="000000000000000000000000000000000000000000000EEEEEE0000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000822222222222222225072222222222;00000000000"/>
-				<Row data="00000000000000000000003000W000B00000000B00B000000000300000000000"/>
-				<Row data="0000000000000000000000300000T00000000000000000000000400000000000"/>
-				<Row data="0000000000000000000000300000GC0000000000000082;B0000000000000000"/>
-				<Row data="0000000000000000000000300000GC000000000000003P400000000000000000"/>
-				<Row data="00000000000000000000003EEEEEEEE000000000000030000000000000000000"/>
-				<Row data="0000000000000000000000300000000000000000000092500000000000000000"/>
-				<Row data="000000000000000000000030606000000000000000000C000000000000000000"/>
-				<Row data="00000000000000000000003030300000082;@000000082;00000600000000000"/>
-				<Row data="0000000000000000000000303Q30000003Q3000000003M300000300000000000"/>
-				<Row data="00000000000000000000003092:000000303000000004D400000300000000000"/>
-				<Row data="0000000000000000000000300000000003030000B00000000000300000000000"/>
-				<Row data="000000000000000000000030000B0000092:@000000000000000300000000000"/>
-				<Row data="0000000000000000000000300825000000000000000000000000300000000000"/>
-				<Row data="00000000000000000000003003I000822;000000000000000000300000000000"/>
-				<Row data="00000000000000000000003009250040G30000000000000V0000300000000000"/>
-				<Row data="000000000000000000000030000000000300000000000082;000300000000000"/>
-				<Row data="000000000000000000000030000000722:0000000082;B3R3000300000000000"/>
-				<Row data="00000000000000000000003000000000000000R0003P30303000300000000000"/>
-				<Row data="00000000000000000000003008222;0F00000000003030303000300000000000"/>
-				<Row data="00000000000000000000003003000300000000000092:0404000300000000000"/>
-				<Row data="000000000000000000000030030Q030000000000000000000000300000000000"/>
-				<Row data="00000000000000000000003003000300008222;0000000000000300000000000"/>
-				<Row data="000000000000000000000030095D7:00003C004E000000000000300000000000"/>
-				<Row data="00000000000000000000003000@0@000003G000000082;000000300000000000"/>
-				<Row data="000000000000000000000030000000000030006E0003Q3000000300000000000"/>
-				<Row data="000000000000000000000030000000000B9222:0000303B00000300000000000"/>
-				<Row data="0000000000000000000000300000000000000000000304000000300000000000"/>
-				<Row data="0000000000000000000000308222;00000000000000300000000300000000000"/>
-				<Row data="00000000000000000000003030003082;0000000000=22;00000300000000000"/>
-				<Row data="00000000000000000000003030P0303030000082;003R0300000300000000000"/>
-				<Row data="0000000000000000000000303000303H3000003I300300300000300000000000"/>
-				<Row data="0000000000000000000000309507:092:000004D4004E7:00000300000000000"/>
-				<Row data="00000000000000000000003000000000000000@0@00000000000300000000000"/>
-				<Row data="0000000000000000000000300000000000000000000000000000300000000000"/>
-				<Row data="0000000000000000000000300000000000000000000000000000300000000000"/>
-				<Row data="0000000000000000000000300000000000000000000000000000300000000000"/>
-				<Row data="0000000000000000000000922222222222225072222222222222:00000000000"/>
-				<Row data="000000000000000000000000000000000000B0B0000000000000000000000000"/>
-				<Row data="0000000000000F00000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
-				<Row data="0000000000000000000000000000000000000000000000000000000000000000"/>
 			</LTTileMap>
 			<LTSpriteMap pivot-mode="1" xquantity="64" yquantity="64">
 				<TList field="parameters">
 					<LTParameter name="name" value="Objects"/>
 				</TList>
 				<Object field="visualizer" id="1"/>
-				<LTSprite x="48.5" y="38.5" shape="1">
+				<LTSprite x="27.5" y="41.5" shape="1">
 					<TList field="parameters">
 						<LTParameter id="131" name="class" value="TSkeleton"/>
 					</TList>
 					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
-						<LTImage field="image" id="133" filename="media\skeleton.png" xcells="26" ycells="8" loading-time="154"/>
+						<LTImage field="image" id="133" filename="media\skeleton.png" xcells="26" ycells="8" loading-time="277"/>
 					</LTVisualizer>
 				</LTSprite>
-				<LTSprite x="28.5" y="22.5" shape="1">
+				<LTSprite x="36.5" y="32.5" shape="1">
 					<TList field="parameters">
 						<Object id="131"/>
 					</TList>
@@ -420,31 +292,7 @@
 						<Object field="image" id="133"/>
 					</LTVisualizer>
 				</LTSprite>
-				<LTSprite x="34.5" y="27.5" shape="1">
-					<TList field="parameters">
-						<Object id="131"/>
-					</TList>
-					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
-						<Object field="image" id="133"/>
-					</LTVisualizer>
-				</LTSprite>
-				<LTSprite x="31.5" y="46.5" shape="1">
-					<TList field="parameters">
-						<Object id="131"/>
-					</TList>
-					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
-						<Object field="image" id="133"/>
-					</LTVisualizer>
-				</LTSprite>
-				<LTSprite x="24.5" y="27.5" shape="1">
-					<TList field="parameters">
-						<Object id="131"/>
-					</TList>
-					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
-						<Object field="image" id="133"/>
-					</LTVisualizer>
-				</LTSprite>
-				<LTSprite x="37.5" y="20.5" shape="1">
+				<LTSprite x="48.5" y="38.5" shape="1">
 					<TList field="parameters">
 						<Object id="131"/>
 					</TList>
@@ -468,15 +316,7 @@
 						<Object field="image" id="133"/>
 					</LTVisualizer>
 				</LTSprite>
-				<LTSprite x="36.5" y="32.5" shape="1">
-					<TList field="parameters">
-						<Object id="131"/>
-					</TList>
-					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
-						<Object field="image" id="133"/>
-					</LTVisualizer>
-				</LTSprite>
-				<LTSprite x="40.5" y="43.5" shape="1">
+				<LTSprite x="28.5" y="22.5" shape="1">
 					<TList field="parameters">
 						<Object id="131"/>
 					</TList>
@@ -493,14 +333,6 @@
 					</LTVisualizer>
 				</LTSprite>
 				<LTSprite x="34.5" y="35.5" shape="1">
-					<TList field="parameters">
-						<Object id="131"/>
-					</TList>
-					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
-						<Object field="image" id="133"/>
-					</LTVisualizer>
-				</LTSprite>
-				<LTSprite x="27.5" y="41.5" shape="1">
 					<TList field="parameters">
 						<Object id="131"/>
 					</TList>
@@ -529,7 +361,47 @@
 						<LTParameter name="class" value="TPlayer"/>
 					</TList>
 					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
-						<LTImage field="image" id="165" filename="media\player.png" xcells="26" ycells="8" loading-time="172"/>
+						<LTImage field="image" id="155" filename="media\player.png" xcells="26" ycells="8" loading-time="332"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="31.5" y="46.5" shape="1">
+					<TList field="parameters">
+						<Object id="131"/>
+					</TList>
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
+						<Object field="image" id="133"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="34.5" y="27.5" shape="1">
+					<TList field="parameters">
+						<Object id="131"/>
+					</TList>
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
+						<Object field="image" id="133"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="37.5" y="20.5" shape="1">
+					<TList field="parameters">
+						<Object id="131"/>
+					</TList>
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
+						<Object field="image" id="133"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="24.5" y="27.5" shape="1">
+					<TList field="parameters">
+						<Object id="131"/>
+					</TList>
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
+						<Object field="image" id="133"/>
+					</LTVisualizer>
+				</LTSprite>
+				<LTSprite x="40.5" y="43.5" shape="1">
+					<TList field="parameters">
+						<Object id="131"/>
+					</TList>
+					<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4">
+						<Object field="image" id="133"/>
 					</LTVisualizer>
 				</LTSprite>
 			</LTSpriteMap>

@@ -1,4 +1,4 @@
-<LTWorld dwlab_version="1.4.24" total-loading-time="132">
+<LTWorld dwlab_version="1.4.28" total-loading-time="225">
 	<LTVisualizer field="visualizer" id="1"/>
 	<LTEditorData field="editor_data" x_div="2" y_div="2" coll_x_div="16" coll_y_div="16">
 		<TList field="images">
@@ -22,13 +22,13 @@
 		<LTShape field="bounds" x="8" y="8" width="16" height="16">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap x="8" y="8" width="16" height="16" xquantity="16" yquantity="16" tiles-quantity="32" loading-time="1">
+		<LTTileMap x="8" y="8" width="16" height="16" xquantity="16" yquantity="16" tiles-quantity="32" file-num="1">
 			<TList field="parameters">
 				<LTParameter name="name" value="Floor"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4"/>
 			<LTTileSet field="tileset" id="7" name="dungeon" tiles-quantity="32" block-width="00000000000000000000000000000000" block-height="00000000000000000000000000000000" empty-tile="0">
-				<LTImage field="image" id="8" filename="dungeon_walls.png" xcells="8" ycells="4"/>
+				<LTImage field="image" id="8" filename="dungeon_walls.png" xcells="8" ycells="4" loading-time="104"/>
 				<ShapeArray field="collision-shapes">
 					<Null/>
 					<Null/>
@@ -222,22 +222,6 @@
 					<LTTileRule tilenums="1"/>
 				</LTTileCategory>
 			</LTTileSet>
-			<Row data="0000000000000000"/>
-			<Row data="0000000000000000"/>
-			<Row data="0000000000000000"/>
-			<Row data="0000000000000000"/>
-			<Row data="0000000000000000"/>
-			<Row data="0000000000000000"/>
-			<Row data="0000000000000000"/>
-			<Row data="0000000000000000"/>
-			<Row data="0000000000000000"/>
-			<Row data="0000000000000000"/>
-			<Row data="0000000000000000"/>
-			<Row data="0000000000000000"/>
-			<Row data="0000000000000000"/>
-			<Row data="0000000000000000"/>
-			<Row data="0000000000000000"/>
-			<Row data="0000000000000000"/>
 		</LTTileMap>
 	</LTLayer>
 	<LTLayer mix-content="1">
@@ -245,28 +229,12 @@
 		<LTShape field="bounds" x="8" y="8" width="16" height="16">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap x="8" y="8" width="16" height="16" xquantity="16" yquantity="16" tiles-quantity="32">
+		<LTTileMap x="8" y="8" width="16" height="16" xquantity="16" yquantity="16" tiles-quantity="32" file-num="2">
 			<TList field="parameters">
 				<LTParameter name="name" value="Walls"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="-0.25" xscale="2" yscale="4"/>
 			<Object field="tileset" id="7"/>
-			<Row data="0000000000000000"/>
-			<Row data="000000=OG>000000"/>
-			<Row data="000000J11:>00000"/>
-			<Row data="000000J111:A>000"/>
-			<Row data="000=KG911111:G>0"/>
-			<Row data="000B1111;7811160"/>
-			<Row data="000<778160@11160"/>
-			<Row data="000000F16041;7?0"/>
-			<Row data="00000=9160J16000"/>
-			<Row data="00000F1160<7?000"/>
-			<Row data="00000<77?0000000"/>
-			<Row data="0000000000000000"/>
-			<Row data="0000000000000000"/>
-			<Row data="0000000000000000"/>
-			<Row data="0000000000000000"/>
-			<Row data="0000000000000000"/>
 		</LTTileMap>
 		<LTSpriteMap left-margin="1" right-margin="1" top-margin="1" bottom-margin="3" sorted="1" pivot-mode="1" xquantity="16" yquantity="16">
 			<TList field="parameters">
@@ -279,7 +247,7 @@
 				<LTParameter name="name" value="Zombie"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="-0.25" xscale="3" yscale="6" rotating="0">
-				<LTImage field="image" id="143" filename="zombie.png" xcells="8" ycells="8"/>
+				<LTImage field="image" id="143" filename="zombie.png" xcells="8" ycells="8" loading-time="121"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>

@@ -52,12 +52,17 @@ Type LTObject
 	End Method
 	
 
+	
+	Global ObjectFileName:String
 
 	Rem
 	bbdoc: Loads object with all contents from file.
 	about: See also: #SaveToFile, #XMLIO
 	End Rem
 	Function LoadFromFile:LTObject( FileName:String, UseIncbin:Int = -1, XMLObject:LTXMLObject = Null )
+		ObjectFileName = FileName
+		LTTileMap.MaxTileMapNum = 0
+	
 		Local IncbinValue:String = ""
 		Select UseIncbin
 			Case -1; IncbinValue = L_Incbin
