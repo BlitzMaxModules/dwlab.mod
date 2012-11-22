@@ -21,6 +21,7 @@ Type LTEditorData Extends LTObject
 
 	Field Images:TList = New TList
 	Field Tilesets:TList = New TList
+	Field ShapeTypes:TList = New TList
 	
 	Field IncbinValue:Int
 	Field BackgroundColor:LTColor = LTColor.FromHex( "FFFFFF" )
@@ -40,6 +41,7 @@ Type LTEditorData Extends LTObject
 		XMLObject.ManageIntAttribute( "incbin", IncbinValue )
 		XMLObject.ManageListField( "images", Images )
 		XMLObject.ManageListField( "tilesets", Tilesets )
+		XMLObject.ManageListField( "shape-types", ShapeTypes )
 		
 		BackgroundColor = LTColor( XMLObject.ManageObjectField( "background", BackgroundColor ) )
 		XMLObject.ManageDoubleAttribute( "cell_width", GridCellWidth, 1.0:Double )

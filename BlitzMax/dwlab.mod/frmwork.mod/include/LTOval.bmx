@@ -15,6 +15,10 @@ Type LTOval Extends LTShapeType
 		Return 1
 	End Method
 	
+	Method GetName:String()
+		Return "Oval"
+	End Method
+	
 	Method GetTileSprite:LTSprite( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double )
 		ServiceOval.X = Sprite.X * XScale + DX
 		ServiceOval.Y = Sprite.Y * YScale + DY

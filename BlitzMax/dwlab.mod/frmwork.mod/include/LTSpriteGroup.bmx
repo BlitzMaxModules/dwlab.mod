@@ -13,7 +13,7 @@ bbdoc: Group of sprites.
 about: It has a lot of methods duplicating methods of TList.
 End Rem
 Type LTSpriteGroup Extends LTSprite
-	Global SpriteShape:LTSprite = new LTSprite
+	Global SpriteShape:LTSprite = LTSprite.FromShapeType()
 
 	Rem
 	bbdoc: List of sprites.
@@ -78,7 +78,7 @@ Type LTSpriteGroup Extends LTSprite
 			SetShape( SpriteShape, Sprite, ParentShape )
 			Local ChildSpriteGroup:LTSpriteGroup = LTSpriteGroup( Sprite )
 			If ChildSpriteGroup Then
-				Local NewParentShape:LTSprite = New LTSprite
+				Local NewParentShape:LTSprite = LTSprite.FromShapeType()
 				SetShape( NewParentShape, ChildSpriteGroup, ParentShape )
 				ChildSpriteGroup.DrawGroup( Vis, NewParentShape )
 			ElseIf Vis Then

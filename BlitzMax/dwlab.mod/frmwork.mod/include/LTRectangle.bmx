@@ -15,6 +15,10 @@ Type LTRectangle Extends LTShapeType
 		Return 2
 	End Method
 	
+	Method GetName:String()
+		Return "Rectangle"
+	End Method
+	
 	Method GetTileSprite:LTSprite( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double )
 		ServiceRectangle.X = Sprite.X * XScale + DX
 		ServiceRectangle.Y = Sprite.Y * YScale + DY

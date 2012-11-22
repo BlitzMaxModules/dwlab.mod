@@ -15,6 +15,10 @@ Type LTPivot Extends LTShapeType
 		Return 0
 	End Method
 	
+	Method GetName:String()
+		Return "Pivot"
+	End Method
+	
 	Method GetTileSprite:LTSprite( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double )
 		ServicePivot.X = Sprite.X * XScale + DX
 		ServicePivot.Y = Sprite.Y * YScale + DY

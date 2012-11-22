@@ -24,6 +24,13 @@ Type LTShapeType Extends LTObject Abstract
 	Method GetNum:Int()
 	End Method
 	
+	Method GetName:String()
+	End Method
+		
+	Method Singleton:Int()
+		Return True
+	End Method
+
 	Method GetTileSprite:LTSprite( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double )
 	End Method
 	

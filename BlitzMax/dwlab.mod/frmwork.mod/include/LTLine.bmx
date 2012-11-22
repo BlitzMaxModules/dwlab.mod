@@ -92,7 +92,7 @@ Type LTLine Extends LTShape
 	
 	
 	Method PivotProjection:LTSprite( Pivot:LTSprite, Projection:LTSprite = Null )
-		If Not Projection Then Projection = New LTSprite
+		If Not Projection Then Projection = LTSprite.FromShapeType()
 		Projection.Y = ( ( A * Pivot.Y - B * Pivot.X ) * A - C * B ) / S2
 		Projection.X = ( -C - B * Projection.Y ) / A
 		Return Projection
@@ -101,7 +101,7 @@ Type LTLine Extends LTShape
 	
 	
 	Method IntersectionWithLine:LTSprite( Line:LTLine, Pivot:LTSprite = Null )
-		If Not Pivot Then Pivot = New LTSprite
+		If Not Pivot Then Pivot = LTSprite.FromShapeType()
 		Local K:Double = B * Line.A - A * Line.B
 		If K = 0.0 Then Return Null
 		Pivot.Y = ( Line.C * A - C * Line.A ) / K

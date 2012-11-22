@@ -12,6 +12,10 @@ Type LTRaster Extends LTShapeType
 	Method GetNum:Int()
 		Return 8
 	End Method
+	
+	Method GetName:String()
+		Return "Raster"
+	End Method
 End Type
 
 LTShapeType.Register( LTSprite.Raster )

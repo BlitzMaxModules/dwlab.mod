@@ -95,7 +95,7 @@ Type LTEditor Extends LTProject
 	Field TilesetCamera:LTCamera = New LTCamera
 	Field TilesetCameraWidth:Int
 	Field TilesetCanvasZ:Int
-	Field TilesetRectangle:LTSprite = New LTSprite
+	Field TilesetRectangle:LTSprite = LTSprite.FromShapeType( LTSprite.Rectangle )
 	Field ParametersListBox:TGadget
 	
 	Field Toolbar:TGadget
@@ -164,7 +164,7 @@ Type LTEditor Extends LTProject
 	Field SelectedShape:LTShape
 	Field ShapeForParameters:LTShape
 	Field TilesQueue:TMap = New TMap
-	Field Cursor:LTSprite = New LTSprite
+	Field Cursor:LTSprite = LTSprite.FromShapeType()
 	Field ShapeUnderCursor:LTShape
 	Field SelectedShapes:TList = New TList
 	Field Buffer:TList = New TList
@@ -172,7 +172,7 @@ Type LTEditor Extends LTProject
 	Field SelectedParameter:LTParameter
 	Field Modifiers:TList = New TList
 	
-	Field SelectedTile:LTSprite = New LTSprite
+	Field SelectedTile:LTSprite = LTSprite.FromShapeType( LTSprite.Rectangle )
 	Field TileX:Int, TileY:Int, TileNum:Int[] = New Int[ 2 ]
 	
 	Field WorldFilename:String
@@ -1422,7 +1422,7 @@ Type LTEditor Extends LTProject
 								Next
 							Else If LTSprite( Shape ) Then
 								If Shape.Physics() Then
-									ToShape = New LTSprite
+									ToShape = LTSprite.FromShapeType( LTSprite.Rectangle )
 								Else
 									ToShape = New LTBox2DSprite
 								End If
@@ -1450,7 +1450,7 @@ Type LTEditor Extends LTProject
 				For Local Sprite:LTSprite = Eachin SelectedShapes
 					Select EventSource()
 						Case ShapeBox
-							Sprite.ShapeType = SelectedGadgetItem( ShapeBox )
+							Sprite.ShapeType = LTShapeType( GadgetItemExtra( ShapeBox, SelectedGadgetItem( ShapeBox ) ) )
 							SetChanged()
 						Case HiddenOKButton
 							Select CurrentTextField
@@ -1829,7 +1829,9 @@ Type LTEditor Extends LTProject
 		If Not CurrentSprite Then Return
 		
 		FillShapeComboBox( ShapeBox )
-		SelectGadgetItem( ShapeBox, CurrentSprite.ShapeType )
+		For Local N:Int = 0 Until CountGadgetItems( ShapeBox )
+			If GadgetItemExtra( ShapeBox, N ) = CurrentSprite.ShapeType Then SelectGadgetItem( ShapeBox, N )
+		Next
 		
 		SetGadgetText( FrameField, CurrentSprite.Frame )
 		SetGadgetText( VelocityField, L_TrimDouble( CurrentSprite.Velocity ) )
@@ -1850,15 +1852,12 @@ Type LTEditor Extends LTProject
 	
 	
 	Method FillShapeComboBox( ComboBox:TGadget )
-		AddGadgetItem( ComboBox, LocalizeString( "{{I_Pivot}}" ) )
-		AddGadgetItem( ComboBox, LocalizeString( "{{I_Oval}}" ) )
-		AddGadgetItem( ComboBox, LocalizeString( "{{I_Rectangle}}" ) )
-		AddGadgetItem( ComboBox, LocalizeString( "{{I_Ray}}" ) )
-		AddGadgetItem( ComboBox, LocalizeString( "{{I_TopLeftTriangle}}" ) )
-		AddGadgetItem( ComboBox, LocalizeString( "{{I_TopRightTriangle}}" ) )
-		AddGadgetItem( ComboBox, LocalizeString( "{{I_BottomLeftTriangle}}" ) )
-		AddGadgetItem( ComboBox, LocalizeString( "{{I_BottomRightTriangle}}" ) )
-		AddGadgetItem( ComboBox, LocalizeString( "{{I_Raster}}" ) )
+		For Local ShapeType:LTShapeType = Eachin LTShapeType.ShapeTypes
+			If ShapeType.Singleton() Then AddGadgetItem( ComboBox, LocalizeString( "{{" + ShapeType.GetName() + "}}" ), , , , ShapeType )
+		Next
+		For Local ShapeType:LTShapeType = Eachin L_EditorData.ShapeTypes
+			AddGadgetItem( ComboBox, LocalizeString( "{{" + ShapeType.GetName() + "}}" ), , , , ShapeType )
+		Next
 	End Method
 	
 	
@@ -1899,7 +1898,7 @@ Type LTEditor Extends LTProject
 	
 	
 	Method AddModifier( Shape:LTShape, ModType:Int, FDX:Double, FDY:Double, SDX:Int, SDY:Int )
-		Local Modifier:LTSprite = New LTSprite
+		Local Modifier:LTSprite = LTSprite.FromShapeType( LTSprite.Rectangle )
 		Local FDX2:Double = 0, FDY2:Double = 0
 		If Not L_CurrentCamera.Isometric Then L_CurrentCamera.SizeScreenToField( SDX, SDY, FDX2, FDY2 )
 		Modifier.X = Shape.X + FDX + FDX2

@@ -132,11 +132,16 @@ For Local N:Int = 0 To 3
 	If N < 2 Then LTInteraction.ServiceLines[ N ] = New LTLine
 Next
 
-For Local Triangle:LTShapeType = Eachin [ LTShapeType( LTSprite.TopLeftTriangle ), LTShapeType( LTSprite.TopRightTriangle ), ..
+Local Triangles:LTShapeType[] = [ LTShapeType( LTSprite.TopLeftTriangle ), LTShapeType( LTSprite.TopRightTriangle ), ..
 		LTShapeType( LTSprite.BottomLeftTriangle ), LTShapeType( LTSprite.BottomRightTriangle ) ]
+
+For Local Triangle:LTShapeType = Eachin Triangles
 	LTInteraction.RegisterSpritesInteraction( LTSprite.Pivot, Triangle, LTPivotWithTriangle.Instance )
 	LTInteraction.RegisterSpritesInteraction( LTSprite.Oval, Triangle, LTOvalWithTriangle.Instance )
 	LTInteraction.RegisterSpritesInteraction( LTSprite.Rectangle, Triangle, LTRectangleWithTriangle.Instance )
-	LTInteraction.RegisterSpritesInteraction( Triangle, LTSprite.Ray, LTTriangleWithRay.Instance )
+	LTInteraction.RegisterSpritesInteraction( LTSprite.Ray, Triangle, LTRayWithTriangle.Instance )
+	For Local Triangle2:LTShapeType = Eachin Triangles
+		LTInteraction.RegisterSpritesInteraction( Triangle, Triangle2, LTTriangleWithTriangle.Instance )
+	Next
 	LTInteraction.RegisterSpriteInteraction( Triangle, LTTriangleInteraction.Instance )
 Next

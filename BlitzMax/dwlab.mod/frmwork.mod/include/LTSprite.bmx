@@ -98,7 +98,7 @@ Type LTSprite Extends LTShape
 	End Rem
 	Function FromShapeType:LTSprite( ShapeType:LTShapeType = Null )
 		Local Sprite:LTSprite = New LTSprite
-		If ShapeType Then Sprite.ShapeType = ShapeType Else Sprite.ShapeType = LTSprite.Rectangle
+		If ShapeType Then Sprite.ShapeType = ShapeType Else Sprite.ShapeType = LTSprite.Pivot
 		Return Sprite
 	End Function
 	
@@ -113,7 +113,7 @@ Type LTSprite Extends LTShape
 		Local Sprite:LTSprite = New LTSprite
 		Sprite.SetCoords( X, Y )
 		Sprite.SetSize( Width, Height )
-		If ShapeType Then Sprite.ShapeType = ShapeType Else Sprite.ShapeType = LTSprite.Rectangle
+		If ShapeType Then Sprite.ShapeType = ShapeType Else Sprite.ShapeType = LTSprite.Pivot
 		Sprite.Angle = Angle
 		Sprite.Velocity = Velocity
 		Return Sprite
@@ -664,7 +664,7 @@ Type LTSprite Extends LTShape
 	
 	Method ToCircle:LTSprite( Pivot1:LTSprite, CircleSprite:LTSprite = Null )
 		If Width = Height Then Return Self
-		If Not CircleSprite Then CircleSprite = New LTSprite.FromShapeType( Oval )
+		If Not CircleSprite Then CircleSprite = LTSprite.FromShapeType( Oval )
 		If Width > Height Then
 			CircleSprite.X = L_LimitDouble( Pivot1.X, X - 0.5 * ( Width - Height ), X + 0.5 * ( Width - Height ) )
 			CircleSprite.Y = Y
@@ -683,7 +683,7 @@ Type LTSprite Extends LTShape
 	
 	Method ToCircleUsingLine:LTSprite( Line:LTLine, CircleSprite:LTSprite = Null )
 		If Width = Height Then Return CircleSprite
-		If Not CircleSprite Then CircleSprite = New LTSprite.FromShapeType( Oval )
+		If Not CircleSprite Then CircleSprite = LTSprite.FromShapeType( Oval )
 		If Width > Height Then
 			Local DWidth:Double = 0.5 * ( Width - Height )
 			Local O1:Double = Line.A * ( X - DWidth ) + Line.B * Y + Line.C
@@ -755,7 +755,7 @@ Type LTSprite Extends LTShape
 	' ==================== Methods for triangle ====================	
 	
 	Function GetMedium:LTSprite( Pivot1:LTSprite, Pivot2:LTSprite, ToPivot:LTSprite = Null )
-		If Not ToPivot Then ToPivot = New LTSprite.FromShape( 0, 0, 0, 0, Pivot )
+		If Not ToPivot Then ToPivot = LTSprite.FromShape( 0, 0, 0, 0, Pivot )
 		ToPivot.X = 0.5 * ( Pivot1.X + Pivot2.X )
 		ToPivot.Y = 0.5 * ( Pivot1.Y + Pivot2.Y )
 		Return ToPivot
@@ -765,38 +765,38 @@ Type LTSprite Extends LTShape
 	
 	Method GetHypotenuse:LTLine( Line:LTLine = Null )
 		If Not Line Then Line = New LTLine
-		Select ShapeType
-			Case LTSprite.TopLeftTriangle, LTSprite.BottomRightTriangle
-				LTLine.FromPoints( X, Y, X - Width, Y + Height, Line )
-			Case LTSprite.TopRightTriangle, LTSprite.BottomLeftTriangle
-				LTLine.FromPoints( X, Y, X + Width, Y + Height, Line )
-		End Select
+		Local ShapeTypeNum:Int = ShapeType.GetNum()
+		If ShapeTypeNum = LTSprite.TopLeftTriangle.GetNum() Or ShapeTypeNum = LTSprite.BottomRightTriangle.GetNum() Then
+			LTLine.FromPoints( X, Y, X - Width, Y + Height, Line )
+		Else
+			LTLine.FromPoints( X, Y, X + Width, Y + Height, Line )
+		End If
 		Return Line
 	End Method
 	
 	
 	
 	Method GetRightAngleVertex:LTSprite( Vertex:LTSprite = Null )
-		If Not Vertex Then Vertex = New LTSprite.FromShape( 0, 0, 0, 0, Pivot )
-		Select ShapeType
-			Case LTSprite.TopLeftTriangle, LTSprite.BottomLeftTriangle
-				Vertex.X = X - 0.5 * Width
-			Case LTSprite.BottomRightTriangle, LTSprite.TopRightTriangle
-				Vertex.X = X + 0.5 * Width
-		End Select
-		Select ShapeType
-			Case LTSprite.TopLeftTriangle, LTSprite.TopRightTriangle
-				Vertex.Y = Y - 0.5 * Height
-			Case LTSprite.BottomLeftTriangle, LTSprite.BottomRightTriangle
-				Vertex.Y = Y + 0.5 * Height
-		End Select
+		If Not Vertex Then Vertex = LTSprite.FromShape( 0, 0, 0, 0, Pivot )
+		Local ShapeTypeNum:Int = ShapeType.GetNum()
+		If ShapeTypeNum = LTSprite.TopLeftTriangle.GetNum() Or ShapeTypeNum = LTSprite.BottomLeftTriangle.GetNum() Then
+			Vertex.X = X - 0.5 * Width
+		Else
+			Vertex.X = X + 0.5 * Width
+		End If
+		If ShapeTypeNum = LTSprite.TopLeftTriangle.GetNum() Or ShapeTypeNum = LTSprite.TopRightTriangle.GetNum() Then
+			Vertex.Y = Y - 0.5 * Height
+		Else
+			Vertex.Y = Y + 0.5 * Height
+		End If
 		Return Vertex
 	End Method
 	
 	
 	
 	Method GetOtherVertices( Pivot1:LTSprite, Pivot2:LTSprite )
-		If ShapeType = LTSprite.TopRightTriangle Or ShapeType = LTSprite.BottomLeftTriangle Then
+		Local ShapeTypeNum:Int = ShapeType.GetNum()
+		If ShapeTypeNum = LTSprite.TopRightTriangle.GetNum() Or ShapeTypeNum = LTSprite.BottomLeftTriangle.GetNum() Then
 			GetBounds( Pivot1.X, Pivot1.Y, Pivot2.X, Pivot2.Y )
 		Else
 			GetBounds( Pivot1.X, Pivot2.Y, Pivot2.X, Pivot1.Y )
@@ -846,7 +846,18 @@ Type LTSprite Extends LTShape
 	Method XMLIO( XMLObject:LTXMLObject )
 		Super.XMLIO( XMLObject )
 		
-		ShapeType = LTShapeType( XMLObject.ManageObjectAttribute( "shape", ShapeType ) )
+		If L_XMLMode = L_XMLGet Then
+			If XMLObject.AttributeExists( "shape-type" ) Then
+				XMLObject.ManageObjectAttribute( "shape-type", ShapeType )
+			Else
+				ShapeType = LTShapeType.GetByNum( XMLObject.GetAttribute( "shape" ).ToInt() )
+			End If
+		ElseIf ShapeType.Singleton() Then
+			XMLObject.SetAttribute( "shape", String( ShapeType.GetNum() ) )
+		Else
+			ShapeType = LTShapeType( XMLObject.ManageObjectAttribute( "shape-type", ShapeType ) )
+		End If
+		
 		XMLObject.ManageDoubleAttribute( "moving-angle", Angle )
 		XMLObject.ManageDoubleAttribute( "disp-angle", DisplayingAngle )
 		XMLObject.ManageDoubleAttribute( "velocity", Velocity, 1.0 )

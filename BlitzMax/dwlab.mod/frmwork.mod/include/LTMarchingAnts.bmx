@@ -57,7 +57,7 @@ Type LTMarchingAnts Extends LTVisualizer
 	
 	Method DrawUsingTileMap( TileMap:LTTileMap, Shapes:TList = Null )
 		If Not TileMap.Visible Then Return
-		Local Sprite:LTSprite = New LTSprite
+		Local Sprite:LTSprite = LTSprite.FromShapeType()
 		Sprite.JumpTo( TileMap )
 		Sprite.SetSize( TileMap.Width, TileMap.Height )
 		DrawUsingSprite( Sprite )

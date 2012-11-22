@@ -17,7 +17,7 @@ Type TTileCollisionShapes
 	Field CollisionShape:LTShape
 	Field CollisionShapeUnderCursor:LTSprite
 	Field SelectedCollisionShape:LTSprite
-	Field Cursor:LTSprite = New LTSprite
+	Field Cursor:LTSprite = LTSprite.FromShapeType( LTSprite.Rectangle )
 	Field TileSet:LTTileSet
 	Field TileNum:Int
 	Field GridActive:Int = True
@@ -73,7 +73,7 @@ Type TTileCollisionShapes
 		Camera.SetCoords( 0.5, 0.5 )
 		
 		Local Size:Double = Camera.DistScreenToField( 8.0 )
-		Cursor.ShapeType = LTSprite.Circle
+		Cursor.ShapeType = LTSprite.Oval
 		Cursor.SetSize( Size, Size )
 	
 		Local TileMap:LTTileMap = LTTileMap.Create( TileSet, 1, 1 )
@@ -161,7 +161,8 @@ Type TTileCollisionShapes
 					If SelectedCollisionShape Then
 						Select EventSource()
 							Case ShapeComboBox
-								SelectedCollisionShape.ShapeType = SelectedGadgetItem( ShapeComboBox )
+								SelectedCollisionShape.ShapeType = LTShapeType( GadgetItemExtra( ShapeComboBox, ..
+										SelectedGadgetItem( ShapeComboBox ) ) )
 								If SelectedCollisionShape.ShapeType <> LTSprite.Pivot Then
 									If SelectedCollisionShape.Width = 0.0 Or SelectedCollisionShape.Height = 0.0 Then DeleteShape()
 								End If
@@ -224,7 +225,9 @@ Type TTileCollisionShapes
 		ClearGadgetItems( ShapeComboBox )
 		If SelectedCollisionShape Then
 			Editor.FillShapeComboBox( ShapeComboBox )
-			SelectGadgetItem( ShapeComboBox, SelectedCollisionShape.ShapeType )
+			For Local N:Int = 0 Until CountGadgetItems( ShapeComboBox )
+				If GadgetItemExtra( ShapeComboBox, N ) = SelectedCollisionShape.ShapeType Then SelectGadgetItem( ShapeComboBox, N )
+			Next
 			SetGadgetText( LayerField, SelectedCollisionShape.CollisionLayer )
 			SetSliderValue( LayerSlider, SelectedCollisionShape.CollisionLayer & L_MaxCollisionColor )
 			SetGadgetText( XField, L_TrimDouble( SelectedCollisionShape.X ) )
@@ -307,7 +310,7 @@ Type TCreateCollisionShape Extends LTDrag
 	
 	
 	Method StartDragging()
-		CollisionShape = New LTSprite
+		CollisionShape = LTSprite.FromShapeType( LTSprite.Rectangle )
 		CollisionShape.Visualizer = Null
 		CollisionShape.JumpTo( TileCollisionShapes.Cursor )
 		CollisionShape.SetSize( 0.0, 0.0 )

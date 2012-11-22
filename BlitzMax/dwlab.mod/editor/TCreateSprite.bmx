@@ -39,7 +39,7 @@ Type TCreateSprite Extends LTDrag
 			Sprite.Parameters = New TList
 			Sprite.Visualizer = CurrentSprite.Visualizer.Clone()
 		Else
-			Sprite = New LTSprite
+			Sprite = LTSprite.FromShapeType( LTSprite.Rectangle )
 			Sprite.Visualizer = New LTVisualizer
 		End If
 		

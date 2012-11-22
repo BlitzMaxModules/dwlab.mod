@@ -30,7 +30,7 @@ Type TSelectShapes Extends LTDrag
 	Method StartDragging()
 		StartX = Editor.Cursor.X
 		StartY = Editor.Cursor.Y
-		Frame = New LTSprite
+		Frame = LTSprite.FromShapeType( LTSprite.Rectangle )
 		Frame.ShapeType = LTSprite.Rectangle
 		Editor.SelectedShapes.Clear()
 		Editor.Modifiers.Clear()

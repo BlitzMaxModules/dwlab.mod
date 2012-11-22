@@ -12,6 +12,10 @@ Type LTBottomRightTriangle Extends LTTopLeftTriangle
 	Method GetNum:Int()
 		Return 7
 	End Method
+	
+	Method GetName:String()
+		Return "Bottom-right triangle"
+	End Method
 End Type
 
 LTShapeType.Register( LTSprite.BottomRightTriangle )

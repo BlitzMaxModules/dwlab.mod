@@ -9,10 +9,14 @@
 '
 
 Type LTTopLeftTriangle Extends LTShapeType
-	Global ServiceTriangle:LTSprite = New LTSprite
+	Global ServiceTriangle:LTSprite = LTSprite.FromShapeType()
 	
 	Method GetNum:Int()
 		Return 4
+	End Method
+	
+	Method GetName:String()
+		Return "Top-left triangle"
 	End Method
 	
 	Method GetTileSprite:LTSprite( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double )

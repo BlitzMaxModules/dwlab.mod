@@ -12,6 +12,10 @@ Type LTRay Extends LTShapeType
 	Method GetNum:Int()
 		Return 3
 	End Method
+	
+	Method GetName:String()
+		Return "Ray"
+	End Method
 End Type
 
 LTShapeType.Register( LTSprite.Ray )
