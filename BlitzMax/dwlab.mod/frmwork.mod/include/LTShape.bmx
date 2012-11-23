@@ -224,7 +224,8 @@ Type LTShape Extends LTObject
 	
 	
 	
-	Method TileShapeCollisionsWithSprite( TileShape:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, Handler:LTSpriteAndTileCollisionHandler )
+	Method TileShapeCollisionsWithSprite( Sprite:LTSprite, X:Double, Y:Double, XScale:Double, YScale:Double, TileMap:LTTileMap, TileX:Int, TileY:Int, ..
+			Handler:LTSpriteAndTileCollisionHandler )
 	End Method
 	
 	' ==================== Position ====================

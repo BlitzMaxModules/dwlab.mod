@@ -1,4 +1,4 @@
-<LTWorld dwlab_version="1.4.21.2">
+<LTWorld dwlab_version="1.4.30" total-loading-time="21">
 	<LTVisualizer field="visualizer"/>
 	<LTEditorData field="editor_data" x_div="2" y_div="2" coll_x_div="16" coll_y_div="16">
 		<TList field="images">
@@ -26,50 +26,26 @@
 		<LTShape field="bounds" x="16" y="12" width="32" height="24">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap x="16" y="12" width="32" height="24" xquantity="32" yquantity="24" tiles-quantity="4">
+		<LTTileMap x="16" y="12" width="32" height="24" xquantity="32" yquantity="24" tiles-quantity="4" file-num="1">
 			<TList field="parameters">
 				<LTParameter name="name" value="Field"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
 			<LTTileSet field="tileset" id="8" name="Default" tiles-quantity="4" block-width="0000" block-height="0000">
-				<LTImage field="image" id="9" filename="tileset.png" xcells="4"/>
+				<LTImage field="image" id="9" filename="tileset.png" xcells="4" loading-time="1"/>
 				<ShapeArray field="collision-shapes">
 					<Null/>
 					<LTSprite x="0.5" y="0.5" shape="2">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
 					<Null/>
-					<LTSprite x="0.5" y="0.5" shape="2">
+					<LTSprite x="0.5" y="0.5" width="0.125" shape="2">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
 				</ShapeArray>
 			</LTTileSet>
-			<Row data="11111111111111111111111111111111"/>
-			<Row data="10000000000000000000000000000001"/>
-			<Row data="10000000000000000000000000000001"/>
-			<Row data="10000000000000000000000000000001"/>
-			<Row data="10000030000000000000000030000001"/>
-			<Row data="10000030000000000000000000000003"/>
-			<Row data="10000030000000000000000000000003"/>
-			<Row data="10000030000000000111111111111111"/>
-			<Row data="10000011111111111000000000000001"/>
-			<Row data="10001100000000000000000000000001"/>
-			<Row data="10000000000000000000030000000001"/>
-			<Row data="11000000000000000000030000000001"/>
-			<Row data="11111100000000000000030000000001"/>
-			<Row data="11111111000000000000030000000001"/>
-			<Row data="11111111111111111111100000000001"/>
-			<Row data="10000000000000000000001100000001"/>
-			<Row data="10000000000000000000000001100001"/>
-			<Row data="10000000000000000000000000000011"/>
-			<Row data="10000000000000000000000000000111"/>
-			<Row data="10000000000000000000000000001111"/>
-			<Row data="10000000000000000000000111111111"/>
-			<Row data="10000000000000000011111111111111"/>
-			<Row data="10000000000011111111111111111111"/>
-			<Row data="11111111111111111111111111111111"/>
 		</LTTileMap>
-		<LTSprite x="28.75" y="5.5" width="1.5" height="3" shape="2" angle="-180">
+		<LTSprite x="28.75" y="5.5" width="1.5" height="3" shape="2" moving-angle="-180">
 			<TList field="parameters">
 				<LTParameter name="moving" value="0.5-1"/>
 				<LTParameter name="jumping" value="5-10"/>
@@ -81,7 +57,7 @@
 				<LTParameter name="score" value="1500"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="-6" rotating="0">
-				<LTImage field="image" id="24" filename="superjelly.png" xcells="8" ycells="3"/>
+				<LTImage field="image" id="24" filename="superjelly.png" xcells="8" ycells="3" loading-time="8"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="6.87" y="12.25" width="0.75" height="1.5" shape="2">
@@ -94,7 +70,7 @@
 				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="24.37" y="6.25" width="0.75" height="1.5" shape="2" angle="-180">
+		<LTSprite x="24.37" y="6.25" width="0.75" height="1.5" shape="2" moving-angle="-180">
 			<TList field="parameters">
 				<LTParameter name="moving" value="2.5-3.5"/>
 				<LTParameter name="jumping" value="2-3"/>
@@ -107,7 +83,7 @@
 				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="19.37" y="6.25" width="0.75" height="1.5" shape="2" angle="-180">
+		<LTSprite x="19.37" y="6.25" width="0.75" height="1.5" shape="2" moving-angle="-180">
 			<TList field="parameters">
 				<LTParameter name="moving" value="2.5-3.0"/>
 				<LTParameter name="jumping" value="1-4"/>
@@ -164,7 +140,7 @@
 				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="24.37" y="19.25" width="0.75" height="1.5" shape="2" angle="-180">
+		<LTSprite x="24.37" y="19.25" width="0.75" height="1.5" shape="2" moving-angle="-180">
 			<TList field="parameters">
 				<LTParameter name="moving" value="1.5-3"/>
 				<LTParameter name="jumping" value="0.5-1.5"/>
@@ -175,7 +151,7 @@
 				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="20.62" y="20.25" width="0.75" height="1.5" shape="2" angle="-180">
+		<LTSprite x="20.62" y="20.25" width="0.75" height="1.5" shape="2" moving-angle="-180">
 			<TList field="parameters">
 				<LTParameter name="moving" value="2-4"/>
 				<LTParameter name="jumping" value="1-2"/>
@@ -186,7 +162,7 @@
 				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="15.6" y="21.25" width="0.75" height="1.5" shape="2" angle="-180">
+		<LTSprite x="15.6" y="21.25" width="0.75" height="1.5" shape="2" moving-angle="-180">
 			<TList field="parameters">
 				<LTParameter name="moving" value="1-2"/>
 				<LTParameter name="class" value="TJelly"/>
@@ -195,7 +171,7 @@
 				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="9.83" y="22.25" width="0.75" height="1.5" shape="2" angle="-180">
+		<LTSprite x="9.83" y="22.25" width="0.75" height="1.5" shape="2" moving-angle="-180">
 			<TList field="parameters">
 				<LTParameter name="class" value="TJelly"/>
 			</TList>
@@ -203,7 +179,7 @@
 				<Object field="image" id="24"/>
 			</LTVisualizer>
 		</LTSprite>
-		<LTSprite x="6.12" y="22.25" width="0.75" height="1.5" shape="2" angle="-180">
+		<LTSprite x="6.12" y="22.25" width="0.75" height="1.5" shape="2" moving-angle="-180">
 			<TList field="parameters">
 				<LTParameter name="class" value="TJelly"/>
 			</TList>
@@ -216,7 +192,7 @@
 				<LTParameter name="class" value="TAwPossum"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="-0.14" xscale="3.6" yscale="1.6">
-				<LTImage field="image" id="95" filename="awpossum.png" xcells="8" ycells="2"/>
+				<LTImage field="image" id="95" filename="awpossum.png" xcells="8" ycells="2" loading-time="12"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>

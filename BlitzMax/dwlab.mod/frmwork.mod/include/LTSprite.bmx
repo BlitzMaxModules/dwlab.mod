@@ -56,7 +56,7 @@ Type LTSprite Extends LTShape
 	bbdoc: Type of the sprite shape.
 	about: See also: #Pivot, #Oval, #Rectangle
 	End Rem
-	Field ShapeType:LTShapeType
+	Field ShapeType:LTShapeType = Rectangle
 
 	Rem
 	bbdoc: Direction of the sprite
@@ -98,7 +98,7 @@ Type LTSprite Extends LTShape
 	End Rem
 	Function FromShapeType:LTSprite( ShapeType:LTShapeType = Null )
 		Local Sprite:LTSprite = New LTSprite
-		If ShapeType Then Sprite.ShapeType = ShapeType Else Sprite.ShapeType = LTSprite.Pivot
+		If ShapeType Then Sprite.ShapeType = ShapeType Else Sprite.ShapeType = LTSprite.Rectangle
 		Return Sprite
 	End Function
 	
@@ -109,11 +109,12 @@ Type LTSprite Extends LTShape
 	returns: Created sprite.
 	about: See also #Overlaps example.
 	End Rem
-	Function FromShape:LTSprite( X:Double = 0.0, Y:Double = 0.0, Width:Double = 1.0, Height:Double = 1.0, ShapeType:LTShapeType = Null, Angle:Double = 0.0, Velocity:Double = 1.0 )
+	Function FromShape:LTSprite( X:Double = 0.0, Y:Double = 0.0, Width:Double = 1.0, Height:Double = 1.0, ShapeType:LTShapeType = Null, ..
+			Angle:Double = 0.0, Velocity:Double = 1.0 )
 		Local Sprite:LTSprite = New LTSprite
 		Sprite.SetCoords( X, Y )
 		Sprite.SetSize( Width, Height )
-		If ShapeType Then Sprite.ShapeType = ShapeType Else Sprite.ShapeType = LTSprite.Pivot
+		If ShapeType Then Sprite.ShapeType = ShapeType Else Sprite.ShapeType = LTSprite.Rectangle
 		Sprite.Angle = Angle
 		Sprite.Velocity = Velocity
 		Return Sprite
@@ -133,8 +134,9 @@ Type LTSprite Extends LTShape
 	
 	' ==================== Collisions ===================
 	
-	Method TileShapeCollisionsWithSprite( TileShape:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, Handler:LTSpriteAndTileCollisionHandler )
-		If CollidesWithSprite( TileShape ) Then Handler.HandleCollision( TileShape, TileMap, TileX, TileY, Self )
+	Method TileShapeCollisionsWithSprite( Sprite:LTSprite, X:Double, Y:Double, XScale:Double, YScale:Double, TileMap:LTTileMap, TileX:Int, TileY:Int, ..
+			Handler:LTSpriteAndTileCollisionHandler )
+		If Sprite.CollidesWithSprite( ShapeType.GetTileSprite( Self, X, Y, XScale, YScale ) ) Then Handler.HandleCollision( Sprite, TileMap, TileX, TileY, Self )
 	End Method
 	
 	
@@ -285,8 +287,8 @@ Type LTSprite Extends LTShape
 				
 				If TileX >= 0 And TileY >= 0 And TileX < XQuantity And TileY < YQuantity Then
 					Local Shape:LTShape = Tileset.CollisionShape[ TileMap.Value[ TileX, TileY ] ]
-					If Shape Then Shape.TileShapeCollisionsWithSprite( ShapeType.GetTileSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, ..
-							CellWidth, CellHeight ), TileMap, TileX, TileY, Handler )
+					If Shape Then Shape.TileShapeCollisionsWithSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, CellWidth, CellHeight, ..
+							TileMap, TileX, TileY, Handler )
 				End If
 			Case Ray
 			Default
@@ -304,8 +306,8 @@ Type LTSprite Extends LTShape
 					For Local TileY:Int = Y1 To Y2
 						For Local TileX:Int = X1 To X2
 							Local Shape:LTShape = Tileset.CollisionShape[ TileMap.Value[ TileX, TileY ] ]
-							If Shape Then Shape.TileShapeCollisionsWithSprite( ShapeType.GetTileSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, ..
-									CellWidth, CellHeight ), TileMap, TileX, TileY, Handler )
+							If Shape Then Shape.TileShapeCollisionsWithSprite( Self, X0 + CellWidth * TileX, Y0 + CellHeight * TileY, CellWidth, CellHeight, ..
+									TileMap, TileX, TileY, Handler )
 						Next
 					Next
 				End If

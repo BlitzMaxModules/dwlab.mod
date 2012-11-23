@@ -12,7 +12,7 @@ Type TExample Extends LTProject
 	Field Oval:LTSprite = LTSprite.FromShape( -4, -2, 3, 5, LTSprite.Oval )
 	Field Rectangle:LTSprite = LTSprite.FromShape( 0, 5, 4, 4, LTSprite.Rectangle )
 	Field Triangle:LTSprite = LTSprite.FromShape( 4, 4, 3, 5, LTSprite.TopLeftTriangle )
-	Field Cursor:LTSprite = LTSprite.FromShape( 0, 0, 16, 16 )
+	Field Cursor:LTSprite = LTSprite.FromShape( 0, 0, 16, 16, LTSprite.Rectangle )
 	Field Text:String
 	
 	Method Init()
@@ -32,7 +32,7 @@ Type TExample Extends LTProject
 		If Cursor.Overlaps( Rectangle ) Then Text :+ ", rectangle"
 		If Cursor.Overlaps( Triangle ) Then Text :+ ", triangle"
 		If Not Text Then Text = ", nothing"
-		If MouseHit( 2 ) Then Cursor.ShapeType = 3 - Cursor.ShapeType
+		If MouseHit( 2 ) Then Cursor.ShapeType = LTShapeType.GetByNum( 3 - Cursor.ShapeType.GetNum() )
 		If AppTerminate() Or KeyHit( Key_Escape ) Then Exiting = True
 	End Method
 

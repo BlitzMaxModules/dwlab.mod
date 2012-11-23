@@ -17,7 +17,7 @@ Type TTileCollisionShapes
 	Field CollisionShape:LTShape
 	Field CollisionShapeUnderCursor:LTSprite
 	Field SelectedCollisionShape:LTSprite
-	Field Cursor:LTSprite = LTSprite.FromShapeType( LTSprite.Rectangle )
+	Field Cursor:LTSprite = New LTSprite
 	Field TileSet:LTTileSet
 	Field TileNum:Int
 	Field GridActive:Int = True
@@ -310,7 +310,7 @@ Type TCreateCollisionShape Extends LTDrag
 	
 	
 	Method StartDragging()
-		CollisionShape = LTSprite.FromShapeType( LTSprite.Rectangle )
+		CollisionShape = New LTSprite
 		CollisionShape.Visualizer = Null
 		CollisionShape.JumpTo( TileCollisionShapes.Cursor )
 		CollisionShape.SetSize( 0.0, 0.0 )
