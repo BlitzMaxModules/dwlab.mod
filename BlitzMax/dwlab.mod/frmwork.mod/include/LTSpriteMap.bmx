@@ -335,12 +335,6 @@ Type LTSpriteMap Extends LTMap
 			If Not ShapeTypeID Or TTypeId.ForObject( ChildShape ) = ShapeTypeID Then
 				If Not ParameterName Or ChildShape.GetParameter( ParameterName ) = ParameterValue Then Return Self
 			End If
-			
-			Local SpriteGroup:LTSpriteGroup = LTSpriteGroup( ChildShape )
-			If SpriteGroup Then 
-				Local Shape:LTShape = SpriteGroup.FindShapeWithParameterID( ParameterName, ParameterValue, ShapeTypeID, True )
-				If Shape Then Return Shape
-			End If
 		Next
 		
 		Super.FindShapeWithParameterID( ParameterName, ParameterValue, ShapeTypeID, IgnoreError )
@@ -348,8 +342,8 @@ Type LTSpriteMap Extends LTMap
 
 		
 	
-	Method InsertBeforeShape:Int( Shape:LTShape = Null, ShapesList:TList = Null, BeforeShape:LTShape )
-		If Sprites.Contains( BeforeShape ) Then
+	Method InsertShape:Int( Shape:LTShape = Null, ShapesList:TList = Null, PivotShape:LTShape, Relativity:Int )
+		If Sprites.Contains( PivotShape ) Then
 			Local Sprite:LTSprite = LTSprite( Shape )
 			If Sprite Then InsertSprite( Sprite )
 			If ShapesList Then
@@ -357,10 +351,10 @@ Type LTSpriteMap Extends LTMap
 					InsertSprite( ListSprite )
 				Next
 			End If
-		Else
-			For Local SpriteGroup:LTSpriteGroup = Eachin Sprites.Keys()
-				SpriteGroup.InsertBeforeShape( Shape, ShapesList, BeforeShape )
-			Next
+			If Relativity = InsteadOf Then
+				Local Sprite:LTSprite = LTSprite( Shape )
+				If Sprite Then RemoveSprite( Sprite )
+			End If
 		End If
 	End Method
 	
@@ -368,12 +362,7 @@ Type LTSpriteMap Extends LTMap
 	
 	Method Remove( Shape:LTShape )
 		Local Sprite:LTSprite = LTSprite( Shape )
-		If Sprite Then
-			RemoveSprite( Sprite )
-			For Local SpriteGroup:LTSpriteGroup = Eachin Sprites.Keys()
-				SpriteGroup.Remove( Sprite )
-			Next
-		End If
+		If Sprite Then RemoveSprite( Sprite )
 	End Method
 	
 	
@@ -384,9 +373,6 @@ Type LTSpriteMap Extends LTMap
 				Local Sprite:LTSprite = LTSprite( KeyValue.Value() )
 				RemoveSprite( Sprite )
 			End If
-			
-			Local SpriteGroup:LTSpriteGroup = LTSpriteGroup( KeyValue.Value() )
-			If SpriteGroup Then SpriteGroup.RemoveAllOfTypeID( TypeID )
 		Next
 	End Method
 	

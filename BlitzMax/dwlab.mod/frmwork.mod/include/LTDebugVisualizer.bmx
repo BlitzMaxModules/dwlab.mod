@@ -126,6 +126,8 @@ Type LTDebugVisualizer Extends LTVisualizer
 		End If
 	End Method	
 	
+	
+	
 	Method DrawUsingTileMap( TileMap:LTTileMap, Shapes:TList = Null )
 		TileMap.Visualizer.DrawUsingTileMap( TileMap, Shapes )
 		If ShowCollisionShapes Then Super.DrawUsingTileMap( TileMap, Shapes )
@@ -178,7 +180,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 			Local SWidth:Double, SHeight:Double
 			L_CurrentCamera.SizeFieldToScreen( Sprite.Width * TileWidth, Sprite.Height * TileHeight, SWidth, SHeight )
 			
-			DrawShape( Sprite.ShapeType, SX, SY, SWidth, SHeight )
+			LTSpriteHandler.HandlersArray[ Sprite.ShapeType.GetNum() ].DrawShape( Sprite, Sprite, SX, SY, SWidth, SHeight )
 		End If
 	End Method
 	

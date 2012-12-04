@@ -8,7 +8,118 @@
 ' http://www.opensource.org/licenses/artistic-license-2.0.php
 '
 
-Type LTPivotWithOval Extends LTInteraction
+Rem
+bbdoc: Constant for dealing with inaccuracy of double type operations.
+End Rem
+Global L_Inaccuracy:Double = 0.000001
+
+Type LTSpritesInteraction
+	Global ServicePivot1:LTSprite
+	Global ServicePivot2:LTSprite
+	Global ServicePivot3:LTSprite
+	Global ServicePivot4:LTSprite
+	Global ServicePivots:LTSprite[] = New LTSprite[ 4 ]
+	Global ServiceOval1:LTSprite
+	Global ServiceOval2:LTSprite
+	Global ServiceLineSegment:LTLineSegment = New LTLineSegment
+	Global ServiceLine1:LTLine = New LTLine
+	Global ServiceLine2:LTLine = New LTLine
+	Global ServiceLines:LTLine[] = New LTLine[ 2 ]
+	
+	
+	
+	Method SpritesCollide:Int( Sprite1:LTSprite, Sprite2:LTSprite )
+	End Method
+	
+	
+	
+	Method SpriteOverlapsSprite:Int( Sprite1:LTSprite, Sprite2:LTSprite )
+	End Method
+	
+	
+	
+	Method WedgeOffSprites( Sprite1:LTSprite, Sprite2:LTSprite, DX:Double Var, DY:Double Var )
+	End Method
+	
+	
+	
+	Global SpritesInteractionsMap:TMap = New TMap
+	
+	Function Register( ShapeType1:LTShapeType, ShapeType2:LTShapeType, Interaction:LTSpritesInteraction )
+		Local Map:TMap = TMap( SpritesInteractionsMap.ValueForKey( ShapeType1 ) )
+		If Not Map Then
+			Map = New TMap
+			SpritesInteractionsMap.Insert( ShapeType1, Map )
+		End If
+		Map.Insert( ShapeType2, Interaction )
+	End Function
+	
+	
+	
+	Global InteractionsArray:LTSpritesInteraction[,]
+	
+	Function Init()
+		Local Quantity:Int = LTShapeType.ShapeTypes.Count()
+		
+		InteractionsArray = New LTSpritesInteraction[ Quantity, Quantity ]
+		For Local KeyValue1:TKeyValue = Eachin SpritesInteractionsMap
+			Local ShapeType1:LTShapeType = LTShapeType( KeyValue1.Key() )
+			For Local KeyValue2:TKeyValue = Eachin TMap( KeyValue1.Value() )
+				InteractionsArray[ ShapeType1.GetNum(), LTShapeType( KeyValue2.Key() ).GetNum() ] = LTSpritesInteraction( KeyValue2.Value() ) 
+			Next
+		Next
+	End Function
+	
+	
+	
+	Function PopAngle( Triangle1:LTSprite, Triangle2:LTSprite, DY:Double Var )
+		Triangle2.GetRightAngleVertex( ServicePivots[ 0 ] )
+		Triangle2.GetHypotenuse( ServiceLines[ 0 ] )
+		Triangle1.GetOtherVertices( ServicePivots[ 1 ], ServicePivots[ 2 ] )
+		Local O:Int = ServiceLines[ 0 ].PivotOrientation( ServicePivots[ 0 ] )
+		For Local N:Int = 1 To 2
+			If O = ServiceLines[ 0 ].PivotOrientation( ServicePivots[ N ] ) Then
+				If L_DoubleInLimits( ServicePivots[ N ].X, Triangle2.LeftX(), Triangle2.RightX() ) Then
+					DY = Max( DY, Abs( ServiceLines[ 0 ].GetY( ServicePivots[ N ].X ) - ServicePivots[ N ].Y ) )
+				End If
+			End If
+		Next
+	End Function
+End Type
+
+
+
+LTSpritesInteraction.ServicePivot1 = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
+LTSpritesInteraction.ServicePivot2 = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
+LTSpritesInteraction.ServicePivot3 = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
+LTSpritesInteraction.ServicePivot4 = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
+LTSpritesInteraction.ServiceOval1 = LTSprite.FromShapeType( LTSprite.Oval )
+LTSpritesInteraction.ServiceOval2 = LTSprite.FromShapeType( LTSprite.Oval )
+
+For Local N:Int = 0 To 3
+	LTSpritesInteraction.ServicePivots[ N ] = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
+	If N < 2 Then LTSpritesInteraction.ServiceLines[ N ] = New LTLine
+Next
+
+Local Triangles:LTShapeType[] = [ LTShapeType( LTSprite.TopLeftTriangle ), LTShapeType( LTSprite.TopRightTriangle ), ..
+		LTShapeType( LTSprite.BottomLeftTriangle ), LTShapeType( LTSprite.BottomRightTriangle ) ]
+
+For Local Triangle:LTShapeType = Eachin Triangles
+	LTSpritesInteraction.Register( LTSprite.Pivot, Triangle, LTPivotWithTriangle.Instance )
+	LTSpritesInteraction.Register( LTSprite.Oval, Triangle, LTOvalWithTriangle.Instance )
+	LTSpritesInteraction.Register( LTSprite.Rectangle, Triangle, LTRectangleWithTriangle.Instance )
+	LTSpritesInteraction.Register( LTSprite.Ray, Triangle, LTRayWithTriangle.Instance )
+	For Local Triangle2:LTShapeType = Eachin Triangles
+		LTSpritesInteraction.Register( Triangle, Triangle2, LTTriangleWithTriangle.Instance )
+	Next
+	LTSpriteHandler.Register( Triangle, LTTriangleHandler.Instance )
+Next
+
+
+
+
+
+Type LTPivotWithOval Extends LTSpritesInteraction
 	Global Instance:LTPivotWithOval = New LTPivotWithOval
 
 	Method SpritesCollide:Int( Pivot:LTSprite, Oval:LTSprite )
@@ -25,11 +136,11 @@ Type LTPivotWithOval Extends LTInteraction
 	End Method
 End Type
 
-LTInteraction.RegisterSpritesInteraction( LTSprite.Pivot, LTSprite.Oval, LTPivotWithOval.Instance )
+LTSpritesInteraction.Register( LTSprite.Pivot, LTSprite.Oval, LTPivotWithOval.Instance )
 
 
 	
-Type LTPivotWithRectangle Extends LTInteraction
+Type LTPivotWithRectangle Extends LTSpritesInteraction
 	Global Instance:LTPivotWithRectangle = New LTPivotWithRectangle
 	
 	Method SpritesCollide:Int( Pivot:LTSprite, Rectangle:LTSprite )
@@ -45,11 +156,11 @@ Type LTPivotWithRectangle Extends LTInteraction
 	End Method
 End Type
 
-LTInteraction.RegisterSpritesInteraction( LTSprite.Pivot, LTSprite.Rectangle, LTPivotWithRectangle.Instance )
+LTSpritesInteraction.Register( LTSprite.Pivot, LTSprite.Rectangle, LTPivotWithRectangle.Instance )
 	
 
 
-Type LTPivotWithTriangle Extends LTInteraction
+Type LTPivotWithTriangle Extends LTSpritesInteraction
 	Global Instance:LTPivotWithTriangle = New LTPivotWithTriangle
 	
 	Method SpritesCollide:Int( Pivot:LTSprite, Triangle:LTSprite )
@@ -74,7 +185,7 @@ End Type
 
 
 
-Type LTOvalWithPivot Extends LTInteraction
+Type LTOvalWithPivot Extends LTSpritesInteraction
 	Global Instance:LTOvalWithPivot = New LTOvalWithPivot
 	
 	Method SpriteOverlapsSprite:Int( Circle:LTSprite, Pivot:LTSprite )
@@ -82,11 +193,11 @@ Type LTOvalWithPivot Extends LTInteraction
 	End Method
 End Type
 
-LTInteraction.RegisterSpritesInteraction( LTSprite.Oval, LTSprite.Pivot, LTOvalWithPivot.Instance )
+LTSpritesInteraction.Register( LTSprite.Oval, LTSprite.Pivot, LTOvalWithPivot.Instance )
 
 
 	
-Type LTOvalWithOval Extends LTInteraction
+Type LTOvalWithOval Extends LTSpritesInteraction
 	Global Instance:LTOvalWithOval = New LTOvalWithOval
 	
 	Method SpritesCollide:Int( Oval1:LTSprite, Oval2:LTSprite )
@@ -131,11 +242,11 @@ Type LTOvalWithOval Extends LTInteraction
 	End Method
 End Type
 
-LTInteraction.RegisterSpritesInteraction( LTSprite.Oval, LTSprite.Oval, LTOvalWithOval.Instance )
+LTSpritesInteraction.Register( LTSprite.Oval, LTSprite.Oval, LTOvalWithOval.Instance )
 
 	
 	
-Type LTOvalWithRectangle Extends LTInteraction
+Type LTOvalWithRectangle Extends LTSpritesInteraction
 	Global Instance:LTOvalWithRectangle = New LTOvalWithRectangle
 	
 	Method SpritesCollide:Int( Oval:LTSprite, Rectangle:LTSprite )
@@ -185,11 +296,11 @@ Type LTOvalWithRectangle Extends LTInteraction
 	End Method
 End Type	
 
-LTInteraction.RegisterSpritesInteraction( LTSprite.Oval, LTSprite.Rectangle, LTOvalWithRectangle.Instance )
+LTSpritesInteraction.Register( LTSprite.Oval, LTSprite.Rectangle, LTOvalWithRectangle.Instance )
 
 
 
-Type LTOvalWithRay Extends LTInteraction
+Type LTOvalWithRay Extends LTSpritesInteraction
 	Global Instance:LTOvalWithRay = New LTOvalWithRay
 	
 	Method SpritesCollide:Int( Oval:LTSprite, Ray:LTSprite )
@@ -203,11 +314,11 @@ Type LTOvalWithRay Extends LTInteraction
 	End Method
 End Type	
 
-LTInteraction.RegisterSpritesInteraction( LTSprite.Oval, LTSprite.Ray, LTOvalWithRay.Instance )
+LTSpritesInteraction.Register( LTSprite.Oval, LTSprite.Ray, LTOvalWithRay.Instance )
 
 	
 	
-Type LTOvalWithTriangle Extends LTInteraction
+Type LTOvalWithTriangle Extends LTSpritesInteraction
 	Global Instance:LTOvalWithTriangle = New LTOvalWithTriangle
 	
 	Method SpritesCollide:Int( Oval:LTSprite, Triangle:LTSprite )
@@ -261,7 +372,7 @@ End Type
 
 
 
-Type LTRectangleWithPivot Extends LTInteraction
+Type LTRectangleWithPivot Extends LTSpritesInteraction
 	Global Instance:LTRectangleWithPivot = New LTRectangleWithPivot
 	
 	Method SpriteOverlapsSprite:Int( Circle:LTSprite, Pivot:LTSprite )
@@ -269,12 +380,12 @@ Type LTRectangleWithPivot Extends LTInteraction
 	End Method
 End Type
 
-LTInteraction.RegisterSpritesInteraction( LTSprite.Rectangle, LTSprite.Pivot, LTRectangleWithPivot.Instance )
-LTInteraction.RegisterSpritesInteraction( LTSprite.Rectangle, LTSprite.Oval, LTRectangleWithRectangle.Instance )
+LTSpritesInteraction.Register( LTSprite.Rectangle, LTSprite.Pivot, LTRectangleWithPivot.Instance )
+LTSpritesInteraction.Register( LTSprite.Rectangle, LTSprite.Oval, LTRectangleWithRectangle.Instance )
 
 
 
-Type LTRectangleWithRectangle Extends LTInteraction
+Type LTRectangleWithRectangle Extends LTSpritesInteraction
 	Global Instance:LTRectangleWithRectangle = New LTRectangleWithRectangle
 	
 	Method SpritesCollide:Int( Rectangle1:LTSprite, Rectangle2:LTSprite )
@@ -301,27 +412,27 @@ Type LTRectangleWithRectangle Extends LTInteraction
 	End Method
 End Type	
 
-LTInteraction.RegisterSpritesInteraction( LTSprite.Rectangle, LTSprite.Rectangle, LTRectangleWithRectangle.Instance )
+LTSpritesInteraction.Register( LTSprite.Rectangle, LTSprite.Rectangle, LTRectangleWithRectangle.Instance )
 
 
 	
-Type LTRectangleWithRay Extends LTInteraction
+Type LTRectangleWithRay Extends LTSpritesInteraction
 	Global Instance:LTRectangleWithRay = New LTRectangleWithRay
 	
 	Method SpritesCollide:Int( Rectangle:LTSprite, Ray:LTSprite )
 		Rectangle.GetBounds( ServicePivots[ 0 ].X, ServicePivots[ 0 ].Y, ServicePivots[ 2 ].X, ServicePivots[ 2 ].Y )
 		Rectangle.GetBounds( ServicePivots[ 1 ].X, ServicePivots[ 3 ].Y, ServicePivots[ 3 ].X, ServicePivots[ 1 ].Y )
 		For Local N:Int = 0 To 3
-			If LTRayInteraction.Instance.SpriteCollidesWithLineSegment( Ray, ServicePivots[ N ], ServicePivots[ ( N + 1 ) Mod 4 ] ) Then Return True
+			If LTRayHandler.Instance.SpriteCollidesWithLineSegment( Ray, ServicePivots[ N ], ServicePivots[ ( N + 1 ) Mod 4 ] ) Then Return True
 		Next
 	End Method
 End Type
 
-LTInteraction.RegisterSpritesInteraction( LTSprite.Rectangle, LTSprite.Ray, LTRectangleWithRay.Instance )
+LTSpritesInteraction.Register( LTSprite.Rectangle, LTSprite.Ray, LTRectangleWithRay.Instance )
 
 
 
-Type LTRectangleWithTriangle Extends LTInteraction
+Type LTRectangleWithTriangle Extends LTSpritesInteraction
 	Global Instance:LTRectangleWithTriangle = New LTRectangleWithTriangle
 	
 	Method SpritesCollide:Int( Rectangle:LTSprite, Triangle:LTSprite )
@@ -364,21 +475,21 @@ End Type
 
 
 
-Type LTRayWithTriangle Extends LTInteraction
+Type LTRayWithTriangle Extends LTSpritesInteraction
 	Global Instance:LTRayWithTriangle = New LTRayWithTriangle
 	
 	Method SpritesCollide:Int( Ray:LTSprite, Triangle:LTSprite )
 		Triangle.GetOtherVertices( ServicePivots[ 0 ], ServicePivots[ 1 ] )
 		Triangle.GetRightAngleVertex( ServicePivots[ 2 ] )
 		For Local N:Int = 0 To 2
-			If LTRayInteraction.Instance.SpriteCollidesWithLineSegment( Ray, ServicePivots[ N ], ServicePivots[ ( N + 1 ) Mod 3 ] ) Then Return True
+			If LTRayHandler.Instance.SpriteCollidesWithLineSegment( Ray, ServicePivots[ N ], ServicePivots[ ( N + 1 ) Mod 3 ] ) Then Return True
 		Next
 	End Method
 End Type
 
 
 	
-Type LTRayWithRay Extends LTInteraction
+Type LTRayWithRay Extends LTSpritesInteraction
 	Global Instance:LTRayWithRay = New LTRayWithRay
 	
 	Method SpritesCollide:Int( Ray1:LTSprite, Ray2:LTSprite )
@@ -390,11 +501,11 @@ Type LTRayWithRay Extends LTInteraction
 	End Method
 End Type
 
-LTInteraction.RegisterSpritesInteraction( LTSprite.Ray, LTSprite.Ray, LTRayWithRay.Instance )
+LTSpritesInteraction.Register( LTSprite.Ray, LTSprite.Ray, LTRayWithRay.Instance )
 
 
 	
-Type LTTriangleWithTriangle Extends LTInteraction
+Type LTTriangleWithTriangle Extends LTSpritesInteraction
 	Global Instance:LTTriangleWithTriangle = New LTTriangleWithTriangle
 	
 	Method SpritesCollide:Int( Triangle1:LTSprite, Triangle2:LTSprite )
@@ -417,7 +528,7 @@ Type LTTriangleWithTriangle Extends LTInteraction
 			If LTPivotWithRectangle.Instance.SpritesCollide( ServicePivots[ 1 ], Triangle1 ) Then If O2 = ServiceLine1.PivotOrientation( ServicePivots[ 1 ] ) Then Return True
 			If LTPivotWithRectangle.Instance.SpritesCollide( ServicePivot4, Triangle1 ) Then If O2 = ServiceLine1.PivotOrientation( ServicePivot4 ) Then Return True
 			
-			If LineSegmentCollidesWithLineSegment( ServicePivot1, ServicePivot2, ServicePivots[ 0 ], ServicePivots[ 1 ] ) Then Return True
+			If LTSpriteHandler.LineSegmentCollidesWithLineSegment( ServicePivot1, ServicePivot2, ServicePivots[ 0 ], ServicePivots[ 1 ] ) Then Return True
 			if O3 Then If ServiceLine1.PivotOrientation( ServicePivot4 ) <> ServiceLine1.PivotOrientation( ServicePivots[ 0 ] ) Then Return True
 		End If
 	End Method
@@ -433,14 +544,14 @@ Type LTTriangleWithTriangle Extends LTInteraction
 		
 		Repeat
 			Local Triangle2ShapeTypeNum:Int = Triangle2.ShapeType.GetNum()
-			Select Triangle1.ShapeType
-				Case LTSprite.TopLeftTriangle
+			Select Triangle1.ShapeType.GetNum()
+				Case LTSprite.TopLeftTriangle.GetNum()
 					if Triangle2ShapeTypeNum <> LTSprite.BottomRightTriangle.GetNum() Then Exit
-				Case LTSprite.TopRightTriangle
+				Case LTSprite.TopRightTriangle.GetNum()
 					if Triangle2ShapeTypeNum <> LTSprite.BottomLeftTriangle.GetNum() Then Exit
-				Case LTSprite.BottomLeftTriangle
+				Case LTSprite.BottomLeftTriangle.GetNum()
 					if Triangle2ShapeTypeNum <> LTSprite.TopRightTriangle.GetNum() Then Exit
-				Case LTSprite.BottomRightTriangle
+				Case LTSprite.BottomRightTriangle.GetNum()
 					if Triangle2ShapeTypeNum <> LTSprite.TopLeftTriangle.GetNum() Then Exit
 			End Select
 		
@@ -473,7 +584,7 @@ End Type
 
 
 
-Type LTRasterWithRaster Extends LTInteraction
+Type LTRasterWithRaster Extends LTSpritesInteraction
 	Global Instance:LTRasterWithRaster = New LTRasterWithRaster
 	
 	Method SpritesCollide:Int( Raster1:LTSprite, Raster2:LTSprite )
@@ -502,4 +613,20 @@ Type LTRasterWithRaster Extends LTInteraction
 	End Method
 End Type
 
-LTInteraction.RegisterSpritesInteraction( LTSprite.Raster, LTSprite.Raster, LTRasterWithRaster.Instance )
+
+
+LTSpritesInteraction.Register( LTSprite.Raster, LTSprite.Raster, LTRasterWithRaster.Instance )
+
+
+
+Type LTSpriteWithSpriteTemplate Extends LTSpritesInteraction
+	Global Instance:LTSpriteWithSpriteTemplate = New LTSpriteWithSpriteTemplate
+	
+	Method SpritesCollide:Int( Sprite:LTSprite, SpriteTemplate:LTSprite )
+		
+	End Method
+End Type
+
+For Local N:Int = 0 To 9
+	LTSpritesInteraction.Register( LTShapeType.GetByNum( N ), LTSprite.SpriteTemplate, LTSpriteWithSpriteTemplate.Instance )
+Next

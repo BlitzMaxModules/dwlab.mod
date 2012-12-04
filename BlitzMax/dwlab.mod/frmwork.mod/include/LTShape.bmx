@@ -79,7 +79,11 @@ Type LTShape Extends LTObject
 	End Rem
 	Field BehaviorModels:TList = New TList
 	
-	Field CollisionLayer:Int
+	Field CollisionLayer:Int	
+	
+	Const Before:Int = 0
+	Const After:Int = 1
+	Const InsteadOf:Int = 2
 	
 	' ==================== Drawing ===================
 	
@@ -1225,10 +1229,14 @@ Type LTShape Extends LTObject
 	bbdoc: Inserts the shape before given.
 	about: Included layers and sprite maps will be also checked for given shape.
 	End Rem
-	Method InsertBeforeShape:Int( Shape:LTShape = Null, ShapesList:TList = Null, BeforeShape:LTShape )
+	Method InsertShape:Int( Shape:LTShape = Null, ShapesList:TList = Null, PivotShape:LTShape, Relativity:Int )
 		Return False
 	End Method
 	
+	'Deprecated
+	Method InsertBeforeShape:Int( Shape:LTShape = Null, ShapesList:TList = Null, BeforeShape:LTShape )
+		Return InsertShape:Int( Shape, ShapesList, BeforeShape, Before )
+	End Method
 	
 	
 	Rem

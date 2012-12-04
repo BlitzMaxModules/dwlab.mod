@@ -93,5 +93,6 @@ End Function
 
 
 Function DrawCollisionSprite( Sprite:LTSprite, X:Double, Y:Double, Width:Double, Height:Double )
-	LTVisualizer.DrawShape( Sprite.ShapeType, X + Width * Sprite.X, Y + Height * Sprite.Y, Width * Sprite.Width, Height * Sprite.Height )
+	LTSpriteHandler.HandlersArray[ Sprite.ShapeType.GetNum() ].DrawShape( Sprite, Sprite, X + Width * Sprite.X, ..
+			Y + Height * Sprite.Y, Width * Sprite.Width, Height * Sprite.Height )
 End Function

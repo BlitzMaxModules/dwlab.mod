@@ -277,20 +277,33 @@ Type LTLayer Extends LTShape
 	
 	
 	
-	Method InsertBeforeShape:Int( Shape:LTShape = Null, ShapesList:TList = Null, BeforeShape:LTShape )
+	Method InsertShape:Int( Shape:LTShape = Null, ShapesList:TList = Null, PivotShape:LTShape, Relativity:Int )
 		Local Link:TLink = Children.FirstLink()
 		While Link <> Null
 			Local Value:Object = Link.Value()
-			If Value = BeforeShape Then
-				If Shape Then Children.InsertBeforeLink( Shape, Link )
-				If ShapesList Then
-					For Local ListShape:LTSprite =Eachin ShapesList
-						Children.InsertBeforeLink( ListShape, Link )
-					Next
-				End If
+			If Value = PivotShape Then
+				Select Relativity
+					Case Before, InsteadOf
+						If Shape Then
+							Children.InsertBeforeLink( Shape, Link )
+						ElseIf ShapesList Then
+							For Local ListShape:LTSprite =Eachin ShapesList
+								Children.InsertBeforeLink( ListShape, Link )
+							Next
+						End If
+						If Relativity = InsteadOf Then Link.Remove()
+					Case After
+						If Shape Then
+							Children.InsertAfterLink( Shape, Link )
+						ElseIf ShapesList Then
+							For Local ListShape:LTSprite =Eachin ShapesList
+								Link = Children.InsertAfterLink( ListShape, Link )
+							Next
+						End If
+				End Select
 				Return True
 			Else
-				If LTShape( Value ).InsertBeforeShape( Shape, ShapesList, BeforeShape ) Then Return True
+				If LTShape( Value ).InsertShape( Shape, ShapesList, PivotShape, Relativity ) Then Return True
 			End If
 			Link = Link.NextLink()
 		Wend

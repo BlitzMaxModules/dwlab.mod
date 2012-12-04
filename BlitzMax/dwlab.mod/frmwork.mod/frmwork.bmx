@@ -15,13 +15,19 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.4.30"
+ModuleInfo "Version: 1.4.31"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.31 (30.11.12)"
+ModuleInfo "History: &nbsp; &nbsp; Enchanced LTLayer's InsertSprite method."
+ModuleInfo "History: &nbsp; &nbsp; Separated sprites interactions and sprite handlers."
+ModuleInfo "History: &nbsp; &nbsp; Included sprite shape drawing in sprite handlers."
+ModuleInfo "History: v1.4.30.1 (23.11.12)"
+ModuleInfo "History: &nbsp; &nbsp; Fixed some bugs and tested all command examples."
 ModuleInfo "History: v1.4.30 (19.11.12)"
 ModuleInfo "History: &nbsp; &nbsp; Implemented object shape types and registrable interactions."
 ModuleInfo "History: v1.4.29 (09.11.12)"
@@ -324,7 +330,7 @@ Import brl.map
 Import brl.max2d
 Import brl.eventqueue
 
-Const L_Version:String = "1.4.30"
+Const L_Version:String = "1.4.31"
 
 SeedRnd( MilliSecs() )
 
@@ -368,4 +374,5 @@ End Function
 
 
 
-LTInteraction.Init()
+LTSpriteHandler.Init()
+LTSpritesInteraction.Init()

@@ -199,7 +199,9 @@ Type LTVisualizer Extends LTColor
 			If Sprite.Frame < 0 Or Sprite.Frame >= Image.FramesQuantity() Then L_Error( "Incorrect frame number ( " + Sprite.Frame + " ) for sprite ~q" + Sprite.GetTitle() + "~q, must be less than " + Image.FramesQuantity() )
 			?
 		
-			If Scaling Then
+			If Sprite.ShapeType.CustomDrawing() Then
+				LTSpriteHandler.HandlersArray[ Sprite.ShapeType.GetNum() ].DrawSprite( Self, Sprite )
+			ElseIf Scaling Then
 				L_CurrentCamera.SizeFieldToScreen( SpriteShape.Width, SpriteShape.Height, SWidth, SHeight )
 				Local ScaledWidth:Double = SWidth * XScale
 				Local ScaledHeight:Double = SHeight * YScale
@@ -253,84 +255,10 @@ Type LTVisualizer Extends LTColor
 					SetBlend Blend
 				End If
 			Else
-				DrawShape( Sprite.ShapeType, SX, SY, SWidth, SHeight, SpriteShape.Angle * ( Sprite.Physics() Or Sprite.ShapeType = LTSprite.Ray ) )
+				LTSpriteHandler.HandlersArray[ Sprite.ShapeType.GetNum() ].DrawShape( Sprite, SpriteShape, SX, SY, SWidth, SHeight )
 			End If
 		End If
 	End Method
-	
-	
-	
-	Function DrawShape( ShapeType:LTShapeType, SX:Double, SY:Double, SWidth:Double, SHeight:Double, Angle:Double = 0.0 )
-		SetRotation( Angle )
-		
-		Select ShapeType.GetNum()
-			Case LTSprite.Oval.GetNum()
-				If SWidth = SHeight Then
-					SetHandle( 0.5 * SWidth, 0.5 * SHeight )
-					DrawOval( SX, SY, SWidth, SHeight )
-					SetHandle( 0.0, 0.0 )
-				ElseIf SWidth > SHeight Then
-					Local DWidth:Double = SWidth - SHeight
-					SetHandle( 0.5 * SWidth, 0.5 * SHeight )
-					DrawOval( SX, SY, SHeight, SHeight )
-					SetHandle( SHeight - 0.5 * SWidth, 0.5 * SHeight )
-					DrawOval( SX, SY, SHeight, SHeight )
-					SetHandle( 0.5 * DWidth, 0.5 * SHeight )
-					DrawRect( SX, SY, DWidth, SHeight )
-					SetHandle( 0.0, 0.0 )
-				Else
-					Local DHeight:Double = SHeight - SWidth
-					SetHandle( 0.5 * SWidth, 0.5 * SHeight )
-					DrawOval( SX, SY, SWidth, SWidth )
-					SetHandle( 0.5 * SWidth, SWidth - 0.5 * SHeight )
-					DrawOval( SX, SY, SWidth, SWidth )
-					SetHandle( 0.5 * SWidth, 0.5 * DHeight )
-					DrawRect( SX, SY, SWidth, DHeight )
-					SetHandle( 0.0, 0.0 )
-				End If
-				SetOrigin( 0.0, 0.0 )
-			Case LTSprite.Rectangle.GetNum()
-				SetHandle( 0.5 * SWidth, 0.5 * SHeight )
-				DrawRect( SX, SY, SWidth, SHeight )
-				SetHandle( 0.0, 0.0 )
-			Case LTSprite.Ray.GetNum()
-				SetRotation( 0.0 )
-				DrawOval( SX - 2, SY - 2, 5, 5 )
-				Local Ang:Double = L_WrapDouble( Angle, 360.0 )
-				If Ang < 45.0 Or Ang >= 315.0 Then
-					Local Width:Double = L_CurrentCamera.Viewport.RightX() - SX
-					If Width > 0 Then DrawLine( SX, SY, SX + Width, SY + Width * Tan( Ang ) )
-				ElseIf Ang < 135.0 Then
-					Local Height:Double = L_CurrentCamera.Viewport.BottomY() - SY
-					If Height > 0 Then DrawLine( SX, SY, SX + Height / Tan( Ang ), SY + Height )
-				ElseIf Ang < 225.0 Then
-					Local Width:Double = L_CurrentCamera.Viewport.LeftX() - SX
-					If Width < 0 Then DrawLine( SX, SY, SX + Width, SY + Width * Tan( Ang ) )
-				Else
-					Local Height:Double = L_CurrentCamera.Viewport.TopY() - SY
-					If Height < 0 Then DrawLine( SX, SY, SX + Height / Tan( Ang ), SY + Height )
-				End If
-			Default
-				SetOrigin( SX, SY )
-				Select ShapeType.GetNum()
-					Case LTSprite.TopLeftTriangle.GetNum()
-						DrawPoly( [ Float( -0.5 * SWidth ), Float( -0.5 * SHeight ), Float( 0.5 * SWidth ), Float( -0.5 * SHeight ), ..
-								Float( -0.5 * SWidth ), Float( 0.5 * SHeight ) ] )
-					Case LTSprite.TopRightTriangle.GetNum()
-						DrawPoly( [ Float( -0.5 * SWidth ), Float( -0.5 * SHeight ), Float( 0.5 * SWidth ), Float( -0.5 * SHeight ), ..
-								Float( 0.5 * SWidth ), Float( 0.5 * SHeight ) ] )
-					Case LTSprite.BottomLeftTriangle.GetNum()
-						DrawPoly( [ Float( -0.5 * SWidth ), Float( 0.5 * SHeight ), Float( 0.5 * SWidth ), Float( 0.5 * SHeight ), ..
-								Float( -0.5 * SWidth ), Float( -0.5 * SHeight ) ] )
-					Case LTSprite.BottomRightTriangle.GetNum()
-						DrawPoly( [ Float( -0.5 * SWidth ), Float( 0.5 * SHeight ), Float( 0.5 * SWidth ), Float( 0.5 * SHeight ), ..
-								Float( 0.5 * SWidth ), Float( -0.5 * SHeight ) ] )
-				End Select
-				SetOrigin( 0.0, 0.0 )
-		End Select
-		
-		SetRotation( 0.0 )
-	End Function
 	
 	
 	

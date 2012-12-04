@@ -53,6 +53,7 @@ Include "CameraProperties.bmx"
 Include "TileMapProperties.bmx"
 Include "ParameterProperties.bmx"
 Include "LayerBounds.bmx"
+Include "AddTemplate.bmx"
 
 
 Incbin "english.lng"
@@ -982,52 +983,10 @@ Type LTEditor Extends LTProject
 						End If
 					Case Key_G
 						If Not SelectedShapes.IsEmpty() Then
-							Local Group:LTSpriteGroup = Null
-							Local LeftX:Double, TopY:Double, RightX:Double, BottomY:Double
-							Local FirstSprite:LTSprite
-							For Local Sprite:LTSprite = Eachin SelectedShapes
-								If Group Then
-									LeftX = Min( LeftX, Sprite.LeftX() )
-									TopY = Min( TopY, Sprite.TopY() )
-									RightX = Max( RightX, Sprite.RightX() )
-									BottomY = Max( BottomY, Sprite.BottomY() )
-								Else
-									Group = New LTSpriteGroup
-									LeftX = Sprite.LeftX()
-									TopY = Sprite.TopY()
-									RightX = Sprite.RightX()
-									BottomY = Sprite.BottomY()
-									FirstSprite = Sprite
-								End If
-							Next
-							If Group Then
-								Group.X = 0.5 * ( LeftX + RightX )
-								Group.Y = 0.5 * ( TopY + BottomY )
-								Group.Width = RightX - LeftX
-								Group.Height = BottomY - TopY
-								World.InsertBeforeShape( Group, , FirstSprite )
-								
-								For Local Sprite:LTSprite = Eachin SelectedShapes
-									World.Remove( Sprite )
-									Group.InsertSprite( Sprite )
-								Next
-								
-								RefreshProjectManager()
-								SetChanged()
-							End If
+							TAddTemplate.Instance.Execute()
 						End If
 					Case Key_U
-						If Not SelectedShapes.IsEmpty() Then
-							For Local Group:LTSpriteGroup = Eachin SelectedShapes
-								World.InsertBeforeShape( , Group.Children, Group )
-								For Local Sprite:LTSprite = Eachin Group.Children
-									Group.RemoveSprite( Sprite )
-								Next
-								World.Remove( Group )
-								RefreshProjectManager()
-								SetChanged()
-							Next
-						End If
+						If SelectedShapes.Count() = 1 Then TAddTemplate.Instance.Execute()
 					Case KEY_R
 						Local TileSetName:String, TileNum1:String, TileNum2:String
 						If EnterString( "Enter tileset name to process", TileSetName ) Then
@@ -1410,17 +1369,7 @@ Type LTEditor Extends LTProject
 						Case PhysicsCheckbox
 							Local ToShape:LTShape = Null
 							
-							If LTSpriteGroup( Shape ) Then
-								If Shape.Physics() Then
-									ToShape = New LTSpriteGroup
-								Else
-									ToShape = New LTBox2DSpriteGroup
-								End If
-								
-								For Local Sprite:LTSprite = Eachin LTSpriteGroup( Shape )
-									LTSpriteGroup( ToShape ).Children.AddLast( Sprite )
-								Next
-							Else If LTSprite( Shape ) Then
+							If LTSprite( Shape ) Then
 								If Shape.Physics() Then
 									ToShape = LTSprite.FromShapeType( LTSprite.Rectangle )
 								Else
@@ -1964,8 +1913,6 @@ Type LTEditor Extends LTProject
 			Icon = 1
 		ElseIf LTSpriteMap( Shape ) Then
 			Icon = 3
-		ElseIf LTSpriteGroup( Shape ) Then
-			Icon = 5
 		Else
 			Icon = 2
 		End If

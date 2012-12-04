@@ -45,11 +45,6 @@ Type LTShapeType Extends LTObject Abstract
 	End Method
 	
 	
-	
-	Method DrawSprite( Visualizer:LTVisualizer, Sprite:LTSprite )
-	End Method
-	
-	
 
 	Method GetTileSprite:LTSprite( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double )
 	End Method

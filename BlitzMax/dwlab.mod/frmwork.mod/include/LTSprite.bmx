@@ -9,9 +9,9 @@
 '
 
 Include "LTShapeType.bmx"
-Include "LTSpriteGroup.bmx"
 Include "LTVectorSprite.bmx"
-Include "Interactions.bmx"
+Include "LTSpriteHandler.bmx"
+Include "LTSpritesInteraction.bmx"
 Include "CollisionHandlers.bmx"
 
 Rem
@@ -51,6 +51,8 @@ Type LTSprite Extends LTShape
 	bbdoc: Type of the sprite shape: mask of raster image which is inscribed in shape's rectangle.
 	End Rem
 	Global Raster:LTRaster = New LTRaster
+	
+	Global SpriteTemplate:LTSpriteTemplate = New LTSpriteTemplate
 	
 	Rem
 	bbdoc: Type of the sprite shape.
@@ -152,10 +154,10 @@ Type LTSprite Extends LTShape
 		Local ShapeTypeNum:Int = ShapeType.GetNum()
 		Local SpriteShapeTypeNum:Int = Sprite.ShapeType.GetNum()
 		If ShapeTypeNum <= SpriteShapeTypeNum Then
-			Local Interaction:LTInteraction = LTInteraction.SpritesInteractionsArray[ ShapeTypeNum, SpriteShapeTypeNum ]
+			Local Interaction:LTSpritesInteraction = LTSpritesInteraction.InteractionsArray[ ShapeTypeNum, SpriteShapeTypeNum ]
 			If Interaction Then Return Interaction.SpritesCollide( Self, Sprite )
 		Else
-			Local Interaction:LTInteraction = LTInteraction.SpritesInteractionsArray[ SpriteShapeTypeNum, ShapeTypeNum ]
+			Local Interaction:LTSpritesInteraction = LTSpritesInteraction.InteractionsArray[ SpriteShapeTypeNum, ShapeTypeNum ]
 			If Interaction Then Return Interaction.SpritesCollide( Sprite, Self )
 		End If
 	End Method
@@ -171,8 +173,8 @@ Type LTSprite Extends LTShape
 		?debug
 		L_CollisionChecks :+ 1
 		?
-		Local Interaction:LTInteraction = LTInteraction.SpriteInteractionsArray[ ShapeType.GetNum() ]
-		If Interaction Then Return Interaction.SpriteCollidesWithLineSegment( Self, LineSegment.Pivot[ 0 ], LineSegment.Pivot[ 1 ] )
+		Local Handler:LTSpriteHandler = LTSpriteHandler.HandlersArray[ ShapeType.GetNum() ]
+		If Handler Then Return Handler.SpriteCollidesWithLineSegment( Self, LineSegment.Pivot[ 0 ], LineSegment.Pivot[ 1 ] )
 	End Method
 	
 	
@@ -186,7 +188,7 @@ Type LTSprite Extends LTShape
 		?debug
 		L_CollisionChecks :+ 1
 		?
-		Local Interaction:LTInteraction = LTInteraction.SpritesInteractionsArray[ ShapeType.GetNum(), Sprite.ShapeType.GetNum() ]
+		Local Interaction:LTSpritesInteraction = LTSpritesInteraction.InteractionsArray[ ShapeType.GetNum(), Sprite.ShapeType.GetNum() ]
 		If Interaction Then Return Interaction.SpriteOverlapsSprite( Self, Sprite )
 	End Method
 	
@@ -377,13 +379,13 @@ Type LTSprite Extends LTShape
 		Local ShapeTypeNum:Int = ShapeType.GetNum()
 		Local SpriteShapeTypeNum:Int = Sprite.ShapeType.GetNum()
 		If ShapeTypeNum <= SpriteShapeTypeNum Then
-			Local Interaction:LTInteraction = LTInteraction.SpritesInteractionsArray[ ShapeTypeNum, SpriteShapeTypeNum ]
+			Local Interaction:LTSpritesInteraction = LTSpritesInteraction.InteractionsArray[ ShapeTypeNum, SpriteShapeTypeNum ]
 			If Interaction Then 
 				Interaction.WedgeOffSprites( Self, Sprite, DX, DY )
 				Separate( Self, Sprite, DX, DY, SelfMovingResistance, SpriteMovingResistance )
 			End If
 		Else
-			Local Interaction:LTInteraction = LTInteraction.SpritesInteractionsArray[ SpriteShapeTypeNum, ShapeTypeNum ]
+			Local Interaction:LTSpritesInteraction = LTSpritesInteraction.InteractionsArray[ SpriteShapeTypeNum, ShapeTypeNum ]
 			If Interaction Then 
 				Interaction.WedgeOffSprites( Sprite, Self, DX, DY )
 				Separate( Sprite, Self, DX, DY, SpriteMovingResistance, SelfMovingResistance )
@@ -849,15 +851,15 @@ Type LTSprite Extends LTShape
 		Super.XMLIO( XMLObject )
 		
 		If L_XMLMode = L_XMLGet Then
-			If XMLObject.AttributeExists( "shape-type" ) Then
-				XMLObject.ManageObjectAttribute( "shape-type", ShapeType )
+			If XMLObject.FieldExists( "shape-type" ) Then
+				XMLObject.ManageObjectField( "shape-type", ShapeType )
 			Else
 				ShapeType = LTShapeType.GetByNum( XMLObject.GetAttribute( "shape" ).ToInt() )
 			End If
 		ElseIf ShapeType.Singleton() Then
 			XMLObject.SetAttribute( "shape", String( ShapeType.GetNum() ) )
 		Else
-			ShapeType = LTShapeType( XMLObject.ManageObjectAttribute( "shape-type", ShapeType ) )
+			ShapeType = LTShapeType( XMLObject.ManageObjectField( "shape-type", ShapeType ) )
 		End If
 		
 		XMLObject.ManageDoubleAttribute( "moving-angle", Angle )
