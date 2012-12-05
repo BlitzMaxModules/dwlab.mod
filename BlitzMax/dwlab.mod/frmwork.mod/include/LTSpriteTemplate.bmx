@@ -9,7 +9,7 @@
 '
 
 Type LTSpriteTemplate Extends LTShapeType
-	Global ServicePivot:LTSprite
+	Global ServiceRectangle:LTSprite
 	Global ServiceSprite:LTSprite
 	
 	Field Name:String
@@ -42,26 +42,29 @@ Type LTSpriteTemplate Extends LTShapeType
 	
 	
 	Method SetShape( Sprite:LTSprite, TemplateSprite:LTSprite, SpriteShape:LTSprite )
-		If TemplateSprite.Angle = 0 Then
+		If Sprite.DisplayingAngle = 0 Then
 			SpriteShape.X = TemplateSprite.X * Sprite.Width + Sprite.X
 			SpriteShape.Y = TemplateSprite.Y * Sprite.Height + Sprite.Y
 		Else
 			Local RelativeX:Double = TemplateSprite.X * Sprite.Width
 			Local RelativeY:Double = TemplateSprite.Y * Sprite.Height
-			SpriteShape.X = RelativeX * Cos( TemplateSprite.Angle ) - RelativeY * Sin( TemplateSprite.Angle ) + Sprite.X
-			SpriteShape.Y = RelativeX * Sin( TemplateSprite.Angle ) + RelativeY * Cos( TemplateSprite.Angle ) + Sprite.Y
+			SpriteShape.X = RelativeX * Cos( Sprite.DisplayingAngle ) - RelativeY * Sin( Sprite.DisplayingAngle ) + Sprite.X
+			SpriteShape.Y = RelativeX * Sin( Sprite.DisplayingAngle ) + RelativeY * Cos( Sprite.DisplayingAngle ) + Sprite.Y
 		End If
 		SpriteShape.Width = Sprite.Width * TemplateSprite.Width
 		SpriteShape.Height = Sprite.Height * TemplateSprite.Height
-		SpriteShape.Angle = Sprite.Angle + TemplateSprite.Angle
+		SpriteShape.DisplayingAngle = Sprite.DisplayingAngle + TemplateSprite.DisplayingAngle
 	End Method
 	
 	
 	
 	Method GetTileSprite:LTSprite( Sprite:LTSprite, DX:Double, DY:Double, XScale:Double, YScale:Double )
-		ServicePivot.X = Sprite.X * XScale + DX
-		ServicePivot.Y = Sprite.Y * YScale + DY
-		Return ServicePivot
+		ServiceRectangle.X = Sprite.X * XScale + DX
+		ServiceRectangle.Y = Sprite.Y * YScale + DY
+		ServiceRectangle.Width = Sprite.Width * XScale
+		ServiceRectangle.Height = Sprite.Height * YScale
+		ServiceRectangle.ShapeType = Sprite.ShapeType
+		Return ServiceRectangle
 	End Method
 	
 	
@@ -134,4 +137,4 @@ End Type
 
 LTShapeType.Register( New LTSpriteTemplate )
 LTSpriteTemplate.ServiceSprite = New LTSprite
-LTSpriteTemplate.ServicePivot = LTSprite.FromShape( 0, 0, 0, 0, LTSprite.Pivot )
+LTSpriteTemplate.ServiceRectangle = New LTSprite

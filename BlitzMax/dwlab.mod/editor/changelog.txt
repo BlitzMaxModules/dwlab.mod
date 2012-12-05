@@ -1,3 +1,7 @@
+1.10
++ Support of sprite templates
+- Sprite grouping 
+
 1.9.3
 * Loading image or tilemap errors will be shown at once and editor will continue to work with them
 

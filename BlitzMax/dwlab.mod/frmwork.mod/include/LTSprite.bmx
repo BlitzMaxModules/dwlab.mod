@@ -852,7 +852,7 @@ Type LTSprite Extends LTShape
 		
 		If L_XMLMode = L_XMLGet Then
 			If XMLObject.FieldExists( "shape-type" ) Then
-				XMLObject.ManageObjectField( "shape-type", ShapeType )
+				ShapeType = LTShapeType( XMLObject.ManageObjectField( "shape-type", ShapeType ) )
 			Else
 				ShapeType = LTShapeType.GetByNum( XMLObject.GetAttribute( "shape" ).ToInt() )
 			End If

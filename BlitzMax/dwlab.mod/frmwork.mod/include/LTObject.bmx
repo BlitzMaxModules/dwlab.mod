@@ -109,6 +109,7 @@ Type LTObject
 	about: See also: #LoadFromFile, #XMLIO
 	End Rem
 	Method SaveToFile( FileName:String )
+		ObjectFileName = FileName
 		L_IDMap = New TMap
 		L_RemoveIDMap = New TMap
 		L_MaxID = 1

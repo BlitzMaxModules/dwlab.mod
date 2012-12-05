@@ -186,7 +186,9 @@ Type LTVisualizer Extends LTColor
 		
 		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
 		
-		If Image Then
+		If Sprite.ShapeType.CustomDrawing() Then
+			LTSpriteHandler.HandlersArray[ Sprite.ShapeType.GetNum() ].DrawSprite( Self, Sprite )
+		ElseIf Image Then
 			L_CurrentCamera.FieldToScreen( SpriteShape.X, SpriteShape.Y, SX, SY )
 			
 			If Rotating Then
@@ -199,9 +201,7 @@ Type LTVisualizer Extends LTColor
 			If Sprite.Frame < 0 Or Sprite.Frame >= Image.FramesQuantity() Then L_Error( "Incorrect frame number ( " + Sprite.Frame + " ) for sprite ~q" + Sprite.GetTitle() + "~q, must be less than " + Image.FramesQuantity() )
 			?
 		
-			If Sprite.ShapeType.CustomDrawing() Then
-				LTSpriteHandler.HandlersArray[ Sprite.ShapeType.GetNum() ].DrawSprite( Self, Sprite )
-			ElseIf Scaling Then
+			If Scaling Then
 				L_CurrentCamera.SizeFieldToScreen( SpriteShape.Width, SpriteShape.Height, SWidth, SHeight )
 				Local ScaledWidth:Double = SWidth * XScale
 				Local ScaledHeight:Double = SHeight * YScale
@@ -243,9 +243,7 @@ Type LTVisualizer Extends LTColor
 			End Select
 		Else
 			L_CurrentCamera.FieldToScreen( SpriteShape.X, SpriteShape.Y, SX, SY )
-			L_CurrentCamera.SizeFieldToScreen( SpriteShape.Width * XScale, SpriteShape.Height * YScale, SWidth, SHeight )
-			SX :+ DX * SWidth
-			SY :+ DY * SHeight
+			L_CurrentCamera.SizeFieldToScreen( SpriteShape.Width, SpriteShape.Height, SWidth, SHeight )
 			
 			If Sprite.ShapeType = LTSprite.Raster Then
 				If Image Then

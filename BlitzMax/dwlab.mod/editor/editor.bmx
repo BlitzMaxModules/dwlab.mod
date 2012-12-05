@@ -72,7 +72,7 @@ Global Editor:LTEditor = New LTEditor
 Editor.Execute()
 
 Type LTEditor Extends LTProject
-	Const Version:String = "1.9.3"
+	Const Version:String = "1.10"
 	Const INIVersion:Int = 6
 	Const ModifierSize:Int = 3
 	Const RecentFilesQuantity:Int = 8
@@ -1805,7 +1805,7 @@ Type LTEditor Extends LTProject
 			If ShapeType.Singleton() Then AddGadgetItem( ComboBox, LocalizeString( "{{" + ShapeType.GetName() + "}}" ), , , , ShapeType )
 		Next
 		For Local ShapeType:LTShapeType = Eachin L_EditorData.ShapeTypes
-			AddGadgetItem( ComboBox, LocalizeString( "{{" + ShapeType.GetName() + "}}" ), , , , ShapeType )
+			AddGadgetItem( ComboBox, ShapeType.GetName(), , , , ShapeType )
 		Next
 	End Method
 	

@@ -622,8 +622,15 @@ LTSpritesInteraction.Register( LTSprite.Raster, LTSprite.Raster, LTRasterWithRas
 Type LTSpriteWithSpriteTemplate Extends LTSpritesInteraction
 	Global Instance:LTSpriteWithSpriteTemplate = New LTSpriteWithSpriteTemplate
 	
-	Method SpritesCollide:Int( Sprite:LTSprite, SpriteTemplate:LTSprite )
-		
+	Field ServiceSprite:LTSprite = New LTSprite
+	
+	Method SpritesCollide:Int( Sprite:LTSprite, SpriteTemplateSprite:LTSprite )
+		Local SpriteTemplate:LTSpriteTemplate = LTSpriteTemplate( SpriteTemplateSprite.ShapeType )
+		For Local TemplateSprite:LTSprite = Eachin SpriteTemplate.Sprites
+			SpriteTemplate.SetShape( SpriteTemplateSprite, TemplateSprite, ServiceSprite )
+			ServiceSprite.ShapeType = TemplateSprite.ShapeType
+			If Sprite.CollidesWithSprite( ServiceSprite ) Then Return True
+		Next		
 	End Method
 End Type
 

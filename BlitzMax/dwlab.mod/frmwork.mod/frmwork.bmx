@@ -22,6 +22,8 @@ ModuleInfo "Modserver: DWLAB"
 
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.32 (05.12.12)"
+ModuleInfo "History: &nbsp; &nbsp; Implemented sprite templates."
 ModuleInfo "History: v1.4.31 (30.11.12)"
 ModuleInfo "History: &nbsp; &nbsp; Enchanced LTLayer's InsertSprite method."
 ModuleInfo "History: &nbsp; &nbsp; Separated sprites interactions and sprite handlers."
@@ -330,7 +332,7 @@ Import brl.map
 Import brl.max2d
 Import brl.eventqueue
 
-Const L_Version:String = "1.4.31"
+Const L_Version:String = "1.4.32"
 
 SeedRnd( MilliSecs() )
 

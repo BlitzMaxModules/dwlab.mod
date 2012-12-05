@@ -29,6 +29,13 @@ Type TAddTemplate Extends LTProject
 		ReplaceButton = Form.AddButton( "Replace template", 150 )
 		SelectionField = Form.AddComboBox( "", 0, 150 )
 		AddOKCancelButtons( Form, OKButton, CancelButton )
+		
+		AddGadgetItem( SelectionField, LocalizeString( "{{Null}}" ) )
+		For Local ShapeType:LTShapeType = Eachin L_EditorData.ShapeTypes
+			If ShapeType.GetNum() = LTSprite.SpriteTemplate.GetNum() Then
+				AddGadgetItem( SelectionField, LocalizeString( ShapeType.GetName() ), , , , ShapeType )
+			End If
+		Next
 	End Method
 	
 	
@@ -47,6 +54,7 @@ Type TAddTemplate Extends LTProject
 									Template.Name = Name
 									L_EditorData.ShapeTypes.AddLast( Template )
 								End If
+								Editor.FillShapeComboBox( Editor.ShapeBox )
 							Else
 								Local ExistentTemplate:LTSpriteTemplate = LTSpriteTemplate( GadgetItemExtra( SelectionField, ..
 										SelectedGadgetItem( SelectionField ) ) )

@@ -48,7 +48,7 @@ Type LTSpriteHandler
 		HandlersArray = New LTSpriteHandler[ Quantity ]
 		For Local KeyValue:TKeyValue = Eachin HandlersMap
 			HandlersArray[ LTShapeType( KeyValue.Key() ).GetNum() ] = LTSpriteHandler( KeyValue.Value() ) 
-		Next		
+		Next
 	End Function
 	
 	
@@ -267,7 +267,7 @@ Type LTSpriteTemplateHandler Extends LTSpriteHandler
 		Local SpriteTemplate:LTSpriteTemplate = LTSpriteTemplate( Sprite.ShapeType )
 		For Local TemplateSprite:LTSprite = Eachin SpriteTemplate.Sprites
 			SpriteTemplate.SetShape( Sprite, TemplateSprite, ServiceSprite )
-			Visualizer.DrawUsingSprite( TemplateSprite, ServiceSprite )
+			TemplateSprite.Visualizer.DrawUsingSprite( TemplateSprite, ServiceSprite )
 		Next
 	End Method
 	
