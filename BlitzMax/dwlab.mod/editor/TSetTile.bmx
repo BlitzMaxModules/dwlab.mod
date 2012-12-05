@@ -31,11 +31,16 @@ Type TSetTile Extends LTDrag
 		Local Image:LTImage = TileSet.Image
 		If Not Image Then Return
 		
-		Local TileNum:Int = Editor.TileNum[ MouseDown( 2 ) ]
+		Local N:Int = MouseDown( 2 )
+		Local TileNum:Int = Editor.TileNum[ N ]
 		Local TileX:Int = Editor.TileX
 		Local TileY:Int = Editor.TileY
-		Local BlockWidth:Int = TileSet.BlockWidth[ TileNum ]
-		Local BlockHeight:Int = TileSet.BlockHeight[ TileNum ]
+		Local BlockWidth:Int = 0
+		Local BlockHeight:Int = 0
+		If Editor.TileBlock[ N ] Then
+			BlockWidth :+ Editor.TileBlock[ N ].Width
+			BlockHeight :+ Editor.TileBlock[ N ].Height
+		End If
 		For Local DY:Int = 0 To BlockHeight
 			Local Y:Int = TileY + DY
 			If Y < 0 Or Y >= TileMap.YQuantity Then Continue

@@ -495,19 +495,29 @@ Type LTXMLObject Extends LTObject
 	about: See also: #ManageChildList, #ManageListField
 	End Rem
 	Method ManageChildObjectArray( ChildArray:LTObject[] Var )
-		If L_XMLMode = L_XMLGet Then
-			ChildArray = New LTObject[ Children.Count() ]
-			Local N:Int = 0
-			For Local XMLObject:LTXMLObject = EachIn Children
-				ChildArray[ N ] = XMLObject.ManageObject( Null )
-				If Not ChildArray[ N ] Then DebugStop
-				N :+ 1
-			Next
+		If L_XMLMode = L_XMLGet Then	
+			If L_XMLVersion < 01043200 Then
+				ChildArray = New LTObject[ Children.Count() ]
+				Local N:Int = 0
+				For Local XMLObject:LTXMLObject = EachIn Children
+					If XMLObject.Name <> "null" Then ChildArray[ N ] = XMLObject.ManageObject( Null )
+					N :+ 1
+				Next
+			Else
+				ChildArray = New LTObject[ GetAttribute( "size" ).ToInt() ]
+				For Local XMLObject:LTXMLObject = EachIn Children
+					ChildArray[ XMLObject.GetAttribute( "index" ).ToInt() ] = XMLObject.ManageObject( Null )
+				Next
+			End If
 		Else
-			For Local Obj:LTObject = EachIn ChildArray
-				Local XMLObject:LTXMLObject = New LTXMLObject
-				XMLObject.ManageObject( Obj )
-				Children.AddLast( XMLObject )
+			SetAttribute( "size", ChildArray.Length )
+			For Local N:Int = 0 Until ChildArray.Length
+				If ChildArray[ N ] Then
+					Local XMLObject:LTXMLObject = New LTXMLObject
+					XMLObject.ManageObject( ChildArray[ N ] )
+					XMLObject.SetAttribute( "index", N )
+					Children.AddLast( XMLObject )
+				End If
 			Next
 		End If
 	End Method

@@ -175,6 +175,7 @@ Type LTEditor Extends LTProject
 	
 	Field SelectedTile:LTSprite = LTSprite.FromShapeType( LTSprite.Rectangle )
 	Field TileX:Int, TileY:Int, TileNum:Int[] = New Int[ 2 ]
+	Field TileBlock:LTTileBlock[] = New LTTileBlock[ 2 ]
 	
 	Field WorldFilename:String
 	Field EditorPath:String
@@ -1536,8 +1537,10 @@ Type LTEditor Extends LTProject
 				If Image then
 					Local TileNum0:Int = TileNum[ 0 ]
 					
-					MinX = -TileSet.BlockWidth[ TileNum0 ]
-					MinY = -TileSet.BlockHeight[ TileNum0 ]
+					If TileBlock[ 0 ] Then
+						MinX = -TileBlock[ 0 ].Width
+						MinY = -TileBlock[ 0 ].Height
+					End If
 				
 					Local FWidth:Double, FHeight:Double
 					TilesetCamera.SizeScreenToField( GadgetWidth( TilesetCanvas ), 0, FWidth, FHeight )
@@ -1549,15 +1552,26 @@ Type LTEditor Extends LTProject
 						Local IFY:Int = Floor( FY )
 						If IFX >= 0 And IFY >= 0 And IFX < Image.XCells And IFY < Image.YCells Then
 							Local TileNumUnderCursor:Int = IFX + Image.XCells * IFY
-							If MouseDown( 1 ) Then TileNum[ 0 ] = TileNumUnderCursor
-							If MouseDown( 2 ) Then TileNum[ 1 ] = TileNumUnderCursor
+							If MouseDown( 1 ) Then SelectTile( 0, TileNumUnderCursor )
+							If MouseDown( 2 ) Then SelectTile( 1, TileNumUnderCursor )
 							If TileSet And KeyHit( Key_0 )  Then
-								Local NewWidth:Int = IFX - ( TileNum0 Mod Image.XCells )
-								Local NewHeight:Int = IFY - Floor( TileNum0 / Image.XCells )
-								'debugstop
+								Local NewX:Int = TileNum0 Mod Image.XCells
+								Local NewY:Int = Floor( TileNum0 / Image.XCells )
+								Local NewWidth:Int = IFX - NewX
+								Local NewHeight:Int = IFY - NewY
 								if NewHeight >= 0 And NewWidth >= 0 Then
-									TileSet.BlockWidth[ TileNum0 ] = NewWidth
-									TileSet.BlockHeight[ TileNum0 ] = NewHeight
+									For Local Block:LTTileBlock = Eachin TileSet.TileBlocks
+										Local BlockX:Int = Block.Num Mod Image.XCells
+										Local BlockY:Int = Floor( Block.Num / Image.XCells )
+										If BlockX + Block.Width >= NewX And BlockX <= NewX + NewWidth And BlockY + Block.Height >= NewY ..
+											And BlockY <= NewY + NewHeight Then TileSet.TileBlocks.Remove( Block )
+									Next
+									Local NewTileBlock:LTTileBlock = New LTTileBlock
+									NewTileBlock.Num = TileNum0
+									NewTileBlock.Width = NewWidth
+									NewTileBlock.Height = NewHeight
+									TileSet.TileBlocks.AddLast( NewTileBlock )
+									TileBlock[ 0 ] = NewTileBlock
 									SetChanged()
 								End If							
 							End If
@@ -1607,6 +1621,25 @@ Type LTEditor Extends LTProject
 		
 		If CurrentViewLayer.Bounds Then MainCamera.LimitWith( CurrentViewLayer.Bounds )
 		TilesetCamera.LimitWith( TilesetRectangle )
+	End Method
+	
+	
+	
+	Method SelectTile( N:Int, TileN:Int )
+		Local TileSet:LTTileSet = CurrentTilemap.TileSet
+		Local X:Int = TileN Mod TileSet.Image.XCells
+		Local Y:Int = Floor( TileN / TileSet.Image.XCells )
+		For Local Block:LTTileBlock = Eachin TileSet.TileBlocks
+			Local BlockX:Int = Block.Num Mod TileSet.Image.XCells
+			Local BlockY:Int = Floor( Block.Num / TileSet.Image.XCells )
+			If BlockX + Block.Width >= X And BlockX <= X And BlockY + Block.Height >= Y And BlockY <= Y Then
+				TileNum[ N ] = Block.Num
+				TileBlock[ N ] = Block
+				Return
+			End If
+		Next
+		TileNum[ N ] = TileN
+		TileBlock[ N ] = Null
 	End Method
 	
 	
@@ -1673,8 +1706,12 @@ Type LTEditor Extends LTProject
 					For Local N:Int = 1 To 0 Step -1
 						TileNum[ N ] = L_LimitInt( TileNum[ N ], 0, Image.FramesQuantity() - 1 )
 						Local TileNumN:Int = TileNum[ N ]
-						SelectedTile.Width = 1.0 + Tileset.BlockWidth[ TileNumN ]
-						SelectedTile.Height =1.0 + Tileset.BlockHeight[ TileNumN ]
+						SelectedTile.Width = 1.0
+						SelectedTile.Height = 1.0
+						If TileBlock[ N ] Then
+							SelectedTile.Width :+ TileBlock[ N ].Width
+							SelectedTile.Height :+ TileBlock[ N ].Height
+						End If
 						SelectedTile.X = 0.5 * SelectedTile.Width + ( TileNumN Mod Image.XCells )
 						SelectedTile.Y = 0.5 * SelectedTile.Height + Floor( TileNumN / Image.XCells )
 						SelectedTile.Draw()
@@ -1708,8 +1745,13 @@ Type LTEditor Extends LTProject
 				If MouseIsOver = MainCanvas And TileSet Then
 					Local TileWidth:Double = CurrentTileMap.GetTileWidth()
 					Local TileHeight:Double = CurrentTileMap.GetTileHeight()
-					SelectedTile.Width = TileWidth * ( 1.0 + Tileset.BlockWidth[ TileNum[ 0 ] ] )
-					SelectedTile.Height = TileHeight * ( 1.0 + Tileset.BlockHeight[ TileNum[ 0 ] ] )
+					If TileBlock[ 0 ] Then
+						SelectedTile.Width = TileWidth * ( 1.0 + TileBlock[ 0 ].Width )
+						SelectedTile.Height = TileHeight * ( 1.0 + TileBlock[ 0 ].Height )
+					Else
+						SelectedTile.Width = TileWidth
+						SelectedTile.Height = TileHeight
+					End If
 					SelectedTile.X = 0.5 * SelectedTile.Width + TileWidth * TileX + CurrentTileMap.LeftX()
 					SelectedTile.Y = 0.5 * SelectedTile.Height + TileHeight * TileY + CurrentTileMap.TopY()
 					SelectedTile.Draw()
@@ -1913,6 +1955,8 @@ Type LTEditor Extends LTProject
 			Icon = 1
 		ElseIf LTSpriteMap( Shape ) Then
 			Icon = 3
+		ElseIf LTLine( Shape ) Then
+			Icon = 5
 		Else
 			Icon = 2
 		End If

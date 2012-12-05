@@ -1,4 +1,4 @@
-<LTWorld dwlab_version="1.4.30" total-loading-time="21">
+<LTWorld dwlab_version="1.4.32" total-loading-time="25">
 	<LTVisualizer field="visualizer"/>
 	<LTEditorData field="editor_data" x_div="2" y_div="2" coll_x_div="16" coll_y_div="16">
 		<TList field="images">
@@ -26,23 +26,21 @@
 		<LTShape field="bounds" x="16" y="12" width="32" height="24">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap x="16" y="12" width="32" height="24" xquantity="32" yquantity="24" tiles-quantity="4" file-num="1">
+		<LTTileMap x="16" y="12" width="32" height="24" xquantity="32" yquantity="24" tiles-quantity="4" loading-time="1" file-num="1">
 			<TList field="parameters">
 				<LTParameter name="name" value="Field"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
 			<LTTileSet field="tileset" id="8" name="Default" tiles-quantity="4" block-width="0000" block-height="0000">
 				<LTImage field="image" id="9" filename="tileset.png" xcells="4" loading-time="1"/>
-				<ShapeArray field="collision-shapes">
-					<Null/>
-					<LTSprite x="0.5" y="0.5" shape="2">
+				<Array field="collision-shapes" size="4">
+					<LTSprite x="0.5" y="0.5" shape="2" index="1">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<Null/>
-					<LTSprite x="0.5" y="0.5" width="0.125" shape="2">
+					<LTSprite x="0.5" y="0.5" width="0.125" shape="2" index="3">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-				</ShapeArray>
+				</Array>
 			</LTTileSet>
 		</LTTileMap>
 		<LTSprite x="28.75" y="5.5" width="1.5" height="3" shape="2" moving-angle="-180">
@@ -57,7 +55,7 @@
 				<LTParameter name="score" value="1500"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="-6" rotating="0">
-				<LTImage field="image" id="24" filename="superjelly.png" xcells="8" ycells="3" loading-time="8"/>
+				<LTImage field="image" id="24" filename="superjelly.png" xcells="8" ycells="3" loading-time="9"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="6.87" y="12.25" width="0.75" height="1.5" shape="2">
@@ -192,7 +190,7 @@
 				<LTParameter name="class" value="TAwPossum"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="-0.14" xscale="3.6" yscale="1.6">
-				<LTImage field="image" id="95" filename="awpossum.png" xcells="8" ycells="2" loading-time="12"/>
+				<LTImage field="image" id="95" filename="awpossum.png" xcells="8" ycells="2" loading-time="14"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>

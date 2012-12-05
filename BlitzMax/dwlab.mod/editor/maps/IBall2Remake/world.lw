@@ -1,16 +1,16 @@
-<LTWorld dwlab_version="1.4.28" total-loading-time="48">
+<LTWorld dwlab_version="1.4.32" total-loading-time="18">
 	<LTVisualizer field="visualizer" id="1"/>
 	<LTEditorData field="editor_data" x_div="2" y_div="2" coll_x_div="16" coll_y_div="16">
 		<TList field="images">
 			<Object id="8"/>
-			<Object id="489"/>
-			<Object id="493"/>
-			<Object id="516"/>
-			<Object id="523"/>
-			<Object id="527"/>
-			<Object id="589"/>
-			<Object id="599"/>
-			<Object id="623"/>
+			<Object id="509"/>
+			<Object id="513"/>
+			<Object id="536"/>
+			<Object id="543"/>
+			<Object id="547"/>
+			<Object id="609"/>
+			<Object id="619"/>
+			<Object id="643"/>
 		</TList>
 		<TList field="tilesets">
 			<Object id="7"/>
@@ -30,63 +30,46 @@
 		</TList>
 		<Object field="visualizer" id="1"/>
 		<LTSprite field="bounds" x="6.5" y="6" width="13" height="12" shape="2" velocity="0">
-			<LTVisualizer field="visualizer" id="504"/>
+			<LTVisualizer field="visualizer" id="524"/>
 		</LTSprite>
 		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" file-num="1">
 			<TList field="parameters">
 				<LTParameter value="Level 1 map"/>
 			</TList>
 			<LTVisualizer field="visualizer"/>
-			<LTTileSet field="tileset" id="7" name="Default" tiles-quantity="400" block-width="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" block-height="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000">
-				<LTImage field="image" id="8" filename="media\tiles.png" xcells="16" ycells="25" loading-time="30"/>
-				<ShapeArray field="collision-shapes">
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<LTSprite x="0.5" y="0.5" shape="2">
+			<LTTileSet field="tileset" id="7" name="Default" tiles-quantity="400">
+				<LTImage field="image" id="8" filename="media\tiles.png" xcells="16" ycells="25" loading-time="11"/>
+				<TList field="tile-blocks">
+					<LTTileBlock num="96" width="1" height="1"/>
+					<LTTileBlock num="98" width="1" height="1"/>
+					<LTTileBlock num="100" width="1" height="1"/>
+					<LTTileBlock num="102" width="1" height="1"/>
+					<LTTileBlock num="104" width="1" height="1"/>
+					<LTTileBlock num="106" width="1" height="1"/>
+					<LTTileBlock num="108" width="1" height="1"/>
+					<LTTileBlock num="110" width="1" height="1"/>
+					<LTTileBlock num="128" width="1" height="1"/>
+					<LTTileBlock num="130" width="1" height="1"/>
+					<LTTileBlock num="132" width="1" height="1"/>
+					<LTTileBlock num="134" width="1" height="1"/>
+					<LTTileBlock num="136" width="1" height="1"/>
+					<LTTileBlock num="138" width="1" height="1"/>
+					<LTTileBlock num="160" width="1"/>
+					<LTTileBlock num="162" width="1"/>
+					<LTTileBlock num="164" width="1"/>
+					<LTTileBlock num="166" width="1"/>
+					<LTTileBlock num="168" width="1"/>
+					<LTTileBlock num="170" width="1"/>
+				</TList>
+				<Array field="collision-shapes" size="400">
+					<LTSprite x="0.5" y="0.5" shape="2" index="10">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<LTSprite x="0.5" y="0.5" shape="2">
+					<LTSprite x="0.5" y="0.5" shape="2" index="11">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<LTLayer>
-						<LTVisualizer field="visualizer" id="454"/>
+					<LTLayer index="41">
+						<LTVisualizer field="visualizer" id="474"/>
 						<LTSprite x="0.75" y="0.75" width="0.5" height="0.5" shape="1">
 							<LTVisualizer field="visualizer"/>
 						</LTSprite>
@@ -97,20 +80,8 @@
 							<LTVisualizer field="visualizer"/>
 						</LTSprite>
 					</LTLayer>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<LTLayer>
-						<Object field="visualizer" id="454"/>
+					<LTLayer index="54">
+						<Object field="visualizer" id="474"/>
 						<LTSprite x="0.5" y="0.3125" width="0.625" height="0.625" shape="1">
 							<LTVisualizer field="visualizer"/>
 						</LTSprite>
@@ -124,362 +95,22 @@
 							<LTVisualizer field="visualizer"/>
 						</LTSprite>
 					</LTLayer>
-					<Null/>
-					<Null/>
-					<LTSprite x="0.5" y="0.5625" width="0.875" height="0.875" shape="1">
+					<LTSprite x="0.5" y="0.5625" width="0.875" height="0.875" shape="1" index="57">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<LTSprite x="0.5" y="0.5625" width="0.875" height="0.875" shape="1">
+					<LTSprite x="0.5" y="0.5625" width="0.875" height="0.875" shape="1" index="58">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<LTSprite x="0.5" y="0.4375" width="0.875" height="0.875" shape="1">
+					<LTSprite x="0.5" y="0.4375" width="0.875" height="0.875" shape="1" index="70">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<LTSprite x="0.5" y="0.5" shape="2">
+					<LTSprite x="0.5" y="0.5" shape="2" index="288">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<LTSprite x="0.4687" y="0.4687" width="0.9375" height="0.9375" shape="2">
+					<LTSprite x="0.4687" y="0.4687" width="0.9375" height="0.9375" shape="2" index="304">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-				</ShapeArray>
+				</Array>
 				<LTTileCategory name="Pole">
 					<LTTileRule tilenums="140">
 						<LTTilePos dy="-1"/>
@@ -1055,7 +686,7 @@
 				<LTParameter value="Generator"/>
 			</TList>
 			<LTVisualizer field="visualizer" blue="0" rotating="0">
-				<LTImage field="image" id="489" filename="media\reel.png" xcells="4" loading-time="1"/>
+				<LTImage field="image" id="509" filename="media\reel.png" xcells="4" loading-time="1"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="9" y="9.5" shape="1" velocity="0" frame="2">
@@ -1063,7 +694,7 @@
 				<LTParameter value="Enemy"/>
 			</TList>
 			<LTVisualizer field="visualizer" red="0" blue="0" rotating="0">
-				<LTImage field="image" id="493" filename="media\ufo.png" xcells="4" loading-time="1"/>
+				<LTImage field="image" id="513" filename="media\ufo.png" xcells="4"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="9" y="7" shape="1" velocity="0" frame="2">
@@ -1071,7 +702,7 @@
 				<LTParameter value="Enemy"/>
 			</TList>
 			<LTVisualizer field="visualizer" red="0" blue="0" rotating="0">
-				<Object field="image" id="493"/>
+				<Object field="image" id="513"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="3" y="6" shape="1" velocity="0" frame="2">
@@ -1079,7 +710,7 @@
 				<LTParameter value="Enemy"/>
 			</TList>
 			<LTVisualizer field="visualizer" red="0" blue="0" rotating="0">
-				<Object field="image" id="493"/>
+				<Object field="image" id="513"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="3" y="3" shape="1" velocity="0" frame="2">
@@ -1087,7 +718,7 @@
 				<LTParameter value="Enemy"/>
 			</TList>
 			<LTVisualizer field="visualizer" red="0" blue="0" rotating="0">
-				<Object field="image" id="493"/>
+				<Object field="image" id="513"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>
@@ -1097,13 +728,13 @@
 		</TList>
 		<Object field="visualizer" id="1"/>
 		<LTSprite field="bounds" x="6.5" y="6" width="13" height="12" shape="2" velocity="0">
-			<Object field="visualizer" id="504"/>
+			<Object field="visualizer" id="524"/>
 		</LTSprite>
 		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" file-num="2">
 			<TList field="parameters">
 				<LTParameter value="Level 2 map"/>
 			</TList>
-			<LTVisualizer field="visualizer" id="509">
+			<LTVisualizer field="visualizer" id="529">
 				<Object field="image" id="8"/>
 			</LTVisualizer>
 			<Object field="tileset" id="7"/>
@@ -1121,7 +752,7 @@
 				<LTParameter value="Enemy"/>
 			</TList>
 			<LTVisualizer field="visualizer" blue="0" rotating="0">
-				<LTImage field="image" id="516" filename="media\ballwithsquare.png" xcells="4" loading-time="1"/>
+				<LTImage field="image" id="536" filename="media\ballwithsquare.png" xcells="4"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="4" y="1.5" shape="1" velocity="0">
@@ -1129,7 +760,7 @@
 				<LTParameter value="Enemy"/>
 			</TList>
 			<LTVisualizer field="visualizer" blue="0" rotating="0">
-				<Object field="image" id="516"/>
+				<Object field="image" id="536"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="10.5" y="5.5" shape="1" velocity="0">
@@ -1137,7 +768,7 @@
 				<LTParameter value="Generator"/>
 			</TList>
 			<LTVisualizer field="visualizer" green="0" blue="0" xscale="-1" rotating="0">
-				<LTImage field="image" id="523" filename="media\sandwitch.png" xcells="4"/>
+				<LTImage field="image" id="543" filename="media\sandwitch.png" xcells="4"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="2" y="1" width="2" height="2" shape="2">
@@ -1145,7 +776,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<LTImage field="image" id="527" filename="media\fadingblocks.png" xcells="2" loading-time="9"/>
+				<LTImage field="image" id="547" filename="media\fadingblocks.png" xcells="2" loading-time="1"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="11" y="1" width="2" height="2" shape="2">
@@ -1153,7 +784,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>
@@ -1163,13 +794,13 @@
 		</TList>
 		<Object field="visualizer" id="1"/>
 		<LTSprite field="bounds" x="6.5" y="6" width="13" height="12" shape="2" velocity="0">
-			<Object field="visualizer" id="504"/>
+			<Object field="visualizer" id="524"/>
 		</LTSprite>
 		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" file-num="3">
 			<TList field="parameters">
 				<LTParameter value="Level 3 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="1" y="6" width="2" height="2" shape="2">
@@ -1177,7 +808,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="12" y="6" width="2" height="2" shape="2">
@@ -1185,7 +816,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="5" y="6" width="2" height="2" shape="2" frame="1">
@@ -1193,7 +824,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="8" y="6" width="2" height="2" shape="2" frame="1">
@@ -1201,7 +832,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="5.5" y="9.5" shape="2" velocity="0" frame="274">
@@ -1249,7 +880,7 @@
 				<LTParameter value="Enemy"/>
 			</TList>
 			<LTVisualizer field="visualizer" red="0" rotating="0">
-				<Object field="image" id="489"/>
+				<Object field="image" id="509"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="9" y="8" shape="1" velocity="0" frame="2">
@@ -1257,7 +888,7 @@
 				<LTParameter value="Enemy"/>
 			</TList>
 			<LTVisualizer field="visualizer" red="0" rotating="0">
-				<Object field="image" id="489"/>
+				<Object field="image" id="509"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="6.5" y="11.5" shape="1" velocity="0">
@@ -1265,7 +896,7 @@
 				<LTParameter value="Generator"/>
 			</TList>
 			<LTVisualizer field="visualizer" red="0" blue="0" xscale="-1" rotating="0">
-				<Object field="image" id="493"/>
+				<Object field="image" id="513"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>
@@ -1275,13 +906,13 @@
 		</TList>
 		<Object field="visualizer" id="1"/>
 		<LTSprite field="bounds" x="6.5" y="6" width="13" height="12" shape="2" velocity="0">
-			<Object field="visualizer" id="504"/>
+			<Object field="visualizer" id="524"/>
 		</LTSprite>
 		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" file-num="4">
 			<TList field="parameters">
 				<LTParameter value="Level 4 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="6.5" y="8.5" width="3" shape="2">
@@ -1289,7 +920,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="6.5" y="4.5" shape="2" frame="1">
@@ -1297,7 +928,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="2.5" y="10.5" shape="1" velocity="0" frame="2">
@@ -1313,7 +944,7 @@
 				<LTParameter value="Enemy"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="-1" rotating="0">
-				<LTImage field="image" id="589" filename="media\angel.png" xcells="4"/>
+				<LTImage field="image" id="609" filename="media\angel.png" xcells="4"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="4.5" y="0.5" shape="1" velocity="0" frame="2">
@@ -1321,7 +952,7 @@
 				<LTParameter value="Enemy"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="-1" rotating="0">
-				<Object field="image" id="589"/>
+				<Object field="image" id="609"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="8.5" y="0.5" shape="1" velocity="0" frame="2">
@@ -1329,7 +960,7 @@
 				<LTParameter value="Enemy"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="-1" rotating="0">
-				<Object field="image" id="589"/>
+				<Object field="image" id="609"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="3.5" y="6.5" shape="1" velocity="0" frame="2">
@@ -1337,7 +968,7 @@
 				<LTParameter value="Enemy"/>
 			</TList>
 			<LTVisualizer field="visualizer" blue="0" rotating="0">
-				<LTImage field="image" id="599" filename="media\pacman.png" xcells="4" loading-time="1"/>
+				<LTImage field="image" id="619" filename="media\pacman.png" xcells="4"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="9.5" y="6.5" shape="1" velocity="0" frame="2">
@@ -1345,7 +976,7 @@
 				<LTParameter value="Enemy"/>
 			</TList>
 			<LTVisualizer field="visualizer" blue="0" xscale="-1" rotating="0">
-				<Object field="image" id="599"/>
+				<Object field="image" id="619"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="12.5" y="11.5" shape="1" velocity="0">
@@ -1353,7 +984,7 @@
 				<LTParameter value="Generator"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="-1" rotating="0">
-				<Object field="image" id="589"/>
+				<Object field="image" id="609"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>
@@ -1366,7 +997,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 5 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="10.5" y="5.5" shape="2" moving-angle="-90" frame="243">
@@ -1398,7 +1029,7 @@
 				<LTParameter value="Generator"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="-1" rotating="0">
-				<LTImage field="image" id="623" filename="media\pad.png" xcells="4"/>
+				<LTImage field="image" id="643" filename="media\pad.png" xcells="4"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="3" y="4" shape="2" velocity="0">
@@ -1406,7 +1037,7 @@
 				<LTParameter value="Generator"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="-1" rotating="0">
-				<Object field="image" id="623"/>
+				<Object field="image" id="643"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="5" y="1" shape="2" velocity="0">
@@ -1414,7 +1045,7 @@
 				<LTParameter value="Generator"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="-1" rotating="0">
-				<Object field="image" id="623"/>
+				<Object field="image" id="643"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="9" y="2" shape="2" velocity="0">
@@ -1422,7 +1053,7 @@
 				<LTParameter value="Generator"/>
 			</TList>
 			<LTVisualizer field="visualizer" xscale="-1" rotating="0">
-				<Object field="image" id="623"/>
+				<Object field="image" id="643"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>
@@ -1435,7 +1066,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 6 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="5.5" y="8.5" shape="2" moving-angle="-90" frame="307">
@@ -1467,7 +1098,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="9.5" y="8.5" shape="1" velocity="0" frame="2">
@@ -1484,11 +1115,11 @@
 			<LTParameter value="Level 7"/>
 		</TList>
 		<Object field="visualizer" id="1"/>
-		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" file-num="7">
+		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" loading-time="1" file-num="7">
 			<TList field="parameters">
 				<LTParameter value="Level 7 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="2.5" y="0.5" shape="1" velocity="0" frame="2">
@@ -1509,7 +1140,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 8 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="3.5" y="9.5" shape="2" moving-angle="-90" frame="331">
@@ -1542,11 +1173,11 @@
 			<LTParameter value="Level 9"/>
 		</TList>
 		<Object field="visualizer" id="1"/>
-		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" file-num="9">
+		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" loading-time="1" file-num="9">
 			<TList field="parameters">
 				<LTParameter value="Level 9 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="4.5" y="11.5" shape="1" velocity="0" frame="2">
@@ -1575,7 +1206,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 10 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="0.5" y="0.5" shape="1" velocity="0" frame="2">
@@ -1628,7 +1259,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 11 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="8.5" y="10.5" shape="1" velocity="0" frame="2">
@@ -1665,7 +1296,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 12 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="0.5" y="11.5" shape="1" velocity="0" frame="2">
@@ -1681,7 +1312,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>
@@ -1694,7 +1325,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 13 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="2.5" y="0.5" shape="1" velocity="0" frame="2">
@@ -1723,7 +1354,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 14 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="0.5" y="11" shape="1" velocity="0" frame="2">
@@ -1739,7 +1370,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="3.5" y="0.5" shape="2" velocity="0" frame="274">
@@ -1776,7 +1407,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 15 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="6.5" y="4.5" shape="1" velocity="0" frame="2">
@@ -1792,7 +1423,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="4.5" y="7.5" shape="2">
@@ -1800,7 +1431,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="2.5" y="7.5" shape="2">
@@ -1808,7 +1439,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="3.5" y="8.5" shape="2">
@@ -1816,7 +1447,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="8.5" y="7.5" shape="2" frame="1">
@@ -1824,7 +1455,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="9.5" y="6.5" shape="2" frame="1">
@@ -1832,7 +1463,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="10.5" y="7.5" shape="2" frame="1">
@@ -1840,7 +1471,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="9.5" y="8.5" shape="2" frame="1">
@@ -1848,7 +1479,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>
@@ -1857,11 +1488,11 @@
 			<LTParameter value="Level 16"/>
 		</TList>
 		<Object field="visualizer" id="1"/>
-		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" loading-time="1" file-num="16">
+		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" file-num="16">
 			<TList field="parameters">
 				<LTParameter value="Level 16 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="10.5" y="11.5" shape="1" velocity="0" frame="2">
@@ -1898,7 +1529,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 17 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="2.5" y="11.5" shape="1" velocity="0" frame="2">
@@ -1927,7 +1558,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 18 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="0.5" y="11.5" shape="1" velocity="0" frame="2">
@@ -1948,7 +1579,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 19 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="2.5" y="11.5" shape="1" velocity="0" frame="2">
@@ -1985,7 +1616,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 20 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="2.5" y="11.5" shape="1" velocity="0" frame="2">
@@ -2022,7 +1653,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 21 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="6.5" y="7.5" shape="1" velocity="0" frame="2">
@@ -2059,7 +1690,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 22 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="0.5" y="4.5" shape="1" velocity="0" frame="2">
@@ -2108,11 +1739,11 @@
 			<LTParameter value="Level 23"/>
 		</TList>
 		<Object field="visualizer" id="1"/>
-		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" file-num="23">
+		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" loading-time="1" file-num="23">
 			<TList field="parameters">
 				<LTParameter value="Level 23 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="0.5" y="11.5" shape="1" velocity="0" frame="2">
@@ -2133,7 +1764,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 24 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="6.5" y="10.5" shape="1" velocity="0" frame="2">
@@ -2166,11 +1797,11 @@
 			<LTParameter value="Level 25"/>
 		</TList>
 		<Object field="visualizer" id="1"/>
-		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" file-num="25">
+		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" loading-time="1" file-num="25">
 			<TList field="parameters">
 				<LTParameter value="Level 25 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="3.5" y="11.5" shape="1" velocity="0" frame="2">
@@ -2199,7 +1830,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 26 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="6.5" y="0.5" shape="1" velocity="0" frame="2">
@@ -2215,7 +1846,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="6.5" y="6.5" width="5" shape="2" frame="1">
@@ -2223,7 +1854,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>
@@ -2236,7 +1867,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 27 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="6.5" y="4.5" shape="1" velocity="0" frame="2">
@@ -2253,11 +1884,11 @@
 			<LTParameter value="Level 28"/>
 		</TList>
 		<Object field="visualizer" id="1"/>
-		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" loading-time="1" file-num="28">
+		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" file-num="28">
 			<TList field="parameters">
 				<LTParameter value="Level 28 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="0.5" y="11.5" shape="1" velocity="0" frame="2">
@@ -2302,7 +1933,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 29 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="4.5" y="3" shape="1" velocity="0" frame="2">
@@ -2318,7 +1949,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="1.5" y="3.5" shape="2" velocity="0" frame="313">
@@ -2347,7 +1978,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 30 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="6.5" y="8.5" shape="1" velocity="0" frame="2">
@@ -2363,7 +1994,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="1.5" y="9.5" shape="2" velocity="0" frame="247">
@@ -2392,7 +2023,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 31 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="0.5" y="8.5" shape="1" velocity="0" frame="2">
@@ -2425,11 +2056,11 @@
 			<LTParameter value="Level 32"/>
 		</TList>
 		<Object field="visualizer" id="1"/>
-		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" file-num="32">
+		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" loading-time="1" file-num="32">
 			<TList field="parameters">
 				<LTParameter value="Level 32 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="2.5" y="0.5" shape="1" velocity="0" frame="2">
@@ -2482,7 +2113,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 33 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="0.5" y="8.5" shape="1" velocity="0" frame="2">
@@ -2499,11 +2130,11 @@
 			<LTParameter value="Level 34"/>
 		</TList>
 		<Object field="visualizer" id="1"/>
-		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" loading-time="1" file-num="34">
+		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" file-num="34">
 			<TList field="parameters">
 				<LTParameter value="Level 34 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="0.5" y="11.5" shape="1" velocity="0" frame="2">
@@ -2524,7 +2155,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 35 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="0.5" y="11.5" shape="1" velocity="0" frame="2">
@@ -2561,7 +2192,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 36 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="1.5" y="11.5" shape="1" velocity="0" frame="2">
@@ -2614,7 +2245,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 37 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="0.5" y="0.5" shape="1" velocity="0" frame="2">
@@ -2671,11 +2302,11 @@
 			<LTParameter value="Level 38"/>
 		</TList>
 		<Object field="visualizer" id="1"/>
-		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" loading-time="1" file-num="38">
+		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" file-num="38">
 			<TList field="parameters">
 				<LTParameter value="Level 38 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="1.5" y="11.5" shape="1" velocity="0" frame="2">
@@ -2720,7 +2351,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 39 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="7.5" y="7.5" shape="1" velocity="0" frame="2">
@@ -2753,11 +2384,11 @@
 			<LTParameter value="Level 40"/>
 		</TList>
 		<Object field="visualizer" id="1"/>
-		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" loading-time="1" file-num="40">
+		<LTTileMap x="6.5" y="6" width="13" height="12" xquantity="13" yquantity="12" tiles-quantity="400" file-num="40">
 			<TList field="parameters">
 				<LTParameter value="Level 40 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="0.5" y="5.5" shape="1" velocity="0" frame="2">
@@ -2778,7 +2409,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 41 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="0.5" y="11.5" shape="1" velocity="0" frame="2">
@@ -2823,7 +2454,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 42 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="6.5" y="10.5" shape="1" velocity="0" frame="2">
@@ -2852,7 +2483,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 43 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="4.5" y="2.5" shape="1" velocity="0" frame="2">
@@ -2873,7 +2504,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 44 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="6.5" y="10.5" shape="1" velocity="0" frame="2">
@@ -2926,7 +2557,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 45 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="0.5" y="3.5" shape="1" velocity="0" frame="2">
@@ -2995,7 +2626,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 46 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="0.5" y="11.5" shape="1" velocity="0" frame="2">
@@ -3024,7 +2655,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 47 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="6.5" y="11.5" shape="1" velocity="0" frame="2">
@@ -3048,7 +2679,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="12" y="4" width="2" height="2" shape="2" frame="1">
@@ -3056,7 +2687,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="4" y="7" width="2" height="2" shape="2">
@@ -3064,7 +2695,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="9" y="7" width="2" height="2" shape="2">
@@ -3072,7 +2703,7 @@
 				<LTParameter value="FadingBlock"/>
 			</TList>
 			<LTVisualizer field="visualizer" rotating="0">
-				<Object field="image" id="527"/>
+				<Object field="image" id="547"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>
@@ -3085,7 +2716,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 48 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="0.5" y="1.5" shape="1" velocity="0" frame="2">
@@ -3130,7 +2761,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 49 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="0.5" y="6.5" shape="1" velocity="0" frame="2">
@@ -3151,7 +2782,7 @@
 			<TList field="parameters">
 				<LTParameter value="Level 50 map"/>
 			</TList>
-			<Object field="visualizer" id="509"/>
+			<Object field="visualizer" id="529"/>
 			<Object field="tileset" id="7"/>
 		</LTTileMap>
 		<LTSprite x="9.5" y="0.5" shape="1" velocity="0" frame="2">
