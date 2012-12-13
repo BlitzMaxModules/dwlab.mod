@@ -1,4 +1,4 @@
-<TStatList dwlab_version="1.4.27" total-loading-time="0">
+<TStatList dwlab_version="1.4.32" total-loading-time="0">
 	<TStats level="The wall" time="2"/>
 	<TStats level="The wall" time="2"/>
 	<TStats level="The wall" time="2"/>
@@ -96,4 +96,5 @@
 	<TStats level="Level_3_2" time="180.01333331" turns="1"/>
 	<TStats level="Level_3_2" time="180.01333331" turns="1"/>
 	<TStats level="Level_3_2" time="5.95999999" turns="1"/>
+	<TStats level="Level_1_1" completed="1" score="50" time="68.04" turns="41"/>
 </TStatList>

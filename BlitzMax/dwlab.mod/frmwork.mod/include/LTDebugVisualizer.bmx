@@ -194,4 +194,10 @@ Type LTDebugVisualizer Extends LTVisualizer
 			DrawUsingSprite( SpriteMap.Lists[ TileX, TileY ][ N ] )
 		Next
 	End Method
+	
+	
+	
+	Method DrawUsingLineSegment( LineSegment:LTLineSegment )
+		LineSegment.Visualizer.DrawUsingLineSegment( LineSegment )
+	End Method
 End Type

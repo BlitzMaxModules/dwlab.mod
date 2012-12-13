@@ -21,7 +21,7 @@ Type TFireball Extends LTVectorSprite
 		Fireball.SetSize( Size, Size )
 		Fireball.DX = MovingSpeed * Mario.GetFacing()
 		Fireball.Visualizer = LTVisualizer.FromImage( Game.Fireball )
-		Fireball.ShapeType = LTSprite.Circle
+		Fireball.ShapeType = LTSprite.Oval
 		Fireball.AttachModel( New TGravity )
 		Fireball.AttachModel( TVerticalMovement.Create( FireballCollidesWithObject, FireballCollidesWithFloor ) )
 		Fireball.AttachModel( THorizontalMovement.Create( FireballCollidesWithObject, FireballCollidesWithWall ) )

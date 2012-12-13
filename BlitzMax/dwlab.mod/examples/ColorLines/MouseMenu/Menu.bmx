@@ -31,6 +31,7 @@ Include "LTLevelSelectionWindow.bmx"
 Include "LTLevelsList.bmx"
 Include "LTLevelCompletedWindow.bmx"
 Include "LTLevelFailedWindow.bmx"
+Include "LTToolTip.bmx"
 
 Global L_OldIncbin:String = L_Incbin
 Global L_MenuPath:String

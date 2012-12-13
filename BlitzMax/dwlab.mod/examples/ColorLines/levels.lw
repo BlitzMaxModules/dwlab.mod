@@ -1,4 +1,4 @@
-<LTWorld dwlab_version="1.4.28" total-loading-time="17">
+<LTWorld dwlab_version="1.4.32" total-loading-time="56">
 	<LTVisualizer field="visualizer"/>
 	<LTEditorData field="editor_data" incbin="1" x_div="16" y_div="16" coll_x_div="16" coll_y_div="16">
 		<TList field="images">
@@ -12,9 +12,9 @@
 		<LTColor field="background"/>
 		<LTColor field="grid_color" green="0" alpha="0.50002999"/>
 	</LTEditorData>
-	<LTCamera field="camera" x="11.5000275" y="7.0800282" width="26.44627984" height="22.93060375" viewport-clipping="1" x1="2.00003858" y1="1.00003861" x2="-2.00003858" y2="1.00003861">
+	<LTCamera field="camera" x="11.5000275" y="7.0800282" width="26.44627984" height="17.05365267" shape="0" viewport-clipping="1" x1="2.00003858" y1="1.00003861" x2="-2.00003858" y2="1.00003861">
 		<LTVisualizer field="visualizer" id="424"/>
-		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
+		<LTShape field="viewport" x="504" y="325" width="1008" height="650">
 			<Object field="visualizer" id="424"/>
 		</LTShape>
 	</LTCamera>
@@ -28,84 +28,69 @@
 		<LTShape field="bounds" x="11.5000275" y="7.0800282" width="13.00002165" height="11.25002647">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap x="11.5000275" y="7.0800282" width="13.00002165" height="11.25002647" xquantity="13" yquantity="15" tiles-quantity="33" file-num="1">
+		<LTTileMap x="11.5000275" y="7.0800282" width="13.00002165" height="11.25002647" xquantity="13" yquantity="15" tiles-quantity="33" loading-time="1" file-num="1">
 			<TList field="parameters">
 				<LTParameter name="name" value="Field"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="0.1" yscale="1.25001"/>
-			<LTTileSet field="tileset" id="10" name="Default" tiles-quantity="33" block-width="000000000000000000000000000000000" block-height="000000000000000000000000000000000" empty-tile="0">
-				<LTImage field="image" id="11" filename="images\fields.png" xcells="11" ycells="3" loading-time="6"/>
-				<ShapeArray field="collision-shapes">
-					<Null/>
-					<LTSprite x="0.50002999" y="0.50002999" shape="2">
+			<LTTileSet field="tileset" id="10" name="Default" tiles-quantity="33" empty-tile="0">
+				<LTImage field="image" id="11" filename="images\fields.png" xcells="11" ycells="3" loading-time="10"/>
+				<Array field="collision-shapes" size="33">
+					<LTSprite x="0.50002999" y="0.50002999" shape="2" index="1">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<LTSprite x="0.50002999" y="0.50002999" shape="2">
+					<LTSprite x="0.50002999" y="0.50002999" shape="2" index="2">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<LTSprite x="0.50002999" y="0.50002999" shape="2">
+					<LTSprite x="0.50002999" y="0.50002999" shape="2" index="3">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<LTSprite x="0.50002999" y="0.50002999" shape="2">
+					<LTSprite x="0.50002999" y="0.50002999" shape="2" index="4">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<LTSprite x="0.50002999" y="0.50002999" shape="2">
+					<LTSprite x="0.50002999" y="0.50002999" shape="2" index="5">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<LTSprite x="0.5" y="0.5" shape="2">
+					<LTSprite x="0.5" y="0.5" shape="2" index="6">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<LTSprite x="0.5" y="0.5" shape="2">
+					<LTSprite x="0.5" y="0.5" shape="2" index="7">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<LTSprite x="0.50002999" y="0.50002999" shape="2">
+					<LTSprite x="0.50002999" y="0.50002999" shape="2" index="12">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<LTSprite x="0.50002999" y="0.50002999" shape="2">
+					<LTSprite x="0.50002999" y="0.50002999" shape="2" index="13">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<LTSprite x="0.50002999" y="0.50002999" shape="2">
+					<LTSprite x="0.50002999" y="0.50002999" shape="2" index="14">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<LTSprite x="0.50002999" y="0.50002999" shape="2">
+					<LTSprite x="0.50002999" y="0.50002999" shape="2" index="15">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<LTSprite x="0.50002999" y="0.50002999" shape="2">
+					<LTSprite x="0.50002999" y="0.50002999" shape="2" index="16">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<LTSprite x="0.50002999" y="0.50002999" shape="2">
+					<LTSprite x="0.50002999" y="0.50002999" shape="2" index="17">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<LTSprite x="0.50002999" y="0.50002999" shape="2">
+					<LTSprite x="0.50002999" y="0.50002999" shape="2" index="18">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<LTSprite x="0.50002999" y="0.50002999" shape="2">
+					<LTSprite x="0.50002999" y="0.50002999" shape="2" index="19">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<LTSprite x="0.50002999" y="0.50002999" shape="2">
+					<LTSprite x="0.50002999" y="0.50002999" shape="2" index="20">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<LTSprite x="0.50002999" y="0.50002999" shape="2">
+					<LTSprite x="0.50002999" y="0.50002999" shape="2" index="21">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<LTSprite x="0.50002999" y="0.50002999" shape="2">
+					<LTSprite x="0.50002999" y="0.50002999" shape="2" index="22">
 						<LTVisualizer field="visualizer"/>
 					</LTSprite>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-				</ShapeArray>
+				</Array>
 				<LTTileCategory name="Category 1">
 					<LTTileRule tilenums="0"/>
 				</LTTileCategory>
@@ -154,32 +139,17 @@
 				</LTTileCategory>
 			</LTTileSet>
 		</LTTileMap>
-		<LTTileMap x="11.5000275" y="7.0800282" width="13.00002165" height="11.25002647" xquantity="13" yquantity="15" tiles-quantity="14" file-num="2">
+		<LTTileMap x="11.5000275" y="7.0800282" width="13.00002165" height="11.25002647" xquantity="13" yquantity="15" tiles-quantity="14" loading-time="1" file-num="2">
 			<TList field="parameters">
 				<LTParameter name="name" value="Balls"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="-0.25002996" xscale="0.90000999" yscale="1.23001"/>
-			<LTTileSet field="tileset" id="83" name="Balls" tiles-quantity="14" block-width="00000000000000" block-height="00000000000000" empty-tile="0">
-				<LTImage field="image" id="84" filename="images\balls.png" xcells="14" loading-time="6"/>
-				<ShapeArray field="collision-shapes">
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-					<Null/>
-				</ShapeArray>
+			<LTTileSet field="tileset" id="83" name="Balls" tiles-quantity="14" empty-tile="0">
+				<LTImage field="image" id="84" filename="images\balls.png" xcells="14" loading-time="8"/>
+				<Array field="collision-shapes" size="14"/>
 			</LTTileSet>
 		</LTTileMap>
-		<LTTileMap x="11.50002905" y="7.08" width="13.00002435" height="11.25004992" xquantity="13" yquantity="15" tiles-quantity="14" file-num="3">
+		<LTTileMap x="11.50002905" y="7.08" width="13.00002435" height="11.25004992" xquantity="13" yquantity="15" tiles-quantity="14" loading-time="2" file-num="3">
 			<TList field="parameters">
 				<LTParameter name="name" value="Modifiers"/>
 			</TList>
@@ -197,21 +167,21 @@
 		<LTShape field="bounds" x="11.5000275" y="7.45502908" width="13.00002165" height="12.00002823">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap x="11.5000275" y="7.45502908" width="13.00002165" height="12.00002823" xquantity="13" yquantity="16" tiles-quantity="33" file-num="4">
+		<LTTileMap x="11.5000275" y="7.45502908" width="13.00002165" height="12.00002823" xquantity="13" yquantity="16" tiles-quantity="33" loading-time="1" file-num="4">
 			<TList field="parameters">
 				<LTParameter name="name" value="Field"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="0.1" yscale="1.25001"/>
 			<Object field="tileset" id="10"/>
 		</LTTileMap>
-		<LTTileMap x="11.5000275" y="7.45502908" width="13.00002165" height="12.00002823" xquantity="13" yquantity="16" tiles-quantity="14" file-num="5">
+		<LTTileMap x="11.5000275" y="7.45502908" width="13.00002165" height="12.00002823" xquantity="13" yquantity="16" tiles-quantity="14" loading-time="1" file-num="5">
 			<TList field="parameters">
 				<LTParameter name="name" value="Balls"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="-0.25002996" xscale="0.90000999" yscale="1.23001"/>
 			<Object field="tileset" id="83"/>
 		</LTTileMap>
-		<LTTileMap x="11.50002905" y="7.455" width="13.00002435" height="12.00005326" xquantity="13" yquantity="16" tiles-quantity="14" file-num="6">
+		<LTTileMap x="11.50002905" y="7.455" width="13.00002435" height="12.00005326" xquantity="13" yquantity="16" tiles-quantity="14" loading-time="1" file-num="6">
 			<TList field="parameters">
 				<LTParameter name="name" value="Modifiers"/>
 			</TList>
@@ -230,7 +200,7 @@
 		<LTShape field="bounds" x="12.50002916" y="7.45502908" width="13.00002165" height="12.00002823">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap x="12.50002916" y="7.45502908" width="13.00002165" height="12.00002823" xquantity="13" yquantity="16" tiles-quantity="33" file-num="7">
+		<LTTileMap x="12.50002916" y="7.45502908" width="13.00002165" height="12.00002823" xquantity="13" yquantity="16" tiles-quantity="33" loading-time="1" file-num="7">
 			<TList field="parameters">
 				<LTParameter name="name" value="Field"/>
 			</TList>
@@ -263,21 +233,21 @@
 		<LTShape field="bounds" x="12.50002916" y="7.0800282" width="15.00002499" height="9.75002293">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap x="12.50002916" y="7.0800282" width="15.00002499" height="9.75002293" xquantity="15" yquantity="13" tiles-quantity="33" file-num="10">
+		<LTTileMap x="12.50002916" y="7.0800282" width="15.00002499" height="9.75002293" xquantity="15" yquantity="13" tiles-quantity="33" loading-time="1" file-num="10">
 			<TList field="parameters">
 				<LTParameter name="name" value="Field"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="0.1" yscale="1.25001"/>
 			<Object field="tileset" id="10"/>
 		</LTTileMap>
-		<LTTileMap x="12.50002916" y="7.0800282" width="15.00002499" height="9.75002293" xquantity="15" yquantity="13" tiles-quantity="14" file-num="11">
+		<LTTileMap x="12.50002916" y="7.0800282" width="15.00002499" height="9.75002293" xquantity="15" yquantity="13" tiles-quantity="14" loading-time="1" file-num="11">
 			<TList field="parameters">
 				<LTParameter name="name" value="Balls"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="-0.25002996" xscale="0.90000999" yscale="1.23001"/>
 			<Object field="tileset" id="83"/>
 		</LTTileMap>
-		<LTTileMap x="12.5" y="7.08" width="15" height="9.75" xquantity="15" yquantity="13" tiles-quantity="14" file-num="12">
+		<LTTileMap x="12.5" y="7.08" width="15" height="9.75" xquantity="15" yquantity="13" tiles-quantity="14" loading-time="1" file-num="12">
 			<TList field="parameters">
 				<LTParameter name="name" value="Modifiers"/>
 			</TList>
@@ -295,21 +265,21 @@
 		<LTShape field="bounds" x="12.50002916" y="8.20503085" width="13.00002165" height="12.00002823">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap x="12.50002916" y="8.20503085" width="13.00002165" height="12.00002823" xquantity="13" yquantity="16" tiles-quantity="33" file-num="13">
+		<LTTileMap x="12.50002916" y="8.20503085" width="13.00002165" height="12.00002823" xquantity="13" yquantity="16" tiles-quantity="33" loading-time="1" file-num="13">
 			<TList field="parameters">
 				<LTParameter name="name" value="Field"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="0.1" yscale="1.25001"/>
 			<Object field="tileset" id="10"/>
 		</LTTileMap>
-		<LTTileMap x="12.50002916" y="8.20503085" width="13.00002165" height="12.00002823" xquantity="13" yquantity="16" tiles-quantity="14" file-num="14">
+		<LTTileMap x="12.50002916" y="8.20503085" width="13.00002165" height="12.00002823" xquantity="13" yquantity="16" tiles-quantity="14" loading-time="1" file-num="14">
 			<TList field="parameters">
 				<LTParameter name="name" value="Balls"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="-0.25002996" xscale="0.90000999" yscale="1.23001"/>
 			<Object field="tileset" id="83"/>
 		</LTTileMap>
-		<LTTileMap x="12.50003092" y="8.205" width="13.00002435" height="12.00005326" xquantity="13" yquantity="16" tiles-quantity="14" file-num="15">
+		<LTTileMap x="12.50003092" y="8.205" width="13.00002435" height="12.00005326" xquantity="13" yquantity="16" tiles-quantity="14" loading-time="1" file-num="15">
 			<TList field="parameters">
 				<LTParameter name="name" value="Modifiers"/>
 			</TList>
@@ -327,21 +297,21 @@
 		<LTShape field="bounds" x="12.00002832" y="8.20503085" width="14.00002332" height="12.00002823">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap x="12.00002832" y="8.20503085" width="14.00002332" height="12.00002823" xquantity="14" yquantity="16" tiles-quantity="33" file-num="16">
+		<LTTileMap x="12.00002832" y="8.20503085" width="14.00002332" height="12.00002823" xquantity="14" yquantity="16" tiles-quantity="33" loading-time="1" file-num="16">
 			<TList field="parameters">
 				<LTParameter name="name" value="Field"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="0.1" yscale="1.25001"/>
 			<Object field="tileset" id="10"/>
 		</LTTileMap>
-		<LTTileMap x="12.00002832" y="8.20503085" width="14.00002332" height="12.00002823" xquantity="14" yquantity="16" tiles-quantity="14" file-num="17">
+		<LTTileMap x="12.00002832" y="8.20503085" width="14.00002332" height="12.00002823" xquantity="14" yquantity="16" tiles-quantity="14" loading-time="1" file-num="17">
 			<TList field="parameters">
 				<LTParameter name="name" value="Balls"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="-0.25002996" xscale="0.90000999" yscale="1.23001"/>
 			<Object field="tileset" id="83"/>
 		</LTTileMap>
-		<LTTileMap x="12.00003" y="8.205" width="14.00002624" height="12.00005326" xquantity="14" yquantity="16" tiles-quantity="14" file-num="18">
+		<LTTileMap x="12.00003" y="8.205" width="14.00002624" height="12.00005326" xquantity="14" yquantity="16" tiles-quantity="14" loading-time="1" file-num="18">
 			<TList field="parameters">
 				<LTParameter name="name" value="Modifiers"/>
 			</TList>
@@ -392,21 +362,21 @@
 		<LTShape field="bounds" x="12.00002832" y="7.83002997" width="12.00001999" height="12.75003">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap x="12.00002832" y="7.83002997" width="12.00001999" height="12.75003" xquantity="12" yquantity="17" tiles-quantity="33" file-num="22">
+		<LTTileMap x="12.00002832" y="7.83002997" width="12.00001999" height="12.75003" xquantity="12" yquantity="17" tiles-quantity="33" loading-time="1" file-num="22">
 			<TList field="parameters">
 				<LTParameter name="name" value="Field"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="0.1" yscale="1.25001"/>
 			<Object field="tileset" id="10"/>
 		</LTTileMap>
-		<LTTileMap x="12.00002832" y="7.83002997" width="12.00001999" height="12.75003" xquantity="12" yquantity="17" tiles-quantity="14" file-num="23">
+		<LTTileMap x="12.00002832" y="7.83002997" width="12.00001999" height="12.75003" xquantity="12" yquantity="17" tiles-quantity="14" loading-time="1" file-num="23">
 			<TList field="parameters">
 				<LTParameter name="name" value="Balls"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="-0.25002996" xscale="0.90000999" yscale="1.23001"/>
 			<Object field="tileset" id="83"/>
 		</LTTileMap>
-		<LTTileMap x="12.00003" y="7.83" width="12.00002248" height="12.75005659" xquantity="12" yquantity="17" tiles-quantity="14" file-num="24">
+		<LTTileMap x="12.00003" y="7.83" width="12.00002248" height="12.75005659" xquantity="12" yquantity="17" tiles-quantity="14" loading-time="1" file-num="24">
 			<TList field="parameters">
 				<LTParameter name="name" value="Modifiers"/>
 			</TList>
@@ -424,14 +394,14 @@
 		<LTShape field="bounds" x="11.5000275" y="8.20503085" width="15.00002499" height="12.00002823">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap x="11.5000275" y="8.20503085" width="15.00002499" height="12.00002823" xquantity="15" yquantity="16" tiles-quantity="33" file-num="25">
+		<LTTileMap x="11.5000275" y="8.20503085" width="15.00002499" height="12.00002823" xquantity="15" yquantity="16" tiles-quantity="33" loading-time="1" file-num="25">
 			<TList field="parameters">
 				<LTParameter name="name" value="Field"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="0.1" yscale="1.25001"/>
 			<Object field="tileset" id="10"/>
 		</LTTileMap>
-		<LTTileMap x="11.5000275" y="8.20503085" width="15.00002499" height="12.00002823" xquantity="15" yquantity="16" tiles-quantity="14" file-num="26">
+		<LTTileMap x="11.5000275" y="8.20503085" width="15.00002499" height="12.00002823" xquantity="15" yquantity="16" tiles-quantity="14" loading-time="1" file-num="26">
 			<TList field="parameters">
 				<LTParameter name="name" value="Balls"/>
 			</TList>
@@ -489,21 +459,21 @@
 		<LTShape field="bounds" x="11.5000275" y="7.83002997" width="15.00002499" height="6.75001588">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap x="11.5000275" y="7.83002997" width="15.00002499" height="6.75001588" xquantity="15" yquantity="9" tiles-quantity="33" file-num="31">
+		<LTTileMap x="11.5000275" y="7.83002997" width="15.00002499" height="6.75001588" xquantity="15" yquantity="9" tiles-quantity="33" loading-time="1" file-num="31">
 			<TList field="parameters">
 				<LTParameter name="name" value="Field"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="0.1" yscale="1.25001"/>
 			<Object field="tileset" id="10"/>
 		</LTTileMap>
-		<LTTileMap x="11.5000275" y="7.83002997" width="15.00002499" height="6.75001588" xquantity="15" yquantity="9" tiles-quantity="14" file-num="32">
+		<LTTileMap x="11.5000275" y="7.83002997" width="15.00002499" height="6.75001588" xquantity="15" yquantity="9" tiles-quantity="14" loading-time="1" file-num="32">
 			<TList field="parameters">
 				<LTParameter name="name" value="Balls"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="-0.25002996" xscale="0.90000999" yscale="1.23001"/>
 			<Object field="tileset" id="83"/>
 		</LTTileMap>
-		<LTTileMap x="11.50002905" y="7.83" width="15.00002811" height="6.75002996" xquantity="15" yquantity="9" tiles-quantity="14" file-num="33">
+		<LTTileMap x="11.50002905" y="7.83" width="15.00002811" height="6.75002996" xquantity="15" yquantity="9" tiles-quantity="14" loading-time="1" file-num="33">
 			<TList field="parameters">
 				<LTParameter name="name" value="Modifiers"/>
 			</TList>
@@ -529,14 +499,14 @@
 			<LTVisualizer field="visualizer" dy="0.1" yscale="1.25001"/>
 			<Object field="tileset" id="10"/>
 		</LTTileMap>
-		<LTTileMap x="12.00002832" y="7.83002997" width="16.00002664" height="11.25002647" xquantity="16" yquantity="15" tiles-quantity="14" file-num="35">
+		<LTTileMap x="12.00002832" y="7.83002997" width="16.00002664" height="11.25002647" xquantity="16" yquantity="15" tiles-quantity="14" loading-time="1" file-num="35">
 			<TList field="parameters">
 				<LTParameter name="name" value="Balls"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="-0.25002996" xscale="0.90000999" yscale="1.23001"/>
 			<Object field="tileset" id="83"/>
 		</LTTileMap>
-		<LTTileMap x="12.00003" y="7.83" width="16.00002999" height="11.25004992" xquantity="16" yquantity="15" tiles-quantity="14" file-num="36">
+		<LTTileMap x="12.00003" y="7.83" width="16.00002999" height="11.25004992" xquantity="16" yquantity="15" tiles-quantity="14" loading-time="1" file-num="36">
 			<TList field="parameters">
 				<LTParameter name="name" value="Modifiers"/>
 			</TList>
@@ -569,7 +539,7 @@
 			<LTVisualizer field="visualizer" dy="-0.25002996" xscale="0.90000999" yscale="1.23001"/>
 			<Object field="tileset" id="83"/>
 		</LTTileMap>
-		<LTTileMap x="12.50003092" y="8.205" width="15.00002811" height="10.50004659" xquantity="15" yquantity="14" tiles-quantity="14" loading-time="1" file-num="39">
+		<LTTileMap x="12.50003092" y="8.205" width="15.00002811" height="10.50004659" xquantity="15" yquantity="14" tiles-quantity="14" file-num="39">
 			<TList field="parameters">
 				<LTParameter name="name" value="Modifiers"/>
 			</TList>
@@ -588,21 +558,21 @@
 		<LTShape field="bounds" x="12.00002832" y="8.20503085" width="16.00002664" height="12.00002823">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap x="12.00002832" y="8.20503085" width="16.00002664" height="12.00002823" xquantity="16" yquantity="16" tiles-quantity="33" file-num="40">
+		<LTTileMap x="12.00002832" y="8.20503085" width="16.00002664" height="12.00002823" xquantity="16" yquantity="16" tiles-quantity="33" loading-time="1" file-num="40">
 			<TList field="parameters">
 				<LTParameter name="name" value="Field"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="0.1" yscale="1.25001"/>
 			<Object field="tileset" id="10"/>
 		</LTTileMap>
-		<LTTileMap x="12.00002832" y="8.20503085" width="16.00002664" height="12.00002823" xquantity="16" yquantity="16" tiles-quantity="14" file-num="41">
+		<LTTileMap x="12.00002832" y="8.20503085" width="16.00002664" height="12.00002823" xquantity="16" yquantity="16" tiles-quantity="14" loading-time="1" file-num="41">
 			<TList field="parameters">
 				<LTParameter name="name" value="Balls"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="-0.25002996" xscale="0.90000999" yscale="1.23001"/>
 			<Object field="tileset" id="83"/>
 		</LTTileMap>
-		<LTTileMap x="12.00003" y="8.205" width="16.00002999" height="12.00005326" xquantity="16" yquantity="16" tiles-quantity="14" file-num="42">
+		<LTTileMap x="12.00003" y="8.205" width="16.00002999" height="12.00005326" xquantity="16" yquantity="16" tiles-quantity="14" loading-time="1" file-num="42">
 			<TList field="parameters">
 				<LTParameter name="name" value="Modifiers"/>
 			</TList>
@@ -687,21 +657,21 @@
 		<LTShape field="bounds" x="12.00002832" y="8.20503085" width="16.00002664" height="12.00002823">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap x="12.00002832" y="8.20503085" width="16.00002664" height="12.00002823" xquantity="16" yquantity="16" tiles-quantity="33" loading-time="1" file-num="49">
+		<LTTileMap x="12.00002832" y="8.20503085" width="16.00002664" height="12.00002823" xquantity="16" yquantity="16" tiles-quantity="33" file-num="49">
 			<TList field="parameters">
 				<LTParameter name="name" value="Field"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="0.1" yscale="1.25001"/>
 			<Object field="tileset" id="10"/>
 		</LTTileMap>
-		<LTTileMap x="12.00002832" y="8.20503085" width="16.00002664" height="12.00002823" xquantity="16" yquantity="16" tiles-quantity="14" file-num="50">
+		<LTTileMap x="12.00002832" y="8.20503085" width="16.00002664" height="12.00002823" xquantity="16" yquantity="16" tiles-quantity="14" loading-time="1" file-num="50">
 			<TList field="parameters">
 				<LTParameter name="name" value="Balls"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="-0.25002996" xscale="0.90000999" yscale="1.23001"/>
 			<Object field="tileset" id="83"/>
 		</LTTileMap>
-		<LTTileMap x="12.00003" y="8.205" width="16.00002999" height="12.00005326" xquantity="16" yquantity="16" tiles-quantity="14" file-num="51">
+		<LTTileMap x="12.00003" y="8.205" width="16.00002999" height="12.00005326" xquantity="16" yquantity="16" tiles-quantity="14" loading-time="1" file-num="51">
 			<TList field="parameters">
 				<LTParameter name="name" value="Modifiers"/>
 			</TList>
@@ -719,7 +689,7 @@
 		<LTShape field="bounds" x="11.5000275" y="7.83002997" width="15.00002499" height="12.75003">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap x="11.5000275" y="7.83002997" width="15.00002499" height="12.75003" xquantity="15" yquantity="17" tiles-quantity="33" file-num="52">
+		<LTTileMap x="11.5000275" y="7.83002997" width="15.00002499" height="12.75003" xquantity="15" yquantity="17" tiles-quantity="33" loading-time="1" file-num="52">
 			<TList field="parameters">
 				<LTParameter name="name" value="Field"/>
 			</TList>
@@ -733,7 +703,7 @@
 			<LTVisualizer field="visualizer" dy="-0.25002996" xscale="0.90000999" yscale="1.23001"/>
 			<Object field="tileset" id="83"/>
 		</LTTileMap>
-		<LTTileMap x="11.50002905" y="7.83" width="15.00002811" height="12.75005659" xquantity="15" yquantity="17" tiles-quantity="14" loading-time="1" file-num="54">
+		<LTTileMap x="11.50002905" y="7.83" width="15.00002811" height="12.75005659" xquantity="15" yquantity="17" tiles-quantity="14" file-num="54">
 			<TList field="parameters">
 				<LTParameter name="name" value="Modifiers"/>
 			</TList>
@@ -765,7 +735,7 @@
 			<LTVisualizer field="visualizer" dy="-0.25002996" xscale="0.90000999" yscale="1.23001"/>
 			<Object field="tileset" id="83"/>
 		</LTTileMap>
-		<LTTileMap x="12.50003092" y="7.83" width="13.00002435" height="12.75005659" xquantity="13" yquantity="17" tiles-quantity="14" file-num="57">
+		<LTTileMap x="12.50003092" y="7.83" width="13.00002435" height="12.75005659" xquantity="13" yquantity="17" tiles-quantity="14" loading-time="1" file-num="57">
 			<TList field="parameters">
 				<LTParameter name="name" value="Modifiers"/>
 			</TList>
@@ -791,14 +761,14 @@
 			<LTVisualizer field="visualizer" dy="0.1" yscale="1.25001"/>
 			<Object field="tileset" id="10"/>
 		</LTTileMap>
-		<LTTileMap x="12.50002916" y="8.58003173" width="15.00002499" height="11.25002647" xquantity="15" yquantity="15" tiles-quantity="14" loading-time="1" file-num="59">
+		<LTTileMap x="12.50002916" y="8.58003173" width="15.00002499" height="11.25002647" xquantity="15" yquantity="15" tiles-quantity="14" file-num="59">
 			<TList field="parameters">
 				<LTParameter name="name" value="Balls"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="-0.25002996" xscale="0.90000999" yscale="1.23001"/>
 			<Object field="tileset" id="83"/>
 		</LTTileMap>
-		<LTTileMap x="12.50003092" y="8.58" width="15.00002811" height="11.25004992" xquantity="15" yquantity="15" tiles-quantity="14" file-num="60">
+		<LTTileMap x="12.50003092" y="8.58" width="15.00002811" height="11.25004992" xquantity="15" yquantity="15" tiles-quantity="14" loading-time="1" file-num="60">
 			<TList field="parameters">
 				<LTParameter name="name" value="Modifiers"/>
 			</TList>
@@ -815,14 +785,14 @@
 		<LTShape field="bounds" x="13.00003" y="7.83002997" width="18.00002999" height="12.75003">
 			<LTVisualizer field="visualizer"/>
 		</LTShape>
-		<LTTileMap x="13.00003" y="7.83002997" width="18.00002999" height="12.75003" xquantity="18" yquantity="17" tiles-quantity="33" file-num="61">
+		<LTTileMap x="13.00003" y="7.83002997" width="18.00002999" height="12.75003" xquantity="18" yquantity="17" tiles-quantity="33" loading-time="1" file-num="61">
 			<TList field="parameters">
 				<LTParameter name="name" value="Field"/>
 			</TList>
 			<LTVisualizer field="visualizer" dy="0.1" yscale="1.25001"/>
 			<Object field="tileset" id="10"/>
 		</LTTileMap>
-		<LTTileMap x="13.00003" y="7.83002997" width="18.00002999" height="12.75003" xquantity="18" yquantity="17" tiles-quantity="14" file-num="62">
+		<LTTileMap x="13.00003" y="7.83002997" width="18.00002999" height="12.75003" xquantity="18" yquantity="17" tiles-quantity="14" loading-time="1" file-num="62">
 			<TList field="parameters">
 				<LTParameter name="name" value="Balls"/>
 			</TList>

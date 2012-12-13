@@ -1,4 +1,4 @@
-<LTWorld dwlab_version="1.4.27" total-loading-time="1">
+<LTWorld dwlab_version="1.4.32" total-loading-time="13">
 	<LTVisualizer field="visualizer" id="1"/>
 	<LTEditorData field="editor_data" incbin="1" x_div="16" y_div="16" coll_x_div="16" coll_y_div="16">
 		<TList field="images">
@@ -15,7 +15,7 @@
 			<Object id="134"/>
 			<Object id="12"/>
 			<Object id="23"/>
-			<LTImage filename="images\combo_box.png"/>
+			<LTImage filename="images\combo_box.png" loading-time="1"/>
 			<Object id="9"/>
 			<Object id="504"/>
 			<Object id="510"/>
@@ -24,9 +24,9 @@
 		<LTColor field="background"/>
 		<LTColor field="grid_color" green="0" alpha="0.5"/>
 	</LTEditorData>
-	<LTCamera field="camera" x="38" y="50" width="16.42105729" height="14.23809927" shape="2" viewport-clipping="1">
+	<LTCamera field="camera" x="31" y="47" width="21.85642867" height="14.09392722" shape="2" viewport-clipping="1">
 		<Object field="visualizer" id="1"/>
-		<LTShape field="viewport" x="504" y="437" width="1008" height="874">
+		<LTShape field="viewport" x="504" y="325" width="1008" height="650">
 			<Object field="visualizer" id="1"/>
 		</LTShape>
 	</LTCamera>
@@ -68,7 +68,7 @@
 				<LTParameter name="gadget-text" value="Language selection"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="23" filename="images\icons.png" xcells="8" ycells="4"/>
+				<LTImage field="image" id="23" filename="images\icons.png" xcells="8" ycells="4" loading-time="3"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="31.12" y="46.5" width="4.25" height="0.5" shape="2">
@@ -94,7 +94,7 @@
 				<LTParameter name="class" value="LTButton"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="37" filename="images\close.png"/>
+				<LTImage field="image" id="37" filename="images\close.png" loading-time="1"/>
 			</LTVisualizer>
 		</LTSprite>
 	</LTLayer>
@@ -107,7 +107,7 @@
 		<LTShape field="bounds" x="31" y="47" width="16" height="12">
 			<LTVisualizer field="visualizer" id="112"/>
 		</LTShape>
-		<LTSprite x="31" y="47" width="16" height="12">
+		<LTSprite x="31" y="47" width="16" height="12" shape="0">
 			<TList field="parameters">
 				<LTParameter name="name" value="Screen"/>
 			</TList>
@@ -118,7 +118,7 @@
 				<LTParameter name="name" value="Panel"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="50" left="9" right="9" top="9" bottom="9" filename="frames\panel.png"/>
+				<LTRasterFrame field="image" id="50" left="9" right="9" top="9" bottom="9" filename="frames\panel.png" loading-time="1"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="24.43" y="41.6" width="2.37" height="0.75" shape="2">
@@ -267,7 +267,7 @@
 		</LTSprite>
 		<LTSprite x="25.37" y="52.5" width="3.75" height="0.5" shape="2">
 			<LTVisualizer field="visualizer">
-				<LTRasterFrame field="image" id="120" filename="frames\simple.png"/>
+				<LTRasterFrame field="image" id="120" filename="frames\simple.png" loading-time="1"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="23.5" y="52.5" width="0.5" height="0.5" shape="2">
@@ -276,7 +276,7 @@
 				<LTParameter name="name" value="SoundOn"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="125" filename="images\on_off.png" xcells="2"/>
+				<LTImage field="image" id="125" filename="images\on_off.png" xcells="2" loading-time="1"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="24.12" y="52.5" width="0.75" height="0.5" shape="2" frame="15">
@@ -346,7 +346,7 @@
 				<LTParameter name="name" value="PrevTrack"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="159" filename="images\prev_track.png"/>
+				<LTImage field="image" id="159" filename="images\prev_track.png" loading-time="1"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="32.75" y="52.5" width="0.4" height="0.4" shape="2">
@@ -355,7 +355,7 @@
 				<LTParameter name="name" value="Play"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="164" filename="images\play.png" xcells="2"/>
+				<LTImage field="image" id="164" filename="images\play.png" xcells="2" loading-time="1"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="33.25" y="52.5" width="0.4" height="0.4" shape="2">
@@ -364,7 +364,7 @@
 				<LTParameter name="name" value="NextTrack"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="169" filename="images\next_track.png"/>
+				<LTImage field="image" id="169" filename="images\next_track.png" loading-time="1"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="33.75" y="52.5" width="0.4" height="0.4" shape="2">
@@ -373,7 +373,7 @@
 				<LTParameter name="name" value="Repeat"/>
 			</TList>
 			<LTVisualizer field="visualizer">
-				<LTImage field="image" id="174" filename="images\repeat.png" xcells="2"/>
+				<LTImage field="image" id="174" filename="images\repeat.png" xcells="2" loading-time="1"/>
 			</LTVisualizer>
 		</LTSprite>
 		<LTSprite x="35.75" y="52.5" width="2.5" height="0.5" shape="2">

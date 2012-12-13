@@ -303,7 +303,17 @@ Type LTVisualizer Extends LTColor
 		L_CurrentCamera.FieldToScreen( LineSegment.Pivot[ 0 ].X, LineSegment.Pivot[ 0 ].Y, SX1, SY1 )
 		L_CurrentCamera.FieldToScreen( LineSegment.Pivot[ 1 ].X, LineSegment.Pivot[ 1 ].Y, SX2, SY2 )
 		
-		DrawLine( SX1, SY1, SX2, SY2 )
+		If Image Then
+		
+		Else If Scaling Then
+			SetLineWidth( L_CurrentCamera.DistFieldToScreen( XScale ) )
+			DrawLine( SX1, SY1, SX2, SY2 )
+			SetLineWidth( 1.0 )
+		Else
+			SetLineWidth( XScale )
+			DrawLine( SX1, SY1, SX2, SY2 )
+			SetLineWidth( 1.0 )
+		End If
 		
 		ResetColor()
 	End Method

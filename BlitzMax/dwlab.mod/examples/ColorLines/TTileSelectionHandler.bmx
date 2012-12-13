@@ -72,7 +72,7 @@ Type TColorSelection Extends LTProject
 	Method Init()
 		Local BallNum:Int = Profile.Balls.GetTile( TileX, TileY )
 		For Local N:Int = 1 To 7
-			Local Sprite:LTSprite = LTSprite.FromShape( , , , , LTSprite.Circle )
+			Local Sprite:LTSprite = LTSprite.FromShape( , , , , LTSprite.Oval )
 			Sprite.SetAsTile( Profile.Balls, TileX, TileY )
 			Sprite.SetDiameter( 0.0 )
 			Sprite.Visualizer.DY :+ 0.1

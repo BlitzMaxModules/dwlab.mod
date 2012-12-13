@@ -23,7 +23,7 @@ Type TCreateSprite Extends LTDrag
 	
 	
 	Method DraggingConditions:Int()
-		If Not Editor.CurrentTileMap And Editor.CurrentContainer Then Return True
+		If Not Editor.CurrentTileMap And Editor.CurrentContainer And Not Editor.ShapeUnderCursor And Not Editor.CreateLine.DraggingState Then Return True
 	End Method
 	
 	

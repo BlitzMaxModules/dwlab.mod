@@ -43,7 +43,7 @@ Type TAppearing Extends LTBehaviorModel
 	Method Activate( Shape:LTShape )
 		Local Sprite:LTVectorSprite = LTVectorSprite( Shape )
 		DestinationY = Sprite.Y - Sprite.Height
-		Sprite.ShapeType = LTSprite.Circle
+		Sprite.ShapeType = LTSprite.Oval
 		Sprite.Frame = 0
 		Sprite.LimitByWindow( Sprite.X, Sprite.Y - 1.0, 1.0, 1.0 )
 		PlaySound( Game.PowerupAppears )
