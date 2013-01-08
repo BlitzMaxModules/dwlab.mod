@@ -30,6 +30,8 @@ Type LTGUIProject Extends LTProject
 	End Rem
 	Field Locked:Int
 
+	Field ToolTip:LTShape
+	
 	' ==================== Loading layers and windows ===================	
 	
 	Rem
@@ -154,6 +156,10 @@ Type LTGUIProject Extends LTProject
 		L_Cursor.SetMouseCoords()
 		For Local Window:LTWindow = Eachin Windows
 			If Window.Visible Then Window.Draw()
+		Next
+		
+		For Local ToolTip:LTToolTip = Eachin LTToolTip.Stack
+			ToolTip.Draw()
 		Next
 		
 		L_CurrentCamera = OldCamera

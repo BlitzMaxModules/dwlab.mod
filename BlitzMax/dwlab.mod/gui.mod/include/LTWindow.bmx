@@ -19,7 +19,7 @@ Type LTWindow Extends LTLayer
 	
 	
 	
-	Method Draw()
+	Method Draw( DrawingAlpha:Double = 1.0 )
 		If Not Visible Then Return
 		If Modal Then L_CurrentCamera.Darken( 0.6 )
 		L_Window = Self

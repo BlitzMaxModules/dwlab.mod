@@ -42,7 +42,7 @@ Type LTButton Extends LTLabel
 	
 	
 	
-	Method Draw()
+	Method Draw( DrawingAlpha:Double = 1.0 )
 		If Not Visible Then Return
 		SetFrame( Self )
 		'If Icon Then SetFrame( Icon.Visualizer )

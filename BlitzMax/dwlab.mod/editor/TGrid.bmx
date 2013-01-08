@@ -10,8 +10,8 @@
 '
 
 Type TGrid Extends LTShape
-	Method Draw()
-		L_EditorData.GridColor.ApplyColor()
+	Method Draw( DrawingAlpha:Double = 1.0 )
+		L_EditorData.GridColor.ApplyColor( DrawingAlpha )
 		
 		Local MinX:Double, MinY:Double, MaxX:Double, MaxY:Double
 		L_GetEscribedRectangle( 0, 0, 0, 0, MinX, MinY, MaxX, MaxY )

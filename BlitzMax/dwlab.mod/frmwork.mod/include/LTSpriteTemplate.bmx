@@ -75,6 +75,7 @@ Type LTSpriteTemplate Extends LTShapeType
 		Local NewSprite:LTSprite = New LTSprite
 		
 		For Local Sprite:LTSprite = Eachin Sprites
+			If Sprite.ShapeType.GetNum() = LTSprite.SpriteTemplate.GetNum() Then Continue
 			If Template Then
 				LeftX = Min( LeftX, Sprite.LeftX() )
 				TopY = Min( TopY, Sprite.TopY() )
@@ -99,6 +100,7 @@ Type LTSpriteTemplate Extends LTShapeType
 			If Layer Then Layer.InsertShape( NewSprite, , PivotShape, Relativity )
 			
 			For Local Sprite:LTSprite = Eachin Sprites
+				If Sprite.ShapeType.GetNum() = LTSprite.SpriteTemplate.GetNum() Then Continue
 				Layer.Remove( Sprite )
 				Sprite.X = ( NewSprite.X - Sprite.X ) / NewSprite.Width
 				Sprite.Y = ( NewSprite.Y - Sprite.Y ) / NewSprite.Height

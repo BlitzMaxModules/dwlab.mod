@@ -628,7 +628,6 @@ Type LTXMLObject Extends LTObject
 		CloseFile File
 		
 		Local N:Int = 0
-		'DebugLog Content
 		Local FieldName:String = ""
 		
 		L_LoadingStatus = "Parsing XML..."

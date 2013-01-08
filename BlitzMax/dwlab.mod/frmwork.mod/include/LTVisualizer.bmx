@@ -173,7 +173,7 @@ Type LTVisualizer Extends LTColor
 	bbdoc: Draws given sprite using this visualizer.
 	about: Change this method if you are making your own visualizer.
 	End Rem
-	Method DrawUsingSprite( Sprite:LTSprite, SpriteShape:LTSprite = Null )
+	Method DrawUsingSprite( Sprite:LTSprite, SpriteShape:LTSprite = Null, DrawingAlpha:Double )
 		If Not Sprite.Visible Then Return
 		
 		If Not SpriteShape Then SpriteShape = Sprite
@@ -182,12 +182,12 @@ Type LTVisualizer Extends LTColor
 		L_SpritesDisplayed :+ 1
 		?
 		
-		ApplyColor()
+		ApplyColor( DrawingAlpha )
 		
 		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
 		
 		If Sprite.ShapeType.CustomDrawing() Then
-			LTSpriteHandler.HandlersArray[ Sprite.ShapeType.GetNum() ].DrawSprite( Self, Sprite )
+			LTSpriteHandler.HandlersArray[ Sprite.ShapeType.GetNum() ].DrawSprite( Self, Sprite, DrawingAlpha )
 		ElseIf Image Then
 			L_CurrentCamera.FieldToScreen( SpriteShape.X, SpriteShape.Y, SX, SY )
 			
@@ -249,7 +249,7 @@ Type LTVisualizer Extends LTColor
 				If Image Then
 					Local Blend:Int = GetBlend()
 					SetBlend MASKBLEND 
-					DrawUsingSprite( Sprite )
+					DrawUsingSprite( Sprite, , GetAlpha() )
 					SetBlend Blend
 				End If
 			Else
@@ -294,26 +294,16 @@ Type LTVisualizer Extends LTColor
 	bbdoc: Draws given line using this visualizer.
 	about: Change this method if you are making your own visualizer.
 	End Rem
-	Method DrawUsingLineSegment( LineSegment:LTLineSegment )
+	Method DrawUsingLineSegment( LineSegment:LTLineSegment, DrawingAlpha:Double  )
 		If Not LineSegment.Visible Then Return
 		
-		ApplyColor()
+		ApplyColor( DrawingAlpha )
 		
 		Local SX1:Double, SY1:Double, SX2:Double, SY2:Double
 		L_CurrentCamera.FieldToScreen( LineSegment.Pivot[ 0 ].X, LineSegment.Pivot[ 0 ].Y, SX1, SY1 )
 		L_CurrentCamera.FieldToScreen( LineSegment.Pivot[ 1 ].X, LineSegment.Pivot[ 1 ].Y, SX2, SY2 )
 		
-		If Image Then
-		
-		Else If Scaling Then
-			SetLineWidth( L_CurrentCamera.DistFieldToScreen( XScale ) )
-			DrawLine( SX1, SY1, SX2, SY2 )
-			SetLineWidth( 1.0 )
-		Else
-			SetLineWidth( XScale )
-			DrawLine( SX1, SY1, SX2, SY2 )
-			SetLineWidth( 1.0 )
-		End If
+		DrawLine( SX1, SY1, SX2, SY2 )
 		
 		ResetColor()
 	End Method
@@ -324,7 +314,7 @@ Type LTVisualizer Extends LTColor
 	bbdoc: Draws given tilemap using this visualizer.
 	about: Change this method if you are making your own visualizer.
 	End Rem
-	Method DrawUsingTileMap( TileMap:LTTileMap, Shapes:TList = Null )
+	Method DrawUsingTileMap( TileMap:LTTileMap, Shapes:TList = Null, DrawingAlpha:Double )
 		If Not TileMap.Visible Then Return
 		
 		Local TileSet:LTTileSet = TileMap.TileSet
@@ -332,7 +322,7 @@ Type LTVisualizer Extends LTColor
 		
 		Local Image:LTImage = TileSet.Image
 	
-		ApplyColor()
+		ApplyColor( DrawingAlpha )
 		
 		Local CellWidth:Double = TileMap.GetTileWidth()
 		Local CellHeight:Double = TileMap.GetTileHeight()
@@ -419,8 +409,6 @@ Type LTVisualizer Extends LTColor
 	See also: #DrawUsingTileMap
 	End Rem
 	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, Width:Double, Height:Double, TileX:Int, TileY:Int )
-		ApplyColor()
-		
 		Local TileSet:LTTileSet =Tilemap.TileSet
 		Local TileValue:Int = GetTileValue( TileMap, TileX, TileY )
 		If TileValue = TileSet.EmptyTile Then Return

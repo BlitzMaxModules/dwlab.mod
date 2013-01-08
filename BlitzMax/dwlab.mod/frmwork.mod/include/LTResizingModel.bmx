@@ -9,9 +9,10 @@
 '
 
 Type LTResizingModel Extends LTValueChangingModel
-	Function Create:LTResizingModel( Time:Double, DestinationSize:Double )
+	Function Create:LTResizingModel( DestinationSize:Double, Time:Double = 0.0, Speed:Double = 0.0 )
 		Local Model:LTResizingModel = New LTResizingModel
 		Model.Period = Time
+		Model.Speed = Speed
 		Model.DestinationValue = DestinationSize
 		Return Model
 	End Function
@@ -20,6 +21,8 @@ Type LTResizingModel Extends LTValueChangingModel
 	
 	Method Init( Shape:LTShape )
 		InitialValue = Shape.GetDiameter()
+		If Not Period Then Period = ( DestinationValue - InitialValue ) / Speed
+		Shape.RemoveModel( "LTResizingModel" )
 	End Method
 	
 	

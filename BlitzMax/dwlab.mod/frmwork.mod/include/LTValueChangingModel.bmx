@@ -13,11 +13,16 @@ Include "LTAlphaChangingModel.bmx"
 
 Type LTValueChangingModel Extends LTTemporaryModel
 	Field InitialValue:Double, DestinationValue:Double
+	Field Speed:Double
 
 	
 	
 	Method ApplyTo( Shape:LTShape )
-		ChangeValue( Shape, InitialValue + ( L_CurrentProject.Time - StartingTime ) / Period * ( DestinationValue - InitialValue ) )
+		If DestinationValue = InitialValue Then
+			Remove( Shape )
+		Else
+			ChangeValue( Shape, InitialValue + ( L_CurrentProject.Time - StartingTime ) / Period * ( DestinationValue - InitialValue ) )
+		End If
 		Super.ApplyTo( Shape )
 	End Method
 	

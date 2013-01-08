@@ -9,9 +9,10 @@
 '
 
 Type LTAlphaChangingModel Extends LTValueChangingModel
-	Function Create:LTAlphaChangingModel( Time:Double, DestinationAlpha:Double )
+	Function Create:LTAlphaChangingModel( DestinationAlpha:Double, Time:Double = 0.0, Speed:Double = 0.0 )
 		Local Model:LTAlphaChangingModel = New LTAlphaChangingModel
 		Model.Period = Time
+		Model.Speed = Speed
 		Model.DestinationValue = DestinationAlpha
 		Return Model
 	End Function
@@ -20,6 +21,8 @@ Type LTAlphaChangingModel Extends LTValueChangingModel
 	
 	Method Init( Shape:LTShape )
 		InitialValue = Shape.Visualizer.Alpha
+		If Not Period Then Period = Abs( DestinationValue - InitialValue ) / Speed
+		Shape.RemoveModel( "LTAlphaChangingModel" )
 	End Method
 	
 	

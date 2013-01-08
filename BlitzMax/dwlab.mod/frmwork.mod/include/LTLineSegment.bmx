@@ -19,12 +19,6 @@ Type LTLineSegment Extends LTShape
 	
 	
 	
-	Method GetClassTitle:String()
-		Return "Line segment"
-	End Method
-	
-	
-	
 	Rem
 	bbdoc: Creates line section between two pivots.
 	returns: New line.
@@ -34,8 +28,6 @@ Type LTLineSegment Extends LTShape
 		If Not Segment Then Segment = New LTLineSegment
 		Segment.Pivot[ 0 ] = Pivot1
 		Segment.Pivot[ 1 ] = Pivot2
-		Segment.Visualizer.Scaling = False
-		Segment.Visualizer.SetColorFromHex( "000000" )
 		Return Segment
 	End Function
 	
@@ -47,14 +39,14 @@ Type LTLineSegment Extends LTShape
 	
 	' ==================== Drawing ===================	
 	
-	Method Draw()
-		If Visible Then Visualizer.DrawUsingLineSegment( Self )
+	Method Draw( DrawingAlpha:Double )
+		If Visible Then Visualizer.DrawUsingLineSegment( Self, DrawingAlpha = 1.0 )
 	End Method
 	
 	
 	
-	Method DrawUsingVisualizer( Vis:LTVisualizer )
-		If Visible Then Vis.DrawUsingLineSegment( Self )
+	Method DrawUsingVisualizer( Vis:LTVisualizer, DrawingAlpha:Double = 1.0 )
+		If Visible Then Vis.DrawUsingLineSegment( Self, DrawingAlpha )
 	End Method
 	
 	' ==================== Collisions ===================

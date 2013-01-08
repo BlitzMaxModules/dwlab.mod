@@ -32,27 +32,20 @@ Type LTDebugVisualizer Extends LTVisualizer
 	
 	
 	
-	Method DrawUsingSprite( Sprite:LTSprite, SpriteShape:LTSprite = Null )
+	Method DrawUsingSprite( Sprite:LTSprite, SpriteShape:LTSprite = Null, DrawingAlpha:Double )
 		If Not SpriteShape Then SpriteShape = Sprite
 		
 		If Sprite.Visible Then
-			Sprite.Visualizer.DrawUsingSprite( Sprite, SpriteShape )
+			Sprite.Visualizer.DrawUsingSprite( Sprite, SpriteShape, DrawingAlpha )
 		Else
-			Local OldAlpha:Double = Sprite.Visualizer.Alpha
-			Sprite.Visualizer.Alpha :* AlphaOfInvisible
-			Sprite.Visible = True
-			
-			Sprite.Visualizer.DrawUsingSprite( Sprite )
-			
-			Sprite.Visualizer.Alpha = OldAlpha
-			Sprite.Visible = False
+			Sprite.Visualizer.DrawUsingSprite( Sprite, SpriteShape, DrawingAlpha* AlphaOfInvisible )
 		End If
 
 		Local SX1:Double, SY1:Double, SWidth:Double, SHeight:Double
 		L_CurrentCamera.FieldToScreen( SpriteShape.X, SpriteShape.Y, SX1, SY1 )
 		L_CurrentCamera.SizeFieldToScreen( SpriteShape.Width, SpriteShape.Height, SWidth, SHeight )
 		
-		L_CollisionColors[ Sprite.CollisionLayer & L_MaxCollisionColor ].ApplyColor()
+		L_CollisionColors[ Sprite.CollisionLayer & L_MaxCollisionColor ].ApplyColor( DrawingAlpha )
 		If ShowCollisionShapes Then	DrawSpriteShape( SpriteShape )
 		
 		If ShowVectors Then
@@ -107,7 +100,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 			Else
 				TextVisualizer.SetColorFromRGB( 0.0, 0.0, 0.0 )
 			End If
-			TextVisualizer.ApplyColor()
+			TextVisualizer.ApplyColor( DrawingAlpha )
 	
 			Sprite.PrintText( Text, TextSize, HAlign, VAlign, HMargin, VMargin )
 			
@@ -128,9 +121,9 @@ Type LTDebugVisualizer Extends LTVisualizer
 	
 	
 	
-	Method DrawUsingTileMap( TileMap:LTTileMap, Shapes:TList = Null )
-		TileMap.Visualizer.DrawUsingTileMap( TileMap, Shapes )
-		If ShowCollisionShapes Then Super.DrawUsingTileMap( TileMap, Shapes )
+	Method DrawUsingTileMap( TileMap:LTTileMap, Shapes:TList = Null, DrawingAlpha:Double )
+		TileMap.Visualizer.DrawUsingTileMap( TileMap, Shapes, DrawingAlpha )
+		If ShowCollisionShapes Then Super.DrawUsingTileMap( TileMap, Shapes, DrawingAlpha )
 	End Method
 	
 	
@@ -153,7 +146,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 	
 	
 	Method DrawCollisionSprite( TileMap:LTTileMap, X:Double, Y:Double, Sprite:LTSprite )
-		L_CollisionColors[ Sprite.CollisionLayer & L_MaxCollisionColor ].ApplyColor()
+		L_CollisionColors[ Sprite.CollisionLayer & L_MaxCollisionColor ].ApplyColor( 1.0 )
 	
 		Local TileWidth:Double = TileMap.GetTileWidth()
 		Local TileHeight:Double = TileMap.GetTileHeight()
@@ -191,13 +184,7 @@ Type LTDebugVisualizer Extends LTVisualizer
 		Local TileX:Int = Int( Floor( X / SpriteMap.CellWidth ) ) & SpriteMap.XMask
 		Local TileY:Int = Int( Floor( Y / SpriteMap.CellHeight ) ) & SpriteMap.YMask
 		For Local N:Int = 0 Until SpriteMap.ListSize[ TileX, TileY ]
-			DrawUsingSprite( SpriteMap.Lists[ TileX, TileY ][ N ] )
+			DrawUsingSprite( SpriteMap.Lists[ TileX, TileY ][ N ], , GetAlpha() )
 		Next
-	End Method
-	
-	
-	
-	Method DrawUsingLineSegment( LineSegment:LTLineSegment )
-		LineSegment.Visualizer.DrawUsingLineSegment( LineSegment )
 	End Method
 End Type

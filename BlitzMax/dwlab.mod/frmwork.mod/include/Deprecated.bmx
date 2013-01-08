@@ -35,7 +35,7 @@ Type LTRasterFrameVisualizer Extends LTVisualizer
 	
 	
 	
-	Method DrawUsingSprite( Sprite:LTSprite, SpriteShape:LTSprite = Null )
+	Method DrawUsingSprite( Sprite:LTSprite, SpriteShape:LTSprite = Null, DrawingAlpha:Double )
 	    Local SX:Double, SY:Double, SXSize:Double, SYSize:Double
 	    L_CurrentCamera.FieldToScreen( SpriteShape.LeftX(), SpriteShape.TopY(), SX, SY )
 	    L_CurrentCamera.SizeFieldToScreen( SpriteShape.Width, SpriteShape.Height, SXSize, SYSize )

@@ -56,13 +56,12 @@ Type LTContourVisualizer Extends LTVisualizer
 	
 		
 	
-	Method DrawUsingSprite( Sprite:LTSprite, SpriteShape:LTSprite = Null )
+	Method DrawUsingSprite( Sprite:LTSprite, SpriteShape:LTSprite = Null, DrawingAlpha:Double )
 		If Not SpriteShape Then SpriteShape = Sprite
 		
 		If Not Sprite.Visible Then Return
 		
-		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
-		SetAlpha( Alpha )
+		ApplyColor( DrawingAlpha )
 		SetProperLineWidth()
 		
 		Local SX:Double, SY:Double, SWidth:Double, SHeight:Double
@@ -71,17 +70,15 @@ Type LTContourVisualizer Extends LTVisualizer
 		L_DrawEmptyRect( SX - 0.5 * SWidth, SY - 0.5 * SHeight, SWidth, SHeight )
 		
 		SetLineWidth( 1.0 )
-		SetColor( 255, 255, 255 )
-		SetAlpha( 1.0 )
+		ResetColor()
 	End Method
 	
 	
 	
-	Method DrawUsingLineSegment( LineSegment:LTLineSegment )
+	Method DrawUsingLineSegment( LineSegment:LTLineSegment, DrawingAlpha:Double )
 		If Not LineSegment.Visible Then Return
 		
-		SetColor 255.0 * Red, 255.0 * Green, 255.0 * Blue
-		SetAlpha( Alpha )
+		ApplyColor( DrawingAlpha )
 		SetProperLineWidth()
 		
 		Local SX1:Double, SY1:Double, SX2:Double, SY2:Double
@@ -95,8 +92,7 @@ Type LTContourVisualizer Extends LTVisualizer
 		If DrawPivot2 Then DrawOval( SX2 - 0.5 * Radius, SY2 - 0.5 * Radius, Radius, Radius )
 		
 		SetLineWidth( 1.0 )
-		SetColor( 255, 255, 255 )
-		SetAlpha( 1.0 )
+		ResetColor()
 	End Method
 	
 	

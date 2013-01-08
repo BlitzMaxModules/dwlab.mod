@@ -15,13 +15,16 @@ bbdoc: Digital Wizard's Lab Framework
 End Rem
 Module dwlab.frmwork
 
-ModuleInfo "Version: 1.4.32"
+ModuleInfo "Version: 1.4.33"
 ModuleInfo "Author: Matt Merkulov"
 ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.4.33 (04.01.13)"
+ModuleInfo "History: &nbsp; &nbsp; Implemented layer alpha effect."
+ModuleInfo "History: &nbsp; &nbsp; Added speed parameter to value changing behavior models."
 ModuleInfo "History: v1.4.32 (05.12.12)"
 ModuleInfo "History: &nbsp; &nbsp; Implemented sprite templates."
 ModuleInfo "History: &nbsp; &nbsp; Object array serialization method is rewritten."
@@ -334,7 +337,7 @@ Import brl.map
 Import brl.max2d
 Import brl.eventqueue
 
-Const L_Version:String = "1.4.32"
+Const L_Version:String = "1.4.33"
 
 SeedRnd( MilliSecs() )
 

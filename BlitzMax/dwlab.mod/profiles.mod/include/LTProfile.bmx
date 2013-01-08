@@ -42,7 +42,7 @@ Type LTProfile Extends LTObject
 	Global SoundChannels:TMap = New TMap
 	Global MusicChannel:TChannel = New TChannel
 	Global NewMusicChannel:TChannel
-	Global MusicSound:TSound
+	Global MusicFileName:String
 	Global RelativeMusicVolume:Double
 	Global MusicRate:Double
 	Global MusicPan:Double
@@ -56,9 +56,7 @@ Type LTProfile Extends LTObject
 	Const Rising:Int = 3
 	Const NoMusic:Int = 4
 	
-	Global Music:TSound[]
-	Global MusicLoadingTime:Int[] 
-	Global TotalMusicLoadingTime:Int = 0
+	Global MusicFileNames:String[]
 	
 	Global ChannelsList:TList = New TList
 	Global PauseMusicFadingPeriod:Double = 500
@@ -193,32 +191,20 @@ Type LTProfile Extends LTObject
 	
 	
 	
-	Function LoadMusic()
+	Function LoadMus()
 		Local MusicList:TList = New TList
-		Local TotalTime:Int = 0
 		Repeat
-			Local FileName:String = "music\" + MusicQuantity + ".ogg"
+			Local FileName:String = "music\level_" + MusicQuantity + ".ogg"
 			If FileType( FileName ) <> 1 Then Exit
 			
-			Local Time:Int = Millisecs()
-			MusicList.AddLast( LoadSound( FileName ) )
-			DebugLog( "Music #" + MusicQuantity + " loading time: " + ( Millisecs() - Time ) )
-			TotalTime :+ Millisecs() - Time
-			
-			If TotalMusicLoadingTime > 0 Then
-				L_LoadingTime :+ MusicLoadingTime[ MusicQuantity ]
-				L_LoadingProgress = 1.0 * L_LoadingTime / L_TotalLoadingTime
-				If L_LoadingUpdater Then L_LoadingUpdater.Update()
-			End If
-			
+			MusicList.AddLast( FileName )
 			MusicQuantity :+ 1
 		Forever
-		DebugLog "Total music loading time: " + TotalTime
 		
 		Local N:Int = 0
-		Music = New TSound[ MusicQuantity ]
-		For Local Sound:TSound = Eachin MusicList
-			Music[ N ] = Sound
+		MusicFileNames = New String[ MusicQuantity ]
+		For Local FileName:String = Eachin MusicList
+			MusicFileNames[ N ] = FileName
 			N :+ 1
 		Next	
 	End Function	
@@ -383,7 +369,7 @@ Type LTProfile Extends LTObject
 
 	Method StartMusic()
 		If MusicMode > Paused Then Return
-		PlayMusic( Music[ MusicNum ] )
+		PlayMus( MusicFileNames[ MusicNum ] )
 	End Method
 	
 	
@@ -428,7 +414,8 @@ Type LTProfile Extends LTObject
 	End Rem
 	Method PlaySnd:TChannel( Sound:TSound, Temporary:Int = True, Volume:Double = 1.0, Rate:Double = 1.0, Pan:Double = 0.0, Depth:Double = 0.0 )
 		If Not SoundOn Then Return Null
-		Local Channel:TChannel = PlaySndAndSetParameters( Sound, Rate, Pan, Depth )
+		Local Channel:TChannel = CueSound( Sound )
+		SetChannelParameters( Channel, Rate, Pan, Depth )
 		SetRelativeSoundVolume( Channel, Volume )
 		ResumeChannel( Channel )
 		If Temporary Then ChannelsList.AddLast( Channel )
@@ -441,20 +428,22 @@ Type LTProfile Extends LTObject
 	returns: Channel allocated for playing music.
 	about: Use it instead of standard sound playing functions to make profile music volume affect playing music.
 	End Rem
-	Method PlayMusic:TChannel( Sound:TSound, Volume:Double = 1.0, Rate:Double = 1.0, Pan:Double = 0.0, Depth:Double = 0.0 )
+	Method PlayMus:TChannel( FileName:String, Volume:Double = 1.0, Rate:Double = 1.0, Pan:Double = 0.0, Depth:Double = 0.0 )
 		If Not MusicOn Then Return Null
 		If NewMusicChannel Then NewMusicChannel.Stop()
-		MusicSound = Sound
 		OperationStartTime = MilliSecs()
 		RelativeMusicVolume = Volume
 		MusicRate = Rate
 		MusicPan = Pan
 		MusicDepth = Depth
+		MusicFileName = FileName
 		If MusicChannel.Playing() Then
-			NewMusicChannel = PlaySndAndSetParameters( Sound, Rate, Pan, Depth )
+			NewMusicChannel = CueMusic( FileName )
+			SetChannelParameters( NewMusicChannel, Rate, Pan, Depth )
 			MusicMode = Fading
 		Else 
-			MusicChannel = PlaySndAndSetParameters( Sound, Rate, Pan, Depth )
+			MusicChannel = PlayMusic( FileName )
+			SetChannelParameters( MusicChannel, Rate, Pan, Depth )
 			MusicChannel.SetVolume( RelativeMusicVolume * MusicVolume * MusicOn )
 			ResumeChannel( MusicChannel )
 		End If
@@ -463,8 +452,7 @@ Type LTProfile Extends LTObject
 	
 	
 	
-	Function PlaySndAndSetParameters:TChannel( Sound:TSound, Rate:Double = 1.0, Pan:Double = 0.0, Depth:Double = 0.0 )
-		Local Channel:TChannel = CueSound( Sound )
+	Function SetChannelParameters:TChannel( Channel:TChannel, Rate:Double = 1.0, Pan:Double = 0.0, Depth:Double = 0.0 )
 		If Rate <> 1.0 Then Channel.SetRate( Rate )
 		If Pan <> 0.0 Then Channel.SetPan( Pan )
 		If Depth <> 0.0 Then Channel.SetDepth( Depth )
@@ -574,7 +562,7 @@ Type LTProfile Extends LTObject
 			Case Normal
 				If Not MusicChannel.Playing() Then
 					If L_CurrentProfile.MusicRepeat Then
-						PlayMusic( MusicSound, MusicVolume, MusicRate, MusicPan, MusicDepth )
+						PlayMus( MusicFileName, MusicVolume, MusicRate, MusicPan, MusicDepth )
 					Else
 						L_CurrentProfile.NextTrack()
 					End If

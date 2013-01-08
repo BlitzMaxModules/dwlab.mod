@@ -11,6 +11,8 @@ ModuleInfo "License: Artistic License 2.0"
 ModuleInfo "Modserver: DWLAB"
 
 ModuleInfo "History: &nbsp; &nbsp; "
+ModuleInfo "History: v1.0.9 (0.01.13)"
+ModuleInfo "History: &nbsp; &nbsp; Implemented tooltips."
 ModuleInfo "History: v1.0.8 (08.09.12)"
 ModuleInfo "History: &nbsp; &nbsp; Enchanced listbox and slider connection."
 ModuleInfo "History: &nbsp; &nbsp; Implemented correct slider and list box moving using mouse wheel."
@@ -52,6 +54,7 @@ Import maxgui.localization
 Include "include\LTGUIProject.bmx"
 Include "include\LTWindow.bmx"
 Include "include\LTGadget.bmx"
+Include "include\LTToolTip.bmx"
 
 Global L_LeftMouseButton:LTButtonAction = LTButtonAction.Create( LTMouseButton.Create( 1 ) )
 Global L_RightMouseButton:LTButtonAction = LTButtonAction.Create( LTMouseButton.Create( 2 ) )

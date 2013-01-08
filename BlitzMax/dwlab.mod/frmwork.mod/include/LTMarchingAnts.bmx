@@ -13,11 +13,11 @@ Rem
 bbdoc: This visualizer draws rectangular animated dashed frame around the shape.
 End Rem
 Type LTMarchingAnts Extends LTVisualizer
-	Method DrawUsingSprite( Sprite:LTSprite, SpriteShape:LTSprite = Null )
+	Method DrawUsingSprite( Sprite:LTSprite, SpriteShape:LTSprite = Null, DrawingAlpha:Double )
 		If Not SpriteShape Then SpriteShape = Sprite
 		
 		If Not Sprite.Visible Then Return
-		ApplyColor()
+		ApplyColor( DrawingAlpha )
 		
 		If L_CurrentCamera.Isometric Then
 			Local SX11:Double, SY11:Double, SX12:Double, SY12:Double
@@ -55,12 +55,12 @@ Type LTMarchingAnts Extends LTVisualizer
 	
 	
 	
-	Method DrawUsingTileMap( TileMap:LTTileMap, Shapes:TList = Null )
+	Method DrawUsingTileMap( TileMap:LTTileMap, Shapes:TList = Null, DrawingAlpha:Double )
 		If Not TileMap.Visible Then Return
 		Local Sprite:LTSprite = LTSprite.FromShapeType()
 		Sprite.JumpTo( TileMap )
 		Sprite.SetSize( TileMap.Width, TileMap.Height )
-		DrawUsingSprite( Sprite )
+		DrawUsingSprite( Sprite, , DrawingAlpha )
 	End Method
 	
 	
@@ -95,7 +95,6 @@ Type LTMarchingAnts Extends LTVisualizer
 	bbdoc: Creates marching ants line.
 	End Rem
 	Function MakeMALine:TImage( Width:Int, Pos:Int Var )
-		If Width <= 0 Then Width = 1
 		Local Image:TImage = CreateImage( Width, 1 )
 		Local Pixmap:TPixmap = LockImage( Image )
 		For Local XX:Int = 0 Until Width
@@ -110,20 +109,7 @@ Type LTMarchingAnts Extends LTVisualizer
 	
 	Function DrawMALine( Image:TImage, X1:Int, Y1:Int, X2:Int, Y2:Int )
 		SetRotation( ATan2( Y2 - Y1, X2 - X1 ) )
-		If Not Image Then
-			Local Pos:Int = Int( MilliSecs() / 100 ) Mod 8
-			Image = MakeMALine( L_Distance( X1 - X2, Y1 - Y2 ), Pos )
-		End If
 		DrawImage( Image, X1, Y1 )
 		SetRotation( 0.0 )
 	End Function
-	
-	
-	
-	Method DrawUsingLineSegment( LineSegment:LTLineSegment )
-		Local SX1:Double, SY1:Double, SX2:Double, SY2:Double
-		L_CurrentCamera.FieldToScreen( LineSegment.Pivot[ 0 ].X, LineSegment.Pivot[ 0 ].Y, SX1, SY1 )
-		L_CurrentCamera.FieldToScreen( LineSegment.Pivot[ 1 ].X, LineSegment.Pivot[ 1 ].Y, SX2, SY2 )
-		DrawMALine( Null, SX1, SY1, SX2, SY2 )
-	End Method
 End Type

@@ -14,7 +14,7 @@ Type LTColorChangingModel Extends LTTemporaryModel
 	
 	
 	
-	Function Create:LTColorChangingModel( Time:Double, DestinationRed:Double, DestinationGreen:Double, DestinationBlue:Double )
+	Function Create:LTColorChangingModel( DestinationRed:Double, DestinationGreen:Double, DestinationBlue:Double, Time:Double = 0.0, Speed:Double = 0.0 )
 		Local Model:LTColorChangingModel = New LTColorChangingModel
 		Model.Period = Time
 		Model.DestinationRed = DestinationRed
@@ -29,6 +29,7 @@ Type LTColorChangingModel Extends LTTemporaryModel
 		InitialRed = Shape.Visualizer.Red
 		InitialBlue = Shape.Visualizer.Blue
 		InitialGreen = Shape.Visualizer.Green
+		Shape.RemoveModel( "LTColorChangingModel" )
 	End Method
 	
 	

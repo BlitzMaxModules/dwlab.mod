@@ -30,7 +30,7 @@ Type LTSpriteHandler
 	
 	
 	
-	Method DrawSprite( Visualizer:LTVisualizer, Sprite:LTSprite )
+	Method DrawSprite( Visualizer:LTVisualizer, Sprite:LTSprite, DrawingAlpha:Double )
 	End Method
 	
 	
@@ -263,11 +263,11 @@ Type LTSpriteTemplateHandler Extends LTSpriteHandler
 	
 	
 	
-	Method DrawSprite( Visualizer:LTVisualizer, Sprite:LTSprite )
+	Method DrawSprite( Visualizer:LTVisualizer, Sprite:LTSprite, DrawingAlpha:Double )
 		Local SpriteTemplate:LTSpriteTemplate = LTSpriteTemplate( Sprite.ShapeType )
 		For Local TemplateSprite:LTSprite = Eachin SpriteTemplate.Sprites
 			SpriteTemplate.SetShape( Sprite, TemplateSprite, ServiceSprite )
-			TemplateSprite.Visualizer.DrawUsingSprite( TemplateSprite, ServiceSprite )
+			TemplateSprite.Visualizer.DrawUsingSprite( TemplateSprite, ServiceSprite, DrawingAlpha )
 		Next
 	End Method
 	

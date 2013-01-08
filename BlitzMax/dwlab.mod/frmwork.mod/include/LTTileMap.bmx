@@ -114,14 +114,14 @@ Type LTTileMap Extends LTIntMap
 	
 	' ==================== Drawing ===================	
 	
-	Method Draw()
-		If Visible Then Visualizer.DrawUsingTileMap( Self )
+	Method Draw( DrawingAlpha:Double = 1.0 )
+		If Visible Then Visualizer.DrawUsingTileMap( Self, , DrawingAlpha )
 	End Method
 	
 	
 	
-	Method DrawUsingVisualizer( Visualizer:LTVisualizer )
-		If Visible Then Visualizer.DrawUsingTileMap( Self )
+	Method DrawUsingVisualizer( Visualizer:LTVisualizer, DrawingAlpha:Double = 1.0 )
+		If Visible Then Visualizer.DrawUsingTileMap( Self, , DrawingAlpha )
 	End Method
 
 	' ==================== Other ===================	

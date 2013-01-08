@@ -11,7 +11,7 @@
 Type TBall Extends LTSprite
 	Field Modifier:Int
 	
-	Method Draw()
+	Method Draw( DrawingAlpha:Double = 1.0 )
 		Super.Draw()
 		Local OldFrame:Int = Frame
 		Visualizer.Image = Profile.Modifiers.TileSet.Image

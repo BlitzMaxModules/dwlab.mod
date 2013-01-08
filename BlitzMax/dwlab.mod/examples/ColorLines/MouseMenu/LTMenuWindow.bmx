@@ -29,7 +29,7 @@ Type LTMenuWindow Extends LTAudioWindow
 		LTLabel( FindShape( "Profile" ) ).Text = LocalizeString( "{{Profile}}|" + L_CurrentProfile.Name )
 	End Method
 	
-	Method Draw()
+	Method Draw( DrawingAlpha:Double = 1.0 )
 		If Y > -Panel.Height Then L_CurrentCamera.Darken( 0.6 * ( Y + Panel.Height ) / Panel.Height )
 		Super.Draw()
 	End Method

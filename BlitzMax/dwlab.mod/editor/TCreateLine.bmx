@@ -11,7 +11,6 @@
 
 Type TCreateLine Extends LTDrag
 	Field Sprite:LTSprite
-	Field Cursor:LTSprite
 	
 	
 	
@@ -22,31 +21,24 @@ Type TCreateLine Extends LTDrag
 	
 	
 	Method DraggingConditions:Int()
-		If Not Editor.CurrentTileMap And Editor.CurrentContainer And Editor.ShapeUnderCursor And Not Editor.CreateSprite.DraggingState Then Return True
+		If Not Editor.CurrentTileMap And Editor.CurrentContainer And LTSprite( Editor.ShapeUnderCursor ) Then Return True
 	End Method
 	
 	
 	
 	Method StartDragging()
 		Sprite = LTSprite( Editor.ShapeUnderCursor )
+		'Editor.CurrentLine = N
 	End Method
 	
 	
 	
 	Method Dragging()
-		Cursor = Editor.Cursor
-		If Editor.ShapeUnderCursor And  Editor.ShapeUnderCursor<> Sprite Then Cursor = LTSprite( Editor.ShapeUnderCursor )
+		
 	End Method
 	
 	
 	
 	Method EndDragging()
-		If Editor.ShapeUnderCursor Then
-			Local LineSegment:LTLineSegment = LTLineSegment.FromPivots( Sprite, Cursor )
-			Editor.InsertIntoContainer( LineSegment, Editor.CurrentContainer )
-			Editor.SelectShape( LineSegment )
-			Editor.SetChanged()
-		End If
-		Sprite = Null
 	End Method
 End Type

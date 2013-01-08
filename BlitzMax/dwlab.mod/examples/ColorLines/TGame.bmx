@@ -66,10 +66,11 @@ Type TGame Extends LTGUIProject
 		Profile = TGameProfile( L_CurrentProfile )
 		Profile.Load()
 		
-		If FileType( "stats.xml" ) = 1 Then TStatList.Instance = TStatList( LoadFromFile( "stats.xml" ) )
+		L_LoadingUpdater = Null
+		If FileType( "stats.xml" ) = 1 Then TStatList.Instance = TStatList( LoadFromFile( "stats.xml", False ) )
 		
-		If L_CurrentProfile.MusicQuantity > 0 Then L_CurrentProfile.MusicMode = L_CurrentProfile.Normal
-		L_CurrentProfile.StartMusic()
+		'If L_CurrentProfile.MusicQuantity > 0 Then L_CurrentProfile.MusicMode = L_CurrentProfile.Normal
+		'L_CurrentProfile.StartMusic()
 	End Method
 	
 	Method InitGraphics()

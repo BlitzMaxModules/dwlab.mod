@@ -1,14 +1,17 @@
 <LTMenu current-profile="1" audio="DirectSound" video="DirectX7" dwlab_version="1.4.32" total-loading-time="0">
 	<TList field="profiles">
-		<TGameProfile id="1" name="{{P_Player}}" language="Russian" width="1280" height="800" depth="32" frequency="60" repeat="0" x-resolution="1216" y-resolution="706" first-locked-level="Level_1_2" level="Level_1_2" next-balls="4,3,5" balls-in-line="3" balls-per-turn="3" total-balls="7" show-next-balls="1" time="3.15999999" turns="1" turn-time="3.15999999">
+		<TGameProfile id="1" name="{{P_Player}}" language="Russian" width="1280" height="1024" depth="32" frequency="75" music-on="0" repeat="0" x-resolution="1216" y-resolution="912" first-locked-level="Level_1_2" level="Level_1_2" next-balls="6,3,4" balls-in-line="3" balls-per-turn="3" total-balls="7" show-next-balls="1" time="1.0133333" turns="1" turn-time="1.0133333">
 			<LTTileMap field="field" x="11.5000275" y="7.45502908" width="13.00002165" height="12.00002823" xquantity="13" yquantity="16" tiles-quantity="33">
 				<TList field="parameters">
 					<LTParameter name="name" value="Field"/>
 				</TList>
 				<TFieldVisualizer field="visualizer" dy="0.1" yscale="1.25001"/>
 				<LTTileSet field="tileset" name="Default" tiles-quantity="33" empty-tile="0">
-					<LTImage field="image" filename="images\fields.png" xcells="11" ycells="3" loading-time="5"/>
-					<Array field="collision-shapes" size="33">
+					<LTImage field="image" filename="images\fields.png" xcells="11" ycells="3" loading-time="6"/>
+					<Array field="collision-shapes" size="18">
+						<LTSprite x="0.50002999" y="0.50002999" shape="2" index="0">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
 						<LTSprite x="0.50002999" y="0.50002999" shape="2" index="1">
 							<LTVisualizer field="visualizer"/>
 						</LTSprite>
@@ -21,13 +24,25 @@
 						<LTSprite x="0.50002999" y="0.50002999" shape="2" index="4">
 							<LTVisualizer field="visualizer"/>
 						</LTSprite>
-						<LTSprite x="0.50002999" y="0.50002999" shape="2" index="5">
+						<LTSprite x="0.5" y="0.5" shape="2" index="5">
 							<LTVisualizer field="visualizer"/>
 						</LTSprite>
 						<LTSprite x="0.5" y="0.5" shape="2" index="6">
 							<LTVisualizer field="visualizer"/>
 						</LTSprite>
-						<LTSprite x="0.5" y="0.5" shape="2" index="7">
+						<LTSprite x="0.50002999" y="0.50002999" shape="2" index="7">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.50002999" y="0.50002999" shape="2" index="8">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.50002999" y="0.50002999" shape="2" index="9">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.50002999" y="0.50002999" shape="2" index="10">
+							<LTVisualizer field="visualizer"/>
+						</LTSprite>
+						<LTSprite x="0.50002999" y="0.50002999" shape="2" index="11">
 							<LTVisualizer field="visualizer"/>
 						</LTSprite>
 						<LTSprite x="0.50002999" y="0.50002999" shape="2" index="12">
@@ -46,21 +61,6 @@
 							<LTVisualizer field="visualizer"/>
 						</LTSprite>
 						<LTSprite x="0.50002999" y="0.50002999" shape="2" index="17">
-							<LTVisualizer field="visualizer"/>
-						</LTSprite>
-						<LTSprite x="0.50002999" y="0.50002999" shape="2" index="18">
-							<LTVisualizer field="visualizer"/>
-						</LTSprite>
-						<LTSprite x="0.50002999" y="0.50002999" shape="2" index="19">
-							<LTVisualizer field="visualizer"/>
-						</LTSprite>
-						<LTSprite x="0.50002999" y="0.50002999" shape="2" index="20">
-							<LTVisualizer field="visualizer"/>
-						</LTSprite>
-						<LTSprite x="0.50002999" y="0.50002999" shape="2" index="21">
-							<LTVisualizer field="visualizer"/>
-						</LTSprite>
-						<LTSprite x="0.50002999" y="0.50002999" shape="2" index="22">
 							<LTVisualizer field="visualizer"/>
 						</LTSprite>
 					</Array>
@@ -119,7 +119,6 @@
 				<LTVisualizer field="visualizer" dy="-0.25002996" xscale="0.90000999" yscale="1.23001"/>
 				<LTTileSet field="tileset" id="78" name="Balls" tiles-quantity="14" empty-tile="0">
 					<LTImage field="image" filename="images\balls.png" xcells="14" loading-time="5"/>
-					<Array field="collision-shapes" size="14"/>
 				</LTTileSet>
 			</LTTileMap>
 			<LTTileMap field="modifiers" x="11.50002905" y="7.455" width="13.00002435" height="12.00005326" xquantity="13" yquantity="16" tiles-quantity="14">
@@ -132,9 +131,6 @@
 			<TList field="goals">
 				<TGetScore count="40"/>
 			</TList>
-			<Map field="scores">
-				<Pair value="50" key="Level_1_1"/>
-			</Map>
 			<TList field="pool">
 				<TPoolObject num="9" percent="100"/>
 			</TList>
@@ -149,10 +145,4 @@
 			</LTButtonAction>
 		</TGameProfile>
 	</TList>
-	<Map field="high-scores">
-		<LTLayer key="Level_1_1">
-			<LTVisualizer field="visualizer"/>
-			<LTHighScore score="50" name="Игрок"/>
-		</LTLayer>
-	</Map>
 </LTMenu>

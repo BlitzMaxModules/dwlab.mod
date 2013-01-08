@@ -113,8 +113,7 @@ Type TTilesetRules
 			
 			If CurrentCategory Then
 				SetBlend( AlphaBlend )
-				L_DebugVisualizer.ApplyColor()
-				SetAlpha( 0.5 )
+				L_DebugVisualizer.ApplyColor( 0.5 )
 				Local Tiles:TMap = New TMap
 				For Local TileRule:LTTileRule = Eachin CurrentCategory.TileRules
 					For Local Num:Int = Eachin TileRule.TileNums
@@ -176,8 +175,7 @@ Type TTilesetRules
 				SetScale( 1.0, 1.0 )
 			End If
 			
-			L_DebugVisualizer.ApplyColor()
-			SetAlpha( 1.0 )
+			L_DebugVisualizer.ApplyColor( 1.0 )
 	
 			For Local Coord:Int = 0 To 224 Step 32
 				DrawLine( Coord, 0, Coord, 224 )

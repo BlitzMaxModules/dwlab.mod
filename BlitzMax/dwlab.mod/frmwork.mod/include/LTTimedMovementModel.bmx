@@ -14,7 +14,7 @@ Type LTTimedMovementModel Extends LTTemporaryModel
 	
 	
 	
-	Function Create:LTTimedMovementModel( Time:Double, DestinationX:Double, DestinationY:Double )
+	Function Create:LTTimedMovementModel( DestinationX:Double, DestinationY:Double, Time:Double = 0.0, Speed:Double = 0.0 )
 		Local Model:LTTimedMovementModel = New LTTimedMovementModel
 		Model.Period = Time
 		Model.DestinationX = DestinationX
@@ -27,6 +27,7 @@ Type LTTimedMovementModel Extends LTTemporaryModel
 	Method Init( Shape:LTShape )
 		InitialX = Shape.X
 		InitialY = Shape.Y
+		Shape.RemoveModel( "LTTimedMovementModel" )
 	End Method
 	
 	

@@ -44,13 +44,13 @@ Type LTLayer Extends LTShape
 	
 	' ==================== Drawing ===================	
 	
-	Method Draw()
-		DrawUsingVisualizer( Visualizer )
+	Method Draw( DrawingAlpha:Double = 1.0 )
+		DrawUsingVisualizer( Visualizer, DrawingAlpha * Visualizer.Alpha )
 	End Method
 	
 	
 	
-	Method DrawUsingVisualizer( Vis:LTVisualizer )
+	Method DrawUsingVisualizer( Vis:LTVisualizer, DrawingAlpha:Double = 1.0 )
 		If Not Visible Then Return
 		
 		If MixContent Then
@@ -69,18 +69,18 @@ Type LTLayer Extends LTShape
 			Next
 			If MainTileMap Then
 				If Shapes.Count() = 1 Then Shapes = Null
-				Vis.DrawUsingTileMap( MainTileMap, Shapes )
+				Vis.DrawUsingTileMap( MainTileMap, Shapes, DrawingAlpha )
 				Return
 			End If
 		End If
 		
 		If Vis = Visualizer Then
 			For Local Shape:LTShape = Eachin Children
-				Shape.Draw()
+				Shape.Draw( DrawingAlpha )
 			Next
 		Else
 			For Local Shape:LTShape = Eachin Children
-				Shape.DrawUsingVisualizer( Vis )
+				Shape.DrawUsingVisualizer( Vis, DrawingAlpha )
 			Next
 		End If
 	End Method

@@ -42,7 +42,7 @@ Type THUD Extends LTWindow
 		GoalDX = FindShape( "Goal2" ).X - Goal1X
 	End Method
 
-	Method Draw()
+	Method Draw( DrawingAlpha:Double = 1.0 )
 		LevelTimeBar.SetValue( Profile.LevelTime * ( Profile.TotalLevelTime > 0 ), Profile.TotalLevelTime )
 		TurnsBar.SetValue( Profile.Turns * ( Profile.TotalTurns > 0 ), Profile.TotalTurns )
 		TurnTimeBar.SetValue( Profile.TurnTime * ( Profile.TotalTurnTime > 0 ), Profile.TotalTurnTime )

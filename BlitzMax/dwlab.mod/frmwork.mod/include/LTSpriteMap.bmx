@@ -130,13 +130,13 @@ Type LTSpriteMap Extends LTMap
 	Rem
 	bbdoc: Draws all objects of sprite map which are in cells under camera's rectangle plus margins.
 	End Rem
-	Method Draw()
+	Method Draw( DrawingAlpha:Double = 1.0 )
 		DrawUsingVisualizer( Null )
 	End Method
 	
 	
 	
-	Method DrawUsingVisualizer( Vis:LTVisualizer )
+	Method DrawUsingVisualizer( Vis:LTVisualizer, DrawingAlpha:Double = 1.0 )
 		If Visible Then
 			Local ScreenMinX:Double, ScreenMinY:Double, ScreenMaxX:Double, ScreenMaxY:Double
 			L_GetEscribedRectangle( LeftMargin, TopMargin, RightMargin, BottomMargin, ScreenMinX, ScreenMinY, ScreenMaxX, ScreenMaxY )
@@ -175,9 +175,9 @@ Type LTSpriteMap Extends LTMap
 						
 						If Not SpriteMap.Contains( StoredSprite ) Then
 							If Vis Then
-								Vis.DrawUsingSprite( StoredSprite )
+								Vis.DrawUsingSprite( StoredSprite, , DrawingAlpha )
 							Else
-								StoredSprite.Draw()
+								StoredSprite.Draw( DrawingAlpha )
 							End If
 							SpriteMap.Insert( StoredSprite, Null )
 						End If
@@ -192,9 +192,9 @@ Type LTSpriteMap Extends LTMap
 							Local Sprite:LTSprite = LTSprite( Array[ N ] )
 							If Not SpriteMap.Contains( Sprite ) Then
 								If Vis Then
-									Sprite.DrawUsingVisualizer( Vis )
+									Sprite.DrawUsingVisualizer( Vis, DrawingAlpha )
 								Else
-									Sprite.Draw()
+									Sprite.Draw( DrawingAlpha )
 								End If
 								SpriteMap.Insert( Sprite, Null )
 							End If

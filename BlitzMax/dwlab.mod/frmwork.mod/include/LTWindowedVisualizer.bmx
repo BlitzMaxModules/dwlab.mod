@@ -26,7 +26,7 @@ Type LTWindowedVisualizer Extends LTVisualizer
 	
 	
 	
-	Method DrawUsingSprite( Sprite:LTSprite, SpriteShape:LTSprite = Null )
+	Method DrawUsingSprite( Sprite:LTSprite, SpriteShape:LTSprite = Null, DrawingAlpha:Double )
 		If Not Sprite.Visible Then Return
 		
 		Local X:Int, Y:Int, Width:Int, Height:Int
@@ -34,7 +34,7 @@ Type LTWindowedVisualizer Extends LTVisualizer
 		
 		For Local Viewport:LTShape = Eachin Viewports
 			Viewport.SetAsViewport()
-			Visualizer.DrawUsingSprite( Sprite, SpriteShape )
+			Visualizer.DrawUsingSprite( Sprite, SpriteShape, DrawingAlpha )
 		Next
 		
 		SetViewport( X, Y, Width, Height )
@@ -43,13 +43,13 @@ Type LTWindowedVisualizer Extends LTVisualizer
 	
 	
 	
-	Method DrawUsingLineSegment( LineSegment:LTLineSegment )
+	Method DrawUsingLineSegment( LineSegment:LTLineSegment, DrawingAlpha:Double )
 		Local X:Int, Y:Int, Width:Int, Height:Int
 		GetViewport( X, Y, Width, Height )
 		
 		For Local Viewport:LTShape = Eachin Viewports
 			Viewport.SetAsViewport()
-			Visualizer.DrawUsingLineSegment( LineSegment )
+			Visualizer.DrawUsingLineSegment( LineSegment, DrawingAlpha )
 		Next
 		
 		SetViewport( X, Y, Width, Height )
@@ -57,13 +57,13 @@ Type LTWindowedVisualizer Extends LTVisualizer
 	
 	
 
-	Method DrawUsingTileMap( TileMap:LTTileMap, Shapes:TList = Null )
+	Method DrawUsingTileMap( TileMap:LTTileMap, Shapes:TList = Null, DrawingAlpha:Double )
 		Local X:Int, Y:Int, Width:Int, Height:Int
 		GetViewport( X, Y, Width, Height )
 		
 		For Local Viewport:LTShape = Eachin Viewports
 			Viewport.SetAsViewport()
-			Visualizer.DrawUsingTileMap( TileMap, Shapes )
+			Visualizer.DrawUsingTileMap( TileMap, Shapes, DrawingAlpha )
 		Next
 		
 		SetViewport( X, Y, Width, Height )

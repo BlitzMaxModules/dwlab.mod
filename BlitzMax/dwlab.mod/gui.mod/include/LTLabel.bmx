@@ -98,9 +98,9 @@ Type LTLabel Extends LTGadget
 	
 	
 	
-	Method Draw()
+	Method Draw( DrawingAlpha:Double = 1.0 )
 		If Not Visible Then Return
-		Super.Draw()
+		Super.Draw( DrawingAlpha )
 		
 		If Icon Then
 			Icon.X = X + IconDX + GetDX()
@@ -108,7 +108,7 @@ Type LTLabel Extends LTGadget
 			Icon.Draw()
 		End If
 		
-		TextColor.ApplyColor()
+		TextColor.ApplyColor( DrawingAlpha )
 		PrintText( Text, TextSize, HAlign, VAlign, TextHMargin, TextVMargin, GetDX(), GetDY() )
 		LTColor.ResetColor()
 	End Method

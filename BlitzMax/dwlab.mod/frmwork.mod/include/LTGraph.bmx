@@ -21,7 +21,8 @@ Type LTGraph Extends LTShape
 	bbdoc: Draws graph.
 	about: LineSegments then pivots will be drawn using graph visualizer.
 	End Rem
-	Method Draw()
+	Method Draw( DrawingAlpha:Double )
+
 		If Visible Then
 			DrawLineSegmentsUsing( Visualizer )
 			DrawPivotsUsing( Visualizer )
@@ -34,7 +35,7 @@ Type LTGraph Extends LTShape
 	bbdoc: Draws graph using another visualizer.
 	about: LineSegments then pivots will be drawn using given visualizer.
 	End Rem
-	Method DrawUsingVisualizer( Vis:LTVisualizer )
+	Method DrawUsingVisualizer( Vis:LTVisualizer, DrawingAlpha:Double )
 		If Visible Then
 			DrawLineSegmentsUsing( Vis )
 			DrawPivotsUsing( Vis )

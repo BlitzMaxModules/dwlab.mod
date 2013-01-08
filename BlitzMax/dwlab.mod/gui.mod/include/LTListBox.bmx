@@ -46,7 +46,7 @@ Type LTListBox Extends LTGadget
 	
 	
 	
-	Method Draw()
+	Method Draw( DrawingAlpha:Double = 1.0 )
 		If Not Visible Then Return
 		Super.Draw()
 		

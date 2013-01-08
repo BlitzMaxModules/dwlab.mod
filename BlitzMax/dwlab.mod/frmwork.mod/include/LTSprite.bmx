@@ -28,6 +28,7 @@ Type LTSprite Extends LTShape
 	bbdoc: Type of the sprite shape: oval / circle which is inscribed in shape's rectangle.
 	End Rem
 	Global Oval:LTOval = New LTOval
+	Global Circle:LTOval = Oval
 	
 	Rem
 	bbdoc: Type of the sprite shape: rectangle.
@@ -124,14 +125,14 @@ Type LTSprite Extends LTShape
 	
 	' ==================== Drawing ===================	
 	
-	Method Draw()
-		Visualizer.DrawUsingSprite( Self, Self )
+	Method Draw( DrawingAlpha:Double = 1.0 )
+		Visualizer.DrawUsingSprite( Self, Self, DrawingAlpha )
 	End Method
 	
 	
 	
-	Method DrawUsingVisualizer( Vis:LTVisualizer )
-		Vis.DrawUsingSprite( Self, Self )
+	Method DrawUsingVisualizer( Vis:LTVisualizer, DrawingAlpha:Double = 1.0 )
+		Vis.DrawUsingSprite( Self, Self, DrawingAlpha )
 	End Method
 	
 	' ==================== Collisions ===================

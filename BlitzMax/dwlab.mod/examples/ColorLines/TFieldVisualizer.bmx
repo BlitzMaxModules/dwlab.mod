@@ -19,8 +19,6 @@ Type TFieldVisualizer Extends LTVisualizer
 	End Function
 	
 	Method DrawTile( TileMap:LTTileMap, X:Double, Y:Double, Width:Double, Height:Double, TileX:Int, TileY:Int )
-		ApplyColor()
-		
 		Local SX:Double, SY:Double
 		GameCamera.FieldToScreen( X, Y, SX, SY )
 		

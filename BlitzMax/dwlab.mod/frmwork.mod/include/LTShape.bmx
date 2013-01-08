@@ -93,7 +93,7 @@ Type LTShape Extends LTObject
 	
 	See also: #DrawUsingVisualizer, #LTVisualizer, #Visible
 	End Rem
-	Method Draw()
+	Method Draw( DrawingAlpha:Double = 1.0 )
 	End Method
 	
 	
@@ -104,7 +104,7 @@ Type LTShape Extends LTObject
 	
 	See also: #Draw, #LTVisualizer, #Visible
 	End Rem
-	Method DrawUsingVisualizer( Vis:LTVisualizer )
+	Method DrawUsingVisualizer( Vis:LTVisualizer, DrawingAlpha:Double = 1.0 )
 	End Method
 	
 	

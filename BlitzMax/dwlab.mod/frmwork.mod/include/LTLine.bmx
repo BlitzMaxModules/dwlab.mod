@@ -146,7 +146,8 @@ Type LTLine Extends LTShape
 	
 	
 	
-	Method Draw()
+	Method Draw( DrawingAlpha:Double )
+
 		Local LeftX:Double, TopY:Double, RightX:Double, BottomY:Double
 		L_CurrentCamera.ScreenToField( L_CurrentCamera.Viewport.LeftX(), L_CurrentCamera.Viewport.TopY(), LeftX, TopY )
 		L_CurrentCamera.ScreenToField( L_CurrentCamera.Viewport.RightX(), L_CurrentCamera.Viewport.BottomY(), RightX, BottomY )

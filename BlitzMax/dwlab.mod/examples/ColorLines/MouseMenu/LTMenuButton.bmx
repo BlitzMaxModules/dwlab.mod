@@ -9,7 +9,7 @@
 '
 
 Type LTMenuButton Extends LTButton
-	Method Draw()
+	Method Draw( DrawingAlpha:Double = 1.0 )
 		If Focus Then
 			TextSize = 0.42
 			TextColor.SetColorFromHex( "FFFFFF" )

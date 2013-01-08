@@ -31,7 +31,6 @@ Include "LTLevelSelectionWindow.bmx"
 Include "LTLevelsList.bmx"
 Include "LTLevelCompletedWindow.bmx"
 Include "LTLevelFailedWindow.bmx"
-Include "LTToolTip.bmx"
 
 Global L_OldIncbin:String = L_Incbin
 Global L_MenuPath:String
@@ -187,7 +186,7 @@ Type LTMenu Extends LTGUIProject
 	End Method
 	
 	Method LoadFirstLevel()
-		L_CurrentProfile.FirstLockedLevel = LTShape( Levels.Children.First() ).GetName()
+		L_CurrentProfile.FirstLockedLevel = LTShape( Levels.Children.FirstLink().NextLink().Value() ).GetName()
 		If Not Profile.LevelName Then Profile.LevelName = L_CurrentProfile.FirstLockedLevel
 		LoadLevel( Profile.LevelName )
 	End Method

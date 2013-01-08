@@ -1,100 +1,110 @@
 <TStatList dwlab_version="1.4.32" total-loading-time="0">
-	<TStats level="The wall" time="2"/>
-	<TStats level="The wall" time="2"/>
-	<TStats level="The wall" time="2"/>
-	<TStats level="The wall" time="2"/>
-	<TStats level="The wall" time="14" turns="5"/>
-	<TStats level="The wall" score="5" time="11" turns="6"/>
-	<TStats level="The wall" time="5"/>
-	<TStats level="The wall" time="6"/>
-	<TStats level="The wall" time="10" turns="5"/>
-	<TStats level="The wall" time="5"/>
-	<TStats level="The wall" time="3" turns="27"/>
-	<TStats level="The wall" time="3" turns="28"/>
-	<TStats level="The wall" time="5" turns="1"/>
-	<TStats level="The wall" time="9" turns="22"/>
-	<TStats level="The wall" completed="1" score="5" time="13" turns="6"/>
-	<TStats level="Iceland" time="3" turns="1"/>
-	<TStats level="Iceland" time="15" turns="2"/>
-	<TStats level="Iceland" score="72" time="163" turns="70"/>
-	<TStats level="The wall" time="2"/>
-	<TStats level="The wall" time="1"/>
-	<TStats level="The wall" time="5"/>
-	<TStats level="The wall" time="4"/>
-	<TStats level="The wall" time="4"/>
-	<TStats level="The wall" completed="1" score="15" time="48" turns="19"/>
-	<TStats level="Black ball cross" time="2"/>
-	<TStats level="The wall" time="1"/>
-	<TStats level="The wall" time="1"/>
-	<TStats level="Black ball cross" time="1"/>
-	<TStats level="The wall" completed="1" score="10" time="18" turns="9"/>
-	<TStats level="Black ball cross" time="4"/>
-	<TStats level="The wall" time="5"/>
-	<TStats level="The wall" time="7"/>
-	<TStats level="Level_1_1" completed="1" score="52" time="49" turns="24"/>
-	<TStats level="Level_1_2" completed="1" score="41" time="35" turns="16"/>
-	<TStats level="Level_1_3" completed="1" score="52" time="43" turns="16"/>
-	<TStats level="Level_1_4" completed="1"/>
-	<TStats level="Level_1_4" completed="1"/>
-	<TStats level="Level_2_1" completed="1" score="28" time="14" turns="7"/>
-	<TStats level="Level_2_2" time="2"/>
-	<TStats level="Level_1_3"/>
-	<TStats level="Level_1_4" completed="1"/>
-	<TStats level="Level_1_4" completed="1"/>
-	<TStats level="Level_2_2" time="1"/>
+	<TStats level="Iceland" time="2"/>
+	<TStats level="Iceland" completed="1" score="70" time="106" turns="58"/>
+	<TStats level="Black ball way" time="11"/>
+	<TStats level="Black ball way" time="12"/>
+	<TStats level="Black ball way" time="10"/>
+	<TStats level="Level_1_1" completed="1" score="52" time="65" turns="24"/>
+	<TStats level="Level_1_1"/>
+	<TStats level="Level_0_0_0" completed="1"/>
+	<TStats level="Level_0_0_0"/>
+	<TStats level="Level_1_1" time="2"/>
+	<TStats level="Level_1_1" time="8"/>
 	<TStats level="Level_1_1" time="1"/>
-	<TStats level="Level_1_1" time="4" turns="3"/>
-	<TStats level="Level_1_1" time="4" turns="3"/>
-	<TStats level="Level_1_1" time="4" turns="3"/>
-	<TStats level="Level_1_1" completed="1" score="52" time="45" turns="30"/>
-	<TStats level="Level_1_1" completed="1" score="52" time="44" turns="30"/>
-	<TStats level="Level_1_1" completed="1" score="53" time="30" turns="26"/>
-	<TStats level="Level_1_2" time="6" turns="3"/>
-	<TStats level="Level_1_2" time="7" turns="3"/>
-	<TStats level="The wall" time="2" turns="1"/>
-	<TStats level="The wall" time="2" turns="1"/>
-	<TStats level="The wall" score="10" time="79" turns="38"/>
-	<TStats level="The wall" score="15" time="44" turns="28"/>
-	<TStats level="The wall" score="35" time="118" turns="63"/>
-	<TStats level="The wall" score="35" time="118" turns="63"/>
-	<TStats level="The wall" time="2.10666666" turns="1"/>
-	<TStats level="Level_1_1" completed="1" score="53" time="58.41333333" turns="32"/>
-	<TStats level="Level_1_2" completed="1" score="42" time="49.25333332" turns="32"/>
-	<TStats level="Level_1_3" completed="1" score="51" time="52.98666664" turns="30"/>
-	<TStats level="Level_1_4" completed="1" time="0.01333326" turns="1"/>
-	<TStats level="Level_1_4" completed="1" time="0.02666665" turns="1"/>
-	<TStats level="Level_1_2" completed="1" score="41" time="39.30666664" turns="27"/>
-	<TStats level="Level_1_3" completed="1" score="50" time="59.15999999" turns="23"/>
-	<TStats level="Level_1_4" completed="1" time="0.01333326" turns="1"/>
-	<TStats level="Level_1_4" completed="1" time="0.02666665" turns="1"/>
-	<TStats level="Level_1_4" completed="1" time="0.01333326" turns="1"/>
-	<TStats level="Level_1_4" completed="1" time="0.02666665" turns="1"/>
-	<TStats level="Level_1_4" completed="1" time="0.01333326" turns="1"/>
-	<TStats level="Level_1_4" completed="1" time="0.02666665" turns="1"/>
-	<TStats level="Level_1_4" completed="1" time="0.01333326" turns="1"/>
-	<TStats level="Level_1_4" completed="1" time="0.02666665" turns="1"/>
-	<TStats level="Level_1_4" completed="1" time="0.01333326" turns="1"/>
-	<TStats level="Level_1_4" completed="1" time="0.02666665" turns="1"/>
-	<TStats level="Level_1_4" completed="1" time="0.01333326" turns="1"/>
-	<TStats level="Level_1_4" completed="1" time="0.02666665" turns="1"/>
-	<TStats level="Level_1_5" completed="1" score="50" time="57.82666666" turns="37"/>
-	<TStats level="Level_1_5" completed="1" score="50" time="49.93333333" turns="33"/>
-	<TStats level="Level_1_5" completed="1" score="52" time="47.05333333" turns="35"/>
-	<TStats level="Level_2_1" completed="1" score="18" time="22.81333332" turns="7"/>
-	<TStats level="Level_2_2" completed="1" score="45" time="337.14666663" turns="39"/>
-	<TStats level="Level_2_3" completed="1" score="80" time="188.33333332" turns="68"/>
-	<TStats level="Level_2_4" completed="1" score="50" time="98.85333332" turns="50"/>
-	<TStats level="Level_2_5" score="64" time="261.94666666" turns="63"/>
-	<TStats level="Level_2_5" time="145.91999999" turns="1"/>
-	<TStats level="Level_2_5" completed="1" score="66" time="107.05333333" turns="53"/>
-	<TStats level="Level_3_1" completed="1" score="12" time="20.29333331" turns="12"/>
-	<TStats level="Level_2_5" score="6" time="177.25333332" turns="11"/>
-	<TStats level="Level_2_5" completed="1" score="51" time="123.77333333" turns="46"/>
-	<TStats level="Level_3_1" completed="1" score="12" time="16.54666666" turns="17"/>
-	<TStats level="Level_3_2" completed="1" score="61" time="118.06666666" turns="49"/>
-	<TStats level="Level_3_3" score="27" time="83.37333332" turns="29"/>
+	<TStats level="Level_1_1" time="4"/>
+	<TStats level="Level_1_1" time="1"/>
+	<TStats level="Level_1_1" time="13"/>
+	<TStats level="Level_1_1" time="1"/>
+	<TStats level="Level_1_1" score="4" time="2"/>
+	<TStats level="Level_1_1" completed="1" score="53" time="64" turns="23"/>
+	<TStats level="Level_1_2" completed="1" score="40" time="43" turns="15"/>
+	<TStats level="Level_1_3" completed="1" score="52" time="45" turns="17"/>
+	<TStats level="Level_1_4" completed="1"/>
+	<TStats level="Level_1_4" completed="1"/>
+	<TStats level="Level_2_1" score="4" time="9" turns="1"/>
+	<TStats level="Level_2_1" score="4" time="5" turns="1"/>
+	<TStats level="Level_1_1" completed="1" score="52" time="440" turns="25"/>
+	<TStats level="Level_1_2" completed="1" score="41" time="39" turns="18"/>
+	<TStats level="Level_1_3" completed="1" score="52" time="113" turns="19"/>
+	<TStats level="Level_1_4" completed="1"/>
+	<TStats level="Level_1_4" completed="1"/>
+	<TStats level="Level_2_1" score="4" time="6" turns="1"/>
+	<TStats level="Level_2_1" completed="1" score="36" time="30" turns="12"/>
+	<TStats level="Level_2_2" completed="1" score="36" time="84" turns="20"/>
+	<TStats level="Level_2_3" completed="1" score="80" time="91" turns="37"/>
+	<TStats level="Level_2_4" time="13"/>
+	<TStats level="Level_1_4" completed="1"/>
+	<TStats level="Level_1_4" completed="1"/>
+	<TStats level="Level_2_5" time="11"/>
+	<TStats level="Level_2_4" completed="1" score="68" time="70" turns="30"/>
+	<TStats level="Level_2_5" time="11"/>
+	<TStats level="Level_2_5" time="1"/>
+	<TStats level="Level_2_5" time="10"/>
+	<TStats level="Level_2_4" time="7"/>
+	<TStats level="Level_2_5" time="11"/>
+	<TStats level="Level_2_1"/>
+	<TStats level="Level_2_5" time="11"/>
+	<TStats level="Level_2_1" time="1"/>
+	<TStats level="Level_1_1" completed="1" score="52" time="616" turns="23"/>
+	<TStats level="Level_1_2" completed="1" score="41" time="37" turns="16"/>
+	<TStats level="Level_1_3" completed="1" score="52" time="87" turns="19"/>
+	<TStats level="Level_1_4" completed="1"/>
+	<TStats level="Level_1_4" completed="1"/>
+	<TStats level="Level_2_1" completed="1" score="28" time="26" turns="12"/>
+	<TStats level="Level_2_2" completed="1" score="72" time="126" turns="35"/>
+	<TStats level="Level_2_3" score="37" time="84" turns="22"/>
+	<TStats level="Level_2_3" time="7"/>
+	<TStats level="Level_1_1" completed="1" score="52" time="39" turns="21"/>
+	<TStats level="Level_1_2" completed="1" score="41" time="37" turns="19"/>
+	<TStats level="Level_1_3" completed="1" score="52" time="48" turns="18"/>
+	<TStats level="Level_1_4" completed="1"/>
+	<TStats level="Level_1_4" completed="1"/>
+	<TStats level="Level_1_1" completed="1" score="52" time="34" turns="22"/>
+	<TStats level="Level_1_2" completed="1" score="42" time="40" turns="19"/>
+	<TStats level="Level_1_3" time="3"/>
+	<TStats level="Level_1_2" time="1"/>
+	<TStats level="Level_1_1" score="29" time="32" turns="10"/>
+	<TStats level="Level_1_1" score="29" time="35" turns="10"/>
+	<TStats level="Level_1_1" completed="1" score="52" time="49" turns="29"/>
+	<TStats level="Level_1_2" completed="1" score="41" time="50" turns="27"/>
+	<TStats level="Level_1_3" completed="1" score="52" time="41" turns="24"/>
+	<TStats level="Level_1_4" completed="1" turns="1"/>
+	<TStats level="Level_1_4" completed="1" turns="1"/>
+	<TStats level="Level_1_1" completed="1" score="52" time="78" turns="31"/>
+	<TStats level="Level_1_2" completed="1" score="41" time="29" turns="27"/>
+	<TStats level="Level_1_3" completed="1" score="52" time="44" turns="19"/>
+	<TStats level="Level_1_4" score="8" time="73" turns="35"/>
+	<TStats level="Level_1_4" completed="1" score="52" time="87" turns="38"/>
+	<TStats level="Level_1_5" completed="1" score="50" time="94" turns="31"/>
+	<TStats level="Level_1_4" score="8" time="73" turns="35"/>
+	<TStats level="Level_1_4" completed="1" score="52" time="52" turns="36"/>
+	<TStats level="Level_1_5" completed="1" score="52" time="66" turns="30"/>
 	<TStats level="Level_3_2" time="180.01333331" turns="1"/>
-	<TStats level="Level_3_2" time="180.01333331" turns="1"/>
-	<TStats level="Level_3_2" time="5.95999999" turns="1"/>
-	<TStats level="Level_1_1" completed="1" score="50" time="68.04" turns="41"/>
+	<TStats level="Level_3_2" time="32.97333332" turns="1"/>
+	<TStats level="Level_3_3" completed="1" score="47" time="254.67999997" turns="53"/>
+	<TStats level="Level_3_4" completed="1" score="21" time="219.87999998" turns="26"/>
+	<TStats level="Level_3_5" completed="1" score="28" time="93.34666665" turns="40"/>
+	<TStats level="Level_4_1" completed="1" time="22.38666664" turns="17"/>
+	<TStats level="Level_4_2" score="63" time="303.1333333" turns="48"/>
+	<TStats level="Level_4_2" completed="1" score="95" time="155.61333332" turns="74"/>
+	<TStats level="Level_4_3" completed="1" score="77" time="256.85333333" turns="56"/>
+	<TStats level="Level_4_4" completed="1" score="66" time="134.05333332" turns="62"/>
+	<TStats level="Level_4_5" completed="1" score="191" time="72.09333331" turns="28"/>
+	<TStats level="Level_5_1" completed="1" score="59" time="106.94666666" turns="27"/>
+	<TStats level="Level_5_2" completed="1" score="188" time="547.63999994" turns="67"/>
+	<TStats level="Level_5_3" score="96" time="180.01333331" turns="22"/>
+	<TStats level="Level_5_3" completed="1" score="115" time="56.65333333" turns="31"/>
+	<TStats level="Level_5_4" time="133.73333332" turns="1"/>
+	<TStats level="Level_1_1" score="30" time="21.15999997" turns="15"/>
+	<TStats level="test-level" score="263" time="621.62666664" turns="283"/>
+	<TStats level="test-level" time="9.34666666" turns="9"/>
+	<TStats level="test-level" time="1.98666666" turns="1"/>
+	<TStats level="test-level" time="9.14666663" turns="1"/>
+	<TStats level="Level_1_1" completed="1" score="31" time="35.10666666" turns="22"/>
+	<TStats level="Level_1_2" completed="1" score="42" time="50.50666666" turns="43"/>
+	<TStats level="Level_1_1" time="17.75999999" turns="1"/>
+	<TStats level="Level_1_1" completed="1" score="30" time="32.91999999" turns="22"/>
+	<TStats level="Level_1_2" completed="1" score="40" time="43.88" turns="39"/>
+	<TStats level="Level_1_3" score="18" time="50.06666666" turns="7"/>
+	<TStats level="Level_1_3" completed="1" score="50" time="68.37333333" turns="29"/>
 </TStatList>
