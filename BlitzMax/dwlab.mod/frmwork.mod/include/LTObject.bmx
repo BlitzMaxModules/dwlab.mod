@@ -61,7 +61,6 @@ Type LTObject
 	End Rem
 	Function LoadFromFile:LTObject( FileName:String, UseIncbin:Int = -1, XMLObject:LTXMLObject = Null )
 		ObjectFileName = FileName
-		LTTileMap.MaxTileMapNum = 0
 	
 		Local IncbinValue:String = ""
 		Select UseIncbin
@@ -113,6 +112,7 @@ Type LTObject
 		L_IDMap = New TMap
 		L_RemoveIDMap = New TMap
 		L_MaxID = 1
+		LTTileMap.FileNum = 1
 		
 		L_XMLMode = L_XMLSet
 		Local XMLObject:LTXMLObject = New LTXMLObject

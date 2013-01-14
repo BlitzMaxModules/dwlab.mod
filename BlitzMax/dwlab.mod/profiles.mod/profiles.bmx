@@ -33,7 +33,7 @@ Import maxgui.localization
 Import maxgui.drivers
 Import brl.audio
 Import brl.graphics
-Import maxmod2.dumb
+Import maxmod2.maxmod2
 
 Include "include\LTProfile.bmx"
 Include "include\LTVideoDriver.bmx"

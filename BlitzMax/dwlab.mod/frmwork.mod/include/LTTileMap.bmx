@@ -16,7 +16,7 @@ bbdoc: Tilemap is displayable rectangular tile-based shape with 2d array of tile
 End Rem
 Type LTTileMap Extends LTIntMap
 	Global LoadingErrorHandler:LTTileMapLoadingErrorHandler = New LTTileMapLoadingErrorHandler
-	Global MaxTileMapNum:Int = 0
+	Global FileNum:Int = 0
 	
 	Rem
 	bbdoc: Tilemap's default tileset.
@@ -54,8 +54,6 @@ Type LTTileMap Extends LTIntMap
 	about: 1 means drawing tile rows from top to bottom, -1 means otherwise.
 	End Rem
 	Field VerticalOrder:Int = 1	
-	
-	Field FileNum:Int
 	
 	Field LoadingTime:Int
 	
@@ -266,7 +264,6 @@ Type LTTileMap Extends LTIntMap
 			Local Time:Int = Millisecs()
 			
 			If FileNum Then
-				MaxTileMapNum = Max( MaxTileMapNum, FileNum )
 				Local FileName:String = LTObject.ObjectFileName + "_tilemaps\" + FileNum + ".bin"
 				Local File:TStream = ReadFile( FileName )
 				If Not File Then
@@ -338,6 +335,8 @@ Type LTTileMap Extends LTIntMap
 				Next
 			End If
 			CloseFile( File )
+			
+			FileNum :+ 1			
 		End If
 	End Method
 End Type

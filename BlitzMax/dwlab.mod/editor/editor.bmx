@@ -666,8 +666,6 @@ Type LTEditor Extends LTProject
 			If Errors Then Notify( Errors )
 			
 			FreeGadget( LoadingWindow )
-			
-			If LTTileMap.MaxTileMapNum = 0 Then EnumerateTileMaps( World )
 		End If
 	End Method
 
@@ -2537,19 +2535,6 @@ Type LTEditor Extends LTProject
 		For Local ChildLayer:LTLayer = Eachin Layer
 			ReplaceTiles( ChildLayer, TileSetName, TileNum1, TileNum2 )
 		Next
-	End Method
-	
-	
-	
-	Method EnumerateTileMaps( Layer:LTLayer )
-		For Local TileMap:LTTileMap = Eachin Layer
-			LTTileMap.MaxTileMapNum :+ 1
-			TileMap.FileNum = LTTileMap.MaxTileMapNum
-		Next
-		
-		For Local ChildLayer:LTLayer = Eachin Layer
-			EnumerateTileMaps( ChildLayer )
-		Next		
 	End Method
 End Type
 
