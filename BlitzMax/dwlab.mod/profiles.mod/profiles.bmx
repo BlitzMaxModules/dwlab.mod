@@ -29,11 +29,11 @@ ModuleInfo "History: v1.0 (09.10.11)"
 ModuleInfo "History: &nbsp; &nbsp; Initial release."
 
 Import dwlab.frmwork
+Import dwlab.music
 Import maxgui.localization
 Import maxgui.drivers
 Import brl.audio
 Import brl.graphics
-Import maxmod2.maxmod2
 
 Include "include\LTProfile.bmx"
 Include "include\LTVideoDriver.bmx"

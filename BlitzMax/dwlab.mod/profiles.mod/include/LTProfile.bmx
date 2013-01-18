@@ -38,29 +38,9 @@ Type LTProfile Extends LTObject
 	Field LevelName:String
 	Field LevelTime:Double
 	
-	Global MusicQuantity:Int
 	Global SoundChannels:TMap = New TMap
-	Global MusicChannel:TChannel = New TChannel
-	Global NewMusicChannel:TChannel
-	Global MusicFileName:String
-	Global RelativeMusicVolume:Double
-	Global MusicRate:Double
-	Global MusicPan:Double
-	Global MusicDepth:Double
-	Global OperationStartTime:Int
-	
-	Global MusicMode:Int = NoMusic
-	Const Normal:Int = 0
-	Const Paused:Int = 1
-	Const Fading:Int = 2
-	Const Rising:Int = 3
-	Const NoMusic:Int = 4
-	
-	Global MusicFileNames:String[]
-	
 	Global ChannelsList:TList = New TList
-	Global PauseMusicFadingPeriod:Double = 500
-	Global NextMusicFadingPeriod:Double = 1000
+	Global RelativeMusicVolume:Double
 	
 	Rem
 	bbdoc: Name of the profile.
@@ -130,7 +110,7 @@ Type LTProfile Extends LTObject
 	Field MusicVolume:Double = 1.0
 	
 	Field MusicRepeat:Int
-	Field MusicNum:Int
+	Field MusicName:String
 
 	Field MinGrainSize:Int = 8
 	Field GrainXQuantity:Int = 64
@@ -188,26 +168,6 @@ Type LTProfile Extends LTObject
 			?
 		End If
 	End Function
-	
-	
-	
-	Function LoadMus()
-		Local MusicList:TList = New TList
-		Repeat
-			Local FileName:String = "music\level_" + MusicQuantity + ".ogg"
-			If FileType( FileName ) <> 1 Then Exit
-			
-			MusicList.AddLast( FileName )
-			MusicQuantity :+ 1
-		Forever
-		
-		Local N:Int = 0
-		MusicFileNames = New String[ MusicQuantity ]
-		For Local FileName:String = Eachin MusicList
-			MusicFileNames[ N ] = FileName
-			N :+ 1
-		Next	
-	End Function	
 	
 	
 	
@@ -318,17 +278,11 @@ Type LTProfile Extends LTObject
 		Next
 		ChannelsList.Clear()
 		SoundChannels.Clear()
-		
-		If NewMusicChannel Then NewMusicChannel = Null
-		If MusicChannel Then
-			MusicChannel.Stop()
-			MusicChannel = New TChannel
-		End If
 					
 		AudioDriver = DriverName
 		SetAudioDriver( AudioDriver )
 		
-		StartMusic()
+		L_Music.Start()
 	End Method
 	
 	
@@ -366,44 +320,6 @@ Type LTProfile Extends LTObject
 	End Method
 	
 	
-
-	Method StartMusic()
-		If MusicMode > Paused Then Return
-		PlayMus( MusicFileNames[ MusicNum ] )
-	End Method
-	
-	
-	
-	Method SwitchMusicPlaying()
-		If MusicMode > Paused Then Return
-		OperationStartTime = MilliSecs()
-		If MusicMode = Paused Then
-			MusicMode = Rising
-			ResumeChannel( MusicChannel )
-		ElseIf MusicChannel.Playing() Then
-			MusicMode = Fading
-		Else
-			StartMusic()
-		End If
-	End Method
-	
-	
-	
-	Method PrevTrack()
-		If MusicMode <> Normal Then Return
-		MusicNum = ( MusicNum + MusicQuantity - 1 ) Mod MusicQuantity
-		StartMusic()
-	End Method
-	
-	
-	
-	Method NextTrack()
-		If MusicMode <> Normal Then Return
-		MusicNum = ( MusicNum + 1 ) Mod MusicQuantity
-		StartMusic()
-	End Method
-	
-	
 	
 	Rem
 	bbdoc: Sound playing function.
@@ -419,35 +335,6 @@ Type LTProfile Extends LTObject
 		SetRelativeSoundVolume( Channel, Volume )
 		ResumeChannel( Channel )
 		If Temporary Then ChannelsList.AddLast( Channel )
-	End Method
-	
-	
-	
-	Rem
-	bbdoc: Music playing function.
-	returns: Channel allocated for playing music.
-	about: Use it instead of standard sound playing functions to make profile music volume affect playing music.
-	End Rem
-	Method PlayMus:TChannel( FileName:String, Volume:Double = 1.0, Rate:Double = 1.0, Pan:Double = 0.0, Depth:Double = 0.0 )
-		If Not MusicOn Then Return Null
-		If NewMusicChannel Then NewMusicChannel.Stop()
-		OperationStartTime = MilliSecs()
-		RelativeMusicVolume = Volume
-		MusicRate = Rate
-		MusicPan = Pan
-		MusicDepth = Depth
-		MusicFileName = FileName
-		If MusicChannel.Playing() Then
-			NewMusicChannel = CueMusic( FileName )
-			SetChannelParameters( NewMusicChannel, Rate, Pan, Depth )
-			MusicMode = Fading
-		Else 
-			MusicChannel = PlayMusic( FileName )
-			SetChannelParameters( MusicChannel, Rate, Pan, Depth )
-			MusicChannel.SetVolume( RelativeMusicVolume * MusicVolume * MusicOn )
-			ResumeChannel( MusicChannel )
-		End If
-		Return NewMusicChannel
 	End Method
 	
 	
@@ -513,7 +400,7 @@ Type LTProfile Extends LTObject
 	
 	
 	Method UpdateMusicVolume()
-		MusicChannel.SetVolume( RelativeMusicVolume * MusicVolume * MusicOn )
+		L_Music.Volume = RelativeMusicVolume * MusicVolume * MusicOn
 	End Method
 	
 	
@@ -532,42 +419,7 @@ Type LTProfile Extends LTObject
 			If Not Channel.Playing() Then UnregisterChannel( Channel )
 		Next
 		
-		Select MusicMode
-			Case Fading
-				Local Period:Int
-				If NewMusicChannel Then Period = NextMusicFadingPeriod Else Period = PauseMusicFadingPeriod
-				If OperationStartTime + Period > MilliSecs() And MusicChannel Then
-					Local Volume:Double = 1.0:Double * ( OperationStartTime + Period - MilliSecs() ) / Period
-					MusicChannel.SetVolume( Volume * RelativeMusicVolume * MusicVolume * MusicOn )
-				Else
-					If NewMusicChannel Then
-						If MusicChannel Then MusicChannel.Stop()
-						MusicChannel = NewMusicChannel
-						NewMusicChannel = Null
-						MusicChannel.SetVolume( RelativeMusicVolume * MusicVolume * MusicOn )
-						ResumeChannel( MusicChannel )
-						MusicMode = Normal
-					Else
-						PauseChannel( MusicChannel )
-						MusicMode = Paused
-					End If
-				End If
-			Case Rising
-				If OperationStartTime + PauseMusicFadingPeriod > MilliSecs() Then
-					Local Volume:Double = 1.0:Double * ( MilliSecs() - OperationStartTime ) / PauseMusicFadingPeriod
-					MusicChannel.SetVolume( Volume * RelativeMusicVolume * MusicVolume * MusicOn )
-				Else
-					MusicMode = Normal
-				End If
-			Case Normal
-				If Not MusicChannel.Playing() Then
-					If L_CurrentProfile.MusicRepeat Then
-						PlayMus( MusicFileName, MusicVolume, MusicRate, MusicPan, MusicDepth )
-					Else
-						L_CurrentProfile.NextTrack()
-					End If
-				End If
-		End Select
+		L_Music.Manage()
 	End Method
 	
 	
@@ -665,7 +517,7 @@ Type LTProfile Extends LTObject
 		XMLObject.ManageIntAttribute( "music-on", MusicOn, 1 )
 		XMLObject.ManageDoubleAttribute( "music-volume", MusicVolume, 1.0 )
 		XMLObject.ManageIntAttribute( "repeat", MusicRepeat, True )
-		XMLObject.ManageIntAttribute( "music", MusicNum )
+		XMLObject.ManageStringAttribute( "music", MusicName )
 		XMLObject.ManageIntAttribute( "x-resolution", L_XResolution )
 		XMLObject.ManageIntAttribute( "y-resolution", L_YResolution )
 		XMLObject.ManageStringAttribute( "first-locked-level", FirstLockedLevel )
