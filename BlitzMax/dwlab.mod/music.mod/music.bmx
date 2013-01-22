@@ -24,7 +24,7 @@ Type LTMusicHandler
 	Global OperationStartTime:Int
 	Global Volume:Double
 	
-	Global MusicMode:Int = Normal
+	Global MusicMode:Int = Stopped
 	
 	Const Normal:Int = 0
 	Const Paused:Int = 1
@@ -35,7 +35,7 @@ Type LTMusicHandler
 	Method Preload( FileName:String, Name:String )
 	End Method
 	
-	Method Add( Name:String, Looped:Int, Rate:Double )
+	Method Add( Name:String, Looped:Int = False, Rate:Double = 1.0 )
 	End Method
 	
 	Method Start( NextEntry:Int = False )
@@ -83,39 +83,19 @@ Type LTMusicHandler
 		End Select
 	End Method
 	
-	Method PrevTrack( FadeOut:Int = False, Looped:Int = False, Rate:Double = 1.0 )
-		If MusicMode <> Normal Then Return
-		Local Link:TLink = GetEntryLink()
-		If Link = AllEntries.FirstLink() Then
-			Add( LTMusicEntry( AllEntries.Last() ).Name, Looped, Rate )
-		Else
-			Add( LTMusicEntry( Link.PrevLink().Value() ).Name, Looped, Rate )
-		End If
-		NextMusic( FadeOut )
-	End Method
-	
-	Method NextTrack( FadeOut:Int = False, Looped:Int = False, Rate:Double = 1.0 )
-		If MusicMode <> Normal Then Return
-		Local Link:TLink = GetEntryLink()
-		If Link = AllEntries.LastLink() Then
-			Add( LTMusicEntry( AllEntries.First() ).Name, Looped, Rate )
-		Else
-			Add( LTMusicEntry( Link.NextLink().Value() ).Name, Looped, Rate )
-		End If
-		NextMusic( FadeOut )
-	End Method
-	
 	Method Manage()
 	End Method
 	
-	Method GetEntryLink:TLink()
+	Method SetVolume( Vol:Int )
+	End Method
+	
+	Method GetName:String()
 	End Method
 End Type
 
 
 
 Type LTMusicEntry
-	Field Link:TLink
 	Field Name:String
 	Field Looped:Int
 	Field Rate:Int

@@ -12,6 +12,8 @@ Module dwlab.loadedmusic
 Import dwlab.music
 Import brl.audio
 
+L_Music = New LTLoadedMusicHandler
+
 Type LTLoadedMusicHandler Extends LTMusicHandler
 	Field CurrentEntry:LTLoadedMusicEntry
 	Global Channel:TChannel = New TChannel
@@ -20,7 +22,7 @@ Type LTLoadedMusicHandler Extends LTMusicHandler
 		Local Entry:LTLoadedMusicEntry = New LTLoadedMusicEntry
 		Entry.Sound = LoadSound( FileName )
 		Entry.Name = Name
-		Entry.Link = AllEntries.AddLast( Entry )
+		AllEntries.AddLast( Entry )
 	End Method
 	
 	Method Add( Name:String, Looped:Int = False, Rate:Double = 1.0 )
@@ -28,7 +30,6 @@ Type LTLoadedMusicHandler Extends LTMusicHandler
 			If Entry.Name = Name Then
 				Local NewEntry:LTLoadedMusicEntry = New LTLoadedMusicEntry
 				NewEntry.Sound = Entry.Sound
-				NewEntry.Link = Entry.Link
 				NewEntry.Looped = Looped
 				NewEntry.Rate = Rate
 				Entries.AddLast( NewEntry )
@@ -79,8 +80,13 @@ Type LTLoadedMusicHandler Extends LTMusicHandler
 		End Select
 	End Method
 	
-	Method GetEntryLink:TLink()
-		Return CurrentEntry.Link
+	Method SetVolume( Vol:Int )
+		Volume = Vol
+		Channel.SetVolume( Volume )
+	End Method
+	
+	Method GetName:String()
+		Return CurrentEntry.Name
 	End Method
 End Type
 

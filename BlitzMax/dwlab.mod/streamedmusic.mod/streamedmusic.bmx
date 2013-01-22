@@ -13,6 +13,8 @@ Module dwlab.streamedmusic
 Import dwlab.music
 Import maxmod2.maxmod2
 
+L_Music = New LTStreamedMusicHandler
+
 Type LTStreamedMusicHandler Extends LTMusicHandler
 	Field CurrentEntry:LTStreamedMusicEntry
 	Global Channel:TChannel = New TChannel
@@ -21,7 +23,7 @@ Type LTStreamedMusicHandler Extends LTMusicHandler
 		Local Entry:LTStreamedMusicEntry = New LTStreamedMusicEntry
 		Entry.FileName = FileName
 		Entry.Name = Name
-		Entry.Link = AllEntries.AddLast( Entry )
+		AllEntries.AddLast( Entry )
 	End Method
 	
 	Method Add( Name:String, Looped:Int = False, Rate:Double = 1.0 )
@@ -29,7 +31,6 @@ Type LTStreamedMusicHandler Extends LTMusicHandler
 			If Entry.Name = Name Then
 				Local NewEntry:LTStreamedMusicEntry = New LTStreamedMusicEntry
 				NewEntry.FileName = Entry.FileName
-				NewEntry.Link = Entry.Link
 				NewEntry.Looped = Looped
 				NewEntry.Rate = Rate
 				Entries.AddLast( NewEntry )
@@ -80,8 +81,13 @@ Type LTStreamedMusicHandler Extends LTMusicHandler
 		End Select
 	End Method
 	
-	Method GetEntryLink:TLink()
-		Return CurrentEntry.Link
+	Method SetVolume( Vol:Int )
+		Volume = Vol
+		Channel.SetVolume( Volume )
+	End Method
+	
+	Method GetName:String()
+		Return CurrentEntry.Name
 	End Method
 End Type
 

@@ -111,6 +111,7 @@ Type LTProfile Extends LTObject
 	
 	Field MusicRepeat:Int
 	Field MusicName:String
+	Field PlayList:String[]
 
 	Field MinGrainSize:Int = 8
 	Field GrainXQuantity:Int = 64
@@ -400,7 +401,35 @@ Type LTProfile Extends LTObject
 	
 	
 	Method UpdateMusicVolume()
-		L_Music.Volume = RelativeMusicVolume * MusicVolume * MusicOn
+		L_Music.SetVolume( RelativeMusicVolume * MusicVolume * MusicOn )
+	End Method
+	
+	
+	
+	Method NextTrack()
+		Local TrackName:String = L_Music.GetName()
+		For Local N:Int = 0 Until PlayList.Length
+			If PlayList[ N ] = TrackName Then
+				N :+ 1
+				If N = PlayList.Length Then N = 0
+				L_Music.Add( PlayList[ N ], MusicRepeat )
+				Return
+			End If
+		Next
+	End Method
+	
+	
+	
+	Method PrevTrack()
+		Local TrackName:String = L_Music.GetName()
+		For Local N:Int = 0 Until PlayList.Length
+			If PlayList[ N ] = TrackName Then
+				N :- 1
+				If N < 0 Then N :+ PlayList.Length
+				L_Music.Add( PlayList[ N ], MusicRepeat )
+				Return
+			End If
+		Next
 	End Method
 	
 	
