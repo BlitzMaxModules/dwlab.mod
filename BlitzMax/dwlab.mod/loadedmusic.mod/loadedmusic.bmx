@@ -16,7 +16,7 @@ L_Music = New LTLoadedMusicHandler
 
 Type LTLoadedMusicHandler Extends LTMusicHandler
 	Field CurrentEntry:LTLoadedMusicEntry
-	Global Channel:TChannel = New TChannel
+	Field Channel:TChannel = New TChannel
 
 	Method Preload( FileName:String, Name:String )
 		Local Entry:LTLoadedMusicEntry = New LTLoadedMusicEntry
@@ -38,9 +38,8 @@ Type LTLoadedMusicHandler Extends LTMusicHandler
 		Next
 	End Method
 	
-	Method StartMusic( NextEntry:Int = False )
+	Method Start()
 		If Channel Then Channel.Stop()
-		If NextEntry And Not Entries.IsEmpty() Then Entries.RemoveFirst()
 		If Entries.IsEmpty() Then
 			MusicMode = Stopped
 		Else
@@ -57,26 +56,28 @@ Type LTLoadedMusicHandler Extends LTMusicHandler
 		Local Vol:Double
 		Select MusicMode
 			Case Fading
-				If OperationStartTime + Period > 0.001 * MilliSecs() And MusicChannel Then
+				If OperationStartTime + Period > MilliSecs() Then
 					Vol = 1.0:Double * ( OperationStartTime + Period - MilliSecs() ) / Period
 					Channel.SetVolume( Vol * Volume )
 				Else
 					If NextMus Then
-						Start( True )
+						Start()
 					Else
 						PauseChannel( Channel )
 						MusicMode = Paused
 					End If
 				End If
 			Case Rising
-				If OperationStartTime + PauseMusicFadingPeriod > MilliSecs() Then
-					Vol = 1.0:Double * ( MilliSecs() - OperationStartTime ) / PauseMusicFadingPeriod
+				If Not Channel.Playing() Then ResumeChannel( Channel )
+				If OperationStartTime + Period > MilliSecs() Then
+					Vol = 1.0:Double * ( MilliSecs() - OperationStartTime ) / Period
 					Channel.SetVolume( Vol * Volume )
 				Else
+					Channel.SetVolume( Volume )
 					MusicMode = Normal
 				End If
 			Case Normal
-				If Not Channel.Playing() Then Start( Not CurrentEntry.Looped )
+				If Not Channel.Playing() Then NextMusic()
 		End Select
 	End Method
 	

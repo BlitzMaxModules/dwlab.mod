@@ -22,7 +22,7 @@ Type LTMusicHandler
 	Global NextMus:Int
 	Global Period:Double
 	Global OperationStartTime:Int
-	Global Volume:Double
+	Global Volume:Double = 1.0
 	
 	Global MusicMode:Int = Stopped
 	
@@ -38,15 +38,22 @@ Type LTMusicHandler
 	Method Add( Name:String, Looped:Int = False, Rate:Double = 1.0 )
 	End Method
 	
-	Method Start( NextEntry:Int = False )
+	Method Start()
 	End Method
 	
 	Method StopMusic( FadeOut:Int = False )
 		Entries.Clear()
-		Pause( FadeOut )
+		NextMusic( FadeOut )
 	End Method
 	
 	Method Pause( FadeOut:Int = False )
+		If MusicMode = Rising Then
+			OperationStartTime =  MilliSecs() * 2 - OperationStartTime
+		ElseIf MusicMode = Normal Then
+			OperationStartTime = MilliSecs()
+		Else
+			Return
+		End If
 		If FadeOut Then
 			Period = PauseMusicFadingPeriod
 		Else
@@ -58,25 +65,39 @@ Type LTMusicHandler
 	End Method
 	
 	Method Resume( FadeIn:Int = False )
-		MusicMode = Rising
-		OperationStartTime = MilliSecs()
-	End Method
-	
-	Method NextMusic( FadeOut:Int = False )
-		If FadeOut Then
+		If MusicMode = Fading Then
+			OperationStartTime =  MilliSecs() * 2 - OperationStartTime
+		ElseIf MusicMode = Normal Then
+			OperationStartTime = MilliSecs()	
+		ElseIf MusicMode = Rising Then
+			Return
+		End If
+		If FadeIn Then
 			Period = PauseMusicFadingPeriod
 		Else
 			Period = 0
 		End If
+		MusicMode = Rising
+	End Method
+	
+	Method NextMusic( FadeOut:Int = False, RemoveFirstEntry:Int = True )
+		If Entries.IsEmpty() Then Return
+		If FadeOut Then
+			Period = NextMusicFadingPeriod
+		Else
+			Period = 0
+		End If
+		MusicMode = Fading
+		If RemoveFirstEntry Then Entries.RemoveFirst()
 		NextMus = True
 		OperationStartTime = MilliSecs()
 	End Method
 	
 	Method SwitchMusicPlaying( Fade:Int = False )
 		Select MusicMode
-			Case Normal
+			Case Normal, Rising
 				Pause( Fade )
-			Case Paused
+			Case Paused, Fading
 				Resume( Fade )
 			Case Stopped
 				Start()

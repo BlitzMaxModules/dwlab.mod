@@ -10,27 +10,45 @@
 
 SuperStrict
 
-Import dwlab.frmwork' DWLab framework import
-Import dwlab.graphicsdrivers
-Import dwlab.audiodrivers' DWLab framework sound import
+' Setting framework
+Framework brl.basic
+
+Import brl.pngloader ' for loading PNGs
+Import brl.oggloader ' for loading OGGs
+
+Import dwlab.frmwork 'DWLab framework import
+Import dwlab.loadedmusic 'DWLab framework music and sound support
+
+Import dwlab.graphicsdrivers 'loading graphics drivers
+Import dwlab.audiodrivers 'loading audio drivers
 
 Include "TGame.bmx"
 Include "TMario.bmx"
 Include "TTiles.bmx"
-Include "CommonBehaviorModels.bmx"
-Include "TTrigger.bmx"
-Include "TScore.bmx"
-Include "HUD.bmx"
-Include "TLives.bmx"
-Include "TTime.bmx"
-Include "TBlock.bmx"
-Include "TStart.bmx"
-Include "TExit.bmx"
-Include "TBonus.bmx"
-Include "TEnemy.bmx"
-Include "TPole.bmx"
-Include "world_incbin.bmx"
-Include "hud_incbin.bmx"
 
 Global Game:TGame = New TGame
 Game.Execute()
+
+Type TGoomba Extends LTSprite
+End Type
+
+Type TKoopaTroopa Extends LTSprite
+End Type
+
+Type TTrigger Extends LTSprite
+End Type
+
+Type TExit Extends LTSprite
+End Type
+
+Type TPole Extends LTSprite
+End Type
+
+Type TFlag Extends LTSprite
+End Type
+
+Type TStart Extends LTSprite
+End Type
+
+Type TMusic Extends LTSprite
+End Type

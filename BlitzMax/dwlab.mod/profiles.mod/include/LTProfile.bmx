@@ -112,6 +112,7 @@ Type LTProfile Extends LTObject
 	Field MusicRepeat:Int
 	Field MusicName:String
 	Field PlayList:String[]
+	Field TrackNum:Int
 
 	Field MinGrainSize:Int = 8
 	Field GrainXQuantity:Int = 64
@@ -406,30 +407,30 @@ Type LTProfile Extends LTObject
 	
 	
 	
+	Method StartTrack()
+		L_Music.Entries.Clear()
+		L_Music.Add( PlayList[ TrackNum ], MusicRepeat )
+		L_Music.Start()
+	End Method
+	
+	
+	
 	Method NextTrack()
-		Local TrackName:String = L_Music.GetName()
-		For Local N:Int = 0 Until PlayList.Length
-			If PlayList[ N ] = TrackName Then
-				N :+ 1
-				If N = PlayList.Length Then N = 0
-				L_Music.Add( PlayList[ N ], MusicRepeat )
-				Return
-			End If
-		Next
+		TrackNum :+ 1
+		If TrackNum >= PlayList.Length Then TrackNum = 0
+		L_Music.Entries.Clear()
+		L_Music.Add( PlayList[ TrackNum ], MusicRepeat )
+		L_Music.NextMusic( True, False )
 	End Method
 	
 	
 	
 	Method PrevTrack()
-		Local TrackName:String = L_Music.GetName()
-		For Local N:Int = 0 Until PlayList.Length
-			If PlayList[ N ] = TrackName Then
-				N :- 1
-				If N < 0 Then N :+ PlayList.Length
-				L_Music.Add( PlayList[ N ], MusicRepeat )
-				Return
-			End If
-		Next
+		TrackNum :- 1
+		If TrackNum < 0  Then TrackNum = PlayList.Length - 1
+		L_Music.Entries.Clear()
+		L_Music.Add( PlayList[ TrackNum ], MusicRepeat )
+		L_Music.NextMusic( True, False )
 	End Method
 	
 	

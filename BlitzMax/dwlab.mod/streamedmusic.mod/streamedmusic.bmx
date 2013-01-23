@@ -39,9 +39,8 @@ Type LTStreamedMusicHandler Extends LTMusicHandler
 		Next
 	End Method
 	
-	Method StartMusic( NextEntry:Int = False )
+	Method Start()
 		If Channel Then Channel.Stop()
-		If NextEntry And Not Entries.IsEmpty() Then Entries.RemoveFirst()
 		If Entries.IsEmpty() Then
 			MusicMode = Stopped
 		Else
@@ -58,26 +57,28 @@ Type LTStreamedMusicHandler Extends LTMusicHandler
 		Local Vol:Double
 		Select MusicMode
 			Case Fading
-				If OperationStartTime + Period > 0.001 * MilliSecs() And MusicChannel Then
+				If OperationStartTime + Period > MilliSecs() Then
 					Vol = 1.0:Double * ( OperationStartTime + Period - MilliSecs() ) / Period
 					Channel.SetVolume( Vol * Volume )
 				Else
 					If NextMus Then
-						Start( True )
+						Start()
 					Else
 						PauseChannel( Channel )
 						MusicMode = Paused
 					End If
 				End If
 			Case Rising
-				If OperationStartTime + PauseMusicFadingPeriod > MilliSecs() Then
-					Vol = 1.0:Double * ( MilliSecs() - OperationStartTime ) / PauseMusicFadingPeriod
+				If Not Channel.Playing() Then ResumeChannel( Channel )
+				If OperationStartTime + Period > MilliSecs() Then
+					Vol = 1.0:Double * ( MilliSecs() - OperationStartTime ) / Period
 					Channel.SetVolume( Vol * Volume )
 				Else
+					Channel.SetVolume( Volume )
 					MusicMode = Normal
 				End If
 			Case Normal
-				If Not Channel.Playing() Then Start( Not CurrentEntry.Looped )
+				If Not Channel.Playing() Then Start()
 		End Select
 	End Method
 	

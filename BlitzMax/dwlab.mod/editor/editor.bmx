@@ -602,7 +602,6 @@ Type LTEditor Extends LTProject
 		CurrentViewLayer = AddLayer( "LTLayer" )
 		CurrentContainer = CurrentViewLayer
 		RefreshProjectManager()
-		LTTileMap.MaxTileMapNum = 0
 		
 		WorldFilename = "untitled.lw"
 		Changed = False
@@ -1151,8 +1150,6 @@ Type LTEditor Extends LTProject
 									Layer.AddLast( Tilemap )
 									SetChanged()
 									EditTileMap( Tilemap )
-									LTTileMap.MaxTileMapNum :+ 1
-									TileMap.FileNum = LTTileMap.MaxTileMapNum
 								End If
 							End If
 						End If
