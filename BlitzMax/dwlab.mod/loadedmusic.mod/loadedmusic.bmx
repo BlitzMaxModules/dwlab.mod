@@ -52,6 +52,10 @@ Type LTLoadedMusicHandler Extends LTMusicHandler
 		End If
 	End Method
 	
+	Method StopMusic()
+		Channel.Stop()
+	End Method
+	
 	Method Manage()
 		Local Vol:Double
 		Select MusicMode
@@ -77,17 +81,13 @@ Type LTLoadedMusicHandler Extends LTMusicHandler
 					MusicMode = Normal
 				End If
 			Case Normal
-				If Not Channel.Playing() Then NextMusic()
+				If Not Channel.Playing() Then NextMusic( False, Not( ForceRepeat Or CurrentEntry.Looped ) )
 		End Select
 	End Method
 	
-	Method SetVolume( Vol:Int )
+	Method SetVolume( Vol:Double )
 		Volume = Vol
 		Channel.SetVolume( Volume )
-	End Method
-	
-	Method GetName:String()
-		Return CurrentEntry.Name
 	End Method
 End Type
 

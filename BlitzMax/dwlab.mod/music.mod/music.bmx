@@ -23,6 +23,7 @@ Type LTMusicHandler
 	Global Period:Double
 	Global OperationStartTime:Int
 	Global Volume:Double = 1.0
+	Global ForceRepeat:Int
 	
 	Global MusicMode:Int = Stopped
 	
@@ -41,24 +42,25 @@ Type LTMusicHandler
 	Method Start()
 	End Method
 	
-	Method StopMusic( FadeOut:Int = False )
+	Method StopMusic()
+	End Method
+	
+	Method ClearMusic( FadeOut:Int = False )
 		Entries.Clear()
 		NextMusic( FadeOut )
 	End Method
 	
 	Method Pause( FadeOut:Int = False )
 		If MusicMode = Rising Then
+			Period = PauseMusicFadingPeriod + OperationStartTime - MilliSecs()
 			OperationStartTime =  MilliSecs() * 2 - OperationStartTime
 		ElseIf MusicMode = Normal Then
 			OperationStartTime = MilliSecs()
+			Period = PauseMusicFadingPeriod
 		Else
 			Return
 		End If
-		If FadeOut Then
-			Period = PauseMusicFadingPeriod
-		Else
-			Period = 0
-		End If
+		If Not FadeOut Then Period = 0
 		MusicMode = Fading
 		NextMus = False
 		OperationStartTime = MilliSecs()
@@ -66,17 +68,15 @@ Type LTMusicHandler
 	
 	Method Resume( FadeIn:Int = False )
 		If MusicMode = Fading Then
+			Period = PauseMusicFadingPeriod + OperationStartTime - MilliSecs()
 			OperationStartTime =  MilliSecs() * 2 - OperationStartTime
-		ElseIf MusicMode = Normal Then
-			OperationStartTime = MilliSecs()	
-		ElseIf MusicMode = Rising Then
-			Return
-		End If
-		If FadeIn Then
+		ElseIf MusicMode = Paused Then
+			OperationStartTime = MilliSecs()
 			Period = PauseMusicFadingPeriod
 		Else
-			Period = 0
+			Return
 		End If
+		If Not FadeIn Then Period = 0
 		MusicMode = Rising
 	End Method
 	
@@ -107,10 +107,7 @@ Type LTMusicHandler
 	Method Manage()
 	End Method
 	
-	Method SetVolume( Vol:Int )
-	End Method
-	
-	Method GetName:String()
+	Method SetVolume( Vol:Double )
 	End Method
 End Type
 

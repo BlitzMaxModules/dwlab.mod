@@ -36,5 +36,4 @@ Import brl.audio
 Import brl.graphics
 
 Include "include\LTProfile.bmx"
-Include "include\LTVideoDriver.bmx"
 Include "include\LTScreenResolution.bmx"

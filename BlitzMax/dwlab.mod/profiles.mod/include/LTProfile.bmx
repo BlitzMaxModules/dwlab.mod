@@ -24,23 +24,13 @@ Global L_AudioDrivers:TList = New TList
 Rem
 bbdoc: Head class for profiles.
 End Rem
-Type LTProfile Extends LTObject
-	Rem
-	bbdoc: Name of the audio driver.
-	End Rem
-	Global AudioDriver:String
-	
-	Rem
-	bbdoc: Name of the video driver.
-	End Rem
-	Global VideoDriver:String
-	
+Type LTProfile Extends LTObject	
 	Field LevelName:String
 	Field LevelTime:Double
 	
 	Global SoundChannels:TMap = New TMap
 	Global ChannelsList:TList = New TList
-	Global RelativeMusicVolume:Double
+	Global RelativeMusicVolume:Double = 1.0
 	
 	Rem
 	bbdoc: Name of the profile.
@@ -109,7 +99,7 @@ Type LTProfile Extends LTObject
 	End Rem
 	Field MusicVolume:Double = 1.0
 	
-	Field MusicRepeat:Int
+	Field MusicRepeat:Int = True
 	Field MusicName:String
 	Field PlayList:String[]
 	Field TrackNum:Int
@@ -134,41 +124,6 @@ Type LTProfile Extends LTObject
 				'DebugLog Mode.Width + ", " + Mode.Height + ", " + Mode.Depth + ", " + Mode.Hertz
 			End If
 		Next
-		
-		Local DefaultDriverTypeID:TTypeId = TTypeId.ForObject( GetGraphicsDriver() )
-		For Local DriverTypeID:TTypeId = Eachin TTypeID.ForName( "TMax2DDriver" ).DerivedTypes()
-			Local Driver:TMax2DDriver = Null
-			Local DriverName:String = ""
-			?win32
-			Select DriverTypeID.Name()
-				Case "TD3D7Max2DDriver", "TD3D9Max2DDriver"
-					Driver = TMax2DDriver( DriverTypeID.NewObject() )
-			End Select
-			?
-			Local DriverObject:Object = DriverTypeID.NewObject()
-			For Local TheMethod:TMethod = Eachin DriverTypeID.EnumMethods()
-				Local Name:String = TheMethod.Name().ToLower()
-				If Name = "create" Then Driver = TMax2DDriver( TheMethod.Invoke( DriverObject, Null ) )
-				If Name = "tostring" Then DriverName = String( TheMethod.Invoke( DriverObject, Null ) )
-			Next
-			If Driver Then
-				Local VideoDrv:LTVideoDriver = New LTVideoDriver
-				VideoDrv.Driver = Driver
-				VideoDrv.Name = DriverName
-				L_VideoDrivers.AddLast( VideoDrv )
-				
-				If Not VideoDriver And DriverTypeID = DefaultDriverTypeID Then VideoDriver = DriverName
-			End If
-		Next
-		
-		L_AudioDrivers = TList.FromArray( AudioDrivers() )
-		If Not AudioDriver Then
-			?win32
-				If AudioDriverExists( "DirectSound" ) Then AudioDriver = "DirectSound"
-			?not win32
-				If AudioDriverExists( "OpenAL" ) Then AudioDriver = "OpenAL"
-			?
-		End If
 	End Function
 	
 	
@@ -263,28 +218,8 @@ Type LTProfile Extends LTObject
 				If NewScreen Or NewLanguage Then Project.ReloadWindows()
 			Next
 		End If
-	End Method
-	
-	
-	
-	Function SetVideoDriver( DriverName:String )
-		VideoDriver = DriverName
-		SetGraphicsDriver( LTVideoDriver.Get( VideoDriver ).Driver )
-	End Function
-	
-	
-	
-	Method SetSoundDriver( DriverName:String )
-		For Local Channel:TChannel = Eachin ChannelsList
-			Channel.Stop()
-		Next
-		ChannelsList.Clear()
-		SoundChannels.Clear()
-					
-		AudioDriver = DriverName
-		SetAudioDriver( AudioDriver )
 		
-		L_Music.Start()
+		UpdateMusicVolume()
 	End Method
 	
 	
@@ -402,6 +337,10 @@ Type LTProfile Extends LTObject
 	
 	
 	Method UpdateMusicVolume()
+		DebugLog RelativeMusicVolume
+		DebugLog MusicVolume
+		DebugLog MusicOn
+		DebugLog RelativeMusicVolume * MusicVolume * MusicOn
 		L_Music.SetVolume( RelativeMusicVolume * MusicVolume * MusicOn )
 	End Method
 	
@@ -450,6 +389,7 @@ Type LTProfile Extends LTObject
 		Next
 		
 		L_Music.Manage()
+		If L_Music.Entries.IsEmpty() Then NextTrack()
 	End Method
 	
 	
@@ -466,8 +406,6 @@ Type LTProfile Extends LTObject
 		Local Profile:LTProfile = New Self
 		Profile.Name = Name
 		Profile.Language = Language
-		Profile.AudioDriver = AudioDriver
-		Profile.VideoDriver = VideoDriver
 		Profile.FullScreen = FullScreen
 		Profile.ScreenWidth = ScreenWidth
 		Profile.ScreenHeight = ScreenHeight

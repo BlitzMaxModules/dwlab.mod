@@ -12,6 +12,9 @@ Module dwlab.streamedmusic
 
 Import dwlab.music
 Import maxmod2.maxmod2
+Import maxmod2.ogg
+Import maxmod2.rtaudio
+SetAudioDriver("MaxMod RtAudio")
 
 L_Music = New LTStreamedMusicHandler
 
@@ -47,10 +50,14 @@ Type LTStreamedMusicHandler Extends LTMusicHandler
 			CurrentEntry = LTStreamedMusicEntry( Entries.First() )
 			Channel = CueMusic( CurrentEntry.FileName )
 			Channel.SetRate( CurrentEntry.Rate )
-			Channel.SetVolume( Volume )
+			SetChannelVolume( Channel, Volume )
 			ResumeChannel( Channel )
 			MusicMode = Normal
 		End If
+	End Method
+	
+	Method StopMusic()
+		Channel.Stop()
 	End Method
 	
 	Method Manage()
@@ -59,7 +66,7 @@ Type LTStreamedMusicHandler Extends LTMusicHandler
 			Case Fading
 				If OperationStartTime + Period > MilliSecs() Then
 					Vol = 1.0:Double * ( OperationStartTime + Period - MilliSecs() ) / Period
-					Channel.SetVolume( Vol * Volume )
+					SetChannelVolume( Channel, Vol * Volume )
 				Else
 					If NextMus Then
 						Start()
@@ -72,23 +79,19 @@ Type LTStreamedMusicHandler Extends LTMusicHandler
 				If Not Channel.Playing() Then ResumeChannel( Channel )
 				If OperationStartTime + Period > MilliSecs() Then
 					Vol = 1.0:Double * ( MilliSecs() - OperationStartTime ) / Period
-					Channel.SetVolume( Vol * Volume )
+					SetChannelVolume( Channel, Vol * Volume )
 				Else
-					Channel.SetVolume( Volume )
+					SetChannelVolume( Channel, Volume )
 					MusicMode = Normal
 				End If
 			Case Normal
-				If Not Channel.Playing() Then Start()
+				If Not Channel.Playing() Then NextMusic( False, Not( ForceRepeat Or CurrentEntry.Looped ) )
 		End Select
 	End Method
 	
-	Method SetVolume( Vol:Int )
+	Method SetVolume( Vol:Double )
 		Volume = Vol
-		Channel.SetVolume( Volume )
-	End Method
-	
-	Method GetName:String()
-		Return CurrentEntry.Name
+		SetChannelVolume( Channel, Volume )
 	End Method
 End Type
 
