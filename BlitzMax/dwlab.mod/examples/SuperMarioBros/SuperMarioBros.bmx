@@ -25,6 +25,7 @@ Import dwlab.audiodrivers 'loading audio drivers
 Include "TGame.bmx"
 Include "TMario.bmx"
 Include "TTiles.bmx"
+Include "CommonBehaviorModels.bmx"
 
 Global Game:TGame = New TGame
 Game.Execute()
