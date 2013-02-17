@@ -1,17 +1,21 @@
 Type TMario Extends LTVectorSprite
-Field OnLand:Int
+	Global Collisions:Int
+	
+	Field OnLand:Int
 	
     Method Init()
-        AttachModel( THorizontalMovement.Create( Null, TMarioCollidedWithWall.Instance) )
-		AttachModel( TVerticalMovement.Create( Null, TMarioCollidedWithFloor.Instance ) )
+        AttachModel( New LTHorizontalMovementModel )
+		AttachModel( LTTileMapCollisionModel.Create( Game.Tilemap, TMarioCollidedWithWall.Instance ) )
+		AttachModel( New LTVerticalMovementModel )
+		AttachModel( LTTileMapCollisionModel.Create( Game.Tilemap, TMarioCollidedWithFloor.Instance ) )
        AttachModel( New TGravity )
      AttachModel( New TMoving )
      AttachModel( New TJumping )
 	End Method
    
    Method Act()
-        OnLand = False
-     Super.Act()
+		OnLand = False
+		Super.Act()
        
        LimitHorizontallyWith( Game.Level.Bounds )
        
@@ -36,7 +40,7 @@ Type TMarioCollidedWithFloor Extends LTSpriteAndTileCollisionHandler
 	Global Instance:TMarioCollidedWithFloor = New TMarioCollidedWithFloor
 	
 	Method HandleCollision( Sprite:LTSprite, TileMap:LTTileMap, TileX:Int, TileY:Int, CollisionSprite:LTSprite )
-		Instance.HandleCollision( Sprite, TileMap, TileX, TileY, CollisionSprite )
+		TMarioCollidedWithWall.Instance.HandleCollision( Sprite, TileMap, TileX, TileY, CollisionSprite )
 		Local Mario:TMario = TMario( Sprite )
 		If Mario.DY >= 0 Then Mario.OnLand = True
 		Mario.DY = 0

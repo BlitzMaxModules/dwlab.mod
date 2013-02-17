@@ -511,3 +511,21 @@ Type LTSpriteMap Extends LTMap
 		End If
 	End Method
 End Type
+
+
+
+Type LTSpriteMapCollisionModel Extends LTBehaviorModel
+	Field SpriteMap:LTSpriteMap
+	Field CollisionHandler:LTSpriteCollisionHandler
+	
+	Function Create:LTSpriteMapCollisionModel( SpriteMap:LTSpriteMap, CollisionHandler:LTSpriteCollisionHandler )
+		Local Model:LTSpriteMapCollisionModel = New LTSpriteMapCollisionModel
+		Model.CollisionHandler = CollisionHandler
+		Model.SpriteMap = SpriteMap
+		Return Model
+	End Function
+	
+	Method ApplyTo( Shape:LTShape )
+		LTSprite( Shape ).CollisionsWithSpriteMap( SpriteMap, CollisionHandler )
+	End Method
+End Type

@@ -350,3 +350,23 @@ Type LTTileMapLoadingErrorHandler
 		L_Error( "Tile map " + FileName + " cannot be loaded or not found." )
 	End Method
 End Type
+
+
+
+
+
+Type LTTileMapCollisionModel Extends LTBehaviorModel
+	Field TileMap:LTTileMap
+	Field CollisionHandler:LTSpriteAndTileCollisionHandler
+	
+	Function Create:LTTileMapCollisionModel( TileMap:LTTileMap, CollisionHandler:LTSpriteAndTileCollisionHandler )
+		Local Model:LTTileMapCollisionModel = New LTTileMapCollisionModel
+		Model.CollisionHandler = CollisionHandler
+		Model.TileMap = TileMap
+		Return Model
+	End Function
+	
+	Method ApplyTo( Shape:LTShape )
+		LTSprite( Shape ).CollisionsWithTilemap( TileMap, CollisionHandler )
+	End Method
+End Type
