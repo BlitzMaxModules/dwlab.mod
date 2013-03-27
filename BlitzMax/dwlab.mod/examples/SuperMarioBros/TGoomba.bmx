@@ -12,5 +12,6 @@ Type TGoomba Extends LTVectorSprite
        AttachModel( LTTileMapCollisionModel.Create( Game.Tilemap, TCollisionWithFloor.Instance ) )
        AttachModel( LTSpriteMapCollisionModel.Create( Game.MovingObjects, TSpritesVerticalCollision.Instance ) )
        AttachModel( TGravity.Instance )
+       AttachModel( TRemoveIfOutside.Instance )
    End Method
 End Type

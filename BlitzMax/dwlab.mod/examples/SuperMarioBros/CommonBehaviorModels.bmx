@@ -48,3 +48,17 @@ Type TSpritesVerticalCollision Extends LTSpriteCollisionHandler
        Sprite1.PushFromSprite( Sprite2 )
    End Method
 End Type
+
+
+
+Type TRemoveIfOutside Extends LTBehaviorModel
+	Global Instance:TRemoveIfOutside = New TRemoveIfOutside
+	
+   Method ApplyTo( Shape:LTShape )
+       Local Sprite:LTSprite = LTSprite( Shape )
+       If Sprite.TopY() > Game.Tilemap.BottomY() Then
+           Game.Level.Remove( Sprite )
+           Game.MovingObjects.RemoveSprite( Sprite )
+       End If
+   End Method
+End Type
