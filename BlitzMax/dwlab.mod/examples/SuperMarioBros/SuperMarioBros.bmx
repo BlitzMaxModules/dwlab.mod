@@ -25,18 +25,14 @@ Import dwlab.audiodrivers 'loading audio drivers
 Include "TGame.bmx"
 Include "TMario.bmx"
 Include "TTiles.bmx"
+Include "TGoomba.bmx"
+Include "TTrigger.bmx"
 Include "CommonBehaviorModels.bmx"
 
 Global Game:TGame = New TGame
 Game.Execute()
 
-Type TGoomba Extends LTSprite
-End Type
-
 Type TKoopaTroopa Extends LTSprite
-End Type
-
-Type TTrigger Extends LTSprite
 End Type
 
 Type TExit Extends LTSprite

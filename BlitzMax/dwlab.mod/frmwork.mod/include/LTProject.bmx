@@ -63,9 +63,7 @@ Type LTProject Extends LTObject
 	
 	' ==================== Loading layers and windows ===================	
 	
-	Rem
-	bbdoc: Loads and initializes layer and all its child objects from previously loaded world.
-	End Rem
+	'Deprecated
 	Method LoadAndInitLayer( NewLayer:LTLayer Var, Layer:LTLayer )
 		NewLayer = LoadLayer( Layer )
 		NewLayer.Init()

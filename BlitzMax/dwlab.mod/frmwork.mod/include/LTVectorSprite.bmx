@@ -136,6 +136,8 @@ End Type
 
 
 Type LTHorizontalMovementModel Extends LTBehaviorModel
+	Global Instance:LTHorizontalMovementModel = New LTHorizontalMovementModel
+
 	Method ApplyTo( Shape:LTShape )
 		Local Sprite:LTVectorSprite = LTVectorSprite( Shape )
 		Sprite.Move( Sprite.DX, 0.0 )
@@ -145,6 +147,8 @@ End Type
 
 
 Type LTVerticalMovementModel Extends LTBehaviorModel
+	Global Instance:LTVerticalMovementModel = New LTVerticalMovementModel
+
 	Method ApplyTo( Shape:LTShape )
 		Local Sprite:LTVectorSprite = LTVectorSprite( Shape )
 		Sprite.Move( 0.0, Sprite.DY )
