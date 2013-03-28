@@ -1,6 +1,4 @@
 Type TGravity Extends LTBehaviorModel
-	Global Instance:TGravity = New TGravity
-	
    Method ApplyTo( Shape:LTShape )
        LTVectorSprite( Shape ).DY :+ Game.PerSecond( Game.Gravity )
    End Method
@@ -52,8 +50,6 @@ End Type
 
 
 Type TRemoveIfOutside Extends LTBehaviorModel
-	Global Instance:TRemoveIfOutside = New TRemoveIfOutside
-	
    Method ApplyTo( Shape:LTShape )
        Local Sprite:LTSprite = LTSprite( Shape )
        If Sprite.TopY() > Game.Tilemap.BottomY() Then

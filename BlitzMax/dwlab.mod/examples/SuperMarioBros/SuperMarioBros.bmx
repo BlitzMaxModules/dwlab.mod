@@ -27,6 +27,7 @@ Include "TMario.bmx"
 Include "TTiles.bmx"
 Include "TGoomba.bmx"
 Include "TTrigger.bmx"
+Include "TScore.bmx"
 Include "CommonBehaviorModels.bmx"
 
 Global Game:TGame = New TGame

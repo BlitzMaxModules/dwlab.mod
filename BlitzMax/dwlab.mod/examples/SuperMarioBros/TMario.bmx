@@ -3,22 +3,25 @@ Type TMario Extends LTVectorSprite
 	
 	Global Jumping:TJumping = New TJumping
 	
+	Global DyingAnimation:LTAnimationModel = LTAnimationModel.Create( False, 1, 1, 6 )
 	Global JumpingAnimation:LTAnimationModel = LTAnimationModel.Create( False, 1, 1, 4 )
 	Global SlidingAnimation:LTAnimationModel = LTAnimationModel.Create( False, 1, 1, 5 )
 	Global MovementAnimation:LTAnimationModel = LTAnimationModel.Create( True, 0.2, 1, 1 )
 	Global StandingAnimation:LTAnimationModel = LTAnimationModel.Create( True, 1, 1, 0 )
    
     Method Init()
-       AttachModel( LTHorizontalMovementModel.Instance )
+       AttachModel( New LTHorizontalMovementModel )
        AttachModel( LTTileMapCollisionModel.Create( Game.Tilemap, TMarioCollidedWithWall.Instance ) )
-       AttachModel( LTVerticalMovementModel.Instance )
+       AttachModel( New LTVerticalMovementModel )
        AttachModel( LTTileMapCollisionModel.Create( Game.Tilemap, TMarioCollidedWithFloor.Instance ) )
-       AttachModel( TGravity.Instance )
+       AttachModel( LTSpriteMapCollisionModel.Create( Game.MovingObjects, TMarioCollidedWithSprite.Instance ) )
+       AttachModel( New TGravity )
        AttachModel( New TMoving )
 	   AttachModel( Jumping )
 	   
 	   Local AnimationStack:LTModelStack = New LTModelStack
 	   AttachModel( AnimationStack )
+	   AnimationStack.Add( DyingAnimation, False )
 	   AnimationStack.Add( JumpingAnimation, False )
 	   AnimationStack.Add( SlidingAnimation, False )
 	   AnimationStack.Add( MovementAnimation, False )
@@ -33,6 +36,8 @@ Type TMario Extends LTVectorSprite
        
        L_CurrentCamera.JumpTo( Self )
        L_CurrentCamera.LimitWith( Game.Level.Bounds )
+	   
+	   If TopY() > Game.Tilemap.BottomY() And Not FindModel( "TDying" ) Then AttachModel( TDying.Create( True ) )
    End Method
 End Type
 
@@ -60,6 +65,26 @@ Type TMarioCollidedWithFloor Extends LTSpriteAndTileCollisionHandler
 			TMario.JumpingAnimation.DeactivateModel( Sprite )
 		End If
 		VectorSprite.DY = 0
+	End Method
+End Type
+
+
+
+Type TMarioCollidedWithSprite Extends LTSpriteCollisionHandler
+	Const HopStrength:Double = -4.0
+	
+	Global Instance:TMarioCollidedWithSprite = New TMarioCollidedWithSprite
+	
+	Method HandleCollision( Sprite1:LTSprite, Sprite2:LTSprite )
+        If TGoomba( Sprite2 ) Then
+           If Sprite1.BottomY() < Sprite2.Y Then
+               Sprite2.AttachModel( New TStomped )
+               LTVectorSprite( Sprite1 ).DY = HopStrength
+               TScore.FromSprite( Sprite2, TScore.s100 )
+           Else
+               Sprite1.AttachModel( TDying.Create( False ) )
+           End If
+       End If
 	End Method
 End Type
 
@@ -123,4 +148,42 @@ Type TJumping Extends LTBehaviorModel
 			TMario.JumpingAnimation.ActivateModel( Shape )
 		End If
 	End Method
+End Type
+
+
+
+Type TDying Extends LTBehaviorModel
+   Const Period:Double = 3.5
+   
+   Field Chasm:Int
+   Field StartingTime:Double
+   
+   Function Create:TDying( Chasm:Int )
+       Local Dying:TDying = New TDying
+       Dying.Chasm = Chasm
+       Return Dying
+   End Function
+   
+   Method Activate( Shape:LTShape )
+       Local Mario:TMario = TMario( Shape )
+	   Mario.DeactivateModel( "LTTileMapCollisionModel" )
+	   Mario.DeactivateModel( "LTSpriteMapCollisionModel" )
+       Mario.DeactivateModel( "TMoving" )
+       Mario.DeactivateModel( "TJumping" )
+	   
+       Mario.DX = 0.0
+       If Not Chasm Then
+           Mario.DY = TJumping.Strength
+           TMario.DyingAnimation.ActivateModel( Mario )
+       End If
+       
+	   L_Music.ClearMusic()
+	   L_Music.Add( "dying" )
+	   L_Music.Start()
+       StartingTime = Game.Time
+   End Method
+   
+   Method ApplyTo( Shape:LTShape )
+       If Game.Time > StartingTime + Period Then Game.InitLevel()
+   End Method
 End Type
